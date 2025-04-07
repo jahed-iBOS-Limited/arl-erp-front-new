@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import { useParams } from "react-router-dom";
-import { useSelector, shallowEqual } from "react-redux";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { Formik } from "formik";
-import { Form } from "react-bootstrap";
+import React, { useState, useEffect } from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import { useParams } from 'react-router-dom';
+import { useSelector, shallowEqual } from 'react-redux';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { Formik } from 'formik';
+import { Form } from 'react-bootstrap';
 import {
   approveSelected,
   getNewApplicationData,
   getWorkplaceGroupDDL,
-} from "../helper";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import NewSelect from "../../../../_helper/_select";
-import Loading from "../../../../_helper/_loading";
-import { _timeFormatter } from "../../../../_helper/_timeFormatter";
+} from '../helper';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import NewSelect from '../../../../_helper/_select';
+import Loading from '../../../../_helper/_loading';
+import { _timeFormatter } from '../../../../_helper/_timeFormatter';
 
 const initData = {
-  busUnit: { value: 0, label: "All" },
-  workPlace: { value: 0, label: "All" },
-  viewAs: "",
-  applicationType: "",
+  busUnit: { value: 0, label: 'All' },
+  workPlace: { value: 0, label: 'All' },
+  viewAs: '',
+  applicationType: '',
 };
 
 const applicationTypeDDL = [
-  { value: 1, label: "Pending Application" },
-  { value: 2, label: "Approved Application" },
-  { value: 3, label: "Rejected Application" },
+  { value: 1, label: 'Pending Application' },
+  { value: 2, label: 'Approved Application' },
+  { value: 3, label: 'Rejected Application' },
 ];
 
 const MovementApprovalLanding = () => {
@@ -37,7 +37,6 @@ const MovementApprovalLanding = () => {
   const { profileData, businessUnitList } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-
 
   const params = useParams();
 
@@ -92,7 +91,7 @@ const MovementApprovalLanding = () => {
   // approveSubmitlHandler btn submit handler
   const approveSubmitlHandler = (values) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to post the selected approve submit`,
       yesAlertFunc: () => {
         const filterSelectedData = rowDto?.filter((item) => item?.itemCheck);
@@ -127,7 +126,7 @@ const MovementApprovalLanding = () => {
   // rejectedSubmitlHandler btn submit handler
   const rejectedSubmitlHandler = (values) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to post the selected approve submit`,
       yesAlertFunc: () => {
         const filterSelectedData = rowDto?.filter((item) => item?.itemCheck);
@@ -191,14 +190,14 @@ const MovementApprovalLanding = () => {
                             name="busUnit"
                             options={
                               [
-                                { value: 0, label: "All" },
+                                { value: 0, label: 'All' },
                                 ...businessUnitList,
                               ] || []
                             }
                             value={values?.busUnit}
                             label="Business Unit"
                             onChange={(valueOption) => {
-                              setFieldValue("busUnit", valueOption);
+                              setFieldValue('busUnit', valueOption);
                             }}
                             placeholder="Business Unit"
                             errors={errors}
@@ -212,7 +211,7 @@ const MovementApprovalLanding = () => {
                             value={values?.workPlace}
                             label="Work Place Group"
                             onChange={(valueOption) => {
-                              setFieldValue("workPlace", valueOption);
+                              setFieldValue('workPlace', valueOption);
                             }}
                             placeholder="Work Place Group"
                             errors={errors}
@@ -223,13 +222,13 @@ const MovementApprovalLanding = () => {
                           <NewSelect
                             name="viewAs"
                             options={[
-                              { value: 1, label: "Supervisor" },
-                              { value: 2, label: "Line Manager" },
+                              { value: 1, label: 'Supervisor' },
+                              { value: 2, label: 'Line Manager' },
                             ]}
                             value={values?.viewAs}
                             label="View As"
                             onChange={(valueOption) => {
-                              setFieldValue("viewAs", valueOption);
+                              setFieldValue('viewAs', valueOption);
                             }}
                             placeholder="View As"
                             errors={errors}
@@ -244,7 +243,7 @@ const MovementApprovalLanding = () => {
                             label="Application Type"
                             onChange={(valueOption) => {
                               setNewApplicationData([]);
-                              setFieldValue("applicationType", valueOption);
+                              setFieldValue('applicationType', valueOption);
                             }}
                             placeholder="Application Type"
                             isSearchable={true}
@@ -252,7 +251,7 @@ const MovementApprovalLanding = () => {
                             touched={touched}
                           />
                         </div>
-                        <div style={{ marginTop: "19px" }} className="col-lg-1">
+                        <div style={{ marginTop: '19px' }} className="col-lg-1">
                           <button
                             type="button"
                             className="btn btn-primary"
@@ -304,100 +303,100 @@ const MovementApprovalLanding = () => {
               </Form>
               {/* Table Start */}
               {newApplicationData?.length > 0 && (
-                 <div className="table-responsive">
-                <table className="table table-striped table-bordered bj-table bj-table-landing">
-                  <thead>
-                    <tr>
-                      {values?.applicationType?.value === 1 && (
-                        <th style={{ width: "20px" }}>
-                          <input
-                            type="checkbox"
-                            id="parent"
-                            onChange={(event) => {
-                              allGridCheck(event.target.checked);
-                            }}
-                          />
-                        </th>
-                      )}
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered bj-table bj-table-landing">
+                    <thead>
+                      <tr>
+                        {values?.applicationType?.value === 1 && (
+                          <th style={{ width: '20px' }}>
+                            <input
+                              type="checkbox"
+                              id="parent"
+                              onChange={(event) => {
+                                allGridCheck(event.target.checked);
+                              }}
+                            />
+                          </th>
+                        )}
 
-                      <th>SL</th>
-                      <th style={{ width: "150px" }}>Name</th>
-                      <th style={{ width: "70px" }}>From Date</th>
-                      <th style={{ width: "70px" }}>To Date</th>
-                      <th style={{ width: "70px" }}>From Time</th>
-                      <th style={{ width: "70px" }}>To Time</th>
-                      <th style={{ width: "100px" }}>Movement Type</th>
-                      <th style={{ width: "40px" }}>Total Days</th>
-                      <th style={{ width: "120px" }}>Address</th>
-                      <th>Reason</th>
+                        <th>SL</th>
+                        <th style={{ width: '150px' }}>Name</th>
+                        <th style={{ width: '70px' }}>From Date</th>
+                        <th style={{ width: '70px' }}>To Date</th>
+                        <th style={{ width: '70px' }}>From Time</th>
+                        <th style={{ width: '70px' }}>To Time</th>
+                        <th style={{ width: '100px' }}>Movement Type</th>
+                        <th style={{ width: '40px' }}>Total Days</th>
+                        <th style={{ width: '120px' }}>Address</th>
+                        <th>Reason</th>
 
-                      {/* {values?.applicationType?.value === 1 ? (
+                        {/* {values?.applicationType?.value === 1 ? (
                         <th>Actions</th>
                       ) : null} */}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {newApplicationData?.length > 0 &&
-                      rowDto?.map((data, index) => (
-                        <tr key={index}>
-                          {values?.applicationType?.value === 1 && (
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {newApplicationData?.length > 0 &&
+                        rowDto?.map((data, index) => (
+                          <tr key={index}>
+                            {values?.applicationType?.value === 1 && (
+                              <td>
+                                <input
+                                  id="itemCheck"
+                                  type="checkbox"
+                                  className=""
+                                  value={data.itemCheck}
+                                  checked={data.itemCheck}
+                                  name={data.itemCheck}
+                                  onChange={(e) => {
+                                    itemSlectedHandler(e.target.checked, index);
+                                  }}
+                                />
+                              </td>
+                            )}
+                            <td>{index + 1}</td>
                             <td>
-                              <input
-                                id="itemCheck"
-                                type="checkbox"
-                                className=""
-                                value={data.itemCheck}
-                                checked={data.itemCheck}
-                                name={data.itemCheck}
-                                onChange={(e) => {
-                                  itemSlectedHandler(e.target.checked, index);
-                                }}
-                              />
+                              <div className="pl-2">
+                                {data?.strEmployeeFullName}
+                              </div>
                             </td>
-                          )}
-                          <td>{index + 1}</td>
-                          <td>
-                            <div className="pl-2">
-                              {data?.strEmployeeFullName}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-center pr-2">
-                              {_dateFormatter(data?.dteStartDate)}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-center pr-2">
-                              {_dateFormatter(data?.dteEndDate)}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-center pr-2">
-                              {data?.tmStart
-                                ? _timeFormatter(data?.tmStart)
-                                : ""}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-center pr-2">
-                              {data?.tmEnd ? _timeFormatter(data?.tmEnd) : ""}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{data?.strMoveType}</div>
-                          </td>
-                          <td>
-                            <div className="text-center pr-2">
-                              {data?.intTotalDays}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{data?.strAddress}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{data?.strReason}</div>
-                          </td>
-                          {/* {values?.applicationType?.value === 1 && (
+                            <td>
+                              <div className="text-center pr-2">
+                                {_dateFormatter(data?.dteStartDate)}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-center pr-2">
+                                {_dateFormatter(data?.dteEndDate)}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-center pr-2">
+                                {data?.tmStart
+                                  ? _timeFormatter(data?.tmStart)
+                                  : ''}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-center pr-2">
+                                {data?.tmEnd ? _timeFormatter(data?.tmEnd) : ''}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{data?.strMoveType}</div>
+                            </td>
+                            <td>
+                              <div className="text-center pr-2">
+                                {data?.intTotalDays}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{data?.strAddress}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{data?.strReason}</div>
+                            </td>
+                            {/* {values?.applicationType?.value === 1 && (
                             <td>
                               <div className="d-flex justify-content-center">
                                 <span
@@ -436,10 +435,10 @@ const MovementApprovalLanding = () => {
                               </div>
                             </td>
                           )} */}
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
                 </div>
               )}
             </>

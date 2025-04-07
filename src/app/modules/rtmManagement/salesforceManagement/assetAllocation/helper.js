@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getLandingData = async (
   accId,
@@ -37,7 +37,7 @@ export const updateAllocation = async (payload, cb) => {
     let res = await axios.put(`/rtm/AssetAllocation/UpdateAllocation`, payload);
     if (res?.status === 200) {
       toast.success(res?.data?.message, {
-        taostId: "updateAllocation",
+        taostId: 'updateAllocation',
       });
       cb();
     }
@@ -67,4 +67,3 @@ export const getRouteDDL = async (accId, buId, setter) => {
     toast.warning(err?.response?.data?.message);
   }
 };
-

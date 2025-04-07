@@ -1,11 +1,13 @@
-import React from "react";
-import { SalesTerritoryTypeTable } from "./Table/tableHeader";
-import { UiProvider } from "../../../_helper/uiContextHelper";
+import React from 'react';
+import { SalesTerritoryTypeTable } from './Table/tableHeader';
+import { UiProvider } from '../../../_helper/uiContextHelper';
 
 export default function SalesTerritoryType({ history }) {
   const uIEvents = {
     openEditPage: (id) => {
-      history.push(`/sales-management/configuration/sales_territorytype/edit/${id}`);
+      history.push(
+        `/sales-management/configuration/sales_territorytype/edit/${id}`
+      );
     },
   };
 
@@ -14,4 +16,4 @@ export default function SalesTerritoryType({ history }) {
       <SalesTerritoryTypeTable />
     </UiProvider>
   );
-};
+}

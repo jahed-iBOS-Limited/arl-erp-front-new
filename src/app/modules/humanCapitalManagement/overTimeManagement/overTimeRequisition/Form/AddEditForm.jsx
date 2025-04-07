@@ -1,31 +1,30 @@
-
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./Form";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { useEffect } from "react";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './Form';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { useEffect } from 'react';
 import {
   getDepartmentDDLAction,
   getWorkplaceDDLAction,
   getOtShiftDDLAction,
   getCostCenterDDLAction,
   saveOvertimeReqAction,
-} from "../helper";
-import { toast } from "react-toastify";
-import axios from "axios";
+} from '../helper';
+import { toast } from 'react-toastify';
+import axios from 'axios';
 
 let initData = {
-  reqDepartment: "",
+  reqDepartment: '',
   reqDate: _todayDate(),
-  costCenter: "",
-  workplace: "",
-  reason: "",
-  reqOtShift: "",
-  hour: "",
-  minutes: "",
-  employee: "",
+  costCenter: '',
+  workplace: '',
+  reason: '',
+  reqOtShift: '',
+  hour: '',
+  minutes: '',
+  employee: '',
 };
 
 export function OverTimeRequisition() {
@@ -66,8 +65,8 @@ export function OverTimeRequisition() {
   }, [profileData, selectedBusinessUnit]);
 
   const rowDtoAddHandler = async (values) => {
-    if (!values?.reqDepartment) return toast.warn("Department is required");
-    if (!values?.workplace) return toast.warn("Workplace is required");
+    if (!values?.reqDepartment) return toast.warn('Department is required');
+    if (!values?.workplace) return toast.warn('Workplace is required');
 
     try {
       setDisabled(true);
@@ -76,31 +75,31 @@ export function OverTimeRequisition() {
       );
       setDisabled(false);
 
-      if (!res?.data) return toast.warn("Overtime exists in this date");
+      if (!res?.data) return toast.warn('Overtime exists in this date');
 
       if (values?.hour < 1 || values?.hour > 12)
-        return toast.warn("Invalid hour");
+        return toast.warn('Invalid hour');
       if (values?.minutes < 0 || values?.hour > 60)
-        return toast.warn("Invalid minutes");
+        return toast.warn('Invalid minutes');
 
       const isExist = rowDto?.filter(
         (item) =>
           item?.employee?.value === values?.employee?.value &&
           item.reqDate === values?.reqDate
       );
-      if (isExist?.length > 0) return toast.warn("Already Exists");
+      if (isExist?.length > 0) return toast.warn('Already Exists');
 
       const data = [...rowDto];
       data.push(values);
       setRowDto(data);
     } catch (error) {
       setDisabled(false);
-      toast.warn("Try again later");
+      toast.warn('Try again later');
     }
   };
 
   const saveHandler = async (values, cb) => {
-    if (rowDto?.length < 1) return toast.warn("Please add at least one row");
+    if (rowDto?.length < 1) return toast.warn('Please add at least one row');
     saveOvertimeReqAction(
       profileData,
       selectedBusinessUnit?.value,
@@ -131,7 +130,7 @@ export function OverTimeRequisition() {
 
   return (
     <IForm
-      title={"Overtime Requisition"}
+      title={'Overtime Requisition'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

@@ -1,11 +1,11 @@
-import { Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _timeFormatter } from "../../../_helper/_timeFormatter";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
+import { Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _timeFormatter } from '../../../_helper/_timeFormatter';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IForm from '../../../_helper/_form';
+import Loading from '../../../_helper/_loading';
 
 export default function ViewStopageDetails({ modalInfo }) {
   const { engineName, fromDate, toDate } = modalInfo || {};
@@ -24,7 +24,6 @@ export default function ViewStopageDetails({ modalInfo }) {
     getStopageDetailsByEngine(
       `/mes/ShopFloor/GetStoppageDetailsByEngine?FromDate=${fromDate}&ToDate=${toDate}&BuId=${buId}&EngineName=${engineName}`
     );
-
   }, [fromDate, toDate, engineName, buId]);
 
   return (
@@ -62,7 +61,7 @@ export default function ViewStopageDetails({ modalInfo }) {
                         ? stopageDetailsByEngine?.map((item, index) => (
                             <tr key={index}>
                               <td
-                                style={{ width: "30px" }}
+                                style={{ width: '30px' }}
                                 className="text-center"
                               >
                                 {index + 1}
@@ -76,7 +75,7 @@ export default function ViewStopageDetails({ modalInfo }) {
                                   item?.tmStartTime
                                 )} - ${_timeFormatter(item?.tmEndTime)}`}
                               </td>
-                              <td>{item?.duration?.split(";")?.[1]}</td>
+                              <td>{item?.duration?.split(';')?.[1]}</td>
                               <td className="text-center">
                                 {item?.tmTotalHour}
                               </td>

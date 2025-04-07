@@ -1,27 +1,26 @@
-
-import { Form, Formik } from "formik";
-import React, { useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
+import { Form, Formik } from 'formik';
+import React, { useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls/Card";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { getShipmentStandardCostByDate, } from "../helper";
-import NewSelect from "./../../../../_helper/_select";
-import "./style.css";
+} from '../../../../../../_metronic/_partials/controls/Card';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { getShipmentStandardCostByDate } from '../helper';
+import NewSelect from './../../../../_helper/_select';
+import './style.css';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  shipPoint: { value: 0, label: "All" }
+  shipPoint: { value: 0, label: 'All' },
 };
 
 function DateWiseShipmentCostReport() {
@@ -46,7 +45,7 @@ function DateWiseShipmentCostReport() {
         {({ values, setFieldValue, touched, errors }) => (
           <Card>
             {true && <ModalProgressBar />}
-            <CardHeader title={"Date Wise Shipment Cost Report"}>
+            <CardHeader title={'Date Wise Shipment Cost Report'}>
               <CardHeaderToolbar>
                 {gridData?.length > 0 && (
                   <ReactToPrint
@@ -57,8 +56,8 @@ function DateWiseShipmentCostReport() {
                       >
                         <img
                           style={{
-                            width: "25px",
-                            paddingRight: "5px",
+                            width: '25px',
+                            paddingRight: '5px',
                           }}
                           src={printIcon}
                           alt="print-icon"
@@ -80,13 +79,13 @@ function DateWiseShipmentCostReport() {
                         <NewSelect
                           name="shipPoint"
                           options={[
-                            { value: 0, label: "All" },
+                            { value: 0, label: 'All' },
                             ...shipPointDDL,
                           ]}
                           value={values?.shipPoint}
                           label="Shippoint"
                           onChange={(valueOption) => {
-                            setFieldValue("shipPoint", valueOption);
+                            setFieldValue('shipPoint', valueOption);
                             setGridData([]);
                           }}
                           placeholder="Shippoint"
@@ -117,7 +116,7 @@ function DateWiseShipmentCostReport() {
                       <div className="col-lg-3">
                         <button
                           type="button"
-                          style={{ marginTop: "17px" }}
+                          style={{ marginTop: '17px' }}
                           disabled={!values?.fromDate || !values?.toDate}
                           onClick={() => {
                             getShipmentStandardCostByDate(
@@ -140,7 +139,7 @@ function DateWiseShipmentCostReport() {
                   {/* Table Start */}
                   {gridData?.objRowList?.length > 0 && (
                     <div className="common-scrollable-table two-column-sticky">
-                      <div className="scroll-table _table table-responsive" >
+                      <div className="scroll-table _table table-responsive">
                         <table
                           ref={printRef}
                           className="table table-striped table-bordered global-table"
@@ -148,14 +147,12 @@ function DateWiseShipmentCostReport() {
                           <thead>
                             <tr>
                               <th>SL</th>
-                              <th>
-                                Shipment Code
-                              </th>
+                              <th>Shipment Code</th>
                               <th>Vehicle No</th>
                               <th>Customer Name</th>
                               {gridData?.objHeaderData?.map((item, index) => (
                                 <>
-                                  <th key={index} style={{ minWidth: "130px" }}>
+                                  <th key={index} style={{ minWidth: '130px' }}>
                                     {item?.trCostComponentName}
                                   </th>
                                 </>

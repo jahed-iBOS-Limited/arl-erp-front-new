@@ -1,38 +1,38 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import * as Yup from "yup";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import IView from "../../../../_helper/_helperIcons/_view";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { getCostCenterDDL, getDistrubutionCenterDDL } from "../helper";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import IView from '../../../../_helper/_helperIcons/_view';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { getCostCenterDDL, getDistrubutionCenterDDL } from '../helper';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   reference: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Reference is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Reference is required'),
   expenseFor: Yup.object().shape({
-    label: Yup.string().required("Expense For is required"),
-    value: Yup.string().required("Expense For is required"),
+    label: Yup.string().required('Expense For is required'),
+    value: Yup.string().required('Expense For is required'),
   }),
   sbu: Yup.object().shape({
-    label: Yup.string().required("Sbu is required"),
-    value: Yup.string().required("Sbu is required"),
+    label: Yup.string().required('Sbu is required'),
+    value: Yup.string().required('Sbu is required'),
   }),
   country: Yup.object().shape({
-    label: Yup.string().required("Country is required"),
-    value: Yup.string().required("Country is required"),
+    label: Yup.string().required('Country is required'),
+    value: Yup.string().required('Country is required'),
   }),
   currency: Yup.object().shape({
-    label: Yup.string().required("Currency is required"),
-    value: Yup.string().required("Currency is required"),
+    label: Yup.string().required('Currency is required'),
+    value: Yup.string().required('Currency is required'),
   }),
   paymentType: Yup.object().shape({
-    label: Yup.string().required("Payment Type is required"),
-    value: Yup.string().required("Payment Type is required"),
+    label: Yup.string().required('Payment Type is required'),
+    value: Yup.string().required('Payment Type is required'),
   }),
 });
 
@@ -72,11 +72,11 @@ export default function FormCmp({
           ...initData,
           country: {
             value: 18,
-            label: "Bangladesh",
+            label: 'Bangladesh',
           },
           currency: {
             value: 141,
-            label: "Taka",
+            label: 'Taka',
           },
         }}
         validationSchema={validationSchema}
@@ -107,7 +107,7 @@ export default function FormCmp({
                       value={values?.expenseFor}
                       label="Expense For (Employee)"
                       onChange={(valueOption) => {
-                        setFieldValue("expenseFor", valueOption);
+                        setFieldValue('expenseFor', valueOption);
                       }}
                       placeholder="Expense For"
                       errors={errors}
@@ -121,7 +121,7 @@ export default function FormCmp({
                       value={values?.sbu}
                       label="SBU"
                       onChange={(valueOption) => {
-                        setFieldValue("sbu", valueOption);
+                        setFieldValue('sbu', valueOption);
                         getDistrubutionCenterDDL(
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
@@ -146,7 +146,7 @@ export default function FormCmp({
                       options={country}
                       value={values?.country}
                       onChange={(valueOption) => {
-                        setFieldValue("country", valueOption);
+                        setFieldValue('country', valueOption);
                       }}
                       placeholder="Country"
                       label="Country"
@@ -160,7 +160,7 @@ export default function FormCmp({
                       options={currencyDDL}
                       value={values?.currency}
                       onChange={(valueOption) => {
-                        setFieldValue("currency", valueOption);
+                        setFieldValue('currency', valueOption);
                       }}
                       placeholder="Currency"
                       label="Currency"
@@ -194,7 +194,7 @@ export default function FormCmp({
                       options={costCenter}
                       value={values?.costCenter}
                       onChange={(valueOption) => {
-                        setFieldValue("costCenter", valueOption);
+                        setFieldValue('costCenter', valueOption);
                       }}
                       placeholder="Cost Center"
                       label="Cost Center"
@@ -208,7 +208,7 @@ export default function FormCmp({
                       options={projectDDL}
                       value={values?.projectName}
                       onChange={(valueOption) => {
-                        setFieldValue("projectName", valueOption);
+                        setFieldValue('projectName', valueOption);
                       }}
                       placeholder="Project Name"
                       label="Project Name"
@@ -222,7 +222,7 @@ export default function FormCmp({
                       options={paymentType}
                       value={values?.paymentType}
                       onChange={(valueOption) => {
-                        setFieldValue("paymentType", valueOption);
+                        setFieldValue('paymentType', valueOption);
                       }}
                       placeholder="Payment Type"
                       label="Payment Type"
@@ -236,7 +236,7 @@ export default function FormCmp({
                       options={disbursement}
                       value={values?.disbursementCenter}
                       onChange={(valueOption) => {
-                        setFieldValue("disbursementCenter", valueOption);
+                        setFieldValue('disbursementCenter', valueOption);
                       }}
                       placeholder="Disbursement Center"
                       label="Disbursement Center"
@@ -262,12 +262,12 @@ export default function FormCmp({
                       type="text"
                     />
                   </div>
-                  <div className="col-lg-3" style={{ marginTop: "15px" }}>
+                  <div className="col-lg-3" style={{ marginTop: '15px' }}>
                     <div
                       style={{
-                        border: "1px solid gray",
-                        padding: "2px",
-                        width: "100%",
+                        border: '1px solid gray',
+                        padding: '2px',
+                        width: '100%',
                       }}
                     >
                       <b>Total Expense: {TotalExpense}</b>
@@ -279,61 +279,61 @@ export default function FormCmp({
               {/* Table */}
 
               <div className="table-responsive">
-              <table className="table table-striped table-bordered global-table">
-                <thead>
-                  <tr>
-                    <th>SL</th>
-                    <th>Travel Code</th>
-                    <th>Date</th>
-                    <th>From Address/Time</th>
-                    <th>To Address/Time</th>
-                    <th>Amount</th>
-                    <th>Payment Method</th>
-                    <th>Supplier</th>
-                    <th>Comments</th>
-                    <th>Attachement</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rowDto &&
-                    rowDto?.map((data, i) => (
-                      <tr key={i + 1}>
-                        <td>{i + 1}</td>
-                        <td>{data?.travelCode}</td>
-                        <td>{data?.date}</td>
-                        <td>
-                          {data?.fromAddress} / {data?.travelFromDate}
-                        </td>
-                        <td>
-                          {data?.toAddress} / {data?.travelFromDate}
-                        </td>
-                        <td>{data?.amount}</td>
-                        <td>{data?.paymentMenthod}</td>
-                        <td>{data?.partnerName}</td>
-                        <td>{data?.comments}</td>
-                        <td className="text-center">
-                          <IView clickHandler={() => ""} />
-                        </td>
-                        <td className="text-center">
-                          <IDelete remover={remover} id={i} />
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
+                <table className="table table-striped table-bordered global-table">
+                  <thead>
+                    <tr>
+                      <th>SL</th>
+                      <th>Travel Code</th>
+                      <th>Date</th>
+                      <th>From Address/Time</th>
+                      <th>To Address/Time</th>
+                      <th>Amount</th>
+                      <th>Payment Method</th>
+                      <th>Supplier</th>
+                      <th>Comments</th>
+                      <th>Attachement</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rowDto &&
+                      rowDto?.map((data, i) => (
+                        <tr key={i + 1}>
+                          <td>{i + 1}</td>
+                          <td>{data?.travelCode}</td>
+                          <td>{data?.date}</td>
+                          <td>
+                            {data?.fromAddress} / {data?.travelFromDate}
+                          </td>
+                          <td>
+                            {data?.toAddress} / {data?.travelFromDate}
+                          </td>
+                          <td>{data?.amount}</td>
+                          <td>{data?.paymentMenthod}</td>
+                          <td>{data?.partnerName}</td>
+                          <td>{data?.comments}</td>
+                          <td className="text-center">
+                            <IView clickHandler={() => ''} />
+                          </td>
+                          <td className="text-center">
+                            <IDelete remover={remover} id={i} />
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
               </div>
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

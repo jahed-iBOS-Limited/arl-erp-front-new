@@ -1,23 +1,22 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
   error: '',
-  msg: "",
+  msg: '',
   empDDL: [],
   designationDDL: [],
   identityDDL: [],
   bloodGroupDDL: [],
   userGroupDDL: [],
   gridData: [],
-  singleData: "",
+  singleData: '',
 };
 
 export const LoadingPointSlice = createSlice({
-  name: "LoadingPoint",
+  name: 'LoadingPoint',
   initialState: initState,
   reducers: {
-
     SetEmpDDL: (state, action) => {
       const { payload } = action;
       state.empDDL = payload;
@@ -41,17 +40,14 @@ export const LoadingPointSlice = createSlice({
     SetGridData: (state, action) => {
       const { payload } = action;
       state.gridData = payload;
-    
     },
 
     SetDataById: (state, action) => {
       const { payload } = action;
       state.singleData = payload;
     },
-    SetSingleStoreEmpty: state => {
-      state.singleData = "";
+    SetSingleStoreEmpty: (state) => {
+      state.singleData = '';
     },
-
-  }
+  },
 });
-

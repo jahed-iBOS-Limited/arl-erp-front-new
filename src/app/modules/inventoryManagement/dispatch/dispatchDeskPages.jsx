@@ -1,10 +1,10 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import DispatchDeskLanding from "./dispatchDesk";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import DispatchReport from "./dispatchReport";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import DispatchDeskLanding from './dispatchDesk';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
+import DispatchReport from './dispatchReport';
 
 export function DispatchDeskPages() {
   const { userRole } = useSelector((state) => state?.authData, shallowEqual);
@@ -33,7 +33,7 @@ export function DispatchDeskPages() {
             : NotPermittedPage
         }
       />
-       <ContentRoute
+      <ContentRoute
         path="/inventory-management/inventory-dispatch/dispatchreport"
         component={DispatchReport}
       />

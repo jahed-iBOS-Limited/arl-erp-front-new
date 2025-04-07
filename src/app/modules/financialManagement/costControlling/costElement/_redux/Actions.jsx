@@ -1,7 +1,7 @@
-import * as requestFromServer from "./Api";
-import { costElementSlice } from "./Slice";
-import { toast } from "react-toastify";
-import { isArray } from "lodash";
+import * as requestFromServer from './Api';
+import { costElementSlice } from './Slice';
+import { toast } from 'react-toastify';
+import { isArray } from 'lodash';
 const { actions: slice } = costElementSlice;
 
 // save cost element data
@@ -10,13 +10,12 @@ export const saveCostElement = (payload) => () => {
     .saveCreateData(payload?.data)
     .then((res) => {
       if (res?.status === 200) {
-        toast.success(res?.data?.message || "Submitted successfully");
+        toast.success(res?.data?.message || 'Submitted successfully');
         payload.cb();
         payload.setDisabled(false);
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
       payload.setDisabled(false);
     });
@@ -41,25 +40,19 @@ export const getGeneralLedgerDDLAction = (accId, buId) => (dispatch) => {
 };
 
 // get cost center grid data
-export const getCostCenterData = (
-  accId,
-  buId,
-  setLoading,
-  pageNo,
-  pageSize
-) => (dispatch) => {
-  setLoading(true);
-  return requestFromServer
-    .getGridData(accId, buId, pageNo, pageSize)
-    .then((res) => {
-      setLoading(false);
-      return dispatch(slice.SetGridData(res.data));
-    })
-    .catch((err) => {
-      setLoading(false);
-     
-    });
-};
+export const getCostCenterData =
+  (accId, buId, setLoading, pageNo, pageSize) => (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .getGridData(accId, buId, pageNo, pageSize)
+      .then((res) => {
+        setLoading(false);
+        return dispatch(slice.SetGridData(res.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
 
 // Save Edited cost element into DB
 export const saveEditedCostElementData = (payload, setDisabled) => () => {
@@ -68,7 +61,7 @@ export const saveEditedCostElementData = (payload, setDisabled) => () => {
     .saveEditData(payload)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         setDisabled(false);
       }
     })
@@ -92,10 +85,11 @@ export const getCostCenterById = (id) => (dispatch) => {
             value: item.controllingUnitId,
             label: item.controllingUnitName,
           },
-          costCenter: item?.costCenterInfoList.map((itm) => ({
-            value: itm?.value,
-            label: itm?.label,
-          })) || "",
+          costCenter:
+            item?.costCenterInfoList.map((itm) => ({
+              value: itm?.value,
+              label: itm?.label,
+            })) || '',
           generalLedger: {
             value: item.generalLedgerId,
             label: item.generalLedgerName,
@@ -108,9 +102,7 @@ export const getCostCenterById = (id) => (dispatch) => {
         return dispatch(slice.SetDataById(data));
       }
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };
 
 // cost element single to empty

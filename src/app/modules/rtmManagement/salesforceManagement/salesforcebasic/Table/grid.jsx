@@ -1,7 +1,7 @@
-import React from "react";
-import { withRouter } from "react-router-dom";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "./../../../../_helper/_loading";
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import Loading from './../../../../_helper/_loading';
 
 const GridData = ({ history, gridData, loading }) => {
   return (
@@ -11,7 +11,7 @@ const GridData = ({ history, gridData, loading }) => {
           <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
             <thead>
               <tr>
-              <th>SL</th>
+                <th>SL</th>
                 <th>Employee Name</th>
                 <th>Department</th>
                 <th>Designation</th>
@@ -24,32 +24,32 @@ const GridData = ({ history, gridData, loading }) => {
               {loading && <Loading />}
               {gridData?.data?.map((tableData, index) => (
                 <tr key={index}>
-                  <td style={{ width: "30px" }} className="text-center">
-                        {index + 1}
-                      </td>
-                      <td>
-                        <span className="pl-2">{tableData?.employeeFullName}</span>
-                      </td>
-                      <td>
-                        <span className="pl-2">{tableData?.departmentName}</span>
-                      </td>
-                      <td>
-                        <span className="pl-2">{tableData?.designationName}</span>
-                      </td>
-                      <td>
-                        <span className="pl-2">{tableData?.employeeLevelName}</span>
-                      </td>
-                      <td className="text-center">
-                        {_dateFormatter(tableData?.joiningDate)}
-                      </td>
-                  <td style={{ verticalAlign: "middle" }}>
+                  <td style={{ width: '30px' }} className="text-center">
+                    {index + 1}
+                  </td>
+                  <td>
+                    <span className="pl-2">{tableData?.employeeFullName}</span>
+                  </td>
+                  <td>
+                    <span className="pl-2">{tableData?.departmentName}</span>
+                  </td>
+                  <td>
+                    <span className="pl-2">{tableData?.designationName}</span>
+                  </td>
+                  <td>
+                    <span className="pl-2">{tableData?.employeeLevelName}</span>
+                  </td>
+                  <td className="text-center">
+                    {_dateFormatter(tableData?.joiningDate)}
+                  </td>
+                  <td style={{ verticalAlign: 'middle' }}>
                     <div className="d-flex justify-content-center align-items-center baiscInfo_table">
                       <button
                         className="btn btn-outline-dark mr-1 pointer"
                         type="button"
                         style={{
-                          padding: "1px 5px",
-                          fontSize: "11px",
+                          padding: '1px 5px',
+                          fontSize: '11px',
                           //width: "85px",
                         }}
                         onClick={() => {

@@ -1,21 +1,21 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 const initData = {
-  unitName: "",
-  registrationNo: "",
-  donationPurpose: "",
-  causeOfDonation: "",
-  fromDate: "",
-  toDate: "",
-  beneficiary: "",
-  approvalPerson: "",
-  status: "",
-  paymentType: ""
+  unitName: '',
+  registrationNo: '',
+  donationPurpose: '',
+  causeOfDonation: '',
+  fromDate: '',
+  toDate: '',
+  beneficiary: '',
+  approvalPerson: '',
+  status: '',
+  paymentType: '',
 };
 
 export const DateWiseReportForm = ({ getData, setFilterObj }) => {
@@ -43,25 +43,24 @@ export const DateWiseReportForm = ({ getData, setFilterObj }) => {
   };
 
   useEffect(() => {
-    getUnits(generateAPI("UnitDDL"));
-    getDonationPurpose(generateAPI("DonationPurpose"));
-
+    getUnits(generateAPI('UnitDDL'));
+    getDonationPurpose(generateAPI('DonationPurpose'));
   }, []);
 
   const saveHandler = (values, cb) => {
-    setFilterObj({values, saveHandler})
+    setFilterObj({ values, saveHandler });
     getData(
       getLadingData(
-        "GetAllDonationApplicationList",
+        'GetAllDonationApplicationList',
         values?.fromDate,
         values?.toDate,
         values?.unitName?.value || 4,
-        values?.registrationNo || "",
+        values?.registrationNo || '',
         values?.donationPurpose?.value || 0,
         values?.causeOfDonation?.value || 0,
-        values?.beneficiary || "",
-        values?.status?.value || "All",
-        values?.paymentType?.value || 0,
+        values?.beneficiary || '',
+        values?.status?.value || 'All',
+        values?.paymentType?.value || 0
       )
     );
   };
@@ -72,7 +71,7 @@ export const DateWiseReportForm = ({ getData, setFilterObj }) => {
         // validationSchema={validationSchema}
         initialValues={{
           ...initData,
-          status:{value:"Approved", label:"Approved"},
+          status: { value: 'Approved', label: 'Approved' },
         }}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
@@ -102,7 +101,7 @@ export const DateWiseReportForm = ({ getData, setFilterObj }) => {
                     options={unitDDL || []}
                     value={values?.unitName}
                     onChange={(valueOption) => {
-                      setFieldValue("unitName", valueOption);
+                      setFieldValue('unitName', valueOption);
                     }}
                     placeholder="Unit Name"
                     errors={errors}
@@ -127,17 +126,17 @@ export const DateWiseReportForm = ({ getData, setFilterObj }) => {
                     options={donationPurposeDDL || []}
                     value={values?.donationPurpose}
                     onChange={(valueOption) => {
-                      setFieldValue("donationPurpose", valueOption);
+                      setFieldValue('donationPurpose', valueOption);
                       if (valueOption === null) {
-                        setFieldValue("causeOfDonation", "");
+                        setFieldValue('causeOfDonation', '');
                       }
                       getCauseOfDonation(
                         generateAPI(
-                          "CauseOfDonationOrZakat",
+                          'CauseOfDonationOrZakat',
                           valueOption?.value
                         )
                       );
-                      setFieldValue("causeOfDonation", "");
+                      setFieldValue('causeOfDonation', '');
                     }}
                     placeholder="Donation Purpose"
                     errors={errors}
@@ -153,7 +152,7 @@ export const DateWiseReportForm = ({ getData, setFilterObj }) => {
                     options={causeOfDonationDDL || []}
                     value={values?.causeOfDonation}
                     onChange={(valueOption) => {
-                      setFieldValue("causeOfDonation", valueOption);
+                      setFieldValue('causeOfDonation', valueOption);
                     }}
                     placeholder="Cause Of Donation"
                     errors={errors}
@@ -194,13 +193,13 @@ export const DateWiseReportForm = ({ getData, setFilterObj }) => {
                     isHiddenToolTip={true}
                     name="paymentType"
                     options={[
-                      {value:0, label:"All"},
-                      {value: 1, label:"Zakat"},
-                      {value: 2, label:"Donation/Sadaka"}
+                      { value: 0, label: 'All' },
+                      { value: 1, label: 'Zakat' },
+                      { value: 2, label: 'Donation/Sadaka' },
                     ]}
                     value={values?.paymentType}
                     onChange={(valueOption) => {
-                      setFieldValue("paymentType", valueOption);
+                      setFieldValue('paymentType', valueOption);
                     }}
                     placeholder="Payment Type"
                     errors={errors}
@@ -213,15 +212,15 @@ export const DateWiseReportForm = ({ getData, setFilterObj }) => {
                     isHiddenToolTip={true}
                     name="status"
                     options={[
-                      {value:"All", label:"All"},
-                      {value:"Awaiting Audit", label:"Awaiting Audit"},
-                      {value:"Pending", label:"Pending"},
-                      {value:"Approved", label:"Approved"},
-                      {value:"Rejected", label:"Rejected"}
+                      { value: 'All', label: 'All' },
+                      { value: 'Awaiting Audit', label: 'Awaiting Audit' },
+                      { value: 'Pending', label: 'Pending' },
+                      { value: 'Approved', label: 'Approved' },
+                      { value: 'Rejected', label: 'Rejected' },
                     ]}
                     value={values?.status}
                     onChange={(valueOption) => {
-                      setFieldValue("status", valueOption);
+                      setFieldValue('status', valueOption);
                     }}
                     placeholder="Status"
                     errors={errors}
@@ -231,7 +230,7 @@ export const DateWiseReportForm = ({ getData, setFilterObj }) => {
                 <div className="col-lg-2 mt-5">
                   <button
                     type="submit"
-                    style={{ fontSize: "12px" }}
+                    style={{ fontSize: '12px' }}
                     className="btn btn-primary"
                     onSubmit={() => handleSubmit()}
                   >
@@ -243,8 +242,8 @@ export const DateWiseReportForm = ({ getData, setFilterObj }) => {
                     id="date-wise-table-xls-button-att-reports"
                     className="btn btn-primary"
                     table="date-wise-table-to-xlsx"
-                    filename={"Date Wise Report"}
-                    sheet={"Date Wise Report"}
+                    filename={'Date Wise Report'}
+                    sheet={'Date Wise Report'}
                     buttonText="Export To Excel"
                   />
                 </div>

@@ -1,24 +1,23 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { getLandingData } from "../helper";
-import Loading from "./../../../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { getLandingData } from '../helper';
+import Loading from './../../../../_helper/_loading';
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   CardBody,
-} from "./../../../../../../_metronic/_partials/controls";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import PaginationTable from "./../../../../_helper/_tablePagination";
+} from './../../../../../../_metronic/_partials/controls';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import PaginationTable from './../../../../_helper/_tablePagination';
 
 const SecondaryDeliveryLanding = () => {
   const history = useHistory();
 
   const [gridData, setGridData] = useState();
   const [isloading, setIsLoading] = useState(false);
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState('');
 
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
@@ -77,7 +76,7 @@ const SecondaryDeliveryLanding = () => {
           <CardHeaderToolbar>
             <button
               onClick={() =>
-                history.push("/rtm-management/configuration/beat/create")
+                history.push('/rtm-management/configuration/beat/create')
               }
               className="btn btn-primary"
             >
@@ -147,7 +146,7 @@ const SecondaryDeliveryLanding = () => {
                 gridData?.data?.map((item, index) => {
                   return (
                     <tr key={index}>
-                      <td style={{ width: "30px" }} className="text-center">
+                      <td style={{ width: '30px' }} className="text-center">
                         {index + 1}
                       </td>
                       <td>
@@ -168,7 +167,7 @@ const SecondaryDeliveryLanding = () => {
                       <td>
                         <span className="pl-2">{item?.routeName}</span>
                       </td>
-                      <td style={{ width: "100px" }} className="text-center">
+                      <td style={{ width: '100px' }} className="text-center">
                         <span
                           className="edit"
                           onClick={(e) =>

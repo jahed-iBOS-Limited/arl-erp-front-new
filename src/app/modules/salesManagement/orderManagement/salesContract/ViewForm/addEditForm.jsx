@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   saveSalesContact,
   getSalesContactById,
@@ -10,40 +10,40 @@ import {
   getPaymentTermsDDLAction,
   setSalesContactSingleEmpty,
   saveEditedSalesContact,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
 import {
   getPlantDDLAction,
   getDistributionChannelDDLAction,
   getItemSaleDDLAction,
-} from "../../../../_helper/_redux/Actions";
-import { isUniq } from "../../../../_helper/uniqChecker";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import { getSalesOrgDDLAction } from "../_redux/Actions";
-import Loading from "./../../../../_helper/_loading";
+} from '../../../../_helper/_redux/Actions';
+import { isUniq } from '../../../../_helper/uniqChecker';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import { getSalesOrgDDLAction } from '../_redux/Actions';
+import Loading from './../../../../_helper/_loading';
 
 const initData = {
   view: undefined,
-  plant: "",
-  salesOrg: "",
-  distributionChannel: "",
-  salesOffice: "",
-  soldToParty: "",
-  itemSale: "",
-  partnerReffNo: "",
+  plant: '',
+  salesOrg: '',
+  distributionChannel: '',
+  salesOffice: '',
+  soldToParty: '',
+  itemSale: '',
+  partnerReffNo: '',
   pricingDate: _todayDate(),
   startDate: _todayDate(),
   endDate: _todayDate(),
-  BUsalesOrgIncoterm: "",
-  paymentTerms: "",
+  BUsalesOrgIncoterm: '',
+  paymentTerms: '',
   partialShipment: false,
   unlimited: false,
   offerInclude: false,
-  deliveryAddress: "",
-  vehicleBy: "",
-  quantity: "",
-  price: "",
-  salesContactCode: "",
+  deliveryAddress: '',
+  vehicleBy: '',
+  quantity: '',
+  price: '',
+  salesContactCode: '',
 };
 
 export default function SalesContactViewForm({
@@ -114,7 +114,6 @@ export default function SalesContactViewForm({
     } else {
       dispatch(setSalesContactSingleEmpty());
     }
-
   }, [view]);
 
   //Dispatch Get PlantDDL & SalesOrgDDL & DistributionChannelDDL & SoldToPPId
@@ -144,7 +143,6 @@ export default function SalesContactViewForm({
         getSalesOrgDDLAction(profileData.accountId, selectedBusinessUnit.value)
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {
@@ -214,8 +212,8 @@ export default function SalesContactViewForm({
             // incotermsCode: values.BUsalesOrgIncoterm.code,
             // incotermsName: values.BUsalesOrgIncoterm.label,
             incotermId: 1,
-            incotermsCode: "CFR",
-            incotermsName: "CFR (Cost And Freight)",
+            incotermsCode: 'CFR',
+            incotermsName: 'CFR (Cost And Freight)',
             paymentTermId: values.paymentTerms.value,
             paymentTermsName: values.paymentTerms.label,
             totalContactValue: total.totalAmount,
@@ -272,7 +270,7 @@ export default function SalesContactViewForm({
         itemCode: values.itemSale.code,
       },
     ];
-    if (isUniq("itemId", values.itemSale.value, rowDto)) {
+    if (isUniq('itemId', values.itemSale.value, rowDto)) {
       setRowDto([...rowDto, ...newData]);
     }
   };
@@ -289,7 +287,6 @@ export default function SalesContactViewForm({
         setRowDto(objListRowDTO);
       }
     }
-
   }, [singleData]);
 
   //Total Qty & Total Amount calculation
@@ -309,17 +306,16 @@ export default function SalesContactViewForm({
     return () => {
       dispatch(setSalesContactSingleEmpty());
     };
-
   }, []);
   return (
     <IForm
-      title={"View Sales Contract"}
+      title={'View Sales Contract'}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenSave={true}
       isHiddenReset={true}
     >
-      {rowDto?.length > 0 ? "" : <Loading />}
+      {rowDto?.length > 0 ? '' : <Loading />}
       <Form
         {...objProps}
         initData={singleData.objHeaderDTO || initData}

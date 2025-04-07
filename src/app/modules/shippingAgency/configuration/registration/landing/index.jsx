@@ -1,23 +1,23 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
 import {
   getASLLAgencyRegistrationLandingApi,
   getVesselDDL,
   getVesselTypeDDL,
   getVoyageNoDDLApi,
-} from "../helper";
-import LandingTable from "./table";
+} from '../helper';
+import LandingTable from './table';
 
 const initData = {
-  vesselName: "",
-  vesselType: "",
-  voyageNo: "",
+  vesselName: '',
+  vesselType: '',
+  voyageNo: '',
 };
 
 const RegistrationLanding = () => {
@@ -43,7 +43,6 @@ const RegistrationLanding = () => {
       commonGridData(pageNo, pageSize, initData);
       getVoyageNoDDLApi(accId, buId, setVoyageNoDDLApi);
     }
-
   }, [accId, buId]);
 
   const commonGridData = (
@@ -71,39 +70,39 @@ const RegistrationLanding = () => {
         {({ values, setFieldValue, touched, errors }) => (
           <>
             <ICustomCard
-              title='Registration'
+              title="Registration"
               createHandler={() => {
                 history.push(
                   `/ShippingAgency/Configuration/Registration/Create`
                 );
               }}
             >
-              <div className='row global-form my-3'>
-                <div className='col-lg-3'>
+              <div className="row global-form my-3">
+                <div className="col-lg-3">
                   <NewSelect
                     options={vesselTypeDDL || []}
-                    name='vesselType'
+                    name="vesselType"
                     onChange={(valueOption) => {
-                      setFieldValue("vesselType", valueOption);
+                      setFieldValue('vesselType', valueOption);
                       setGridData([]);
                     }}
-                    placeholder='Vessel Type'
-                    label='Vessel Type'
+                    placeholder="Vessel Type"
+                    label="Vessel Type"
                     value={values?.vesselType}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <NewSelect
-                    value={values?.vesselName || ""}
+                    value={values?.vesselName || ''}
                     isSearchable={true}
                     options={vesselDDL || []}
-                    name='vesselName'
-                    placeholder='Vessel Name'
-                    label='Vessel Name'
+                    name="vesselName"
+                    placeholder="Vessel Name"
+                    label="Vessel Name"
                     onChange={(valueOption) => {
-                      setFieldValue("vesselName", valueOption);
+                      setFieldValue('vesselName', valueOption);
                       setGridData([]);
                     }}
                     errors={errors}
@@ -111,28 +110,28 @@ const RegistrationLanding = () => {
                   />
                 </div>
 
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <NewSelect
-                    name='voyageNo'
-                    label='Voyage No'
-                    placeholder='Voyage No'
-                    value={values?.voyageNo || ""}
+                    name="voyageNo"
+                    label="Voyage No"
+                    placeholder="Voyage No"
+                    value={values?.voyageNo || ''}
                     isSearchable={true}
                     options={voyageNoDDLApi || []}
                     onChange={(valueOption) => {
-                      setFieldValue("voyageNo", valueOption);
+                      setFieldValue('voyageNo', valueOption);
                       setGridData([]);
                     }}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
-                <div className='col d-flex align-items-end justify-content-end'>
+                <div className="col d-flex align-items-end justify-content-end">
                   <button
                     onClick={() => {
                       commonGridData(1, pageSize, values);
                     }}
-                    className='btn btn-primary mt-3'
+                    className="btn btn-primary mt-3"
                   >
                     View
                   </button>

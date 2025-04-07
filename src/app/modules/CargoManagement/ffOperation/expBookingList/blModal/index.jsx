@@ -19,7 +19,7 @@ const validationSchema = Yup.object().shape({
 function BLModal({ rowClickData, CB }) {
   const { profileData } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [, UploadParticularDocuments, UploadParticularDocumentsLoading, ,] =
@@ -30,13 +30,11 @@ function BLModal({ rowClickData, CB }) {
   const formikRef = React.useRef(null);
 
   useEffect(() => {
-
     const modeOfTransportId = [1, 3].includes(rowClickData?.modeOfTransportId)
       ? 1
       : rowClickData?.modeOfTransportId;
     formikRef.current.setFieldValue('billingType', modeOfTransportId);
     commonGetDocumentsByMasterBL(modeOfTransportId);
-
   }, [rowClickData]);
 
   const commonGetDocumentsByMasterBL = (modeOfTransportId) => {
@@ -58,15 +56,15 @@ function BLModal({ rowClickData, CB }) {
           const document = resData || {};
           formikRef.current.setFieldValue(
             'documentsNumber',
-            document?.documentsNumber || '',
+            document?.documentsNumber || ''
           );
           formikRef.current.setFieldValue(
             'documentFileId',
-            document?.documentFileId || '',
+            document?.documentFileId || ''
           );
           formikRef.current.setFieldValue('documentId', document?.documentId);
         }
-      },
+      }
     );
   };
 
@@ -101,7 +99,7 @@ function BLModal({ rowClickData, CB }) {
         `${imarineBaseUrl}/domain/ShippingService/UploadParticularDocuments`,
         paylaod,
         CB,
-        true,
+        true
       );
     }
   };
@@ -203,7 +201,7 @@ function BLModal({ rowClickData, CB }) {
                       type="button"
                       onClick={() => {
                         dispatch(
-                          getDownlloadFileView_Action(values?.documentFileId),
+                          getDownlloadFileView_Action(values?.documentFileId)
                         );
                       }}
                     >
@@ -226,7 +224,7 @@ function BLModal({ rowClickData, CB }) {
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name,
+                  (item) => item.file.name !== deleteFileObj.file.name
                 );
                 setFileObjects(newData);
               }}

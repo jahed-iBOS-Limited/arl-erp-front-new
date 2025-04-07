@@ -19,7 +19,7 @@ export default function SCFLimitLandingPage() {
   const history = useHistory();
   const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
-    shallowEqual,
+    shallowEqual
   );
 
   // state
@@ -41,7 +41,6 @@ export default function SCFLimitLandingPage() {
       selectedBusinessUnit,
       getScfLimitLandingData,
     });
-
   }, []);
 
   // submit handler

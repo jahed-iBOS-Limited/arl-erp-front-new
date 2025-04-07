@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from 'axios';
 
 export const getUserLoginInfo = async (accId, buId, empId, setLoading, cb) => {
   setLoading && setLoading(true);
@@ -24,5 +24,3 @@ export const getDistributionChannelDDL = async (accId, buId, setter) => {
     setter([]);
   }
 };
-
-

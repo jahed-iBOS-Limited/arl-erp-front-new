@@ -1,8 +1,6 @@
-import React from "react";
-import POReportTable  from "./Table/table";
+import React from 'react';
+import POReportTable from './Table/table';
 
 export function POReport({ history }) {
-  return (  
-      <POReportTable />
-  );
-};
+  return <POReportTable />;
+}

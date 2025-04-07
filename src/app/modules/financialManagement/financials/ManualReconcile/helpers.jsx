@@ -1,6 +1,6 @@
-import { toast } from "react-toastify";
-import Axios from "axios";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import { toast } from 'react-toastify';
+import Axios from 'axios';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 //Bank Account ddl
 export const bankAccountDDL = async (accId, buId, setter) => {
@@ -64,10 +64,10 @@ export const getManualReconcileLanding = async (
       const data = res?.data.map((item) => {
         return {
           ...item,
-          drAmount: item.monAmount >= 0 ? item.monAmount : "",
-          drAmountInit: item.monAmount >= 0 ? item.monAmount : "",
-          crAmount: item.monAmount < 0 ? item.monAmount : "",
-          crAmountInit: item.monAmount < 0 ? item.monAmount : "",
+          drAmount: item.monAmount >= 0 ? item.monAmount : '',
+          drAmountInit: item.monAmount >= 0 ? item.monAmount : '',
+          crAmount: item.monAmount < 0 ? item.monAmount : '',
+          crAmountInit: item.monAmount < 0 ? item.monAmount : '',
           editable: false,
           checked: false,
         };
@@ -162,13 +162,12 @@ export const updateBankStatement = async (data, cf) => {
     );
     if (res.status === 200 && res?.data) {
       cf();
-      toast.success("Update successfully");
+      toast.success('Update successfully');
     }
   } catch (error) {
     toast.error(error?.response?.data?.message);
   }
 };
-
 
 export const getBankStatementLanding = async (
   bankAccountId,
@@ -190,8 +189,8 @@ export const getBankStatementLanding = async (
       const data = res?.data?.data?.map((item) => {
         return {
           ...item,
-          transction: "",
-          remarks: "",
+          transction: '',
+          remarks: '',
         };
       });
       setter({ ...res?.data, data });
@@ -221,7 +220,7 @@ export const postForceReconsile = async (obj, cb) => {
       `/fino/BankBranch/SelectedPostForceReconsile`,
       obj
     );
-    toast.success(res?.data?.message || "Submitted successfully");
+    toast.success(res?.data?.message || 'Submitted successfully');
     cb();
   } catch (error) {}
 };
@@ -303,17 +302,17 @@ export const checkTwoFactorApproval = async (
   } catch (error) {
     setDisabledModalButton(false);
     cb(500);
-    toast.warn(error?.response?.data?.message || "Please try again");
+    toast.warn(error?.response?.data?.message || 'Please try again');
     // setDisabled(false);
   }
 };
 
 export const header = {
-  display: "flex",
-  padding: "2px 29px",
-  alignItems: "center",
-  justifyContent: "space-between",
-  background: "transparent",
-  margin: "0",
-  flexWrap: "wrap",
+  display: 'flex',
+  padding: '2px 29px',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  background: 'transparent',
+  margin: '0',
+  flexWrap: 'wrap',
 };

@@ -33,7 +33,7 @@ const PartnerInfo = ({ values, tableItem }) => {
   const classes = useStyles();
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
-    shallowEqual,
+    shallowEqual
   );
 
   const pdfExport = (fileName) => {
@@ -57,7 +57,7 @@ const PartnerInfo = ({ values, tableItem }) => {
       values?.fromDate,
       values?.toDate,
       setLoading,
-      setRowDto,
+      setRowDto
     );
   }, [profileData, selectedBusinessUnit, values, tableItem]);
 
@@ -209,11 +209,8 @@ const PartnerInfo = ({ values, tableItem }) => {
                       <td className="text-right">
                         {_formatMoney(
                           Math.abs(
-                            rowDto?.reduce(
-                              (a, b) => a + Number(b?.numDebit),
-                              0,
-                            ),
-                          )?.toFixed(2),
+                            rowDto?.reduce((a, b) => a + Number(b?.numDebit), 0)
+                          )?.toFixed(2)
                         )}
                       </td>
                       <td className="text-right">
@@ -221,9 +218,9 @@ const PartnerInfo = ({ values, tableItem }) => {
                           Math.abs(
                             rowDto?.reduce(
                               (a, b) => a + Number(b?.numCredit),
-                              0,
-                            ),
-                          )?.toFixed(2),
+                              0
+                            )
+                          )?.toFixed(2)
                         )}
                       </td>
                       <td className="text-right">
@@ -232,16 +229,16 @@ const PartnerInfo = ({ values, tableItem }) => {
                             Math.abs(
                               rowDto?.reduce(
                                 (a, b) => a + Number(b?.numDebit),
-                                0,
-                              ),
+                                0
+                              )
                             ) -
                             Math.abs(
                               rowDto?.reduce(
                                 (a, b) => a + Number(b?.numCredit),
-                                0,
-                              ),
+                                0
+                              )
                             )
-                          )?.toFixed(2),
+                          )?.toFixed(2)
                         )}
                       </td>
                     </tr>

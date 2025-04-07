@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import { Row, Col } from "react-bootstrap";
-import IViewModal from "../../../_helper/_viewModal";
-import { getCompetencyIdAction, setCompetencyEmpty } from "../_redux/Actions";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import React, { useEffect } from 'react';
+import { Row, Col } from 'react-bootstrap';
+import IViewModal from '../../../_helper/_viewModal';
+import { getCompetencyIdAction, setCompetencyEmpty } from '../_redux/Actions';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 
 export default function ViewForm({ id, show, onHide }) {
   const dispatch = useDispatch();
@@ -12,7 +12,6 @@ export default function ViewForm({ id, show, onHide }) {
     } else {
       dispatch(setCompetencyEmpty());
     }
-
   }, [id]);
 
   // get view modal data from store
@@ -24,26 +23,26 @@ export default function ViewForm({ id, show, onHide }) {
       <IViewModal
         show={show}
         onHide={onHide}
-        title={singleData?.objCompetency?.competencyName || ""}
+        title={singleData?.objCompetency?.competencyName || ''}
         isShow={singleData ? false : true}
       >
         {singleData ? (
           <>
-            <Row style={{ marginTop: "20px" }}>
+            <Row style={{ marginTop: '20px' }}>
               <Col lg="12">
                 <table
                   className="competencyTopInfo"
-                  style={{ fontSize: "15px", lineHeight: "25px" }}
+                  style={{ fontSize: '15px', lineHeight: '25px' }}
                 >
                   <tr>
                     <td>
                       <b>Competency type</b>
                     </td>
                     <td>
-                      :{" "}
+                      :{' '}
                       {singleData?.objCompetency.isFunctionalCompetency
-                        ? "Core competency"
-                        : "Functional competency"}
+                        ? 'Core competency'
+                        : 'Functional competency'}
                     </td>
                   </tr>
                   <tr>
@@ -63,7 +62,7 @@ export default function ViewForm({ id, show, onHide }) {
                 <hr />
               </Col>
             </Row>
-            <Row style={{ marginTop: "25px" }}>
+            <Row style={{ marginTop: '25px' }}>
               <div className="col-lg-6">
                 <table className="table table-striped table-bordered table table-head-custom table-vertical-center">
                   <thead>
@@ -83,7 +82,7 @@ export default function ViewForm({ id, show, onHide }) {
                 </table>
               </div>
             </Row>
-            <Row style={{ marginTop: "25px" }}>
+            <Row style={{ marginTop: '25px' }}>
               <table className="table table-striped table-bordered table table-head-custom table-vertical-center">
                 <thead>
                   <tr>
@@ -97,7 +96,7 @@ export default function ViewForm({ id, show, onHide }) {
                     <tr key={itm.value}>
                       <td className="text-center">{idx + 1}</td>
                       <td>{itm.demonstratedBehaviour}</td>
-                      <td> {itm?.isPositive ? "Positive" : "Negative"} </td>
+                      <td> {itm?.isPositive ? 'Positive' : 'Negative'} </td>
                     </tr>
                   ))}
                 </tbody>

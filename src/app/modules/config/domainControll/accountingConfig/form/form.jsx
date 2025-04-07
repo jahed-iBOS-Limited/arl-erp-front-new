@@ -1,10 +1,10 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import NewSelect from "../../../../_helper/_select";
-import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
-import ICustomTable from "../../../../_helper/_customTable";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import NewSelect from '../../../../_helper/_select';
+import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
+import ICustomTable from '../../../../_helper/_customTable';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
 
 const validationSchema = Yup.object().shape({});
 
@@ -19,7 +19,7 @@ export default function FormCmp({
   remover,
   partnerTypeDDL,
   glDDL,
-  businessTransDDL
+  businessTransDDL,
 }) {
   return (
     <>
@@ -52,8 +52,8 @@ export default function FormCmp({
                     value={values?.partnerType}
                     label="Partner Type"
                     onChange={(valueOption) => {
-                      setFieldValue("configType", "");
-                      setFieldValue("partnerType", valueOption);
+                      setFieldValue('configType', '');
+                      setFieldValue('partnerType', valueOption);
                     }}
                     placeholder="Partner Type"
                     errors={errors}
@@ -67,7 +67,7 @@ export default function FormCmp({
                     value={values?.org}
                     label="Organization"
                     onChange={(valueOption) => {
-                      setFieldValue("org", valueOption);
+                      setFieldValue('org', valueOption);
                     }}
                     placeholder="Organization"
                     errors={errors}
@@ -81,7 +81,7 @@ export default function FormCmp({
                     value={values?.configType}
                     label="Config Type"
                     onChange={(valueOption) => {
-                      setFieldValue("configType", valueOption);
+                      setFieldValue('configType', valueOption);
                     }}
                     isDisabled={!values?.partnerType}
                     placeholder="Config Type"
@@ -96,7 +96,7 @@ export default function FormCmp({
                     value={values?.gl}
                     label="General Ledger"
                     onChange={(valueOption) => {
-                      setFieldValue("gl", valueOption);
+                      setFieldValue('gl', valueOption);
                     }}
                     placeholder="General Ledger"
                     errors={errors}
@@ -110,7 +110,7 @@ export default function FormCmp({
                     value={values?.businessTrans}
                     label="Business Transaction"
                     onChange={(valueOption) => {
-                      setFieldValue("businessTrans", valueOption);
+                      setFieldValue('businessTrans', valueOption);
                     }}
                     placeholder="Business Transaction"
                     errors={errors}
@@ -118,18 +118,22 @@ export default function FormCmp({
                   />
                 </div>
 
-                <div style={{ marginTop: "18px" }} className="col-lg-1">
-                  <ButtonStyleOne type="button" label="Add" onClick={() => setter(values)} />
+                <div style={{ marginTop: '18px' }} className="col-lg-1">
+                  <ButtonStyleOne
+                    type="button"
+                    label="Add"
+                    onClick={() => setter(values)}
+                  />
                 </div>
               </div>
 
               <ICustomTable
                 ths={[
-                  "SL",
-                  "Config Type",
-                  "General Ledger",
-                  "Organization",
-                  "Action",
+                  'SL',
+                  'Config Type',
+                  'General Ledger',
+                  'Organization',
+                  'Action',
                 ]}
               >
                 {rowDto?.map((item, index) => (
@@ -147,14 +151,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -1,15 +1,14 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { getMonthDDLAction } from "../_redux/Actions";
-import { getReportAction, getYearDDLAction } from "../../../_redux/Actions";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { getMonthDDLAction } from '../_redux/Actions';
+import { getReportAction, getYearDDLAction } from '../../../_redux/Actions';
 const initData = {
   id: undefined,
-  year: "",
-  from: "",
-  to: "",
+  year: '',
+  from: '',
+  to: '',
 };
 
 export default function SbuPerformanceForm({
@@ -34,13 +33,8 @@ export default function SbuPerformanceForm({
     },
     { shallowEqual }
   );
-  let {
-    profileData,
-    selectedBusinessUnit,
-    yearDDL,
-    month,
-    employeeBasicInfo,
-  } = pmsData;
+  let { profileData, selectedBusinessUnit, yearDDL, month, employeeBasicInfo } =
+    pmsData;
 
   useEffect(() => {
     if (profileData && selectedBusinessUnit) {

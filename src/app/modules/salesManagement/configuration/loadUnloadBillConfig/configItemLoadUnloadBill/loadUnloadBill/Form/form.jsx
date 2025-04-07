@@ -1,27 +1,27 @@
 // import React, { useEffect, useState } from "react";
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import InputField from "../../../../../../_helper/_inputField";
-import NewSelect from "../../../../../../_helper/_select";
-import { getShipPointDDL, getItemNameDDL_api } from "../helper";
-import { getVehicleCapacityDDL } from "./../../../../partnerThanaRate/helper";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import InputField from '../../../../../../_helper/_inputField';
+import NewSelect from '../../../../../../_helper/_select';
+import { getShipPointDDL, getItemNameDDL_api } from '../helper';
+import { getVehicleCapacityDDL } from './../../../../partnerThanaRate/helper';
 
 const DataValiadtionSchema = Yup.object().shape({
   shipPoint: Yup.object().shape({
-    label: Yup.string().required("Shipping Point is required"),
-    value: Yup.string().required("Shipping Point is required"),
+    label: Yup.string().required('Shipping Point is required'),
+    value: Yup.string().required('Shipping Point is required'),
   }),
   itemName: Yup.object().shape({
-    label: Yup.string().required("Item Name is required"),
-    value: Yup.string().required("Item Name is required"),
+    label: Yup.string().required('Item Name is required'),
+    value: Yup.string().required('Item Name is required'),
   }),
-  quantity: Yup.number().required("Quantity is required"),
-  loadAmount: Yup.number().required("Load Amount is required"),
-  unloadAmount: Yup.number().required("Unload Amount is required"),
+  quantity: Yup.number().required('Quantity is required'),
+  loadAmount: Yup.number().required('Load Amount is required'),
+  unloadAmount: Yup.number().required('Unload Amount is required'),
   vehicleCapacity: Yup.object().shape({
-    label: Yup.string().required("Vehicle Capacity is required"),
-    value: Yup.string().required("Vehicle Capacity is required"),
+    label: Yup.string().required('Vehicle Capacity is required'),
+    value: Yup.string().required('Vehicle Capacity is required'),
   }),
 });
 
@@ -39,8 +39,8 @@ export default function FormCmp({
   actionBy,
   id,
 }) {
-  const [shipPoint, setShipPoint] = useState("");
-  const [itemName, setItemName] = useState("");
+  const [shipPoint, setShipPoint] = useState('');
+  const [itemName, setItemName] = useState('');
   const [vehicleCapacityDDL, setVehicleCapacityDDL] = useState([]);
   useEffect(() => {
     if (accountId && selectedBusinessUnit) {
@@ -81,11 +81,11 @@ export default function FormCmp({
                     <NewSelect
                       name="shipPoint"
                       options={shipPoint || []}
-                      value={values?.shipPoint || ""}
+                      value={values?.shipPoint || ''}
                       label="Shipping Point"
                       isDisabled={id}
                       onChange={(valueOption) => {
-                        setFieldValue("shipPoint", valueOption);
+                        setFieldValue('shipPoint', valueOption);
                       }}
                       placeholder="Shipping Point"
                       errors={errors}
@@ -96,10 +96,10 @@ export default function FormCmp({
                     <NewSelect
                       name="vehicleCapacity"
                       options={vehicleCapacityDDL || []}
-                      value={values?.vehicleCapacity || ""}
+                      value={values?.vehicleCapacity || ''}
                       label="Vehicle Capacity"
                       onChange={(valueOption) => {
-                        setFieldValue("vehicleCapacity", valueOption);
+                        setFieldValue('vehicleCapacity', valueOption);
                       }}
                       placeholder="Vehicle Capacity"
                       errors={errors}
@@ -111,13 +111,14 @@ export default function FormCmp({
                     <NewSelect
                       name="itemName"
                       options={itemName || []}
-                      value={values?.itemName || ""}
+                      value={values?.itemName || ''}
                       isDisabled={id}
                       label="Item Name"
                       onChange={(valueOption) => {
-                        setFieldValue("itemName", valueOption);
+                        setFieldValue('itemName', valueOption);
                       }}
-                      placeholder="Item Name"s
+                      placeholder="Item Name"
+                      s
                       errors={errors}
                       touched={touched}
                     />
@@ -156,14 +157,14 @@ export default function FormCmp({
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

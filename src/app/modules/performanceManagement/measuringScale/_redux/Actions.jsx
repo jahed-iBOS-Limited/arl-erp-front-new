@@ -1,6 +1,6 @@
-import * as requestFromServer from "./Api";
-import { measuringScaleTwoSlice } from "./Slice";
-import { toast } from "react-toastify";
+import * as requestFromServer from './Api';
+import { measuringScaleTwoSlice } from './Slice';
+import { toast } from 'react-toastify';
 const { actions: slice } = measuringScaleTwoSlice;
 
 export const getScaleForDDLAction = () => (dispatch) => {
@@ -18,13 +18,12 @@ export const saveMeasuringScaleAction = (payload) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
-        payload.setRowDto([])
+        payload.setRowDto([]);
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
     });
 };
@@ -36,7 +35,5 @@ export const getMeasuringScaleGridData = (accId, buId) => (dispatch) => {
     .then((res) => {
       return dispatch(slice.SetGridData(res.data?.data));
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };

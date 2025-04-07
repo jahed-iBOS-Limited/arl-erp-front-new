@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const GetRentalVehicleCostLandingPasignation_api = async (
   accId,
@@ -19,7 +19,7 @@ export const GetRentalVehicleCostLandingPasignation_api = async (
 ) => {
   setLoading && setLoading(true);
   try {
-    const searchPath = search ? `search=${search}&` : "";
+    const searchPath = search ? `search=${search}&` : '';
     const res = await Axios.get(
       `/tms/RentalVehicleCost/GetRentalVehicleCostLandingPasignation?${searchPath}accountid=${accId}&businessunitid=${buId}&fromdate=${formDate}&todate=${toDate}&closeStatus=${status}&viewOrder=desc&PageNo=1&PageSize=1000&IsBillSubmited=${billSubmited}&vehicleSupplierId=${supplierId}&shipPointId=${shipmentId}&reportType=${reportTypeOne}&userId=${userId}`
     );
@@ -29,23 +29,23 @@ export const GetRentalVehicleCostLandingPasignation_api = async (
         const copyRowDto = res?.data?.data?.map((itm) => ({
           ...itm,
           additionalCost: itm?.additionalCost || 0,
-          additionalCostReason: itm?.additionalCostReason || "",
+          additionalCostReason: itm?.additionalCostReason || '',
           deductionCost: itm?.deductionCost || 0,
-          deductionCostReason: itm?.deductionCostReason || "",
+          deductionCostReason: itm?.deductionCostReason || '',
           itemCheck: false,
         }));
         setter && setter(copyRowDto);
-        setFieldValue && setFieldValue("itemLists", copyRowDto);
+        setFieldValue && setFieldValue('itemLists', copyRowDto);
       } else {
-        toast.warning("Data not found");
+        toast.warning('Data not found');
         setter && setter([]);
-        setFieldValue && setFieldValue("itemLists", []);
+        setFieldValue && setFieldValue('itemLists', []);
       }
     }
   } catch (error) {
     setLoading && setLoading(false);
     setter && setter([]);
-    setFieldValue && setFieldValue("itemLists", []);
+    setFieldValue && setFieldValue('itemLists', []);
     toast.error(error?.response?.data?.message);
   }
 };
@@ -59,18 +59,18 @@ export const EditShipmentStandardCost_api = async (
   try {
     setDisabled(true);
     const res = await Axios.put(
-      "/tms/RentalVehicleCost/EditShipmentStandardCost",
+      '/tms/RentalVehicleCost/EditShipmentStandardCost',
       payload
     );
 
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted Successfully");
+      toast.success(res?.data?.message || 'Submitted Successfully');
       setDisabled(false);
       setBillSubmitBtn && setBillSubmitBtn(true);
       cb();
     }
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Submitted unsuccessful");
+    toast.error(error?.response?.data?.message || 'Submitted unsuccessful');
     setDisabled(false);
   }
 };
@@ -83,18 +83,18 @@ export const EditRentalVehicleBillSubmit_api = async (
   try {
     setDisabled(true);
     const res = await Axios.put(
-      "/tms/RentalVehicleCost/EditRentalVehicleBillSubmit",
+      '/tms/RentalVehicleCost/EditRentalVehicleBillSubmit',
       payload
     );
 
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted Successfully");
+      toast.success(res?.data?.message || 'Submitted Successfully');
       setDisabled(false);
       setBillSubmitBtn && setBillSubmitBtn(true);
       cb();
     }
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Submitted unsuccessful");
+    toast.error(error?.response?.data?.message || 'Submitted unsuccessful');
     setDisabled(false);
   }
 };
@@ -170,11 +170,11 @@ export const updateDistanceKM = async (
 
     if (res.status === 200) {
       // setter(res?.data);
-      toast.success(res?.data?.message || "Submitted Successfully");
+      toast.success(res?.data?.message || 'Submitted Successfully');
       cb();
     }
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Submitted unsuccessful");
+    toast.error(error?.response?.data?.message || 'Submitted unsuccessful');
   }
 };
 
@@ -193,11 +193,11 @@ export const updateRentVehicle = async (
 
     if (res.status === 200) {
       // setter(res?.data);
-      toast.success(res?.data?.message || "Submitted Successfully");
+      toast.success(res?.data?.message || 'Submitted Successfully');
       cb();
     }
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Submitted unsuccessful");
+    toast.error(error?.response?.data?.message || 'Submitted unsuccessful');
   }
 };
 export const GetTripInfoByTripId = async (
@@ -223,7 +223,7 @@ export const GetTripInfoByTripId = async (
 export const editTripInformation = async (payload, setLoading) => {
   setLoading(true);
   try {
-    const res = await Axios.put("/wms/Delivery/EditTripInfoByTrip", payload);
+    const res = await Axios.put('/wms/Delivery/EditTripInfoByTrip', payload);
     toast.success(res?.data?.message);
     setLoading(false);
   } catch (error) {
@@ -272,7 +272,7 @@ export const UpdateZone = async (payload, setLoading, cb) => {
       `/oms/SalesInformation/TransportRateCorrectioninJV`,
       payload
     );
-    toast.success(res?.data?.message || "Updated Successfully!");
+    toast.success(res?.data?.message || 'Updated Successfully!');
     cb && cb(res?.data);
     setLoading(false);
   } catch (error) {

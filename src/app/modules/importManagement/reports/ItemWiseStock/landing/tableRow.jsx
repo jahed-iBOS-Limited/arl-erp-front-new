@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { Formik } from "formik";
-import { Form } from "react-bootstrap";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import ICustomTable from "../../../../_helper/_customTable";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { Formik } from 'formik';
+import { Form } from 'react-bootstrap';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import ICustomTable from '../../../../_helper/_customTable';
 const TableRow = () => {
   const [loader] = useState(false);
   const { selectedBusinessUnit } = useSelector((state) => {
@@ -13,8 +13,8 @@ const TableRow = () => {
   }, shallowEqual);
 
   const initData = {
-    unit: "",
-    item: "",
+    unit: '',
+    item: '',
   };
 
   return (
@@ -41,7 +41,7 @@ const TableRow = () => {
                       options={[]}
                       value={values?.unit}
                       onChange={(valueOption) => {
-                        setFieldValue("unit", valueOption);
+                        setFieldValue('unit', valueOption);
                       }}
                       placeholder="Unit"
                       errors={errors}
@@ -54,7 +54,7 @@ const TableRow = () => {
                       options={[]}
                       value={values?.item}
                       onChange={(valueOption) => {
-                        setFieldValue("item", valueOption);
+                        setFieldValue('item', valueOption);
                       }}
                       placeholder="Item"
                       errors={errors}
@@ -97,12 +97,12 @@ const TableRow = () => {
               </div>
               <ICustomTable
                 ths={[
-                  "SL",
-                  "LC No",
-                  "LC Date",
-                  "Last BL",
-                  "BL Date",
-                  "Last MRR Date",
+                  'SL',
+                  'LC No',
+                  'LC Date',
+                  'Last BL',
+                  'BL Date',
+                  'Last MRR Date',
                 ]}
               >
                 <tr>
@@ -115,17 +115,17 @@ const TableRow = () => {
                 </tr>
               </ICustomTable>
               <div>
-                {" "}
-                <b>Budget Vs Consumption</b>{" "}
+                {' '}
+                <b>Budget Vs Consumption</b>{' '}
               </div>
               <ICustomTable
                 ths={[
-                  "Aug-20",
-                  "Sep-20",
-                  "Oct-20",
-                  "Nov-20",
-                  "Dec-20",
-                  "Jan-21",
+                  'Aug-20',
+                  'Sep-20',
+                  'Oct-20',
+                  'Nov-20',
+                  'Dec-20',
+                  'Jan-21',
                 ]}
               >
                 <tr>

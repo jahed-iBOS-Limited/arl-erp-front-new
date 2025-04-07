@@ -30,10 +30,9 @@ export default function CashJournaFormForCollection({
 
   const dispatch = useDispatch();
 
-
   let netAmount = useCallback(
     rowDto?.reduce((total, value) => total + +value?.amount, 0),
-    [rowDto],
+    [rowDto]
   );
 
   //save event Modal (code see)
@@ -111,7 +110,7 @@ export default function CashJournaFormForCollection({
           };
           IConfirmModal(obj);
         },
-        true,
+        true
       );
     };
 
@@ -254,23 +253,23 @@ export default function CashJournaFormForCollection({
         costRevenueName: isRevenue
           ? values?.revenueCenter?.label
           : isCostCenter
-          ? values?.costCenter?.label
-          : '',
+            ? values?.costCenter?.label
+            : '',
         costRevenueId: isRevenue
           ? values?.revenueCenter?.value
           : isCostCenter
-          ? values?.costCenter?.value
-          : 0,
+            ? values?.costCenter?.value
+            : 0,
         elementName: isRevenue
           ? values?.revenueElement?.label
           : isCostCenter
-          ? values?.costElement?.label
-          : '',
+            ? values?.costElement?.label
+            : '',
         elementId: isRevenue
           ? values?.revenueElement?.value
           : isCostCenter
-          ? values?.costElement?.value
-          : 0,
+            ? values?.costElement?.value
+            : 0,
         attachment: attachmentFile || '',
       },
       objRowList:
@@ -288,13 +287,13 @@ export default function CashJournaFormForCollection({
         },
         setDisabled,
         IConfirmModal,
-      }),
+      })
     );
   };
 
   const setter = (values) => {
     const count = rowDto?.filter(
-      (item) => item?.transaction?.value === values?.transaction?.value,
+      (item) => item?.transaction?.value === values?.transaction?.value
     ).length;
     if (count === 0) {
       setRowDto([...rowDto, values]);
@@ -313,8 +312,8 @@ export default function CashJournaFormForCollection({
         headerData?.accountingJournalTypeId === 1
           ? 'Cash Receipts Journal'
           : headerData?.accountingJournalTypeId === 2
-          ? 'Cash Payments Journal'
-          : 'Cash Transfer Journal'
+            ? 'Cash Payments Journal'
+            : 'Cash Transfer Journal'
       }`}
       getProps={setObjprops}
       isDisabled={isDisabled}

@@ -1,8 +1,7 @@
-import CommonLoadAndDischargePortDocumentCreate from "../commonComponents/create";
+import CommonLoadAndDischargePortDocumentCreate from '../commonComponents/create';
 
 export default function CreateDischargePort() {
-
   return (
-    <CommonLoadAndDischargePortDocumentCreate fetureName={"Discharge Port"} />
+    <CommonLoadAndDischargePortDocumentCreate fetureName={'Discharge Port'} />
   );
 }

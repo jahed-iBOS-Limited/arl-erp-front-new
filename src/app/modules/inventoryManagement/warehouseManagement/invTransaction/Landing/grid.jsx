@@ -1,23 +1,23 @@
-import React, { useState } from "react";
-import ICustomTable from "../../../../_helper/_customTable";
-import { withRouter } from "react-router-dom";
-import { useSelector, shallowEqual } from "react-redux";
-import IViewModal from "../../../../_helper/_viewModal";
-import ViewForm from "../attachmentView/viewForm";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { InventoryTransactionReportViewTableRow } from "../report/tableRow";
+import React, { useState } from 'react';
+import ICustomTable from '../../../../_helper/_customTable';
+import { withRouter } from 'react-router-dom';
+import { useSelector, shallowEqual } from 'react-redux';
+import IViewModal from '../../../../_helper/_viewModal';
+import ViewForm from '../attachmentView/viewForm';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { InventoryTransactionReportViewTableRow } from '../report/tableRow';
 // import IClose from "../../../../_helper/_helperIcons/_close";
-import { inventoryTransactionCancelAction } from "../helper";
-import IConfirmModal from "../../../../_helper/_confirmModal";
+import { inventoryTransactionCancelAction } from '../helper';
+import IConfirmModal from '../../../../_helper/_confirmModal';
 
 const GridData = ({ history, values, viewGridData, setLoading }) => {
   let ths = [
-    "SL",
-    "Transaction Code",
-    "Reference Type",
-    "Reference No.",
-    "Transaction Type",
-    "Action",
+    'SL',
+    'Transaction Code',
+    'Reference Type',
+    'Reference No.',
+    'Transaction Type',
+    'Action',
   ];
 
   // gridData ddl
@@ -38,12 +38,11 @@ const GridData = ({ history, values, viewGridData, setLoading }) => {
   const [poData, setPOData] = useState(false);
 
   const [isShowModalTwo, setIsShowModalTwo] = useState(false);
-  const [currentRowData, setCurrentRowData] = useState("");
-
+  const [currentRowData, setCurrentRowData] = useState('');
 
   const cancelPopUp = (td) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Code : ${td?.inventoryTransactionCode}`,
       yesAlertFunc: () => {
         inventoryTransactionCancelAction(
@@ -65,13 +64,13 @@ const GridData = ({ history, values, viewGridData, setLoading }) => {
       <ICustomTable ths={ths} className="table-font-size-sm">
         {gridData?.data?.map((td, index) => {
           return (
-            <tr key={index+1}>
-              <td> {index+1} </td>
+            <tr key={index + 1}>
+              <td> {index + 1} </td>
               <td> {td.inventoryTransactionCode} </td>
               <td> {td.referenceTypeName} </td>
               <td> {td.referenceCode} </td>
               <td> {td.transactionTypeName} </td>
-              <td style={{ width: "100px" }}>
+              <td style={{ width: '100px' }}>
                 <div className="d-flex justify-content-around">
                   <button
                     onClick={() => {
@@ -79,17 +78,17 @@ const GridData = ({ history, values, viewGridData, setLoading }) => {
                       setIsShowModalTwo(true);
                     }}
                     style={{
-                      border: "none",
-                      background: "none",
-                      cursor: "pointer",
+                      border: 'none',
+                      background: 'none',
+                      cursor: 'pointer',
                       padding: 0,
                     }}
                   >
                     <i
                       class={`fas fa-eye ${
                         tableInvIndex === td?.inventoryTransactionId
-                          ? "text-primary"
-                          : ""
+                          ? 'text-primary'
+                          : ''
                       }`}
                     ></i>
                   </button>
@@ -100,16 +99,16 @@ const GridData = ({ history, values, viewGridData, setLoading }) => {
                         setPOData(td);
                       }}
                       style={{
-                        border: "none",
-                        background: "none",
-                        cursor: "pointer",
+                        border: 'none',
+                        background: 'none',
+                        cursor: 'pointer',
                         padding: 0,
                       }}
                     >
                       <OverlayTrigger
                         overlay={
                           <Tooltip id="cs-icon">
-                            {"PO Receive Attachment"}
+                            {'PO Receive Attachment'}
                           </Tooltip>
                         }
                       >

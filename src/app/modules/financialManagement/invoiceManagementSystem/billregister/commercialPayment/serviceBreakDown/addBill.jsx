@@ -1,4 +1,3 @@
-
 import { Field, Form, Formik } from 'formik';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
 import React, { useState } from 'react';
@@ -144,7 +143,7 @@ export default function AddBill({
       payload,
       cb,
       null,
-      values?.numAdvanceAdjust,
+      values?.numAdvanceAdjust
     );
     // createCommercialBreakdownForBill(payload, setIsLoading);
     // if (bill) {
@@ -174,7 +173,7 @@ export default function AddBill({
           numAdvanceAdjust: advanceBill[0]?.remainAdvance || 0,
         }}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({
           handleSubmit,
@@ -204,13 +203,13 @@ export default function AddBill({
                           referenceId,
                           supplierId,
                           setAdvanceBill,
-                          setBill,
+                          setBill
                         );
                       });
                     }}
                     className="btn btn-primary"
                     type="button"
-                  // disabled={bill?.billAndAdvanceId}
+                    // disabled={bill?.billAndAdvanceId}
                   >
                     Save
                   </button>
@@ -228,7 +227,7 @@ export default function AddBill({
                         name="billNo"
                         placeholder="Bill No"
                         type="text"
-                      // disabled={bill?.billAndAdvanceId}
+                        // disabled={bill?.billAndAdvanceId}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -243,7 +242,7 @@ export default function AddBill({
                         name="dteTransactionDate"
                         placeholder="Bill Date"
                         type="date"
-                      // disabled={bill?.billAndAdvanceId}
+                        // disabled={bill?.billAndAdvanceId}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -260,7 +259,7 @@ export default function AddBill({
                           }
                         }}
                         type="number"
-                      // disabled={bill?.billAndAdvanceId}
+                        // disabled={bill?.billAndAdvanceId}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -279,7 +278,7 @@ export default function AddBill({
                             inputValue >= 1 && inputValue <= +values?.numAmount;
                           setFieldValue(
                             'vatAmount',
-                            isValidInput ? inputValue : '',
+                            isValidInput ? inputValue : ''
                           );
                         }}
                       />
@@ -309,7 +308,7 @@ export default function AddBill({
                         name="description"
                         placeholder="Description"
                         type="text"
-                      // disabled={bill?.billAndAdvanceId}
+                        // disabled={bill?.billAndAdvanceId}
                       />
                     </div>
                     <div className="col-auto">
@@ -328,7 +327,7 @@ export default function AddBill({
                           style={{ marginTop: '20px' }}
                           onClick={() => {
                             dispatch(
-                              getDownlloadFileView_Action(uploadImage[0]?.id),
+                              getDownlloadFileView_Action(uploadImage[0]?.id)
                             );
                           }}
                         >
@@ -349,7 +348,7 @@ export default function AddBill({
                       }}
                       onDelete={(deleteFileObj) => {
                         const newData = fileObjects.filter(
-                          (item) => item.file.name !== deleteFileObj.file.name,
+                          (item) => item.file.name !== deleteFileObj.file.name
                         );
                         setFileObjects(newData);
                       }}
@@ -431,8 +430,8 @@ export default function AddBill({
                                         clickHandler={() => {
                                           dispatch(
                                             getDownlloadFileView_Action(
-                                              item?.attachment,
-                                            ),
+                                              item?.attachment
+                                            )
                                           );
                                         }}
                                       />

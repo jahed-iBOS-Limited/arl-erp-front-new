@@ -1,20 +1,20 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IForm from "../../../../_helper/_form";
-import FormikError from "../../../../_helper/_formikError";
-import IView from "../../../../_helper/_helperIcons/_view";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import NewSelect from "../../../../_helper/_select";
-import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import { getShippointDDL } from "../../../../financialManagement/invoiceManagementSystem/billregister/helper";
-import useAxiosGet from "../../../../procurement/purchase-management/purchaseOrder/customHooks/useAxiosGet";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IForm from '../../../../_helper/_form';
+import FormikError from '../../../../_helper/_formikError';
+import IView from '../../../../_helper/_helperIcons/_view';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import NewSelect from '../../../../_helper/_select';
+import AttachmentUploaderNew from '../../../../_helper/attachmentUploaderNew';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import { getShippointDDL } from '../../../../financialManagement/invoiceManagementSystem/billregister/helper';
+import useAxiosGet from '../../../../procurement/purchase-management/purchaseOrder/customHooks/useAxiosGet';
 import {
   getSupplierDDL,
   getTrackTrallerLoadingBillData,
@@ -22,9 +22,9 @@ import {
   totalApproveAmount,
   trackTrallerLBInitData,
   trackTrallerLBIValidationSchema,
-} from "../helper";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
+} from '../helper';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
 
 const TrackTrallerLBCreatePage = () => {
   // redux api
@@ -50,11 +50,8 @@ const TrackTrallerLBCreatePage = () => {
     setTrackTrallerLBData,
   ] = useAxiosGet();
 
-  const [
-    ,
-    saveTrackTrallerLBData,
-    saveTrackTrallerLBDataLoading,
-  ] = useAxiosPost();
+  const [, saveTrackTrallerLBData, saveTrackTrallerLBDataLoading] =
+    useAxiosPost();
 
   // use effect
   useEffect(() => {
@@ -76,7 +73,7 @@ const TrackTrallerLBCreatePage = () => {
         selectedValue={values.supplier}
         handleChange={(valueOption) => {
           setTrackTrallerLBData([]);
-          setFieldValue("supplier", valueOption);
+          setFieldValue('supplier', valueOption);
         }}
         loadOptions={(value) =>
           getSupplierDDL({
@@ -175,7 +172,7 @@ const TrackTrallerLBCreatePage = () => {
                         value={values?.shippoint}
                         name="shippoint"
                         onChange={(valueOption) => {
-                          setFieldValue("shippoint", valueOption);
+                          setFieldValue('shippoint', valueOption);
                         }}
                         placeholder="Ship Point"
                         errors={errors}
@@ -278,8 +275,8 @@ const TrackTrallerLBCreatePage = () => {
                   <div
                     className="d-flex justify-content-end align-items-center"
                     style={{
-                      fontSize: "15px",
-                      fontWeight: "bold",
+                      fontSize: '15px',
+                      fontWeight: 'bold',
                     }}
                   >
                     <span>Total : </span>
@@ -289,7 +286,7 @@ const TrackTrallerLBCreatePage = () => {
                     <table className="table table-striped table-bordered global-table mt-0 table-font-size-sm">
                       <thead className="bg-secondary">
                         <tr>
-                          <th style={{ width: "30px" }}>
+                          <th style={{ width: '30px' }}>
                             <input
                               type="checkbox"
                               checked={
@@ -311,7 +308,7 @@ const TrackTrallerLBCreatePage = () => {
                               }}
                             />
                           </th>
-                          <th style={{ width: "40px" }}>SL</th>
+                          <th style={{ width: '40px' }}>SL</th>
                           <th>Complete Date</th>
                           <th>ShipmentCode</th>
                           <th>Transaction Traller (Qty)</th>
@@ -331,7 +328,7 @@ const TrackTrallerLBCreatePage = () => {
                                 checked={item?.checked}
                                 onChange={(e) => {
                                   const data = [...trackTrallerLBData];
-                                  data[index]["checked"] = e.target.checked;
+                                  data[index]['checked'] = e.target.checked;
                                   setTrackTrallerLBData(data);
                                 }}
                               />
@@ -364,14 +361,14 @@ const TrackTrallerLBCreatePage = () => {
                             <td className="text-right">
                               {_formatMoney(item?.decGrandTotalBill || 0)}
                             </td>
-                            <td style={{ width: "100px" }}>
+                            <td style={{ width: '100px' }}>
                               <InputField
                                 value={item?.approvedAmount}
                                 name="approvedAmount"
                                 placeholder="Bill Amount"
                                 onChange={(e) => {
                                   const data = [...trackTrallerLBData];
-                                  data[index]["approvedAmount"] =
+                                  data[index]['approvedAmount'] =
                                     e?.target?.value;
                                   setTrackTrallerLBData(data);
                                 }}
@@ -414,13 +411,13 @@ const TrackTrallerLBCreatePage = () => {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(trackTrallerLBInitData)}
               ></button>

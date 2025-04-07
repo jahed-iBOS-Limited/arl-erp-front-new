@@ -12,7 +12,7 @@ import AirOperationPages from './airOperation/airOperationPages';
 export function CargoManagementPages() {
   const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
 
   if (selectedBusinessUnit?.value !== 225) {

@@ -1,9 +1,8 @@
-
-import React from "react";
-import NewSelect from "../../../../_helper/_select";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import { PortAndMotherVessel } from "../../../common/components";
-import IButton from "../../../../_helper/iButton";
+import React from 'react';
+import NewSelect from '../../../../_helper/_select';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import { PortAndMotherVessel } from '../../../common/components';
+import IButton from '../../../../_helper/iButton';
 
 const DumpToTruckDeliveryLandingForm = ({ obj }) => {
   const {
@@ -26,11 +25,11 @@ const DumpToTruckDeliveryLandingForm = ({ obj }) => {
             <div className="col-lg-3">
               <NewSelect
                 name="shipPoint"
-                options={[{ value: 0, label: "All" }, ...shipPointDDL]}
+                options={[{ value: 0, label: 'All' }, ...shipPointDDL]}
                 value={values?.shipPoint}
                 label="ShipPoint"
                 onChange={(e) => {
-                  setFieldValue("shipPoint", e);
+                  setFieldValue('shipPoint', e);
                 }}
                 placeholder="ShipPoint"
               />
@@ -41,7 +40,7 @@ const DumpToTruckDeliveryLandingForm = ({ obj }) => {
                 setFieldValue,
                 // allElement: false,
                 onChange: (fieldName, allValues) => {
-                  if (fieldName === "motherVessel") {
+                  if (fieldName === 'motherVessel') {
                     getLighterDDL(
                       `/wms/FertilizerOperation/GetLighterVesselDDL?MotherVesselId=${allValues?.motherVessel?.value}`
                     );
@@ -56,7 +55,7 @@ const DumpToTruckDeliveryLandingForm = ({ obj }) => {
                 value={values?.lighterVessel}
                 label="Lighter Vessel"
                 onChange={(e) => {
-                  setFieldValue("lighterVessel", e);
+                  setFieldValue('lighterVessel', e);
                 }}
                 placeholder="Lighter"
                 isDisabled={!values?.motherVessel}
@@ -70,12 +69,12 @@ const DumpToTruckDeliveryLandingForm = ({ obj }) => {
                 label="Status"
                 placeholder="Status"
                 options={[
-                  { value: 0, label: "All" },
-                  { value: 1, label: "Pending" },
-                  { value: 2, label: "Approved" },
+                  { value: 0, label: 'All' },
+                  { value: 1, label: 'Pending' },
+                  { value: 2, label: 'Approved' },
                 ]}
                 onChange={(e) => {
-                  setFieldValue("status", e);
+                  setFieldValue('status', e);
                 }}
               />
             </div>

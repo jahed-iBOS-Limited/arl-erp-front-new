@@ -91,8 +91,6 @@ export function TableRow() {
         });
       }
     });
-
-
   }, []);
 
   const pdfExport = (fileName) => {
@@ -121,7 +119,6 @@ export function TableRow() {
   const [incomeStatementRow, setIncomeStatementRow] = useState(null);
 
   const {
-
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state.authData, shallowEqual);
 
@@ -214,7 +211,7 @@ export function TableRow() {
                           // );
                           if (valueOption?.value) {
                             getSubDivisionDDL(
-                              `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=${accountId}&BusinessUnitGroup=${valueOption?.label}`,
+                              `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=${accountId}&BusinessUnitGroup=${valueOption?.label}`
                             );
                           }
                         }}
@@ -247,7 +244,7 @@ export function TableRow() {
                               accountId,
                               values?.enterpriseDivision?.value,
                               setBusinessUnitDDL,
-                              valueOption,
+                              valueOption
                             );
                           }
                         }}
@@ -281,7 +278,7 @@ export function TableRow() {
                                 setFieldValue('businessUnit', valueOption);
                                 setFieldValue(
                                   'profitCenter',
-                                  profitCenterDDLData?.[0] || '',
+                                  profitCenterDDLData?.[0] || ''
                                 );
                                 // dispatch(
                                 //   SetReportIncomestatementAction({
@@ -291,7 +288,7 @@ export function TableRow() {
                                 //       profitCenterDDLData?.[0] || "",
                                 //   })
                                 // );
-                              },
+                              }
                             );
                           }
                         }}
@@ -431,7 +428,7 @@ export function TableRow() {
                           dispatch(
                             SetReportIncomestatementAction({
                               ...values,
-                            }),
+                            })
                           );
                           getIncomeStatement_api(
                             values?.fromDate,
@@ -447,7 +444,7 @@ export function TableRow() {
                             values?.enterpriseDivision?.value,
                             values?.conversionRate,
                             values?.subDivision,
-                            values?.reportType?.value,
+                            values?.reportType?.value
                           );
                         }}
                         disabled={
@@ -603,7 +600,7 @@ export function TableRow() {
                                           {' '}
                                           {data?.monCurrentPeriodAmount
                                             ? numberWithCommas(
-                                                data?.monCurrentPeriodAmount.toFixed(),
+                                                data?.monCurrentPeriodAmount.toFixed()
                                               )
                                             : 0}
                                         </span>
@@ -611,7 +608,7 @@ export function TableRow() {
                                       <td className="text-right">
                                         {data?.monLastPeriodAmount
                                           ? numberWithCommas(
-                                              data?.monLastPeriodAmount.toFixed(),
+                                              data?.monLastPeriodAmount.toFixed()
                                             )
                                           : 0}
                                       </td>
@@ -621,7 +618,7 @@ export function TableRow() {
                                           (
                                             data?.monCurrentPeriodAmount -
                                             data?.monLastPeriodAmount
-                                          ).toFixed(),
+                                          ).toFixed()
                                         )}
                                       </td>
                                     </tr>
@@ -632,7 +629,7 @@ export function TableRow() {
                                     className="text-center d-none"
                                     colSpan={4}
                                   >{`System Generated Report - ${moment().format(
-                                    'LLLL',
+                                    'LLLL'
                                   )}`}</td>
                                 </tr>
                               </tbody>

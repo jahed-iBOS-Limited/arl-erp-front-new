@@ -1,16 +1,15 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 export const AwaitingAuditModal = ({
   awaitingAuditState: { data },
   filterObj,
   setAwaitingAuditState,
 }) => {
-
   const [landingData, getApproveData] = useAxiosGet();
   const [, saveData] = useAxiosGet();
 
@@ -62,18 +61,18 @@ export const AwaitingAuditModal = ({
                 <div className="details-title text-center mt-4 mb-5">
                   <h4>Awaiting Audit Details</h4>
                 </div>
-                <div style={{ marginLeft: "50px" }} className="row">
+                <div style={{ marginLeft: '50px' }} className="row">
                   <div className="col-md-6">
                     <p>
-                      <strong>Applicant's Name :</strong>{" "}
+                      <strong>Applicant's Name :</strong>{' '}
                       {data?.strApplicantName}
                     </p>
                     <p>
-                      <strong>Name of Beneficiary :</strong>{" "}
+                      <strong>Name of Beneficiary :</strong>{' '}
                       {data?.strPatientName}
                     </p>
                     <p>
-                      <strong>Account Holder's Name :</strong>{" "}
+                      <strong>Account Holder's Name :</strong>{' '}
                       {data?.strAccountHolderName}
                     </p>
                     <p>
@@ -90,7 +89,7 @@ export const AwaitingAuditModal = ({
                       {_dateFormatter(data?.dteEffectiveDate)}
                     </p>
                     <p>
-                      <strong>Expiry Date : </strong>{" "}
+                      <strong>Expiry Date : </strong>{' '}
                       {_dateFormatter(data?.dteEndDate)}
                     </p>
                     <p>
@@ -105,22 +104,22 @@ export const AwaitingAuditModal = ({
                       <strong>Amount :</strong> {data?.monAmount}
                     </p>
                     <p>
-                      <strong>Mode of Payment :</strong>{" "}
+                      <strong>Mode of Payment :</strong>{' '}
                       {data?.strModeOfPayment}
                     </p>
                     <p>
                       <strong>Donation Name :</strong> {data?.strDonationName}
                     </p>
                     <p>
-                      <strong>Cause of Donation/Zakat :</strong>{" "}
+                      <strong>Cause of Donation/Zakat :</strong>{' '}
                       {data?.strDonationType}
                     </p>
                     <p>
-                      <strong>Donation Purpose :</strong>{" "}
+                      <strong>Donation Purpose :</strong>{' '}
                       {data?.strDonationPurpose}
                     </p>
                     <p>
-                      <strong>Hospitals/Institutes :</strong>{" "}
+                      <strong>Hospitals/Institutes :</strong>{' '}
                       {data?.strOrganizationName}
                     </p>
                     <p>
@@ -128,7 +127,7 @@ export const AwaitingAuditModal = ({
                     </p>
 
                     <p>
-                      <strong>Account Holder :</strong>{" "}
+                      <strong>Account Holder :</strong>{' '}
                       {data?.strAccountHolderName}
                     </p>
                     <p>
@@ -144,8 +143,8 @@ export const AwaitingAuditModal = ({
                         );
                       }}
                     >
-                      <strong>Attachment :</strong>{" "}
-                      <span style={{ color: "#3699FF", cursor: "pointer" }}>
+                      <strong>Attachment :</strong>{' '}
+                      <span style={{ color: '#3699FF', cursor: 'pointer' }}>
                         {data?.strAttachmentUrl}
                       </span>
                     </p>

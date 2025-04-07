@@ -1,4 +1,3 @@
-
 import { DropzoneDialogBase } from 'react-mui-dropzone';
 import React, { useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
@@ -44,7 +43,7 @@ const DamageEntryLandingTable = ({ obj }) => {
               className="btn btn-primary mr-3"
               onClick={() => {
                 const selectedData = gridData?.data?.filter(
-                  (item) => item?.isSelected,
+                  (item) => item?.isSelected
                 );
                 const payload = selectedData?.map((item) => ({
                   businessUnitId: selectedBusinessUnit?.value,
@@ -58,7 +57,7 @@ const DamageEntryLandingTable = ({ obj }) => {
                   payload,
                   () => {
                     setGridData(null);
-                  },
+                  }
                 );
               }}
               type="button"
@@ -69,7 +68,7 @@ const DamageEntryLandingTable = ({ obj }) => {
               className="btn btn-primary"
               onClick={() => {
                 const selectedData = gridData?.data?.filter(
-                  (item) => item?.isSelected,
+                  (item) => item?.isSelected
                 );
                 const payload = selectedData?.map((item) => ({
                   businessUnitId: selectedBusinessUnit?.value,
@@ -83,7 +82,7 @@ const DamageEntryLandingTable = ({ obj }) => {
                   payload,
                   () => {
                     setGridData(null);
-                  },
+                  }
                 );
               }}
               type="button"
@@ -162,19 +161,19 @@ const DamageEntryLandingTable = ({ obj }) => {
                               dataChangeHandler(
                                 index,
                                 'totalReturnQty',
-                                +e?.target?.value,
+                                +e?.target?.value
                               );
                             }}
                             onBlur={(e) => {
                               if (+e?.target?.value > item?.numDeliveryQnt) {
                                 toast.warn(
-                                  'Damage qty can not be greater than delivery qty',
+                                  'Damage qty can not be greater than delivery qty'
                                 );
                               }
 
                               if (+e?.target?.value < 0.2) {
                                 toast.warn(
-                                  'Return qty can not be less than 0.2',
+                                  'Return qty can not be less than 0.2'
                                 );
                               }
                             }}
@@ -185,7 +184,7 @@ const DamageEntryLandingTable = ({ obj }) => {
                   <td className="text-right">
                     {_fixedPoint(
                       item?.returnAmount || item?.totalReturnAmount,
-                      true,
+                      true
                     )}
                   </td>
                   <td> {_dateFormatter(item?.returnDateTime)}</td>
@@ -193,10 +192,10 @@ const DamageEntryLandingTable = ({ obj }) => {
                     {item?.isApprovedBySupervisor && item?.isApprovedByAccount
                       ? 'Approved by Supervisor and Account'
                       : item?.isApprovedBySupervisor
-                      ? 'Approved by Supervisor'
-                      : !item?.isActive
-                      ? 'Canceled'
-                      : 'Pending'}
+                        ? 'Approved by Supervisor'
+                        : !item?.isActive
+                          ? 'Canceled'
+                          : 'Pending'}
                   </td>
                   <td>
                     {/* <div className="d-flex justify-content-around">
@@ -252,7 +251,7 @@ const DamageEntryLandingTable = ({ obj }) => {
                           onClick={(e) => {
                             e.stopPropagation();
                             dispatch(
-                              getDownlloadFileView_Action(item?.attatchment),
+                              getDownlloadFileView_Action(item?.attatchment)
                             );
                           }}
                         >
@@ -289,16 +288,16 @@ const DamageEntryLandingTable = ({ obj }) => {
                 <td>
                   {_fixedPoint(
                     gridData?.data?.reduce((a, b) => a + +b?.totalReturnQty, 0),
-                    true,
+                    true
                   )}
                 </td>
                 <td>
                   {_fixedPoint(
                     gridData?.data?.reduce(
                       (a, b) => a + b?.totalReturnAmount,
-                      0,
+                      0
                     ),
-                    true,
+                    true
                   )}
                 </td>
                 <td colSpan={3}></td>
@@ -321,7 +320,7 @@ const DamageEntryLandingTable = ({ obj }) => {
           }}
           onDelete={(deleteFileObj) => {
             const newData = fileObjects.filter(
-              (item) => item.file.name !== deleteFileObj.file.name,
+              (item) => item.file.name !== deleteFileObj.file.name
             );
             setFileObjects(newData);
           }}

@@ -1,18 +1,18 @@
-import React from "react";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { shallowEqual, useSelector } from "react-redux";
-import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
+import React from 'react';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { shallowEqual, useSelector } from 'react-redux';
+import { dateFormatWithMonthName } from '../../../../_helper/_dateFormate';
 
 const ths = [
-  "Sl",
-  "Customer Name",
-  "Delivery Quantity",
-  "Total Amount",
-  "Trs. Zone Amount",
-  "Handling Cost",
-  "Loading Labour Cost",
-  "Subsidiary Amount",
+  'Sl',
+  'Customer Name',
+  'Delivery Quantity',
+  'Total Amount',
+  'Trs. Zone Amount',
+  'Handling Cost',
+  'Loading Labour Cost',
+  'Subsidiary Amount',
 ];
 
 function TableGirdEight({ rowDto, excelRef, values }) {
@@ -26,7 +26,7 @@ function TableGirdEight({ rowDto, excelRef, values }) {
           ref={excelRef}
           id="test-table-xls-button-att-reports"
           className="d-none"
-          table={"table-to-xlsx"}
+          table={'table-to-xlsx'}
           filename="Supplier Base Delivery (Customer Challan - Top Sheet)"
           sheet="Supplier Base Delivery (Customer Challan - Top Sheet)"
           buttonText="Export Excel"
@@ -34,10 +34,10 @@ function TableGirdEight({ rowDto, excelRef, values }) {
       </div>
       <div className="react-bootstrap-table table-responsive">
         <table
-          className={"table table-striped table-bordered global-table "}
+          className={'table table-striped table-bordered global-table '}
           id="table-to-xlsx"
         >
-          <div style={{ textAlign: "center" }} className="d-none">
+          <div style={{ textAlign: 'center' }} className="d-none">
             <h3>
               <b> {businessUnit} </b>
             </h3>
@@ -51,12 +51,12 @@ function TableGirdEight({ rowDto, excelRef, values }) {
               <h5>
                 From Date:
                 {dateFormatWithMonthName(values?.fromDate)}____
-                <span style={{ marginLeft: "20px" }}>
+                <span style={{ marginLeft: '20px' }}>
                   To Date: {dateFormatWithMonthName(values?.toDate)}
                 </span>
               </h5>
             </div>
-            <div style={{ color: "white" }}>_</div>
+            <div style={{ color: 'white' }}>_</div>
           </div>
           <thead>
             <tr>
@@ -92,7 +92,7 @@ function TableGirdEight({ rowDto, excelRef, values }) {
                 </tr>
               );
             })}
-            <tr style={{ fontWeight: "bold" }}>
+            <tr style={{ fontWeight: 'bold' }}>
               <td colSpan={2} className="text-right">
                 <b>Grand Total </b>
               </td>

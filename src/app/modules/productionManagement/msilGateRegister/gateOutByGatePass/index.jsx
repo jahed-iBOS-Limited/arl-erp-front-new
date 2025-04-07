@@ -1,22 +1,22 @@
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IView from "../../../_helper/_helperIcons/_view";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import GateOutDelivary from "./gateOutByGatePass";
-import ChallanViewModal from "./viewModal";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IView from '../../../_helper/_helperIcons/_view';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import GateOutDelivary from './gateOutByGatePass';
+import ChallanViewModal from './viewModal';
 
 const initData = {
   date: _todayDate(),
@@ -45,7 +45,7 @@ function GateOutByGatePassLanding() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Gate Out By Gate Pass"}>
+              <CardHeader title={'Gate Out By Gate Pass'}>
                 <CardHeaderToolbar>
                   {/* <button
                     onClick={() => {
@@ -71,7 +71,7 @@ function GateOutByGatePassLanding() {
                         name="viewType"
                         checked={viewType === 1}
                         className="mr-1 pointer"
-                        style={{ position: "relative", top: "2px" }}
+                        style={{ position: 'relative', top: '2px' }}
                         onChange={(valueOption) => {
                           setViewType(1);
                         }}
@@ -84,7 +84,7 @@ function GateOutByGatePassLanding() {
                         name="viewType"
                         checked={viewType === 2}
                         className="mr-1 pointer"
-                        style={{ position: "relative", top: "2px" }}
+                        style={{ position: 'relative', top: '2px' }}
                         onChange={(e) => {
                           setViewType(2);
                         }}
@@ -104,14 +104,14 @@ function GateOutByGatePassLanding() {
                             name="date"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("date", e.target.value);
+                              setFieldValue('date', e.target.value);
                               setDate(e.target.value);
                             }}
                           />
                         </div>
                         <div>
                           <button
-                            style={{ marginTop: "18px" }}
+                            style={{ marginTop: '18px' }}
                             className="btn btn-primary ml-2"
                             disabled={!values.date}
                             onClick={() => {
@@ -131,7 +131,7 @@ function GateOutByGatePassLanding() {
                           <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                             <thead>
                               <tr>
-                                <th style={{ width: "30px" }}>SL</th>
+                                <th style={{ width: '30px' }}>SL</th>
                                 <th>Date</th>
                                 <th>Gate Pass Code</th>
                                 <th>From Address</th>

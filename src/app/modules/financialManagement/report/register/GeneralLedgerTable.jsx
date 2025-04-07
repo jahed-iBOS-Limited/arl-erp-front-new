@@ -1,29 +1,29 @@
-import React, { useState } from "react";
-import ICustomTable from "../../../_helper/_customTable";
+import React, { useState } from 'react';
+import ICustomTable from '../../../_helper/_customTable';
 // import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
-import IViewModal from "../../../_helper/_viewModal";
-import SubScheduleModal from "./subScheduleModal";
-import moment from "moment";
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import InfoCircle from '../../../_helper/_helperIcons/_infoCircle';
+import IViewModal from '../../../_helper/_viewModal';
+import SubScheduleModal from './subScheduleModal';
+import moment from 'moment';
 
-const GeneralLedgerTable = ({ rowDto,landingValues }) => {
+const GeneralLedgerTable = ({ rowDto, landingValues }) => {
   const ths = [
-    "Sl",
-    "Transaction Name",
-    "Code",
-    "Openning",
-    "Debit",
-    "Credit",
-    "Balance",
-    "Action",
+    'Sl',
+    'Transaction Name',
+    'Code',
+    'Openning',
+    'Debit',
+    'Credit',
+    'Balance',
+    'Action',
   ];
   let totalBalance = 0;
-  const [tableItem, setTableItem] = useState("");
+  const [tableItem, setTableItem] = useState('');
   const [isShowModal, setIsShowModal] = useState(false);
   return (
     <div>
-      <ICustomTable ths={ths}  id="table-to-xlsx">
+      <ICustomTable ths={ths} id="table-to-xlsx">
         {rowDto?.map((item, index) => {
           totalBalance += +item?.numAmount;
           return (
@@ -52,25 +52,42 @@ const GeneralLedgerTable = ({ rowDto,landingValues }) => {
                   classes="text-primary"
                 />
               </td>
-        
             </tr>
           );
         })}
-       <tr>
+        <tr>
           <td colSpan="3" className="text-right">
             <b>Total</b>
           </td>
           <td className="text-right">
-            <b>{_formatMoney(rowDto?.reduce((acc, item) => acc + item?.numOppening, 0).toFixed(2))}</b>
+            <b>
+              {_formatMoney(
+                rowDto
+                  ?.reduce((acc, item) => acc + item?.numOppening, 0)
+                  .toFixed(2)
+              )}
+            </b>
           </td>
           <td className="text-right">
-            <b>{_formatMoney(rowDto?.reduce((acc, item) => acc + item?.numDebit, 0).toFixed(2))}</b>
+            <b>
+              {_formatMoney(
+                rowDto
+                  ?.reduce((acc, item) => acc + item?.numDebit, 0)
+                  .toFixed(2)
+              )}
+            </b>
           </td>
           <td className="text-right">
-            <b>{_formatMoney(rowDto?.reduce((acc, item) => acc + item?.numCredit, 0).toFixed(2))}</b>
+            <b>
+              {_formatMoney(
+                rowDto
+                  ?.reduce((acc, item) => acc + item?.numCredit, 0)
+                  .toFixed(2)
+              )}
+            </b>
           </td>
           <td className="text-right">
-          <b>{_formatMoney(totalBalance)}</b>
+            <b>{_formatMoney(totalBalance)}</b>
           </td>
           <td></td>
         </tr>
@@ -78,7 +95,7 @@ const GeneralLedgerTable = ({ rowDto,landingValues }) => {
           <td
             className="text-center d-none"
             colSpan={4}
-            >{`System Generated Report - ${moment().format('LLLL')}`}</td>
+          >{`System Generated Report - ${moment().format('LLLL')}`}</td>
         </tr>
       </ICustomTable>
       <IViewModal

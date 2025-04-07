@@ -1,18 +1,18 @@
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../_helper/_loading";
-import InputField from "./../../../_helper/_inputField";
-import { _todayDate } from "./../../../_helper/_todayDate";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import Loading from '../../../_helper/_loading';
+import InputField from './../../../_helper/_inputField';
+import { _todayDate } from './../../../_helper/_todayDate';
 
 function ChallanViewModal({
   item,
@@ -22,7 +22,7 @@ function ChallanViewModal({
   setIsShowModel,
 }) {
   const [, saveData, saveDataLoader] = useAxiosPost();
-  const [outTime, setOutTime] = useState("");
+  const [outTime, setOutTime] = useState('');
   const [afterLunch, setAfterLunch] = useState(true);
 
   const { profileData } = useSelector((state) => {
@@ -36,12 +36,12 @@ function ChallanViewModal({
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Gate Out"}>
+              <CardHeader title={'Gate Out'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
-                      if (outTime === "") {
-                        return toast.warn("Please select out time");
+                      if (outTime === '') {
+                        return toast.warn('Please select out time');
                       }
                       saveData(
                         `/mes/MSIL/VehicleGateOutCreate`,
@@ -87,7 +87,7 @@ function ChallanViewModal({
                       />
                     </div>
                     {type === 3 ? (
-                      <div style={{ marginTop: "20px" }} className="ml-4">
+                      <div style={{ marginTop: '20px' }} className="ml-4">
                         <input
                           className="cursor-pointer"
                           type="checkbox"

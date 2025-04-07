@@ -1,32 +1,32 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import NewSelect from "../../../_helper/_select";
-import InputField from "../../../_helper/_inputField";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import IView from "../../../_helper/_helperIcons/_view";
-import ICheckout from "../../../_helper/_helperIcons/_checkout";
-import IViewModal from "../../../_helper/_viewModal";
-import ScheduleStatusModal from "./scheduleStatusModal";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import PaginationTable from "../../../_helper/_tablePagination";
-import EditModal from "./editModal";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import DetailsViewModal from "./detailsViewModal";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import Loading from '../../../_helper/_loading';
+import IForm from '../../../_helper/_form';
+import NewSelect from '../../../_helper/_select';
+import InputField from '../../../_helper/_inputField';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import IView from '../../../_helper/_helperIcons/_view';
+import ICheckout from '../../../_helper/_helperIcons/_checkout';
+import IViewModal from '../../../_helper/_viewModal';
+import ScheduleStatusModal from './scheduleStatusModal';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import PaginationTable from '../../../_helper/_tablePagination';
+import EditModal from './editModal';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import IConfirmModal from '../../../_helper/_confirmModal';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import DetailsViewModal from './detailsViewModal';
 
 const initData = {
-  plantName: "",
+  plantName: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  maintenanceType: { value: 1, label: "Electrical" },
-  frequency: "",
+  maintenanceType: { value: 1, label: 'Electrical' },
+  frequency: '',
 };
 export default function ScheduleMaintainence() {
   const history = useHistory();
@@ -48,7 +48,6 @@ export default function ScheduleMaintainence() {
     getPlantDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
     );
-
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -95,7 +94,7 @@ export default function ScheduleMaintainence() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        "/production-management/ACCLFactory/Schedule-Maintenance/create"
+                        '/production-management/ACCLFactory/Schedule-Maintenance/create'
                       );
                     }}
                   >
@@ -116,9 +115,9 @@ export default function ScheduleMaintainence() {
                       options={plantDDl}
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("plantName", valueOption);
+                          setFieldValue('plantName', valueOption);
                         } else {
-                          setFieldValue("plantName", "");
+                          setFieldValue('plantName', '');
                         }
                       }}
                     />
@@ -130,7 +129,7 @@ export default function ScheduleMaintainence() {
                       type="date"
                       name="fromDate"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                       }}
                     />
                   </div>
@@ -141,7 +140,7 @@ export default function ScheduleMaintainence() {
                       type="date"
                       name="toDate"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                     />
                   </div>
@@ -151,14 +150,14 @@ export default function ScheduleMaintainence() {
                       label="Maintenance Type"
                       name="maintenanceType"
                       options={[
-                        { value: 1, label: "Electrical" },
-                        { value: 2, label: "Mechanical" },
+                        { value: 1, label: 'Electrical' },
+                        { value: 2, label: 'Mechanical' },
                       ]}
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("maintenanceType", valueOption);
+                          setFieldValue('maintenanceType', valueOption);
                         } else {
-                          setFieldValue("maintenanceType", "");
+                          setFieldValue('maintenanceType', '');
                         }
                       }}
                     />
@@ -169,13 +168,13 @@ export default function ScheduleMaintainence() {
                       label="Frequency"
                       name="frequency"
                       options={[
-                        { value: 1, label: "Daily" },
-                        { value: 2, label: "Weekly" },
-                        { value: 3, label: "Monthly" },
-                        { value: 4, label: "Yearly" },
+                        { value: 1, label: 'Daily' },
+                        { value: 2, label: 'Weekly' },
+                        { value: 3, label: 'Monthly' },
+                        { value: 4, label: 'Yearly' },
                       ]}
                       onChange={(valueOption) => {
-                        setFieldValue("frequency", valueOption);
+                        setFieldValue('frequency', valueOption);
                       }}
                     />
                   </div>
@@ -219,7 +218,7 @@ export default function ScheduleMaintainence() {
                             <td className="text-center">
                               {_dateFormatter(item?.scheduleEndDateTime)}
                             </td>
-                            <td>{item?.machineName || ""}</td>
+                            <td>{item?.machineName || ''}</td>
                             <td>{item?.frequency}</td>
                             <td>{item?.maintenanceTypeName}</td>
                             <td>{item?.resposiblePersonName}</td>

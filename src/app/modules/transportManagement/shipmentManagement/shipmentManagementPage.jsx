@@ -1,23 +1,22 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import Shipping from "./shipping";
-import ShipmentForm from "./shipping/Form/addEditForm";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import Shipping from './shipping';
+import ShipmentForm from './shipping/Form/addEditForm';
 // import { TripLoadUnload } from "./tripLoadUnload/Table/tableHeader";
-import { AvailableVehicle } from "./vehicleAvailableReport/Table/tableHeader";
-import TransferShipmentForm from "./transferShipping/Form/addEditForm";
-import ShipmentTransferLanding from "./transferShipping/index";
-import ChallanShippointTransfer from "./challanShippointTransfer";
-import ManualShipment from "./manualShipment";
-import ManualShipmentCreate from "./manualShipment/createEdit";
-import { shallowEqual, useSelector } from "react-redux";
-import NotPermitted from "../../performanceManagement/notPermittedPage/notPermitted";
-import ExportShipping from "./exportShipping";
-import ExportShipmentForm from "./exportShipping/Form/addEditForm";
-import LoadingSlip from "./loadingSlip";
+import { AvailableVehicle } from './vehicleAvailableReport/Table/tableHeader';
+import TransferShipmentForm from './transferShipping/Form/addEditForm';
+import ShipmentTransferLanding from './transferShipping/index';
+import ChallanShippointTransfer from './challanShippointTransfer';
+import ManualShipment from './manualShipment';
+import ManualShipmentCreate from './manualShipment/createEdit';
+import { shallowEqual, useSelector } from 'react-redux';
+import NotPermitted from '../../performanceManagement/notPermittedPage/notPermitted';
+import ExportShipping from './exportShipping';
+import ExportShipmentForm from './exportShipping/Form/addEditForm';
+import LoadingSlip from './loadingSlip';
 
 export function ShipmentManagementPages() {
-
   const userRole = useSelector(
     (state) => state?.authData?.userRole,
     shallowEqual
@@ -29,7 +28,6 @@ export function ShipmentManagementPages() {
       manualShipmentPermission = userRole[i];
     }
   }
-
 
   return (
     <Switch>
@@ -66,15 +64,23 @@ export function ShipmentManagementPages() {
       />
       <ContentRoute
         from="/transport-management/shipmentmanagement/manual-shipment/edit/:loadingId"
-        component={manualShipmentPermission?.isEdit ? ManualShipmentCreate : NotPermitted}
+        component={
+          manualShipmentPermission?.isEdit ? ManualShipmentCreate : NotPermitted
+        }
       />
       <ContentRoute
         from="/transport-management/shipmentmanagement/manual-shipment/create"
-        component={manualShipmentPermission?.isCreate ? ManualShipmentCreate : NotPermitted}
+        component={
+          manualShipmentPermission?.isCreate
+            ? ManualShipmentCreate
+            : NotPermitted
+        }
       />
       <ContentRoute
         from="/transport-management/shipmentmanagement/manual-shipment"
-        component={manualShipmentPermission?.isView ? ManualShipment : NotPermitted}
+        component={
+          manualShipmentPermission?.isView ? ManualShipment : NotPermitted
+        }
       />
       <ContentRoute
         from="/transport-management/shipmentmanagement/challanShippointTransfer"
@@ -135,7 +141,7 @@ export function ShipmentManagementPages() {
         from="/transport-management/shipmentmanagement/transfershipping"
         component={ShipmentTransferLanding}
       />
-       <ContentRoute
+      <ContentRoute
         from="/transport-management/shipmentmanagement/loadingslip"
         component={LoadingSlip}
       />

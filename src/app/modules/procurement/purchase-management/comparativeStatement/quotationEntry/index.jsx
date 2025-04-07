@@ -54,20 +54,18 @@ function ShippingQuotationEntry() {
   // get user profile data from store
   const profileData = useSelector(
     (state) => state.authData.profileData,
-    shallowEqual,
+    shallowEqual
   );
 
   // get selected business unit from store
   const selectedBusinessUnit = useSelector(
     (state) => state.authData.selectedBusinessUnit,
-    shallowEqual,
+    shallowEqual
   );
 
   const sbuDDL = useSelector((state) => state?.commonDDL?.sbuDDL);
   const purchaseOrgDDL = useSelector((state) =>
-    state?.commonDDL?.purchaseOrgDDL.filter((item) =>
-      [11].includes(item.value),
-    ),
+    state?.commonDDL?.purchaseOrgDDL.filter((item) => [11].includes(item.value))
   );
   const plantDDL = useSelector((state) => state?.purchaseOrder?.plantDDL);
   //const wareHouseDDL = useSelector((state) => state?.purchaseOrder?.wareHouseDDL);
@@ -77,23 +75,19 @@ function ShippingQuotationEntry() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(
-      getSbuDDLAction(profileData.accountId, selectedBusinessUnit.value),
+      getSbuDDLAction(profileData.accountId, selectedBusinessUnit.value)
     );
     dispatch(
-      getPurchaseOrgDDLAction(
-        profileData.accountId,
-        selectedBusinessUnit.value,
-      ),
+      getPurchaseOrgDDLAction(profileData.accountId, selectedBusinessUnit.value)
     );
     dispatch(
       getPlantListDDLAction(
         profileData?.userId,
         profileData?.accountId,
-        selectedBusinessUnit?.value,
-      ),
+        selectedBusinessUnit?.value
+      )
     );
     dispatch(getOrderTypeListDDLAction());
-
   }, [profileData, selectedBusinessUnit]);
 
   // Get warehouse ddl on plant ddl onChange
@@ -103,8 +97,8 @@ function ShippingQuotationEntry() {
         profileData?.userId,
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        param,
-      ),
+        param
+      )
     );
   };
 
@@ -117,10 +111,9 @@ function ShippingQuotationEntry() {
           selectedBusinessUnit.value
         }&SBUId=${80}&RfqTypeId=1&PurchaseOrganizationId=${11}&PlantId=${0}&Status=true&ViewOrder=DESC&PageNo=${pageNo}&PageSize=${pageSize}&Search=${''}&UserId=${
           profileData?.userId
-        }`,
+        }`
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -137,7 +130,7 @@ function ShippingQuotationEntry() {
         values?.plant?.value
       }&Status=true&ViewOrder=DESC&PageNo=${pageNo}&PageSize=${pageSize}${fromDate}${toDate}&Search=${''}&UserId=${
         profileData?.userId
-      }`,
+      }`
     );
   };
 
@@ -295,7 +288,7 @@ function ShippingQuotationEntry() {
                                 selectedBusinessUnit.value
                               }&SBUId=${80}&RfqTypeId=1&PurchaseOrganizationId=${11}&PlantId=${0}&Status=true&ViewOrder=DESC&PageNo=${pageNo}&PageSize=${pageSize}${fromDate}${toDate}&Search=${''}&UserId=${
                                 profileData?.userId
-                              }`,
+                              }`
                             );
                           } else {
                             getRowData(
@@ -309,7 +302,7 @@ function ShippingQuotationEntry() {
                                 values?.plant?.value
                               }&Status=true&ViewOrder=DESC&PageNo=${pageNo}&PageSize=${pageSize}${fromDate}${toDate}&Search=${''}&UserId=${
                                 profileData?.userId
-                              }`,
+                              }`
                             );
                           }
                         }}

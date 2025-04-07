@@ -1,23 +1,23 @@
-import { Formik, Form } from "formik";
-import React, { useEffect } from "react";
-import { useState } from "react";
-import { useLocation, useHistory } from "react-router-dom";
-import { useSelector, shallowEqual } from "react-redux";
+import { Formik, Form } from 'formik';
+import React, { useEffect } from 'react';
+import { useState } from 'react';
+import { useLocation, useHistory } from 'react-router-dom';
+import { useSelector, shallowEqual } from 'react-redux';
 import {
   CardBody,
   CardHeaderToolbar,
   Card,
   CardHeader,
   CardHeaderTitle,
-} from "../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
-import FormikError from "../../_helper/_formikError";
-import InputField from "../../_helper/_inputField";
-import Loading from "../../_helper/_loading";
+} from '../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../_helper/customHooks/useAxiosGet';
+import FormikError from '../../_helper/_formikError';
+import InputField from '../../_helper/_inputField';
+import Loading from '../../_helper/_loading';
 // import NewSelect from "../../_helper/_select";
-import * as yup from "yup";
-import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
-import { completeProjectWithInventory } from "./projectAccounting/projectApi";
+import * as yup from 'yup';
+import useAxiosPost from '../../_helper/customHooks/useAxiosPost';
+import { completeProjectWithInventory } from './projectAccounting/projectApi';
 const initialValues = {
   completeDate: null,
   remarks: null,
@@ -28,12 +28,12 @@ const initialValues = {
 const validationSchema = yup.object().shape({
   completeDate: yup
     .date()
-    .required("Complete date is required")
-    .typeError("Complete date is required"),
+    .required('Complete date is required')
+    .typeError('Complete date is required'),
   remarks: yup
     .string()
-    .required("Remarks is required")
-    .typeError("Remarks is required"),
+    .required('Remarks is required')
+    .typeError('Remarks is required'),
 });
 
 const ProjectAccountingComplete = () => {
@@ -58,7 +58,7 @@ const ProjectAccountingComplete = () => {
           const modifiedInventoryItemList = data?.projectCostingInventory?.map(
             (item) => ({
               ...item,
-              closingInventory: "",
+              closingInventory: '',
               warehouse: null,
               noWareHouseError: null,
             })
@@ -66,7 +66,6 @@ const ProjectAccountingComplete = () => {
           setInventoryItemList(modifiedInventoryItemList);
         }
       );
-
   }, [location?.state?.projectId]);
 
   return (
@@ -126,7 +125,7 @@ const ProjectAccountingComplete = () => {
                       value={values?.completeDate}
                       label="Complete Date"
                       onChange={(e) => {
-                        setFieldValue("completeDate", e.target.value);
+                        setFieldValue('completeDate', e.target.value);
                       }}
                     />
                     <FormikError
@@ -141,7 +140,7 @@ const ProjectAccountingComplete = () => {
                       value={values?.remarks}
                       label="Remarks"
                       onChange={(e) => {
-                        setFieldValue("remarks", e.target.value);
+                        setFieldValue('remarks', e.target.value);
                       }}
                     />
                     <FormikError
@@ -157,7 +156,7 @@ const ProjectAccountingComplete = () => {
                   <div className="row mt-3" id="pdf-section">
                     <div className="col-12 d-flex align-items-center justify-content-between mt-4 pt-3 border-top">
                       <CardHeaderTitle>
-                        <p style={{ fontSize: "16px", marginBottom: 0 }}>
+                        <p style={{ fontSize: '16px', marginBottom: 0 }}>
                           Expense Details
                         </p>
                       </CardHeaderTitle>
@@ -168,28 +167,28 @@ const ProjectAccountingComplete = () => {
                           <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
                             <thead>
                               <tr>
-                                <th style={{ width: "50px" }}>SL</th>
-                                <th style={{ width: "100px" }}>
+                                <th style={{ width: '50px' }}>SL</th>
+                                <th style={{ width: '100px' }}>
                                   <div className="text-left ml-1">
                                     Profit Center
                                   </div>
                                 </th>
-                                <th style={{ width: "100px" }}>
+                                <th style={{ width: '100px' }}>
                                   <div className="text-left ml-1">
                                     Cost Center
                                   </div>
                                 </th>
-                                <th style={{ width: "100px" }}>
+                                <th style={{ width: '100px' }}>
                                   <div className="text-left ml-1">
                                     Cost Element
                                   </div>
                                 </th>
-                                <th style={{ width: "100px" }}>
+                                <th style={{ width: '100px' }}>
                                   <div className="text-left ml-1">
                                     Responsible
                                   </div>
                                 </th>
-                                <th style={{ width: "100px" }}>
+                                <th style={{ width: '100px' }}>
                                   <div className="text-right mr-1">
                                     Budget Amount
                                   </div>
@@ -203,19 +202,19 @@ const ProjectAccountingComplete = () => {
                                   <tr key={index}>
                                     <td className="text-center">{index + 1}</td>
                                     <td className="text-left">
-                                      {item?.strProfitCenter || "N/A"}
+                                      {item?.strProfitCenter || 'N/A'}
                                     </td>
                                     <td className="text-left">
-                                      {item?.strCostCenter || "N/A"}
+                                      {item?.strCostCenter || 'N/A'}
                                     </td>
                                     <td className="text-left">
-                                      {item?.strCostElement || "N/A"}
+                                      {item?.strCostElement || 'N/A'}
                                     </td>
                                     <td className="text-left">
-                                      {item?.strResponsible || "N/A"}
+                                      {item?.strResponsible || 'N/A'}
                                     </td>
                                     <td className="text-right">
-                                      {item?.numBudgetAmount || "N/A"}
+                                      {item?.numBudgetAmount || 'N/A'}
                                     </td>
                                   </tr>
                                 )
@@ -235,7 +234,7 @@ const ProjectAccountingComplete = () => {
                   <div className="row mt-3" id="pdf-section">
                     <div className="col-12 d-flex align-items-center justify-content-between mt-4 pt-3 border-top">
                       <CardHeaderTitle>
-                        <p style={{ fontSize: "16px", marginBottom: 0 }}>
+                        <p style={{ fontSize: '16px', marginBottom: 0 }}>
                           Actual Expense Details
                         </p>
                       </CardHeaderTitle>
@@ -246,18 +245,18 @@ const ProjectAccountingComplete = () => {
                           <table className="table table-striped table-bordered mt-3 global-table table-font-size-sm">
                             <thead>
                               <tr>
-                                <th style={{ width: "50px" }}>SL</th>
-                                <th style={{ width: "100px" }}>
+                                <th style={{ width: '50px' }}>SL</th>
+                                <th style={{ width: '100px' }}>
                                   <div className="text-left ml-1">
                                     Profit Center
                                   </div>
                                 </th>
-                                <th style={{ width: "100px" }}>
+                                <th style={{ width: '100px' }}>
                                   <div className="text-left ml-1">
                                     Cost Center
                                   </div>
                                 </th>
-                                <th style={{ width: "100px" }}>
+                                <th style={{ width: '100px' }}>
                                   <div className="text-left ml-1">
                                     Cost Element
                                   </div>
@@ -267,7 +266,7 @@ const ProjectAccountingComplete = () => {
                                   Responsible
                                 </div>
                               </th> */}
-                                <th style={{ width: "100px" }}>
+                                <th style={{ width: '100px' }}>
                                   <div className="text-right mr-1">
                                     Total Amount
                                   </div>
@@ -281,19 +280,19 @@ const ProjectAccountingComplete = () => {
                                   <tr key={index}>
                                     <td className="text-center">{index + 1}</td>
                                     <td className="text-left">
-                                      {item?.strProfitCenterName || "N/A"}
+                                      {item?.strProfitCenterName || 'N/A'}
                                     </td>
                                     <td className="text-left">
-                                      {item?.strCostCenterName || "N/A"}
+                                      {item?.strCostCenterName || 'N/A'}
                                     </td>
                                     <td className="text-left">
-                                      {item?.strCostElementName || "N/A"}
+                                      {item?.strCostElementName || 'N/A'}
                                     </td>
                                     {/* <td className="text-left">
                                     {item?.strResponsible || "N/A"}
                                   </td> */}
                                     <td className="text-right">
-                                      {item?.numAmount || "N/A"}
+                                      {item?.numAmount || 'N/A'}
                                     </td>
                                   </tr>
                                 )
@@ -312,7 +311,7 @@ const ProjectAccountingComplete = () => {
                 <>
                   <div className="d-flex align-items-center justify-content-between mt-4 pt-3 border-top">
                     <CardHeaderTitle>
-                      <p style={{ fontSize: "16px", marginBottom: 0 }}>
+                      <p style={{ fontSize: '16px', marginBottom: 0 }}>
                         Inventory Items
                       </p>
                     </CardHeaderTitle>
@@ -349,13 +348,13 @@ const ProjectAccountingComplete = () => {
                                 <tr key={item?.intProjectInvId}>
                                   <td>{index + 1}</td>
                                   <td className="text-center">
-                                    {item?.strItemCode || "N/A"}
+                                    {item?.strItemCode || 'N/A'}
                                   </td>
                                   <td className="text-left">
-                                    {item?.strItem || "N/A"}
+                                    {item?.strItem || 'N/A'}
                                   </td>
                                   <td className="text-left">
-                                    {item?.strUom || "N/A"}
+                                    {item?.strUom || 'N/A'}
                                   </td>
                                   <td className="text-right">
                                     {item?.numQty || 0}
@@ -378,7 +377,7 @@ const ProjectAccountingComplete = () => {
                 <>
                   <div className="d-flex align-items-center justify-content-between mt-4 pt-3 border-top">
                     <CardHeaderTitle>
-                      <p style={{ fontSize: "16px", marginBottom: 0 }}>
+                      <p style={{ fontSize: '16px', marginBottom: 0 }}>
                         Actual Inventory Items
                       </p>
                     </CardHeaderTitle>
@@ -416,13 +415,13 @@ const ProjectAccountingComplete = () => {
                                   <tr key={item?.intRowId}>
                                     <td>{index + 1}</td>
                                     <td className="text-center">
-                                      {item?.strItemCode || "N/A"}
+                                      {item?.strItemCode || 'N/A'}
                                     </td>
                                     <td className="text-left">
-                                      {item?.strItemName || "N/A"}
+                                      {item?.strItemName || 'N/A'}
                                     </td>
                                     <td className="text-left">
-                                      {item?.strUoMname || "N/A"}
+                                      {item?.strUoMname || 'N/A'}
                                     </td>
                                     <td className="text-right">
                                       {item?.numTransactionQuantity || 0}

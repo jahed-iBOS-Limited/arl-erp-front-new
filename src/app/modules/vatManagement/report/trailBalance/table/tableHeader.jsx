@@ -1,15 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { Formik, Form } from "formik";
-import InputField from "../../../../_helper/_inputField";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { useSelector, shallowEqual } from "react-redux";
-import { getTrailBalanceReport } from "../helper";
-import ICard from "../../../../_helper/_card";
-import ILoader from "../../../../_helper/loader/_loader";
-import numberWithCommas from "./../../../../_helper/_numberWithCommas";
-import ReactToPrint from "react-to-print";
-import { getBusinessUnitYearConfigData } from "../helper";
+import React, { useEffect, useRef, useState } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { Formik, Form } from 'formik';
+import InputField from '../../../../_helper/_inputField';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { useSelector, shallowEqual } from 'react-redux';
+import { getTrailBalanceReport } from '../helper';
+import ICard from '../../../../_helper/_card';
+import ILoader from '../../../../_helper/loader/_loader';
+import numberWithCommas from './../../../../_helper/_numberWithCommas';
+import ReactToPrint from 'react-to-print';
+import { getBusinessUnitYearConfigData } from '../helper';
 
 const ReportHeader = () => {
   const printRef = useRef();
@@ -17,8 +17,8 @@ const ReportHeader = () => {
   const [date, setDate] = useState({});
   const [loading, setLoading] = useState(false);
   const [initData, setInitData] = useState({
-    balanceType: "3",
-    fromDate: "2021-01-07",
+    balanceType: '3',
+    fromDate: '2021-01-07',
     toDate: _todayDate(),
   });
 
@@ -54,9 +54,9 @@ const ReportHeader = () => {
       // isPrint={true}
       // isShowPrintBtn={true}
       componentRef={printRef}
-    // backHandler={() => {
-    //   history.goBack();
-    // }}
+      // backHandler={() => {
+      //   history.goBack();
+      // }}
     >
       <Formik
         enableReinitialize={true}
@@ -95,17 +95,17 @@ const ReportHeader = () => {
                 <div className="col-lg-3">
                   <label>From Date</label>
                   <InputField
-                    value={values?.fromDate ? values?.fromDate : ""}
+                    value={values?.fromDate ? values?.fromDate : ''}
                     name="fromDate"
                     placeholder="From Date"
                     type="date"
-                  // label="From Date"
+                    // label="From Date"
                   />
                 </div>
                 <div className="col-lg-3">
                   <label>To Date</label>
                   <InputField
-                    value={values?.toDate ? values?.toDate : ""}
+                    value={values?.toDate ? values?.toDate : ''}
                     name="toDate"
                     placeholder="To Date"
                     type="date"
@@ -133,7 +133,7 @@ const ReportHeader = () => {
                 {trailBalanceReportData.length > 0 && (
                   <div
                     className="col-lg-auto d-flex"
-                    style={{ marginTop: "25px" }}
+                    style={{ marginTop: '25px' }}
                   >
                     <ReactHTMLTableToExcel
                       id="test-table-xls-button"
@@ -145,7 +145,7 @@ const ReportHeader = () => {
                     />
                     <ReactToPrint
                       pageStyle={
-                        "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                        '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
                       }
                       trigger={() => (
                         <button
@@ -166,9 +166,9 @@ const ReportHeader = () => {
                     <input
                       type="radio"
                       name="balanceType"
-                      checked={values?.balanceType === "1"}
+                      checked={values?.balanceType === '1'}
                       className="mr-1 pointer"
-                      style={{ position: "relative", top: "2px" }}
+                      style={{ position: 'relative', top: '2px' }}
                       onChange={(valueOption) => {
                         getTrailBalanceReport(
                           profileData?.accountId,
@@ -179,7 +179,7 @@ const ReportHeader = () => {
                           setTrailBalanceReportData,
                           setLoading
                         );
-                        setFieldValue("balanceType", "1");
+                        setFieldValue('balanceType', '1');
                       }}
                     />
                     Account Class
@@ -188,9 +188,9 @@ const ReportHeader = () => {
                     <input
                       type="radio"
                       name="balanceType"
-                      checked={values?.balanceType === "2"}
+                      checked={values?.balanceType === '2'}
                       className="mr-1 pointer"
-                      style={{ position: "relative", top: "2px" }}
+                      style={{ position: 'relative', top: '2px' }}
                       onChange={(e) => {
                         getTrailBalanceReport(
                           profileData?.accountId,
@@ -201,7 +201,7 @@ const ReportHeader = () => {
                           setTrailBalanceReportData,
                           setLoading
                         );
-                        setFieldValue("balanceType", "2");
+                        setFieldValue('balanceType', '2');
                       }}
                     />
                     Account Category
@@ -210,9 +210,9 @@ const ReportHeader = () => {
                     <input
                       type="radio"
                       name="balanceType"
-                      checked={values?.balanceType === "3"}
+                      checked={values?.balanceType === '3'}
                       className="mr-1 pointer"
-                      style={{ position: "relative", top: "2px" }}
+                      style={{ position: 'relative', top: '2px' }}
                       onChange={(e) => {
                         getTrailBalanceReport(
                           profileData?.accountId,
@@ -223,7 +223,7 @@ const ReportHeader = () => {
                           setTrailBalanceReportData,
                           setLoading
                         );
-                        setFieldValue("balanceType", "3");
+                        setFieldValue('balanceType', '3');
                       }}
                     />
                     General Ledger
@@ -243,7 +243,7 @@ const ReportHeader = () => {
                         <h3>{selectedBusinessUnit?.label}</h3>
                         <h4>Trial Balance</h4>
                         <p>
-                          From <span>{date?.fromDate}</span> To{" "}
+                          From <span>{date?.fromDate}</span> To{' '}
                           <span>{date?.toDate}</span>
                         </p>
                       </div>
@@ -251,7 +251,7 @@ const ReportHeader = () => {
                     <table
                       id="table-to-xlsx"
                       className="table table-striped table-bordered global-table table-font-size-sm"
-                      style={{ width: "100%" }}
+                      style={{ width: '100%' }}
                     >
                       <thead>
                         <tr>
@@ -278,18 +278,18 @@ const ReportHeader = () => {
                               <div className="text-right pr-2">
                                 {data?.debit !== 0
                                   ? numberWithCommas(
-                                    Math.round(data?.debit) || 0
-                                  )
-                                  : " "}
+                                      Math.round(data?.debit) || 0
+                                    )
+                                  : ' '}
                               </div>
                             </td>
                             <td>
                               <div className="text-right pr-2">
                                 {data?.credit !== 0
                                   ? numberWithCommas(
-                                    Math.round(data?.credit) || 0
-                                  )
-                                  : " "}
+                                      Math.round(data?.credit) || 0
+                                    )
+                                  : ' '}
                               </div>
                             </td>
                           </tr>
@@ -297,7 +297,7 @@ const ReportHeader = () => {
                         {trailBalanceReportData.length > 0 && (
                           <tr>
                             <td></td>
-                            <td style={{ textAlign: "right" }}>Total</td>
+                            <td style={{ textAlign: 'right' }}>Total</td>
                             <td>
                               <div className="text-right pr-2">
                                 {numberWithCommas(Math.round(debitTotal) || 0)}

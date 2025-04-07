@@ -1,5 +1,3 @@
-
-
 import { Formik } from 'formik';
 import React, { useEffect, useRef } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
@@ -27,7 +25,7 @@ export default function JVListTable() {
 
   const getData = (values) => {
     getGridData(
-      `${imarineBaseUrl}/domain/Report/VesselVoyageWiseJournalReport?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`,
+      `${imarineBaseUrl}/domain/Report/VesselVoyageWiseJournalReport?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
     );
   };
 
@@ -95,10 +93,10 @@ export default function JVListTable() {
                       {_fixedPoint(
                         gridData?.reduce(
                           (total, item) => (total += item?.amount),
-                          0,
+                          0
                         ),
                         true,
-                        0,
+                        0
                       )}
                     </td>
                   </tr>

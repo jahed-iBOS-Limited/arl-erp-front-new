@@ -1,8 +1,8 @@
-import React, { Suspense } from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute, LayoutSplashScreen } from "../../../_metronic/layout";
-import ConfigurationPages from "./configuration/configurationPages";
-import TransactionPages from "./transaction/transactionPages";
+import React, { Suspense } from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute, LayoutSplashScreen } from '../../../_metronic/layout';
+import ConfigurationPages from './configuration/configurationPages';
+import TransactionPages from './transaction/transactionPages';
 
 export function ShippingAgencyPages() {
   return (
@@ -10,15 +10,15 @@ export function ShippingAgencyPages() {
       <Switch>
         <Redirect
           exact={true}
-          from='/ShippingAgency'
-          to='/ShippingAgency/Configuration'
+          from="/ShippingAgency"
+          to="/ShippingAgency/Configuration"
         />
         <ContentRoute
-          path='/ShippingAgency/Configuration'
+          path="/ShippingAgency/Configuration"
           component={ConfigurationPages}
         />
         <ContentRoute
-          path='/ShippingAgency/Transaction'
+          path="/ShippingAgency/Transaction"
           component={TransactionPages}
         />
       </Switch>

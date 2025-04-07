@@ -2,9 +2,9 @@
   width: 25%;
   height: 50%;
 }
-.greatText{
-    font-size: 45px;
-    font-weight: 300;
+.greatText {
+  font-size: 45px;
+  font-weight: 300;
 }
 
 @media (max-width: 1190px) {
@@ -29,7 +29,7 @@
   .cardContainer {
     width: 80%;
   }
-  .greatText { 
+  .greatText {
     font-size: 35px !important;
   }
 }

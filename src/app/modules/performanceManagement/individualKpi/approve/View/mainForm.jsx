@@ -1,11 +1,10 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { useParams } from "react-router-dom";
-import { getTargetAction, saveAchievementAction } from "../_redux/Actions";
-import { toArray } from "lodash";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { useParams } from 'react-router-dom';
+import { getTargetAction, saveAchievementAction } from '../_redux/Actions';
+import { toArray } from 'lodash';
 
 const initData = {};
 
@@ -35,7 +34,6 @@ export default function ViewForm() {
 
   useEffect(() => {
     getTarget();
-
   }, [kpiId, frId, year]);
 
   const saveHandler = async (values, cb) => {
@@ -64,7 +62,7 @@ export default function ViewForm() {
 
   const [objProps, setObjprops] = useState({});
   return (
-    <IForm title={""} getProps={setObjprops} isDisabled={isDisabled}>
+    <IForm title={''} getProps={setObjprops} isDisabled={isDisabled}>
       <Form
         {...objProps}
         initData={initData}

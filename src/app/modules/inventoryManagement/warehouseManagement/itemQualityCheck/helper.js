@@ -1,62 +1,62 @@
-import axios from "axios";
-import * as Yup from "yup";
+import axios from 'axios';
+import * as Yup from 'yup';
 export const grandParentTableHeaders = [
-  "",
-  "SL",
+  '',
+  'SL',
   // "Supplier",
   // "Address",
-  "Item Name",
-  "UOM",
+  'Item Name',
+  'UOM',
 
   {
-    title: "Gate Entry",
-    style: { maxWidth: "80px" },
+    title: 'Gate Entry',
+    style: { maxWidth: '80px' },
   },
-  "Vehicle No",
-  "Net Weight",
+  'Vehicle No',
+  'Net Weight',
   {
-    title: "Net Weight (Without Bag)",
-    style: { maxWidth: "50px" },
+    title: 'Net Weight (Without Bag)',
+    style: { maxWidth: '50px' },
   },
-  "Challan Qty Bag",
-  "Challan Qty",
-  "Total QC Qty",
-  "Deduct Qty",
+  'Challan Qty Bag',
+  'Challan Qty',
+  'Total QC Qty',
+  'Deduct Qty',
   {
-    title: "Unload Time Deduct",
-    style: { maxWidth: "50px" },
+    title: 'Unload Time Deduct',
+    style: { maxWidth: '50px' },
   },
   {
-    title: "Deduct For Bag",
-    style: { maxWidth: "50px" },
+    title: 'Deduct For Bag',
+    style: { maxWidth: '50px' },
   },
-  "Actual Qty",
-  "Status",
-  "Action",
+  'Actual Qty',
+  'Status',
+  'Action',
 ];
 export const parentTableHeader = [
-  "",
-  "Item Name",
-  "UOM",
-  "QC Qty Bag",
-  "QC Qty",
-  "Deduct %",
-  "Deduct Qty",
-  "Unload Deduct",
-  "Actual Qty",
-  "Remarks",
-  "Action",
+  '',
+  'Item Name',
+  'UOM',
+  'QC Qty Bag',
+  'QC Qty',
+  'Deduct %',
+  'Deduct Qty',
+  'Unload Deduct',
+  'Actual Qty',
+  'Remarks',
+  'Action',
 ];
 export const headerRowTableHeaders = [
-  "#",
-  "Parameter",
-  "Standard Value (%)",
-  "Actual Value (%)",
-  "System Deduction(%)",
+  '#',
+  'Parameter',
+  'Standard Value (%)',
+  'Actual Value (%)',
+  'System Deduction(%)',
   // "Manual Deduction(%)",
-  "Difference Limit",
-  "Remarks",
-  "Action",
+  'Difference Limit',
+  'Remarks',
+  'Action',
 ];
 
 export const gateEntry = async (buId, entryCode) => {
@@ -88,7 +88,7 @@ export const getRowWithItemId = async (buId, itemId) => {
       actualValue: 0,
       systemDeduction: 0,
       manualDeduction: 0,
-      remarks: "",
+      remarks: '',
     }));
   } catch (error) {
     return error;
@@ -116,16 +116,16 @@ export const grandParentTotalSum = (arr) => {
 };
 
 export const _numbering = (value) => {
-  let outPut = "";
+  let outPut = '';
   switch (value) {
     case 1:
-      outPut = "1st";
+      outPut = '1st';
       break;
     case 2:
-      outPut = "2nd";
+      outPut = '2nd';
       break;
     case 3:
-      outPut = "3rd";
+      outPut = '3rd';
       break;
     default:
       outPut = `${value}th`;
@@ -149,39 +149,39 @@ export const getSupplierDDL = async (accId, buId, sbuId, setter) => {
       });
       setter(newData);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 export const initData = {
-  refType: "",
-  refNo: "",
-  transType: "",
-  busiPartner: "",
-  personnel: "",
-  remarks: "",
-  item: "",
-  costCenter: "",
-  projName: "",
+  refType: '',
+  refNo: '',
+  transType: '',
+  busiPartner: '',
+  personnel: '',
+  remarks: '',
+  item: '',
+  costCenter: '',
+  projName: '',
   isAllItem: false,
-  getEntry: "",
-  file: "",
-  challanNO: "",
-  challanDate: "",
-  vatChallan: "",
-  vatAmmount: "",
-  freight: "",
-  grossDiscount: "",
-  commission: "",
-  foreignPurchase: "",
-  othersCharge: "",
+  getEntry: '',
+  file: '',
+  challanNO: '',
+  challanDate: '',
+  vatChallan: '',
+  vatAmmount: '',
+  freight: '',
+  grossDiscount: '',
+  commission: '',
+  foreignPurchase: '',
+  othersCharge: '',
 };
 export const validationSchemaForMRR = Yup.object().shape({
   refType: Yup.object().shape({
-    label: Yup.string().required("Refference Type is required"),
-    value: Yup.string().required("Refference Type is required"),
+    label: Yup.string().required('Refference Type is required'),
+    value: Yup.string().required('Refference Type is required'),
   }),
   transType: Yup.object().shape({
-    label: Yup.string().required("Transaction Type is required"),
-    value: Yup.string().required("Transaction Type is required"),
+    label: Yup.string().required('Transaction Type is required'),
+    value: Yup.string().required('Transaction Type is required'),
   }),
   // item: Yup.object().shape({
   //   label: Yup.string().required("Item is required"),
@@ -189,12 +189,11 @@ export const validationSchemaForMRR = Yup.object().shape({
   // })
 });
 
-
 export const getForeignPurchaseDDL = async (poId, sbuId, setter) => {
   try {
     const res = await axios.get(
       `/wms/Import/GetImportShipmentDDL?PoId=${poId}&PlantId=${sbuId}`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };

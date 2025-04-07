@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 function GridTable({ rowDto, values }) {
   // report 01
@@ -113,7 +113,7 @@ function GridTable({ rowDto, values }) {
               })}
               <tr>
                 <td colspan="2" className="text-right font-weight-bold">
-                  {" "}
+                  {' '}
                   Total
                 </td>
 
@@ -138,10 +138,10 @@ function GridTable({ rowDto, values }) {
                 </td>
 
                 <td className="text-right font-weight-bold">
-                  {Math.round((totalADeliveryQty - totalRDeliveryQty))}
+                  {Math.round(totalADeliveryQty - totalRDeliveryQty)}
                 </td>
                 <td className="text-right font-weight-bold">
-                  {Math.round((totalaavgrate - totalravgRate))}
+                  {Math.round(totalaavgrate - totalravgRate)}
                 </td>
               </tr>
             </tbody>

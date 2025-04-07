@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 function CommonTable({
   deliveryOrderReportData,
@@ -11,14 +11,13 @@ function CommonTable({
   isWorkable,
   totalDiscountRate,
   totalDiscountAmount,
-  grandTotal
+  grandTotal,
 }) {
-
   return (
     <>
       <div className="my-8">
         {!deliveryOrderReportData?.isPrintable ? (
-          <h5 style={{ color: "tomato" }} className="text-center">
+          <h5 style={{ color: 'tomato' }} className="text-center">
             {deliveryOrderReportData?.massage}
           </h5>
         ) : null}
@@ -28,33 +27,33 @@ function CommonTable({
             <table className="table table-striped table-bordered  global-table">
               <thead>
                 <tr>
-                  <th style={{ width: "35px" }}>SL</th>
-                  <th style={{ width: "220px" }}>PRODUCT DESCRIPTION</th>
+                  <th style={{ width: '35px' }}>SL</th>
+                  <th style={{ width: '220px' }}>PRODUCT DESCRIPTION</th>
                   {[186]?.includes(selectedBusinessUnit?.value) && (
                     <th>CUSTOMER DESCRIPTION</th>
                   )}
                   <th>UOM</th>
                   {(selectedBusinessUnit?.value === 171 ||
                     selectedBusinessUnit?.value === 224) && (
-                      <>
-                        <th>Bundle</th>
-                        <th>Pieces</th>
-                      </>
-                    )}
-                  {isWorkable && <th style={{ textAlign: "center" }}>S.N</th>}
-                  <th style={{ textAlign: "right" }}>QNT.</th>
+                    <>
+                      <th>Bundle</th>
+                      <th>Pieces</th>
+                    </>
+                  )}
+                  {isWorkable && <th style={{ textAlign: 'center' }}>S.N</th>}
+                  <th style={{ textAlign: 'right' }}>QNT.</th>
                   {[144].includes(selectedBusinessUnit?.value) && (
                     <>
                       <th
                         style={{
-                          width: "150px",
+                          width: '150px',
                         }}
                       >
                         Rate
                       </th>
                       <th
                         style={{
-                          width: "150px",
+                          width: '150px',
                         }}
                       >
                         Amount
@@ -63,21 +62,21 @@ function CommonTable({
                         <>
                           <th
                             style={{
-                              width: "150px",
+                              width: '150px',
                             }}
                           >
                             Discount Rate
                           </th>
                           <th
                             style={{
-                              width: "150px",
+                              width: '150px',
                             }}
                           >
                             Discount Amount
                           </th>
                           <th
                             style={{
-                              width: "150px",
+                              width: '150px',
                             }}
                           >
                             Grand Total
@@ -106,12 +105,12 @@ function CommonTable({
                 {deliveryOrderReportData?.rows?.filter(
                   (itm) => itm?.isTradeFreeItem
                 )?.length > 0 && (
-                    <tr>
-                      <td colSpan={2} className="text-left">
-                        <b>Offer Item</b>
-                      </td>
-                    </tr>
-                  )}
+                  <tr>
+                    <td colSpan={2} className="text-left">
+                      <b>Offer Item</b>
+                    </td>
+                  </tr>
+                )}
                 {deliveryOrderReportData?.rows
                   ?.filter((itm) => itm?.isTradeFreeItem)
                   ?.map((td, index) => {
@@ -133,20 +132,20 @@ function CommonTable({
                   {[186]?.includes(selectedBusinessUnit?.value) && <td></td>}
                   {(selectedBusinessUnit?.value === 171 ||
                     selectedBusinessUnit?.value === 224) && (
-                      <>
-                        <td className="text-right">
-                          <b>{totalBundel}</b>
-                        </td>
-                        <td className="text-right">
-                          <b>{totalPieces}</b>
-                        </td>
-                        <td className="text-right">
-                          <b>{totalQuantity}</b>
-                        </td>
-                      </>
-                    )}
-                  {(selectedBusinessUnit?.value !== 171 &&
-                    selectedBusinessUnit?.value !== 224) && (
+                    <>
+                      <td className="text-right">
+                        <b>{totalBundel}</b>
+                      </td>
+                      <td className="text-right">
+                        <b>{totalPieces}</b>
+                      </td>
+                      <td className="text-right">
+                        <b>{totalQuantity}</b>
+                      </td>
+                    </>
+                  )}
+                  {selectedBusinessUnit?.value !== 171 &&
+                    selectedBusinessUnit?.value !== 224 && (
                       <>
                         <td className="text-right"></td>
                       </>
@@ -179,7 +178,13 @@ function CommonTable({
   );
 }
 
-const CommonTR = ({ index, td, selectedBusinessUnit, isWorkable, deliveryOrderReportData }) => {
+const CommonTR = ({
+  index,
+  td,
+  selectedBusinessUnit,
+  isWorkable,
+  deliveryOrderReportData,
+}) => {
   return (
     <tr key={index}>
       <td> {index + 1} </td>
@@ -199,19 +204,21 @@ const CommonTR = ({ index, td, selectedBusinessUnit, isWorkable, deliveryOrderRe
       </td>
       {(selectedBusinessUnit?.value === 171 ||
         selectedBusinessUnit?.value === 224) && (
-          <>
-            <td>
-              <div className="text-right pl-2">{td?.bundel}</div>
-            </td>
-            <td>
-              <div className="text-right pl-2">{td?.pieces}</div>
-            </td>
-          </>
-        )}
+        <>
+          <td>
+            <div className="text-right pl-2">{td?.bundel}</div>
+          </td>
+          <td>
+            <div className="text-right pl-2">{td?.pieces}</div>
+          </td>
+        </>
+      )}
 
       {isWorkable && (
         <td>
-          <div className="text-center pl-2">{td?.itemWiseSerialList?.map((item) => item || "N/A")}</div>
+          <div className="text-center pl-2">
+            {td?.itemWiseSerialList?.map((item) => item || 'N/A')}
+          </div>
         </td>
       )}
       <td>
@@ -234,7 +241,10 @@ const CommonTR = ({ index, td, selectedBusinessUnit, isWorkable, deliveryOrderRe
         <>
           <td className="text-right pl-2">{td?.itemSackDiscountRate}</td>
           <td className="text-right pl-2">{td?.itemSackDiscountAmount}</td>
-          <td className="text-right pl-2">{(+td?.itemPrice || 0) * (+td?.quantity || 0) -(+td?.itemSackDiscountAmount || 0)}</td>
+          <td className="text-right pl-2">
+            {(+td?.itemPrice || 0) * (+td?.quantity || 0) -
+              (+td?.itemSackDiscountAmount || 0)}
+          </td>
         </>
       )}
     </tr>

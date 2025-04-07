@@ -1,5 +1,5 @@
-import axios from "axios";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import axios from 'axios';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const getSbuDDLAction = async (accId, buId, setter) => {
   try {
@@ -57,8 +57,8 @@ export const getStrategicDataAction = async (
         initiativeNo: item?.initiativeNo,
         comment: item?.comment,
         statusValueLabel: { value: item?.statusId, label: item?.status },
-        ownerName: {value : item?.ownerId, label: item?.ownerName},
-        priorityName: {value: item?.priorityId, label: item?.priorityName},
+        ownerName: { value: item?.ownerId, label: item?.ownerName },
+        priorityName: { value: item?.priorityId, label: item?.priorityName },
         budget: item?.budget,
         startDate: _dateFormatter(item?.startDate),
         endDate: _dateFormatter(item?.endDate),

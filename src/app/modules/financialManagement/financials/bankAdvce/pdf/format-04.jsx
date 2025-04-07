@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { dateFormatWithMonthName } from '../../../../_helper/_dateFormate';
 import numberWithCommas from '../../../../_helper/_numberWithCommas';
@@ -96,7 +95,7 @@ export const FormatFour = ({
           >
             <thead>
               {['jamunaBEFTN', 'nrbcblBEFTN', 'jamuna-rtgs'].includes(
-                values?.advice?.info,
+                values?.advice?.info
               ) && (
                 <tr>
                   <td
@@ -167,7 +166,7 @@ export const FormatFour = ({
             </thead>
             <tbody>
               {['jamunaBEFTN', 'nrbcblBEFTN', 'jamuna-rtgs'].includes(
-                values?.advice?.info,
+                values?.advice?.info
               ) && (
                 <>
                   {adviceReportData?.map((itm, index) => {

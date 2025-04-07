@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
-import IForm from "../../../../_helper/_form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IForm from '../../../../_helper/_form';
 import {
   getDistributionChannelDDLAction,
   getItemSaleDDLAction,
   getPlantDDLAction,
   getSalesOrgDDLAction,
-} from "../../../../_helper/_redux/Actions";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { isUniq } from "../../../../_helper/uniqChecker";
+} from '../../../../_helper/_redux/Actions';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { isUniq } from '../../../../_helper/uniqChecker';
 import {
   GetPendingDeliveryDDLAction,
   getDeliveryItemVolumeInfoAction,
@@ -22,43 +22,43 @@ import {
   getVehicleSingleInfobyVehicleIdAction,
   saveShipment,
   setSalesContactSingleEmpty,
-} from "../_redux/Actions";
-import { shipmentInfoUpdate } from "../helper";
-import Loading from "./../../../../_helper/_loading";
-import { getLoadingPointDDLAction } from "./../_redux/Actions";
-import Form from "./form";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+} from '../_redux/Actions';
+import { shipmentInfoUpdate } from '../helper';
+import Loading from './../../../../_helper/_loading';
+import { getLoadingPointDDLAction } from './../_redux/Actions';
+import Form from './form';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 const initData = {
   id: undefined,
-  Vehicle: "",
-  vehicleId: "",
-  route: "",
-  transportMode: "",
-  transportZone: "",
-  shipPoint: "",
-  shipmentType: "",
-  loadingPoint: "",
-  pendingDelivery: "",
+  Vehicle: '',
+  vehicleId: '',
+  route: '',
+  transportMode: '',
+  transportZone: '',
+  shipPoint: '',
+  shipmentType: '',
+  loadingPoint: '',
+  pendingDelivery: '',
   startDate: _todayDate(),
   shipmentdate: _todayDate(),
   estimatedTimeofArrival: _todayDate(),
   planedLoadingTime: _todayDate(),
-  driverName: "",
-  driverContactNo: "",
-  driverId: "",
-  supplierName: "",
+  driverName: '',
+  driverContactNo: '',
+  driverId: '',
+  supplierName: '',
   truckTrallerSupplier: {
-    label: "M/S Shawan Enterprise [13282]",
+    label: 'M/S Shawan Enterprise [13282]',
     value: 13282,
   },
-  isLaborImpart: { value: false, label: "No" },
-  laborSupplierName: "",
-  totalBundle: "",
-  totalPieces: "",
-  veichleEntry: "",
-  strCardNo: "",
-  pump: "",
+  isLaborImpart: { value: false, label: 'No' },
+  laborSupplierName: '',
+  totalBundle: '',
+  totalPieces: '',
+  veichleEntry: '',
+  strCardNo: '',
+  pump: '',
   lastDistance: 0,
   packer: 0,
 };
@@ -132,7 +132,6 @@ export default function ShipmentForm({
     } else {
       dispatch(setSalesContactSingleEmpty());
     }
-
   }, [accId, buId, id, refetch]);
 
   //Dispatch Get emplist action for get emplist ddl
@@ -159,7 +158,6 @@ export default function ShipmentForm({
         }
       );
     }
-
   }, [buId, accId]);
 
   const vehicleSingeDataView = (id, setter) => {
@@ -171,7 +169,7 @@ export default function ShipmentForm({
   };
   const saveHandler = async (values, cb) => {
     if (rowDto?.length < 1) {
-      return toast.warn("Please add at least one item");
+      return toast.warn('Please add at least one item');
     }
 
     // show alert for cement & essential & packer isn't selected
@@ -180,7 +178,7 @@ export default function ShipmentForm({
       !Boolean(values?.packer?.value) &&
       !id
     ) {
-      toast.warn("Please add packer");
+      toast.warn('Please add packer');
     }
     if (values && accId && buId) {
       if (id) {
@@ -192,7 +190,7 @@ export default function ShipmentForm({
             businessUnitId: buId,
             businessUnitName: buName,
             supplierId: values?.supplierName?.value || 0,
-            supplierName: values?.supplierName?.label || "",
+            supplierName: values?.supplierName?.label || '',
             shipmentDate: values?.shipmentdate,
             routeId: values?.route?.value,
             routeName: values?.route?.label,
@@ -209,7 +207,7 @@ export default function ShipmentForm({
             driverName: values?.driverName,
             driverContactNo: values?.driverContactNo,
             actionBy: userId,
-            lastActionDateTime: "2023-01-18T07:12:29.402Z",
+            lastActionDateTime: '2023-01-18T07:12:29.402Z',
             unloadVehicleWeight: vehicleSingleData?.weight,
             unloadVehicleVolume: vehicleSingleData?.volume,
             itemTotalGrowssWeight:
@@ -229,9 +227,9 @@ export default function ShipmentForm({
             totalBundel: values?.totalBundle || 0,
             totalPieces: values?.totalPieces || 0,
             veichleEntryId: values.veichleEntry?.value || 0,
-            veichleEntryCode: values.veichleEntry?.label || "",
+            veichleEntryCode: values.veichleEntry?.label || '',
             pumpModelId: values?.pump?.value || 0,
-            pumpModelName: values?.pump?.label || "",
+            pumpModelName: values?.pump?.label || '',
             pumpGroupHeadEnroll: values?.pump?.pumpGroupHeadEnroll || 0,
             packerId: values?.packer?.value,
           },
@@ -284,7 +282,7 @@ export default function ShipmentForm({
           shipmentRowEntryList: shipmentRowEntryList,
           shipmentHeader: {
             veichleEntryId: values.veichleEntry?.value || 0,
-            veichleEntryCode: values.veichleEntry?.label || "",
+            veichleEntryCode: values.veichleEntry?.label || '',
             supplierId: values?.supplierName?.value || 0,
             supplierName: values?.supplierName?.label || 0,
             shipmentId: values.shipPoint.value,
@@ -336,7 +334,7 @@ export default function ShipmentForm({
             loadingLabourSupplierId: values?.truckTrallerSupplier?.value || 0,
             transportZoneId: values?.transportZone?.value || 0,
             pumpModelId: values?.pump?.value || 0,
-            pumpModelName: values?.pump?.label || "",
+            pumpModelName: values?.pump?.label || '',
             pumpGroupHeadEnroll: values?.pump?.pumpGroupHeadEnroll || 0,
             packerId: values?.packer?.value,
           },
@@ -354,7 +352,7 @@ export default function ShipmentForm({
     if (deliveryeDatabydata) {
       if (+deliveryItemVolumeInfo?.netWeight <= 0) {
         toast.warn(
-          "Please configure item unit of measurement [UOM] using Configuration>Item Management>Item Profile"
+          'Please configure item unit of measurement [UOM] using Configuration>Item Management>Item Profile'
         );
         return;
       }
@@ -385,7 +383,7 @@ export default function ShipmentForm({
         },
       ];
 
-      if (isUniq("deliveryCode", values.pendingDelivery?.label, rowDto)) {
+      if (isUniq('deliveryCode', values.pendingDelivery?.label, rowDto)) {
         // route ddl options set
         const newRouteList = routeInfo?.map((item) => ({
           value: item?.routeId,
@@ -394,7 +392,7 @@ export default function ShipmentForm({
         const routeListJoin = [...routeListDDL, ...newRouteList];
         const unique = [
           ...new Map(
-            [...routeListJoin].map((item) => [item["value"], item])
+            [...routeListJoin].map((item) => [item['value'], item])
           ).values(),
         ];
 
@@ -403,50 +401,50 @@ export default function ShipmentForm({
         if (stockStatusOnShipment) {
           const rowDtoArry = [...rowDto, ...newData];
           // formik value set
-          setFieldValue("route", unique?.[0]?.value ? unique?.[0] : "");
+          setFieldValue('route', unique?.[0]?.value ? unique?.[0] : '');
           setFieldValue(
-            "transportZone",
+            'transportZone',
             routeInfo?.[0]?.zoneId
               ? {
                   value: routeInfo?.[0]?.zoneId,
                   label: routeInfo?.[0]?.zoneName,
                 }
-              : ""
+              : ''
           );
           const isCostlaborRateStatus = rowDtoArry?.some(
             (itm) => itm?.costlaborRateStatus
           );
           setFieldValue(
-            "isLaborImpart",
+            'isLaborImpart',
             isCostlaborRateStatus
-              ? { value: true, label: "Yes" }
-              : { value: false, label: "No" }
+              ? { value: true, label: 'Yes' }
+              : { value: false, label: 'No' }
           );
 
           // rowdto set
           const uniqueTwo = [
             ...new Map(
-              [...rowDtoArry].map((item) => [item["deliveryCode"], item])
+              [...rowDtoArry].map((item) => [item['deliveryCode'], item])
             ).values(),
           ];
           setRowDto(uniqueTwo);
         }
       }
       if (deliveryeDatabydata.distanceKM > values.lastDistance) {
-        setFieldValue("lastDistance", deliveryeDatabydata.distanceKM);
+        setFieldValue('lastDistance', deliveryeDatabydata.distanceKM);
         setFieldValue(
-          "lastDestinationKmCustomerId",
+          'lastDestinationKmCustomerId',
           deliveryeDatabydata.shipToPartnerId || 0
         );
       } else {
-        setFieldValue("lastDistance", values.lastDistance);
+        setFieldValue('lastDistance', values.lastDistance);
         setFieldValue(
-          "lastDestinationKmCustomerId",
+          'lastDestinationKmCustomerId',
           values?.lastDestinationKmCustomerId || 0
         );
       }
     } else {
-      toast.warning("Data not found");
+      toast.warning('Data not found');
     }
   };
   // row remove
@@ -458,10 +456,10 @@ export default function ShipmentForm({
       (itm) => itm?.costlaborRateStatus
     );
     setFieldValue(
-      "isLaborImpart",
+      'isLaborImpart',
       isCostlaborRateStatus
-        ? { value: true, label: "Yes" }
-        : { value: false, label: "No" }
+        ? { value: true, label: 'Yes' }
+        : { value: false, label: 'No' }
     );
   };
 
@@ -476,14 +474,12 @@ export default function ShipmentForm({
       if (singleData?.shipmentHeader?.Vehicle?.value)
         vehicleSingeDataView(singleData?.shipmentHeader?.Vehicle?.value, null);
     }
-
   }, [singleData?.shipmentRowList]);
 
   useEffect(() => {
     return () => {
       dispatch(setSalesContactSingleEmpty());
     };
-
   }, []);
 
   useEffect(() => {
@@ -499,11 +495,10 @@ export default function ShipmentForm({
         )
       );
     }
-
   }, [headerData]);
   return (
     <IForm
-      title={id ? "Edit Shipment" : "Create Shipment"}
+      title={id ? 'Edit Shipment' : 'Create Shipment'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >
@@ -516,7 +511,7 @@ export default function ShipmentForm({
             ...initData,
             shipPoint: headerData?.pgiShippoint?.value
               ? headerData?.pgiShippoint
-              : "",
+              : '',
           }
         }
         refetchData={refetchData}

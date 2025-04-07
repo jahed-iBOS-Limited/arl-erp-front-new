@@ -1,79 +1,77 @@
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import {
   CreateExpenceRegister,
   editExpenseRegister,
   getExpenseById,
   getFuelLogCash,
-} from "../helper";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import Loading from "./../../../../_helper/_loading";
-import { useHistory } from "react-router-dom";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-const endOfMonth = moment(_todayDate())
-  .endOf("month")
-  .format();
+} from '../helper';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import Loading from './../../../../_helper/_loading';
+import { useHistory } from 'react-router-dom';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+const endOfMonth = moment(_todayDate()).endOf('month').format();
 const monthDDL = [
-  { value: 1, label: "January" },
-  { value: 2, label: "February" },
-  { value: 3, label: "March" },
-  { value: 4, label: "April" },
-  { value: 5, label: "May" },
-  { value: 6, label: "June" },
-  { value: 7, label: "July" },
-  { value: 8, label: "August" },
-  { value: 9, label: "September" },
-  { value: 10, label: "October" },
-  { value: 11, label: "November" },
-  { value: 12, label: "December" },
+  { value: 1, label: 'January' },
+  { value: 2, label: 'February' },
+  { value: 3, label: 'March' },
+  { value: 4, label: 'April' },
+  { value: 5, label: 'May' },
+  { value: 6, label: 'June' },
+  { value: 7, label: 'July' },
+  { value: 8, label: 'August' },
+  { value: 9, label: 'September' },
+  { value: 10, label: 'October' },
+  { value: 11, label: 'November' },
+  { value: 12, label: 'December' },
 ];
 
 const initData = {
-  expenseCategory: "",
-  projectName: "",
+  expenseCategory: '',
+  projectName: '',
   expenseFrom: _todayDate(),
   expenseTo: _dateFormatter(endOfMonth),
-  quantity: "",
-  vehicle: "",
-  comments1: "",
-  costCenter: "",
-  costElement: "",
-  profitCenter: "",
+  quantity: '',
+  vehicle: '',
+  comments1: '',
+  costCenter: '',
+  costElement: '',
+  profitCenter: '',
   expenseDate: _todayDate(),
-  transaction: "",
-  expenseAmount: "",
-  location: "",
-  comments2: "",
-  disbursmentCenter: "",
-  paymentType: "",
-  file: "",
+  transaction: '',
+  expenseAmount: '',
+  location: '',
+  comments2: '',
+  disbursmentCenter: '',
+  paymentType: '',
+  file: '',
   driverExp: false,
-  expenseGroup: "",
+  expenseGroup: '',
   year: {
     value: new Date().getFullYear(),
     label: `${new Date().getFullYear()}`,
   },
   month: monthDDL[new Date().getMonth()],
-  accountHead:"",
+  accountHead: '',
 };
 
 export default function ExpenseRegisterCreateForm() {
   const history = useHistory();
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [objProps, setObjprops] = useState({});
   const location = useLocation();
   const params = useParams();
   const [total, setTotal] = useState({ totalAmount: 0 });
   // attach
   const [fileObjects, setFileObjects] = useState([]);
-  const [uploadImage, setUploadImage] = useState("");
+  const [uploadImage, setUploadImage] = useState('');
   const storeData = useSelector((state) => {
     return {
       profileData: state?.authData?.profileData,
@@ -112,24 +110,24 @@ export default function ExpenseRegisterCreateForm() {
         let objRow = rowDto?.map((item, i) => ({
           rowId: item.expenseRowId ? item.expenseRowId : 0,
           costCenterId: item?.costCenter?.value || 0,
-          costCenterName: item?.costCenter?.label || "",
+          costCenterName: item?.costCenter?.label || '',
           profitCenterId: item?.profitCenter?.value || 0,
-          profitCenterName: item?.profitCenter?.label || "",
+          profitCenterName: item?.profitCenter?.label || '',
           costElementId: item?.costElement?.value || 0,
-          costElementName: item?.costElement?.label || "",
+          costElementName: item?.costElement?.label || '',
           dteExpenseDate: item.expenseDate,
           businessTransactionId: item?.transaction?.value || 0,
-          businessTransactionName: item?.transaction?.label || "",
+          businessTransactionName: item?.transaction?.label || '',
           numQuantity: +item.quantity,
           numRate: +item.expenseAmount / +item.quantity,
           numAmount: +item.expenseAmount || 0,
           expenseLocation: item.location,
           comments: item.comments2,
-          attachmentLink: item?.attachmentLink || "",
-          driverName: item?.driverName || "",
+          attachmentLink: item?.attachmentLink || '',
+          driverName: item?.driverName || '',
           driverId: item?.driverId || 0,
-          subGlaccountHeadId : item?.accountHead?.value || 0,
-          strSubGlaccountHead:  item?.accountHead?.label || "",
+          subGlaccountHeadId: item?.accountHead?.value || 0,
+          strSubGlaccountHead: item?.accountHead?.label || '',
         }));
         const payload = {
           objHeader: {
@@ -137,28 +135,28 @@ export default function ExpenseRegisterCreateForm() {
             expenseCode: expenseCode || 0,
             accountId: +profileData?.accountId || 0,
             businessUnitId: +selectedBusinessUnit?.value || 0,
-            businessUnitName: selectedBusinessUnit?.label || "",
+            businessUnitName: selectedBusinessUnit?.label || '',
             sbuid: sbuid || 0,
-            sbuname: sbuname || "",
+            sbuname: sbuname || '',
             countryId: countryId || 0,
-            countryName: countryName || "",
+            countryName: countryName || '',
             currencyId: currencyId || 0,
-            currencyName: currencyName || "",
+            currencyName: currencyName || '',
             dteFromDate: values.expenseFrom,
             dteToDate: values.expenseTo,
             projectId: values.projectName.value || 0,
-            projectName: values.projectName.label || "",
+            projectName: values.projectName.label || '',
             costCenterId: 0,
-            costCenterName: "",
+            costCenterName: '',
             instrumentId: values.paymentType.value || 0,
-            instrumentName: values.paymentType.label || "",
+            instrumentName: values.paymentType.label || '',
             disbursementCenterId: values?.disbursmentCenter?.value || 0,
-            disbursementCenterName: values?.disbursmentCenter?.label || "",
+            disbursementCenterName: values?.disbursmentCenter?.label || '',
             // vehicle ddl
             vehicleId:
-              values.vehicle?.value === 1 ? "" : values.vehicle?.label || "",
+              values.vehicle?.value === 1 ? '' : values.vehicle?.label || '',
             numTotalAmount: total?.totalAmount,
-            comments: values?.comments1 || "",
+            comments: values?.comments1 || '',
             numTotalApprovedAmount: 0,
             actionBy: +profileData?.userId || 0,
             willApproved: location?.state?.isApproval ? true : false,
@@ -170,7 +168,7 @@ export default function ExpenseRegisterCreateForm() {
           objRow: objRow,
         };
         if (rowDto?.length === 0) {
-          toast.warn("Please add transaction");
+          toast.warn('Please add transaction');
         } else {
           editExpenseRegister(payload, setDisabled, history);
         }
@@ -178,24 +176,24 @@ export default function ExpenseRegisterCreateForm() {
         // obj row for expense register
         let objRow = rowDto?.map((item, i) => ({
           costCenterId: item?.costCenter?.value || 0,
-          costCenterName: item?.costCenter?.label || "",
+          costCenterName: item?.costCenter?.label || '',
           profitCenterId: item?.profitCenter?.value || 0,
-          profitCenterName: item?.profitCenter?.label || "",
+          profitCenterName: item?.profitCenter?.label || '',
           costElementId: item?.costElement?.value || 0,
-          costElementName: item?.costElement?.label || "",
+          costElementName: item?.costElement?.label || '',
           dteExpenseDate: item.expenseDate,
           businessTransactionId: item.transaction.value || 0,
-          businessTransactionName: item.transaction.label || "",
+          businessTransactionName: item.transaction.label || '',
           numQuantity: +item.quantity || 0,
           numRate: +item.expenseAmount / +item.quantity,
           numAmount: +item.expenseAmount || 0,
           expenseLocation: item.location,
           comments: item.comments2,
-          attachmentLink: item?.attachmentLink || "",
-          driverName: item?.driverName || "",
+          attachmentLink: item?.attachmentLink || '',
+          driverName: item?.driverName || '',
           driverId: item?.driverId || 0,
-          subGlaccountHeadId : item?.accountHead?.value || 0,
-          strSubGlaccountHead:  item?.accountHead?.label || "",
+          subGlaccountHeadId: item?.accountHead?.value || 0,
+          strSubGlaccountHead: item?.accountHead?.label || '',
         }));
 
         const payload = {
@@ -203,29 +201,29 @@ export default function ExpenseRegisterCreateForm() {
             accountId: +profileData?.accountId || 0,
             businessUnitId: +selectedBusinessUnit?.value || 0,
             actionBy: +profileData?.userId || 0,
-            businessUnitName: selectedBusinessUnit?.label || "",
+            businessUnitName: selectedBusinessUnit?.label || '',
             sbuid: location?.state?.selectedSbu.value || 0,
-            sbuname: location?.state?.selectedSbu.label || "",
+            sbuname: location?.state?.selectedSbu.label || '',
             countryId: location?.state?.selectedCountry.value || 0,
-            countryName: location?.state?.selectedCountry.label || "",
+            countryName: location?.state?.selectedCountry.label || '',
             currencyId: location?.state?.selectedCurrency.value || 0,
-            currencyName: location?.state?.selectedCurrency.label || "",
+            currencyName: location?.state?.selectedCurrency.label || '',
             expenseForId: location?.state?.internalAccount
               ? 0
               : location?.state?.selectedExpense.value,
             dteFromDate: values.expenseFrom,
             dteToDate: values.expenseTo,
             projectId: values.projectName.value || 0,
-            projectName: values.projectName.label || "",
+            projectName: values.projectName.label || '',
             costCenterId: 0,
-            costCenterName: "",
+            costCenterName: '',
             instrumentId: values.paymentType.value || 0,
-            instrumentName: values.paymentType.label || "",
+            instrumentName: values.paymentType.label || '',
             disbursementCenterId: values.disbursmentCenter.value || 0,
-            disbursementCenterName: values.disbursmentCenter.label || "",
+            disbursementCenterName: values.disbursmentCenter.label || '',
             // vehicle ddl
             vehicleId:
-              values.vehicle?.value === 1 ? "" : values.vehicle?.label || "",
+              values.vehicle?.value === 1 ? '' : values.vehicle?.label || '',
             numTotalAmount: total?.totalAmount || 0,
             comments: values.comments1,
             numTotalApprovedAmount: 0,
@@ -241,12 +239,12 @@ export default function ExpenseRegisterCreateForm() {
         };
         if (values.costCenter || values.projectName) {
           if (rowDto?.length === 0) {
-            toast.warn("Please add transaction");
+            toast.warn('Please add transaction');
           } else {
             CreateExpenceRegister(payload, cb, setDisabled);
           }
         } else {
-          toast.warn("Either select Cost center or Project name");
+          toast.warn('Either select Cost center or Project name');
         }
       }
     } else {
@@ -279,13 +277,13 @@ export default function ExpenseRegisterCreateForm() {
     const newobj = {
       ...values,
       quantity: 1,
-      attachmentLink: uploadImage[0]?.id || "",
+      attachmentLink: uploadImage[0]?.id || '',
       driverId: values?.driverExp ? values?.userNmae?.value || 0 : 0,
-      driverName: values?.driverExp ? values?.userNmae?.label || "" : "",
+      driverName: values?.driverExp ? values?.userNmae?.label || '' : '',
     };
 
     if (duplicateCheck) {
-      toast.warning("Item already exists");
+      toast.warning('Item already exists');
     } else {
       //Expense Period From  and Expense Period To check
       if (
@@ -294,7 +292,7 @@ export default function ExpenseRegisterCreateForm() {
       ) {
         if (+newobj?.expenseAmount > 499 && !newobj?.attachmentLink) {
           return toast.warn(
-            "Attachment is required when expense amount is more or equal to 500"
+            'Attachment is required when expense amount is more or equal to 500'
           );
         } else {
           const newRowDto = [...rowDto, newobj];
@@ -302,13 +300,13 @@ export default function ExpenseRegisterCreateForm() {
             newRowDto.unshift({
               ...values,
               expenseAmount: fuelLogCash,
-              comments2: "Fuel Log Cash",
+              comments2: 'Fuel Log Cash',
               quantity: 1,
             });
           }
           setRowDto(newRowDto);
           cb && cb();
-          setUploadImage("");
+          setUploadImage('');
         }
       } else {
         toast.warn(
@@ -337,12 +335,12 @@ export default function ExpenseRegisterCreateForm() {
     <IForm
       title={
         location?.state?.isApproval
-          ? "Internal Expense Approval"
-          : "Create Internal Expense"
+          ? 'Internal Expense Approval'
+          : 'Create Internal Expense'
       }
       getProps={setObjprops}
       isDisabled={isDisabled}
-      submitBtnText={location?.state?.isApproval ? "Approval" : "Save"}
+      submitBtnText={location?.state?.isApproval ? 'Approval' : 'Save'}
     >
       {isDisabled && <Loading />}
       <Form

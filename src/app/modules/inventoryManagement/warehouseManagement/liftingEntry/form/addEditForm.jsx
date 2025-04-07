@@ -1,32 +1,31 @@
-
-import React, { useState, useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { getDistributionChannelDDL_api } from "../../../../salesManagement/report/customerSalesTargetReport/helper";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
+import React, { useState, useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { getDistributionChannelDDL_api } from '../../../../salesManagement/report/customerSalesTargetReport/helper';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
 import {
   getSalesOrgList,
   getTargetQtyList,
   liftingEntryAPI,
   liftingEntryEditAPI,
-} from "../helper";
-import Form from "./form";
-import * as Yup from "yup";
-import { toast } from "react-toastify";
+} from '../helper';
+import Form from './form';
+import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
 export const monthDDL = [
-  { value: 1, label: "January" },
-  { value: 2, label: "February" },
-  { value: 3, label: "March" },
-  { value: 4, label: "April" },
-  { value: 5, label: "May" },
-  { value: 6, label: "June" },
-  { value: 7, label: "July" },
-  { value: 8, label: "August" },
-  { value: 9, label: "September" },
-  { value: 10, label: "October" },
-  { value: 11, label: "November" },
-  { value: 12, label: "December" },
+  { value: 1, label: 'January' },
+  { value: 2, label: 'February' },
+  { value: 3, label: 'March' },
+  { value: 4, label: 'April' },
+  { value: 5, label: 'May' },
+  { value: 6, label: 'June' },
+  { value: 7, label: 'July' },
+  { value: 8, label: 'August' },
+  { value: 9, label: 'September' },
+  { value: 10, label: 'October' },
+  { value: 11, label: 'November' },
+  { value: 12, label: 'December' },
 ];
 
 const date = new Date();
@@ -40,48 +39,48 @@ for (var i = year - 5; i <= max; i++) {
 }
 
 const initData = {
-  liftingPlanType: { value: 1, label: "Lifting Entry" },
-  month: "",
-  year: "",
-  salesOrg: "",
-  channel: "",
-  item: "",
-  area: "",
-  region: "",
+  liftingPlanType: { value: 1, label: 'Lifting Entry' },
+  month: '',
+  year: '',
+  salesOrg: '',
+  channel: '',
+  item: '',
+  area: '',
+  region: '',
 };
 
 const validationSchema = Yup.object().shape({
   liftingPlanType: Yup.object().shape({
-    value: Yup.string().required("Please select lifting plan type"),
-    label: Yup.string().required("Please select lifting plan type"),
+    value: Yup.string().required('Please select lifting plan type'),
+    label: Yup.string().required('Please select lifting plan type'),
   }),
   month: Yup.object().shape({
-    value: Yup.string().required("Please select month"),
-    label: Yup.string().required("Please select month"),
+    value: Yup.string().required('Please select month'),
+    label: Yup.string().required('Please select month'),
   }),
   year: Yup.object().shape({
-    value: Yup.string().required("Please select year"),
-    label: Yup.string().required("Please select year"),
+    value: Yup.string().required('Please select year'),
+    label: Yup.string().required('Please select year'),
   }),
   salesOrg: Yup.object().shape({
-    value: Yup.string().required("Please select sales organization"),
-    label: Yup.string().required("Please select sales organization"),
+    value: Yup.string().required('Please select sales organization'),
+    label: Yup.string().required('Please select sales organization'),
   }),
   channel: Yup.object().shape({
-    value: Yup.string().required("Please select distribution channel"),
-    label: Yup.string().required("Please select distribution channel"),
+    value: Yup.string().required('Please select distribution channel'),
+    label: Yup.string().required('Please select distribution channel'),
   }),
   item: Yup.object().shape({
-    value: Yup.string().required("Please select item"),
-    label: Yup.string().required("Please select item"),
+    value: Yup.string().required('Please select item'),
+    label: Yup.string().required('Please select item'),
   }),
   area: Yup.object().shape({
-    value: Yup.string().required("Please select area"),
-    label: Yup.string().required("Please select area"),
+    value: Yup.string().required('Please select area'),
+    label: Yup.string().required('Please select area'),
   }),
   region: Yup.object().shape({
-    value: Yup.string().required("Please select region"),
-    label: Yup.string().required("Please select region"),
+    value: Yup.string().required('Please select region'),
+    label: Yup.string().required('Please select region'),
   }),
 });
 
@@ -132,7 +131,7 @@ export default function LiftingEntryForm() {
           intItemId: values?.item?.value,
           strItemName: values?.item?.label,
           intUomid: 0,
-          strUomname: "",
+          strUomname: '',
           numTargetQuantity: +item?.liftingQty || 0,
           numApproveQuantity: 0,
           isActive: true,
@@ -154,7 +153,7 @@ export default function LiftingEntryForm() {
       .filter((item) => item?.isSelected && !item?.isApprove);
 
     if (payload?.length === 0) {
-      return toast.warn("Please select atleast one row");
+      return toast.warn('Please select atleast one row');
     }
 
     const checkLiftingQty = payload?.filter(
@@ -163,7 +162,7 @@ export default function LiftingEntryForm() {
 
     if (checkLiftingQty?.length > 0) {
       return toast.warn(
-        "Lifting qty should be greater than 0 in all selected rows"
+        'Lifting qty should be greater than 0 in all selected rows'
       );
     }
 
@@ -187,7 +186,7 @@ export default function LiftingEntryForm() {
       ?.filter((item) => item?.isSelected)
       .reduce((a, b) => a + Number(b?.liftingQty), 0);
     setTotalLiftingQty(total);
-    console.log(total, "total");
+    console.log(total, 'total');
   };
 
   const allSelect = (value) => {
@@ -212,11 +211,11 @@ export default function LiftingEntryForm() {
   return (
     <IForm
       isHiddenReset={true}
-      title={"Lifting Entry"}
+      title={'Lifting Entry'}
       submitBtnText={
         rowData?.filter((item) => item?.isSelected && item?.intId)?.length > 0
-          ? "Edit"
-          : "Save"
+          ? 'Edit'
+          : 'Save'
       }
       getProps={setObjProps}
       isDisabled={

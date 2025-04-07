@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
 export function LayTimeTableHeader({ hideDeleteBtn }) {
   return (
     <thead>
-      <tr style={{ borderTop: "1px solid #d6d6d6" }}>
+      <tr style={{ borderTop: '1px solid #d6d6d6' }}>
         <th rowSpan={2} className="text-middle">
           Date
         </th>

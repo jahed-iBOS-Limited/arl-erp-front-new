@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const convertNumberToWords = (n) => {
   var string = n.toString(),
@@ -14,79 +14,79 @@ export const convertNumberToWords = (n) => {
     i,
     word,
     words,
-    and = "and";
+    and = 'and';
 
   /* Remove spaces and commas */
-  string = string.replace(/[, ]/g, "");
+  string = string.replace(/[, ]/g, '');
 
   /* Is number zero? */
   if (parseInt(string) === 0) {
-    return "zero";
+    return 'zero';
   }
 
   /* Array of units as words */
   units = [
-    "",
-    "one",
-    "two",
-    "three",
-    "four",
-    "five",
-    "six",
-    "seven",
-    "eight",
-    "nine",
-    "ten",
-    "eleven",
-    "twelve",
-    "thirteen",
-    "fourteen",
-    "fifteen",
-    "sixteen",
-    "seventeen",
-    "eighteen",
-    "nineteen",
+    '',
+    'one',
+    'two',
+    'three',
+    'four',
+    'five',
+    'six',
+    'seven',
+    'eight',
+    'nine',
+    'ten',
+    'eleven',
+    'twelve',
+    'thirteen',
+    'fourteen',
+    'fifteen',
+    'sixteen',
+    'seventeen',
+    'eighteen',
+    'nineteen',
   ];
 
   /* Array of tens as words */
   tens = [
-    "",
-    "",
-    "twenty",
-    "thirty",
-    "forty",
-    "fifty",
-    "sixty",
-    "seventy",
-    "eighty",
-    "ninety",
+    '',
+    '',
+    'twenty',
+    'thirty',
+    'forty',
+    'fifty',
+    'sixty',
+    'seventy',
+    'eighty',
+    'ninety',
   ];
 
   /* Array of scales as words */
   scales = [
-    "",
-    "thousand",
-    "million",
-    "billion",
-    "trillion",
-    "quadrillion",
-    "quintillion",
-    "sextillion",
-    "septillion",
-    "octillion",
-    "nonillion",
-    "decillion",
-    "undecillion",
-    "duodecillion",
-    "tredecillion",
-    "quatttuor-decillion",
-    "quindecillion",
-    "sexdecillion",
-    "septen-decillion",
-    "octodecillion",
-    "novemdecillion",
-    "vigintillion",
-    "centillion",
+    '',
+    'thousand',
+    'million',
+    'billion',
+    'trillion',
+    'quadrillion',
+    'quintillion',
+    'sextillion',
+    'septillion',
+    'octillion',
+    'nonillion',
+    'decillion',
+    'undecillion',
+    'duodecillion',
+    'tredecillion',
+    'quatttuor-decillion',
+    'quindecillion',
+    'sexdecillion',
+    'septen-decillion',
+    'octodecillion',
+    'novemdecillion',
+    'vigintillion',
+    'centillion',
   ];
 
   /* Split user argument into 3 digit chunks from right to left */
@@ -100,7 +100,7 @@ export const convertNumberToWords = (n) => {
   /* Check if function has enough scale words to be able to stringify the user argument */
   chunksLen = chunks.length;
   if (chunksLen > scales.length) {
-    return "";
+    return '';
   }
 
   /* Stringify each integer in each chunk */
@@ -110,10 +110,7 @@ export const convertNumberToWords = (n) => {
 
     if (chunk) {
       /* Split chunk into array of individual integers */
-      ints = chunks[i]
-        .split("")
-        .reverse()
-        .map(parseFloat);
+      ints = chunks[i].split('').reverse().map(parseFloat);
 
       /* If tens integer is 1, i.e. 10, then add 10 to units integer */
       if (ints[1] === 1) {
@@ -145,92 +142,87 @@ export const convertNumberToWords = (n) => {
 
       /* Add hundreds word if array item exists */
       if ((word = units[ints[2]])) {
-        words.push(word + " hundred");
+        words.push(word + ' hundred');
       }
     }
   }
 
-  return words.reverse().join(" ");
+  return words.reverse().join(' ');
 };
 
 var a = [
-  "",
-  "one ",
-  "two ",
-  "three ",
-  "four ",
-  "five ",
-  "six ",
-  "seven ",
-  "eight ",
-  "nine ",
-  "ten ",
-  "eleven ",
-  "twelve ",
-  "thirteen ",
-  "fourteen ",
-  "fifteen ",
-  "sixteen ",
-  "seventeen ",
-  "eighteen ",
-  "nineteen ",
+  '',
+  'one ',
+  'two ',
+  'three ',
+  'four ',
+  'five ',
+  'six ',
+  'seven ',
+  'eight ',
+  'nine ',
+  'ten ',
+  'eleven ',
+  'twelve ',
+  'thirteen ',
+  'fourteen ',
+  'fifteen ',
+  'sixteen ',
+  'seventeen ',
+  'eighteen ',
+  'nineteen ',
 ];
 var b = [
-  "",
-  "",
-  "twenty",
-  "thirty",
-  "forty",
-  "fifty",
-  "sixty",
-  "seventy",
-  "eighty",
-  "ninety",
+  '',
+  '',
+  'twenty',
+  'thirty',
+  'forty',
+  'fifty',
+  'sixty',
+  'seventy',
+  'eighty',
+  'ninety',
 ];
-
 
 // this is lakh and crore format, not in million format.
 
 export const inWords = (num) => {
-  if ((num = num.toString()).length > 9) return "overflow";
-  let n = ("000000000" + num)
+  if ((num = num.toString()).length > 9) return 'overflow';
+  let n = ('000000000' + num)
     .substr(-9)
     .match(/^(\d{2})(\d{2})(\d{2})(\d{1})(\d{2})$/);
   if (!n) return;
-  var str = "";
+  var str = '';
   str +=
     n[1] != 0
-      ? (a[Number(n[1])] || b[n[1][0]] + " " + a[n[1][1]]) + "crore "
-      : "";
+      ? (a[Number(n[1])] || b[n[1][0]] + ' ' + a[n[1][1]]) + 'crore '
+      : '';
   str +=
     n[2] != 0
-      ? (a[Number(n[2])] || b[n[2][0]] + " " + a[n[2][1]]) + "lakh "
-      : "";
+      ? (a[Number(n[2])] || b[n[2][0]] + ' ' + a[n[2][1]]) + 'lakh '
+      : '';
   str +=
     n[3] != 0
-      ? (a[Number(n[3])] || b[n[3][0]] + " " + a[n[3][1]]) + "thousand "
-      : "";
+      ? (a[Number(n[3])] || b[n[3][0]] + ' ' + a[n[3][1]]) + 'thousand '
+      : '';
   str +=
     n[4] != 0
-      ? (a[Number(n[4])] || b[n[4][0]] + " " + a[n[4][1]]) + "hundred "
-      : "";
+      ? (a[Number(n[4])] || b[n[4][0]] + ' ' + a[n[4][1]]) + 'hundred '
+      : '';
   str +=
     n[5] != 0
-      ? (str != "" ? "and " : "") +
-        (a[Number(n[5])] || b[n[5][0]] + " " + a[n[5][1]]) +
-        ""
-      : "";
+      ? (str != '' ? 'and ' : '') +
+        (a[Number(n[5])] || b[n[5][0]] + ' ' + a[n[5][1]]) +
+        ''
+      : '';
   return str;
 };
-
-
 
 // https://localhost:5001/fino/Expense/MoneyInWord?Money=9999999
 export const moneyInWord = async (number, setter) => {
   try {
-    const res = await axios.get(
-      `/fino/Expense/MoneyInWord?Money=${number}`
-    );
+    const res = await axios.get(`/fino/Expense/MoneyInWord?Money=${number}`);
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };

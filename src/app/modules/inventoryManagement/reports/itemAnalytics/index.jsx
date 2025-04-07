@@ -1,20 +1,19 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
-import PaginationSearch from "../../../_helper/_search";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { insertDataInExcel } from "./helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IForm from '../../../_helper/_form';
+import Loading from '../../../_helper/_loading';
+import PaginationSearch from '../../../_helper/_search';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { insertDataInExcel } from './helper';
 const initData = {
-  plant: "",
-  wareHouse: "",
-  itemType: "",
-  itemCategory: "",
-  itemSubCategory: "",
+  plant: '',
+  wareHouse: '',
+  itemType: '',
+  itemCategory: '',
+  itemSubCategory: '',
 };
 export default function ItemAnalytics() {
   const [pageNo, setPageNo] = useState(0);
@@ -42,7 +41,7 @@ export default function ItemAnalytics() {
     values,
     pageNo,
     pageSize,
-    searchValue = "",
+    searchValue = '',
     cb
   ) => {
     getItemAnalyticsReport(
@@ -50,9 +49,9 @@ export default function ItemAnalytics() {
         values?.plant?.value
       }&warehouseId=${values?.wareHouse?.value}&ItemType=${
         values?.itemType?.value
-      }&ItemCategory=${values?.itemCategory?.value ||
-        0}&ItemSubCategory=${values?.itemSubCategory?.value ||
-        0}&searchTerm=${searchValue}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`,
+      }&ItemCategory=${values?.itemCategory?.value || 0}&ItemSubCategory=${
+        values?.itemSubCategory?.value || 0
+      }&searchTerm=${searchValue}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`,
       cb
     );
   };
@@ -69,7 +68,7 @@ export default function ItemAnalytics() {
     getLandingApiCall(values, pageNo, pageSize, searchValue);
   };
   const generateExcel = (values, pageSize) => {
-    getLandingApiCall(values, pageNo, pageSize, "", insertDataInExcel);
+    getLandingApiCall(values, pageNo, pageSize, '', insertDataInExcel);
   };
   useEffect(() => {
     getPlanDDL(
@@ -113,12 +112,12 @@ export default function ItemAnalytics() {
                 <div className="col-lg-3 ">
                   <NewSelect
                     name="plant"
-                    options={[{ label: "All", value: 0 }, ...plantDDL] || []}
+                    options={[{ label: 'All', value: 0 }, ...plantDDL] || []}
                     value={values?.plant}
                     label="Plant"
                     onChange={(valueOption) => {
-                      setFieldValue("plant", valueOption);
-                      setFieldValue("wareHouse", "");
+                      setFieldValue('plant', valueOption);
+                      setFieldValue('wareHouse', '');
                       if (!valueOption) return;
                       getWareHouseDDL(
                         `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${valueOption?.value}&OrgUnitTypeId=8`
@@ -133,13 +132,13 @@ export default function ItemAnalytics() {
                   <NewSelect
                     name="wareHouse"
                     options={
-                      [{ label: "All", value: 0 }, ...wareHouseDDL] || []
+                      [{ label: 'All', value: 0 }, ...wareHouseDDL] || []
                     }
                     value={values?.wareHouse}
                     label="WareHouse"
                     onChange={(valueOption) => {
-                      setFieldValue("wareHouse", valueOption);
-                      setFieldValue("itemType", "");
+                      setFieldValue('wareHouse', valueOption);
+                      setFieldValue('itemType', '');
                       if (!valueOption) return;
                     }}
                     placeholder="WareHouse"
@@ -155,8 +154,8 @@ export default function ItemAnalytics() {
                     value={values?.itemType}
                     label="Item Type"
                     onChange={(valueOption) => {
-                      setFieldValue("itemType", valueOption);
-                      setFieldValue("itemCategory", "");
+                      setFieldValue('itemType', valueOption);
+                      setFieldValue('itemCategory', '');
                       if (!valueOption) return;
                       getItemCategoryDDL(
                         `/wms/WmsReport/GetItemCategoryListDDL?AccountId=${accId}&BusinessUnitId=${buId}&ItemTypeId=${valueOption?.value}`
@@ -175,8 +174,8 @@ export default function ItemAnalytics() {
                     value={values?.itemCategory}
                     label="Item Category"
                     onChange={(valueOption) => {
-                      setFieldValue("itemCategory", valueOption);
-                      setFieldValue("itemSubCategory", "");
+                      setFieldValue('itemCategory', valueOption);
+                      setFieldValue('itemSubCategory', '');
                       if (!valueOption) return;
                       getItemSubCategoryDDL(
                         `/wms/WmsReport/GetItemSubCategoryListDDL?AccountId=${accId}&BusinessUnitId=${buId}&ItemCategoryId=${valueOption?.value}`
@@ -195,7 +194,7 @@ export default function ItemAnalytics() {
                     value={values?.itemSubCategory}
                     label="Item Sub-Category"
                     onChange={(valueOption) => {
-                      setFieldValue("itemSubCategory", valueOption);
+                      setFieldValue('itemSubCategory', valueOption);
                     }}
                     placeholder="Item Type"
                     errors={errors}

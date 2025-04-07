@@ -1,10 +1,10 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { Suspense } from "react";
-import { ContentRoute, LayoutSplashScreen } from "../../../_metronic/layout";
-import { TrainingPages } from "./training/trainingPages";
-import { AssessmentPages } from "./assessment/assessmentPages";
-import { EventPages } from "./event/eventPages";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { Suspense } from 'react';
+import { ContentRoute, LayoutSplashScreen } from '../../../_metronic/layout';
+import { TrainingPages } from './training/trainingPages';
+import { AssessmentPages } from './assessment/assessmentPages';
+import { EventPages } from './event/eventPages';
 
 export function LearningAndDevelopmentPages() {
   return (

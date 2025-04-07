@@ -1,18 +1,18 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import NewSelect from "../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import Loading from '../../../_helper/_loading';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import NewSelect from '../../../_helper/_select';
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  businessUnit: "",
+  businessUnit: '',
 };
 export default function UnallocatedProfitCenter() {
   const saveHandler = (values, cb) => {};
@@ -21,12 +21,8 @@ export default function UnallocatedProfitCenter() {
     return state.authData.businessUnitList;
   }, shallowEqual);
 
-  const [
-    tableData,
-    getTableData,
-    tableDataLoader,
-    setTableData,
-  ] = useAxiosGet();
+  const [tableData, getTableData, tableDataLoader, setTableData] =
+    useAxiosGet();
   return (
     <Formik
       enableReinitialize={true}
@@ -63,11 +59,11 @@ export default function UnallocatedProfitCenter() {
                   <div className="col-lg-3">
                     <NewSelect
                       label="Business Unit"
-                      options={businessUnitList || ""}
+                      options={businessUnitList || ''}
                       value={values?.businessUnit}
                       name="businessUnit"
                       onChange={(valueOption) => {
-                        setFieldValue("businessUnit", valueOption);
+                        setFieldValue('businessUnit', valueOption);
                       }}
                     />
                   </div>
@@ -80,10 +76,10 @@ export default function UnallocatedProfitCenter() {
                       type="date"
                       onChange={(e) => {
                         if (e) {
-                          setFieldValue("fromDate", e?.target?.value);
+                          setFieldValue('fromDate', e?.target?.value);
                           setTableData([]);
                         } else {
-                          setFieldValue("fromDate", "");
+                          setFieldValue('fromDate', '');
                           setTableData([]);
                         }
                       }}
@@ -98,10 +94,10 @@ export default function UnallocatedProfitCenter() {
                       type="date"
                       onChange={(e) => {
                         if (e) {
-                          setFieldValue("toDate", e?.target?.value);
+                          setFieldValue('toDate', e?.target?.value);
                           setTableData([]);
                         } else {
-                          setFieldValue("toDate", "");
+                          setFieldValue('toDate', '');
                           setTableData([]);
                         }
                       }}
@@ -110,7 +106,7 @@ export default function UnallocatedProfitCenter() {
                   <div className="col-lg-3">
                     <button
                       style={{
-                        marginTop: "18px",
+                        marginTop: '18px',
                       }}
                       className="btn btn-primary"
                       type="button"
@@ -130,40 +126,39 @@ export default function UnallocatedProfitCenter() {
                   </div>
                 </div>
                 <div className="mt-2">
-                <div className="table-responsive">
- <table className="table table-striped table-bordered bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Accounting Journal Code</th>
-                        <th>General Ledger Name</th>
-                        <th>Transaction Date</th>
-                        <th>Amount</th>
-                        <th>Narration</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {tableData?.length > 0 &&
-                        tableData?.map((item, index) => (
-                          <tr key={index}>
-                            <td>{index + 1}</td>
-                            <td className="text-center">
-                              {item?.strAccountingJournalCode}
-                            </td>
-                            <td>{item?.strGeneralLedgerName}</td>
-                            <td className="text-center">
-                              {_dateFormatter(item?.dteTransactionDate)}
-                            </td>
-                            <td className="text-right">
-                              {_formatMoney(item?.numAmount)}
-                            </td>
-                            <td>{item?.strNarration}</td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
-</div>
-                 
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Accounting Journal Code</th>
+                          <th>General Ledger Name</th>
+                          <th>Transaction Date</th>
+                          <th>Amount</th>
+                          <th>Narration</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {tableData?.length > 0 &&
+                          tableData?.map((item, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td className="text-center">
+                                {item?.strAccountingJournalCode}
+                              </td>
+                              <td>{item?.strGeneralLedgerName}</td>
+                              <td className="text-center">
+                                {_dateFormatter(item?.dteTransactionDate)}
+                              </td>
+                              <td className="text-right">
+                                {_formatMoney(item?.numAmount)}
+                              </td>
+                              <td>{item?.strNarration}</td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </Form>

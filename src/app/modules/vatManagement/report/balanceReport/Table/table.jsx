@@ -42,10 +42,9 @@ export default function BalancerReportTable() {
         selectedBusinessUnit?.value,
         _todayDate(),
         setRowDto,
-        setLoading,
+        setLoading
       );
     }
-
   }, [profileData]);
 
   const pdfExport = (fileName) => {
@@ -108,7 +107,7 @@ export default function BalancerReportTable() {
                             selectedBusinessUnit?.value,
                             values?.fromDate,
                             setRowDto,
-                            setLoading,
+                            setLoading
                           );
                         }}
                         // style={{ marginTop: "19px" }}
@@ -201,7 +200,7 @@ export default function BalancerReportTable() {
                                 >
                                   <span className="pr-1">
                                     {numberWithCommas(
-                                      parseFloat(itm.numBalance).toFixed(2),
+                                      parseFloat(itm.numBalance).toFixed(2)
                                     )}
                                   </span>
                                 </td>
@@ -216,8 +215,8 @@ export default function BalancerReportTable() {
                           <td className="text-right">
                             {numberWithCommas(
                               parseFloat(
-                                rowDto?.nonCurrentAssetsTotalBalance,
-                              ).toFixed(2),
+                                rowDto?.nonCurrentAssetsTotalBalance
+                              ).toFixed(2)
                             )}
                           </td>
                         </tr>
@@ -242,7 +241,7 @@ export default function BalancerReportTable() {
                                 >
                                   <span className="pr-1">
                                     {numberWithCommas(
-                                      parseFloat(itm.numBalance).toFixed(2),
+                                      parseFloat(itm.numBalance).toFixed(2)
                                     )}
                                   </span>
                                 </td>
@@ -256,8 +255,8 @@ export default function BalancerReportTable() {
                           <td className="text-right">
                             {numberWithCommas(
                               parseFloat(
-                                rowDto?.currentassetsTotalBalance,
-                              ).toFixed(2),
+                                rowDto?.currentassetsTotalBalance
+                              ).toFixed(2)
                             )}
                           </td>
                         </tr>
@@ -273,8 +272,8 @@ export default function BalancerReportTable() {
                             {numberWithCommas(
                               parseFloat(
                                 rowDto?.currentassetsTotalBalance +
-                                  rowDto.nonCurrentAssetsTotalBalance,
-                              ).toFixed(2),
+                                  rowDto.nonCurrentAssetsTotalBalance
+                              ).toFixed(2)
                             )}
                           </td>
                         </tr>
@@ -306,7 +305,7 @@ export default function BalancerReportTable() {
                                 >
                                   <span className="pr-1">
                                     {numberWithCommas(
-                                      parseFloat(itm.numBalance).toFixed(2),
+                                      parseFloat(itm.numBalance).toFixed(2)
                                     )}
                                   </span>
                                 </td>
@@ -319,7 +318,7 @@ export default function BalancerReportTable() {
                           </td>
                           <td className="text-right">
                             {numberWithCommas(
-                              parseFloat(rowDto?.equityTotalBalance).toFixed(2),
+                              parseFloat(rowDto?.equityTotalBalance).toFixed(2)
                             )}
                           </td>
                         </tr>
@@ -357,7 +356,7 @@ export default function BalancerReportTable() {
                                 >
                                   <span className="pr-1">
                                     {numberWithCommas(
-                                      parseFloat(itm.numBalance).toFixed(2),
+                                      parseFloat(itm.numBalance).toFixed(2)
                                     )}
                                   </span>
                                 </td>
@@ -371,8 +370,8 @@ export default function BalancerReportTable() {
                           <td className="text-right">
                             {numberWithCommas(
                               parseFloat(
-                                rowDto?.nonCurrentLiabilityTotalBalance,
-                              ).toFixed(2),
+                                rowDto?.nonCurrentLiabilityTotalBalance
+                              ).toFixed(2)
                             )}
                           </td>
                         </tr>
@@ -409,7 +408,7 @@ export default function BalancerReportTable() {
                                 >
                                   <span className="pr-1">
                                     {numberWithCommas(
-                                      parseFloat(itm.numBalance).toFixed(2),
+                                      parseFloat(itm.numBalance).toFixed(2)
                                     )}
                                   </span>
                                 </td>
@@ -423,8 +422,8 @@ export default function BalancerReportTable() {
                           <td className="text-right">
                             {numberWithCommas(
                               parseFloat(
-                                rowDto?.currentLiabilityTotalBalance,
-                              ).toFixed(2),
+                                rowDto?.currentLiabilityTotalBalance
+                              ).toFixed(2)
                             )}
                           </td>
                         </tr>

@@ -1,16 +1,16 @@
-import React from "react";
+import React from 'react';
 
 const TransferTable = ({ jorunalType, values }) => {
   return (
     jorunalType === 6 && (
       <>
-        <table className={"table mt-1 bj-table"}>
+        <table className={'table mt-1 bj-table'}>
           <thead>
             <tr>
-              <th style={{ width: "20px" }}>SL</th>
-              <th style={{ width: "260px" }}>Transaction</th>
-              <th style={{ width: "100px" }}>Debit</th>
-              <th style={{ width: "100px" }}>Credit</th>
+              <th style={{ width: '20px' }}>SL</th>
+              <th style={{ width: '260px' }}>Transaction</th>
+              <th style={{ width: '100px' }}>Debit</th>
+              <th style={{ width: '100px' }}>Credit</th>
             </tr>
           </thead>
           <tbody>

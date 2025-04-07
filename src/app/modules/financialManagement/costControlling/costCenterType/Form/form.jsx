@@ -1,19 +1,19 @@
-import React from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { Input } from "../../../../../../_metronic/_partials/controls";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
+import React from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { Input } from '../../../../../../_metronic/_partials/controls';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   costCenterTypeName: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Controlling Unit Name is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Controlling Unit Name is required'),
   controllingUnit: Yup.object().shape({
-    label: Yup.string().required("Controlling Unit is required"),
-    value: Yup.string().required("Controlling Unit is required"),
+    label: Yup.string().required('Controlling Unit is required'),
+    value: Yup.string().required('Controlling Unit is required'),
   }),
 });
 
@@ -52,7 +52,7 @@ export default function FormCmp({
               <div className="form-group row">
                 <div className="col-lg-6">
                   <Field
-                    value={values.costCenterTypeName || ""}
+                    value={values.costCenterTypeName || ''}
                     name="costCenterTypeName"
                     component={Input}
                     placeholder="Type Name"
@@ -60,18 +60,19 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
                     {errors &&
                     errors.costCenterTypeName &&
-                    touched && touched.costCenterTypeName
+                    touched &&
+                    touched.costCenterTypeName
                       ? errors.costCenterTypeName.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
                 <div className="col-lg-6">
@@ -86,7 +87,7 @@ export default function FormCmp({
                         value={values?.controllingUnit}
                         onChange={(valueOption) => {
                           console.log(valueOption);
-                          setFieldValue("controllingUnit", valueOption);
+                          setFieldValue('controllingUnit', valueOption);
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -95,30 +96,30 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
                     {errors && errors.controllingUnit
                       ? errors.controllingUnit.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
               </div>
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

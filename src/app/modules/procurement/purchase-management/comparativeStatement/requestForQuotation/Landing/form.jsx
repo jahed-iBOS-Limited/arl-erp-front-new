@@ -1,5 +1,3 @@
-
-
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
@@ -47,26 +45,26 @@ export default function HeaderForm() {
 
   const sbuDDL = useSelector((state) => state?.commonDDL?.sbuDDL);
   const purchaseOrgDDL = useSelector(
-    (state) => state?.commonDDL?.purchaseOrgDDL,
+    (state) => state?.commonDDL?.purchaseOrgDDL
   );
   const plantDDL = useSelector((state) => state?.purchaseOrder?.plantDDL);
   //const wareHouseDDL = useSelector((state) => state?.purchaseOrder?.wareHouseDDL);
 
   const purchaseOrgModifyDDL = purchaseOrgDDL.filter((item) =>
-    [11].includes(item.value),
+    [11].includes(item.value)
   );
 
   const history = useHistory();
   // get user profile data from store
   const profileData = useSelector(
     (state) => state.authData.profileData,
-    shallowEqual,
+    shallowEqual
   );
 
   // get selected business unit from store
   const selectedBusinessUnit = useSelector(
     (state) => state.authData.selectedBusinessUnit,
-    shallowEqual,
+    shallowEqual
   );
 
   // loading
@@ -76,20 +74,17 @@ export default function HeaderForm() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(
-      getSbuDDLAction(profileData.accountId, selectedBusinessUnit.value),
+      getSbuDDLAction(profileData.accountId, selectedBusinessUnit.value)
     );
     dispatch(
-      getPurchaseOrgDDLAction(
-        profileData.accountId,
-        selectedBusinessUnit.value,
-      ),
+      getPurchaseOrgDDLAction(profileData.accountId, selectedBusinessUnit.value)
     );
     dispatch(
       getPlantListDDLAction(
         profileData?.userId,
         profileData?.accountId,
-        selectedBusinessUnit?.value,
-      ),
+        selectedBusinessUnit?.value
+      )
     );
     dispatch(getOrderTypeListDDLAction());
   }, [profileData, selectedBusinessUnit]);
@@ -109,7 +104,7 @@ export default function HeaderForm() {
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, values) => {
     getLandingData(
-      `/procurement/ShipRequestForQuotation/GetRequestForQuotationShipPagination?AccountId=${profileData.accountId}&UnitId=${selectedBusinessUnit.value}&RequestTypeId=1&SBUId=${values?.sbu?.value}&PurchaseOrganizationId=${values?.purchaseOrg?.value}&PlantId=${values?.plant?.value}&WearHouseId=${values?.warehouse?.value}&status=true&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
+      `/procurement/ShipRequestForQuotation/GetRequestForQuotationShipPagination?AccountId=${profileData.accountId}&UnitId=${selectedBusinessUnit.value}&RequestTypeId=1&SBUId=${values?.sbu?.value}&PurchaseOrganizationId=${values?.purchaseOrg?.value}&PlantId=${values?.plant?.value}&WearHouseId=${values?.warehouse?.value}&status=true&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
   };
 
@@ -226,7 +221,7 @@ export default function HeaderForm() {
                           selectedBusinessUnit?.value,
                           valueOption?.value,
                           setWarehouseDDL,
-                          setFieldValue,
+                          setFieldValue
                         );
                         if (!valueOption) {
                           setFieldValue('warehouse', '');
@@ -279,7 +274,7 @@ export default function HeaderForm() {
                       className="btn btn-primary"
                       onClick={() => {
                         getLandingData(
-                          `/procurement/ShipRequestForQuotation/GetRequestForQuotationShipPagination?AccountId=${profileData.accountId}&UnitId=${selectedBusinessUnit.value}&RequestTypeId=1&SBUId=${values?.sbu?.value}&PurchaseOrganizationId=${values?.purchaseOrg?.value}&PlantId=${values?.plant?.value}&WearHouseId=${values?.warehouse?.value}&status=true&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
+                          `/procurement/ShipRequestForQuotation/GetRequestForQuotationShipPagination?AccountId=${profileData.accountId}&UnitId=${selectedBusinessUnit.value}&RequestTypeId=1&SBUId=${values?.sbu?.value}&PurchaseOrganizationId=${values?.purchaseOrg?.value}&PlantId=${values?.plant?.value}&WearHouseId=${values?.warehouse?.value}&status=true&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
                         );
                       }}
                     >

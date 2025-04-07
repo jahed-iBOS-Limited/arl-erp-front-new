@@ -1,9 +1,7 @@
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import axios from "axios";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import axios from 'axios';
+import Form from './form';
 import {
   getEmpDDLAction,
   getBSCPerspectiveDDLAction,
@@ -18,36 +16,36 @@ import {
   getDataSourceDDLAction,
   deleteIndividualKPIByIdAction,
   getKpiEditedSingleDataAction,
-} from "../../../_redux/Actions";
-import { BrowserRouter, Route, useParams } from "react-router-dom";
-import ViewModal from "./detailsView";
-import IForm from "../../../../_helper/_form";
-import { getPMSFrequencyDDLAction } from "../../../../_helper/_redux/Actions";
-import IConfirmModal from "./../../../../_helper/_confirmModal";
+} from '../../../_redux/Actions';
+import { BrowserRouter, Route, useParams } from 'react-router-dom';
+import ViewModal from './detailsView';
+import IForm from '../../../../_helper/_form';
+import { getPMSFrequencyDDLAction } from '../../../../_helper/_redux/Actions';
+import IConfirmModal from './../../../../_helper/_confirmModal';
 import {
   getStrategicParticularsGridAction,
   setParticullersGridEmpty,
-} from "../../../_redux/Actions";
-import { saveCopyKpiForEmployee, saveCopyKpiForYear } from "./../helper";
-import { getPmsReportAction } from "../../../_helper/getReportAction";
+} from '../../../_redux/Actions';
+import { saveCopyKpiForEmployee, saveCopyKpiForYear } from './../helper';
+import { getPmsReportAction } from '../../../_helper/getReportAction';
 
 const initData = {
-  kpiformat: "",
-  objective: "",
-  bscPerspective: "",
-  kpiname: "",
-  weight: "",
-  dataSource: "",
-  maxiMini: "",
-  employee: "",
-  year: "",
-  aggregationType: "",
-  operator: "",
-  url: "",
+  kpiformat: '',
+  objective: '',
+  bscPerspective: '',
+  kpiname: '',
+  weight: '',
+  dataSource: '',
+  maxiMini: '',
+  employee: '',
+  year: '',
+  aggregationType: '',
+  operator: '',
+  url: '',
   isDailyEntry: false,
-  selectedType: "",
-  copyEmployee: "",
-  copyYear: "",
+  selectedType: '',
+  copyEmployee: '',
+  copyYear: '',
 };
 
 export default function CopyKpiForm({ isView, data }) {
@@ -153,7 +151,6 @@ export default function CopyKpiForm({ isView, data }) {
         )
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const getBscPerspectiveDefaultValue = (id) => {
@@ -177,7 +174,7 @@ export default function CopyKpiForm({ isView, data }) {
           toYearId: values?.copyYear?.value,
         };
 
-        if (values?.selectedType?.label === "Employee") {
+        if (values?.selectedType?.label === 'Employee') {
           saveCopyKpiForEmployee(payload, cb, setDisabled);
         } else {
           saveCopyKpiForYear(gridData, values, cb, setDisabled);
@@ -236,7 +233,7 @@ export default function CopyKpiForm({ isView, data }) {
 
   const deleteIndividualKPIById = (kpiId, values) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to delete`,
       yesAlertFunc: () => {
         dispatch(deleteIndividualKPIByIdAction(kpiId, getReport, values));
@@ -280,7 +277,7 @@ export default function CopyKpiForm({ isView, data }) {
     <>
       <BrowserRouter>
         <IForm
-          title={"Copy KPI"}
+          title={'Copy KPI'}
           getProps={setObjprops}
           isDisabled={isDisabled}
           isHiddenSave={id ? true : false}

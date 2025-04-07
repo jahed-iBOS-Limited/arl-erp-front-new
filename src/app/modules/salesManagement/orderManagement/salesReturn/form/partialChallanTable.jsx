@@ -1,8 +1,8 @@
-import React from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import InputField from "../../../../_helper/_inputField";
-import { toast } from "react-toastify";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import React from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import InputField from '../../../../_helper/_inputField';
+import { toast } from 'react-toastify';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
 
 export default function PartialChallanTable({ obj }) {
   const { gridData, allSelect, selectedAll, setGridData } = obj;
@@ -10,7 +10,7 @@ export default function PartialChallanTable({ obj }) {
   const dataChangeHandler = (headerIndex, rowIndex, key, value) => {
     let _data = [...gridData];
 
-    _data[headerIndex]["rowData"][rowIndex][key] = +value;
+    _data[headerIndex]['rowData'][rowIndex][key] = +value;
     setGridData(_data);
   };
 
@@ -26,7 +26,7 @@ export default function PartialChallanTable({ obj }) {
               <th
                 onClick={() => allSelect(!selectedAll())}
                 className="text-center cursor-pointer"
-                style={{ width: "40px" }}
+                style={{ width: '40px' }}
               >
                 <input
                   type="checkbox"
@@ -43,7 +43,7 @@ export default function PartialChallanTable({ obj }) {
               <th>Item Price</th>
               <th>Delivery Quantity</th>
               <th>Amount</th>
-              <th style={{ width: "120px" }}>Return Qty</th>
+              <th style={{ width: '120px' }}>Return Qty</th>
               {/* <th style={{ width: "150px" }}>Reason</th> */}
               <th>Remaining Qty</th>
             </tr>
@@ -57,7 +57,7 @@ export default function PartialChallanTable({ obj }) {
                       rowSpan={item?.rowData?.length + 1}
                       onClick={() => {
                         let _data = [...gridData];
-                        _data[index]["isSelected"] = !item.isSelected;
+                        _data[index]['isSelected'] = !item.isSelected;
                         setGridData(_data);
                       }}
                       className="text-center"
@@ -105,14 +105,14 @@ export default function PartialChallanTable({ obj }) {
                                 dataChangeHandler(
                                   index,
                                   rowIndex,
-                                  "returnQty",
+                                  'returnQty',
                                   +e?.target?.value
                                 );
                               }}
                               onBlur={(e) => {
                                 if (+e?.target?.value > element?.quantity) {
                                   toast.warn(
-                                    "Return qty can not be greater than delivery qty"
+                                    'Return qty can not be greater than delivery qty'
                                   );
                                 }
                               }}
@@ -150,7 +150,7 @@ export default function PartialChallanTable({ obj }) {
                 </>
               );
             })}
-            <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+            <tr style={{ textAlign: 'right', fontWeight: 'bold' }}>
               <td colSpan={7} className="text-right">
                 <b>Total</b>
               </td>

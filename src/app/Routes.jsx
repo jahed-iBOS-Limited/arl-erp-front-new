@@ -26,20 +26,23 @@ import {
 import ErrorsPage from './pages/ErrorsExamples/ErrorsPage';
 import { clearLocalStorageAction } from './modules/_helper/reduxForLocalStorage/Actions';
 
-const DepartmentalBalancedScorecard = lazy(() =>
-  import(
-    './modules/performanceManagement/departmentalKpi/balancedScore/Table/DepartmentalBalancedScorecard'
-  ),
+const DepartmentalBalancedScorecard = lazy(
+  () =>
+    import(
+      './modules/performanceManagement/departmentalKpi/balancedScore/Table/DepartmentalBalancedScorecard'
+    )
 );
-const KPIScoreCardNew = lazy(() =>
-  import(
-    './modules/performanceManagement/individualKpi/balancedScore/Table/KPIScoreCardNew'
-  ),
+const KPIScoreCardNew = lazy(
+  () =>
+    import(
+      './modules/performanceManagement/individualKpi/balancedScore/Table/KPIScoreCardNew'
+    )
 );
-const SBUBalancedScorecard = lazy(() =>
-  import(
-    './modules/performanceManagement/sbuKpi/balancedScore/Table/SBUBalancedScorecard'
-  ),
+const SBUBalancedScorecard = lazy(
+  () =>
+    import(
+      './modules/performanceManagement/sbuKpi/balancedScore/Table/SBUBalancedScorecard'
+    )
 );
 const Maintenance = lazy(() => import('./pages/Maintenance'));
 
@@ -56,22 +59,22 @@ export function Routes() {
 
   const { token } = useSelector(
     (state) => state?.authData.tokenData,
-    shallowEqual,
+    shallowEqual
   );
   const { profileData, selectedBusinessUnit, isExpiredPassword } = useSelector(
     (state) => {
       return state.authData;
     },
-    shallowEqual,
+    shallowEqual
   );
   const connection = useSelector(
     (state) => state?.chattingApp?.signalRConnection,
-    shallowEqual,
+    shallowEqual
   );
 
   const notifyCount = useSelector(
     (state) => state?.chattingApp?.notifyCount,
-    shallowEqual,
+    shallowEqual
   );
 
   const { actions } = authSlice;
@@ -84,12 +87,11 @@ export function Routes() {
         getShippointDDLCommon_action(
           profileData?.userId,
           profileData?.accountId,
-          selectedBusinessUnit?.value,
-        ),
+          selectedBusinessUnit?.value
+        )
       );
       dispatch(getOID_Action(profileData?.employeeId));
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   // ======for peopleDesk user=====
@@ -104,7 +106,9 @@ export function Routes() {
           toast.error('Invalid User');
           dispatch(actions.LogOut());
           dispatch(clearLocalStorageAction());
-          setTimeout(() => { window.location.reload(); }, 500); // For clear profileData from redux properly
+          setTimeout(() => {
+            window.location.reload();
+          }, 500); // For clear profileData from redux properly
         }
       }
     }
@@ -116,11 +120,10 @@ export function Routes() {
           tokenData: {
             token: info?.tokenData,
           },
-        }),
+        })
       );
-      Axios.defaults.headers.common[
-        'Authorization'
-      ] = `Bearer ${info?.tokenData}`;
+      Axios.defaults.headers.common['Authorization'] =
+        `Bearer ${info?.tokenData}`;
       requestFromServer
         .profileAPiCall(info?.email)
         .then((res) => {
@@ -134,7 +137,7 @@ export function Routes() {
               .then((res) => {
                 const findBu = res?.data?.find(
                   (item) =>
-                    item?.organizationUnitReffId === info?.peopleDeskBuId,
+                    item?.organizationUnitReffId === info?.peopleDeskBuId
                 );
                 if (findBu) {
                   if (
@@ -149,7 +152,7 @@ export function Routes() {
                         address: findBu?.businessUnitAddress,
                         imageId: findBu?.image,
                         isReload: true,
-                      }),
+                      })
                     );
                   }
                 }
@@ -171,7 +174,6 @@ export function Routes() {
         window.location.href = 'https://arl.peopledesk.io';
       }
     }
-
   }, []);
 
   useEffect(() => {
@@ -196,7 +198,7 @@ export function Routes() {
   const notify_KEY = signalR_KEY + '__notify_' + orgId + '_' + employeeId;
   const connectionHub = async (peopledeskApiURL) => {
     const notifyRes = await axios.get(
-      `${peopledeskApiURL}/Notification/GetNotificationCountErp?employeeId=${employeeId}&accountId=${orgId}`,
+      `${peopledeskApiURL}/Notification/GetNotificationCountErp?employeeId=${employeeId}&accountId=${orgId}`
     );
     dispatch(setNotifyCountAction(notifyRes?.data));
     const connectionHub = new HubConnectionBuilder()
@@ -230,7 +232,6 @@ export function Routes() {
         }
       });
     }
-
   }, [connection]);
 
   useEffect(() => {

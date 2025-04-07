@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export function getDeliveryInfoById(id) {
   return axios.get(`/wms/Delivery/GetDeliveryInfoByID?DeliveryId=${id}`);

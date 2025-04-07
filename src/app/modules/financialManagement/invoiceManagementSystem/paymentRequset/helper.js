@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { _todayDate } from "./../../../_helper/_todayDate";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { _todayDate } from './../../../_helper/_todayDate';
+import { toast } from 'react-toastify';
 
 // Plant DDL Call
 export const getPlantDDL = async (userId, accId, buId, setter) => {
@@ -13,36 +13,48 @@ export const getPlantDDL = async (userId, accId, buId, setter) => {
     }
   } catch (error) {}
 };
-export const GetApproveExpensesApi = async (accId, buId, plantId, setter, setDisabled) => {
-  setDisabled && setDisabled(true)
+export const GetApproveExpensesApi = async (
+  accId,
+  buId,
+  plantId,
+  setter,
+  setDisabled
+) => {
+  setDisabled && setDisabled(true);
   try {
     const res = await Axios.get(
       `/fino/PaymentRequest/GetApproveExpenses?PlantId=${plantId}&AccountId=${accId}&BusinessUnitId=${buId}`
     );
     if (res.status === 200 && res?.data) {
-      setDisabled && setDisabled(false)
-      res?.data?.length === 0 && toast.warning("Data not found");
+      setDisabled && setDisabled(false);
+      res?.data?.length === 0 && toast.warning('Data not found');
       setter(res?.data?.map((itm) => ({ ...itm, itemCheck: false })));
     }
   } catch (error) {
-    setDisabled && setDisabled(false)
+    setDisabled && setDisabled(false);
     setter([]);
   }
 };
-export const GetApproveAdvancesApi = async (accId, buId, plantId, setter, setDisabled) => {
+export const GetApproveAdvancesApi = async (
+  accId,
+  buId,
+  plantId,
+  setter,
+  setDisabled
+) => {
   try {
-    setDisabled && setDisabled(true)
+    setDisabled && setDisabled(true);
     const res = await Axios.get(
       `/fino/PaymentRequest/GetApproveAdvances?PlantId=${plantId}&AccountId=${accId}&BusinessUnitId=${buId}`
     );
     if (res.status === 200 && res?.data) {
-      setDisabled && setDisabled(false)
-      res?.data?.length === 0 && toast.warning("Data not found");
+      setDisabled && setDisabled(false);
+      res?.data?.length === 0 && toast.warning('Data not found');
       setter(res?.data?.map((itm) => ({ ...itm, itemCheck: false })));
     }
   } catch (error) {
-    setDisabled && setDisabled(false)
-    setter([])
+    setDisabled && setDisabled(false);
+    setter([]);
   }
 };
 export const paymentRequestSearchLandingApi = async (
@@ -53,18 +65,18 @@ export const paymentRequestSearchLandingApi = async (
   setDisabled
 ) => {
   try {
-    setDisabled && setDisabled(true)
+    setDisabled && setDisabled(true);
     const res = await Axios.get(
       `/procurement/PaymentRequest/PaymentRequestSearchLanding?BusinessUnitId=${buId}&PlantId=${plantId}&AccountId=${accId}&viewOrder=desc&PageNo=1&PageSize=100000`
     );
     if (res.status === 200 && res?.data) {
-      setDisabled && setDisabled(false)
-      res?.data?.data?.length === 0 && toast.warning("Data not found");
+      setDisabled && setDisabled(false);
+      res?.data?.data?.length === 0 && toast.warning('Data not found');
       setter(res?.data?.data?.map((itm) => ({ ...itm, itemCheck: false })));
     }
   } catch (error) {
-    setDisabled && setDisabled(false)
-    setter([])
+    setDisabled && setDisabled(false);
+    setter([]);
   }
 };
 
@@ -139,15 +151,15 @@ export const CreatePaymentRequest_api = async (data, cb, setDisabled) => {
     );
     if (res.status === 200) {
       setDisabled(false);
-      toast.success(res?.data?.message || "Submitted successfully", {
-        toastId: "CreatePaymentRequest",
+      toast.success(res?.data?.message || 'Submitted successfully', {
+        toastId: 'CreatePaymentRequest',
       });
       cb();
     }
   } catch (error) {
     setDisabled(false);
     toast.error(error?.response?.data?.message, {
-      toastId: "CreatePaymentRequest",
+      toastId: 'CreatePaymentRequest',
     });
   }
 };

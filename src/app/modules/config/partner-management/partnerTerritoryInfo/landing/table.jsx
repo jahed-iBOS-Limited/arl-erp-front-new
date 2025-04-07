@@ -1,21 +1,20 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICard from "../../../../_helper/_card";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import IViewModal from "../../../../_helper/_viewModal";
-import { getChannelDDL } from "../../../../salesManagement/configuration/territoryInfo/helper";
-import PartnerTerritoryInfoForm from "../form/addEditForm";
-import { findDuplicateItems, getPartnerTerritoryInformation } from "../helper";
-import { PartnerTerritoryUpdate } from "./territoryUpdate";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICard from '../../../../_helper/_card';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import IViewModal from '../../../../_helper/_viewModal';
+import { getChannelDDL } from '../../../../salesManagement/configuration/territoryInfo/helper';
+import PartnerTerritoryInfoForm from '../form/addEditForm';
+import { findDuplicateItems, getPartnerTerritoryInformation } from '../helper';
+import { PartnerTerritoryUpdate } from './territoryUpdate';
 
 const initData = {
-  channel: "",
+  channel: '',
 };
 
 export function PartnerTerritoryInformation() {
@@ -23,7 +22,7 @@ export function PartnerTerritoryInformation() {
   const [gridData, setGridData] = useState({});
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
-  const [configId, setConfigId] = useState("");
+  const [configId, setConfigId] = useState('');
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
@@ -42,14 +41,14 @@ export function PartnerTerritoryInformation() {
     );
   }, [profileData, selectedBusinessUnit]);
 
-  const getGridData = (values, _pageNo, _pageSize, searchValue = "") => {
+  const getGridData = (values, _pageNo, _pageSize, searchValue = '') => {
     getPartnerTerritoryInformation(
       profileData?.accountId,
       selectedBusinessUnit?.value,
       values?.channel?.value,
       values?.status?.value,
       profileData?.userId,
-      searchValue || "",
+      searchValue || '',
       _pageNo,
       _pageSize,
       setGridData,
@@ -70,7 +69,7 @@ export function PartnerTerritoryInformation() {
     gridData?.data?.length ? gridData?.data : []
   );
 
-  console.log(duplicates, "duplicates");
+  console.log(duplicates, 'duplicates');
 
   return (
     <>
@@ -79,7 +78,7 @@ export function PartnerTerritoryInformation() {
           initialValues={initData}
           enableReinitialize={true}
           onSubmit={(values) => {
-            getGridData(values, pageNo, pageSize, "");
+            getGridData(values, pageNo, pageSize, '');
           }}
         >
           {({ values, setFieldValue, handleSubmit }) => (
@@ -92,7 +91,7 @@ export function PartnerTerritoryInformation() {
                     value={values?.channel}
                     label="Distribution Channel"
                     onChange={(valueOption) => {
-                      setFieldValue("channel", valueOption);
+                      setFieldValue('channel', valueOption);
                       setGridData([]);
                     }}
                     options={channelDDL}
@@ -105,12 +104,12 @@ export function PartnerTerritoryInformation() {
                     value={values?.status}
                     label="Status"
                     onChange={(valueOption) => {
-                      setFieldValue("status", valueOption);
+                      setFieldValue('status', valueOption);
                       setGridData([]);
                     }}
                     options={[
-                      { value: true, label: "Active" },
-                      { value: false, label: "InActive" },
+                      { value: true, label: 'Active' },
+                      { value: false, label: 'InActive' },
                     ]}
                   />
                 </div>
@@ -145,62 +144,62 @@ export function PartnerTerritoryInformation() {
               {loading && <Loading />}
 
               {gridData?.data?.length > 0 && (
-                 <div className="table-responsive">
-                 <table className="table table-striped table-bordered global-table">
-                  <thead>
-                    <tr>
-                      <th>SL</th>
-                      <th>Customer Name</th>
-                      <th>Customer Address</th>
-                      <th>Code</th>
-                      <th>Channel</th>
-                      <th>Region</th>
-                      <th>Area</th>
-                      <th>Territory</th>
-                      <th>Insert By</th>
-                      <th>Insert Date</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {gridData?.data?.map((item, index) => (
-                      <tr
-                        key={index}
-                        style={
-                          duplicates.includes(item?.businessPartnerId)
-                            ? { backgroundColor: "#fcdc34a3" }
-                            : {}
-                        }
-                      >
-                        <td> {item?.sl}</td>
-                        <td>{item?.partnerName}</td>
-                        <td>{item?.businessPartnerAddress}</td>
-                        <td>{item?.partnerCode}</td>
-                        <td>{item?.channelName}</td>
-                        <td>{item?.region}</td>
-                        <td>{item?.area}</td>
-                        <td>{item?.territory}</td>
-                        <td>{item?.actionBy}</td>
-                        <td>{item?.lastInsertDate}</td>
-                        <td>
-                          <div className="d-flex justify-content-around">
-                            <button
-                              disabled={!item?.isPermission}
-                              className="btn p-0"
-                              onClick={() => {
-                                setShow(true);
-                                setConfigId(item?.configId);
-                              }}
-                            >
-                              <IEdit />
-                            </button>
-                          </div>
-                        </td>
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered global-table">
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th>Customer Name</th>
+                        <th>Customer Address</th>
+                        <th>Code</th>
+                        <th>Channel</th>
+                        <th>Region</th>
+                        <th>Area</th>
+                        <th>Territory</th>
+                        <th>Insert By</th>
+                        <th>Insert Date</th>
+                        <th>Actions</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-                 </div>
+                    </thead>
+                    <tbody>
+                      {gridData?.data?.map((item, index) => (
+                        <tr
+                          key={index}
+                          style={
+                            duplicates.includes(item?.businessPartnerId)
+                              ? { backgroundColor: '#fcdc34a3' }
+                              : {}
+                          }
+                        >
+                          <td> {item?.sl}</td>
+                          <td>{item?.partnerName}</td>
+                          <td>{item?.businessPartnerAddress}</td>
+                          <td>{item?.partnerCode}</td>
+                          <td>{item?.channelName}</td>
+                          <td>{item?.region}</td>
+                          <td>{item?.area}</td>
+                          <td>{item?.territory}</td>
+                          <td>{item?.actionBy}</td>
+                          <td>{item?.lastInsertDate}</td>
+                          <td>
+                            <div className="d-flex justify-content-around">
+                              <button
+                                disabled={!item?.isPermission}
+                                className="btn p-0"
+                                onClick={() => {
+                                  setShow(true);
+                                  setConfigId(item?.configId);
+                                }}
+                              >
+                                <IEdit />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               )}
               {gridData?.data?.length > 0 && (
                 <PaginationTable

@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getTerritoryTypeDDL = async (accId, buId, setter) => {
   try {
@@ -55,13 +55,13 @@ export const getTerritorySetupLanding = async (
               ]?.territoryTypeCodeName?.toLowerCase()
             ]
           ) {
-            res.data.objInfoList[i]["editBtn"] = res?.data?.objTypeList[
-              j
-            ].territoryTypeCodeName.toLowerCase();
+            res.data.objInfoList[i]['editBtn'] =
+              res?.data?.objTypeList[j].territoryTypeCodeName.toLowerCase();
             if (j < res?.data?.objTypeList.length - 1) {
-              res.data.objInfoList[i]["addBtn"] = res?.data?.objTypeList[
-                j + 1
-              ].territoryTypeCodeName.toLowerCase();
+              res.data.objInfoList[i]['addBtn'] =
+                res?.data?.objTypeList[
+                  j + 1
+                ].territoryTypeCodeName.toLowerCase();
             }
             break;
           }
@@ -82,7 +82,7 @@ export const saveTerritorySetup = async (data, cb) => {
       data
     );
     if (res?.status === 200) {
-      toast.success("Save Successfully");
+      toast.success('Save Successfully');
       cb();
     }
   } catch (error) {
@@ -97,7 +97,7 @@ export const editTerritorySetup = async (data, cb) => {
       data
     );
     if (res?.status === 200) {
-      toast.success("Update successfully");
+      toast.success('Update successfully');
       cb();
     }
   } catch (error) {
@@ -114,8 +114,8 @@ export const saveEditedSalesforeclabel = async (data, setDisabled, cb) => {
       data
     );
     if (res?.status === 200) {
-      toast.success(res?.data?.message || "Edited successfully", {
-        toastId: "saveEditedSalesforceLabel",
+      toast.success(res?.data?.message || 'Edited successfully', {
+        toastId: 'saveEditedSalesforceLabel',
       });
       setDisabled(false);
       cb();
@@ -141,13 +141,13 @@ export const GetbyId = async (salesLabelById, setter) => {
           label: data.intTerritoryTypeName,
         },
         isVisit:
-          data?.isRouteWiseVisit === true ? "routeWise" : "territoryWise",
+          data?.isRouteWiseVisit === true ? 'routeWise' : 'territoryWise',
         isAllow:
           data?.isSomenuAllow === true
-            ? "soMenu"
+            ? 'soMenu'
             : data?.isTsmmenuAllow === true
-            ? "tsmMenu"
-            : "allow",
+              ? 'tsmMenu'
+              : 'allow',
       };
       setter(newData);
     }
@@ -169,7 +169,7 @@ export const GetEmployeeList = async (
     setter(res?.data);
     setLoading(false);
   } catch (error) {
-    setter("");
+    setter('');
     setLoading(false);
   }
 };

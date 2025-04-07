@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import { _todayDate } from "../../../_helper/_todayDate";
+import React, { useEffect } from 'react';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 const Dashboard = () => {
   const selectedBusinessUnit = useSelector((state) => {
@@ -26,7 +26,6 @@ const Dashboard = () => {
     }, 60000); // Fetch data every 1 minitue
 
     return () => clearInterval(interval); // Cleanup on unmount
-
   }, [selectedBusinessUnit]);
 
   return (
@@ -43,7 +42,7 @@ const Dashboard = () => {
               <strong>TLM:</strong> {data.TLM}
             </p>
             <p>
-              <strong>Packer Out Time:</strong>{" "}
+              <strong>Packer Out Time:</strong>{' '}
               {new Date(data.dtePackerOutTime).toLocaleString()}
             </p>
             <p>
@@ -70,31 +69,31 @@ const Dashboard = () => {
 
 const styles = {
   container: {
-    padding: "20px",
-    fontFamily: "Arial, sans-serif",
-    backgroundColor: "#f4f4f4",
+    padding: '20px',
+    fontFamily: 'Arial, sans-serif',
+    backgroundColor: '#f4f4f4',
   },
   header: {
-    textAlign: "center",
-    color: "#333",
-    marginBottom: "20px",
+    textAlign: 'center',
+    color: '#333',
+    marginBottom: '20px',
   },
   cardContainer: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "center",
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
   },
   card: {
-    backgroundColor: "#fff",
-    padding: "15px",
-    margin: "10px",
-    borderRadius: "8px",
-    boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-    width: "300px",
+    backgroundColor: '#fff',
+    padding: '15px',
+    margin: '10px',
+    borderRadius: '8px',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+    width: '300px',
   },
   vehicleName: {
-    margin: "0 0 10px 0",
-    color: "#007bff",
+    margin: '0 0 10px 0',
+    color: '#007bff',
   },
 };
 

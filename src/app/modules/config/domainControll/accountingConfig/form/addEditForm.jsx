@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
 import {
   getGLDDLAction,
   getOrgDDLAction,
   saveAccountingConfigAction,
   getPartnerTypeDDLFromAccoutingConfig,
-} from "../helper";
-import { toast } from "react-toastify";
-import { getBusinessTransactionDDL } from "../../../../_helper/_commonApi";
+} from '../helper';
+import { toast } from 'react-toastify';
+import { getBusinessTransactionDDL } from '../../../../_helper/_commonApi';
 
 let initData = {
-  partnerType: "",
-  configType: "",
-  gl: "",
-  org: "",
-  businessTrans: "",
+  partnerType: '',
+  configType: '',
+  gl: '',
+  org: '',
+  businessTrans: '',
 };
 
 export function AccountingConfigForm({
@@ -63,7 +63,7 @@ export function AccountingConfigForm({
   const setter = (values) => {
     const { configType, org, gl } = values;
     if (!configType || !org || !gl)
-      return toast.warn("Please select all fields");
+      return toast.warn('Please select all fields');
     const data = [...rowDto];
     data.push(values);
     setRowDto(data);
@@ -75,7 +75,7 @@ export function AccountingConfigForm({
   };
 
   const saveHandler = async (values, cb) => {
-    if (rowDto.length < 1) return toast.warn("Please add at least one row");
+    if (rowDto.length < 1) return toast.warn('Please add at least one row');
     const newData = rowDto?.map((item) => ({
       businessUnitId: selectedBusinessUnit?.value,
       configType: item?.configType?.label,
@@ -98,7 +98,7 @@ export function AccountingConfigForm({
 
   return (
     <IForm
-      title={"Create Accounting Config"}
+      title={'Create Accounting Config'}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenBack={true}

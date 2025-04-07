@@ -1,10 +1,9 @@
-
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { getTreasuryDepositDetailsById } from "../helper";
-import RefundModal from "../refundModal/refundModal";
-import TreasuryDepositDetailsModal from "../treasuryDepositModal/treasuryDepositModal";
-import InputField from "../../../../_helper/_inputField";
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { getTreasuryDepositDetailsById } from '../helper';
+import RefundModal from '../refundModal/refundModal';
+import TreasuryDepositDetailsModal from '../treasuryDepositModal/treasuryDepositModal';
+import InputField from '../../../../_helper/_inputField';
 
 export default function OthersTaxReport({
   parentValues,
@@ -74,91 +73,91 @@ export default function OthersTaxReport({
   const [singleTreasuryDeposit, setSingleTreasuryDeposit] = useState([]);
 
   const note_54 = {
-    noteNo: "note_54",
+    noteNo: 'note_54',
     value: 0,
     sd: 0,
     vat: getNote_54?.vat || result54,
   };
   const note_55 = {
-    noteNo: "note_55",
+    noteNo: 'note_55',
     value: 0,
     sd: 0,
     vat: getNote_55?.vat || result55,
   };
   const note_56 = {
-    noteNo: "note_56",
+    noteNo: 'note_56',
     value: 0,
     sd: 0,
     vat: getNote_56?.vat || result56,
   };
   const note_57 = {
-    noteNo: "note_57",
+    noteNo: 'note_57',
     value: 0,
     sd: 0,
     vat: getNote_57?.vat || result57,
   };
   const note_58 = {
-    noteNo: "note_58",
+    noteNo: 'note_58',
     value: 0,
     sd: 0,
     vat: getNote_58?.vat || result58,
   };
   const note_59 = {
-    noteNo: "note_59",
+    noteNo: 'note_59',
     value: 0,
     sd: 0,
     vat: getNote_59?.vat || result59,
   };
   const note_60 = {
-    noteNo: "note_60",
+    noteNo: 'note_60',
     value: 0,
     sd: 0,
     vat: getNote_60?.vat || result60,
   };
   const note_61 = {
-    noteNo: "note_61",
+    noteNo: 'note_61',
     value: 0,
     sd: 0,
     vat: getNote_61?.vat || result61,
   };
   const note_62 = {
-    noteNo: "note_62",
+    noteNo: 'note_62',
     value: 0,
     sd: 0,
     vat: getNote_62?.vat || result62,
   };
   const note_63 = {
-    noteNo: "note_63",
+    noteNo: 'note_63',
     value: 0,
     sd: 0,
     vat: getNote_63?.vat || result63,
   };
   const note_64 = {
-    noteNo: "note_64",
+    noteNo: 'note_64',
     value: 0,
     sd: 0,
     vat: getNote_64?.vat || result64,
   };
   const note_65 = {
-    noteNo: "note_65",
+    noteNo: 'note_65',
     value: 0,
     sd: 0,
     vat: getNote_65?.vat || result65,
   };
   const note_66 = {
-    noteNo: "note_66",
+    noteNo: 'note_66',
     value: 0,
     sd: 0,
     vat: getNote_66?.vat || result66,
   };
   const note_67 = {
-    noteNo: "note_67",
+    noteNo: 'note_67',
     value: 0,
     sd: 0,
     vat: +getNote_67?.vat || 0 || result67,
   };
   const note_68 = {
-    noteNo: "note_68",
+    noteNo: 'note_68',
     value: 0,
     sd: 0,
     vat: +getNote_68?.vat || 0 || result68,
@@ -189,7 +188,7 @@ export default function OthersTaxReport({
             </th>
           </tr>
           <tr>
-            <th style={{ width: "550px" }}>Items</th>
+            <th style={{ width: '550px' }}>Items</th>
             <th>Note</th>
             <th>Amount (Tax)</th>
           </tr>
@@ -272,7 +271,7 @@ export default function OthersTaxReport({
             </th>
           </tr>
           <tr>
-            <th style={{ width: "550px" }}>Items</th>
+            <th style={{ width: '550px' }}>Items</th>
             <th>Note</th>
             <th>Amount (Tax)</th>
           </tr>
@@ -525,7 +524,7 @@ export default function OthersTaxReport({
             <th colSpan="4">Part - 10: CLOSING BALANCE</th>
           </tr>
           <tr>
-            <th style={{ width: "550px" }}>Items</th>
+            <th style={{ width: '550px' }}>Items</th>
             <th>Note</th>
             <th>Amount (Tax)</th>
           </tr>
@@ -599,11 +598,11 @@ export default function OthersTaxReport({
                   <input
                     name="isRefundYes"
                     type="checkbox"
-                    style={{ position: "relative", top: "2px" }}
+                    style={{ position: 'relative', top: '2px' }}
                     onClick={(e) => {
                       setIsRefundRow(true);
-                      setFieldValue("isRefundNo", false);
-                      setFieldValue("isRefundYes", e.target.checked);
+                      setFieldValue('isRefundNo', false);
+                      setFieldValue('isRefundYes', e.target.checked);
                     }}
                     // checked={parentValues?.isRefundYes}
                     checked={
@@ -626,8 +625,8 @@ export default function OthersTaxReport({
                         return false;
                       } else {
                         setIsRefundRow(false);
-                        setFieldValue("isRefundYes", false);
-                        setFieldValue("isRefundNo", e.target.checked);
+                        setFieldValue('isRefundYes', false);
+                        setFieldValue('isRefundNo', e.target.checked);
                         if (objRowList?.length > 0) {
                           return false;
                         } else {
@@ -637,7 +636,7 @@ export default function OthersTaxReport({
                         }
                       }
                     }}
-                    style={{ position: "relative", top: "2px" }}
+                    style={{ position: 'relative', top: '2px' }}
                     disabled={parentValues?.isRefundNo === true}
                   />
                 </div>
@@ -663,7 +662,7 @@ export default function OthersTaxReport({
                       commonNumberFormat(note_67?.vat)
                     ) : (
                       <InputField
-                        style={{ height: "25px" }}
+                        style={{ height: '25px' }}
                         value={elevenRefund?.note67}
                         name="names"
                         placeholder="Name"
@@ -695,7 +694,7 @@ export default function OthersTaxReport({
                       commonNumberFormat(note_68?.vat)
                     ) : (
                       <InputField
-                        style={{ height: "25px" }}
+                        style={{ height: '25px' }}
                         value={elevenRefund?.note68}
                         name="names"
                         placeholder="Name"

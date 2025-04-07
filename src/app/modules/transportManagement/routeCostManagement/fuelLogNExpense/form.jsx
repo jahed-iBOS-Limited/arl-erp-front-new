@@ -1,34 +1,34 @@
-import axios from "axios";
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICard from "../../../_helper/_card";
-import NewSelect from "../../../_helper/_select";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import { YearDDL } from "../../../_helper/_yearDDL";
-import Loading from "../../../_helper/_loading";
-import { getFuelLogNExpense } from "./helper";
-import Table from "./table";
+import axios from 'axios';
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICard from '../../../_helper/_card';
+import NewSelect from '../../../_helper/_select';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import { YearDDL } from '../../../_helper/_yearDDL';
+import Loading from '../../../_helper/_loading';
+import { getFuelLogNExpense } from './helper';
+import Table from './table';
 
 const monthDDL = [
-  { value: 1, label: "January" },
-  { value: 2, label: "February" },
-  { value: 3, label: "March" },
-  { value: 4, label: "April" },
-  { value: 5, label: "May" },
-  { value: 6, label: "June" },
-  { value: 7, label: "July" },
-  { value: 8, label: "August" },
-  { value: 9, label: "September" },
-  { value: 10, label: "October" },
-  { value: 11, label: "November" },
-  { value: 12, label: "December" },
+  { value: 1, label: 'January' },
+  { value: 2, label: 'February' },
+  { value: 3, label: 'March' },
+  { value: 4, label: 'April' },
+  { value: 5, label: 'May' },
+  { value: 6, label: 'June' },
+  { value: 7, label: 'July' },
+  { value: 8, label: 'August' },
+  { value: 9, label: 'September' },
+  { value: 10, label: 'October' },
+  { value: 11, label: 'November' },
+  { value: 12, label: 'December' },
 ];
 
 const FuelLogNExpense = () => {
   const initData = {
-    reportType: "",
-    employeeName: "",
+    reportType: '',
+    employeeName: '',
     year: {
       value: new Date().getFullYear(),
       label: `${new Date().getFullYear()}`,
@@ -87,17 +87,17 @@ const FuelLogNExpense = () => {
                     <NewSelect
                       name="reportType"
                       options={[
-                        { value: 1, label: "Details" },
-                        { value: 2, label: "Date Base" },
-                        { value: 3, label: "Employee Base" },
-                        { value: 4, label: "Cash vs Fuel Expense (All)" },
-                        { value: 5, label: "Cash vs Fuel Expense (Employee)" },
+                        { value: 1, label: 'Details' },
+                        { value: 2, label: 'Date Base' },
+                        { value: 3, label: 'Employee Base' },
+                        { value: 4, label: 'Cash vs Fuel Expense (All)' },
+                        { value: 5, label: 'Cash vs Fuel Expense (Employee)' },
                       ]}
                       value={values?.reportType}
                       label="Report Type"
                       onChange={(valueOption) => {
-                        setFieldValue("reportType", valueOption);
-                        setFieldValue("employeeName", "");
+                        setFieldValue('reportType', valueOption);
+                        setFieldValue('employeeName', '');
 
                         setGridData([]);
                       }}
@@ -112,7 +112,7 @@ const FuelLogNExpense = () => {
                       <SearchAsyncSelect
                         selectedValue={values?.employeeName}
                         handleChange={(valueOption) => {
-                          setFieldValue("employeeName", valueOption);
+                          setFieldValue('employeeName', valueOption);
                           setGridData([]);
                         }}
                         loadOptions={employeeList || []}
@@ -130,7 +130,7 @@ const FuelLogNExpense = () => {
                       value={values?.year}
                       onChange={(valueOption) => {
                         setGridData([]);
-                        setFieldValue("year", valueOption);
+                        setFieldValue('year', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -146,7 +146,7 @@ const FuelLogNExpense = () => {
                       value={values?.month}
                       onChange={(valueOption) => {
                         setGridData([]);
-                        setFieldValue("month", valueOption);
+                        setFieldValue('month', valueOption);
                       }}
                       errors={errors}
                       touched={touched}

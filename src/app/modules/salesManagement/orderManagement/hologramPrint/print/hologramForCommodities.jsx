@@ -1,13 +1,13 @@
-import React, { useRef } from "react";
-import Barcode from "react-barcode";
-import { shallowEqual, useSelector } from "react-redux";
-import { useReactToPrint } from "react-to-print";
-import IButton from "../../../../_helper/iButton";
-import signature_of_pran_krishna_kundo from "../../../../_helper/images/signatureOf_pran_krishno_kundo.png";
-import signature_of_rasel_sardar from "../../../../_helper/images/signature_of_rasel_sardar.png";
-import "./hologramForCommodities.css";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import moment from "moment";
+import React, { useRef } from 'react';
+import Barcode from 'react-barcode';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useReactToPrint } from 'react-to-print';
+import IButton from '../../../../_helper/iButton';
+import signature_of_pran_krishna_kundo from '../../../../_helper/images/signatureOf_pran_krishno_kundo.png';
+import signature_of_rasel_sardar from '../../../../_helper/images/signature_of_rasel_sardar.png';
+import './hologramForCommodities.css';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import moment from 'moment';
 const HologramPrintForAkijCommodities = ({ printDataList }) => {
   const printRef = useRef();
 
@@ -19,9 +19,9 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
 
   const printHandler = useReactToPrint({
     content: () => printRef.current,
-    documentTitle: "Customer Copy",
+    documentTitle: 'Customer Copy',
     pageStyle:
-      "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {A5 landscape !important}}",
+      '@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {A5 landscape !important}}',
   });
 
   return (
@@ -45,20 +45,20 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
             <div className="page-break CommoditiesHologram_wrapper">
               <div
                 style={{
-                  borderBottom: "1px solid black",
-                  paddingBottom: "20px",
+                  borderBottom: '1px solid black',
+                  paddingBottom: '20px',
                 }}
               >
                 <div className="CommoditiesHologram_header">
                   {/* <div className="logo" style={{ width: "275px" }}></div> */}
 
                   <div className="text-center">
-                    <p style={{ fontSize: "35px", fontWeight: "500" }}>
+                    <p style={{ fontSize: '35px', fontWeight: '500' }}>
                       {buName}
                     </p>
-                    <p style={{ fontSize: "14px" }}>{address}</p>
+                    <p style={{ fontSize: '14px' }}>{address}</p>
 
-                    <p style={{ fontSize: "14px" }}>
+                    <p style={{ fontSize: '14px' }}>
                       Phone: 08444416609, 08000555777
                       <br />
                       Email: trading@akijcommodities.com
@@ -67,17 +67,17 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
 
                   <div
                     style={{
-                      width: "274px",
-                      paddingRight: "30px",
-                      paddingTop: "30px",
-                      position: "absolute",
-                      right: "-33px",
-                      top: "15px",
+                      width: '274px',
+                      paddingRight: '30px',
+                      paddingTop: '30px',
+                      position: 'absolute',
+                      right: '-33px',
+                      top: '15px',
                     }}
                   >
-                    {salesOrderCode !== "" ? (
+                    {salesOrderCode !== '' ? (
                       <Barcode
-                        value={salesOrderCode ? salesOrderCode : ""}
+                        value={salesOrderCode ? salesOrderCode : ''}
                         lineColor="black"
                         displayValue={false}
                         height={50}
@@ -90,19 +90,19 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                 <div className="text-center mt-3">
                   <h3
                     style={{
-                      width: "161px",
-                      margin: "auto",
-                      border: "1px solid black",
-                      padding: "2px",
-                      borderRadius: "5px",
+                      width: '161px',
+                      margin: 'auto',
+                      border: '1px solid black',
+                      padding: '2px',
+                      borderRadius: '5px',
                     }}
                   >
                     SUPPLY ORDER
                   </h3>
                 </div>
               </div>
-              <div className="d-flex" style={{ paddingLeft: "25px" }}>
-                <div style={{ width: "100%" }}>
+              <div className="d-flex" style={{ paddingLeft: '25px' }}>
+                <div style={{ width: '100%' }}>
                   <div className="table-responsive">
                     <table className="table delivery_challan_top_table mt-8">
                       <tbody>
@@ -112,7 +112,7 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                           <td>
                             <b>{soldToPartnerCode}</b>
                           </td>
-                          <td style={{ width: "120px" }}>Delivery From</td>
+                          <td style={{ width: '120px' }}>Delivery From</td>
                           <td>:</td>
                           <td>{shippingPoint}</td>
                         </tr>
@@ -122,14 +122,14 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                           <td>
                             <b>{soldToPartnerName}</b>
                           </td>
-                          <td style={{ width: "120px" }}>ShipPoint</td>
+                          <td style={{ width: '120px' }}>ShipPoint</td>
                           <td>:</td>
                           <td>{shippingPoint}</td>
                         </tr>
                         <tr>
                           <td>Ship To Partner</td>
                           <td>:</td>
-                          <td>{rowList?.[0]?.shiptoPartnerName}</td>{" "}
+                          <td>{rowList?.[0]?.shiptoPartnerName}</td>{' '}
                           <td>Contact Person</td>
                           <td>:</td>
                           <td>{rowList?.[0]?.shiptoPartnerName}</td>
@@ -137,7 +137,7 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                         <tr>
                           <td>Address</td>
                           <td>:</td>
-                          <td>{rowList?.[0]?.shiptoPartnerAddress}</td>{" "}
+                          <td>{rowList?.[0]?.shiptoPartnerAddress}</td>{' '}
                           <td>Contact No</td>
                           <td>:</td>
                           <td>{phoneNumber}</td>
@@ -146,7 +146,7 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                     </table>
                   </div>
 
-                  <div className="main_table" style={{ marginTop: "30px" }}>
+                  <div className="main_table" style={{ marginTop: '30px' }}>
                     <div className="table-responsive">
                       <table className="table">
                         <thead>
@@ -178,7 +178,7 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                               </tr>
                             );
                           })}
-                          <tr style={{ fontWeight: "bold" }}>
+                          <tr style={{ fontWeight: 'bold' }}>
                             <td className="text-right" colSpan={3}>
                               Total
                             </td>
@@ -196,8 +196,8 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                 </div>
                 <div
                   style={{
-                    writingMode: "vertical-rl",
-                    paddingTop: "70px",
+                    writingMode: 'vertical-rl',
+                    paddingTop: '70px',
                   }}
                   className="text-center"
                 >
@@ -206,18 +206,18 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
               </div>
 
               <div className="signature_wrapper">
-                <div className="first signature" style={{ marginTop: "90px" }}>
+                <div className="first signature" style={{ marginTop: '90px' }}>
                   <p>Prepared By</p>
                 </div>
 
-                <div className="third signature" style={{ marginTop: "90px" }}>
+                <div className="third signature" style={{ marginTop: '90px' }}>
                   <p>Received By</p>
                 </div>
                 <div className="third signature">
                   <img
                     src={signature_of_rasel_sardar}
                     alt="signature"
-                    style={{ height: "70px" }}
+                    style={{ height: '70px' }}
                   />
 
                   <p>Checked By</p>
@@ -226,14 +226,14 @@ const HologramPrintForAkijCommodities = ({ printDataList }) => {
                   <img
                     src={signature_of_pran_krishna_kundo}
                     alt="signature"
-                    style={{ height: "70px" }}
+                    style={{ height: '70px' }}
                   />
 
                   <p>Approved By</p>
                 </div>
               </div>
               <p className="printing_date_time">
-                Printing Date & Time: {moment().format("DD-MM-YYYY HH:mm:ss")}
+                Printing Date & Time: {moment().format('DD-MM-YYYY HH:mm:ss')}
               </p>
             </div>
           );

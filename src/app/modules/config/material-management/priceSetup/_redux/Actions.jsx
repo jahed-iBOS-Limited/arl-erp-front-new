@@ -1,7 +1,7 @@
-import * as requestFromServer from "./Api";
-import { priceSetupSlice } from "./Slice";
-import { toast } from "react-toastify";
-import { isArray } from "lodash";
+import * as requestFromServer from './Api';
+import { priceSetupSlice } from './Slice';
+import { toast } from 'react-toastify';
+import { isArray } from 'lodash';
 const { actions: slice } = priceSetupSlice;
 
 export const getAllPriceSetupInitialDDL = (accId, buId) => (dispatch) => {
@@ -40,7 +40,7 @@ export const savePriceSetup = (payload) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
         payload.setDisabled(false);
       }
@@ -56,7 +56,7 @@ export const saveEditedPriceSetup = (payload) => () => {
     .saveEditData(payload)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
       }
     })
     .catch((err) => {
@@ -64,43 +64,34 @@ export const saveEditedPriceSetup = (payload) => () => {
     });
 };
 // action for get grid data
-export const getPriceSetupGridData = (
-  accId,
-  buId,
-  setDisabled,
-  pageNo,
-  pageSize
-) => (dispatch) => {
-  setDisabled(true);
-  requestFromServer
-    .getGridData(accId, buId, pageNo, pageSize)
-    .then((res) => {
-      dispatch(slice.SetGridData(res.data));
-      setDisabled(false);
-    })
-    .catch((err) => {
-      setDisabled(false);
-    });
-};
+export const getPriceSetupGridData =
+  (accId, buId, setDisabled, pageNo, pageSize) => (dispatch) => {
+    setDisabled(true);
+    requestFromServer
+      .getGridData(accId, buId, pageNo, pageSize)
+      .then((res) => {
+        dispatch(slice.SetGridData(res.data));
+        setDisabled(false);
+      })
+      .catch((err) => {
+        setDisabled(false);
+      });
+  };
 // action for get grid data
-export const getItemByChannelIdAciton = (
-  accId,
-  buId,
-  setDisabled,
-  channelId
-) => (dispatch) => {
-  dispatch(slice.setItemByChanneList([]));
-  setDisabled(true);
-  requestFromServer
-    .getItemByChannelId(accId, buId, channelId)
-    .then((res) => {
-      dispatch(slice.setItemByChanneList(res.data));
-      setDisabled(false);
-    })
-    .catch((err) => {
-      setDisabled(false);
-    });
-};
+export const getItemByChannelIdAciton =
+  (accId, buId, setDisabled, channelId) => (dispatch) => {
+    dispatch(slice.setItemByChanneList([]));
+    setDisabled(true);
+    requestFromServer
+      .getItemByChannelId(accId, buId, channelId)
+      .then((res) => {
+        dispatch(slice.setItemByChanneList(res.data));
+        setDisabled(false);
+      })
+      .catch((err) => {
+        setDisabled(false);
+      });
+  };
 
 // action for get data by id single
 export const getPriceSetupById = (id) => (dispatch) => {

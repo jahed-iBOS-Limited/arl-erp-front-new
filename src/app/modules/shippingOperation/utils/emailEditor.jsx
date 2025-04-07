@@ -3,7 +3,12 @@ import { shallowEqual, useSelector } from 'react-redux';
 import { marineBaseUrlPythonAPI } from '../../../../App';
 import useAxiosPost from '../../_helper/customHooks/useAxiosPost';
 import EmailTemplate from './emailTemplate';
-import { generateFileUrl, getEmailInfoandSendMail, initialStateOfEmailData, initialStateOfError } from './helper';
+import {
+  generateFileUrl,
+  getEmailInfoandSendMail,
+  initialStateOfEmailData,
+  initialStateOfError,
+} from './helper';
 
 const EmailEditor = ({ emailEditorProps }) => {
   const { profileData } = useSelector((state) => {
@@ -26,7 +31,8 @@ const EmailEditor = ({ emailEditorProps }) => {
       };
 
       getEmailInfo(
-        `${marineBaseUrlPythonAPI}${getEmailInfoandSendMail(singleRowData?.columnName)?.emailInfoUrl
+        `${marineBaseUrlPythonAPI}${
+          getEmailInfoandSendMail(singleRowData?.columnName)?.emailInfoUrl
         }`,
         payload,
         (data) => {
@@ -37,10 +43,9 @@ const EmailEditor = ({ emailEditorProps }) => {
             emailBody: data?.body || '',
           });
         },
-        false,
+        false
       );
     }
-
   }, [intId]);
 
   // Regular expression to validate a single email address
@@ -105,11 +110,12 @@ const EmailEditor = ({ emailEditorProps }) => {
       };
 
       onSendEmail(
-        `${marineBaseUrlPythonAPI}${getEmailInfoandSendMail(singleRowData?.columnName)?.sendEmailUrl
+        `${marineBaseUrlPythonAPI}${
+          getEmailInfoandSendMail(singleRowData?.columnName)?.sendEmailUrl
         }`,
         payload,
         cb,
-        true,
+        true
       );
     }
   };
@@ -123,7 +129,6 @@ const EmailEditor = ({ emailEditorProps }) => {
       handleSend={handleSend}
       errors={errors}
       setEmailData={setEmailData}
-
     />
   );
 };

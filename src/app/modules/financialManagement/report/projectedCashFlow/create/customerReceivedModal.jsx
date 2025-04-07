@@ -1,6 +1,6 @@
-import React from "react";
-import InputField from "../../../../_helper/_inputField";
-import IButton from "../../../../_helper/iButton";
+import React from 'react';
+import InputField from '../../../../_helper/_inputField';
+import IButton from '../../../../_helper/iButton';
 
 const CustomerReceivedModal = ({ objProps }) => {
   // destrcuture
@@ -20,7 +20,7 @@ const CustomerReceivedModal = ({ objProps }) => {
       // get index's item
       newData[index] = {
         ...newData[index], // keep all index's item property
-        [name]: name === "receivedAmount" ? +value : value, // update input filed name with value
+        [name]: name === 'receivedAmount' ? +value : value, // update input filed name with value
       };
 
       return newData;
@@ -59,7 +59,7 @@ const CustomerReceivedModal = ({ objProps }) => {
                       type="number"
                       onChange={(e) => {
                         const value = e.target.value;
-                        commonInputValueChange("receivedAmount", index, value);
+                        commonInputValueChange('receivedAmount', index, value);
                       }}
                     />
                   </td>
@@ -69,7 +69,7 @@ const CustomerReceivedModal = ({ objProps }) => {
                       type="text"
                       onChange={(e) => {
                         const value = e.target.value;
-                        commonInputValueChange("remarks", index, value);
+                        commonInputValueChange('remarks', index, value);
                       }}
                     />
                   </td>

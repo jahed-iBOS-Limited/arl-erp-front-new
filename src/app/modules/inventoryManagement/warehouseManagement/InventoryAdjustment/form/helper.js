@@ -1,30 +1,30 @@
-import * as Yup from "yup";
-import Axios from "axios";
-import { toast } from "react-toastify";
+import * as Yup from 'yup';
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const initData = {
-  refType: "",
-  refNo: "",
-  transType: "",
-  remarks: "",
-  item: "",
-  busiPartner: "",
-  personnel: "",
+  refType: '',
+  refNo: '',
+  transType: '',
+  remarks: '',
+  item: '',
+  busiPartner: '',
+  personnel: '',
   //locaStock:"",
-  profitCenter:"",
+  profitCenter: '',
 };
 
 // // Validation schema
 export const validationSchema = Yup.object().shape({
   refType: Yup.object().shape({
-    label: Yup.string().required("Refference Type is required"),
-    value: Yup.string().required("Refference Type is required"),
+    label: Yup.string().required('Refference Type is required'),
+    value: Yup.string().required('Refference Type is required'),
   }),
   transType: Yup.object().shape({
-    label: Yup.string().required("Transaction Type is required"),
-    value: Yup.string().required("Transaction Type is required"),
+    label: Yup.string().required('Transaction Type is required'),
+    value: Yup.string().required('Transaction Type is required'),
   }),
-  remarks: Yup.string().required("Comments is required"),
+  remarks: Yup.string().required('Comments is required'),
 });
 
 export const getItemQtyforAdjustInv = async (
@@ -45,10 +45,10 @@ export const getItemQtyforAdjustInv = async (
     );
     if (res.status === 200 && res?.data) {
       if (res.data.length === 0) {
-        toast.error("Item not found");
+        toast.error('Item not found');
       } else {
-        rowDtoHandler("restQty", res?.data[0]?.availableStock, index);
-        rowDtoHandler("refQty", res?.data[0]?.availableStock, index);
+        rowDtoHandler('restQty', res?.data[0]?.availableStock, index);
+        rowDtoHandler('refQty', res?.data[0]?.availableStock, index);
       }
     }
   } catch (error) {}

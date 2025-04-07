@@ -1,20 +1,19 @@
-
-import Axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
-import * as Yup from "yup";
+import Axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
+import * as Yup from 'yup';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
+} from '../../../../../../_metronic/_partials/controls';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
 import {
   CreateCustomeRTGS,
   getBankAccountNumberDDL,
@@ -22,38 +21,38 @@ import {
   getShipmentDDL,
   getCustomRTGSById,
   EditCustomerRTGSApi,
-} from "../helper";
+} from '../helper';
 
 const validationSchema = Yup.object().shape({
   poLc: Yup.object().shape({
-    value: Yup.string().required("PO/LC is required"),
-    label: Yup.string().required("PO/LC is required"),
+    value: Yup.string().required('PO/LC is required'),
+    label: Yup.string().required('PO/LC is required'),
   }),
   shipment: Yup.object().shape({
-    value: Yup.string().required("Shipment is required"),
-    label: Yup.string().required("Shipment is required"),
+    value: Yup.string().required('Shipment is required'),
+    label: Yup.string().required('Shipment is required'),
   }),
-  senderName: Yup.string().required("Sender Name is required"),
-  beneficiaryName: Yup.string().required("Beneficiary Name is required"),
-  senderBankName: Yup.string().required("Sender Bank Name is required"),
+  senderName: Yup.string().required('Sender Name is required'),
+  beneficiaryName: Yup.string().required('Beneficiary Name is required'),
+  senderBankName: Yup.string().required('Sender Bank Name is required'),
   beneficiaryBankName: Yup.string().required(
-    "Beneficiary Bank Name is required"
+    'Beneficiary Bank Name is required'
   ),
-  senderBranchName: Yup.string().required("Sender Branch Name is required"),
+  senderBranchName: Yup.string().required('Sender Branch Name is required'),
   beneficiaryBranchName: Yup.string().required(
-    "Beneficiary Branch Name is required"
+    'Beneficiary Branch Name is required'
   ),
-  senderRoutingNo: Yup.string().required("Sender Routing No is required"),
+  senderRoutingNo: Yup.string().required('Sender Routing No is required'),
   beneficiaryRoutingNo: Yup.string().required(
-    "Beneficiary Routing No is required"
+    'Beneficiary Routing No is required'
   ),
-  senderAccountNo: Yup.string().required("Sender Account No is required"),
+  senderAccountNo: Yup.string().required('Sender Account No is required'),
   beneficiaryAccountNo: Yup.string().required(
-    "Beneficiary Account No is required"
+    'Beneficiary Account No is required'
   ),
-  senderAddress: Yup.string().required("Sender Address is required"),
+  senderAddress: Yup.string().required('Sender Address is required'),
   beneficiaryBankEmail: Yup.string().required(
-    "Beneficiary Bank Email is required"
+    'Beneficiary Bank Email is required'
   ),
 });
 const CustomsRTGSCreate = () => {
@@ -68,12 +67,12 @@ const CustomsRTGSCreate = () => {
   const [bankAccountNumberDDL, setBankAccountNumberDDL] = useState([]);
   const [rowDto, setRowDto] = useState([
     {
-      customOfficeCode: "",
-      registrationYear: "",
-      registrationNo: "",
-      declarantCode: "",
-      mobileNo: "",
-      rtgsAmount: "",
+      customOfficeCode: '',
+      registrationYear: '',
+      registrationNo: '',
+      declarantCode: '',
+      mobileNo: '',
+      rtgsAmount: '',
     },
   ]);
 
@@ -103,11 +102,11 @@ const CustomsRTGSCreate = () => {
     const modifyRowDto = rowDto.map((item) => {
       return {
         rowId: item?.rowId || 0,
-        customOfficeCode: item?.customOfficeCode || "",
+        customOfficeCode: item?.customOfficeCode || '',
         registrationYear: item?.registrationYear || 0,
-        registrationNo: item?.registrationNo || "",
-        declarantCode: item?.declarantCode || "",
-        mobileNo: item?.mobileNo || "",
+        registrationNo: item?.registrationNo || '',
+        declarantCode: item?.declarantCode || '',
+        mobileNo: item?.mobileNo || '',
         rtgsAmount: item?.rtgsAmount || 0,
       };
     });
@@ -115,29 +114,29 @@ const CustomsRTGSCreate = () => {
       objHeader: {
         customRtgsId: id || 0,
         businessUnitId: selectedBusinessUnit.value || 0,
-        businessUnitName: selectedBusinessUnit.label || "",
-        businessUnitAddress: "",
-        senderName: values?.senderName || "",
+        businessUnitName: selectedBusinessUnit.label || '',
+        businessUnitAddress: '',
+        senderName: values?.senderName || '',
         senderBankId: 0,
-        senderBankName: values?.senderBankName || "",
+        senderBankName: values?.senderBankName || '',
         senderBranchId: 0,
-        senderBranchName: values?.senderBranchName || "",
-        senderRoutingNo: values?.senderRoutingNo || "",
-        senderAccountNo: values?.senderAccountNo || "",
-        senderAddress: values?.senderAddress || "",
+        senderBranchName: values?.senderBranchName || '',
+        senderRoutingNo: values?.senderRoutingNo || '',
+        senderAccountNo: values?.senderAccountNo || '',
+        senderAddress: values?.senderAddress || '',
         beneficiaryId: 0,
-        beneficiaryName: values?.beneficiaryName || "",
+        beneficiaryName: values?.beneficiaryName || '',
         beneficiaryBankId: 0,
-        beneficiaryBankName: values?.beneficiaryBankName || "",
+        beneficiaryBankName: values?.beneficiaryBankName || '',
         beneficiaryBranchId: 0,
-        beneficiaryBranchName: values?.beneficiaryBranchName || "",
-        beneficiaryRoutingNo: values?.beneficiaryRoutingNo || "",
-        beneficiaryAccountNo: values?.beneficiaryAccountNo || "",
-        beneficiaryBankEmail: values?.beneficiaryBankEmail || "",
+        beneficiaryBranchName: values?.beneficiaryBranchName || '',
+        beneficiaryRoutingNo: values?.beneficiaryRoutingNo || '',
+        beneficiaryAccountNo: values?.beneficiaryAccountNo || '',
+        beneficiaryBankEmail: values?.beneficiaryBankEmail || '',
         purchaseOrderId: values?.poLc?.value || 0,
-        purchaseOrderNo: values?.poLc?.label || "",
+        purchaseOrderNo: values?.poLc?.label || '',
         shipmentId: values?.shipment?.value || 0,
-        shipmentNo: values?.shipment?.label || "",
+        shipmentNo: values?.shipment?.label || '',
         rtgsdate: new Date(),
       },
       objRow: modifyRowDto,
@@ -158,79 +157,79 @@ const CustomsRTGSCreate = () => {
         const modifyResData = resData || {};
         if (formikRef.current) {
           formikRef.current.setFieldValue(
-            "poLc",
+            'poLc',
             modifyResData?.purchaseOrderId
               ? {
                   value: modifyResData?.purchaseOrderId,
                   label: modifyResData?.purchaseOrderNo,
                 }
-              : ""
+              : ''
           );
           formikRef.current.setFieldValue(
-            "shipment",
+            'shipment',
             modifyResData?.shipmentId
               ? {
                   value: modifyResData?.shipmentId,
                   label: modifyResData?.shipmentNo,
                 }
-              : ""
+              : ''
           );
           formikRef.current.setFieldValue(
-            "senderName",
-            modifyResData?.senderName || ""
+            'senderName',
+            modifyResData?.senderName || ''
           );
           formikRef.current.setFieldValue(
-            "beneficiaryName",
-            modifyResData?.beneficiaryName || ""
+            'beneficiaryName',
+            modifyResData?.beneficiaryName || ''
           );
           formikRef.current.setFieldValue(
-            "senderBankName",
-            modifyResData?.senderBankName || ""
+            'senderBankName',
+            modifyResData?.senderBankName || ''
           );
           formikRef.current.setFieldValue(
-            "beneficiaryBankName",
-            modifyResData?.beneficiaryBankName || ""
+            'beneficiaryBankName',
+            modifyResData?.beneficiaryBankName || ''
           );
           formikRef.current.setFieldValue(
-            "senderBranchName",
-            modifyResData?.senderBranchName || ""
+            'senderBranchName',
+            modifyResData?.senderBranchName || ''
           );
           formikRef.current.setFieldValue(
-            "beneficiaryBranchName",
-            modifyResData?.beneficiaryBranchName || ""
+            'beneficiaryBranchName',
+            modifyResData?.beneficiaryBranchName || ''
           );
           formikRef.current.setFieldValue(
-            "senderRoutingNo",
-            modifyResData?.senderRoutingNo || ""
+            'senderRoutingNo',
+            modifyResData?.senderRoutingNo || ''
           );
           formikRef.current.setFieldValue(
-            "beneficiaryRoutingNo",
-            modifyResData?.beneficiaryRoutingNo || ""
+            'beneficiaryRoutingNo',
+            modifyResData?.beneficiaryRoutingNo || ''
           );
           formikRef.current.setFieldValue(
-            "senderAccountNo",
-            modifyResData?.senderAccountNo || ""
+            'senderAccountNo',
+            modifyResData?.senderAccountNo || ''
           );
           formikRef.current.setFieldValue(
-            "beneficiaryAccountNo",
-            modifyResData?.beneficiaryAccountNo || ""
+            'beneficiaryAccountNo',
+            modifyResData?.beneficiaryAccountNo || ''
           );
           formikRef.current.setFieldValue(
-            "senderAddress",
-            modifyResData?.senderAddress || ""
+            'senderAddress',
+            modifyResData?.senderAddress || ''
           );
           formikRef.current.setFieldValue(
-            "beneficiaryBankEmail",
-            modifyResData?.beneficiaryBankEmail || ""
+            'beneficiaryBankEmail',
+            modifyResData?.beneficiaryBankEmail || ''
           );
           const modifyRowDto = modifyResData?.objRow?.map((item) => {
             return {
               ...item,
-              customOfficeCode: item?.customOfficeCode || "",
+              customOfficeCode: item?.customOfficeCode || '',
               registrationYear: item?.registrationYear || 0,
-              registrationNo: item?.registrationNo || "",
-              declarantCode: item?.declarantCode || "",
-              mobileNo: item?.mobileNo || "",
+              registrationNo: item?.registrationNo || '',
+              declarantCode: item?.declarantCode || '',
+              mobileNo: item?.mobileNo || '',
               rtgsAmount: item?.rtgsAmount || 0,
             };
           });
@@ -244,22 +243,22 @@ const CustomsRTGSCreate = () => {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          senderBankAccountNumber: "",
-          poLc: "",
-          shipment: "",
-          rtgsAmount: "",
-          senderName: "",
-          beneficiaryName: "Customs Duty (ASYCUDA) Collection A/C",
-          senderBankName: "",
-          beneficiaryBankName: "Sonali Bank Ltd.",
-          senderBranchName: "",
-          beneficiaryBranchName: "B. Wapda Corp Branch",
-          senderRoutingNo: "",
-          beneficiaryRoutingNo: "200276971",
-          senderAccountNo: "",
-          beneficiaryAccountNo: "1619602000696",
-          senderAddress: "",
-          beneficiaryBankEmail: "brcustomhousectg@sonalibank.com.bd",
+          senderBankAccountNumber: '',
+          poLc: '',
+          shipment: '',
+          rtgsAmount: '',
+          senderName: '',
+          beneficiaryName: 'Customs Duty (ASYCUDA) Collection A/C',
+          senderBankName: '',
+          beneficiaryBankName: 'Sonali Bank Ltd.',
+          senderBranchName: '',
+          beneficiaryBranchName: 'B. Wapda Corp Branch',
+          senderRoutingNo: '',
+          beneficiaryRoutingNo: '200276971',
+          senderAccountNo: '',
+          beneficiaryAccountNo: '1619602000696',
+          senderAddress: '',
+          beneficiaryBankEmail: 'brcustomhousectg@sonalibank.com.bd',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -313,14 +312,14 @@ const CustomsRTGSCreate = () => {
                         paddingRight={10}
                         name="poLc"
                         handleChange={(valueOption) => {
-                          setFieldValue("poLc", valueOption);
+                          setFieldValue('poLc', valueOption);
                           getShipmentDDL(
                             profileData.accountId,
                             selectedBusinessUnit.value,
                             valueOption?.label,
                             setShipmentDDL
                           );
-                          setFieldValue("shipment", "");
+                          setFieldValue('shipment', '');
                         }}
                         loadOptions={polcList || []}
                         placeholder="Search by PO/LC Id"
@@ -334,8 +333,8 @@ const CustomsRTGSCreate = () => {
                         label="Shipment No"
                         value={values?.shipment}
                         onChange={(valueOption) => {
-                          setFieldValue("rtgsAmount", "");
-                          setFieldValue("shipment", valueOption);
+                          setFieldValue('rtgsAmount', '');
+                          setFieldValue('shipment', valueOption);
                           getCustomDutyInfo(
                             profileData.accountId,
                             selectedBusinessUnit.value,
@@ -346,7 +345,7 @@ const CustomsRTGSCreate = () => {
                             (resData) => {
                               console.log(resData?.data[0]);
                               setFieldValue(
-                                "rtgsAmount",
+                                'rtgsAmount',
                                 resData?.data[0]?.grandTotal
                               );
                               const copyRowDto = [...rowDto];
@@ -365,7 +364,7 @@ const CustomsRTGSCreate = () => {
                     </div>
                     {!id && (
                       <>
-                        {" "}
+                        {' '}
                         {/* RTGS Amount */}
                         <div className="col-lg-3">
                           <label>RTGS Amount</label>
@@ -383,7 +382,7 @@ const CustomsRTGSCreate = () => {
                   </div>
                   {!id && (
                     <>
-                      {" "}
+                      {' '}
                       <div className="row">
                         <div className="col-lg-3">
                           <NewSelect
@@ -392,32 +391,32 @@ const CustomsRTGSCreate = () => {
                             value={values?.senderBankAccountNumber}
                             onChange={(valueOption) => {
                               setFieldValue(
-                                "senderName",
-                                valueOption?.bankAccountName || ""
+                                'senderName',
+                                valueOption?.bankAccountName || ''
                               );
                               setFieldValue(
-                                "senderBankAccountNumber",
+                                'senderBankAccountNumber',
                                 valueOption
                               );
                               setFieldValue(
-                                "senderBankName",
-                                valueOption?.bankName || ""
+                                'senderBankName',
+                                valueOption?.bankName || ''
                               );
                               setFieldValue(
-                                "senderBranchName",
-                                valueOption?.bankBranchName || ""
+                                'senderBranchName',
+                                valueOption?.bankBranchName || ''
                               );
                               setFieldValue(
-                                "senderRoutingNo",
-                                valueOption?.routingNo || ""
+                                'senderRoutingNo',
+                                valueOption?.routingNo || ''
                               );
                               setFieldValue(
-                                "senderAccountNo",
-                                valueOption?.bankAccountNo || ""
+                                'senderAccountNo',
+                                valueOption?.bankAccountNo || ''
                               );
                               setFieldValue(
-                                "senderAddress",
-                                valueOption?.bankBranchAddress || ""
+                                'senderAddress',
+                                valueOption?.bankBranchAddress || ''
                               );
                             }}
                             placeholder="Sender Bank Account Number"
@@ -445,7 +444,7 @@ const CustomsRTGSCreate = () => {
                               <td>Name</td>
                               <td>
                                 <InputField
-                                  value={values?.senderName || ""}
+                                  value={values?.senderName || ''}
                                   placeholder="Sender Name"
                                   name="senderName"
                                   type="text"
@@ -453,7 +452,7 @@ const CustomsRTGSCreate = () => {
                               </td>
                               <td>
                                 <InputField
-                                  value={values?.beneficiaryName || ""}
+                                  value={values?.beneficiaryName || ''}
                                   placeholder="Beneficiary Name"
                                   name="beneficiaryName"
                                   type="text"
@@ -464,7 +463,7 @@ const CustomsRTGSCreate = () => {
                               <td>Bank</td>
                               <td>
                                 <InputField
-                                  value={values?.senderBankName || ""}
+                                  value={values?.senderBankName || ''}
                                   placeholder="Sender Bank"
                                   name="senderBankName"
                                   type="text"
@@ -472,7 +471,7 @@ const CustomsRTGSCreate = () => {
                               </td>
                               <td>
                                 <InputField
-                                  value={values?.beneficiaryBankName || ""}
+                                  value={values?.beneficiaryBankName || ''}
                                   placeholder="Beneficiary Bank"
                                   name="beneficiaryBankName"
                                   type="text"
@@ -483,7 +482,7 @@ const CustomsRTGSCreate = () => {
                               <td>Branch Name</td>
                               <td>
                                 <InputField
-                                  value={values?.senderBranchName || ""}
+                                  value={values?.senderBranchName || ''}
                                   placeholder="Sender Branch"
                                   name="senderBranchName"
                                   type="text"
@@ -491,7 +490,7 @@ const CustomsRTGSCreate = () => {
                               </td>
                               <td>
                                 <InputField
-                                  value={values?.beneficiaryBranchName || ""}
+                                  value={values?.beneficiaryBranchName || ''}
                                   placeholder="Beneficiary Branch"
                                   name="beneficiaryBranchName"
                                   type="text"
@@ -502,7 +501,7 @@ const CustomsRTGSCreate = () => {
                               <td>Routing No</td>
                               <td>
                                 <InputField
-                                  value={values?.senderRoutingNo || ""}
+                                  value={values?.senderRoutingNo || ''}
                                   placeholder="Sender Routing No"
                                   name="senderRoutingNo"
                                   type="text"
@@ -510,7 +509,7 @@ const CustomsRTGSCreate = () => {
                               </td>
                               <td>
                                 <InputField
-                                  value={values?.beneficiaryRoutingNo || ""}
+                                  value={values?.beneficiaryRoutingNo || ''}
                                   placeholder="Beneficiary Routing No"
                                   name="beneficiaryRoutingNo"
                                   type="text"
@@ -521,7 +520,7 @@ const CustomsRTGSCreate = () => {
                               <td>Account No</td>
                               <td>
                                 <InputField
-                                  value={values?.senderAccountNo || ""}
+                                  value={values?.senderAccountNo || ''}
                                   placeholder="Sender Account No"
                                   name="senderAccountNo"
                                   type="text"
@@ -529,7 +528,7 @@ const CustomsRTGSCreate = () => {
                               </td>
                               <td>
                                 <InputField
-                                  value={values?.beneficiaryAccountNo || ""}
+                                  value={values?.beneficiaryAccountNo || ''}
                                   placeholder="Beneficiary Account No"
                                   name="beneficiaryAccountNo"
                                   type="text"
@@ -540,7 +539,7 @@ const CustomsRTGSCreate = () => {
                               <td>Address</td>
                               <td>
                                 <InputField
-                                  value={values?.senderAddress || ""}
+                                  value={values?.senderAddress || ''}
                                   placeholder="Sender Address"
                                   name="senderAddress"
                                   type="text"
@@ -548,7 +547,7 @@ const CustomsRTGSCreate = () => {
                               </td>
                               <td>
                                 <InputField
-                                  value={values?.beneficiaryBankEmail || ""}
+                                  value={values?.beneficiaryBankEmail || ''}
                                   placeholder="Beneficiary Bank Email"
                                   name="beneficiaryBankEmail"
                                   type="text"
@@ -585,7 +584,7 @@ const CustomsRTGSCreate = () => {
                                     </td>
                                     <td>
                                       <InputField
-                                        value={item?.customOfficeCode || ""}
+                                        value={item?.customOfficeCode || ''}
                                         placeholder="Custom Office code"
                                         name="customOfficeCode"
                                         type="text"
@@ -599,7 +598,7 @@ const CustomsRTGSCreate = () => {
                                     </td>
                                     <td>
                                       <InputField
-                                        value={item?.registrationYear || ""}
+                                        value={item?.registrationYear || ''}
                                         placeholder="Registration Year"
                                         name="registrationYear"
                                         type="number"
@@ -613,7 +612,7 @@ const CustomsRTGSCreate = () => {
                                     </td>
                                     <td>
                                       <InputField
-                                        value={item?.registrationNo || ""}
+                                        value={item?.registrationNo || ''}
                                         placeholder="Registration(BE) No"
                                         name="registrationNo"
                                         type="text"
@@ -627,7 +626,7 @@ const CustomsRTGSCreate = () => {
                                     </td>
                                     <td>
                                       <InputField
-                                        value={item?.declarantCode || ""}
+                                        value={item?.declarantCode || ''}
                                         placeholder="Declarant Code"
                                         name="declarantCode"
                                         type="text"
@@ -641,7 +640,7 @@ const CustomsRTGSCreate = () => {
                                     </td>
                                     <td>
                                       <InputField
-                                        value={item?.mobileNo || ""}
+                                        value={item?.mobileNo || ''}
                                         placeholder="Mobile No"
                                         name="mobileNo"
                                         type="text"
@@ -655,7 +654,7 @@ const CustomsRTGSCreate = () => {
                                     </td>
                                     <td>
                                       <InputField
-                                        value={item?.rtgsAmount || ""}
+                                        value={item?.rtgsAmount || ''}
                                         placeholder="RTGS Amount"
                                         name="rtgsAmount"
                                         type="number"

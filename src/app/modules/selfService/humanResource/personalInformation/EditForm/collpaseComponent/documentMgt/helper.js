@@ -5,7 +5,7 @@ import { APIUrl } from '../../../../../../../../App';
 export const getDocumentTypeDDL = async (accId, setter) => {
   try {
     const res = await Axios.get(
-      `/hcm/HCMDDL/GetDocumentType?AccountId=${accId}`,
+      `/hcm/HCMDDL/GetDocumentType?AccountId=${accId}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -18,7 +18,7 @@ export const saveDocManagement_api = async (payload, cb, setDisabled) => {
     setDisabled(true);
     const res = await Axios.post(
       '/hcm/DocumentAttachment/CreateDocumentAttachment',
-      payload,
+      payload
     );
     if (res.status === 200) {
       toast.success(res?.data?.message || 'Submitted Successfully');
@@ -35,7 +35,7 @@ export const saveDocManagement_api = async (payload, cb, setDisabled) => {
 export const getDocumentAttachmentByEmployeeId_api = async (id, setter) => {
   try {
     const res = await Axios.get(
-      `/hcm/DocumentAttachment/GetDocumentAttachmentByEmployeeId?EmployeeId=${id}`,
+      `/hcm/DocumentAttachment/GetDocumentAttachmentByEmployeeId?EmployeeId=${id}`
     );
     if (res.status === 200 && res?.data) {
       // const data = res?.data?.length;
@@ -61,7 +61,7 @@ export const editDocManagement_api = async (payload, cb, setDisabled) => {
   try {
     const res = await Axios.put(
       '/hcm/DocumentAttachment/EditDocumentAttachment',
-      payload,
+      payload
     );
     if (res.status === 200) {
       toast.success(res?.data?.message || 'Submitted Successfully');
@@ -77,7 +77,7 @@ export const editDocManagement_api = async (payload, cb, setDisabled) => {
 export const getImageFile_API = async (id) => {
   try {
     const res = await Axios.get(
-      `${APIUrl}/domain/Document/DownlloadFile?id=${id}`,
+      `${APIUrl}/domain/Document/DownlloadFile?id=${id}`
     );
 
     if (res.status === 200 && res.data) {

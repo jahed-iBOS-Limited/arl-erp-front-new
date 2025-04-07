@@ -1,44 +1,44 @@
-import React, { useEffect, useState } from "react";
-import { confirmAlert } from "react-confirm-alert"; // Import
-import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
-import { getImageuploadStatus, getPurchaseOrganizationDDL } from "../../../../../_helper/_commonApi";
-import IForm from "../../../../../_helper/_form";
-import Loading from "../../../../../_helper/_loading";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import { attachmentUpload } from "../../../../../_helper/attachmentUpload";
-import { compressfile } from "../../../../../_helper/compressfile";
+import React, { useEffect, useState } from 'react';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import {
-  getWarehouseDDL,
-  saveFairPriceShopInvoice
-} from "../../helper";
-import Form from "./form";
-import "./purchaseInvoice.css";
+  getImageuploadStatus,
+  getPurchaseOrganizationDDL,
+} from '../../../../../_helper/_commonApi';
+import IForm from '../../../../../_helper/_form';
+import Loading from '../../../../../_helper/_loading';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import { attachmentUpload } from '../../../../../_helper/attachmentUpload';
+import { compressfile } from '../../../../../_helper/compressfile';
+import { getWarehouseDDL, saveFairPriceShopInvoice } from '../../helper';
+import Form from './form';
+import './purchaseInvoice.css';
 
 const initData = {
-  purchaseOrg: "",
-  plant: "",
-  warehouse: "",
-  supplierName: "",
-  purchaseOrder: "",
-  invoiceNumber: "",
+  purchaseOrg: '',
+  plant: '',
+  warehouse: '',
+  supplierName: '',
+  purchaseOrder: '',
+  invoiceNumber: '',
   invoiceDate: _todayDate(),
-  remarks: "",
-  selectGRN: "",
+  remarks: '',
+  selectGRN: '',
   checked: false,
-  ginvoiceAmount: "",
-  deducationAmount: "",
-  invoiceAmount: "",
+  ginvoiceAmount: '',
+  deducationAmount: '',
+  invoiceAmount: '',
   paymentDueDate: _todayDate(),
-  grossInvoiceAmount: "",
+  grossInvoiceAmount: '',
   deductionAmount: 0,
-  netPaymentAmount: "",
+  netPaymentAmount: '',
   advanceAdjustment: true,
-  totalAdjustedBalance: "",
-  new_Adv_Adjustment: "",
-  curentAdjustmentBalance: "",
+  totalAdjustedBalance: '',
+  new_Adv_Adjustment: '',
+  curentAdjustmentBalance: '',
 };
 
 export default function SupplerInvoiceForm() {
@@ -96,29 +96,29 @@ export default function SupplerInvoiceForm() {
   const modalView = (code) => {
     return confirmAlert({
       title: `Bill Code: ${code} `,
-      message: "",
+      message: '',
       buttons: [],
     });
   };
 
   const saveHandler = async (values, cb) => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
-      let rowDetailsList = []
-      grnGridData.forEach(data => {
-        return data?.objItemInfo?.forEach(item => {
+      let rowDetailsList = [];
+      grnGridData.forEach((data) => {
+        return data?.objItemInfo?.forEach((item) => {
           rowDetailsList.push({
-            "referenceId": data?.mrrId,
-            "referenceAmount": data?.mrrAmount,
-            "itemId": item?.itemId,
-            "itemName": item?.itemName,
-            "uoMId": item?.uoMId,
-            "uoMName": item?.uoMName,
-            "numQuantity": item?.itemQuantity,
-            "numValue": item?.itemAmount,
-            "challanNo": data?.challanNo
-          })
-        })
-      })
+            referenceId: data?.mrrId,
+            referenceAmount: data?.mrrAmount,
+            itemId: item?.itemId,
+            itemName: item?.itemName,
+            uoMId: item?.uoMId,
+            uoMName: item?.uoMName,
+            numQuantity: item?.itemQuantity,
+            numValue: item?.itemAmount,
+            challanNo: data?.challanNo,
+          });
+        });
+      });
 
       // creage api
       const payload = {
@@ -148,7 +148,7 @@ export default function SupplerInvoiceForm() {
         netPaymentAmount:
           +values?.grossInvoiceAmount - +values?.new_Adv_Adjustment || 0,
         paymentDueDate: values.paymentDueDate,
-        remarks: values.remarks || "",
+        remarks: values.remarks || '',
         actionBy: profileData.userId,
         lastActionDateTime: values.invoiceDate,
         serverDateTime: values.invoiceDate,
@@ -158,8 +158,8 @@ export default function SupplerInvoiceForm() {
         businessPartnerAddress: values?.purchaseOrder?.supplierAddress,
         contactNumber: values?.purchaseOrder?.supplierPhone,
         emailAddress: values?.purchaseOrder?.supplierEmail,
-        binNo: "string",
-        licenseNo: "string"
+        binNo: 'string',
+        licenseNo: 'string',
       };
       try {
         setDisabled(true);
@@ -167,7 +167,7 @@ export default function SupplerInvoiceForm() {
         if (r?.data) {
           if (fileObjects.length < 1) {
             setDisabled(false);
-            return toast.warn("Attachment required");
+            return toast.warn('Attachment required');
           } else {
             const compressedFile = await compressfile(
               fileObjects?.map((f) => f.file)
@@ -184,15 +184,15 @@ export default function SupplerInvoiceForm() {
                       imageId: data?.id,
                     };
                   }),
-                  rowListData: grnGridData.map(data => {
+                  rowListData: grnGridData.map((data) => {
                     return {
-                      "actionBy": profileData?.userId,
-                      "referenceAmount": data?.mrrAmount,
-                      "referenceId": data?.mrrId,
-                      "referenceName": data?.mrrCode,
-                    }
+                      actionBy: profileData?.userId,
+                      referenceAmount: data?.mrrAmount,
+                      referenceId: data?.mrrId,
+                      referenceName: data?.mrrCode,
+                    };
                   }),
-                  rowDetailsList: rowDetailsList
+                  rowDetailsList: rowDetailsList,
                 };
                 if (grnGridData.length) {
                   saveFairPriceShopInvoice(
@@ -204,7 +204,7 @@ export default function SupplerInvoiceForm() {
                     modalView
                   );
                 } else {
-                  toast.warning("You must have to add atleast one item");
+                  toast.warning('You must have to add atleast one item');
                 }
               })
               .catch((err) => {
@@ -229,15 +229,15 @@ export default function SupplerInvoiceForm() {
                         imageId: data?.id,
                       };
                     }),
-                    rowListData: grnGridData.map(data => {
+                    rowListData: grnGridData.map((data) => {
                       return {
-                        "actionBy": profileData?.userId,
-                        "referenceAmount": data?.mrrAmount,
-                        "referenceId": data?.mrrId,
-                        "referenceName": data?.mrrCode,
-                      }
+                        actionBy: profileData?.userId,
+                        referenceAmount: data?.mrrAmount,
+                        referenceId: data?.mrrId,
+                        referenceName: data?.mrrCode,
+                      };
                     }),
-                    rowDetailsList: rowDetailsList
+                    rowDetailsList: rowDetailsList,
                   };
                   saveFairPriceShopInvoice(
                     modifyPlyload,
@@ -257,15 +257,15 @@ export default function SupplerInvoiceForm() {
                   ...payload,
                 },
                 imageData: [],
-                rowListData: grnGridData.map(data => {
+                rowListData: grnGridData.map((data) => {
                   return {
-                    "actionBy": profileData?.userId,
-                    "referenceAmount": data?.mrrAmount,
-                    "referenceId": data?.mrrId,
-                    "referenceName": data?.mrrCode,
-                  }
+                    actionBy: profileData?.userId,
+                    referenceAmount: data?.mrrAmount,
+                    referenceId: data?.mrrId,
+                    referenceName: data?.mrrCode,
+                  };
                 }),
-                rowDetailsList: rowDetailsList
+                rowDetailsList: rowDetailsList,
               };
               saveFairPriceShopInvoice(
                 modifyPlyload,
@@ -277,7 +277,7 @@ export default function SupplerInvoiceForm() {
               );
             }
           } else {
-            toast.warning("You must have to add atleast one item");
+            toast.warning('You must have to add atleast one item');
           }
         }
       } catch (error) {

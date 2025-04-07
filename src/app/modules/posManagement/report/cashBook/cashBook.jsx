@@ -1,50 +1,40 @@
-import { Formik, Form } from "formik";
-import React, { useState, useEffect, useRef } from "react";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { useSelector } from "react-redux";
+import { Formik, Form } from 'formik';
+import React, { useState, useEffect, useRef } from 'react';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { useSelector } from 'react-redux';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../_metronic/_partials/controls";
-import ICustomTable from "../../../_helper/_customTable";
-import Loading from "../../../_helper/_loading";
-import {
-  getCashBookData,
-  getWarehouseDDL
-} from "../helper";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+} from '../../../../../_metronic/_partials/controls';
+import ICustomTable from '../../../_helper/_customTable';
+import Loading from '../../../_helper/_loading';
+import { getCashBookData, getWarehouseDDL } from '../helper';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  wareHouse: "",
+  wareHouse: '',
 };
 
 export default function CashBookReport() {
   const [gridData, setGridData] = useState([]);
   const [gridData1, setGridData1] = useState([]);
-  const [outletDDL, setOutletDDL] = useState([])
+  const [outletDDL, setOutletDDL] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const headers1 = [
-    "SL",
-    "Date",
-    "Code",
-    "Description",
-    "Debit",
-    "Credit"
-  ];
+  const headers1 = ['SL', 'Date', 'Code', 'Description', 'Debit', 'Credit'];
   const headers2 = [
-    "SL",
-    "Openning Balance",
-    "Receive Amount",
-    "Cost Amount",
-    "Cash In Hand"
+    'SL',
+    'Openning Balance',
+    'Receive Amount',
+    'Cost Amount',
+    'Cash In Hand',
   ];
 
   const printRef = useRef();
@@ -68,7 +58,9 @@ export default function CashBookReport() {
     );
   };
 
-  const { profileData, selectedBusinessUnit } = useSelector(state => state?.authData)
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData
+  );
 
   useEffect(() => {
     getWarehouseDDL(
@@ -77,7 +69,7 @@ export default function CashBookReport() {
       profileData?.userId,
       setOutletDDL
     );
-  }, [profileData, selectedBusinessUnit])
+  }, [profileData, selectedBusinessUnit]);
 
   let totalDebit = 0;
   let totalCredit = 0;
@@ -88,13 +80,13 @@ export default function CashBookReport() {
         enableReinitialize={true}
         initialValues={initData}
         //validationSchema={validationSchema}
-        onSubmit={() => { }}
+        onSubmit={() => {}}
       >
         {({ setFieldValue, values }) => (
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Cash Book Report"}>
+              <CardHeader title={'Cash Book Report'}>
                 <CardHeaderToolbar>
                   {/* <ReactToPrint
                     pageStyle={
@@ -128,7 +120,7 @@ export default function CashBookReport() {
                         label="Warehouse"
                         options={outletDDL}
                         onChange={(valueOption) => {
-                          setFieldValue("outlet", valueOption);
+                          setFieldValue('outlet', valueOption);
                         }}
                         placeholder="Warehouse"
                       />
@@ -163,13 +155,18 @@ export default function CashBookReport() {
                       </button>
                     </div>
                   </div>
-                  <div ref={printRef} style={{ width: "600px", margin: "auto" }}>
+                  <div
+                    ref={printRef}
+                    style={{ width: '600px', margin: 'auto' }}
+                  >
                     <ICustomTable ths={headers2}>
                       {gridData1?.map((item, index) => {
                         return (
                           <tr key={index}>
                             <td>
-                              <p className="text-center mb-0">{index + 1}</p>{" "}
+                              <p className="text-center mb-0">
+                                {index + 1}
+                              </p>{' '}
                             </td>
                             <td className="text-right">{item?.ops}</td>
                             <td className="text-right">{item?.receive}</td>
@@ -181,12 +178,14 @@ export default function CashBookReport() {
                     </ICustomTable>
                     <ICustomTable ths={headers1}>
                       {gridData?.map((item, index) => {
-                        totalDebit += item?.mondebit
-                        totalCredit += item?.moncredit
+                        totalDebit += item?.mondebit;
+                        totalCredit += item?.moncredit;
                         return (
                           <tr key={index}>
                             <td>
-                              <p className="text-center mb-0">{index + 1}</p>{" "}
+                              <p className="text-center mb-0">
+                                {index + 1}
+                              </p>{' '}
                             </td>
                             <td>{_dateFormatter(item?.dtedate)}</td>
                             <td>{item?.code}</td>
@@ -199,7 +198,7 @@ export default function CashBookReport() {
                       <tr>
                         <td></td>
                         <td className="text-center" colSpan="3">
-                          <span style={{fontWeight:"bold"}}>Total</span>
+                          <span style={{ fontWeight: 'bold' }}>Total</span>
                         </td>
                         <td className="text-right">{totalDebit}</td>
                         <td className="text-right">{totalCredit}</td>

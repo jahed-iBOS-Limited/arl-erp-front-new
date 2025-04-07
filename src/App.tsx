@@ -40,8 +40,8 @@ export const eProcurementBaseURL = isDevelopmentOrDevHost()
 export const APIUrl = isDevelopmentOrDevHost()
   ? 'https://deverp.ibos.io'
   : window.location?.hostname === 'deverpv2.ibos.io'
-  ? 'https://erp.ibos.io'
-  : origin;
+    ? 'https://erp.ibos.io'
+    : origin;
 
 Axios.defaults.baseURL = APIUrl;
 
@@ -124,7 +124,7 @@ const App: React.FC<AppProps> = ({ store, persistor, basename }) => {
         }
         return Promise.reject(error);
       }
-    },
+    }
   );
 
   // Response Interceptor
@@ -179,7 +179,7 @@ const App: React.FC<AppProps> = ({ store, persistor, basename }) => {
         }
         return Promise.reject(error);
       }
-    },
+    }
   );
 
   if (updateAvailable) {

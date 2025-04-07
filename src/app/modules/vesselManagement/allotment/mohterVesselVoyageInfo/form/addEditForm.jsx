@@ -1,30 +1,26 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useParams, useLocation } from "react-router";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "../../../../_helper/_loading";
-import {
-  GetDomesticPortDDL,
-
-} from "../../loadingInformation/helper";
-import { editMotherVesselVoyageInfo } from "../helper";
-import Form from "./form";
-import { getMotherVesselDDL } from "../../../../_helper/_commonApi";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useParams, useLocation } from 'react-router';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import Loading from '../../../../_helper/_loading';
+import { GetDomesticPortDDL } from '../../loadingInformation/helper';
+import { editMotherVesselVoyageInfo } from '../helper';
+import Form from './form';
+import { getMotherVesselDDL } from '../../../../_helper/_commonApi';
 
 const initData = {
-  voyageCode: "",
-  motherVessel: "",
-  lcNumber: "",
-  blQty: "",
-  narration: "",
-  loadingPort: "",
-  dischargingPort: "",
-  cnf: "",
-  stevedore: "",
-  eta: "",
+  voyageCode: '',
+  motherVessel: '',
+  lcNumber: '',
+  blQty: '',
+  narration: '',
+  loadingPort: '',
+  dischargingPort: '',
+  cnf: '',
+  stevedore: '',
+  eta: '',
 };
 
 export default function MotherVesselVoyageInfoForm() {
@@ -46,7 +42,7 @@ export default function MotherVesselVoyageInfoForm() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!type || type !== "view") {
+    if (!type || type !== 'view') {
       GetDomesticPortDDL(setDomesticPortDDL);
       getMotherVesselDDL(accId, buId, setMotherVesselDDL);
       getCnfDDL(`wms/FertilizerOperation/GetLighterCNFDDL`);
@@ -104,7 +100,7 @@ export default function MotherVesselVoyageInfoForm() {
   const saveHandler = (values, cb) => {
     if (!id) {
       const payload = {
-        voyageCode: values?.voyageCode || "",
+        voyageCode: values?.voyageCode || '',
         accountId: accId,
         businessUnitId: buId,
         motherVesselId: values?.motherVessel?.value,
@@ -119,9 +115,9 @@ export default function MotherVesselVoyageInfoForm() {
         dischargingPortId: values?.dischargingPort?.value,
         dischargingPortName: values?.dischargingPort?.label,
         cnfId: values?.cnf?.value || 0,
-        cnfName: values?.cnf?.label || "",
+        cnfName: values?.cnf?.label || '',
         stebdoreId: values?.stevedore?.value || 0,
-        stebdoreName: values?.stevedore?.label || "",
+        stebdoreName: values?.stevedore?.label || '',
       };
       postData(
         `/tms/LigterLoadUnload/CreateMotherVesselVoyageInfo`,
@@ -134,7 +130,7 @@ export default function MotherVesselVoyageInfoForm() {
     } else {
       const payload = {
         voyageNo: id,
-        voyageCode: values?.voyageCode || "",
+        voyageCode: values?.voyageCode || '',
         motherVesselId: values?.motherVessel?.value,
         motherVesselName: values?.motherVessel?.label,
         lcnumber: values?.lcNumber,
@@ -146,9 +142,9 @@ export default function MotherVesselVoyageInfoForm() {
         dischargingPortId: values?.dischargingPort?.value,
         dischargingPortName: values?.dischargingPort?.label,
         cnfId: values?.cnf?.value || 0,
-        cnfName: values?.cnf?.label || "",
+        cnfName: values?.cnf?.label || '',
         stebdoreId: values?.stevedore?.value || 0,
-        stebdoreName: values?.stevedore?.label || "",
+        stebdoreName: values?.stevedore?.label || '',
       };
       editMotherVesselVoyageInfo(payload, setLoading);
     }
@@ -156,24 +152,24 @@ export default function MotherVesselVoyageInfoForm() {
 
   const onChangeHandler = (fieldName, values, currentValue, setFieldValue) => {
     switch (fieldName) {
-      case "motherVessel":
-        setFieldValue("motherVessel", currentValue);
+      case 'motherVessel':
+        setFieldValue('motherVessel', currentValue);
         break;
 
-      case "loadingPort":
-        setFieldValue("loadingPort", currentValue);
+      case 'loadingPort':
+        setFieldValue('loadingPort', currentValue);
         break;
 
-      case "dischargingPort":
-        setFieldValue("dischargingPort", currentValue);
+      case 'dischargingPort':
+        setFieldValue('dischargingPort', currentValue);
         break;
 
-      case "cnf":
-        setFieldValue("cnf", currentValue);
+      case 'cnf':
+        setFieldValue('cnf', currentValue);
         break;
 
-      case "stevedore":
-        setFieldValue("stevedore", currentValue);
+      case 'stevedore':
+        setFieldValue('stevedore', currentValue);
         break;
 
       default:
@@ -181,8 +177,9 @@ export default function MotherVesselVoyageInfoForm() {
     }
   };
 
-  const title = `${type === "view" ? "View" : type === "edit" ? "Edit" : "Enter"
-    } Mother Vessel Voyage Information`;
+  const title = `${
+    type === 'view' ? 'View' : type === 'edit' ? 'Edit' : 'Enter'
+  } Mother Vessel Voyage Information`;
 
   return (
     <>

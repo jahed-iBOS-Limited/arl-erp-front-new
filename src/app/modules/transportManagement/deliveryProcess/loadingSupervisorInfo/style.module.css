@@ -9,7 +9,7 @@
   color: #fff;
 }
 
-@media (min-width:575px) {
+@media (min-width: 575px) {
   .cardNumberSearchBtn {
     display: none;
   }

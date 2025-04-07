@@ -40,12 +40,13 @@ function CostOfProductionReport() {
 
   const getData = (values) => {
     getRowDto(
-      `/fino/Report/GetMachineWiseCostOfProduction?intBusinessUnitId=${values
-        ?.currentBusinessUnit?.value ||
-        selectedBusinessUnit?.value}&fromDate=${values?.fromDate ||
-        _todayDate()}&toDate=${values?.toDate || _todayDate()}&isForecast=${
+      `/fino/Report/GetMachineWiseCostOfProduction?intBusinessUnitId=${
+        values?.currentBusinessUnit?.value || selectedBusinessUnit?.value
+      }&fromDate=${
+        values?.fromDate || _todayDate()
+      }&toDate=${values?.toDate || _todayDate()}&isForecast=${
         values?.isForecast
-      }`,
+      }`
     );
   };
 

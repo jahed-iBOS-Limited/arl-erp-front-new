@@ -1,13 +1,8 @@
-import React from "react";
-import NewSelect from "./../../../../_helper/_select";
-import InputField from "./../../../../_helper/_inputField";
+import React from 'react';
+import NewSelect from './../../../../_helper/_select';
+import InputField from './../../../../_helper/_inputField';
 
-export const PersonalInfo = ({
-  values,
-  setFieldValue,
-  errors,
-  touched
-}) => {
+export const PersonalInfo = ({ values, setFieldValue, errors, touched }) => {
   return (
     <>
       <div className="row">
@@ -51,12 +46,12 @@ export const PersonalInfo = ({
             label="Marriage Satus"
             name="marriageSatus"
             options={[
-              { label: "Married", value: 1 },
-              { label: "Unmarried", value: 2 },
+              { label: 'Married', value: 1 },
+              { label: 'Unmarried', value: 2 },
             ]}
             value={values?.marriageSatus}
             onChange={(valueOption) => {
-              setFieldValue("marriageSatus", valueOption);
+              setFieldValue('marriageSatus', valueOption);
             }}
             placeholder="Select Marriage Satus"
             errors={errors}

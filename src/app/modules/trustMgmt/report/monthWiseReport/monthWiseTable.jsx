@@ -1,12 +1,12 @@
-import React from "react";
-import { _formatMoney } from "../../../_helper/_formatMoney";
+import React from 'react';
+import { _formatMoney } from '../../../_helper/_formatMoney';
 
 const MonthWiseTable = ({ rowDto }) => {
   return (
     <>
       <div className="row">
         <div className="col-lg-12">
-          <h6 style={{ marginBottom: 0, paddingTop: "30px" }}>
+          <h6 style={{ marginBottom: 0, paddingTop: '30px' }}>
             Month Wise Donation Summery:
           </h6>
           <div className="table-responsive">
@@ -31,42 +31,42 @@ const MonthWiseTable = ({ rowDto }) => {
                     <tr key={index}>
                       <td
                         className={
-                          index === rowDto.length - 1 ? "font-weight-bold" : ""
+                          index === rowDto.length - 1 ? 'font-weight-bold' : ''
                         }
                       >
                         {item?.strMonthYear}
                       </td>
                       <td
                         className={`text-right ${
-                          index === rowDto.length - 1 ? "font-weight-bold" : ""
+                          index === rowDto.length - 1 ? 'font-weight-bold' : ''
                         }`}
                       >
                         {_formatMoney(item?.monJakatCash || 0)}
                       </td>
                       <td
                         className={`text-right ${
-                          index === rowDto.length - 1 ? "font-weight-bold" : ""
+                          index === rowDto.length - 1 ? 'font-weight-bold' : ''
                         }`}
                       >
                         {_formatMoney(item?.monJakatOnline || 0)}
                       </td>
                       <td
                         className={`text-right ${
-                          index === rowDto.length - 1 ? "font-weight-bold" : ""
+                          index === rowDto.length - 1 ? 'font-weight-bold' : ''
                         }`}
                       >
                         {_formatMoney(item?.monDonationCash || 0)}
                       </td>
                       <td
                         className={`text-right ${
-                          index === rowDto.length - 1 ? "font-weight-bold" : ""
+                          index === rowDto.length - 1 ? 'font-weight-bold' : ''
                         }`}
                       >
                         {_formatMoney(item?.monDonationOnline || 0)}
                       </td>
                       <td
                         className={`text-right ${
-                          index === rowDto.length - 1 ? "font-weight-bold" : ""
+                          index === rowDto.length - 1 ? 'font-weight-bold' : ''
                         }`}
                       >
                         {_formatMoney(item?.monTotal || 0)}

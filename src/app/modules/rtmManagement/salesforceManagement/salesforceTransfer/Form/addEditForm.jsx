@@ -1,21 +1,19 @@
-
-
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { useParams, useLocation } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
-import { saveSalesforceTransferAction } from "../helper";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { useParams, useLocation } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
+import { saveSalesforceTransferAction } from '../helper';
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 const initData = {
-  employeeName: "",
-  existingTerritoryName: "",
-  existingDistributionChannel: "",
-  territoryName: "",
-  distributionChannel: "",
-  territoryTypeName: "",
+  employeeName: '',
+  existingTerritoryName: '',
+  existingDistributionChannel: '',
+  territoryName: '',
+  distributionChannel: '',
+  territoryTypeName: '',
 };
 
 export default function SalesforceTranferForm({
@@ -71,7 +69,7 @@ export default function SalesforceTranferForm({
 
   return (
     <IForm
-      title={"Create Salesforce Transfer"}
+      title={'Create Salesforce Transfer'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

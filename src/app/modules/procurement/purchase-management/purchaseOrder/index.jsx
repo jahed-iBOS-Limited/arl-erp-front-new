@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import HeaderForm from "./Landing/form";
-import "./index.css";
-import ICustomCard from "../../../_helper/_customCard";
-import orderLogo from "../../../_helper/images/order.svg";
-import findIndex from "../../../_helper/_findIndex";
+import React, { useEffect, useState } from 'react';
+import HeaderForm from './Landing/form';
+import './index.css';
+import ICustomCard from '../../../_helper/_customCard';
+import orderLogo from '../../../_helper/images/order.svg';
+import findIndex from '../../../_helper/_findIndex';
 
-import { shallowEqual, useSelector } from "react-redux";
-import { getActivityCounter } from "./helper";
-import { useLocation } from "react-router-dom";
+import { shallowEqual, useSelector } from 'react-redux';
+import { getActivityCounter } from './helper';
+import { useLocation } from 'react-router-dom';
 export default function PurchaseOrder() {
   const location = useLocation();
-  const estimatePDAPOPage = location?.state || "";
+  const estimatePDAPOPage = location?.state || '';
   const { profileData } = useSelector((state) => state.authData, shallowEqual);
   const authData = useSelector((state) => state.authData, shallowEqual);
 
@@ -23,8 +23,8 @@ export default function PurchaseOrder() {
     shallowEqual
   );
 
-  const [activityCount, setActivityCount] = useState("");
-  const featureData = userRole[findIndex(userRole, "Purchase Order")];
+  const [activityCount, setActivityCount] = useState('');
+  const featureData = userRole[findIndex(userRole, 'Purchase Order')];
 
   useEffect(() => {
     // /domain/Activity/ActivityCounter?businessUnitId=164&activityId=1&userId=1205
@@ -36,7 +36,7 @@ export default function PurchaseOrder() {
     );
   }, [profileData, selectedBusinessUnit, featureData]);
   return (
-    <div style={{ height: "100%" }} className='purchase-order'>
+    <div style={{ height: '100%' }} className="purchase-order">
       {/* <ITableTwo
         renderProps={() => <HeaderForm />}
         title="Purchase Order"
@@ -47,7 +47,7 @@ export default function PurchaseOrder() {
         <GridData />
       </ITableTwo> */}
       <ICustomCard
-        title='Purchase Order'
+        title="Purchase Order"
         // createHandler={() =>
         //   history.push(
         //     `/mngProcurement/purchase-management/purchaseorder/create/po`
@@ -55,43 +55,43 @@ export default function PurchaseOrder() {
         // }
       >
         <div
-          className=''
+          className=""
           style={{
-            position: "absolute",
-            top: "32px",
-            left: "50%",
-            transform: "translateX(-50%)",
+            position: 'absolute',
+            top: '32px',
+            left: '50%',
+            transform: 'translateX(-50%)',
           }}
         >
-          <div className='d-flex align-items-center'>
-            <div className='d-flex align-items-center mr-2'>
+          <div className="d-flex align-items-center">
+            <div className="d-flex align-items-center mr-2">
               <img
                 src={orderLogo}
-                alt='logo'
-                style={{ margin: "0 0.5rem 0 0" }}
+                alt="logo"
+                style={{ margin: '0 0.5rem 0 0' }}
               />
-              <h6 style={{ fontSize: "16px", margin: "0 0.5rem 0 0" }}>
+              <h6 style={{ fontSize: '16px', margin: '0 0.5rem 0 0' }}>
                 {activityCount?.[0]?.qunatity}
               </h6>
-              <span style={{ fontSize: "12px", color: "gray" }}> Quantity</span>
+              <span style={{ fontSize: '12px', color: 'gray' }}> Quantity</span>
             </div>
-            <div className='d-flex align-items-center'>
+            <div className="d-flex align-items-center">
               <img
                 src={orderLogo}
-                alt='logo'
-                style={{ margin: "0 0.5rem 0 0" }}
+                alt="logo"
+                style={{ margin: '0 0.5rem 0 0' }}
               />
-              <h6 style={{ fontSize: "16px", margin: "0 0.5rem 0 0" }}>
+              <h6 style={{ fontSize: '16px', margin: '0 0.5rem 0 0' }}>
                 {activityCount?.[0]?.amount}
               </h6>
-              <span style={{ fontSize: "12px", color: "gray" }}> Amount</span>
+              <span style={{ fontSize: '12px', color: 'gray' }}> Amount</span>
             </div>
-            <div className='ml-6'>
+            <div className="ml-6">
               {estimatePDAPOPage && (
                 <>
                   <span
                     style={{
-                      color: "red",
+                      color: 'red',
                     }}
                   >
                     <h6>Estimate PDA</h6>
@@ -101,7 +101,10 @@ export default function PurchaseOrder() {
             </div>
           </div>
         </div>
-        <HeaderForm selectedBusinessUnit={selectedBusinessUnit} estimatePDAPOPage={estimatePDAPOPage}/>
+        <HeaderForm
+          selectedBusinessUnit={selectedBusinessUnit}
+          estimatePDAPOPage={estimatePDAPOPage}
+        />
       </ICustomCard>
     </div>
   );

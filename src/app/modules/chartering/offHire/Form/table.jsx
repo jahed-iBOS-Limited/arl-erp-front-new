@@ -1,19 +1,19 @@
-import React from "react";
-import ICustomTable from "../../_chartinghelper/_customTable";
-import IDelete from "../../_chartinghelper/icons/_delete";
+import React from 'react';
+import ICustomTable from '../../_chartinghelper/_customTable';
+import IDelete from '../../_chartinghelper/icons/_delete';
 
 const headers = [
-  { name: "SL" },
-  { name: "Vessel Name" },
-  { name: "Voyage No" },
-  { name: "Reason" },
-  { name: "Off Hire Duration" },
-  { name: "Duration Percentage" },
-  { name: "Final Duration" },
-  { name: "Off Hire Cost" },
-  { name: "Other Cost" },
-  { name: "Total Cost" },
-  { name: "Actions" },
+  { name: 'SL' },
+  { name: 'Vessel Name' },
+  { name: 'Voyage No' },
+  { name: 'Reason' },
+  { name: 'Off Hire Duration' },
+  { name: 'Duration Percentage' },
+  { name: 'Final Duration' },
+  { name: 'Off Hire Cost' },
+  { name: 'Other Cost' },
+  { name: 'Total Cost' },
+  { name: 'Actions' },
 ];
 
 export default function OffHireEntryFormTable({ obj }) {

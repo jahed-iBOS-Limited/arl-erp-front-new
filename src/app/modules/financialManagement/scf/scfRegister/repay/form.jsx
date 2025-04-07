@@ -7,7 +7,6 @@ import NewSelect from '../../../../_helper/_select';
 import { loanRegisterSchema } from '../../../../_helper/_validationSchema';
 import { getBankAccountDDLByBankId } from '../helper';
 
-
 export default function RepayForm({
   initData,
   btnRef,
@@ -29,7 +28,7 @@ export default function RepayForm({
       location?.state?.bu || selectedBusinessUnit?.value,
       location?.state?.bankId,
       setAccountDDL,
-      setLoading,
+      setLoading
     );
   }, [profileData, selectedBusinessUnit, location]);
 

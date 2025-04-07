@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getCostingSummary = async (
   poId,
@@ -12,7 +12,7 @@ export const getCostingSummary = async (
   const typeID = shipmentId ? 2 : 1;
   // const shipmentID = shipmentId ?? 0;
   const shipmentID = typeID === 1 ? 0 : shipmentId;
-  
+
   try {
     let query = `/imp/ImportReport/ImportCostSheetReport?lcId=${lcId}&`;
     // if (lcId) {
@@ -21,14 +21,14 @@ export const getCostingSummary = async (
     if (poId) {
       query += `poId=${poId}&`;
     }
-    
+
     if (shipmentID === 0 || shipmentId) {
       query += `shipmentId=${shipmentID}&`;
     }
     if (typeID) {
       query += `typeId=${typeID}`;
     }
-    
+
     // const res = await axios.get(
     //   `/imp/ImportReport/ImportCostSheetReport?lcId=${lcId}&poId=${poId}&shipmentId=${shipmentID}&typeId=${typeID}`
     // );
@@ -47,15 +47,19 @@ export const getCostingSummary = async (
 };
 
 // get shipment DDL
-export const getShipmentDDL = async (accId, buId, poLc, setter, formCommonApproval) => {
+export const getShipmentDDL = async (
+  accId,
+  buId,
+  poLc,
+  setter,
+  formCommonApproval
+) => {
   const requestURL = formCommonApproval
     ? `/imp/ImportCommonDDL/GetInfoFromPoLcDDLApprove?accId=${accId}&buId=${buId}&searchTerm=${poLc}`
     : `/imp/ImportCommonDDL/GetInfoFromPoLcDDL?accId=${accId}&buId=${buId}&searchTerm=${poLc}`;
-    
+
   try {
-    const res = await axios.get(
-      requestURL
-    );
+    const res = await axios.get(requestURL);
     setter(res?.data);
   } catch (error) {
     toast.error(error?.response?.data?.message);

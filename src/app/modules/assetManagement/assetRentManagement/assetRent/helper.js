@@ -1,43 +1,43 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 // Validation schema
 export const SaveInventoryLoanValidationSchema = Yup.object().shape({
   partner: Yup.object().shape({
-    label: Yup.string().required("Partner is required"),
-    value: Yup.string().required("Partner is required"),
+    label: Yup.string().required('Partner is required'),
+    value: Yup.string().required('Partner is required'),
   }),
 
   asset: Yup.object().shape({
-    label: Yup.string().required("Asset is required"),
-    value: Yup.string().required("Asset is required"),
+    label: Yup.string().required('Asset is required'),
+    value: Yup.string().required('Asset is required'),
   }),
 
   sbu: Yup.object().shape({
-    label: Yup.string().required("SBU is required"),
-    value: Yup.string().required("SBU is required"),
+    label: Yup.string().required('SBU is required'),
+    value: Yup.string().required('SBU is required'),
   }),
 
   currency: Yup.object().shape({
-    label: Yup.string().required("Currency is required"),
-    value: Yup.string().required("Currency is required"),
+    label: Yup.string().required('Currency is required'),
+    value: Yup.string().required('Currency is required'),
   }),
 
-  toDate: Yup.object().when("rentType", {
+  toDate: Yup.object().when('rentType', {
     is: 3,
     then: Yup.object()
       .shape({
-        value: Yup.string().required("This field is required"),
-        label: Yup.string().required("This field is required"),
+        value: Yup.string().required('This field is required'),
+        label: Yup.string().required('This field is required'),
       })
-      .typeError("This Field is required"),
+      .typeError('This Field is required'),
     otherwise: Yup.object(),
   }),
 
-  rentRate: Yup.string().required("Rent is required"),
-  currConversationRate: Yup.string().required("This fields is required"),
+  rentRate: Yup.string().required('Rent is required'),
+  currConversationRate: Yup.string().required('This fields is required'),
 });
 
 export const getLandingPaginationData = async (
@@ -49,7 +49,7 @@ export const getLandingPaginationData = async (
   pageSize,
   setter
 ) => {
-  const searchQuery = searchValue ? `&search=${searchValue}` : "";
+  const searchQuery = searchValue ? `&search=${searchValue}` : '';
   try {
     const res = await Axios.get(
       `/asset/AssetRent/GetAssetRentInfoLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&BusinessPartnerId=${partnerId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${searchQuery}`
@@ -133,7 +133,7 @@ export const editAssetRent = async (payload, setLoading) => {
   try {
     const res = await Axios.put(`/asset/AssetRent/EditAssetRentInfo`, payload);
     if (res.status === 200 && res?.data) {
-      toast.success("Update Successfully" || res.data?.message, {
+      toast.success('Update Successfully' || res.data?.message, {
         toastId: 1234,
       });
       setLoading(false);
@@ -164,7 +164,7 @@ export const getAssetSingleData = async (rentAssetId, setter, setDisabled) => {
           label: data?.assetName,
           code: data?.assetCode,
         },
-        sbu: data?.sbuId ? { value: data?.sbuId, label: data?.sbuName } : "",
+        sbu: data?.sbuId ? { value: data?.sbuId, label: data?.sbuName } : '',
         currency: { value: data?.currencyId, label: data?.currencyName },
         rentRate: data?.rentRate,
         currConversationRate: data?.currConversationRate,

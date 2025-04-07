@@ -1,37 +1,36 @@
-
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import { useSelector, shallowEqual } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import { useSelector, shallowEqual } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import NewSelect from "../../../_helper/_select";
-import InputField from "../../../_helper/_inputField";
+} from '../../../../../_metronic/_partials/controls';
+import NewSelect from '../../../_helper/_select';
+import InputField from '../../../_helper/_inputField';
 import {
   getAdjustmentJournalGridData,
   getBankJournalGridData,
   getCashJournalGridData,
   getJournalTypeDDL,
   transferJournal,
-} from "./helper";
-import Table from "./table/table";
-import { _todayDate } from "../../../_helper/_todayDate";
-import PaginationTable from "../../../_helper/_tablePagination";
-import Loading from "../../../_helper/_loading";
-import { IInput } from "../../../_helper/_input";
-import "./transferJournal.css";
-import { getSBU } from "../../../_helper/_commonApi";
+} from './helper';
+import Table from './table/table';
+import { _todayDate } from '../../../_helper/_todayDate';
+import PaginationTable from '../../../_helper/_tablePagination';
+import Loading from '../../../_helper/_loading';
+import { IInput } from '../../../_helper/_input';
+import './transferJournal.css';
+import { getSBU } from '../../../_helper/_commonApi';
 
 const initData = {
-  sbu: "",
-  journalType: "",
+  sbu: '',
+  journalType: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  code: "",
+  code: '',
 };
 
 const TransferJournalToTax = () => {
@@ -49,11 +48,7 @@ const TransferJournalToTax = () => {
 
   useEffect(() => {
     getJournalTypeDDL(setJournalTypeDDL);
-    getSBU(
-      profileData?.accountId,
-      selectedBusinessUnit?.value,
-      setSbuDDL
-    );
+    getSBU(profileData?.accountId, selectedBusinessUnit?.value, setSbuDDL);
   }, []);
 
   const rowDataHandler = (index, key, value) => {
@@ -137,15 +132,14 @@ const TransferJournalToTax = () => {
   };
 
   const saveHandler = (values, cb) => {
-
     const data = rowData
       ?.filter((item) => item.isSelected)
       ?.map((item) => ({
         journalCode: [1, 2, 3].includes(values?.journalType?.value)
           ? item.cashJournalCode
           : [4, 5, 6].includes(values?.journalType?.value)
-          ? item.bankJournalCode
-          : item.adjustmentJournalCode,
+            ? item.bankJournalCode
+            : item.adjustmentJournalCode,
       }));
 
     transferJournal(
@@ -182,7 +176,7 @@ const TransferJournalToTax = () => {
             {loading && <Loading />}
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Transfer Journal To Tax Account"}>
+              <CardHeader title={'Transfer Journal To Tax Account'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={handleSubmit}
@@ -205,7 +199,7 @@ const TransferJournalToTax = () => {
                         options={sbuDDL || []}
                         name="sbu"
                         onChange={(valueOption) => {
-                          setFieldValue("sbu", valueOption);
+                          setFieldValue('sbu', valueOption);
                           setRowData([]);
                         }}
                         placeholder="SBU"
@@ -221,7 +215,7 @@ const TransferJournalToTax = () => {
                         name="journalType"
                         placeholder="Type"
                         onChange={(valueOption) => {
-                          setFieldValue("journalType", valueOption);
+                          setFieldValue('journalType', valueOption);
                           setRowData([]);
                         }}
                         value={values?.journalType}
@@ -237,7 +231,7 @@ const TransferJournalToTax = () => {
                         placeholder="From Date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("fromDate", e.target.value);
+                          setFieldValue('fromDate', e.target.value);
                         }}
                       />
                     </div>
@@ -249,16 +243,16 @@ const TransferJournalToTax = () => {
                         placeholder="To Date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("toDate", e.target.value);
+                          setFieldValue('toDate', e.target.value);
                         }}
                       />
                     </div>
                     <div className="d-flex align-items-end pt-1 ">
                       <div
                         className="mr-2 pl-4 "
-                        style={{ width: "175px", position: "relative" }}
+                        style={{ width: '175px', position: 'relative' }}
                       >
-                        <span style={{ paddingRight: "10px" }}>
+                        <span style={{ paddingRight: '10px' }}>
                           Journal Code
                         </span>
                         <IInput value={values?.code} name="code" />
@@ -266,10 +260,10 @@ const TransferJournalToTax = () => {
                         <i
                           class="fas fa-search"
                           style={{
-                            position: "absolute",
-                            right: "4px",
-                            top: "21px",
-                            fontSize: "13px",
+                            position: 'absolute',
+                            right: '4px',
+                            top: '21px',
+                            fontSize: '13px',
                           }}
                         ></i>
                       </div>

@@ -1,13 +1,13 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory, useLocation } from "react-router";
-import { getVoyageDDLFilter } from "../../helper";
-import IViewModal from "../../_chartinghelper/_viewModal";
-import { getLayTime, validationSchema } from "../helper";
-import { CreateHeaderForm } from "./components/createHeaderForm";
-import CreateRowForm from "./components/createRowForm";
-import LayTimeTableBody from "./components/layTimeTableBody";
-import PrintView from "./components/printView";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router';
+import { getVoyageDDLFilter } from '../../helper';
+import IViewModal from '../../_chartinghelper/_viewModal';
+import { getLayTime, validationSchema } from '../helper';
+import { CreateHeaderForm } from './components/createHeaderForm';
+import CreateRowForm from './components/createRowForm';
+import LayTimeTableBody from './components/layTimeTableBody';
+import PrintView from './components/printView';
 
 export default function FormCmp({
   title,
@@ -47,7 +47,6 @@ export default function FormCmp({
         isComplete: false,
       });
     }
-
   }, [preData?.vesselName?.value]);
 
   return (
@@ -116,7 +115,7 @@ export default function FormCmp({
                   {preData?.vesselName?.value && (
                     <button
                       type="button"
-                      className={"btn btn-danger px-3 py-2 mr-2"}
+                      className={'btn btn-danger px-3 py-2 mr-2'}
                       onClick={() => {
                         history.push({
                           pathname: `/chartering/transaction/voyagecharter/create`,
@@ -133,7 +132,7 @@ export default function FormCmp({
                       onClick={() => {
                         history.goBack();
                       }}
-                      className={"btn btn-secondary px-3 py-2"}
+                      className={'btn btn-secondary px-3 py-2'}
                     >
                       <i className="fa fa-arrow-left pr-1"></i>
                       Back
@@ -146,7 +145,7 @@ export default function FormCmp({
                         resetForm(initData);
                         setRowData([]);
                       }}
-                      className={"btn btn-info px-3 py-2 reset-btn ml-2"}
+                      className={'btn btn-info px-3 py-2 reset-btn ml-2'}
                     >
                       Reset
                     </button>
@@ -154,7 +153,7 @@ export default function FormCmp({
                   {id ? (
                     <button
                       type="button"
-                      className={"btn btn-primary px-3 py-2 ml-2"}
+                      className={'btn btn-primary px-3 py-2 ml-2'}
                       onClick={() => {
                         setShow(true);
                       }}
@@ -168,7 +167,7 @@ export default function FormCmp({
                       <>
                         <button
                           type="button"
-                          className={"btn btn-success px-3 py-2 ml-2"}
+                          className={'btn btn-success px-3 py-2 ml-2'}
                           onClick={handleSubmit}
                         >
                           Save & Next
@@ -176,13 +175,13 @@ export default function FormCmp({
                       </>
                     ) : (
                       <>
-                        {viewType !== "view" ? (
+                        {viewType !== 'view' ? (
                           <button
                             type="submit"
-                            className={"btn btn-success px-3 py-2 ml-2"}
+                            className={'btn btn-success px-3 py-2 ml-2'}
                             onClick={handleSubmit}
                           >
-                            {"Save"}
+                            {'Save'}
                           </button>
                         ) : null}
                       </>
@@ -195,15 +194,17 @@ export default function FormCmp({
                 <div className="my-4">
                   {id ? (
                     <h5 className="text-center">
-                      { values?.portAt?.label
-                        ? `LAYTIME STATEMENT AT ${ values?.portAt?.label}${
+                      {values?.portAt?.label
+                        ? `LAYTIME STATEMENT AT ${values?.portAt?.label}${
                             values?.portAt?.berthedPortCountry ||
                             values?.portAt?.country
-                              ? `, ${values?.portAt?.berthedPortCountry ||
-                                  values?.portAt?.country}`
-                              : ""
+                              ? `, ${
+                                  values?.portAt?.berthedPortCountry ||
+                                  values?.portAt?.country
+                                }`
+                              : ''
                           }`
-                        : ""}
+                        : ''}
                     </h5>
                   ) : null}
 

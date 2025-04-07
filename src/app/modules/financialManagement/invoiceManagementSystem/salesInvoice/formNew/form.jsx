@@ -1,12 +1,12 @@
-import axios from "axios";
-import React from "react";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import TextArea from "../../../../_helper/TextArea";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import { getInvoiceDataByDate } from "../helper";
-import { SalesInvoiceFormTable } from "./table";
+import axios from 'axios';
+import React from 'react';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import TextArea from '../../../../_helper/TextArea';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import { getInvoiceDataByDate } from '../helper';
+import { SalesInvoiceFormTable } from './table';
 function Form({ propsObj }) {
   const {
     distributionChannelDDL,
@@ -40,20 +40,20 @@ function Form({ propsObj }) {
           <NewSelect
             name="invoiceType"
             options={[
-              { value: 1, label: "Date Range Base" },
-              { value: 2, label: "SO Base" },
+              { value: 1, label: 'Date Range Base' },
+              { value: 2, label: 'SO Base' },
             ]}
             value={values?.invoiceType}
             label="Invoice Type"
             onChange={(valueOption) => {
-              setFieldValue("invoiceType", valueOption);
-              setFieldValue("customer", "");
-              setFieldValue("projectLocation", "");
-              setFieldValue("distributionChannel", "");
-              setFieldValue("refNumber", "");
-              setFieldValue("salesOrder", "");
-              setFieldValue("soldBy", "");
-              setFieldValue("salesOrderCreatedBy", "");
+              setFieldValue('invoiceType', valueOption);
+              setFieldValue('customer', '');
+              setFieldValue('projectLocation', '');
+              setFieldValue('distributionChannel', '');
+              setFieldValue('refNumber', '');
+              setFieldValue('salesOrder', '');
+              setFieldValue('soldBy', '');
+              setFieldValue('salesOrderCreatedBy', '');
               setRowDto([]);
             }}
             placeholder="Invoice Type"
@@ -82,9 +82,9 @@ function Form({ propsObj }) {
             value={values?.distributionChannel}
             label="Distribution Channel"
             onChange={(valueOption) => {
-              setFieldValue("distributionChannel", valueOption);
+              setFieldValue('distributionChannel', valueOption);
 
-              setFieldValue("customer", "");
+              setFieldValue('customer', '');
               setChannelId(valueOption?.value);
               setRowDto([]);
               if (values?.invoiceType?.value === 2) {
@@ -104,7 +104,7 @@ function Form({ propsObj }) {
               <SearchAsyncSelect
                 selectedValue={values?.customer}
                 handleChange={(valueOption) => {
-                  setFieldValue("customer", valueOption);
+                  setFieldValue('customer', valueOption);
                   setRowDto([]);
                 }}
                 isDisabled={!values?.distributionChannel}
@@ -137,7 +137,7 @@ function Form({ propsObj }) {
                 value={values?.customer}
                 label="Customer"
                 onChange={(valueOption) => {
-                  setFieldValue("customer", valueOption);
+                  setFieldValue('customer', valueOption);
                   getSOList(
                     `/oms/OManagementReport/GetCustomerAndSalesOrder?businessUnitId=${buId}&channelId=${values?.distributionChannel?.value}&soldToPartnerId=${valueOption?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
                     (resData) => {
@@ -166,21 +166,27 @@ function Form({ propsObj }) {
                 value={values?.salesOrder}
                 label="Sales Order"
                 onChange={(valueOption) => {
-                  setFieldValue("salesOrder", valueOption);
-                  setFieldValue("soldBy", {value: valueOption?.soCreatedByEmployeeId, label: valueOption?.soCreatedByEmployeeName});
-                  setFieldValue("salesOrderCreatedBy", {value: valueOption?.soCreatedByEmployeeId, label: valueOption?.soCreatedByEmployeeName});
+                  setFieldValue('salesOrder', valueOption);
+                  setFieldValue('soldBy', {
+                    value: valueOption?.soCreatedByEmployeeId,
+                    label: valueOption?.soCreatedByEmployeeName,
+                  });
+                  setFieldValue('salesOrderCreatedBy', {
+                    value: valueOption?.soCreatedByEmployeeId,
+                    label: valueOption?.soCreatedByEmployeeName,
+                  });
                   getSOInfo(
                     `/oms/SalesOrder/GetDataBySalesOrderId?AccountId=${accId}&BusinessUnit=${buId}&SalesOrderId=${valueOption?.value}`,
                     (resData) => {
                       const location =
                         resData[0]?.objHeader?.shiptoPartnerAddress;
-                      setFieldValue("projectLocation", location);
+                      setFieldValue('projectLocation', location);
                     }
                   );
                   getSOInfo(
                     `/wms/CommercialInvoice/GetPartnerInfoByOrder?OrderId=${valueOption?.value}`,
                     (resData) => {
-                      setFieldValue("refNumber", resData?.partnerRefferenceNo);
+                      setFieldValue('refNumber', resData?.partnerRefferenceNo);
                     }
                   );
                   setRowDto([]);
@@ -203,7 +209,7 @@ function Form({ propsObj }) {
             // label="Ref Number"
             label="PO/WO Number"
             onChange={(e) => {
-              setFieldValue("refNumber", e.target.value);
+              setFieldValue('refNumber', e.target.value);
             }}
             type="text"
           />
@@ -215,7 +221,7 @@ function Form({ propsObj }) {
             name="projectLocation"
             placeholder="Project Location"
             onChange={(e) => {
-              setFieldValue("projectLocation", e.target.value);
+              setFieldValue('projectLocation', e.target.value);
             }}
             type="text"
           />
@@ -225,13 +231,13 @@ function Form({ propsObj }) {
           <NewSelect
             name="ait"
             options={[
-              { value: true, label: "Include" },
-              { value: false, label: "Exclude" },
+              { value: true, label: 'Include' },
+              { value: false, label: 'Exclude' },
             ]}
             value={values?.ait}
             label="AIT"
             onChange={(valueOption) => {
-              setFieldValue("ait", valueOption);
+              setFieldValue('ait', valueOption);
             }}
             placeholder="AIT"
             errors={errors}
@@ -242,13 +248,13 @@ function Form({ propsObj }) {
           <NewSelect
             name="vat"
             options={[
-              { value: true, label: "Include" },
-              { value: false, label: "Exclude" },
+              { value: true, label: 'Include' },
+              { value: false, label: 'Exclude' },
             ]}
             value={values?.vat}
             label="VAT"
             onChange={(valueOption) => {
-              setFieldValue("vat", valueOption);
+              setFieldValue('vat', valueOption);
             }}
             placeholder="VAT"
             errors={errors}
@@ -262,7 +268,7 @@ function Form({ propsObj }) {
             value={values?.soldBy}
             label="Sold By"
             onChange={(valueOption) => {
-              setFieldValue("soldBy", valueOption);
+              setFieldValue('soldBy', valueOption);
             }}
             placeholder="Sold By"
             errors={errors}
@@ -276,7 +282,7 @@ function Form({ propsObj }) {
             value={values?.salesOrderCreatedBy}
             label="Sales Order Created By"
             onChange={(valueOption) => {
-              setFieldValue("salesOrderCreatedBy", valueOption);
+              setFieldValue('salesOrderCreatedBy', valueOption);
             }}
             placeholder="Sales Order Created By"
             errors={errors}
@@ -287,14 +293,14 @@ function Form({ propsObj }) {
           <NewSelect
             name="paymentTerms"
             options={[
-              { value: 1, label: "Cash" },
-              { value: 2, label: "Credit" },
-              { value: 3, label: "Both" },
+              { value: 1, label: 'Cash' },
+              { value: 2, label: 'Credit' },
+              { value: 3, label: 'Both' },
             ]}
             value={values?.paymentTerms}
             label="Payment Term"
             onChange={(valueOption) => {
-              setFieldValue("paymentTerms", valueOption);
+              setFieldValue('paymentTerms', valueOption);
             }}
             placeholder="Payment Term"
             errors={errors}
@@ -306,7 +312,7 @@ function Form({ propsObj }) {
           <label>Remarks</label>
           <TextArea
             name="remarks"
-            value={values?.remarks || ""}
+            value={values?.remarks || ''}
             label="Remarks"
             placeholder="Remarks"
             touched={touched}

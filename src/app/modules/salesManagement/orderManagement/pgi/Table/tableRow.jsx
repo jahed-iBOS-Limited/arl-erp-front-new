@@ -1,9 +1,9 @@
-import React from "react";
-import { Formik, Form, Field } from "formik";
-import { useDispatch } from "react-redux";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import { getPGIGridData } from "../_redux/Actions";
-import { toast } from "react-toastify";
+import React from 'react';
+import { Formik, Form, Field } from 'formik';
+import { useDispatch } from 'react-redux';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import { getPGIGridData } from '../_redux/Actions';
+import { toast } from 'react-toastify';
 
 export default function TableRow({
   gridData,
@@ -98,11 +98,11 @@ export default function TableRow({
                               }
                             });
                             if (isTrue) {
-                              toast.success("All selected pgi are saved...!", {
+                              toast.success('All selected pgi are saved...!', {
                                 toastId: 456,
                               });
                             } else {
-                              toast.warn("Select a pgi first..", {
+                              toast.warn('Select a pgi first..', {
                                 toastId: 456,
                               });
                             }
@@ -118,14 +118,14 @@ export default function TableRow({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initialData)}
               ></button>
@@ -139,7 +139,7 @@ export default function TableRow({
                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                       <thead>
                         <tr>
-                          <th style={{ width: "90px" }}>
+                          <th style={{ width: '90px' }}>
                             <input
                               type="checkbox"
                               id="parent"
@@ -151,7 +151,7 @@ export default function TableRow({
                           <th>Shipment Id</th>
                           <th>Shipment Code</th>
                           <th>No of Challan</th>
-                          <th style={{ width: "150px" }}>Actions</th>
+                          <th style={{ width: '150px' }}>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -210,7 +210,7 @@ export default function TableRow({
                                       );
                                       window.location.reload(false);
                                     } else {
-                                      alert("Inventory is not true!");
+                                      alert('Inventory is not true!');
                                     }
                                   }}
                                 >

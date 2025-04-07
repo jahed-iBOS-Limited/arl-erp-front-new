@@ -1,6 +1,6 @@
-import * as requestFromServer from "./Api";
-import { pmsDimensionTwoSlice } from "./Slice";
-import { toast } from "react-toastify";
+import * as requestFromServer from './Api';
+import { pmsDimensionTwoSlice } from './Slice';
+import { toast } from 'react-toastify';
 const { actions: slice } = pmsDimensionTwoSlice;
 
 // action for save created data
@@ -9,12 +9,11 @@ export const savePmsDimensionAction = (payload) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
     });
 };
@@ -26,9 +25,7 @@ export const getPmsDimensionGridData = (accId) => (dispatch) => {
     .then((res) => {
       return dispatch(slice.SetGridData(res.data?.data));
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };
 
 export const getDimensionTypeAction = () => (dispatch) => {
@@ -37,8 +34,5 @@ export const getDimensionTypeAction = () => (dispatch) => {
     .then((res) => {
       return dispatch(slice.SetDimensionType(res.data));
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };
-

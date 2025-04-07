@@ -1,18 +1,18 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 const initData = {};
 
 // Debounce function
 function debounce(func, delay) {
   let timeoutId;
-  return function(...args) {
+  return function (...args) {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {
       func.apply(this, args);
@@ -23,7 +23,7 @@ function debounce(func, delay) {
 export default function BankBranchLanding() {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
-  const [searchByText, setSearchByText] = useState("");
+  const [searchByText, setSearchByText] = useState('');
   const [landingData, getLandingData, landingDataLoader] = useAxiosGet();
 
   const saveHandler = (values, cb) => {};
@@ -46,7 +46,6 @@ export default function BankBranchLanding() {
 
   useEffect(() => {
     handleFetchRowData(searchByText, pageNo, pageSize);
-
   }, [searchByText, pageNo, pageSize]);
 
   return (
@@ -118,7 +117,7 @@ export default function BankBranchLanding() {
                           return (
                             <tr key={index}>
                               <td
-                                style={{ width: "30px" }}
+                                style={{ width: '30px' }}
                                 className="text-center"
                               >
                                 {index + 1}
@@ -137,9 +136,9 @@ export default function BankBranchLanding() {
               <div
                 className="mt-3 mb-20"
                 style={{
-                  position: "absolute",
-                  right: "30px",
-                  border: "1px solid gray",
+                  position: 'absolute',
+                  right: '30px',
+                  border: '1px solid gray',
                 }}
               >
                 <PaginationTable

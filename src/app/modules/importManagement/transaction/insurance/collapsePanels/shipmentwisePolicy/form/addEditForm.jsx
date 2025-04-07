@@ -1,21 +1,18 @@
-
-
-
-import React, { useEffect, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import Loading from "../../../../../../_helper/_loading";
+import React, { useEffect, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import Loading from '../../../../../../_helper/_loading';
 import {
   CreateInstancePolicy,
   GetInsurancePolicyLandingData,
   GetShipmentDDL,
   GetShipmentWiseInsurancePolicyById,
   EditInsurancePolicy,
-} from "../helper";
-import { _dateFormatter } from "../../../../../../_helper/_dateFormate";
-import { useState } from "react";
-import { useLocation, useParams } from "react-router";
-import { toast } from "react-toastify";
+} from '../helper';
+import { _dateFormatter } from '../../../../../../_helper/_dateFormate';
+import { useState } from 'react';
+import { useLocation, useParams } from 'react-router';
+import { toast } from 'react-toastify';
 import { EditShipmentWiseInsurancePolicy } from './../helper';
 
 export default function ShipmentWisePolicy() {
@@ -55,30 +52,30 @@ export default function ShipmentWisePolicy() {
 
   // Get Shipment Wise Insurance Policy By Id
   useEffect(() => {
-    if (id && state?.checkbox === "shipmentWiseInsurancePolicy") {
+    if (id && state?.checkbox === 'shipmentWiseInsurancePolicy') {
       GetShipmentWiseInsurancePolicyById(id, setSingleData);
     }
   }, [id]);
 
   const initData = {
-    shipment: "",
+    shipment: '',
     // policyNumber: state?.policyNumber,
     policyNumber: state?.item?.providerPolicyPrefix,
     policyNumberActual: state?.item?.providerPolicyPrefix,
     policyDate: _dateFormatter(new Date()),
     dueDate: _dateFormatter(new Date()),
-    billNo: "",
-    invoiceAmount: "",
+    billNo: '',
+    invoiceAmount: '',
     // insuredBDT: "",
-    totalAmount: "",
-    vat: "",
+    totalAmount: '',
+    vat: '',
   };
 
   // Save Handler
   const saveHandler = async (values, cb) => {
     if (Number(values?.vat) > Number(values?.totalAmount)) {
       return toast.warning("VAT can't be greater than Total Amount", {
-        toastId: "vatAndTotalAmountCheck",
+        toastId: 'vatAndTotalAmountCheck',
       });
     }
     if (id && profileData?.accountId && selectedBusinessUnit?.value) {
@@ -102,14 +99,14 @@ export default function ShipmentWisePolicy() {
         // dueDate: _dateFormatter(values?.dueDate),
       };
       // Edit
-      EditShipmentWiseInsurancePolicy(data, ()=>{
+      EditShipmentWiseInsurancePolicy(data, () => {
         GetInsurancePolicyLandingData(
-              profileData?.accountId,
-              selectedBusinessUnit?.value,
-              state?.item?.ponumber,
-              setGridData
-            );
-      })
+          profileData?.accountId,
+          selectedBusinessUnit?.value,
+          state?.item?.ponumber,
+          setGridData
+        );
+      });
       // EditInsurancePolicy(data, cb, () => {
       //   GetInsurancePolicyLandingData(
       //     profileData?.accountId,

@@ -1,8 +1,7 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
 import {
   getPlantNameDDL,
   getBillOfMaterialNameDDL,
@@ -11,21 +10,21 @@ import {
   saveEditData,
   getBomNameDDL,
   getWorkCenterNameDDL,
-} from "../helper";
-import Loading from "./../../../../_helper/_loading";
+} from '../helper';
+import Loading from './../../../../_helper/_loading';
 
 let initData = {
-  plantName: "",
-  shopFloorName: "",
-  workCenterName: "",
-  itemName: "",
-  capacity: "",
-  setUpTime: "",
-  bomNameDDL: "",
-  laborQty: "",
-  laborTime: "",
-  laborCost: "",
-  machineTime: "",
+  plantName: '',
+  shopFloorName: '',
+  workCenterName: '',
+  itemName: '',
+  capacity: '',
+  setUpTime: '',
+  bomNameDDL: '',
+  laborQty: '',
+  laborTime: '',
+  laborCost: '',
+  machineTime: '',
 };
 
 export function RoutingForm({
@@ -64,7 +63,6 @@ export function RoutingForm({
       selectedBusinessUnit?.value,
       setPlantNameDDL
     );
-
   }, []);
   useEffect(() => {
     getBillOfMaterialNameDDL(setBillOfMaterialNameDDL);
@@ -126,7 +124,6 @@ export function RoutingForm({
         setBomNameDDL
       );
     }
-
   }, [singlePageData]);
 
   const saveHandler = async (values, cb) => {
@@ -183,7 +180,7 @@ export function RoutingForm({
 
   return (
     <IForm
-      title={id ? "Edit Routing" : " Create Routing"}
+      title={id ? 'Edit Routing' : ' Create Routing'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

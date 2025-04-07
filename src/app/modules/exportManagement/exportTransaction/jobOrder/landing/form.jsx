@@ -1,7 +1,7 @@
-import React from "react";
-import NewSelect from "../../../../_helper/_select";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import IButton from "../../../../_helper/iButton";
+import React from 'react';
+import NewSelect from '../../../../_helper/_select';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import IButton from '../../../../_helper/iButton';
 
 export const JobOrderLandingForm = ({ obj }) => {
   const { values, setRowData, setFieldValue, getLandingData } = obj;
@@ -14,17 +14,17 @@ export const JobOrderLandingForm = ({ obj }) => {
             <NewSelect
               name="status"
               options={[
-                { value: false, label: "Quotation Open" },
-                { value: true, label: "Quotation Closed" },
+                { value: false, label: 'Quotation Open' },
+                { value: true, label: 'Quotation Closed' },
               ]}
               value={values?.status}
               label="Quotation Status"
               onChange={(valueOption) => {
                 if (valueOption) {
-                  setFieldValue("status", valueOption);
+                  setFieldValue('status', valueOption);
                   setRowData([]);
                 } else {
-                  setFieldValue("status", "");
+                  setFieldValue('status', '');
                   setRowData([]);
                 }
               }}

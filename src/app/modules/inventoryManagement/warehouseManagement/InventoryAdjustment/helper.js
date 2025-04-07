@@ -8,12 +8,12 @@ export const inventoryTransactionCancelAction = async (
   userId,
   viewGridData,
   values,
-  setLoading,
+  setLoading
 ) => {
   try {
     setLoading(true);
     const res = await Axios.post(
-      `/wms/InventoryTransaction/CancelInventory?InvCode=${code}&UnitId=${buId}&ActionById=${userId}`,
+      `/wms/InventoryTransaction/CancelInventory?InvCode=${code}&UnitId=${buId}&ActionById=${userId}`
     );
     setLoading(false);
     toast.success(res?.data?.message || 'Cancel successfully');
@@ -27,23 +27,23 @@ export const inventoryTransactionCancelAction = async (
 export const getSBUDDL = async (accId, buId, setter) => {
   try {
     const res = await Axios.get(
-      `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`,
+      `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getPlantDDL = async (userId, accId, buId, setter) => {
   try {
     const res = await Axios.get(
-      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`,
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getWareForTransferDDL = async (
@@ -53,11 +53,11 @@ export const getWareForTransferDDL = async (
   plantId,
   prevWare,
   currentPlnt,
-  setter,
+  setter
 ) => {
   try {
     const res = await Axios.get(
-      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`,
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`
     );
     if (res.status === 200 && res?.data) {
       let wareData;
@@ -68,29 +68,29 @@ export const getWareForTransferDDL = async (
       }
       setter(wareData);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getWareDDL = async (userId, accId, buId, plantId, setter) => {
   try {
     const res = await Axios.get(
-      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`,
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&OrgUnitTypeId=8`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const transGrupDDL = async (setter) => {
   try {
     const res = await Axios.get(
-      `/wms/InventoryTransaction/GetTransectionGroupDDL`,
+      `/wms/InventoryTransaction/GetTransectionGroupDDL`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const empAttachment_action = async (attachment, setUploadImage) => {
@@ -126,47 +126,47 @@ export const uploadAttachment = (attachment) => {
 export const getImageFile_api = async (id) => {
   try {
     const res = await Axios.get(
-      `${APIUrl}/domain/Document/DownlloadFile?id=${id}`,
+      `${APIUrl}/domain/Document/DownlloadFile?id=${id}`
     );
 
     if (res.status === 200 && res.data) {
       return res?.config?.url;
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getReportForInvReq = async (prId, buId, setter) => {
   try {
     const res = await Axios.get(
-      `/wms/InventoryView/GetInvTransectionByIdView?TransectionId=${prId}`,
+      `/wms/InventoryView/GetInvTransectionByIdView?TransectionId=${prId}`
     );
     setter(res?.data[0]);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getReportForInvReqW2w = async (prId, setter) => {
   try {
     const res = await Axios.get(
-      `/wms/InventoryView/GetInvTransectionByIdViewWtoW?TransectionId=${prId}`,
+      `/wms/InventoryView/GetInvTransectionByIdViewWtoW?TransectionId=${prId}`
     );
     setter(res?.data[0]);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getReportForInvReqInternal = async (prId, setter) => {
   try {
     const res = await Axios.get(
-      `/wms/InventoryView/GetInternalInventoryTransaction?TransectionId=${prId}`,
+      `/wms/InventoryView/GetInternalInventoryTransaction?TransectionId=${prId}`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const saveAttchmentForPo = async (data, cb) => {
   try {
     const res = await Axios.post(
       `/wms/InventoryDocument/CreateInventoryDocumentAttachment`,
-      data,
+      data
     );
     if (res.status === 200) {
       cb();
@@ -180,18 +180,18 @@ export const saveAttchmentForPo = async (data, cb) => {
 export const getAttachmentLandingData = async (refId, setter) => {
   try {
     const res = await Axios.get(
-      `/wms/InventoryDocument/GetInventoryDocumentAttachment?ReferenceId=${refId}`,
+      `/wms/InventoryDocument/GetInventoryDocumentAttachment?ReferenceId=${refId}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const CancelDocumentAction = async (docId, refId, cb) => {
   try {
     const res = await Axios.put(
-      `/wms/InventoryDocument/CancelDocumentAttachmets?DocId=${docId}&ReferenceId=${refId}`,
+      `/wms/InventoryDocument/CancelDocumentAttachmets?DocId=${docId}&ReferenceId=${refId}`
     );
     if (res.status === 200) {
       //setter(res?.data);
@@ -207,10 +207,10 @@ export const CancelDocumentAction = async (docId, refId, cb) => {
 export const getForeignPurchaseDDL = async (poId, sbuId, setter) => {
   try {
     const res = await Axios.get(
-      `/wms/Import/GetImportShipmentDDL?PoId=${poId}&PlantId=${sbuId}`,
+      `/wms/Import/GetImportShipmentDDL?PoId=${poId}&PlantId=${sbuId}`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const uplaodAttachment = async (attachment, setUploadImage) => {
@@ -234,12 +234,12 @@ export const uplaodAttachment = async (attachment, setUploadImage) => {
 export const GetMESConfigurationBusinessUnitWiseByAccountId = async (
   accId,
   buId,
-  setter,
+  setter
 ) => {
   try {
     const res = await Axios.get(
-      `/mes/BOM/GetMESConfigurationBusinessUnitWiseByAccountId?accountId=${accId}&businessUnitId=${buId}`,
+      `/mes/BOM/GetMESConfigurationBusinessUnitWiseByAccountId?accountId=${accId}&businessUnitId=${buId}`
     );
     setter(res.data);
-  } catch (error) { }
+  } catch (error) {}
 };

@@ -5,19 +5,17 @@ import { _dateTimeFormatter } from '../../../_helper/_dateFormate';
 import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
 import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 export default function ItemRateHistoryModal({ propsObj }) {
-
-   const {  selectedBusinessUnit } = useSelector((state) => {
-      return state.authData;
-    }, shallowEqual);
+  const { selectedBusinessUnit } = useSelector((state) => {
+    return state.authData;
+  }, shallowEqual);
 
   const { singleData } = propsObj;
   const [historyData, getHistoryData] = useAxiosGet();
 
   useEffect(() => {
     getHistoryData(
-      `/procurement/PurchaseOrder/GetItemRateConfigurationHistory?itemId=${singleData?.itemId}&configId=${singleData?.itemRateConfigId}`,
+      `/procurement/PurchaseOrder/GetItemRateConfigurationHistory?itemId=${singleData?.itemId}&configId=${singleData?.itemRateConfigId}`
     );
-
   }, [singleData]);
   const dispatch = useDispatch();
   return (
@@ -41,8 +39,14 @@ export default function ItemRateHistoryModal({ propsObj }) {
               <th>Effective Date</th>
               <th>Last Update Date</th>
               <th>Update By</th>
-              <th>{[144, 189, 188].includes(selectedBusinessUnit?.value) ? "Rate" : "Rate (Dhaka)"}</th>
-              {![144, 189, 188].includes(selectedBusinessUnit?.value) && <th>Rate (Chittagong)</th>}
+              <th>
+                {[144, 189, 188].includes(selectedBusinessUnit?.value)
+                  ? 'Rate'
+                  : 'Rate (Dhaka)'}
+              </th>
+              {![144, 189, 188].includes(selectedBusinessUnit?.value) && (
+                <th>Rate (Chittagong)</th>
+              )}
               <th>View</th>
             </tr>
           </thead>
@@ -59,7 +63,9 @@ export default function ItemRateHistoryModal({ propsObj }) {
                   </td>
                   <td>{item?.updatedByName}</td>
                   <td className="text-center">{item?.itemRate}</td>
-                 {![144, 189, 188].includes(selectedBusinessUnit?.value) &&  <td className="text-center">{item?.itemRateOthers}</td>}
+                  {![144, 189, 188].includes(selectedBusinessUnit?.value) && (
+                    <td className="text-center">{item?.itemRateOthers}</td>
+                  )}
                   <td className="text-center">
                     {singleData?.attachment ? (
                       <OverlayTrigger
@@ -72,8 +78,8 @@ export default function ItemRateHistoryModal({ propsObj }) {
                             e.stopPropagation();
                             dispatch(
                               getDownlloadFileView_Action(
-                                singleData?.attachment,
-                              ),
+                                singleData?.attachment
+                              )
                             );
                           }}
                           className="ml-2"

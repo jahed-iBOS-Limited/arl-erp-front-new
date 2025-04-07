@@ -1,33 +1,41 @@
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IForm from '../../../../_helper/_form';
 
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IForm from "../../../../_helper/_form";
-
-import { useLocation } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 import {
-  createWorkCenter, editWorkCenter, getAssetIdDDL, getEmployeeIdDDL, getItemAttribute, getPlantNameDDL, getProductionLineDDL, getShopFloorIdDDL, getUOMDDL, getWorkCenterById
-} from "../helper";
-import Loading from "./../../../../_helper/_loading";
-import Form from "./form";
+  createWorkCenter,
+  editWorkCenter,
+  getAssetIdDDL,
+  getEmployeeIdDDL,
+  getItemAttribute,
+  getPlantNameDDL,
+  getProductionLineDDL,
+  getShopFloorIdDDL,
+  getUOMDDL,
+  getWorkCenterById,
+} from '../helper';
+import Loading from './../../../../_helper/_loading';
+import Form from './form';
 
 const initData = {
-  plantName: "",
-  productionLine: "",
-  workcenterName: "",
-  workcenterCode: "",
-  workCenterCapacity: "",
-  UomName: "",
-  itemName: "",
-  itemCode: "",
-  setupTime: "",
-  machineTime: "",
-  laborQty: "",
-  laborTime: "",
-  laborCost: "",
-  assetId: "",
-  employeeId: "",
-  shopFloorId: "",
-  rowItemUOM: "",
+  plantName: '',
+  productionLine: '',
+  workcenterName: '',
+  workcenterCode: '',
+  workCenterCapacity: '',
+  UomName: '',
+  itemName: '',
+  itemCode: '',
+  setupTime: '',
+  machineTime: '',
+  laborQty: '',
+  laborTime: '',
+  laborCost: '',
+  assetId: '',
+  employeeId: '',
+  shopFloorId: '',
+  rowItemUOM: '',
 };
 
 export default function WorkCenterForm({
@@ -37,15 +45,15 @@ export default function WorkCenterForm({
   },
 }) {
   const [isDisabled, setDisabled] = useState(false);
-  const [productionLineDDL, setProductionLineDDL] = useState("");
-  const [plantDDL, setPlantDDL] = useState("");
-  const [employeeId, setEmployeeId] = useState("");
-  const [assetDDL, setAssetDDL] = useState("");
-  const [itemNameDDL, setItemNameDDL] = useState("");
-  const [shopfloorDDL, setShopFloorDDL] = useState("");
-  const [singleData, setSingleData] = useState("");
-  const [singleRowData, setSingleRowData] = useState("");
-  const [uomDDL, setUomDDL] = useState("");
+  const [productionLineDDL, setProductionLineDDL] = useState('');
+  const [plantDDL, setPlantDDL] = useState('');
+  const [employeeId, setEmployeeId] = useState('');
+  const [assetDDL, setAssetDDL] = useState('');
+  const [itemNameDDL, setItemNameDDL] = useState('');
+  const [shopfloorDDL, setShopFloorDDL] = useState('');
+  const [singleData, setSingleData] = useState('');
+  const [singleRowData, setSingleRowData] = useState('');
+  const [uomDDL, setUomDDL] = useState('');
   const location = useLocation();
 
   const profileData = useSelector((state) => {
@@ -64,12 +72,10 @@ export default function WorkCenterForm({
       selectedBusinessUnit?.value,
       setPlantDDL
     );
-
   }, [getPlantNameDDL]);
 
   useEffect(() => {
     getUOMDDL(profileData?.accountId, selectedBusinessUnit?.value, setUomDDL);
-
   }, []);
 
   // useEffect(() => {
@@ -102,7 +108,6 @@ export default function WorkCenterForm({
       selectedBusinessUnit?.value,
       setEmployeeId
     );
-
   }, [getEmployeeIdDDL]);
 
   useEffect(() => {
@@ -113,7 +118,6 @@ export default function WorkCenterForm({
       setSingleData,
       setSingleRowData
     );
-
   }, [getWorkCenterById]);
 
   useEffect(() => {
@@ -125,7 +129,6 @@ export default function WorkCenterForm({
         setItemNameDDL
       );
     }
-
   }, [singleData]);
 
   useEffect(() => {
@@ -137,7 +140,6 @@ export default function WorkCenterForm({
         setShopFloorDDL
       );
     }
-
   }, [singleData]);
 
   useEffect(() => {
@@ -149,7 +151,6 @@ export default function WorkCenterForm({
         setAssetDDL
       );
     }
-
   }, [singleData]);
 
   useEffect(() => {
@@ -161,7 +162,6 @@ export default function WorkCenterForm({
         setProductionLineDDL
       );
     }
-
   }, [singleData]);
 
   const onChangeForItem = (item) => {
@@ -234,7 +234,7 @@ export default function WorkCenterForm({
           objheader: {
             workCenterCode: values?.workcenterCode,
             workCenterName: values?.workcenterName,
-            description: "",
+            description: '',
             capacity: 0,
             UomId: 0,
             stdcapacity: +values?.workCenterCapacity,
@@ -273,7 +273,7 @@ export default function WorkCenterForm({
 
   return (
     <IForm
-      title={id ? "Edit Work Center" : "Create Work Center"}
+      title={id ? 'Edit Work Center' : 'Create Work Center'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

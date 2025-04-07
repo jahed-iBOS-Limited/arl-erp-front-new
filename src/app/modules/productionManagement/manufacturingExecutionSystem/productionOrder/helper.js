@@ -1,7 +1,7 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _todayDate } from "../../../_helper/_todayDate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 export const GetPlantDDL = async (userId, accId, buId, setter) => {
   try {
@@ -11,7 +11,7 @@ export const GetPlantDDL = async (userId, accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getShopFloorDDL = async (accId, buId, pId, setter) => {
@@ -22,7 +22,7 @@ export const getShopFloorDDL = async (accId, buId, pId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 // itemName ddl
@@ -37,12 +37,12 @@ export const getItemNameDDL = async (accId, buId, plantId, sid, setter) => {
         res?.data?.map((item) => {
           return {
             ...item,
-            label: item?.label + " [" + item?.code + "]",
+            label: item?.label + ' [' + item?.code + ']',
           };
         })
       );
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 // GetWorkCenterDDL ddl
 export const getRoutingToWorkCenterDDL = async (
@@ -59,7 +59,7 @@ export const getRoutingToWorkCenterDDL = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 // BOM Name DDL
 export const getRoutingToBOMDDL = async (
@@ -77,7 +77,7 @@ export const getRoutingToBOMDDL = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 // prt number ddl
 export const getPTRNumberDDL = async (accId, buId, plantId, setter) => {
@@ -88,7 +88,7 @@ export const getPTRNumberDDL = async (accId, buId, plantId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 // create productionOrder
 export const createProductionOrder = async (
@@ -118,10 +118,10 @@ export const createProductionOrder = async (
         accId,
         buId,
         setProductionOrderSFG,
-        "",
+        '',
         data?.plantId
       );
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
     }
   } catch (error) {
@@ -168,7 +168,7 @@ export const getItemTransferInPagination = async (
   search
 ) => {
   setLoader(true);
-  const searchPath = search ? `searchTerm=${search}&` : "";
+  const searchPath = search ? `searchTerm=${search}&` : '';
   try {
     const res = await Axios.get(
       `/mes/ProductionOrder/ProductionOrderSearchLandingPagination?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&ShopFloorId=${shopFloorId}&status=${statusId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
@@ -205,7 +205,7 @@ export const getProductionOrderById = async (productionOrderId, setter) => {
         uomid: index?.uomid,
         itemName: {
           value: index?.itemId,
-          label: index?.itemName + " [" + index?.itemCode + "]",
+          label: index?.itemName + ' [' + index?.itemCode + ']',
         },
         plantName: {
           value: index?.plantId,
@@ -231,11 +231,10 @@ export const getProductionOrderById = async (productionOrderId, setter) => {
         endTime: index?.endTime,
         bomVersion: index?.bomVersion,
         baseUomName: index?.uomName,
-
       };
       setter(newData);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 // edit production order
 
@@ -248,7 +247,7 @@ export const editProductionOrder = async (data, setDisabled) => {
     );
     if (res.status === 200) {
       setDisabled(false);
-      toast.success(res?.message || "Edited successfully");
+      toast.success(res?.message || 'Edited successfully');
     }
   } catch (error) {
     setDisabled(false);
@@ -271,18 +270,18 @@ export const getProductionOrderSFGById = async (
       let newData = res?.data?.map((item) => ({
         ...item,
         startDate: _todayDate(),
-        startTime: "",
-        endDate: "",
-        endTime: "",
-        prtNumber: "",
-        workCenter: "",
-        bomName: "",
-        proOrderQty: "",
+        startTime: '',
+        endDate: '',
+        endTime: '',
+        prtNumber: '',
+        workCenter: '',
+        bomName: '',
+        proOrderQty: '',
         orderQuantity: orderQty,
       }));
       setter(newData);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 // create sub-po
 export const createSFGProductionOrder = async (data) => {
@@ -308,7 +307,7 @@ export const createSFGProductionOrder = async (data) => {
       payload
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
     }
   } catch (error) {
     toast.error(error?.response?.data?.message);
@@ -331,7 +330,7 @@ export const productionOrderClose = async (
       `/mes/ProductionOrder/ProductionOrderClose?ProductionId=${poId}`
     );
     if (res.status === 200) {
-      toast.success("PO rejected successfully");
+      toast.success('PO rejected successfully');
       getItemTransferInPagination(
         accId,
         buId,
@@ -358,7 +357,7 @@ export const isSOUseOnProductionOrder = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getSubOrderQty = async (bomId, orderQty) => {
@@ -369,7 +368,7 @@ export const getSubOrderQty = async (bomId, orderQty) => {
     if (res.status === 200 && res?.data) {
       console.log(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const createItemRequest = async (
@@ -390,7 +389,7 @@ export const createItemRequest = async (
     }
   } catch (error) {
     toast.warn(error?.response?.data?.message, {
-      toastId: "createItemRequestERR",
+      toastId: 'createItemRequestERR',
     });
     setLoading(false);
   }
@@ -404,7 +403,7 @@ export const getSBUDDL_Api = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getPlantDDL_api = async (userId, accId, buId, setter) => {
@@ -415,7 +414,7 @@ export const getPlantDDL_api = async (userId, accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getWarehouseDDL_api = async (
@@ -432,7 +431,7 @@ export const getWarehouseDDL_api = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 export const saveItemRequest_api = async (
   data,
@@ -445,7 +444,7 @@ export const saveItemRequest_api = async (
     const res = await Axios.post(`/wms/ItemRequest/CreateItemRequest`, data);
     if (res.status === 200) {
       setGridData([]);
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -469,11 +468,16 @@ export const itemRequest_api = async (data, setter, cb, setDisabled) => {
     }
   } catch (error) {
     setDisabled(false);
-    toast.error(error?.response?.data?.message || "Submitted successfully");
+    toast.error(error?.response?.data?.message || 'Submitted successfully');
   }
 };
 
-export const createItemRequestNew = async (data, cb, IConfirmModal, setDisabled) => {
+export const createItemRequestNew = async (
+  data,
+  cb,
+  IConfirmModal,
+  setDisabled
+) => {
   setDisabled(true);
   try {
     const res = await Axios.post(
@@ -481,12 +485,12 @@ export const createItemRequestNew = async (data, cb, IConfirmModal, setDisabled)
       data
     );
     //toast.success(res?.message || "Submitted successfully");
-    console.log("res", res)
+    console.log('res', res);
     cb();
     setDisabled(false);
     const obj = {
       title: res?.data?.message,
-      code: "00987",
+      code: '00987',
       noAlertFunc: () => {
         //window.location.reload();
       },
@@ -498,10 +502,7 @@ export const createItemRequestNew = async (data, cb, IConfirmModal, setDisabled)
   }
 };
 
-export const getBoMDetailsByBoMId = async (
-  bomMaterialId,
-  setter
-) => {
+export const getBoMDetailsByBoMId = async (bomMaterialId, setter) => {
   try {
     const res = await Axios.get(
       `/mes/BOM/GetBoMDetailsByBoMId?billOfMaterialId=${bomMaterialId}`
@@ -509,5 +510,5 @@ export const getBoMDetailsByBoMId = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };

@@ -1,27 +1,26 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IButton from "../../../../_helper/iButton";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { updateMRRStatus } from "../helper";
-import GridView from "./table";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IButton from '../../../../_helper/iButton';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { updateMRRStatus } from '../helper';
+import GridView from './table';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  type: { value: 0, label: "All" },
-  channel: "",
-  region: "",
-  area: "",
-  territory: "",
-  bank: { value: 0, label: "All" },
+  type: { value: 0, label: 'All' },
+  channel: '',
+  region: '',
+  area: '',
+  territory: '',
+  bank: { value: 0, label: 'All' },
 };
 
 const PartnerChequeInfo = () => {
@@ -84,14 +83,14 @@ const PartnerChequeInfo = () => {
                       <NewSelect
                         name="type"
                         options={[
-                          { value: 0, label: "All" },
-                          { value: 1, label: "Completed" },
-                          { value: 2, label: "Pending" },
+                          { value: 0, label: 'All' },
+                          { value: 1, label: 'Completed' },
+                          { value: 2, label: 'Pending' },
                         ]}
                         value={values?.type}
                         label="Type"
                         onChange={(valueOption) => {
-                          setFieldValue("type", valueOption);
+                          setFieldValue('type', valueOption);
                           setRowData([]);
                         }}
                         placeholder="Select Type"
@@ -103,8 +102,8 @@ const PartnerChequeInfo = () => {
                         values,
                         setFieldValue,
                         onChange: (allValues, fieldName) => {
-                          if (fieldName === "channel") {
-                            setFieldValue("customer", "");
+                          if (fieldName === 'channel') {
+                            setFieldValue('customer', '');
                             getCustomerDDL(
                               `/partner/BusinessPartnerBasicInfo/GetCustomerDDlByDistribution?AccountId=${accId}&BusienssUnitId=${buId}&DistributionId=${allValues?.channel?.value}`
                             );
@@ -115,11 +114,11 @@ const PartnerChequeInfo = () => {
                     <div className="col-md-3">
                       <NewSelect
                         name="customer"
-                        options={[{ value: 0, label: "All" }, ...customerDDL]}
+                        options={[{ value: 0, label: 'All' }, ...customerDDL]}
                         value={values?.customer}
                         label="Customer"
                         onChange={(valueOption) => {
-                          setFieldValue("customer", valueOption);
+                          setFieldValue('customer', valueOption);
                         }}
                         placeholder="Select Customer"
                       />
@@ -127,11 +126,11 @@ const PartnerChequeInfo = () => {
                     <div className="col-md-3">
                       <NewSelect
                         name="bank"
-                        options={[{ value: 0, label: "All" }, ...bankDDL]}
+                        options={[{ value: 0, label: 'All' }, ...bankDDL]}
                         value={values?.bank}
                         label="Bank Name"
                         onChange={(valueOption) => {
-                          setFieldValue("bank", valueOption);
+                          setFieldValue('bank', valueOption);
                         }}
                         placeholder="Select Bank Name"
                       />
@@ -144,24 +143,26 @@ const PartnerChequeInfo = () => {
                   </div>
                 </div>
                 <div className="text-right">
-                  {rowData?.length > 0 && [1, 2].includes(values?.type?.value) && (
-                    <button
-                      className={`btn btn-${
-                        values?.type?.value === 1 ? "danger" : "primary"
-                      }`}
-                      type="button"
-                      onClick={() => {
-                        changeMRRStatus(values);
-                      }}
-                      disabled={
-                        rowData?.filter((item) => item?.isSelected)?.length < 1
-                      }
-                    >
-                      {`MRR ${
-                        values?.type?.value === 1 ? "Role Back" : "Completed"
-                      }`}
-                    </button>
-                  )}
+                  {rowData?.length > 0 &&
+                    [1, 2].includes(values?.type?.value) && (
+                      <button
+                        className={`btn btn-${
+                          values?.type?.value === 1 ? 'danger' : 'primary'
+                        }`}
+                        type="button"
+                        onClick={() => {
+                          changeMRRStatus(values);
+                        }}
+                        disabled={
+                          rowData?.filter((item) => item?.isSelected)?.length <
+                          1
+                        }
+                      >
+                        {`MRR ${
+                          values?.type?.value === 1 ? 'Role Back' : 'Completed'
+                        }`}
+                      </button>
+                    )}
                 </div>
                 <GridView
                   rowData={rowData}

@@ -1,16 +1,16 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { createInitData, disbursementTypeDDL } from "./helper";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { useHistory } from "react-router-dom";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { createInitData, disbursementTypeDDL } from './helper';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { useHistory } from 'react-router-dom';
 
 export default function SCFLimitCreateEditPage() {
   // hooks
@@ -27,11 +27,8 @@ export default function SCFLimitCreateEditPage() {
   const [editInitData, setEditInitData] = useState({});
 
   // api action
-  const [
-    bankAccountNoDDL,
-    getBankAccountNoDDL,
-    getBankAccountNoDDLLoading,
-  ] = useAxiosGet();
+  const [bankAccountNoDDL, getBankAccountNoDDL, getBankAccountNoDDLLoading] =
+    useAxiosGet();
   const [supplierDDL, getSupplierDDL, getSupplierDDLLoading] = useAxiosGet();
   const [, createSCFLimit, createSCFLimitLoading] = useAxiosPost();
 
@@ -45,7 +42,6 @@ export default function SCFLimitCreateEditPage() {
         `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=0`
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -65,15 +61,14 @@ export default function SCFLimitCreateEditPage() {
           label: landingState?.disbursementType, // value label same in ddl
           value: landingState?.disbursementType, // value label same in ddl
         },
-        limit: landingState?.limit || "",
-        tenorDays: landingState?.tenorDays || "",
-        transactionRef: landingState?.sanctionReference || "",
-        limitExpiryDate: _dateFormatter(landingState?.limitExpiryDate) || "",
-        interestRate: landingState?.interestRate || "",
-        remarks: landingState?.remarks || "",
+        limit: landingState?.limit || '',
+        tenorDays: landingState?.tenorDays || '',
+        transactionRef: landingState?.sanctionReference || '',
+        limitExpiryDate: _dateFormatter(landingState?.limitExpiryDate) || '',
+        interestRate: landingState?.interestRate || '',
+        remarks: landingState?.remarks || '',
       });
     }
-
   }, []);
 
   // submit handler
@@ -103,12 +98,12 @@ export default function SCFLimitCreateEditPage() {
       accountNumber: bankAccountNo?.bankAccountNo || 0,
       limit: limit || 0,
       utilizeAmount: 0,
-      limitExpiryDate: limitExpiryDate || "",
+      limitExpiryDate: limitExpiryDate || '',
       tenorDays: tenorDays || 0,
-      sanctionReference: transactionRef || "",
+      sanctionReference: transactionRef || '',
       interestRate: interestRate || 0,
-      disbursementType: disbursementType?.value || "",
-      remarks: remarks || "",
+      disbursementType: disbursementType?.value || '',
+      remarks: remarks || '',
       createdBy: profileData?.userId || 0,
     };
 
@@ -130,7 +125,7 @@ export default function SCFLimitCreateEditPage() {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm();
-          history.push("/financial-management/scf/scflimit");
+          history.push('/financial-management/scf/scflimit');
         });
       }}
     >
@@ -151,19 +146,19 @@ export default function SCFLimitCreateEditPage() {
               {id ? (
                 <div className="form-group  global-form row">
                   <div className="col-lg-2">
-                    <strong>Business Partner Name:</strong>{" "}
+                    <strong>Business Partner Name:</strong>{' '}
                     <strong>{landingState?.businessPartnerName}</strong>
                   </div>
                   <div className="col-lg-2">
-                    <strong> Bank Name:</strong>{" "}
+                    <strong> Bank Name:</strong>{' '}
                     <strong>{landingState?.bankName}</strong>
                   </div>
                   <div className="col-lg-2">
-                    <strong>Acc No:</strong>{" "}
+                    <strong>Acc No:</strong>{' '}
                     <strong>{landingState?.accountNumber}</strong>
                   </div>
                   <div className="col-lg-2">
-                    <strong>Disbursement Type:</strong>{" "}
+                    <strong>Disbursement Type:</strong>{' '}
                     <strong>{landingState?.disbursementType}</strong>
                   </div>
                 </div>
@@ -184,7 +179,7 @@ export default function SCFLimitCreateEditPage() {
                         value={values?.supplier}
                         label="Supplier"
                         onChange={(valueOption) => {
-                          setFieldValue("supplier", valueOption);
+                          setFieldValue('supplier', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -197,7 +192,7 @@ export default function SCFLimitCreateEditPage() {
                         value={values?.bankAccountNo}
                         label="Bank Account No"
                         onChange={(valueOption) => {
-                          setFieldValue("bankAccountNo", valueOption);
+                          setFieldValue('bankAccountNo', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -210,7 +205,7 @@ export default function SCFLimitCreateEditPage() {
                         value={values?.disbursementType}
                         label="Disbursement Type"
                         onChange={(valueOption) => {
-                          setFieldValue("disbursementType", valueOption);
+                          setFieldValue('disbursementType', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -226,7 +221,7 @@ export default function SCFLimitCreateEditPage() {
                     name="limit"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("limit", e.target.value);
+                      setFieldValue('limit', e.target.value);
                     }}
                   />
                 </div>
@@ -237,7 +232,7 @@ export default function SCFLimitCreateEditPage() {
                     name="tenorDays"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("tenorDays", e.target.value);
+                      setFieldValue('tenorDays', e.target.value);
                     }}
                   />
                 </div>
@@ -248,7 +243,7 @@ export default function SCFLimitCreateEditPage() {
                     name="transactionRef"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("transactionRef", e.target.value);
+                      setFieldValue('transactionRef', e.target.value);
                     }}
                   />
                 </div>
@@ -259,7 +254,7 @@ export default function SCFLimitCreateEditPage() {
                     name="limitExpiryDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("limitExpiryDate", e.target.value);
+                      setFieldValue('limitExpiryDate', e.target.value);
                     }}
                   />
                 </div>
@@ -270,7 +265,7 @@ export default function SCFLimitCreateEditPage() {
                     name="interestRate"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("interestRate", e.target.value);
+                      setFieldValue('interestRate', e.target.value);
                     }}
                   />
                 </div>
@@ -281,7 +276,7 @@ export default function SCFLimitCreateEditPage() {
                     name="remarks"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("remarks", e.target.value);
+                      setFieldValue('remarks', e.target.value);
                     }}
                   />
                 </div>
@@ -289,18 +284,18 @@ export default function SCFLimitCreateEditPage() {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => {
                   resetForm();
-                  history.push("/financial-management/scf/scflimit");
+                  history.push('/financial-management/scf/scflimit');
                 }}
               ></button>
             </Form>

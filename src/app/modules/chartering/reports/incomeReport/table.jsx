@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import ExpenseReport from "./expense";
-import IncomeReport from "./income";
-import JVListTable from "./journals/jvList";
+import React, { useState } from 'react';
+import ExpenseReport from './expense';
+import IncomeReport from './income';
+import JVListTable from './journals/jvList';
 
 export default function ReportTabs() {
   const [tabs, setTabs] = useState([
-    { id: 1, title: "Income Report", isActive: true },
-    { id: 2, title: "Expense Report", isActive: false },
-    { id: 3, title: "JV List", isActive: false },
+    { id: 1, title: 'Income Report', isActive: true },
+    { id: 2, title: 'Expense Report', isActive: false },
+    { id: 3, title: 'JV List', isActive: false },
   ]);
 
   const changeStatus = (id) => {
@@ -36,7 +36,7 @@ export default function ReportTabs() {
                   }}
                   className="p-3 shadow-sm rounded cursor-pointer"
                   style={{
-                    backgroundColor: `${tab?.isActive ? "#bfdbfe" : "#fff"}`,
+                    backgroundColor: `${tab?.isActive ? '#bfdbfe' : '#fff'}`,
                   }}
                 >
                   <h5 className="p-1 mb-0"> {tab?.title} </h5>

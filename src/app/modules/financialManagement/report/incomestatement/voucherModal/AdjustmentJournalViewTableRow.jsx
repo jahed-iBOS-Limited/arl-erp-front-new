@@ -1,15 +1,15 @@
-import React, { useState, useRef, useEffect, useMemo } from "react";
-import { Formik, Form as FormikForm } from "formik";
-import ReactToPrint from "react-to-print";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import findIndex from "../../../../_helper/_findIndex";
-import NotPermittedPage from "../../../../_helper/notPermitted/NotPermittedPage";
-import ICustomCard from "../../../../_helper/_customCard";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import Loading from "../../../../_helper/_loading";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import { getAdjustmentJournalView } from "../helper";
+import React, { useState, useRef, useEffect, useMemo } from 'react';
+import { Formik, Form as FormikForm } from 'formik';
+import ReactToPrint from 'react-to-print';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import findIndex from '../../../../_helper/_findIndex';
+import NotPermittedPage from '../../../../_helper/notPermitted/NotPermittedPage';
+import ICustomCard from '../../../../_helper/_customCard';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import Loading from '../../../../_helper/_loading';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import { getAdjustmentJournalView } from '../helper';
 export function AdjustmentJournalViewTableRow({ id, typeId }) {
   const [loading, setLoading] = useState(false);
   const [adjustmentReport, setAdjustmentReport] = useState([]);
@@ -42,7 +42,7 @@ export function AdjustmentJournalViewTableRow({ id, typeId }) {
     //   return data?.businessPartnerName
     // }
     if (data?.generalLedgerName && data?.businessPartnerName) {
-      return data?.generalLedgerName + "(" + data?.businessPartnerName + ")";
+      return data?.generalLedgerName + '(' + data?.businessPartnerName + ')';
     } else {
       return data?.generalLedgerName;
     }
@@ -70,7 +70,7 @@ export function AdjustmentJournalViewTableRow({ id, typeId }) {
     return { totalCredit, totalDebit };
   }, [adjustmentReport]);
 
-  const adjustmentJournal = userRole[findIndex(userRole, "Adjustment Journal")];
+  const adjustmentJournal = userRole[findIndex(userRole, 'Adjustment Journal')];
   if (!adjustmentJournal?.isView) return <NotPermittedPage />;
 
   return (
@@ -105,7 +105,7 @@ export function AdjustmentJournalViewTableRow({ id, typeId }) {
       >
         <Formik
           enableReinitialize={true}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({ handleSubmit, resetForm, values, errors, touched, isValid }) => (
             <>
@@ -129,7 +129,7 @@ export function AdjustmentJournalViewTableRow({ id, typeId }) {
                       </div>
                       <div className="my-3 d-flex justify-content-between">
                         <div>
-                          <span className="font-weight-bold mr-2"></span>{" "}
+                          <span className="font-weight-bold mr-2"></span>{' '}
                         </div>
                         <div>
                           <div>
@@ -152,80 +152,82 @@ export function AdjustmentJournalViewTableRow({ id, typeId }) {
                         </div>
                       </div>
                       <div className="table-responsive">
- <table className="journalTable" id="table-to-xlsx">
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            <th>Head Of Accounts</th>
-                            <th>Transaction</th>
-                            <th>Element</th>
-                            <th>Debit</th>
-                            <th>Credit</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {adjustmentReport?.objRow?.map((data, i) => (
+                        <table className="journalTable" id="table-to-xlsx">
+                          <thead>
                             <tr>
-                              <td className="text-center">{i + 1}</td>
-                              <td className="text-left">
-                                {renderHeadOfAcc(data)}
-                              </td>
-                              <td className="text-left">{data?.subGLName}</td>
-                              <td>
-                                {data?.costRevenueName +
-                                  " " +
-                                  data?.elementName}
-                              </td>
-                              {data?.debitCredit === "Debit" ? (
-                                <td>
-                                  <div className="text-right pr-2">
-                                    {selectedBusinessUnit?.value === 102
-                                      ? Math.abs(data?.amount).toFixed(2)
-                                      : Math.abs(data?.amount)}
-                                    {/* {Math.abs(data?.amount)} */}
-                                  </div>
-                                </td>
-                              ) : (
-                                <td>{""}</td>
-                              )}
-                              {data?.debitCredit === "Credit" ? (
-                                <td>
-                                  <div className="text-right pr-2">
-                                    {selectedBusinessUnit?.value === 102
-                                      ? Math.abs(data?.amount).toFixed(2)
-                                      : Math.abs(data?.amount)}
-                                    {/* {Math.abs(data?.amount)} */}
-                                  </div>
-                                </td>
-                              ) : (
-                                <td>{""}</td>
-                              )}
+                              <th>SL</th>
+                              <th>Head Of Accounts</th>
+                              <th>Transaction</th>
+                              <th>Element</th>
+                              <th>Debit</th>
+                              <th>Credit</th>
                             </tr>
-                          ))}
-                          <tr>
-                            <td className="text-center"></td>
-                            <td className="text-center"></td>
-                            <td className="font-weight-bold text-center ml-1">
-                              Total
-                            </td>
-                            <td className="text-center"></td>
-                            <td className="text-right pr-2">
-                              {_formatMoney(totalDebitCreditAmount?.totalDebit)}
-                            </td>
-                            <td className="text-right pr-2">
-                              {_formatMoney(
-                                totalDebitCreditAmount?.totalCredit
-                              )}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-          </div>
-                     
+                          </thead>
+                          <tbody>
+                            {adjustmentReport?.objRow?.map((data, i) => (
+                              <tr>
+                                <td className="text-center">{i + 1}</td>
+                                <td className="text-left">
+                                  {renderHeadOfAcc(data)}
+                                </td>
+                                <td className="text-left">{data?.subGLName}</td>
+                                <td>
+                                  {data?.costRevenueName +
+                                    ' ' +
+                                    data?.elementName}
+                                </td>
+                                {data?.debitCredit === 'Debit' ? (
+                                  <td>
+                                    <div className="text-right pr-2">
+                                      {selectedBusinessUnit?.value === 102
+                                        ? Math.abs(data?.amount).toFixed(2)
+                                        : Math.abs(data?.amount)}
+                                      {/* {Math.abs(data?.amount)} */}
+                                    </div>
+                                  </td>
+                                ) : (
+                                  <td>{''}</td>
+                                )}
+                                {data?.debitCredit === 'Credit' ? (
+                                  <td>
+                                    <div className="text-right pr-2">
+                                      {selectedBusinessUnit?.value === 102
+                                        ? Math.abs(data?.amount).toFixed(2)
+                                        : Math.abs(data?.amount)}
+                                      {/* {Math.abs(data?.amount)} */}
+                                    </div>
+                                  </td>
+                                ) : (
+                                  <td>{''}</td>
+                                )}
+                              </tr>
+                            ))}
+                            <tr>
+                              <td className="text-center"></td>
+                              <td className="text-center"></td>
+                              <td className="font-weight-bold text-center ml-1">
+                                Total
+                              </td>
+                              <td className="text-center"></td>
+                              <td className="text-right pr-2">
+                                {_formatMoney(
+                                  totalDebitCreditAmount?.totalDebit
+                                )}
+                              </td>
+                              <td className="text-right pr-2">
+                                {_formatMoney(
+                                  totalDebitCreditAmount?.totalCredit
+                                )}
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+
                       <div className="mt-5">
                         <div className="d-flex">
                           <p className="font-weight-bold mr-2">
-                            Sum Of Taka :{" "}
+                            Sum Of Taka :{' '}
                           </p>
                           <p>{adjustmentReport?.objHeader?.amount}</p>
                         </div>
@@ -235,7 +237,7 @@ export function AdjustmentJournalViewTableRow({ id, typeId }) {
                         </div>
                         <div className="d-flex">
                           <p className="font-weight-bold mr-2">
-                            Description :{" "}
+                            Description :{' '}
                           </p>
                           <p>{adjustmentReport?.objHeader?.narration}</p>
                         </div>

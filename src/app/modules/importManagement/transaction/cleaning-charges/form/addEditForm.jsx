@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Loading from "./../../../../_helper/_loading";
-import IForm from "./../../../../_helper/_form";
-import Form from "./form";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Loading from './../../../../_helper/_loading';
+import IForm from './../../../../_helper/_form';
+import Form from './form';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 const initData = {
-  shipment: "",
+  shipment: '',
 
-  providerName: "",
+  providerName: '',
 
   serviceDate: _dateFormatter(new Date()),
 
-  amount: "",
+  amount: '',
 
   paymentDate: _dateFormatter(new Date()),
 };

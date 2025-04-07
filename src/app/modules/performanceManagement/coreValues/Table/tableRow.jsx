@@ -25,13 +25,9 @@ export function TableRow() {
   useEffect(() => {
     if (selectedBusinessUnit && profileData) {
       dispatch(
-        getCoreValuesGridData(
-          profileData.accountId,
-          selectedBusinessUnit.value,
-        ),
+        getCoreValuesGridData(profileData.accountId, selectedBusinessUnit.value)
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   // UI Context

@@ -1,34 +1,34 @@
-import React, { useEffect, useState } from "react";
-import { confirmAlert } from "react-confirm-alert";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import { getPartnerTypeDDL } from "../../../../_helper/_commonApi";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IForm from "../../../../_helper/_form";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import React, { useEffect, useState } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { getPartnerTypeDDL } from '../../../../_helper/_commonApi';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IForm from '../../../../_helper/_form';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   saveAdjustmentJournal,
   saveEditedAdjustmentJournal,
-} from "../_redux/Actions";
-import { getAdjustmentJournalById } from "../helper";
-import Loading from "./../../../../_helper/_loading";
-import Form from "./form";
+} from '../_redux/Actions';
+import { getAdjustmentJournalById } from '../helper';
+import Loading from './../../../../_helper/_loading';
+import Form from './form';
 
 const initData = {
   id: undefined,
-  sbu: "",
+  sbu: '',
   transactionDate: _todayDate(),
-  headerNarration: "",
-  transaction: "",
-  debitCredit: "",
-  amount: "",
-  partnerType: "",
-  revenueElement: "",
-  revenueCenter: "",
-  costCenter: "",
-  costElement: "",
-  attachment: "",
+  headerNarration: '',
+  transaction: '',
+  debitCredit: '',
+  amount: '',
+  partnerType: '',
+  revenueElement: '',
+  revenueCenter: '',
+  costCenter: '',
+  costElement: '',
+  attachment: '',
 };
 
 export default function AdjustmentJournalCreateForm() {
@@ -65,21 +65,22 @@ export default function AdjustmentJournalCreateForm() {
       message: message,
       buttons: [
         {
-          label: "Ok",
+          label: 'Ok',
           onClick: () => noAlertFunc(),
         },
       ],
     });
   };
   const saveHandler = async (values, cb) => {
-    if (!values?.headerNarration) return toast.warn("Narration is required")
-    if (!rowDto?.length) return toast.warn("Please add at least one transaction")
+    if (!values?.headerNarration) return toast.warn('Narration is required');
+    if (!rowDto?.length)
+      return toast.warn('Please add at least one transaction');
     const { accountId, userId: actionBy } = profileData;
     const { value: businessunitid } = selectedBusinessUnit;
 
     let newData = rowDto.map((item) => ({
       ...item,
-      amount: item?.debitCredit === "Credit" ? item?.amount : +item?.amount,
+      amount: item?.debitCredit === 'Credit' ? item?.amount : +item?.amount,
     }));
 
     /*  if (values?.profitCenter && !values?.costRevenue) {
@@ -110,7 +111,7 @@ export default function AdjustmentJournalCreateForm() {
 
       const debitCalc = () => {
         const debit = rowDto
-          .filter((itm) => itm.debitCredit === "Debit")
+          .filter((itm) => itm.debitCredit === 'Debit')
           .map((itm) => Math.abs(itm.amount))
           .reduce((sum, curr) => {
             return (sum += curr);
@@ -120,7 +121,7 @@ export default function AdjustmentJournalCreateForm() {
 
       const creditCalc = () => {
         let credit = rowDto
-          .filter((itm) => itm.debitCredit === "Credit")
+          .filter((itm) => itm.debitCredit === 'Credit')
           .map((itm) => Math.abs(itm.amount))
           .reduce((sum, curr) => {
             return (sum += curr);
@@ -128,40 +129,39 @@ export default function AdjustmentJournalCreateForm() {
         return (credit || 0).toFixed(4);
       };
 
-
       // const newDebit = (debit || 0).toFixed(4)
       // const newCredit = (credit || 0).toFixed(4)
 
       if (id) {
         if (debitCalc() !== creditCalc())
-          return toast.warning("Debit & Credit must be equal");
+          return toast.warning('Debit & Credit must be equal');
 
         const objRowList = newData.map((itm) => {
           return {
             rowId: itm?.rowId || 0,
             adjustmentJournalId: +id,
             generalLedgerId: itm?.gl?.value || 0,
-            generalLedgerCode: itm?.gl?.code || "",
-            generalLedgerName: itm?.gl?.label || "",
+            generalLedgerCode: itm?.gl?.code || '',
+            generalLedgerName: itm?.gl?.label || '',
             narration: itm?.headerNarration,
             amount:
-              itm?.debitCredit === "Credit" ? -1 * itm?.amount : +itm?.amount,
+              itm?.debitCredit === 'Credit' ? -1 * itm?.amount : +itm?.amount,
             businessTransactionId: itm?.transaction?.value || 0,
-            businessTransactionCode: itm?.transaction?.code || "",
-            businessTransactionName: itm?.transaction?.label || "",
+            businessTransactionCode: itm?.transaction?.code || '',
+            businessTransactionName: itm?.transaction?.label || '',
             businessPartnerId:
-              itm?.partnerType?.label === "Others"
+              itm?.partnerType?.label === 'Others'
                 ? 0
                 : itm?.transaction?.value,
             businessPartnerCode:
-              itm?.partnerType?.label === "Others"
-                ? ""
+              itm?.partnerType?.label === 'Others'
+                ? ''
                 : itm?.transaction?.code,
             businessPartnerName:
-              itm?.partnerType?.label === "Others"
-                ? ""
+              itm?.partnerType?.label === 'Others'
+                ? ''
                 : itm?.transaction?.label,
-            partnerTypeName: itm?.partnerType?.label || "",
+            partnerTypeName: itm?.partnerType?.label || '',
             partnerTypeId: itm?.partnerType?.reffPrtTypeId || 0,
             subGLId: itm?.transaction?.value,
             subGlCode: itm?.transaction?.code,
@@ -169,11 +169,11 @@ export default function AdjustmentJournalCreateForm() {
             subGLTypeId: itm?.partnerType?.reffPrtTypeId,
             subGLTypeName: itm?.partnerType?.label,
             profitCenterId: itm?.profitCenterId || 0,
-            costRevenueName: itm?.costRevenueName || "",
+            costRevenueName: itm?.costRevenueName || '',
             costRevenueId: itm?.costRevenueId || 0,
-            elementName: itm?.elementName || "",
+            elementName: itm?.elementName || '',
             elementId: itm?.elementId || 0,
-            controlType: itm?.controlType || "",
+            controlType: itm?.controlType || '',
           };
         });
         const editAdjustmentJournalData = {
@@ -183,21 +183,21 @@ export default function AdjustmentJournalCreateForm() {
             amount: +debitCalc(),
             narration: values?.headerNarration,
             actionBy: actionBy,
-            controlType: values?.costRevenue || "",
+            controlType: values?.costRevenue || '',
             costRevenueName:
-              values?.costRevenue === "revenue"
+              values?.costRevenue === 'revenue'
                 ? values?.revenueCenter?.label
-                : values?.costCenter?.label || "",
+                : values?.costCenter?.label || '',
             costRevenueId:
-              values?.costRevenue === "revenue"
+              values?.costRevenue === 'revenue'
                 ? values?.revenueCenter?.value
                 : values?.costCenter?.value || 0,
             elementName:
-              values?.costRevenue === "revenue"
+              values?.costRevenue === 'revenue'
                 ? values?.revenueElement?.label
-                : values?.costElement?.label || "",
+                : values?.costElement?.label || '',
             elementId:
-              values?.costRevenue === "revenue"
+              values?.costRevenue === 'revenue'
                 ? values?.revenueElement?.value
                 : values?.costElement?.value || 0,
             ProfitCenterId: values?.profitCenter?.value,
@@ -212,27 +212,27 @@ export default function AdjustmentJournalCreateForm() {
           return {
             rowId: 0,
             generalLedgerId: itm?.gl?.value || 0,
-            generalLedgerCode: itm?.gl?.code || "",
-            generalLedgerName: itm?.gl?.label || "",
+            generalLedgerCode: itm?.gl?.code || '',
+            generalLedgerName: itm?.gl?.label || '',
             narration: itm?.headerNarration,
             amount:
-              itm?.debitCredit === "Credit" ? -1 * itm?.amount : +itm?.amount,
+              itm?.debitCredit === 'Credit' ? -1 * itm?.amount : +itm?.amount,
             businessTransactionId: itm?.transaction?.value || 0,
-            businessTransactionCode: itm?.transaction?.code || "",
-            businessTransactionName: itm?.transaction?.label || "",
+            businessTransactionCode: itm?.transaction?.code || '',
+            businessTransactionName: itm?.transaction?.label || '',
             businessPartnerId:
-              itm?.partnerType?.label === "Others"
+              itm?.partnerType?.label === 'Others'
                 ? 0
                 : itm?.transaction?.value,
             businessPartnerCode:
-              itm?.partnerType?.label === "Others"
-                ? ""
+              itm?.partnerType?.label === 'Others'
+                ? ''
                 : itm?.transaction?.code,
             businessPartnerName:
-              itm?.partnerType?.label === "Others"
-                ? ""
+              itm?.partnerType?.label === 'Others'
+                ? ''
                 : itm?.transaction?.label,
-            partnerTypeName: itm?.partnerType?.label || "",
+            partnerTypeName: itm?.partnerType?.label || '',
             partnerTypeId: itm?.partnerType?.reffPrtTypeId || 0,
             subGLId: itm?.transaction?.value,
             subGlCode: itm?.transaction?.code,
@@ -240,15 +240,15 @@ export default function AdjustmentJournalCreateForm() {
             subGLTypeId: itm?.partnerType?.reffPrtTypeId,
             subGLTypeName: itm?.partnerType?.label,
             profitCenterId: itm?.profitCenterId || 0,
-            costRevenueName: itm?.costRevenueName || "",
+            costRevenueName: itm?.costRevenueName || '',
             costRevenueId: itm?.costRevenueId || 0,
-            elementName: itm?.elementName || "",
+            elementName: itm?.elementName || '',
             elementId: itm?.elementId || 0,
-            controlType: itm?.controlType || "",
+            controlType: itm?.controlType || '',
           };
         });
         if (debitCalc() !== creditCalc())
-          return toast.warning("Debit & Credit must be equal");
+          return toast.warning('Debit & Credit must be equal');
 
         const saveAdjustmentJournalData = {
           objHeader: {
@@ -262,25 +262,25 @@ export default function AdjustmentJournalCreateForm() {
             accountingJournalTypeId: 7,
             directPosting: true,
             actionBy: actionBy,
-            controlType: values?.costRevenue || "",
+            controlType: values?.costRevenue || '',
             costRevenueName:
-              values?.costRevenue === "revenue"
+              values?.costRevenue === 'revenue'
                 ? values?.revenueCenter?.label
-                : values?.costCenter?.label || "",
+                : values?.costCenter?.label || '',
             costRevenueId:
-              values?.costRevenue === "revenue"
+              values?.costRevenue === 'revenue'
                 ? values?.revenueCenter?.value
                 : values?.costCenter?.value || 0,
             elementName:
-              values?.costRevenue === "revenue"
+              values?.costRevenue === 'revenue'
                 ? values?.revenueElement?.label
-                : values?.costElement?.label || "",
+                : values?.costElement?.label || '',
             elementId:
-              values?.costRevenue === "revenue"
+              values?.costRevenue === 'revenue'
                 ? values?.revenueElement?.value
                 : values?.costElement?.value || 0,
             ProfitCenterId: values?.profitCenter?.value,
-            attachment: values?.attachment?.[0]?.id
+            attachment: values?.attachment?.[0]?.id,
           },
           objRowList: objRow,
         };
@@ -309,16 +309,16 @@ export default function AdjustmentJournalCreateForm() {
     data.push({
       ...payload,
       adjustmentJournalId: 0,
-      adjustmentJournalCode: "string",
+      adjustmentJournalCode: 'string',
       // new field add row
-      controlType: payload?.costRevenue || "",
+      controlType: payload?.costRevenue || '',
       profitCenterId: payload?.profitCenter?.value || 0,
       costRevenueName:
-        payload?.revenueCenter?.label || payload?.costCenter?.label || "",
+        payload?.revenueCenter?.label || payload?.costCenter?.label || '',
       costRevenueId:
         payload?.revenueCenter?.value || payload?.costCenter?.value || 0,
       elementName:
-        payload?.revenueElement?.label || payload?.costElement?.label || "",
+        payload?.revenueElement?.label || payload?.costElement?.label || '',
       elementId:
         payload?.revenueElement?.value || payload?.costElement?.value || 0,
     });
@@ -336,9 +336,10 @@ export default function AdjustmentJournalCreateForm() {
     <IForm
       title={
         id
-          ? `Create Adjustment Journal(${singleData?.adjustmentJournalCode ||
-          ""})`
-          : "Create Adjustment Journal"
+          ? `Create Adjustment Journal(${
+              singleData?.adjustmentJournalCode || ''
+            })`
+          : 'Create Adjustment Journal'
       }
       getProps={setObjprops}
       isDisabled={isDisabled}
@@ -353,7 +354,7 @@ export default function AdjustmentJournalCreateForm() {
         setter={setter}
         remover={remover}
         rowDto={rowDto}
-        state={location?.state || ""}
+        state={location?.state || ''}
         isEdit={id || false}
         setRowDto={setRowDto}
         partnerTypeDDL={partnerTypeDDL}

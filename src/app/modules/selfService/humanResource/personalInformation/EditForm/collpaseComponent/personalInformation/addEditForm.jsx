@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { empAttachment_action } from "../../../../../../_helper/attachmentUpload";
-import Loading from "./../../../../../../_helper/_loading";
-import Form from "./form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { empAttachment_action } from '../../../../../../_helper/attachmentUpload';
+import Loading from './../../../../../../_helper/_loading';
+import Form from './form';
 import {
   createEmployeePersonalInformation,
   employeePersonalInformation_api,
@@ -13,28 +13,28 @@ import {
   getMeritalStatusDDL_api,
   getNationalityDDL,
   religionDDL_api,
-} from "./helper";
+} from './helper';
 const initData = {
-  employeeNickName: "",
-  nationality: "",
-  dateOfBirth: "",
-  placeofBirth: "",
-  identificationType: "",
-  identificationNo: "",
-  religion: "",
-  bloodGroup: "",
-  height: "",
-  weight: "",
-  emailPersonal: "",
-  employeeTINNo: "",
-  personalContactNo: "",
-  alternativeContactNo: "",
-  residenceContactNo: "",
-  maritalStatus: "",
-  dateofMarriage: "",
-  photograph: "",
-  cv: "",
-  identificationDoc: "",
+  employeeNickName: '',
+  nationality: '',
+  dateOfBirth: '',
+  placeofBirth: '',
+  identificationType: '',
+  identificationNo: '',
+  religion: '',
+  bloodGroup: '',
+  height: '',
+  weight: '',
+  emailPersonal: '',
+  employeeTINNo: '',
+  personalContactNo: '',
+  alternativeContactNo: '',
+  residenceContactNo: '',
+  maritalStatus: '',
+  dateofMarriage: '',
+  photograph: '',
+  cv: '',
+  identificationDoc: '',
 };
 
 export default function PersonalInformation() {
@@ -49,7 +49,7 @@ export default function PersonalInformation() {
   const [identificationTypeDDL, setIdentificationTypeDDL] = useState([]);
   const [religionDDL, setReligionDDL] = useState([]);
   const [meritalStatusDDL, setMeritalStatusDDL] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -71,11 +71,11 @@ export default function PersonalInformation() {
           identificationType: values?.identificationType?.label,
           identificationNo: values?.identificationNo,
           genderId: 0,
-          gender: "",
+          gender: '',
           religionId: 0,
-          religion: "",
+          religion: '',
           bloodGroupId: values?.bloodGroup?.value || 0,
-          bloodGroupName: values?.bloodGroup?.label || "",
+          bloodGroupName: values?.bloodGroup?.label || '',
           heightCm: +values?.height,
           weightKg: +values?.weight,
           personalEmail: values?.emailPersonal,
@@ -86,8 +86,8 @@ export default function PersonalInformation() {
           maritalStatusId: values?.maritalStatus?.value,
           maritalStatus: values?.maritalStatus?.label,
           dateOfMarriage: values?.dateofMarriage || null,
-          photographLink: "",
-          cvlink: "",
+          photographLink: '',
+          cvlink: '',
           identificationDocLink: values?.identificationDoc,
           actionBy: profileData.userId,
         };
@@ -95,7 +95,7 @@ export default function PersonalInformation() {
           empAttachment_action(fileObjects).then((data) => {
             const modifyPlyload = {
               ...payload,
-              identificationDocLink: data[0]?.id || "",
+              identificationDocLink: data[0]?.id || '',
             };
             employeePersonalInformation_api(modifyPlyload, setDisabled).then(
               (data) => {
@@ -126,11 +126,11 @@ export default function PersonalInformation() {
           identificationType: values?.identificationType?.label,
           identificationNo: values?.identificationNo,
           genderId: 0,
-          gender: "",
+          gender: '',
           religionId: 0,
-          religion: "",
+          religion: '',
           bloodGroupId: values?.bloodGroup?.value || 0,
-          bloodGroupName: values?.bloodGroup?.label || "",
+          bloodGroupName: values?.bloodGroup?.label || '',
           heightCm: +values?.height,
           weightKg: +values?.weight,
           personalEmail: values?.emailPersonal,
@@ -141,16 +141,16 @@ export default function PersonalInformation() {
           maritalStatusId: values?.maritalStatus?.value,
           maritalStatus: values?.maritalStatus?.label,
           dateOfMarriage: values?.dateofMarriage || null,
-          photographLink: "",
-          cvlink: "",
-          identificationDocLink: "",
+          photographLink: '',
+          cvlink: '',
+          identificationDocLink: '',
           actionBy: profileData.userId,
         };
         if (fileObjects.length > 0) {
           empAttachment_action(fileObjects).then((data) => {
             const modifyPlyload = {
               ...payload,
-              identificationDocLink: data[0]?.id || "",
+              identificationDocLink: data[0]?.id || '',
             };
             createEmployeePersonalInformation(
               modifyPlyload,
@@ -188,7 +188,6 @@ export default function PersonalInformation() {
 
   useEffect(() => {
     getEmpPersonalInfoById_api(headerData?.employeeId, setSingleData);
-
   }, []);
 
   useEffect(() => {

@@ -1,22 +1,21 @@
-
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "../common/form";
-import Axios from "axios";
-import { toast } from "react-toastify";
-import shortid from "shortid";
-import Loading from "./../../../../_helper/_loading";
+} from '../../../../../../_metronic/_partials/controls';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from '../common/form';
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
+import Loading from './../../../../_helper/_loading';
 const initProduct = {
   id: undefined,
-  uomCode: "",
-  uomName: "",
+  uomCode: '',
+  uomName: '',
 };
 
 export default function UOMAddForm({
@@ -49,10 +48,10 @@ export default function UOMAddForm({
       };
       try {
         setDisabled(true);
-        const res = await Axios.post("/item/ItemUOM/CreateItemUOM", plantData);
+        const res = await Axios.post('/item/ItemUOM/CreateItemUOM', plantData);
         cb(initProduct);
         setDisabled(false);
-        toast.success(res.data?.message || "Submitted successfully", {
+        toast.success(res.data?.message || 'Submitted successfully', {
           toastId: shortid(),
         });
       } catch (error) {
@@ -61,7 +60,6 @@ export default function UOMAddForm({
       }
     } else {
       setDisabled(false);
-
     }
   };
 

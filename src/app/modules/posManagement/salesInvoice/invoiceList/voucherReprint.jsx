@@ -1,39 +1,40 @@
-import React, { useState, useRef } from "react";
-import { useReactToPrint } from "react-to-print";
-import { useSelector, shallowEqual } from "react-redux";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IView from "../../../_helper/_helperIcons/_view";
-import Loading from "../../../_helper/_loading";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { Formik, Form } from "formik";
-import InputField from "../../../_helper/_inputField";
-import { getSalesInvoiceLandingData } from "../helper"
-import { _todayDate } from "../../../_helper/_todayDate";
-import printIcon from "../../../_helper/images/printIcon.svg"
-import SalesInvoicePrint from "../invoice/salesInvoicePrint"
-import { getSalesDataById } from "../helper"
-import SalesInvoiceDetails from "../invoice/salesInvoiceDetails"
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
+import React, { useState, useRef } from 'react';
+import { useReactToPrint } from 'react-to-print';
+import { useSelector, shallowEqual } from 'react-redux';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IView from '../../../_helper/_helperIcons/_view';
+import Loading from '../../../_helper/_loading';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { Formik, Form } from 'formik';
+import InputField from '../../../_helper/_inputField';
+import { getSalesInvoiceLandingData } from '../helper';
+import { _todayDate } from '../../../_helper/_todayDate';
+import printIcon from '../../../_helper/images/printIcon.svg';
+import SalesInvoicePrint from '../invoice/salesInvoicePrint';
+import { getSalesDataById } from '../helper';
+import SalesInvoiceDetails from '../invoice/salesInvoiceDetails';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
 
 const initData = {
   counter: '',
   fromDate: _todayDate(),
-  toDate: _todayDate()
-}
+  toDate: _todayDate(),
+};
 
 export default function VoucherReprint({
   counter,
   loadCustomerList,
   voucherReprintData,
-  setVoucherReprintData
+  setVoucherReprintData,
 }) {
   const [loading, setLoading] = useState(false);
   const [header, setHeader] = useState({});
-  const [rowData, setRowData] = useState([])
+  const [rowData, setRowData] = useState([]);
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
-  const [showSalesInvoiceModal, setShowSalesInvoiceModal] = React.useState(false);
+  const [showSalesInvoiceModal, setShowSalesInvoiceModal] =
+    React.useState(false);
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -44,7 +45,6 @@ export default function VoucherReprint({
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
-
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -59,10 +59,10 @@ export default function VoucherReprint({
       values?.fromDate,
       values?.toDate,
       values?.customer?.value
-    )
+    );
   };
 
-  console.log(voucherReprintData)
+  console.log(voucherReprintData);
 
   const printRef = useRef();
   const handlePrint = useReactToPrint({
@@ -74,7 +74,7 @@ export default function VoucherReprint({
       {loading && <Loading />}
       <Formik
         initialValues={initData}
-        onSubmit={(values, { setSubmitting }) => { }}
+        onSubmit={(values, { setSubmitting }) => {}}
       >
         {({
           handleSubmit,
@@ -88,8 +88,13 @@ export default function VoucherReprint({
         }) => (
           <>
             <Form>
-              <div className="row global-form"
-                style={{ width: '100%', padding: "0px 0px 8px 0px", marginBottom: "0px" }}
+              <div
+                className="row global-form"
+                style={{
+                  width: '100%',
+                  padding: '0px 0px 8px 0px',
+                  marginBottom: '0px',
+                }}
               >
                 <div className="col-lg-3">
                   <label>Customer</label>
@@ -97,7 +102,7 @@ export default function VoucherReprint({
                     selectedValue={values?.customer}
                     name="customer"
                     handleChange={(valueOption) => {
-                      setFieldValue("customer", valueOption);
+                      setFieldValue('customer', valueOption);
                     }}
                     placeholder="Search By Mobile Number"
                     loadOptions={loadCustomerList}
@@ -144,12 +149,10 @@ export default function VoucherReprint({
                             <th>SL</th>
                             <th>Shipping Point</th>
                             <th>Customer Name</th>
-                            <th>
-                              Delivery Quantity
-                            </th>
+                            <th>Delivery Quantity</th>
                             <th>Delivery Code</th>
                             <th>Delivery Date</th>
-                            <th style={{ width: "60px" }}>Actions</th>
+                            <th style={{ width: '60px' }}>Actions</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -176,8 +179,8 @@ export default function VoucherReprint({
                                           td?.deliveryId,
                                           setHeader,
                                           setRowData
-                                        )
-                                        setShowSalesInvoiceModal(true)
+                                        );
+                                        setShowSalesInvoiceModal(true);
                                       }}
                                     />
                                   </span>
@@ -188,11 +191,15 @@ export default function VoucherReprint({
                                         td?.deliveryId,
                                         setHeader,
                                         setRowData
-                                      )
-                                      handlePrint()
+                                      );
+                                      handlePrint();
                                     }}
                                   >
-                                    <img src={printIcon} height="18px" alt="Print" />
+                                    <img
+                                      src={printIcon}
+                                      height="18px"
+                                      alt="Print"
+                                    />
                                   </span>
                                 </div>
                               </td>

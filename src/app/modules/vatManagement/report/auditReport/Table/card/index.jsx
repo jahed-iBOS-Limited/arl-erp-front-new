@@ -1,29 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
 import { _todayDate } from './../../../../../_helper/_todayDate';
-import "./style.css";
-import { useHistory } from "react-router-dom";
-import { getHeaderData } from "../../helper";
-import { useSelector, shallowEqual } from "react-redux";
+import './style.css';
+import { useHistory } from 'react-router-dom';
+import { getHeaderData } from '../../helper';
+import { useSelector, shallowEqual } from 'react-redux';
 import {
-
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../../_metronic/_partials/controls";
+} from '../../../../../../../_metronic/_partials/controls';
 // Validation schema
 const validationSchema = Yup.object().shape({});
 const initData = {
-  customsHouse: "",
+  customsHouse: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
 
 export default function AuditReport() {
-  const [headerData, setHeaderData] = useState("");
+  const [headerData, setHeaderData] = useState('');
   const history = useHistory();
   const { selectedBusinessUnit, profileData } = useSelector((state) => {
     return state.authData;
@@ -62,25 +61,25 @@ export default function AuditReport() {
                   <CardHeaderToolbar>
                     <div>
                       <p className="m-0">
-                        <b>BIN NO:</b> {headerData?.bin}{" "}
+                        <b>BIN NO:</b> {headerData?.bin}{' '}
                       </p>
                     </div>
                     <div className="ml-4">
                       <p className="m-0">
-                        <b>Address:</b> {headerData?.addressOfTaxpayer}{" "}
+                        <b>Address:</b> {headerData?.addressOfTaxpayer}{' '}
                       </p>
                     </div>
                   </CardHeaderToolbar>
                 </CardHeader>
                 <CardBody>
-                  <div className="row global-form" style={{ height: "450px" }}>
+                  <div className="row global-form" style={{ height: '450px' }}>
                     <div className="col-12">
                       <div className="AuditReportCard d-flex justify-content-center flex-column align-items-center">
                         <p
                           onClick={() => {
                             history.push({
                               pathname: `/mngVat/report/auditReport/view`,
-                              state: { value: 4, label: "Import" },
+                              state: { value: 4, label: 'Import' },
                             });
                           }}
                         >
@@ -90,7 +89,7 @@ export default function AuditReport() {
                           onClick={() => {
                             history.push({
                               pathname: `/mngVat/report/auditReport/view`,
-                              state: { value: 1, label: "Local Purchase" },
+                              state: { value: 1, label: 'Local Purchase' },
                             });
                           }}
                         >
@@ -100,7 +99,7 @@ export default function AuditReport() {
                           onClick={() => {
                             history.push({
                               pathname: `/mngVat/report/auditReport/view`,
-                              state: { value: 2, label: "Local Sales" },
+                              state: { value: 2, label: 'Local Sales' },
                             });
                           }}
                         >
@@ -110,7 +109,7 @@ export default function AuditReport() {
                           onClick={() => {
                             history.push({
                               pathname: `/mngVat/report/auditReport/view`,
-                              state: { value: 3, label: "Export" },
+                              state: { value: 3, label: 'Export' },
                             });
                           }}
                         >

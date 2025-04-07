@@ -43,14 +43,12 @@ const EisenhowerMatrix = () => {
   const [yearDDL, setYearDDl] = useState([]);
   const [loading, setLoading] = useState(false);
 
-
   const { setFieldValue, values } = useFormik({
     initialValues,
   });
 
   useEffect(() => {
     getYearDDL(accountId, setYearDDl);
-
   }, []);
 
   const singleData = {
@@ -145,7 +143,7 @@ const EisenhowerMatrix = () => {
                       values?.yearDDLgroup?.value || 0,
                       valueOption?.value,
                       setLoading,
-                      setRowDto,
+                      setRowDto
                     );
                   } else {
                     setFieldValue('quarterDDLgroup', '');

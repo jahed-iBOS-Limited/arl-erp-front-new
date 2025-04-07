@@ -1,18 +1,22 @@
-
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { IInput } from "../../../../_helper/_input";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { IInput } from '../../../../_helper/_input';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
 import NewSelect from './../../../../_helper/_select';
 
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({
-  transportRouteCostComponent: Yup.string().required("Component Name required"),
+  transportRouteCostComponent: Yup.string().required('Component Name required'),
 });
 
-export default function FormCmp({ initData, btnRef, saveHandler, resetBtnRef }) {
+export default function FormCmp({
+  initData,
+  btnRef,
+  saveHandler,
+  resetBtnRef,
+}) {
   const [valid, setValid] = useState(true);
   return (
     <>
@@ -41,7 +45,7 @@ export default function FormCmp({ initData, btnRef, saveHandler, resetBtnRef }) 
               <div className="form-group row">
                 <div className="col-lg-3 pl pr-1 mb-1 h-narration border-gray">
                   <IInput
-                    value={values?.transportRouteCostComponent || ""}
+                    value={values?.transportRouteCostComponent || ''}
                     label="Cost Component"
                     name="transportRouteCostComponent"
                     disabled={true}
@@ -54,26 +58,25 @@ export default function FormCmp({ initData, btnRef, saveHandler, resetBtnRef }) 
                     value={values?.generalLedger}
                     label="General Ledger"
                     onChange={(valueOption) => {
-                      setFieldValue("generalLedger", valueOption);
+                      setFieldValue('generalLedger', valueOption);
                     }}
                     placeholder="General Ledger"
                     errors={errors}
                     touched={touched}
-
                   />
                 </div>
               </div>
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

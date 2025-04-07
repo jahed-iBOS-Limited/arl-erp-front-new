@@ -53,7 +53,7 @@ const LandingTable = ({ obj }) => {
           <tbody>
             {gridData?.data?.map((item, index) => {
               const matchEmployeeId = item?.investigatorAssignByName?.find(
-                (itm) => itm?.investigatorId === employeeId,
+                (itm) => itm?.investigatorId === employeeId
               );
 
               const investigateItem = matchEmployeeId
@@ -76,7 +76,7 @@ const LandingTable = ({ obj }) => {
                   <td>
                     {item?.delegateDateTime &&
                       moment(item?.delegateDateTime).format(
-                        'YYYY-MM-DD, HH:mm A',
+                        'YYYY-MM-DD, HH:mm A'
                       )}
                   </td>
                   <td>{item?.delegateToName}</td>
@@ -93,12 +93,12 @@ const LandingTable = ({ obj }) => {
                                 }}
                               >
                                 <p>
-                                  {itm?.investigatorName || ""}
+                                  {itm?.investigatorName || ''}
                                   {itm?.investigationDueDate && (
                                     <>
                                       , Due:
                                       {moment(itm?.investigationDueDate).format(
-                                        'YYYY-MM-DD',
+                                        'YYYY-MM-DD'
                                       )}
                                     </>
                                   )}
@@ -106,7 +106,7 @@ const LandingTable = ({ obj }) => {
                                     <>
                                       , Actual:
                                       {moment(
-                                        itm?.investigationDateTime,
+                                        itm?.investigationDateTime
                                       ).format('YYYY-MM-DD, HH:mm A')}
                                     </>
                                   )}
@@ -143,12 +143,12 @@ const LandingTable = ({ obj }) => {
                               >
                                 <p>
                                   <b>Investigation: </b>
-                                  {itm?.investigatorName || ""}
+                                  {itm?.investigatorName || ''}
                                   {itm?.investigationDueDate && (
                                     <>
                                       , Due:
                                       {moment(itm?.investigationDueDate).format(
-                                        'YYYY-MM-DD',
+                                        'YYYY-MM-DD'
                                       )}
                                     </>
                                   )}
@@ -156,7 +156,7 @@ const LandingTable = ({ obj }) => {
                                     <>
                                       , Actual:
                                       {moment(
-                                        itm?.investigationDateTime,
+                                        itm?.investigationDateTime
                                       ).format('YYYY-MM-DD, HH:mm A')}
                                     </>
                                   )}
@@ -176,7 +176,7 @@ const LandingTable = ({ obj }) => {
                       >
                         {investigateItem?.investigationDateTime &&
                           moment(investigateItem?.investigationDateTime).format(
-                            'YYYY-MM-DD, HH:mm A',
+                            'YYYY-MM-DD, HH:mm A'
                           )}
                       </div>
                     </OverlayTrigger>
@@ -218,26 +218,26 @@ const LandingTable = ({ obj }) => {
 
                       {(item?.status === 'Open' ||
                         item?.status === 'Delegate') && (
-                          <>
-                            <span>
-                              <OverlayTrigger
-                                overlay={<Tooltip id="cs-icon">Delegate</Tooltip>}
+                        <>
+                          <span>
+                            <OverlayTrigger
+                              overlay={<Tooltip id="cs-icon">Delegate</Tooltip>}
+                            >
+                              <span
+                                onClick={() => {
+                                  setDelegatModalShow(true);
+                                  setClickRowData(item);
+                                }}
                               >
-                                <span
-                                  onClick={() => {
-                                    setDelegatModalShow(true);
-                                    setClickRowData(item);
-                                  }}
-                                >
-                                  <i
-                                    class="fa fa-user-plus pointer"
-                                    aria-hidden="true"
-                                  ></i>
-                                </span>
-                              </OverlayTrigger>
-                            </span>
-                          </>
-                        )}
+                                <i
+                                  class="fa fa-user-plus pointer"
+                                  aria-hidden="true"
+                                ></i>
+                              </span>
+                            </OverlayTrigger>
+                          </span>
+                        </>
+                      )}
 
                       {item?.status === 'Investigate' && matchEmployeeId && (
                         <>

@@ -1,33 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { getLandingData } from "../helper";
-import Loading from "../../../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { getLandingData } from '../helper';
+import Loading from '../../../../_helper/_loading';
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   CardBody,
   // Input,
-} from "../../../../../../_metronic/_partials/controls";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import ICustomTable from "../../../../_helper/_customTable";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import { Formik } from "formik";
+} from '../../../../../../_metronic/_partials/controls';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import ICustomTable from '../../../../_helper/_customTable';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import { Formik } from 'formik';
 
 const header = [
-  "SL",
-  "Unit",
-  "LC No",
-  "Part",
-  "Custom House",
-  "Doc F Date",
-  "Duty F Date",
-  "Delivery Date",
-  "Value",
-  "Currency",
-  "Packing",
-  "Item Description",
+  'SL',
+  'Unit',
+  'LC No',
+  'Part',
+  'Custom House',
+  'Doc F Date',
+  'Duty F Date',
+  'Delivery Date',
+  'Value',
+  'Currency',
+  'Packing',
+  'Item Description',
 ];
 
 const CnFServiceList = () => {
@@ -53,7 +53,6 @@ const CnFServiceList = () => {
         pageSize
       );
     }
-
   }, [profileData]);
 
   //setPositionHandler
@@ -124,7 +123,7 @@ const CnFServiceList = () => {
               gridData?.data?.map((item, index) => { */}
                 {/* return ( */}
                 <tr>
-                  <td style={{ width: "30px" }} className="text-center">
+                  <td style={{ width: '30px' }} className="text-center">
                     1
                   </td>
                   <td>

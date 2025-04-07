@@ -90,7 +90,6 @@ export default function IncomeStatementTaxLanding() {
     });
 
     getEnterpriseDivisionDDL(accountId, setEnterpriseDivisionDDL);
-
   }, []);
 
   const pdfExport = (fileName) => {
@@ -121,7 +120,6 @@ export default function IncomeStatementTaxLanding() {
   const [incomeStatementRow, setIncomeStatementRow] = useState(null);
 
   const {
-
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state.authData, shallowEqual);
 
@@ -210,7 +208,7 @@ export default function IncomeStatementTaxLanding() {
                           // );
                           if (valueOption?.value) {
                             getSubDivisionDDL(
-                              `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=${accountId}&BusinessUnitGroup=${valueOption?.label}`,
+                              `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=${accountId}&BusinessUnitGroup=${valueOption?.label}`
                             );
                           }
                         }}
@@ -243,7 +241,7 @@ export default function IncomeStatementTaxLanding() {
                               accountId,
                               values?.enterpriseDivision?.value,
                               setBusinessUnitDDL,
-                              valueOption,
+                              valueOption
                             );
                           }
                         }}
@@ -276,7 +274,7 @@ export default function IncomeStatementTaxLanding() {
                                 setFieldValue('businessUnit', valueOption);
                                 setFieldValue(
                                   'profitCenter',
-                                  profitCenterDDLData?.[0] || '',
+                                  profitCenterDDLData?.[0] || ''
                                 );
                                 setProfitCenterDDL(profitCenterDDLData);
                                 // dispatch(
@@ -287,7 +285,7 @@ export default function IncomeStatementTaxLanding() {
                                 //       profitCenterDDLData?.[0] || "",
                                 //   })
                                 // );
-                              },
+                              }
                             );
                           }
                         }}
@@ -410,7 +408,7 @@ export default function IncomeStatementTaxLanding() {
                           dispatch(
                             SetReportIncomestatementAction({
                               ...values,
-                            }),
+                            })
                           );
                           // setShowRDLC(false);
                           getIncomeStatement_api(
@@ -427,7 +425,7 @@ export default function IncomeStatementTaxLanding() {
                             values?.enterpriseDivision?.value,
                             values?.conversionRate,
                             values?.subDivision,
-                            values?.reportType?.value,
+                            values?.reportType?.value
                           );
                         }}
                         disabled={
@@ -573,7 +571,7 @@ export default function IncomeStatementTaxLanding() {
                                       >
                                         {' '}
                                         {_formatMoney(
-                                          data?.monCurrentPeriodAmount,
+                                          data?.monCurrentPeriodAmount
                                         )}
                                       </span>
                                     </td>
@@ -608,7 +606,7 @@ export default function IncomeStatementTaxLanding() {
                                       >
                                         {' '}
                                         {_formatMoney(
-                                          data?.monCurrentPeriodAmountTax,
+                                          data?.monCurrentPeriodAmountTax
                                         )}
                                       </span>
                                     </td>
@@ -629,25 +627,25 @@ export default function IncomeStatementTaxLanding() {
                                           data?.monCurrentPeriodAmountTax
                                           ? _formatMoney(
                                               Math.abs(
-                                                data?.monCurrentPeriodAmount,
+                                                data?.monCurrentPeriodAmount
                                               ) -
                                                 Math.abs(
-                                                  data?.monCurrentPeriodAmountTax,
-                                                ),
+                                                  data?.monCurrentPeriodAmountTax
+                                                )
                                             )
                                           : _formatMoney(
                                               Math.abs(
-                                                data?.monCurrentPeriodAmountTax,
+                                                data?.monCurrentPeriodAmountTax
                                               ) -
                                                 Math.abs(
-                                                  data?.monCurrentPeriodAmount,
-                                                ),
+                                                  data?.monCurrentPeriodAmount
+                                                )
                                             )
                                         : _formatMoney(
                                             +data?.monCurrentPeriodAmount -
                                               Math.abs(
-                                                data?.monCurrentPeriodAmountTax,
-                                              ),
+                                                data?.monCurrentPeriodAmountTax
+                                              )
                                           )}
                                     </td>
                                   </tr>
@@ -658,7 +656,7 @@ export default function IncomeStatementTaxLanding() {
                                   className="text-center d-none"
                                   colSpan={4}
                                 >{`System Generated Report - ${moment().format(
-                                  'LLLL',
+                                  'LLLL'
                                 )}`}</td>
                               </tr>
                             </tbody>

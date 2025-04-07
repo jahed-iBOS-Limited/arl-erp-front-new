@@ -1,18 +1,18 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { getWareHouseDDL } from "../helper";
-import ICustomCard from "./../../../../_helper/_customCard";
-import Loading from "./../../../../_helper/_loading";
-import NewSelect from "./../../../../_helper/_select";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import { getCustomerGroupLandingPasignation } from "./../helper";
-import GridTable from "./table";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { getWareHouseDDL } from '../helper';
+import ICustomCard from './../../../../_helper/_customCard';
+import Loading from './../../../../_helper/_loading';
+import NewSelect from './../../../../_helper/_select';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import { getCustomerGroupLandingPasignation } from './../helper';
+import GridTable from './table';
 
 const initData = {
-  outletName: "",
-  status: { value: 3, label: "All" },
+  outletName: '',
+  status: { value: 3, label: 'All' },
 };
 
 function CustomerGroupForPrivilege() {
@@ -50,7 +50,6 @@ function CustomerGroupForPrivilege() {
         setWareHouseDDL
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -61,16 +60,13 @@ function CustomerGroupForPrivilege() {
       title="Customer Group For Privilege"
       createHandler={() => {
         history.push(
-          "/pos-management/configuration/customerGroupForPrivilege/create"
+          '/pos-management/configuration/customerGroupForPrivilege/create'
         );
       }}
     >
       <>
         {loading && <Loading />}
-        <Formik
-          enableReinitialize={true}
-          initialValues={initData}
-        >
+        <Formik enableReinitialize={true} initialValues={initData}>
           {({
             handleSubmit,
             resetForm,
@@ -91,8 +87,8 @@ function CustomerGroupForPrivilege() {
                       value={values?.outletName}
                       label="Outlet Name"
                       onChange={(valueOption) => {
-                        setFieldValue("outletName", valueOption);
-                        setRowDto([])
+                        setFieldValue('outletName', valueOption);
+                        setRowDto([]);
                       }}
                       placeholder="Outlet Name"
                       errors={errors}
@@ -104,14 +100,14 @@ function CustomerGroupForPrivilege() {
                       name="status"
                       label="Status"
                       options={[
-                        { value: 3, label: "All" },
-                        { value: true, label: "Active " },
-                        { value: false, label: "In-Active " },
+                        { value: 3, label: 'All' },
+                        { value: true, label: 'Active ' },
+                        { value: false, label: 'In-Active ' },
                       ]}
                       value={values?.status}
                       onChange={(valueOption) => {
-                        setFieldValue("status", valueOption);
-                        setRowDto([])
+                        setFieldValue('status', valueOption);
+                        setRowDto([]);
                       }}
                       placeholder="Status"
                       errors={errors}
@@ -123,7 +119,7 @@ function CustomerGroupForPrivilege() {
                       className="btn btn-primary"
                       type="button"
                       onClick={() => {
-                        setRowDto([])
+                        setRowDto([]);
                         commonGridFunc(pageNo, pageSize, values);
                       }}
                       disabled={!values?.outletName}

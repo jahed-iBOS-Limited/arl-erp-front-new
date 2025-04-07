@@ -1,23 +1,23 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import NotPermitted from "../../performanceManagement/notPermittedPage/notPermitted";
-import CargoUnloadingStatement from "./cargoUnloadingStatement";
-import CargoUnloadingStatementCreate from "./cargoUnloadingStatement/createEdit";
-import MillProduction from "./millProduction";
-import MillProductionCreateEdit from "./millProduction/createEdit";
-import MoustureCreateEdit from "./moistureReport/createEdit";
-import MoistureReport from "./moistureReport/report";
-import MoistureReportLanding from "./moistureReport/index";
-import PowerConsumptionAllsbu from "./powerConsumptionAllSbu";
-import PowerConsumptionAllSbuCreate from "./powerConsumptionAllSbu/createEdit";
-import PowerPlantReport from "./powerPlantReport";
-import ScheduleMaintainence from "./scheduleMaintainence";
-import ScheduleMaintainenceCreate from "./scheduleMaintainence/createEdit";
-import UnloadingRegister from "./unloadingRegister";
-import UnloadingRegisterCreate from "./unloadingRegister/createEdit";
-import CranStopage from "./unloadingRegister/cranStopage";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import NotPermitted from '../../performanceManagement/notPermittedPage/notPermitted';
+import CargoUnloadingStatement from './cargoUnloadingStatement';
+import CargoUnloadingStatementCreate from './cargoUnloadingStatement/createEdit';
+import MillProduction from './millProduction';
+import MillProductionCreateEdit from './millProduction/createEdit';
+import MoustureCreateEdit from './moistureReport/createEdit';
+import MoistureReport from './moistureReport/report';
+import MoistureReportLanding from './moistureReport/index';
+import PowerConsumptionAllsbu from './powerConsumptionAllSbu';
+import PowerConsumptionAllSbuCreate from './powerConsumptionAllSbu/createEdit';
+import PowerPlantReport from './powerPlantReport';
+import ScheduleMaintainence from './scheduleMaintainence';
+import ScheduleMaintainenceCreate from './scheduleMaintainence/createEdit';
+import UnloadingRegister from './unloadingRegister';
+import UnloadingRegisterCreate from './unloadingRegister/createEdit';
+import CranStopage from './unloadingRegister/cranStopage';
 
 export function AcclFactoryPages() {
   const userRole = useSelector(

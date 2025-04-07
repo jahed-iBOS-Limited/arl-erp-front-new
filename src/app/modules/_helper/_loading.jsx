@@ -1,6 +1,6 @@
-import React from "react";
-import one from "./images/one.svg";
-import "./_loading.css";
+import React from 'react';
+import one from './images/one.svg';
+import './_loading.css';
 
 function Loading() {
   return (

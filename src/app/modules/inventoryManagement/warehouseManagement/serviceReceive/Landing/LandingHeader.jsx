@@ -1,28 +1,27 @@
-
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
 import {
   getSBUDDL,
   getPlantDDL,
   getWarehouseDDL,
   fetchLandingData,
-} from "../helper/Actions";
-import ServiceReceiveLandingTable from "./ServiceReceiveLandingTable";
+} from '../helper/Actions';
+import ServiceReceiveLandingTable from './ServiceReceiveLandingTable';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { setServiceReceiveAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+} from '../../../../../../_metronic/_partials/controls';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import PaginationSearch from '../../../../_helper/_search';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { setServiceReceiveAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 
 function LandingHeader() {
   const history = useHistory();
@@ -42,9 +41,9 @@ function LandingHeader() {
   const [warehouseDDL, setWareHouseDDL] = useState([]);
 
   // Selected DDL State
-  const [sbu, setSBU] = useState("");
-  const [plant, setPlant] = useState("");
-  const [warehouse, setWarehouse] = useState("");
+  const [sbu, setSBU] = useState('');
+  const [plant, setPlant] = useState('');
+  const [warehouse, setWarehouse] = useState('');
   const [fromDate, setFromDate] = useState(_todayDate());
   const [toDate, setToDate] = useState(_todayDate());
 
@@ -162,7 +161,7 @@ function LandingHeader() {
               onClick={() => {
                 history.push({
                   pathname:
-                    "/inventory-management/warehouse-management/serviceReceive/create",
+                    '/inventory-management/warehouse-management/serviceReceive/create',
                   state: { sbu, plant, warehouse },
                 });
 
@@ -202,7 +201,7 @@ function LandingHeader() {
                 onChange={(valueOption) => {
                   setPlant(valueOption);
                   onChangeForPlant(valueOption);
-                  setWarehouse("");
+                  setWarehouse('');
                 }}
                 options={plantDDL}
                 value={plant}
@@ -254,7 +253,7 @@ function LandingHeader() {
                 onClick={(e) => viewGridData()}
                 disabled={!sbu || !plant || !warehouse}
                 type="button"
-                style={{ marginTop: "15px" }}
+                style={{ marginTop: '15px' }}
               >
                 View
               </button>
@@ -309,7 +308,11 @@ function LandingHeader() {
             placeholder="Code Search"
             paginationSearchHandler={paginationSearchHandler}
           />
-          <ServiceReceiveLandingTable gridData={gridData}  viewGridData={viewGridData} setLoading={setLoading}/>
+          <ServiceReceiveLandingTable
+            gridData={gridData}
+            viewGridData={viewGridData}
+            setLoading={setLoading}
+          />
           {/* Pagination Code */}
           {gridData?.length > 0 && (
             <PaginationTable

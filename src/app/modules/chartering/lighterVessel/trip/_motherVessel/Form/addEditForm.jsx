@@ -1,13 +1,11 @@
-
-
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import Loading from "../../../../_chartinghelper/loading/_loading";
-import { createMotherVessel } from "../helper";
-import Form from "./form";
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import Loading from '../../../../_chartinghelper/loading/_loading';
+import { createMotherVessel } from '../helper';
+import Form from './form';
 
 const initData = {
-  mvesselName: "",
+  mvesselName: '',
 };
 
 export default function MotherVesselCreate({
@@ -28,7 +26,7 @@ export default function MotherVesselCreate({
         mvesselId: 0,
         accountId: profileData?.accountId,
         businessUnitId: selectedBusinessUnit?.value,
-        mvesselName: values?.mvesselName || "",
+        mvesselName: values?.mvesselName || '',
         actionby: profileData?.userId,
       };
       createMotherVessel(payload, setLoading, () => {
@@ -41,8 +39,8 @@ export default function MotherVesselCreate({
   };
 
   const title = singleData?.consigneeId
-    ? "Edit Mother Vessel"
-    : "Create Mother Vessel";
+    ? 'Edit Mother Vessel'
+    : 'Create Mother Vessel';
 
   return (
     <>

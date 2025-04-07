@@ -1,8 +1,8 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import Loading from '../../../_helper/_loading';
+import IForm from '../../../_helper/_form';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 const DetailsViewModal = ({ clickedRowData }) => {
   const saveHandler = (values, cb) => {};
@@ -42,7 +42,7 @@ const DetailsViewModal = ({ clickedRowData }) => {
               <div>
                 <div className="row">
                   <div className="col-lg-4">
-                    <strong>Schedule End Date: </strong>{" "}
+                    <strong>Schedule End Date: </strong>{' '}
                     {_dateFormatter(clickedRowData?.scheduleEndDateTime)}
                   </div>
                   <div className="col-lg-4">
@@ -57,18 +57,18 @@ const DetailsViewModal = ({ clickedRowData }) => {
                   <br />
                   {/*    */}
                   <div className="col-lg-4">
-                    <strong>Responsible Person: </strong>{" "}
+                    <strong>Responsible Person: </strong>{' '}
                     {clickedRowData?.resposiblePersonName}
                   </div>
                   <div className="col-lg-4"></div>
                   <div className="col-lg-4">
-                    <strong>Completed Date: </strong>{" "}
+                    <strong>Completed Date: </strong>{' '}
                     {_dateFormatter(clickedRowData?.completedDateTime)}
                   </div>
                   <br />
                   <br />
                   <div className="col-lg-12">
-                    <strong>Maintainance Task: </strong>{" "}
+                    <strong>Maintainance Task: </strong>{' '}
                     {clickedRowData?.maintainanceTask}
                   </div>
                 </div>

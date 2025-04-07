@@ -35,7 +35,7 @@ export default function FuelRateConfigCreateAndEdit() {
       `/mes/VehicleLog/CreateFuelRateConfig`,
       payload,
       () => {},
-      true,
+      true
     );
   };
   useEffect(() => {
@@ -47,7 +47,6 @@ export default function FuelRateConfigCreateAndEdit() {
       };
       setSingleData(data);
     }
-
   }, [id]);
   return (
     <Formik

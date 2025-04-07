@@ -1,29 +1,25 @@
-
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { Formik, Form } from "formik";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import ReactHtmlTableToExcel from "react-html-table-to-excel";
-import {
-  getShopfloorDDL,
-  getBOMReport,
-} from "../helper";
-import axios from "axios";
-import { getPlantNameDDL_api } from "../../../../_helper/_commonApi";
-import { getBOMItemDDL } from "../../poStatusReport/helper";
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import { Formik, Form } from 'formik';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import ReactHtmlTableToExcel from 'react-html-table-to-excel';
+import { getShopfloorDDL, getBOMReport } from '../helper';
+import axios from 'axios';
+import { getPlantNameDDL_api } from '../../../../_helper/_commonApi';
+import { getBOMItemDDL } from '../../poStatusReport/helper';
 
 const initData = {
-  plant: "",
-  shopFloor: "",
-  item: "",
-  rawItem: "",
+  plant: '',
+  shopFloor: '',
+  item: '',
+  rawItem: '',
 };
 
 function BomReportLanding() {
@@ -96,11 +92,11 @@ function BomReportLanding() {
                       value={values?.plant}
                       label="Select Plant"
                       onChange={(valueOption) => {
-                        setFieldValue("item", "");
-                        setFieldValue("shopFloor", "");
-                        setFieldValue("rawItem", "");
+                        setFieldValue('item', '');
+                        setFieldValue('shopFloor', '');
+                        setFieldValue('rawItem', '');
                         setGridData([]);
-                        setFieldValue("plant", valueOption);
+                        setFieldValue('plant', valueOption);
                         if (valueOption?.value) {
                           getShopfloorDDL(
                             profileData?.accountId,
@@ -124,9 +120,9 @@ function BomReportLanding() {
                       value={values?.shopFloor}
                       label="Select Shop Floor"
                       onChange={(valueOption) => {
-                        setFieldValue("item", "");
+                        setFieldValue('item', '');
                         setGridData([]);
-                        setFieldValue("shopFloor", valueOption);
+                        setFieldValue('shopFloor', valueOption);
                         if (valueOption?.value) {
                           getBOMItemDDL(
                             profileData?.accountId,
@@ -151,8 +147,8 @@ function BomReportLanding() {
                       value={values?.item}
                       label="Select Item"
                       onChange={(valueOption) => {
-                        setFieldValue("rawItem", "");
-                        setFieldValue("item", valueOption);
+                        setFieldValue('rawItem', '');
+                        setFieldValue('item', valueOption);
                         setBomReportBasedOnBackCalculationId([]);
                       }}
                       placeholder="Select Item"
@@ -165,10 +161,10 @@ function BomReportLanding() {
                       <label>Select Item Name Raw</label>
                       <SearchAsyncSelect
                         isDisabled={!values?.plant?.value}
-                        selectedValue={values?.rawItem || ""}
+                        selectedValue={values?.rawItem || ''}
                         handleChange={(valueOption) => {
-                          setFieldValue("item", "");
-                          setFieldValue("rawItem", valueOption);
+                          setFieldValue('item', '');
+                          setFieldValue('rawItem', valueOption);
                           setBomReportBasedOnBackCalculationId([]);
                         }}
                         loadOptions={(v) => {
@@ -186,19 +182,21 @@ function BomReportLanding() {
                   ) : (
                     <></>
                   )}
-                  <div style={{ marginTop: "15px" }} className="col-md-3">
+                  <div style={{ marginTop: '15px' }} className="col-md-3">
                     <button
                       type="button"
                       className="btn btn-primary"
                       onClick={() => {
                         if (backCalculationId?.backcalculationId === 2) {
                           getBomReportBasedOnBackCalculationId(
-                            `/mes/MESReport/BomReportDependOnBackCalculation?plantId=${values?.plant?.value
-                            }&ShopFloorId=${values?.shopFloor?.value}${values?.item
-                              ? `&itemId=${values?.item?.value}`
-                              : values?.rawItem
-                                ? `&itemRawMaterialId=${values?.rawItem?.value}`
-                                : ""
+                            `/mes/MESReport/BomReportDependOnBackCalculation?plantId=${
+                              values?.plant?.value
+                            }&ShopFloorId=${values?.shopFloor?.value}${
+                              values?.item
+                                ? `&itemId=${values?.item?.value}`
+                                : values?.rawItem
+                                  ? `&itemRawMaterialId=${values?.rawItem?.value}`
+                                  : ''
                             }`
                           );
                         } else {
@@ -221,18 +219,18 @@ function BomReportLanding() {
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="d-flex">
                       <span>
-                        <b>{values?.rawItem ? "Raw " : ""} Item Name: </b>
-                        {values?.rawItem?.label || values?.item?.label || ""}
+                        <b>{values?.rawItem ? 'Raw ' : ''} Item Name: </b>
+                        {values?.rawItem?.label || values?.item?.label || ''}
                       </span>
                       <span className="ml-3">
                         <b>UoM: </b>
                         {values?.rawItem?.description ||
                           values?.item?.baseUomName ||
-                          ""}
+                          ''}
                       </span>
                     </div>
                     {gridData?.length > 0 ||
-                      bomReportBasedOnBackCalculationId?.length > 0 ? (
+                    bomReportBasedOnBackCalculationId?.length > 0 ? (
                       <div className=" d-flex justify-content-end align-items-center">
                         <ReactToPrint
                           trigger={() => (
@@ -241,7 +239,7 @@ function BomReportLanding() {
                               className="btn btn-primary px-4 py-1"
                             >
                               <img
-                                style={{ width: "25px", paddingRight: "5px" }}
+                                style={{ width: '25px', paddingRight: '5px' }}
                                 src={printIcon}
                                 alt="print-icon"
                               />
@@ -267,7 +265,7 @@ function BomReportLanding() {
               </Form>
 
               {gridData?.length > 0 &&
-                backCalculationId?.backcalculationId !== 2 ? (
+              backCalculationId?.backcalculationId !== 2 ? (
                 <div ref={printRef} className="col-lg-12 pr-0 pl-0">
                   <div className="table-responsive">
                     <table
@@ -294,25 +292,25 @@ function BomReportLanding() {
                               item?.parentItemid,
                               gridData[index - 1]?.parentItemid
                             ) && (
-                                <>
-                                  <tr>
-                                    <td
-                                      colSpan={6}
-                                      align="left"
-                                      style={{ backgroundColor: "#FEF3C7" }}
-                                    >
-                                      <div className="text-left pl-2">
-                                        {yellowMaker(
-                                          item?.itemLv,
-                                          index,
-                                          item?.parentItemid,
-                                          gridData[index - 1]?.parentItemid
-                                        )}
-                                      </div>
-                                    </td>
-                                  </tr>
-                                </>
-                              )}
+                              <>
+                                <tr>
+                                  <td
+                                    colSpan={6}
+                                    align="left"
+                                    style={{ backgroundColor: '#FEF3C7' }}
+                                  >
+                                    <div className="text-left pl-2">
+                                      {yellowMaker(
+                                        item?.itemLv,
+                                        index,
+                                        item?.parentItemid,
+                                        gridData[index - 1]?.parentItemid
+                                      )}
+                                    </div>
+                                  </td>
+                                </tr>
+                              </>
+                            )}
 
                             <tr key={index}>
                               <td className="text-center">
@@ -353,7 +351,7 @@ function BomReportLanding() {
                 <></>
               )}
               {backCalculationId?.backcalculationId === 2 &&
-                bomReportBasedOnBackCalculationId?.length > 0 ? (
+              bomReportBasedOnBackCalculationId?.length > 0 ? (
                 <>
                   <div ref={printRef} className="col-lg-12 pr-0 pl-0">
                     <div className="table-responsive">

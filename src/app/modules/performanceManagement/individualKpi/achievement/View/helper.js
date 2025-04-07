@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const saveDailyTargetRow = async (data, cb) => {
   const newData = data?.map((item) => ({ ...item, amount: +item?.amount }));
@@ -12,10 +12,10 @@ export const saveDailyTargetRow = async (data, cb) => {
     if (res?.status === 200) {
       // cb = when save daily target, dispatch header target Again,
       cb();
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
     }
   } catch (error) {
-    toast.warn(error?.response?.data?.message || "Something went wrong");
+    toast.warn(error?.response?.data?.message || 'Something went wrong');
   }
 };
 
@@ -36,7 +36,6 @@ export const getDailyTargetData = async (kpiId, monthId, setter) => {
     }
   } catch (error) {
     setter([]);
-    
   }
 };
 
@@ -52,7 +51,5 @@ export const getEmployeeApproveAndActiveByKPIId = async (
       // setDisabled(res?.data?.approved ==="false");
       setDisabled(res?.data?.approved);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };

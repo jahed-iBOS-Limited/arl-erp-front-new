@@ -1,13 +1,13 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import PaginationTable from "../../../_helper/_tablePagination";
-import PaginationSearch from "../../../_helper/_search";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../_helper/_loading';
+import IForm from '../../../_helper/_form';
+import PaginationTable from '../../../_helper/_tablePagination';
+import PaginationSearch from '../../../_helper/_search';
 const initData = {};
 export default function ItemMasterInfoLanding() {
   const { profileData } = useSelector((state) => {
@@ -21,14 +21,13 @@ export default function ItemMasterInfoLanding() {
 
   const saveHandler = (values, cb) => {};
 
-  const getLandingData = (pageNo, pageSize, searchValue = "") => {
+  const getLandingData = (pageNo, pageSize, searchValue = '') => {
     getGridData(
       `/item/ItemMaster/GetItemMasterPasignation?AccountId=${profileData?.accountId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}&searchTerm=${searchValue}`
     );
   };
   useEffect(() => {
     getLandingData(pageNo, pageSize);
-
   }, []);
 
   const setPositionHandler = (pageNo, pageSize) => {
@@ -75,7 +74,7 @@ export default function ItemMasterInfoLanding() {
                     className="btn btn-primary mr-10"
                     onClick={() =>
                       history.push(
-                        "/config/material-management/itembasicinfo-master/bulk-upload"
+                        '/config/material-management/itembasicinfo-master/bulk-upload'
                       )
                     }
                   >
@@ -86,7 +85,7 @@ export default function ItemMasterInfoLanding() {
                     className="btn btn-primary"
                     onClick={() =>
                       history.push(
-                        "/config/material-management/itembasicinfo-master/add"
+                        '/config/material-management/itembasicinfo-master/add'
                       )
                     }
                   >
@@ -132,7 +131,7 @@ export default function ItemMasterInfoLanding() {
                 placeholder="Item Name and Code Search"
                 paginationSearchHandler={paginationSearchHandler}
                 values={values}
-                setter={(searchValue) => setFieldValue("search", searchValue)}
+                setter={(searchValue) => setFieldValue('search', searchValue)}
               />
               {gridData?.data?.length > 0 ? (
                 <div className="table-responsive">
@@ -157,11 +156,11 @@ export default function ItemMasterInfoLanding() {
                           <td>{item?.itemMasterCode}</td>
                           {/* <td>{item?.businessUnitIdReceivedName}</td> */}
                           <td>{item?.itemMasterName}</td>
-                          <td>{item?.uomDTO?.baseUomName || ""}</td>
+                          <td>{item?.uomDTO?.baseUomName || ''}</td>
                           <td>{item?.itemMasterTypeName}</td>
                           <td>{item?.itemMasterCategoryName}</td>
                           <td>{item?.itemMasterSubCategoryName}</td>
-                          <td>{item?.purchaseOrganizationName || ""}</td>
+                          <td>{item?.purchaseOrganizationName || ''}</td>
 
                           <td className="text-center">
                             <div className="d-flex align-items-center justify-content-center">
@@ -174,7 +173,7 @@ export default function ItemMasterInfoLanding() {
                                   }
                                 >
                                   <span
-                                    style={{ cursor: "pointer" }}
+                                    style={{ cursor: 'pointer' }}
                                     onClick={() => {
                                       history.push({
                                         pathname: `/config/material-management/itembasicinfo-master/expand/${item?.itemMasterId}`,
@@ -194,7 +193,7 @@ export default function ItemMasterInfoLanding() {
                                   overlay={<Tooltip id="cs-icon">View</Tooltip>}
                                 >
                                   <span
-                                    style={{ cursor: "pointer" }}
+                                    style={{ cursor: 'pointer' }}
                                     onClick={() => {
                                       history.push({
                                         pathname: `/config/material-management/itembasicinfo-master/view/${item?.itemMasterId}`,
@@ -219,9 +218,9 @@ export default function ItemMasterInfoLanding() {
               ) : (
                 <div
                   className="d-flex justify-content-center align-items-center"
-                  style={{ height: "50vh" }} // Adjusts height to center vertically
+                  style={{ height: '50vh' }} // Adjusts height to center vertically
                 >
-                  <h4 style={{ fontSize: "18px", color: "#333" }}>
+                  <h4 style={{ fontSize: '18px', color: '#333' }}>
                     No data found
                   </h4>
                 </div>

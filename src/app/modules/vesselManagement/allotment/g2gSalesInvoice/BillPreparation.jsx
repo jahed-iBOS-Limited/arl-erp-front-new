@@ -1,9 +1,9 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { amountToWords } from "../../../_helper/_ConvertnumberToWord";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../_helper/_fixedPoint";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { amountToWords } from '../../../_helper/_ConvertnumberToWord';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../_helper/_fixedPoint';
+import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
 const BillPreparationReport = ({
   printRef,
   gridData,
@@ -12,14 +12,14 @@ const BillPreparationReport = ({
   userPrintBtnClick,
   setFieldValue,
 }) => {
-  const motherVessel = values?.motherVessel?.label || "";
-  const motherVesselName = motherVessel?.split("(")?.[0].trim();
+  const motherVessel = values?.motherVessel?.label || '';
+  const motherVesselName = motherVessel?.split('(')?.[0].trim();
 
   const totalPrice = gridData?.reduce((acc, cur) => {
     return (acc += +cur?.totalPrice || 0);
   }, 0);
   const dispatch = useDispatch();
-  console.log("userPrintBtnClick", userPrintBtnClick); 
+  console.log('userPrintBtnClick', userPrintBtnClick);
   return (
     <>
       <div ref={printRef}>
@@ -34,12 +34,12 @@ const BillPreparationReport = ({
                 <br />
                 <span
                   style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
                   }}
                 >
-                  Program No: {values?.programNo}, Date:{" "}
+                  Program No: {values?.programNo}, Date:{' '}
                 </span>
                 <br />
                 <span>Bill No: </span>
@@ -109,11 +109,11 @@ const BillPreparationReport = ({
                               }}
                               className="ml-2"
                               style={{
-                                paddingTop: "5px",
+                                paddingTop: '5px',
                               }}
                             >
                               <i
-                                style={{ fontSize: "16px" }}
+                                style={{ fontSize: '16px' }}
                                 className={`fa pointer fa-eye`}
                                 aria-hidden="true"
                               ></i>

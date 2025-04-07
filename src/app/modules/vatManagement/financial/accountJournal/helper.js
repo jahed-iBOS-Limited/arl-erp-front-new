@@ -1,8 +1,19 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-export const getAccountJournalLandingData = async ({ buId, sbuId, journalTypeId, fromDate, toDate, voucherCode, pageNo, pageSize, setter, setLoading }) => {
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+export const getAccountJournalLandingData = async ({
+  buId,
+  sbuId,
+  journalTypeId,
+  fromDate,
+  toDate,
+  voucherCode,
+  pageNo,
+  pageSize,
+  setter,
+  setLoading,
+}) => {
   setLoading(true);
-  const VoucherCode = voucherCode ? `&VoucherCode=${voucherCode}` : "";
+  const VoucherCode = voucherCode ? `&VoucherCode=${voucherCode}` : '';
   try {
     const res = await Axios.get(
       `/fino/BankJournal/GetTaxAccountingJournalLanding?BusinessUnitId=${buId}&SbuId=${sbuId}&AccountingJournalTypeId=${journalTypeId}&fromdate=${fromDate}&Todate=${toDate}${VoucherCode}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
@@ -16,7 +27,15 @@ export const getAccountJournalLandingData = async ({ buId, sbuId, journalTypeId,
   }
 };
 // getNextBankCheque
-export const getNextBankCheque = async (accId, buId, bankId, branchId, bankAccountId, setter, key) => {
+export const getNextBankCheque = async (
+  accId,
+  buId,
+  bankId,
+  branchId,
+  bankAccountId,
+  setter,
+  key
+) => {
   try {
     const res = await Axios.get(
       `/fino/BankJournal/GetNextBankCheque?AccountId=${accId}&BusinessUnitId=${buId}&BankId=${bankId}&BranchId=${branchId}&BankAccountId=${bankAccountId}`
@@ -30,8 +49,10 @@ export const getNextBankCheque = async (accId, buId, bankId, branchId, bankAccou
 };
 export const generateAdviceNo = async (UnitId, setFieldValue) => {
   try {
-    const res = await Axios.post(`/fino/BankBranch/GenerateAdviceNo?UnitId=${UnitId}`);
-    setFieldValue("instrumentNo", res?.data?.code);
+    const res = await Axios.post(
+      `/fino/BankBranch/GenerateAdviceNo?UnitId=${UnitId}`
+    );
+    setFieldValue('instrumentNo', res?.data?.code);
   } catch (error) {
     // toast.warn(error?.response?.data?.message);
     // setDisabled(false);
@@ -40,13 +61,14 @@ export const generateAdviceNo = async (UnitId, setFieldValue) => {
 
 export const getPartnerTypeDDL = async (setter) => {
   try {
-    const res = await Axios.get("/fino/AccountingConfig/GetAccTransectionTypeDDL");
+    const res = await Axios.get(
+      '/fino/AccountingConfig/GetAccTransectionTypeDDL'
+    );
     setter(res?.data);
   } catch (error) {
     console.log(error);
   }
 };
-
 
 // GetJournalTypeDDL
 export const getJournalTypeDDL = async (setter) => {
@@ -59,16 +81,19 @@ export const getJournalTypeDDL = async (setter) => {
 };
 
 export const saveAccountingJournal = async ({
-    payload,
-    cb,
-    setRowDto,
-    setDisabled,
- }) => {
+  payload,
+  cb,
+  setRowDto,
+  setDisabled,
+}) => {
   setDisabled(true);
   try {
-    const res = await Axios.post(`/fino/AccountingJournalTax/AccountingJournalTaxEntry`, payload);
+    const res = await Axios.post(
+      `/fino/AccountingJournalTax/AccountingJournalTaxEntry`,
+      payload
+    );
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Journal Created Successfully");
+      toast.success(res?.data?.message || 'Journal Created Successfully');
       cb && cb();
       setRowDto([]);
       setDisabled(false);
@@ -87,7 +112,10 @@ export const saveAccountingJournal = async ({
 
 export const accountingJournalTaxEntry = async (payload, setter) => {
   try {
-    const res = await Axios.post(`/fino/AccountingJournalTax/AccountingJournalTaxEntry`, payload);
+    const res = await Axios.post(
+      `/fino/AccountingJournalTax/AccountingJournalTaxEntry`,
+      payload
+    );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
@@ -95,9 +123,12 @@ export const accountingJournalTaxEntry = async (payload, setter) => {
 };
 export const cancelAccountingJournalTax = async (payload, setDisabled, cb) => {
   try {
-    const res = await Axios.put(`/fino/AccountingJournalTax/CancelAccountingJournalTax`, payload);
+    const res = await Axios.put(
+      `/fino/AccountingJournalTax/CancelAccountingJournalTax`,
+      payload
+    );
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Journal Deleted Successfully");
+      toast.success(res?.data?.message || 'Journal Deleted Successfully');
       cb && cb();
       setDisabled(false);
     }

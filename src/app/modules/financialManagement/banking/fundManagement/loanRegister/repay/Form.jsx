@@ -27,7 +27,7 @@ export default function RepayForm({
       location?.state?.bu || selectedBusinessUnit?.value,
       location?.state?.bankId,
       setAccountDDL,
-      setLoading,
+      setLoading
     );
   }, [profileData, selectedBusinessUnit, location]);
 

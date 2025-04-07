@@ -49,7 +49,7 @@ import BankReceiptForJounal from './fundTransfer/contra/createBankReceipt/addFor
 export function FinalcialPages() {
   const userRole = useSelector(
     (state) => state?.authData?.userRole,
-    shallowEqual,
+    shallowEqual
   );
 
   const cashJournal = userRole[findIndex(userRole, 'Cash Journal')];

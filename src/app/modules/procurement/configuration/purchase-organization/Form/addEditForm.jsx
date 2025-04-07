@@ -1,21 +1,20 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   saveEditedPurchaseOrg,
   getPurchaseOrgById,
   setPurchaseOrgSingleEmpty,
   savePurchaseOrgData,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
-import { isUniq } from "../../../../_helper/uniqChecker";
-import { getBUDDLAction } from "../../../../_helper/_redux/Actions";
-import Loading from "./../../../../_helper/_loading";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
+import { isUniq } from '../../../../_helper/uniqChecker';
+import { getBUDDLAction } from '../../../../_helper/_redux/Actions';
+import Loading from './../../../../_helper/_loading';
 
 const initData = {
   id: undefined,
-  organizationName: "",
+  organizationName: '',
 };
 
 export default function PurchaseOrgAddForm({
@@ -54,7 +53,6 @@ export default function PurchaseOrgAddForm({
     } else {
       dispatch(setPurchaseOrgSingleEmpty());
     }
-
   }, [id]);
 
   //Dispatch Get emplist action for get emplist ddl
@@ -64,7 +62,6 @@ export default function PurchaseOrgAddForm({
         getBUDDLAction(profileData?.accountId, selectedBusinessUnit?.value)
       );
     }
-
   }, [profileData]);
 
   useEffect(() => {
@@ -73,7 +70,6 @@ export default function PurchaseOrgAddForm({
     } else {
       setRowDtos([]);
     }
-
   }, [singleData?.objRow]);
 
   const saveHandler = async (values, cb) => {
@@ -89,7 +85,7 @@ export default function PurchaseOrgAddForm({
             purchaseOrganizationid:
               singleData?.objHeader?.purchaseOrganizationid,
             purchaseOrganization: singleData?.objHeader?.purchaseOrganization,
-            lastActionDateTime: "2020-08-25T09:37:13.146Z",
+            lastActionDateTime: '2020-08-25T09:37:13.146Z',
             actionBy: profileData.userId,
             active: true,
           };
@@ -120,7 +116,7 @@ export default function PurchaseOrgAddForm({
   };
 
   let setter = (param) => {
-    if (isUniq("businessUnitId", param.businessUnitId, rowDtos)) {
+    if (isUniq('businessUnitId', param.businessUnitId, rowDtos)) {
       setRowDtos([...rowDtos, param]);
     }
   };
@@ -129,7 +125,7 @@ export default function PurchaseOrgAddForm({
     <IForm
       getProps={setObjprops}
       isDisabled={isDisabled}
-      title={id ? "Edit Organization Name" : "Create Organization Name"}
+      title={id ? 'Edit Organization Name' : 'Create Organization Name'}
     >
       {isDisabled && <Loading />}
       <Form

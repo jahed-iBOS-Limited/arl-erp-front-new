@@ -42,26 +42,14 @@ export default function RFQAutoProcess() {
   const [autoRFQData, getAutoRFQData, loading, setAutoRFQData] = useAxiosGet();
   const [, , loader] = useAxiosPost();
   const [itemTypeList, getitemTypeList, , setItemTypeList] = useAxiosGet();
-  const [
-    itemCategoryList,
-    getCategoryData,
-    ,
-    setItemCategoryList,
-  ] = useAxiosGet();
-  const [
-    itemSubCategoryList,
-    getSubCategoryData,
-    ,
-    setItemSubCategoryList,
-  ] = useAxiosGet();
+  const [itemCategoryList, getCategoryData, , setItemCategoryList] =
+    useAxiosGet();
+  const [itemSubCategoryList, getSubCategoryData, , setItemSubCategoryList] =
+    useAxiosGet();
 
   const [plantDDL, getPlantDDL, plantLoader, setPlantDDL] = useAxiosGet();
-  const [
-    warehouseDDL,
-    getWarehouseDDL,
-    warehouseLoader,
-    setWarehouseDDL,
-  ] = useAxiosGet();
+  const [warehouseDDL, getWarehouseDDL, warehouseLoader, setWarehouseDDL] =
+    useAxiosGet();
   const history = useHistory();
 
   // get selected business unit from store
@@ -80,7 +68,6 @@ export default function RFQAutoProcess() {
       });
       setItemTypeList(modData);
     });
-
   }, []);
 
   const categoryApiCaller = async (typeId, values) => {
@@ -95,7 +82,7 @@ export default function RFQAutoProcess() {
           };
         });
         setItemCategoryList(modData);
-      },
+      }
     );
   };
 
@@ -111,7 +98,7 @@ export default function RFQAutoProcess() {
           };
         });
         setItemSubCategoryList(modData);
-      },
+      }
     );
   };
 
@@ -214,7 +201,7 @@ export default function RFQAutoProcess() {
                           setFieldValue('businessUnit', valueOption || '');
                           setAutoRFQData([]);
                           getPlantDDL(
-                            `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${valueOption?.value}&OrgUnitTypeId=7`,
+                            `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${valueOption?.value}&OrgUnitTypeId=7`
                           );
                         } else {
                           setFieldValue('businessUnit', '');
@@ -239,7 +226,7 @@ export default function RFQAutoProcess() {
                           setFieldValue('plant', valueOption || '');
                           setAutoRFQData([]);
                           getWarehouseDDL(
-                            `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${values?.businessUnit?.value}&PlantId=${valueOption?.value}&OrgUnitTypeId=8`,
+                            `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${values?.businessUnit?.value}&PlantId=${valueOption?.value}&OrgUnitTypeId=8`
                           );
                         } else {
                           setFieldValue('plant', '');

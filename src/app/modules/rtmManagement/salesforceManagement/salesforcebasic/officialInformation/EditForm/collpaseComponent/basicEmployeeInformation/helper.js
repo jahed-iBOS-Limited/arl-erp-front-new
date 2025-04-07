@@ -1,6 +1,6 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../../../../../_helper/_dateFormate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../../../../_helper/_dateFormate';
 
 export const getCostCenterDDL = async (accId, buId, sbuId, setter) => {
   try {
@@ -16,7 +16,7 @@ export const getCostCenterDDL = async (accId, buId, sbuId, setter) => {
 
 export const getBusinessUnitDDL = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/GetBusinessunitDDL");
+    const res = await axios.get('/hcm/HCMDDL/GetBusinessunitDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -54,7 +54,7 @@ export const getWorkplaceDDL_api = async (accId, buId, setter) => {
 };
 export const getDepartmentDDL = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/GetDepartmentDDL");
+    const res = await axios.get('/hcm/HCMDDL/GetDepartmentDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -64,7 +64,7 @@ export const getDepartmentDDL = async (setter) => {
 
 export const getHRPositionDDL = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/GetHRPositionDDL");
+    const res = await axios.get('/hcm/HCMDDL/GetHRPositionDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -74,7 +74,7 @@ export const getHRPositionDDL = async (setter) => {
 
 export const getDesignationDDL = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/GetDesignationDDL");
+    const res = await axios.get('/hcm/HCMDDL/GetDesignationDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -84,7 +84,7 @@ export const getDesignationDDL = async (setter) => {
 
 export const getEmployeeGradeDDL = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/GetEmployeeGradeDDL");
+    const res = await axios.get('/hcm/HCMDDL/GetEmployeeGradeDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -94,7 +94,7 @@ export const getEmployeeGradeDDL = async (setter) => {
 
 export const getEmpTypeDDL = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/GetEmploymentTypeDDL");
+    const res = await axios.get('/hcm/HCMDDL/GetEmploymentTypeDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -104,7 +104,7 @@ export const getEmpTypeDDL = async (setter) => {
 
 export const getEmpStatusDDL = async (setter) => {
   try {
-    const res = await axios.get("/hcm/HCMDDL/GetEmployeeStatusDDL");
+    const res = await axios.get('/hcm/HCMDDL/GetEmployeeStatusDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -131,7 +131,7 @@ export const createEmpBasicInformation_api = async (data, cb) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
 
       cb();
     }
@@ -200,7 +200,7 @@ export const getEmployeeBasicInfoById_api = async (employeeId, setter) => {
               label: data?.lineManagerName,
               code: data?.lineManagerCode,
             }
-          : "",
+          : '',
         employeeCode: data?.employeeCode,
         employmentType: {
           value: data?.employmentTypeId,
@@ -226,16 +226,16 @@ export const getEmployeeBasicInfoById_api = async (employeeId, setter) => {
 export const EditEmployeeBasicInformation = async (payload, setDisabled) => {
   try {
     const res = await axios.put(
-      "/rtm/SalesForceInformation/EDitSalesForceInfo",
+      '/rtm/SalesForceInformation/EDitSalesForceInfo',
       payload
     );
 
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted Successfully");
+      toast.success(res?.data?.message || 'Submitted Successfully');
       setDisabled(false);
     }
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Submitted unsuccessful");
+    toast.error(error?.response?.data?.message || 'Submitted unsuccessful');
     setDisabled(false);
   }
 };

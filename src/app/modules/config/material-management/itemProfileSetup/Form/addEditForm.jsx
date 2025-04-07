@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { isUniq } from "./../../../../_helper/uniqChecker";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { isUniq } from './../../../../_helper/uniqChecker';
 import {
   CreateItemProfileConfig_api,
   GetItemProfileConfigById_api,
-} from "../helper";
-import { toast } from "react-toastify";
-import Loading from "./../../../../_helper/_loading";
-import { EditItemProfileConfig_api } from "./../helper";
+} from '../helper';
+import { toast } from 'react-toastify';
+import Loading from './../../../../_helper/_loading';
+import { EditItemProfileConfig_api } from './../helper';
 const initData = {
   id: undefined,
-  sectionName: "",
-  attributeName: "",
+  sectionName: '',
+  attributeName: '',
   isMendatory: false,
-  controlName: "",
+  controlName: '',
 };
 
 export default function ItemProfileSetupForm({
@@ -28,7 +28,7 @@ export default function ItemProfileSetupForm({
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
   const [ddlOptionRow, setDdlOptionRow] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -66,7 +66,7 @@ export default function ItemProfileSetupForm({
         };
 
         if (rowDto?.length > 0) {
-          EditItemProfileConfig_api(payload, setDisabled).then(itm => {
+          EditItemProfileConfig_api(payload, setDisabled).then((itm) => {
             GetItemProfileConfigById_api(
               profileData.accountId,
               selectedBusinessUnit.value,
@@ -76,7 +76,7 @@ export default function ItemProfileSetupForm({
             );
           });
         } else {
-          toast.warning("You must have to add atleast one item");
+          toast.warning('You must have to add atleast one item');
         }
       } else {
         //objAttributeList
@@ -100,7 +100,7 @@ export default function ItemProfileSetupForm({
         if (rowDto?.length > 0) {
           CreateItemProfileConfig_api(payload, cb, setDisabled);
         } else {
-          toast.warning("You must have to add atleast one item");
+          toast.warning('You must have to add atleast one item');
         }
       }
     } else {
@@ -118,11 +118,10 @@ export default function ItemProfileSetupForm({
         setDisabled
       );
     }
-
   }, [selectedBusinessUnit, profileData, id]);
 
   const setter = (obj) => {
-    if (isUniq("attributeName", obj?.attributeName, rowDto)) {
+    if (isUniq('attributeName', obj?.attributeName, rowDto)) {
       setRowDto([...rowDto, obj]);
       setDdlOptionRow([]);
     }
@@ -146,7 +145,7 @@ export default function ItemProfileSetupForm({
   };
   //addDdlOptionFuc
   const addDdlOptionFuc = (obj, createTableRowItm) => {
-    if (isUniq("attributeValue", obj?.attributeValue, ddlOptionRow)) {
+    if (isUniq('attributeValue', obj?.attributeValue, ddlOptionRow)) {
       if (createTableRowItm?.controlName) {
         const coppyRowDto = [...rowDto];
         coppyRowDto[createTableRowItm?.index].optionList = [
@@ -176,7 +175,7 @@ export default function ItemProfileSetupForm({
   }, [singleData]);
   return (
     <IForm
-      title={"Item Profile Setup"}
+      title={'Item Profile Setup'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

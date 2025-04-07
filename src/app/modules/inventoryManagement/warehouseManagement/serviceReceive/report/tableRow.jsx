@@ -1,21 +1,19 @@
-
-
-import React, { useState, useRef, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { Formik, Form as FormikForm } from "formik";
-import * as Yup from "yup";
-import ReactToPrint from "react-to-print";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import Loading from "./../../../../_helper/loader/_loader";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { useHistory, useLocation } from "react-router-dom";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import ICustomCard from "../../../../_helper/_customCard";
-import iMarineIcon from "../../../../_helper/images/imageakijpoly.png";
-import { getReportServiceReceive } from "../helper/Actions";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { useDispatch } from "react-redux";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import React, { useState, useRef, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { Formik, Form as FormikForm } from 'formik';
+import * as Yup from 'yup';
+import ReactToPrint from 'react-to-print';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import Loading from './../../../../_helper/loader/_loader';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { useHistory, useLocation } from 'react-router-dom';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import ICustomCard from '../../../../_helper/_customCard';
+import iMarineIcon from '../../../../_helper/images/imageakijpoly.png';
+import { getReportServiceReceive } from '../helper/Actions';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { useDispatch } from 'react-redux';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 
 let imageObj = {
   8: iMarineIcon,
@@ -26,7 +24,7 @@ const validationSchema = Yup.object().shape({});
 
 export function TableRow({ Rcid }) {
   const [loading, setLoading] = useState(false);
-  const [serviceReport, setServiceReport] = useState("");
+  const [serviceReport, setServiceReport] = useState('');
   const [isShowModal, setIsShowModal] = useState(false);
   const dispatch = useDispatch();
   // console.log(serviceReport)
@@ -114,7 +112,7 @@ export function TableRow({ Rcid }) {
                           <div className="d-flex justify-content-center align-items-center">
                             {selectedBusinessUnit.value === 8 && (
                               <img
-                                style={{ width: "150px", height: "100px" }}
+                                style={{ width: '150px', height: '100px' }}
                                 class=""
                                 src={imageObj[selectedBusinessUnit?.value]}
                                 alt="img"
@@ -136,7 +134,7 @@ export function TableRow({ Rcid }) {
                         Service Receive Code:
                         <span className="font-weight-bold mr-2 ml-1">
                           {serviceReport?.objHeader?.serviceCode}
-                        </span>{" "}
+                        </span>{' '}
                         Receive Amount:
                         <sapn className="font-weight-bold mr-2 ml-1">
                           {state?.receiveAmount}
@@ -159,7 +157,7 @@ export function TableRow({ Rcid }) {
                         <sapn className="font-weight-bold mr-2 ml-1">
                           {serviceReport?.objHeader?.adjustmentJournalCode
                             ? serviceReport?.objHeader?.adjustmentJournalCode
-                            : "NA"}
+                            : 'NA'}
                         </sapn>
                         {/* Adjust Amount:
                         <sapn className='font-weight-bold mr-2 ml-1'>
@@ -171,7 +169,7 @@ export function TableRow({ Rcid }) {
                         Supplier Name:
                         <span className="font-weight-bold mr-2 ml-1">
                           {serviceReport?.objHeader?.businessPartnerName}
-                        </span>{" "}
+                        </span>{' '}
                         Cost Center Name:
                         <sapn className="font-weight-bold mr-2 ml-1">
                           {serviceReport?.objHeader?.costCenterName}
@@ -189,7 +187,7 @@ export function TableRow({ Rcid }) {
                         <sapn className="font-weight-bold mr-2 ml-1">
                           {serviceReport?.objHeader?.challan
                             ? serviceReport?.objHeader?.challan
-                            : "NA"}
+                            : 'NA'}
                         </sapn>
                         Challan Date:
                         <sapn className="font-weight-bold mr-2 ml-1">
@@ -197,13 +195,13 @@ export function TableRow({ Rcid }) {
                             ? _dateFormatter(
                                 serviceReport?.objHeader?.challanDateTime
                               )
-                            : "NA"}
+                            : 'NA'}
                         </sapn>
                         Vat Challan:
                         <sapn className="font-weight-bold mr-2 ml-1">
                           {serviceReport?.objHeader?.vatChallan
                             ? serviceReport?.objHeader?.vatChallan
-                            : "NA"}
+                            : 'NA'}
                         </sapn>
                         Vat Amount:
                         <sapn className="font-weight-bold mr-2 ml-1">
@@ -219,7 +217,7 @@ export function TableRow({ Rcid }) {
                         <sapn className="font-weight-bold mr-2 ml-1">
                           {serviceReport?.objHeader?.gateEntryNo
                             ? serviceReport?.objHeader?.gateEntryNo
-                            : "NA"}
+                            : 'NA'}
                         </sapn>
                         {serviceReport?.objHeader?.documentId && (
                           <>

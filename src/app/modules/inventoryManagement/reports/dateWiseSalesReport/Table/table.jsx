@@ -1,15 +1,15 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICard from "../../../../_helper/_card";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICard from '../../../../_helper/_card';
 import {
   _todaysEndTime,
   _todaysStartTime,
-} from "../../../../_helper/_currentTime";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { GetDateWiseSalesReport, GetSalesOrganizationDDL_api } from "../helper";
+} from '../../../../_helper/_currentTime';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { GetDateWiseSalesReport, GetSalesOrganizationDDL_api } from '../helper';
 export function DateWiseSalesReport() {
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -22,12 +22,12 @@ export function DateWiseSalesReport() {
   }, shallowEqual);
 
   const initData = {
-    shipPoint: "",
+    shipPoint: '',
     fromDate: _todayDate(),
     toDate: _todayDate(),
     fromTime: _todaysStartTime(),
     toTime: _todaysEndTime(),
-    salesOrg: "",
+    salesOrg: '',
   };
 
   const [gridData, setGridData] = useState([]);
@@ -67,7 +67,6 @@ export function DateWiseSalesReport() {
         setSalesOrgDDl
       );
     }
-
   }, [profileData]);
 
   const printRef = useRef();
@@ -89,7 +88,7 @@ export function DateWiseSalesReport() {
               isShowPrintBtn={true}
               componentRef={printRef}
               isExcelBtn={true}
-              excelFileNameWillbe={"Date Wise Sales Report"}
+              excelFileNameWillbe={'Date Wise Sales Report'}
               title="Date Wise Sales Report"
             >
               <Form className="form form-label-right">
@@ -104,7 +103,7 @@ export function DateWiseSalesReport() {
                           name="fromDate"
                           onChange={(e) => {
                             setGridData([]);
-                            setFieldValue("fromDate", e?.target?.value);
+                            setFieldValue('fromDate', e?.target?.value);
                           }}
                         />
                       </div>
@@ -127,7 +126,7 @@ export function DateWiseSalesReport() {
                           name="toDate"
                           onChange={(e) => {
                             setGridData([]);
-                            setFieldValue("toDate", e?.target?.value);
+                            setFieldValue('toDate', e?.target?.value);
                           }}
                         />
                       </div>
@@ -148,7 +147,7 @@ export function DateWiseSalesReport() {
                       label="Sales Org"
                       onChange={(valueOption) => {
                         setGridData([]);
-                        setFieldValue("salesOrg", valueOption);
+                        setFieldValue('salesOrg', valueOption);
                       }}
                       placeholder="Sales Org"
                       errors={errors}
@@ -158,12 +157,12 @@ export function DateWiseSalesReport() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="shipPoint"
-                      options={[{ value: 0, label: "All" }, ...shipPintDDL]}
+                      options={[{ value: 0, label: 'All' }, ...shipPintDDL]}
                       value={values?.shipPoint}
                       label="ShipPoint"
                       onChange={(valueOption) => {
                         setGridData([]);
-                        setFieldValue("shipPoint", valueOption);
+                        setFieldValue('shipPoint', valueOption);
                       }}
                       placeholder="ShipPoint"
                       errors={errors}
@@ -182,7 +181,7 @@ export function DateWiseSalesReport() {
                 <div className="product-wise-shipment-report">
                   <div className="loan-scrollable-table scroll-table-auto">
                     <div
-                      style={{ maxHeight: "540px" }}
+                      style={{ maxHeight: '540px' }}
                       className="scroll-table _table scroll-table-auto"
                     >
                       <table
@@ -193,12 +192,12 @@ export function DateWiseSalesReport() {
                         <thead>
                           <tr>
                             {gridData?.head?.length && (
-                              <th style={{ minWidth: "30px" }}>SL</th>
+                              <th style={{ minWidth: '30px' }}>SL</th>
                             )}
                             {gridData?.head?.map((item, index) => (
                               <React.Fragment key={index}>
                                 {index < 4 ? (
-                                  <th style={{ minWidth: "100px" }}>{item}</th>
+                                  <th style={{ minWidth: '100px' }}>{item}</th>
                                 ) : (
                                   <th>{item}</th>
                                 )}
@@ -215,7 +214,7 @@ export function DateWiseSalesReport() {
                                 {itm?.map((singleRow, index) => (
                                   <td
                                     className={`${
-                                      index > 0 ? "text-right" : "text-center"
+                                      index > 0 ? 'text-right' : 'text-center'
                                     }`}
                                     key={index}
                                   >

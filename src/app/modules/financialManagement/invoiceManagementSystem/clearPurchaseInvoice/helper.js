@@ -1,6 +1,6 @@
-import Axios from "axios";
+import Axios from 'axios';
 
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 
 export const getPurchaseClearPagination_api = async (
   buId,
@@ -14,7 +14,7 @@ export const getPurchaseClearPagination_api = async (
 ) => {
   try {
     setLoading(true);
-    const searchPath = search ? `searchTerm=${search}&` : "";
+    const searchPath = search ? `searchTerm=${search}&` : '';
     const res = await Axios.get(
       `/procurement/PaymentRequest/PaymentRequestSearchLanding?${searchPath}BusinessUnitId=${buId}&PlantId=${PlantId}&AccountId=${accountId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
@@ -76,9 +76,9 @@ export const getBankAcDDL = async (accId, buId, setter) => {
 
 export const getInstrumentTypeDDL = async (setter) => {
   try {
-    const res = await Axios.get("/costmgmt/Instrument/GetInstrumentTypeDDL");
+    const res = await Axios.get('/costmgmt/Instrument/GetInstrumentTypeDDL');
     if (res.status === 200 && res?.data) {
-      const newData = res?.data?.filter((itm) => itm?.label !== "Cash");
+      const newData = res?.data?.filter((itm) => itm?.label !== 'Cash');
       setter(newData);
     }
   } catch (error) {}
@@ -104,11 +104,11 @@ export const createBankCashPayment = async (payload, cb, setRowDto) => {
     if (res.status === 200 && res?.data) {
       cb();
       setRowDto([]);
-      toast.success(res.data.message || "create successfully");
+      toast.success(res.data.message || 'create successfully');
       // setter(res?.data);
     }
   } catch (error) {
-    toast.error(error?.response?.data?.message || "error occured");
+    toast.error(error?.response?.data?.message || 'error occured');
   }
 };
 

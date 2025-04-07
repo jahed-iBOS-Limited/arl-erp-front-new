@@ -1,18 +1,18 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import IForm from "../../../../_helper/_form";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IForm from '../../../../_helper/_form';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 const initData = {
-  businessUnit: "",
-  generalLedger: "",
+  businessUnit: '',
+  generalLedger: '',
 };
 
 export default function ItemCategoryExpend() {
@@ -70,7 +70,7 @@ export default function ItemCategoryExpend() {
           true
         );
       } else {
-        toast.warn("Please add minimum one new Business Unit");
+        toast.warn('Please add minimum one new Business Unit');
       }
     }
   };
@@ -110,7 +110,7 @@ export default function ItemCategoryExpend() {
         (item) => item?.businessUnitId === values?.businessUnit?.value
       )
     ) {
-      return toast.warn("Business Unit already added");
+      return toast.warn('Business Unit already added');
     }
     try {
       // Create the new row object
@@ -141,15 +141,15 @@ export default function ItemCategoryExpend() {
     }
   };
 
-  console.log("rowData", rowData);
+  console.log('rowData', rowData);
 
   useEffect(() => {
     if (id) {
       const { itemMasterCategoryName } = location?.state || {};
       const editedInitData = {
         itemCategoryName: itemMasterCategoryName,
-        businessUnit: "",
-        generalLedger: "",
+        businessUnit: '',
+        generalLedger: '',
       };
       setSingleData(editedInitData);
     }
@@ -162,7 +162,6 @@ export default function ItemCategoryExpend() {
         }
       );
     }
-
   }, [id]);
 
   const getGeneralLedgerDDL_api = async (groupId, buId) => {
@@ -206,7 +205,7 @@ export default function ItemCategoryExpend() {
             resetForm(initData);
           });
         } else {
-          toast.warn("Please add minimum one Business Unit");
+          toast.warn('Please add minimum one Business Unit');
         }
       }}
     >
@@ -234,7 +233,7 @@ export default function ItemCategoryExpend() {
                     type="text"
                     placeholder="Item Category Name"
                     onChange={(e) => {
-                      setFieldValue("itemCategoryName", e.target.value);
+                      setFieldValue('itemCategoryName', e.target.value);
                     }}
                   />
                 </div>
@@ -245,7 +244,7 @@ export default function ItemCategoryExpend() {
                     value={values?.businessUnit}
                     label="Business Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("businessUnit", valueOption);
+                      setFieldValue('businessUnit', valueOption);
                       itemMasterTypeId === 10
                         ? getGeneralLedgerDDL_api_forAsset(
                             itemMasterTypeId,
@@ -255,7 +254,7 @@ export default function ItemCategoryExpend() {
                             itemMasterTypeId,
                             valueOption?.value
                           );
-                      setFieldValue("generalLedger", "");
+                      setFieldValue('generalLedger', '');
                     }}
                     // isDisabled={id}
                   />
@@ -267,7 +266,7 @@ export default function ItemCategoryExpend() {
                     value={values?.generalLedger}
                     label="General Ledger"
                     onChange={(valueOption) => {
-                      setFieldValue("generalLedger", valueOption);
+                      setFieldValue('generalLedger', valueOption);
                     }}
                     // isDisabled={id}
                   />
@@ -278,8 +277,8 @@ export default function ItemCategoryExpend() {
                     className="btn btn-primary"
                     onClick={() => {
                       addRow(values, () => {
-                        setFieldValue("businessUnit", "");
-                        setFieldValue("generalLedger", "");
+                        setFieldValue('businessUnit', '');
+                        setFieldValue('generalLedger', '');
                       });
                     }}
                     disabled={!values?.businessUnit || !values?.generalLedger}
@@ -293,7 +292,7 @@ export default function ItemCategoryExpend() {
                 <div className="table-responsive">
                   <table
                     className={
-                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                      'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                     }
                   >
                     <thead>
@@ -306,11 +305,11 @@ export default function ItemCategoryExpend() {
                     </thead>
                     {rowData?.businessUnit?.map((item, index) => (
                       <tr key={index}>
-                        <td className="text-center" style={{ width: "40px" }}>
+                        <td className="text-center" style={{ width: '40px' }}>
                           {index + 1}
                         </td>
                         <td className="text-left">
-                          {itemMasterCategoryName || ""}
+                          {itemMasterCategoryName || ''}
                         </td>
                         <td className="text-left">{item?.businessUnitName}</td>
                         <td className="text-left">{item?.generalLedgerName}</td>
@@ -321,14 +320,14 @@ export default function ItemCategoryExpend() {
               )}
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

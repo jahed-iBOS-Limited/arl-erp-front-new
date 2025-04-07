@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 //Call Designation APi
 export function getDesignationDDLApi(accId, buId) {
@@ -18,8 +18,8 @@ export function saveEditData(data) {
 }
 
 //Call ControllingUnit get grid data api
-export function getGridData(accId, buId, pageNo, pageSize,search) {
-const searchPath = search ? `searchTerm=${search}&` : "";
+export function getGridData(accId, buId, pageNo, pageSize, search) {
+  const searchPath = search ? `searchTerm=${search}&` : '';
 
   return axios.get(
     `/oms/LoadingPoint/GetLoadingPointLandingSearchPagination?${searchPath}AccountId=${accId}&BUnitId=${buId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`

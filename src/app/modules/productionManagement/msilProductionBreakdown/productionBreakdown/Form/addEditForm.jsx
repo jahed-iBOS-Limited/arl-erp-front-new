@@ -1,66 +1,65 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import * as Yup from "yup";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import ProductionBreakdownForm from "./form";
-import PreRawMaterialReceiveForm from "./form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import * as Yup from 'yup';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import ProductionBreakdownForm from './form';
+import PreRawMaterialReceiveForm from './form';
 
 const initData = {
-  date: "",
-  shift: "",
-  startTime: "",
-  endTime: "",
-  totalTime: "",
-  breakdownType: "",
-  machineName: "",
-  subMachineName: "",
-  partsName: "",
-  details: "",
-  shopFloor: "",
+  date: '',
+  shift: '',
+  startTime: '',
+  endTime: '',
+  totalTime: '',
+  breakdownType: '',
+  machineName: '',
+  subMachineName: '',
+  partsName: '',
+  details: '',
+  shopFloor: '',
 };
 
 const validationSchema = Yup.object().shape({
-  date: Yup.string().required("Date is required"),
-  startTime: Yup.string().required("Start time is required"),
-  endTime: Yup.string().required("End time is required"),
+  date: Yup.string().required('Date is required'),
+  startTime: Yup.string().required('Start time is required'),
+  endTime: Yup.string().required('End time is required'),
   shift: Yup.object()
     .shape({
-      label: Yup.string().required("Shift is required"),
-      value: Yup.string().required("Shift is required"),
+      label: Yup.string().required('Shift is required'),
+      value: Yup.string().required('Shift is required'),
     })
-    .typeError("Shift is required"),
+    .typeError('Shift is required'),
   breakdownType: Yup.object()
     .shape({
-      label: Yup.string().required("Breakdown type is required"),
-      value: Yup.string().required("Breakdown type is required"),
+      label: Yup.string().required('Breakdown type is required'),
+      value: Yup.string().required('Breakdown type is required'),
     })
-    .typeError("Breakdown type is required"),
+    .typeError('Breakdown type is required'),
   machineName: Yup.object()
     .shape({
-      label: Yup.string().required("Machine name is required"),
-      value: Yup.string().required("Machine name is required"),
+      label: Yup.string().required('Machine name is required'),
+      value: Yup.string().required('Machine name is required'),
     })
-    .typeError("Machine name type is required"),
+    .typeError('Machine name type is required'),
 
   shopFloor: Yup.object()
     .shape({
-      label: Yup.string().required("Shop floor is required"),
-      value: Yup.string().required("Shop floor is required"),
+      label: Yup.string().required('Shop floor is required'),
+      value: Yup.string().required('Shop floor is required'),
     })
-    .typeError("Shop floor is required"),
+    .typeError('Shop floor is required'),
 });
 
 export default function ProductionBreakdownCreate() {
   const [isDisabled, setDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
-  const [modifyData, setModifyData] = useState("");
+  const [modifyData, setModifyData] = useState('');
   const [shopFloorDDL, getShopFloorDDL] = useAxiosGet();
   const [breakdownTypeDDL, getBreakdownTypeDDL] = useAxiosGet();
   const [machineDDL, getMachineDDL] = useAxiosGet();
@@ -127,7 +126,6 @@ export default function ProductionBreakdownCreate() {
         `/mes/MSIL/GetAllMSIL?PartName=BreakDownPartsDDL&AutoId=${location?.state?.intBreakDownMachinePartsId}`
       );
     }
-
   }, [id]);
 
   const saveHandler = async (values, cb) => {
@@ -169,7 +167,7 @@ export default function ProductionBreakdownCreate() {
 
   return (
     <IForm
-      title={id ? "Edit Production Breakdown" : "Create Production Breakdown"}
+      title={id ? 'Edit Production Breakdown' : 'Create Production Breakdown'}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenReset={true}

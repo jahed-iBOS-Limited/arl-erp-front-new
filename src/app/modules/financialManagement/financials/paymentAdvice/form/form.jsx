@@ -1,56 +1,56 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import * as Yup from "yup";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import IViewModal from "../../../../_helper/_viewModal";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import IViewModal from '../../../../_helper/_viewModal';
 import {
   SetFinancialsPaymentAdviceAction,
   setPreparePaymentLastAction,
-} from "../../../../_helper/reduxForLocalStorage/Actions";
-import AdvForInternalView from "../../../invoiceManagementSystem/approvebillregister/advForInternal";
-import ExpenseView from "../../../invoiceManagementSystem/approvebillregister/expenseView";
-import SupplerInvoiceView from "../../../invoiceManagementSystem/approvebillregister/supplerInvoiceView";
-import SupplierAdvanceView from "../../../invoiceManagementSystem/approvebillregister/supplierAdvanceView";
-import BankJournalCreateForm from "../bank/addForm";
-import { billTypeList, sumSelectedValue } from "../helper";
-import PaginationSearch from "./../../../../_helper/_search";
+} from '../../../../_helper/reduxForLocalStorage/Actions';
+import AdvForInternalView from '../../../invoiceManagementSystem/approvebillregister/advForInternal';
+import ExpenseView from '../../../invoiceManagementSystem/approvebillregister/expenseView';
+import SupplerInvoiceView from '../../../invoiceManagementSystem/approvebillregister/supplerInvoiceView';
+import SupplierAdvanceView from '../../../invoiceManagementSystem/approvebillregister/supplierAdvanceView';
+import BankJournalCreateForm from '../bank/addForm';
+import { billTypeList, sumSelectedValue } from '../helper';
+import PaginationSearch from './../../../../_helper/_search';
 // import { _todayDate } from "../../../../_helper/_todayDate";
-import OthersBillView from "../../../invoiceManagementSystem/billregister/othersBillNew/view/othersBillView";
-import ViewPumpFoodingBill from "../../../invoiceManagementSystem/billregister/pumpFoodingBill/view/viewPumpFoodingBill";
-import ShippingInvoiceView from "../../../invoiceManagementSystem/shippingBillRegister/shippingInvoiceView";
-import CustomerRefundModal from "../../customerRefund/customerRefundModal";
-import ViewFuelBill from "./../../../invoiceManagementSystem/billregister/fuelBill/view/viewBillRegister";
-import ViewLabourBill from "./../../../invoiceManagementSystem/billregister/labourBill/view/viewBillRegister";
-import ViewSalesCommission from "./../../../invoiceManagementSystem/billregister/salesCommission/view/viewSalesCommission";
-import ViewTransportBill from "./../../../invoiceManagementSystem/billregister/transportBill/view/viewBillRegister";
-import GlobalTableForBillType from "./globalTable";
-import OtherTableForBillType from "./otherTable";
+import OthersBillView from '../../../invoiceManagementSystem/billregister/othersBillNew/view/othersBillView';
+import ViewPumpFoodingBill from '../../../invoiceManagementSystem/billregister/pumpFoodingBill/view/viewPumpFoodingBill';
+import ShippingInvoiceView from '../../../invoiceManagementSystem/shippingBillRegister/shippingInvoiceView';
+import CustomerRefundModal from '../../customerRefund/customerRefundModal';
+import ViewFuelBill from './../../../invoiceManagementSystem/billregister/fuelBill/view/viewBillRegister';
+import ViewLabourBill from './../../../invoiceManagementSystem/billregister/labourBill/view/viewBillRegister';
+import ViewSalesCommission from './../../../invoiceManagementSystem/billregister/salesCommission/view/viewSalesCommission';
+import ViewTransportBill from './../../../invoiceManagementSystem/billregister/transportBill/view/viewBillRegister';
+import GlobalTableForBillType from './globalTable';
+import OtherTableForBillType from './otherTable';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   sbuUnit: Yup.object().shape({
-    label: Yup.string().required("Sbu is required"),
-    value: Yup.string().required("Sbu is required"),
+    label: Yup.string().required('Sbu is required'),
+    value: Yup.string().required('Sbu is required'),
   }),
   billType: Yup.object().shape({
-    label: Yup.string().required("Bill Type is required"),
-    value: Yup.string().required("Bill Type is required"),
+    label: Yup.string().required('Bill Type is required'),
+    value: Yup.string().required('Bill Type is required'),
   }),
-  cashGl: Yup.string().when("type", {
-    is: (status) => status === "Cash",
+  cashGl: Yup.string().when('type', {
+    is: (status) => status === 'Cash',
     then: Yup.string()
-      .required("Cash is required")
-      .typeError("Cash is required"),
+      .required('Cash is required')
+      .typeError('Cash is required'),
   }),
-  accountNo: Yup.string().when("type", {
-    is: (status) => status === "Online",
+  accountNo: Yup.string().when('type', {
+    is: (status) => status === 'Online',
     then: Yup.string()
-      .required("Account No is required")
-      .typeError("Account No required"),
+      .required('Account No is required')
+      .typeError('Account No required'),
   }),
-  payDate: Yup.date().required("Pay Date is required"),
+  payDate: Yup.date().required('Pay Date is required'),
 });
 
 export default function FormCmp({
@@ -82,14 +82,14 @@ export default function FormCmp({
   getBankAsPartnerDDL,
   bankAsPartnerDDL,
   scfSaveBtnRef,
-  handleSCFBankAdjustmentJournal
+  handleSCFBankAdjustmentJournal,
 }) {
   //to manage prepare all voucher button
-  const [, setIsAble] = useState("");
+  const [, setIsAble] = useState('');
   const [billType, setbillType] = useState([]);
   const [mdalShow, setModalShow] = useState(false);
-  const [gridItem, setGridItem] = useState("");
-  const [gridData, setGridData] = useState("");
+  const [gridItem, setGridItem] = useState('');
+  const [gridData, setGridData] = useState('');
   const [bankModelShow, setBankModelShow] = useState(false);
 
   const dispatch = useDispatch();
@@ -146,7 +146,6 @@ export default function FormCmp({
       });
       setRowDto(data);
     }
-
   }, [allSelect]);
 
   // All Activity Checkbox
@@ -177,7 +176,6 @@ export default function FormCmp({
       });
       setRowDto(data);
     }
-
   }, [allActivities]);
 
   const paginationSearchHandler = (value, values) => {
@@ -243,7 +241,7 @@ export default function FormCmp({
                       value={values?.sbuUnit}
                       label="SBU"
                       onChange={(valueOption) => {
-                        setFieldValue("sbuUnit", valueOption);
+                        setFieldValue('sbuUnit', valueOption);
                         setRowDto([]);
                         dispatch(
                           SetFinancialsPaymentAdviceAction({
@@ -266,7 +264,7 @@ export default function FormCmp({
                       label="Instrument Type"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("type", valueOption);
+                          setFieldValue('type', valueOption);
                           dispatch(
                             SetFinancialsPaymentAdviceAction({
                               ...values,
@@ -275,16 +273,16 @@ export default function FormCmp({
                           );
 
                           if (valueOption.value !== 8) {
-                            setFieldValue("billType", "");
+                            setFieldValue('billType', '');
                           }
 
                           if (valueOption.value === 1) {
-                            setFieldValue("cashGl", "");
+                            setFieldValue('cashGl', '');
                           } else if (valueOption.value === 4) {
-                            setFieldValue("accountNo", "");
+                            setFieldValue('accountNo', '');
                           } else if (valueOption?.value === 2) {
-                            setFieldValue("accountNo", "");
-                            setFieldValue("cashGl", "");
+                            setFieldValue('accountNo', '');
+                            setFieldValue('cashGl', '');
                           } else if (valueOption?.value === 8) {
                             // fetch bank as a partner ddl
                             getBankAsPartnerDDL(
@@ -296,15 +294,15 @@ export default function FormCmp({
                               billType?.filter((item) => item?.value === 1);
 
                             setFieldValue(
-                              "billType",
+                              'billType',
                               supplierInvoiceTypeForSCF[0]
                             );
                           }
                         } else {
-                          setFieldValue("type", "");
-                          setFieldValue("cashGl", "");
-                          setFieldValue("accountNo", "");
-                          setFieldValue("billType", "");
+                          setFieldValue('type', '');
+                          setFieldValue('cashGl', '');
+                          setFieldValue('accountNo', '');
+                          setFieldValue('billType', '');
                         }
                         // setFieldValue("type", "Bank");
                         setRowDto([]);
@@ -394,7 +392,7 @@ export default function FormCmp({
                         value={values?.bank}
                         label="Bank As Partner"
                         onChange={(valueOption) => {
-                          setFieldValue("bank", valueOption);
+                          setFieldValue('bank', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -410,7 +408,7 @@ export default function FormCmp({
                         placeholder="Cash GL"
                         label="Cash GL"
                         onChange={(valueOption) => {
-                          setFieldValue("cashGl", valueOption);
+                          setFieldValue('cashGl', valueOption);
                           dispatch(
                             SetFinancialsPaymentAdviceAction({
                               ...values,
@@ -432,7 +430,7 @@ export default function FormCmp({
                         placeholder="Account No"
                         label="Account No(Online)"
                         onChange={(valueOption) => {
-                          setFieldValue("accountNo", valueOption);
+                          setFieldValue('accountNo', valueOption);
                           dispatch(
                             SetFinancialsPaymentAdviceAction({
                               ...values,
@@ -449,13 +447,13 @@ export default function FormCmp({
                     <NewSelect
                       name="status"
                       options={[
-                        { value: 1, label: "Pending" },
-                        { value: 2, label: "Complete" },
+                        { value: 1, label: 'Pending' },
+                        { value: 2, label: 'Complete' },
                       ]}
                       value={values?.status}
                       label="Status"
                       onChange={(valueOption) => {
-                        setFieldValue("status", valueOption);
+                        setFieldValue('status', valueOption);
                         setRowDto([]);
                         dispatch(
                           SetFinancialsPaymentAdviceAction({
@@ -475,7 +473,7 @@ export default function FormCmp({
                       value={values?.billType}
                       label="Bill Type"
                       onChange={(valueOption) => {
-                        setFieldValue("billType", valueOption);
+                        setFieldValue('billType', valueOption);
                         setRowDto([]);
                         dispatch(
                           SetFinancialsPaymentAdviceAction({
@@ -499,7 +497,7 @@ export default function FormCmp({
                       type="date"
                       // min={_todayDate()}
                       onChange={(e) => {
-                        setFieldValue("payDate", e.target.value);
+                        setFieldValue('payDate', e.target.value);
                         SetFinancialsPaymentAdviceAction({
                           ...values,
                           payDate: e.target.value,
@@ -511,7 +509,7 @@ export default function FormCmp({
                     <label>Pay Date</label>
                     <InputField value={values?.date} name="date" type="date" />
                   </div> */}
-                  <div style={{ marginTop: "22px" }} className="col-lg-1">
+                  <div style={{ marginTop: '22px' }} className="col-lg-1">
                     <button
                       className="btn btn-primary"
                       disabled={!values?.billType}
@@ -525,11 +523,11 @@ export default function FormCmp({
                     </button>
                   </div>
                   <div
-                    style={{ marginTop: "22px", marginLeft: "6px" }}
+                    style={{ marginTop: '22px', marginLeft: '6px' }}
                     className="col-lg-2"
                   >
                     <button
-                      style={{ display: "none" }}
+                      style={{ display: 'none' }}
                       className="btn btn-primary"
                       disabled={
                         !values?.sbuUnit
@@ -551,11 +549,11 @@ export default function FormCmp({
                     </button>
                   </div>
                   <div
-                    style={{ marginTop: "22px", marginLeft: "6px" }}
+                    style={{ marginTop: '22px', marginLeft: '6px' }}
                     className="col-lg-2"
                   >
                     <button
-                      style={{ display: "none" }}
+                      style={{ display: 'none' }}
                       className="btn btn-primary"
                       disabled={!values?.sbuUnit}
                       type="button"
@@ -575,14 +573,14 @@ export default function FormCmp({
                   </div>
                 </div>
               </div>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <PaginationSearch
                   placeholder="Bill No Search"
                   paginationSearchHandler={paginationSearchHandler}
                   values={values}
                 />
                 {values?.billType?.value === 1 && (
-                  <p style={{ fontWeight: "bold" }} className="text-right">
+                  <p style={{ fontWeight: 'bold' }} className="text-right">
                     Amount: {sumSelectedValue(rowDto)}
                   </p>
                 )}
@@ -625,14 +623,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
                 onClick={() => setRowDto([])}

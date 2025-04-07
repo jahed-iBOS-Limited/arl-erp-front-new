@@ -1,18 +1,16 @@
-
-
-import React from "react";
-import { Formik, Form } from "formik";
+import React from 'react';
+import { Formik, Form } from 'formik';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
-} from "../../../../../../_metronic/_partials/controls";
+} from '../../../../../../_metronic/_partials/controls';
 
-import * as Yup from "yup";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import GridData from "./grid";
+import * as Yup from 'yup';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import GridData from './grid';
 
 export default function HeaderForm() {
   const history = useHistory();
@@ -25,7 +23,6 @@ export default function HeaderForm() {
     },
     { shallowEqual }
   );
-
 
   let { profileData, selectedBusinessUnit } = receivepaymentAuthData;
 
@@ -46,8 +43,7 @@ export default function HeaderForm() {
             <Form className="form form-label-right cj">
               <Card>
                 {true && <ModalProgressBar />}
-                <CardHeader title={"Clear Purchase Invoice"}>
-                </CardHeader>
+                <CardHeader title={'Clear Purchase Invoice'}></CardHeader>
                 <CardBody>
                   <div className="row">
                     <div className="col-lg-12">

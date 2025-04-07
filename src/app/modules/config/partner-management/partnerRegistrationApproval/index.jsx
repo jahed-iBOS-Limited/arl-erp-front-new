@@ -17,7 +17,7 @@ const initData = {
 export default function PartnerRegApproval() {
   const userRole = useSelector(
     (state) => state?.authData?.userRole,
-    shallowEqual,
+    shallowEqual
   );
   let supplierPermission = null;
   let customerPermissions = null;
@@ -71,14 +71,14 @@ export default function PartnerRegApproval() {
       getGridData(
         `/partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=LandingForApproval&pageNo=${pageNo}&pageSize=${pageSize}&businessUnitId=${buId}&isApproved=${
           values?.approveStatus?.label === 'Approved' ? true : false
-        }&partnerType=customer&autoId=0`,
+        }&partnerType=customer&autoId=0`
       );
     } else {
       getGridData(
         `/partner/BusinessPartnerBasicInfo/PartnerRegistration?partName=LandingForApproval&pageNo=${pageNo}&pageSize=${pageSize}&businessUnitId=${buId}&isApproved=${
           values?.approveStatus?.label === 'Approved' ? true : false
         }&partnerType=supplier&autoId=0
-      `,
+      `
       );
     }
   };
@@ -93,8 +93,6 @@ export default function PartnerRegApproval() {
     } else {
       handleGetRowData(initData, pageNo, pageSize);
     }
-
-
   }, []);
 
   // const paginationSearchHandler = (searchValue, values) => {
@@ -150,7 +148,7 @@ export default function PartnerRegApproval() {
                       handleGetRowData(
                         { ...values, approveStatus: valueOption },
                         pageNo,
-                        pageSize,
+                        pageSize
                       );
                     }}
                     placeholder="Status"
@@ -179,7 +177,7 @@ export default function PartnerRegApproval() {
                           handleGetRowData(
                             { ...values, partner: 'customer' },
                             pageNo,
-                            pageSize,
+                            pageSize
                           );
                         }}
                       />
@@ -202,7 +200,7 @@ export default function PartnerRegApproval() {
                           handleGetRowData(
                             { ...values, partner: 'supplier' },
                             pageNo,
-                            pageSize,
+                            pageSize
                           );
                         }}
                       />
@@ -246,7 +244,9 @@ export default function PartnerRegApproval() {
                         <td className="text-center">
                           {item?.strRoutingNumber || item?.strSwiftCode}
                         </td>
-                        <td className='text-center'>{item?.strAccountNumber || ""}</td>
+                        <td className="text-center">
+                          {item?.strAccountNumber || ''}
+                        </td>
                         <td className="text-center">
                           {item?.strReferenceEmployeeName}-
                           {item?.intReferenceEmployeeId
@@ -285,7 +285,7 @@ export default function PartnerRegApproval() {
                                       businessPartnerTypeId:
                                         item?.intPartnerTypeId,
                                       buIdCustomer: item?.intBusinessUnitId,
-                                      strPartnerName:item?.strPartnerName,
+                                      strPartnerName: item?.strPartnerName,
                                       isSupplier:
                                         item?.strPartnerTypeName === 'Supplier'
                                           ? true

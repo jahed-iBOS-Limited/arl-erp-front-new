@@ -114,11 +114,10 @@ export default function DeadWeightCreate() {
         (_, index) => ({
           value: index + 1,
           label: `Hold ${index + 1}`,
-        }),
+        })
       );
       setHoldsArray(array);
     }
-
   }, [vesselData?.intHoldNumber]);
 
   useEffect(() => {
@@ -127,12 +126,11 @@ export default function DeadWeightCreate() {
         `${imarineBaseUrl}/domain/VesselNomination/GetByIdVesselNomination?VesselNominationId=${paramId}`,
         (nominationData) => {
           getVesselData(
-            `${imarineBaseUrl}/domain/VesselNomination/GetVesselMasterData?vesselId=${nominationData?.intVesselId}`,
+            `${imarineBaseUrl}/domain/VesselNomination/GetVesselMasterData?vesselId=${nominationData?.intVesselId}`
           );
-        },
+        }
       );
     }
-
   }, [paramId]);
 
   const handleAdd = (values, setFieldValue) => {
@@ -232,7 +230,7 @@ export default function DeadWeightCreate() {
       `${imarineBaseUrl}/domain/VesselNomination/CreateDeadWeight`,
       payload,
       cb,
-      true,
+      true
     );
   };
 
@@ -316,7 +314,7 @@ export default function DeadWeightCreate() {
     // Update the final value in the form state, ensuring it's rounded to 2 decimals
     setFieldValue(
       'intFinalCargoToloadMts',
-      validFinalCargoToloadMts.toFixed(2),
+      validFinalCargoToloadMts.toFixed(2)
     );
   };
 
@@ -483,19 +481,19 @@ export default function DeadWeightCreate() {
                             valueOption?.value === 'Winter'
                               ? vesselData?.numWinterDisplacementDraftMts
                               : valueOption?.value === 'Tropical'
-                              ? vesselData?.numTropicalDisplacementDraftMts
-                              : valueOption?.value === 'Summer'
-                              ? vesselData?.numSummerDisplacementDraftMts
-                              : 0,
+                                ? vesselData?.numTropicalDisplacementDraftMts
+                                : valueOption?.value === 'Summer'
+                                  ? vesselData?.numSummerDisplacementDraftMts
+                                  : 0,
                           // intDockWaterDensity: "",
                           intLightShipMts:
                             valueOption?.value === 'Winter'
                               ? vesselData?.numWinterLightShipMts
                               : valueOption?.value === 'Tropical'
-                              ? vesselData?.numTropicalLightShipMts
-                              : valueOption?.value === 'Summer'
-                              ? vesselData?.numSummerLightShipMts
-                              : 0,
+                                ? vesselData?.numTropicalLightShipMts
+                                : valueOption?.value === 'Summer'
+                                  ? vesselData?.numSummerLightShipMts
+                                  : 0,
                           // intFoFuelOilMts: "",
                           // intFoDoDiselOilMts: "",
                           // intFwFreshWaterMts: "",
@@ -511,20 +509,20 @@ export default function DeadWeightCreate() {
                               valueOption?.value === 'Winter'
                                 ? +vesselData?.numWinterDisplacementDraftMts
                                 : valueOption?.value === 'Tropical'
-                                ? +vesselData?.numTropicalDisplacementDraftMts
-                                : valueOption?.value === 'Summer'
-                                ? +vesselData?.numSummerDisplacementDraftMts
-                                : 0,
+                                  ? +vesselData?.numTropicalDisplacementDraftMts
+                                  : valueOption?.value === 'Summer'
+                                    ? +vesselData?.numSummerDisplacementDraftMts
+                                    : 0,
                             intLightShipMts:
                               valueOption?.value === 'Winter'
                                 ? +vesselData?.numWinterLightShipMts
                                 : valueOption?.value === 'Tropical'
-                                ? +vesselData?.numTropicalLightShipMts
-                                : valueOption?.value === 'Summer'
-                                ? +vesselData?.numSummerLightShipMts
-                                : 0,
+                                  ? +vesselData?.numTropicalLightShipMts
+                                  : valueOption?.value === 'Summer'
+                                    ? +vesselData?.numSummerLightShipMts
+                                    : 0,
                           },
-                          setFieldValue,
+                          setFieldValue
                         );
                       }}
                       errors={errors}
@@ -541,14 +539,14 @@ export default function DeadWeightCreate() {
                       onChange={(e) => {
                         setFieldValue(
                           'intDisplacementDraftMts',
-                          e.target.value,
+                          e.target.value
                         );
                         calculateFinalCargoToload(
                           {
                             ...values,
                             intDisplacementDraftMts: +e.target.value || 0,
                           },
-                          setFieldValue,
+                          setFieldValue
                         );
                       }}
                       errors={errors}
@@ -569,7 +567,7 @@ export default function DeadWeightCreate() {
                             ...values,
                             intLightShipMts: +e.target.value || 0,
                           },
-                          setFieldValue,
+                          setFieldValue
                         );
                       }}
                       errors={errors}
@@ -589,7 +587,7 @@ export default function DeadWeightCreate() {
                             ...values,
                             intFoFuelOilMts: +e.target.value || 0,
                           },
-                          setFieldValue,
+                          setFieldValue
                         );
                       }}
                       errors={errors}
@@ -609,7 +607,7 @@ export default function DeadWeightCreate() {
                             ...values,
                             intFoDoDiselOilMts: +e.target.value || 0,
                           },
-                          setFieldValue,
+                          setFieldValue
                         );
                       }}
                       errors={errors}
@@ -629,7 +627,7 @@ export default function DeadWeightCreate() {
                             ...values,
                             intFwFreshWaterMts: +e.target.value || 0,
                           },
-                          setFieldValue,
+                          setFieldValue
                         );
                       }}
                       errors={errors}
@@ -650,7 +648,7 @@ export default function DeadWeightCreate() {
                             ...values,
                             intDockWaterDensity: +e.target.value || 0,
                           },
-                          setFieldValue,
+                          setFieldValue
                         );
                       }}
                       errors={errors}
@@ -671,7 +669,7 @@ export default function DeadWeightCreate() {
                             ...values,
                             intConstantMts: +e.target.value || 0,
                           },
-                          setFieldValue,
+                          setFieldValue
                         );
                       }}
                       errors={errors}
@@ -687,14 +685,14 @@ export default function DeadWeightCreate() {
                       onChange={(e) => {
                         setFieldValue(
                           'intUnpumpAbleBallastMts',
-                          e.target.value,
+                          e.target.value
                         );
                         calculateFinalCargoToload(
                           {
                             ...values,
                             intUnpumpAbleBallastMts: +e.target.value || 0,
                           },
-                          setFieldValue,
+                          setFieldValue
                         );
                       }}
                       errors={errors}
@@ -714,7 +712,7 @@ export default function DeadWeightCreate() {
                             ...values,
                             intCargoLoadMts: +e.target.value || 0,
                           },
-                          setFieldValue,
+                          setFieldValue
                         );
                       }}
                       errors={errors}

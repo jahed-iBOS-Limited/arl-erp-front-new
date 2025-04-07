@@ -1,10 +1,10 @@
-import { Formik } from "formik";
-import React from "react";
-import { useHistory } from "react-router";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import { validationSchema } from "../helper";
+import { Formik } from 'formik';
+import React from 'react';
+import { useHistory } from 'react-router';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import { validationSchema } from '../helper';
 
 export default function FormCmp({
   title,
@@ -52,24 +52,24 @@ export default function FormCmp({
                     onClick={() => {
                       history.goBack();
                     }}
-                    className={"btn btn-secondary px-3 py-2"}
+                    className={'btn btn-secondary px-3 py-2'}
                   >
                     <i className="fa fa-arrow-left pr-1"></i>
                     Back
                   </button>
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="button"
                       onClick={() => resetForm(initData)}
-                      className={"btn btn-info reset-btn px-3 py-2 ml-2"}
+                      className={'btn btn-info reset-btn px-3 py-2 ml-2'}
                     >
                       Reset
                     </button>
                   )}
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="submit"
-                      className={"btn btn-primary px-3 py-2 ml-2"}
+                      className={'btn btn-primary px-3 py-2 ml-2'}
                       onClick={handleSubmit}
                     >
                       Save
@@ -88,12 +88,12 @@ export default function FormCmp({
                       type="text"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.ownerName || ""}
+                      value={values?.ownerName || ''}
                       isSearchable={true}
                       options={ownerDDL || []}
                       styles={customStyles}
@@ -101,16 +101,16 @@ export default function FormCmp({
                       placeholder="Owner Name"
                       label="Owner Name"
                       onChange={(valueOption) => {
-                        setFieldValue("ownerName", valueOption);
+                        setFieldValue('ownerName', valueOption);
                       }}
-                      isDisabled={viewType === "view"}
+                      isDisabled={viewType === 'view'}
                       errors={errors}
                       touched={touched}
                     />
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.flag || ""}
+                      value={values?.flag || ''}
                       isSearchable={true}
                       options={countryDDL || []}
                       styles={customStyles}
@@ -118,9 +118,9 @@ export default function FormCmp({
                       placeholder="Flag"
                       label="Flag"
                       onChange={(valueOption) => {
-                        setFieldValue("flag", valueOption);
+                        setFieldValue('flag', valueOption);
                       }}
-                      isDisabled={viewType === "view"}
+                      isDisabled={viewType === 'view'}
                       errors={errors}
                       touched={touched}
                     />
@@ -134,7 +134,7 @@ export default function FormCmp({
                       type="number"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -146,7 +146,7 @@ export default function FormCmp({
                       type="text"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -158,9 +158,9 @@ export default function FormCmp({
                       type="number"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
-                  </div>{" "}
+                  </div>{' '}
                   <div className="col-lg-3">
                     <label>NRT</label>
                     <FormikInput
@@ -170,12 +170,12 @@ export default function FormCmp({
                       type="number"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.sbu || ""}
+                      value={values?.sbu || ''}
                       isSearchable={true}
                       options={sbuDDL || []}
                       styles={customStyles}
@@ -184,17 +184,17 @@ export default function FormCmp({
                       placeholder="SBU"
                       onChange={(valueOption) => {
                         getCostCenter(valueOption?.value);
-                        setFieldValue("sbu", valueOption);
-                        setFieldValue("costCenter", "");
+                        setFieldValue('sbu', valueOption);
+                        setFieldValue('costCenter', '');
                       }}
-                      isDisabled={viewType === "view"}
+                      isDisabled={viewType === 'view'}
                       errors={errors}
                       touched={touched}
                     />
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.revenueCenter || ""}
+                      value={values?.revenueCenter || ''}
                       isSearchable={true}
                       options={revenueCenterDDL || []}
                       styles={customStyles}
@@ -202,16 +202,16 @@ export default function FormCmp({
                       placeholder="Revenue Center"
                       label="Revenue Center"
                       onChange={(valueOption) => {
-                        setFieldValue("revenueCenter", valueOption);
+                        setFieldValue('revenueCenter', valueOption);
                       }}
-                      isDisabled={viewType === "view"}
+                      isDisabled={viewType === 'view'}
                       errors={errors}
                       touched={touched}
                     />
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.costCenter || ""}
+                      value={values?.costCenter || ''}
                       isSearchable={true}
                       options={costCenterDDL || []}
                       styles={customStyles}
@@ -219,16 +219,16 @@ export default function FormCmp({
                       placeholder="Cost Center"
                       label="Cost Center"
                       onChange={(valueOption) => {
-                        setFieldValue("costCenter", valueOption);
+                        setFieldValue('costCenter', valueOption);
                       }}
-                      isDisabled={viewType === "view" || !values?.sbu}
+                      isDisabled={viewType === 'view' || !values?.sbu}
                       errors={errors}
                       touched={touched}
                     />
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.profitCenter || ""}
+                      value={values?.profitCenter || ''}
                       isSearchable={true}
                       options={profitCenterDDL || []}
                       styles={customStyles}
@@ -236,9 +236,9 @@ export default function FormCmp({
                       placeholder="Profit Center"
                       label="Profit Center"
                       onChange={(valueOption) => {
-                        setFieldValue("profitCenter", valueOption);
+                        setFieldValue('profitCenter', valueOption);
                       }}
-                      isDisabled={viewType === "view"}
+                      isDisabled={viewType === 'view'}
                       errors={errors}
                       touched={touched}
                     />
@@ -251,9 +251,9 @@ export default function FormCmp({
                       value={values?.isOwnVessel}
                       checked={values?.isOwnVessel}
                       onChange={(e) => {
-                        setFieldValue("isOwnVessel", e.target.checked);
+                        setFieldValue('isOwnVessel', e.target.checked);
                       }}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                     <label htmlFor="isOwnVessel" className="pl-1">
                       Is Own Vessel
@@ -266,10 +266,10 @@ export default function FormCmp({
                       value={values?.isOtherInfo}
                       checked={values?.isOtherInfo}
                       onChange={(e) =>
-                        setFieldValue("isOtherInfo", e.target.checked)
+                        setFieldValue('isOtherInfo', e.target.checked)
                       }
                       name="isOtherInfo"
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                     <label htmlFor="isOtherInfo" className="pl-1">
                       Add Others Information
@@ -282,7 +282,7 @@ export default function FormCmp({
                       value={values?.isVesselMasterData}
                       checked={values?.isVesselMasterData}
                       onChange={(e) =>
-                        setFieldValue("isVesselMasterData", e.target.checked)
+                        setFieldValue('isVesselMasterData', e.target.checked)
                       }
                       name="isVesselMasterData"
                       disabled={true}
@@ -306,9 +306,9 @@ export default function FormCmp({
                         type="text"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
-                    </div>{" "}
+                    </div>{' '}
                     <div className="col-lg-3">
                       <label>Ship Yard</label>
                       <FormikInput
@@ -318,9 +318,9 @@ export default function FormCmp({
                         type="text"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
-                    </div>{" "}
+                    </div>{' '}
                     <div className="col-lg-3">
                       <label>Call Sign</label>
                       <FormikInput
@@ -330,9 +330,9 @@ export default function FormCmp({
                         type="text"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
-                    </div>{" "}
+                    </div>{' '}
                     <div className="col-lg-3">
                       <label>Class</label>
                       <FormikInput
@@ -342,9 +342,9 @@ export default function FormCmp({
                         type="text"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
-                    </div>{" "}
+                    </div>{' '}
                     <div className="col-lg-3">
                       <label>PI Club</label>
                       <FormikInput
@@ -354,9 +354,9 @@ export default function FormCmp({
                         type="text"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
-                    </div>{" "}
+                    </div>{' '}
                     <div className="col-lg-3">
                       <label>LOA</label>
                       <FormikInput
@@ -366,9 +366,9 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
-                    </div>{" "}
+                    </div>{' '}
                     <div className="col-lg-3">
                       <label>LBP</label>
                       <FormikInput
@@ -378,9 +378,9 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
-                    </div>{" "}
+                    </div>{' '}
                     <div className="col-lg-3">
                       <label>Beam</label>
                       <FormikInput
@@ -390,9 +390,9 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
-                    </div>{" "}
+                    </div>{' '}
                     <div className="col-lg-3">
                       <label>Depth</label>
                       <FormikInput
@@ -402,9 +402,9 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
-                    </div>{" "}
+                    </div>{' '}
                     <div className="col-lg-3">
                       <label>T.P.C on Summer Free Board</label>
                       <FormikInput
@@ -414,9 +414,9 @@ export default function FormCmp({
                         type="text"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
-                    </div>{" "}
+                    </div>{' '}
                     {/* <div className="col-lg-3">
                       <label>Actual</label>
                       <FormikInput
@@ -438,9 +438,9 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
-                    </div>{" "}
+                    </div>{' '}
                     <div className="col-lg-3">
                       <label>Hold Cubic Bale</label>
                       <FormikInput
@@ -450,9 +450,9 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
-                    </div>{" "}
+                    </div>{' '}
                     <div className="col-lg-3">
                       <label>Holds Length Breadth</label>
                       <FormikInput
@@ -462,7 +462,7 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -474,7 +474,7 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -486,7 +486,7 @@ export default function FormCmp({
                         type="text"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -498,7 +498,7 @@ export default function FormCmp({
                         type="text"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -510,7 +510,7 @@ export default function FormCmp({
                         type="text"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -522,7 +522,7 @@ export default function FormCmp({
                         type="text"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -534,7 +534,7 @@ export default function FormCmp({
                         type="text"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -546,7 +546,7 @@ export default function FormCmp({
                         type="text"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -558,7 +558,7 @@ export default function FormCmp({
                         type="text"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -570,7 +570,7 @@ export default function FormCmp({
                         type="text"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -582,7 +582,7 @@ export default function FormCmp({
                         type="text"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                   </div>
@@ -630,9 +630,9 @@ export default function FormCmp({
                         type="text"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
-                    </div>{" "}
+                    </div>{' '}
                     <div className="col-lg-3">
                       <label>Vessel Particulars</label>
                       <FormikInput
@@ -642,9 +642,9 @@ export default function FormCmp({
                         type="text"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
-                    </div>{" "}
+                    </div>{' '}
                     <div className="col-lg-3">
                       <label>Master Email</label>
                       <FormikInput
@@ -654,9 +654,9 @@ export default function FormCmp({
                         type="text"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
-                    </div>{" "}
+                    </div>{' '}
                     <div className="col-lg-3">
                       <label>Ballast Eco Speed</label>
                       <FormikInput
@@ -666,9 +666,9 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
-                    </div>{" "}
+                    </div>{' '}
                     <div className="col-lg-3">
                       <label>Ballast Max Speed</label>
                       <FormikInput
@@ -678,9 +678,9 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
-                    </div>{" "}
+                    </div>{' '}
                     <div className="col-lg-3">
                       <label>Ballast VLSFO Consumption (Mt/Day)</label>
                       <FormikInput
@@ -690,9 +690,9 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
-                    </div>{" "}
+                    </div>{' '}
                     <div className="col-lg-3">
                       <label>Ballast LSMGO Consumption (Mt/Day)</label>
                       <FormikInput
@@ -702,9 +702,9 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
-                    </div>{" "}
+                    </div>{' '}
                     <div className="col-lg-3">
                       <label>Laden Eco Speed</label>
                       <FormikInput
@@ -714,7 +714,7 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -726,7 +726,7 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -738,7 +738,7 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -750,7 +750,7 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -762,7 +762,7 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -774,7 +774,7 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -786,7 +786,7 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -798,7 +798,7 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -810,7 +810,7 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -822,7 +822,7 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -834,7 +834,7 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -846,7 +846,7 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -858,7 +858,7 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -870,7 +870,7 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -882,7 +882,7 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -894,7 +894,7 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -906,7 +906,7 @@ export default function FormCmp({
                         type="number"
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                   </div>

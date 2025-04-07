@@ -1,13 +1,13 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import DirectAndDumpRateEntry from "./createEdit";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import DirectAndDumpRateEntry from './createEdit';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
 
 export default function DirectAndDumpRateLanding() {
   const [landingData, getLandingData, landingLoading] = useAxiosGet();
@@ -21,7 +21,6 @@ export default function DirectAndDumpRateLanding() {
     getLandingData(
       `/wms/ShipPoint/GetAllGoDownNothersRate?businessUnitId=${selectedBusinessUnit?.value}&Type=1&searchTerm=`
     );
-
   }, []);
 
   return (
@@ -69,7 +68,7 @@ export default function DirectAndDumpRateLanding() {
                     getLandingData(
                       `/wms/ShipPoint/GetAllGoDownNothersRate?businessUnitId=${
                         selectedBusinessUnit?.value
-                      }&Type=1&searchTerm=${v?.length > 2 ? v : ""}`
+                      }&Type=1&searchTerm=${v?.length > 2 ? v : ''}`
                     );
                   }}
                 />

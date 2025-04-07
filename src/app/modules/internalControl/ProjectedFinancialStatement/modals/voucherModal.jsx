@@ -34,12 +34,11 @@ const VoucherModal = ({
         }&SubGroup=${values?.subDivision?.value || 'All'}`,
         (data) => {
           setTotalAmount(
-            data?.reduce((value, row) => (value += row?.numAmount), 0) || 0,
+            data?.reduce((value, row) => (value += row?.numAmount), 0) || 0
           );
-        },
+        }
       );
     }
-
   }, [subGeneralLedgerRow?.intsubglid]);
 
   const [voucherRow, setVoucherRow] = useState(null);

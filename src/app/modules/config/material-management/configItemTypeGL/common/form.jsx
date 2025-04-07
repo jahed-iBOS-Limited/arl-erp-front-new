@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { Formik, Form, Field } from 'formik'
-import * as Yup from 'yup'
-import Axios from 'axios'
-import Select from 'react-select'
-import customStyles from '../../../../selectCustomStyle'
+import React, { useEffect, useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import Axios from 'axios';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
@@ -15,7 +15,7 @@ const ProductEditSchema = Yup.object().shape({
     label: Yup.string().required('General Ledger is required'),
     value: Yup.string().required('General Ledger is required'),
   }),
-})
+});
 
 export default function FormCmp({
   product,
@@ -26,14 +26,14 @@ export default function FormCmp({
   accountId,
   selectedBusinessUnit,
 }) {
-  const [lngList, setLng] = useState([])
-  const [generalLedgerDDL, setGeneralLedgerDDL] = useState([])
+  const [lngList, setLng] = useState([]);
+  const [generalLedgerDDL, setGeneralLedgerDDL] = useState([]);
 
   useEffect(() => {
     if (selectedBusinessUnit && accountId) {
-      getInfoData(accountId, selectedBusinessUnit.value)
+      getInfoData(accountId, selectedBusinessUnit.value);
     }
-  }, [selectedBusinessUnit, accountId])
+  }, [selectedBusinessUnit, accountId]);
 
   const getInfoData = async (accid, businessUnitId) => {
     try {
@@ -42,43 +42,41 @@ export default function FormCmp({
           `/item/ItemCategoryGL/GetItemCategoryDDLForConfig?AccountId=${accid}&BusinessUnitId=${businessUnitId}`
         ),
         Axios.get(`/item/ItemCategoryGL/GeneralLedgerDDL?AccountId=${accid}`),
-      ])
-      const { data, status } = lng
+      ]);
+      const { data, status } = lng;
       if (status === 200 && data) {
-        const languageList = []
+        const languageList = [];
         data &&
           data.forEach((item) => {
             let items = {
               value: item.value,
               label: item.label,
               itemtypeId: item?.itemtypeId,
-            }
-            languageList.push(items)
-          })
-        setLng(languageList)
+            };
+            languageList.push(items);
+          });
+        setLng(languageList);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
 
   const getGeneralLedgerDDL_api = async (groupId) => {
-    const id = groupId === 10 ? 1 : groupId === 9 ? 12 : 16
+    const id = groupId === 10 ? 1 : groupId === 9 ? 12 : 16;
     try {
       const res = await Axios.get(
         `/domain/BusinessUnitGeneralLedger/GetGeneralLedgerDDL?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit.value}&AccountGroupId=${id}`
-      )
+      );
       if (res.status === 200 && res?.data) {
         const newData = res?.data?.map((itm) => ({
           value: itm.generalLedgerId,
           label: itm.generalLedgerName,
-        }))
-        setGeneralLedgerDDL(newData)
+        }));
+        setGeneralLedgerDDL(newData);
       }
-    } catch (error) {
-
-    }
-  }
+    } catch (error) {}
+  };
 
   return (
     <>
@@ -88,8 +86,8 @@ export default function FormCmp({
         validationSchema={ProductEditSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveBusinessUnit(values, () => {
-            resetForm(product)
-          })
+            resetForm(product);
+          });
           // setSubmitting(false)
         }}
       >
@@ -116,8 +114,8 @@ export default function FormCmp({
                         placeholder="Select Item Category"
                         value={values.itemCategoryName}
                         onChange={(valueOption) => {
-                          setFieldValue('itemCategoryName', valueOption)
-                          getGeneralLedgerDDL_api(valueOption?.itemtypeId)
+                          setFieldValue('itemCategoryName', valueOption);
+                          getGeneralLedgerDDL_api(valueOption?.itemtypeId);
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -155,7 +153,7 @@ export default function FormCmp({
                         options={generalLedgerDDL}
                         placeholder="Select General Ledger"
                         onChange={(valueOption) => {
-                          setFieldValue('generalLedgerName', valueOption)
+                          setFieldValue('generalLedgerName', valueOption);
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -201,5 +199,5 @@ export default function FormCmp({
         )}
       </Formik>
     </>
-  )
+  );
 }

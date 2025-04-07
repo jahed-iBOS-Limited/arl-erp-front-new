@@ -1,15 +1,15 @@
-import { Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
-import Loading from "../../_helper/_loading";
+} from '../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../_helper/customHooks/useAxiosGet';
+import Loading from '../../_helper/_loading';
 
 const MyAsset = () => {
   const [rowData, getRowData, lodar] = useAxiosGet();
@@ -20,7 +20,6 @@ const MyAsset = () => {
 
   useEffect(() => {
     getRowData(`/asset/Asset/GetAssignedAssetOfEmployee?empId=${employeeId}`);
-
   }, []);
   return (
     <>
@@ -42,7 +41,7 @@ const MyAsset = () => {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"My Assets"}>
+              <CardHeader title={'My Assets'}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
@@ -54,7 +53,7 @@ const MyAsset = () => {
                         <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                           <thead>
                             <tr>
-                              <th style={{ width: "30px" }}>SL</th>
+                              <th style={{ width: '30px' }}>SL</th>
                               <th>Code</th>
                               <th>Name</th>
                               <th>Description</th>
@@ -64,7 +63,7 @@ const MyAsset = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {console.log("rowData", rowData)}
+                            {console.log('rowData', rowData)}
 
                             {rowData?.map((item, index) => (
                               <tr key={index}>

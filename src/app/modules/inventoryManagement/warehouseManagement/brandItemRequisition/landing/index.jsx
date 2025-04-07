@@ -1,31 +1,30 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import BrandItemRequisitionLandingTable from "./table";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import IButton from "../../../../_helper/iButton";
-import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
-import NewSelect from "../../../../_helper/_select";
-import IViewModal from "../../../../_helper/_viewModal";
-import BrandItemRequisitionApproveForm from "./approve";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import BrandItemRequisitionLandingTable from './table';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import IButton from '../../../../_helper/iButton';
+import { _firstDateofMonth } from '../../../../_helper/_firstDateOfCurrentMonth';
+import NewSelect from '../../../../_helper/_select';
+import IViewModal from '../../../../_helper/_viewModal';
+import BrandItemRequisitionApproveForm from './approve';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 const initData = {
   fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
-  channel: "",
-  region: "",
-  area: "",
-  territory: "",
-  status: { value: 0, label: "All" },
+  channel: '',
+  region: '',
+  area: '',
+  territory: '',
+  status: { value: 0, label: 'All' },
 };
 
 function BrandItemRequisitionLanding() {
@@ -38,19 +37,16 @@ function BrandItemRequisitionLanding() {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [rowData, getRowData, loader, setRowData] = useAxiosGet();
-  const [
-    singleData,
-    getSingleData,
-    singleDataLoader,
-    setSingleData,
-  ] = useAxiosGet();
+  const [singleData, getSingleData, singleDataLoader, setSingleData] =
+    useAxiosGet();
   const [open, setOpen] = useState(false);
 
   const getLandingData = (values, pageNo = 0, pageSize = 15) => {
     const status = values?.status?.value;
 
-    const urlForAllData = `/wms/ItemRequest/GetBrandItemRequest?areaId=${values
-      ?.area?.value || 0}&businessUnitId=${buId}&fromDate=${
+    const urlForAllData = `/wms/ItemRequest/GetBrandItemRequest?areaId=${
+      values?.area?.value || 0
+    }&businessUnitId=${buId}&fromDate=${
       values?.fromDate
     }&todate=${values?.toDate}&PageNo=${pageNo}&PageSize=${pageSize}`;
 
@@ -66,8 +62,8 @@ function BrandItemRequisitionLanding() {
       status === 0
         ? urlForAllData
         : status === 1
-        ? urlForPending
-        : urlForHeadOffice;
+          ? urlForPending
+          : urlForHeadOffice;
 
     getRowData(url);
   };
@@ -142,16 +138,19 @@ function BrandItemRequisitionLanding() {
                     <NewSelect
                       name="status"
                       options={[
-                        { value: 0, label: "All" },
-                        { value: 1, label: "Pending for Regional Manager Approval" },
-                        { value: 2, label: "Approved by Regional Manager" },
-                        { value: 4, label: "Pending for Head Office Approval" },
-                        { value: 3, label: "Approved by Head Office" },
+                        { value: 0, label: 'All' },
+                        {
+                          value: 1,
+                          label: 'Pending for Regional Manager Approval',
+                        },
+                        { value: 2, label: 'Approved by Regional Manager' },
+                        { value: 4, label: 'Pending for Head Office Approval' },
+                        { value: 3, label: 'Approved by Head Office' },
                       ]}
                       value={values?.status}
                       label="Status"
                       onChange={(valueOption) => {
-                        setFieldValue("status", valueOption);
+                        setFieldValue('status', valueOption);
                         setRowData([]);
                       }}
                       placeholder="Status"

@@ -1,13 +1,12 @@
-
-import { Formik } from "formik";
-import React from "react";
-import { useHistory } from "react-router-dom";
-import IButton from "../../../../_helper/iButton";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { validationSchema } from "../../delivery/Form/form";
-import { bagType, carType, deliveryMode, mode } from "../../delivery/utils";
+import { Formik } from 'formik';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import IButton from '../../../../_helper/iButton';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { validationSchema } from '../../delivery/Form/form';
+import { bagType, carType, deliveryMode, mode } from '../../delivery/utils';
 
 const Form = ({
   rows,
@@ -37,7 +36,7 @@ const Form = ({
 
   const isTransportRate = buId === 94;
 
-  const isEdit = "";
+  const isEdit = '';
 
   return (
     <>
@@ -66,14 +65,14 @@ const Form = ({
               history.goBack();
             }}
             resetHandler={
-              viewType === "view"
+              viewType === 'view'
                 ? false
                 : () => {
                     resetForm(initData);
                   }
             }
             saveHandler={
-              viewType === "view"
+              viewType === 'view'
                 ? false
                 : () => {
                     handleSubmit();
@@ -90,7 +89,7 @@ const Form = ({
                       value={values?.warehouse}
                       label="Select Warehouse"
                       onChange={(valueOption) => {
-                        setFieldValue("warehouse", valueOption);
+                        setFieldValue('warehouse', valueOption);
                       }}
                       placeholder="Select Warehouse"
                       errors={errors}
@@ -99,12 +98,12 @@ const Form = ({
                     />
                   </div>
                   <div className="col-lg-3 mb-1 d-flex">
-                    <div style={{ width: "inherit" }}>
+                    <div style={{ width: 'inherit' }}>
                       <InputField
                         label="Sales Order Code"
                         value={values?.soCode}
                         name="soCode"
-                        placeholder={"Sales Order Code"}
+                        placeholder={'Sales Order Code'}
                         type="text"
                         disabled={!values?.warehouse || viewType}
                         onKeyPress={(e) => {
@@ -120,20 +119,20 @@ const Form = ({
                     {!viewType && (
                       <span
                         style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          marginLeft: "5px",
-                          cursor: "pointer",
-                          marginTop: "20px",
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          marginLeft: '5px',
+                          cursor: 'pointer',
+                          marginTop: '20px',
                         }}
                         onClick={() => {
-                          setFieldValue("soCode", "");
+                          setFieldValue('soCode', '');
                         }}
                       >
                         <i
                           style={{
-                            color: "blue",
+                            color: 'blue',
                           }}
                           className="fa fa-refresh"
                           aria-hidden="true"
@@ -149,9 +148,9 @@ const Form = ({
                       value={values?.soldToParty}
                       label="Select Sold To Party"
                       onChange={(valueOption) => {
-                        setFieldValue("soldToParty", valueOption);
-                        setFieldValue("shipToParty", "");
-                        setFieldValue("salesOrder", "");
+                        setFieldValue('soldToParty', valueOption);
+                        setFieldValue('shipToParty', '');
+                        setFieldValue('salesOrder', '');
                         // shipToPartyDispatcher(valueOption?.value);
                       }}
                       placeholder="Select Sold To Party"
@@ -168,7 +167,7 @@ const Form = ({
                       value={values?.deliveryType}
                       label="Select Delivery Type"
                       onChange={(valueOption) => {
-                        setFieldValue("deliveryType", valueOption);
+                        setFieldValue('deliveryType', valueOption);
                       }}
                       placeholder="Delivery Type"
                       errors={errors}
@@ -193,7 +192,7 @@ const Form = ({
                       value={values?.mode}
                       label="Select Mode"
                       onChange={(valueOption) => {
-                        setFieldValue("mode", valueOption);
+                        setFieldValue('mode', valueOption);
                       }}
                       placeholder="Select Mode"
                       errors={errors}
@@ -208,7 +207,7 @@ const Form = ({
                       value={values?.carType}
                       label="Select Car Type"
                       onChange={(valueOption) => {
-                        setFieldValue("carType", valueOption);
+                        setFieldValue('carType', valueOption);
                       }}
                       placeholder="Select Car Type"
                       errors={errors}
@@ -224,7 +223,7 @@ const Form = ({
                         value={values?.bagType}
                         label="Select Bag Type"
                         onChange={(valueOption) => {
-                          setFieldValue("bagType", valueOption);
+                          setFieldValue('bagType', valueOption);
                         }}
                         placeholder="Select Bag Type"
                         errors={errors}
@@ -240,7 +239,7 @@ const Form = ({
                       value={values?.deliveryMode}
                       label="Select Delivery Mode"
                       onChange={(valueOption) => {
-                        setFieldValue("deliveryMode", valueOption);
+                        setFieldValue('deliveryMode', valueOption);
                       }}
                       placeholder="Select Delivery Mode"
                       errors={errors}
@@ -255,7 +254,7 @@ const Form = ({
                       value={values?.category}
                       label="Category"
                       onChange={(valueOption) => {
-                        setFieldValue("category", valueOption);
+                        setFieldValue('category', valueOption);
                       }}
                       placeholder="Select Category"
                       errors={errors}
@@ -304,15 +303,15 @@ const Form = ({
                               <span
                                 className={
                                   isAvailableBalance(values?.itemLists)
-                                    ? "text-danger "
-                                    : ""
+                                    ? 'text-danger '
+                                    : ''
                                 }
                               >
                                 {totalAmountCalFunc(
                                   values?.itemLists,
                                   values?.itemLists?.[0]?.isVatPrice
-                                    ? "vatAmount"
-                                    : "amount"
+                                    ? 'vatAmount'
+                                    : 'amount'
                                 )}
                               </span>
                             </div>
@@ -322,7 +321,7 @@ const Form = ({
                               <b>Delivery Qty: </b>
                               {totalAmountCalFunc(
                                 values?.itemLists,
-                                "deliveryQty"
+                                'deliveryQty'
                               )}
                             </div>
                           </li>
@@ -331,7 +330,7 @@ const Form = ({
                               <li>
                                 <div>
                                   <b>Day Limit: </b>
-                                  {"true"}
+                                  {'true'}
                                 </div>
                               </li>
                             </>
@@ -351,22 +350,22 @@ const Form = ({
                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                       <thead>
                         <tr>
-                          <th style={{ width: "75px" }}>Item Code</th>
-                          <th style={{ width: "120px" }}>Specification</th>
-                          <th style={{ width: "120px" }}>Ship to Party</th>
-                          <th style={{ width: "120px" }}>Address</th>
-                          <th style={{ width: "120px" }}>Item</th>
-                          <th style={{ width: "120px" }}>Select Location</th>
-                          <th style={{ width: "20px" }}>Price</th>
+                          <th style={{ width: '75px' }}>Item Code</th>
+                          <th style={{ width: '120px' }}>Specification</th>
+                          <th style={{ width: '120px' }}>Ship to Party</th>
+                          <th style={{ width: '120px' }}>Address</th>
+                          <th style={{ width: '120px' }}>Item</th>
+                          <th style={{ width: '120px' }}>Select Location</th>
+                          <th style={{ width: '20px' }}>Price</th>
                           {isTransportRate && (
-                            <th style={{ width: "20px" }}>Transport Rate</th>
+                            <th style={{ width: '20px' }}>Transport Rate</th>
                           )}
-                          <th style={{ width: "20px" }}>Order Qty</th>
-                          <th style={{ width: "20px" }}>Pending Qty</th>
-                          <th style={{ width: "120px" }}>Delivery Qty</th>
-                          <th style={{ width: "10px" }}>Offers</th>
+                          <th style={{ width: '20px' }}>Order Qty</th>
+                          <th style={{ width: '20px' }}>Pending Qty</th>
+                          <th style={{ width: '120px' }}>Delivery Qty</th>
+                          <th style={{ width: '10px' }}>Offers</th>
                           {!viewType && (
-                            <th style={{ width: "50px" }}>Action</th>
+                            <th style={{ width: '50px' }}>Action</th>
                           )}
                         </tr>
                       </thead>
@@ -396,13 +395,13 @@ const Form = ({
                                     {itm.shipToPartnerAddress}
                                   </div>
                                 </td>
-                                <td style={{ width: "90px" }}>
+                                <td style={{ width: '90px' }}>
                                   <div className="pl-2">{itm.itemName}</div>
                                 </td>
                                 <td
                                   style={{
-                                    width: "75px",
-                                    verticalAlign: "middle",
+                                    width: '75px',
+                                    verticalAlign: 'middle',
                                   }}
                                   className="locationRowFild"
                                 >
@@ -411,12 +410,12 @@ const Form = ({
                                     options={itm?.objLocation}
                                     value={
                                       values?.itemLists[index]
-                                        ?.selectLocation || ""
+                                        ?.selectLocation || ''
                                     }
                                     onChange={(valueOption) => {
                                       setFieldValue(
                                         `itemLists.${index}.selectLocation`,
-                                        valueOption || ""
+                                        valueOption || ''
                                       );
                                     }}
                                     errors={errors}
@@ -424,40 +423,40 @@ const Form = ({
                                     isDisabled={viewType}
                                   />
                                 </td>
-                                <td style={{ width: "20px" }}>
+                                <td style={{ width: '20px' }}>
                                   <div className="text-right pr-2">
                                     {_numItemPrice}
                                   </div>
                                 </td>
                                 {isTransportRate && (
                                   <td
-                                    style={{ width: "20px" }}
+                                    style={{ width: '20px' }}
                                     className="text-right"
                                   >
                                     {itm.transportRate || 0}
                                   </td>
                                 )}
-                                <td style={{ width: "20px" }}>
+                                <td style={{ width: '20px' }}>
                                   <div className="text-right pr-2">
                                     {itm.numOrderQuantity}
                                   </div>
                                 </td>
-                                <td style={{ width: "20px" }}>
+                                <td style={{ width: '20px' }}>
                                   <div className="text-right pr-2">
                                     {itm.pendingQty}
                                   </div>
                                 </td>
                                 <td
                                   style={{
-                                    width: "150px",
-                                    verticalAlign: "middle",
+                                    width: '150px',
+                                    verticalAlign: 'middle',
                                   }}
                                 >
                                   <div className="px-2">
                                     <InputField
                                       value={
                                         values?.itemLists[index]?.deliveryQty ||
-                                        ""
+                                        ''
                                       }
                                       name={`itemLists.${index}.deliveryQty`}
                                       placeholder="Delivery Qty"
@@ -466,7 +465,7 @@ const Form = ({
                                       onChange={(e) => {
                                         setFieldValue(
                                           `itemLists.${index}.deliveryQty`,
-                                          e.target.value || ""
+                                          e.target.value || ''
                                         );
                                         setFieldValue(
                                           `itemLists.${index}.amount`,
@@ -492,9 +491,11 @@ const Form = ({
                                             (+e.target.value || 0);
                                           let acculNumber = 0;
                                           const decimalPoint = Number(
-                                            `.${calNumber
-                                              .toString()
-                                              .split(".")[1] || 0}`
+                                            `.${
+                                              calNumber
+                                                .toString()
+                                                .split('.')[1] || 0
+                                            }`
                                           );
                                           if (decimalPoint >= 0.95) {
                                             acculNumber = Math.round(calNumber);
@@ -520,13 +521,13 @@ const Form = ({
                                           ? itm?.maxDeliveryQty
                                           : itm?.pendingQty
                                       }
-                                      disabled={viewType === "view"}
+                                      disabled={viewType === 'view'}
                                     />
                                   </div>
                                 </td>
-                                <td style={{ width: "10px" }}>
+                                <td style={{ width: '10px' }}>
                                   <div className="pl-2">
-                                    {itm.freeItem ? "Yes" : "No"}
+                                    {itm.freeItem ? 'Yes' : 'No'}
                                   </div>
                                 </td>
                                 {!viewType && (
@@ -567,54 +568,54 @@ const Form = ({
                                             {OfferItm?.shipToPartnerAddress}
                                           </div>
                                         </td>
-                                        <td style={{ width: "90px" }}>
+                                        <td style={{ width: '90px' }}>
                                           <div className="pl-2">
                                             {OfferItm?.itemName}
                                           </div>
                                         </td>
                                         <td
                                           style={{
-                                            width: "75px",
-                                            verticalAlign: "middle",
+                                            width: '75px',
+                                            verticalAlign: 'middle',
                                           }}
                                           className="locationRowFild"
                                         >
                                           {OfferItm?.selectLocation?.label}
                                         </td>
-                                        <td style={{ width: "20px" }}>
+                                        <td style={{ width: '20px' }}>
                                           <div className="text-right pr-2">
                                             {_numItemPrice}
                                           </div>
                                         </td>
                                         {isTransportRate && (
                                           <td
-                                            style={{ width: "20px" }}
+                                            style={{ width: '20px' }}
                                             className="text-right"
                                           >
                                             {OfferItm?.transportRate || 0}
                                           </td>
                                         )}
-                                        <td style={{ width: "20px" }}>
+                                        <td style={{ width: '20px' }}>
                                           <div className="text-right pr-2">
                                             {OfferItm?.numOrderQuantity}
                                           </div>
                                         </td>
-                                        <td style={{ width: "20px" }}>
+                                        <td style={{ width: '20px' }}>
                                           <div className="text-right pr-2">
                                             {OfferItm?.pendingQty}
                                           </div>
                                         </td>
                                         <td
                                           style={{
-                                            width: "150px",
-                                            verticalAlign: "middle",
+                                            width: '150px',
+                                            verticalAlign: 'middle',
                                           }}
                                         >
                                           <div className="px-2">
                                             {OfferItm?.deliveryQty}
                                           </div>
                                         </td>
-                                        <td style={{ width: "10px" }}>
+                                        <td style={{ width: '10px' }}>
                                           <div className="pl-2">Yes</div>
                                         </td>
 

@@ -1,6 +1,6 @@
-import React, { memo } from "react";
-import { Form, Formik } from "formik";
-import ReactQuill from "react-quill";
+import React, { memo } from 'react';
+import { Form, Formik } from 'formik';
+import ReactQuill from 'react-quill';
 
 const ViewForm = memo(({ scheduleData, setSingleScheduleData }) => {
   return (
@@ -25,7 +25,7 @@ const ViewForm = memo(({ scheduleData, setSingleScheduleData }) => {
                 <label>Audit Objective</label>
                 <ReactQuill
                   placeholder="Write the audit objective here"
-                  value={scheduleData?.strAuditObjective || ""}
+                  value={scheduleData?.strAuditObjective || ''}
                   onChange={(value) =>
                     setSingleScheduleData((prev) => ({
                       ...prev,
@@ -39,7 +39,7 @@ const ViewForm = memo(({ scheduleData, setSingleScheduleData }) => {
                 <label>Scope of Audit</label>
                 <ReactQuill
                   placeholder="Write the scope of the audit here"
-                  value={scheduleData?.strScopeOfAudit || ""}
+                  value={scheduleData?.strScopeOfAudit || ''}
                   onChange={(value) =>
                     setSingleScheduleData((prev) => ({
                       ...prev,
@@ -52,7 +52,7 @@ const ViewForm = memo(({ scheduleData, setSingleScheduleData }) => {
                 <label>General Scope Of Work</label>
                 <ReactQuill
                   placeholder="Write the general scope Of work here"
-                  value={scheduleData?.strGeneralScopeOfWork || ""}
+                  value={scheduleData?.strGeneralScopeOfWork || ''}
                   onChange={(value) =>
                     setSingleScheduleData((prev) => ({
                       ...prev,
@@ -65,7 +65,7 @@ const ViewForm = memo(({ scheduleData, setSingleScheduleData }) => {
                 <label>Action Plan</label>
                 <ReactQuill
                   placeholder="Write the action plan here"
-                  value={scheduleData?.strActionPlan || ""}
+                  value={scheduleData?.strActionPlan || ''}
                   onChange={(value) =>
                     setSingleScheduleData((prev) => ({
                       ...prev,

@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
 
+import { getGridData, createCustomerCollection } from '../helper';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { SearchForm } from './form';
 
-import { getGridData, createCustomerCollection } from "../helper";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { SearchForm } from "./form";
-
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import { toast } from "react-toastify";
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import { toast } from 'react-toastify';
 
 export function TableRow() {
   const [gridData, setGridData] = useState({});
@@ -32,7 +31,6 @@ export function TableRow() {
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   //setPositionHandler
@@ -51,7 +49,7 @@ export function TableRow() {
       partnerId: item.partnerId,
       collectionDate: item.collectionDate,
       numAmount: +item.numAmount,
-      narration: item.comments || "",
+      narration: item.comments || '',
       isReceived: item.isReceived,
       intActionBy: profileData.userId,
     }));
@@ -60,20 +58,20 @@ export function TableRow() {
     if (payload?.length > 0) {
       createCustomerCollection(payload, setLoading);
     } else {
-      toast.warning("Please add at least one item select");
+      toast.warning('Please add at least one item select');
     }
   };
 
   return (
     <>
       <ICustomCard
-        title='Customer Collection'
+        title="Customer Collection"
         renderProps={() => (
           <>
             <button
               onClick={saveHandler}
-              type='button'
-              className='btn btn-primary'
+              type="button"
+              className="btn btn-primary"
             >
               Save
             </button>
@@ -95,10 +93,10 @@ export function TableRow() {
         />
 
         {/* Table Start */}
-        <div className='row cash_journal'>
+        <div className="row cash_journal">
           {loading && <Loading />}
-          <div className='col-lg-12 pr-0 pl-0'>
-            <table className='table table-striped table-bordered mt-3 bj-table bj-table-landing'>
+          <div className="col-lg-12 pr-0 pl-0">
+            <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
               <thead>
                 <tr>
                   <th>SL</th>
@@ -113,52 +111,52 @@ export function TableRow() {
                 {gridData?.data?.map((item, index) => (
                   <tr key={index}>
                     {/* key={item.businessUnitId} */}
-                    <td calssName='text-center'> {item?.sl}</td>
-                    <td className='text-center'>
-                      <div calssName='text-center pl-5'>
+                    <td calssName="text-center"> {item?.sl}</td>
+                    <td className="text-center">
+                      <div calssName="text-center pl-5">
                         <input
-                          type='checkbox'
+                          type="checkbox"
                           checked={item?.isReceived}
-                          name=''
-                          id=''
+                          name=""
+                          id=""
                           onChange={(e) => {
-                            dataHandler("isReceived", e.target.checked, index);
+                            dataHandler('isReceived', e.target.checked, index);
                           }}
                         />
                       </div>
                     </td>
                     <td>
-                      <div className='pl-2 text-center'>
+                      <div className="pl-2 text-center">
                         {_dateFormatter(item?.collectionDate)}
                       </div>
                     </td>
                     <td>
-                      <div className='pl-2'>{item?.businessPartnerName}</div>
+                      <div className="pl-2">{item?.businessPartnerName}</div>
                     </td>
                     <td>
                       {/* <div className="pr-2 text-right">{item?.numAmount}</div> */}
                       <input
-                        type='number'
-                        class='form-control'
-                        value={item?.numAmount || ""}
+                        type="number"
+                        class="form-control"
+                        value={item?.numAmount || ''}
                         onChange={(e) => {
-                          dataHandler("numAmount", e.target.value, index);
+                          dataHandler('numAmount', e.target.value, index);
                         }}
-                        placeholder='Amount'
-                        min='0'
+                        placeholder="Amount"
+                        min="0"
                       />
                     </td>
 
                     <td>
-                      <div className='pl-2'>
+                      <div className="pl-2">
                         <input
-                          type='text'
-                          class='form-control'
-                          value={item?.comments || ""}
+                          type="text"
+                          class="form-control"
+                          value={item?.comments || ''}
                           onChange={(e) => {
-                            dataHandler("comments", e.target.value, index);
+                            dataHandler('comments', e.target.value, index);
                           }}
-                          placeholder='Comments'
+                          placeholder="Comments"
                         />
                       </div>
                     </td>

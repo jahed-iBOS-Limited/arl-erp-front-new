@@ -1,15 +1,12 @@
-
-
-
-import React, { useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import ICard from "../../../../_helper/_card";
+import React, { useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import ICard from '../../../../_helper/_card';
 import {
   _todaysEndTime,
   _todaysStartTime,
-} from "../../../../_helper/_currentTime";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "../../../../_helper/_loading";
+} from '../../../../_helper/_currentTime';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import Loading from '../../../../_helper/_loading';
 
 export default function TransferChallanDetails({ rowDto, loading }) {
   // get user profile data from store
@@ -73,9 +70,9 @@ export default function TransferChallanDetails({ rowDto, loading }) {
                   </tr>
                 );
               })}
-              <tr style={{ fontWeight: "bold" }} className="text-right">
+              <tr style={{ fontWeight: 'bold' }} className="text-right">
                 <td colSpan="3" className="text-right">
-                  {" "}
+                  {' '}
                   Total
                 </td>
                 <td>{totalQuantity}</td>

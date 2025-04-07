@@ -48,28 +48,22 @@ export default function FormCmp({
   const [purchaseOrgList, setPurchaseOrgList] = useState([]);
   const [gneralLedgerList, setgneralLedgerList] = useState([]);
   const [advancedGeneralLedgerList, setAdvancedGeneralLedgerList] = useState(
-    [],
+    []
   );
-  const [
-    tdsSupplierType,
-    getTdsSupplierType,
-    tdsSupplierLoading,
-  ] = useAxiosGet();
+  const [tdsSupplierType, getTdsSupplierType, tdsSupplierLoading] =
+    useAxiosGet();
   const [natureofBusinessDDL, getNatureofBusinessDDL] = useAxiosGet();
 
   const [gneralLedgerListOption, setgneralLedgerOption] = useState([]);
 
-  const [
-    advancedGeneralLedgerOption,
-    setAdvancedGeneralLedgerOption,
-  ] = useState([]);
+  const [advancedGeneralLedgerOption, setAdvancedGeneralLedgerOption] =
+    useState([]);
   const [sbuDDL, setSbuDDL] = useState([]);
 
   useEffect(() => {
     getNatureofBusinessDDL(
-      `/partner/BusinessPartnerPurchaseInfo/GetVdssupplierTypesDDL`,
+      `/partner/BusinessPartnerPurchaseInfo/GetVdssupplierTypesDDL`
     );
-
   }, [selectedBusinessUnit, accountId]);
 
   useEffect(() => {
@@ -81,15 +75,13 @@ export default function FormCmp({
       getAccountPayableGL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        setgneralLedgerList,
+        setgneralLedgerList
       );
       getTdsSupplierType(
-        `/partner/BusinessPartnerPurchaseInfo/GetTdssupplierTypesDDL`,
+        `/partner/BusinessPartnerPurchaseInfo/GetTdssupplierTypesDDL`
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
-
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -97,52 +89,50 @@ export default function FormCmp({
         getAdvancePayableGL(
           profileData?.accountId,
           selectedBusinessUnit?.value,
-          setAdvancedGeneralLedgerList,
+          setAdvancedGeneralLedgerList
         );
       }, 1000);
     }
   }, [profileData, selectedBusinessUnit]);
 
-
   const getPurchaseOrganizationData = async (accountId, buId) => {
     try {
       const res = await Axios.get(
-        `/item/ItemPurchaseInfo/GetPurchaseOrganizationDDL?AccountId=${accountId}&BusinessUnitId=${buId}`,
+        `/item/ItemPurchaseInfo/GetPurchaseOrganizationDDL?AccountId=${accountId}&BusinessUnitId=${buId}`
       );
       setPurchaseOrgList(res.data);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const getAccountPayableGL = async (accountId, buId, setter) => {
     try {
       const res = await Axios.get(
-        `/domain/BusinessUnitGeneralLedger/GetGeneralLedgerDDL?AccountId=${accountId}&BusinessUnitId=${buId}&AccountGroupId=7`,
+        `/domain/BusinessUnitGeneralLedger/GetGeneralLedgerDDL?AccountId=${accountId}&BusinessUnitId=${buId}&AccountGroupId=7`
       );
       setter(res?.data);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const getAdvancePayableGL = async (accountId, buId, setter) => {
     try {
       const res = await Axios.get(
-        `/domain/BusinessUnitGeneralLedger/GetGeneralLedgerDDL?AccountId=${accountId}&BusinessUnitId=${buId}&AccountGroupId=5`,
+        `/domain/BusinessUnitGeneralLedger/GetGeneralLedgerDDL?AccountId=${accountId}&BusinessUnitId=${buId}&AccountGroupId=5`
       );
       setter(res?.data);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const getSbuDDL = async (accId, buId) => {
     try {
       const res = await Axios.get(
-        `/domain/BusinessUnitDomain/GetBusinessAreaDDL?AccountId=${accId}&BusinessUnitId=${buId}`,
+        `/domain/BusinessUnitDomain/GetBusinessAreaDDL?AccountId=${accId}&BusinessUnitId=${buId}`
       );
       setSbuDDL(res?.data);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   useEffect(() => {
     getSbuDDL(accountId, selectedBusinessUnit?.value);
-
   }, [selectedBusinessUnit]);
 
   useEffect(() => {

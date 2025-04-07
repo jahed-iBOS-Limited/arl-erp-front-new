@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { useHistory, useLocation, useParams } from "react-router-dom";
-import IViewModal from "../../../_helper/_viewModal";
+import React, { useState } from 'react';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
+import IViewModal from '../../../_helper/_viewModal';
 
 export default function DetailsView() {
   const [show, setShow] = useState(true);
@@ -18,83 +18,83 @@ export default function DetailsView() {
 
   const months = [
     {
-      abbreviation: "Jan",
-      fullForm: "January",
-      name: "numJanTarget",
+      abbreviation: 'Jan',
+      fullForm: 'January',
+      name: 'numJanTarget',
     },
     {
-      abbreviation: "Feb",
-      fullForm: "February",
-      name: "numFebTarget",
+      abbreviation: 'Feb',
+      fullForm: 'February',
+      name: 'numFebTarget',
     },
     {
-      abbreviation: "Mar",
-      fullForm: "March",
-      name: "numMarTarget",
+      abbreviation: 'Mar',
+      fullForm: 'March',
+      name: 'numMarTarget',
     },
     {
-      abbreviation: "Apr",
-      fullForm: "April",
-      name: "numAprTarget",
+      abbreviation: 'Apr',
+      fullForm: 'April',
+      name: 'numAprTarget',
     },
     {
-      abbreviation: "May",
-      fullForm: "May",
-      name: "numMayTarget",
+      abbreviation: 'May',
+      fullForm: 'May',
+      name: 'numMayTarget',
     },
     {
-      abbreviation: "Jun",
-      fullForm: "June",
-      name: "numJunTarget",
+      abbreviation: 'Jun',
+      fullForm: 'June',
+      name: 'numJunTarget',
     },
     {
-      abbreviation: "Jul",
-      fullForm: "July",
-      name: "numJulTarget",
+      abbreviation: 'Jul',
+      fullForm: 'July',
+      name: 'numJulTarget',
     },
     {
-      abbreviation: "Aug",
-      fullForm: "August",
-      name: "numAugTarget",
+      abbreviation: 'Aug',
+      fullForm: 'August',
+      name: 'numAugTarget',
     },
     {
-      abbreviation: "Sep",
-      fullForm: "September",
-      name: "numSepTarget",
+      abbreviation: 'Sep',
+      fullForm: 'September',
+      name: 'numSepTarget',
     },
     {
-      abbreviation: "Oct",
-      fullForm: "October",
-      name: "numOctTarget",
+      abbreviation: 'Oct',
+      fullForm: 'October',
+      name: 'numOctTarget',
     },
     {
-      abbreviation: "Nov",
-      fullForm: "November",
-      name: "numNovTarget",
+      abbreviation: 'Nov',
+      fullForm: 'November',
+      name: 'numNovTarget',
     },
     {
-      abbreviation: "Dec",
-      fullForm: "December",
-      name: "numDecTarget",
+      abbreviation: 'Dec',
+      fullForm: 'December',
+      name: 'numDecTarget',
     },
   ];
   //quarters
   const quarters = [
     {
-      label: "1st Quarter",
-      name: "num1stQuarterlyTarget",
+      label: '1st Quarter',
+      name: 'num1stQuarterlyTarget',
     },
     {
-      label: "2nd Quarter",
-      name: "num2ndQuarterlyTarget",
+      label: '2nd Quarter',
+      name: 'num2ndQuarterlyTarget',
     },
     {
-      label: "3rd Quarter",
-      name: "num3rdQuarterlyTarget",
+      label: '3rd Quarter',
+      name: 'num3rdQuarterlyTarget',
     },
     {
-      label: "4th Quarter",
-      name: "num4thQuarterlyTarget",
+      label: '4th Quarter',
+      name: 'num4thQuarterlyTarget',
     },
   ];
   // Daily kpi target  view
@@ -155,7 +155,7 @@ export default function DetailsView() {
       <span className="text-muted">Last year value: 0</span>
     </div>
   ));
-console.log({state})
+  console.log({ state });
   return (
     <div>
       <IViewModal
@@ -164,7 +164,7 @@ console.log({state})
           setShow(false);
           history.goBack();
         }}
-        title={typeName ? `${typeName} KPI Target` : ""}
+        title={typeName ? `${typeName} KPI Target` : ''}
         isShow={state && false}
       >
         <div className="kpiTargetInfo mt-2">

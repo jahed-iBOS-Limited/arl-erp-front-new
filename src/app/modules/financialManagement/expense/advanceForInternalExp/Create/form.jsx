@@ -78,12 +78,8 @@ export default function FormCmp({
     setAvailableBudgetAdvanceBalance,
   ] = useAxiosGet();
   const [selectedSbu, setSelectedSbu] = useState([]);
-  const [
-    profitcenterDDL,
-    getProfitcenterDDL,
-    ,
-    setProfitcenterDDL,
-  ] = useAxiosGet();
+  const [profitcenterDDL, getProfitcenterDDL, , setProfitcenterDDL] =
+    useAxiosGet();
   useEffect(() => {
     if (
       profileData.accountId &&
@@ -99,10 +95,9 @@ export default function FormCmp({
       getRequestedEmp(
         profileData.accountId,
         selectedBusinessUnit?.value,
-        setRequestedEmp,
+        setRequestedEmp
       );
     }
-
   }, [state]);
   useEffect(() => {
     if ([184].includes(selectedBusinessUnit?.value)) {
@@ -113,16 +108,15 @@ export default function FormCmp({
           [184].includes(selectedBusinessUnit?.value)
             ? profileData?.employeeId
             : 0
-        }`,
+        }`
       );
     }
     getCostCenter(
       profileData.accountId,
       selectedBusinessUnit.value,
       state?.selectedSbu?.value || state?.item?.sbuid,
-      setCostCenter,
+      setCostCenter
     );
-
   }, []);
   return (
     <>
@@ -215,7 +209,7 @@ export default function FormCmp({
                             profileData.accountId,
                             selectedBusinessUnit.value,
                             valueOption?.value,
-                            setCostCenter,
+                            setCostCenter
                           );
                           // getDisbursementCenterName(
                           //   profileData.accountId,
@@ -274,7 +268,7 @@ export default function FormCmp({
                               profileData.accountId,
                               selectedBusinessUnit?.value,
                               valueOption?.value,
-                              setCostElementDDL,
+                              setCostElementDDL
                             );
                             if (![184].includes(selectedBusinessUnit?.value)) {
                               setFieldValue('profitCenter', '');
@@ -293,7 +287,7 @@ export default function FormCmp({
                                   if (data?.length === 1) {
                                     setFieldValue('profitCenter', data[0]);
                                   }
-                                },
+                                }
                               );
                             }
                             setLoading(false);
@@ -334,7 +328,7 @@ export default function FormCmp({
                                 }));
 
                                 setBugetHeadWiseBalance(modiFyData);
-                              },
+                              }
                             );
                           }
                         }}
@@ -369,7 +363,7 @@ export default function FormCmp({
                                     values?.costElement?.subGlId
                                   }&accountHeadId=${
                                     valueOption?.value
-                                  }&dteJournalDate=${_todayDate()}`,
+                                  }&dteJournalDate=${_todayDate()}`
                                 );
                               }
                             }}

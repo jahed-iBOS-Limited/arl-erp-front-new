@@ -1,18 +1,18 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import ICard from "../../../../_helper/_card";
-import ICustomTable from "../../../../_helper/_customTable";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import NewSelect from "../../../../_helper/_select";
-import { getSoldToPartnerDDL } from "../../../configuration/partnerThanaRate/helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import PowerBIReport from '../../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import ICard from '../../../../_helper/_card';
+import ICustomTable from '../../../../_helper/_customTable';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import NewSelect from '../../../../_helper/_select';
+import { getSoldToPartnerDDL } from '../../../configuration/partnerThanaRate/helper';
 import {
   getCategoryBaseInfo,
   getCustomerNameDDL,
@@ -30,9 +30,9 @@ import {
   PBIReport,
   reportTypeList,
   viewTypeList,
-} from "../helper";
+} from '../helper';
 
-const ths = ["SL", "Product Code", "Product Name", "UoM", "QTY", "Amount"];
+const ths = ['SL', 'Product Code', 'Product Name', 'UoM', 'QTY', 'Amount'];
 
 export default function SalesReportEssentialTable() {
   const printRef = useRef();
@@ -111,10 +111,10 @@ export default function SalesReportEssentialTable() {
             resData?.empLevelId === 7
               ? +resData?.empTerritoryId
               : +resData?.levelId === 6
-              ? +resData?.areaId
-              : +resData?.levelId === 5
-              ? +resData?.regionId
-              : +resData?.empTerritoryId,
+                ? +resData?.areaId
+                : +resData?.levelId === 5
+                  ? +resData?.regionId
+                  : +resData?.empTerritoryId,
           levelId: resData?.empLevelId,
           partId: 1,
         });
@@ -197,14 +197,14 @@ export default function SalesReportEssentialTable() {
                           setRowDto([]);
                           setSalesmanMtdData([]);
                           setBIReport(false);
-                          setFieldValue("shippoint", {
+                          setFieldValue('shippoint', {
                             value: 0,
-                            label: "All",
+                            label: 'All',
                           });
-                          setFieldValue("customerName", "");
-                          setFieldValue("reportType", valueOption);
+                          setFieldValue('customerName', '');
+                          setFieldValue('reportType', valueOption);
                           if (valueOption?.value === 3)
-                            setFieldValue("shippoint", "");
+                            setFieldValue('shippoint', '');
                         }}
                         placeholder="Report Type"
                         errors={errors}
@@ -218,13 +218,13 @@ export default function SalesReportEssentialTable() {
                           <NewSelect
                             name="salesOrg"
                             options={
-                              [{ value: 0, label: "All" }, ...salesOrgDDl] || []
+                              [{ value: 0, label: 'All' }, ...salesOrgDDl] || []
                             }
                             value={values?.salesOrg}
                             label="Sales Org"
                             onChange={(valueOption) => {
-                              setFieldValue("salesOrg", valueOption);
-                              setFieldValue("customerName", "");
+                              setFieldValue('salesOrg', valueOption);
+                              setFieldValue('customerName', '');
                               setRowDto([]);
                               getCustomerNameDDL(
                                 accId,
@@ -244,21 +244,21 @@ export default function SalesReportEssentialTable() {
                             name="customerName"
                             options={
                               [
-                                { value: 0, label: "All" },
+                                { value: 0, label: 'All' },
                                 ...customerNameDDL,
                               ] || []
                             }
                             value={values?.customerName}
                             label="Customer Name"
                             onChange={(valueOption) => {
-                              setFieldValue("customerName", valueOption);
+                              setFieldValue('customerName', valueOption);
                               setRowDto([]);
                             }}
                             placeholder="Customer name"
                             errors={errors}
                             touched={touched}
                             isDisabled={
-                              values?.reportType?.label === "Shippoint" ||
+                              values?.reportType?.label === 'Shippoint' ||
                               !values?.salesOrg
                             }
                           />
@@ -274,23 +274,23 @@ export default function SalesReportEssentialTable() {
                             region: false,
                             area: false,
                             territory: false,
-                            columnSize: "col-lg-2",
+                            columnSize: 'col-lg-2',
                           }}
                         />
                         <div className="col-lg-2">
                           <NewSelect
                             name="productType"
                             options={[
-                              { value: "Straight", label: "Straight" },
-                              { value: "Bend", label: "Bend" },
-                              { value: "Wastage", label: "Wastage" },
+                              { value: 'Straight', label: 'Straight' },
+                              { value: 'Bend', label: 'Bend' },
+                              { value: 'Wastage', label: 'Wastage' },
                             ]}
                             value={values?.productType}
                             label="Product Type"
                             onChange={(valueOption) => {
                               setRowDto([]);
                               setBIReport(false);
-                              setFieldValue("productType", valueOption);
+                              setFieldValue('productType', valueOption);
                             }}
                             placeholder="Product Type"
                             errors={errors}
@@ -301,16 +301,16 @@ export default function SalesReportEssentialTable() {
                           <NewSelect
                             name="itemGrade"
                             options={[
-                              { value: "400", label: "400" },
-                              { value: "500W", label: "500W" },
-                              { value: "Wastage", label: "Wastage" },
+                              { value: '400', label: '400' },
+                              { value: '500W', label: '500W' },
+                              { value: 'Wastage', label: 'Wastage' },
                             ]}
                             value={values?.itemGrade}
                             label="Item Grade"
                             onChange={(valueOption) => {
                               setRowDto([]);
                               setBIReport(false);
-                              setFieldValue("itemGrade", valueOption);
+                              setFieldValue('itemGrade', valueOption);
                             }}
                             placeholder="Item Grade"
                             errors={errors}
@@ -326,7 +326,7 @@ export default function SalesReportEssentialTable() {
                             onChange={(valueOption) => {
                               setRowDto([]);
                               setBIReport(false);
-                              setFieldValue("itemSize", valueOption);
+                              setFieldValue('itemSize', valueOption);
                             }}
                             placeholder="Item Size"
                             errors={errors}
@@ -346,7 +346,7 @@ export default function SalesReportEssentialTable() {
                             onChange={(valueOption) => {
                               setRowDto([]);
                               setBIReport(false);
-                              setFieldValue("viewType", valueOption);
+                              setFieldValue('viewType', valueOption);
                             }}
                             placeholder="View Type"
                             errors={errors}
@@ -358,7 +358,7 @@ export default function SalesReportEssentialTable() {
                           <NewSelect
                             name="soldToPartner"
                             options={[
-                              { value: 0, label: "All" },
+                              { value: 0, label: 'All' },
                               ...soldToPartnerDDL,
                             ]}
                             value={values?.soldToPartner}
@@ -366,7 +366,7 @@ export default function SalesReportEssentialTable() {
                             onChange={(valueOption) => {
                               setRowDto([]);
                               setBIReport(false);
-                              setFieldValue("soldToPartner", valueOption);
+                              setFieldValue('soldToPartner', valueOption);
                             }}
                             placeholder="Sold to Partner"
                             errors={errors}
@@ -385,7 +385,7 @@ export default function SalesReportEssentialTable() {
                             onChange: () => {
                               setRowDto([]);
                             },
-                            colSize: "col-lg-2",
+                            colSize: 'col-lg-2',
                           }}
                         />
                         {[14].includes(values?.reportType?.value) && (
@@ -396,7 +396,7 @@ export default function SalesReportEssentialTable() {
                               name="certainDate"
                               type="date"
                               onChange={(e) => {
-                                setFieldValue("certainDate", e?.target?.value);
+                                setFieldValue('certainDate', e?.target?.value);
                                 setRowDto([]);
                               }}
                             />
@@ -415,7 +415,7 @@ export default function SalesReportEssentialTable() {
                               onChange: () => {
                                 setRowDto([]);
                               },
-                              colSize: "col-lg-2",
+                              colSize: 'col-lg-2',
                               time: true,
                             }}
                           />
@@ -425,20 +425,20 @@ export default function SalesReportEssentialTable() {
                           <NewSelect
                             name="shippoint"
                             options={[
-                              { value: 0, label: "All" },
+                              { value: 0, label: 'All' },
                               ...shippointDDL,
                             ]}
                             value={values?.shippoint}
                             label="Ship point"
                             onChange={(valueOption) => {
-                              setFieldValue("shippoint", valueOption);
+                              setFieldValue('shippoint', valueOption);
                               setRowDto([]);
                             }}
                             placeholder="Ship Point"
                             errors={errors}
                             touched={touched}
                             isDisabled={
-                              values?.reportType?.label === "Customer Name"
+                              values?.reportType?.label === 'Customer Name'
                             }
                           />
                         </div>
@@ -449,7 +449,7 @@ export default function SalesReportEssentialTable() {
                             obj={{
                               values,
                               setFieldValue,
-                              columnSize: "col-lg-2",
+                              columnSize: 'col-lg-2',
                             }}
                           />
                         )}
@@ -496,7 +496,7 @@ export default function SalesReportEssentialTable() {
                               <td> {itm.productName}</td>
                               <td> {itm.uom}</td>
                               <td className="text-right">
-                                {" "}
+                                {' '}
                                 {numberWithCommas(itm.productQTY)}
                               </td>
                               <td className="text-right">
@@ -547,7 +547,7 @@ export default function SalesReportEssentialTable() {
                 [14]?.includes(values?.reportType?.value) ? (
                   <>
                     <div
-                      style={{ maxHeight: "500px" }}
+                      style={{ maxHeight: '500px' }}
                       className="scroll-table _table scroll-table-auto"
                     >
                       <table
@@ -561,10 +561,10 @@ export default function SalesReportEssentialTable() {
                             <th>Region</th>
                             <th>Area</th>
                             <th>Territory</th>
-                            <th style={{ width: "60px" }}>Emp. ID</th>
-                            <th style={{ width: "120px" }}>Salesman Name</th>
-                            <th style={{ width: "120px" }}>Designation</th>
-                            <th style={{ width: "50px" }}>Sales Target</th>
+                            <th style={{ width: '60px' }}>Emp. ID</th>
+                            <th style={{ width: '120px' }}>Salesman Name</th>
+                            <th style={{ width: '120px' }}>Designation</th>
+                            <th style={{ width: '50px' }}>Sales Target</th>
                             <th>MTD Sales Target</th>
                             <th>MTD Achievement</th>
                             <th>%</th>

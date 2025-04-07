@@ -1,21 +1,20 @@
-
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { billSubmitApi, cancelShipmentCost, getGridData } from "../helper";
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { billSubmitApi, cancelShipmentCost, getGridData } from '../helper';
 // import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { SearchForm } from "./form";
+import { SearchForm } from './form';
 // import IView from "../../../../_helper/_helperIcons/_view";
 // import printIcon from "../../../../_helper/images/print-icon.png";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import ShipmentCostViewForm from "../view/addEditForm";
-import SalesInvoiceModel from "../viewModal";
-import IConfirmModal from "./../../../../_helper/_confirmModal";
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import ShipmentCostViewForm from '../view/addEditForm';
+import SalesInvoiceModel from '../viewModal';
+import IConfirmModal from './../../../../_helper/_confirmModal';
 // import ReactToPrint from "react-to-print";
-import { setShipmentCostLadingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import { setShipmentCostLadingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 
 export function TableRow() {
   const [gridData, setGridData] = useState([]);
@@ -25,7 +24,7 @@ export function TableRow() {
   const [singleData, setSingleData] = useState({});
   const [billSubmitBtn, setBillSubmitBtn] = useState(true);
   // Modal State
-  const [id, setId] = useState("");
+  const [id, setId] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [modelShow, setModelShow] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -49,7 +48,6 @@ export function TableRow() {
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   // Initially Load Grid Data
@@ -82,7 +80,6 @@ export function TableRow() {
         setIsBillSubmit(false);
       }
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   const paginationSearchHandler = (searchValue, values) => {
@@ -102,7 +99,7 @@ export function TableRow() {
   // Bill Submited Handler
   const billSubmit = (values) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       yesAlertFunc: () => {
         const filterSelectedData = gridData?.filter((item) => item?.isSelect);
         const payload = filterSelectedData?.map((item) => {
@@ -133,7 +130,7 @@ export function TableRow() {
 
   const shipmentCostCancel = (values, shipmentCostId) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       yesAlertFunc: () => {
         cancelShipmentCost(
           setLoading,

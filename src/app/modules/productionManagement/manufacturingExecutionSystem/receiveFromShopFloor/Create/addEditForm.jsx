@@ -1,24 +1,23 @@
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-
-import Loading from "./../../../../_helper/_loading";
-import { createReceiveFromShopFloor, getRefferenceCode_api } from "../helper";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { isUniq } from "../../../../_helper/uniqChecker";
+import Loading from './../../../../_helper/_loading';
+import { createReceiveFromShopFloor, getRefferenceCode_api } from '../helper';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { isUniq } from '../../../../_helper/uniqChecker';
 
 const initData = {
-  transactionDate: _todayDate(""),
-  referenceType: "",
-  referenceCode: "",
-  receiveFrom: "",
-  transferTo: "",
-  item: "",
-  qty: "",
+  transactionDate: _todayDate(''),
+  referenceType: '',
+  referenceCode: '',
+  receiveFrom: '',
+  transferTo: '',
+  item: '',
+  qty: '',
   checkbox: false,
 };
 
@@ -26,8 +25,7 @@ export default function ReceiveFromShopFloorCreateForm() {
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
 
-
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const location = useLocation();
   const params = useParams();
   const [itemDDL, setItemDDL] = useState([]);
@@ -73,7 +71,7 @@ export default function ReceiveFromShopFloorCreateForm() {
             transactionValue: +item?.item?.transactionValue,
             inventoryLocationId: +item?.item?.locationId,
             inventoryLocationName: item?.item?.location,
-            binNumber: item?.item?.binNumber || "",
+            binNumber: item?.item?.binNumber || '',
           }));
           const payload = {
             accountId: +profileData?.accountId,
@@ -95,7 +93,7 @@ export default function ReceiveFromShopFloorCreateForm() {
 
           createReceiveFromShopFloor(payload, cb, setDisabled);
         } else {
-          toast.warn("Please select at least one item with quantity");
+          toast.warn('Please select at least one item with quantity');
         }
       }
     }
@@ -110,7 +108,7 @@ export default function ReceiveFromShopFloorCreateForm() {
       });
       setRowDto(payload);
     } else {
-      if (isUniq("item", values?.item, rowDto)) {
+      if (isUniq('item', values?.item, rowDto)) {
         setRowDto([...rowDto, values]);
       }
     }
@@ -122,13 +120,13 @@ export default function ReceiveFromShopFloorCreateForm() {
   };
 
   const [objProps, setObjprops] = useState({});
-  console.log(receiveFromShopFloorInitData, "receiveFromShopFloorInitData");
+  console.log(receiveFromShopFloorInitData, 'receiveFromShopFloorInitData');
   return (
     <IForm
       title={
         params?.viewId
-          ? "Edit Receive From Shop Floor"
-          : "Receive From Shop Floor"
+          ? 'Edit Receive From Shop Floor'
+          : 'Receive From Shop Floor'
       }
       getProps={setObjprops}
       isDisabled={isDisabled}

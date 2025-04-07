@@ -1,51 +1,50 @@
-
-import React, { useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { IInput } from "../../../../_helper/_input";
-import { useState } from "react";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import KpiEntryGrid from "./kpiEntryGrid";
-import KpiReportTable from "./reportTable";
-import { getPmsReportAction } from "../../../_helper/getReportAction";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { getObjectiveDDLAction } from "../../../_redux/Actions";
+import React, { useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { IInput } from '../../../../_helper/_input';
+import { useState } from 'react';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import KpiEntryGrid from './kpiEntryGrid';
+import KpiReportTable from './reportTable';
+import { getPmsReportAction } from '../../../_helper/getReportAction';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { getObjectiveDDLAction } from '../../../_redux/Actions';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   corporate: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Corporate is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Corporate is required'),
   kpiname: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(300, "Maximum 300 symbols")
-    .required("Kpi Name is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(300, 'Maximum 300 symbols')
+    .required('Kpi Name is required'),
   bscPerspective: Yup.object().shape({
-    label: Yup.string().required("Bscperspective is required"),
-    value: Yup.string().required("Bscperspective is required"),
+    label: Yup.string().required('Bscperspective is required'),
+    value: Yup.string().required('Bscperspective is required'),
   }),
   kpiformat: Yup.object().shape({
-    label: Yup.string().required("Kpi format is required"),
-    value: Yup.string().required("Kpi format is required"),
+    label: Yup.string().required('Kpi format is required'),
+    value: Yup.string().required('Kpi format is required'),
   }),
   maxiMini: Yup.object().shape({
-    label: Yup.string().required("Field is required"),
-    value: Yup.string().required("Field is required"),
+    label: Yup.string().required('Field is required'),
+    value: Yup.string().required('Field is required'),
   }),
   dataSource: Yup.object().shape({
-    label: Yup.string().required("Data Source is required"),
-    value: Yup.string().required("Data Source is required"),
+    label: Yup.string().required('Data Source is required'),
+    value: Yup.string().required('Data Source is required'),
   }),
 
   targetFrequency: Yup.object().shape({
-    label: Yup.string().required("Target Frequency is required"),
-    value: Yup.string().required("Target Frequency is required"),
+    label: Yup.string().required('Target Frequency is required'),
+    value: Yup.string().required('Target Frequency is required'),
   }),
   aggregationType: Yup.object().shape({
-    label: Yup.string().required("Aggregation Type is required"),
-    value: Yup.string().required("Aggregation Type is required"),
+    label: Yup.string().required('Aggregation Type is required'),
+    value: Yup.string().required('Aggregation Type is required'),
   }),
 });
 
@@ -76,7 +75,7 @@ export default function FormCmp({
 }) {
   const [objRowTargetAchivment, setObjRowTargetAchivment] = useState({});
   const [allValue, setAllValue] = useState(0);
-  const [year, setYear] = useState("");
+  const [year, setYear] = useState('');
   const [kpiDDL, getKpiDDL, , setKpiDDL] = useAxiosGet();
   const { profileData } = useSelector((state) => {
     return state.authData;
@@ -86,8 +85,8 @@ export default function FormCmp({
   const kpiDetails = (values) => {
     return [
       {
-        label: "Select Objective",
-        name: "objective",
+        label: 'Select Objective',
+        name: 'objective',
         options: objectiveDDL,
         // isDisabled: !values.sbu?.value,
         isDisabled: !values.corporate?.value,
@@ -97,21 +96,21 @@ export default function FormCmp({
               getKpiDDL(
                 `/pms/KPI/GetKPIMasterDataDDL?accountId=${profileData?.accountId}&bscId=${res.data[0]?.value}`
               );
-              setter("bscPerspective", res.data[0]);
-              setter("kpiname", "");
+              setter('bscPerspective', res.data[0]);
+              setter('kpiname', '');
             });
           }
           if (!currentValue) {
-            setter("bscPerspective", "");
-            setter("kpiname", "");
+            setter('bscPerspective', '');
+            setter('kpiname', '');
             setKpiDDL([]);
           }
         },
       },
 
       {
-        label: "Select BSC Perspective",
-        name: "bscPerspective",
+        label: 'Select BSC Perspective',
+        name: 'bscPerspective',
         options: bscPerspectiveDDL,
         // dependencyFunc: (currentValue, values, setter) => {
         //   if(currentValue){
@@ -129,13 +128,13 @@ export default function FormCmp({
               getKpiDDL(
                 `/pms/KPI/GetKPIMasterDataDDL?accountId=${profileData?.accountId}&bscId=${res.data[0]?.value}`
               );
-              setter("bscPerspective", res.data[0]);
-              setter("kpiname", "");
+              setter('bscPerspective', res.data[0]);
+              setter('kpiname', '');
             });
           }
           if (!currentValue) {
-            setter("bscPerspective", "");
-            setter("kpiname", "");
+            setter('bscPerspective', '');
+            setter('kpiname', '');
             setKpiDDL([]);
           }
         },
@@ -144,57 +143,57 @@ export default function FormCmp({
         //   : bscPerspectiveDefaultValue,
       },
       {
-        label: "KPI Name",
-        name: "kpiname",
+        label: 'KPI Name',
+        name: 'kpiname',
         options: kpiDDL || [],
         defaultValue: values.kpiname,
         // isInput: true,
       },
       {
-        label: "Select KPI Format",
-        name: "kpiformat",
+        label: 'Select KPI Format',
+        name: 'kpiformat',
         options: [
-          { label: "% of", value: "% of" },
-          { label: "# of", value: "# of" },
+          { label: '% of', value: '% of' },
+          { label: '# of', value: '# of' },
           {
-            label: "Amount",
-            value: "BDT",
+            label: 'Amount',
+            value: 'BDT',
           },
           {
-            label: "Amount ($)",
-            value: "$",
+            label: 'Amount ($)',
+            value: '$',
           },
         ],
         defaultValue: values.kpiformat,
       },
 
       {
-        label: "Select Data Source",
-        name: "dataSource",
+        label: 'Select Data Source',
+        name: 'dataSource',
         options: dataSourceDDL,
         defaultValue: values.dataSource,
       },
       {
-        label: "Select Max/Mini",
-        name: "maxiMini",
+        label: 'Select Max/Mini',
+        name: 'maxiMini',
         options: [
-          { label: "Maximization", value: 1 },
-          { label: "Minimization", value: 2 },
+          { label: 'Maximization', value: 1 },
+          { label: 'Minimization', value: 2 },
         ],
         defaultValue: values.maxiMini,
       },
       {
-        label: "Select Aggregation Type",
+        label: 'Select Aggregation Type',
         defaultValue: values.aggregationType,
-        name: "aggregationType",
+        name: 'aggregationType',
         options: [
           {
-            label: "Avarage",
-            value: "avarage",
+            label: 'Avarage',
+            value: 'avarage',
           },
           {
-            label: "Sum",
-            value: "sum",
+            label: 'Sum',
+            value: 'sum',
           },
         ],
       },
@@ -214,7 +213,7 @@ export default function FormCmp({
 
   useEffect(() => {
     const size = strategicParticularsGrid?.length;
-    const key = frequencyId === 2 ? "monthId" : "quarterId";
+    const key = frequencyId === 2 ? 'monthId' : 'quarterId';
     if (size) {
       const tempObj = {};
       strategicParticularsGrid.forEach((itm, idx) => {
@@ -222,7 +221,6 @@ export default function FormCmp({
       });
       setObjRowTargetAchivment(tempObj);
     }
-
   }, [strategicParticularsGrid]);
 
   useEffect(() => {
@@ -235,7 +233,7 @@ export default function FormCmp({
             {
               ...objRowTargetAchivment[i],
               target: +allValue,
-              actualEndDate: "2020-09-27T12:37:16.694Z",
+              actualEndDate: '2020-09-27T12:37:16.694Z',
             },
           ])
         )
@@ -315,7 +313,7 @@ export default function FormCmp({
                               4
                             );
                           }
-                          setter("corporate", {
+                          setter('corporate', {
                             value: currentValue,
                             label: label,
                           });
@@ -337,7 +335,7 @@ export default function FormCmp({
                           // resetForm({
                           //   ...initData,
                           // });
-                          setter("year", { value, label });
+                          setter('year', { value, label });
                           dispatch(
                             getObjectiveDDLAction(
                               profileData.accountId,
@@ -347,11 +345,11 @@ export default function FormCmp({
                               value
                             )
                           );
-                          setter("objective", "");
-                          setter("bscPerspective", "");
-                          setter("kpiname", "");
+                          setter('objective', '');
+                          setter('bscPerspective', '');
+                          setter('kpiname', '');
                           if (values.sbu?.value) {
-                            setter("sbu", {
+                            setter('sbu', {
                               value: values.sbu?.value,
                               label: values.sbu?.label,
                             });
@@ -378,7 +376,7 @@ export default function FormCmp({
               {/* <hr style=""/> */}
 
               {/* KPI Details */}
-              <div className={isEdit ? "d-none" : "mt-4"}>
+              <div className={isEdit ? 'd-none' : 'mt-4'}>
                 <hr className="mt-0 p-0" />
                 <div className="row">
                   {kpiDetails(values).map((itm, idx) =>
@@ -449,7 +447,7 @@ export default function FormCmp({
                     strategicParticularsGrid={strategicParticularsGrid}
                   />
                 ) : (
-                  ""
+                  ''
                 )}
               </div>
 
@@ -457,14 +455,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

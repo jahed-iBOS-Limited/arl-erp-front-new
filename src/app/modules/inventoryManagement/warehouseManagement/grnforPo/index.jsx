@@ -1,7 +1,7 @@
-import React from "react";
-import { InventoryTransactionTable } from "./Table/tableHeader";
-import { UiProvider } from "../../../_helper/uiContextHelper";
-import "./style.css";
+import React from 'react';
+import { InventoryTransactionTable } from './Table/tableHeader';
+import { UiProvider } from '../../../_helper/uiContextHelper';
+import './style.css';
 
 export function GrnforPO({ history }) {
   const uIEvents = {

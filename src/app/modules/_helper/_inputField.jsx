@@ -1,7 +1,7 @@
-import React from "react";
-import { Field } from "formik";
-import { Input } from "../../../_metronic/_partials/controls";
-import FormikError from "./_formikError";
+import React from 'react';
+import { Field } from 'formik';
+import { Input } from '../../../_metronic/_partials/controls';
+import FormikError from './_formikError';
 
 const InputField = (props) => {
   const {
@@ -12,12 +12,12 @@ const InputField = (props) => {
     errors,
     touched,
     resetFieldValue,
-    style
+    style,
   } = props;
   return (
     <div className="position-relative" style={style}>
       <Field
-        step={type === "number" ? "any" : ""}
+        step={type === 'number' ? 'any' : ''}
         {...props}
         value={value}
         name={name}
@@ -32,10 +32,10 @@ const InputField = (props) => {
       {resetFieldValue && (
         <button
           style={{
-            position: "absolute",
-            top: "18px",
-            right: "15px",
-            width: "10px",
+            position: 'absolute',
+            top: '18px',
+            right: '15px',
+            width: '10px',
           }}
           className="btn pointer"
           onClick={(e) => {

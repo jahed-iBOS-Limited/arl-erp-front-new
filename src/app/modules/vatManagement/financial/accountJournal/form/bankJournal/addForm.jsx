@@ -1,15 +1,13 @@
-
-
-import React, { useEffect, useState } from "react";
-import { confirmAlert } from "react-confirm-alert";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory, useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import IForm from "../../../../../_helper/_form";
-import Loading from "../../../../../_helper/_loading";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import { saveAccountingJournal } from "../../helper";
-import Form from "./form";
+import React, { useEffect, useState } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IForm from '../../../../../_helper/_form';
+import Loading from '../../../../../_helper/_loading';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import { saveAccountingJournal } from '../../helper';
+import Form from './form';
 
 // const initData = {
 
@@ -18,8 +16,8 @@ import Form from "./form";
 export default function BankJournalCreate() {
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
-  const [instrumentNoByResponse, setInstrumentNoByResponse] = useState("");
+  const [singleData, setSingleData] = useState('');
+  const [instrumentNoByResponse, setInstrumentNoByResponse] = useState('');
   const history = useHistory();
   const params = useParams();
   const location = useLocation();
@@ -32,7 +30,10 @@ export default function BankJournalCreate() {
   }, shallowEqual);
   const { profileData, selectedBusinessUnit } = storeData;
 
-  const { bankJournalCreate } = useSelector((state) => state?.localStorage, shallowEqual);
+  const { bankJournalCreate } = useSelector(
+    (state) => state?.localStorage,
+    shallowEqual
+  );
 
   let netAmount = rowDto?.reduce((total, value) => total + +value?.amount, 0);
 
@@ -44,7 +45,7 @@ export default function BankJournalCreate() {
       message: message,
       buttons: [
         {
-          label: "Ok",
+          label: 'Ok',
           onClick: () => noAlertFunc(),
         },
       ],
@@ -55,11 +56,11 @@ export default function BankJournalCreate() {
 
   const saveHandler = async (values, cb) => {
     // dispatch(setBankJournalCreateAction(values));
-    console.log("values", values);
-    console.log("rowDto", rowDto);
+    console.log('values', values);
+    console.log('rowDto', rowDto);
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (rowDto?.length === 0) {
-        toast.warn("Please add transaction");
+        toast.warn('Please add transaction');
       } else {
         const objRow = rowDto.map((item) => {
           // let negAmount = 1 * -+item?.amount;
@@ -67,7 +68,7 @@ export default function BankJournalCreate() {
           //   item?.debitCredit === "Credit" ? negAmount : item?.debitCredit === "Debit" ? +item?.amount : location?.state?.accountingJournalTypeId !== 1 ? negAmount : +item?.amount;
           return {
             journalId: 0,
-            journalCode: "",
+            journalCode: '',
             subGLTypeId: item?.partnerType?.value,
             subGLTypeName: item?.partnerType?.label,
             generalLedgerId: +item?.gl?.value,
@@ -82,59 +83,68 @@ export default function BankJournalCreate() {
             sbuId: location?.state?.sbu?.value,
             accountingJournalTypeId: location?.state?.accountingJournalTypeId,
             accountingJournalId: 0,
-            accountingJournalCode: "",
+            accountingJournalCode: '',
             transactionDate: values?.transactionDate || _todayDate(),
-            bankSortName: values?.bankAcc?.label.split(":")[0] || "",
+            bankSortName: values?.bankAcc?.label.split(':')[0] || '',
             instrumentTypeID: values?.instrumentType?.value || 0,
-            instrumentTypeName: values?.instrumentType?.label || "",
-            instrumentNo: values?.instrumentNo || "",
+            instrumentTypeName: values?.instrumentType?.label || '',
+            instrumentNo: values?.instrumentNo || '',
             instrumentDate: values?.instrumentDate || _todayDate(),
-            paytoName: values?.paidTo || "",
+            paytoName: values?.paidTo || '',
             actionBy: +profileData?.userId,
             isTransfer: false,
             numAmount: +item?.amount,
-            debit:location?.state?.accountingJournalTypeId !== 4 ?  +item?.amount : 0,
-            credit: location?.state?.accountingJournalTypeId === 4 ?  1 * -+item?.amount : 0,
+            debit:
+              location?.state?.accountingJournalTypeId !== 4
+                ? +item?.amount
+                : 0,
+            credit:
+              location?.state?.accountingJournalTypeId === 4
+                ? 1 * -+item?.amount
+                : 0,
           };
         });
         // console.log("payload",objRow)
         objRow.unshift({
           subGLTypeId: 6,
-          subGLTypeName: "Bank",
+          subGLTypeName: 'Bank',
           journalId: 0,
-          journalCode: "",
+          journalCode: '',
           generalLedgerId: +values?.bankAcc?.generalLedgerId,
           generalLedgerCode: values?.bankAcc?.generalLedgerCode,
           generalLedgerName: values?.bankAcc?.generalLedgerName,
           subGLId: values?.bankAcc?.value,
           subGlCode: values?.bankAcc?.bankAccNo,
-          subGLName:  values?.bankAcc?.bankName,
+          subGLName: values?.bankAcc?.bankName,
           narration: values?.narration,
           accountId: +profileData?.accountId,
           businessUnitId: +selectedBusinessUnit?.value,
           sbuId: location?.state?.sbu?.value,
           accountingJournalTypeId: location?.state?.accountingJournalTypeId,
           accountingJournalId: 0,
-          accountingJournalCode: "",
+          accountingJournalCode: '',
           transactionDate: values?.transactionDate || _todayDate(),
-          bankSortName: values?.bankAcc?.label.split(":")[0] || "",
+          bankSortName: values?.bankAcc?.label.split(':')[0] || '',
           instrumentTypeID: values?.instrumentType?.value || 0,
-          instrumentTypeName: values?.instrumentType?.label || "",
-          instrumentNo: values?.instrumentNo || "",
+          instrumentTypeName: values?.instrumentType?.label || '',
+          instrumentNo: values?.instrumentNo || '',
           instrumentDate: values?.instrumentDate || _todayDate(),
-          paytoName: values?.paidTo || "",
+          paytoName: values?.paidTo || '',
           actionBy: +profileData?.userId,
           isTransfer: false,
           numAmount: +netAmount,
           debit: location?.state?.accountingJournalTypeId === 4 ? netAmount : 0,
-          credit: location?.state?.accountingJournalTypeId !== 4 ? 1 * -+netAmount : 0,
-        })
-         saveAccountingJournal({
-           payload:{row:objRow},
-           setDisabled,
-           cb,
-           IConfirmModal
-          });
+          credit:
+            location?.state?.accountingJournalTypeId !== 4
+              ? 1 * -+netAmount
+              : 0,
+        });
+        saveAccountingJournal({
+          payload: { row: objRow },
+          setDisabled,
+          cb,
+          IConfirmModal,
+        });
       }
     } else {
       setDisabled(false);
@@ -142,11 +152,13 @@ export default function BankJournalCreate() {
   };
 
   const setter = (values) => {
-    const count = rowDto?.filter((item) => item?.transaction?.value === values?.transaction?.value).length;
+    const count = rowDto?.filter(
+      (item) => item?.transaction?.value === values?.transaction?.value
+    ).length;
     if (count === 0) {
       setRowDto([...rowDto, values]);
     } else {
-      toast.warn("Not allowed to duplicate transaction");
+      toast.warn('Not allowed to duplicate transaction');
     }
   };
   const remover = (index) => {
@@ -157,12 +169,11 @@ export default function BankJournalCreate() {
 
   useEffect(() => {
     // if not id, that means this is for create form, then we will check this..
-
   }, []);
 
   const [objProps, setObjprops] = useState({});
 
-  console.log("bankJournalCreate", bankJournalCreate);
+  console.log('bankJournalCreate', bankJournalCreate);
 
   const rowDtoHandler = (index, name, value) => {
     const data = [...rowDto];
@@ -174,7 +185,13 @@ export default function BankJournalCreate() {
 
   return (
     <IForm
-      title={location?.state?.accountingJournalTypeId === 4 ? "Create Bank Receipt" : location?.state?.accountingJournalTypeId === 5 ? "Create Bank Payments" : "Create Bank Transfer"}
+      title={
+        location?.state?.accountingJournalTypeId === 4
+          ? 'Create Bank Receipt'
+          : location?.state?.accountingJournalTypeId === 5
+            ? 'Create Bank Payments'
+            : 'Create Bank Transfer'
+      }
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

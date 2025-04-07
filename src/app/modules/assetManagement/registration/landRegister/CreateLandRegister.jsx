@@ -65,11 +65,10 @@ export default function CreateLandRegister() {
 
   useEffect(() => {
     getDistrictDDL(
-      '/oms/TerritoryInfo/GetDistrictDDL?countryId=18&divisionId=0',
+      '/oms/TerritoryInfo/GetDistrictDDL?countryId=18&divisionId=0'
     );
     getDeedTypeDDL('/asset/AGLandMange/DeedTypeDDL');
     getSubRegisterDDL('/asset/AGLandMange/GetSubRegisterOfficeDDL');
-
   }, []);
 
   const saveHandler = (values, cb) => {
@@ -281,7 +280,7 @@ export default function CreateLandRegister() {
                       setFieldValue('district', valueOption);
                       if (!valueOption) return;
                       getThanaDDL(
-                        `/oms/TerritoryInfo/GetThanaDDL?countryId=18&divisionId=0&districtId=${valueOption?.value}`,
+                        `/oms/TerritoryInfo/GetThanaDDL?countryId=18&divisionId=0&districtId=${valueOption?.value}`
                       );
                     }}
                   />
@@ -613,7 +612,7 @@ export default function CreateLandRegister() {
                           console.log({ attachment: attachmentData });
                           setFieldValue(
                             'strRegistrationAttachment',
-                            attachmentData?.[0]?.id,
+                            attachmentData?.[0]?.id
                           );
                         }
                       }}

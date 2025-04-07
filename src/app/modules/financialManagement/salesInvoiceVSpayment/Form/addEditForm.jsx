@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { CreateSalesInvoiceDetails } from "../helper";
-import Form from "./form";
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IForm from '../../../_helper/_form';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { CreateSalesInvoiceDetails } from '../helper';
+import Form from './form';
 
 const initData = {
   id: undefined,
-  billNo: "",
+  billNo: '',
   date: _todayDate(),
-  poNo: "",
-  amount: "",
-  duductedAIT: "",
-  receivedAIT: "",
-  challan: "",
+  poNo: '',
+  amount: '',
+  duductedAIT: '',
+  receivedAIT: '',
+  challan: '',
   ChallanDate: _todayDate(),
 };
 
@@ -45,14 +45,14 @@ export default function SalesInvoiceVSPaymentCreate({
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       const payload = rowDto?.map((itm) => ({
         salesInvoiceId: +itm?.billNo || 0,
-        refference: "",
+        refference: '',
         paymentAmount: itm?.amount || 0,
         paymentDate: itm?.date,
         deductedAit: +itm?.deductedAIT || 0,
         recivedAit: itm?.receivedAIT || 0,
         aitchallan: itm?.challan,
         aitchallanDate: itm?.ChallanDate,
-        remarks: itm?.remarks || "",
+        remarks: itm?.remarks || '',
       }));
       CreateSalesInvoiceDetails(payload, cb);
     }

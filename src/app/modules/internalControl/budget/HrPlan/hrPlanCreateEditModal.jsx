@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import InputField from "../../../_helper/_inputField";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import { Form, Formik } from "formik";
-import NewSelect from "../../../_helper/_select";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import InputField from '../../../_helper/_inputField';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import Loading from '../../../_helper/_loading';
+import IForm from '../../../_helper/_form';
+import { Form, Formik } from 'formik';
+import NewSelect from '../../../_helper/_select';
 
 const initData = {};
 
@@ -23,15 +23,11 @@ export default function HrPlanCreateEditModal({
     return state?.authData;
   }, shallowEqual);
 
-  const [
-    singleData,
-    getBySingleData,
-    singleDataLoding,
-    setSingleData,
-  ] = useAxiosGet();
+  const [singleData, getBySingleData, singleDataLoding, setSingleData] =
+    useAxiosGet();
   const [, saveData] = useAxiosPost();
-  const [numPlanQty, setNumPlanQty] = useState("");
-  const [numBudgetRate, setBudgetRate] = useState("");
+  const [numPlanQty, setNumPlanQty] = useState('');
+  const [numBudgetRate, setBudgetRate] = useState('');
 
   useEffect(() => {
     if (rowDetailsData) {
@@ -45,7 +41,6 @@ export default function HrPlanCreateEditModal({
     getBySingleData(
       `/fino/BudgetFinancial/GetAllHrPlan?partName=PlanVsBudgetGetById&businessUnitId=${selectedBusinessUnit?.value}&departmentId=${valueData?.department?.value}&designationId=${rowDetailsData?.intDesignationId}&yearId=${valueData?.year?.value}&autoId=${rowDetailsData?.intHeaderId}`
     );
-
   }, [selectedBusinessUnit, rowDetailsData]);
 
   const saveHandler = (values) => {
@@ -72,7 +67,7 @@ export default function HrPlanCreateEditModal({
     };
 
     saveData(
-      "/fino/BudgetFinancial/HrPlanSave",
+      '/fino/BudgetFinancial/HrPlanSave',
       payload,
       () => {
         getRowDto(
@@ -102,17 +97,13 @@ export default function HrPlanCreateEditModal({
     0
   );
 
-  const [
-    profitCenterDDL,
-    getProfitCenterDDL,
-    profitCenterDDLloader,
-  ] = useAxiosGet();
+  const [profitCenterDDL, getProfitCenterDDL, profitCenterDDLloader] =
+    useAxiosGet();
 
   useEffect(() => {
     getProfitCenterDDL(
       `/fino/CostSheet/ProfitCenterDDL?BUId=${selectedBusinessUnit?.value}`
     );
-
   }, []);
 
   return (
@@ -145,7 +136,7 @@ export default function HrPlanCreateEditModal({
                       value={values?.profitCenter}
                       label="Profit Center"
                       onChange={(valueOption) => {
-                        setFieldValue("profitCenter", valueOption);
+                        setFieldValue('profitCenter', valueOption);
                       }}
                       placeholder="Profit Center"
                       errors={errors}
@@ -163,11 +154,11 @@ export default function HrPlanCreateEditModal({
                   <div className="row">
                     <span className="pl-4">Year : </span>
                     <span className="pl-3 bold">
-                      {valueData?.year?.label || ""}
+                      {valueData?.year?.label || ''}
                     </span>
                     <span className="pl-4">Department : </span>
                     <span className="pl-3 bold">
-                      {valueData?.department?.label || ""}
+                      {valueData?.department?.label || ''}
                     </span>
                     <span className="pl-4">Position : </span>
                     <span className="pl-3 bold">
@@ -190,7 +181,7 @@ export default function HrPlanCreateEditModal({
                             {singleData?.map((item, i) => (
                               <tr>
                                 <td>{item?.monthName}</td>
-                                <td style={{ minWidth: "70px" }}>
+                                <td style={{ minWidth: '70px' }}>
                                   <InputField
                                     name="numPlanQty"
                                     value={
@@ -201,18 +192,18 @@ export default function HrPlanCreateEditModal({
                                     type="number"
                                     onChange={(e) => {
                                       if (+e.target.value < 0) {
-                                        setNumPlanQty("");
+                                        setNumPlanQty('');
                                       } else {
                                         rowDtoHandler(
                                           i,
-                                          "numPlanQty",
+                                          'numPlanQty',
                                           e.target.value
                                         );
                                       }
                                     }}
                                   />
                                 </td>
-                                <td style={{ minWidth: "70px" }}>
+                                <td style={{ minWidth: '70px' }}>
                                   <InputField
                                     name="numBudgetRate"
                                     value={
@@ -223,19 +214,19 @@ export default function HrPlanCreateEditModal({
                                     type="number"
                                     onChange={(e) => {
                                       if (+e.target.value < 0) {
-                                        setBudgetRate("");
+                                        setBudgetRate('');
                                       } else {
                                         rowDtoHandler(
                                           i,
-                                          "numBudgetRate",
+                                          'numBudgetRate',
                                           e.target.value
                                         );
                                       }
                                     }}
                                   />
                                 </td>
-                                <td style={{ minWidth: "70px" }}>
-                                  {item?.numTotalBudget || ""}
+                                <td style={{ minWidth: '70px' }}>
+                                  {item?.numTotalBudget || ''}
                                 </td>
                               </tr>
                             ))}
@@ -245,7 +236,7 @@ export default function HrPlanCreateEditModal({
                               <td></td>
                               <td
                                 className="text-bold"
-                                style={{ minWidth: "70px" }}
+                                style={{ minWidth: '70px' }}
                               >
                                 {totalBugetAmount}
                               </td>
@@ -259,7 +250,7 @@ export default function HrPlanCreateEditModal({
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>

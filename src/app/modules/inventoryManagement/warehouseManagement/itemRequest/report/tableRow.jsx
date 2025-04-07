@@ -1,16 +1,14 @@
-
-
-import React, { useState, useRef, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { Formik, Form as FormikForm } from "formik";
-import * as Yup from "yup";
-import ReactToPrint from "react-to-print";
-import Loading from "./../../../../_helper/loader/_loader";
-import { getReportItemReq } from "../helper";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import ICustomCard from "../../../../_helper/_customCard";
-import iMarineIcon from "../../../../_helper/images/imageakijpoly.png";
+import React, { useState, useRef, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { Formik, Form as FormikForm } from 'formik';
+import * as Yup from 'yup';
+import ReactToPrint from 'react-to-print';
+import Loading from './../../../../_helper/loader/_loader';
+import { getReportItemReq } from '../helper';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import ICustomCard from '../../../../_helper/_customCard';
+import iMarineIcon from '../../../../_helper/images/imageakijpoly.png';
 
 let imageObj = {
   8: iMarineIcon,
@@ -21,7 +19,7 @@ const validationSchema = Yup.object().shape({});
 
 export function ItemReqViewTableRow({ IrId }) {
   const [loading, setLoading] = useState(false);
-  const [itemReqReport, setiIemReqReport] = useState("");
+  const [itemReqReport, setiIemReqReport] = useState('');
 
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
@@ -82,7 +80,7 @@ export function ItemReqViewTableRow({ IrId }) {
                           <div className="d-flex justify-content-center align-items-center">
                             {selectedBusinessUnit.value === 8 && (
                               <img
-                                style={{ width: "150px", height: "100px" }}
+                                style={{ width: '150px', height: '100px' }}
                                 class=""
                                 src={imageObj[selectedBusinessUnit?.value]}
                                 alt="img"
@@ -103,7 +101,7 @@ export function ItemReqViewTableRow({ IrId }) {
                         Request Code:
                         <span className="font-weight-bold mr-2 ml-1">
                           {itemReqReport?.objHeader?.strItemRequestCode}
-                        </span>{" "}
+                        </span>{' '}
                         Request Date:
                         <sapn className="font-weight-bold mr-2 ml-1">
                           {_dateFormatter(
@@ -112,9 +110,9 @@ export function ItemReqViewTableRow({ IrId }) {
                         </sapn>
                         Status:
                         <sapn className="font-weight-bold mr-2 ml-1">
-                          {itemReqReport?.objHeader?.isApproved === "False"
-                            ? "Pending"
-                            : "Approved"}
+                          {itemReqReport?.objHeader?.isApproved === 'False'
+                            ? 'Pending'
+                            : 'Approved'}
                         </sapn>
                         {/* Purpose:
                         <sapn className="font-weight-bold mr-2 ml-1">
@@ -152,7 +150,7 @@ export function ItemReqViewTableRow({ IrId }) {
                                     ? Number.isInteger(data?.requestQuantity)
                                       ? data?.requestQuantity
                                       : data?.requestQuantity
-                                    : "N/A"}
+                                    : 'N/A'}
                                 </td>
 
                                 <td className="text-right">
@@ -160,7 +158,7 @@ export function ItemReqViewTableRow({ IrId }) {
                                     ? Number.isInteger(data?.issueQty)
                                       ? data?.issueQty
                                       : data?.issueQty
-                                    : "N/A"}
+                                    : 'N/A'}
                                 </td>
                                 <td className="text-right">
                                   {data?.stockQuantity}
@@ -179,13 +177,13 @@ export function ItemReqViewTableRow({ IrId }) {
                             {
                               itemReqReport?.objHeader
                                 ?.actionByNameDesignationDept
-                            }{" "}
+                            }{' '}
                           </p>
                         </div>
                         <div className="d-flex">
                           <p>Approved By:</p>
                           <p className="font-weight-bold ml-2">
-                            {itemReqReport?.objHeader?.approveByName}{" "}
+                            {itemReqReport?.objHeader?.approveByName}{' '}
                           </p>
                         </div>
                       </div>

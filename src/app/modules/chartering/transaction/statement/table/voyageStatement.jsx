@@ -1,7 +1,7 @@
-import React from "react";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
+import React from 'react';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import { _dateFormatter } from '../../../_chartinghelper/_dateFormatter';
 export default function VoyageCharterStatement({
   printRef,
   voyageCharterData,
@@ -106,32 +106,35 @@ export default function VoyageCharterStatement({
                 <tr className="text-center">
                   <td colSpan={6}>
                     <h6 className="mb-0">
-                      VESSEL NAME & VOYAGE NO:{" "}
+                      VESSEL NAME & VOYAGE NO:{' '}
                       <b>
-                        {headerData?.vesselName + " & V" + headerData?.voyageName}
+                        {headerData?.vesselName +
+                          ' & V' +
+                          headerData?.voyageName}
                       </b>
                     </h6>
                   </td>
                 </tr>
                 <tr
                   style={{
-                    backgroundColor: "#C8C6C6",
+                    backgroundColor: '#C8C6C6',
                   }}
                 >
                   <td colSpan={6}>
                     <h6 className="font-weight-bold pb-1 mb-0 text-center">
-                      Net Hire/Day:{" "}
-                      {_formatMoney(netEarnings / headerData?.voyageDuration)} USD
+                      Net Hire/Day:{' '}
+                      {_formatMoney(netEarnings / headerData?.voyageDuration)}{' '}
+                      USD
                     </h6>
                   </td>
                 </tr>
                 <tr>
                   <td className="text-left">Load Port</td>
                   <td colSpan={2}> {headerData?.loadPort} </td>
-                  <td style={{ width: "20%" }}>Add Comm</td>
-                  <td colSpan={2} style={{ width: "10%" }}>
-                    {" "}
-                    {headerData?.addComm}%{" "}
+                  <td style={{ width: '20%' }}>Add Comm</td>
+                  <td colSpan={2} style={{ width: '10%' }}>
+                    {' '}
+                    {headerData?.addComm}%{' '}
                   </td>
                 </tr>
                 <tr>
@@ -144,19 +147,19 @@ export default function VoyageCharterStatement({
                   <td className="text-left">Voyage Commence Date (GMT)</td>
                   <td colSpan={2}> {headerData?.voyageCommenced} </td>
                   <td></td>
-                  <td colSpan={2}> { } </td>
+                  <td colSpan={2}> {} </td>
                 </tr>
                 <tr>
                   <td className="text-left">Voyage Completion Date (GMT)</td>
                   <td colSpan={2}> {headerData?.voyageCompletion} </td>
                   <td></td>
-                  <td colSpan={2}> { } </td>
+                  <td colSpan={2}> {} </td>
                 </tr>
                 <tr>
                   <td className="text-left">Voyage Duration (Days)</td>
                   <td colSpan={2}> {headerData?.voyageDuration} </td>
                   <td></td>
-                  <td colSpan={2}> { } </td>
+                  <td colSpan={2}> {} </td>
                 </tr>
               </ICustomTable>
             </div>
@@ -167,7 +170,10 @@ export default function VoyageCharterStatement({
                   return (
                     <>
                       <tr>
-                        <td colSpan={8} className="text-center font-weight-bold">
+                        <td
+                          colSpan={8}
+                          className="text-center font-weight-bold"
+                        >
                           {`Charterer Name: ${item?.chartererName}`}
                         </td>
                       </tr>
@@ -178,16 +184,16 @@ export default function VoyageCharterStatement({
                         <td
                           className="text-right"
                           style={{
-                            width: "20%",
+                            width: '20%',
                           }}
                         >
-                          {" "}
-                          {_formatMoney(item?.demurrage)}{" "}
+                          {' '}
+                          {_formatMoney(item?.demurrage)}{' '}
                         </td>
                         {/* <td> {item?.demurrage} </td> */}
                         <td
                           style={{
-                            width: "10%",
+                            width: '10%',
                           }}
                         >
                           USD/Day
@@ -198,19 +204,19 @@ export default function VoyageCharterStatement({
                         <td colSpan={2}> {item?.broker} </td>
                         <td>Demurrage Cost</td>
                         <td className="text-right">
-                          {" "}
-                          {_formatMoney(item?.demurrageCost)}{" "}
+                          {' '}
+                          {_formatMoney(item?.demurrageCost)}{' '}
                         </td>
                         {/* <td> {item?.dispatch} </td> */}
                         <td>USD</td>
                       </tr>
                       <tr className="text-left">
                         <td className="text-left">Cargo</td>
-                        <td colSpan={2}> {item?.cargoName?.join(", ")} </td>
+                        <td colSpan={2}> {item?.cargoName?.join(', ')} </td>
                         <td>Despatch Rate</td>
                         <td className="text-right">
-                          {" "}
-                          {_formatMoney(item?.dispatch)}{" "}
+                          {' '}
+                          {_formatMoney(item?.dispatch)}{' '}
                         </td>
                         <td>USD/Day</td>
                       </tr>
@@ -219,8 +225,8 @@ export default function VoyageCharterStatement({
                         <td colSpan={2}> {item?.cargoQty} </td>
                         <td>Despatch Cost</td>
                         <td className="text-right">
-                          {" "}
-                          {_formatMoney(item?.dispatchCost)}{" "}
+                          {' '}
+                          {_formatMoney(item?.dispatchCost)}{' '}
                         </td>
                         <td>USD</td>
                       </tr>
@@ -229,18 +235,18 @@ export default function VoyageCharterStatement({
                         <td colSpan={2}> {item?.freightRate} </td>
                         <td>Dead Freight</td>
                         <td className="text-right">
-                          {" "}
-                          {_formatMoney(item?.detention)}{" "}
-                        </td>{" "}
+                          {' '}
+                          {_formatMoney(item?.detention)}{' '}
+                        </td>{' '}
                         <td>USD</td>
                       </tr>
                       <tr>
                         <td colSpan={3}> </td>
                         <td>Detention</td>
                         <td className="text-right">
-                          {" "}
-                          {_formatMoney(item?.detention)}{" "}
-                        </td>{" "}
+                          {' '}
+                          {_formatMoney(item?.detention)}{' '}
+                        </td>{' '}
                         <td>USD</td>
                       </tr>
                     </>
@@ -257,7 +263,7 @@ export default function VoyageCharterStatement({
                 <td
                   className="text-left"
                   style={{
-                    width: "70%",
+                    width: '70%',
                   }}
                 >
                   Bunker Cost
@@ -265,7 +271,7 @@ export default function VoyageCharterStatement({
                 <td
                   className="text-right"
                   style={{
-                    width: "20%",
+                    width: '20%',
                   }}
                 >
                   {_formatMoney(bunkerCost)}
@@ -282,7 +288,7 @@ export default function VoyageCharterStatement({
                       )}`}</td>
                       <td
                         style={{
-                          width: "10%",
+                          width: '10%',
                         }}
                       >
                         USD
@@ -319,7 +325,7 @@ export default function VoyageCharterStatement({
                 <td
                   className="text-left"
                   style={{
-                    width: "70%",
+                    width: '70%',
                   }}
                 >
                   Total Freight
@@ -327,7 +333,7 @@ export default function VoyageCharterStatement({
                 <td
                   className="text-right"
                   style={{
-                    width: "20%",
+                    width: '20%',
                   }}
                 >
                   {_formatMoney(totalFreight)}
@@ -364,13 +370,13 @@ export default function VoyageCharterStatement({
               <tr>
                 <td className="text-left">Total Despatch</td>
                 <td className="text-right">
-                  {"-"}
+                  {'-'}
                   {_formatMoney(
                     voyageCharterData?.objheader?.reduce(
                       (a, b) => a + Number(b?.dispatchCost),
                       0
                     )
-                  )}{" "}
+                  )}{' '}
                 </td>
                 <td>USD</td>
               </tr>
@@ -399,14 +405,17 @@ export default function VoyageCharterStatement({
               })}
               <tr>
                 <td className="text-left">Sub Total Other Income</td>
-                <td className="text-right"> {_formatMoney(subtotalEarnings)} </td>
+                <td className="text-right">
+                  {' '}
+                  {_formatMoney(subtotalEarnings)}{' '}
+                </td>
                 <td>USD</td>
               </tr>
               <tr className="font-weight-bold">
                 <td className="text-left">Total Earnings</td>
                 <td className="text-right font-weight-bold">
-                  {" "}
-                  {_formatMoney(totalEarnings)}{" "}
+                  {' '}
+                  {_formatMoney(totalEarnings)}{' '}
                 </td>
                 <td>USD</td>
               </tr>
@@ -422,7 +431,7 @@ export default function VoyageCharterStatement({
                 <td
                   className="text-left"
                   style={{
-                    width: "70%",
+                    width: '70%',
                   }}
                   colSpan={4}
                 >
@@ -431,10 +440,10 @@ export default function VoyageCharterStatement({
                 <td
                   className="text-right"
                   style={{
-                    width: "20%",
+                    width: '20%',
                   }}
                 >
-                  {" "}
+                  {' '}
                   {_formatMoney(totalGrossHire)}
                 </td>
                 <td>USD</td>
@@ -443,7 +452,10 @@ export default function VoyageCharterStatement({
                 <td colSpan={4} className="text-left">
                   Gross Hire/Day
                 </td>
-                <td className="text-right"> {_formatMoney(grossHirePerDay)} </td>
+                <td className="text-right">
+                  {' '}
+                  {_formatMoney(grossHirePerDay)}{' '}
+                </td>
                 <td>USD</td>
               </tr>
               <tr>
@@ -457,7 +469,10 @@ export default function VoyageCharterStatement({
                 <td colSpan={4} className="text-left">
                   Bunker Cost/Day
                 </td>
-                <td className="text-right"> {_formatMoney(bunkerCostPerDay)} </td>
+                <td className="text-right">
+                  {' '}
+                  {_formatMoney(bunkerCostPerDay)}{' '}
+                </td>
                 <td>USD</td>
               </tr>
               <tr>
@@ -486,8 +501,8 @@ export default function VoyageCharterStatement({
                   Net Hire/Day
                 </td>
                 <td className="text-right">
-                  {" "}
-                  {_formatMoney(netEarnings / headerData?.voyageDuration)}{" "}
+                  {' '}
+                  {_formatMoney(netEarnings / headerData?.voyageDuration)}{' '}
                 </td>
                 <td>USD</td>
               </tr>

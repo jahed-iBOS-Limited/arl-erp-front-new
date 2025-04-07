@@ -1,22 +1,22 @@
-import React, { useState } from "react";
-import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
-import IForm from "../../../../../_helper/_form";
-import Loading from "../../../../../_helper/_loading";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import IWarningModal from "../../../../../_helper/_warningModal";
-import { createG2GCustomizeBill, getG2GBillData } from "../../helper";
-import Form from "./form";
+import React, { useState } from 'react';
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IForm from '../../../../../_helper/_form';
+import Loading from '../../../../../_helper/_loading';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import IWarningModal from '../../../../../_helper/_warningModal';
+import { createG2GCustomizeBill, getG2GBillData } from '../../helper';
+import Form from './form';
 
 const initData = {
-  supplier: "",
-  billNo: "",
+  supplier: '',
+  billNo: '',
   billDate: _todayDate(),
   paymentDueDate: new Date(new Date().setDate(new Date().getDate() + 15)),
-  narration: "",
-  billAmount: "",
+  narration: '',
+  billAmount: '',
   toDate: _todayDate(),
   fromDate: _todayDate(),
 };
@@ -45,19 +45,19 @@ export default function G2GTruckBill() {
       1,
       setGridData,
       setDisabled,
-      searchTerm || ""
+      searchTerm || ''
     );
   };
 
   const saveHandler = async (values, cb) => {
     if (uploadedImage?.length < 1) {
-      return toast.warn("Please attach a document");
+      return toast.warn('Please attach a document');
     }
     try {
       const selectedRow = gridData?.filter((item) => item?.checked);
 
       if (selectedRow.length === 0) {
-        toast.warning("Please select at least one");
+        toast.warning('Please select at least one');
       } else {
         const totalAmount = selectedRow?.reduce(
           (total, cur) => (total += +cur?.transportAmount),

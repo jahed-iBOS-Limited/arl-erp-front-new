@@ -1,5 +1,5 @@
-import React from "react";
-import { IInput } from "../../../../_helper/_input";
+import React from 'react';
+import { IInput } from '../../../../_helper/_input';
 
 const PrevTargetAchTable = ({ target, rowDto, rowDtoHandler }) => {
   return (
@@ -58,7 +58,7 @@ const PrevTargetAchTable = ({ target, rowDto, rowDtoHandler }) => {
                       step="any"
                       onKeyDown={(e) => {
                         rowDtoHandler(
-                          "dontsShowPrevYearAchivmentPlaceHolder",
+                          'dontsShowPrevYearAchivmentPlaceHolder',
                           true,
                           index,
                           itm.rowId
@@ -66,7 +66,7 @@ const PrevTargetAchTable = ({ target, rowDto, rowDtoHandler }) => {
                       }}
                       onChange={(e) =>
                         rowDtoHandler(
-                          "previousYearAchivement",
+                          'previousYearAchivement',
                           e.target.value,
                           index,
                           itm.rowId

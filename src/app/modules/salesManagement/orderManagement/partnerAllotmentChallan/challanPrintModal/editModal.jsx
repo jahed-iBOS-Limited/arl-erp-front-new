@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { shallowEqual, useSelector } from "react-redux";
-import { deleteSecondaryDelivery } from "../helper";
-import Loading from "../../../../_helper/_loading";
-import InputField from "../../../../_helper/_inputField";
+import React, { useState } from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import { shallowEqual, useSelector } from 'react-redux';
+import { deleteSecondaryDelivery } from '../helper';
+import Loading from '../../../../_helper/_loading';
+import InputField from '../../../../_helper/_inputField';
 
 function EditTable({ rowData, setRowData }) {
   const [loading, setLoading] = useState(false);
@@ -32,12 +32,12 @@ function EditTable({ rowData, setRowData }) {
       },
     ];
     const url =
-      type === "edit"
+      type === 'edit'
         ? `/wms/SecondaryDelivery/EditSecondaryDeliveryInformation?ActionBy=${userId}`
         : `/wms/SecondaryDelivery/DeleteSecondaryDeliveryBillRegisterInfo`;
 
     deleteSecondaryDelivery(
-      type === "delete" ? payload : dataset,
+      type === 'delete' ? payload : dataset,
       setLoading,
       url
     );
@@ -54,7 +54,7 @@ function EditTable({ rowData, setRowData }) {
       {loading && <Loading />}
       {rowData?.data?.length > 0 && (
         <div className="react-bootstrap-table table-responsive">
-          <table className={"table table-striped table-bordered global-table "}>
+          <table className={'table table-striped table-bordered global-table '}>
             <thead>
               <tr>
                 <th>SL</th>
@@ -74,7 +74,7 @@ function EditTable({ rowData, setRowData }) {
                 return (
                   <>
                     <tr key={index}>
-                      <td style={{ width: "30px" }} className="text-center">
+                      <td style={{ width: '30px' }} className="text-center">
                         {index + 1}
                       </td>
                       <td>{item?.itemName}</td>
@@ -91,7 +91,7 @@ function EditTable({ rowData, setRowData }) {
                             onChange={(e) => {
                               rowDataHandler(
                                 index,
-                                "commission",
+                                'commission',
                                 e?.target?.value
                               );
                             }}
@@ -107,7 +107,7 @@ function EditTable({ rowData, setRowData }) {
                               className="btn btn-info btn-sm"
                               type="button"
                               onClick={() => {
-                                modificationHandler(item, "edit");
+                                modificationHandler(item, 'edit');
                               }}
                             >
                               Save
@@ -116,7 +116,7 @@ function EditTable({ rowData, setRowData }) {
                           <span>
                             <IDelete
                               remover={() => {
-                                modificationHandler(item, "delete");
+                                modificationHandler(item, 'delete');
                               }}
                             />
                           </span>

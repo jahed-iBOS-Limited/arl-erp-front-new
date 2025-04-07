@@ -1,10 +1,9 @@
-
-import React, { useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { IInput } from "../../../../_helper/_input";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { useEffect } from "react";
+import React, { useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { IInput } from '../../../../_helper/_input';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import { useEffect } from 'react';
 import {
   getProductDDL,
   getMaterialDDL,
@@ -12,41 +11,39 @@ import {
   getSingleDataById,
   getShopFloorDDL,
   getUOMDDL,
-} from "../helper";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { CostForBOMLanding } from "./../helper";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
+} from '../helper';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { CostForBOMLanding } from './../helper';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
 
 const validationSchema = {
-  bomName: Yup.string().required("Bom Name is required"),
-  bomVersion: Yup.string()
-    .required("Bom Version is required")
-    .nullable(),
-  lotSize: Yup.number().required("Lot Size is required"),
+  bomName: Yup.string().required('Bom Name is required'),
+  bomVersion: Yup.string().required('Bom Version is required').nullable(),
+  lotSize: Yup.number().required('Lot Size is required'),
   wastage: Yup.number()
-    .min(0, "Minimum 0 Chracter")
-    .max(10000000, "Maximum 10000000 Chracter")
-    .required("Wastage is required"),
+    .min(0, 'Minimum 0 Chracter')
+    .max(10000000, 'Maximum 10000000 Chracter')
+    .required('Wastage is required'),
 };
 
 const createValiadtion = Yup.object().shape({
   ...validationSchema,
   plant: Yup.object().shape({
-    label: Yup.string().required("Plant is required"),
-    value: Yup.string().required("Plant is required"),
+    label: Yup.string().required('Plant is required'),
+    value: Yup.string().required('Plant is required'),
   }),
   shopFloor: Yup.object().shape({
-    label: Yup.string().required("Shop Floor is required"),
-    value: Yup.string().required("Shop Floor is required"),
+    label: Yup.string().required('Shop Floor is required'),
+    value: Yup.string().required('Shop Floor is required'),
   }),
   // bomCode: Yup.string().required("Bom Code is required"),
   product: Yup.object().shape({
-    label: Yup.string().required("Item is required"),
-    value: Yup.string().required("Item is required"),
+    label: Yup.string().required('Item is required'),
+    value: Yup.string().required('Item is required'),
   }),
 });
 
@@ -113,7 +110,6 @@ export default function FormCmp({
         setMaterial
       );
     }
-
   }, []);
   useEffect(() => {
     if (plantId) {
@@ -124,7 +120,6 @@ export default function FormCmp({
         setMaterial
       );
     }
-
   }, []);
   const withoutSelectedMaterialProducts = (values) => {
     if (product?.length > 0) {
@@ -184,7 +179,7 @@ export default function FormCmp({
                         label="
                         Copy From BoM Name"
                         onChange={(valueOption) => {
-                          setFieldValue("copyfrombomname", valueOption);
+                          setFieldValue('copyfrombomname', valueOption);
                         }}
                         placeholder="Select Bom Name"
                         errors={errors}
@@ -235,10 +230,10 @@ export default function FormCmp({
                             valueOption?.value,
                             setMaterial
                           );
-                          setFieldValue("plant", valueOption);
-                          setFieldValue("plantId", valueOption?.value);
-                          setFieldValue("shopFloor", "", "product", "");
-                          setFieldValue("material", "");
+                          setFieldValue('plant', valueOption);
+                          setFieldValue('plantId', valueOption?.value);
+                          setFieldValue('shopFloor', '', 'product', '');
+                          setFieldValue('material', '');
                         }}
                         placeholder="Select Plant"
                         errors={errors}
@@ -253,7 +248,7 @@ export default function FormCmp({
                         value={values?.shopFloor}
                         label="Shop Floor"
                         onChange={(valueOption) => {
-                          setFieldValue("shopFloor", valueOption);
+                          setFieldValue('shopFloor', valueOption);
                         }}
                         placeholder="Select Shop Floor"
                         errors={errors}
@@ -279,15 +274,15 @@ export default function FormCmp({
                             valueOption?.value,
                             setNetWeight
                           );
-                          setFieldValue("bomName", valueOption?.label);
-                          setFieldValue("product", valueOption);
+                          setFieldValue('bomName', valueOption?.label);
+                          setFieldValue('product', valueOption);
                           getUOMDDL(
                             valueOption?.value,
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
                             setHeaderItemUomDDL,
                             setFieldValue,
-                            "headerUOM"
+                            'headerUOM'
                           );
                           CostForBOMLanding(
                             profileData?.accountId,
@@ -308,7 +303,7 @@ export default function FormCmp({
                     <div className="col-lg-12">
                       <label>Bom Name</label>
                       <InputField
-                        value={values?.bomName || ""}
+                        value={values?.bomName || ''}
                         name="bomName"
                         type="text"
                         placeholder="Bom Name"
@@ -332,7 +327,7 @@ export default function FormCmp({
                           value={values?.bomType}
                           label="BOM Type"
                           onChange={(valueOption) => {
-                            setFieldValue("bomType", valueOption);
+                            setFieldValue('bomType', valueOption);
                           }}
                           errors={errors}
                           touched={touched}
@@ -358,7 +353,7 @@ export default function FormCmp({
                         value={values?.headerUOM}
                         label="Select UoM"
                         onChange={(valueOption) => {
-                          setFieldValue("headerUOM", valueOption);
+                          setFieldValue('headerUOM', valueOption);
                         }}
                         placeholder="UoM"
                         errors={errors}
@@ -370,7 +365,7 @@ export default function FormCmp({
                     <div className="col-lg-6">
                       <label>Lot Size</label>
                       <InputField
-                        value={values?.lotSize || ""}
+                        value={values?.lotSize || ''}
                         name="lotSize"
                         type="text"
                         step="any"
@@ -380,7 +375,7 @@ export default function FormCmp({
                     <div className="col-lg-6">
                       <label>Wastage %</label>
                       <InputField
-                        value={values?.wastage || ""}
+                        value={values?.wastage || ''}
                         name="wastage"
                         type="string"
                         placeholder="Wastage"
@@ -397,13 +392,13 @@ export default function FormCmp({
                 <div className="col-lg-8 p-0 m-0">
                   {console.log(values?.material)}
                   {/* Table Header input */}
-                  <div className={"row global-form m-0 px-0 py-2"}>
+                  <div className={'row global-form m-0 px-0 py-2'}>
                     <div className="col-lg-4">
                       <label>Material</label>
                       <SearchAsyncSelect
-                        selectedValue={values?.material || ""}
+                        selectedValue={values?.material || ''}
                         handleChange={(valueOption) => {
-                          setFieldValue("material", valueOption);
+                          setFieldValue('material', valueOption);
 
                           getUOMDDL(
                             valueOption?.value,
@@ -411,7 +406,7 @@ export default function FormCmp({
                             selectedBusinessUnit?.value,
                             setUOMDDL,
                             setFieldValue,
-                            "UOM"
+                            'UOM'
                           );
                         }}
                         loadOptions={(v) => {
@@ -462,8 +457,8 @@ export default function FormCmp({
                         label="
                         UOM"
                         onChange={(valueOption) => {
-                          setFieldValue("UOM", valueOption);
-                          setFieldValue("uom", valueOption);
+                          setFieldValue('UOM', valueOption);
+                          setFieldValue('uom', valueOption);
                         }}
                         placeholder="UOM"
                         errors={errors}
@@ -474,15 +469,15 @@ export default function FormCmp({
                     <div className="col-lg-2 pl pr-1 mb-0">
                       <label>Quantity</label>
                       <IInput
-                        value={values?.quantity || ""}
+                        value={values?.quantity || ''}
                         name="quantity"
                         type="number"
                         placeholder="Quantity"
                         onChange={(e) => {
                           if (e.target.value >= 0) {
-                            setFieldValue("quantity", e.target.value);
+                            setFieldValue('quantity', e.target.value);
                           } else {
-                            setFieldValue("quantity", "");
+                            setFieldValue('quantity', '');
                           }
                         }}
                       />
@@ -503,8 +498,8 @@ export default function FormCmp({
                             quantity: values?.quantity,
                             bommainItem: false,
                           };
-                          setter(isUniq, "M", setFieldValue);
-                          console.log("isUniq", isUniq);
+                          setter(isUniq, 'M', setFieldValue);
+                          console.log('isUniq', isUniq);
                         }}
                       >
                         Add
@@ -516,21 +511,21 @@ export default function FormCmp({
                   <div className="row">
                     <div className="col-lg-12">
                       <div className="table-responsive">
-                        <table className={"table mt-1 bj-table"}>
-                          <thead className={rowDto?.length === 0 && "d-none"}>
+                        <table className={'table mt-1 bj-table'}>
+                          <thead className={rowDto?.length === 0 && 'd-none'}>
                             <tr>
-                              <th style={{ width: "20px" }}>SL</th>
-                              <th style={{ width: "50px" }}>Item Code</th>
-                              <th style={{ width: "160px" }}>
+                              <th style={{ width: '20px' }}>SL</th>
+                              <th style={{ width: '50px' }}>Item Code</th>
+                              <th style={{ width: '160px' }}>
                                 <div className="text-left ml-2">Material</div>
                               </th>
-                              <th style={{ width: "50px" }}>Qty</th>
-                              <th style={{ width: "50px" }}>UoM</th>
-                              <th style={{ width: "50px" }}>Is Main Item</th>
-                              <th style={{ width: "30px" }}>Actions</th>
+                              <th style={{ width: '50px' }}>Qty</th>
+                              <th style={{ width: '50px' }}>UoM</th>
+                              <th style={{ width: '50px' }}>Is Main Item</th>
+                              <th style={{ width: '30px' }}>Actions</th>
                             </tr>
                           </thead>
-                          {console.log("rowDto", rowDto)}
+                          {console.log('rowDto', rowDto)}
                           <tbody>
                             {rowDto?.map((item, index) => (
                               <tr key={index}>
@@ -548,18 +543,18 @@ export default function FormCmp({
                                 <td>
                                   <div
                                     className="text-center"
-                                    style={{ margin: "5px" }}
+                                    style={{ margin: '5px' }}
                                   >
                                     <input
                                       onChange={(e) => {
                                         dataHandler(
-                                          "quantity",
+                                          'quantity',
                                           Math.abs(e.target.value),
                                           index
                                         );
                                       }}
                                       value={rowDto[index]?.quantity}
-                                      step={"any"}
+                                      step={'any'}
                                       min="0"
                                       required
                                       className="form-control"
@@ -583,9 +578,8 @@ export default function FormCmp({
                                       checked={item?.bommainItem}
                                       onChange={(e) => {
                                         let data = [...rowDto];
-                                        rowDto[index][
-                                          "bommainItem"
-                                        ] = !item?.bommainItem;
+                                        rowDto[index]['bommainItem'] =
+                                          !item?.bommainItem;
                                         setRowDto(data);
                                       }}
                                     />
@@ -607,7 +601,7 @@ export default function FormCmp({
                   </div>
 
                   {/* Bill Of Expense Start Here */}
-                  <div className={"row global-form m-0 px-0 py-2 mt-10"}>
+                  <div className={'row global-form m-0 px-0 py-2 mt-10'}>
                     <div className="col-lg-3">
                       <NewSelect
                         name="costCenter"
@@ -615,7 +609,7 @@ export default function FormCmp({
                         value={values?.costCenter}
                         label="Cost Center"
                         onChange={(valueOption) => {
-                          setFieldValue("costCenter", valueOption);
+                          setFieldValue('costCenter', valueOption);
                         }}
                         placeholder="Cost Center"
                         errors={errors}
@@ -629,7 +623,7 @@ export default function FormCmp({
                         value={values?.costElement}
                         label="Cost Element"
                         onChange={(valueOption) => {
-                          setFieldValue("costElement", valueOption);
+                          setFieldValue('costElement', valueOption);
                         }}
                         placeholder="Cost Element"
                         errors={errors}
@@ -655,15 +649,15 @@ export default function FormCmp({
                     <div className="col-lg-3 pl pr-1 mb-0">
                       <label>Amount</label>
                       <IInput
-                        value={values?.costElementAmount || ""}
+                        value={values?.costElementAmount || ''}
                         name="costElementAmount"
                         type="number"
                         placeholder="Amount"
                         onChange={(e) => {
                           if (e.target.value >= 0) {
-                            setFieldValue("costElementAmount", e.target.value);
+                            setFieldValue('costElementAmount', e.target.value);
                           } else {
-                            setFieldValue("costElementAmount", "");
+                            setFieldValue('costElementAmount', '');
                           }
                         }}
                       />
@@ -690,7 +684,7 @@ export default function FormCmp({
                             ProductionCostTypeId: values?.costType?.value,
                             bommainItem: false,
                           };
-                          setter(payload, "C", setFieldValue);
+                          setter(payload, 'C', setFieldValue);
                         }}
                       >
                         Add
@@ -701,29 +695,29 @@ export default function FormCmp({
                   <div className="row">
                     <div className="col-lg-12">
                       <div className="table-responsive">
-                        <table className={"table mt-1 bj-table"}>
+                        <table className={'table mt-1 bj-table'}>
                           <thead
                             className={
-                              costElementRowData?.length < 1 && "d-none"
+                              costElementRowData?.length < 1 && 'd-none'
                             }
                           >
                             <tr>
-                              <th style={{ width: "20px" }}>SL</th>
-                              <th style={{ width: "80px" }}>
+                              <th style={{ width: '20px' }}>SL</th>
+                              <th style={{ width: '80px' }}>
                                 <div className="text-left ml-2">
                                   Cost Center
                                 </div>
                               </th>
-                              <th style={{ width: "100px" }}>
+                              <th style={{ width: '100px' }}>
                                 <div className="text-left ml-2">
                                   Cost Of Element
                                 </div>
                               </th>
                               {/* <th style={{ width: "100px" }}>Cost Type</th> */}
-                              <th style={{ width: "60px" }}>
+                              <th style={{ width: '60px' }}>
                                 <div className="text-right">Amount</div>
                               </th>
-                              <th style={{ width: "30px" }}>Actions</th>
+                              <th style={{ width: '30px' }}>Actions</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -770,13 +764,13 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -1,16 +1,16 @@
-import { Formik } from "formik";
-import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import * as Yup from "yup";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import IButton from "../../../../_helper/iButton";
-import SalesCommissionConfigureFormTable from "./table";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import IButton from '../../../../_helper/iButton';
+import SalesCommissionConfigureFormTable from './table';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
 
 const ValidationSchema = Yup.object().shape({});
 
@@ -23,7 +23,7 @@ export default function FormCmp({
   commissionTypes,
   desginationList,
   akijAgroFeedCommissionTypeList,
-  customerTypeDDL
+  customerTypeDDL,
 }) {
   const history = useHistory();
   const { selectedBusinessUnit, profileData } = useSelector(
@@ -35,11 +35,12 @@ export default function FormCmp({
   const [businessPartnerList, getBusinessPartnerList] = useAxiosGet();
 
   useEffect(() => {
-    getBusinessPartnerList(`/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`)
+    getBusinessPartnerList(
+      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
+    );
     getItemGroupDDL(
       `/oms/TradeOffer/GetDiscountOfferGroupDDL?businessUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, [selectedBusinessUnit]);
 
   return (
@@ -76,28 +77,42 @@ export default function FormCmp({
                       label="Commission Type"
                       placeholder="Commission Type"
                       onChange={(e) => {
-                        setFieldValue("commissionType", e);
+                        setFieldValue('commissionType', e);
                         setRowData([]);
                       }}
                     />
                   </div>
 
-                  {[46].includes(values?.commissionType?.value) && <div className="col-lg-3">
-                    <NewSelect
-                      name="businessPartner"
-                      options={businessPartnerList || []}
-                      value={values?.businessPartner}
-                      label="Business Partner"
-                      placeholder="Business Partner"
-                      onChange={(valueOption) => {
-                        setFieldValue("businessPartner", valueOption);
-                        setFieldValue("channel", {value: valueOption?.channelId, label: valueOption?.channelName});
-                        setFieldValue("region", {value: valueOption?.regionId, label: valueOption?.regionName});
-                        setFieldValue("area", {value: valueOption?.areaId, label: valueOption?.areaName});
-                        setFieldValue("territory", {value: valueOption?.territoryId, label: valueOption?.territoryName});
-                      }}
-                    />
-                  </div>}
+                  {[46].includes(values?.commissionType?.value) && (
+                    <div className="col-lg-3">
+                      <NewSelect
+                        name="businessPartner"
+                        options={businessPartnerList || []}
+                        value={values?.businessPartner}
+                        label="Business Partner"
+                        placeholder="Business Partner"
+                        onChange={(valueOption) => {
+                          setFieldValue('businessPartner', valueOption);
+                          setFieldValue('channel', {
+                            value: valueOption?.channelId,
+                            label: valueOption?.channelName,
+                          });
+                          setFieldValue('region', {
+                            value: valueOption?.regionId,
+                            label: valueOption?.regionName,
+                          });
+                          setFieldValue('area', {
+                            value: valueOption?.areaId,
+                            label: valueOption?.areaName,
+                          });
+                          setFieldValue('territory', {
+                            value: valueOption?.territoryId,
+                            label: valueOption?.territoryName,
+                          });
+                        }}
+                      />
+                    </div>
+                  )}
 
                   {/* RTA Form */}
                   <RATForm
@@ -105,45 +120,25 @@ export default function FormCmp({
                       values,
                       setFieldValue,
                       area: [
-                        14,
-                        16,
-                        20,
-                        23,
-                        17,
-                        18,
-                        25,
-                        27,
-                        22,
-                        35,
-                        36,
-                        37,
-                        38,
-                        39,
-                        40,
-                        41,
-                        46,
+                        14, 16, 20, 23, 17, 18, 25, 27, 22, 35, 36, 37, 38, 39,
+                        40, 41, 46,
                       ].includes(values?.commissionType?.value),
                       territory: false,
                       allElement: true,
-                      channelDisable : [46].includes(values?.commissionType?.value),
-                      regionDisable : [46].includes(values?.commissionType?.value),
-                      areaDisable : [46].includes(values?.commissionType?.value),
-                      territoryDisable : [46].includes(values?.commissionType?.value),
+                      channelDisable: [46].includes(
+                        values?.commissionType?.value
+                      ),
+                      regionDisable: [46].includes(
+                        values?.commissionType?.value
+                      ),
+                      areaDisable: [46].includes(values?.commissionType?.value),
+                      territoryDisable: [46].includes(
+                        values?.commissionType?.value
+                      ),
                       onChange: () => {
                         if (
                           ![
-                            17,
-                            18,
-                            25,
-                            27,
-                            22,
-                            35,
-                            36,
-                            37,
-                            38,
-                            39,
-                            40,
-                            46,
+                            17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40, 46,
                           ].includes(values?.commissionType?.value)
                         ) {
                           setRowData([]);
@@ -155,11 +150,11 @@ export default function FormCmp({
                   <div className="col-lg-3">
                     <NewSelect
                       name="customerStatusType"
-                      options={customerTypeDDL||[]}
+                      options={customerTypeDDL || []}
                       value={values?.customerStatusType}
                       label="Customer Status Type"
                       onChange={(e) => {
-                        setFieldValue("customerStatusType", e);
+                        setFieldValue('customerStatusType', e);
                         setRowData([]);
                       }}
                     />
@@ -240,7 +235,7 @@ export default function FormCmp({
                         value={values?.itemGroup}
                         label="Item Group"
                         onChange={(e) => {
-                          setFieldValue("itemGroup", e);
+                          setFieldValue('itemGroup', e);
                         }}
                       />
                     </div>
@@ -253,7 +248,7 @@ export default function FormCmp({
                         value={values?.designation}
                         label="Designation"
                         onChange={(e) => {
-                          setFieldValue("designation", e);
+                          setFieldValue('designation', e);
                         }}
                       />
                     </div>
@@ -275,36 +270,24 @@ export default function FormCmp({
                         41,
                         ...akijAgroFeedCommissionTypeList,
                       ].includes(values?.commissionType?.value)
-                        ? "Add"
-                        : "Show"
+                        ? 'Add'
+                        : 'Show'
                     }
                     onClick={() => {
                       getAreas(values, () => {
                         if (
                           [
-                            17,
-                            18,
-                            25,
-                            27,
-                            22,
-                            35,
-                            36,
-                            37,
-                            38,
-                            39,
-                            40,
-                            41,
-                            46,
+                            17, 18, 25, 27, 22, 35, 36, 37, 38, 39, 40, 41, 46,
                           ].includes(values?.commissionType?.value)
                         ) {
-                          setFieldValue("channel", "");
-                          setFieldValue("region", "");
-                          setFieldValue("area", "");
-                          setFieldValue("fromAchievement", "");
-                          setFieldValue("toAchievement", "");
-                          setFieldValue("fromQuantity", "");
-                          setFieldValue("toQuantity", "");
-                          setFieldValue("businessPartner", "");
+                          setFieldValue('channel', '');
+                          setFieldValue('region', '');
+                          setFieldValue('area', '');
+                          setFieldValue('fromAchievement', '');
+                          setFieldValue('toAchievement', '');
+                          setFieldValue('fromQuantity', '');
+                          setFieldValue('toQuantity', '');
+                          setFieldValue('businessPartner', '');
                         }
                       });
                     }}

@@ -16,7 +16,7 @@ import Loading from '../../../../_helper/_loading';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import NewSelect from '../../../../_helper/_select';
 import IViewModal from '../../../../_helper/_viewModal';
-import { attachment_action } from "../../../../_helper/attachmentUpload";
+import { attachment_action } from '../../../../_helper/attachmentUpload';
 import {
   createUpdateEstimatePDA,
   getBuUnitDDL,
@@ -99,7 +99,6 @@ const EstimatePDACreate = () => {
       getBuUnitDDL(userId, accId, setUnitDDL);
       getBankAc(accId, buId, setBankAcc);
     }
-
   }, [accId, buId]);
 
   const history = useHistory();
@@ -109,7 +108,7 @@ const EstimatePDACreate = () => {
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${v}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${0}`,
+        `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${v}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${0}`
       )
       .then((res) => res?.data);
   };
@@ -202,7 +201,7 @@ const EstimatePDACreate = () => {
                 lastActionDateTime: new Date(),
                 vat: i?.vat || 0,
               };
-            },
+            }
           ),
         };
       }),
@@ -219,7 +218,7 @@ const EstimatePDACreate = () => {
 
       if (!editId) {
         history.push(
-          `/ShippingAgency/Transaction/EstimatePDA/edit/${resData?.estimatePdaId}`,
+          `/ShippingAgency/Transaction/EstimatePDA/edit/${resData?.estimatePdaId}`
         );
       }
     });
@@ -231,7 +230,6 @@ const EstimatePDACreate = () => {
     } else {
       getExpenseParticularsList(setRowDto, setLoading);
     }
-
   }, [editId]);
 
   const formikRef = React.useRef(null);
@@ -360,7 +358,7 @@ const EstimatePDACreate = () => {
                           setValues(initData);
                           setRowDto([]);
                           history.push(
-                            `/ShippingAgency/Transaction/EstimatePDA/Create`,
+                            `/ShippingAgency/Transaction/EstimatePDA/Create`
                           );
                         }}
                       >
@@ -426,7 +424,7 @@ const EstimatePDACreate = () => {
                         if (v?.length < 3) return [];
                         return axios
                           .get(
-                            `${imarineBaseUrl}/domain/Stakeholder/GetPortDDL?search=${v}`,
+                            `${imarineBaseUrl}/domain/Stakeholder/GetPortDDL?search=${v}`
                           )
                           .then((res) => res?.data);
                       }}
@@ -556,7 +554,7 @@ const EstimatePDACreate = () => {
                         type="button"
                         onClick={() => {
                           dispatch(
-                            getDownlloadFileView_Action(values?.attachment),
+                            getDownlloadFileView_Action(values?.attachment)
                           );
                         }}
                       >
@@ -567,7 +565,12 @@ const EstimatePDACreate = () => {
                 </div>
               </div>
 
-              <RowTable rowDto={rowDto} setRowDto={setRowDto} editId={editId} widthOutModfifyRowDto={widthOutModfifyRowDto} />
+              <RowTable
+                rowDto={rowDto}
+                setRowDto={setRowDto}
+                editId={editId}
+                widthOutModfifyRowDto={widthOutModfifyRowDto}
+              />
 
               <DropzoneDialogBase
                 open={open}
@@ -582,7 +585,7 @@ const EstimatePDACreate = () => {
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

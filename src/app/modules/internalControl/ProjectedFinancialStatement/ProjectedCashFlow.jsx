@@ -25,7 +25,7 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
             <h4 className="text-primary">Projected Cash Flow Statement</h4>
             <p className="mt-4" style={{ fontWeight: 'bold' }}>
               {`For the period from: ${_dateFormatter(
-                values?.fromDate,
+                values?.fromDate
               )}  to  ${_dateFormatter(values?.toDate)}`}{' '}
             </p>
           </div>
@@ -89,7 +89,7 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                           <td>{item?.strName}</td>
                           <td className="text-right" style={{ width: '120px' }}>
                             {numberWithCommas(
-                              Math.round(item?.numPlannedAmount),
+                              Math.round(item?.numPlannedAmount)
                             )}
                           </td>
                           <td className="text-right" style={{ width: '120px' }}>
@@ -108,7 +108,7 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                           <td>{item?.strName}</td>
                           <td className="text-right" style={{ width: '120px' }}>
                             {numberWithCommas(
-                              Math.round(item?.numPlannedAmount),
+                              Math.round(item?.numPlannedAmount)
                             )}
                           </td>
                           <td className="text-right" style={{ width: '120px' }}>
@@ -132,14 +132,15 @@ const ProjectedCashFlow = ({ rowDto, values, accountName }) => {
                                           businessUnitId:
                                             values?.businessUnit?.value,
                                           dteDate: values?.toDate,
-                                          conversionRate: +values?.conversionRate,
+                                          conversionRate:
+                                            +values?.conversionRate,
                                           yearName: 'yyyy-yyyy',
                                           initialAmount: +item?.numAmount,
                                           actionBy: profileData?.userId,
                                         },
                                       ],
                                       null,
-                                      true,
+                                      true
                                     );
                                   }}
                                 >

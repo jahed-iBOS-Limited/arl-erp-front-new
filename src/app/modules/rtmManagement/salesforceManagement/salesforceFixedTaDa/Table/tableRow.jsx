@@ -34,10 +34,9 @@ export function TableRow() {
       getGridData(
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        setGridData,
+        setGridData
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   //setPositionHandler
@@ -122,7 +121,7 @@ export function TableRow() {
                           <IView
                             clickHandler={() => {
                               history.push(
-                                `/rtm-management/salesforceManagement/salesforceFixedTaDa/view/${item?.salesForceTadasetupId}`,
+                                `/rtm-management/salesforceManagement/salesforceFixedTaDa/view/${item?.salesForceTadasetupId}`
                               );
                             }}
                           />
@@ -131,7 +130,7 @@ export function TableRow() {
                           className="edit"
                           onClick={() => {
                             history.push(
-                              `/rtm-management/salesforceManagement/salesforceFixedTaDa/edit/${item?.salesForceTadasetupId}`,
+                              `/rtm-management/salesforceManagement/salesforceFixedTaDa/edit/${item?.salesForceTadasetupId}`
                             );
                           }}
                         >

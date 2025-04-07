@@ -1,12 +1,12 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../_metronic/_partials/controls";
-import { UsersTable } from "./user-table/UsersTable";
+} from '../../../../../_metronic/_partials/controls';
+import { UsersTable } from './user-table/UsersTable';
 export function CreateUserCard() {
   let history = useHistory();
 
@@ -18,7 +18,7 @@ export function CreateUserCard() {
             type="button"
             className="btn btn-primary"
             onClick={() =>
-              history.push("/config/domain-controll/create-user/new")
+              history.push('/config/domain-controll/create-user/new')
             }
           >
             Create New

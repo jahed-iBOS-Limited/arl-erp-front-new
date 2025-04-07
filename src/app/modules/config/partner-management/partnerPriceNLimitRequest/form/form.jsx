@@ -1,21 +1,20 @@
-
-import React from "react";
-import { Formik } from "formik";
-import { useHistory } from "react-router";
+import React from 'react';
+import { Formik } from 'formik';
+import { useHistory } from 'react-router';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { validationSchema } from "../helper";
-import TextArea from "../../../../_helper/TextArea";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
+} from '../../../../../../_metronic/_partials/controls';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import { validationSchema } from '../helper';
+import TextArea from '../../../../_helper/TextArea';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
 
 export default function FormCmp({
   buId,
@@ -66,11 +65,11 @@ export default function FormCmp({
               {true && <ModalProgressBar />}
               <CardHeader
                 title={`${
-                  viewType === "view"
-                    ? "View"
-                    : viewType === "edit"
-                    ? "Edit"
-                    : "New"
+                  viewType === 'view'
+                    ? 'View'
+                    : viewType === 'edit'
+                      ? 'Edit'
+                      : 'New'
                 } Partner Price and Limit Request`}
               >
                 <CardHeaderToolbar>
@@ -85,7 +84,7 @@ export default function FormCmp({
                       <i className="fa fa-arrow-left"></i>
                       Back
                     </button>
-                    {viewType !== "view" && (
+                    {viewType !== 'view' && (
                       <button
                         type="reset"
                         onClick={() => {
@@ -93,13 +92,13 @@ export default function FormCmp({
                           resetForm(initData);
                         }}
                         className="btn btn-light ml-2"
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       >
                         <i className="fa fa-redo"></i>
                         Reset
                       </button>
                     )}
-                    {viewType === "view" ? (
+                    {viewType === 'view' ? (
                       !state?.isApproveByAccounts ||
                       !state?.isApproveSupervisor ? (
                         <div>
@@ -149,12 +148,12 @@ export default function FormCmp({
                           value={values?.channelName}
                           label="Distribution Channel"
                           onChange={(valueOption) => {
-                            setFieldValue("channelName", valueOption);
+                            setFieldValue('channelName', valueOption);
                           }}
                           placeholder="Select Distribution Channel"
                           errors={errors}
                           touched={touched}
-                          isDisabled={viewType === "view"}
+                          isDisabled={viewType === 'view'}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -162,7 +161,7 @@ export default function FormCmp({
                         <SearchAsyncSelect
                           selectedValue={values?.customer}
                           handleChange={(valueOption) => {
-                            setFieldValue("customer", valueOption);
+                            setFieldValue('customer', valueOption);
                           }}
                           placeholder="Search Customer"
                           loadOptions={(v) => {
@@ -174,7 +173,7 @@ export default function FormCmp({
                               )
                               .then((res) => res?.data);
                           }}
-                          isDisabled={viewType === "view"}
+                          isDisabled={viewType === 'view'}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -184,7 +183,7 @@ export default function FormCmp({
                           name="address"
                           placeholder="Business Address"
                           type="text"
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -194,7 +193,7 @@ export default function FormCmp({
                           name="contactPerson"
                           placeholder="Contact Person"
                           type="text"
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -204,7 +203,7 @@ export default function FormCmp({
                           name="contactNumber"
                           placeholder="Contact Number"
                           type="text"
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -214,28 +213,28 @@ export default function FormCmp({
                           name="paymentMode"
                           type="text"
                           placeholder="% Advance % PDC"
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
                       <div className="col-lg-3">
                         <NewSelect
                           name="creditLimitType"
                           options={[
-                            { value: 1, label: "Day" },
-                            { value: 2, label: "Amount" },
-                            { value: 3, label: "Both" },
+                            { value: 1, label: 'Day' },
+                            { value: 2, label: 'Amount' },
+                            { value: 3, label: 'Both' },
                           ]}
                           value={values?.creditLimitType}
                           label="Credit Limit Type"
                           onChange={(valueOption) => {
-                            setFieldValue("creditLimitType", valueOption);
-                            setFieldValue("limitDays", "");
-                            setFieldValue("limitAmount", "");
+                            setFieldValue('creditLimitType', valueOption);
+                            setFieldValue('limitDays', '');
+                            setFieldValue('limitAmount', '');
                           }}
                           placeholder="Select Credit Limit Type"
                           errors={errors}
                           touched={touched}
-                          isDisabled={viewType === "view"}
+                          isDisabled={viewType === 'view'}
                         />
                       </div>
                       {[1, 3]?.includes(values?.creditLimitType?.value) && (
@@ -251,7 +250,7 @@ export default function FormCmp({
                                 !state?.isApproveSupervisor) &&
                               !state?.isRejected
                                 ? false
-                                : viewType === "view"
+                                : viewType === 'view'
                             }
                           />
                         </div>
@@ -269,7 +268,7 @@ export default function FormCmp({
                                 !state?.isApproveSupervisor) &&
                               !state?.isRejected
                                 ? false
-                                : viewType === "view"
+                                : viewType === 'view'
                             }
                           />
                         </div>
@@ -281,13 +280,13 @@ export default function FormCmp({
                           value={values?.conditionType}
                           label="Condition Type"
                           onChange={(valueOption) => {
-                            setFieldValue("conditionType", valueOption);
+                            setFieldValue('conditionType', valueOption);
                             setQuery(valueOption?.value);
                           }}
                           placeholder="Condition Type"
                           errors={errors}
                           touched={touched}
-                          isDisabled={viewType === "view"}
+                          isDisabled={viewType === 'view'}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -297,12 +296,12 @@ export default function FormCmp({
                           value={values?.conditionTypeRef}
                           label="Condition Type Ref"
                           onChange={(valueOption) => {
-                            setFieldValue("conditionTypeRef", valueOption);
+                            setFieldValue('conditionTypeRef', valueOption);
                           }}
                           placeholder="Condition Type Ref"
                           errors={errors}
                           touched={touched}
-                          isDisabled={viewType === "view"}
+                          isDisabled={viewType === 'view'}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -311,7 +310,7 @@ export default function FormCmp({
                           value={values?.startDate}
                           name="startDate"
                           type="date"
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -320,7 +319,7 @@ export default function FormCmp({
                           value={values?.endDate}
                           name="endDate"
                           type="date"
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -331,12 +330,12 @@ export default function FormCmp({
                           name="remarks"
                           placeholder="Remarks"
                           type="text"
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
 
                       <div className="col-12"></div>
-                      {viewType !== "view" && (
+                      {viewType !== 'view' && (
                         <>
                           <div className="col-lg-3">
                             <NewSelect
@@ -345,7 +344,7 @@ export default function FormCmp({
                               value={values?.soName}
                               label="Sales Organization"
                               onChange={(valueOption) => {
-                                setFieldValue("soName", valueOption);
+                                setFieldValue('soName', valueOption);
                                 if (valueOption && values?.channelName) {
                                   getItemList(
                                     `/item/ItemSales/GetItemSalesByChannelAndWarehouseDDL?AccountId=${accId}&BUnitId=${buId}&DistributionChannelId=${values?.channelName?.value}&SalesOrgId=${valueOption.value}`
@@ -356,7 +355,7 @@ export default function FormCmp({
                               errors={errors}
                               touched={touched}
                               isDisabled={rowData?.length}
-                              disabled={viewType === "view"}
+                              disabled={viewType === 'view'}
                             />
                           </div>
                           <div className="col-lg-3">
@@ -366,7 +365,7 @@ export default function FormCmp({
                               value={values?.itemName}
                               label="Item"
                               onChange={(valueOption) => {
-                                setFieldValue("itemName", valueOption);
+                                setFieldValue('itemName', valueOption);
                               }}
                               placeholder="Select Item"
                               errors={errors}
@@ -374,7 +373,7 @@ export default function FormCmp({
                               isDisabled={
                                 !values?.soName || !values?.channelName
                               }
-                              disabled={viewType === "view"}
+                              disabled={viewType === 'view'}
                             />
                           </div>
                           <div className="col-lg-2">
@@ -393,8 +392,8 @@ export default function FormCmp({
                               className="btn btn-primary"
                               onClick={() => {
                                 addRow(values, () => {
-                                  setFieldValue("itemName", "");
-                                  setFieldValue("rate", "");
+                                  setFieldValue('itemName', '');
+                                  setFieldValue('rate', '');
                                 });
                               }}
                               disabled={!values?.itemName || !values?.rate}
@@ -407,76 +406,82 @@ export default function FormCmp({
                     </div>
                   </div>
                   {rowData?.length > 0 && (
-                  <div className="table-responsive">
+                    <div className="table-responsive">
                       <table
-                      className={
-                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                      }
-                    >
-                      <thead>
-                        <tr className="cursor-pointer">
-                          <th>SL</th>
-                          <th>Item Name</th>
-                          <th>Proposed Rate</th>
-                          {state?.isApproveByAccounts &&
-                            state?.isApproveSupervisor && (
-                              <th>Approved Rate</th>
-                            )}
-                          {viewType !== "view" && <th>Action</th>}
-                        </tr>
-                      </thead>
-                      {rowData.map((row, index) => (
-                        <tr key={index}>
-                          <td className="text-center" style={{ width: "40px" }}>
-                            {index + 1}
-                          </td>
-                          <td>{row?.strItemName}</td>
-                          <td className="text-right" style={{ width: "140px" }}>
-                            {viewType === "view" &&
-                            (!state?.isApproveByAccounts ||
-                              !state?.isApproveSupervisor) ? (
-                              <InputField
-                                value={
-                                  state?.isApproveByAccounts
-                                    ? row?.numApprovePrice
-                                    : row?.numProposePrice
-                                }
-                                name="numProposePrice"
-                                placeholder="Rate"
-                                type="number"
-                                onChange={(e) => {
-                                  rowDataChange(
-                                    index,
-                                    "numProposePrice",
-                                    e?.target?.value
-                                  );
-                                }}
-                              />
-                            ) : (
-                              row?.numProposePrice
-                            )}
-                          </td>
-                          {state?.isApproveByAccounts &&
-                            state?.isApproveSupervisor && (
-                              <td
-                                style={{ width: "140px" }}
-                                className="text-right"
-                              >
-                                {row?.numApprovePrice}
-                              </td>
-                            )}
-                          {viewType !== "view" && (
+                        className={
+                          'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
+                        }
+                      >
+                        <thead>
+                          <tr className="cursor-pointer">
+                            <th>SL</th>
+                            <th>Item Name</th>
+                            <th>Proposed Rate</th>
+                            {state?.isApproveByAccounts &&
+                              state?.isApproveSupervisor && (
+                                <th>Approved Rate</th>
+                              )}
+                            {viewType !== 'view' && <th>Action</th>}
+                          </tr>
+                        </thead>
+                        {rowData.map((row, index) => (
+                          <tr key={index}>
                             <td
                               className="text-center"
-                              style={{ width: "60px" }}
+                              style={{ width: '40px' }}
                             >
-                              <IDelete remover={deleteRow} id={index} />
+                              {index + 1}
                             </td>
-                          )}
-                        </tr>
-                      ))}
-                    </table>
-                  </div>
+                            <td>{row?.strItemName}</td>
+                            <td
+                              className="text-right"
+                              style={{ width: '140px' }}
+                            >
+                              {viewType === 'view' &&
+                              (!state?.isApproveByAccounts ||
+                                !state?.isApproveSupervisor) ? (
+                                <InputField
+                                  value={
+                                    state?.isApproveByAccounts
+                                      ? row?.numApprovePrice
+                                      : row?.numProposePrice
+                                  }
+                                  name="numProposePrice"
+                                  placeholder="Rate"
+                                  type="number"
+                                  onChange={(e) => {
+                                    rowDataChange(
+                                      index,
+                                      'numProposePrice',
+                                      e?.target?.value
+                                    );
+                                  }}
+                                />
+                              ) : (
+                                row?.numProposePrice
+                              )}
+                            </td>
+                            {state?.isApproveByAccounts &&
+                              state?.isApproveSupervisor && (
+                                <td
+                                  style={{ width: '140px' }}
+                                  className="text-right"
+                                >
+                                  {row?.numApprovePrice}
+                                </td>
+                              )}
+                            {viewType !== 'view' && (
+                              <td
+                                className="text-center"
+                                style={{ width: '60px' }}
+                              >
+                                <IDelete remover={deleteRow} id={index} />
+                              </td>
+                            )}
+                          </tr>
+                        ))}
+                      </table>
+                    </div>
                   )}
                 </form>
               </CardBody>

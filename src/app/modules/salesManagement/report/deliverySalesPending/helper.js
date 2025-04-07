@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getOrderVsShipmentVsPending_api = async (
   accId,
@@ -14,11 +14,13 @@ export const getOrderVsShipmentVsPending_api = async (
   setGridDataTwo,
   type
 ) => {
-  const detailsAPI = `/oms/SalesOrganization/GetOrderVsShipmentVsPending?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&ShippointId=${shipPointId ||
-    0}`;
+  const detailsAPI = `/oms/SalesOrganization/GetOrderVsShipmentVsPending?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&ShippointId=${
+    shipPointId || 0
+  }`;
 
-  const topSheetAPI = `/oms/SalesOrganization/GetOrderVsShipmentVsPendingTopSheet?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&ShippointId=${shipPointId ||
-    0}`;
+  const topSheetAPI = `/oms/SalesOrganization/GetOrderVsShipmentVsPendingTopSheet?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&ShippointId=${
+    shipPointId || 0
+  }`;
   const url = [1, 3]?.includes(type) ? topSheetAPI : detailsAPI;
 
   try {
@@ -85,8 +87,9 @@ export const getTransportScheduleTypeData_api = async (
   setGridDataTwo,
   providerTypeId
 ) => {
-  const url = `/oms/SalesOrganization/GetTransportScheduleTypeData?AccountId=${accId}&BusinessUnitId=${buId}&ProviderTypeId=${providerTypeId ||
-    0}&FromDate=${fromDate}&ToDate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&ShippointId=${shipPointId}`;
+  const url = `/oms/SalesOrganization/GetTransportScheduleTypeData?AccountId=${accId}&BusinessUnitId=${buId}&ProviderTypeId=${
+    providerTypeId || 0
+  }&FromDate=${fromDate}&ToDate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&ShippointId=${shipPointId}`;
 
   try {
     setLoading(true);

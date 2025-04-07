@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getFamilyInfo = async (setter) => {
   try {
@@ -16,7 +16,7 @@ export const getFamilyInfo = async (setter) => {
 //religionDDL_api
 export const religionDDL_api = async (setter) => {
   try {
-    const res = await Axios.get("/hcm/HCMDDL/ReligionDDL");
+    const res = await Axios.get('/hcm/HCMDDL/ReligionDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -26,7 +26,7 @@ export const religionDDL_api = async (setter) => {
 //getGenderDDL
 export const getGenderDDL_api = async (setter) => {
   try {
-    const res = await Axios.get("/hcm/HCMDDL/GetGenderDDL");
+    const res = await Axios.get('/hcm/HCMDDL/GetGenderDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -36,7 +36,7 @@ export const getGenderDDL_api = async (setter) => {
 
 export const getEmpIdentificationTypeDDL_api = async (setter) => {
   try {
-    const res = await Axios.get("/hcm/HCMDDL/GetEmployeeIdentificationTypeDDL");
+    const res = await Axios.get('/hcm/HCMDDL/GetEmployeeIdentificationTypeDDL');
     setter(res?.data);
   } catch (error) {
     setter([]);
@@ -46,9 +46,9 @@ export const getEmpIdentificationTypeDDL_api = async (setter) => {
 export const createFamilyInfo_api = async (payload, cb, setDisabled) => {
   setDisabled(true);
   try {
-    const res = await Axios.post("/hcm/FamilyInfo/CreateFamilyInfo", payload);
+    const res = await Axios.post('/hcm/FamilyInfo/CreateFamilyInfo', payload);
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted Successfully");
+      toast.success(res?.data?.message || 'Submitted Successfully');
       cb();
       setDisabled(false);
     }
@@ -65,7 +65,7 @@ export const getFamilyInfoById_api = async (id, setter) => {
       `/hcm/FamilyInfo/GetFamilyInfoById?FamilyInfoId=${id}`
     );
     if (res.status === 200 && res.data) {
-      console.log(res?.data, "jjjjj");
+      console.log(res?.data, 'jjjjj');
       const data = res.data;
       if (res.data.length > 0) {
         setter(data);
@@ -79,9 +79,9 @@ export const getFamilyInfoById_api = async (id, setter) => {
 export const editFamilyInfo_api = async (payload, setDisabled) => {
   setDisabled(true);
   try {
-    const res = await Axios.put("/hcm/FamilyInfo/EditFamilyInfo", payload);
+    const res = await Axios.put('/hcm/FamilyInfo/EditFamilyInfo', payload);
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted Successfully");
+      toast.success(res?.data?.message || 'Submitted Successfully');
       setDisabled(false);
     }
   } catch (error) {

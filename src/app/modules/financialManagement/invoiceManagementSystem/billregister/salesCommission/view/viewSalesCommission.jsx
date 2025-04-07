@@ -1,40 +1,39 @@
-
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import ReactToPrint from "react-to-print";
-import { Formik } from "formik";
-import ViewModal from "./viewModal";
-import Loading from "../../../../../_helper/_loading";
-import InputField from "./../../../../../_helper/_inputField";
-import * as Yup from "yup";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import { Formik } from 'formik';
+import ViewModal from './viewModal';
+import Loading from '../../../../../_helper/_loading';
+import InputField from './../../../../../_helper/_inputField';
+import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   ModalProgressBar,
   CardHeaderToolbar,
-} from "../../../../../../../_metronic/_partials/controls";
-import printIcon from "../../../../../_helper/images/print-icon.png";
-import IView from "../../../../../_helper/_helperIcons/_view";
-import IViewModal from "../../../../../_helper/_viewModal";
-import { getMultipleFileView_Action } from "../../../../../_helper/_redux/Actions";
+} from '../../../../../../../_metronic/_partials/controls';
+import printIcon from '../../../../../_helper/images/print-icon.png';
+import IView from '../../../../../_helper/_helperIcons/_view';
+import IViewModal from '../../../../../_helper/_viewModal';
+import { getMultipleFileView_Action } from '../../../../../_helper/_redux/Actions';
 import {
   GetCommissionByBillRegisterId,
   GetSalesCommissionById,
-} from "../helper";
-import { BillApproved_api } from "../../../approvebillregister/helper";
+} from '../helper';
+import { BillApproved_api } from '../../../approvebillregister/helper';
 const initData = {
-  approveAmount: "",
-  approveAmountMax: "",
-  remarks: "",
+  approveAmount: '',
+  approveAmountMax: '',
+  remarks: '',
 };
 
 const validationSchema = Yup.object().shape({
   approveAmount: Yup.number()
-    .min(0, "Minimum 0 number")
-    .required("Approve amount required")
-    .test("approveAmount", "Max Net Payable Amount", function(value) {
+    .min(0, 'Minimum 0 number')
+    .required('Approve amount required')
+    .test('approveAmount', 'Max Net Payable Amount', function (value) {
       return this.parent.approveAmountMax >= value;
     }),
 });
@@ -79,7 +78,7 @@ function ViewSalesCommission({
       unitId: selectedBusinessUnit?.value,
       billTypeId: gridItem?.billType,
       approvedAmount: +values?.approveAmount,
-      remarks: values?.remarks || "",
+      remarks: values?.remarks || '',
     };
     const payload = {
       bill: [modifyGridData],
@@ -115,7 +114,7 @@ function ViewSalesCommission({
             {loading && <Loading />}
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Sales Commission View (Approve Bill)"}>
+              <CardHeader title={'Sales Commission View (Approve Bill)'}>
                 <CardHeaderToolbar>
                   {landingValues?.status?.value &&
                     landingValues?.status?.value !== 2 && (
@@ -166,17 +165,17 @@ function ViewSalesCommission({
                     <div className="col-lg-12 ">
                       <div
                         className="text-center "
-                        style={{ position: "relative" }}
+                        style={{ position: 'relative' }}
                       >
                         <h2>{selectedBusinessUnit?.label}</h2>
                         <h5>{selectedBusinessUnit?.address} </h5>
                         <h3>Sales Commission</h3>
                         <button
                           style={{
-                            padding: "4px 4px",
-                            position: "absolute",
-                            top: "2px",
-                            right: "70px",
+                            padding: '4px 4px',
+                            position: 'absolute',
+                            top: '2px',
+                            right: '70px',
                           }}
                           onClick={() => {
                             dispatch(
@@ -192,23 +191,23 @@ function ViewSalesCommission({
                         </button>
                         <ReactToPrint
                           pageStyle={
-                            "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}"
+                            '@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}'
                           }
                           trigger={() => (
                             <button
                               type="button"
                               className="btn btn-primary printSectionNone"
                               style={{
-                                padding: "2px 5px",
-                                position: "absolute",
-                                top: "0",
-                                right: "0",
+                                padding: '2px 5px',
+                                position: 'absolute',
+                                top: '0',
+                                right: '0',
                               }}
                             >
                               <img
                                 style={{
-                                  width: "25px",
-                                  paddingRight: "5px",
+                                  width: '25px',
+                                  paddingRight: '5px',
                                 }}
                                 src={printIcon}
                                 alt="print-icon"
@@ -244,7 +243,7 @@ function ViewSalesCommission({
                               <th>Quantity</th>
                               <th>Total Price</th>
                               <th
-                                style={{ width: "100px" }}
+                                style={{ width: '100px' }}
                                 className="printSectionNone"
                               >
                                 Action
@@ -257,7 +256,7 @@ function ViewSalesCommission({
                                 <>
                                   <tr key={index}>
                                     <td
-                                      style={{ width: "30px" }}
+                                      style={{ width: '30px' }}
                                       className="text-center"
                                     >
                                       {index + 1}
@@ -302,8 +301,8 @@ function ViewSalesCommission({
                       setShow(false);
                     }}
                   >
-                    {" "}
-                    <ViewModal initData={rowDto}></ViewModal>{" "}
+                    {' '}
+                    <ViewModal initData={rowDto}></ViewModal>{' '}
                   </IViewModal>
                 </form>
               </CardBody>

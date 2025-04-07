@@ -1,14 +1,13 @@
-
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { useHistory } from "react-router";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import { storiedList } from "../helper";
-import IButton from "../../../../_helper/iButton";
-import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import { storiedList } from '../helper';
+import IButton from '../../../../_helper/iButton';
+import AttachFile from '../../../../_helper/commonInputFieldsGroups/attachemntUpload';
 
 export default function FormCmp({
   viewType,
@@ -43,11 +42,11 @@ export default function FormCmp({
               title={`Home Builders Information Entry`}
               backHandler={() => history.goBack()}
               resetHandler={
-                viewType !== "view"
+                viewType !== 'view'
                   ? () => {
                       resetForm(initData);
                     }
-                  : ""
+                  : ''
               }
               saveHandler={() => {
                 handleSubmit();
@@ -60,14 +59,14 @@ export default function FormCmp({
                       <NewSelect
                         name="type"
                         options={[
-                          { value: 1, label: "Engineer" },
-                          { value: 2, label: "Mason" },
-                          { value: 3, label: "IHB" },
+                          { value: 1, label: 'Engineer' },
+                          { value: 2, label: 'Mason' },
+                          { value: 3, label: 'IHB' },
                         ]}
                         value={values?.type}
                         label="Type"
                         onChange={(valueOption) => {
-                          setFieldValue("type", valueOption);
+                          setFieldValue('type', valueOption);
                         }}
                         placeholder="Type"
                       />
@@ -143,7 +142,7 @@ export default function FormCmp({
                         value={values?.storiedType}
                         label="Storied Type"
                         onChange={(valueOption) => {
-                          setFieldValue("storiedType", valueOption);
+                          setFieldValue('storiedType', valueOption);
                         }}
                         placeholder="Storied Type"
                       />

@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { Formik } from "formik";
-import * as Yup from "yup";
-import { Form } from "react-bootstrap";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { getEmployeeDDL, getSalesForceTransferLanding } from "../helper";
-import NewSelect from "../../../../_helper/_select";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+import { Form } from 'react-bootstrap';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { getEmployeeDDL, getSalesForceTransferLanding } from '../helper';
+import NewSelect from '../../../../_helper/_select';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   employeeName: Yup.object().shape({
-    label: Yup.string().required("Employee Name is required"),
-    value: Yup.string().required("Employee Name is required"),
+    label: Yup.string().required('Employee Name is required'),
+    value: Yup.string().required('Employee Name is required'),
   }),
 });
 
 const initData = {
-  employeeName: "",
+  employeeName: '',
 };
 
 export function TableRow({ saveHandler }) {
@@ -100,7 +100,7 @@ export function TableRow({ saveHandler }) {
                           value={values?.employeeName}
                           label="Employee Name"
                           onChange={(valueOption) => {
-                            setFieldValue("employeeName", valueOption);
+                            setFieldValue('employeeName', valueOption);
                           }}
                           placeholder="Employee Name"
                           errors={errors}
@@ -139,11 +139,11 @@ export function TableRow({ saveHandler }) {
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                     <thead>
                       <tr>
-                        <th style={{ width: "30px" }}>SL</th>
+                        <th style={{ width: '30px' }}>SL</th>
                         <th>Employee Name</th>
                         <th>Distribution Channel</th>
                         <th>Territory</th>
-                        <th style={{ width: "90px" }}>Actions</th>
+                        <th style={{ width: '90px' }}>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -167,13 +167,14 @@ export function TableRow({ saveHandler }) {
                                 className="btn btn-primary"
                                 onClick={() => {
                                   history.push({
-                                      pathname: `/rtm-management/salesforceManagement/salesforceTransfer/transfer/${td?.employeeId}`,
-                                      state: {
-                                        employeeName: td?.employeeName,
-                                        distributionChanelId: td?.distributionChannelId,
-                                        territoryName: td?.territoryName,
-                                        employee: values?.employeeName
-                                      }
+                                    pathname: `/rtm-management/salesforceManagement/salesforceTransfer/transfer/${td?.employeeId}`,
+                                    state: {
+                                      employeeName: td?.employeeName,
+                                      distributionChanelId:
+                                        td?.distributionChannelId,
+                                      territoryName: td?.territoryName,
+                                      employee: values?.employeeName,
+                                    },
                                   });
                                 }}
                               >

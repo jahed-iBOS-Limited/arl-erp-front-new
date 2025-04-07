@@ -1,34 +1,34 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 const initData = {
   date: _todayDate(),
-  enroll: "",
-  name: "",
-  designation: "",
-  department: "",
-  contactNumber: "",
-  age: "",
-  gender: "",
-  accidentDateTime: "",
-  accidentPlace: "",
-  accidentReason: "",
-  nameOfInjuries: "",
-  firstWitnessName: "",
-  firstWitnessDesignation: "",
-  firstWitnessDepartment: "",
-  secondWitnessName: "",
-  secondWitnessDesignation: "",
-  secondWitnessDepartment: "",
+  enroll: '',
+  name: '',
+  designation: '',
+  department: '',
+  contactNumber: '',
+  age: '',
+  gender: '',
+  accidentDateTime: '',
+  accidentPlace: '',
+  accidentReason: '',
+  nameOfInjuries: '',
+  firstWitnessName: '',
+  firstWitnessDesignation: '',
+  firstWitnessDepartment: '',
+  secondWitnessName: '',
+  secondWitnessDesignation: '',
+  secondWitnessDepartment: '',
 };
 const AccidentEntryCreate = () => {
   const [objProps, setObjprops] = useState({});
@@ -48,7 +48,7 @@ const AccidentEntryCreate = () => {
 
   useEffect(() => {
     if (id) {
-      console.log("location?.state", location?.state);
+      console.log('location?.state', location?.state);
       location?.state?.employeeId === 0 ? setViewType(2) : setViewType(1);
       setModifyData({
         ...location?.state,
@@ -101,9 +101,9 @@ const AccidentEntryCreate = () => {
       isActive: true,
     };
     saveData(
-      "/mes/MSIL/AccidentEntryCreateAndEdit",
+      '/mes/MSIL/AccidentEntryCreateAndEdit',
       payload,
-      location?.state?.accidentEntryId ? "" : cb,
+      location?.state?.accidentEntryId ? '' : cb,
       true
     );
   };
@@ -151,13 +151,13 @@ const AccidentEntryCreate = () => {
                         name="viewType"
                         checked={viewType === 1}
                         className="mr-1 pointer"
-                        style={{ position: "relative", top: "2px" }}
+                        style={{ position: 'relative', top: '2px' }}
                         onChange={(valueOption) => {
                           setViewType(1);
-                          setFieldValue("enroll", "");
-                          setFieldValue("serviceRecipient", "");
-                          setFieldValue("gender", "");
-                          setFieldValue("designation", "");
+                          setFieldValue('enroll', '');
+                          setFieldValue('serviceRecipient', '');
+                          setFieldValue('gender', '');
+                          setFieldValue('designation', '');
                         }}
                         disabled={id && viewType !== 1}
                       />
@@ -169,13 +169,13 @@ const AccidentEntryCreate = () => {
                         name="viewType"
                         checked={viewType === 2}
                         className="mr-1 pointer"
-                        style={{ position: "relative", top: "2px" }}
+                        style={{ position: 'relative', top: '2px' }}
                         onChange={(e) => {
                           setViewType(2);
-                          setFieldValue("enroll", "");
-                          setFieldValue("serviceRecipient", "");
-                          setFieldValue("gender", "");
-                          setFieldValue("designation", "");
+                          setFieldValue('enroll', '');
+                          setFieldValue('serviceRecipient', '');
+                          setFieldValue('gender', '');
+                          setFieldValue('designation', '');
                         }}
                         disabled={id && viewType !== 2}
                       />
@@ -193,33 +193,33 @@ const AccidentEntryCreate = () => {
                           isSearchIcon={true}
                           handleChange={(valueOption) => {
                             if (valueOption) {
-                              setFieldValue("enroll", valueOption);
+                              setFieldValue('enroll', valueOption);
                               setFieldValue(
-                                "name",
+                                'name',
                                 valueOption?.strEmployeeName
                               );
-                              setFieldValue("gender", valueOption?.gender);
+                              setFieldValue('gender', valueOption?.gender);
                               setFieldValue(
-                                "designation",
+                                'designation',
                                 valueOption?.employeeInfoDesignation
                               );
                               setFieldValue(
-                                "department",
+                                'department',
                                 valueOption?.employeeInfoDepartment
                               );
                               setFieldValue(
-                                "contactNumber",
+                                'contactNumber',
                                 valueOption?.contactNumber
                               );
                             } else {
-                              setFieldValue("enroll", "");
-                              setFieldValue("name", "");
-                              setFieldValue("gender", "");
-                              setFieldValue("designation", "");
+                              setFieldValue('enroll', '');
+                              setFieldValue('name', '');
+                              setFieldValue('gender', '');
+                              setFieldValue('designation', '');
                             }
                           }}
                           loadOptions={loadEnrollList}
-                        // isDisabled={id}
+                          // isDisabled={id}
                         />
                       </div>
                     ) : null}
@@ -231,7 +231,7 @@ const AccidentEntryCreate = () => {
                         type="text"
                         disabled={viewType === 1}
                         onChange={(e) => {
-                          setFieldValue("name", e.target.value);
+                          setFieldValue('name', e.target.value);
                         }}
                       />
                     </div>
@@ -260,7 +260,7 @@ const AccidentEntryCreate = () => {
                         name="contactNumber"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("contactNumber", e.target.value);
+                          setFieldValue('contactNumber', e.target.value);
                         }}
                       />
                     </div>
@@ -271,7 +271,7 @@ const AccidentEntryCreate = () => {
                         name="age"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("age", +e.target.value);
+                          setFieldValue('age', +e.target.value);
                         }}
                       />
                     </div>
@@ -291,10 +291,10 @@ const AccidentEntryCreate = () => {
                         name="accidentDateTime"
                         type="datetime-local"
                         onChange={(e) => {
-                          setFieldValue("accidentDateTime", e.target.value);
+                          setFieldValue('accidentDateTime', e.target.value);
                           //   setItemList([]);
                         }}
-                      // disabled={id}
+                        // disabled={id}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -304,10 +304,10 @@ const AccidentEntryCreate = () => {
                         name="accidentPlace"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("accidentPlace", e.target.value);
+                          setFieldValue('accidentPlace', e.target.value);
                           //   setItemList([]);
                         }}
-                      // disabled={id}
+                        // disabled={id}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -317,10 +317,10 @@ const AccidentEntryCreate = () => {
                         name="accidentReason"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("accidentReason", e.target.value);
+                          setFieldValue('accidentReason', e.target.value);
                           //   setItemList([]);
                         }}
-                      // disabled={id}
+                        // disabled={id}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -330,7 +330,7 @@ const AccidentEntryCreate = () => {
                         name="nameOfInjuries"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("nameOfInjuries", e.target.value);
+                          setFieldValue('nameOfInjuries', e.target.value);
                           //   setItemList([]);
                         }}
                       />
@@ -355,7 +355,7 @@ const AccidentEntryCreate = () => {
                         name="firstWitnessName"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("firstWitnessName", e.target.value);
+                          setFieldValue('firstWitnessName', e.target.value);
                           //   setItemList([]);
                         }}
                       />
@@ -368,7 +368,7 @@ const AccidentEntryCreate = () => {
                         type="text"
                         onChange={(e) => {
                           setFieldValue(
-                            "firstWitnessDesignation",
+                            'firstWitnessDesignation',
                             e.target.value
                           );
                           //   setItemList([]);
@@ -383,7 +383,7 @@ const AccidentEntryCreate = () => {
                         type="text"
                         onChange={(e) => {
                           setFieldValue(
-                            "firstWitnessDepartment",
+                            'firstWitnessDepartment',
                             e.target.value
                           );
                           //   setItemList([]);
@@ -406,7 +406,7 @@ const AccidentEntryCreate = () => {
                         name="secondWitnessName"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("secondWitnessName", e.target.value);
+                          setFieldValue('secondWitnessName', e.target.value);
                           //   setItemList([]);
                         }}
                       />
@@ -419,7 +419,7 @@ const AccidentEntryCreate = () => {
                         type="text"
                         onChange={(e) => {
                           setFieldValue(
-                            "secondWitnessDesignation",
+                            'secondWitnessDesignation',
                             e.target.value
                           );
                           //   setItemList([]);
@@ -434,7 +434,7 @@ const AccidentEntryCreate = () => {
                         type="text"
                         onChange={(e) => {
                           setFieldValue(
-                            "secondWitnessDepartment",
+                            'secondWitnessDepartment',
                             e.target.value
                           );
                           //   setItemList([]);
@@ -447,14 +447,14 @@ const AccidentEntryCreate = () => {
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

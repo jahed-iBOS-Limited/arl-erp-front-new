@@ -1,8 +1,6 @@
-import React from "react";
-import PORegisterTable  from "./Table/table";
+import React from 'react';
+import PORegisterTable from './Table/table';
 
 export function PORegisterReport({ history }) {
-  return (  
-      <PORegisterTable />
-  );
-};
+  return <PORegisterTable />;
+}

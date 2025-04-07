@@ -192,7 +192,7 @@ export default function BankStateMentSummary() {
                         }, 500);
                       } else {
                         getBankStatementData(
-                          `/fino/BusinessTransaction/GetBankAccountStatementSummaryReport?businessUnitId=${selectedBusinessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
+                          `/fino/BusinessTransaction/GetBankAccountStatementSummaryReport?businessUnitId=${selectedBusinessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
                         );
                       }
                     }}
@@ -242,8 +242,10 @@ export default function BankStateMentSummary() {
                                   {item?.debitAmount}
                                 </td>
                                 <td className="text-right">
-                                  {// abs
-                                  Math.abs(item?.creditAmount)}
+                                  {
+                                    // abs
+                                    Math.abs(item?.creditAmount)
+                                  }
                                 </td>
                                 <td className="text-right">
                                   {item?.currentBalance}
@@ -265,9 +267,9 @@ export default function BankStateMentSummary() {
                                 bankStatementData
                                   ?.reduce(
                                     (acc, curr) => acc + curr?.debitAmount,
-                                    0,
+                                    0
                                   )
-                                  .toFixed(2),
+                                  .toFixed(2)
                               )}
                             </td>
                             <td className="text-right">
@@ -275,9 +277,9 @@ export default function BankStateMentSummary() {
                                 bankStatementData
                                   ?.reduce(
                                     (acc, curr) => acc + curr?.creditAmount,
-                                    0,
+                                    0
                                   )
-                                  .toFixed(2),
+                                  .toFixed(2)
                               )}
                             </td>
                             <td className="text-right">
@@ -285,9 +287,9 @@ export default function BankStateMentSummary() {
                                 bankStatementData
                                   ?.reduce(
                                     (acc, curr) => acc + curr?.currentBalance,
-                                    0,
+                                    0
                                   )
-                                  .toFixed(2),
+                                  .toFixed(2)
                               )}
                             </td>
                           </tr>

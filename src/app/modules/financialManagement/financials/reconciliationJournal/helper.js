@@ -1,16 +1,16 @@
-import axios from "axios";
+import axios from 'axios';
 // import { toast } from "react-toastify";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "./../../../_helper/_dateFormate";
+import { toast } from 'react-toastify';
+import { _dateFormatter } from './../../../_helper/_dateFormate';
 
 export const getType = () => {
   return [
-    { value: 1, label: "Inventory, Overhead and COGS" },
-    { value: 2, label: "Depreciation" },
-    { value: 3, label: "Income Tax Provision" },
-    { value: 4, label: "Year Closing" },
-    { value: 5, label: "Baddebet Interest Provision" },
-    { value: 6, label: "Salary Journal" },
+    { value: 1, label: 'Inventory, Overhead and COGS' },
+    { value: 2, label: 'Depreciation' },
+    { value: 3, label: 'Income Tax Provision' },
+    { value: 4, label: 'Year Closing' },
+    { value: 5, label: 'Baddebet Interest Provision' },
+    { value: 6, label: 'Salary Journal' },
   ];
 };
 
@@ -29,7 +29,7 @@ export const savebankStatement = async (
     );
     if (res.status === 200) {
       cb();
-      toast.success(res?.data?.message || "Submitted successfully");
+      toast.success(res?.data?.message || 'Submitted successfully');
       setDisabled(false);
       setIsUpload(false);
     }
@@ -72,7 +72,7 @@ export const getYearClosing = async (
   setClosingData,
   setLoading
 ) => {
-  console.log("setLoading", setLoading);
+  console.log('setLoading', setLoading);
   setLoading(true);
   try {
     const api = `/fino/Account/AccountClosingYearlyGetAndPosting?businessUnitId=${businessUnitId}&closingDate=${closingDate}&actionBy=${userId}&typeId=${typeId}`;
@@ -286,17 +286,17 @@ export const getOrCreateSalaryJournal = async (obj) => {
   } = obj;
 
   // generate year & month // 2024-03 > ['2024','03'] > [2024,03]
-  const [year, month] = values?.monthYear?.split("-")?.map(Number);
+  const [year, month] = values?.monthYear?.split('-')?.map(Number);
   // console.log(year, month);
 
   const api = {
-    get: "GetSalaryGenerateRequestLanding",
-    create: "GetSalaryJVCostCenterWiseNew",
+    get: 'GetSalaryGenerateRequestLanding',
+    create: 'GetSalaryJVCostCenterWiseNew',
   };
 
   // get last day of month - month - year from year & month
   // 2024 04 > Full Date > ISO String Date > 2024-04-30
-  let date = new Date(Date.UTC(year, month, 0))?.toISOString()?.split("T")[0];
+  let date = new Date(Date.UTC(year, month, 0))?.toISOString()?.split('T')[0];
 
   // console.log(date);
   try {
@@ -313,18 +313,18 @@ export const getOrCreateSalaryJournal = async (obj) => {
     //   return toast.success("JV Report Success");
     // }
     // console.log(res)
-    if (Array.isArray(res?.data) && type === "create") {
+    if (Array.isArray(res?.data) && type === 'create') {
       setterFunction(res?.data);
       setExpanded(2);
-      toast.warn("Error, please try again");
-    } else if (type === "create" || res?.data?.statuscode === 200) {
-      toast.success("JV Report Success");
+      toast.warn('Error, please try again');
+    } else if (type === 'create' || res?.data?.statuscode === 200) {
+      toast.success('JV Report Success');
       setterFunction(res?.data);
     } else if (type === 'get') {
       setExpanded(1);
       setterFunction(res?.data);
-    }else{
-      console.log('Salary Jouranl')
+    } else {
+      console.log('Salary Jouranl');
     }
   } catch (e) {
     setterFunction([]);

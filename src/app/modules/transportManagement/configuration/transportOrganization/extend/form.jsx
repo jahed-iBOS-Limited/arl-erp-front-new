@@ -1,11 +1,11 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import * as Yup from "yup";
-import FormikError from "../../../../_helper/_formikError";
-import InputField from "../../../../_helper/_inputField";
-import { getBusinessUnitDDL_api } from "../helper";
-import IDelete from "./../../../../_helper/_helperIcons/_delete";
-import NewSelect from "./../../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import * as Yup from 'yup';
+import FormikError from '../../../../_helper/_formikError';
+import InputField from '../../../../_helper/_inputField';
+import { getBusinessUnitDDL_api } from '../helper';
+import IDelete from './../../../../_helper/_helperIcons/_delete';
+import NewSelect from './../../../../_helper/_select';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -67,7 +67,7 @@ export default function FormCmp({
                 <div className="col-lg-12">
                   <div
                     className="row bank-journal bank-journal-custom bj-left"
-                    style={{ paddingBottom: "40px" }}
+                    style={{ paddingBottom: '40px' }}
                   >
                     <div className="col-lg-3 pl pr-1 mb-1">
                       <label>Transport Organization Name</label>
@@ -91,7 +91,7 @@ export default function FormCmp({
                         value={values?.businessUnitName}
                         label="Business Unit Name"
                         onChange={(valueOption) => {
-                          setFieldValue("businessUnitName", valueOption);
+                          setFieldValue('businessUnitName', valueOption);
                         }}
                         placeholder="Business Unit Name"
                         errors={errors}
@@ -100,7 +100,7 @@ export default function FormCmp({
                     </div>
                     <div className="col-lg-3 bank-journal">
                       <button
-                        style={{ marginTop: "10px" }}
+                        style={{ marginTop: '10px' }}
                         type="button"
                         disabled={!values?.businessUnitName}
                         className="btn btn-primary"
@@ -119,43 +119,43 @@ export default function FormCmp({
               </div>
               <div className="row">
                 <div className="col-lg-12 pl-0 pr-0">
-                <div className="table-responsive">
-                <table className={"table mt-1 bj-table"}>
-                    <thead className={rowDto?.length < 1 && "d-none"}>
-                      <tr>
-                        <th style={{ width: "20px" }}>SL</th>
-                        <th style={{ width: "50px" }}>Business Unit Name</th>
-                        <th style={{ width: "50px" }}>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowDto?.map((item, index) => (
-                        <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td>
-                            <div className="text-left pl-2">
-                              {item?.businessUnitName?.label}
-                            </div>
-                          </td>
-                          <td className="text-center">
-                            <IDelete remover={remover} id={index} />
-                          </td>
+                  <div className="table-responsive">
+                    <table className={'table mt-1 bj-table'}>
+                      <thead className={rowDto?.length < 1 && 'd-none'}>
+                        <tr>
+                          <th style={{ width: '20px' }}>SL</th>
+                          <th style={{ width: '50px' }}>Business Unit Name</th>
+                          <th style={{ width: '50px' }}>Action</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                      </thead>
+                      <tbody>
+                        {rowDto?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>
+                              <div className="text-left pl-2">
+                                {item?.businessUnitName?.label}
+                              </div>
+                            </td>
+                            <td className="text-center">
+                              <IDelete remover={remover} id={index} />
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

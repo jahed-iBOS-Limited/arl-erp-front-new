@@ -68,14 +68,13 @@ export default function MonthlyVoyageStatement() {
       values?.fromDate,
       values?.toDate,
       setGridData,
-      setLoading,
+      setLoading
     );
   };
 
   useEffect(() => {
     getRowData(initData);
     getSBUListDDL(accId, buId, setSBUList);
-
   }, [accId, buId]);
 
   const JournalPost = (values, item, index, journalType) => {
@@ -96,8 +95,8 @@ export default function MonthlyVoyageStatement() {
       journalType === 'jv'
         ? estFreightAmount
         : journalType === 'aj'
-        ? estFreightAmount - netFreight
-        : 0;
+          ? estFreightAmount - netFreight
+          : 0;
 
     const payload = {
       accountId: accId,
@@ -118,8 +117,8 @@ export default function MonthlyVoyageStatement() {
       journalType === 'jv'
         ? `LighterVesselIncomeSatetementJournal`
         : journalType === 'aj'
-        ? `LighterVesselIncomeSatetementAdjustmentJournal`
-        : '';
+          ? `LighterVesselIncomeSatetementAdjustmentJournal`
+          : '';
 
     const determineTypeId = () => {
       const estFreightRounded = _fixedPoint(estFreightAmount, true, 0);
@@ -127,8 +126,8 @@ export default function MonthlyVoyageStatement() {
       return estFreightRounded < netFreightRounded
         ? 1
         : estFreightRounded > netFreightRounded
-        ? 2
-        : 0;
+          ? 2
+          : 0;
     };
 
     createJournal(
@@ -144,13 +143,13 @@ export default function MonthlyVoyageStatement() {
           journalType === 'jv'
             ? 'jvDisable'
             : journalType === 'aj'
-            ? 'ajDisable'
-            : '';
+              ? 'ajDisable'
+              : '';
         let _data = [...gridData];
         _data[index][field] = true;
         setGridData(_data);
       },
-      true,
+      true
     );
   };
 
@@ -235,7 +234,7 @@ export default function MonthlyVoyageStatement() {
                                 buId,
                                 valueOption?.value,
                                 setSalesOrgList,
-                                setLoading,
+                                setLoading
                               );
                             }
                           }}
@@ -321,21 +320,21 @@ export default function MonthlyVoyageStatement() {
                         <td>
                           {item?.receiveDate
                             ? moment(item?.receiveDate).format(
-                                'YYYY-MM-DD HH:mm:ss',
+                                'YYYY-MM-DD HH:mm:ss'
                               )
                             : ''}
                         </td>
                         <td>
                           {item?.dischargeStartDate
                             ? moment(item?.dischargeStartDate).format(
-                                'YYYY-MM-DD HH:mm:ss',
+                                'YYYY-MM-DD HH:mm:ss'
                               )
                             : ''}
                         </td>
                         <td>
                           {item?.dischargeCompleteDate
                             ? moment(item?.dischargeCompleteDate).format(
-                                'YYYY-MM-DD HH:mm:ss',
+                                'YYYY-MM-DD HH:mm:ss'
                               )
                             : ''}
                         </td>
@@ -357,7 +356,7 @@ export default function MonthlyVoyageStatement() {
                             (+item?.cargoQtyEst || 0) *
                               (+item?.cargoFreightRate || 0),
                             true,
-                            0,
+                            0
                           )}
                         </td>
                         <td className="text-right">
@@ -365,7 +364,7 @@ export default function MonthlyVoyageStatement() {
                             (+item?.cargoQtyAct || 0) *
                               (+item?.cargoFreightRate || 0),
                             true,
-                            0,
+                            0
                           )}
                         </td>
                         <td>{item?.dischargePortName}</td>
@@ -409,10 +408,10 @@ export default function MonthlyVoyageStatement() {
                         {_fixedPoint(
                           gridData?.reduce(
                             (a, b) => a + (+b?.cargoQtyEst || 0),
-                            0,
+                            0
                           ),
                           true,
-                          0,
+                          0
                         )}
                       </b>
                     </td>
@@ -421,10 +420,10 @@ export default function MonthlyVoyageStatement() {
                         {_fixedPoint(
                           gridData?.reduce(
                             (a, b) => a + (+b?.cargoQtyAct || 0),
-                            0,
+                            0
                           ),
                           true,
-                          0,
+                          0
                         )}
                       </b>
                     </td>
@@ -437,10 +436,10 @@ export default function MonthlyVoyageStatement() {
                               a +
                               (+b?.cargoQtyEst || 0) *
                                 (+b?.cargoFreightRate || 0),
-                            0,
+                            0
                           ),
                           true,
-                          0,
+                          0
                         )}
                       </b>
                     </td>
@@ -452,10 +451,10 @@ export default function MonthlyVoyageStatement() {
                               a +
                               (+b?.cargoQtyAct || 0) *
                                 (+b?.cargoFreightRate || 0),
-                            0,
+                            0
                           ),
                           true,
-                          0,
+                          0
                         )}
                       </b>
                     </td>

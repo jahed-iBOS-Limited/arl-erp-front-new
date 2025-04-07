@@ -1,97 +1,96 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import * as Yup from "yup";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import QualityReportForm from "./From";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import * as Yup from 'yup';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import QualityReportForm from './From';
 
 const initData = {
-  heatNo: "",
-  physicalTestDate: "",
-  physicalTestTime: "",
-  grade: "",
-  numActualArea: "",
-  strNominalDia: "",
-  numActualDia: "",
-  numActualUnitWtKg: "",
-  numElongationAfterFracture: "",
-  numEmfpercentage: "",
-  numYieldLoad: "",
-  numYieldStrengthCal: "",
-  numMaximumForce: "",
-  numTensileStrengthCal: "",
-  numRuptureLoad: "",
-  numTsYsratioCal: "",
-  strBendTest: "",
-  strNatureOfBillet: "",
-  numBilletTempreture: "",
-  numFurnaceTempreture: "",
-  numTmtwaterTempreture: "",
-  numBarEntryTempreture: "",
-  numBarExitTempreture: "",
-  numWaterFlow: "",
-  numWaterPressure: "",
-  strRemarks: "",
+  heatNo: '',
+  physicalTestDate: '',
+  physicalTestTime: '',
+  grade: '',
+  numActualArea: '',
+  strNominalDia: '',
+  numActualDia: '',
+  numActualUnitWtKg: '',
+  numElongationAfterFracture: '',
+  numEmfpercentage: '',
+  numYieldLoad: '',
+  numYieldStrengthCal: '',
+  numMaximumForce: '',
+  numTensileStrengthCal: '',
+  numRuptureLoad: '',
+  numTsYsratioCal: '',
+  strBendTest: '',
+  strNatureOfBillet: '',
+  numBilletTempreture: '',
+  numFurnaceTempreture: '',
+  numTmtwaterTempreture: '',
+  numBarEntryTempreture: '',
+  numBarExitTempreture: '',
+  numWaterFlow: '',
+  numWaterPressure: '',
+  strRemarks: '',
 };
 
 const validationSchema = Yup.object().shape({
-  physicalTestDate: Yup.string().required("Physical Test Date is required"),
-  physicalTestTime: Yup.string().required("Physical Test Time is required"),
+  physicalTestDate: Yup.string().required('Physical Test Date is required'),
+  physicalTestTime: Yup.string().required('Physical Test Time is required'),
   grade: Yup.object()
     .shape({
-      label: Yup.string().required("Grade is required"),
-      value: Yup.string().required("Grade is required"),
+      label: Yup.string().required('Grade is required'),
+      value: Yup.string().required('Grade is required'),
     })
-    .typeError("Grade is required"),
-  numActualArea: Yup.number().min(0, "Actual Area must be positive number"),
+    .typeError('Grade is required'),
+  numActualArea: Yup.number().min(0, 'Actual Area must be positive number'),
   strNominalDia: Yup.object()
     .shape({
-      label: Yup.string().required("Nominal Dia is required"),
-      value: Yup.string().required("Nominal Dia is required"),
+      label: Yup.string().required('Nominal Dia is required'),
+      value: Yup.string().required('Nominal Dia is required'),
     })
-    .typeError("Nominal Dia is required"),
+    .typeError('Nominal Dia is required'),
   // numActualDia: Yup.number().min(0, "Actual Dia must be positive number"),
   numActualUnitWtKg: Yup.number().min(
     0,
-    "Actual unit weight must be positive number"
+    'Actual unit weight must be positive number'
   ),
   numElongationAfterFracture: Yup.number().min(
     0,
-    "Elongation after fracture must be positive number"
+    'Elongation after fracture must be positive number'
   ),
-  numEmfpercentage: Yup.number().min(0, "Provide must be positive number"),
-  numYieldLoad: Yup.number().min(0, "Provide must be positive number"),
-  numYieldStrengthCal: Yup.number().min(0, "Provide must be positive number"),
-  numMaximumForce: Yup.number().min(0, "Provide must be positive number"),
-  numTensileStrengthCal: Yup.number().min(0, "Provide must be positive number"),
-  numRuptureLoad: Yup.number().min(0, "Provide must be positive number"),
-  numTsYsratioCal: Yup.number().min(0, "Provide must be positive number"),
+  numEmfpercentage: Yup.number().min(0, 'Provide must be positive number'),
+  numYieldLoad: Yup.number().min(0, 'Provide must be positive number'),
+  numYieldStrengthCal: Yup.number().min(0, 'Provide must be positive number'),
+  numMaximumForce: Yup.number().min(0, 'Provide must be positive number'),
+  numTensileStrengthCal: Yup.number().min(0, 'Provide must be positive number'),
+  numRuptureLoad: Yup.number().min(0, 'Provide must be positive number'),
+  numTsYsratioCal: Yup.number().min(0, 'Provide must be positive number'),
   strBendTest: Yup.object()
     .shape({
-      label: Yup.string().required("Bend Test is required"),
-      value: Yup.string().required("Bend Test is required"),
+      label: Yup.string().required('Bend Test is required'),
+      value: Yup.string().required('Bend Test is required'),
     })
-    .typeError("Bend Test is required"),
+    .typeError('Bend Test is required'),
   strNatureOfBillet: Yup.object()
     .shape({
-      label: Yup.string().required("Nature of billet is required"),
-      value: Yup.string().required("Nature of billet is required"),
+      label: Yup.string().required('Nature of billet is required'),
+      value: Yup.string().required('Nature of billet is required'),
     })
-    .typeError("Nature of billet is required"),
-  numBilletTempreture: Yup.number().min(0, "Provide must be positive number"),
-  numFurnaceTempreture: Yup.number().min(0, "Provide must be positive number"),
-  numTmtwaterTempreture: Yup.number().min(0, "Provide must be positive number"),
-  numBarEntryTempreture: Yup.number().min(0, "Provide must be positive number"),
-  numBarExitTempreture: Yup.number().min(0, "Provide must be positive number"),
-  numWaterFlow: Yup.number().min(0, "Provide must be positive number"),
-  numWaterPressure: Yup.number().min(0, "Provide must be positive number"),
-  strRemarks: Yup.string().required("Remarks is required"),
+    .typeError('Nature of billet is required'),
+  numBilletTempreture: Yup.number().min(0, 'Provide must be positive number'),
+  numFurnaceTempreture: Yup.number().min(0, 'Provide must be positive number'),
+  numTmtwaterTempreture: Yup.number().min(0, 'Provide must be positive number'),
+  numBarEntryTempreture: Yup.number().min(0, 'Provide must be positive number'),
+  numBarExitTempreture: Yup.number().min(0, 'Provide must be positive number'),
+  numWaterFlow: Yup.number().min(0, 'Provide must be positive number'),
+  numWaterPressure: Yup.number().min(0, 'Provide must be positive number'),
+  strRemarks: Yup.string().required('Remarks is required'),
 });
 
 export default function QualityControlCreate() {
@@ -99,7 +98,7 @@ export default function QualityControlCreate() {
   const location = useLocation();
   const [isDisabled, setDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
-  const [modifyData, setModifyData] = useState("");
+  const [modifyData, setModifyData] = useState('');
   const [productDDL, getProductDDL] = useAxiosGet();
   const [nominalDiaDDL, getNominalDiaDDL] = useAxiosGet();
   const [, saveData] = useAxiosPost();
@@ -115,8 +114,9 @@ export default function QualityControlCreate() {
   }, shallowEqual);
 
   useEffect(() => {
-    getNominalDiaDDL(`/mes/MSIL/GetAllMSIL?PartName=ItemSKUName&BusinessUnitId=${selectedBusinessUnit.value}`);
-
+    getNominalDiaDDL(
+      `/mes/MSIL/GetAllMSIL?PartName=ItemSKUName&BusinessUnitId=${selectedBusinessUnit.value}`
+    );
   }, []);
 
   useEffect(() => {
@@ -162,7 +162,6 @@ export default function QualityControlCreate() {
         strRemarks: location?.state?.strRemarks,
       });
     }
-
   }, [id]);
 
   const saveHandler = async (values, cb) => {
@@ -200,7 +199,7 @@ export default function QualityControlCreate() {
         dteInsertDate: _todayDate(),
         isActive: true,
       },
-      id ? "" : cb,
+      id ? '' : cb,
       true
     );
   };
@@ -212,7 +211,7 @@ export default function QualityControlCreate() {
   return (
     <IForm
       title={
-        id ? "Edit Quality Report Entry Form" : "Quality Report Entry Form"
+        id ? 'Edit Quality Report Entry Form' : 'Quality Report Entry Form'
       }
       getProps={setObjprops}
       isDisabled={isDisabled}

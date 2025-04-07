@@ -1,25 +1,24 @@
-
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import Form from "../common/form";
-import Axios from "axios";
-import shortid from "shortid";
-import { useSelector, shallowEqual } from "react-redux";
-import { toast } from "react-toastify";
+} from '../../../../../../_metronic/_partials/controls';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import Form from '../common/form';
+import Axios from 'axios';
+import shortid from 'shortid';
+import { useSelector, shallowEqual } from 'react-redux';
+import { toast } from 'react-toastify';
 
 const initData = {
   id: undefined,
-  businessUnitName: "....",
-  businessUnitCode: "....",
-  languageName: "....",
-  currencyName: "....",
-  businessUnitAddress: "....",
+  businessUnitName: '....',
+  businessUnitCode: '....',
+  languageName: '....',
+  currencyName: '....',
+  businessUnitAddress: '....',
 };
 
 export default function EditForm({
@@ -29,9 +28,9 @@ export default function EditForm({
   },
 }) {
   const [isDisabled, setDisabled] = useState(false);
-  const [businessUnitData, setData] = useState("");
-  const [lngConfigId, setLngConfigId] = useState("");
-  const [crncConfigId, setCrncgConfigId] = useState("");
+  const [businessUnitData, setData] = useState('');
+  const [lngConfigId, setLngConfigId] = useState('');
+  const [crncConfigId, setCrncgConfigId] = useState('');
   const [fileObjects, setFileObjects] = useState([]);
   // Get profile data from store
   const profileData = useSelector((state) => {
@@ -42,7 +41,6 @@ export default function EditForm({
     if (profileData && profileData.accountId) {
       getBusinessUnitById(id, profileData.accountId);
     }
-
   }, [profileData]);
 
   const getBusinessUnitById = async (id, accId) => {
@@ -88,7 +86,7 @@ export default function EditForm({
           businessUnitCode: values.businessUnitCode,
           businessUnitName: values.businessUnitName,
           businessUnitAddress: values.businessUnitAddress,
-          image:values?.imageId || "",
+          image: values?.imageId || '',
           actionBy,
         },
         objEditBusinessUnitCurrencyDTO: {
@@ -109,18 +107,17 @@ export default function EditForm({
       try {
         setDisabled(true);
         const res = await Axios.put(
-          "/domain/BusinessUnitDomain/EditBusinessunitDomain",
+          '/domain/BusinessUnitDomain/EditBusinessunitDomain',
           businessData
         );
         cb(initData);
-        toast.success(res.data?.message || "Submitted successfully", {
+        toast.success(res.data?.message || 'Submitted successfully', {
           toastId: shortid(),
         });
         setDisabled(false);
         backHandler();
         setData(initData);
       } catch (error) {
-
         toast.error(error?.response?.data?.message, { toastId: shortid() });
         setDisabled(false);
       }

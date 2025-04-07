@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { useSelector } from "react-redux";
-import PurchaseTable from "./purchaseTable";
-import DebitNoteTable from "./debitNoteTable";
-import { shallowEqual } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { useSelector } from 'react-redux';
+import PurchaseTable from './purchaseTable';
+import DebitNoteTable from './debitNoteTable';
+import { shallowEqual } from 'react-redux';
 import {
   GetAuditType_api,
   GetPurchaseLogSummary_api,
@@ -12,39 +12,38 @@ import {
   GetSalesLogSummary_api,
   GetCreditNoteLogSummary_api,
   GetTreasuryDepositSummary_api,
-} from "../helper";
+} from '../helper';
 
-import Loading from "./../../../../_helper/_loading";
-import InputField from "./../../../../_helper/_inputField";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import OneLabelModel from "./../oneLabelModel";
-import SalesTable from "./salesTable";
-import CreditNoteTable from "./creditNoteTable";
-import TreasuryDepositTable from "./treasuryDepositTable";
+import Loading from './../../../../_helper/_loading';
+import InputField from './../../../../_helper/_inputField';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import OneLabelModel from './../oneLabelModel';
+import SalesTable from './salesTable';
+import CreditNoteTable from './creditNoteTable';
+import TreasuryDepositTable from './treasuryDepositTable';
 import NewSelect from './../../../../_helper/_select';
 import {
-
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
+} from '../../../../../../_metronic/_partials/controls';
 // Validation schema
 const validationSchema = Yup.object().shape({});
 const initData = {
   id: undefined,
-  viewType: "",
+  viewType: '',
   toDate: _todayDate(),
   fromDate: _todayDate(),
 };
 
 export default function HeaderForm() {
-  const [gridData, setGridData] = useState("");
+  const [gridData, setGridData] = useState('');
   const [loading, setLoading] = useState(false);
   const [viewTypeDDL, setViewTypeDDL] = useState([]);
   const [isOneLabelModel, setOneLabelModel] = useState(false);
-  const [parentRowClickData, setParentRowClickData] = useState("");
+  const [parentRowClickData, setParentRowClickData] = useState('');
   // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -122,7 +121,7 @@ export default function HeaderForm() {
             {loading && <Loading />}
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Transaction Log"}>
+              <CardHeader title={'Transaction Log'}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
@@ -135,7 +134,7 @@ export default function HeaderForm() {
                         value={values?.viewType}
                         label="View Type"
                         onChange={(valueOption) => {
-                          setFieldValue("viewType", valueOption);
+                          setFieldValue('viewType', valueOption);
                           setGridData([]);
                         }}
                         placeholder="View Type"

@@ -1,18 +1,18 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import Loading from "../../../_helper/_loading";
-import PaginationSearch from "../../../_helper/_search";
-import PaginationTable from "../../../_helper/_tablePagination";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import Loading from '../../../_helper/_loading';
+import PaginationSearch from '../../../_helper/_search';
+import PaginationTable from '../../../_helper/_tablePagination';
 
 function ItemWiseSerialUpdate() {
   const history = useHistory();
@@ -24,10 +24,9 @@ function ItemWiseSerialUpdate() {
     getRowData(
       `/wms/ItemWiseSerialUpdate/GetItemWiseSerialLanding?PageNo=${pageNo}&PageSize=${pageSize}`
     );
-
   }, []);
 
-  const setPositionHandler = (pageNo, pageSize, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, searchValue = '') => {
     getRowData(
       `/wms/ItemWiseSerialUpdate/GetItemWiseSerialLanding?PageNo=${pageNo}&PageSize=${pageSize}&Search=${searchValue}`
     );
@@ -48,7 +47,7 @@ function ItemWiseSerialUpdate() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Item Wise Serial Update"}>
+              <CardHeader title={'Item Wise Serial Update'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
@@ -75,11 +74,11 @@ function ItemWiseSerialUpdate() {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>PO Code</th>
                             <th>MRR Code</th>
                             <th>Supplier Name</th>
-                            <th style={{ width: "80px" }}>Action</th>
+                            <th style={{ width: '80px' }}>Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -91,7 +90,7 @@ function ItemWiseSerialUpdate() {
                                   {item?.purchaseOrderCode}
                                 </td>
                                 <td className="text-center">{item?.mrrcode}</td>
-                                <td>{item?.supplierName || ""}</td>
+                                <td>{item?.supplierName || ''}</td>
                                 <td className="text-center">
                                   <div className="d-flex align-items-center justify-content-around">
                                     <IEdit

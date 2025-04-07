@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const getBusinessUnitDDL = async (setter, accountId) => {
   try {
@@ -7,7 +7,7 @@ export const getBusinessUnitDDL = async (setter, accountId) => {
       `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${accountId}`
     );
     if (res.status === 200 && res?.data) {
-      const modifyResData = [{ value: 0, label: "All" }, ...res?.data];
+      const modifyResData = [{ value: 0, label: 'All' }, ...res?.data];
       setter(modifyResData);
     }
   } catch (error) {
@@ -50,28 +50,28 @@ const manageBalanceData = (arr) => {
     currentLiabilityTotalPlanBalance = 0;
 
   arr.forEach((data) => {
-    if (data.strAcClassName === "Current Asset") {
+    if (data.strAcClassName === 'Current Asset') {
       currentassetsTotalBalance = currentassetsTotalBalance + data.numBalance;
       currentassetsTotalPlanBalance =
         currentassetsTotalPlanBalance + data.numPlanBalance;
       currentassets.push(data);
-    } else if (data.strAcClassName === "Non Current Asset") {
+    } else if (data.strAcClassName === 'Non Current Asset') {
       nonCurrentAssetsTotalBalance =
         nonCurrentAssetsTotalBalance + data.numBalance;
       nonCurrentAssetsTotalPlanBalance =
         nonCurrentAssetsTotalPlanBalance + data.numPlanBalance;
       nonCurrentAssets.push(data);
-    } else if (data.strAcClassName === "Equity") {
+    } else if (data.strAcClassName === 'Equity') {
       equityTotalBalance = equityTotalBalance + data.numBalance;
       equityTotalPlanBalance = equityTotalPlanBalance + data.numPlanBalance;
       equity.push(data);
-    } else if (data.strAcClassName === "Non Current Liabilities") {
+    } else if (data.strAcClassName === 'Non Current Liabilities') {
       nonCurrentLiabilityTotalBalance =
         nonCurrentLiabilityTotalBalance + data.numBalance;
       nonCurrentLiabilityTotalPlanBalance =
         nonCurrentLiabilityTotalPlanBalance + data.numPlanBalance;
       nonCurrentLiability.push(data);
-    } else if (data.strAcClassName === "Current Liabilities") {
+    } else if (data.strAcClassName === 'Current Liabilities') {
       currentLiabilityTotalBalance =
         currentLiabilityTotalBalance + data.numBalance;
       currentLiabilityTotalPlanBalance =
@@ -105,13 +105,13 @@ export const getReportBalance = async (
   date,
   setter,
   setLoading,
-  enterpriseDivision="",
+  enterpriseDivision = '',
   ConvertionRate
 ) => {
   setLoading(true);
   try {
     const res = await Axios.get(
-      `/fino/BalanceSheet/GetBalanceSheet?AccountId=${accId}&BusinessUnitGroup=${enterpriseDivision||""}&BusinessUnitId=${buId}&AsOnDate=${_dateFormatter(date)}&ConvertionRate=${ConvertionRate}`
+      `/fino/BalanceSheet/GetBalanceSheet?AccountId=${accId}&BusinessUnitGroup=${enterpriseDivision || ''}&BusinessUnitId=${buId}&AsOnDate=${_dateFormatter(date)}&ConvertionRate=${ConvertionRate}`
     );
 
     if (res.status === 200 && res?.data) {

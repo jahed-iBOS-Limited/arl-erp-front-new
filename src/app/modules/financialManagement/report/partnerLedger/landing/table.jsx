@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 // import { PartnerLedger } from "../../../../procurement/reports/partnerLedger";
-import ICustomTable from "../../../../_helper/_customTable";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import InfoCircle from "../../../../_helper/_helperIcons/_infoCircle";
-import IViewModal from "../../../../_helper/_viewModal";
-import PartnerInfo from "../modal/partnerInfo";
+import ICustomTable from '../../../../_helper/_customTable';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import InfoCircle from '../../../../_helper/_helperIcons/_infoCircle';
+import IViewModal from '../../../../_helper/_viewModal';
+import PartnerInfo from '../modal/partnerInfo';
 
 const Table = ({ rowDto, values }) => {
   const [show, setShow] = useState(false);
   const [tableItem, setTableItem] = useState({});
-  const headers = ["SL", "Partner", "Partner Code", "Ledger Balance", "Action"];
+  const headers = ['SL', 'Partner', 'Partner Code', 'Ledger Balance', 'Action'];
 
   let totalAmount = 0;
   return (

@@ -1,18 +1,15 @@
-import React, { useState, useRef, useEffect } from "react";
-import IViewModal from "../../../../_helper/_viewModal";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import {
-  Card,
-  CardBody,
-} from "../../../../../../_metronic/_partials/controls";
-import { getSupplyOutputTaxDetails } from "../helper";
-import OutputTaxDetailsModal from "../outputTaxDetailsModal/outputTaxDetailsModal";
-import Mushak62 from "./../../salesRegister/Table/grid";
-import { getHeaderData, SalesRegister_Report_api } from "./helper";
-import moment from "moment";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import React, { useState, useRef, useEffect } from 'react';
+import IViewModal from '../../../../_helper/_viewModal';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { Card, CardBody } from '../../../../../../_metronic/_partials/controls';
+import { getSupplyOutputTaxDetails } from '../helper';
+import OutputTaxDetailsModal from '../outputTaxDetailsModal/outputTaxDetailsModal';
+import Mushak62 from './../../salesRegister/Table/grid';
+import { getHeaderData, SalesRegister_Report_api } from './helper';
+import moment from 'moment';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
 export default function OutputTaxModal({
   show,
   onHide,
@@ -43,11 +40,9 @@ export default function OutputTaxModal({
   }, [selectedBusinessUnit, profileData]);
 
   const startOfMonth = moment(parentValues?.mushakDate)
-    .startOf("month")
+    .startOf('month')
     .format();
-  const endOfMonth = moment(parentValues?.mushakDate)
-    .endOf("month")
-    .format();
+  const endOfMonth = moment(parentValues?.mushakDate).endOf('month').format();
 
   let totalVAT = 0,
     totalSD = 0,
@@ -59,7 +54,7 @@ export default function OutputTaxModal({
         onHide={() => {
           onHide();
         }}
-        title={"SUPPLY-OUTPUT [SUB-FORM]"}
+        title={'SUPPLY-OUTPUT [SUB-FORM]'}
         btnText="Close"
         isShow={loading}
       >
@@ -73,7 +68,7 @@ export default function OutputTaxModal({
                     className="btn btn-primary px-1 py-1 my-0"
                   >
                     <img
-                      style={{ width: "25px", paddingRight: "5px" }}
+                      style={{ width: '25px', paddingRight: '5px' }}
                       src={printIcon}
                       alt="print-icon"
                     />
@@ -91,7 +86,7 @@ export default function OutputTaxModal({
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                     <thead>
                       <tr>
-                        <th style={{ width: "30px" }}>Serial No.</th>
+                        <th style={{ width: '30px' }}>Serial No.</th>
                         <th>Goods/Service Commercial Description</th>
                         <th>Goods/Service Code</th>
                         <th>Goods/Service Name</th>
@@ -112,7 +107,7 @@ export default function OutputTaxModal({
                         </th>
                         <th>Notes</th>
                         <th
-                          style={{ width: "190px" }}
+                          style={{ width: '190px' }}
                           className="printSectionNone"
                         >
                           Details
@@ -155,20 +150,20 @@ export default function OutputTaxModal({
                                 </div>
                               </td>
                               <td>
-                                {" "}
+                                {' '}
                                 <div className="text-right pr-2">
                                   {_fixedPoint(item?.vat)}
                                 </div>
                               </td>
 
                               <td>
-                                {" "}
+                                {' '}
                                 <div className="pl-2">{item?.notes}</div>
                               </td>
                               <td className="text-center printSectionNone">
                                 <button
                                   className="btn btn-primary"
-                                  style={{ padding: "3px 10px 5px 10px" }}
+                                  style={{ padding: '3px 10px 5px 10px' }}
                                   type="button"
                                   onClick={() => {
                                     getSupplyOutputTaxDetails(
@@ -187,7 +182,7 @@ export default function OutputTaxModal({
                                 </button>
                                 <button
                                   className="btn btn-primary ml-2"
-                                  style={{ padding: "3px 10px 5px 10px" }}
+                                  style={{ padding: '3px 10px 5px 10px' }}
                                   type="button"
                                   onClick={() => {
                                     setModal6_2(true);
@@ -254,7 +249,7 @@ export default function OutputTaxModal({
           setModal6_2();
           setRowDto([]);
         }}
-        title={"Mushak 6.2"}
+        title={'Mushak 6.2'}
         btnText="Close"
         isShow={loading}
       >

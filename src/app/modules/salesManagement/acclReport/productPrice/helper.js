@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const GetSbuDDL = async (accId, buId, setter) => {
   try {
@@ -38,8 +38,8 @@ export const getPartnerProductPrice = async (
     type === 1
       ? `&disChannelId=${disId}`
       : type === 2
-      ? `&businessPartnerId=${customerId}`
-      : "";
+        ? `&businessPartnerId=${customerId}`
+        : '';
   try {
     const res = await axios.get(
       `/oms/OManagementReport/GetBusinessPartnerProductPrice?accountId=${accId}&businessUnitId=${buId}${param}`

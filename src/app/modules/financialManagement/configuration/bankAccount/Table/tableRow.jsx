@@ -20,7 +20,7 @@ export function TableRow() {
 
   const userRole = useSelector(
     (state) => state?.authData?.userRole,
-    shallowEqual,
+    shallowEqual
   );
   const bankAccount = userRole[7];
 
@@ -42,11 +42,10 @@ export function TableRow() {
           selectedBusinessUnit.value,
           setLoading,
           pageNo,
-          pageSize,
-        ),
+          pageSize
+        )
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   // UI Context
@@ -111,8 +110,8 @@ export function TableRow() {
         selectedBusinessUnit.value,
         setLoading,
         pageNo,
-        pageSize,
-      ),
+        pageSize
+      )
     );
   };
 

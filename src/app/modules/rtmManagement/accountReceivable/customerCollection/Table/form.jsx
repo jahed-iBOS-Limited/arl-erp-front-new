@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react'
-import { Formik, Form } from 'formik'
-import InputField from '../../../../_helper/_inputField'
-import { _todayDate } from '../../../../_helper/_todayDate'
-import { useSelector } from 'react-redux'
-import { shallowEqual } from 'react-redux'
+import React, { useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import InputField from '../../../../_helper/_inputField';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
 
 const initData = {
   taxBranch: {},
   fromDate: _todayDate(),
   toDate: _todayDate(),
-}
+};
 
 export function SearchForm({ onSubmit }) {
   // const [taxBranchDDL, setTaxBranchDDL] = useState([]);
@@ -19,10 +19,10 @@ export function SearchForm({ onSubmit }) {
     return {
       profileData: state?.authData?.profileData,
       selectedBusinessUnit: state?.authData?.selectedBusinessUnit,
-    }
-  }, shallowEqual)
+    };
+  }, shallowEqual);
 
-  const { profileData, selectedBusinessUnit } = storeData
+  const { profileData, selectedBusinessUnit } = storeData;
 
   useEffect(() => {
     if (profileData.accountId && selectedBusinessUnit?.value) {
@@ -32,7 +32,7 @@ export function SearchForm({ onSubmit }) {
       //   setTaxBranchDDL
       // );
     }
-  }, [profileData, selectedBusinessUnit])
+  }, [profileData, selectedBusinessUnit]);
 
   return (
     <>
@@ -41,7 +41,7 @@ export function SearchForm({ onSubmit }) {
         initialValues={{ ...initData }}
         // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          onSubmit(values)
+          onSubmit(values);
         }}
       >
         {({
@@ -113,5 +113,5 @@ export function SearchForm({ onSubmit }) {
         )}
       </Formik>
     </>
-  )
+  );
 }

@@ -27,9 +27,7 @@ const initData = {
 };
 // Validation Schema using Yup
 const validationSchema = Yup.object().shape({
-  type: Yup.object()
-    .required('Type is required')
-    .nullable(),
+  type: Yup.object().required('Type is required').nullable(),
   intBankId: Yup.string().when('type.value', {
     is: 4,
     then: Yup.string().required('Bank is required'),
@@ -56,11 +54,8 @@ function FundRegisterLanding() {
     return state.authData.profileData;
   }, shallowEqual);
 
-  const [
-    businessUnitDDL,
-    getBusinessUnitDDL,
-    businessUnitDDlloader,
-  ] = useAxiosGet();
+  const [businessUnitDDL, getBusinessUnitDDL, businessUnitDDlloader] =
+    useAxiosGet();
 
   const [showReport, setShowReport] = useState(false);
   const [, setLoading] = useState(false);
@@ -122,9 +117,8 @@ function FundRegisterLanding() {
   };
   useEffect(() => {
     getBusinessUnitDDL(
-      `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${profileData?.accountId}`,
+      `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${profileData?.accountId}`
     );
-
   }, []);
   useEffect(() => {
     getBankDDLAll(setBankDDL, setLoading);

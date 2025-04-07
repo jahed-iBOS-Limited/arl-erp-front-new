@@ -1,23 +1,22 @@
-
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "../common/form";
-import Axios from "axios";
-import { toast } from "react-toastify";
-import shortid from "shortid";
-import Loading from "../../../../_helper/_loading";
+} from '../../../../../../_metronic/_partials/controls';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from '../common/form';
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
+import Loading from '../../../../_helper/_loading';
 const initProduct = {
   id: undefined,
-  itemSubCategoryName: "",
-  itemTypeId: "",
-  itemCategoryId: "",
+  itemSubCategoryName: '',
+  itemTypeId: '',
+  itemCategoryId: '',
 };
 
 export default function ItemSubCategoryAddForm({
@@ -55,24 +54,24 @@ export default function ItemSubCategoryAddForm({
         sl: 0,
         itemMasterubCategoryId: 0,
         accountId: profileData?.accountId,
-        itemMasterSubCategoryCode: "",
+        itemMasterSubCategoryCode: '',
         itemMasterSubCategoryName: values?.itemSubCategoryName || '',
         itemMasterTypeId: values?.itemTypeName.value || 0,
         itemMasterTypeName: values?.itemTypeName.label || '',
         itemMasterCategoryId: values?.itemCategoryName.value || 0,
         itemMasterCategoryName: values?.itemCategoryName.label || '',
         actionBy: profileData?.userId,
-      }
+      };
 
       try {
         setDisabled(true);
         const res = await Axios.post(
-          "/item/MasterCategory/CreateItemMasterSubCategory",
+          '/item/MasterCategory/CreateItemMasterSubCategory',
           itemSubCategoryPayload
         );
         cb(initProduct);
         setDisabled(false);
-        toast.success(res.data?.message || "Submitted successfully", {
+        toast.success(res.data?.message || 'Submitted successfully', {
           toastId: shortid(),
         });
       } catch (error) {
@@ -138,7 +137,7 @@ export default function ItemSubCategoryAddForm({
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody>
-        {isDisabled && <Loading/>}
+        {isDisabled && <Loading />}
         <div className="mt-0">
           <Form
             product={initProduct}

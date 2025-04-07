@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export default function TableOne({ obj }) {
   const { printRef, rowDto } = obj;
@@ -23,10 +23,10 @@ export default function TableOne({ obj }) {
         <thead>
           <tr>
             <th>SL</th>
-            <th style={{ width: "230px" }}>Customer Name</th>
+            <th style={{ width: '230px' }}>Customer Name</th>
             <th>Region</th>
             <th>Area</th>
-            <th style={{ width: "170px" }}>Territory</th>
+            <th style={{ width: '170px' }}>Territory</th>
             <th>Target Qty</th>
             <th>One Day Qty</th>
             <th>Monthly Qty</th>

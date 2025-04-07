@@ -29,12 +29,8 @@ export default function InterCompanyLoanCreate() {
 
   const [modifyIntData, setModifyInitData] = useState(initData);
   const [fromBankAccountDDL, getFromBankAccountDDL] = useAxiosGet();
-  const [
-    toBankAccountDDL,
-    getToBankAccountDDL,
-    ,
-    setToBankAccountDDL,
-  ] = useAxiosGet();
+  const [toBankAccountDDL, getToBankAccountDDL, , setToBankAccountDDL] =
+    useAxiosGet();
   const [businessPartnerDDL, getBusinessPartnerDDL] = useAxiosGet();
   const [, onSave, loader] = useAxiosPost();
   const location = useLocation();
@@ -60,17 +56,15 @@ export default function InterCompanyLoanCreate() {
         inRate: location?.state?.interestRate,
       });
     }
-
   }, []);
 
   useEffect(() => {
     getBusinessPartnerDDL(
-      `/fino/FinanceCommonDDL/InterCompanyInvestmentPartnerDDL?BusinessUnitId=${selectedBusinessUnit?.value}`,
+      `/fino/FinanceCommonDDL/InterCompanyInvestmentPartnerDDL?BusinessUnitId=${selectedBusinessUnit?.value}`
     );
     getFromBankAccountDDL(
-      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}`,
+      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, []);
 
   const { id } = useParams();
@@ -129,7 +123,7 @@ export default function InterCompanyLoanCreate() {
                       setToBankAccountDDL([]);
                       if (valueOption) {
                         getToBankAccountDDL(
-                          `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${valueOption?.intId}`,
+                          `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${valueOption?.intId}`
                         );
                       }
                     }}

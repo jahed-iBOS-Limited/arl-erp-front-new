@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { Formik } from "formik";
-import { useHistory } from "react-router";
-import { getDailyHireByVoyageNo, validationSchema } from "../helper";
-import FormikSelect from "../../_chartinghelper/common/formikSelect";
-import customStyles from "../../_chartinghelper/common/selectCustomStyle";
-import { getVoyageDDLNew } from "../../helper";
-import { getItemRateByVoyageId } from "../../bunker/bunkerInformation/helper";
-import FormikInput from "../../_chartinghelper/common/formikInput";
-import OffHireEntryFormTable from "./table";
-import IButton from "../../../_helper/iButton";
+import React, { useState } from 'react';
+import { Formik } from 'formik';
+import { useHistory } from 'react-router';
+import { getDailyHireByVoyageNo, validationSchema } from '../helper';
+import FormikSelect from '../../_chartinghelper/common/formikSelect';
+import customStyles from '../../_chartinghelper/common/selectCustomStyle';
+import { getVoyageDDLNew } from '../../helper';
+import { getItemRateByVoyageId } from '../../bunker/bunkerInformation/helper';
+import FormikInput from '../../_chartinghelper/common/formikInput';
+import OffHireEntryFormTable from './table';
+import IButton from '../../../_helper/iButton';
 
 export default function FormCmp({
   title,
@@ -48,19 +48,19 @@ export default function FormCmp({
     const offHireFinalDuration = (diff / 100) * values?.durationPercentage;
 
     const offHireCost = (offHireFinalDuration * dailyHire).toFixed(2);
-    setFieldValue("offHireDuration", diff);
-    setFieldValue("finalOffHireDuration", offHireFinalDuration);
-    setFieldValue("offHireCostAmount", offHireCost);
+    setFieldValue('offHireDuration', diff);
+    setFieldValue('finalOffHireDuration', offHireFinalDuration);
+    setFieldValue('offHireCostAmount', offHireCost);
     setFieldValue(
-      "offHireCve",
+      'offHireCve',
       (offHireFinalDuration * (cve30days / 30)).toFixed(2)
     );
     setFieldValue(
-      "offHireLsmgoqty",
+      'offHireLsmgoqty',
       Number((offHireFinalDuration * values?.perDayLsmgoQty).toFixed(2))
     );
     setFieldValue(
-      "offHireLsmgovalue",
+      'offHireLsmgovalue',
       (
         offHireFinalDuration *
         values?.perDayLsmgoQty *
@@ -68,11 +68,11 @@ export default function FormCmp({
       ).toFixed(2)
     );
     setFieldValue(
-      "offHireLsfoqty",
+      'offHireLsfoqty',
       Number((offHireFinalDuration * values?.perDayLsfoQty).toFixed(2))
     );
     setFieldValue(
-      "offHireLsfovalue",
+      'offHireLsfovalue',
       (
         offHireFinalDuration *
         values?.perDayLsfoQty *
@@ -81,11 +81,11 @@ export default function FormCmp({
     );
     // setFieldValue("offHireDuration", diff);,
     setFieldValue(
-      "offHireBrokerCommission",
+      'offHireBrokerCommission',
       (((offHireFinalDuration * dailyHire) / 100) * brokerCommission).toFixed(2)
     );
     setFieldValue(
-      "offHireAddressCommission",
+      'offHireAddressCommission',
       (((offHireFinalDuration * dailyHire) / 100) * addressCommission).toFixed(
         2
       )
@@ -123,24 +123,24 @@ export default function FormCmp({
                     onClick={() => {
                       history.goBack();
                     }}
-                    className={"btn btn-secondary px-3 py-2"}
+                    className={'btn btn-secondary px-3 py-2'}
                   >
                     <i className="fa fa-arrow-left pr-1"></i>
                     Back
                   </button>
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="button"
                       onClick={() => resetForm(initData)}
-                      className={"btn btn-info reset-btn ml-2 px-3 py-2"}
+                      className={'btn btn-info reset-btn ml-2 px-3 py-2'}
                     >
                       Reset
                     </button>
                   )}
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="submit"
-                      className={"btn btn-primary ml-2 px-3 py-2"}
+                      className={'btn btn-primary ml-2 px-3 py-2'}
                       onClick={handleSubmit}
                       disabled={!viewType && !rows?.length}
                     >
@@ -153,7 +153,7 @@ export default function FormCmp({
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vesselName || ""}
+                      value={values?.vesselName || ''}
                       isSearchable={true}
                       options={vesselDDL || []}
                       styles={customStyles}
@@ -161,9 +161,9 @@ export default function FormCmp({
                       placeholder="Vessel Name"
                       label="Vessel Name"
                       onChange={(valueOption) => {
-                        setFieldValue("vesselName", valueOption);
+                        setFieldValue('vesselName', valueOption);
                         setValues({ ...initData, vesselName: valueOption });
-                        setFieldValue("voyageNo", "");
+                        setFieldValue('voyageNo', '');
                         setVoyageNoDDL([]);
                         setItemRates({});
                         if (valueOption) {
@@ -186,7 +186,7 @@ export default function FormCmp({
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.voyageNo || ""}
+                      value={values?.voyageNo || ''}
                       isSearchable={true}
                       options={voyageNoDDL || []}
                       styles={customStyles}
@@ -194,7 +194,7 @@ export default function FormCmp({
                       placeholder="Voyage No"
                       label="Voyage No"
                       onChange={(valueOption) => {
-                        setFieldValue("voyageNo", valueOption);
+                        setFieldValue('voyageNo', valueOption);
                         setValues({
                           ...initData,
                           vesselName: values?.vesselName,
@@ -233,7 +233,7 @@ export default function FormCmp({
                       type="text"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -243,7 +243,7 @@ export default function FormCmp({
                       name="offHireStartDateTime"
                       placeholder="Off Hire Start Date-Time"
                       onChange={(e) => {
-                        setFieldValue("offHireStartDateTime", e.target.value);
+                        setFieldValue('offHireStartDateTime', e.target.value);
                         setData(
                           { ...values, offHireStartDateTime: e?.target?.value },
                           setFieldValue
@@ -252,7 +252,7 @@ export default function FormCmp({
                       type="datetime-local"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -263,7 +263,7 @@ export default function FormCmp({
                       placeholder="Off Hire End Date-Time"
                       min={values?.offHireStartDateTime}
                       onChange={(e) => {
-                        setFieldValue("offHireEndDateTime", e.target.value);
+                        setFieldValue('offHireEndDateTime', e.target.value);
                         setData(
                           { ...values, offHireEndDateTime: e?.target?.value },
                           setFieldValue
@@ -272,7 +272,7 @@ export default function FormCmp({
                       type="datetime-local"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -295,7 +295,7 @@ export default function FormCmp({
                       placeholder="Duration Percentage"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("durationPercentage", e.target.value);
+                        setFieldValue('durationPercentage', e.target.value);
                         setData(
                           {
                             ...values,
@@ -307,7 +307,7 @@ export default function FormCmp({
                       errors={errors}
                       touched={touched}
                       disabled={
-                        viewType === "view" ||
+                        viewType === 'view' ||
                         !values?.voyageNo ||
                         !values?.offHireDuration
                       }
@@ -345,7 +345,7 @@ export default function FormCmp({
                       placeholder="Per Day LSMGO QTY"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("perDayLsmgoQty", e.target.value);
+                        setFieldValue('perDayLsmgoQty', e.target.value);
                         setData(
                           {
                             ...values,
@@ -356,7 +356,7 @@ export default function FormCmp({
                       }}
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -404,7 +404,7 @@ export default function FormCmp({
                       placeholder="Per Day LSFO QTY"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("perDayLsfoQty", e.target.value);
+                        setFieldValue('perDayLsfoQty', e.target.value);
                         setData(
                           {
                             ...values,
@@ -415,7 +415,7 @@ export default function FormCmp({
                       }}
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -500,7 +500,7 @@ export default function FormCmp({
                       type="number"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   {!viewType && (

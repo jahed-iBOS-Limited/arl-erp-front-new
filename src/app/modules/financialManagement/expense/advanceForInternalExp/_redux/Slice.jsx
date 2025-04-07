@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   selectedSBU: {},
@@ -6,7 +6,7 @@ const initState = {
 };
 
 export const adInternalExp = createSlice({
-  name: "adInternalExp",
+  name: 'adInternalExp',
   initialState: initState,
   reducers: {
     setSelectedSBU: (state, action) => {

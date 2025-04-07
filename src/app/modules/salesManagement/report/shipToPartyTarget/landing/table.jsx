@@ -1,27 +1,19 @@
+import React from 'react';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { getMonth } from '../../customerSalesTarget/utils';
 
-import React from "react";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { getMonth } from "../../customerSalesTarget/utils";
-
-const header = ["SL", "Month", "Year", "ShipPoint", "Target Qty", "Action"];
+const header = ['SL', 'Month', 'Year', 'ShipPoint', 'Target Qty', 'Action'];
 
 const ShipToPartyTargetLandingTable = ({ obj }) => {
-  const {
-    pageNo,
-    values,
-    rowData,
-    getData,
-    pageSize,
-    setPageNo,
-    setPageSize,
-  } = obj;
+  const { pageNo, values, rowData, getData, pageSize, setPageNo, setPageSize } =
+    obj;
 
   return (
     <>
       {rowData?.data?.length > 0 && (
         <table
           className={
-            "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+            'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
           }
         >
           <thead>

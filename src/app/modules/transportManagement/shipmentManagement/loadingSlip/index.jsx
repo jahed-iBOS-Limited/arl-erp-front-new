@@ -49,7 +49,7 @@ function LoadingSlip() {
                     shipmentCode: firstShipment?.label,
                   });
                 }
-              },
+              }
             );
           }
         } else {
@@ -60,7 +60,7 @@ function LoadingSlip() {
           document.getElementById('cardNoInput').disabled = false;
           document.getElementById('cardNoInput').focus();
         }
-      },
+      }
     );
   };
   return (
@@ -113,9 +113,8 @@ function LoadingSlip() {
                         if (e.key === 'Enter') {
                           setFieldValue('entryCode', '');
                           setFieldValue('shipment', '');
-                          document.getElementById(
-                            'cardNoInput',
-                          ).disabled = true;
+                          document.getElementById('cardNoInput').disabled =
+                            true;
                           getRegDDL(
                             `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumber&BusinessUnitId=${selectedBusinessUnit?.value}&search=${values?.strCardNumber}`,
                             (data) => {
@@ -129,7 +128,7 @@ function LoadingSlip() {
                                       if (resData?.length === 1) {
                                         setFieldValue(
                                           'shipment',
-                                          resData?.[0] || '',
+                                          resData?.[0] || ''
                                         );
                                         const firstShipment =
                                           resData?.[0] || {};
@@ -140,7 +139,7 @@ function LoadingSlip() {
                                           shipmentCode: firstShipment?.label,
                                         });
                                       }
-                                    },
+                                    }
                                   );
                                 }
                               } else {
@@ -149,11 +148,11 @@ function LoadingSlip() {
                                 setFieldValue('entryCode', '');
                                 setFieldValue('shipment', '');
                                 document.getElementById(
-                                  'cardNoInput',
+                                  'cardNoInput'
                                 ).disabled = false;
                                 document.getElementById('cardNoInput').focus();
                               }
-                            },
+                            }
                           );
                         }
                       }}
@@ -211,7 +210,7 @@ function LoadingSlip() {
                                 shipmentCode: firstShipment?.label,
                               });
                             }
-                          },
+                          }
                         );
                       } else {
                         setFieldValue('entryCode', '');
@@ -221,7 +220,7 @@ function LoadingSlip() {
                       if (v?.length < 3) return [];
                       return axios
                         .get(
-                          `/mes/MSIL/GetAllMSIL?PartName=SecondWeightEntryCodeDDL&BusinessUnitId=${selectedBusinessUnit?.value}&search=${v}`,
+                          `/mes/MSIL/GetAllMSIL?PartName=SecondWeightEntryCodeDDL&BusinessUnitId=${selectedBusinessUnit?.value}&search=${v}`
                         )
                         .then((res) => {
                           return res?.data;

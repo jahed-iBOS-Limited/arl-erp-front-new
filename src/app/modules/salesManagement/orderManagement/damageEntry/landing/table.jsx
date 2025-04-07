@@ -1,14 +1,13 @@
-
-import React from "react";
-import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import IApproval from "../../../../_helper/_helperIcons/_approval";
-import IClose from "../../../../_helper/_helperIcons/_close";
-import InputField from "../../../../_helper/_inputField";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import IApproval from '../../../../_helper/_helperIcons/_approval';
+import IClose from '../../../../_helper/_helperIcons/_close';
+import InputField from '../../../../_helper/_inputField';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import ICon from '../../../../chartering/_chartinghelper/icons/_icon';
 
 const DamageEntryLandingTable = ({ obj }) => {
   const {
@@ -29,18 +28,18 @@ const DamageEntryLandingTable = ({ obj }) => {
     switch (values?.reportType?.value) {
       case 1:
         return item?.isApprovedBySupervisor && item?.isApprovedByAccount
-          ? "Approved by Supervisor and Account"
+          ? 'Approved by Supervisor and Account'
           : item?.isApprovedBySupervisor
-          ? "Approved by Supervisor"
-          : !item?.isActive
-          ? "Canceled"
-          : "Pending";
+            ? 'Approved by Supervisor'
+            : !item?.isActive
+              ? 'Canceled'
+              : 'Pending';
 
       case 2:
-        return item?.damageStatus || "";
+        return item?.damageStatus || '';
 
       default:
-        return "";
+        return '';
     }
   };
 
@@ -55,7 +54,7 @@ const DamageEntryLandingTable = ({ obj }) => {
                   <th
                     onClick={() => allSelect(!selectedAll())}
                     className="text-center cursor-pointer"
-                    style={{ width: "40px" }}
+                    style={{ width: '40px' }}
                   >
                     <input
                       type="checkbox"
@@ -70,11 +69,11 @@ const DamageEntryLandingTable = ({ obj }) => {
                 <th>Delivery Date</th>
                 <th>Customer Name</th>
                 <th>Customer Code</th>
-                <th style={{ width: "120px" }}>Quantity</th>
-                <th style={{ width: "120px" }}>Amount</th>
+                <th style={{ width: '120px' }}>Quantity</th>
+                <th style={{ width: '120px' }}>Amount</th>
                 <th>Entry Date</th>
                 <th>
-                  {values?.reportType?.value === 1 ? "" : "Damage "}Status
+                  {values?.reportType?.value === 1 ? '' : 'Damage '}Status
                 </th>
                 <th>Action</th>
               </tr>
@@ -87,7 +86,7 @@ const DamageEntryLandingTable = ({ obj }) => {
                       <td
                         onClick={() => {
                           let _data = [...gridData?.data];
-                          _data[index]["isSelected"] = !item.isSelected;
+                          _data[index]['isSelected'] = !item.isSelected;
                           setGridData({ ...gridData, data: _data });
                         }}
                         className="text-center"
@@ -103,7 +102,7 @@ const DamageEntryLandingTable = ({ obj }) => {
                   <td className="text-center"> {index + 1}</td>
                   <td> {item?.deliveryChallan}</td>
                   <td className="text-center">
-                    {" "}
+                    {' '}
                     {_dateFormatter(item?.deliveryDate)}
                   </td>
                   <td> {item?.businessPartnerName}</td>
@@ -121,20 +120,20 @@ const DamageEntryLandingTable = ({ obj }) => {
                             onChange={(e) => {
                               dataChangeHandler(
                                 index,
-                                "totalReturnQty",
+                                'totalReturnQty',
                                 +e?.target?.value
                               );
                             }}
                             onBlur={(e) => {
                               if (+e?.target?.value > item?.numDeliveryQnt) {
                                 toast.warn(
-                                  "Damage qty can not be greater than delivery qty"
+                                  'Damage qty can not be greater than delivery qty'
                                 );
                               }
 
                               if (+e?.target?.value < 0.2) {
                                 toast.warn(
-                                  "Return qty can not be less than 0.2"
+                                  'Return qty can not be less than 0.2'
                                 );
                               }
                             }}
@@ -202,8 +201,8 @@ const DamageEntryLandingTable = ({ obj }) => {
                         <ICon
                           title={
                             item?.attatchment
-                              ? "Show attached file"
-                              : "File not attached"
+                              ? 'Show attached file'
+                              : 'File not attached'
                           }
                           onClick={() => {
                             if (item?.attatchment) {
@@ -213,14 +212,14 @@ const DamageEntryLandingTable = ({ obj }) => {
                             }
                           }}
                         >
-                          <i class="far fa-image"></i>{" "}
+                          <i class="far fa-image"></i>{' '}
                         </ICon>
                       </span>
                     </div>
                   </td>
                 </tr>
               ))}
-              <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+              <tr style={{ textAlign: 'right', fontWeight: 'bold' }}>
                 <td colSpan={5} className="text-right">
                   <b>Total</b>
                 </td>
@@ -242,7 +241,7 @@ const DamageEntryLandingTable = ({ obj }) => {
                 <td colSpan={3}></td>
               </tr>
             </tbody>
-          </table>{" "}
+          </table>{' '}
         </div>
       )}
     </>

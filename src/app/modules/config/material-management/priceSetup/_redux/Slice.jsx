@@ -1,22 +1,22 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
-  error: "",
-  msg: "",
+  error: '',
+  msg: '',
   gridData: [],
-  singleData: "",
+  singleData: '',
   conditionDDL: [],
   organizationDDL: [],
   territoryDDL: [],
   partnerDDL: [],
   distributionChannelDDL: [],
-  itemSalesDDL:[],
-  itemByChanneList:[]
+  itemSalesDDL: [],
+  itemByChanneList: [],
 };
 
 export const priceSetupSlice = createSlice({
-  name: "priceSetup",
+  name: 'priceSetup',
   initialState: initState,
   reducers: {
     SetConditionDDL: (state, action) => {
@@ -45,7 +45,7 @@ export const priceSetupSlice = createSlice({
       state.singleData = payload;
     },
     SetSingleStoreEmpty: (state) => {
-      state.singleData = "";
+      state.singleData = '';
     },
   },
 });

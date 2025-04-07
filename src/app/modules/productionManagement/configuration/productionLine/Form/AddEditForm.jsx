@@ -1,25 +1,24 @@
-
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import IForm from "../../../../_helper/_form";
+import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import IForm from '../../../../_helper/_form';
 import {
   createProductionLine,
   editProductionLine,
   getPlantNameDDL,
   getSingleDataById,
-} from "../helper";
-import Form from "./Form";
-import Loading from "./../../../../_helper/_loading";
+} from '../helper';
+import Form from './Form';
+import Loading from './../../../../_helper/_loading';
 
 let initData = {
   id: undefined,
-  productionLineName: "",
-  productionLineCode: "",
-  plantName: "",
-  shopFloorName: "",
+  productionLineName: '',
+  productionLineCode: '',
+  plantName: '',
+  shopFloorName: '',
 };
 
 export default function ProductionLineForm() {

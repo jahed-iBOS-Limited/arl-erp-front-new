@@ -24,7 +24,6 @@ p {
   padding: 0;
   box-sizing: border-box;
   font-size: 18px !important;
-
 }
 
 .CommoditiesHologram_wrapper .CommoditiesHologram_header {
@@ -93,7 +92,6 @@ p {
 .CommoditiesHologram_wrapper .signature_wrapper .signature p {
   border-top: 1px solid !important;
   padding: 0px 18px !important;
-
 }
 
 .CommoditiesHologram_wrapper .printing_date_time {
@@ -114,6 +112,11 @@ p {
   }
 }
 
-.CommoditiesHologram_wrapper .main_table table tbody tr .CommoditiesHologram_table_td {
+.CommoditiesHologram_wrapper
+  .main_table
+  table
+  tbody
+  tr
+  .CommoditiesHologram_table_td {
   padding: 9px 0px !important;
 }

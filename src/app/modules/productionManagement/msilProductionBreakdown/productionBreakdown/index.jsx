@@ -1,17 +1,16 @@
-
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import PaginationTable from "../../../chartering/_chartinghelper/_tablePagination";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { ITable } from "../../../_helper/_table";
-import { _timeFormatter } from "../../../_helper/_timeFormatter";
-import { _todayDate } from "../../../_helper/_todayDate";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import PaginationTable from '../../../chartering/_chartinghelper/_tablePagination';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { ITable } from '../../../_helper/_table';
+import { _timeFormatter } from '../../../_helper/_timeFormatter';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 const initData = {
   fromDate: _todayDate(),
@@ -70,7 +69,7 @@ export default function ProductionBreakdown() {
                     />
                   </div>
 
-                  <div style={{ marginTop: "15px" }} className="col-lg-1">
+                  <div style={{ marginTop: '15px' }} className="col-lg-1">
                     <button
                       type="button"
                       onClick={() => {
@@ -86,13 +85,13 @@ export default function ProductionBreakdown() {
                   </div>
                 </div>
 
-                <div style={{ marginTop: "15px" }}>
+                <div style={{ marginTop: '15px' }}>
                   <div>
                     <div className="table-responsive">
                       <table className="table table-striped table-bordered global-table">
                         <thead>
                           <tr>
-                            <th style={{ width: "50px" }}>SL</th>
+                            <th style={{ width: '50px' }}>SL</th>
                             <th>Shop Floor</th>
                             <th>Breakdown Type</th>
                             <th>Machine Name</th>
@@ -130,10 +129,10 @@ export default function ProductionBreakdown() {
                                 </td>
                                 <td className="text-center">
                                   {item?.tmTotalTime &&
-                                    item?.tmTotalTime?.split(":")?.[0] +
-                                      "H"}{" "}
+                                    item?.tmTotalTime?.split(':')?.[0] +
+                                      'H'}{' '}
                                   {item?.tmTotalTime &&
-                                    item?.tmTotalTime?.split(":")?.[1] + "M"}
+                                    item?.tmTotalTime?.split(':')?.[1] + 'M'}
                                 </td>
                                 <td>{item?.strRemarks}</td>
                                 <td className="text-center">

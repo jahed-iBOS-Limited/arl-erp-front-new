@@ -1,22 +1,22 @@
-import React from "react";
-import ICustomTable from "../../../../_helper/_customTable";
+import React from 'react';
+import ICustomTable from '../../../../_helper/_customTable';
 
 const CashRegisterReportTable = ({ rowDto, values, printRef }) => {
   const headers = [
-    "SL",
-    "Account Code",
-    "Account Name",
-    "Opening",
-    "InFlow",
-    "OutFlow",
-    "Closing",
+    'SL',
+    'Account Code',
+    'Account Name',
+    'Opening',
+    'InFlow',
+    'OutFlow',
+    'Closing',
   ];
-console.log("rowDtorowDto", rowDto);
+  console.log('rowDtorowDto', rowDto);
   return (
     <div>
       {rowDto?.length > 0 && (
         <ICustomTable
-          id={"table-to-xlsx"}
+          id={'table-to-xlsx'}
           ths={headers}
           className="table-font-size-sm"
         >
@@ -25,7 +25,7 @@ console.log("rowDtorowDto", rowDto);
               <tr key={index}>
                 <td className="text-center">{index + 1}</td>
                 <>
-                  <td className="text-left" style={{ width: "80px" }}>
+                  <td className="text-left" style={{ width: '80px' }}>
                     {item?.strAccountCode}
                   </td>
                   <td>{item?.strAccountName}</td>

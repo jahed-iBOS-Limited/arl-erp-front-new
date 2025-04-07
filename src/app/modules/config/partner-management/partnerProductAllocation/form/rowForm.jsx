@@ -1,7 +1,7 @@
-import React from "react";
-import { Form } from "formik";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+import React from 'react';
+import { Form } from 'formik';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 
 export default function RowForm({
   customerDDL,
@@ -32,7 +32,7 @@ export default function RowForm({
             <InputField
               value={values?.fromDate}
               placeholder="From Date"
-              name={`${index + "fromDate"}`}
+              name={`${index + 'fromDate'}`}
               type="date"
               touched={touched}
               disabled={true}
@@ -43,7 +43,7 @@ export default function RowForm({
             <InputField
               value={values?.toDate}
               placeholder="To Date"
-              name={`${index + "toDate"}`}
+              name={`${index + 'toDate'}`}
               type="date"
               touched={touched}
               disabled={true}
@@ -51,12 +51,12 @@ export default function RowForm({
           </div>
           <div className="col-lg-3">
             <NewSelect
-              name={`${index + "customer"}`}
+              name={`${index + 'customer'}`}
               label="Customer"
               options={customerDDL || []}
               value={values?.customer}
               onChange={(valueOption) => {
-                setFieldValue("customer", valueOption);
+                setFieldValue('customer', valueOption);
               }}
               errors={errors}
               touched={touched}
@@ -65,12 +65,12 @@ export default function RowForm({
           </div>
           <div className="col-lg-3">
             <NewSelect
-              name={`${index + "upozila"}`}
+              name={`${index + 'upozila'}`}
               label="Zone"
               options={upozilaList || []}
               value={values?.upozila}
               onChange={(valueOption) => {
-                setFieldValue("upozila", valueOption);
+                setFieldValue('upozila', valueOption);
               }}
               errors={errors}
               touched={touched}
@@ -79,13 +79,13 @@ export default function RowForm({
           </div>
           <div className="col-lg-3">
             <NewSelect
-              name={`${index + "productName"}`}
+              name={`${index + 'productName'}`}
               label="Product Name"
               options={productNameDDL || []}
               value={values?.productName}
               onChange={(valueOption) => {
-                setFieldValue("productName", valueOption);
-                setFieldValue("uomName", valueOption?.uomName);
+                setFieldValue('productName', valueOption);
+                setFieldValue('uomName', valueOption?.uomName);
               }}
               errors={errors}
               touched={touched}
@@ -97,7 +97,7 @@ export default function RowForm({
             <InputField
               value={values?.uomName}
               placeholder="Uom Name"
-              name={`${index + "uomName"}`}
+              name={`${index + 'uomName'}`}
               type="text"
               touched={touched}
               disabled={true}
@@ -108,12 +108,12 @@ export default function RowForm({
             <InputField
               value={values?.allotedQnt}
               placeholder="Alloted Qnt"
-              name={`${index + "allotedQnt"}`}
+              name={`${index + 'allotedQnt'}`}
               type="number"
               onChange={(e) => {
-                setFieldValue("allotedQnt", e.target.value);
+                setFieldValue('allotedQnt', e.target.value);
                 setFieldValue(
-                  "grandTotal",
+                  'grandTotal',
                   Number(e.target.value * Number(values?.rate))
                 );
               }}
@@ -126,12 +126,12 @@ export default function RowForm({
             <InputField
               value={values?.rate}
               placeholder="Rate"
-              name={`${index + "rate"}`}
+              name={`${index + 'rate'}`}
               type="number"
               onChange={(e) => {
-                setFieldValue("rate", e.target.value);
+                setFieldValue('rate', e.target.value);
                 setFieldValue(
-                  "grandTotal",
+                  'grandTotal',
                   Number(e.target.value * Number(values?.allotedQnt))
                 );
               }}
@@ -144,7 +144,7 @@ export default function RowForm({
             <InputField
               value={values?.grandTotal}
               placeholder="Grand Total"
-              name={`${index + "grandTotal"}`}
+              name={`${index + 'grandTotal'}`}
               type="number"
               touched={touched}
               disabled={true}
@@ -155,7 +155,7 @@ export default function RowForm({
             <InputField
               value={values?.remarks}
               placeholder="Remarks"
-              name={`${index + "remarks"}`}
+              name={`${index + 'remarks'}`}
               type="text"
               touched={touched}
               disabled={true}
@@ -166,7 +166,7 @@ export default function RowForm({
             <InputField
               value={values?.permissionNo}
               placeholder="Permission No"
-              name={`${index + "permissionNo"}`}
+              name={`${index + 'permissionNo'}`}
               type="text"
               touched={touched}
               disabled={true}
@@ -177,7 +177,7 @@ export default function RowForm({
             <InputField
               value={values?.permissionDate}
               placeholder="Permission Date"
-              name={`${index + "permissionDate"}`}
+              name={`${index + 'permissionDate'}`}
               type="date"
               touched={touched}
               disabled={true}

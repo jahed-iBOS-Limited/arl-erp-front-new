@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { getAllNotificationsActions } from './helper';
 import NotiBodyContent from './NotiBodyContent';
@@ -87,7 +86,7 @@ const NotificationPopUp = ({ propsObj }) => {
                 pageSize,
                 employeeId,
                 orgId,
-                setNotificationLoading,
+                setNotificationLoading
               );
             }, 500);
           }}

@@ -1,35 +1,34 @@
-
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import ReactToPrint from "react-to-print";
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import ReactToPrint from 'react-to-print';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../../_metronic/_partials/controls";
-import Loading from "../../../../../_helper/_loading";
-import printIcon from "../../../../../_helper/images/print-icon.png";
-import { GetFuelCostByBillId_api } from "../../helper";
+} from '../../../../../../../_metronic/_partials/controls';
+import Loading from '../../../../../_helper/_loading';
+import printIcon from '../../../../../_helper/images/print-icon.png';
+import { GetFuelCostByBillId_api } from '../../helper';
 
-import { Formik } from "formik";
-import InputField from "../../../../../_helper/_inputField";
-import { BillApproved_api } from "../../../approvebillregister/helper";
-import { getMultipleFileView_Action } from "../../../../../_helper/_redux/Actions";
-import * as Yup from "yup";
+import { Formik } from 'formik';
+import InputField from '../../../../../_helper/_inputField';
+import { BillApproved_api } from '../../../approvebillregister/helper';
+import { getMultipleFileView_Action } from '../../../../../_helper/_redux/Actions';
+import * as Yup from 'yup';
 
 const initData = {
-  approveAmount: "",
-  approveAmountMax: "",
-  remarks: "",
+  approveAmount: '',
+  approveAmountMax: '',
+  remarks: '',
 };
 
 const validationSchema = Yup.object().shape({
   approveAmount: Yup.number()
-    .min(0, "Minimum 0 number")
-    .required("Approve amount required")
-    .test("approveAmount", "Max Net Payable Amount", function(value) {
+    .min(0, 'Minimum 0 number')
+    .required('Approve amount required')
+    .test('approveAmount', 'Max Net Payable Amount', function (value) {
       return this.parent.approveAmountMax >= value;
     }),
 });
@@ -67,7 +66,7 @@ function ViewFuelBill({ landingValues, gridItem, setDataFunc, setModalShow }) {
       unitId: selectedBusinessUnit?.value,
       billTypeId: gridItem?.billType,
       approvedAmount: +values?.approveAmount,
-      remarks: values?.remarks || "",
+      remarks: values?.remarks || '',
     };
     const payload = {
       bill: [modifyGridData],
@@ -101,7 +100,7 @@ function ViewFuelBill({ landingValues, gridItem, setDataFunc, setModalShow }) {
           <Card>
             {loading && <Loading />}
             {true && <ModalProgressBar />}
-            <CardHeader title={"Fuel Bill View (Approve Bill)"}>
+            <CardHeader title={'Fuel Bill View (Approve Bill)'}>
               <CardHeaderToolbar>
                 {landingValues?.status?.value &&
                   landingValues?.status?.value !== 2 && (
@@ -151,17 +150,17 @@ function ViewFuelBill({ landingValues, gridItem, setDataFunc, setModalShow }) {
                   <div className="col-lg-12 ">
                     <div
                       className="text-center "
-                      style={{ position: "relative" }}
+                      style={{ position: 'relative' }}
                     >
                       <h2>{selectedBusinessUnit?.label}</h2>
                       <h5>{selectedBusinessUnit?.address} </h5>
                       <h3>Fuel Bill</h3>
                       <button
                         style={{
-                          padding: "4px 4px",
-                          position: "absolute",
-                          top: "2px",
-                          right: "70px",
+                          padding: '4px 4px',
+                          position: 'absolute',
+                          top: '2px',
+                          right: '70px',
                         }}
                         onClick={() => {
                           dispatch(
@@ -179,23 +178,23 @@ function ViewFuelBill({ landingValues, gridItem, setDataFunc, setModalShow }) {
                       </button>
                       <ReactToPrint
                         pageStyle={
-                          "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}"
+                          '@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}'
                         }
                         trigger={() => (
                           <button
                             type="button"
                             className="btn btn-primary printSectionNone"
                             style={{
-                              padding: "2px 5px",
-                              position: "absolute",
-                              top: "0",
-                              right: "0",
+                              padding: '2px 5px',
+                              position: 'absolute',
+                              top: '0',
+                              right: '0',
                             }}
                           >
                             <img
                               style={{
-                                width: "25px",
-                                paddingRight: "5px",
+                                width: '25px',
+                                paddingRight: '5px',
                               }}
                               src={printIcon}
                               alt="print-icon"
@@ -214,12 +213,12 @@ function ViewFuelBill({ landingValues, gridItem, setDataFunc, setModalShow }) {
                       <div>
                         {gridItem?.monApproveAmount > 0 ? (
                           <b>
-                            Total Bill Approval Amount:{" "}
+                            Total Bill Approval Amount:{' '}
                             {gridItem?.monApproveAmount}
                           </b>
                         ) : (
                           <b>
-                            Total Bill Request Amount:{" "}
+                            Total Bill Request Amount:{' '}
                             {gridItem?.monTotalAmount}
                           </b>
                         )}

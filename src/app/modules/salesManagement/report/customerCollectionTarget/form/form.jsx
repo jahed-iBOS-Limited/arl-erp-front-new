@@ -1,25 +1,25 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import * as Yup from "yup";
-import { yearsDDL } from "../../../../inventoryManagement/warehouseManagement/liftingEntry/form/addEditForm";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { monthDDL } from "../../salesanalytics/utils";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import * as Yup from 'yup';
+import { yearsDDL } from '../../../../inventoryManagement/warehouseManagement/liftingEntry/form/addEditForm';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { monthDDL } from '../../salesanalytics/utils';
 import {
   getBusinessUnitSalesOrgApi,
   getRegionAreaTerritory,
   GetSalesTargetEntry,
-} from "../helper";
-import Table from "./table";
+} from '../helper';
+import Table from './table';
 
 const validationSchema = Yup.object().shape({
   targetMonth: Yup.object().shape({
-    label: Yup.string().required("Target Month  is required"),
-    value: Yup.string().required("Target Month  is required"),
+    label: Yup.string().required('Target Month  is required'),
+    value: Yup.string().required('Target Month  is required'),
   }),
   targetYear: Yup.object().shape({
-    label: Yup.string().required("Target Year  is required"),
-    value: Yup.string().required("Target Year  is required"),
+    label: Yup.string().required('Target Year  is required'),
+    value: Yup.string().required('Target Year  is required'),
   }),
 });
 
@@ -49,7 +49,7 @@ export default function FormCmp({
   const rowDtoHandler = (e, sl) => {
     const cloneArray = [...rowDto];
     cloneArray[sl][e.target?.name] =
-      e?.target?.name === "isSelected" ? e?.target?.checked : e.target?.value;
+      e?.target?.name === 'isSelected' ? e?.target?.checked : e.target?.value;
     cloneArray[sl].amount = cloneArray[sl]?.itemSalesRate * e.target?.value;
     setRowDto([...cloneArray]);
   };
@@ -60,11 +60,10 @@ export default function FormCmp({
         channelId: initData?.distributionChannel?.value,
         setter: setRegionDDL,
         setLoading: setLoading,
-        value: "regionId",
-        label: "regionName",
+        value: 'regionId',
+        label: 'regionName',
       });
     }
-
   }, [isEdit]);
 
   return (
@@ -73,11 +72,11 @@ export default function FormCmp({
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          salesOrg: salesOrgDDL?.[0] || "",
+          salesOrg: salesOrgDDL?.[0] || '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) => {
-          console.log(values, "values");
+          console.log(values, 'values');
           saveHandler(values, rowDto, () => {
             resetForm(initData);
             setRowDto([]);
@@ -93,7 +92,7 @@ export default function FormCmp({
           setFieldValue,
         }) => (
           <>
-            {console.log(errors, "errors")}
+            {console.log(errors, 'errors')}
             <Form className="form form-label-right">
               <div className="global-form p-2">
                 <div className="form-group row">
@@ -109,7 +108,7 @@ export default function FormCmp({
 
                   <div className="col-lg-3 mt-5">
                     <h6>
-                      Total Target Amount:{" "}
+                      Total Target Amount:{' '}
                       {rowDto
                         ?.filter((element) => element?.isSelected)
                         ?.reduce((a, b) => a + +b.targetAmount, 0)}
@@ -124,7 +123,7 @@ export default function FormCmp({
                       value={values?.targetMonth}
                       label="Target Month"
                       onChange={(valueOption) => {
-                        setFieldValue("targetMonth", valueOption);
+                        setFieldValue('targetMonth', valueOption);
                         setRowDto([]);
                       }}
                       placeholder="Target Month"
@@ -140,7 +139,7 @@ export default function FormCmp({
                       value={values?.targetYear}
                       label="Target Year"
                       onChange={(valueOption) => {
-                        setFieldValue("targetYear", valueOption);
+                        setFieldValue('targetYear', valueOption);
                         setRowDto([]);
                       }}
                       placeholder="Select Target Year"
@@ -170,8 +169,8 @@ export default function FormCmp({
                           label="Sales Org"
                           onChange={(valueOption) => {
                             setRowDto([]);
-                            setFieldValue("salesOrg", valueOption);
-                            setFieldValue("item", "");
+                            setFieldValue('salesOrg', valueOption);
+                            setFieldValue('item', '');
                           }}
                           placeholder="Sales Org"
                           errors={errors}
@@ -186,16 +185,16 @@ export default function FormCmp({
                           label="Distribution Channel"
                           onChange={(valueOption) => {
                             setRowDto([]);
-                            setFieldValue("distributionChannel", valueOption);
-                            setFieldValue("region", "");
-                            setFieldValue("area", "");
-                            setFieldValue("item", "");
+                            setFieldValue('distributionChannel', valueOption);
+                            setFieldValue('region', '');
+                            setFieldValue('area', '');
+                            setFieldValue('item', '');
                             getRegionAreaTerritory({
                               channelId: valueOption?.value,
                               setter: setRegionDDL,
                               setLoading: setLoading,
-                              value: "regionId",
-                              label: "regionName",
+                              value: 'regionId',
+                              label: 'regionName',
                             });
                           }}
                           placeholder="Distribution Channel"
@@ -226,17 +225,17 @@ export default function FormCmp({
                           value={values?.region}
                           label="Region"
                           onChange={(valueOption) => {
-                            setFieldValue("area", "");
+                            setFieldValue('area', '');
                             setRowDto([]);
-                            setFieldValue("region", valueOption);
+                            setFieldValue('region', valueOption);
                             if (valueOption) {
                               getRegionAreaTerritory({
                                 channelId: values?.distributionChannel?.value,
                                 regionId: valueOption?.value,
                                 setter: setAreaDDL,
                                 setLoading: setLoading,
-                                value: "areaId",
-                                label: "areaName",
+                                value: 'areaId',
+                                label: 'areaName',
                               });
                             }
                           }}
@@ -254,7 +253,7 @@ export default function FormCmp({
                           label="Area"
                           onChange={(valueOption) => {
                             setRowDto([]);
-                            setFieldValue("area", valueOption);
+                            setFieldValue('area', valueOption);
                           }}
                           placeholder="Area"
                           errors={errors}
@@ -304,13 +303,13 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

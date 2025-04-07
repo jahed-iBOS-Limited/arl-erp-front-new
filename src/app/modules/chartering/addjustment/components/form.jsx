@@ -1,8 +1,8 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { getVoyageDDLNew } from "../../helper";
-import FormikSelect from "../../_chartinghelper/common/formikSelect";
-import customStyles from "../../_chartinghelper/common/selectCustomStyle";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { getVoyageDDLNew } from '../../helper';
+import FormikSelect from '../../_chartinghelper/common/formikSelect';
+import customStyles from '../../_chartinghelper/common/selectCustomStyle';
 
 const AdjustmentFilter = ({ objProps }) => {
   const {
@@ -27,7 +27,7 @@ const AdjustmentFilter = ({ objProps }) => {
         <div className="row">
           <div className="col-lg-3">
             <FormikSelect
-              value={values?.vesselName || ""}
+              value={values?.vesselName || ''}
               isSearchable={true}
               options={vesselDDL || []}
               styles={customStyles}
@@ -35,8 +35,8 @@ const AdjustmentFilter = ({ objProps }) => {
               placeholder="Vessel Name"
               label="Vessel Name"
               onChange={(valueOption) => {
-                setFieldValue("vesselName", valueOption);
-                setFieldValue("voyageNo", "");
+                setFieldValue('vesselName', valueOption);
+                setFieldValue('voyageNo', '');
                 if (valueOption) {
                   getVoyageDDLNew({
                     accId: profileData?.accountId,
@@ -56,7 +56,7 @@ const AdjustmentFilter = ({ objProps }) => {
           </div>
           <div className="col-lg-3">
             <FormikSelect
-              value={values?.voyageNo || ""}
+              value={values?.voyageNo || ''}
               isSearchable={true}
               options={voyageNoDDL || []}
               styles={customStyles}
@@ -64,7 +64,7 @@ const AdjustmentFilter = ({ objProps }) => {
               placeholder="Voyage No"
               label="Voyage No"
               onChange={(valueOption) => {
-                setFieldValue("voyageNo", valueOption);
+                setFieldValue('voyageNo', valueOption);
                 getLanding({ ...values, voyageNo: valueOption });
               }}
               isDisabled={false}

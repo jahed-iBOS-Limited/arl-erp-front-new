@@ -1,24 +1,24 @@
-import { Form, Formik } from "formik";
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import * as Yup from "yup";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import InputField from "../../../_helper/_inputField";
-import { setApprovebillregLandingAction } from "../../../_helper/reduxForLocalStorage/Actions";
+import { Form, Formik } from 'formik';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import InputField from '../../../_helper/_inputField';
+import { setApprovebillregLandingAction } from '../../../_helper/reduxForLocalStorage/Actions';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "./../../../../../_metronic/_partials/controls";
-import IConfirmModal from "./../../../_helper/_confirmModal";
-import Loading from "./../../../_helper/_loading";
-import PaginationSearch from "./../../../_helper/_search";
-import NewSelect from "./../../../_helper/_select";
-import PaginationTable from "./../../../_helper/_tablePagination";
-import GridData from "./grid";
+} from './../../../../../_metronic/_partials/controls';
+import IConfirmModal from './../../../_helper/_confirmModal';
+import Loading from './../../../_helper/_loading';
+import PaginationSearch from './../../../_helper/_search';
+import NewSelect from './../../../_helper/_select';
+import PaginationTable from './../../../_helper/_tablePagination';
+import GridData from './grid';
 import {
   BillApproved_api,
   GetBillRegister_api,
@@ -27,17 +27,17 @@ import {
   getPlantDDL,
   getSbuDDL,
   rejectBillRegister_api,
-} from "./helper";
-import styles from "./billApprove.module.css";
+} from './helper';
+import styles from './billApprove.module.css';
 
 const initData = {
-  sbu: "",
-  billType: "",
-  plant: "",
-  costCenter: "",
+  sbu: '',
+  billType: '',
+  plant: '',
+  costCenter: '',
   status: {
     value: 1,
-    label: "Pending",
+    label: 'Pending',
   },
 };
 // Validation schema
@@ -125,7 +125,7 @@ function ApproveapprovebillregLanding() {
         unitId: selectedBusinessUnit?.value,
         billTypeId: itm?.billType,
         approvedAmount: itm?.monTotalAmount,
-        remarks: "",
+        remarks: '',
       }));
 
     const payload = {
@@ -134,7 +134,7 @@ function ApproveapprovebillregLanding() {
     };
 
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to Approve Bill`,
       yesAlertFunc: () => {
         BillApproved_api(
@@ -145,7 +145,7 @@ function ApproveapprovebillregLanding() {
           values
         );
       },
-      noAlertFunc: () => { },
+      noAlertFunc: () => {},
     };
     IConfirmModal(confirmObject);
   };
@@ -181,7 +181,6 @@ function ApproveapprovebillregLanding() {
     girdDataFunc(values, pageSize, pageNo, searchValue);
   };
 
-
   useEffect(() => {
     const values = approvebillregLanding || initData;
     if (values?.sbu?.value) {
@@ -194,7 +193,7 @@ function ApproveapprovebillregLanding() {
     }
     if (formikRef.current) {
       const urlParams = new URLSearchParams(window.location.search);
-      const isRedirectHR = urlParams.get("isRedirectHR");
+      const isRedirectHR = urlParams.get('isRedirectHR');
       // initial landing api call withOut Redirect HR
       if (!isRedirectHR) {
         formikRef.current.setValues(values);
@@ -203,7 +202,6 @@ function ApproveapprovebillregLanding() {
         }
       }
     }
-
   }, []);
 
   useEffect(() => {
@@ -225,13 +223,12 @@ function ApproveapprovebillregLanding() {
       );
       GetBillTypeDDL(setBillTypeDDL);
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   const SetRedirectHRValues = (sbuList) => {
     if (formikRef.current) {
       const urlParams = new URLSearchParams(window.location.search);
-      const isRedirectHR = urlParams.get("isRedirectHR");
+      const isRedirectHR = urlParams.get('isRedirectHR');
       if (isRedirectHR) {
         const sbu = sbuList?.[0];
         if (sbu?.value) {
@@ -243,22 +240,22 @@ function ApproveapprovebillregLanding() {
           );
         }
         const firstDayOfPreviousMonth = moment()
-          .subtract(2, "months")
-          .startOf("month");
-        const lestDayOfCurrentMonth = moment().endOf("month");
+          .subtract(2, 'months')
+          .startOf('month');
+        const lestDayOfCurrentMonth = moment().endOf('month');
         const redirectHRValues = {
           fromDate: _dateFormatter(firstDayOfPreviousMonth),
           toDate: _dateFormatter(lestDayOfCurrentMonth),
           sbu: sbu,
           costCenter: {
             value: 0,
-            label: "All",
+            label: 'All',
           },
-          billType: { value: 0, label: "All" },
-          plant: { value: 0, label: "All" },
+          billType: { value: 0, label: 'All' },
+          plant: { value: 0, label: 'All' },
           status: {
             value: 1,
-            label: "Pending",
+            label: 'Pending',
           },
         };
         formikRef.current.setValues(redirectHRValues);
@@ -272,7 +269,7 @@ function ApproveapprovebillregLanding() {
         enableReinitialize={true}
         initialValues={{}}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
         innerRef={formikRef}
       >
         {({
@@ -284,25 +281,25 @@ function ApproveapprovebillregLanding() {
           setFieldValue,
           isValid,
         }) => (
-          <div className=''>
+          <div className="">
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Approve Bill Register"}>
+              <CardHeader title={'Approve Bill Register'}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
                 {disabled && <Loading />}
-                <Form className='form form-label-right'>
-                  <div className='row global-form global-form-custom'>
-                    <div className='col-lg-3'>
+                <Form className="form form-label-right">
+                  <div className="row global-form global-form-custom">
+                    <div className="col-lg-3">
                       <NewSelect
-                        name='sbu'
+                        name="sbu"
                         options={SBUDDL || []}
                         value={values?.sbu}
-                        label='Select SBU'
+                        label="Select SBU"
                         onChange={(valueOption) => {
-                          setFieldValue("sbu", valueOption);
-                          setFieldValue("costCenter", "");
+                          setFieldValue('sbu', valueOption);
+                          setFieldValue('costCenter', '');
                           setRowDto([]);
                           getCostCenterDDL(
                             profileData.accountId,
@@ -311,138 +308,139 @@ function ApproveapprovebillregLanding() {
                             setCostCenterDDL
                           );
                         }}
-                        placeholder='Select SBU'
+                        placeholder="Select SBU"
                         errors={errors}
                         touched={touched}
                       />
                     </div>
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <NewSelect
-                        name='plant'
+                        name="plant"
                         options={
-                          [{ value: 0, label: "All" }, ...plantDDL] || []
+                          [{ value: 0, label: 'All' }, ...plantDDL] || []
                         }
                         value={values?.plant}
-                        label='Select Plant'
+                        label="Select Plant"
                         onChange={(valueOption) => {
-                          setFieldValue("plant", valueOption);
+                          setFieldValue('plant', valueOption);
                           setRowDto([]);
                         }}
-                        placeholder='Select Plant'
+                        placeholder="Select Plant"
                         errors={errors}
                         touched={touched}
                       />
                     </div>
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <NewSelect
-                        name='billType'
+                        name="billType"
                         options={
-                          [{ value: 0, label: "All" }, ...billTypeDDL] || []
+                          [{ value: 0, label: 'All' }, ...billTypeDDL] || []
                         }
                         value={values?.billType}
-                        label='Bill Type'
+                        label="Bill Type"
                         onChange={(valueOption) => {
-                          setFieldValue("billType", valueOption);
+                          setFieldValue('billType', valueOption);
                           setRowDto([]);
                         }}
-                        placeholder='Bill Type'
+                        placeholder="Bill Type"
                         errors={errors}
                         touched={touched}
                       />
                     </div>
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <NewSelect
-                        name='status'
+                        name="status"
                         options={[
                           {
                             value: 1,
-                            label: "Pending",
+                            label: 'Pending',
                           },
                           {
                             value: 2,
-                            label: "Approve",
+                            label: 'Approve',
                           },
                           {
                             value: 3,
-                            label: "Reject",
+                            label: 'Reject',
                           },
                         ]}
                         value={values?.status}
-                        label='Status'
+                        label="Status"
                         onChange={(valueOption) => {
-                          setFieldValue("status", valueOption);
+                          setFieldValue('status', valueOption);
                           setRowDto([]);
                         }}
-                        placeholder='Status'
+                        placeholder="Status"
                         errors={errors}
                         touched={touched}
                       />
                     </div>
 
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <label>From Date</label>
                       <InputField
                         value={values?.fromDate}
-                        name='fromDate'
-                        placeholder='From Date'
-                        type='date'
+                        name="fromDate"
+                        placeholder="From Date"
+                        type="date"
                       />
                     </div>
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <label>To Date</label>
                       <InputField
                         value={values?.toDate}
-                        name='toDate'
-                        placeholder='To Date'
-                        type='date'
+                        name="toDate"
+                        placeholder="To Date"
+                        type="date"
                       />
                     </div>
                     {selectedBusinessUnit?.value === 17 && (
-                      <div className='col-lg-3'>
+                      <div className="col-lg-3">
                         <NewSelect
-                          name='costCenter'
+                          name="costCenter"
                           options={costCenterDDL || []}
-                          value={values?.costCenter || ""}
-                          label='Cost Center'
+                          value={values?.costCenter || ''}
+                          label="Cost Center"
                           onChange={(valueOption) => {
-                            setFieldValue("costCenter", valueOption);
+                            setFieldValue('costCenter', valueOption);
                             setRowDto([]);
                           }}
-                          placeholder='Cost Center'
+                          placeholder="Cost Center"
                           isDisabled={!values?.sbu}
                         />
                       </div>
                     )}
 
-                    <div className='col-lg-3' style={{ marginTop: "19px" }}>
+                    <div className="col-lg-3" style={{ marginTop: '19px' }}>
                       <button
                         onClick={() => {
                           dispatch(setApprovebillregLandingAction(values));
                           ViewOnChangeHandler(values);
                         }}
-                        className='btn btn-primary ml-2 mr-2'
-                        type='button'
+                        className="btn btn-primary ml-2 mr-2"
+                        type="button"
                         disabled={!values?.plant || !values?.billType}
                       >
                         View
                       </button>
-                      {values?.status?.value === 1 && ![17, 22].includes(values?.billType?.value) && (
-                        <button
-                          onClick={() => {
-                            dispatch(setApprovebillregLandingAction(values));
-                            approveBillHandlerFunc(values);
-                          }}
-                          className='btn btn-primary ml-2 mr-2'
-                          type='button'
-                          disabled={
-                            !values?.plant ||
-                            !values?.billType ||
-                            !atListOneItemSelectGridData
-                          }
-                        >
-                          Approve Bill
-                        </button>
-                      )}
+                      {values?.status?.value === 1 &&
+                        ![17, 22].includes(values?.billType?.value) && (
+                          <button
+                            onClick={() => {
+                              dispatch(setApprovebillregLandingAction(values));
+                              approveBillHandlerFunc(values);
+                            }}
+                            className="btn btn-primary ml-2 mr-2"
+                            type="button"
+                            disabled={
+                              !values?.plant ||
+                              !values?.billType ||
+                              !atListOneItemSelectGridData
+                            }
+                          >
+                            Approve Bill
+                          </button>
+                        )}
                       {/* {values?.status?.value === 1 && (
                         <button
                           onClick={() => {
@@ -464,21 +462,20 @@ function ApproveapprovebillregLanding() {
                   </div>
                   {/* <div className="row global-form global-form-custom py-6"></div> */}
                   <PaginationSearch
-                    placeholder='Bill Register Code Search'
+                    placeholder="Bill Register Code Search"
                     paginationSearchHandler={paginationSearchHandler}
                     values={values}
                   />
 
-                  {
-                    [17, 22].includes(values?.billType?.value) && (
-                      <div className={styles.marqueeContainer}>
-                        <p className={styles.marqueeText}>
-                          For G2G Lighter Bill and G2G Ghat Load Unload Bill, click on the Edit
-                          button and then click Save button to approve the Bill.
-                        </p>
-                      </div>
-                    )
-                  }
+                  {[17, 22].includes(values?.billType?.value) && (
+                    <div className={styles.marqueeContainer}>
+                      <p className={styles.marqueeText}>
+                        For G2G Lighter Bill and G2G Ghat Load Unload Bill,
+                        click on the Edit button and then click Save button to
+                        approve the Bill.
+                      </p>
+                    </div>
+                  )}
 
                   <GridData
                     rowDto={rowDto}
@@ -504,15 +501,7 @@ function ApproveapprovebillregLanding() {
                       }}
                       values={values}
                       rowsPerPageOptions={[
-                        5,
-                        10,
-                        20,
-                        50,
-                        100,
-                        200,
-                        300,
-                        400,
-                        500,
+                        5, 10, 20, 50, 100, 200, 300, 400, 500,
                       ]}
                     />
                   )}

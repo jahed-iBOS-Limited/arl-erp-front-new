@@ -1,16 +1,15 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import { ToWords } from "to-words";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import essentialLogo from "./assets/essentialLogo.png";
-import "./styles.css";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import { ToWords } from 'to-words';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import essentialLogo from './assets/essentialLogo.png';
+import './styles.css';
 
 const initData = {};
 
@@ -24,7 +23,7 @@ export default function CommercialInvoiceModalView({ commercialId }) {
   }, shallowEqual);
 
   const toWords = new ToWords({
-    localeCode: "en-US",
+    localeCode: 'en-US',
     converterOptions: {
       currency: true,
       ignoreDecimal: false,
@@ -39,7 +38,7 @@ export default function CommercialInvoiceModalView({ commercialId }) {
     quotationDataLoader,
     setQuotationData,
   ] = useAxiosGet();
-  const saveHandler = (values, cb) => { };
+  const saveHandler = (values, cb) => {};
 
   const printRef = useRef();
 
@@ -52,15 +51,12 @@ export default function CommercialInvoiceModalView({ commercialId }) {
         }
       );
     }
-
   }, []);
 
   const getTotalCFR = (data) => {
     return (
-      data?.RowData?.reduce(
-        (a, b) => a + (b?.TotalFobAmountUSD || 0),
-        0
-      ) + data?.HeaderData?.FreightAmount || 0
+      data?.RowData?.reduce((a, b) => a + (b?.TotalFobAmountUSD || 0), 0) +
+        data?.HeaderData?.FreightAmount || 0
     );
   };
 
@@ -85,13 +81,7 @@ export default function CommercialInvoiceModalView({ commercialId }) {
         });
       }}
     >
-      {({
-        handleSubmit,
-        resetForm,
-        setFieldValue,
-        isValid,
-        errors,
-      }) => (
+      {({ handleSubmit, resetForm, setFieldValue, isValid, errors }) => (
         <>
           {quotationDataLoader && <Loading />}
           <IForm
@@ -104,7 +94,7 @@ export default function CommercialInvoiceModalView({ commercialId }) {
                 <React.Fragment>
                   <ReactToPrint
                     pageStyle={
-                      "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important;margin-top: 2cm ! important;}}"
+                      '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important;margin-top: 2cm ! important;}}'
                     }
                     trigger={() => (
                       <button type="button" className="btn btn-primary ml-3">
@@ -122,7 +112,7 @@ export default function CommercialInvoiceModalView({ commercialId }) {
               {quotationData?.HeaderData ? (
                 <div componentRef={printRef} ref={printRef}>
                   <img
-                    style={{ width: "130px", height: "60px" }}
+                    style={{ width: '130px', height: '60px' }}
                     src={essentialLogo}
                     alt="logo"
                   />
@@ -146,10 +136,12 @@ export default function CommercialInvoiceModalView({ commercialId }) {
                             (quotationData?.Head?.length + 6) / 2
                           )}
                         >
-                          <strong>COMMERCIAL INVOICE NO:</strong>{" "}
-                          {quotationData?.HeaderData?.SalesContractNo?.toUpperCase()}{" "}
-                          <strong className="ml-5">DATE:</strong>{" "}
-                          {_dateFormatter(quotationData?.HeaderData?.PricingDate)}
+                          <strong>COMMERCIAL INVOICE NO:</strong>{' '}
+                          {quotationData?.HeaderData?.SalesContractNo?.toUpperCase()}{' '}
+                          <strong className="ml-5">DATE:</strong>{' '}
+                          {_dateFormatter(
+                            quotationData?.HeaderData?.PricingDate
+                          )}
                         </td>
                         <td
                           className="font-weight-bold"
@@ -157,7 +149,7 @@ export default function CommercialInvoiceModalView({ commercialId }) {
                             (quotationData?.Head?.length + 6) / 2
                           )}
                         >
-                          <strong>COURNTRY OF ORIGIN:</strong>{" "}
+                          <strong>COURNTRY OF ORIGIN:</strong>{' '}
                           {quotationData?.HeaderData?.CountryOfOrigin?.toUpperCase()}
                         </td>
                       </tr>
@@ -169,9 +161,11 @@ export default function CommercialInvoiceModalView({ commercialId }) {
                           )}
                         >
                           <strong>SALES CONTRACT NO:</strong>
-                          {quotationData?.HeaderData?.SalesContractNo?.toUpperCase()}{" "}
-                          <strong className="ml-5">DATE:</strong>{" "}
-                          {_dateFormatter(quotationData?.HeaderData?.PricingDate)}
+                          {quotationData?.HeaderData?.SalesContractNo?.toUpperCase()}{' '}
+                          <strong className="ml-5">DATE:</strong>{' '}
+                          {_dateFormatter(
+                            quotationData?.HeaderData?.PricingDate
+                          )}
                         </td>
                         <td
                           className="font-weight-bold"
@@ -179,7 +173,7 @@ export default function CommercialInvoiceModalView({ commercialId }) {
                             (quotationData?.Head?.length + 6) / 2
                           )}
                         >
-                          <strong>SALES TERM:</strong>{" "}
+                          <strong>SALES TERM:</strong>{' '}
                           {quotationData?.HeaderData?.SalesTerm?.toUpperCase()}
                         </td>
                       </tr>
@@ -238,7 +232,7 @@ export default function CommercialInvoiceModalView({ commercialId }) {
                             (quotationData?.Head?.length + 6) / 2
                           )}
                         >
-                          <strong>MODE OF SHIPMENT:</strong>{" "}
+                          <strong>MODE OF SHIPMENT:</strong>{' '}
                           {quotationData?.HeaderData?.ModeofShipment?.toUpperCase()}
                         </td>
                       </tr>
@@ -262,19 +256,18 @@ export default function CommercialInvoiceModalView({ commercialId }) {
                             (quotationData?.Head?.length + 6) / 2
                           )}
                         >
-                          <strong>PLACE OF LOADING:</strong>{" "}
-                          {quotationData?.HeaderData?.PortofShipment?.toUpperCase()}{" "}
+                          <strong>PLACE OF LOADING:</strong>{' '}
+                          {quotationData?.HeaderData?.PortofShipment?.toUpperCase()}{' '}
                           <br />
-                          <strong>PORT OF DISCHARGE:</strong>{" "}
-                          {quotationData?.HeaderData?.PortofDishcharge?.toUpperCase()}{" "}
+                          <strong>PORT OF DISCHARGE:</strong>{' '}
+                          {quotationData?.HeaderData?.PortofDishcharge?.toUpperCase()}{' '}
                           <br />
-                          <strong>DESTINATION COUNTRY:</strong>{" "}
-                          {quotationData?.HeaderData?.ToCountryName?.toUpperCase()}{" "}
+                          <strong>DESTINATION COUNTRY:</strong>{' '}
+                          {quotationData?.HeaderData?.ToCountryName?.toUpperCase()}{' '}
                           <br />
-                          <strong>FINAL DESTINATION:</strong>{" "}
-                          {quotationData?.HeaderData?.FinalDestination?.toUpperCase()}{" "}
+                          <strong>FINAL DESTINATION:</strong>{' '}
+                          {quotationData?.HeaderData?.FinalDestination?.toUpperCase()}{' '}
                           <br />
-
                         </td>
                       </tr>
                       <tr>
@@ -358,9 +351,11 @@ export default function CommercialInvoiceModalView({ commercialId }) {
                           colSpan={quotationData?.Head?.length + 6}
                         >
                           <strong>SALES CONTRACT NO:</strong>
-                          {quotationData?.HeaderData?.SalesContractNo?.toUpperCase()}{" "}
-                          <strong className="ml-5">DATE:</strong>{" "}
-                          {_dateFormatter(quotationData?.HeaderData?.PricingDate)}
+                          {quotationData?.HeaderData?.SalesContractNo?.toUpperCase()}{' '}
+                          <strong className="ml-5">DATE:</strong>{' '}
+                          {_dateFormatter(
+                            quotationData?.HeaderData?.PricingDate
+                          )}
                         </td>
                       </tr>
                       <br />
@@ -375,7 +370,7 @@ export default function CommercialInvoiceModalView({ commercialId }) {
                         <td
                           className="font-weight-bold"
                           style={{
-                            border: "none",
+                            border: 'none',
                           }}
                           colSpan={Math.ceil(
                             (quotationData?.Head?.length + 6) / 3
@@ -388,8 +383,8 @@ export default function CommercialInvoiceModalView({ commercialId }) {
                         <td
                           className="font-weight-bold"
                           style={{
-                            border: "none",
-                            textAlign: "center",
+                            border: 'none',
+                            textAlign: 'center',
                           }}
                           colSpan={Math.ceil(
                             (quotationData?.Head?.length + 6) / 3
@@ -402,7 +397,7 @@ export default function CommercialInvoiceModalView({ commercialId }) {
                         <td
                           className="font-weight-bold"
                           style={{
-                            border: "none",
+                            border: 'none',
                           }}
                           colSpan={Math.ceil(
                             (quotationData?.Head?.length + 6) / 3

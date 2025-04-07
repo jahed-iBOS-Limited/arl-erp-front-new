@@ -1,5 +1,5 @@
-import React from "react";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
+import React from 'react';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
 
 const AVGCoverageTable = ({ setTableItem, inventoryStatement }) => {
   return (
@@ -10,8 +10,8 @@ const AVGCoverageTable = ({ setTableItem, inventoryStatement }) => {
             <tr>
               <th>SL</th>
               <th>Item Code</th>
-              <th style={{ width: "200px" }}>Item Name</th>
-              <th style={{ minWidth: "100px" }}>UoM Name</th>
+              <th style={{ width: '200px' }}>Item Name</th>
+              <th style={{ minWidth: '100px' }}>UoM Name</th>
               <th>Current Stock</th>
               <th>Avg. D. Cons.</th>
               <th>Coverage Days</th>
@@ -22,7 +22,7 @@ const AVGCoverageTable = ({ setTableItem, inventoryStatement }) => {
               inventoryStatement?.map((item, index) => {
                 return (
                   <tr key={index}>
-                    <td style={{ width: "30px" }} className="text-center">
+                    <td style={{ width: '30px' }} className="text-center">
                       {index + 1}
                     </td>
                     <td>

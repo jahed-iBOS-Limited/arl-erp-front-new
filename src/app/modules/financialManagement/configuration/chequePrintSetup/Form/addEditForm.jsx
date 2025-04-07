@@ -1,19 +1,18 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import Loading from "./../../../../_helper/_loading";
-import { getBankDDl, saveBankChequePrint } from "./../helper";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import Loading from './../../../../_helper/_loading';
+import { getBankDDl, saveBankChequePrint } from './../helper';
 
 const initData = {
-  bank: "",
-  branch: "",
-  bankAccount: "",
-  accountNumber: "",
-  prefix: "",
-  startNo: "",
-  endNo: "",
+  bank: '',
+  branch: '',
+  bankAccount: '',
+  accountNumber: '',
+  prefix: '',
+  startNo: '',
+  endNo: '',
 };
 
 export default function ChequePrintSetupForm({
@@ -40,7 +39,6 @@ export default function ChequePrintSetupForm({
     if (selectedBusinessUnit?.value && profileData?.accountId) {
       getBankDDl(setBankDDL);
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   //Dispatch single data action and empty single data for create
@@ -58,7 +56,7 @@ export default function ChequePrintSetupForm({
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (id) {
         const payload = {};
-        console.log("Edit", payload);
+        console.log('Edit', payload);
         // dispatch(saveEditedBankAccount(payload, setDisabled));
       } else {
         const payload = {
@@ -69,7 +67,7 @@ export default function ChequePrintSetupForm({
           bankBranchId: values?.branch?.value,
           bankId: values?.bank?.value,
           accountNo: values?.bankAccount?.label,
-          prefix: values?.prefix || "",
+          prefix: values?.prefix || '',
           startNo: values?.startNo,
           endNo: values?.endNo,
           currentNo: 0,

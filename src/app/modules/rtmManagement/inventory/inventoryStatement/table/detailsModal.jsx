@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
-import { InventoryLedger_api } from "../helper";
-import { useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import { shallowEqual } from "react-redux";
+import React, { useEffect, useState, useRef } from 'react';
+import { InventoryLedger_api } from '../helper';
+import { useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import { shallowEqual } from 'react-redux';
 // import { _timeFormatter } from "./../../../../_helper/_timeFormatter";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
 const DetailsModal = ({ tableItem, values }) => {
   const [inventoryLedger, setInventoryLedger] = useState([]);
   // get user profile data from store
@@ -26,7 +26,6 @@ const DetailsModal = ({ tableItem, values }) => {
       values?.toDate,
       setInventoryLedger
     );
-
   }, [tableItem]);
 
   const printRef = useRef();
@@ -34,11 +33,11 @@ const DetailsModal = ({ tableItem, values }) => {
     <>
       <div
         className="text-right pointer"
-        style={{ position: "absolute", top: "16px", right: "16px" }}
+        style={{ position: 'absolute', top: '16px', right: '16px' }}
       >
         <ReactToPrint
           trigger={() => (
-            <i style={{ fontSize: "18px" }} className="fas fa-print"></i>
+            <i style={{ fontSize: '18px' }} className="fas fa-print"></i>
           )}
           content={() => printRef.current}
         />
@@ -47,7 +46,7 @@ const DetailsModal = ({ tableItem, values }) => {
       <div className="inventoryStatement-reports mt-6 " ref={printRef}>
         <div
           className="text-right pointer"
-          style={{ position: "absolute", top: "161px", right: "42px" }}
+          style={{ position: 'absolute', top: '161px', right: '42px' }}
         ></div>
         <div className="text-center">
           <h3>Business Unit : {selectedBusinessUnit?.label}</h3>
@@ -57,12 +56,8 @@ const DetailsModal = ({ tableItem, values }) => {
           <h6>Inventory Ledger</h6>
         </div>
         <div className="d-flex justify-content-around">
-          <h6>
-            From Date: {values?.fromDate}
-          </h6>
-          <h6>
-            To Date: {values?.toDate}
-          </h6>
+          <h6>From Date: {values?.fromDate}</h6>
+          <h6>To Date: {values?.toDate}</h6>
         </div>
         <table className="table table-striped table-bordered global-table">
           <thead>

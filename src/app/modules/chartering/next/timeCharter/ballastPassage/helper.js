@@ -38,7 +38,7 @@ export const getBallastPassageLandingData = async ({
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/BallastPassage/GetBallastPassageLanding?VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
+      `${imarineBaseUrl}/domain/BallastPassage/GetBallastPassageLanding?VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     setter(res?.data);
     setLoading(false);
@@ -59,7 +59,7 @@ export const getItemRateForBunker = async ({
   setLoading(true);
   try {
     const { data } = await axios.get(
-      `${imarineBaseUrl}/domain/BunkerInformation/GetItemRateForBunker?AccountId=${accId}&BusinessUnitId=${buId}&VoyageNoId=${voyageId}&VesselId=${vesselId}`,
+      `${imarineBaseUrl}/domain/BunkerInformation/GetItemRateForBunker?AccountId=${accId}&BusinessUnitId=${buId}&VoyageNoId=${voyageId}&VesselId=${vesselId}`
     );
     setter('lsfoballastRate', data?.lsifoPrice);
     setter('lsmgoballastRate', data?.lsmgoPrice);
@@ -75,7 +75,7 @@ export const createBallastPassage = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/BallastPassage/CreateBallastPassage`,
-      data,
+      data
     );
     cb();
     toast.success(res?.data?.message);
@@ -91,7 +91,7 @@ export const editBallastPassge = async (data, setLoading) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/BallastPassage/EditBallastPassage`,
-      data,
+      data
     );
 
     toast.success(res?.data?.message, { toastId: 123 });
@@ -108,7 +108,7 @@ export const getSingleBallastDataById = async ({ id, setLoading, setter }) => {
   setLoading(true);
   try {
     const { data } = await axios.get(
-      `${imarineBaseUrl}/domain/BallastPassage/GetBallastPassage?BallastId=${id}`,
+      `${imarineBaseUrl}/domain/BallastPassage/GetBallastPassage?BallastId=${id}`
     );
 
     setter({
@@ -122,10 +122,10 @@ export const getSingleBallastDataById = async ({ id, setLoading, setter }) => {
         label: data?.voyageNo,
       },
       ballastStartDate: moment(data?.ballastStartDate).format(
-        'YYYY-MM-DDTHH:mm:ss',
+        'YYYY-MM-DDTHH:mm:ss'
       ),
       ballastEndDate: moment(data?.ballastEndDate).format(
-        'YYYY-MM-DDTHH:mm:ss',
+        'YYYY-MM-DDTHH:mm:ss'
       ),
     });
     setLoading(false);

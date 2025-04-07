@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../_helper/_loading";
-import { Form, Formik } from "formik";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import React, { useEffect, useState } from 'react';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../_helper/_loading';
+import { Form, Formik } from 'formik';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 
 const DistributionPlantEditModal = ({
   editData,
@@ -21,12 +21,11 @@ const DistributionPlantEditModal = ({
       getRowData(
         `/oms/DistributionChannel/GetDistributionItemById?DistributionPlanningId=${editData?.distributionPlanningId}`,
         (data) => {
-          console.log("resdata", data);
+          console.log('resdata', data);
         }
       );
-      console.log("editData", editData);
+      console.log('editData', editData);
     }
-
   }, [editData?.distributionPlanningId]);
 
   const getAbsoluteValue = (e) => {
@@ -36,13 +35,13 @@ const DistributionPlantEditModal = ({
   };
 
   const handleSubmit = () => {
-    console.log("saveHandler", rowData);
+    console.log('saveHandler', rowData);
 
     // loop through the rowData and create a new array. NOTE: Item has planQty and planRate should be greater than 0 will be added to the new array
     const modifiedPayload =
       rowData?.filter((item) => item?.planQty > 0 && item?.planRate > 0) || [];
 
-    console.log("modifiedPayload", modifiedPayload);
+    console.log('modifiedPayload', modifiedPayload);
 
     saveData(
       `/oms/DistributionChannel/UpdateDistributionPlanningRow`,
@@ -74,7 +73,7 @@ const DistributionPlantEditModal = ({
         <>
           {(rowDataLoader || saveDataLoader) && <Loading />}
           <IForm
-            title={"Distribution Plan Edit"}
+            title={'Distribution Plan Edit'}
             getProps={setObjprops}
             isHiddenReset
             isHiddenBack
@@ -116,12 +115,11 @@ const DistributionPlantEditModal = ({
                                 <InputField
                                   name="planQty"
                                   type="number"
-                                  value={item?.planQty || ""}
+                                  value={item?.planQty || ''}
                                   onChange={(e) => {
                                     const modifiedData = [...rowData];
-                                    modifiedData[
-                                      index
-                                    ].planQty = getAbsoluteValue(e);
+                                    modifiedData[index].planQty =
+                                      getAbsoluteValue(e);
                                     setRowData(modifiedData);
                                   }}
                                 />
@@ -130,12 +128,11 @@ const DistributionPlantEditModal = ({
                                 <InputField
                                   name="planRate"
                                   type="number"
-                                  value={item?.planRate || ""}
+                                  value={item?.planRate || ''}
                                   onChange={(e) => {
                                     const modifiedData = [...rowData];
-                                    modifiedData[
-                                      index
-                                    ].planRate = getAbsoluteValue(e);
+                                    modifiedData[index].planRate =
+                                      getAbsoluteValue(e);
                                     setRowData(modifiedData);
                                   }}
                                 />
@@ -150,14 +147,14 @@ const DistributionPlantEditModal = ({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
               ></button>
             </Form>

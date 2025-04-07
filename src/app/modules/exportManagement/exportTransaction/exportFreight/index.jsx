@@ -34,18 +34,10 @@ export default function ExportFreightInfo() {
   const [transportViewModal, setTransportViewModal] = useState(false);
   const [transportItem, setTransportItem] = useState(false);
   const [sbuDDL, getSbuDDL, sbuLoading] = useAxiosGet();
-  const [
-    salesOrgDDL,
-    getSalesOrgDDL,
-    salesOrgLoading,
-    setSalesOrgDDL,
-  ] = useAxiosGet();
-  const [
-    shipPointDDL,
-    getShipPointDDL,
-    shipPointLoading,
-    setShipPointDDL,
-  ] = useAxiosGet();
+  const [salesOrgDDL, getSalesOrgDDL, salesOrgLoading, setSalesOrgDDL] =
+    useAxiosGet();
+  const [shipPointDDL, getShipPointDDL, shipPointLoading, setShipPointDDL] =
+    useAxiosGet();
   const [
     distributionChannelDDL,
     getDistributionChannelDDL,
@@ -72,7 +64,7 @@ export default function ExportFreightInfo() {
 
   useEffect(() => {
     getSbuDDL(
-      `/domain/BusinessUnitDomain/GetBusinessAreaDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
+      `/domain/BusinessUnitDomain/GetBusinessAreaDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
     getSalesOrgDDL(
       `/oms/SalesOrder/GetSODDLbySBUId?AccountId=${
@@ -82,7 +74,7 @@ export default function ExportFreightInfo() {
         // filter data as per requirement
         const filterSalesOrderDDL = data?.filter((d) => d?.value === 7);
         setSalesOrgDDL(filterSalesOrderDDL);
-      },
+      }
     );
     getShipPointDDL(
       `/domain/OrganizationalUnitUserPermission/GetOrganizationalUnitUserPermissionByUnitId?UserId=${profileData?.userId}&ClientId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
@@ -94,9 +86,9 @@ export default function ExportFreightInfo() {
               label: data?.organizationUnitReffName,
               address: data?.address,
             };
-          }),
+          })
         );
-      },
+      }
     );
     getDistributionChannelDDL(
       `/oms/SalesOrder/GetDistributionChannelDDLBySBUId?AccountId=${
@@ -105,17 +97,16 @@ export default function ExportFreightInfo() {
       (data) => {
         // filtering data as per requirement
         const modifedDistributionChannel = data?.filter(
-          (data) => data?.value === 96,
+          (data) => data?.value === 96
         );
         setDistributionChannelDDL(modifedDistributionChannel);
-      },
+      }
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getTransportProviderInfo(
-      `/oms/SalesOrder/GetExportTransportProviderInfoPagination?searchTerm=${searchValue}&businessUnitId=${selectedBusinessUnit?.value}&businessPartnerId=${values?.soldToParty?.value}&pageNo=${pageNo}&pageSize=${pageSize}`,
+      `/oms/SalesOrder/GetExportTransportProviderInfoPagination?searchTerm=${searchValue}&businessUnitId=${selectedBusinessUnit?.value}&businessPartnerId=${values?.soldToParty?.value}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
   };
   const paginationSearchHandler = (searchValue, values) => {
@@ -252,7 +243,7 @@ export default function ExportFreightInfo() {
                       if (valueOption) {
                         setFieldValue('distributionChannel', valueOption);
                         getSoldToPartyDDL(
-                          `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerForSalesOrderDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&Sbuid=${values?.sbu?.value}&SalesOrg=${values?.salesOrg?.value}&ShipPoint=${values?.shipPoint?.value}&DistributionChannel=${valueOption?.value}`,
+                          `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerForSalesOrderDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&Sbuid=${values?.sbu?.value}&SalesOrg=${values?.salesOrg?.value}&ShipPoint=${values?.shipPoint?.value}&DistributionChannel=${valueOption?.value}`
                         );
                       } else {
                         setFieldValue('distributionChannel', '');
@@ -301,7 +292,7 @@ export default function ExportFreightInfo() {
                         type="button"
                         onClick={() => {
                           getRowData(
-                            `/oms/SalesOrder/GetSalesOrderJournalInfo?businessUnitId=${selectedBusinessUnit?.value}&distributionChannelId=${values?.distributionChannel?.value}&businessPartnerId=${values?.soldToParty?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
+                            `/oms/SalesOrder/GetSalesOrderJournalInfo?businessUnitId=${selectedBusinessUnit?.value}&distributionChannelId=${values?.distributionChannel?.value}&businessPartnerId=${values?.soldToParty?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
                           );
                         }}
                         disabled={
@@ -400,7 +391,7 @@ export default function ExportFreightInfo() {
                                         <IEdit
                                           onClick={() => {
                                             setJournalId(
-                                              td?.accountingJournalId,
+                                              td?.accountingJournalId
                                             );
                                             setJournalViewModal(true);
                                           }}
@@ -421,7 +412,7 @@ export default function ExportFreightInfo() {
                           setJournalViewModal(false);
                           setJournalId(null);
                           getRowData(
-                            `/oms/SalesOrder/GetSalesOrderJournalInfo?businessUnitId=${selectedBusinessUnit?.value}&distributionChannelId=${values?.distributionChannel?.value}&businessPartnerId=${values?.soldToParty?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
+                            `/oms/SalesOrder/GetSalesOrderJournalInfo?businessUnitId=${selectedBusinessUnit?.value}&distributionChannelId=${values?.distributionChannel?.value}&businessPartnerId=${values?.soldToParty?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
                           );
                         }}
                       >
@@ -478,7 +469,7 @@ export default function ExportFreightInfo() {
                                       </span>
                                     </td>
                                   </tr>
-                                ),
+                                )
                               )}
                           </tbody>
                         </table>

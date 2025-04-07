@@ -1,21 +1,20 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import DumpToTruckDeliveryLandingForm from "./form";
-import DumpToTruckDeliveryLandingTable from "./table";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import { _monthFirstDate } from '../../../../_helper/_monthFirstDate';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import DumpToTruckDeliveryLandingForm from './form';
+import DumpToTruckDeliveryLandingTable from './table';
 
 const initData = {
-  shipPoint: "",
-  port: "",
-  motherVessel: "",
-  lighterVessel: "",
-  status: { value: 0, label: "All" },
+  shipPoint: '',
+  port: '',
+  motherVessel: '',
+  lighterVessel: '',
+  status: { value: 0, label: 'All' },
   fromDate: _monthFirstDate(),
   toDate: _todayDate(),
 };
@@ -49,7 +48,7 @@ const DumpToTruckDeliveryLanding = () => {
 
   // set PositionHandler
   const setPositionHandler = (pageNo, pageSize, values) => {
-    getData(values, pageNo, pageSize, "");
+    getData(values, pageNo, pageSize, '');
   };
 
   return (
@@ -61,7 +60,7 @@ const DumpToTruckDeliveryLanding = () => {
       >
         {({ values, setFieldValue }) => (
           <>
-            <ICustomCard title={"Dump to Truck Delivery"}>
+            <ICustomCard title={'Dump to Truck Delivery'}>
               {isLoading && <Loading />}
               <DumpToTruckDeliveryLandingForm
                 obj={{

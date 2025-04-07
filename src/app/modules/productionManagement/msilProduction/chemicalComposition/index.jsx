@@ -61,7 +61,7 @@ export default function ChemicalComposition() {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
-        },
+        }
       );
       toast.success('File Upload successfully');
       return data;
@@ -114,7 +114,7 @@ export default function ChemicalComposition() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        '/production-management/msil-Production/chemicalcomposition/create',
+                        '/production-management/msil-Production/chemicalcomposition/create'
                       );
                     }}
                   >
@@ -244,7 +244,7 @@ export default function ChemicalComposition() {
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name,
+                  (item) => item.file.name !== deleteFileObj.file.name
                 );
                 setFileObjects(newData);
               }}
@@ -280,7 +280,7 @@ export default function ChemicalComposition() {
                       () => {
                         getData(values, pageNo, pageSize);
                       },
-                      true,
+                      true
                     );
                   }
                 });

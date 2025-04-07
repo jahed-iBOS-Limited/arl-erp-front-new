@@ -1,5 +1,5 @@
-import React from "react";
-import NewSelect from "../../../_helper/_select";
+import React from 'react';
+import NewSelect from '../../../_helper/_select';
 
 export default function DivisionSubDivisionAndBusinessUnit({
   values,
@@ -22,9 +22,9 @@ export default function DivisionSubDivisionAndBusinessUnit({
           value={values?.enterpriseDivision}
           label="Enterprise Division"
           onChange={(valueOption) => {
-            setFieldValue("enterpriseDivision", valueOption);
-            setFieldValue("subDivision", "");
-            setFieldValue("businessUnit", "");
+            setFieldValue('enterpriseDivision', valueOption);
+            setFieldValue('subDivision', '');
+            setFieldValue('businessUnit', '');
             setSubDivisionDDL([]);
             setbuddl([]);
             if (valueOption?.value) {
@@ -42,8 +42,8 @@ export default function DivisionSubDivisionAndBusinessUnit({
           value={values?.subDivision}
           label="Sub Division"
           onChange={(valueOption) => {
-            setFieldValue("subDivision", valueOption);
-            setFieldValue("businessUnit", "");
+            setFieldValue('subDivision', valueOption);
+            setFieldValue('businessUnit', '');
             setbuddl([]);
             if (valueOption) {
               getBusinessDDLByED(
@@ -65,7 +65,7 @@ export default function DivisionSubDivisionAndBusinessUnit({
           value={values?.businessUnit}
           label="Business Unit"
           onChange={(valueOption) => {
-            setFieldValue("businessUnit", valueOption);
+            setFieldValue('businessUnit', valueOption);
           }}
           placeholder="Business Unit"
           isDisabled={!values?.subDivision}

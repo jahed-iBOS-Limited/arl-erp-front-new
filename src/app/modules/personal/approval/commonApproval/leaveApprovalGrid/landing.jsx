@@ -1,27 +1,26 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { getNewApplicationData, approveAll } from "./helper";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import Loading from "../../../../_helper/_loading";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import { Formik } from "formik";
-import { Form } from "react-bootstrap";
-import NewSelect from "../../../../_helper/_select";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { getNewApplicationData, approveAll } from './helper';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import Loading from '../../../../_helper/_loading';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import { Formik } from 'formik';
+import { Form } from 'react-bootstrap';
+import NewSelect from '../../../../_helper/_select';
 
 const initData = {
-  applicationType: "",
+  applicationType: '',
 };
 
 const applicationTypeDDL = [
-  { value: 1, label: "Pending Application" },
-  { value: 2, label: "Approved Application" },
-  { value: 3, label: "Rejected Application" },
+  { value: 1, label: 'Pending Application' },
+  { value: 2, label: 'Approved Application' },
+  { value: 3, label: 'Rejected Application' },
 ];
 
 const LeaveApprovalGrid = () => {
@@ -76,19 +75,19 @@ const LeaveApprovalGrid = () => {
   // // approveSubmitlHandler btn submit handler
   const approveSubmitlHandler = (values) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       yesAlertFunc: async () => {
         const filterData = rowDto?.data?.filter((item) => item?.isSelect);
         if (filterData?.length === 0) {
-          toast.warning("Please Select One");
+          toast.warning('Please Select One');
         } else {
           const payload = filterData?.map((item) => {
             return {
               leaveApplicationId: item?.applicationId,
               dateApprovedFrom: item?.appliedFromDate,
               dateApprovedTo: item?.appliedToDate,
-              payStatus: "approved",
-              approvedStatus: "Y",
+              payStatus: 'approved',
+              approvedStatus: 'Y',
               approvedBy: profileData?.userId,
             };
           });
@@ -107,7 +106,7 @@ const LeaveApprovalGrid = () => {
         setBillSubmitBtn(true);
       },
       noAlertFunc: () => {
-        history.push("/personal/approval/commonapproval");
+        history.push('/personal/approval/commonapproval');
       },
     };
     IConfirmModal(confirmObject);
@@ -116,19 +115,19 @@ const LeaveApprovalGrid = () => {
   // RejectedSubmitlHandler btn submit handler
   const rejectedSubmitlHandler = (values) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       yesAlertFunc: async () => {
         const filterData = rowDto?.data?.filter((item) => item?.isSelect);
         if (filterData?.length === 0) {
-          toast.warning("Please Select One");
+          toast.warning('Please Select One');
         } else {
           const payload = filterData?.map((item) => {
             return {
               leaveApplicationId: item?.applicationId,
               dateApprovedFrom: item?.appliedFromDate,
               dateApprovedTo: item?.appliedToDate,
-              payStatus: "rejected",
-              approvedStatus: "R",
+              payStatus: 'rejected',
+              approvedStatus: 'R',
               approvedBy: profileData?.userId,
             };
           });
@@ -147,14 +146,12 @@ const LeaveApprovalGrid = () => {
         setBillSubmitBtn(true);
       },
       noAlertFunc: () => {
-        history.push("/personal/approval/commonapproval");
+        history.push('/personal/approval/commonapproval');
       },
     };
     IConfirmModal(confirmObject);
     //
   };
-
-
 
   useEffect(() => {
     getNewApplicationData(
@@ -213,7 +210,7 @@ const LeaveApprovalGrid = () => {
       enableReinitialize={true}
       initialValues={{
         ...initData,
-        applicationType: { value: 1, label: "Pending Application" },
+        applicationType: { value: 1, label: 'Pending Application' },
       }}
       // validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -247,7 +244,7 @@ const LeaveApprovalGrid = () => {
                             label="Application Type"
                             onChange={(valueOption) => {
                               setNewApplicationData([]);
-                              setFieldValue("applicationType", valueOption);
+                              setFieldValue('applicationType', valueOption);
 
                               setAllSelect(false);
                               getNewApplicationData(
@@ -321,13 +318,13 @@ const LeaveApprovalGrid = () => {
                 <thead>
                   <tr>
                     {values?.applicationType?.value === 1 && (
-                      <th style={{ width: "20px" }}>
+                      <th style={{ width: '20px' }}>
                         <input
                           type="checkbox"
                           id="parent"
                           onChange={(event) => {
                             setAllSelect(event.target.checked);
-                            setBillSubmitBtn(data => !data)
+                            setBillSubmitBtn((data) => !data);
                           }}
                         />
                       </th>
@@ -391,8 +388,8 @@ const LeaveApprovalGrid = () => {
                         </td>
                         <td
                           style={{
-                            verticalAlign: "middle",
-                            textAlign: "center",
+                            verticalAlign: 'middle',
+                            textAlign: 'center',
                           }}
                         >
                           <div className="d-flex justify-content-center">

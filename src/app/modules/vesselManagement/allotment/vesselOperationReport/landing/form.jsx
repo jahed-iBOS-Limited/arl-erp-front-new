@@ -1,48 +1,46 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
-import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
+} from '../../../../../../_metronic/_partials/controls';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../../_helper/_loading';
+import { _monthFirstDate } from '../../../../_helper/_monthFirstDate';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   GetDomesticPortDDL,
-
   GetShipPointDDL,
-} from "../../generalInformation/helper";
+} from '../../generalInformation/helper';
 import {
   getAllotmentDDLByMotherVessel,
   getLighterVesselDDLFromAllotment,
-} from "../../loadingInformation/helper";
-import ReportsByPowerBI from "./powerBIReport";
-import GridView from "./table";
-import { getMotherVesselDDL } from "../../../../_helper/_commonApi";
+} from '../../loadingInformation/helper';
+import ReportsByPowerBI from './powerBIReport';
+import GridView from './table';
+import { getMotherVesselDDL } from '../../../../_helper/_commonApi';
 
 const initData = {
-  shipPoint: "",
-  motherVessel: "",
-  lighterVessel: "",
-  program: "",
+  shipPoint: '',
+  motherVessel: '',
+  lighterVessel: '',
+  program: '',
   fromDate: _monthFirstDate(),
   toDate: _todayDate(),
-  port: "",
+  port: '',
 };
 
 const reportTypes = [
-  { value: 1, label: "Program Base" },
-  { value: 2, label: "ShipPoint Base" },
-  { value: 3, label: "Godown Base" },
-  { value: 4, label: "G2G Challan Info (BI)" },
-  { value: 5, label: "Lighter Vessel Time Sheet (BI)" },
+  { value: 1, label: 'Program Base' },
+  { value: 2, label: 'ShipPoint Base' },
+  { value: 3, label: 'Godown Base' },
+  { value: 4, label: 'G2G Challan Info (BI)' },
+  { value: 5, label: 'Lighter Vessel Time Sheet (BI)' },
 ];
 
 const VesselOperationReport = () => {
@@ -71,7 +69,6 @@ const VesselOperationReport = () => {
     GetDomesticPortDDL(setPortDDL);
     GetShipPointDDL(accId, buId, setShipPointDDL);
     getMotherVesselDDL(accId, buId, setMotherVesselDDL);
-
   }, [accId, buId]);
 
   const PBIReport = (values) => {
@@ -106,7 +103,7 @@ const VesselOperationReport = () => {
                           value={values?.reportType}
                           label="Report Type"
                           onChange={(valueOption) => {
-                            setFieldValue("reportType", valueOption);
+                            setFieldValue('reportType', valueOption);
                             setBIReport(false);
                           }}
                           placeholder="Report Type"
@@ -123,7 +120,7 @@ const VesselOperationReport = () => {
                               value={values?.port}
                               label="Port"
                               onChange={(valueOption) => {
-                                setFieldValue("port", valueOption);
+                                setFieldValue('port', valueOption);
                               }}
                               placeholder="Port"
                               errors={errors}
@@ -137,7 +134,7 @@ const VesselOperationReport = () => {
                               value={values?.shipPoint}
                               label="ShipPoint"
                               onChange={(valueOption) => {
-                                setFieldValue("shipPoint", valueOption);
+                                setFieldValue('shipPoint', valueOption);
                               }}
                               placeholder="ShipPoint"
                               errors={errors}
@@ -151,7 +148,7 @@ const VesselOperationReport = () => {
                               value={values?.motherVessel}
                               label="Mother Vessel"
                               onChange={(valueOption) => {
-                                setFieldValue("motherVessel", valueOption);
+                                setFieldValue('motherVessel', valueOption);
                                 if (valueOption) {
                                   getLighterVesselDDLFromAllotment(
                                     buId,
@@ -180,7 +177,7 @@ const VesselOperationReport = () => {
                               value={values?.program}
                               label="Program"
                               onChange={(e) => {
-                                setFieldValue("program", e);
+                                setFieldValue('program', e);
                               }}
                               placeholder="Program"
                               errors={errors}
@@ -194,7 +191,7 @@ const VesselOperationReport = () => {
                               value={values?.lighterVessel}
                               label="Lighter Vessel"
                               onChange={(valueOption) => {
-                                setFieldValue("lighterVessel", valueOption);
+                                setFieldValue('lighterVessel', valueOption);
                               }}
                               placeholder="Lighter Vessel"
                               errors={errors}

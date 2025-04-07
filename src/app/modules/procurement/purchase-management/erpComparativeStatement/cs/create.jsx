@@ -66,7 +66,7 @@ export default function CreateCs({
   useEffect(() => {
     if (!isView) {
       getSuppilerStatement(
-        `${eProcurementBaseURL}/ComparativeStatement/GetSupplierStatementForCS?requestForQuotationId=${rfqDetail?.requestForQuotationId}`,
+        `${eProcurementBaseURL}/ComparativeStatement/GetSupplierStatementForCS?requestForQuotationId=${rfqDetail?.requestForQuotationId}`
       );
 
       getItemDDL(
@@ -82,7 +82,7 @@ export default function CreateCs({
             });
           });
           setItemDDL(list);
-        },
+        }
       );
     }
 
@@ -115,16 +115,13 @@ export default function CreateCs({
           //     },
           //   ]);
           // });
-        },
+        }
       );
     }
-
-
   }, []);
 
   useEffect(() => {
     getPlacePartnerListCsWise();
-
   }, [suppilerStatement]);
 
   const getPlacePartnerListCsWise = () => {
@@ -135,7 +132,7 @@ export default function CreateCs({
         suppilerStatement?.firstSelectedItem?.partnerRfqId || 0
       }&secondPlacePartnerRfqId=${
         suppilerStatement?.secondSelectedItem?.partnerRfqId || 0
-      }`,
+      }`
     );
   };
 
@@ -157,7 +154,7 @@ export default function CreateCs({
       rfqDetail,
       suppilerStatement,
       placePartnerList,
-      rowData,
+      rowData
     );
 
     console.log(payload, 'payload');
@@ -179,7 +176,7 @@ export default function CreateCs({
               (costRes) => {
                 console.log(costRes, 'costRes');
                 history.push('/mngProcurement/purchase-management/cs');
-              },
+              }
             ); // cost entry api
           } else {
             console.log(res, 'save data found');
@@ -187,7 +184,7 @@ export default function CreateCs({
           }
         }
       },
-      true,
+      true
     );
   };
 
@@ -416,7 +413,7 @@ export default function CreateCs({
                                     };
                                   });
                                   setSupplierDDL(modData);
-                                },
+                                }
                               );
                             }}
                             placeholder="Item Wise"
@@ -436,12 +433,12 @@ export default function CreateCs({
                               setFieldValue('supplier', valueOption);
                               setFieldValue(
                                 'supplierRate',
-                                valueOption?.supplierRate || 0,
+                                valueOption?.supplierRate || 0
                               );
                               setFieldValue('port', []);
                               setFieldValue(
                                 'currencyCode',
-                                valueOption?.currencyCode,
+                                valueOption?.currencyCode
                               );
                             }}
                             placeholder="Supplier"
@@ -475,7 +472,7 @@ export default function CreateCs({
                                 SupplierDDL.find(
                                   (item) =>
                                     item?.businessPartnerId ===
-                                    values?.supplier?.value,
+                                    values?.supplier?.value
                                 )?.portList?.map((port) => ({
                                   value: port?.portId,
                                   label: port?.portName,
@@ -488,7 +485,7 @@ export default function CreateCs({
                                 setFieldValue('port', valueOption);
                                 setFieldValue(
                                   'supplierRate',
-                                  valueOption?.rate,
+                                  valueOption?.rate
                                 );
                               }}
                               placeholder="Port"
@@ -633,7 +630,7 @@ export default function CreateCs({
                                       handleDelete(
                                         item?.itemWiseCode,
                                         item?.supplierCode,
-                                        item?.port?.value,
+                                        item?.port?.value
                                       );
                                     }}
                                   >
@@ -771,7 +768,7 @@ export default function CreateCs({
                             !suppilerStatement?.firstSelectedId
                           ) {
                             toast.warning(
-                              'Please select 1st place supplier first!!',
+                              'Please select 1st place supplier first!!'
                             );
                             return;
                           }

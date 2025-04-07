@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 function BongTradersTable({
   deliveryOrderReportData,
@@ -13,7 +13,7 @@ function BongTradersTable({
             <table className="table table-striped table-bordered  global-table">
               <thead>
                 <tr>
-                  <th style={{ width: "35px" }}>SL</th>
+                  <th style={{ width: '35px' }}>SL</th>
                   <th>PRODUCT DESCRIPTION</th>
                   <th>UOM</th>
                   <th>QNT.(TON)</th>

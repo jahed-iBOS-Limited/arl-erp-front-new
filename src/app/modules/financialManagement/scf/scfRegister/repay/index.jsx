@@ -1,21 +1,21 @@
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router";
-import { toast } from "react-toastify";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { createRepay } from "../helper";
-import RepayForm from "./form";
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
+import { toast } from 'react-toastify';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { createRepay } from '../helper';
+import RepayForm from './form';
 
 const initData = {
-  account: "",
-  instrumentNo: "",
+  account: '',
+  instrumentNo: '',
   instrumentDate: _todayDate(),
-  principalAmount: "",
-  interestAmount: "",
+  principalAmount: '',
+  interestAmount: '',
   transDate: _todayDate(),
-  numExciseDuty: "",
+  numExciseDuty: '',
 };
 
 export default function SCFRegisterRepayCreate({
@@ -36,7 +36,6 @@ export default function SCFRegisterRepayCreate({
   }, shallowEqual);
   const location = useLocation();
 
-
   const saveHandler = async (values, cb) => {
     if (
       location?.state?.principal &&
@@ -47,7 +46,7 @@ export default function SCFRegisterRepayCreate({
     const sumCheck =
       values?.principalAmount + values?.interestAmount + values?.numExciseDuty;
     if (sumCheck <= 0) {
-      return toast.error("At least one field must be greater than 0");
+      return toast.error('At least one field must be greater than 0');
     }
     createRepay(
       profileData?.accountId,

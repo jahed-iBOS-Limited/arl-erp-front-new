@@ -1,18 +1,18 @@
-import React from "react";
-import { Formik } from "formik";
-import InputField from "./../../../../_helper/_inputField";
-import { getDeliveryItem } from "../helper";
-import { useHistory } from "react-router-dom";
-import { _formatMoney } from "./../../../../_helper/_formatMoney";
-import Loading from "./../../../../_helper/_loading";
-import NewSelect from "./../../../../_helper/_select";
+import React from 'react';
+import { Formik } from 'formik';
+import InputField from './../../../../_helper/_inputField';
+import { getDeliveryItem } from '../helper';
+import { useHistory } from 'react-router-dom';
+import { _formatMoney } from './../../../../_helper/_formatMoney';
+import Loading from './../../../../_helper/_loading';
+import NewSelect from './../../../../_helper/_select';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls/Card";
-import { ModalProgressBar } from "./../../../../../../_metronic/_partials/controls/ModalProgressBar";
+} from './../../../../../../_metronic/_partials/controls/Card';
+import { ModalProgressBar } from './../../../../../../_metronic/_partials/controls/ModalProgressBar';
 
 export default function FormCmp({
   initData,
@@ -32,8 +32,8 @@ export default function FormCmp({
   const quantityHandler = (value, index) => {
     if (+value >= 0) {
       let newRowData = [...rowData];
-      newRowData[index]["receiveQTY"] = +value;
-      newRowData[index]["receiveAmount"] = +rowData[index]?.rate * +value;
+      newRowData[index]['receiveQTY'] = +value;
+      newRowData[index]['receiveAmount'] = +rowData[index]?.rate * +value;
       setRowData(newRowData);
     }
   };
@@ -64,8 +64,8 @@ export default function FormCmp({
               <CardHeader
                 title={
                   !isEdit
-                    ? "Create Delivery Confirmation"
-                    : "Edit Delivery Confirmation"
+                    ? 'Create Delivery Confirmation'
+                    : 'Edit Delivery Confirmation'
                 }
               >
                 <CardHeaderToolbar>
@@ -107,7 +107,7 @@ export default function FormCmp({
                           value={values?.chalan}
                           label="Chalan No*"
                           onChange={(valueOption) => {
-                            setFieldValue("chalan", valueOption);
+                            setFieldValue('chalan', valueOption);
                           }}
                           isDisabled={isEdit}
                           placeholder="Chalan No"
@@ -127,7 +127,7 @@ export default function FormCmp({
                               );
                             }}
                             type="button"
-                            style={{ marginTop: "16px" }}
+                            style={{ marginTop: '16px' }}
                             className="btn btn-primary"
                           >
                             Show
@@ -176,7 +176,7 @@ export default function FormCmp({
                           <th>Rate</th>
                           <th>Order Qty</th>
                           <th>Order Amount</th>
-                          <th style={{ width: "100px" }}>Receive QTY</th>
+                          <th style={{ width: '100px' }}>Receive QTY</th>
                           <th>Receive Amount</th>
                         </tr>
                       </thead>
@@ -200,7 +200,7 @@ export default function FormCmp({
                                 <td>
                                   <input
                                     name="receiveQTY"
-                                    value={item?.receiveQTY || ""}
+                                    value={item?.receiveQTY || ''}
                                     onChange={(e) =>
                                       quantityHandler(e.target.value, index)
                                     }

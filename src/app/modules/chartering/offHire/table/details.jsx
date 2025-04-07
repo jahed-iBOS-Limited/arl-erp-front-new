@@ -1,30 +1,28 @@
-
-import moment from "moment";
-import React, { useState } from "react";
-import { _fixedPoint } from "../../../_helper/_fixedPoint";
-import Loading from "../../../_helper/_loading";
-import ICustomTable from "../../_chartinghelper/_customTable";
-import { ExportPDF } from "../../_chartinghelper/exportPdf";
+import moment from 'moment';
+import React, { useState } from 'react';
+import { _fixedPoint } from '../../../_helper/_fixedPoint';
+import Loading from '../../../_helper/_loading';
+import ICustomTable from '../../_chartinghelper/_customTable';
+import { ExportPDF } from '../../_chartinghelper/exportPdf';
 
 const headers = [
-  { name: "SL" },
-  { name: "Off Hire" },
-  { name: "Start Date-Time" },
-  { name: "End Date-Time" },
-  { name: "Off Hire Duration" },
-  { name: "Duration Percentage" },
-  { name: "Final Off Hire Duration" },
-  { name: "C/V/E" },
-  { name: "VLSFO" },
-  { name: "LSMGO" },
-  { name: "Remarks" },
+  { name: 'SL' },
+  { name: 'Off Hire' },
+  { name: 'Start Date-Time' },
+  { name: 'End Date-Time' },
+  { name: 'Off Hire Duration' },
+  { name: 'Duration Percentage' },
+  { name: 'Final Off Hire Duration' },
+  { name: 'C/V/E' },
+  { name: 'VLSFO' },
+  { name: 'LSMGO' },
+  { name: 'Remarks' },
   //   { name: "Off Hire Total Cost" },
   //   { name: "Actions" },
 ];
 
 export default function OffHireDetails({ obj }) {
   const { gridData, singleItem } = obj;
-
 
   const [loading, setLoading] = useState(false);
 
@@ -67,12 +65,12 @@ export default function OffHireDetails({ obj }) {
                 <td>{`Off Hire - ${index + 1}`}</td>
                 <td>
                   {moment(item?.offHireStartDateTime).format(
-                    "DD-MMM-yyyy, HH:mm"
+                    'DD-MMM-yyyy, HH:mm'
                   )}
                 </td>
                 <td>
                   {moment(item?.offHireEndDateTime).format(
-                    "DD-MMM-yyyy, HH:mm"
+                    'DD-MMM-yyyy, HH:mm'
                   )}
                 </td>
                 <td className="text-center">{item?.offHireDuration}</td>
@@ -103,7 +101,7 @@ export default function OffHireDetails({ obj }) {
               </tr>
             );
           })}
-          <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+          <tr style={{ fontWeight: 'bold', textAlign: 'right' }}>
             <td colSpan={6} className="text-right">
               <b>Total</b>
             </td>

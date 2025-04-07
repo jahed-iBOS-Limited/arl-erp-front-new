@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const getEmployeeDDL = async (accId, busId, setter) => {
   try {
@@ -10,9 +10,7 @@ export const getEmployeeDDL = async (accId, busId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getTerritoryDDL = async (accId, busId, setter) => {
@@ -23,9 +21,7 @@ export const getTerritoryDDL = async (accId, busId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getRoutePlanLanding = async (
@@ -48,7 +44,6 @@ export const getRoutePlanLanding = async (
     }
   } catch (error) {
     setLoading(false);
-    
   }
 };
 
@@ -60,7 +55,7 @@ export const saveRoutePlanWeekWiseAction = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -78,7 +73,7 @@ export const saveRoutePlanMonthlyWiseAction = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -96,7 +91,7 @@ export const saveEditedRoutePlanMonthlyAction = async (data, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       setDisabled(false);
     }
   } catch (error) {
@@ -105,7 +100,10 @@ export const saveEditedRoutePlanMonthlyAction = async (data, setDisabled) => {
   }
 };
 
-export const saveEditedRoutePlanMonthlyApproveAction = async (data, setDisabled) => {
+export const saveEditedRoutePlanMonthlyApproveAction = async (
+  data,
+  setDisabled
+) => {
   setDisabled(true);
   try {
     const res = await Axios.put(
@@ -113,7 +111,7 @@ export const saveEditedRoutePlanMonthlyApproveAction = async (data, setDisabled)
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Approve Successfully");
+      toast.success(res.data?.message || 'Approve Successfully');
       setDisabled(false);
     }
   } catch (error) {
@@ -164,9 +162,7 @@ export const GetRoutePlanById = async (
       };
       singleMonthSetter(singleObjHeader);
       rowMonthSetter(singleMonthRowDto);
-      rowWeekSetter(singleMonthRowDto)
+      rowWeekSetter(singleMonthRowDto);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };

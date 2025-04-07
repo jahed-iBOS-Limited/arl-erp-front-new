@@ -1,32 +1,32 @@
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 // import { DownloadFile } from "../../../_chartinghelper/fileDownload";
-import IDelete from "../../../_chartinghelper/icons/_delete";
-import ICon from "../../../_chartinghelper/icons/_icon";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
-import IViewModal from "../../../_chartinghelper/_viewModal";
-import { editVoyageRow } from "../../helper";
-import { removeCharterer } from "../utils";
-import ChartererSection from "./chartererSection";
-import VoyageCharterer from "./voyageCharterer";
+import IDelete from '../../../_chartinghelper/icons/_delete';
+import ICon from '../../../_chartinghelper/icons/_icon';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import { _dateFormatter } from '../../../_chartinghelper/_dateFormatter';
+import IViewModal from '../../../_chartinghelper/_viewModal';
+import { editVoyageRow } from '../../helper';
+import { removeCharterer } from '../utils';
+import ChartererSection from './chartererSection';
+import VoyageCharterer from './voyageCharterer';
 
 // Validation schema For Charterer Update API
 export const validationSchema = Yup.object().shape({
-  brokerCommission: Yup.string().required("Broker Commission is required"),
-  addressCommission: Yup.string().required("Address Commission is required"),
-  demurrageRate: Yup.string().required("Demurrage Rate is required"),
-  freightPercentage: Yup.string().required("Freight Percentage is required"),
+  brokerCommission: Yup.string().required('Broker Commission is required'),
+  addressCommission: Yup.string().required('Address Commission is required'),
+  demurrageRate: Yup.string().required('Demurrage Rate is required'),
+  freightPercentage: Yup.string().required('Freight Percentage is required'),
   startPort: Yup.object().shape({
-    value: Yup.string().required("This Field is required"),
-    label: Yup.string().required("This Field is required"),
+    value: Yup.string().required('This Field is required'),
+    label: Yup.string().required('This Field is required'),
   }),
   endPort: Yup.object().shape({
-    value: Yup.string().required("This Field is required"),
-    label: Yup.string().required("This Field is required"),
+    value: Yup.string().required('This Field is required'),
+    label: Yup.string().required('This Field is required'),
   }),
 });
 
@@ -47,7 +47,7 @@ export default function ChartererRow({
   const [cargoListModal, setCargoListModal] = useState(false);
   const [modalData, setModalData] = useState([]);
   const [chartererHeaderData, setChartererHeaderData] = useState([]);
-  const [loading, ] = useState(false);
+  const [loading] = useState(false);
 
   /* New Init Data For New Formik */
   const makeInitData = (chartererHeaderData) => {
@@ -65,12 +65,12 @@ export default function ChartererRow({
         {
           value: chartererHeaderData?.loadPortId,
           label: chartererHeaderData?.loadPortName,
-        } || "",
+        } || '',
       endPort:
         {
           value: chartererHeaderData?.dischargePortId,
           label: chartererHeaderData?.dischargePortName,
-        } || "",
+        } || '',
       cpDate: _dateFormatter(chartererHeaderData?.cpDate),
       layCanFrom: _dateFormatter(chartererHeaderData?.layCanFrom),
       layCanTo: _dateFormatter(chartererHeaderData?.layCanTo),
@@ -82,7 +82,7 @@ export default function ChartererRow({
       despatchRate: chartererHeaderData?.dispatchRate || 0,
       deadFreightDetention: chartererHeaderData?.deadFreight || 0,
       detention: chartererHeaderData?.detention || 0,
-      cargoName: "",
+      cargoName: '',
     };
   };
 
@@ -117,7 +117,7 @@ export default function ChartererRow({
 
   const saveHandler = (values) => {
     if (chartererHeaderData?.objVoyageChtrList?.length === 0) {
-      toast.warn("Please add at least one cargo", { toastId: 1234 });
+      toast.warn('Please add at least one cargo', { toastId: 1234 });
       return;
     }
 
@@ -131,7 +131,7 @@ export default function ChartererRow({
       loadPortName: values?.startPort?.label,
       dischargePortId: values?.endPort?.value,
       dischargePortName: values?.endPort?.label,
-      layCan: "",
+      layCan: '',
       brokerId: values?.brokerName?.value,
       brokerName: values?.brokerName?.label,
       brokerCommission: +values?.brokerCommission,
@@ -173,8 +173,8 @@ export default function ChartererRow({
             </h6>
             <ICustomTable
               ths={[
-                { name: "SL" },
-                { name: "Charterer Name" },
+                { name: 'SL' },
+                { name: 'Charterer Name' },
                 // {
                 //   name:
                 //     values?.voyageType?.value === 1
@@ -187,14 +187,14 @@ export default function ChartererRow({
                 //       ? "Delivery Position"
                 //       : "Load Port",
                 // },
-                { name: "Broker Commission (%)" },
-                { name: "Address Commission (%)" },
-                { name: "Action" },
+                { name: 'Broker Commission (%)' },
+                { name: 'Address Commission (%)' },
+                { name: 'Action' },
               ]}
             >
               {chartererRowData?.map((item, index) => (
                 <tr key={index}>
-                  <td className="text-center" style={{ maxWidth: "30px" }}>
+                  <td className="text-center" style={{ maxWidth: '30px' }}>
                     {index + 1}
                   </td>
                   <td>{item?.charterName}</td>
@@ -203,7 +203,7 @@ export default function ChartererRow({
                   <td className="text-right">{item?.brokerCommission}</td>
                   <td className="text-right">{item?.addressCommission}</td>
                   <td className="text-center d-flex justify-content-center align-items-center">
-                    {viewType !== "view" ? (
+                    {viewType !== 'view' ? (
                       <p
                         className="mb-0"
                         setChartererRowData
@@ -235,7 +235,7 @@ export default function ChartererRow({
                       </ICon>
                     ) : (
                       <button
-                        style={{ opacity: "0%" }}
+                        style={{ opacity: '0%' }}
                         type="button"
                         className="ml-3 btn btn-info px-3 py-1"
                       >
@@ -288,12 +288,12 @@ export default function ChartererRow({
                       <>
                         <form className="marine-modal-form-card pb-6">
                           <div className="marine-form-card-heading">
-                            <p>{"Charterer Details"}</p>
+                            <p>{'Charterer Details'}</p>
                             <div>
-                              {viewType === "edit" ? (
+                              {viewType === 'edit' ? (
                                 <button
                                   type="submit"
-                                  className={"btn btn-primary ml-2 px-3 py-2"}
+                                  className={'btn btn-primary ml-2 px-3 py-2'}
                                   onClick={handleSubmit}
                                 >
                                   Update
@@ -314,7 +314,7 @@ export default function ChartererRow({
                             chartererDDL={chartererDDL}
                             chartererRowData={chartererRowData}
                             setChartererRowData={setChartererRowData}
-                            componentType={viewType === "edit"}
+                            componentType={viewType === 'edit'}
                           />
 
                           <VoyageCharterer
@@ -331,7 +331,7 @@ export default function ChartererRow({
                             }}
                             chartererRowData={chartererRowData}
                             setChartererRowData={setChartererRowData}
-                            componentType={viewType === "edit"}
+                            componentType={viewType === 'edit'}
                             setErrors={setErrors}
                             setTouched={setTouched}
                           />
@@ -349,20 +349,20 @@ export default function ChartererRow({
                       <h6 className="">Cargo List</h6>
                       <ICustomTable
                         ths={[
-                          { name: "SL" },
-                          { name: "Cargo Name" },
-                          { name: "Load Port" },
-                          { name: "Discharge Port" },
-                          { name: "Cargo Qty" },
-                          { name: "Freight/MT" },
-                          { name: "Freight Value" },
+                          { name: 'SL' },
+                          { name: 'Cargo Name' },
+                          { name: 'Load Port' },
+                          { name: 'Discharge Port' },
+                          { name: 'Cargo Qty' },
+                          { name: 'Freight/MT' },
+                          { name: 'Freight Value' },
                         ]}
                       >
                         {modalData?.map((item, index) => (
                           <tr key={index}>
                             <td
                               className="text-center"
-                              style={{ maxWidth: "30px" }}
+                              style={{ maxWidth: '30px' }}
                             >
                               {index + 1}
                             </td>

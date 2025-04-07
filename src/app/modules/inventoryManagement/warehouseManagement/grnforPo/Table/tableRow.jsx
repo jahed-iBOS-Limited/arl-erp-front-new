@@ -61,7 +61,7 @@ export function TableRow() {
         preSrcData?.selectedSbu.value,
         preSrcData?.SelectedPlant.value,
         preSrcData?.SelectedWareHouse.value,
-        setGridData,
+        setGridData
       );
 
       if (preSrcData?.SelectedPlant) {
@@ -69,12 +69,10 @@ export function TableRow() {
           profileData?.accountId,
           selectedBusinessUnit.value,
           preSrcData?.SelectedPlant.value,
-          setWareHouseDDL,
+          setWareHouseDDL
         );
       }
     }
-
-
   }, []);
 
   useEffect(() => {
@@ -84,7 +82,7 @@ export function TableRow() {
       getPlantDDL(
         profileData?.accountId,
         selectedBusinessUnit.value,
-        setPlantDDL,
+        setPlantDDL
       );
 
       // dispatch(
@@ -94,7 +92,6 @@ export function TableRow() {
       //   )
       // );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   // UI Context
@@ -213,7 +210,7 @@ export function TableRow() {
                       profileData?.accountId,
                       selectedBusinessUnit.value,
                       data?.value,
-                      setWareHouseDDL,
+                      setWareHouseDDL
                     );
                   }}
                   options={plantDDL}
@@ -246,7 +243,7 @@ export function TableRow() {
                     selectedSbu.value,
                     SelectedPlant.value,
                     SelectedWareHouse.value,
-                    setGridData,
+                    setGridData
                   );
                   saveFormData();
                 }}

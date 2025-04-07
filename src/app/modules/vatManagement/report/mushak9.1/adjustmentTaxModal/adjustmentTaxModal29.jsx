@@ -1,14 +1,10 @@
-import React, { useRef } from "react";
-import IViewModal from "../../../../_helper/_viewModal";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React, { useRef } from 'react';
+import IViewModal from '../../../../_helper/_viewModal';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import { _fixedPoint } from '../../../../_helper/_fixedPoint';
-import {
-
-  Card,
-  CardBody,
-} from "../../../../../../_metronic/_partials/controls";
+import { Card, CardBody } from '../../../../../../_metronic/_partials/controls';
 
 export default function AdjustmentTaxDetailsModal29({
   show,
@@ -25,7 +21,7 @@ export default function AdjustmentTaxDetailsModal29({
         onHide={() => {
           onHide();
         }}
-        title={"DECREASING ADJUSTMENTS [SUB-FORM]"}
+        title={'DECREASING ADJUSTMENTS [SUB-FORM]'}
         btnText="Close"
       >
         <Card>
@@ -38,7 +34,7 @@ export default function AdjustmentTaxDetailsModal29({
                     className="btn btn-primary px-1 py-1 my-0"
                   >
                     <img
-                      style={{ width: "25px", paddingRight: "5px" }}
+                      style={{ width: '25px', paddingRight: '5px' }}
                       src={printIcon}
                       alt="print-icon"
                     />
@@ -56,7 +52,7 @@ export default function AdjustmentTaxDetailsModal29({
                   <table className="table table-striped table-bordered global-table">
                     <thead>
                       <tr>
-                        <th style={{ width: "30px" }}>Serial No.</th>
+                        <th style={{ width: '30px' }}>Serial No.</th>
                         <th>Buyer's BIN</th>
                         <th>Buyer's Name</th>
                         <th>Buyer's Address</th>
@@ -83,19 +79,25 @@ export default function AdjustmentTaxDetailsModal29({
                               <td> {item?.bin}</td>
                               <td> {item?.name}</td>
                               <td> {item?.address}</td>
-                              <td className="text-right"> {_fixedPoint(item?.value)}</td>
-                              <td  className="text-right"> {_fixedPoint(item?.deductedVat)}</td>
+                              <td className="text-right">
+                                {' '}
+                                {_fixedPoint(item?.value)}
+                              </td>
+                              <td className="text-right">
+                                {' '}
+                                {_fixedPoint(item?.deductedVat)}
+                              </td>
                               <td> {item?.invoiceNo}</td>
                               <td> {_dateFormatter(item?.invoiceDate)}</td>
                               <td> {item?.certificateNo}</td>
                               <td> {item?.certificateDate}</td>
                               <td> {item?.taxDepositAccountCode}</td>
                               <td>
-                                {" "}
+                                {' '}
                                 {item?.taxDepositSerialNumberOfBookTransfer}
                               </td>
                               <td>
-                                {" "}
+                                {' '}
                                 {_dateFormatter(item?.treasuryDepositDate)}
                               </td>
                               <td> {item?.notes}</td>
@@ -107,10 +109,10 @@ export default function AdjustmentTaxDetailsModal29({
                         <td colspan="3">
                           <b>TOTAL</b>
                         </td>
-                        <td  className="text-right">
+                        <td className="text-right">
                           <b>{_fixedPoint(totalValue, true)}</b>
                         </td>
-                        <td  className="text-right">
+                        <td className="text-right">
                           <b>{_fixedPoint(totalDeductedVat, true)}</b>
                         </td>
                         <td colspan="8"></td>

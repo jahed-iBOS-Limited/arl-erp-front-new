@@ -121,7 +121,7 @@ export default function RFQCreateForAutoProcess() {
 
     const totalRowQuantity = itemList?.reduce(
       (acc, itm) => acc + +itm?.rfqquantity,
-      0,
+      0
     );
 
     const fileList = fileObjects?.map((itm) => {
@@ -245,7 +245,7 @@ export default function RFQCreateForAutoProcess() {
         : `${eProcurementBaseURL}/RequestForQuotation/CreateRequestForQuotation`,
       payload,
       cb,
-      true,
+      true
     );
   };
   // console.log("itemList", JSON.stringify(itemList, null, 2));
@@ -341,7 +341,6 @@ export default function RFQCreateForAutoProcess() {
       // );
       // setModifiedData(viewData);
     }
-
   }, []);
   useEffect(() => {
     if (!id) {
@@ -349,27 +348,26 @@ export default function RFQCreateForAutoProcess() {
       //   `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
       // );
       getPlantListDDL(
-        `${eProcurementBaseURL}/EProcurement/GetPermissionWisePlantDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&orgUnitTypeId=7`,
+        `${eProcurementBaseURL}/EProcurement/GetPermissionWisePlantDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&orgUnitTypeId=7`
       );
       getSbuListDDL(
-        `/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Status=true`,
+        `/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Status=true`
       );
       getCurrencyDDL(
-        `${eProcurementBaseURL}/EProcurement/GetBaseCurrencyListDDL`,
+        `${eProcurementBaseURL}/EProcurement/GetBaseCurrencyListDDL`
       );
       getSupplierListDDL(
         `${eProcurementBaseURL}/EProcurement/GetSupplierListDDL?businessUnitId=${
           selectedBusinessUnit?.value
-        }&search=${''}`,
+        }&search=${''}`
       );
       getPaymentTermsDDL(
-        `${eProcurementBaseURL}/EProcurement/GetPaymentTermsListDDL`,
+        `${eProcurementBaseURL}/EProcurement/GetPaymentTermsListDDL`
       );
       // getPurchaseOrgListDDL(
       //   `${eProcurementBaseURL}/EProcurement/GetPurchaseOrganizationDDL?businessUnitId=${selectedBusinessUnit?.value}`
       // );
     }
-
   }, []);
   const handleAddSupplier = (values, setFieldValue) => {
     if (!values?.supplier) {
@@ -382,7 +380,7 @@ export default function RFQCreateForAutoProcess() {
       return toast.warn('Please Enter Supplier Email');
     }
     const isDuplicate = supplierList.some(
-      (supplier) => supplier?.businessPartnerName === values?.supplier?.label,
+      (supplier) => supplier?.businessPartnerName === values?.supplier?.label
     );
     if (isDuplicate) {
       toast.warn(`${values?.supplier?.label} already added`);
@@ -540,7 +538,7 @@ export default function RFQCreateForAutoProcess() {
                         setFieldValue('validTillDate', e.target.value);
                         setFieldValue(
                           'deliveryDate',
-                          _oneMonthLater(e.target.value.split('T')[0]),
+                          _oneMonthLater(e.target.value.split('T')[0])
                         );
                       } else {
                         setFieldValue('validTillDate', '');
@@ -974,7 +972,7 @@ export default function RFQCreateForAutoProcess() {
                                 onClick={() => {
                                   if (id && values?.isSentToSupplier) {
                                     return toast.warn(
-                                      "You can't delete supplier after sending RFQ",
+                                      "You can't delete supplier after sending RFQ"
                                     );
                                   }
                                   const temp = [...supplierList];

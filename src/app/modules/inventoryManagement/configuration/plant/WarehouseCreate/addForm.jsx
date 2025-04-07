@@ -1,23 +1,22 @@
-
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import Form from "../common/form";
-import Axios from "axios";
-import { toast } from "react-toastify";
-import shortid from "shortid";
-import { useSelector, shallowEqual } from "react-redux";
-import Loading from "../../../../_helper/_loading";
+} from '../../../../../../_metronic/_partials/controls';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import Form from '../common/form';
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
+import { useSelector, shallowEqual } from 'react-redux';
+import Loading from '../../../../_helper/_loading';
 const initProduct = {
   id: undefined,
-  plantCode: "",
-  plantName: "",
-  plantAddress: "",
+  plantCode: '',
+  plantName: '',
+  plantAddress: '',
 };
 
 export default function AddFormPlant({
@@ -38,7 +37,6 @@ export default function AddFormPlant({
   }, shallowEqual);
 
   const saveWarehouse = async (values, cb) => {
-
     if (!id && values) {
       const plantData = {
         accountId: profileData.accountId,
@@ -52,20 +50,17 @@ export default function AddFormPlant({
 
       try {
         setDisabled(true);
-        await Axios.post(
-          "/wms/Plant/CreatePlant",
-          plantData
-        );
+        await Axios.post('/wms/Plant/CreatePlant', plantData);
         cb(initProduct);
         setDisabled(false);
-        toast.success("Save successfully", { toastId: shortid() });
+        toast.success('Save successfully', { toastId: shortid() });
       } catch (error) {
         // console.log()
         toast.error(error?.response?.data?.message, { toastId: shortid() });
         setDisabled(false);
       }
     } else {
-      console.log(values)
+      console.log(values);
     }
   };
 
@@ -127,7 +122,7 @@ export default function AddFormPlant({
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody>
-      {isDisabled && <Loading />}
+        {isDisabled && <Loading />}
         <div className="mt-0">
           <Form
             product={initProduct}

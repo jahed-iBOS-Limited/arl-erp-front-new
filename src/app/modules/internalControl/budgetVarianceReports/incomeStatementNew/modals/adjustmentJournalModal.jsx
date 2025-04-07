@@ -22,7 +22,7 @@ const AdjustmentJournalModal = ({ id, typeId }) => {
       typeId,
       selectedBusinessUnit?.value,
       setAdjustmentReport,
-      setLoading,
+      setLoading
     );
   }, [id, typeId, selectedBusinessUnit]);
 
@@ -85,7 +85,7 @@ const AdjustmentJournalModal = ({ id, typeId }) => {
       >
         <Formik
           enableReinitialize={true}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({ handleSubmit, resetForm, values, errors, touched, isValid }) => (
             <>
@@ -125,7 +125,7 @@ const AdjustmentJournalModal = ({ id, typeId }) => {
                             Voucher Date :
                             <sapn className="font-weight-bold ml-1">
                               {_dateFormatter(
-                                adjustmentReport?.objHeader?.journalDate,
+                                adjustmentReport?.objHeader?.journalDate
                               )}
                             </sapn>
                           </div>
@@ -191,12 +191,12 @@ const AdjustmentJournalModal = ({ id, typeId }) => {
                               <td className="text-center"></td>
                               <td className="text-right pr-2">
                                 {_formatMoney(
-                                  totalDebitCreditAmount?.totalDebit,
+                                  totalDebitCreditAmount?.totalDebit
                                 )}
                               </td>
                               <td className="text-right pr-2">
                                 {_formatMoney(
-                                  totalDebitCreditAmount?.totalCredit,
+                                  totalDebitCreditAmount?.totalCredit
                                 )}
                               </td>
                             </tr>

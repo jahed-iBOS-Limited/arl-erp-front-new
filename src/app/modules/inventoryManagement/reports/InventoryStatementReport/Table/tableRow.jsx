@@ -1,33 +1,36 @@
-
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import * as Yup from "yup";
-import { _currentTime } from "../../../../_helper/_currentTime";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import { generateJsonToExcel } from "../../../../_helper/excel/jsonToExcel";
-import { SetReportsInventoryStatementAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import { _currentTime } from '../../../../_helper/_currentTime';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import { generateJsonToExcel } from '../../../../_helper/excel/jsonToExcel';
+import { SetReportsInventoryStatementAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 import {
   businessUnitPlant_api,
   inventoryStatement_api,
   wearhouse_api,
-} from "../helper";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import AVGCoverageTable from "./TableAVGCoverage";
-import TableAssetRegister from "./TableAssetRegister";
-import TableForDetail from "./TableForDetail";
-import TableForINVInOut from "./TableForINVInOut";
-import DetailsModal from "./detailsModal";
-import DetailsModalNew from "./detailsModalNew";
-import RegisterNewTable from "./registerNewTable";
-import { getItemCategoryDDLByTypeId_api, getItemTypeListDDL_api, getSBU, ItemSubCategory_api } from "../../../../_helper/_commonApi";
+} from '../helper';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import AVGCoverageTable from './TableAVGCoverage';
+import TableAssetRegister from './TableAssetRegister';
+import TableForDetail from './TableForDetail';
+import TableForINVInOut from './TableForINVInOut';
+import DetailsModal from './detailsModal';
+import DetailsModalNew from './detailsModalNew';
+import RegisterNewTable from './registerNewTable';
+import {
+  getItemCategoryDDLByTypeId_api,
+  getItemTypeListDDL_api,
+  getSBU,
+  ItemSubCategory_api,
+} from '../../../../_helper/_commonApi';
 
 const validationSchema = Yup.object().shape({});
 
@@ -38,17 +41,17 @@ export function TableRow(props) {
   } = useSelector((store) => store, shallowEqual);
 
   const initData = {
-    plant: reportsInventoryStatement?.plant || "",
-    wh: reportsInventoryStatement?.wh || "",
-    itemCategory: reportsInventoryStatement?.itemCategory || "",
-    itemSubCategory: reportsInventoryStatement?.itemSubCategory || "",
+    plant: reportsInventoryStatement?.plant || '',
+    wh: reportsInventoryStatement?.wh || '',
+    itemCategory: reportsInventoryStatement?.itemCategory || '',
+    itemSubCategory: reportsInventoryStatement?.itemSubCategory || '',
     fromDate: reportsInventoryStatement?.fromDate || _todayDate(),
     fromTime: reportsInventoryStatement?.fromTime || _currentTime(),
     toDate: reportsInventoryStatement?.toDate || _todayDate(),
     toTime: reportsInventoryStatement?.toTime || _currentTime(),
-    itemType: reportsInventoryStatement?.itemType || "",
-    type: reportsInventoryStatement?.type || "",
-    avgDays: reportsInventoryStatement?.avgDays || "",
+    itemType: reportsInventoryStatement?.itemType || '',
+    type: reportsInventoryStatement?.type || '',
+    avgDays: reportsInventoryStatement?.avgDays || '',
   };
 
   const dispatch = useDispatch();
@@ -66,16 +69,12 @@ export function TableRow(props) {
   const [inventoryStatement, setInventoryStatement] = useState([]);
   const [isShowModal, setIsShowModal] = useState(false);
   const [showNewModal, setShowNewModal] = useState(false);
-  const [tableItem, setTableItem] = useState("");
-  const [, setSbuList] = useState("");
+  const [tableItem, setTableItem] = useState('');
+  const [, setSbuList] = useState('');
 
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
-      getSBU(
-        profileData?.accountId,
-        selectedBusinessUnit?.value,
-        setSbuList
-      );
+      getSBU(profileData?.accountId, selectedBusinessUnit?.value, setSbuList);
       // businessUnitPlant_api(
       //   profileData?.accountId,
       //   selectedBusinessUnit?.value,
@@ -140,180 +139,180 @@ export function TableRow(props) {
       setter: (data) => {
         const header = [
           {
-            text: "SL",
-            textFormat: "number",
-            alignment: "center:middle",
-            key: "sl",
+            text: 'SL',
+            textFormat: 'number',
+            alignment: 'center:middle',
+            key: 'sl',
           },
           {
-            text: "Item",
-            textFormat: "text",
-            alignment: "center:middle",
-            key: "strItemName",
+            text: 'Item',
+            textFormat: 'text',
+            alignment: 'center:middle',
+            key: 'strItemName',
           },
           {
-            text: "Item Code",
-            textFormat: "text",
-            alignment: "center:middle",
-            key: "strItemCode",
+            text: 'Item Code',
+            textFormat: 'text',
+            alignment: 'center:middle',
+            key: 'strItemCode',
           },
           {
-            text: "UoM Name",
-            textFormat: "text",
-            alignment: "center:middle",
-            key: "strUomName",
+            text: 'UoM Name',
+            textFormat: 'text',
+            alignment: 'center:middle',
+            key: 'strUomName',
           },
           {
-            text: "Warehouse",
-            textFormat: "text",
-            alignment: "center:middle",
-            key: "strWhname",
+            text: 'Warehouse',
+            textFormat: 'text',
+            alignment: 'center:middle',
+            key: 'strWhname',
           },
           {
-            text: "Location/Bin",
-            textFormat: "text",
-            alignment: "center:middle",
-            key: "strLocation_BIN",
+            text: 'Location/Bin',
+            textFormat: 'text',
+            alignment: 'center:middle',
+            key: 'strLocation_BIN',
           },
           {
-            text: "Opening Qty",
-            textFormat: "number",
-            alignment: "center:middle",
-            key: "numOpenQty",
+            text: 'Opening Qty',
+            textFormat: 'number',
+            alignment: 'center:middle',
+            key: 'numOpenQty',
           },
           {
-            text: "Opening Value",
-            textFormat: "money",
-            alignment: "center:middle",
-            key: "numOpenValue",
+            text: 'Opening Value',
+            textFormat: 'money',
+            alignment: 'center:middle',
+            key: 'numOpenValue',
           },
           {
-            text: "Adjust Inv Qty",
-            textFormat: "number",
-            alignment: "center:middle",
-            key: "numAdjustQty",
+            text: 'Adjust Inv Qty',
+            textFormat: 'number',
+            alignment: 'center:middle',
+            key: 'numAdjustQty',
           },
           {
-            text: "Adjust Inv Value",
-            textFormat: "money",
-            alignment: "center:middle",
-            key: "numAdjustValue",
+            text: 'Adjust Inv Value',
+            textFormat: 'money',
+            alignment: 'center:middle',
+            key: 'numAdjustValue',
           },
           {
-            text: "Receive Inv Qty",
-            textFormat: "number",
-            alignment: "center:middle",
-            key: "numReceiveQty",
+            text: 'Receive Inv Qty',
+            textFormat: 'number',
+            alignment: 'center:middle',
+            key: 'numReceiveQty',
           },
           {
-            text: "Receive Inv Value",
-            textFormat: "money",
-            alignment: "center:middle",
-            key: "numReceiveValue",
+            text: 'Receive Inv Value',
+            textFormat: 'money',
+            alignment: 'center:middle',
+            key: 'numReceiveValue',
           },
           {
-            text: "Received From Production Qty",
-            textFormat: "number",
-            alignment: "center:middle",
-            key: "numProductionQty",
+            text: 'Received From Production Qty',
+            textFormat: 'number',
+            alignment: 'center:middle',
+            key: 'numProductionQty',
           },
           {
-            text: "Received From Production Value",
-            textFormat: "money",
-            alignment: "center:middle",
-            key: "numProductionValue",
+            text: 'Received From Production Value',
+            textFormat: 'money',
+            alignment: 'center:middle',
+            key: 'numProductionValue',
           },
           {
-            text: "Issue Inv Qty",
-            textFormat: "number",
-            alignment: "center:middle",
-            key: "numIssueQty",
+            text: 'Issue Inv Qty',
+            textFormat: 'number',
+            alignment: 'center:middle',
+            key: 'numIssueQty',
           },
           {
-            text: "Issue Inv Value",
-            textFormat: "money",
-            alignment: "center:middle",
-            key: "numIssueValue",
+            text: 'Issue Inv Value',
+            textFormat: 'money',
+            alignment: 'center:middle',
+            key: 'numIssueValue',
           },
           {
-            text: "Purchase Return Qty",
-            textFormat: "number",
-            alignment: "center:middle",
-            key: "numPurReturnQty",
+            text: 'Purchase Return Qty',
+            textFormat: 'number',
+            alignment: 'center:middle',
+            key: 'numPurReturnQty',
           },
           {
-            text: "Purchase Return Value",
-            textFormat: "money",
-            alignment: "center:middle",
-            key: "numPurReturnValue",
+            text: 'Purchase Return Value',
+            textFormat: 'money',
+            alignment: 'center:middle',
+            key: 'numPurReturnValue',
           },
           {
-            text: "Transfer in Qty",
-            textFormat: "number",
-            alignment: "center:middle",
-            key: "numTransInQty",
+            text: 'Transfer in Qty',
+            textFormat: 'number',
+            alignment: 'center:middle',
+            key: 'numTransInQty',
           },
           {
-            text: "Transfer in Value",
-            textFormat: "money",
-            alignment: "center:middle",
-            key: "numTransInValue",
+            text: 'Transfer in Value',
+            textFormat: 'money',
+            alignment: 'center:middle',
+            key: 'numTransInValue',
           },
           {
-            text: "Transfer out Qty",
-            textFormat: "number",
-            alignment: "center:middle",
-            key: "numTransOutQty",
+            text: 'Transfer out Qty',
+            textFormat: 'number',
+            alignment: 'center:middle',
+            key: 'numTransOutQty',
           },
           {
-            text: "Transfer out Value",
-            textFormat: "money",
-            alignment: "center:middle",
-            key: "numTransOutValue",
+            text: 'Transfer out Value',
+            textFormat: 'money',
+            alignment: 'center:middle',
+            key: 'numTransOutValue',
           },
           {
-            text: "Closing Qty",
-            textFormat: "number",
-            alignment: "center:middle",
-            key: "_closingQty",
+            text: 'Closing Qty',
+            textFormat: 'number',
+            alignment: 'center:middle',
+            key: '_closingQty',
           },
           {
-            text: "Closing Value",
-            textFormat: "money",
-            alignment: "center:middle",
-            key: "_cloasingValue",
+            text: 'Closing Value',
+            textFormat: 'money',
+            alignment: 'center:middle',
+            key: '_cloasingValue',
           },
         ];
         const registerNewHeader = [
           {
-            text: "SL",
-            textFormat: "number",
-            alignment: "center:middle",
-            key: "sl",
+            text: 'SL',
+            textFormat: 'number',
+            alignment: 'center:middle',
+            key: 'sl',
           },
           {
-            text: "Item Name",
-            textFormat: "text",
-            alignment: "center:middle",
-            key: "strItemName",
+            text: 'Item Name',
+            textFormat: 'text',
+            alignment: 'center:middle',
+            key: 'strItemName',
           },
           {
-            text: "Item Code",
-            textFormat: "text",
-            alignment: "center:middle",
-            key: "strItemCode",
+            text: 'Item Code',
+            textFormat: 'text',
+            alignment: 'center:middle',
+            key: 'strItemCode',
           },
           {
-            text: "UoM Name",
-            textFormat: "text",
-            alignment: "center:middle",
-            key: "strBaseUOM",
+            text: 'UoM Name',
+            textFormat: 'text',
+            alignment: 'center:middle',
+            key: 'strBaseUOM',
           },
           {
-            text: "Opening Qty",
-            textFormat: "number",
-            alignment: "center:middle",
-            key: "numOpenQty",
+            text: 'Opening Qty',
+            textFormat: 'number',
+            alignment: 'center:middle',
+            key: 'numOpenQty',
           },
           // {
           //   text: "Opening Value",
@@ -322,10 +321,10 @@ export function TableRow(props) {
           //   key: "numOpenValue",
           // },
           {
-            text: "In Qty",
-            textFormat: "money",
-            alignment: "center:middle",
-            key: "numInQty",
+            text: 'In Qty',
+            textFormat: 'money',
+            alignment: 'center:middle',
+            key: 'numInQty',
           },
           // {
           //   text: "In Value",
@@ -334,10 +333,10 @@ export function TableRow(props) {
           //   key: "numInValue",
           // },
           {
-            text: "Out Qty",
-            textFormat: "number",
-            alignment: "center:middle",
-            key: "numOutQty",
+            text: 'Out Qty',
+            textFormat: 'number',
+            alignment: 'center:middle',
+            key: 'numOutQty',
           },
           // {
           //   text: "Out Value",
@@ -346,22 +345,22 @@ export function TableRow(props) {
           //   key: "numOutValue",
           // },
           {
-            text: "Cloasing Qty",
-            textFormat: "money",
-            alignment: "center:middle",
-            key: "numCloseQty",
+            text: 'Cloasing Qty',
+            textFormat: 'money',
+            alignment: 'center:middle',
+            key: 'numCloseQty',
           },
           {
-            text: "Closing Value",
-            textFormat: "money",
-            alignment: "center:middle",
-            key: "numClosingValue",
+            text: 'Closing Value',
+            textFormat: 'money',
+            alignment: 'center:middle',
+            key: 'numClosingValue',
           },
           {
-            text: "Rate",
-            textFormat: "number",
-            alignment: "center:middle",
-            key: "numRate",
+            text: 'Rate',
+            textFormat: 'number',
+            alignment: 'center:middle',
+            key: 'numRate',
           },
         ];
         const _data = data.map((item, index) => {
@@ -428,16 +427,16 @@ export function TableRow(props) {
                           <NewSelect
                             name="type"
                             options={[
-                              { value: 3, label: "Inventory In-Out" },
-                              { value: 4, label: "Inventory Coverage" },
-                              { value: 5, label: "Inventory Register New" },
-                              { value: 6, label: "Inventory Statement" },
+                              { value: 3, label: 'Inventory In-Out' },
+                              { value: 4, label: 'Inventory Coverage' },
+                              { value: 5, label: 'Inventory Register New' },
+                              { value: 6, label: 'Inventory Statement' },
                             ]}
                             value={values?.type}
                             label="Type"
                             onChange={(valueOption) => {
                               setInventoryStatement([]);
-                              setFieldValue("type", valueOption);
+                              setFieldValue('type', valueOption);
                               businessUnitPlant_api(
                                 profileData?.accountId,
                                 selectedBusinessUnit?.value,
@@ -466,8 +465,8 @@ export function TableRow(props) {
                             value={values?.plant}
                             label="Plant"
                             onChange={(valueOption) => {
-                              setFieldValue("plant", valueOption);
-                              setFieldValue("wh", "");
+                              setFieldValue('plant', valueOption);
+                              setFieldValue('wh', '');
                               wearhouse_api(
                                 profileData?.accountId,
                                 selectedBusinessUnit?.value,
@@ -480,7 +479,7 @@ export function TableRow(props) {
                                 SetReportsInventoryStatementAction({
                                   ...values,
                                   plant: valueOption,
-                                  wh: "",
+                                  wh: '',
                                 })
                               );
                               setInventoryStatement([]);
@@ -497,7 +496,7 @@ export function TableRow(props) {
                             value={values?.wh}
                             label="WareHouse"
                             onChange={(valueOption) => {
-                              setFieldValue("wh", valueOption);
+                              setFieldValue('wh', valueOption);
                               dispatch(
                                 SetReportsInventoryStatementAction({
                                   ...values,
@@ -518,9 +517,9 @@ export function TableRow(props) {
                             value={values?.itemType}
                             label="Item Type"
                             onChange={(valueOption) => {
-                              setFieldValue("itemType", valueOption);
+                              setFieldValue('itemType', valueOption);
                               valueOption?.value !== 0 &&
-                                setFieldValue("itemCategory", "");
+                                setFieldValue('itemCategory', '');
 
                               getItemCategoryDDLByTypeId_api(
                                 profileData.accountId,
@@ -532,7 +531,7 @@ export function TableRow(props) {
                                 SetReportsInventoryStatementAction({
                                   ...values,
                                   itemType: valueOption,
-                                  itemCategory: "",
+                                  itemCategory: '',
                                 })
                               );
                               setInventoryStatement([]);
@@ -549,8 +548,8 @@ export function TableRow(props) {
                             value={values?.itemCategory}
                             label="Item Category"
                             onChange={(valueOption) => {
-                              setFieldValue("itemCategory", valueOption);
-                              setFieldValue("itemSubCategory", "");
+                              setFieldValue('itemCategory', valueOption);
+                              setFieldValue('itemSubCategory', '');
                               ItemSubCategory_api(
                                 profileData?.accountId,
                                 selectedBusinessUnit?.value,
@@ -561,7 +560,7 @@ export function TableRow(props) {
                                 SetReportsInventoryStatementAction({
                                   ...values,
                                   itemCategory: valueOption,
-                                  itemSubCategory: "",
+                                  itemSubCategory: '',
                                 })
                               );
                               setInventoryStatement([]);
@@ -578,7 +577,7 @@ export function TableRow(props) {
                             value={values?.itemSubCategory}
                             label="Item Sub Category"
                             onChange={(valueOption) => {
-                              setFieldValue("itemSubCategory", valueOption);
+                              setFieldValue('itemSubCategory', valueOption);
                               dispatch(
                                 SetReportsInventoryStatementAction({
                                   ...values,
@@ -597,7 +596,7 @@ export function TableRow(props) {
                             <div className="col-lg-3 col-xl-2">
                               <label>From date</label>
                               <div className="d-flex">
-                                <div style={{ flex: "1" }}>
+                                <div style={{ flex: '1' }}>
                                   <InputField
                                     value={values?.fromDate}
                                     name="fromDate"
@@ -619,7 +618,7 @@ export function TableRow(props) {
                             <div className="col-lg-3 col-xl-2">
                               <label>To Date</label>
                               <div className="d-flex">
-                                <div style={{ flex: "1" }}>
+                                <div style={{ flex: '1' }}>
                                   <InputField
                                     value={values?.toDate}
                                     name="toDate"
@@ -644,7 +643,7 @@ export function TableRow(props) {
                           <div className="col-lg-3 col-xl-2">
                             <label>Avg. Days</label>
                             <div className="d-flex">
-                              <div style={{ flex: "1" }}>
+                              <div style={{ flex: '1' }}>
                                 <InputField
                                   value={values?.avgDays}
                                   name="avgDays"
@@ -666,7 +665,7 @@ export function TableRow(props) {
                           </div>
                         ) : null}
                         <div
-                          style={{ marginTop: "22px" }}
+                          style={{ marginTop: '22px' }}
                           className="col text-right"
                         >
                           <button

@@ -16,10 +16,10 @@ const ProjectedIncomeStatementModal = ({
   const selectedBusinessUnit = useMemo(
     () =>
       businessUnitList?.find(
-        (item) => item?.value === values?.businessUnit?.value,
+        (item) => item?.value === values?.businessUnit?.value
       ),
 
-    [values?.businessUnit?.value],
+    [values?.businessUnit?.value]
   );
   const [totalAmount, setTotalAmount] = useState(0);
   const [
@@ -40,22 +40,21 @@ const ProjectedIncomeStatementModal = ({
           values?.enterpriseDivision?.value
         }&BusinessUnitId=${values?.businessUnit?.value}&fsComponentId=${
           incomeStatementRow?.intFSId
-        }&ConvertionRate=${values?.conversionRate}&SubGroup=${values
-          ?.subDivision?.value || 'All'}`,
+        }&ConvertionRate=${values?.conversionRate}&SubGroup=${
+          values?.subDivision?.value || 'All'
+        }`,
         (data) => {
           setTotalAmount(
-            data?.reduce((value, row) => (value += row?.numAmount), 0) || 0,
+            data?.reduce((value, row) => (value += row?.numAmount), 0) || 0
           );
-        },
+        }
       );
     }
-
   }, [incomeStatementRow?.intFSId]);
 
   const [generalLedgerRow, setGeneralLedgerRow] = useState(null);
-  const [showSubGeneralLedgerModal, setShowSubGeneralLedgerModal] = useState(
-    false,
-  );
+  const [showSubGeneralLedgerModal, setShowSubGeneralLedgerModal] =
+    useState(false);
   return (
     <>
       <ICustomCard

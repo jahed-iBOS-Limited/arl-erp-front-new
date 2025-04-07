@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   ModalProgressBar,
-} from "../../../_metronic/_partials/controls";
-import { useHistory } from "react-router-dom";
+} from '../../../_metronic/_partials/controls';
+import { useHistory } from 'react-router-dom';
 export function ITableTwo({
   renderProps,
   children,
@@ -18,29 +18,29 @@ export function ITableTwo({
   return (
     <>
       <Card>
-       <ModalProgressBar />
+        <ModalProgressBar />
         <CardHeader title={title}></CardHeader>
         <CardBody>
           {renderProps()}
           <div className="d-flex justify-content-end my-3">
-            {
-              !isHidden && <>
+            {!isHidden && (
+              <>
                 <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => history.push(viewLink)}
-            >
-              View
-            </button>
-            <button
-              type="button"
-              className="btn btn-primary ml-3"
-              onClick={() => history.push(createLink)}
-            >
-              Create
-            </button>
-              </> 
-            }
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => history.push(viewLink)}
+                >
+                  View
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary ml-3"
+                  onClick={() => history.push(createLink)}
+                >
+                  Create
+                </button>
+              </>
+            )}
           </div>
           {children}
         </CardBody>

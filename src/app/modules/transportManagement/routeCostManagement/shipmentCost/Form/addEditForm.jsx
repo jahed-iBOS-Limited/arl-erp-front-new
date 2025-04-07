@@ -1,11 +1,9 @@
-
-
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory, useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import Loading from "../../../../_helper/_loading";
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Loading from '../../../../_helper/_loading';
 import {
   CreateFuelConstInfo_api,
   EditVehiclePartnerRentAmount_api,
@@ -16,42 +14,42 @@ import {
   editShipment,
   getDownTripData,
   getShipmentByID,
-} from "../helper";
-import { _currentTime } from "./../../../../_helper/_currentTime";
-import { _todayDate } from "./../../../../_helper/_todayDate";
+} from '../helper';
+import { _currentTime } from './../../../../_helper/_currentTime';
+import { _todayDate } from './../../../../_helper/_todayDate';
 import {
   EditVehiclePartnerDistenceKM_api,
   GetShipmentCostEntryStatus_api,
-} from "./../helper";
-import Form from "./form";
+} from './../helper';
+import Form from './form';
 const initData = {
-  vehicleNo: "",
-  driverName: "",
-  routeName: "",
-  distanceKm: "",
-  shipmentDate: "",
-  startMillage: "",
-  endMillage: "",
-  totalStandardCost: "",
-  advanceAmount: "",
-  totalActualCost: "",
-  costComponent: "",
-  daQuantity: "",
-  daAmount: "",
+  vehicleNo: '',
+  driverName: '',
+  routeName: '',
+  distanceKm: '',
+  shipmentDate: '',
+  startMillage: '',
+  endMillage: '',
+  totalStandardCost: '',
+  advanceAmount: '',
+  totalActualCost: '',
+  costComponent: '',
+  daQuantity: '',
+  daAmount: '',
   downTraip: false,
-  downTripAllowns: "",
+  downTripAllowns: '',
   date: _todayDate(),
-  reason: "",
-  downTripCash: "",
-  downTripCredit: "",
-  businessUnitName: "",
-  fuelMemoNo: "",
-  extraMillage: "",
+  reason: '',
+  downTripCash: '',
+  downTripCredit: '',
+  businessUnitName: '',
+  fuelMemoNo: '',
+  extraMillage: '',
   vehicleInDate: _todayDate(),
   vehicleInTime: _currentTime(),
-  totalFuelCost: "",
-  totalFuelCostLtr: "",
-  fuelRate: "",
+  totalFuelCost: '',
+  totalFuelCostLtr: '',
+  fuelRate: '',
 };
 
 export default function ShipmentCostForm() {
@@ -64,13 +62,13 @@ export default function ShipmentCostForm() {
   const [distanceKM, setDistanceKM] = useState([]);
   const [vehicleReant, setVehicleReant] = useState([]);
   const { id } = useParams();
-  const [singleData, setSingleData] = useState("");
-  const [entryStatus, setEntryStatus] = useState("");
-  const [downTripData, setDownTripData] = useState("");
+  const [singleData, setSingleData] = useState('');
+  const [entryStatus, setEntryStatus] = useState('');
+  const [downTripData, setDownTripData] = useState('');
   // const [buMilage, setBuMilage] = useState("");
   const [fileObjects, setFileObjects] = useState([]);
-  const [uploadImage, setUploadImage] = useState("");
-  const [uploadImageTwo, setUploadImageTwo] = useState("");
+  const [uploadImage, setUploadImage] = useState('');
+  const [uploadImageTwo, setUploadImageTwo] = useState('');
   const [netPayable, setNetPayable] = useState(0);
   const [dicrementNetPayable, setDicrementNetPayable] = useState(0);
   const [advanceAmount, setAdvanceAmount] = useState(0);
@@ -93,7 +91,7 @@ export default function ShipmentCostForm() {
     (item) => item?.isUpdateBtnClick
   );
   const isReportTypeComplete =
-    location?.state?.values?.reportType?.label === "Complete";
+    location?.state?.values?.reportType?.label === 'Complete';
 
   const history = useHistory();
   useEffect(() => {
@@ -115,7 +113,6 @@ export default function ShipmentCostForm() {
         landingData,
       });
     }
-
   }, [id]);
 
   //netPayableCalculatorFunc
@@ -162,21 +159,21 @@ export default function ShipmentCostForm() {
 
   const fuleCostSaveCB = () => {
     CreateFuelConstInfo_api(fuleCost);
-    history.push("/transport-management/routecostmanagement/shipmentcost");
+    history.push('/transport-management/routecostmanagement/shipmentcost');
   };
 
   const saveHandler = async (values, cb) => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       const vehicleInDate = moment(
         `${values?.vehicleInDate} ${values?.vehicleInTime}`
-      ).format("YYYY-MM-DDTHH:mm:ss");
+      ).format('YYYY-MM-DDTHH:mm:ss');
 
       if (id) {
         const row = rowDto.map((item) => {
           return {
             actualCost: +item.actualCost || 0,
             standardCost: +item.standardCost || 0,
-            transportRouteCostComponent: item.transportRouteCostComponent || "",
+            transportRouteCostComponent: item.transportRouteCostComponent || '',
             transportRouteCostComponentId:
               item.transportRouteCostComponentId || 0,
             id: 0,
@@ -184,13 +181,13 @@ export default function ShipmentCostForm() {
         });
 
         if (!values?.profitCenter?.value) {
-          return toast.warn("Profit Center is required");
+          return toast.warn('Profit Center is required');
         }
         if (!values?.costElement?.value) {
-          return toast.warn("Cost Element is required");
+          return toast.warn('Cost Element is required');
         }
         if (!values?.costCenter?.value) {
-          return toast.warn("Cost Center is required");
+          return toast.warn('Cost Center is required');
         }
 
         const payload = {
@@ -199,7 +196,7 @@ export default function ShipmentCostForm() {
             startMillage: +values.startMillage,
             endMillage: +values.endMillage,
             advanceAmount: +values.advanceAmount,
-            extraMillageReason: values.extraMillageReason || "",
+            extraMillageReason: values.extraMillageReason || '',
             extraMillage: +values.extraMillage || 0,
             inOutStatus: values.handleType,
             downTripCash: +values?.downTripCash || 0,
@@ -207,7 +204,7 @@ export default function ShipmentCostForm() {
             netPayable: +netPayable,
             downTripUnitId: +values?.businessUnitName?.value || 0,
             isClose: true,
-            vehicleInDate: vehicleInDate || "",
+            vehicleInDate: vehicleInDate || '',
             costCenterId: +values?.costCenter?.value || 0,
             profitCenterId: +values?.profitCenter?.value || 0,
             costElementId: +values?.costElement?.value || 0,
@@ -224,7 +221,7 @@ export default function ShipmentCostForm() {
           if (attachmentGrid?.length > 0) {
             editShipment(payload, setDisabled, fuleCostSaveCB);
           } else {
-            toast.warning("You Must Attach The File");
+            toast.warning('You Must Attach The File');
           }
         } else {
           //reportTypeComplete false
@@ -249,7 +246,7 @@ export default function ShipmentCostForm() {
         item?.transportRouteCostComponent === obj?.transportRouteCostComponent
     );
     if (foundData?.length >= 1)
-      return toast.warn("Not allowed to duplicate items");
+      return toast.warn('Not allowed to duplicate items');
 
     setRowDto([...rowDto, obj]);
     cb();
@@ -293,7 +290,7 @@ export default function ShipmentCostForm() {
   };
   const vehicleReantUpdateFunc = (item, index) => {
     if (+item?.rentAmount === 0) {
-      return toast.warn("Minimum 1 number input");
+      return toast.warn('Minimum 1 number input');
     } else {
       EditVehiclePartnerRentAmount_api(
         singleData?.shipmentId,
@@ -319,7 +316,7 @@ export default function ShipmentCostForm() {
     values,
     setFieldValue
   ) => {
-    setFieldValue("distanceKm", changeValue);
+    setFieldValue('distanceKm', changeValue);
     const modifyValues = { ...values, distanceKm: changeValue };
     commonUpdate({ values: modifyValues, setFieldValue });
   };
@@ -329,8 +326,8 @@ export default function ShipmentCostForm() {
       values,
       landingData,
     });
-    setFieldValue("totalFuelCost", result.totalFuelCost.toFixed(2));
-    setFieldValue("totalFuelCostLtr", result.totalFuelCostLtr.toFixed(2));
+    setFieldValue('totalFuelCost', result.totalFuelCost.toFixed(2));
+    setFieldValue('totalFuelCostLtr', result.totalFuelCostLtr.toFixed(2));
     let foundMilage = rowDto?.findIndex(
       (item) => item?.transportRouteCostComponentId === 50
     );
@@ -369,7 +366,7 @@ export default function ShipmentCostForm() {
   };
   const distanceKMOUpdateFunc = (item, index, values, setFieldValue) => {
     if (+item?.numDistanceKM === 0) {
-      return toast.warn("Minimum 1 number input");
+      return toast.warn('Minimum 1 number input');
     } else {
       EditVehiclePartnerDistenceKM_api(
         singleData?.shipmentId,
@@ -415,17 +412,17 @@ export default function ShipmentCostForm() {
       actionBy: profileData?.userId,
       vehicleId: singleData?.vehicleId,
       vehicleNumber: singleData?.vehicleNo,
-      attachmentFileId: uploadImage?.id || "",
-      fuelMemoNo: values?.fuelMemoNo || "",
+      attachmentFileId: uploadImage?.id || '',
+      fuelMemoNo: values?.fuelMemoNo || '',
     };
     // if (duplicateCheck?.length > 0) {
     //   toast.warning("Not allow duplicate ");
     // } else {
     if (+values?.fuelAmount >= +purchaseAmount) {
       setFuleCost([...fuleCost, obj]);
-      setUploadImage("");
+      setUploadImage('');
     } else {
-      toast.warning("You have must increase amount ");
+      toast.warning('You have must increase amount ');
     }
     // }
   };
@@ -443,9 +440,9 @@ export default function ShipmentCostForm() {
         isActive: true,
       };
       setAttachmentGrid([...attachmentGrid, obj]);
-      setUploadImageTwo("");
+      setUploadImageTwo('');
     } else {
-      toast.warn("Not allowed to duplicate item!", { toastId: 456 });
+      toast.warn('Not allowed to duplicate item!', { toastId: 456 });
     }
   };
   return (

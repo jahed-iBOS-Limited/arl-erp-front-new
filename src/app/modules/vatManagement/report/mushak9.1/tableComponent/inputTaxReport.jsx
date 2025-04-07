@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   getGoodsOrServiceNotAdmissible_api,
   getSupplyinputTax,
   getOutputTaxDetailsFor4_api,
-} from "../helper";
-import InputTaxModal from "../inputTaxModal/inputTaxModal";
-import InputTaxModal_18 from "../inputTaxModal/inputTaxModal_18";
+} from '../helper';
+import InputTaxModal from '../inputTaxModal/inputTaxModal';
+import InputTaxModal_18 from '../inputTaxModal/inputTaxModal_18';
 
 export default function InputPutTaxReport({
   gridData,
@@ -18,8 +18,8 @@ export default function InputPutTaxReport({
   const [inputTaxModal_18, setInputTaxModal_18] = useState(false);
   const [inputTaxModal, setInputTaxModal] = useState(false);
   const [singleInputTax, setSingleInputTax] = useState([]);
-  const [suplyTypeId, setSuplyTypeId] = useState("");
-  const [tradeTypeId, setTradeTypeId] = useState("");
+  const [suplyTypeId, setSuplyTypeId] = useState('');
+  const [tradeTypeId, setTradeTypeId] = useState('');
   const [goodsOrServNotAdmissible, setGoodsOrServNotAdmissible] = useState([]);
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -85,219 +85,219 @@ export default function InputPutTaxReport({
   }, [profileData, selectedBusinessUnit, parentValues]);
 
   const note_10 = {
-    noteNo: "note_10",
+    noteNo: 'note_10',
     value:
       getNote_10?.value ||
       (zeroRatedGoods[0]?.nameOfSupplyId === 1 &&
       zeroRatedGoods[0]?.tradeTypeId === 1
         ? zeroRatedGoods[0]?.value_a
-        : ""),
+        : ''),
     sd: 0,
     vat:
       getNote_10?.vat ||
       (zeroRatedGoods[0]?.nameOfSupplyId === 1 &&
       zeroRatedGoods[0]?.tradeTypeId === 1
         ? zeroRatedGoods[0]?.vaT_b
-        : ""),
+        : ''),
   };
 
   const note_11 = {
-    noteNo: "note_11",
+    noteNo: 'note_11',
     value:
       getNote_11?.value ||
       (zeroRatedGoods[1]?.nameOfSupplyId === 1 &&
       zeroRatedGoods[1]?.tradeTypeId === 2
         ? zeroRatedGoods[1]?.value_a
-        : ""),
+        : ''),
     sd: 0,
     vat:
       getNote_11?.vat ||
       (zeroRatedGoods[1]?.nameOfSupplyId === 1 &&
       zeroRatedGoods[1]?.tradeTypeId === 2
         ? zeroRatedGoods[1]?.vaT_b
-        : ""),
+        : ''),
   };
   const note_12 = {
-    noteNo: "note_12",
+    noteNo: 'note_12',
     value:
       getNote_12?.value ||
       (exemptedRatedGoods[0]?.nameOfSupplyId === 2 &&
       exemptedRatedGoods[0]?.tradeTypeId === 1
         ? exemptedRatedGoods[0]?.value_a
-        : ""),
+        : ''),
     sd: 0,
     vat:
       getNote_12?.vat ||
       (exemptedRatedGoods[0]?.nameOfSupplyId === 2 &&
       exemptedRatedGoods[0]?.tradeTypeId === 1
         ? exemptedRatedGoods[0]?.vaT_b
-        : ""),
+        : ''),
   };
 
   const note_13 = {
-    noteNo: "note_13",
+    noteNo: 'note_13',
     value:
       getNote_13?.value ||
       (exemptedRatedGoods[1]?.nameOfSupplyId === 2 &&
       exemptedRatedGoods[1]?.tradeTypeId === 2
         ? exemptedRatedGoods[1]?.value_a
-        : ""),
+        : ''),
     sd: 0,
     vat:
       getNote_13?.vat ||
       (exemptedRatedGoods[1]?.nameOfSupplyId === 2 &&
       exemptedRatedGoods[1]?.tradeTypeId === 2
         ? exemptedRatedGoods[1]?.vaT_b
-        : ""),
+        : ''),
   };
 
   const note_14 = {
-    noteNo: "note_14",
+    noteNo: 'note_14',
     value:
       getNote_14?.value ||
       (standardRatedGoods[0]?.nameOfSupplyId === 3 &&
       standardRatedGoods[0]?.tradeTypeId === 1
         ? standardRatedGoods[0]?.value_a
-        : ""),
+        : ''),
     sd: 0,
     vat:
       getNote_14?.vat ||
       (standardRatedGoods[0]?.nameOfSupplyId === 3 &&
       standardRatedGoods[0]?.tradeTypeId === 1
         ? standardRatedGoods[0]?.vaT_b
-        : ""),
+        : ''),
   };
 
   const note_15 = {
-    noteNo: "note_15",
+    noteNo: 'note_15',
     value:
       getNote_15?.value ||
       (standardRatedGoods[1]?.nameOfSupplyId === 3 &&
       standardRatedGoods[1]?.tradeTypeId === 2
         ? standardRatedGoods[1]?.value_a
-        : ""),
+        : ''),
     sd: 0,
     vat:
       getNote_15?.vat ||
       (standardRatedGoods[1]?.nameOfSupplyId === 3 &&
       standardRatedGoods[1]?.tradeTypeId === 2
         ? standardRatedGoods[1]?.vaT_b
-        : ""),
+        : ''),
   };
 
   const note_16 = {
-    noteNo: "note_16",
+    noteNo: 'note_16',
     value:
       getNote_16?.value ||
       (serviceOtherThan[0]?.nameOfSupplyId === 6 &&
       serviceOtherThan[0]?.tradeTypeId === 1
         ? serviceOtherThan[0]?.value_a
-        : ""),
+        : ''),
     sd: 0,
     vat:
       getNote_16?.vat ||
       (serviceOtherThan[0]?.nameOfSupplyId === 6 &&
       serviceOtherThan[0]?.tradeTypeId === 1
         ? serviceOtherThan[0]?.vaT_b
-        : ""),
+        : ''),
   };
 
   const note_17 = {
-    noteNo: "note_17",
+    noteNo: 'note_17',
     value:
       getNote_17?.value ||
       (serviceOtherThan[1]?.nameOfSupplyId === 6 &&
       serviceOtherThan[1]?.tradeTypeId === 2
         ? serviceOtherThan[1]?.value_a
-        : ""),
+        : ''),
     sd: 0,
     vat:
       getNote_17?.vat ||
       (serviceOtherThan[1]?.nameOfSupplyId === 6 &&
       serviceOtherThan[1]?.tradeTypeId === 2
         ? serviceOtherThan[1]?.vaT_b
-        : ""),
+        : ''),
   };
 
   const note_18 = {
-    noteNo: "note_18",
+    noteNo: 'note_18',
     value:
       getNote_18?.value ||
       (serviceBasedOnSpecificVAT[0]?.nameOfSupplyId === 5 &&
       serviceBasedOnSpecificVAT[0]?.tradeTypeId === 1
         ? serviceBasedOnSpecificVAT[0]?.value_a
-        : ""),
+        : ''),
     sd: 0,
     vat:
       getNote_18?.vat ||
       (serviceBasedOnSpecificVAT[0]?.nameOfSupplyId === 5 &&
       serviceBasedOnSpecificVAT[0]?.tradeTypeId === 1
         ? serviceBasedOnSpecificVAT[0]?.vaT_b
-        : ""),
+        : ''),
   };
 
   const note_19 = {
-    noteNo: "note_19",
+    noteNo: 'note_19',
     value:
       getNote_19?.value ||
       (serviceNotAdmissibleForCredit[0]?.nameOfSupplyId === 7 &&
       serviceNotAdmissibleForCredit[0]?.tradeTypeId === 4
         ? serviceNotAdmissibleForCredit[0]?.value_a
-        : ""),
+        : ''),
     sd: 0,
     vat:
       getNote_19?.vat ||
       (serviceNotAdmissibleForCredit[0]?.nameOfSupplyId === 7 &&
       serviceNotAdmissibleForCredit[0]?.tradeTypeId === 4
         ? serviceNotAdmissibleForCredit[0]?.vaT_b
-        : ""),
+        : ''),
   };
 
   const note_20 = {
-    noteNo: "note_20",
+    noteNo: 'note_20',
     value:
       getNote_20?.value ||
       (serviceNotAdmissibleForCredit[1]?.nameOfSupplyId === 7 &&
       serviceNotAdmissibleForCredit[1]?.tradeTypeId === 5
         ? serviceNotAdmissibleForCredit[1]?.value_a
-        : ""),
+        : ''),
     sd: 0,
     vat:
       getNote_20?.vat ||
       (serviceNotAdmissibleForCredit[1]?.nameOfSupplyId === 7 &&
       serviceNotAdmissibleForCredit[1]?.tradeTypeId === 5
         ? serviceNotAdmissibleForCredit[1]?.vaT_b
-        : ""),
+        : ''),
   };
 
   const note_21 = {
-    noteNo: "note_21",
+    noteNo: 'note_21',
     value:
       getNote_21?.value ||
-      (goodsOrServNotAdmissible[0]?.tradeTypeName === "Import"
-        ? goodsOrServNotAdmissible[1]?.value_a || ""
-        : goodsOrServNotAdmissible[0]?.value_a || ""),
+      (goodsOrServNotAdmissible[0]?.tradeTypeName === 'Import'
+        ? goodsOrServNotAdmissible[1]?.value_a || ''
+        : goodsOrServNotAdmissible[0]?.value_a || ''),
     sd: 0,
     vat:
       getNote_21?.vat ||
-      (goodsOrServNotAdmissible[0]?.tradeTypeName === "Import"
-        ? goodsOrServNotAdmissible[1]?.vaT_b || ""
-        : goodsOrServNotAdmissible[0]?.vaT_b || ""),
+      (goodsOrServNotAdmissible[0]?.tradeTypeName === 'Import'
+        ? goodsOrServNotAdmissible[1]?.vaT_b || ''
+        : goodsOrServNotAdmissible[0]?.vaT_b || ''),
   };
 
   const note_22 = {
-    noteNo: "note_22",
+    noteNo: 'note_22',
     value:
       getNote_22?.value ||
-      (goodsOrServNotAdmissible[0]?.tradeTypeName === "Import"
-        ? goodsOrServNotAdmissible[0]?.value_a || ""
-        : goodsOrServNotAdmissible[1]?.value_a || ""),
+      (goodsOrServNotAdmissible[0]?.tradeTypeName === 'Import'
+        ? goodsOrServNotAdmissible[0]?.value_a || ''
+        : goodsOrServNotAdmissible[1]?.value_a || ''),
     sd: 0,
     vat:
       getNote_22?.vat ||
-      (goodsOrServNotAdmissible[0]?.tradeTypeName === "Import"
-        ? goodsOrServNotAdmissible[0]?.vaT_b || ""
-        : goodsOrServNotAdmissible[1]?.vaT_b || ""),
+      (goodsOrServNotAdmissible[0]?.tradeTypeName === 'Import'
+        ? goodsOrServNotAdmissible[0]?.vaT_b || ''
+        : goodsOrServNotAdmissible[1]?.vaT_b || ''),
   };
 
   const valueSome =
@@ -331,7 +331,7 @@ export default function InputPutTaxReport({
     Number(note_22.vat);
 
   const note_23 = {
-    noteNo: "note_23",
+    noteNo: 'note_23',
     value: getNote_23?.value || valueSome,
     sd: 0,
     vat: getNote_23?.vat || vatSome,

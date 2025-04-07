@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 //Call AccountGroupDDL APi
 export function getAccountGroupDDL() {
@@ -45,7 +45,7 @@ export function saveExtendData(data) {
 
 //Call  get grid data api
 export function getGridData(accId, buId, pageNo, pageSize, search) {
-  const searchPath = search ? `searchTerm=${search}&` : "";
+  const searchPath = search ? `searchTerm=${search}&` : '';
 
   return axios.get(
     `/costmgmt/GeneralLedger/GetGeneralLedgerSearchPasignation?${searchPath}accountId=${accId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=asc`

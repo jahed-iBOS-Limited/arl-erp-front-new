@@ -1,32 +1,32 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import TextArea from "../../../_helper/TextArea";
-import IForm from "../../../_helper/_form";
-import FormikError from "../../../_helper/_formikError";
-import IActiveInActiveIcon from "../../../_helper/_helperIcons/_activeInActiveIcon";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { dateFormatterForInput } from "../../../productionManagement/msilProduction/meltingProduction/helper";
-import { rateAgreementValidationSchema } from "./helper";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import TextArea from '../../../_helper/TextArea';
+import IForm from '../../../_helper/_form';
+import FormikError from '../../../_helper/_formikError';
+import IActiveInActiveIcon from '../../../_helper/_helperIcons/_activeInActiveIcon';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { dateFormatterForInput } from '../../../productionManagement/msilProduction/meltingProduction/helper';
+import { rateAgreementValidationSchema } from './helper';
 const initData = {
-  nameOfContract: "",
-  termsAndCondition: "",
-  contractStartDate: "",
-  contractEndDate: "",
-  contractDate: "",
-  supplier: "",
-  itemRate: "",
-  vat: "",
-  isForRateAgreement: "",
+  nameOfContract: '',
+  termsAndCondition: '',
+  contractStartDate: '',
+  contractEndDate: '',
+  contractDate: '',
+  supplier: '',
+  itemRate: '',
+  vat: '',
+  isForRateAgreement: '',
 };
 
 export default function RateAgreementCreate() {
@@ -62,7 +62,7 @@ export default function RateAgreementCreate() {
     if (!id) {
       const payload = {
         agreementHeaderId: 0,
-        agreementCode: "",
+        agreementCode: '',
         nameOfContact: values?.nameOfContract,
         contactDateTime: values?.contractDate,
         purchaseOrganizationId: purchaseOrganization?.value,
@@ -75,7 +75,7 @@ export default function RateAgreementCreate() {
         plantId: plant?.value,
         warehouseId: wareHouse?.value,
         warehouseName: wareHouse?.label,
-        termsAndCondition: values?.termsAndCondition || "",
+        termsAndCondition: values?.termsAndCondition || '',
         warehouseAddress: values?.deliveryAdress,
         contractStartDate: values?.contractStartDate,
         contractEndDate: values?.contractEndDate,
@@ -98,7 +98,7 @@ export default function RateAgreementCreate() {
     if (id) {
       const payload = {
         agreementHeaderId: agreementHeaderId,
-        agreementCode: "",
+        agreementCode: '',
         nameOfContact: values?.nameOfContract,
         contactDateTime: values?.contractDate,
         purchaseOrganizationId: purchaseOrganizationId,
@@ -148,7 +148,7 @@ export default function RateAgreementCreate() {
   };
   const addRow = (values, callBack) => {
     if (rowData?.find((item) => item?.supplierId === values?.supplier?.value)) {
-      return toast.warn("Supplier already added");
+      return toast.warn('Supplier already added');
     }
     try {
       if (values?.isForRateAgreement === true && rowData?.length < 1) {
@@ -160,7 +160,7 @@ export default function RateAgreementCreate() {
           vatPercentage: values?.vat,
           isActive: true,
           createdAt: _todayDate(),
-          status: "Active",
+          status: 'Active',
           createdBy: userId,
         };
         setRowData([...rowData, newRow]);
@@ -174,13 +174,13 @@ export default function RateAgreementCreate() {
           vatPercentage: values?.vat,
           isActive: true,
           createdAt: _todayDate(),
-          status: "Active",
+          status: 'Active',
           createdBy: userId,
         };
         setRowData([...rowData, newRow]);
         callBack();
       } else {
-        toast.warning("You can not add multiple supplier");
+        toast.warning('You can not add multiple supplier');
       }
     } catch (e) {
       console.log(e);
@@ -189,13 +189,13 @@ export default function RateAgreementCreate() {
 
   const statusHandler = (index, item) => {
     const data = [...rowData];
-    if (item?.status === "Active") {
-      data[index]["status"] = "Inactive";
-      data[index]["createdBy"] = userId;
+    if (item?.status === 'Active') {
+      data[index]['status'] = 'Inactive';
+      data[index]['createdBy'] = userId;
       setRowData(data);
     } else {
-      data[index]["status"] = "Active";
-      data[index]["createdBy"] = userId;
+      data[index]['status'] = 'Active';
+      data[index]['createdBy'] = userId;
       setRowData(data);
     }
   };
@@ -218,9 +218,9 @@ export default function RateAgreementCreate() {
         contractEndDate: dateFormatterForInput(contractEndDate),
         deliveryAdress: warehouseAddress,
         contractDate: dateFormatterForInput(contactDateTime),
-        supplier: "",
-        itemRate: "",
-        vat: "",
+        supplier: '',
+        itemRate: '',
+        vat: '',
         isForRateAgreement: isForRateAgreement,
       };
       setSingleData(editedInitData);
@@ -234,8 +234,6 @@ export default function RateAgreementCreate() {
         }
       );
     }
-
-
   }, [id]);
   return (
     <Formik
@@ -250,7 +248,7 @@ export default function RateAgreementCreate() {
             resetForm(initData);
           });
         } else {
-          toast.warn("Please add minimum one item");
+          toast.warn('Please add minimum one item');
         }
       }}
     >
@@ -267,12 +265,12 @@ export default function RateAgreementCreate() {
           {/* {console.log("error", errors)} */}
           {(rowDataLoading || isLoading) && <Loading />}
           <IForm
-            title={` Purchase Agreement ${id ? "" : "Create"}`}
+            title={` Purchase Agreement ${id ? '' : 'Create'}`}
             getProps={setObjprops}
           >
             <Form onSubmit={handleSubmit}>
               <div
-                style={{ color: "red", marginTop: "8px" }}
+                style={{ color: 'red', marginTop: '8px' }}
                 className="col-lg-12"
               >
                 Item Name : {itemName || item?.label}
@@ -287,7 +285,7 @@ export default function RateAgreementCreate() {
                     type="text"
                     placeholder="Name Of Contract"
                     onChange={(e) => {
-                      setFieldValue("nameOfContract", e.target.value);
+                      setFieldValue('nameOfContract', e.target.value);
                     }}
                   />
                 </div>
@@ -299,8 +297,8 @@ export default function RateAgreementCreate() {
                     label="Contract Date"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("contractDate", e.target.value);
-                      setFieldValue("contractStartDate", "");
+                      setFieldValue('contractDate', e.target.value);
+                      setFieldValue('contractStartDate', '');
                     }}
                   />
                 </div>
@@ -312,8 +310,8 @@ export default function RateAgreementCreate() {
                     label="Contract Start Date"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("contractStartDate", e.target.value);
-                      setFieldValue("contractEndDate", "");
+                      setFieldValue('contractStartDate', e.target.value);
+                      setFieldValue('contractEndDate', '');
                     }}
                     min={values?.contractDate}
                   />
@@ -327,7 +325,7 @@ export default function RateAgreementCreate() {
                     label="Contract End Date"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("contractEndDate", e.target.value);
+                      setFieldValue('contractEndDate', e.target.value);
                     }}
                     min={values?.contractStartDate}
                   />
@@ -344,7 +342,7 @@ export default function RateAgreementCreate() {
                     type="text"
                     placeholder="Delivery Adress"
                     onChange={(e) => {
-                      setFieldValue("deliveryAdress", e.target.value);
+                      setFieldValue('deliveryAdress', e.target.value);
                     }}
                   />
                 </div>
@@ -362,24 +360,24 @@ export default function RateAgreementCreate() {
                 </div>
 
                 <div className="col-lg-3">
-                  <div style={{ marginTop: "16px" }}>
+                  <div style={{ marginTop: '16px' }}>
                     Is For Rate Agreement ?
                   </div>
                   <div
                     role="group"
                     aria-labelledby="my-radio-group"
-                    style={{ gap: "10px" }}
+                    style={{ gap: '10px' }}
                     className="d-flex align-items-center"
                   >
-                    <div style={{ gap: "2px" }} className="d-flex">
+                    <div style={{ gap: '2px' }} className="d-flex">
                       <input
-                        style={{ marginTop: "5px" }}
+                        style={{ marginTop: '5px' }}
                         id="yes"
                         type="radio"
                         name="isForRateAgreement"
                         checked={values?.isForRateAgreement === true}
                         onChange={(e) => {
-                          setFieldValue("isForRateAgreement", true);
+                          setFieldValue('isForRateAgreement', true);
                           setRowData([]);
                         }}
                         disabled={id}
@@ -387,15 +385,15 @@ export default function RateAgreementCreate() {
                       <label htmlFor="yes">Yes</label>
                     </div>
 
-                    <div style={{ gap: "3px" }} className="d-flex">
+                    <div style={{ gap: '3px' }} className="d-flex">
                       <input
-                        style={{ marginTop: "5px" }}
+                        style={{ marginTop: '5px' }}
                         type="radio"
                         id="no"
                         name="isForRateAgreement"
                         checked={values?.isForRateAgreement === false}
                         onChange={(e) => {
-                          setFieldValue("isForRateAgreement", false);
+                          setFieldValue('isForRateAgreement', false);
                           setRowData([]);
                         }}
                         disabled={id}
@@ -405,7 +403,7 @@ export default function RateAgreementCreate() {
                   </div>
                   {touched?.isForRateAgreement &&
                     errors?.isForRateAgreement && (
-                      <span style={{ color: "red" }}>
+                      <span style={{ color: 'red' }}>
                         {errors?.isForRateAgreement}
                       </span>
                     )}
@@ -418,11 +416,11 @@ export default function RateAgreementCreate() {
                   <SearchAsyncSelect
                     selectedValue={values.supplier}
                     isDisabled={
-                      values?.isForRateAgreement === "" ||
+                      values?.isForRateAgreement === '' ||
                       (values?.isForRateAgreement && rowData?.length === 1)
                     }
                     handleChange={(valueOption) => {
-                      setFieldValue("supplier", valueOption);
+                      setFieldValue('supplier', valueOption);
                     }}
                     loadOptions={(v) => {
                       if (v.length < 3) return [];
@@ -452,7 +450,7 @@ export default function RateAgreementCreate() {
                     placeholder="Item Rate"
                     type="number"
                     disabled={
-                      values?.isForRateAgreement === "" ||
+                      values?.isForRateAgreement === '' ||
                       (values?.isForRateAgreement && rowData?.length === 1)
                     }
                   />
@@ -465,7 +463,7 @@ export default function RateAgreementCreate() {
                     placeholder="Vat"
                     type="number"
                     disabled={
-                      values?.isForRateAgreement === "" ||
+                      values?.isForRateAgreement === '' ||
                       (values?.isForRateAgreement && rowData?.length === 1)
                     }
                   />
@@ -476,14 +474,12 @@ export default function RateAgreementCreate() {
                     className="btn btn-primary"
                     onClick={() => {
                       addRow(values, () => {
-                        setFieldValue("supplier", "");
-                        setFieldValue("itemRate", "");
-                        setFieldValue("vat", "");
+                        setFieldValue('supplier', '');
+                        setFieldValue('itemRate', '');
+                        setFieldValue('vat', '');
                       });
                     }}
-                    disabled={
-                      !values?.supplier || !values?.itemRate
-                    }
+                    disabled={!values?.supplier || !values?.itemRate}
                   >
                     + Add
                   </button>
@@ -494,7 +490,7 @@ export default function RateAgreementCreate() {
                 <div className="table-responsive">
                   <table
                     className={
-                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                      'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                     }
                   >
                     <thead>
@@ -509,13 +505,13 @@ export default function RateAgreementCreate() {
                     </thead>
                     {rowData?.map((item, index) => (
                       <tr key={index}>
-                        <td className="text-center" style={{ width: "40px" }}>
+                        <td className="text-center" style={{ width: '40px' }}>
                           {index + 1}
                         </td>
                         <td className="text-center">{item?.supplierName}</td>
                         {item?.agreementRowId === 0 ? (
                           <td className="text-left">
-                            <span style={{ paddingLeft: "16px" }}>
+                            <span style={{ paddingLeft: '16px' }}>
                               {item?.itemRate}
                             </span>
                           </td>
@@ -526,8 +522,8 @@ export default function RateAgreementCreate() {
                               type="number"
                               onChange={(e) => {
                                 const data = [...rowData];
-                                data[index]["itemRate"] = +e?.target?.value;
-                                data[index]["createdBy"] = userId;
+                                data[index]['itemRate'] = +e?.target?.value;
+                                data[index]['createdBy'] = userId;
                                 setRowData(data);
                               }}
                               min={0}
@@ -538,9 +534,9 @@ export default function RateAgreementCreate() {
                         {item?.agreementRowId === 0 ? (
                           <td
                             className="text-left "
-                            style={{ width: "150px", height: "28px" }}
+                            style={{ width: '150px', height: '28px' }}
                           >
-                            <span style={{ paddingLeft: "12px" }}>
+                            <span style={{ paddingLeft: '12px' }}>
                               {item?.vatPercentage}
                             </span>
                           </td>
@@ -551,9 +547,9 @@ export default function RateAgreementCreate() {
                               type="number"
                               onChange={(e) => {
                                 const data = [...rowData];
-                                data[index]["vatPercentage"] = +e?.target
-                                  ?.value;
-                                data[index]["createdBy"] = userId;
+                                data[index]['vatPercentage'] =
+                                  +e?.target?.value;
+                                data[index]['createdBy'] = userId;
                                 setRowData(data);
                               }}
                               min={0}
@@ -564,14 +560,14 @@ export default function RateAgreementCreate() {
                           <td className="text-center">
                             <span
                               style={
-                                item?.status === "Active"
-                                  ? { fontWeight: "bold", color: "green" }
-                                  : { fontWeight: "bold", color: "red" }
+                                item?.status === 'Active'
+                                  ? { fontWeight: 'bold', color: 'green' }
+                                  : { fontWeight: 'bold', color: 'red' }
                               }
                             >
-                              {item?.status === "Active"
-                                ? "Active"
-                                : "Inactive"}
+                              {item?.status === 'Active'
+                                ? 'Active'
+                                : 'Inactive'}
                             </span>
                             <span
                               disabled={!item?.agreementRowId}
@@ -583,9 +579,9 @@ export default function RateAgreementCreate() {
                               <IActiveInActiveIcon
                                 title="Status"
                                 iconTyee={
-                                  item?.status === "Active"
-                                    ? "Active"
-                                    : "inActive"
+                                  item?.status === 'Active'
+                                    ? 'Active'
+                                    : 'inActive'
                                 }
                               />
                             </span>
@@ -611,14 +607,14 @@ export default function RateAgreementCreate() {
               )}
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

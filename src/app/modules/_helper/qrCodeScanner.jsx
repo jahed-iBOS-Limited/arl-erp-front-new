@@ -1,5 +1,5 @@
-import React from "react";
-import { QrReader } from "react-qr-reader";
+import React from 'react';
+import { QrReader } from 'react-qr-reader';
 
 const QRCodeScanner = ({ QrCodeScannerCB }) => {
   const handleScan = (result) => {
@@ -17,10 +17,10 @@ const QRCodeScanner = ({ QrCodeScannerCB }) => {
       <QrReader
         onResult={handleScan}
         onError={handleError}
-        style={{ width: "100%" }}
+        style={{ width: '100%' }}
         className="qr-scanner"
-        videoContainerStyle={{ paddingTop: "70%" }}
-        constraints={ {facingMode: 'environment'} }
+        videoContainerStyle={{ paddingTop: '70%' }}
+        constraints={{ facingMode: 'environment' }}
       />
     </div>
   );

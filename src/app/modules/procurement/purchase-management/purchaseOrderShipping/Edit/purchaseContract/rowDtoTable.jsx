@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import Select from "react-select";
-import customStyles from "../../../../../selectCustomStyle";
-import IDelete from "../../../../../_helper/_helperIcons/_delete";
-import { IInput } from "../../../../../_helper/_input";
-import IViewModal from "../../../../../_helper/_viewModal";
-import ViewForm from "../../View/viewForm";
-import { validateDigit } from "../../../../../_helper/validateDigit";
+import React, { useState } from 'react';
+import Select from 'react-select';
+import customStyles from '../../../../../selectCustomStyle';
+import IDelete from '../../../../../_helper/_helperIcons/_delete';
+import { IInput } from '../../../../../_helper/_input';
+import IViewModal from '../../../../../_helper/_viewModal';
+import ViewForm from '../../View/viewForm';
+import { validateDigit } from '../../../../../_helper/validateDigit';
 
 const RowDtoTable = ({
   isWithoutRef,
@@ -18,7 +18,7 @@ const RowDtoTable = ({
   viewPage,
 }) => {
   const [isShowModal, setIsShowModal] = useState(false);
-  const [currentRowData] = useState("");
+  const [currentRowData] = useState('');
   const [currentIndex] = useState(null);
 
   return (
@@ -31,10 +31,10 @@ const RowDtoTable = ({
                 <tr>
                   <th>SL</th>
                   {isWithoutRef && <th>Ref No.</th>}
-                  <th style={{ width: "150px" }}>Code</th>
-                  <th style={{ width: "150px" }}>Item</th>
-                  <th style={{ width: "70px" }}>UoM</th>
-                  <th style={{ width: "150px" }}>Description</th>
+                  <th style={{ width: '150px' }}>Code</th>
+                  <th style={{ width: '150px' }}>Item</th>
+                  <th style={{ width: '70px' }}>UoM</th>
+                  <th style={{ width: '150px' }}>Description</th>
                   {isWithoutRef && <th>Ref. Qty.</th>}
                   {isWithoutRef && <th>Rest Qty.</th>}
                   <th>Contract Qty.</th>
@@ -52,16 +52,16 @@ const RowDtoTable = ({
 
                     {isWithoutRef && (
                       <td className="align-middle">
-                        {item?.referenceNo?.label || "NA"}
+                        {item?.referenceNo?.label || 'NA'}
                       </td>
                     )}
                     <td className="align-middle"> {item?.item?.code} </td>
                     <td className="align-middle">{item?.item?.label}</td>
-                    <td style={{ width: "100px" }}>
+                    <td style={{ width: '100px' }}>
                       <Select
                         onChange={(valueOption) => {
                           rowDtoHandler(
-                            "selectedUom",
+                            'selectedUom',
                             {
                               value: valueOption?.value,
                               label: valueOption?.label,
@@ -70,7 +70,7 @@ const RowDtoTable = ({
                           );
                         }}
                         defaultValue={
-                          item?.selectedUom || { value: "", label: "" }
+                          item?.selectedUom || { value: '', label: '' }
                         }
                         isSearchable={true}
                         styles={customStyles}
@@ -86,7 +86,7 @@ const RowDtoTable = ({
                         required
                         placeholder="Description"
                         onChange={(e) => {
-                          rowDtoHandler("desc", e.target.value, index);
+                          rowDtoHandler('desc', e.target.value, index);
                         }}
                         disabled={viewPage}
                       />
@@ -102,7 +102,7 @@ const RowDtoTable = ({
                       </td>
                     )}
                     <td
-                      style={{ width: "90px" }}
+                      style={{ width: '90px' }}
                       className="disabled-feedback disable-border"
                     >
                       <IInput
@@ -129,10 +129,10 @@ const RowDtoTable = ({
                                   : item?.restofQty
                               }`
                             );
-                            validNum = "";
+                            validNum = '';
                           }
 
-                          rowDtoHandler("orderQty", validNum, index);
+                          rowDtoHandler('orderQty', validNum, index);
                           // updatePriceStructure(
                           //   validNum,
                           //   item?.basicPrice,
@@ -145,7 +145,7 @@ const RowDtoTable = ({
                       />
                     </td>
                     <td
-                      style={{ width: "120px" }}
+                      style={{ width: '120px' }}
                       className="disabled-feedback disable-border"
                     >
                       <IInput
@@ -155,13 +155,13 @@ const RowDtoTable = ({
                         placeholder="Delivery Date"
                         type="date"
                         onChange={(e) => {
-                          rowDtoHandler("deliveryDate", e.target.value, index);
+                          rowDtoHandler('deliveryDate', e.target.value, index);
                         }}
                         disabled={viewPage}
                       />
                     </td>
                     <td
-                      style={{ width: "120px" }}
+                      style={{ width: '120px' }}
                       className="disabled-feedback disable-border"
                     >
                       <IInput
@@ -175,7 +175,7 @@ const RowDtoTable = ({
                         onChange={(e) => {
                           let validNum = validateDigit(e.target.value);
 
-                          rowDtoHandler("basicPrice", validNum, index);
+                          rowDtoHandler('basicPrice', validNum, index);
                           // updatePriceStructure(
                           //   item?.orderQty,
                           //   validNum,

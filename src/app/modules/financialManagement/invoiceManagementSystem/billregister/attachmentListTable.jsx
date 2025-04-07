@@ -1,7 +1,7 @@
-import React from "react";
-import IView from "../../../_helper/_helperIcons/_view";
-import { useDispatch } from "react-redux";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
+import React from 'react';
+import IView from '../../../_helper/_helperIcons/_view';
+import { useDispatch } from 'react-redux';
+import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
 
 const AttachmentListTable = ({ attachmentItemList }) => {
   const dispatch = useDispatch();

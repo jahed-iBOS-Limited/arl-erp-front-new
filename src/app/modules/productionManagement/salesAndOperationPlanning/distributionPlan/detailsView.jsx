@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../_helper/_loading";
+import React, { useEffect } from 'react';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../_helper/_loading';
 
 export default function DetailsDistributionView({ singleData }) {
   const [rowData, getRowDto, loading] = useAxiosGet();
@@ -10,7 +10,6 @@ export default function DetailsDistributionView({ singleData }) {
     getRowDto(
       `/oms/DistributionChannel/GetDistributionItemById?DistributionPlanningId=${singleData?.distributionPlanningId}`
     );
-
   }, [singleData]);
 
   return (

@@ -1,45 +1,50 @@
-import React, { useEffect, useState } from "react";
-import PaginationSearch from "./../../../../_helper/_search";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import { Formik, Form } from "formik";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import PaginationSearch from './../../../../_helper/_search';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import { Formik, Form } from 'formik';
+import { useSelector } from 'react-redux';
 import {
   getPOStatementLanding,
   getOrderTypeList,
   getRefferenceTypeList,
-} from "../helper";
-import ILoader from "../../../../_helper/loader/_loader";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import NewSelect from "../../../../_helper/_select";
-import * as Yup from "yup";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { useHistory } from "react-router";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { getPlantList, getPurchaseOrganizationDDL, getSBU, getWhList } from "../../../../_helper/_commonApi";
+} from '../helper';
+import ILoader from '../../../../_helper/loader/_loader';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import NewSelect from '../../../../_helper/_select';
+import * as Yup from 'yup';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { useHistory } from 'react-router';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import {
+  getPlantList,
+  getPurchaseOrganizationDDL,
+  getSBU,
+  getWhList,
+} from '../../../../_helper/_commonApi';
 const statusData = [
-  { label: "Approved", value: true },
-  { label: "Pending", value: false },
+  { label: 'Approved', value: true },
+  { label: 'Pending', value: false },
 ];
 
 const validationSchema = Yup.object().shape({
-  toDate: Yup.string().when("fromDate", (fromDate, Schema) => {
-    if (fromDate) return Schema.required("To date is required");
+  toDate: Yup.string().when('fromDate', (fromDate, Schema) => {
+    if (fromDate) return Schema.required('To date is required');
   }),
 });
 
 let initData = {
-  wh: "",
-  plant: "",
-  po: "",
-  sbu: "",
-  status: "",
+  wh: '',
+  plant: '',
+  po: '',
+  sbu: '',
+  status: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  indentNo: "",
-  ordrty: "",
-  refType: "",
+  indentNo: '',
+  ordrty: '',
+  refType: '',
 };
 
 const POReportTable = () => {
@@ -48,10 +53,10 @@ const POReportTable = () => {
   const [pageSize, setPageSize] = React.useState(15);
 
   // ddl state
-  const [sbuList, setSbuList] = useState("");
-  const [poList, setPoList] = useState("");
-  const [plantList, setPlantList] = useState("");
-  const [whList, setWhList] = useState("");
+  const [sbuList, setSbuList] = useState('');
+  const [poList, setPoList] = useState('');
+  const [plantList, setPlantList] = useState('');
+  const [whList, setWhList] = useState('');
   const [orderTypeList, setOrderTypeList] = useState([]);
   const [refTypeList, setRefTypeList] = useState([]);
 
@@ -109,7 +114,6 @@ const POReportTable = () => {
         setPoList
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   const history = useHistory();
@@ -184,7 +188,7 @@ const POReportTable = () => {
           validationSchema={validationSchema}
           initialValues={initData}
           //validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({
             handleSubmit,
@@ -199,7 +203,7 @@ const POReportTable = () => {
               <Form className="form form-label-left">
                 <div
                   className="row global-form"
-                  style={{ background: " #d6dadd" }}
+                  style={{ background: ' #d6dadd' }}
                 >
                   <div className="col-lg-2">
                     <NewSelect
@@ -208,14 +212,14 @@ const POReportTable = () => {
                       value={values?.ordrty}
                       label="Order Type"
                       onChange={(v) => {
-                        setFieldValue("ordrty", v);
-                        setFieldValue("refType", "");
+                        setFieldValue('ordrty', v);
+                        setFieldValue('refType', '');
                         getRefferenceTypeList(v?.value, setRefTypeList);
                       }}
                       placeholder="Order Type"
                       errors={errors}
                       touched={touched}
-                    />{" "}
+                    />{' '}
                   </div>
                   <div className="col-lg-2">
                     <NewSelect
@@ -224,12 +228,12 @@ const POReportTable = () => {
                       value={values?.sbu}
                       label="SBU"
                       onChange={(v) => {
-                        setFieldValue("sbu", v);
+                        setFieldValue('sbu', v);
                       }}
                       placeholder="SBU"
                       errors={errors}
                       touched={touched}
-                    />{" "}
+                    />{' '}
                   </div>
                   <div className="col-lg-2">
                     <NewSelect
@@ -238,7 +242,7 @@ const POReportTable = () => {
                       value={values?.po}
                       label="Purchase Organization"
                       onChange={(v) => {
-                        setFieldValue("po", v);
+                        setFieldValue('po', v);
                       }}
                       placeholder="Purchase Organization"
                       errors={errors}
@@ -259,8 +263,8 @@ const POReportTable = () => {
                           v?.value,
                           setWhList
                         );
-                        setFieldValue("plant", v);
-                        setFieldValue("wh", "");
+                        setFieldValue('plant', v);
+                        setFieldValue('wh', '');
                       }}
                       placeholder="Plant"
                       errors={errors}
@@ -274,7 +278,7 @@ const POReportTable = () => {
                       value={values?.wh}
                       label="Warehouse"
                       onChange={(v) => {
-                        setFieldValue("wh", v);
+                        setFieldValue('wh', v);
                       }}
                       placeholder="Warehouse"
                       errors={errors}
@@ -288,7 +292,7 @@ const POReportTable = () => {
                       value={values?.refType}
                       label="Refference Type"
                       onChange={(v) => {
-                        setFieldValue("refType", v);
+                        setFieldValue('refType', v);
                       }}
                       placeholder="Refference Type"
                       errors={errors}
@@ -302,7 +306,7 @@ const POReportTable = () => {
                       value={values?.status}
                       label="Status"
                       onChange={(v) => {
-                        setFieldValue("status", v);
+                        setFieldValue('status', v);
                       }}
                       placeholder="Status"
                       errors={errors}
@@ -317,7 +321,7 @@ const POReportTable = () => {
                         name="fromDate"
                         placeholder="From date"
                         type="date"
-                        style={{ width: "100%" }}
+                        style={{ width: '100%' }}
                       />
                     </div>
                   </div>
@@ -329,7 +333,7 @@ const POReportTable = () => {
                         name="toDate"
                         placeholder="To date"
                         type="date"
-                        style={{ width: "100%" }}
+                        style={{ width: '100%' }}
                       />
                     </div>
                   </div>
@@ -398,7 +402,7 @@ const POReportTable = () => {
                               <td>{item?.paymentTermsName}</td>
                               <td>{_dateFormatter(item?.validityDate)}</td>
                               <td className="text-center">
-                                {item?.isApprove ? "Approved" : "Pending"}
+                                {item?.isApprove ? 'Approved' : 'Pending'}
                               </td>
                               <td className="text-center align-middle">
                                 <span>
@@ -409,7 +413,7 @@ const POReportTable = () => {
                                         item,
                                       })
                                     }
-                                  />{" "}
+                                  />{' '}
                                 </span>
                               </td>
                             </tr>

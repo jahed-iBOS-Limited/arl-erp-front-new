@@ -1,35 +1,38 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import { fromDateFromApiNew } from "../../../../_helper/_formDateFromApi";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { SetReportSubLedgerReportAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import { CreatePartnerLedgerExcel, GetAccountingJournal_api, GetSubLedgerDDL_api } from "../helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import { fromDateFromApiNew } from '../../../../_helper/_formDateFromApi';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { SetReportSubLedgerReportAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import {
+  CreatePartnerLedgerExcel,
+  GetAccountingJournal_api,
+  GetSubLedgerDDL_api,
+} from '../helper';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "./../../../../../../_metronic/_partials/controls";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import InputField from "./../../../../_helper/_inputField";
-import NewSelect from "./../../../../_helper/_select";
-import { _todayDate } from "./../../../../_helper/_todayDate";
+} from './../../../../../../_metronic/_partials/controls';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import InputField from './../../../../_helper/_inputField';
+import NewSelect from './../../../../_helper/_select';
+import { _todayDate } from './../../../../_helper/_todayDate';
 
 const initDataFuction = (reportSubLedgerReport) => {
   const initData = {
     id: undefined,
-    glLedger: reportSubLedgerReport?.glLedger || "",
-    fromDate: "",
-    todate:  _todayDate(),
+    glLedger: reportSubLedgerReport?.glLedger || '',
+    fromDate: '',
+    todate: _todayDate(),
   };
 
   return initData;
 };
-
 
 export function TableRow() {
   const { reportSubLedgerReport } = useSelector((state) => state?.localStorage);
@@ -37,11 +40,9 @@ export function TableRow() {
   const dispatch = useDispatch();
   const formikRef = React.useRef(null);
 
-
   const printRef = useRef();
   const [glLedger, setGlLedger] = useState([]);
   const [subLedgerReportData, setSubLedgerReportData] = useState([]);
-
 
   const [totalAmount, setTotalAmount] = useState(0);
   let netTotal = 0;
@@ -61,7 +62,7 @@ export function TableRow() {
       GetSubLedgerDDL_api(selectedBusinessUnit.value, setGlLedger);
       fromDateFromApiNew(selectedBusinessUnit?.value, (date) => {
         if (formikRef.current) {
-          const apiFormDate = date ? _dateFormatter(date) : "";
+          const apiFormDate = date ? _dateFormatter(date) : '';
           const modifyInitData = initDataFuction(reportSubLedgerReport);
           formikRef.current.setValues({
             ...modifyInitData,
@@ -70,7 +71,6 @@ export function TableRow() {
         }
       });
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   const debitTotal = subLedgerReportData.reduce((total, data) => {
@@ -86,13 +86,13 @@ export function TableRow() {
         enableReinitialize={true}
         initialValues={{}}
         innerRef={formikRef}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"General Ledger Report"}>
+              <CardHeader title={'General Ledger Report'}>
                 <CardHeaderToolbar>
                   <ReactToPrint
                     trigger={() => (
@@ -101,7 +101,7 @@ export function TableRow() {
                         className="btn btn-primary sales_invoice_btn"
                       >
                         <img
-                          style={{ width: "25px", paddingRight: "5px" }}
+                          style={{ width: '25px', paddingRight: '5px' }}
                           src={printIcon}
                           alt="print-icon"
                         />
@@ -122,7 +122,7 @@ export function TableRow() {
                         value={values?.glLedger}
                         label="Ganeral Ledger"
                         onChange={(valueOption) => {
-                          setFieldValue("glLedger", valueOption);
+                          setFieldValue('glLedger', valueOption);
                           // dispatch(
                           //   SetReportSubLedgerReportAction({
                           //     glLedger: valueOption,
@@ -144,7 +144,7 @@ export function TableRow() {
                         placeholder="From Date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("fromDate", e.target.value);
+                          setFieldValue('fromDate', e.target.value);
                           // dispatch(
                           //   SetReportSubLedgerReportAction({
                           //     glLedger: values?.glLedger,
@@ -163,7 +163,7 @@ export function TableRow() {
                         placeholder="To date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("todate", e.target.value);
+                          setFieldValue('todate', e.target.value);
                           // dispatch(
                           //   SetReportSubLedgerReportAction({
                           //     glLedger: values?.glLedger,
@@ -205,8 +205,8 @@ export function TableRow() {
                             selectedBusinessUnit,
                             subLedgerReportData,
                             values?.fromDate,
-                            values?.todate,
-                          )
+                            values?.todate
+                          );
                         }}
                         disabled={!subLedgerReportData?.length > 0}
                       >
@@ -226,7 +226,7 @@ export function TableRow() {
                           </h6>
                           <h4>Subsidiary Ledger</h4>
                           <p className="m-0">
-                            {" "}
+                            {' '}
                             <strong>
                               {`From ${values?.fromDate} To ${values?.todate}`}
                             </strong>
@@ -235,96 +235,95 @@ export function TableRow() {
                         <div>
                           <p className="d-flex justify-content-between">
                             <strong>{values?.glLedger?.name}</strong>
-                            <strong>
-                              Account Code:{" "}
-                              { }
-                            </strong>
+                            <strong>Account Code: {}</strong>
                           </p>
                         </div>
                         <div className="table-responsive">
- <table id="generalLedgerReport" className="table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm">
-                          <thead>
-                            <tr>
-                              <th style={{ width: "30px" }}>Code</th>
-                              <th style={{ width: "50px" }}>Date</th>
-                              <th style={{ width: "50px" }}>Description</th>
-                              <th style={{ width: "50px" }}>Debit</th>
-                              <th style={{ width: "50px" }}>Credit</th>
-                              <th style={{ width: "50px" }}>Balance</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {subLedgerReportData?.map((data, index) => {
-                              netTotalSum += data?.debit + data?.credit;
-                              setTotalAmount(netTotalSum);
-                              return (
-                                <tr>
-                                  <td>{data?.accountingJournalCode}</td>
-                                  <td>
-                                    <div className="text-right pr-2">
-                                      {_dateFormatter(data?.transactionDate)}
-                                    </div>
-                                  </td>
-                                  <td>{data?.narration}</td>
-                                  <td>
-                                    <div className="text-right pr-2">
-                                      {numberWithCommas(
-                                        (data?.debit || 0).toFixed(2)
-                                      )}
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="text-right pr-2">
-                                      {numberWithCommas(
-                                        (data?.credit || 0).toFixed(2)
-                                      )}
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="text-right pr-2">
-                                      {numberWithCommas(
-                                        (
-                                          (netTotal +=
-                                            data?.debit + data?.credit) || 0
-                                        ).toFixed(2)
-                                      )}
-                                    </div>
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                            <tr>
-                              <td colspan="3">
-                                <div className="text-right font-weight-bold pr-2">
-                                  Total
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-right font-weight-bold pr-2">
-                                  {numberWithCommas(
-                                    (debitTotal || 0).toFixed(2)
-                                  )}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-right font-weight-bold pr-2">
-                                  {numberWithCommas(
-                                    (creditTotal || 0).toFixed(2)
-                                  )}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-right font-weight-bold pr-2">
-                                  {numberWithCommas(
-                                    (totalAmount || 0).toFixed(2)
-                                  )}
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-          </div>
-
+                          <table
+                            id="generalLedgerReport"
+                            className="table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                          >
+                            <thead>
+                              <tr>
+                                <th style={{ width: '30px' }}>Code</th>
+                                <th style={{ width: '50px' }}>Date</th>
+                                <th style={{ width: '50px' }}>Description</th>
+                                <th style={{ width: '50px' }}>Debit</th>
+                                <th style={{ width: '50px' }}>Credit</th>
+                                <th style={{ width: '50px' }}>Balance</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {subLedgerReportData?.map((data, index) => {
+                                netTotalSum += data?.debit + data?.credit;
+                                setTotalAmount(netTotalSum);
+                                return (
+                                  <tr>
+                                    <td>{data?.accountingJournalCode}</td>
+                                    <td>
+                                      <div className="text-right pr-2">
+                                        {_dateFormatter(data?.transactionDate)}
+                                      </div>
+                                    </td>
+                                    <td>{data?.narration}</td>
+                                    <td>
+                                      <div className="text-right pr-2">
+                                        {numberWithCommas(
+                                          (data?.debit || 0).toFixed(2)
+                                        )}
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div className="text-right pr-2">
+                                        {numberWithCommas(
+                                          (data?.credit || 0).toFixed(2)
+                                        )}
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div className="text-right pr-2">
+                                        {numberWithCommas(
+                                          (
+                                            (netTotal +=
+                                              data?.debit + data?.credit) || 0
+                                          ).toFixed(2)
+                                        )}
+                                      </div>
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                              <tr>
+                                <td colspan="3">
+                                  <div className="text-right font-weight-bold pr-2">
+                                    Total
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-right font-weight-bold pr-2">
+                                    {numberWithCommas(
+                                      (debitTotal || 0).toFixed(2)
+                                    )}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-right font-weight-bold pr-2">
+                                    {numberWithCommas(
+                                      (creditTotal || 0).toFixed(2)
+                                    )}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-right font-weight-bold pr-2">
+                                    {numberWithCommas(
+                                      (totalAmount || 0).toFixed(2)
+                                    )}
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     )}
                   </div>

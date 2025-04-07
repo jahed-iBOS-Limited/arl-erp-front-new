@@ -1,20 +1,19 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   saveProductDivisionType,
   saveEditedProductDivisionType,
   getProductDivisionById,
   setControllingUnitSingleEmpty,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
   id: undefined,
-  productDivisionTypeName: "",
-  levelPosition: "",
+  productDivisionTypeName: '',
+  levelPosition: '',
 };
 
 export default function ProductDivisionTypeForm({
@@ -49,7 +48,6 @@ export default function ProductDivisionTypeForm({
     } else {
       dispatch(setControllingUnitSingleEmpty());
     }
-
   }, [id]);
 
   const saveHandler = async (values, cb) => {
@@ -60,19 +58,18 @@ export default function ProductDivisionTypeForm({
           actionBy: profileData.userId,
           businessUnitId: selectedBusinessUnit.value,
           accountId: profileData.accountId,
-        }
-        dispatch(saveEditedProductDivisionType(payload,setDisabled));
+        };
+        dispatch(saveEditedProductDivisionType(payload, setDisabled));
       } else {
         const payload = {
           ...values,
           actionBy: profileData.userId,
           businessUnitId: selectedBusinessUnit.value,
           accountId: profileData.accountId,
-        }
-        dispatch(saveProductDivisionType({ data: payload, cb },setDisabled));
+        };
+        dispatch(saveProductDivisionType({ data: payload, cb }, setDisabled));
       }
     } else {
-
     }
   };
 

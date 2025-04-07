@@ -1,52 +1,51 @@
-
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import "../documentRelease.css";
-import ICustomTable from "../../../../_helper/_customTable";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import { getDays } from "../helper";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import '../documentRelease.css';
+import ICustomTable from '../../../../_helper/_customTable';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import { getDays } from '../helper';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
 
 const header = [
-  "SL",
-  "Invoice Payment Amount",
-  "Other Amount",
-  "Bank Rate",
-  "Libor Rate",
-  "Total Amount",
-  "Net Pay Amount",
-  "PG Status",
-  "Start Date",
-  "Due Date",
-  "Tenor Days",
-  "Action",
+  'SL',
+  'Invoice Payment Amount',
+  'Other Amount',
+  'Bank Rate',
+  'Libor Rate',
+  'Total Amount',
+  'Net Pay Amount',
+  'PG Status',
+  'Start Date',
+  'Due Date',
+  'Tenor Days',
+  'Action',
 ];
 // Validation schema
 const validationSchema = Yup.object().shape({
-  exchangeRate: Yup.number().required("Exchange Rate is required"),
-  docReleaseCharge: Yup.number().when("lcType", {
-    is: (val) => val?.label !== "At Sight",
+  exchangeRate: Yup.number().required('Exchange Rate is required'),
+  docReleaseCharge: Yup.number().when('lcType', {
+    is: (val) => val?.label !== 'At Sight',
     then: Yup.number()
-      .positive("DOC Release Charge must be positive")
-      .required("DOC Release Charge is required"),
+      .positive('DOC Release Charge must be positive')
+      .required('DOC Release Charge is required'),
   }),
-  vatOnDocRelease: Yup.number().when("lcType", {
-    is: (val) => val?.label !== "At Sight",
+  vatOnDocRelease: Yup.number().when('lcType', {
+    is: (val) => val?.label !== 'At Sight',
     then: Yup.number()
-      .positive("VAT On Doc Release must be positive")
-      .required("VAT On Doc Release is required"),
+      .positive('VAT On Doc Release must be positive')
+      .required('VAT On Doc Release is required'),
   }),
-  numLiborRate: Yup.number().when("lcType", {
-    is: (val) => val?.label !== "At Sight",
-    then: Yup.number().positive("Libor Rate must be positive"),
+  numLiborRate: Yup.number().when('lcType', {
+    is: (val) => val?.label !== 'At Sight',
+    then: Yup.number().positive('Libor Rate must be positive'),
   }),
-  numBankRate: Yup.number().when("lcType", {
-    is: (val) => val?.label !== "At Sight",
-    then: Yup.number().positive("Bank Rate must be positive"),
+  numBankRate: Yup.number().when('lcType', {
+    is: (val) => val?.label !== 'At Sight',
+    then: Yup.number().positive('Bank Rate must be positive'),
   }),
   // otherCharges: Yup.number().when("lcType", {
   //   is: (val) => val?.label !== "At Sight",
@@ -55,19 +54,19 @@ const validationSchema = Yup.object().shape({
   //   ),
   // }),
 
-  vatOnDocReleaseAtSight: Yup.number().when("lcType", {
-    is: (val) => val?.label === "At Sight",
+  vatOnDocReleaseAtSight: Yup.number().when('lcType', {
+    is: (val) => val?.label === 'At Sight',
     then: Yup.number()
-      .positive("VAT On Doc Release must be positive")
-      .required("VAT On Doc Release is required"),
+      .positive('VAT On Doc Release must be positive')
+      .required('VAT On Doc Release is required'),
   }),
-  docReleaseChargeAtSight: Yup.number().when("lcType", {
-    is: (val) => val?.label === "At Sight",
+  docReleaseChargeAtSight: Yup.number().when('lcType', {
+    is: (val) => val?.label === 'At Sight',
     then: Yup.number()
-      .positive("DOC Release Charge must be positive")
-      .required("DOC Release Charge is required"),
+      .positive('DOC Release Charge must be positive')
+      .required('DOC Release Charge is required'),
   }),
-  documentForwardDate: Yup.date().required("Document Forward Date is required"),
+  documentForwardDate: Yup.date().required('Document Forward Date is required'),
 
   // totalAmount: Yup.number().when("lcType", {
   //   is: (val) => val?.label === "At Sight",
@@ -97,7 +96,7 @@ export default function FormCmp({
   const calculation = (values, setFieldValue) => {
     if (values?.exchangeRate) {
       let inv_exc_multiple = +values?.invoiceAmount * +values?.exchangeRate;
-      setFieldValue("totalCharge", inv_exc_multiple);
+      setFieldValue('totalCharge', inv_exc_multiple);
     }
   };
 
@@ -129,13 +128,13 @@ export default function FormCmp({
             {/* {console.log("errors", errors)} */}
             <Form className="form form-label-right">
               <div className="d-flex justify-content-center align-items-center">
-                <div style={{ fontWeight: "900", marginRight: "20px" }}>
+                <div style={{ fontWeight: '900', marginRight: '20px' }}>
                   PO Number: {poNumber}
                 </div>
-                <div style={{ fontWeight: "900", marginRight: "30px" }}>
+                <div style={{ fontWeight: '900', marginRight: '30px' }}>
                   LC Number: {lcNumber}
                 </div>
-                <div style={{ fontWeight: "900", marginRight: "30px" }}>
+                <div style={{ fontWeight: '900', marginRight: '30px' }}>
                   Shipment Code: {shipmentCode}
                 </div>
               </div>
@@ -149,7 +148,7 @@ export default function FormCmp({
                       value={values?.lcType}
                       label="LC Type"
                       onChange={(valueOption) => {
-                        setFieldValue("lcType", valueOption);
+                        setFieldValue('lcType', valueOption);
                       }}
                       placeholder="LC Type"
                       errors={errors}
@@ -207,7 +206,7 @@ export default function FormCmp({
                       placeholder="Doc Receive By Bank Date"
                       name="docReleaseByBankDate"
                       type="date"
-                      disabled={type === "view"}
+                      disabled={type === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -217,7 +216,7 @@ export default function FormCmp({
                       placeholder="Payment Date"
                       name="paymentDate"
                       type="date"
-                      disabled={type === "view"}
+                      disabled={type === 'view'}
                     />
                   </div>
 
@@ -241,9 +240,9 @@ export default function FormCmp({
                       type="number"
                       step="any"
                       min="1"
-                      disabled={values?.exchangeRate === 1 || type === "view"}
+                      disabled={values?.exchangeRate === 1 || type === 'view'}
                       onChange={(e) => {
-                        setFieldValue("exchangeRate", e?.target?.value);
+                        setFieldValue('exchangeRate', e?.target?.value);
                         calculation(
                           { ...values, exchangeRate: e?.target?.value },
                           setFieldValue
@@ -298,7 +297,7 @@ export default function FormCmp({
                       />
                     </div>
                   )} */}
-                  {values?.lcType?.label === "At Sight" && (
+                  {values?.lcType?.label === 'At Sight' && (
                     <div className="col-lg-3">
                       {/* <label>DOC Release Charge</label> */}
                       <label>DOC Release / Bank Charge(Including VAT)</label>
@@ -309,11 +308,11 @@ export default function FormCmp({
                         step="any"
                         type="number"
                         min="1"
-                        disabled={type === "view"}
+                        disabled={type === 'view'}
                       />
                     </div>
                   )}
-                  {values?.lcType?.label === "At Sight" && (
+                  {values?.lcType?.label === 'At Sight' && (
                     <div className="col-lg-3">
                       <label>VAT On Doc Release Charge</label>
                       <InputField
@@ -323,14 +322,14 @@ export default function FormCmp({
                         type="number"
                         step="any"
                         min="1"
-                        disabled={type === "view"}
+                        disabled={type === 'view'}
                       />
                     </div>
                   )}
 
                   {/* lctype not atsight */}
 
-                  {values?.lcType?.label !== "At Sight" && (
+                  {values?.lcType?.label !== 'At Sight' && (
                     <div className="col-lg-3">
                       {/* <label>Doc Release Charge</label> */}
                       <label>DOC Release Charge(Including VAT)</label>
@@ -343,15 +342,15 @@ export default function FormCmp({
                         min="1"
                         onChange={(e) => {
                           setFieldValue(
-                            "docReleaseCharge",
-                            e?.target?.value ? Number(e?.target?.value) : ""
+                            'docReleaseCharge',
+                            e?.target?.value ? Number(e?.target?.value) : ''
                           );
                         }}
-                        disabled={type === "view"}
+                        disabled={type === 'view'}
                       />
                     </div>
                   )}
-                  {values?.lcType?.label !== "At Sight" && (
+                  {values?.lcType?.label !== 'At Sight' && (
                     <div className="col-lg-3">
                       <label>VAT On Doc Release</label>
                       <InputField
@@ -361,11 +360,11 @@ export default function FormCmp({
                         type="number"
                         min="1"
                         step="any"
-                        disabled={type === "view"}
+                        disabled={type === 'view'}
                         onChange={(e) => {
                           setFieldValue(
-                            "vatOnDocRelease",
-                            e?.target?.value ? Number(e?.target?.value) : ""
+                            'vatOnDocRelease',
+                            e?.target?.value ? Number(e?.target?.value) : ''
                           );
                         }}
                       />
@@ -374,7 +373,7 @@ export default function FormCmp({
 
                   {/* lctype not atsight */}
 
-                  {values?.lcType?.label !== "At Sight" && type === "view" && (
+                  {values?.lcType?.label !== 'At Sight' && type === 'view' && (
                     <div className="col-lg-3">
                       <label>PG Amount</label>
                       <InputField
@@ -387,7 +386,7 @@ export default function FormCmp({
                       />
                     </div>
                   )}
-                  {values?.lcType?.label !== "At Sight" && type === "view" && (
+                  {values?.lcType?.label !== 'At Sight' && type === 'view' && (
                     <div className="col-lg-3">
                       <label>Tenor Days</label>
                       <InputField
@@ -406,7 +405,7 @@ export default function FormCmp({
                       name="documentForwardDate"
                       placeholder="CNF Doc Frw Date"
                       type="date"
-                      disabled={type === "view"}
+                      disabled={type === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -416,32 +415,34 @@ export default function FormCmp({
                       value={values?.cnfDDL}
                       label="CnF Agency"
                       onChange={(valueOption) => {
-                        setFieldValue("cnfDDL", valueOption);
+                        setFieldValue('cnfDDL', valueOption);
                       }}
                       placeholder="CnF Agency"
                       errors={errors}
                       touched={touched}
                       isDisabled={true}
-                    // isDisabled={type === "view"}
+                      // isDisabled={type === "view"}
                     />
                   </div>
-                  {values?.lcType?.label === "At Sight" && (
-                     <div className="col-lg-1 mt-5">
-                     <div className="d-flex align-items-center">
-                       <input
-                         type="checkbox"
-                         checked={values?.isLtr}
-                         onChange={(e) => setFieldValue("isLtr", e.target.checked)}
-                         disabled={type === "view"}
-                       />
-                       <label className="pl-2">Is LTR</label>
-                     </div>
-                   </div>
+                  {values?.lcType?.label === 'At Sight' && (
+                    <div className="col-lg-1 mt-5">
+                      <div className="d-flex align-items-center">
+                        <input
+                          type="checkbox"
+                          checked={values?.isLtr}
+                          onChange={(e) =>
+                            setFieldValue('isLtr', e.target.checked)
+                          }
+                          disabled={type === 'view'}
+                        />
+                        <label className="pl-2">Is LTR</label>
+                      </div>
+                    </div>
                   )}
                 </div>
               </div>
 
-              {values?.lcType?.label !== "At Sight" && type !== "view" && (
+              {values?.lcType?.label !== 'At Sight' && type !== 'view' && (
                 <div>
                   <h6>Create Schedule</h6>
                   <div className="global-form">
@@ -454,7 +455,7 @@ export default function FormCmp({
                           placeholder="Pay Amount"
                           type="number"
                           // step="any"
-                          disabled={type === "view"}
+                          disabled={type === 'view'}
                         />
                       </div>
 
@@ -465,15 +466,15 @@ export default function FormCmp({
                           placeholder="Others Charge"
                           name="otherCharges"
                           type="number"
-                          disabled={type === "view"}
-                        // min="1"
-                        //onChange={(e) => {
-                        //setFieldValue("otherCharges", e?.target?.value);
-                        //  setFieldValue(
-                        //    "pgAmount",
-                        //    initData?.pgAmount + Number(e?.target?.value) || 0
-                        //  );
-                        // }}
+                          disabled={type === 'view'}
+                          // min="1"
+                          //onChange={(e) => {
+                          //setFieldValue("otherCharges", e?.target?.value);
+                          //  setFieldValue(
+                          //    "pgAmount",
+                          //    initData?.pgAmount + Number(e?.target?.value) || 0
+                          //  );
+                          // }}
                         />
                       </div>
                       {/* <div className='col-lg-3'>
@@ -494,13 +495,13 @@ export default function FormCmp({
                           placeholder="Start Date"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("startDate", e.target.value);
+                            setFieldValue('startDate', e.target.value);
                             setFieldValue(
-                              "tenorDays",
+                              'tenorDays',
                               getDays(e.target.value, values?.dueDate)
                             );
                           }}
-                          disabled={rowDto.length > 0 || type === "view"}
+                          disabled={rowDto.length > 0 || type === 'view'}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -511,9 +512,9 @@ export default function FormCmp({
                           placeholder="Due Date"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("dueDate", e.target.value);
+                            setFieldValue('dueDate', e.target.value);
                             setFieldValue(
-                              "tenorDays",
+                              'tenorDays',
                               getDays(values.startDate, e.target.value)
                             );
                           }}
@@ -537,7 +538,7 @@ export default function FormCmp({
                           name="numBankRate"
                           placeholder="Bank Rate"
                           type="number"
-                          disabled={type === "view"}
+                          disabled={type === 'view'}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -547,7 +548,7 @@ export default function FormCmp({
                           name="numLiborRate"
                           placeholder="Libor Rate"
                           type="number"
-                          disabled={type === "view"}
+                          disabled={type === 'view'}
                         />
                       </div>
                       <div className="col-auto d-flex">
@@ -558,7 +559,7 @@ export default function FormCmp({
                           name="pgAmountCheck"
                           onChange={(event) => {
                             setFieldValue(
-                              "pgAmountCheck",
+                              'pgAmountCheck',
                               event.target.checked
                             );
                           }}
@@ -567,47 +568,48 @@ export default function FormCmp({
                           PG Amount
                         </label>
                       </div>
-                      {values?.lcType?.label !== "At Sight" && type !== "view" && (
-                        <div
-                          style={{ marginTop: "22px" }}
-                          className="col-auto ml-auto"
-                        >
-                          <button
-                            className="btn btn-primary"
-                            onClick={() => {
-                              setter(values, rowDto);
-                            }}
-                            type="button"
-                            disabled={
-                              !values?.paymentAmount ||
-                              !values?.startDate ||
-                              !values?.dueDate
-                            }
+                      {values?.lcType?.label !== 'At Sight' &&
+                        type !== 'view' && (
+                          <div
+                            style={{ marginTop: '22px' }}
+                            className="col-auto ml-auto"
                           >
-                            Add
-                          </button>
-                        </div>
-                      )}
+                            <button
+                              className="btn btn-primary"
+                              onClick={() => {
+                                setter(values, rowDto);
+                              }}
+                              type="button"
+                              disabled={
+                                !values?.paymentAmount ||
+                                !values?.startDate ||
+                                !values?.dueDate
+                              }
+                            >
+                              Add
+                            </button>
+                          </div>
+                        )}
                     </div>
                   </div>
                 </div>
               )}
 
-              {values?.lcType?.label !== "At Sight" && (
+              {values?.lcType?.label !== 'At Sight' && (
                 <ICustomTable
                   ths={
-                    type !== "view"
+                    type !== 'view'
                       ? header
                       : [
-                        "SL",
-                        "Invoice Payment Amount",
-                        "Other Amount",
-                        "Net Pay Amount",
-                        "PG Status",
-                        "Start Date",
-                        "Due Date",
-                        "Tenor Days",
-                      ]
+                          'SL',
+                          'Invoice Payment Amount',
+                          'Other Amount',
+                          'Net Pay Amount',
+                          'PG Status',
+                          'Start Date',
+                          'Due Date',
+                          'Tenor Days',
+                        ]
                   }
                 >
                   {rowDto?.length > 0 &&
@@ -622,14 +624,10 @@ export default function FormCmp({
                           <td className="text-center">
                             {_formatMoney(item?.otherAmount)}
                           </td>
-                          {type !== "view" && (
+                          {type !== 'view' && (
                             <>
-                              <td className="text-center">
-                                {item?.bankRate}
-                              </td>
-                              <td className="text-center">
-                                {item?.liborRate}
-                              </td>
+                              <td className="text-center">{item?.bankRate}</td>
+                              <td className="text-center">{item?.liborRate}</td>
                               <td className="text-center">
                                 {_formatMoney(item?.netAmountFc)}
                               </td>
@@ -642,7 +640,7 @@ export default function FormCmp({
                           <td className="text-center">{item?.startDate}</td>
                           <td className="text-center">{item?.dueDate}</td>
                           <td className="text-center">{item?.tenorDays}</td>
-                          {type !== "view" && (
+                          {type !== 'view' && (
                             <td className="text-center">
                               <IDelete remover={remover} id={index} />
                             </td>
@@ -693,19 +691,19 @@ export default function FormCmp({
                     <td style={{ border: "none", background: "white" }}></td> */}
                     <td
                       className="text-center font-weight-bold"
-                      style={{ background: "#D3F0EC" }}
+                      style={{ background: '#D3F0EC' }}
                     >
                       Remaining Amount
                     </td>
                     <td
                       className="text-center font-weight-bold"
-                      style={{ background: "#D3F0EC" }}
+                      style={{ background: '#D3F0EC' }}
                     >
                       {_formatMoney(
                         values?.invoiceAmount -
-                        rowDto.reduce((acc, item) => {
-                          return acc + item?.paymentAmount;
-                        }, 0)
+                          rowDto.reduce((acc, item) => {
+                            return acc + item?.paymentAmount;
+                          }, 0)
                       )}
                     </td>
                   </tr>
@@ -714,15 +712,15 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
-              // onSubmit={() => resetForm(initData)}
+                // onSubmit={() => resetForm(initData)}
               ></button>
             </Form>
           </>

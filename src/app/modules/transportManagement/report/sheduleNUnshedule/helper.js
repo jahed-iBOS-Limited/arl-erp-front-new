@@ -1,6 +1,6 @@
-import axios from "axios";
-import Axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const GetTransportSheduleNUnshedule_api = async (
   status,
@@ -21,7 +21,7 @@ export const GetTransportSheduleNUnshedule_api = async (
       `/oms/CodeGenerate/GetTransportSheduleNUnshedule?PartID=${status}&UnitID=${buId}&Fromdate=${fromDate}&Todate=${toDate}&shippointid=${shipPointId}&Territoryid=${territoryId}&DistributionChannelId=${DChannelId}&FromTime=${fromTime}&ToTime=${toTime}`
       // `/oms/CodeGenerate/GetTransportSheduleNUnshedule?PartID=&UnitID=&Fromdate=&Todate=&shippointid=&Territoryid=`
     );
-    if (res?.data?.length === 0) toast.warning("Data Not Found");
+    if (res?.data?.length === 0) toast.warning('Data Not Found');
     setter(res?.data);
     setLoading(false);
   } catch (error) {

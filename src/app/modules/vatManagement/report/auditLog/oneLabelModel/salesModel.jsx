@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
-import IView from "./../../../../_helper/_helperIcons/_view";
-import IViewModal from "./../../../../_helper/_viewModal";
+import React, { useState } from 'react';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import { _fixedPoint } from './../../../../_helper/_fixedPoint';
+import IView from './../../../../_helper/_helperIcons/_view';
+import IViewModal from './../../../../_helper/_viewModal';
 // import document from "./document.svg";
 // import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import SalesInvoiceModel from "../../../operation/sales/salesInvoice/viewModal";
+import SalesInvoiceModel from '../../../operation/sales/salesInvoice/viewModal';
 
 const SalesModel = ({ rowDto, parentRowClickData }) => {
   const [modelShow, setModelShow] = useState(false);
@@ -38,8 +38,8 @@ const SalesModel = ({ rowDto, parentRowClickData }) => {
             <table className="table table-striped table-bordered mt-3">
               <thead>
                 <tr>
-                  <th style={{ width: "35px" }}>S/N</th>
-                  <th style={{ width: "150px" }}>Sales Code</th>
+                  <th style={{ width: '35px' }}>S/N</th>
+                  <th style={{ width: '150px' }}>Sales Code</th>
                   <th>Sales Date</th>
                   <th>SD Total</th>
                   <th>VAT Total</th>
@@ -58,16 +58,16 @@ const SalesModel = ({ rowDto, parentRowClickData }) => {
                       <td> {tableData?.purchaseCode} </td>
                       <td> {_dateFormatter(tableData?.purchaseDate)} </td>
                       <td className="text-right">
-                        {" "}
-                        {_fixedPoint(tableData?.sdTotal)}{" "}
+                        {' '}
+                        {_fixedPoint(tableData?.sdTotal)}{' '}
                       </td>
                       <td className="text-right">
-                        {" "}
-                        {_fixedPoint(tableData?.vatTotal)}{" "}
+                        {' '}
+                        {_fixedPoint(tableData?.vatTotal)}{' '}
                       </td>
                       <td className="text-right">
-                        {" "}
-                        {_fixedPoint(tableData?.grandTotal)}{" "}
+                        {' '}
+                        {_fixedPoint(tableData?.grandTotal)}{' '}
                       </td>
                       <td> {tableData?.createdBy} </td>
                       <td> {tableData?.activity} </td>

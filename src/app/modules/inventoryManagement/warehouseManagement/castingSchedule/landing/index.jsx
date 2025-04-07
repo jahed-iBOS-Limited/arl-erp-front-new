@@ -1,33 +1,31 @@
-
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   deleteCastingSchedule,
   getCastingEntryList,
   getShipPointist,
-} from "../helper";
-import "./style.css";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import moment from "moment";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import IConfirmModal from "../../../../_helper/_confirmModal";
+} from '../helper';
+import './style.css';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import moment from 'moment';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import IConfirmModal from '../../../../_helper/_confirmModal';
 
 const initData = {
   toDate: _todayDate(),
   fromDate: _todayDate(),
-  shipPoint: "",
+  shipPoint: '',
 };
 
 function CastingScheduleLanding() {
@@ -92,7 +90,7 @@ function CastingScheduleLanding() {
                       placeholder="Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                       }}
                     />
                   </div>
@@ -105,7 +103,7 @@ function CastingScheduleLanding() {
                       placeholder="Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                     />
                   </div>
@@ -118,7 +116,7 @@ function CastingScheduleLanding() {
                       label="Ship Point"
                       onChange={(valueOption) => {
                         setGridData([]);
-                        setFieldValue("shipPoint", valueOption);
+                        setFieldValue('shipPoint', valueOption);
                       }}
                       placeholder="Ship Point"
                       errors={errors}
@@ -146,7 +144,7 @@ function CastingScheduleLanding() {
                     <table className="table table-striped table-bordered global-table">
                       <thead>
                         <tr>
-                          <th style={{ width: "30px" }}>SL</th>
+                          <th style={{ width: '30px' }}>SL</th>
                           <th>Ship point</th>
                           <th>Client Name</th>
                           <th>Project Address</th>
@@ -169,9 +167,9 @@ function CastingScheduleLanding() {
                             <td>{td?.strContactPerson}</td>
                             <td>{td?.strWorkTypeName}</td>
                             <td>{td?.numTotalOrderQuantity}</td>
-                            <td style={{ width: "105px" }}>
+                            <td style={{ width: '105px' }}>
                               {moment(td?.dteCastingDate).format(
-                                "YYYY-MM-DD HH:mm"
+                                'YYYY-MM-DD HH:mm'
                               )}
                             </td>
                             <td>{td?.strCastingProcedureBy}</td>
@@ -193,7 +191,7 @@ function CastingScheduleLanding() {
                               ) : null}
                             </td>
                             <td
-                              style={{ width: "80px" }}
+                              style={{ width: '80px' }}
                               className="text-center"
                             >
                               <div className="d-flex justify-content-center">
@@ -231,8 +229,8 @@ function CastingScheduleLanding() {
                                     className="mr-2"
                                     onClick={() => {
                                       let confirmObject = {
-                                        title: "Are you sure?",
-                                        message: "Delete Casting Schedule",
+                                        title: 'Are you sure?',
+                                        message: 'Delete Casting Schedule',
                                         yesAlertFunc: async () => {
                                           deleteCastingSchedule(
                                             td?.intId,
@@ -247,7 +245,7 @@ function CastingScheduleLanding() {
                                           );
                                         },
                                         noAlertFunc: () => {
-                                          "";
+                                          '';
                                         },
                                       };
                                       IConfirmModal(confirmObject);

@@ -1,34 +1,34 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../../_helper/_loading";
-import { GetDomesticPortDDL } from "../../loadingInformation/helper";
-import { editTenderInfo, tenderInfoApprove } from "../helper";
-import Form from "./form";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import Loading from '../../../../_helper/_loading';
+import { GetDomesticPortDDL } from '../../loadingInformation/helper';
+import { editTenderInfo, tenderInfoApprove } from '../helper';
+import Form from './form';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 const initData = {
-  motherVessel: "",
-  programNo: "",
-  item: "",
-  cnf: "",
-  steveDore: "",
-  lotNo: "",
-  type: "badc",
-  UoM: { value: 1, label: "Ton" },
-  programQuantity: "",
-  weight: "",
-  award: "",
-  port: "",
-  surveyor: "",
-  surveyorRate: "",
-  cnfRate: "",
-  steveDoreRate: "",
-  hatchLabour: "",
-  hatchLabourRate: "",
-  organization: "",
-  hasTransportBill: { value: true, label: "Yes" },
+  motherVessel: '',
+  programNo: '',
+  item: '',
+  cnf: '',
+  steveDore: '',
+  lotNo: '',
+  type: 'badc',
+  UoM: { value: 1, label: 'Ton' },
+  programQuantity: '',
+  weight: '',
+  award: '',
+  port: '',
+  surveyor: '',
+  surveyorRate: '',
+  cnfRate: '',
+  steveDoreRate: '',
+  hatchLabour: '',
+  hatchLabourRate: '',
+  organization: '',
+  hasTransportBill: { value: true, label: 'Yes' },
 };
 
 export default function TenderInformationCreateForm() {
@@ -106,7 +106,7 @@ export default function TenderInformationCreateForm() {
           label: serveyorName,
         },
         lotNo: lotNo,
-        type: organizationId === 73245 ? "bcic" : "badc",
+        type: organizationId === 73245 ? 'bcic' : 'badc',
         UoM: {
           value: uomid || 0,
           label: uomname,
@@ -119,25 +119,24 @@ export default function TenderInformationCreateForm() {
         surveyorRate: serveyorRate,
         hatchLabourRate: hatchLabourRate,
         port: {
-          label: portName || "",
+          label: portName || '',
           value: portId || 0,
         },
         hatchLabour: {
-          label: hatchLabour || "",
+          label: hatchLabour || '',
           value: hatchLabourId || 0,
         },
         hasTransportBill: {
-          label: isTruckBill ? "Yes" : "No",
+          label: isTruckBill ? 'Yes' : 'No',
           value: isTruckBill || 0,
         },
         organization: {
-          label: organizationName || "",
+          label: organizationName || '',
           value: organizationId || 0,
         },
       };
       setSingleData(singleInfo);
     }
-
   }, [accId, buId]);
 
   const saveHandler = async (values, cb) => {
@@ -145,23 +144,23 @@ export default function TenderInformationCreateForm() {
       accountId: accId || 0,
       businessUnitId: buId || 0,
       lotNo: values?.lotNo || 0,
-      award: values?.award || "",
-      program: values?.programNo || "",
+      award: values?.award || '',
+      program: values?.programNo || '',
       motherVesselId: values?.motherVessel?.value || 0,
-      motherVesselName: values?.motherVessel?.label || "",
+      motherVesselName: values?.motherVessel?.label || '',
       cnfid: values?.cnf?.value || 0,
-      cnfname: values?.cnf?.label || "",
+      cnfname: values?.cnf?.label || '',
       stevdoreId: values?.steveDore?.value || 0,
-      stevdoreName: values?.steveDore?.label || "",
+      stevdoreName: values?.steveDore?.label || '',
       programQnt: +values?.programQuantity || 0,
       netWeight: values?.weight || 0,
       itemId: values?.item?.value || 0,
-      itemName: values?.item?.label || "",
+      itemName: values?.item?.label || '',
       uomid: values?.UoM?.value || 0,
-      uomname: values?.UoM?.label || "",
+      uomname: values?.UoM?.label || '',
       actionby: userId || 0,
       portId: values?.port?.value || 0,
-      portName: values?.port?.label || "",
+      portName: values?.port?.label || '',
       serveyorId: values?.surveyor?.value,
       serveyorName: values?.surveyor?.label,
       cnfrate: values?.cnfRate,
@@ -169,15 +168,15 @@ export default function TenderInformationCreateForm() {
       serveyorRate: values?.surveyorRate,
       organizationId:
         buId === 94
-          ? values?.type === "badc"
+          ? values?.type === 'badc'
             ? 73244
             : 73245
           : values?.organization?.value,
       organizationName:
         buId === 94
-          ? values?.type === "badc"
-            ? "BADC"
-            : "BCIC"
+          ? values?.type === 'badc'
+            ? 'BADC'
+            : 'BCIC'
           : values?.organization?.label,
       hatchLabourId: values?.hatchLabour?.value,
       hatchLabour: values?.hatchLabour?.label,
@@ -203,9 +202,9 @@ export default function TenderInformationCreateForm() {
     const payload = {
       programId: +id,
       cnfid: values?.cnf?.value || 0,
-      cnfname: values?.cnf?.label || "",
+      cnfname: values?.cnf?.label || '',
       stevdoreId: values?.steveDore?.value || 0,
-      stevdoreName: values?.steveDore?.label || "",
+      stevdoreName: values?.steveDore?.label || '',
       programQnt: +values?.programQuantity || 0,
       netWeight: values?.weight || 0,
       actionby: userId,
@@ -223,15 +222,15 @@ export default function TenderInformationCreateForm() {
   };
 
   const title = `${
-    type === "Edit" ? "Edit" : type === "view" ? "View" : "Create"
+    type === 'Edit' ? 'Edit' : type === 'view' ? 'View' : 'Create'
   } Tender Information`;
 
   const preData = {
     motherVessel: state?.motherVessel,
     programNo: state?.programNo,
     item: state?.item,
-    type: state?.soldToPartner?.value === 73244 ? "badc" : "bcic",
-    UoM: { value: 1, label: "Ton" },
+    type: state?.soldToPartner?.value === 73244 ? 'badc' : 'bcic',
+    UoM: { value: 1, label: 'Ton' },
     port: state?.port,
   };
 
@@ -251,7 +250,7 @@ export default function TenderInformationCreateForm() {
         setMotherVesselDDL={setMotherVesselDDL}
         approveTenderInformation={approveTenderInformation}
         initData={
-          id ? singleData : state?.type === "redirect" ? preData : initData
+          id ? singleData : state?.type === 'redirect' ? preData : initData
         }
       />
     </>

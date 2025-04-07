@@ -1,6 +1,6 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const getLandingDataForConfirmation = async (
   accId,
@@ -13,31 +13,31 @@ export const getLandingDataForConfirmation = async (
   setLoading
 ) => {
   setLoading && setLoading(true);
-  const search = searchTerm ? `&SearchTerm=${searchTerm}` : "";
+  const search = searchTerm ? `&SearchTerm=${searchTerm}` : '';
   try {
     const confirmationTypeId = values?.confirmationType?.value;
     const soldToPartnerId =
       buId === 94
-        ? values?.type === "badc"
+        ? values?.type === 'badc'
           ? 73244
-          : values?.type === "bcic"
-          ? 73245
-          : 0
+          : values?.type === 'bcic'
+            ? 73245
+            : 0
         : values?.organization?.value;
 
     const commonURL = `/tms/LigterLoadUnload/GetLighterChallanInfoConfirmation?Type=${
       values?.confirmationStatus?.value
-    }&AccountId=${accId}&BusinessUnitId=${buId}&ShipPointId=${values?.shipPoint
-      ?.value || 0}&ShipToPartnerId=${values?.shipToPartner?.value ||
-      0}&MotherVesselId=${
+    }&AccountId=${accId}&BusinessUnitId=${buId}&ShipPointId=${
+      values?.shipPoint?.value || 0
+    }&ShipToPartnerId=${values?.shipToPartner?.value || 0}&MotherVesselId=${
       values?.motherVessel?.value
     }&PageNo=${pageNo}&PageSize=${pageSize}${search}&SoldToPartnerId=${soldToPartnerId}`;
 
     const URLForGodownUnloadBill = `/tms/LigterLoadUnload/GetGodownLabourBillInfo?Type=${
       values?.confirmationStatus?.value
-    }&AccountId=${accId}&BusinessUnitId=${buId}&ShipPointId=${values?.shipPoint
-      ?.value || 0}&ShipToPartnerId=${values?.shipToPartner?.value ||
-      0}&MotherVesselId=${
+    }&AccountId=${accId}&BusinessUnitId=${buId}&ShipPointId=${
+      values?.shipPoint?.value || 0
+    }&ShipToPartnerId=${values?.shipToPartner?.value || 0}&MotherVesselId=${
       values?.motherVessel?.value
     }&PageNo=${pageNo}&PageSize=${pageSize}${search}&SoldToPartnerId=${soldToPartnerId}`;
 
@@ -132,8 +132,9 @@ export const GetDomesticPortDDL = async (setter) => {
 export const getMotherVesselDDL = async (accId, buId, portId, setter) => {
   try {
     const res = await axios.get(
-      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${portId ||
-        0}`
+      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${
+        portId || 0
+      }`
     );
     setter(res.data);
   } catch (error) {

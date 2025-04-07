@@ -1,65 +1,62 @@
-
-
-
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import Form from "./form";
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import Form from './form';
 import {
   createLCOpen,
   currencyLoadByPoId,
   getSingleData,
   updateLCOpen,
-} from "../helper";
-import { useParams } from "react-router";
-import { useLocation } from "react-router-dom";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+} from '../helper';
+import { useParams } from 'react-router';
+import { useLocation } from 'react-router-dom';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { toast } from 'react-toastify';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 const initData = {
-  poNo: "",
-  lcNo: "",
+  poNo: '',
+  lcNo: '',
   lcDate: _todayDate(),
   lastShipmentDate: _todayDate(),
   lcExpiredDate: _todayDate(),
   dueDate: _todayDate(),
-  encoTerms: "",
-  materialType: "",
-  lcType: "",
-  bankName: "",
-  bankAccount: "",
-  origin: "",
-  loadingPort: "",
-  finalDestination: "",
+  encoTerms: '',
+  materialType: '',
+  lcType: '',
+  bankName: '',
+  bankAccount: '',
+  origin: '',
+  loadingPort: '',
+  finalDestination: '',
   tolarance: 0,
-  currency: "",
-  PIAmountFC: "",
-  PIAmountFCNumber: "",
+  currency: '',
+  PIAmountFC: '',
+  PIAmountFCNumber: '',
   lcTenor: 0,
-  pgAmount: "",
+  pgAmount: '',
   pgDueDate: _todayDate(),
-  totalBankCharge: "",
-  vatOnCharge: "",
-  attachment: "",
-  indemnityBond: "",
-  bondLicense: "",
+  totalBankCharge: '',
+  vatOnCharge: '',
+  attachment: '',
+  indemnityBond: '',
+  bondLicense: '',
   duration: _todayDate(),
-  exchangeRate: "",
-  PIAmountBDT: "",
-  PIAmountBDTNumber: "",
-  poId: "",
-  description: "",
-  plantId: "",
-  sbuId: "",
-  lcMarginPercent: "",
-  lcMarginValue: "",
-  lcMarginDueDate: "",
-  marginType:"",
-  numInterestRate:"",
-  strRemarks:"",
+  exchangeRate: '',
+  PIAmountBDT: '',
+  PIAmountBDTNumber: '',
+  poId: '',
+  description: '',
+  plantId: '',
+  sbuId: '',
+  lcMarginPercent: '',
+  lcMarginValue: '',
+  lcMarginDueDate: '',
+  marginType: '',
+  numInterestRate: '',
+  strRemarks: '',
 };
 
 export default function AddEditForm() {
@@ -73,7 +70,7 @@ export default function AddEditForm() {
   const [bankAccountDDL, getAccountDDL, , setAccountDDL] = useAxiosGet();
 
   // get singleData
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [initFormData, setInitFormData] = useState(initData);
   const poId = location?.state?.searchableLandingPoNo?.poId;
   // console.log(location, "location");
@@ -105,7 +102,7 @@ export default function AddEditForm() {
     }
   }, []);
   useEffect(() => {
-    if (location?.state?.routeState === "create") {
+    if (location?.state?.routeState === 'create') {
       const { poNo, searchableLandingPoNo } = location?.state;
       // console.log("searchableLandingPoNo", searchableLandingPoNo);
       // console.log("location?.state?.poNo", location?.state?.poNo);
@@ -116,14 +113,14 @@ export default function AddEditForm() {
               label: poNo?.currencyName,
               value: poNo?.currencyId,
             }
-          : "",
+          : '',
 
         poNo: searchableLandingPoNo?.label,
         // poNo:
         //   location?.state?.poNo?.pinumber || searchableLandingPoNo?.label,
         poId: searchableLandingPoNo?.poId,
-        exchangeRate: poNo?.currencyName === "Taka" ? 1 : "",
-        PIAmountBDT: poNo?.currencyName === "Taka" ? poNo?.piAmount : "",
+        exchangeRate: poNo?.currencyName === 'Taka' ? 1 : '',
+        PIAmountBDT: poNo?.currencyName === 'Taka' ? poNo?.piAmount : '',
         // PIAmountBDT: poNo?.currencyName === "Taka" ? poNo?.piAmountFC : "",
         // lcNo:state?.poNo?.
         lastShipmentDate: _dateFormatter(poNo?.lastShipDate) || _todayDate(),
@@ -133,44 +130,44 @@ export default function AddEditForm() {
               label: poNo?.incotermName,
               value: poNo?.incotermId,
             }
-          : "",
+          : '',
         materialType: poNo?.metarialTypeId
           ? {
               label: poNo?.metarialTypeName,
               value: poNo?.metarialTypeId,
             }
-          : "",
+          : '',
         lcType: poNo?.lctypeId
           ? {
               label: poNo?.lctypeName,
               value: poNo?.lctypeId,
             }
-          : "",
+          : '',
         bankName: poNo?.bankId
           ? {
               label: poNo?.bankName,
               value: poNo?.bankId,
             }
-          : "",
+          : '',
         origin: poNo?.countryOfOriginId
           ? {
               label: poNo?.countryOfOriginName,
               value: poNo?.countryOfOriginId,
             }
-          : "",
+          : '',
         loadingPort: poNo?.loadingPort,
         finalDestination: poNo?.destinationPortId
           ? {
               label: poNo?.destinationPortName,
               value: poNo?.destinationPortId,
             }
-          : "",
+          : '',
         tolarance: poNo?.tolerance,
         PIAmountFC: poNo?.piAmount,
         description: poNo?.description,
         sbuId: searchableLandingPoNo?.sbuId,
         plantId: searchableLandingPoNo?.plantId,
-        strRemarks:poNo?.strRemarks || ""
+        strRemarks: poNo?.strRemarks || '',
       });
 
       getAccountDDL(
@@ -181,10 +178,10 @@ export default function AddEditForm() {
 
   const saveHandler = async (values, cb) => {
     if (!uploadImage[0]?.id && !values?.attachment) {
-      return toast.error("Please upload a document");
+      return toast.error('Please upload a document');
     }
     if (values?.lcMarginValue > 0 && !values?.lcMarginDueDate) {
-      return toast.warn("LC Margine Due Date is required");
+      return toast.warn('LC Margine Due Date is required');
     }
     if (params?.pid) {
       return updateLCOpen(
@@ -197,7 +194,7 @@ export default function AddEditForm() {
       );
     }
     if (values?.totalBankCharge < values?.vatOnCharge) {
-      return toast.warn("Total Charge Must Be Greater Then VAT Charge");
+      return toast.warn('Total Charge Must Be Greater Then VAT Charge');
     }
     return createLCOpen(
       setDisabled,
@@ -214,11 +211,11 @@ export default function AddEditForm() {
   return (
     <IForm
       title={
-        params?.type === "edit"
-          ? "Edit LC Opening"
-          : params?.type === "view"
-          ? "View LC Opening"
-          : "LC Opening"
+        params?.type === 'edit'
+          ? 'Edit LC Opening'
+          : params?.type === 'view'
+            ? 'View LC Opening'
+            : 'LC Opening'
       }
       getProps={setObjprops}
       isDisabled={isDisabled}

@@ -1,27 +1,27 @@
-import React, { useState } from "react";
-import ICustomTable from "../../../_helper/_customTable";
+import React, { useState } from 'react';
+import ICustomTable from '../../../_helper/_customTable';
 // import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
-import IViewModal from "../../../_helper/_viewModal";
-import SubScheduleModal from "./subScheduleModal";
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import InfoCircle from '../../../_helper/_helperIcons/_infoCircle';
+import IViewModal from '../../../_helper/_viewModal';
+import SubScheduleModal from './subScheduleModal';
 
 const GeneralLedgerTable = ({ rowDto, landingValues }) => {
   const ths = [
-    "Sl",
-    "Transaction Name",
-    "Code",
-    "Openning",
-    "Debit",
-    "Credit",
-    "Balance",
-    "Action",
+    'Sl',
+    'Transaction Name',
+    'Code',
+    'Openning',
+    'Debit',
+    'Credit',
+    'Balance',
+    'Action',
   ];
   let totalBalance = 0;
   let totalCredit = 0;
   let totalDebit = 0;
   let totalOpening = 0;
-  const [tableItem, setTableItem] = useState("");
+  const [tableItem, setTableItem] = useState('');
   const [isShowModal, setIsShowModal] = useState(false);
   return (
     <div>
@@ -57,7 +57,6 @@ const GeneralLedgerTable = ({ rowDto, landingValues }) => {
                   classes="text-primary"
                 />
               </td>
-
             </tr>
           );
         })}

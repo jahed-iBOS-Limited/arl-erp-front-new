@@ -1,7 +1,7 @@
-import moment from "moment";
-import React from "react";
-import { dateFormatWithMonthName } from "../../_helper/_dateFormate";
-import numberWithCommas from "../../_helper/_numberWithCommas";
+import moment from 'moment';
+import React from 'react';
+import { dateFormatWithMonthName } from '../../_helper/_dateFormate';
+import numberWithCommas from '../../_helper/_numberWithCommas';
 
 const ProjectedBalanceReport = ({ balanceReportData, values }) => {
   const getTotalAssetsVariance = (rowDto) => {
@@ -35,7 +35,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
       {balanceReportData && (
         <div className=" mt-2" id="pdf-section">
           <div className="titleContent text-center">
-            <h2>{values?.businessUnit?.label || ""}</h2>
+            <h2>{values?.businessUnit?.label || ''}</h2>
             <h4 className="text-primary">Projected Balance Sheet</h4>
             {values?.fromDate ? (
               <p className="m-0">
@@ -45,43 +45,43 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
               <></>
             )}
           </div>
-          <div style={{ width: 600, margin: "auto" }}>
+          <div style={{ width: 600, margin: 'auto' }}>
             <div className="my-5">
               <div className="table-responsive">
                 <table id="table-to-xlsx" className="w-full">
                   <tr>
-                    <td style={{ fontWeight: "bold", border: "1px solid" }}>
+                    <td style={{ fontWeight: 'bold', border: '1px solid' }}>
                       Particulars
                     </td>
                     <td
                       className="text-center"
-                      style={{ fontWeight: "bold", border: "1px solid" }}
+                      style={{ fontWeight: 'bold', border: '1px solid' }}
                     >
                       Last Period
                     </td>
                     <td
                       className="text-center"
-                      style={{ fontWeight: "bold", border: "1px solid" }}
+                      style={{ fontWeight: 'bold', border: '1px solid' }}
                     >
                       Current Period
                     </td>
                     <td
                       className="text-center"
-                      style={{ fontWeight: "bold", border: "1px solid" }}
+                      style={{ fontWeight: 'bold', border: '1px solid' }}
                     >
                       Variance
                     </td>
                     {/* <td className="text-right" style={{ fontWeight: "bold" }}>Amount</td> */}
                   </tr>
                   <tr
-                    style={{ background: "#D8D8D8", border: "1px solid black" }}
+                    style={{ background: '#D8D8D8', border: '1px solid black' }}
                   >
-                    <td colSpan="4" style={{ fontWeight: "bold" }}>
+                    <td colSpan="4" style={{ fontWeight: 'bold' }}>
                       Assets
                     </td>
                   </tr>
-                  <tr style={{ border: "1px solid black" }}>
-                    <td colSpan="4" style={{ fontWeight: "bold" }}>
+                  <tr style={{ border: '1px solid black' }}>
+                    <td colSpan="4" style={{ fontWeight: 'bold' }}>
                       Non-Current Assets
                     </td>
                   </tr>
@@ -92,13 +92,13 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                         <tr key={index}>
                           <td
                             className="text-left"
-                            style={{ paddingLeft: "20px", border: "1px solid" }}
+                            style={{ paddingLeft: '20px', border: '1px solid' }}
                           >
                             {itm.strGlName}
                           </td>
                           <td
                             className="text-right"
-                            style={{ border: "1px solid black" }}
+                            style={{ border: '1px solid black' }}
                           >
                             {numberWithCommas(
                               Math.round(itm?.numPlanBalance) || 0
@@ -106,7 +106,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                           </td>
                           <td
                             className="text-right"
-                            style={{ border: "1px solid black" }}
+                            style={{ border: '1px solid black' }}
                           >
                             <span className="pr-1">
                               {/* {numberWithCommas(
@@ -119,7 +119,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                           </td>
                           <td
                             className="text-right"
-                            style={{ border: "1px solid black" }}
+                            style={{ border: '1px solid black' }}
                           >
                             <span className="pr-1">
                               {numberWithCommas(
@@ -133,13 +133,13 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                         </tr>
                       );
                     })}
-                  <tr style={{ background: "#F2F2F2" }}>
-                    <td style={{ fontWeight: "bold", border: "1px solid" }}>
+                  <tr style={{ background: '#F2F2F2' }}>
+                    <td style={{ fontWeight: 'bold', border: '1px solid' }}>
                       Total Non-Current Assets
                     </td>
                     <td
                       className="text-right"
-                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                      style={{ border: '1px solid black', fontWeight: 'bold' }}
                     >
                       {numberWithCommas(
                         Math.round(
@@ -149,7 +149,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                     </td>
                     <td
                       className="text-right"
-                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                      style={{ border: '1px solid black', fontWeight: 'bold' }}
                     >
                       {numberWithCommas(
                         Math.round(
@@ -159,7 +159,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                     </td>
                     <td
                       className="text-right"
-                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                      style={{ border: '1px solid black', fontWeight: 'bold' }}
                     >
                       {numberWithCommas(
                         (Math.round(
@@ -171,8 +171,8 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                       )}
                     </td>
                   </tr>
-                  <tr style={{ border: "1px solid" }}>
-                    <td colSpan="4" style={{ fontWeight: "bold" }}>
+                  <tr style={{ border: '1px solid' }}>
+                    <td colSpan="4" style={{ fontWeight: 'bold' }}>
                       Current Assets
                     </td>
                   </tr>
@@ -182,13 +182,13 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                         <tr key={index}>
                           <td
                             className="text-left"
-                            style={{ paddingLeft: "20px", border: "1px solid" }}
+                            style={{ paddingLeft: '20px', border: '1px solid' }}
                           >
                             {itm.strGlName}
                           </td>
                           <td
                             className="text-right"
-                            style={{ border: "1px solid black" }}
+                            style={{ border: '1px solid black' }}
                           >
                             {numberWithCommas(
                               Math.round(itm?.numPlanBalance) || 0
@@ -196,7 +196,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                           </td>
                           <td
                             className="text-right"
-                            style={{ border: "1px solid black" }}
+                            style={{ border: '1px solid black' }}
                           >
                             <span className="pr-1">
                               {numberWithCommas(
@@ -206,7 +206,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                           </td>
                           <td
                             className="text-right"
-                            style={{ border: "1px solid black" }}
+                            style={{ border: '1px solid black' }}
                           >
                             {numberWithCommas(
                               Math.round(itm.numBalance) -
@@ -216,13 +216,13 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                         </tr>
                       );
                     })}
-                  <tr style={{ background: "#F2F2F2" }}>
-                    <td style={{ fontWeight: "bold", border: "1px solid" }}>
+                  <tr style={{ background: '#F2F2F2' }}>
+                    <td style={{ fontWeight: 'bold', border: '1px solid' }}>
                       Total Current Assets
                     </td>
                     <td
                       className="text-right"
-                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                      style={{ border: '1px solid black', fontWeight: 'bold' }}
                     >
                       {numberWithCommas(
                         Math.round(
@@ -232,7 +232,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                     </td>
                     <td
                       className="text-right"
-                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                      style={{ border: '1px solid black', fontWeight: 'bold' }}
                     >
                       {numberWithCommas(
                         Math.round(
@@ -242,7 +242,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                     </td>
                     <td
                       className="text-right"
-                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                      style={{ border: '1px solid black', fontWeight: 'bold' }}
                     >
                       {numberWithCommas(
                         Math.round(
@@ -255,13 +255,13 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                       )}
                     </td>
                   </tr>
-                  <tr style={{ background: "#D8D8D8" }}>
-                    <td style={{ fontWeight: "bold", border: "1px solid" }}>
+                  <tr style={{ background: '#D8D8D8' }}>
+                    <td style={{ fontWeight: 'bold', border: '1px solid' }}>
                       Total Assets
                     </td>
                     <td
                       className="text-right"
-                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                      style={{ border: '1px solid black', fontWeight: 'bold' }}
                     >
                       {numberWithCommas(
                         Math.round(
@@ -275,7 +275,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                     </td>
                     <td
                       className="text-right"
-                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                      style={{ border: '1px solid black', fontWeight: 'bold' }}
                     >
                       {numberWithCommas(
                         Math.round(
@@ -288,19 +288,19 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                     </td>
                     <td
                       className="text-right"
-                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                      style={{ border: '1px solid black', fontWeight: 'bold' }}
                     >
                       {getTotalAssetsVariance(balanceReportData)}
                     </td>
                   </tr>
-                  <tr style={{ height: "15px" }}></tr>
-                  <tr style={{ background: "#D8D8D8", border: "1px solid" }}>
-                    <td colSpan="4" style={{ fontWeight: "bold" }}>
+                  <tr style={{ height: '15px' }}></tr>
+                  <tr style={{ background: '#D8D8D8', border: '1px solid' }}>
+                    <td colSpan="4" style={{ fontWeight: 'bold' }}>
                       EQUITY AND LIABILITIES
                     </td>
                   </tr>
-                  <tr style={{ border: "1px solid" }}>
-                    <td colSpan="4" style={{ fontWeight: "bold" }}>
+                  <tr style={{ border: '1px solid' }}>
+                    <td colSpan="4" style={{ fontWeight: 'bold' }}>
                       Equity
                     </td>
                   </tr>
@@ -311,13 +311,13 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                         <tr key={index}>
                           <td
                             className="text-left"
-                            style={{ paddingLeft: "20px", border: "1px solid" }}
+                            style={{ paddingLeft: '20px', border: '1px solid' }}
                           >
                             {itm.strGlName}
                           </td>
                           <td
                             className="text-right"
-                            style={{ border: "1px solid black" }}
+                            style={{ border: '1px solid black' }}
                           >
                             {numberWithCommas(
                               Math.round(itm?.numPlanBalance) || 0
@@ -325,7 +325,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                           </td>
                           <td
                             className="text-right"
-                            style={{ border: "1px solid black" }}
+                            style={{ border: '1px solid black' }}
                           >
                             <span className="pr-1">
                               {numberWithCommas(
@@ -335,7 +335,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                           </td>
                           <td
                             className="text-right"
-                            style={{ border: "1px solid black" }}
+                            style={{ border: '1px solid black' }}
                           >
                             {numberWithCommas(
                               (Math.round(itm.numBalance) || 0) -
@@ -345,13 +345,13 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                         </tr>
                       );
                     })}
-                  <tr style={{ background: "#F2F2F2" }}>
-                    <td style={{ fontWeight: "bold", border: "1px solid" }}>
+                  <tr style={{ background: '#F2F2F2' }}>
+                    <td style={{ fontWeight: 'bold', border: '1px solid' }}>
                       Total Equity
                     </td>
                     <td
                       className="text-right"
-                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                      style={{ border: '1px solid black', fontWeight: 'bold' }}
                     >
                       {numberWithCommas(
                         Math.round(balanceReportData?.equityTotalPlanBalance) ||
@@ -360,7 +360,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                     </td>
                     <td
                       className="text-right"
-                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                      style={{ border: '1px solid black', fontWeight: 'bold' }}
                     >
                       {numberWithCommas(
                         Math.round(balanceReportData?.equityTotalBalance) || 0
@@ -368,7 +368,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                     </td>
                     <td
                       className="text-right"
-                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                      style={{ border: '1px solid black', fontWeight: 'bold' }}
                     >
                       {numberWithCommas(
                         (Math.round(balanceReportData?.equityTotalBalance) ||
@@ -388,8 +388,8 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                           </td>
                         </tr> */}
 
-                  <tr style={{ border: "1px solid" }}>
-                    <td colSpan="4" style={{ fontWeight: "bold" }}>
+                  <tr style={{ border: '1px solid' }}>
+                    <td colSpan="4" style={{ fontWeight: 'bold' }}>
                       Non-Current Liabilities
                     </td>
                   </tr>
@@ -403,13 +403,13 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                         <tr key={index}>
                           <td
                             className="text-left"
-                            style={{ paddingLeft: "20px", border: "1px solid" }}
+                            style={{ paddingLeft: '20px', border: '1px solid' }}
                           >
                             {itm.strGlName}
                           </td>
                           <td
                             className="text-right"
-                            style={{ border: "1px solid black" }}
+                            style={{ border: '1px solid black' }}
                           >
                             {numberWithCommas(
                               Math.round(itm?.numPlanBalance) || 0
@@ -417,7 +417,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                           </td>
                           <td
                             className="text-right"
-                            style={{ border: "1px solid black" }}
+                            style={{ border: '1px solid black' }}
                           >
                             <span className="pr-1">
                               {numberWithCommas(
@@ -427,7 +427,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                           </td>
                           <td
                             className="text-right"
-                            style={{ border: "1px solid black" }}
+                            style={{ border: '1px solid black' }}
                           >
                             {numberWithCommas(
                               (Math.round(itm.numBalance) || 0) -
@@ -437,13 +437,13 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                         </tr>
                       );
                     })}
-                  <tr style={{ background: "#F2F2F2" }}>
-                    <td style={{ fontWeight: "bold", border: "1px solid" }}>
+                  <tr style={{ background: '#F2F2F2' }}>
+                    <td style={{ fontWeight: 'bold', border: '1px solid' }}>
                       Total Non-Current Liability
                     </td>
                     <td
                       className="text-right"
-                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                      style={{ border: '1px solid black', fontWeight: 'bold' }}
                     >
                       {numberWithCommas(
                         Math.round(
@@ -453,7 +453,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                     </td>
                     <td
                       className="text-right"
-                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                      style={{ border: '1px solid black', fontWeight: 'bold' }}
                     >
                       {numberWithCommas(
                         Math.round(
@@ -463,7 +463,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                     </td>
                     <td
                       className="text-right"
-                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                      style={{ border: '1px solid black', fontWeight: 'bold' }}
                     >
                       {numberWithCommas(
                         (Math.round(
@@ -483,8 +483,8 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                             </span>
                           </td>
                         </tr> */}
-                  <tr style={{ border: "1px solid" }}>
-                    <td colSpan="4" style={{ fontWeight: "bold" }}>
+                  <tr style={{ border: '1px solid' }}>
+                    <td colSpan="4" style={{ fontWeight: 'bold' }}>
                       Current Liabilities
                     </td>
                   </tr>
@@ -498,13 +498,13 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                         <tr key={index}>
                           <td
                             className="text-left"
-                            style={{ paddingLeft: "20px", border: "1px solid" }}
+                            style={{ paddingLeft: '20px', border: '1px solid' }}
                           >
                             {itm.strGlName}
                           </td>
                           <td
                             className="text-right"
-                            style={{ border: "1px solid black" }}
+                            style={{ border: '1px solid black' }}
                           >
                             {numberWithCommas(
                               Math.round(itm?.numPlanBalance) || 0
@@ -512,7 +512,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                           </td>
                           <td
                             className="text-right"
-                            style={{ border: "1px solid black" }}
+                            style={{ border: '1px solid black' }}
                           >
                             <span className="pr-1">
                               {numberWithCommas(
@@ -522,7 +522,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                           </td>
                           <td
                             className="text-right"
-                            style={{ border: "1px solid black" }}
+                            style={{ border: '1px solid black' }}
                           >
                             {numberWithCommas(
                               (Math.round(itm.numBalance) || 0) -
@@ -532,13 +532,13 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                         </tr>
                       );
                     })}
-                  <tr style={{ background: "#F2F2F2" }}>
-                    <td style={{ fontWeight: "bold", border: "1px solid" }}>
+                  <tr style={{ background: '#F2F2F2' }}>
+                    <td style={{ fontWeight: 'bold', border: '1px solid' }}>
                       Total Current Liabilities
                     </td>
                     <td
                       className="text-right"
-                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                      style={{ border: '1px solid black', fontWeight: 'bold' }}
                     >
                       {numberWithCommas(
                         Math.round(
@@ -548,7 +548,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                     </td>
                     <td
                       className="text-right"
-                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                      style={{ border: '1px solid black', fontWeight: 'bold' }}
                     >
                       {numberWithCommas(
                         Math.round(
@@ -558,7 +558,7 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                     </td>
                     <td
                       className="text-right"
-                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                      style={{ border: '1px solid black', fontWeight: 'bold' }}
                     >
                       {numberWithCommas(
                         (Math.round(
@@ -578,13 +578,13 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                             </span>
                           </td>
                         </tr> */}
-                  <tr style={{ background: "#D8D8D8" }}>
-                    <td style={{ fontWeight: "bold", border: "1px solid" }}>
+                  <tr style={{ background: '#D8D8D8' }}>
+                    <td style={{ fontWeight: 'bold', border: '1px solid' }}>
                       TOTAL EQUITY AND LIABILITIES
                     </td>
                     <td
                       className="text-right"
-                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                      style={{ border: '1px solid black', fontWeight: 'bold' }}
                     >
                       {numberWithCommas(
                         equityAndLiaTotalForBudget(balanceReportData)
@@ -592,13 +592,13 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                     </td>
                     <td
                       className="text-right"
-                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                      style={{ border: '1px solid black', fontWeight: 'bold' }}
                     >
                       {numberWithCommas(equityAndLiaTotal(balanceReportData))}
                     </td>
                     <td
                       className="text-right"
-                      style={{ border: "1px solid black", fontWeight: "bold" }}
+                      style={{ border: '1px solid black', fontWeight: 'bold' }}
                     >
                       {numberWithCommas(
                         equityAndLiaTotal(balanceReportData) -
@@ -606,13 +606,13 @@ const ProjectedBalanceReport = ({ balanceReportData, values }) => {
                       )}
                     </td>
                   </tr>
-                  <tr style={{ height: "15px" }}></tr>
+                  <tr style={{ height: '15px' }}></tr>
                   <tr>
                     <td
                       className="text-center d-none"
                       colSpan={4}
                     >{`System Generated Report - ${moment().format(
-                      "LLLL"
+                      'LLLL'
                     )}`}</td>
                   </tr>
                 </table>

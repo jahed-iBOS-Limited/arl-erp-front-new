@@ -1,34 +1,33 @@
-import Axios from "axios";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import * as Yup from "yup";
+import Axios from 'axios';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
   selectedEmp: Yup.object()
     .shape({
-      label: Yup.string().required("Employee is required"),
-      value: Yup.string().required("Employee is required"),
+      label: Yup.string().required('Employee is required'),
+      value: Yup.string().required('Employee is required'),
     })
-    .required("Employee is required"),
+    .required('Employee is required'),
   sbu: Yup.object()
     .shape({
-      label: Yup.string().required("SBU is required"),
-      value: Yup.string().required("SBU is required"),
+      label: Yup.string().required('SBU is required'),
+      value: Yup.string().required('SBU is required'),
     })
-    .required("SBU is required"),
+    .required('SBU is required'),
   currency: Yup.object()
     .shape({
-      label: Yup.string().required("Currency is required"),
-      value: Yup.string().required("Currency is required"),
+      label: Yup.string().required('Currency is required'),
+      value: Yup.string().required('Currency is required'),
     })
-    .required("Currency is required"),
+    .required('Currency is required'),
   plant: Yup.object()
     .shape({
-      label: Yup.string().required("Plant is required"),
-      value: Yup.string().required("Plant is required"),
+      label: Yup.string().required('Plant is required'),
+      value: Yup.string().required('Plant is required'),
     })
-    .required("Plant is required"),
+    .required('Plant is required'),
 });
-
 
 ///EMP API will show both id and name here
 export const getEMP = async (accId, BuId, setter) => {
@@ -166,17 +165,17 @@ export const singleDataById = async (advId, setter, setDisabled) => {
           label: data.strSubGlaccountHead,
         },
         expenseGroup:
-          data?.expenseGroup === ""
-            ? ""
-            : data?.expenseGroup === "TaDa"
-            ? {
-                value: "TaDa",
-                label: "Ta/Da",
-              }
-            : {
-                value: "Other",
-                label: "Other",
-              },
+          data?.expenseGroup === ''
+            ? ''
+            : data?.expenseGroup === 'TaDa'
+              ? {
+                  value: 'TaDa',
+                  label: 'Ta/Da',
+                }
+              : {
+                  value: 'Other',
+                  label: 'Other',
+                },
       };
       setter(newData);
     }

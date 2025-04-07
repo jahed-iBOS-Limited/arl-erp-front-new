@@ -18,10 +18,10 @@ export const _firstDateOfCurrentFiscalYear = () => {
     fiscalYearStartDate.getMonth() + 1
   )
     .toString()
-    .padStart(2, "0")}-${fiscalYearStartDate
+    .padStart(2, '0')}-${fiscalYearStartDate
     .getDate()
     .toString()
-    .padStart(2, "0")}`;
+    .padStart(2, '0')}`;
 
   return formattedStartDate;
 };

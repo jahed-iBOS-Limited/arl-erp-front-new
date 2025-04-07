@@ -1,35 +1,35 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import findIndex from "../../_helper/_findIndex";
-import PurchaseOrder from "./purchaseOrder";
-import { POEditFormByOrderType } from "./purchaseOrder/Edit";
-import { POFormByOrderType } from "./purchaseOrder/Form";
-import { PurchaseOrderReport } from "./purchaseOrder/report/tableHeader";
-import PurchaseOrderShipping from "./purchaseOrderShipping";
-import { POEditFormByOrderTypeShipping } from "./purchaseOrderShipping/Edit";
-import { POFormByOrderTypeShipping } from "./purchaseOrderShipping/Form";
-import { PurchaseOrderReportShipping } from "./purchaseOrderShipping/report/tableHeader";
-import PurchaseRequestCreateForm from "./purchaseRequestNew/form/addEditForm";
-import { PurchaseRequestReport } from "./purchaseRequestNew/report/tableHeader";
-import PurchaseRequestTable from "./purchaseRequestNew/table/table";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
+import findIndex from '../../_helper/_findIndex';
+import PurchaseOrder from './purchaseOrder';
+import { POEditFormByOrderType } from './purchaseOrder/Edit';
+import { POFormByOrderType } from './purchaseOrder/Form';
+import { PurchaseOrderReport } from './purchaseOrder/report/tableHeader';
+import PurchaseOrderShipping from './purchaseOrderShipping';
+import { POEditFormByOrderTypeShipping } from './purchaseOrderShipping/Edit';
+import { POFormByOrderTypeShipping } from './purchaseOrderShipping/Form';
+import { PurchaseOrderReportShipping } from './purchaseOrderShipping/report/tableHeader';
+import PurchaseRequestCreateForm from './purchaseRequestNew/form/addEditForm';
+import { PurchaseRequestReport } from './purchaseRequestNew/report/tableHeader';
+import PurchaseRequestTable from './purchaseRequestNew/table/table';
 // import RFQ from './rfq'
-import CSForm from "./rfq/CS/addEditForm";
+import CSForm from './rfq/CS/addEditForm';
 // import RFQForm from './rfq/Form/addEditForm'
-import QuotationForm from "./rfq/QuotationEntry/addEditForm";
-import { QuationEntryReport } from "./rfq/report/tableHeader";
-import RequestForQuotationLanding from "./requestForQuotation";
-import RFQCreateEdit from "./requestForQuotation/createEdit";
-import ErpComparativeStatementLanding from "./erpComparativeStatement/quotationEntry";
-import ErpQuotationEntryLanding from "./erpQuotationEntry";
-import AddQuotationEntry from "./erpQuotationEntry/entryForm/addQuotationEntry";
-import AutoPRCalculation from "./autoPRCalculation";
-import AutoPOCalculation from "./AutoPOCalculation";
-import CreateCs from "./erpComparativeStatement/cs/create";
-import RFQCreateForAutoProcess from "./AutoPOCalculation/rfqCreateForAutoProcess";
-import CateringBill from "./CateringBill";
+import QuotationForm from './rfq/QuotationEntry/addEditForm';
+import { QuationEntryReport } from './rfq/report/tableHeader';
+import RequestForQuotationLanding from './requestForQuotation';
+import RFQCreateEdit from './requestForQuotation/createEdit';
+import ErpComparativeStatementLanding from './erpComparativeStatement/quotationEntry';
+import ErpQuotationEntryLanding from './erpQuotationEntry';
+import AddQuotationEntry from './erpQuotationEntry/entryForm/addQuotationEntry';
+import AutoPRCalculation from './autoPRCalculation';
+import AutoPOCalculation from './AutoPOCalculation';
+import CreateCs from './erpComparativeStatement/cs/create';
+import RFQCreateForAutoProcess from './AutoPOCalculation/rfqCreateForAutoProcess';
+import CateringBill from './CateringBill';
 
 export function PurchasePages() {
   const userRole = useSelector(
@@ -37,8 +37,8 @@ export function PurchasePages() {
     shallowEqual
   );
 
-  const purchaseRequest = userRole[findIndex(userRole, "Purchase Request")];
-  const purchaseOrder = userRole[findIndex(userRole, "Purchase Order")];
+  const purchaseRequest = userRole[findIndex(userRole, 'Purchase Request')];
+  const purchaseOrder = userRole[findIndex(userRole, 'Purchase Order')];
 
   let purchaseOrderShippingPermission = null;
   for (let i = 0; i < userRole.length; i++) {

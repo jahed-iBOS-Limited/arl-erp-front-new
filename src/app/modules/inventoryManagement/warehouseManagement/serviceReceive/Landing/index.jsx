@@ -1,10 +1,8 @@
-import React from "react";
-import LandingHeader from "./LandingHeader";
+import React from 'react';
+import LandingHeader from './LandingHeader';
 
 const ServiceReceiveLanding = () => {
-  return (
-    <LandingHeader />
-  );
+  return <LandingHeader />;
 };
 
 export default ServiceReceiveLanding;

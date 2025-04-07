@@ -1,26 +1,25 @@
 import Axios from 'axios';
 import * as Yup from 'yup';
 
-
 export const getBankDDL_api = async (setter) => {
   try {
     const res = await Axios.get('/hcm/HCMDDL/GetBankDDL');
     setter(res.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 export const getBankBranchDDL_api = async (bankId, setter) => {
   try {
     const res = await Axios.get(
-      `/hcm/HCMDDL/GetBankBranchDDL?BankId=${bankId}`,
+      `/hcm/HCMDDL/GetBankBranchDDL?BankId=${bankId}`
     );
     setter(res.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const GetLighterStevedoreDDL = async (setter) => {
   try {
     const res = await Axios.get(
-      `/wms/FertilizerOperation/GetLighterStevedoreDDL`,
+      `/wms/FertilizerOperation/GetLighterStevedoreDDL`
     );
     if (res.status === 200) {
       setter(res?.data);
@@ -29,8 +28,6 @@ export const GetLighterStevedoreDDL = async (setter) => {
     setter([]);
   }
 };
-
-
 
 export const validationSchema = Yup.object().shape({
   motherVessel: Yup.object().shape({

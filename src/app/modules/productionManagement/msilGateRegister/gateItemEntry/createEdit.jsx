@@ -1,46 +1,46 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import TextArea from "../../../_helper/TextArea";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { trimString } from "../../../_helper/_trimString";
-import BasicModal from "./../../../_helper/_BasicModal";
-import IViewModal from "../../../_helper/_viewModal";
-import QRCodeScanner from "../../../_helper/qrCodeScanner";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import TextArea from '../../../_helper/TextArea';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { trimString } from '../../../_helper/_trimString';
+import BasicModal from './../../../_helper/_BasicModal';
+import IViewModal from '../../../_helper/_viewModal';
+import QRCodeScanner from '../../../_helper/qrCodeScanner';
 
 const initData = {
   date: _todayDate(),
-  supplierName: "",
-  nameOfDriver: "",
-  mobileNo: "",
-  vehicleNo: "",
-  inTime: "",
-  invoiceNo: "",
-  shiftIncharge: "",
-  itemName: "",
-  uom: "",
-  comment: "",
-  clientType: "",
-  vatChallanNo: "",
-  strCardNumber: "",
-  businessUnit: "",
-  shipPoint: "",
-  supCusNameFWR: "",
-  itemNameFWR: "",
-  addressFWR: "",
-  quantityFWR: "",
-  supplierItemQuantity: "",
-  poNo: "",
-  poValidityDate: "",
+  supplierName: '',
+  nameOfDriver: '',
+  mobileNo: '',
+  vehicleNo: '',
+  inTime: '',
+  invoiceNo: '',
+  shiftIncharge: '',
+  itemName: '',
+  uom: '',
+  comment: '',
+  clientType: '',
+  vatChallanNo: '',
+  strCardNumber: '',
+  businessUnit: '',
+  shipPoint: '',
+  supCusNameFWR: '',
+  itemNameFWR: '',
+  addressFWR: '',
+  quantityFWR: '',
+  supplierItemQuantity: '',
+  poNo: '',
+  poValidityDate: '',
 };
 export default function GateEntryCreate() {
   const [QRCodeScannerModal, setQRCodeScannerModal] = useState(false);
@@ -49,17 +49,14 @@ export default function GateEntryCreate() {
   const { id } = useParams();
   const location = useLocation();
   const [modifyData, setModifyData] = useState(initData);
-  const [
-    shiftInchargeDDL,
-    getShiftInchargeDDL,
-    shiftInchargeDDLloader,
-  ] = useAxiosGet();
+  const [shiftInchargeDDL, getShiftInchargeDDL, shiftInchargeDDLloader] =
+    useAxiosGet();
   const [itemDDL, getItemDDL, itemDDLloader] = useAxiosGet();
   const [poList, getPoList, poLoader, setPoList] = useAxiosGet();
   const [isScalable, setIsScalable] = useState(true);
   const [supplierDDL, getSupplierDDLDDL, supplierDDLloader] = useAxiosGet();
   const [isShowModel, setIsShowModel] = useState(false);
-  const [entryCode, setEntryCode] = useState("");
+  const [entryCode, setEntryCode] = useState('');
   const [vehicleDDL, getVehicleDDL, vehicleDDLloader] = useAxiosGet();
 
   // update feature
@@ -116,7 +113,6 @@ export default function GateEntryCreate() {
         `/mes/MSIL/GetAllMSIL?PartName=VehicleListForGateEntry&BusinessUnitId=${initData?.businessUnit?.value}`
       );
     }
-
   }, []);
 
   const isCustomer = (location) => {
@@ -130,7 +126,7 @@ export default function GateEntryCreate() {
   const getFieldValue = (location) => {
     const value = +location?.state?.intSupplierId;
     const label = location?.state?.strSupplierName;
-    return value && label ? { value, label } : "";
+    return value && label ? { value, label } : '';
   };
 
   useEffect(() => {
@@ -139,14 +135,14 @@ export default function GateEntryCreate() {
       setModifyData({
         date: _dateFormatter(location?.state?.dteDate),
         supplierName: isCustomer(location)
-          ? ""
+          ? ''
           : hadScalable(location)
-          ? getFieldValue(location)
-          : location.state?.strSupplierName,
+            ? getFieldValue(location)
+            : location.state?.strSupplierName,
         supCusNameFWR:
           location?.state?.intClientTypeId === 4
-            ? location.state?.strSupplierName || ""
-            : "",
+            ? location.state?.strSupplierName || ''
+            : '',
         nameOfDriver: location?.state?.strDriverName,
         mobileNo: location?.state?.strDriverMobileNo,
         vehicleNo:
@@ -170,12 +166,12 @@ export default function GateEntryCreate() {
         },
         itemNameFWR:
           location?.state?.intClientTypeId === 4
-            ? location?.state?.strItemName || ""
-            : "",
+            ? location?.state?.strItemName || ''
+            : '',
         gatePassItemName:
           location?.state?.intClientTypeId === 3
             ? location?.state?.strItemName
-            : "",
+            : '',
         uom: location?.state?.strUoMname,
         clientType:
           location?.state?.intClientTypeId && location?.state?.strClientTypeName
@@ -183,9 +179,9 @@ export default function GateEntryCreate() {
                 value: location?.state?.intClientTypeId,
                 label: location?.state?.strClientTypeName,
               }
-            : "",
-        vatChallanNo: location?.state?.strVatChallanNo || "",
-        strCardNumber: location?.state?.strCardNumber || "",
+            : '',
+        vatChallanNo: location?.state?.strVatChallanNo || '',
+        strCardNumber: location?.state?.strCardNumber || '',
         businessUnit: {
           value: location?.state?.intBusinessUnitId,
           label: location?.state?.strBusinessUnitName,
@@ -196,53 +192,52 @@ export default function GateEntryCreate() {
         },
         addressFWR:
           location?.state?.intClientTypeId === 4
-            ? location?.state?.strAddress || ""
-            : "",
+            ? location?.state?.strAddress || ''
+            : '',
         quantityFWR:
           location?.state?.intClientTypeId === 4
-            ? location?.state?.numQuantity || ""
-            : "",
+            ? location?.state?.numQuantity || ''
+            : '',
         supplierItemQuantity:
           location?.state?.intClientTypeId === 1
-            ? location?.state?.numQuantity || ""
-            : "",
+            ? location?.state?.numQuantity || ''
+            : '',
         poNo:
           location?.state?.poId && location?.state?.poNo
             ? {
                 value: location?.state?.poId,
                 label: location?.state?.poNo,
               }
-            : "",
-        poValidityDate: "",
+            : '',
+        poValidityDate: '',
       });
     }
-
   }, [id, location]);
 
   const saveHandler = (values, cb) => {
     if (values?.clientType?.value === 1 && !values?.supplierName) {
-      return toast.warn("অনুগ্রহ করে সাপ্লায়ারের নাম নির্বাচন করুন");
+      return toast.warn('অনুগ্রহ করে সাপ্লায়ারের নাম নির্বাচন করুন');
     }
     if (isScalable && !values?.vehicleNo) {
-      return toast.warn("অনুগ্রহ করে গাড়ীর নাম্বার  নির্বাচন করুন");
+      return toast.warn('অনুগ্রহ করে গাড়ীর নাম্বার  নির্বাচন করুন');
     }
     if (!values?.inTime) {
-      return toast.warn("অনুগ্রহ করে প্রবেশের সময় নির্বাচন করুন");
+      return toast.warn('অনুগ্রহ করে প্রবেশের সময় নির্বাচন করুন');
     }
     if (
       (!values?.itemName?.value && values?.clientType?.value === 1) ||
       (!values?.gatePassItemName && values?.clientType?.value === 3)
     ) {
-      return toast.warn("অনুগ্রহ করে পণ্যের নাম নির্বাচন করুন");
+      return toast.warn('অনুগ্রহ করে পণ্যের নাম নির্বাচন করুন');
     }
     if (!values?.businessUnit) {
-      return toast.warn("অনুগ্রহ করে বিজনেস ইউনিট নির্বাচন করুন");
+      return toast.warn('অনুগ্রহ করে বিজনেস ইউনিট নির্বাচন করুন');
     }
     if (!values?.shipPoint) {
-      return toast.warn("অনুগ্রহ করে শিপ পয়েন্ট নির্বাচন করুন");
+      return toast.warn('অনুগ্রহ করে শিপ পয়েন্ট নির্বাচন করুন');
     }
     if (isPoVisible(values) && values?.poNo?.value) {
-      return toast.warn("অনুগ্রহ পিও নির্বাচন করুন");
+      return toast.warn('অনুগ্রহ পিও নির্বাচন করুন');
     }
     saveData(
       `/mes/MSIL/ItemGateEntryCreateAndEdit`,
@@ -256,64 +251,64 @@ export default function GateEntryCreate() {
             : 0,
         strSupplierName:
           values?.clientType?.value === 4
-            ? values?.supCusNameFWR || ""
+            ? values?.supCusNameFWR || ''
             : values?.clientType?.value === 1 && isScalable
-            ? values?.supplierName?.label
-            : values?.supplierName || "",
+              ? values?.supplierName?.label
+              : values?.supplierName || '',
         intVehicleId:
           values?.clientType?.value === 1 || values?.clientType?.value === 4
             ? 0
             : values?.vehicleNo?.value,
         strTruckNumber:
           values?.clientType?.value === 1 || values?.clientType?.value === 4
-            ? values?.vehicleNo || ""
-            : values?.vehicleNo?.label || "",
+            ? values?.vehicleNo || ''
+            : values?.vehicleNo?.label || '',
         strDriverName: values?.nameOfDriver,
         strDriverMobileNo: values?.mobileNo,
         strInvoiceNumber: values?.invoiceNo,
         tmInTime: values?.inTime,
         intShiftIncharge: values?.shiftIncharge?.value,
         strShiftIncharge: values?.shiftIncharge?.label,
-        strRemarks: values?.comment || "",
+        strRemarks: values?.comment || '',
         intActionBy: profileData?.userId,
         dteInsertDate: _todayDate(),
         isActive: true,
         intItemId: values?.itemName?.value || 0,
         strItemName:
           values?.clientType?.value === 4
-            ? values?.itemNameFWR || ""
+            ? values?.itemNameFWR || ''
             : values?.clientType?.value === 1
-            ? values?.itemName?.label
-            : values?.clientType?.value === 3
-            ? values?.gatePassItemName
-            : "",
+              ? values?.itemName?.label
+              : values?.clientType?.value === 3
+                ? values?.gatePassItemName
+                : '',
         intUoMid: 0,
-        strUoMname: values?.uom || "",
+        strUoMname: values?.uom || '',
         isScalable: isScalable,
         intClientTypeId: values?.clientType?.value,
         strClientTypeName: values?.clientType?.label,
-        strVatChallanNo: values?.vatChallanNo || "",
+        strVatChallanNo: values?.vatChallanNo || '',
         strCardNumber: trimString(values?.strCardNumber) || null,
         shipPointId: values?.shipPoint?.value || 0,
-        shipPointName: values?.shipPoint?.label || "",
+        shipPointName: values?.shipPoint?.label || '',
         strAddress:
-          values?.clientType?.value === 4 ? values?.addressFWR || "" : "",
+          values?.clientType?.value === 4 ? values?.addressFWR || '' : '',
         numQuantity:
           values?.clientType?.value === 4
             ? +values?.quantityFWR || 0
             : values?.clientType?.value === 1
-            ? +values?.supplierItemQuantity || 0
-            : 0,
+              ? +values?.supplierItemQuantity || 0
+              : 0,
         poId: values?.poNo?.value || 0,
-        poNo: values?.poNo?.label || "",
+        poNo: values?.poNo?.label || '',
       },
       id
-        ? ""
+        ? ''
         : (data) => {
             setEntryCode(data?.code);
             cb();
             setIsShowModel(true);
-            document.getElementById("cardNoInput").disabled = false;
+            document.getElementById('cardNoInput').disabled = false;
           },
       true
     );
@@ -329,7 +324,7 @@ export default function GateEntryCreate() {
   console.log(location.state);
 
   const qurScanHandler = ({ setFieldValue, values }) => {
-    document.getElementById("cardNoInput").disabled = true;
+    document.getElementById('cardNoInput').disabled = true;
   };
 
   console.log(shipPoint);
@@ -357,13 +352,13 @@ export default function GateEntryCreate() {
                   },
                   clientType:
                     selectedBusinessUnit.value === 171
-                      ? { value: 1, label: "Supplier" }
-                      : { value: 2, label: "Customer" },
+                      ? { value: 1, label: 'Supplier' }
+                      : { value: 2, label: 'Customer' },
                 }
           }
           onSubmit={(values, { setSubmitting, resetForm }) => {
             saveHandler(values, () => {
-              document.getElementById("cardNoInput").focus();
+              document.getElementById('cardNoInput').focus();
               resetForm(initData);
               getShiftInchargeDDL(
                 `/mes/MesDDL/GetEmployeeAndDesignationDDL?IntBusinessUnitId=${initData?.businessUnit?.value}`
@@ -403,15 +398,14 @@ export default function GateEntryCreate() {
                         name="isScalable"
                         checked={isScalable === true}
                         className="mr-1 pointer"
-                        style={{ position: "relative", top: "2px" }}
+                        style={{ position: 'relative', top: '2px' }}
                         onChange={(valueOption) => {
                           setIsScalable(true);
-                          setFieldValue("supplierName", "");
+                          setFieldValue('supplierName', '');
                           if (!values?.strCardNumber) {
-                            document.getElementById(
-                              "cardNoInput"
-                            ).disabled = false;
-                            document.getElementById("cardNoInput").focus();
+                            document.getElementById('cardNoInput').disabled =
+                              false;
+                            document.getElementById('cardNoInput').focus();
                           }
                         }}
                       />
@@ -423,15 +417,14 @@ export default function GateEntryCreate() {
                         name="isScalable"
                         checked={isScalable === false}
                         className="mr-1 pointer"
-                        style={{ position: "relative", top: "2px" }}
+                        style={{ position: 'relative', top: '2px' }}
                         onChange={(e) => {
                           setIsScalable(false);
-                          setFieldValue("supplierName", "");
+                          setFieldValue('supplierName', '');
                           if (!values?.strCardNumber) {
-                            document.getElementById(
-                              "cardNoInput"
-                            ).disabled = false;
-                            document.getElementById("cardNoInput").focus();
+                            document.getElementById('cardNoInput').disabled =
+                              false;
+                            document.getElementById('cardNoInput').focus();
                           }
                         }}
                       />
@@ -450,16 +443,16 @@ export default function GateEntryCreate() {
                         isDisabled={id}
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("businessUnit", valueOption);
-                            setFieldValue("strCardNumber", "");
-                            setFieldValue("vehicleNo", "");
-                            setFieldValue("supplierName", "");
-                            setFieldValue("clientType", "");
+                            setFieldValue('businessUnit', valueOption);
+                            setFieldValue('strCardNumber', '');
+                            setFieldValue('vehicleNo', '');
+                            setFieldValue('supplierName', '');
+                            setFieldValue('clientType', '');
 
                             getShipPoint(
                               `/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${valueOption?.value}&AutoId=${profileData?.userId}`,
                               (data) => {
-                                setFieldValue("shipPoint", data[0]);
+                                setFieldValue('shipPoint', data[0]);
                               }
                             );
                             getShiftInchargeDDL(
@@ -474,12 +467,11 @@ export default function GateEntryCreate() {
                             getVehicleDDL(
                               `/mes/MSIL/GetAllMSIL?PartName=VehicleListForGateEntry&BusinessUnitId=${valueOption?.value}`
                             );
-                            document.getElementById(
-                              "cardNoInput"
-                            ).disabled = false;
-                            document.getElementById("cardNoInput").focus();
+                            document.getElementById('cardNoInput').disabled =
+                              false;
+                            document.getElementById('cardNoInput').focus();
                           } else {
-                            setFieldValue("businessUnit", "");
+                            setFieldValue('businessUnit', '');
                             getShiftInchargeDDL(
                               `/mes/MesDDL/GetEmployeeAndDesignationDDL?IntBusinessUnitId=${selectedBusinessUnit?.value}`
                             );
@@ -492,15 +484,14 @@ export default function GateEntryCreate() {
                             getVehicleDDL(
                               `/mes/MSIL/GetAllMSIL?PartName=VehicleListForGateEntry&BusinessUnitId=${selectedBusinessUnit?.value}`
                             );
-                            setFieldValue("shiftIncharge", "");
-                            setFieldValue("supplierName", "");
-                            setFieldValue("vehicleNo", "");
-                            setFieldValue("itemName", "");
-                            setFieldValue("shipPoint", "");
-                            setFieldValue("strCardNumber", "");
-                            document.getElementById(
-                              "cardNoInput"
-                            ).disabled = false;
+                            setFieldValue('shiftIncharge', '');
+                            setFieldValue('supplierName', '');
+                            setFieldValue('vehicleNo', '');
+                            setFieldValue('itemName', '');
+                            setFieldValue('shipPoint', '');
+                            setFieldValue('strCardNumber', '');
+                            document.getElementById('cardNoInput').disabled =
+                              false;
                           }
                         }}
                       />
@@ -513,16 +504,15 @@ export default function GateEntryCreate() {
                         label="শিপ পয়েন্ট"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("shipPoint", valueOption);
-                            setFieldValue("strCardNumber", "");
-                            document.getElementById("cardNoInput").focus();
+                            setFieldValue('shipPoint', valueOption);
+                            setFieldValue('strCardNumber', '');
+                            document.getElementById('cardNoInput').focus();
                           } else {
-                            setFieldValue("shipPoint", "");
-                            setFieldValue("strCardNumber", "");
-                            document.getElementById(
-                              "cardNoInput"
-                            ).disabled = false;
-                            document.getElementById("cardNoInput").focus();
+                            setFieldValue('shipPoint', '');
+                            setFieldValue('strCardNumber', '');
+                            document.getElementById('cardNoInput').disabled =
+                              false;
+                            document.getElementById('cardNoInput').focus();
                           }
                         }}
                       />
@@ -530,17 +520,17 @@ export default function GateEntryCreate() {
                     <div
                       className="col-lg-3 d-flex"
                       style={{
-                        position: "relative",
+                        position: 'relative',
                       }}
                     >
                       <div
                         style={{
-                          position: "absolute",
+                          position: 'absolute',
                           right: 0,
                           top: 0,
-                          cursor: "pointer",
-                          color: "blue",
-                          zIndex: "1",
+                          cursor: 'pointer',
+                          color: 'blue',
+                          zIndex: '1',
                         }}
                         onClick={() => {
                           setQRCodeScannerModal(true);
@@ -549,7 +539,7 @@ export default function GateEntryCreate() {
                         QR Code <i class="fa fa-qrcode" aria-hidden="true"></i>
                       </div>
 
-                      <div style={{ width: "inherit" }}>
+                      <div style={{ width: 'inherit' }}>
                         <InputField
                           id="cardNoInput"
                           autoFocus
@@ -559,42 +549,39 @@ export default function GateEntryCreate() {
                           type="text"
                           disabled={id ? true : false}
                           onKeyPress={(e) => {
-                            if (e.key === "Enter") {
-                              document.getElementById(
-                                "cardNoInput"
-                              ).disabled = true;
+                            if (e.key === 'Enter') {
+                              document.getElementById('cardNoInput').disabled =
+                                true;
                             } else {
-                              document.getElementById(
-                                "cardNoInput"
-                              ).disabled = false;
+                              document.getElementById('cardNoInput').disabled =
+                                false;
                             }
                           }}
                           onChange={(e) => {
-                            setFieldValue("strCardNumber", e.target.value);
+                            setFieldValue('strCardNumber', e.target.value);
                           }}
                         />
                       </div>
                       {!id && (
                         <span
                           style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            marginLeft: "5px",
-                            cursor: "pointer",
-                            marginTop: "20px",
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            marginLeft: '5px',
+                            cursor: 'pointer',
+                            marginTop: '20px',
                           }}
                           onClick={() => {
-                            setFieldValue("strCardNumber", "");
-                            document.getElementById(
-                              "cardNoInput"
-                            ).disabled = false;
-                            document.getElementById("cardNoInput").focus();
+                            setFieldValue('strCardNumber', '');
+                            document.getElementById('cardNoInput').disabled =
+                              false;
+                            document.getElementById('cardNoInput').focus();
                           }}
                         >
                           <i
                             style={{
-                              color: "blue",
+                              color: 'blue',
                             }}
                             className="fa fa-refresh"
                             aria-hidden="true"
@@ -615,26 +602,26 @@ export default function GateEntryCreate() {
                       <NewSelect
                         name="clientType"
                         options={[
-                          { value: 1, label: "Supplier" },
-                          { value: 2, label: "Customer" },
-                          { value: 3, label: "Gate Pass" },
-                          { value: 4, label: "Without Reference" },
+                          { value: 1, label: 'Supplier' },
+                          { value: 2, label: 'Customer' },
+                          { value: 3, label: 'Gate Pass' },
+                          { value: 4, label: 'Without Reference' },
                         ]}
                         value={values?.clientType}
                         label="সাপ্লায়ার/কাস্টমার"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("clientType", valueOption);
-                            setFieldValue("supplierName", "");
-                            setFieldValue("vehicleNo", "");
-                            setFieldValue("itemName", "");
-                            setFieldValue("supCusNameFWR", "");
-                            setFieldValue("itemNameFWR", "");
+                            setFieldValue('clientType', valueOption);
+                            setFieldValue('supplierName', '');
+                            setFieldValue('vehicleNo', '');
+                            setFieldValue('itemName', '');
+                            setFieldValue('supCusNameFWR', '');
+                            setFieldValue('itemNameFWR', '');
                           } else {
-                            setFieldValue("clientType", "");
-                            setFieldValue("vehicleNo", "");
-                            setFieldValue("supCusNameFWR", "");
-                            setFieldValue("itemNameFWR", "");
+                            setFieldValue('clientType', '');
+                            setFieldValue('vehicleNo', '');
+                            setFieldValue('supCusNameFWR', '');
+                            setFieldValue('itemNameFWR', '');
                           }
                         }}
                       />
@@ -647,9 +634,9 @@ export default function GateEntryCreate() {
                           value={values?.supplierName}
                           label="সাপ্লায়ারের নাম"
                           onChange={(valueOption) => {
-                            setFieldValue("supplierName", valueOption || "");
-                            setFieldValue("poNo", "");
-                            setFieldValue("poValidityDate", "");
+                            setFieldValue('supplierName', valueOption || '');
+                            setFieldValue('poNo', '');
+                            setFieldValue('poValidityDate', '');
                             setPoList([]);
                             if (isPoVisible(values) && valueOption) {
                               getPoList(
@@ -708,19 +695,19 @@ export default function GateEntryCreate() {
                           label="গাড়ীর নাম্বার"
                           onChange={(valueOption) => {
                             if (valueOption) {
-                              setFieldValue("vehicleNo", valueOption);
+                              setFieldValue('vehicleNo', valueOption);
                               setFieldValue(
-                                "nameOfDriver",
-                                valueOption?.strDriverName || ""
+                                'nameOfDriver',
+                                valueOption?.strDriverName || ''
                               );
                               setFieldValue(
-                                "mobileNo",
-                                valueOption?.strDriverContact || ""
+                                'mobileNo',
+                                valueOption?.strDriverContact || ''
                               );
                             } else {
-                              setFieldValue("vehicleNo", "");
-                              setFieldValue("nameOfDriver", "");
-                              setFieldValue("mobileNo", "");
+                              setFieldValue('vehicleNo', '');
+                              setFieldValue('nameOfDriver', '');
+                              setFieldValue('mobileNo', '');
                             }
                           }}
                         />
@@ -789,8 +776,8 @@ export default function GateEntryCreate() {
                             value={values?.poNo}
                             label="পিও নাম্বার"
                             onChange={(valueOption) => {
-                              setFieldValue("poNo", "");
-                              setFieldValue("poValidityDate", "");
+                              setFieldValue('poNo', '');
+                              setFieldValue('poValidityDate', '');
                               //   if (valueOption) {
                               //     const currentDate = new Date();
                               //     const parsedValidityDate = new Date(valueOption.validityDate);
@@ -826,18 +813,18 @@ export default function GateEntryCreate() {
                                 // Check if the parsed date is valid
                                 if (isNaN(parsedValidityDateOnly.getTime())) {
                                   return toast.warn(
-                                    "Invalid Po Validity Date!"
+                                    'Invalid Po Validity Date!'
                                   );
                                 } else if (
                                   parsedValidityDateOnly < currentDateOnly
                                 ) {
                                   return toast.warn(
-                                    "Po validity date has ended"
+                                    'Po validity date has ended'
                                   );
                                 } else {
-                                  setFieldValue("poNo", valueOption.poNo);
+                                  setFieldValue('poNo', valueOption.poNo);
                                   setFieldValue(
-                                    "poValidityDate",
+                                    'poValidityDate',
                                     _dateFormatter(valueOption.validityDate)
                                   );
                                 }
@@ -854,7 +841,7 @@ export default function GateEntryCreate() {
                             type="date"
                             onChange={(e) => {
                               if (+e.target.value < 0) return;
-                              setFieldValue("poValidityDate", e.target.value);
+                              setFieldValue('poValidityDate', e.target.value);
                             }}
                           />
                         </div>
@@ -870,7 +857,7 @@ export default function GateEntryCreate() {
                             value={values?.itemName}
                             label="পণ্যের নাম"
                             onChange={(valueOption) => {
-                              setFieldValue("itemName", valueOption);
+                              setFieldValue('itemName', valueOption);
                             }}
                           />
                         </div>
@@ -883,7 +870,7 @@ export default function GateEntryCreate() {
                             onChange={(e) => {
                               if (+e.target.value < 0) return;
                               setFieldValue(
-                                "supplierItemQuantity",
+                                'supplierItemQuantity',
                                 e.target.value
                               );
                             }}
@@ -919,7 +906,7 @@ export default function GateEntryCreate() {
                           type="number"
                           onChange={(e) => {
                             if (+e.target.value < 0) return;
-                            setFieldValue("quantityFWR", e.target.value);
+                            setFieldValue('quantityFWR', e.target.value);
                           }}
                         />
                       </div>
@@ -931,7 +918,7 @@ export default function GateEntryCreate() {
                         value={values?.shiftIncharge}
                         label="শিফট ইনচার্জ"
                         onChange={(valueOption) => {
-                          setFieldValue("shiftIncharge", valueOption);
+                          setFieldValue('shiftIncharge', valueOption);
                         }}
                       />
                     </div>
@@ -955,7 +942,7 @@ export default function GateEntryCreate() {
                     >
                       <QRCodeScanner
                         QrCodeScannerCB={(result) => {
-                          setFieldValue("strCardNumber", result);
+                          setFieldValue('strCardNumber', result);
                           setQRCodeScannerModal(false);
                           qurScanHandler({
                             setFieldValue,
@@ -971,7 +958,7 @@ export default function GateEntryCreate() {
                 )}
                 <button
                   type="button"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   // onSubmit={() => handleSubmit()}
                   onClick={() => handleSubmit()}
@@ -979,7 +966,7 @@ export default function GateEntryCreate() {
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>
@@ -994,7 +981,7 @@ export default function GateEntryCreate() {
             handleClose={() => {
               setIsShowModel(false);
               setTimeout(() => {
-                document.getElementById("cardNoInput").focus();
+                document.getElementById('cardNoInput').focus();
               }, 100);
             }}
             myStyle={{ width: 400 }}

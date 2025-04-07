@@ -1,36 +1,35 @@
-
-import moment from "moment";
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useParams, useLocation, useHistory } from "react-router";
-import Loading from "../../../../_chartinghelper/loading/_loading";
-import { createOffHire } from "../helper";
-import Form from "./form";
+import moment from 'moment';
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useParams, useLocation, useHistory } from 'react-router';
+import Loading from '../../../../_chartinghelper/loading/_loading';
+import { createOffHire } from '../helper';
+import Form from './form';
 
 const date = new Date();
 
 const initData = {
-  vesselName: "",
-  voyageNo: "",
-  offHireReason: "",
-  offHireStartDateTime: moment(date).format("yyyy-MM-DDTHH:mm"),
-  offHireEndDateTime: moment(date).format("yyyy-MM-DDTHH:mm"),
-  offHireDuration: "",
-  durationPercentage: "",
-  offHireCostAmount: "",
-  perDayLsmgoQty: "",
-  offHireLsmgoqty: "",
-  offHireLsmgorate: "",
-  offHireLsmgovalue: "",
-  perDayLsfoQty: "",
-  offHireLsfoqty: "",
-  offHireLsforate: "",
-  offHireLsfovalue: "",
-  offHireCve: "",
-  otherCost: "",
-  finalOffHireDuration: "",
-  offHireAddressCommission: "",
-  offHireBrokerCommission: "",
+  vesselName: '',
+  voyageNo: '',
+  offHireReason: '',
+  offHireStartDateTime: moment(date).format('yyyy-MM-DDTHH:mm'),
+  offHireEndDateTime: moment(date).format('yyyy-MM-DDTHH:mm'),
+  offHireDuration: '',
+  durationPercentage: '',
+  offHireCostAmount: '',
+  perDayLsmgoQty: '',
+  offHireLsmgoqty: '',
+  offHireLsmgorate: '',
+  offHireLsmgovalue: '',
+  perDayLsfoQty: '',
+  offHireLsfoqty: '',
+  offHireLsforate: '',
+  offHireLsfovalue: '',
+  offHireCve: '',
+  otherCost: '',
+  finalOffHireDuration: '',
+  offHireAddressCommission: '',
+  offHireBrokerCommission: '',
 };
 
 export default function NextOffHireForm() {

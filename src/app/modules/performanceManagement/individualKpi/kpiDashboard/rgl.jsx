@@ -1,28 +1,26 @@
-
-
-import React, { useEffect, useState } from "react";
-import "./rgl.css";
-import { getUnFavouriteDDLAction } from "./_redux/Actions";
-import { getReportAction } from "./_redux/Actions";
-import { updateIsShownAction } from "../PerformanceChart/_redux/Actions";
-import _ from "lodash";
-import { Responsive, WidthProvider } from "react-grid-layout";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import Card from "./card";
+import React, { useEffect, useState } from 'react';
+import './rgl.css';
+import { getUnFavouriteDDLAction } from './_redux/Actions';
+import { getReportAction } from './_redux/Actions';
+import { updateIsShownAction } from '../PerformanceChart/_redux/Actions';
+import _ from 'lodash';
+import { Responsive, WidthProvider } from 'react-grid-layout';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import Card from './card';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 const ShowcaseLayout = ({ values }) => {
   const dispatch = useDispatch();
   const [_props, setProps] = useState({
-    className: "layout",
+    className: 'layout',
     rowHeight: 30,
-    onLayoutChange: function() {},
+    onLayoutChange: function () {},
     cols: { lg: 12, md: 12, sm: 12, xs: 6, xxs: 6 },
     initialLayout: [],
   });
   const [state, setState] = useState({
-    currentBreakpoint: "lg",
-    compactType: "horizontal",
+    currentBreakpoint: 'lg',
+    compactType: 'horizontal',
     mounted: false,
     layouts: { lg: [] },
   });
@@ -68,9 +66,9 @@ const ShowcaseLayout = ({ values }) => {
   };
 
   function generateDOM() {
-    return _.map(state.layouts.lg, function(itm, i) {
+    return _.map(state.layouts.lg, function (itm, i) {
       return (
-        <div key={i} className={itm.static ? "static" : ""}>
+        <div key={i} className={itm.static ? 'static' : ''}>
           <div className="mt-4 kpi_item_wrapper pointer">
             <div className="row m-0 kpiDashboard">
               <Card itm={itm.item} updateIsShown={updateIsShown} />
@@ -86,7 +84,7 @@ const ShowcaseLayout = ({ values }) => {
   }
 
   function generateLayout(arr) {
-    return _.map(arr, function(item, i) {
+    return _.map(arr, function (item, i) {
       var y = Math.ceil(Math.random() * 4) + 1;
       return {
         x: (i * 3) % 12,

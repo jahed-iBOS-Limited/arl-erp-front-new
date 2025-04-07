@@ -1,35 +1,34 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { Button, Modal } from "react-bootstrap";
-import ReactHtmlTableToExcel from "react-html-table-to-excel";
-import { shallowEqual, useSelector } from "react-redux";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { Button, Modal } from 'react-bootstrap';
+import ReactHtmlTableToExcel from 'react-html-table-to-excel';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { getCommercialCostingLanding } from "../helper";
-import PoAddEditForm from "../poModal/form/addEditForm";
-import { initData } from "../utils";
-import IForm from "./../../../../_helper/_form";
-import AddEditForm from "./../modal/form/addEditForm";
-import "./commercialCosting.css";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { generateExcel } from "./excel";
+} from '../../../../../../_metronic/_partials/controls';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { getCommercialCostingLanding } from '../helper';
+import PoAddEditForm from '../poModal/form/addEditForm';
+import { initData } from '../utils';
+import IForm from './../../../../_helper/_form';
+import AddEditForm from './../modal/form/addEditForm';
+import './commercialCosting.css';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { generateExcel } from './excel';
 
 export default function TableRow() {
   const [rowDto, setRowDto] = useState([]);
   const [loading, setLoading] = useState(false);
   const [bankDDL, getBankDDL, loadingOnGetBankDDL] = useAxiosGet();
-  const [poId, setPoId] = useState("");
-  const [lcId, setLcId] = useState("");
+  const [poId, setPoId] = useState('');
+  const [lcId, setLcId] = useState('');
   const [businessDDL, getBusinessDDL] = useAxiosGet();
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
@@ -42,8 +41,8 @@ export default function TableRow() {
 
   const handleClose = () => {
     setShow(false);
-    setLcId("");
-    setPoId("");
+    setLcId('');
+    setPoId('');
   };
 
   const handlePoShow = (poId) => {
@@ -85,7 +84,7 @@ export default function TableRow() {
   };
 
   const setPositionHandler = (pageNo, pageSize, values) => {
-    getGrid({ pageNo, pageSize, values, searchValue: "" });
+    getGrid({ pageNo, pageSize, values, searchValue: '' });
   };
 
   return (
@@ -94,10 +93,10 @@ export default function TableRow() {
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          status: { value: false, label: "Outstanding" },
+          status: { value: false, label: 'Outstanding' },
           bank: {
             value: 0,
-            label: "All",
+            label: 'All',
           },
         }}
       >
@@ -115,11 +114,11 @@ export default function TableRow() {
                     <div className="col-lg-3">
                       <NewSelect
                         name="businessUnit"
-                        options={[{ value: 0, label: "All" }, ...businessDDL]}
+                        options={[{ value: 0, label: 'All' }, ...businessDDL]}
                         label="Business Unit"
                         value={values?.businessUnit}
                         onChange={(valueOption) => {
-                          setFieldValue("businessUnit", valueOption);
+                          setFieldValue('businessUnit', valueOption);
                           setRowDto([]);
                         }}
                         errors={errors}
@@ -130,13 +129,13 @@ export default function TableRow() {
                       <NewSelect
                         name="status"
                         options={[
-                          { value: true, label: "Complete" },
-                          { value: false, label: "Outstanding" },
+                          { value: true, label: 'Complete' },
+                          { value: false, label: 'Outstanding' },
                         ]}
                         label="Status"
                         value={values?.status}
                         onChange={(valueOption) => {
-                          setFieldValue("status", valueOption);
+                          setFieldValue('status', valueOption);
                           setRowDto([]);
                         }}
                         placeholder="Status"
@@ -144,7 +143,7 @@ export default function TableRow() {
                         touched={touched}
                       />
                     </div>
-                    {values?.status?.label === "Complete" && (
+                    {values?.status?.label === 'Complete' && (
                       <>
                         <div className="col-lg-3">
                           <label>From Date</label>
@@ -155,7 +154,7 @@ export default function TableRow() {
                             type="date"
                             onChange={(e) => {
                               if (e?.target?.value) {
-                                setFieldValue("fromDate", e?.target?.value);
+                                setFieldValue('fromDate', e?.target?.value);
                                 // getGrid(values, e);
                               }
                             }}
@@ -170,7 +169,7 @@ export default function TableRow() {
                             type="date"
                             onChange={(e) => {
                               if (e?.target?.value) {
-                                setFieldValue("toDate", e?.target?.value);
+                                setFieldValue('toDate', e?.target?.value);
                                 // getGrid(values, e);
                               }
                             }}
@@ -185,7 +184,7 @@ export default function TableRow() {
                         label="Bank"
                         value={values?.bank}
                         onChange={(valueOption) => {
-                          setFieldValue("bank", valueOption);
+                          setFieldValue('bank', valueOption);
                           setRowDto([]);
                         }}
                         placeholder="Bank"
@@ -202,7 +201,7 @@ export default function TableRow() {
                             pageNo,
                             pageSize,
                             values,
-                            searchValue: "",
+                            searchValue: '',
                           });
                         }}
                       >
@@ -232,27 +231,27 @@ export default function TableRow() {
                         >
                           <thead>
                             <tr>
-                              <th style={{ minWidth: "30px" }}>SL</th>
-                              <th style={{ minWidth: "30px" }}>Unit Code</th>
-                              <th style={{ minWidth: "70px" }}>PO No</th>
-                              <th style={{ minWidth: "100px" }}>LC No</th>
-                              <th style={{ minWidth: "50px" }}>LC Type</th>
-                              <th style={{ minWidth: "100px" }}>Bank</th>
-                              <th style={{ minWidth: "50px" }}>Currency</th>
+                              <th style={{ minWidth: '30px' }}>SL</th>
+                              <th style={{ minWidth: '30px' }}>Unit Code</th>
+                              <th style={{ minWidth: '70px' }}>PO No</th>
+                              <th style={{ minWidth: '100px' }}>LC No</th>
+                              <th style={{ minWidth: '50px' }}>LC Type</th>
+                              <th style={{ minWidth: '100px' }}>Bank</th>
+                              <th style={{ minWidth: '50px' }}>Currency</th>
                               {/* <th style={{ minWidth: "100px" }}>Amount(FC)</th> */}
-                              <th style={{ minWidth: "100px" }}>
+                              <th style={{ minWidth: '100px' }}>
                                 Invoice Amount (BDT)
                               </th>
-                              <th style={{ minWidth: "70px" }}>
+                              <th style={{ minWidth: '70px' }}>
                                 Invoice Amount (FC)
                               </th>
-                              <th style={{ minWidth: "70px" }}>Shipment NO</th>
-                              <th style={{ minWidth: "70px" }}>
-                                {values?.status?.label === "Complete"
-                                  ? "Complete Date"
-                                  : "Due Date"}
+                              <th style={{ minWidth: '70px' }}>Shipment NO</th>
+                              <th style={{ minWidth: '70px' }}>
+                                {values?.status?.label === 'Complete'
+                                  ? 'Complete Date'
+                                  : 'Due Date'}
                               </th>
-                              <th style={{ minWidth: "70px" }}>
+                              <th style={{ minWidth: '70px' }}>
                                 Transaction Date
                               </th>
                             </tr>
@@ -263,13 +262,13 @@ export default function TableRow() {
                               <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td>{item?.businessUnitCode}</td>
-                                <td style={{ width: "150px" }}>
+                                <td style={{ width: '150px' }}>
                                   <div className="row">
                                     <div
                                       className="col-lg-12"
                                       style={{
-                                        color: "blue",
-                                        textDecoration: "underline",
+                                        color: 'blue',
+                                        textDecoration: 'underline',
                                       }}
                                     >
                                       <span
@@ -288,8 +287,8 @@ export default function TableRow() {
                                     <div
                                       className="col-lg-12 text-center"
                                       style={{
-                                        color: "blue",
-                                        textDecoration: "underline",
+                                        color: 'blue',
+                                        textDecoration: 'underline',
                                       }}
                                     >
                                       <span
@@ -314,13 +313,13 @@ export default function TableRow() {
                                 </td>
                                 <td>
                                   {_dateFormatter(
-                                    item?.dueDate ? item?.dueDate : ""
+                                    item?.dueDate ? item?.dueDate : ''
                                   )}
                                 </td>
                                 <td>
                                   {item?.dteTransactionDate
                                     ? _dateFormatter(item?.dteTransactionDate)
-                                    : "N/A"}
+                                    : 'N/A'}
                                 </td>
                               </tr>
                             ))}
@@ -388,14 +387,14 @@ export default function TableRow() {
             <AddEditForm lcId={lcId} />
           ) : (
             <IForm
-              title={"View Purchase Order"}
+              title={'View Purchase Order'}
               getProps={setObjprops}
               isDisabled={isDisabled}
               isHiddenReset
               isHiddenSave
               isHiddenBack
             >
-              <PoAddEditForm poId={poId} view={"view"} />
+              <PoAddEditForm poId={poId} view={'view'} />
             </IForm>
           )}
         </Modal.Header>

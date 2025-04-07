@@ -1,23 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { getTargetAction, saveAchievementAction } from "../_redux/Actions";
-import { toArray } from "lodash";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { getTargetAction, saveAchievementAction } from '../_redux/Actions';
+import { toArray } from 'lodash';
 const initData = {};
 
 export default function ViewForm({ currentItem }) {
   const [isDisabled, setDisabled] = useState(false);
-  const {
-    kpiId,
-    frId,
-    year,
-    enroll,
-    selectedYear,
-    kpi,
-    objective,
-    setReport,
-  } = currentItem;
+  const { kpiId, frId, year, enroll, selectedYear, kpi, objective, setReport } =
+    currentItem;
 
   const storeData = useSelector((state) => {
     return {
@@ -36,7 +28,6 @@ export default function ViewForm({ currentItem }) {
     if (kpiId && frId && year) {
       dispatch(getTargetAction(kpiId, frId, year));
     }
-
   }, [kpiId, frId, year]);
 
   const saveHandler = async (values, cb) => {
@@ -65,7 +56,7 @@ export default function ViewForm({ currentItem }) {
 
   const [objProps, setObjprops] = useState({});
   return (
-    <IForm title={""} getProps={setObjprops} isDisabled={isDisabled}>
+    <IForm title={''} getProps={setObjprops} isDisabled={isDisabled}>
       <Form
         {...objProps}
         initData={initData}

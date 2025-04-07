@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getBusinessUnitGridData = async (
   accId,
@@ -12,17 +12,16 @@ export const getBusinessUnitGridData = async (
   generalLedgerId
 ) => {
   setLoding(true);
-  const searchPath = search ? `searchTerm=${search}&` : "";
+  const searchPath = search ? `searchTerm=${search}&` : '';
   try {
     const res = await Axios.get(
-      `/fino/BusinessTransaction/GetBusinessTransactionSearchLandingPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}&generalLedgerId=${generalLedgerId?generalLedgerId:0}`
+      `/fino/BusinessTransaction/GetBusinessTransactionSearchLandingPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}&generalLedgerId=${generalLedgerId ? generalLedgerId : 0}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
       setLoding(false);
     }
   } catch (error) {
-    
     setLoding(false);
   }
 };
@@ -42,9 +41,7 @@ export const getGeneralLedgerDDL = async (accId, buId, setter) => {
       }));
       setter(newData);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const saveBusinessTransaction = async (data, cb, setDisabled) => {
@@ -55,7 +52,7 @@ export const saveBusinessTransaction = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -81,9 +78,9 @@ export const gdetBusinessTransactionId_api = async (
         generalLedger: {
           value: res?.data[0]?.generalLedgerId,
           label: res?.data[0]?.generalLedgerName,
-          code: res?.data[0]?.generalLedgerCode
+          code: res?.data[0]?.generalLedgerCode,
         },
-        isInternalExpense: res?.data[0].isInternalExpense
+        isInternalExpense: res?.data[0].isInternalExpense,
       };
       setter(newData);
     }
@@ -100,7 +97,7 @@ export const editBusinessTransaction_api = async (data, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       setDisabled(false);
     }
   } catch (error) {

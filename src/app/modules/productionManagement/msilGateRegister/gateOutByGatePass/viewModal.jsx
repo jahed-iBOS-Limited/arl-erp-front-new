@@ -1,18 +1,18 @@
-import { Formik } from "formik";
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { _currentTime } from "../../../_helper/_currentTime";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { _currentTime } from '../../../_helper/_currentTime';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 function ChallanViewModal({
   item,
@@ -43,7 +43,7 @@ function ChallanViewModal({
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Gate Out By Gate Pass"}>
+              <CardHeader title={'Gate Out By Gate Pass'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
@@ -89,32 +89,34 @@ function ChallanViewModal({
                 <div className="form-group  global-form">
                   <div className="row">
                     <div className="col-lg-4">
-                      Date:{" "}
+                      Date:{' '}
                       <strong>
                         {_dateFormatter(item?.dteTransactionDate)}
-                      </strong>{" "}
+                      </strong>{' '}
                     </div>
                     <div className="col-lg-4">
-                      Gate Pass Code: <strong>{item?.strGatePassCode}</strong>{" "}
+                      Gate Pass Code:{' '}
+                      <strong>{item?.strGatePassCode}</strong>{' '}
                     </div>
                     <div className="col-lg-4">
-                      From Address: <strong>{item?.strFromAddress}</strong>{" "}
-                    </div>
-                  </div>
-                  <div className="row mt-3">
-                    <div className="col-lg-4">
-                      To Address: <strong>{item?.strToAddress}</strong>{" "}
-                    </div>
-                    <div className="col-lg-4">
-                      Contact: <strong>{item?.strContact}</strong>{" "}
-                    </div>
-                    <div className="col-lg-4">
-                      Driver Name: <strong>{item?.strDriverName}</strong>{" "}
+                      From Address: <strong>{item?.strFromAddress}</strong>{' '}
                     </div>
                   </div>
                   <div className="row mt-3">
                     <div className="col-lg-4">
-                      Vehicle Number: <strong>{item?.strVehicleNumber}</strong>{" "}
+                      To Address: <strong>{item?.strToAddress}</strong>{' '}
+                    </div>
+                    <div className="col-lg-4">
+                      Contact: <strong>{item?.strContact}</strong>{' '}
+                    </div>
+                    <div className="col-lg-4">
+                      Driver Name: <strong>{item?.strDriverName}</strong>{' '}
+                    </div>
+                  </div>
+                  <div className="row mt-3">
+                    <div className="col-lg-4">
+                      Vehicle Number:{' '}
+                      <strong>{item?.strVehicleNumber}</strong>{' '}
                     </div>
                   </div>
                 </div>
@@ -123,7 +125,7 @@ function ChallanViewModal({
                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                       <thead>
                         <tr>
-                          <th style={{ width: "30px" }}>SL</th>
+                          <th style={{ width: '30px' }}>SL</th>
                           <th>Item Name</th>
                           <th>Quantity</th>
                           <th>Uom</th>

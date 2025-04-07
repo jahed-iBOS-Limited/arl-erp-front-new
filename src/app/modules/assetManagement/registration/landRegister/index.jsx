@@ -58,8 +58,9 @@ export default function LandRegister() {
 
   const getLandingData = (values, pageNo, pageSize, searchValue = '') => {
     getGridData(
-      `/asset/AGLandMange/GetTrxGeneralLandingPagination?BusinessUnit=${buId}&PageNo=${pageNo ||
-        1}&PageSize=${pageSize || 20}&viewOrder=desc`,
+      `/asset/AGLandMange/GetTrxGeneralLandingPagination?BusinessUnit=${buId}&PageNo=${
+        pageNo || 1
+      }&PageSize=${pageSize || 20}&viewOrder=desc`
     );
   };
 
@@ -68,7 +69,6 @@ export default function LandRegister() {
   };
   useEffect(() => {
     getLandingData();
-
   }, [buId]);
 
   return (
@@ -102,7 +102,7 @@ export default function LandRegister() {
                     className="btn btn-primary mx-2"
                     onClick={() => {
                       history.push(
-                        `/mngAsset/registration/LandRegister/create`,
+                        `/mngAsset/registration/LandRegister/create`
                       );
                     }}
                   >
@@ -249,8 +249,8 @@ export default function LandRegister() {
                                       e.stopPropagation();
                                       dispatch(
                                         getDownlloadFileView_Action(
-                                          item?.strRegistrationAttachment,
-                                        ),
+                                          item?.strRegistrationAttachment
+                                        )
                                       );
                                     }}
                                     className="mt-2 ml-2"

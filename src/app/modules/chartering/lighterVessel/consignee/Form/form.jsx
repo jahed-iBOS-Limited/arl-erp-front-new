@@ -1,7 +1,7 @@
-import { Formik } from "formik";
-import React from "react";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import { validationSchema } from "../helper";
+import { Formik } from 'formik';
+import React from 'react';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import { validationSchema } from '../helper';
 
 export default function FormCmp({ title, initData, saveHandler }) {
   return (
@@ -24,7 +24,7 @@ export default function FormCmp({ title, initData, saveHandler }) {
                 <div>
                   <button
                     type="submit"
-                    className={"btn btn-primary ml-2 px-3 py-2"}
+                    className={'btn btn-primary ml-2 px-3 py-2'}
                     onClick={handleSubmit}
                     disabled={false}
                   >

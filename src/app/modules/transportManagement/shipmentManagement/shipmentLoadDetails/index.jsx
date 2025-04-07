@@ -1,21 +1,21 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useMemo } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import FromDateToDateForm from "../../../_helper/commonInputFieldsGroups/dateForm";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useMemo } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import FromDateToDateForm from '../../../_helper/commonInputFieldsGroups/dateForm';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import {
   fetchCommonDDL,
   fetchShipmentDetailsData,
   landingInitData,
   landingValidation,
   reportTypeDDL,
-} from "./helper";
+} from './helper';
 
 export default function ShipmentLoadDetailsLandingPage() {
   //redux
@@ -44,23 +44,19 @@ export default function ShipmentLoadDetailsLandingPage() {
 
   const [shipPointDDL, getShipPointDDL, getShipPointDDLLoading] = useAxiosGet();
 
-  const [
-    shipmentLoadDDL,
-    getShipmentLoadDDL,
-    getShipmentLoadDDLLoading,
-  ] = useAxiosGet();
+  const [shipmentLoadDDL, getShipmentLoadDDL, getShipmentLoadDDLLoading] =
+    useAxiosGet();
 
   // use effect initial load
   useEffect(() => {
     // inital shippoint ddl load
     fetchCommonDDL({
       getApi: getShipPointDDL,
-      apiName: "shipPoint",
+      apiName: 'shipPoint',
       values: {},
       selectedBusinessUnit,
       profileData,
     });
-
   }, []);
 
   // save handler
@@ -124,7 +120,7 @@ export default function ShipmentLoadDetailsLandingPage() {
                     onClick={() => {
                       history.push({
                         pathname:
-                          "/transport-management/shipmentmanagement/ShipmentLoadDetails/create",
+                          '/transport-management/shipmentmanagement/ShipmentLoadDetails/create',
                       });
                     }}
                   >
@@ -146,8 +142,8 @@ export default function ShipmentLoadDetailsLandingPage() {
                       setValues({
                         ...values,
                         reportType: valueOption,
-                        shipment: "",
-                        shippoint: "",
+                        shipment: '',
+                        shippoint: '',
                       });
                       resetTable();
                     }}
@@ -163,11 +159,11 @@ export default function ShipmentLoadDetailsLandingPage() {
                     value={values?.shippoint}
                     label="Shippoint"
                     onChange={(valueOption) => {
-                      setFieldValue("shippoint", valueOption);
+                      setFieldValue('shippoint', valueOption);
                       // call shipment ddl on shippont change
                       fetchCommonDDL({
                         getApi: getShipmentLoadDDL,
-                        apiName: "shipmentLoading",
+                        apiName: 'shipmentLoading',
                         values: {
                           ...values,
                           shippoint: valueOption,
@@ -186,11 +182,11 @@ export default function ShipmentLoadDetailsLandingPage() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="shipment"
-                      options={[{ value: 0, label: "All" }, ...shipmentLoadDDL]}
+                      options={[{ value: 0, label: 'All' }, ...shipmentLoadDDL]}
                       value={values?.shipment}
                       label="Shipment"
                       onChange={(valueOption) => {
-                        setFieldValue("shipment", valueOption);
+                        setFieldValue('shipment', valueOption);
                         resetTable();
                       }}
                       errors={errors}
@@ -258,7 +254,7 @@ function ShipmentLoadDetailsTable({ obj }) {
       <table
         id="table-to-xlsx"
         className={
-          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm global-table"
+          'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm global-table'
         }
       >
         <thead>
@@ -275,7 +271,7 @@ function ShipmentLoadDetailsTable({ obj }) {
           {shipmentLoadDetailsData.map((item, index) => {
             return (
               <tr key={index}>
-                <td style={{ width: "40px" }} className="text-center">
+                <td style={{ width: '40px' }} className="text-center">
                   {index + 1}
                 </td>
                 <td>{item?.shipmentCode}</td>
@@ -325,7 +321,7 @@ function ShipmentTopSheetTable({ obj }) {
       <table
         id="table-to-xlsx"
         className={
-          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm global-table"
+          'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm global-table'
         }
       >
         <thead>
@@ -341,7 +337,7 @@ function ShipmentTopSheetTable({ obj }) {
           {shipmentLoadTopSheetData.map((item, index) => {
             return (
               <tr key={index}>
-                <td style={{ width: "40px" }} className="text-center">
+                <td style={{ width: '40px' }} className="text-center">
                   {index + 1}
                 </td>
                 <td>{item?.shipmentCode}</td>

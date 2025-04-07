@@ -22,14 +22,14 @@ export default function CreateBookingModal({
 
     if (!value?.email) {
       toast.error(
-        `Selected ${isExport ? 'Shipper' : 'Consignee '} has no email address`,
+        `Selected ${isExport ? 'Shipper' : 'Consignee '} has no email address`
       );
       return;
     }
     // Encrypt the userIDEmail using base64 encoding
 
     const encryptedUserEmail = CryptoJS.enc.Base64.stringify(
-      CryptoJS.enc.Utf8.parse(value?.email),
+      CryptoJS.enc.Utf8.parse(value?.email)
     );
 
     let url;
@@ -47,7 +47,7 @@ export default function CreateBookingModal({
   React.useEffect(() => {
     if (isExport) {
       getOptions(
-        `${imarineBaseUrl}/domain/ShippingService/GetRegistrationPartnerDDL?typeId=1`,
+        `${imarineBaseUrl}/domain/ShippingService/GetRegistrationPartnerDDL?typeId=1`
       );
     }
     if (!isExport) {
@@ -55,11 +55,9 @@ export default function CreateBookingModal({
       //   `${imarineBaseUrl}/domain/ShippingService/ImportorExportTypeWisePartnerDDL?typeId=2`
       // );
       getOptions(
-        `${imarineBaseUrl}/domain/ShippingService/GetRegistrationPartnerDDL?typeId=2`,
+        `${imarineBaseUrl}/domain/ShippingService/GetRegistrationPartnerDDL?typeId=2`
       );
     }
-
-
   }, []);
   return (
     <div>

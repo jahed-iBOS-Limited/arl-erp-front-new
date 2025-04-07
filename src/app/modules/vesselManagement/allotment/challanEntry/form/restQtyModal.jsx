@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
 export default function RestQtyModal({ restQty }) {
   console.log(restQty);
   return (
-    <div style={{ margin: "30px 20px" }} className="row">
+    <div style={{ margin: '30px 20px' }} className="row">
       <table className="col-lg-12 table table-striped table-bordered bj-table bj-table-landing">
         <thead>
           <tr>

@@ -1,18 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { getcheckPostItemView } from "../helper";
-import InputField from "../../../../_helper/_inputField";
-import { Formik, Form } from "formik";
+import React, { useEffect, useState } from 'react';
+import { getcheckPostItemView } from '../helper';
+import InputField from '../../../../_helper/_inputField';
+import { Formik, Form } from 'formik';
 
 export default function CheckPostInOutView({ id }) {
   // SingleData to view
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   // Get BusinessUnitTaxInfo view data
   useEffect(() => {
     if (id) {
       getcheckPostItemView(id, setSingleData);
     }
-
   }, [id]);
 
   return (
@@ -34,7 +33,7 @@ export default function CheckPostInOutView({ id }) {
                 <div className="col-lg-3">
                   <label>Check Post Name</label>
                   <InputField
-                    value={values?.checkPostName || ""}
+                    value={values?.checkPostName || ''}
                     name="checkPostName"
                     placeholder="Check Post Name"
                     type="text"
@@ -44,7 +43,7 @@ export default function CheckPostInOutView({ id }) {
                 <div className="col-lg-3">
                   <label>Purpose Name</label>
                   <InputField
-                    value={values?.purposeName || ""}
+                    value={values?.purposeName || ''}
                     name="purposeName"
                     placeholder="Purpose Name"
                     type="text"
@@ -54,7 +53,7 @@ export default function CheckPostInOutView({ id }) {
                 <div className="col-lg-3">
                   <label>Vehicle No</label>
                   <InputField
-                    value={values?.vehicleNo || ""}
+                    value={values?.vehicleNo || ''}
                     name="vehicleNo"
                     placeholder="Vehicle No"
                     type="text"
@@ -64,7 +63,7 @@ export default function CheckPostInOutView({ id }) {
                 <div className="col-lg-3">
                   <label>Driver Contact</label>
                   <InputField
-                    value={values?.driverContact || ""}
+                    value={values?.driverContact || ''}
                     name="driverContact"
                     placeholder="Driver Contact"
                     type="text"
@@ -74,7 +73,7 @@ export default function CheckPostInOutView({ id }) {
                 <div className="col-lg-3">
                   <label>Driver Name</label>
                   <InputField
-                    value={values?.driverName || ""}
+                    value={values?.driverName || ''}
                     name="driverName"
                     placeholder="Driver Name"
                     type="text"
@@ -84,7 +83,7 @@ export default function CheckPostInOutView({ id }) {
                 <div className="col-lg-3">
                   <label>Plant Name</label>
                   <InputField
-                    value={values?.plantName || ""}
+                    value={values?.plantName || ''}
                     name="plantName"
                     placeholder="Plant Name"
                     type="text"
@@ -92,11 +91,11 @@ export default function CheckPostInOutView({ id }) {
                   />
                 </div>
 
-                {values?.purposeName === "Distribution" && (
+                {values?.purposeName === 'Distribution' && (
                   <div className="col-lg-3">
                     <label>Shippoint Name</label>
                     <InputField
-                      value={values?.shipPointName || ""}
+                      value={values?.shipPointName || ''}
                       name="shipPointName"
                       placeholder="Shippoint Name"
                       type="text"
@@ -107,7 +106,7 @@ export default function CheckPostInOutView({ id }) {
                 <div className="col-lg-3">
                   <label>Came From</label>
                   <InputField
-                    value={values?.cameFrom || ""}
+                    value={values?.cameFrom || ''}
                     name="cameFrom"
                     placeholder="Came From"
                     type="text"

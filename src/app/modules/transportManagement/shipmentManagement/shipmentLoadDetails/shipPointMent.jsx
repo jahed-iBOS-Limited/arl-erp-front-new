@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { fetchCommonDDL } from "./helper";
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { fetchCommonDDL } from './helper';
 
 const ShipPointShipMentDDL = ({ obj }) => {
   const { values, errors, touched, setFieldValue, isEditingMode } = obj;
@@ -17,23 +17,19 @@ const ShipPointShipMentDDL = ({ obj }) => {
   // api action
   const [shipPointDDL, getShipPointDDL, getShipPointDDLLoading] = useAxiosGet();
 
-  const [
-    shipmentLoadDDL,
-    getShipmentLoadDDL,
-    getShipmentLoadDDLLoading,
-  ] = useAxiosGet();
+  const [shipmentLoadDDL, getShipmentLoadDDL, getShipmentLoadDDLLoading] =
+    useAxiosGet();
 
   // use effect initial load
   useEffect(() => {
     // inital shippoint ddl load
     fetchCommonDDL({
       getApi: getShipPointDDL,
-      apiName: "shipPoint",
+      apiName: 'shipPoint',
       values: {},
       selectedBusinessUnit,
       profileData,
     });
-
   }, []);
 
   // loading
@@ -44,9 +40,9 @@ const ShipPointShipMentDDL = ({ obj }) => {
       {isLoading && <Loading />}
       <CommonDDLFieldComponent
         obj={{
-          name: "shippoint",
+          name: 'shippoint',
           ddl: shipPointDDL,
-          label: "Shippoint",
+          label: 'Shippoint',
           values,
           errors,
           touched,
@@ -56,7 +52,7 @@ const ShipPointShipMentDDL = ({ obj }) => {
             // call shipment ddl on shippont change
             fetchCommonDDL({
               getApi: getShipmentLoadDDL,
-              apiName: "shipmentLoading",
+              apiName: 'shipmentLoading',
               values: {
                 ...values,
                 shippoint: valueOption,
@@ -70,9 +66,9 @@ const ShipPointShipMentDDL = ({ obj }) => {
 
       <CommonDDLFieldComponent
         obj={{
-          name: "shipment",
-          ddl: [{ value: 0, label: "All" }, ...shipmentLoadDDL],
-          label: "Shipment",
+          name: 'shipment',
+          ddl: [{ value: 0, label: 'All' }, ...shipmentLoadDDL],
+          label: 'Shipment',
           values,
           errors,
           touched,

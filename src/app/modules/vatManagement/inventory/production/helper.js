@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const GetProdutionPagination = async (
   accountId,
@@ -16,7 +16,7 @@ export const GetProdutionPagination = async (
 ) => {
   try {
     setLoading(true);
-    const searchPath = search ? `searchTerm=${search}&` : "";
+    const searchPath = search ? `searchTerm=${search}&` : '';
 
     const res = await Axios.get(
       `/vat/ProductionInvoice/ProductionInvoiceSearchLandingPasignationByDate?${searchPath}AccountId=${accountId}&BusinessUnitId=${buId}&StartDate=${fromDate}&EndDate=${toDate}&TaxBranchId=${TaxBranchId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
@@ -84,7 +84,7 @@ export const saveProduction = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -102,7 +102,7 @@ export const saveEditedProduction = async (data, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       setDisabled(false);
     }
   } catch (error) {
@@ -153,7 +153,7 @@ export const CancelProductionEntry_api = async (
       `/vat/ProductionInvoice/CancelProductionEntry?TaxPurchaseId=${purchaseId}`
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }

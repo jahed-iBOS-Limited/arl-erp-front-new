@@ -1,5 +1,3 @@
-
-
 import { Formik } from 'formik';
 import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react';
@@ -81,7 +79,7 @@ export default function DispatchAndDemurrage() {
       values?.fromDate,
       values?.toDate,
       setGridData,
-      setLoading,
+      setLoading
     );
   };
 
@@ -137,7 +135,7 @@ export default function DispatchAndDemurrage() {
         _data[index][field] = true;
         setGridData(_data);
       },
-      true,
+      true
     );
   };
 
@@ -222,7 +220,7 @@ export default function DispatchAndDemurrage() {
                                 buId,
                                 valueOption?.value,
                                 setSalesOrgList,
-                                setLoading,
+                                setLoading
                               );
                             }
                           }}

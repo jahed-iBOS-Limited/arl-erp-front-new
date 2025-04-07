@@ -1,7 +1,7 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 export const GetItemTypeDDLPurchase_api = async (setter) => {
-  setter([])
+  setter([]);
   try {
     const res = await axios.get(`/vat/TaxDDL/GetTaxItemTypeDDL`);
     if (res.status === 200 && res?.data) {
@@ -12,7 +12,7 @@ export const GetItemTypeDDLPurchase_api = async (setter) => {
 };
 
 export const GetItemTypeDDLSales_api = async (setter) => {
-  setter([])
+  setter([]);
   try {
     const res = await axios.get(`/vat/TaxDDL/GetTaxItemTypeDDL`);
     if (res.status === 200 && res?.data) {
@@ -22,7 +22,7 @@ export const GetItemTypeDDLSales_api = async (setter) => {
   } catch (error) {}
 };
 export const GetItemNameDDL_api = async (accId, buId, typeId, setter) => {
-  setter([])
+  setter([]);
   try {
     const res = await axios.get(
       `/vat/TaxDDL/GetTaxItemListByItemTypeDDL?AccountId=${accId}&BusinessUnitId=${buId}&TaxItemTypeId=${typeId}`
@@ -54,7 +54,7 @@ export const PurchaseRegister_Report_api = async (
   setter,
   setLoading
 ) => {
-  setter([])
+  setter([]);
   try {
     setLoading && setLoading(true);
     const res = await axios.get(
@@ -65,7 +65,7 @@ export const PurchaseRegister_Report_api = async (
       if (res?.data?.length > 0) {
         setter(res?.data);
       } else {
-        toast.warning("Data Not Found");
+        toast.warning('Data Not Found');
         setter([]);
       }
     }
@@ -87,7 +87,6 @@ export const getHeaderData_api = async (accId, buId, setter) => {
   }
 };
 
-
 export const SalesRegister_Report_api = async (
   accid,
   buid,
@@ -98,8 +97,8 @@ export const SalesRegister_Report_api = async (
   setter,
   setLoading
 ) => {
-  setter([])
-  setLoading && setLoading(true)
+  setter([]);
+  setLoading && setLoading(true);
   try {
     const res = await axios.get(
       `/vat/VATSP/SalesRegister?intAccountId=${accid}&intBusinessUnitId=${buid}&FromDate=${fromDate}&ToDate=${toDate}&ItemId=${itemId}&intBranch=${branch}`
@@ -107,8 +106,8 @@ export const SalesRegister_Report_api = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-    setLoading && setLoading(false)
+    setLoading && setLoading(false);
   } catch (error) {
-    setLoading && setLoading(false)
+    setLoading && setLoading(false);
   }
 };

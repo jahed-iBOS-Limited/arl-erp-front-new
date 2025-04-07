@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getWorkplaceDDL_api = async (accId, buId, setter) => {
   try {
@@ -19,9 +19,11 @@ export const getWorkplaceDDL_api = async (accId, buId, setter) => {
 };
 export const getYearDDLForProcessReport = async (setter) => {
   try {
-    const res = await axios.get(`/hcm/HCMOvertimeRequisition/GetRequisitionYearDDLForProcess`);
-    let data = [...res?.data]
-    data.unshift({ value : 0, label: "All"})
+    const res = await axios.get(
+      `/hcm/HCMOvertimeRequisition/GetRequisitionYearDDLForProcess`
+    );
+    let data = [...res?.data];
+    data.unshift({ value: 0, label: 'All' });
     setter(data);
   } catch (error) {
     setter([]);
@@ -61,7 +63,7 @@ export const getGridData = async (
   } catch (error) {
     setLoading(false);
     setter([]);
-    toast.error(error?.response?.data?.message || "Something went wrong");
+    toast.error(error?.response?.data?.message || 'Something went wrong');
   }
 };
 
@@ -82,16 +84,16 @@ export const processHandler = async (gridData, setLoading, userId) => {
         statusList.push(1);
       }
     }
-    if (reqList.length < 1) return toast.warn("Please select atleast one data");
+    if (reqList.length < 1) return toast.warn('Please select atleast one data');
     setLoading(true);
     let res = await axios.post(
-      "/hcm/HCMOvertimeRequisition/ProcessOvertimeRequisition",
+      '/hcm/HCMOvertimeRequisition/ProcessOvertimeRequisition',
       { requisitionIdList: reqList, statusId: statusList, insertBy: userId }
     );
-    toast.success(res?.data?.message || "Successfully Processed");
+    toast.success(res?.data?.message || 'Successfully Processed');
     setLoading(false);
   } catch (error) {
     setLoading(false);
-    toast.error(error?.response?.data?.message || "Failed, Please try again");
+    toast.error(error?.response?.data?.message || 'Failed, Please try again');
   }
 };

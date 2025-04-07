@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import IForm from "../../../../../_helper/_form";
-import Loading from "../../../../../_helper/_loading";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import { createFundLimit } from "../../helper";
-import { useLocation } from "react-router-dom";
-import LimitForm from "./Form";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import IForm from '../../../../../_helper/_form';
+import Loading from '../../../../../_helper/_loading';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import { createFundLimit } from '../../helper';
+import { useLocation } from 'react-router-dom';
+import LimitForm from './Form';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
 
 function addDays(date, days = 180) {
   var result = new Date(date);
@@ -15,15 +15,15 @@ function addDays(date, days = 180) {
   return _dateFormatter(result);
 }
 const initData = {
-  bank: "",
-  facility: "",
-  limit: "",
+  bank: '',
+  facility: '',
+  limit: '',
   updatedDate: _todayDate(),
-  tenorDays: "",
-  remarks: "",
-  rate: "",
-  rateReview: "",
-  sanctionReference: "",
+  tenorDays: '',
+  remarks: '',
+  rate: '',
+  rateReview: '',
+  sanctionReference: '',
   limitExpiryDate: addDays(_todayDate()),
 };
 
@@ -44,12 +44,12 @@ export default function FundLimitCreate({
   const saveHandler = async (values, cb) => {
     if (!values?.bank) {
       setDisabled(false);
-      return toast.warn("Please Select Bank");
+      return toast.warn('Please Select Bank');
     }
 
     if (!values?.facility) {
       setDisabled(false);
-      return toast.warn("Please Select Facility");
+      return toast.warn('Please Select Facility');
     }
 
     const payloadForCreateAndEdit = {
@@ -65,8 +65,8 @@ export default function FundLimitCreate({
       lastActionDatetime: _todayDate(),
       intActionBy: profileData?.userId,
       tenureDays: values?.tenorDays || 0,
-      sanctionReference: values?.sanctionReference || "",
-      limitExpiryDate: values?.limitExpiryDate || "",
+      sanctionReference: values?.sanctionReference || '',
+      limitExpiryDate: values?.limitExpiryDate || '',
       isActive: true,
       interestRate: +values?.rate,
       rateReview: +values?.rateReview,

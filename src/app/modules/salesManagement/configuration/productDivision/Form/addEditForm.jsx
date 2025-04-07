@@ -1,7 +1,6 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   saveProductDivision,
   saveEditProductDivision,
@@ -9,17 +8,17 @@ import {
   getProductDivisionTypeDDLAction,
   getProductDivisionChannelById,
   setProductDivisionSingleEmpty,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
   id: undefined,
-  productDivisionCode: "",
-  productDivisionName: "",
-  businessUnitName: "",
-  parentDivisionName: "",
-  productDivisionType: "",
+  productDivisionCode: '',
+  productDivisionName: '',
+  businessUnitName: '',
+  parentDivisionName: '',
+  productDivisionType: '',
 };
 
 export function ProductDivisionAddForm({
@@ -65,7 +64,6 @@ export function ProductDivisionAddForm({
     } else {
       dispatch(setProductDivisionSingleEmpty());
     }
-
   }, [id]);
 
   useEffect(() => {
@@ -85,7 +83,6 @@ export function ProductDivisionAddForm({
         )
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {
@@ -128,7 +125,7 @@ export function ProductDivisionAddForm({
 
   return (
     <IForm
-      title={id ? "Edit Product Division" : "Create Product Division"}
+      title={id ? 'Edit Product Division' : 'Create Product Division'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

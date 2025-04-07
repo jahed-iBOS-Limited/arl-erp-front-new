@@ -1,16 +1,15 @@
-
-import { Field, Form, Formik } from "formik";
-import React, { useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import TextArea from "../../../../_helper/TextArea";
-import InputField from "../../../../_helper/_inputField";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import NewSelect from "../../../../_helper/_select";
-import { cbForAppId, cbForRegistrationId } from "./utils";
-import placeholderImg from "../../../../_helper/images/placeholderImg.png";
-import { attachmentUpload } from "../../../../_helper/attachmentUpload";
+import { Field, Form, Formik } from 'formik';
+import React, { useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import TextArea from '../../../../_helper/TextArea';
+import InputField from '../../../../_helper/_inputField';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import NewSelect from '../../../../_helper/_select';
+import { cbForAppId, cbForRegistrationId } from './utils';
+import placeholderImg from '../../../../_helper/images/placeholderImg.png';
+import { attachmentUpload } from '../../../../_helper/attachmentUpload';
 
 export default function FormCmp({
   initData,
@@ -39,27 +38,27 @@ export default function FormCmp({
   };
 
   useEffect(() => {
-    getCombineddl("/hcm/TrustManagement/GetTrustCombineDDL");
+    getCombineddl('/hcm/TrustManagement/GetTrustCombineDDL');
   }, []);
 
   const getCauseOfDonationAction = (donationPurposeId) => {
     getCauseOfDonation(
-      generateAPI("CauseOfDonationOrZakat", donationPurposeId)
+      generateAPI('CauseOfDonationOrZakat', donationPurposeId)
     );
   };
 
   const getDonationNameAction = (donationPurposeId, donationCauseId) => {
     getDonationName(
-      generateAPI("DonationName", donationPurposeId, donationCauseId)
+      generateAPI('DonationName', donationPurposeId, donationCauseId)
     );
   };
 
   const branchAction = (bankId, addressKeyword) => {
-    getBranchName(generateAPI("BankBranchDDL", bankId, 0, addressKeyword));
+    getBranchName(generateAPI('BankBranchDDL', bankId, 0, addressKeyword));
   };
 
   const branchAddressAction = (bankId) => {
-    getBranchAddressDDL(generateAPI("BankBranchAddress", bankId));
+    getBranchAddressDDL(generateAPI('BankBranchAddress', bankId));
   };
 
   const onButtonAttachmentClick = () => {
@@ -74,7 +73,7 @@ export default function FormCmp({
         initialValues={{
           ...initData,
           businessUnit:
-            combineddl?.unitDDL?.length > 0 ? combineddl?.unitDDL?.[0] : "",
+            combineddl?.unitDDL?.length > 0 ? combineddl?.unitDDL?.[0] : '',
         }}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, (data) => {
@@ -114,7 +113,7 @@ export default function FormCmp({
                           options={combineddl?.unitDDL}
                           value={values?.businessUnit}
                           onChange={(valueOption) => {
-                            setFieldValue("businessUnit", valueOption);
+                            setFieldValue('businessUnit', valueOption);
                           }}
                           placeholder="Business Unit"
                           errors={errors}
@@ -136,7 +135,7 @@ export default function FormCmp({
                             value={values?.applicationId}
                             name="applicationId"
                             onChange={(e) => {
-                              setFieldValue("applicationId", e.target.value);
+                              setFieldValue('applicationId', e.target.value);
                             }}
                             placeholder="Application ID"
                           />
@@ -148,7 +147,7 @@ export default function FormCmp({
                         onClick={(e) => {
                           setAppId(null);
                           if (!values?.applicationId)
-                            return toast.warn("Please add application ID");
+                            return toast.warn('Please add application ID');
                           getDataById(
                             `/hcm/TrustManagement/GetTrustAllLanding?PartName=DonationApplicationById&AutoId=${values?.applicationId}&TypeId=0&StatusId=0&Status=`,
                             (data) => {
@@ -203,7 +202,7 @@ export default function FormCmp({
                           value={values?.applicationDate}
                           name="applicationDate"
                           onChange={(e) => {
-                            setFieldValue("applicationDate", e.target.value);
+                            setFieldValue('applicationDate', e.target.value);
                           }}
                           type="date"
                           placeholder="Application Date"
@@ -223,7 +222,7 @@ export default function FormCmp({
                             value={values?.nationalId}
                             name="nationalId"
                             onChange={(e) => {
-                              setFieldValue("nationalId", e.target.value);
+                              setFieldValue('nationalId', e.target.value);
                             }}
                             placeholder="National ID"
                           />
@@ -243,7 +242,7 @@ export default function FormCmp({
                             value={values?.registrationNo}
                             name="registrationNo"
                             onChange={(e) => {
-                              setFieldValue("registrationNo", e.target.value);
+                              setFieldValue('registrationNo', e.target.value);
                             }}
                             placeholder="Registration No"
                           />
@@ -290,8 +289,8 @@ export default function FormCmp({
                           options={combineddl?.hospitalOrInstituteDDL}
                           value={values?.hospitals}
                           onChange={(valueOption) => {
-                            setFieldValue("donationPurpose", "");
-                            setFieldValue("hospitals", valueOption);
+                            setFieldValue('donationPurpose', '');
+                            setFieldValue('hospitals', valueOption);
                           }}
                           placeholder="Hospitals/Institutes"
                           errors={errors}
@@ -316,8 +315,8 @@ export default function FormCmp({
                           options={combineddl?.donationPurposeDDL}
                           value={values?.donationPurpose}
                           onChange={(valueOption) => {
-                            setFieldValue("donationCause", "");
-                            setFieldValue("donationPurpose", valueOption);
+                            setFieldValue('donationCause', '');
+                            setFieldValue('donationPurpose', valueOption);
                             getCauseOfDonationAction(valueOption?.value);
                           }}
                           placeholder="Donation Purpose"
@@ -339,7 +338,7 @@ export default function FormCmp({
                             value={values?.applicantsName}
                             name="applicantsName"
                             onChange={(e) => {
-                              setFieldValue("applicantsName", e.target.value);
+                              setFieldValue('applicantsName', e.target.value);
                             }}
                             placeholder="Applicant's Name"
                           />
@@ -361,8 +360,8 @@ export default function FormCmp({
                           options={causeOfDonation}
                           value={values?.donationCause}
                           onChange={(valueOption) => {
-                            setFieldValue("donationName", "");
-                            setFieldValue("donationCause", valueOption);
+                            setFieldValue('donationName', '');
+                            setFieldValue('donationCause', valueOption);
                             getDonationNameAction(
                               values?.donationPurpose?.value,
                               valueOption?.value
@@ -387,7 +386,7 @@ export default function FormCmp({
                             value={values?.beneficiary}
                             name="beneficiary"
                             onChange={(e) => {
-                              setFieldValue("beneficiary", e.target.value);
+                              setFieldValue('beneficiary', e.target.value);
                             }}
                             placeholder="Name of Beneficiary"
                           />
@@ -409,7 +408,7 @@ export default function FormCmp({
                           options={donationName}
                           value={values?.donationName}
                           onChange={(valueOption) => {
-                            setFieldValue("donationName", valueOption);
+                            setFieldValue('donationName', valueOption);
                           }}
                           placeholder="Donation Name"
                           errors={errors}
@@ -430,7 +429,7 @@ export default function FormCmp({
                             value={values?.accountHolder}
                             name="accountHolder"
                             onChange={(e) => {
-                              setFieldValue("accountHolder", e.target.value);
+                              setFieldValue('accountHolder', e.target.value);
                             }}
                             placeholder="Account Holder's Name"
                           />
@@ -452,7 +451,7 @@ export default function FormCmp({
                             value={values?.address}
                             name="address"
                             onChange={(e) => {
-                              setFieldValue("address", e.target.value);
+                              setFieldValue('address', e.target.value);
                             }}
                             placeholder="Address"
                           />
@@ -474,11 +473,11 @@ export default function FormCmp({
                           options={combineddl?.modeOfPaymentDDL}
                           value={values?.modeOfPayment}
                           onChange={(valueOption) => {
-                            setFieldValue("bankName", "");
-                            setFieldValue("accountType", "");
-                            setFieldValue("branchName", "");
-                            setFieldValue("accountNo", "");
-                            setFieldValue("modeOfPayment", valueOption);
+                            setFieldValue('bankName', '');
+                            setFieldValue('accountType', '');
+                            setFieldValue('branchName', '');
+                            setFieldValue('accountNo', '');
+                            setFieldValue('modeOfPayment', valueOption);
                           }}
                           placeholder="Mode of Payment"
                           errors={errors}
@@ -499,7 +498,7 @@ export default function FormCmp({
                             value={values?.contactNo}
                             name="contactNo"
                             onChange={(e) => {
-                              setFieldValue("contactNo", e.target.value);
+                              setFieldValue('contactNo', e.target.value);
                             }}
                             placeholder="Contact No."
                           />
@@ -519,7 +518,7 @@ export default function FormCmp({
                             value={values?.amount}
                             name="amount"
                             onChange={(e) => {
-                              setFieldValue("amount", e.target.value);
+                              setFieldValue('amount', e.target.value);
                             }}
                             placeholder="Amount"
                           />
@@ -547,14 +546,14 @@ export default function FormCmp({
                       </div>
                     </div>
                     <div className="col-lg-2 mb-2">
-                      {values?.modeOfPayment?.label === "Online Advice" && (
+                      {values?.modeOfPayment?.label === 'Online Advice' && (
                         <div className="d-flex align-items-start h-100">
                           Bank Name
                         </div>
                       )}
                     </div>
                     <div className="col-lg-4 mb-2">
-                      {values?.modeOfPayment?.label === "Online Advice" && (
+                      {values?.modeOfPayment?.label === 'Online Advice' && (
                         <div className="d-flex align-items-start h-100">
                           <span className="mr-2">:</span>
                           <NewSelect
@@ -564,10 +563,10 @@ export default function FormCmp({
                             options={combineddl?.bankDDL}
                             value={values?.bankName}
                             onChange={(valueOption) => {
-                              setFieldValue("routing", "");
-                              setFieldValue("branchName", "");
-                              setFieldValue("branchAddress", "");
-                              setFieldValue("bankName", valueOption);
+                              setFieldValue('routing', '');
+                              setFieldValue('branchName', '');
+                              setFieldValue('branchAddress', '');
+                              setFieldValue('bankName', valueOption);
                               branchAddressAction(valueOption?.value);
                             }}
                             placeholder="Bank Name"
@@ -579,14 +578,14 @@ export default function FormCmp({
                     </div>
 
                     <div className="col-lg-2 mb-2">
-                      {values?.modeOfPayment?.label === "Online Advice" && (
+                      {values?.modeOfPayment?.label === 'Online Advice' && (
                         <div className="d-flex align-items-start h-100">
                           Address
                         </div>
                       )}
                     </div>
                     <div className="col-lg-4 mb-2">
-                      {values?.modeOfPayment?.label === "Online Advice" && (
+                      {values?.modeOfPayment?.label === 'Online Advice' && (
                         <div className="d-flex align-items-start h-100">
                           <span className="mr-2">:</span>
                           <NewSelect
@@ -596,9 +595,9 @@ export default function FormCmp({
                             options={branchAddressDDL}
                             value={values?.branchAddress}
                             onChange={(valueOption) => {
-                              setFieldValue("branchName", "");
-                              setFieldValue("routing", "");
-                              setFieldValue("branchAddress", valueOption);
+                              setFieldValue('branchName', '');
+                              setFieldValue('routing', '');
+                              setFieldValue('branchAddress', valueOption);
                               branchAction(
                                 values?.bankName?.value,
                                 valueOption?.label
@@ -612,7 +611,7 @@ export default function FormCmp({
                       )}
                     </div>
 
-                    {values?.modeOfPayment?.label === "Online Advice" && (
+                    {values?.modeOfPayment?.label === 'Online Advice' && (
                       <>
                         <div className="col-lg-2 mb-2">
                           <div className="d-flex align-items-center h-100">
@@ -627,7 +626,7 @@ export default function FormCmp({
                                 value={values?.accountType}
                                 name="accountType"
                                 onChange={(e) => {
-                                  setFieldValue("accountType", e.target.value);
+                                  setFieldValue('accountType', e.target.value);
                                 }}
                                 placeholder="Account Type"
                               />
@@ -649,11 +648,11 @@ export default function FormCmp({
                               options={branchName}
                               value={values?.branchName}
                               onChange={(valueOption) => {
-                                setFieldValue(
-                                  "routing",
-                                  { value: valueOption?.strRoutingNo, label: valueOption?.strRoutingNo }
-                                );
-                                setFieldValue("branchName", valueOption);
+                                setFieldValue('routing', {
+                                  value: valueOption?.strRoutingNo,
+                                  label: valueOption?.strRoutingNo,
+                                });
+                                setFieldValue('branchName', valueOption);
                               }}
                               placeholder="Branch Name"
                               errors={errors}
@@ -676,7 +675,7 @@ export default function FormCmp({
                               options={[]}
                               value={values?.routing}
                               onChange={(valueOption) => {
-                                setFieldValue("routing", valueOption);
+                                setFieldValue('routing', valueOption);
                               }}
                               isDisabled
                               placeholder="Routing"
@@ -698,7 +697,7 @@ export default function FormCmp({
                                 value={values?.accountNo}
                                 name="accountNo"
                                 onChange={(e) => {
-                                  setFieldValue("accountNo", e.target.value);
+                                  setFieldValue('accountNo', e.target.value);
                                 }}
                                 placeholder="Account No"
                               />
@@ -722,7 +721,7 @@ export default function FormCmp({
                             name="effectiveDate"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("effectiveDate", e.target.value);
+                              setFieldValue('effectiveDate', e.target.value);
                             }}
                             placeholder="Effective Date"
                           />
@@ -744,7 +743,7 @@ export default function FormCmp({
                             name="expiryDate"
                             min={values?.applicationDate}
                             onChange={(e) => {
-                              setFieldValue("expiryDate", e.target.value);
+                              setFieldValue('expiryDate', e.target.value);
                             }}
                             placeholder="Expiry Date"
                           />
@@ -766,7 +765,7 @@ export default function FormCmp({
                             <i
                               className="fa fa-eye"
                               aria-hidden="true"
-                              style={{ marginRight: "5px", color: "#0072E5" }}
+                              style={{ marginRight: '5px', color: '#0072E5' }}
                             ></i>
                           </span>
                         )}
@@ -776,14 +775,14 @@ export default function FormCmp({
                       <div
                         className={
                           attachmentFile
-                            ? "image-upload-box with-img"
-                            : "image-upload-box"
+                            ? 'image-upload-box with-img'
+                            : 'image-upload-box'
                         }
                         onClick={onButtonAttachmentClick}
                         style={{
-                          cursor: "pointer",
-                          position: "relative",
-                          height: "35px",
+                          cursor: 'pointer',
+                          position: 'relative',
+                          height: '35px',
                         }}
                       >
                         <input
@@ -794,19 +793,19 @@ export default function FormCmp({
                                   setAttachmentFile(data?.[0]?.id);
                                 })
                                 .catch((err) => {
-                                  setAttachmentFile("");
+                                  setAttachmentFile('');
                                 });
                             }
                           }}
                           type="file"
                           ref={inputAttachFile}
                           id="file"
-                          style={{ display: "none" }}
+                          style={{ display: 'none' }}
                         />
                         <div>
                           {!attachmentFile && (
                             <img
-                              style={{ maxWidth: "65px" }}
+                              style={{ maxWidth: '65px' }}
                               src={placeholderImg}
                               className="img-fluid"
                               alt="Upload or drag documents"
@@ -817,11 +816,11 @@ export default function FormCmp({
                           <div className="d-flex align-items-center">
                             <p
                               style={{
-                                fontSize: "12px",
-                                fontWeight: "500",
-                                color: "#0072E5",
-                                cursor: "pointer",
-                                margin: "0px",
+                                fontSize: '12px',
+                                fontWeight: '500',
+                                color: '#0072E5',
+                                cursor: 'pointer',
+                                margin: '0px',
                               }}
                             >
                               {attachmentFile}
@@ -836,14 +835,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

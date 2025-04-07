@@ -1,20 +1,18 @@
-
-
 /*
 
 Dont Touch Any Code without permission by Mamun Ahmed (Backend)
 
 */
 
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { toast } from "react-toastify";
+import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { toast } from 'react-toastify';
 import {
   getPlantNameDDL,
   getShiftDDL,
@@ -24,24 +22,24 @@ import {
   getProductionItemQuantity,
   createProductionEntryForBackCalculation,
   getSingleDataByForBackCalculation,
-} from "../helper";
-import Form from "./BackCalculationEditForm";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+} from '../helper';
+import Form from './BackCalculationEditForm';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
 
 let initData = {
   id: undefined,
-  plantName: "",
-  shopFloor: "",
-  workcenterName: "",
-  itemName: "",
-  bomName: "",
-  orderQty: "",
+  plantName: '',
+  shopFloor: '',
+  workcenterName: '',
+  itemName: '',
+  bomName: '',
+  orderQty: '',
   dteProductionDate: _todayDate(),
-  shift: "",
-  goodQty: "",
-  goodReceivedQty: "",
-  othersOutputItem: "",
-  othersOutputQty: "",
+  shift: '',
+  goodQty: '',
+  goodReceivedQty: '',
+  othersOutputItem: '',
+  othersOutputQty: '',
   checkOutputItem: false,
 };
 
@@ -54,13 +52,13 @@ export default function BackCalculationEditForm() {
   const [singleData, setSingleData] = useState({});
   const params = useParams();
 
-  const [ setOthersOutputItemDDL] = useState([]);
+  const [setOthersOutputItemDDL] = useState([]);
   const [shopFloorDDL, setShopFloorDDL] = useState([]);
   const [workCenterDDL, setWorkCenterDDL] = useState([]);
   const [itemDDL, setItemDDL] = useState([]);
   const [bomDDL, setBomDDL] = useState([]);
-  const [setGetOrderQuantity] = useState("");
-  const [setProductionQuantity] = useState("");
+  const [setGetOrderQuantity] = useState('');
+  const [setProductionQuantity] = useState('');
 
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -157,7 +155,7 @@ export default function BackCalculationEditForm() {
             // intApproveBy: 0,
             // intActionBy: profileData?.userId,
 
-            productionCode: "",
+            productionCode: '',
             productionDate: _dateFormatter(values?.dteProductionDate),
             shiftId: values?.shift?.value,
             accountId: profileData?.accountId,
@@ -187,7 +185,7 @@ export default function BackCalculationEditForm() {
                     // numApprovedQuantity: 0,
 
                     productionOrderId: 0,
-                    productionOrderCode: "string",
+                    productionOrderCode: 'string',
                     productionDate: _dateFormatter(values?.dteProductionDate),
                     itemId: values?.itemName?.value,
                     itemName: values?.itemName?.label,
@@ -200,7 +198,7 @@ export default function BackCalculationEditForm() {
               : [
                   {
                     productionOrderId: 0,
-                    productionOrderCode: "string",
+                    productionOrderCode: 'string',
                     productionDate: _dateFormatter(values?.dteProductionDate),
                     itemId: values?.itemName?.value,
                     itemName: values?.itemName?.label,
@@ -224,13 +222,9 @@ export default function BackCalculationEditForm() {
         const isOutputZero = objRowData.every((itm) => itm?.numQuantity > 0);
         if (isOutputZero && payload?.row?.length > 0) {
           if (!values?.plantName || !values?.shift || !values?.goodQty) {
-            toast.warn("All Field Required");
+            toast.warn('All Field Required');
           } else {
-            createProductionEntryForBackCalculation(
-              payload,
-              cb,
-              setDisabled
-            );
+            createProductionEntryForBackCalculation(payload, cb, setDisabled);
           }
         } else {
           toast.warn("Output Quantity For 'Item Name' Must Be Greater Than 0");
@@ -241,14 +235,23 @@ export default function BackCalculationEditForm() {
 
   const modifySingleData = {
     ...singleData,
-    shopFloorDDL: {value: singleData?.header?.shopFloorId, label: singleData?.header?.shopFloorName},
-    workCenterDDL: {value: singleData?.header?.workCenterId, label: singleData?.header?.workCenterName},
-    itemDDL: {value: singleData?.header?.itemId, label: singleData?.header?.itemName},
+    shopFloorDDL: {
+      value: singleData?.header?.shopFloorId,
+      label: singleData?.header?.shopFloorName,
+    },
+    workCenterDDL: {
+      value: singleData?.header?.workCenterId,
+      label: singleData?.header?.workCenterName,
+    },
+    itemDDL: {
+      value: singleData?.header?.itemId,
+      label: singleData?.header?.itemName,
+    },
     // uomDDL: {value: singleData?.header?.}
-    productionDate: _dateFormatter(singleData?.dteProductionDate)
-  }
+    productionDate: _dateFormatter(singleData?.dteProductionDate),
+  };
 
-  console.log('modifySingleData: ', modifySingleData)
+  console.log('modifySingleData: ', modifySingleData);
 
   // useEffect(() => {
   //   console.log("Change Row Data => ", rowData);
@@ -272,11 +275,7 @@ export default function BackCalculationEditForm() {
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
   useEffect(() => {
-    getSingleDataByForBackCalculation(
-      params?.id,
-      setSingleData,
-      setRowData
-    );
+    getSingleDataByForBackCalculation(params?.id, setSingleData, setRowData);
   }, [params?.id, profileData?.accountId, selectedBusinessUnit?.value]);
 
   const dataHandler = (name, value, sl) => {

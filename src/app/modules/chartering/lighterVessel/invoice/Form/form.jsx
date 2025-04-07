@@ -1,16 +1,16 @@
-import { Formik } from "formik";
-import React from "react";
-import { useHistory } from "react-router-dom";
-import { ToWords } from "to-words";
-import TextArea from "../../../../_helper/TextArea";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import { months } from "../../reports/helper";
-import { validationSchema } from "../helper";
+import { Formik } from 'formik';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { ToWords } from 'to-words';
+import TextArea from '../../../../_helper/TextArea';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import { months } from '../../reports/helper';
+import { validationSchema } from '../helper';
 
 export default function FormCmp({
   title,
@@ -25,7 +25,7 @@ export default function FormCmp({
   loading,
 }) {
   const toWords = new ToWords({
-    localeCode: "en-BD",
+    localeCode: 'en-BD',
     converterOptions: {
       currency: true,
       ignoreDecimal: false,
@@ -62,7 +62,7 @@ export default function FormCmp({
                   <button
                     type="button"
                     onClick={() => history.goBack()}
-                    className={"btn btn-secondary reset-btn ml-2 px-3 py-2"}
+                    className={'btn btn-secondary reset-btn ml-2 px-3 py-2'}
                   >
                     <i className="fa fa-arrow-left mr-1"></i>
                     Back
@@ -70,13 +70,13 @@ export default function FormCmp({
                   <button
                     type="button"
                     onClick={() => resetForm(initData)}
-                    className={"btn btn-info reset-btn ml-2 px-3 py-2"}
+                    className={'btn btn-info reset-btn ml-2 px-3 py-2'}
                   >
                     Reset
                   </button>
                   <button
                     type="submit"
-                    className={"btn btn-primary ml-2 px-3 py-2"}
+                    className={'btn btn-primary ml-2 px-3 py-2'}
                     onClick={handleSubmit}
                     disabled={!tripInformation?.objList?.length || loading}
                   >
@@ -90,7 +90,7 @@ export default function FormCmp({
                   <FromDateToDateForm obj={{ values, setFieldValue }} />
                   <div className="col-lg-3 relative">
                     <FormikSelect
-                      value={values?.surveyNo || ""}
+                      value={values?.surveyNo || ''}
                       isSearchable={true}
                       options={surveyNoDDL || []}
                       styles={customStyles}
@@ -99,7 +99,7 @@ export default function FormCmp({
                       placeholder="Survey No"
                       onChange={(valueOption) => {
                         setTripInformation([]);
-                        setFieldValue("surveyNo", valueOption);
+                        setFieldValue('surveyNo', valueOption);
                         // if (valueOption) {
                         //   GetTripInformation({
                         //     ...values,
@@ -149,9 +149,9 @@ export default function FormCmp({
                       onClick={() => {
                         GetTripInformation(values);
                       }}
-                    // disabled={
-                    //   !values?.surveyNo || !values?.month || !values?.year
-                    // }
+                      // disabled={
+                      //   !values?.surveyNo || !values?.month || !values?.year
+                      // }
                     >
                       Show
                     </button>
@@ -175,24 +175,24 @@ export default function FormCmp({
                     <h2>{selectedBusinessUnit?.label}</h2>
                     <h4>{selectedBusinessUnit?.address}</h4>
                     <h3 className="text-uppercase mt-1">
-                      Freight Bill Of{" "}
+                      Freight Bill Of{' '}
                       {months[new Date(values?.billDate).getMonth()] +
-                        "-" +
+                        '-' +
                         new Date(values?.billDate)?.getFullYear()}
                     </h3>
                   </div>
                   <br />
                   <div className="d-flex justify-content-between">
-                    <div style={{ width: "65%" }}>
+                    <div style={{ width: '65%' }}>
                       <h4>
-                        Billing Unit: <br />{" "}
+                        Billing Unit: <br />{' '}
                         {tripInformation?.objHeder?.consigneePartyName}
                       </h4>
                       <p>{tripInformation?.objHeder?.consigneeAddress}</p>
                     </div>
-                    <div style={{ width: "35%" }}>
+                    <div style={{ width: '35%' }}>
                       <h4 className="d-flex">
-                        Bill No:{" "}
+                        Bill No:{' '}
                         <div className="col-lg-8">
                           <FormikInput
                             value={values?.billNo}
@@ -202,7 +202,7 @@ export default function FormCmp({
                             errors={errors}
                             touched={touched}
                           />
-                        </div>{" "}
+                        </div>{' '}
                       </h4>
                       <div className="d-flex">
                         <h4>Date:</h4>
@@ -226,8 +226,8 @@ export default function FormCmp({
                       <td>-</td>
                       <td colSpan="2">
                         <b className="mb-0">
-                          Coaster Hire Charges for carrying{" "}
-                          {tripInformation?.objHeder?.cargoName} (SR#{" "}
+                          Coaster Hire Charges for carrying{' '}
+                          {tripInformation?.objHeder?.cargoName} (SR#{' '}
                           {tripInformation?.objHeder?.surveyNo} )
                         </b>
                       </td>
@@ -237,8 +237,8 @@ export default function FormCmp({
                       <td>-</td>
                       <td colSpan="2">
                         <h4 className="mb-0">
-                          LC #{tripInformation?.objHeder?.lcnumber},{" "}
-                          {tripInformation?.objHeder?.motherVesselName},{" "}
+                          LC #{tripInformation?.objHeder?.lcnumber},{' '}
+                          {tripInformation?.objHeder?.motherVesselName},{' '}
                           {tripInformation?.objHeder?.voyageNo}
                         </h4>
                       </td>
@@ -246,7 +246,7 @@ export default function FormCmp({
                     </tr>
                     {tripInformation?.objList?.map((item, index) => (
                       <tr key={index}>
-                        <td className="text-center" style={{ width: "40px" }}>
+                        <td className="text-center" style={{ width: '40px' }}>
                           {index + 1}
                         </td>
                         <td>{item?.lighterVesselName}</td>
@@ -262,26 +262,26 @@ export default function FormCmp({
                         </td>
                       </tr>
                     ))}
-                    <tr style={{ fontWeight: "bold" }}>
+                    <tr style={{ fontWeight: 'bold' }}>
                       <td colSpan={2}></td>
                       <td>Total</td>
                       <td className="text-right">
-                        {" "}
+                        {' '}
                         {_formatMoney(
                           tripInformation?.objList?.reduce((a, b) => {
                             return a + b?.numQty;
                           }, 0),
                           0
-                        )}{" "}
+                        )}{' '}
                       </td>
                       <td></td>
                       <td className="text-right">
-                        {" "}
+                        {' '}
                         {_formatMoney(
                           tripInformation?.objList?.reduce((a, b) => {
                             return a + b?.numAmount;
                           }, 0)
-                        )}{" "}
+                        )}{' '}
                       </td>
                     </tr>
                     <tr>

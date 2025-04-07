@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
 import {
   getShipmentByID,
   GetFuelConstInfoById_api,
@@ -8,33 +8,33 @@ import {
   getBUMilageAllowance,
   GetShipmentCostEntryStatus_api,
   GetShipToPartnerDistanceByShipmentId_api,
-} from "./helper";
-import Loading from "../../../../_helper/_loading";
+} from './helper';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
-  vehicleNo: "",
-  driverName: "",
-  routeName: "",
-  distanceKm: "",
-  shipmentDate: "",
-  startMillage: "",
-  endMillage: "",
-  totalStandardCost: "",
-  advanceAmount: "",
-  totalActualCost: "",
-  costComponent: "",
+  vehicleNo: '',
+  driverName: '',
+  routeName: '',
+  distanceKm: '',
+  shipmentDate: '',
+  startMillage: '',
+  endMillage: '',
+  totalStandardCost: '',
+  advanceAmount: '',
+  totalActualCost: '',
+  costComponent: '',
 };
 
 export default function ShipmentCostAuditApproveViewForm({ id, values }) {
-  const [reset, setReset] = useState({ func: "" });
+  const [reset, setReset] = useState({ func: '' });
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [fuleCost, setFuleCost] = useState([]);
   const [distanceKM, setDistanceKM] = useState([]);
   const [vehicleReant, setVehicleReant] = useState([]);
-  const [buMilage, setBuMilage] = useState("");
-  const [, setEntryStatus] = useState("");
+  const [buMilage, setBuMilage] = useState('');
+  const [, setEntryStatus] = useState('');
 
   // get user profile data from store
   const storeData = useSelector((state) => {
@@ -63,18 +63,17 @@ export default function ShipmentCostAuditApproveViewForm({ id, values }) {
         id,
         setEntryStatus
       );
-      if (values?.reportType?.label !== "Pending") {
+      if (values?.reportType?.label !== 'Pending') {
         getShipmentByID(id, setSingleData, setRowDto, setDisabled);
       } else {
         getShipmentByID(id, setSingleData, null, setDisabled);
       }
     }
-
   }, []);
 
   // if Report type panding
   useEffect(() => {
-    if (values?.reportType?.label === "Pending" && buMilage?.configid) {
+    if (values?.reportType?.label === 'Pending' && buMilage?.configid) {
       let amount =
         +singleData?.distanceKm < +buMilage?.milage
           ? +singleData?.distanceKm * +buMilage?.minimumAmount
@@ -87,7 +86,6 @@ export default function ShipmentCostAuditApproveViewForm({ id, values }) {
       };
       setRowDto([obj]);
     }
-
   }, [buMilage, singleData]);
 
   useEffect(() => {

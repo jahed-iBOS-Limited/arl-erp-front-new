@@ -1,48 +1,41 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import * as Yup from "yup";
-import Loading from "../../_helper/_loading";
-import InputField from "../../_helper/_inputField";
-import IDelete from "../../_helper/_helperIcons/_delete";
-
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import * as Yup from 'yup';
+import Loading from '../../_helper/_loading';
+import InputField from '../../_helper/_inputField';
+import IDelete from '../../_helper/_helperIcons/_delete';
 
 // Initial data for Formik
 const initData = {
-  toEmail: "",
-  ccEmail: "",
+  toEmail: '',
+  ccEmail: '',
 };
 
 // Validation schema using Yup
 const validationSchema = Yup.object().shape({
   toEmail: Yup.string()
-    .test("valid-to-email", "Invalid email address", (value) => {
+    .test('valid-to-email', 'Invalid email address', (value) => {
       if (!value) return false;
       const trimmedValue = value.trim(); // Trim spaces before validation
-      return Yup.string()
-        .email()
-        .isValidSync(trimmedValue);
+      return Yup.string().email().isValidSync(trimmedValue);
     })
-    .required("To Email is required"),
+    .required('To Email is required'),
 
   ccEmail: Yup.string()
     .test(
-      "valid-cc-emails",
+      'valid-cc-emails',
       "Each email in 'Cc' field must be valid and no trailing commas",
       (value) => {
         if (!value) return true; // ccEmail is optional
-        const emails = value.split(",").map((email) => email.trim());
+        const emails = value.split(',').map((email) => email.trim());
 
         // Check for empty email entries (e.g., due to trailing commas)
-        if (emails.some((email) => email === "")) {
+        if (emails.some((email) => email === '')) {
           return false; // Invalid if there are empty emails
         }
 
         // Validate all emails
-        return emails.every((email) =>
-          Yup.string()
-            .email()
-            .isValidSync(email)
-        );
+        return emails.every((email) => Yup.string().email().isValidSync(email));
       }
     )
     .nullable(),
@@ -66,7 +59,7 @@ export default function AddTOCC({ setIsShow, setEmailData, prevEmailList }) {
         ...prev.email_list,
         values.ccEmail
           ? values.ccEmail
-              .split(",")
+              .split(',')
               .map((email) => email?.trim()?.toLowerCase()) // Trim spaces when adding to state
           : [], // If no ccEmail, add an empty array
       ],
@@ -106,18 +99,18 @@ export default function AddTOCC({ setIsShow, setEmailData, prevEmailList }) {
                         .map((email, index) =>
                           index > 0 ? `| ${email}` : email
                         ) // Add `|` before every index except 0
-                        .join(" "), // Join all toEmail entries with a space
+                        .join(' '), // Join all toEmail entries with a space
                       ccEmail: emailList.email_list
                         .map(
                           (emailArray, index) =>
                             emailArray.length > 0
-                              ? emailArray.join(", ")
-                              : "No Emails" // Replace empty arrays with "No Emails"
+                              ? emailArray.join(', ')
+                              : 'No Emails' // Replace empty arrays with "No Emails"
                         )
                         .map((emailString, index) =>
                           index > 0 ? `| ${emailString}` : emailString
                         ) // Add `|` before every index except 0
-                        .join(" "), // Join the resulting strings with a space
+                        .join(' '), // Join the resulting strings with a space
                     }));
 
                     setIsShow(false);
@@ -135,7 +128,7 @@ export default function AddTOCC({ setIsShow, setEmailData, prevEmailList }) {
                     label="To"
                     name="toEmail"
                     type="text"
-                    onChange={(e) => setFieldValue("toEmail", e.target.value)} // No trimming here
+                    onChange={(e) => setFieldValue('toEmail', e.target.value)} // No trimming here
                     errors={errors}
                   />
                 </div>
@@ -145,7 +138,7 @@ export default function AddTOCC({ setIsShow, setEmailData, prevEmailList }) {
                     label="Cc"
                     name="ccEmail"
                     type="text"
-                    onChange={(e) => setFieldValue("ccEmail", e.target.value)} // No trimming here
+                    onChange={(e) => setFieldValue('ccEmail', e.target.value)} // No trimming here
                     errors={errors}
                   />
                 </div>
@@ -180,7 +173,7 @@ export default function AddTOCC({ setIsShow, setEmailData, prevEmailList }) {
               {emailList.to.map((toEmail, index) => (
                 <tr key={index}>
                   <td>{toEmail}</td>
-                  <td>{emailList.email_list[index].join(", ") || ""}</td>
+                  <td>{emailList.email_list[index].join(', ') || ''}</td>
                   <td className="text-center">
                     <span
                       onClick={() => {

@@ -30,16 +30,10 @@ function G2GSalesInvoice() {
   const [, getGhatWiseDeliveryReport, gridDataLoading] = useAxiosGet();
   const [, getGodownsEntryReport, godownsEntryLoading] = useAxiosGet();
   const [, setUpdateInvoiceAttachent, updateInvoiceAttLoading] = useAxiosPut();
-  const [
-    ,
-    getGodownsWiseBillPreparation,
-    godownsWiseBillLoading,
-  ] = useAxiosGet();
-  const [
-    ,
-    getUpdateInvoiceFromGodown,
-    updateInvoiceFromGodownLoading,
-  ] = useAxiosPut();
+  const [, getGodownsWiseBillPreparation, godownsWiseBillLoading] =
+    useAxiosGet();
+  const [, getUpdateInvoiceFromGodown, updateInvoiceFromGodownLoading] =
+    useAxiosPut();
   const [destinationDDL, getDestinationDDL] = useAxiosGet();
   const [, getPerGodownsEntryReport] = useAxiosGet();
   const [organizationDDL, getOrganizationDDL] = useAxiosGet();
@@ -48,17 +42,16 @@ function G2GSalesInvoice() {
 
   useEffect(() => {
     getShipPoint(
-      `/wms/ShipPoint/GetShipPointDDL?accountId=${accountId}&businessUnitId=${buUnId}`,
+      `/wms/ShipPoint/GetShipPointDDL?accountId=${accountId}&businessUnitId=${buUnId}`
     );
     getOrganizationDDL(
-      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buUnId}&AccountId=${accountId}`,
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buUnId}&AccountId=${accountId}`
     );
-
   }, [accountId]);
 
   const getDestinationList = (partnerId, portId, motherVesselId) => {
     getDestinationDDL(
-      `/tms/LigterLoadUnload/GetShipToPartnerAllotmentDDL?businessUnitId=${buUnId}&businessPartnerId=${partnerId}&portId=${portId}&motherVesselId=${motherVesselId}`,
+      `/tms/LigterLoadUnload/GetShipToPartnerAllotmentDDL?businessUnitId=${buUnId}&businessPartnerId=${partnerId}&portId=${portId}&motherVesselId=${motherVesselId}`
     );
   };
   const onChangeHandler = (fieldName, values, currentValue, setFieldValue) => {
@@ -88,7 +81,7 @@ function G2GSalesInvoice() {
           getDestinationList(
             organizationId,
             values?.port?.value,
-            currentValue?.value,
+            currentValue?.value
           );
         } else {
           setFieldValue('programNo', '');
@@ -113,10 +106,10 @@ function G2GSalesInvoice() {
             if (formikRef?.current) {
               formikRef.current.setFieldValue(
                 'godownsEntryAttachment',
-                resData?.[0]?.invoicefromGovernment || '',
+                resData?.[0]?.invoicefromGovernment || ''
               );
             }
-          },
+          }
         );
         break;
       case 2:
@@ -125,7 +118,7 @@ function G2GSalesInvoice() {
           `/tms/LigterLoadUnload/GetGhatWiseDeliveryReport?accountId=${accountId}&businessUnitId=${buUnId}&motherVesslelId=${values?.motherVessel?.value}&shipPointId=${values?.shipPoint?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
           (resData) => {
             setGridData(resData);
-          },
+          }
         );
         break;
       case 3:
@@ -137,10 +130,10 @@ function G2GSalesInvoice() {
             if (formikRef?.current) {
               formikRef.current.setFieldValue(
                 'godownsEntryAttachment',
-                resData?.[0]?.invoicefromGovernment || '',
+                resData?.[0]?.invoicefromGovernment || ''
               );
             }
-          },
+          }
         );
         break;
       case 4:
@@ -149,7 +142,7 @@ function G2GSalesInvoice() {
           `/tms/LigterLoadUnload/GetGodownsWiseBillPreparation?accountId=${accountId}&businessUnitId=${buUnId}&motherVesslelId=${values?.motherVessel?.value}&portId=${values?.port?.value}&soldToPartnerId=${values?.organization?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
           (resData) => {
             setGridData(resData);
-          },
+          }
         );
 
         break;
@@ -188,7 +181,7 @@ function G2GSalesInvoice() {
       () => {
         showHandelar(values);
       },
-      true,
+      true
     );
   };
 
@@ -209,7 +202,7 @@ function G2GSalesInvoice() {
       () => {
         showHandelar(values);
       },
-      true,
+      true
     );
   };
   return (
@@ -371,7 +364,7 @@ function G2GSalesInvoice() {
                                 fieldName,
                                 values,
                                 allValues?.[fieldName],
-                                setFieldValue,
+                                setFieldValue
                               );
                             },
                           }}

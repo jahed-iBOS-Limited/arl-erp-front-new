@@ -1,16 +1,15 @@
-
-import axios from "axios";
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
+import axios from 'axios';
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import AttachFile from '../../../../_helper/commonInputFieldsGroups/attachemntUpload';
 
 export default function FormCmp({
   buId,
@@ -27,7 +26,7 @@ export default function FormCmp({
 }) {
   const history = useHistory();
   const [open, setOpen] = useState(false);
-  const view = ["view", "approve"].includes(viewType);
+  const view = ['view', 'approve'].includes(viewType);
   return (
     <>
       <Formik
@@ -41,7 +40,7 @@ export default function FormCmp({
               title={`Export Payment Posting`}
               saveHandler={
                 view
-                  ? ""
+                  ? ''
                   : () => {
                       saveHandler(values, () => {
                         resetForm(initData);
@@ -51,14 +50,14 @@ export default function FormCmp({
               }
               resetHandler={
                 viewType
-                  ? ""
+                  ? ''
                   : () => {
                       resetForm(initData);
                     }
               }
               backHandler={
                 viewType
-                  ? ""
+                  ? ''
                   : () => {
                       history.goBack();
                     }
@@ -71,11 +70,11 @@ export default function FormCmp({
                       <div className="col-lg-3">
                         <NewSelect
                           name="channel"
-                          options={[{ value: 0, label: "All" }, ...channelList]}
+                          options={[{ value: 0, label: 'All' }, ...channelList]}
                           value={values?.channel}
                           label="Distribution Channel"
                           onChange={(valueOption) => {
-                            setFieldValue("channel", valueOption);
+                            setFieldValue('channel', valueOption);
                           }}
                           placeholder="Distribution Channel"
                           errors={errors}
@@ -89,7 +88,7 @@ export default function FormCmp({
                       <SearchAsyncSelect
                         selectedValue={values?.customer}
                         handleChange={(valueOption) => {
-                          setFieldValue("customer", valueOption);
+                          setFieldValue('customer', valueOption);
                           if (valueOption) {
                             getSalesOrderList({
                               ...values,
@@ -128,18 +127,18 @@ export default function FormCmp({
                         value={values?.salesOrder}
                         label="Sales Order"
                         onChange={(valueOption) => {
-                          setFieldValue("salesOrder", valueOption);
+                          setFieldValue('salesOrder', valueOption);
                           setFieldValue(
-                            "soDate",
+                            'soDate',
                             _dateFormatter(valueOption?.salesOrderDate)
                           );
-                          setFieldValue("soRef", valueOption?.label);
+                          setFieldValue('soRef', valueOption?.label);
                           setFieldValue(
-                            "salesContractRef",
+                            'salesContractRef',
                             valueOption?.salesQuotationCode
                           );
                           setFieldValue(
-                            "finalDestination",
+                            'finalDestination',
                             valueOption?.finalDestination
                           );
                         }}
@@ -209,22 +208,22 @@ export default function FormCmp({
                         touched={touched}
                         disabled={view}
                         onChange={(e) => {
-                          setFieldValue("conversionRate", e?.target?.value);
+                          setFieldValue('conversionRate', e?.target?.value);
                           if (values?.ttAmount > 0) {
                             setFieldValue(
-                              "ttAmountBDT",
+                              'ttAmountBDT',
                               e?.target?.value * values?.ttAmount
                             );
                           }
                           if (values?.erqValue > 0) {
                             setFieldValue(
-                              "erqValueBDT",
+                              'erqValueBDT',
                               e?.target?.value * values?.erqValue
                             );
                           }
                           if (values?.orqValue > 0) {
                             setFieldValue(
-                              "orqValueBDT",
+                              'orqValueBDT',
                               e?.target?.value * values?.orqValue
                             );
                           }
@@ -242,9 +241,9 @@ export default function FormCmp({
                         touched={touched}
                         disabled={view || !values?.conversionRate}
                         onChange={(e) => {
-                          setFieldValue("ttAmount", e?.target?.value);
+                          setFieldValue('ttAmount', e?.target?.value);
                           setFieldValue(
-                            "ttAmountBDT",
+                            'ttAmountBDT',
                             e?.target?.value * values?.conversionRate
                           );
                         }}
@@ -273,9 +272,9 @@ export default function FormCmp({
                         touched={touched}
                         disabled={view || !values?.conversionRate}
                         onChange={(e) => {
-                          setFieldValue("erqValue", e?.target?.value);
+                          setFieldValue('erqValue', e?.target?.value);
                           setFieldValue(
-                            "erqValueBDT",
+                            'erqValueBDT',
                             e?.target?.value * values?.conversionRate
                           );
                         }}
@@ -304,9 +303,9 @@ export default function FormCmp({
                         touched={touched}
                         disabled={view || !values?.conversionRate}
                         onChange={(e) => {
-                          setFieldValue("orqValue", e?.target?.value);
+                          setFieldValue('orqValue', e?.target?.value);
                           setFieldValue(
-                            "orqValueBDT",
+                            'orqValueBDT',
                             e?.target?.value * values?.conversionRate
                           );
                         }}
@@ -337,7 +336,7 @@ export default function FormCmp({
                         </button>
                       </div>
                     )}
-                    {viewType === "approve" && (
+                    {viewType === 'approve' && (
                       <div className="col-lg-3 mt-5">
                         <button
                           className="btn btn-info"
@@ -357,49 +356,49 @@ export default function FormCmp({
                 <div className="row">
                   <div className="col-lg-6">
                     {rowData?.length > 0 && (
-                     <div className="table-responsive">
-                       <table
-                        className={
-                          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                        }
-                      >
-                        <thead>
-                          <tr className="cursor-pointer">
-                            <th>SL</th>
-                            <th>Expense Name</th>
-                            <th>Amount (BDT)</th>
-                          </tr>
-                        </thead>
-                        {rowData.map((row, index) => (
-                          <tr key={index}>
-                            <td
-                              className="text-center"
-                              style={{ width: "40px" }}
-                            >
-                              {index + 1}
-                            </td>
-                            <td>{row?.expenseName}</td>
-                            <td>
-                              {!view ? (
-                                <InputField
-                                  value={row?.expenseAmountBdt}
-                                  name="expenseAmountBdt"
-                                  placeholder="Amount"
-                                  type="number"
-                                  onChange={(e) => {
-                                    rowData[index]["expenseAmountBdt"] = +e
-                                      ?.target?.value;
-                                    setRowData([...rowData]);
-                                  }}
-                                />
-                              ) : (
-                                _fixedPoint(row?.expenseAmountBdt, true)
-                              )}
-                            </td>
-                          </tr>
-                        ))}
-                      </table>
-                     </div>
+                      <div className="table-responsive">
+                        <table
+                          className={
+                            'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
+                          }
+                        >
+                          <thead>
+                            <tr className="cursor-pointer">
+                              <th>SL</th>
+                              <th>Expense Name</th>
+                              <th>Amount (BDT)</th>
+                            </tr>
+                          </thead>
+                          {rowData.map((row, index) => (
+                            <tr key={index}>
+                              <td
+                                className="text-center"
+                                style={{ width: '40px' }}
+                              >
+                                {index + 1}
+                              </td>
+                              <td>{row?.expenseName}</td>
+                              <td>
+                                {!view ? (
+                                  <InputField
+                                    value={row?.expenseAmountBdt}
+                                    name="expenseAmountBdt"
+                                    placeholder="Amount"
+                                    type="number"
+                                    onChange={(e) => {
+                                      rowData[index]['expenseAmountBdt'] =
+                                        +e?.target?.value;
+                                      setRowData([...rowData]);
+                                    }}
+                                  />
+                                ) : (
+                                  _fixedPoint(row?.expenseAmountBdt, true)
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </table>
+                      </div>
                     )}
                   </div>
                 </div>

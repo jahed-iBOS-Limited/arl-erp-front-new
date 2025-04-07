@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 //get vehicle status ddl
 export const getVehicleStatusDDL = async (setter) => {
@@ -48,7 +48,7 @@ export const getItemRequestGridData = async (
 ) => {
   try {
     setLoading(true);
-    const searchPath = searchValue ? `search=${searchValue}&` : "";
+    const searchPath = searchValue ? `search=${searchValue}&` : '';
     const res = await Axios.get(
       `/tms/CheckpostVehicleInOut/GetCheckpostVehicleInOutByCheckpostIdLanding?${searchPath}CheckpostId=${chekcPostId}&AccountId=${accId}&VehicleStatusId=${vehicleStsId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
@@ -119,7 +119,7 @@ export const saveItemRequest = async (data, cb, setGridData) => {
     const res = await Axios.post(`/wms/ItemRequest/CreateItemRequest`, data);
     if (res.status === 200) {
       setGridData([]);
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
     }
   } catch (error) {}
@@ -160,10 +160,10 @@ export const getSingleDataForEdit = async (id, setter) => {
           requestDate: setDtoValue.objHeader.dteRequestDate,
           validTill: setDtoValue.objHeader.validTill,
           dueDate: setDtoValue.objHeader.dteDueDate,
-          referenceId: "",
-          quantity: "",
-          remarks: "",
-          item: "",
+          referenceId: '',
+          quantity: '',
+          remarks: '',
+          item: '',
         },
         objRow: [...setDtoValue?.objRow],
       };
@@ -187,7 +187,7 @@ export const saveItemReqEdit = async (data, cb) => {
   try {
     const res = await Axios.put(`/wms/ItemRequest/EditItemRequest`, data);
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       //cb()
     }
   } catch (error) {}

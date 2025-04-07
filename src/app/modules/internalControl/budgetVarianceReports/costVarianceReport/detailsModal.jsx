@@ -1,15 +1,12 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 const initData = {};
 export default function DetailsModal({ clickedRow, previousLandingValues }) {
-  const [
-    detailsTableData,
-    getDetailsTableData,
-    detailsTableDataLoader,
-  ] = useAxiosGet();
+  const [detailsTableData, getDetailsTableData, detailsTableDataLoader] =
+    useAxiosGet();
   const saveHandler = (values, cb) => {};
   useEffect(() => {
     if (clickedRow) {
@@ -17,7 +14,6 @@ export default function DetailsModal({ clickedRow, previousLandingValues }) {
         `/fino/Report/GetCostOfProductionDetail?businessUnitId=${previousLandingValues?.businessUnit?.value}&itemId=${clickedRow?.intItemId}&BudCOGS=${clickedRow?.numBudCOGS}&ActCOGS=${clickedRow?.numActCOGS}&fromDate=${previousLandingValues?.fromDate}&toDate=${previousLandingValues?.toDate}`
       );
     }
-
   }, [clickedRow]);
 
   return (
@@ -70,7 +66,7 @@ export default function DetailsModal({ clickedRow, previousLandingValues }) {
                             <td>{index + 1}</td>
                             <td
                               style={{
-                                fontWeight: item?.isBold ? "800" : "",
+                                fontWeight: item?.isBold ? '800' : '',
                               }}
                             >
                               {item?.strParticulars}

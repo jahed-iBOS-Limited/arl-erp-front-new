@@ -1,35 +1,35 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
+} from '../../../../../../_metronic/_partials/controls';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
 import {
   DeliveryChallanInformation_api,
   GetInfoForChalalnCancell_api,
   getDistributionChannelDDL_api,
   getPermissionForShipmentModification,
-} from "../helper";
+} from '../helper';
 
 const initData = {
-  customer: "",
-  challan: "",
-  supplierName: "",
-  distributionChannel: "",
-  previousDate: "",
-  remarks: "",
-  reportType: "",
+  customer: '',
+  challan: '',
+  supplierName: '',
+  distributionChannel: '',
+  previousDate: '',
+  remarks: '',
+  reportType: '',
 };
 
 function ShipmentCancel() {
@@ -83,7 +83,7 @@ function ShipmentCancel() {
             <Form>
               <Card>
                 {true && <ModalProgressBar />}
-                <CardHeader title={"Shipment Cancel"}>
+                <CardHeader title={'Shipment Cancel'}>
                   <CardHeaderToolbar>
                     <div>
                       {values?.reportType?.value === 1 ? (
@@ -92,7 +92,7 @@ function ShipmentCancel() {
                           type="button"
                           onClick={(e) => {
                             if (+gridData?.[0]?.intBillNumber > 0) {
-                              toast.warning("Already bill submitted");
+                              toast.warning('Already bill submitted');
                               return false;
                             } else {
                               DeliveryChallanInformation_api(
@@ -124,7 +124,7 @@ function ShipmentCancel() {
                             type="button"
                             onClick={(e) => {
                               if (+gridData?.[0]?.intBillNumber > 0) {
-                                toast.warning("Already bill submitted");
+                                toast.warning('Already bill submitted');
                                 return false;
                               } else {
                                 GetInfoForChalalnCancell_api(
@@ -158,12 +158,12 @@ function ShipmentCancel() {
                         name="reportType"
                         options={[
                           // { value: 1, label: "Challan Date Update" }, 7
-                          { value: 2, label: "Shipment Cancel" },
+                          { value: 2, label: 'Shipment Cancel' },
                         ]}
                         value={values?.reportType}
                         label="Report Type"
                         onChange={(valueOption) => {
-                          setFieldValue("reportType", valueOption);
+                          setFieldValue('reportType', valueOption);
                           setGridData([]);
                         }}
                         placeholder="Report Type"
@@ -179,8 +179,8 @@ function ShipmentCancel() {
                         value={values?.distributionChannel}
                         label="Distribution Channel"
                         onChange={(valueOption) => {
-                          setFieldValue("distributionChannel", valueOption);
-                          setFieldValue("customer", "");
+                          setFieldValue('distributionChannel', valueOption);
+                          setFieldValue('customer', '');
                           setGridData([]);
                         }}
                         placeholder="Distribution Channel"
@@ -195,7 +195,7 @@ function ShipmentCancel() {
                         <SearchAsyncSelect
                           selectedValue={values?.customer}
                           handleChange={(valueOption) => {
-                            setFieldValue("customer", valueOption);
+                            setFieldValue('customer', valueOption);
                             setGridData([]);
                           }}
                           isDisabled={!values?.distributionChannel}
@@ -220,7 +220,7 @@ function ShipmentCancel() {
                         placeholder="Challan"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("challan", e.target.value);
+                          setFieldValue('challan', e.target.value);
                           setGridData([]);
                         }}
                       />
@@ -233,7 +233,7 @@ function ShipmentCancel() {
                         placeholder="Previous Date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("previousDate", e.target.value);
+                          setFieldValue('previousDate', e.target.value);
                           setGridData([]);
                         }}
                       />
@@ -273,7 +273,7 @@ function ShipmentCancel() {
                       <div className="col-lg-3">
                         <label>Remarks</label>
                         <InputField
-                          value={values?.remarks || ""}
+                          value={values?.remarks || ''}
                           name="remarks"
                           placeholder="Remarks"
                           type="text"
@@ -283,36 +283,39 @@ function ShipmentCancel() {
                   </div>
 
                   <div className="table-responsive">
-                  <table className="table table-striped table-bordered global-table">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Challan Date</th>
-                        <th>Audit Approve Date</th>
-                        <th>Delivery Challan No.</th>
-                        <th>Sold To Partner Name</th>
-                        <th>Transport Supplier Name</th>
-                        <th>Vehicle Supplier Name</th>
-                        <th>Transport Mode Name</th>
-                        <th>Owner Type</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.map((item, index) => (
-                        <tr key={index}>
-                          <td> {index + 1}</td>
-                          <td> {_dateFormatter(item?.dteChallanDate)}</td>
-                          <td> {_dateFormatter(item?.dteAuditApproveDate)}</td>
-                          <td> {item?.strDeliverychallan}</td>
-                          <td> {item?.strSoldToPartnerName}</td>
-                          <td> {item?.strTransportsupplier}</td>
-                          <td> {item?.strVehicleSupplierName}</td>
-                          <td> {item?.strTransportModeName}</td>
-                          <td> {item?.strOwnerType}</td>
+                    <table className="table table-striped table-bordered global-table">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Challan Date</th>
+                          <th>Audit Approve Date</th>
+                          <th>Delivery Challan No.</th>
+                          <th>Sold To Partner Name</th>
+                          <th>Transport Supplier Name</th>
+                          <th>Vehicle Supplier Name</th>
+                          <th>Transport Mode Name</th>
+                          <th>Owner Type</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {gridData?.map((item, index) => (
+                          <tr key={index}>
+                            <td> {index + 1}</td>
+                            <td> {_dateFormatter(item?.dteChallanDate)}</td>
+                            <td>
+                              {' '}
+                              {_dateFormatter(item?.dteAuditApproveDate)}
+                            </td>
+                            <td> {item?.strDeliverychallan}</td>
+                            <td> {item?.strSoldToPartnerName}</td>
+                            <td> {item?.strTransportsupplier}</td>
+                            <td> {item?.strVehicleSupplierName}</td>
+                            <td> {item?.strTransportModeName}</td>
+                            <td> {item?.strOwnerType}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 </CardBody>
               </Card>

@@ -1,4 +1,3 @@
-import ComplainManagement from './complainManagement/complainManagementPages'
+import ComplainManagement from './complainManagement/complainManagementPages';
 
-
-export { ComplainManagement }
+export { ComplainManagement };

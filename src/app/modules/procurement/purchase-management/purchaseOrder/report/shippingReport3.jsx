@@ -1,6 +1,3 @@
-
-
-
 import { Form as FormikForm, Formik } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
@@ -54,7 +51,7 @@ export function ShippingViewReport3({ poId, orId, isHiddenBackBtn }) {
 
   let totalSum = purchaseOrderReport?.objRowListDTO?.reduce(
     (acc, sum) => sum?.totalValue + acc,
-    0,
+    0
   );
 
   const printRef = useRef();
@@ -130,7 +127,7 @@ export function ShippingViewReport3({ poId, orId, isHiddenBackBtn }) {
               className="btn btn-primary ml-2"
               onClick={(e) =>
                 pdfExport(
-                  `${purchaseOrderReport?.objHeaderDTO?.purchaseOrderNo}`,
+                  `${purchaseOrderReport?.objHeaderDTO?.purchaseOrderNo}`
                 )
               }
             >
@@ -225,7 +222,7 @@ export function ShippingViewReport3({ poId, orId, isHiddenBackBtn }) {
                             <td>
                               {_dateFormatter(
                                 purchaseOrderReport?.objHeaderDTO
-                                  ?.purchaseOrderDateTime,
+                                  ?.purchaseOrderDateTime
                               )}
                             </td>
                           </tr>
@@ -319,7 +316,7 @@ export function ShippingViewReport3({ poId, orId, isHiddenBackBtn }) {
                                   </td>
                                 </tr>
                               </>
-                            ),
+                            )
                           )}
                           <tr>
                             <td

@@ -1,10 +1,9 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { LayoutSplashScreen, ContentRoute } from "../../../../_metronic/layout";
-import { Suspense } from "react";
-import DamageEntryForm from "./form/addEditForm"
-import DamageEntryLanding from "./landing/table"
-
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { LayoutSplashScreen, ContentRoute } from '../../../../_metronic/layout';
+import { Suspense } from 'react';
+import DamageEntryForm from './form/addEditForm';
+import DamageEntryLanding from './landing/table';
 
 export function DamagePages() {
   return (

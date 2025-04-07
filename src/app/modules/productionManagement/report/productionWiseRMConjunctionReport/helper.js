@@ -6,10 +6,13 @@ export const onGetProductWiseRMConjunctionReport = (
 ) => {
   getProductionWiseRMConjunctionReport &&
     getProductionWiseRMConjunctionReport(
-      `/mes/MSIL/GetProductionWiseRMConjunction?intSBUId=${selectedBusinessUnit?.value ||
-        0}&intProductionOrderId=${values?.productionCode?.value ||
-        0}&intItemId=${values?.item?.value || 0}&intRowId=${values?.rawItem
-        ?.value || 0}&fromdate=${values?.fromDate}&todate=${values?.toDate}`,
+      `/mes/MSIL/GetProductionWiseRMConjunction?intSBUId=${
+        selectedBusinessUnit?.value || 0
+      }&intProductionOrderId=${
+        values?.productionCode?.value || 0
+      }&intItemId=${values?.item?.value || 0}&intRowId=${
+        values?.rawItem?.value || 0
+      }&fromdate=${values?.fromDate}&todate=${values?.toDate}`,
       (data) => {
         let sl = 0;
         let arr = [];

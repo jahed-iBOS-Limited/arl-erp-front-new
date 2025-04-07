@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Modal } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
-import Loading from "../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import { Modal } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosGet from '../../_helper/customHooks/useAxiosGet';
+import Loading from '../../_helper/_loading';
 export default function ProjectAccountingView({ id, show, onHide }) {
   //  custom hook
   const [
@@ -29,7 +29,6 @@ export default function ProjectAccountingView({ id, show, onHide }) {
         (data) => setRes(data)
       );
     }
-
   }, [id]);
 
   // setting new Property variance
@@ -54,7 +53,6 @@ export default function ProjectAccountingView({ id, show, onHide }) {
         };
       })
     );
-
   }, [projectCostingExpense, projectCostingInventory]);
   // console.log(inventoryVariance);
   return (
@@ -67,39 +65,39 @@ export default function ProjectAccountingView({ id, show, onHide }) {
           size="xl"
           aria-labelledby="example-modal-sizes-title-xl"
         >
-          {" "}
+          {' '}
           <Modal.Header>
-            {" "}
+            {' '}
             <Modal.Title className="mt-3">Project Details</Modal.Title>
-          </Modal.Header>{" "}
+          </Modal.Header>{' '}
           <Modal.Body id="example-modal-sizes-title-xl">
             <>
-              {" "}
+              {' '}
               {/* general description */}
               <div className="container mt-3">
                 <div className="row d-flex">
-                  <div className="col-lg-3" style={{ marginLeft: "-1.8rem" }}>
+                  <div className="col-lg-3" style={{ marginLeft: '-1.8rem' }}>
                     <p>
                       <span className="fw-bold">Project Name: </span>
-                      {projectDescription?.strProjectName || "N/A"}
+                      {projectDescription?.strProjectName || 'N/A'}
                     </p>
                     <p>
                       <span className="fw-bold">Project Owner: </span>
-                      {projectDescription?.strOwner || "N/A"}
+                      {projectDescription?.strOwner || 'N/A'}
                     </p>
                     <p>
                       <span className="fw-bold">Location: </span>
-                      {projectDescription?.strLocation || "N/A"}
+                      {projectDescription?.strLocation || 'N/A'}
                     </p>
                   </div>
                   <div className="col-lg-3">
                     <p>
                       <span className="fw-bold">General Ledger: </span>
-                      {projectDescription?.strGl || "N/A"}
+                      {projectDescription?.strGl || 'N/A'}
                     </p>
                     <p>
                       <span className="fw-bold">Business Transaction: </span>
-                      {projectDescription?.strSubGl || "N/A"}
+                      {projectDescription?.strSubGl || 'N/A'}
                     </p>
                   </div>
                   <div className="col-lg-3">
@@ -126,7 +124,7 @@ export default function ProjectAccountingView({ id, show, onHide }) {
               {/* team Section */}
               <div className="row mt-3" id="pdf-section">
                 <div className="col-12">
-                  {" "}
+                  {' '}
                   <p className="mb-0">
                     <span className="fw-bold">Team Details</span>
                   </p>
@@ -138,11 +136,11 @@ export default function ProjectAccountingView({ id, show, onHide }) {
                         {projectTeam?.length > 0 && (
                           <thead>
                             <tr>
-                              <th style={{ width: "50px" }}>SL</th>
-                              <th style={{ width: "100px" }}>
+                              <th style={{ width: '50px' }}>SL</th>
+                              <th style={{ width: '100px' }}>
                                 <div className="text-left ml-1">Team Name</div>
                               </th>
-                              <th style={{ width: "100px" }}>
+                              <th style={{ width: '100px' }}>
                                 <div className="text-left ml-1">Role Name</div>
                               </th>
                             </tr>
@@ -153,10 +151,10 @@ export default function ProjectAccountingView({ id, show, onHide }) {
                             <tr key={index}>
                               <td className="text-center">{index + 1}</td>
                               <td className="text-left">
-                                {item?.strTeamMember || "N/A"}
+                                {item?.strTeamMember || 'N/A'}
                               </td>
                               <td className="text-left">
-                                {item?.strRole || "N/A"}
+                                {item?.strRole || 'N/A'}
                               </td>
                             </tr>
                           ))}
@@ -172,7 +170,7 @@ export default function ProjectAccountingView({ id, show, onHide }) {
               {/* expense section */}
               <div className="row mt-3" id="pdf-section">
                 <div className="col-12">
-                  {" "}
+                  {' '}
                   <p className="mb-0">
                     <span className="fw-bold">Expense Details</span>
                   </p>
@@ -184,28 +182,28 @@ export default function ProjectAccountingView({ id, show, onHide }) {
                         {expenseVariance?.length > 0 && (
                           <thead>
                             <tr>
-                              <th style={{ width: "50px" }}>SL</th>
-                              <th style={{ width: "100px" }}>
+                              <th style={{ width: '50px' }}>SL</th>
+                              <th style={{ width: '100px' }}>
                                 <div className="text-left ml-1">
                                   Porfit Center
                                 </div>
                               </th>
-                              <th style={{ width: "100px" }}>
+                              <th style={{ width: '100px' }}>
                                 <div className="text-left ml-1">
                                   Cost Center
                                 </div>
                               </th>
-                              <th style={{ width: "100px" }}>
+                              <th style={{ width: '100px' }}>
                                 <div className="text-left ml-1">
                                   Cost Element
                                 </div>
                               </th>
-                              <th style={{ width: "100px" }}>
+                              <th style={{ width: '100px' }}>
                                 <div className="text-left ml-1">
                                   Responsible
                                 </div>
                               </th>
-                              <th style={{ width: "100px" }}>
+                              <th style={{ width: '100px' }}>
                                 <div className="text-right mr-1">
                                   Budget Amount
                                 </div>
@@ -218,19 +216,19 @@ export default function ProjectAccountingView({ id, show, onHide }) {
                             <tr key={index}>
                               <td className="text-center">{index + 1}</td>
                               <td className="text-left">
-                                {item?.strProfitCenter || "N/A"}
+                                {item?.strProfitCenter || 'N/A'}
                               </td>
                               <td className="text-left">
-                                {item?.strCostCenter || "N/A"}
+                                {item?.strCostCenter || 'N/A'}
                               </td>
                               <td className="text-left">
-                                {item?.strCostElement || "N/A"}
+                                {item?.strCostElement || 'N/A'}
                               </td>
                               <td className="text-left">
-                                {item?.strResponsible || "N/A"}
+                                {item?.strResponsible || 'N/A'}
                               </td>
                               <td className="text-right">
-                                {item?.numBudgetAmount || "N/A"}
+                                {item?.numBudgetAmount || 'N/A'}
                               </td>
                             </tr>
                           ))}
@@ -242,7 +240,7 @@ export default function ProjectAccountingView({ id, show, onHide }) {
                                   (sum, part) =>
                                     sum + part?.numBudgetAmount || 0,
                                   0
-                                ) || "N/A"}
+                                ) || 'N/A'}
                               </td>
                             </tr>
                           )}
@@ -258,7 +256,7 @@ export default function ProjectAccountingView({ id, show, onHide }) {
               {/* inventory section */}
               <div className="row mt-3 mb-5" id="pdf-section">
                 <div className="col-12">
-                  {" "}
+                  {' '}
                   <p className="mb-0">
                     <span className="fw-bold">Inventory Details</span>
                   </p>
@@ -270,24 +268,24 @@ export default function ProjectAccountingView({ id, show, onHide }) {
                         {inventoryVariance?.length > 0 && (
                           <thead>
                             <tr>
-                              <th style={{ width: "50px" }}>SL</th>
-                              <th style={{ width: "100px" }}>Item Code</th>
-                              <th style={{ width: "100px" }}>
+                              <th style={{ width: '50px' }}>SL</th>
+                              <th style={{ width: '100px' }}>Item Code</th>
+                              <th style={{ width: '100px' }}>
                                 <div className="text-left ml-1">Item Name</div>
                               </th>
-                              <th style={{ width: "100px" }}>UOM</th>
-                              <th style={{ width: "150px" }}>
+                              <th style={{ width: '100px' }}>UOM</th>
+                              <th style={{ width: '150px' }}>
                                 <div className="text-right mr-1">
-                                  Return Qty{" "}
+                                  Return Qty{' '}
                                 </div>
                               </th>
-                              <th style={{ width: "150px" }}>
+                              <th style={{ width: '150px' }}>
                                 <div className="text-right mr-1">
                                   Budget Qty
                                 </div>
                               </th>
 
-                              <th style={{ width: "150px" }}>
+                              <th style={{ width: '150px' }}>
                                 <div className="text-right mr-1">
                                   Budget Total
                                 </div>
@@ -300,13 +298,13 @@ export default function ProjectAccountingView({ id, show, onHide }) {
                             <tr key={index}>
                               <td className="text-center">{index + 1}</td>
                               <td className="text-center">
-                                {item?.strItemCode || "N/A"}
+                                {item?.strItemCode || 'N/A'}
                               </td>
                               <td className="text-left">
-                                {item?.strItem || "N/A"}
+                                {item?.strItem || 'N/A'}
                               </td>
                               <td className="text-center">
-                                {item?.strUom || "N/A"}
+                                {item?.strUom || 'N/A'}
                               </td>
                               <td className="text-right">
                                 {item?.numReturnQty || 0}
@@ -341,7 +339,7 @@ export default function ProjectAccountingView({ id, show, onHide }) {
               </div>
               {/*  inventory end*/}
             </>
-          </Modal.Body>{" "}
+          </Modal.Body>{' '}
         </Modal>
       </div>
     </>

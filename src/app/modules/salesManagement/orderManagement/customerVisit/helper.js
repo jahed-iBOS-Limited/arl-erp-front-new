@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const GetBusinessPartnerProfilePagination = async (
   accountId,
@@ -17,8 +17,9 @@ export const GetBusinessPartnerProfilePagination = async (
     setLoading(true);
     const res = await Axios.get(
       // `/oms/CustomerProfile/CustomerVisitPagination?accountId=${accountId}&businessid=${buId}&vieworder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
-      `/oms/CustomerProfile/CustomerVisitPagination?accountId=${accountId}&businessid=${buId}&channel=${channelId}&region=${regionId}&area=${areaId}&territory=${territoryId}&customerType=${typeId ||
-        0}`
+      `/oms/CustomerProfile/CustomerVisitPagination?accountId=${accountId}&businessid=${buId}&channel=${channelId}&region=${regionId}&area=${areaId}&territory=${territoryId}&customerType=${
+        typeId || 0
+      }`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -66,15 +67,15 @@ export const getCustomerVisitById = async (id, setter, setDisabled) => {
         type: customerPotentialCategoryTypeName,
       },
 
-      customerName: customerName || "",
-      customerPhone: customerPhone || "",
-      customerAddress: customerAddress || "",
-      contractPersonName: contractPersonName || "",
-      contractPersonPhone: contractPersonPhone || "",
-      contractPersonDesignation: contractPersonDesignation || "",
-      conversionDate: _dateFormatter(conversionDate) || "",
-      conversionDeadline: _dateFormatter(conversionDeadline) || "",
-      remarks: remarks || "",
+      customerName: customerName || '',
+      customerPhone: customerPhone || '',
+      customerAddress: customerAddress || '',
+      contractPersonName: contractPersonName || '',
+      contractPersonPhone: contractPersonPhone || '',
+      contractPersonDesignation: contractPersonDesignation || '',
+      conversionDate: _dateFormatter(conversionDate) || '',
+      conversionDeadline: _dateFormatter(conversionDeadline) || '',
+      remarks: remarks || '',
     };
 
     setter(obj);
@@ -91,7 +92,7 @@ export const saveCustomerVisit = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -110,7 +111,7 @@ export const editCustomerVisit = async (data, setDisabled) => {
     );
 
     if (res.status === 200) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       setDisabled(false);
     }
   } catch (error) {

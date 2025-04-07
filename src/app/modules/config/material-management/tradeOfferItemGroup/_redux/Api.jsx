@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 //save bill of material create data
 export function saveCreateData(data) {

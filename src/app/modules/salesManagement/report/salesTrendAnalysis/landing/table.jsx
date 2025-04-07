@@ -1,48 +1,48 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import * as Yup from "yup";
-import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import ICard from "../../../../_helper/_card";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import { IInput } from "../../../../_helper/_input";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { getUserLoginInfo } from "../../salesReportEssential/helper";
-import { getSalesTrendAnalysisApi, getDistributionChannelDDL } from "../helper";
-import "../style.css";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import PowerBIReport from '../../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import ICard from '../../../../_helper/_card';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import { IInput } from '../../../../_helper/_input';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { getUserLoginInfo } from '../../salesReportEssential/helper';
+import { getSalesTrendAnalysisApi, getDistributionChannelDDL } from '../helper';
+import '../style.css';
 // import PieChart from "./pieChart";
 // import TargetVsSalesChart from "./targetVsSalesChart";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   distributionChannel: Yup.object().shape({
-    label: Yup.string().required("Distribution Channel is required"),
-    value: Yup.string().required("Distribution Channel is required"),
+    label: Yup.string().required('Distribution Channel is required'),
+    value: Yup.string().required('Distribution Channel is required'),
   }),
   reportType: Yup.object().shape({
-    label: Yup.string().required("Report Type is required"),
-    value: Yup.string().required("Report Type is required"),
+    label: Yup.string().required('Report Type is required'),
+    value: Yup.string().required('Report Type is required'),
   }),
 });
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  distributionChannel: "",
-  reportType: "",
-  totalDay: "",
-  runningDay: "",
+  distributionChannel: '',
+  reportType: '',
+  totalDay: '',
+  runningDay: '',
 };
 
 const reportTypes = [
-  { value: 1, label: "Top sheet" },
-  { value: 2, label: "Territory Basis Top sheet" },
-  { value: 3, label: "Area Basis Top sheet" },
-  { value: 4, label: "Region Basis Top sheet" },
-  { value: 5, label: "Area Region Growth Report" },
-  { value: 6, label: "Area vs Territory Growth Report" },
+  { value: 1, label: 'Top sheet' },
+  { value: 2, label: 'Territory Basis Top sheet' },
+  { value: 3, label: 'Area Basis Top sheet' },
+  { value: 4, label: 'Region Basis Top sheet' },
+  { value: 5, label: 'Area Region Growth Report' },
+  { value: 6, label: 'Area vs Territory Growth Report' },
 ];
 
 export default function SalesTrendsAnalysisReportLanding() {
@@ -52,7 +52,7 @@ export default function SalesTrendsAnalysisReportLanding() {
   const [distributionChannelDDL, setDistributionChannelDDL] = useState([]);
   const [biReport, setBIReport] = useState(false);
 
-  const groupId = "e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a";
+  const groupId = 'e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a';
 
   const generalReport = (values) => {
     return [1, 2, 3, 4].includes(values?.reportType?.value);
@@ -70,7 +70,6 @@ export default function SalesTrendsAnalysisReportLanding() {
         setDistributionChannelDDL
       );
     }
-
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   const viewHandler = async (values, setter) => {
@@ -94,10 +93,10 @@ export default function SalesTrendsAnalysisReportLanding() {
           resData?.empLevelId === 7
             ? +resData?.empTerritoryId
             : +resData?.levelId === 6
-            ? +resData?.areaId
-            : +resData?.levelId === 5
-            ? +resData?.regionId
-            : +resData?.empTerritoryId,
+              ? +resData?.areaId
+              : +resData?.levelId === 5
+                ? +resData?.regionId
+                : +resData?.empTerritoryId,
           resData?.empLevelId
         );
       }
@@ -172,7 +171,7 @@ export default function SalesTrendsAnalysisReportLanding() {
             isShowPrintBtn={true}
             componentRef={printRef}
             isExcelBtn={true}
-            excelFileNameWillbe={"Sales Trends Analysis"}
+            excelFileNameWillbe={'Sales Trends Analysis'}
             // pageStyle="@page { size: 10in 15in !important; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact;} }"
           >
             <div>
@@ -188,7 +187,7 @@ export default function SalesTrendsAnalysisReportLanding() {
                           value={values?.reportType}
                           label="Report Type"
                           onChange={(valueOption) => {
-                            setFieldValue("reportType", valueOption);
+                            setFieldValue('reportType', valueOption);
                             setRowDto([]);
                             setBIReport(false);
                           }}
@@ -206,7 +205,7 @@ export default function SalesTrendsAnalysisReportLanding() {
                               name="fromDate"
                               type="date"
                               onChange={(e) => {
-                                setFieldValue("fromDate", e?.target?.value);
+                                setFieldValue('fromDate', e?.target?.value);
                                 setRowDto([]);
                               }}
                             />
@@ -219,7 +218,7 @@ export default function SalesTrendsAnalysisReportLanding() {
                               name="toDate"
                               type="date"
                               onChange={(e) => {
-                                setFieldValue("toDate", e?.target?.value);
+                                setFieldValue('toDate', e?.target?.value);
                                 setRowDto([]);
                               }}
                             />
@@ -233,7 +232,7 @@ export default function SalesTrendsAnalysisReportLanding() {
                               label="Distribution Channel"
                               onChange={(valueOption) => {
                                 setFieldValue(
-                                  "distributionChannel",
+                                  'distributionChannel',
                                   valueOption
                                 );
                                 setRowDto([]);
@@ -251,7 +250,7 @@ export default function SalesTrendsAnalysisReportLanding() {
                               name="totalDay"
                               type="number"
                               onChange={(e) => {
-                                setFieldValue("totalDay", e?.target?.value);
+                                setFieldValue('totalDay', e?.target?.value);
                               }}
                             />
                           </div>
@@ -263,7 +262,7 @@ export default function SalesTrendsAnalysisReportLanding() {
                               name="runningDay"
                               type="number"
                               onChange={(e) => {
-                                setFieldValue("runningDay", e?.target?.value);
+                                setFieldValue('runningDay', e?.target?.value);
                               }}
                             />
                           </div>
@@ -308,7 +307,7 @@ export default function SalesTrendsAnalysisReportLanding() {
                       <div className="react-bootstrap-table table-responsive pendingDeliveryReport">
                         <div className="sta-scrollable-table scroll-table-auto">
                           <div
-                            style={{ maxHeight: "500px" }}
+                            style={{ maxHeight: '500px' }}
                             className="scroll-table _table scroll-table-auto"
                           >
                             <table
@@ -320,12 +319,12 @@ export default function SalesTrendsAnalysisReportLanding() {
                                 <th>SL</th>
 
                                 {values?.reportType?.value === 1 ? (
-                                  <th style={{ minWidth: "150px" }}>Name</th>
+                                  <th style={{ minWidth: '150px' }}>Name</th>
                                 ) : null}
 
                                 {values?.reportType?.value === 1 ||
                                 values?.reportType?.value === 2 ? (
-                                  <th style={{ minWidth: "130px" }}>
+                                  <th style={{ minWidth: '130px' }}>
                                     Territory
                                   </th>
                                 ) : null}
@@ -333,46 +332,46 @@ export default function SalesTrendsAnalysisReportLanding() {
                                 {values?.reportType?.value === 1 ||
                                 values?.reportType?.value === 2 ||
                                 values?.reportType?.value === 3 ? (
-                                  <th style={{ minWidth: "100px" }}>Area</th>
+                                  <th style={{ minWidth: '100px' }}>Area</th>
                                 ) : null}
 
                                 {values?.reportType?.value === 1 ||
                                 values?.reportType?.value === 2 ||
                                 values?.reportType?.value === 3 ||
                                 values?.reportType?.value === 4 ? (
-                                  <th style={{ minWidth: "75px" }}>Region</th>
+                                  <th style={{ minWidth: '75px' }}>Region</th>
                                 ) : null}
 
-                                <th style={{ minWidth: "90px" }}>PCC1 Month</th>
-                                <th style={{ minWidth: "90px" }}>OPC1 Month</th>
-                                <th style={{ minWidth: "90px" }}>
+                                <th style={{ minWidth: '90px' }}>PCC1 Month</th>
+                                <th style={{ minWidth: '90px' }}>OPC1 Month</th>
+                                <th style={{ minWidth: '90px' }}>
                                   Total Qnt(Month)
                                 </th>
-                                <th style={{ minWidth: "90px" }}>PCCQ1 Day</th>
-                                <th style={{ minWidth: "90px" }}>OPCQ1 Day</th>
-                                <th style={{ minWidth: "90px" }}>
+                                <th style={{ minWidth: '90px' }}>PCCQ1 Day</th>
+                                <th style={{ minWidth: '90px' }}>OPCQ1 Day</th>
+                                <th style={{ minWidth: '90px' }}>
                                   Target Monthly (Qty)
                                 </th>
-                                <th style={{ minWidth: "90px" }}>
+                                <th style={{ minWidth: '90px' }}>
                                   Last Month Sales (Qty)
                                 </th>
-                                <th style={{ minWidth: "90px" }}>
+                                <th style={{ minWidth: '90px' }}>
                                   Achievement
                                 </th>
-                                <th style={{ minWidth: "90px" }}>
+                                <th style={{ minWidth: '90px' }}>
                                   Per Day Target
                                 </th>
-                                <th style={{ minWidth: "90px" }}>
+                                <th style={{ minWidth: '90px' }}>
                                   Present Avg. Daily Sales
                                 </th>
-                                <th style={{ minWidth: "90px" }}>
+                                <th style={{ minWidth: '90px' }}>
                                   Required Avg. Daily Sales
                                 </th>
-                                <th style={{ minWidth: "90px" }}>
+                                <th style={{ minWidth: '90px' }}>
                                   Trend This Month
                                 </th>
-                                <th style={{ minWidth: "75px" }}>LM Vs TM</th>
-                                <th style={{ minWidth: "75px" }}>Short Fall</th>
+                                <th style={{ minWidth: '75px' }}>LM Vs TM</th>
+                                <th style={{ minWidth: '75px' }}>Short Fall</th>
                               </thead>
                               <tbody>
                                 {rowDto?.map((item, i) => {

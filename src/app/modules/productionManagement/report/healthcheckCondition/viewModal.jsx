@@ -1,21 +1,20 @@
-import React, { useEffect } from "react";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../_helper/_loading";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import React, { useEffect } from 'react';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../_helper/_loading';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 export function DamageViewModal({ values, singleData }) {
   const [viewData, getViewData, loading] = useAxiosGet();
   useEffect(() => {
     getViewData(
       `/asset/AssetMaintanance/GetMachineDamageStatusReport?FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BusinessUnitId=${values?.businessUnit?.value}&PlantId=${values?.plant?.value}&MachineId=${singleData?.intMachineId}&SectionName=${singleData?.SectionName}`
     );
-
   }, [values, singleData]);
   return (
     <>
       {loading && <Loading />}
       <div className="form-group  global-form">
         <div
-          style={{ fontSize: "12px" }}
+          style={{ fontSize: '12px' }}
           className="d-flex justify-content-between"
         >
           <div>
@@ -31,7 +30,7 @@ export function DamageViewModal({ values, singleData }) {
       </div>
       <div className="table-responsive mt-5">
         <div>
-          <strong className="mr-5">From Date: {values?.fromDate}</strong>{" "}
+          <strong className="mr-5">From Date: {values?.fromDate}</strong>{' '}
           <strong className="ml-5">To Date: {values?.toDate}</strong>
         </div>
         <div className="table-responsive">

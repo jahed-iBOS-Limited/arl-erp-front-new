@@ -45,9 +45,8 @@ function EditForm({ rowClickItem, landingCB }) {
     bankAccountDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setBankAccountDDL,
+      setBankAccountDDL
     );
-
   }, []);
   const formikRef = React.useRef(null);
   useEffect(() => {
@@ -65,11 +64,10 @@ function EditForm({ rowClickItem, landingCB }) {
           resData?.headerDTO?.bankId,
           profileData?.accountId,
           selectedBusinessUnit.value,
-          setAcDDL,
+          setAcDDL
         );
-      },
+      }
     );
-
   }, [rowClickItem]);
 
   const saveHandler = (values) => {
@@ -309,7 +307,7 @@ function EditForm({ rowClickItem, landingCB }) {
                               valueOption?.value,
                               profileData?.accountId,
                               selectedBusinessUnit.value,
-                              setAcDDL,
+                              setAcDDL
                             );
                           }}
                           // isSearchable={true}
@@ -631,7 +629,7 @@ function EditForm({ rowClickItem, landingCB }) {
                                         onClick={() => {
                                           // delete single item
                                           const data = rowDto.filter(
-                                            (itm, indx) => indx !== i,
+                                            (itm, indx) => indx !== i
                                           );
                                           setRowDto(data);
                                         }}

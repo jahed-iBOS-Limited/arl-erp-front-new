@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const GetTaxItemGroupDDL = async (accId, buId, setter, cb) => {
   try {
@@ -32,7 +32,7 @@ export const GetItemSalesForTaxDDL = async (
       );
       return {
         ...item,
-        itemGroup: DDLItem ? DDLItem : "",
+        itemGroup: DDLItem ? DDLItem : '',
       };
     });
     setter(newData);

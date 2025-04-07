@@ -1,10 +1,10 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import * as Yup from "yup";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { GetRouteStandardCostByRouteId } from "../helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { GetRouteStandardCostByRouteId } from '../helper';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -31,7 +31,6 @@ export default function FormCmp({
         landingData?.shipPointId
       );
     }
-
   }, [landingData]);
   const formikRef = React.useRef(null);
   const commonPrvSaveData = (routeId, transportORGId, shipPointId) => {
@@ -44,34 +43,34 @@ export default function FormCmp({
       (data) => {
         if (formikRef.current) {
           const obj = data?.[0] || {};
-          formikRef.current.setFieldValue("itemLists", data || []);
+          formikRef.current.setFieldValue('itemLists', data || []);
 
           formikRef.current.setFieldValue(
-            "transportOrganizationName",
+            'transportOrganizationName',
             obj?.transportOrganizationId
               ? {
                   value: obj?.transportOrganizationId,
                   label: obj?.transportOrganizationName,
                 }
-              : ""
+              : ''
           );
           formikRef.current.setFieldValue(
-            "routeName",
+            'routeName',
             obj?.routeId
               ? {
                   value: obj?.routeId,
                   label: obj?.routeName,
                 }
-              : ""
+              : ''
           );
           formikRef.current.setFieldValue(
-            "shipPoint",
+            'shipPoint',
             obj?.shipPointId
               ? {
                   value: obj?.shipPointId,
                   label: obj?.shipPointName,
                 }
-              : ""
+              : ''
           );
         }
       },
@@ -102,49 +101,49 @@ export default function FormCmp({
         }) => (
           <>
             {isDisabled && <Loading />}
-            <Form className='form form-label-right'>
-              <div className=''>
-                <div className='form-group row global-form'>
-                  <div className='col-lg-3'>
+            <Form className="form form-label-right">
+              <div className="">
+                <div className="form-group row global-form">
+                  <div className="col-lg-3">
                     <NewSelect
-                      name='transportOrganizationName'
+                      name="transportOrganizationName"
                       options={[]}
                       value={values?.transportOrganizationName}
-                      label='Transport Organization Name'
+                      label="Transport Organization Name"
                       onChange={(valueOption) => {
-                        setFieldValue("transportOrganizationName", valueOption);
+                        setFieldValue('transportOrganizationName', valueOption);
                       }}
-                      placeholder='Transport Organization Name'
+                      placeholder="Transport Organization Name"
                       errors={errors}
                       touched={touched}
                       isDisabled={true}
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <NewSelect
-                      name='shipPoint'
+                      name="shipPoint"
                       options={[]}
                       value={values?.shipPoint}
-                      label='ShipPoint'
+                      label="ShipPoint"
                       onChange={(valueOption) => {
-                        setFieldValue("shipPoint", valueOption);
+                        setFieldValue('shipPoint', valueOption);
                       }}
-                      placeholder='Select ShipPoint'
+                      placeholder="Select ShipPoint"
                       errors={errors}
                       touched={touched}
                       isDisabled={true}
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <NewSelect
-                      name='routeName'
+                      name="routeName"
                       options={[]}
                       value={values?.routeName}
-                      label='Route Name'
+                      label="Route Name"
                       onChange={(valueOption) => {
-                        setFieldValue("routeName", valueOption);
+                        setFieldValue('routeName', valueOption);
                       }}
-                      placeholder='Route Name'
+                      placeholder="Route Name"
                       errors={errors}
                       touched={touched}
                       isDisabled={true}
@@ -153,43 +152,43 @@ export default function FormCmp({
                 </div>
                 {values?.itemLists?.length >= 0 && (
                   <div className="table-responsive">
-                    <table className='table table-striped table-bordered global-table'>
-                    <thead>
-                      <tr>
-                        <th style={{ width: "35px" }}>SL</th>
+                    <table className="table table-striped table-bordered global-table">
+                      <thead>
+                        <tr>
+                          <th style={{ width: '35px' }}>SL</th>
 
-                        <th>Component Name</th>
-                        <th> Vehicle Capacity</th>
-                        <th>Amount</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {values?.itemLists.map((itm, index) => (
-                        <tr key={itm.itemId}>
-                          <td className='text-center'>{index + 1}</td>
-                          <td className='pl-2'>
-                            {itm.transportRouteCostComponentName}
-                          </td>
-                          <td className='pl-2'>{itm?.vehicleCapacityName}</td>
-                          <td className='pr-2'>{itm?.amount}</td>
+                          <th>Component Name</th>
+                          <th> Vehicle Capacity</th>
+                          <th>Amount</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {values?.itemLists.map((itm, index) => (
+                          <tr key={itm.itemId}>
+                            <td className="text-center">{index + 1}</td>
+                            <td className="pl-2">
+                              {itm.transportRouteCostComponentName}
+                            </td>
+                            <td className="pl-2">{itm?.vehicleCapacityName}</td>
+                            <td className="pr-2">{itm?.amount}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 )}
               </div>
 
               <button
-                type='submit'
-                style={{ display: "none" }}
+                type="submit"
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
-                type='reset'
-                style={{ display: "none" }}
+                type="reset"
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

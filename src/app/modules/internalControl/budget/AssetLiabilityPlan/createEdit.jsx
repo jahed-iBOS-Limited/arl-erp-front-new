@@ -18,12 +18,8 @@ const initData = {
 export default function AssetLiabilityPlanCreateEdit() {
   const formikRef = React.useRef(null);
   const [fiscalYearDDL, getFiscalYearDDL, fiscalYearDDLloader] = useAxiosGet();
-  const [
-    tableData,
-    getTableData,
-    tableDataLoader,
-    setTableData,
-  ] = useAxiosGet();
+  const [tableData, getTableData, tableDataLoader, setTableData] =
+    useAxiosGet();
 
   const [, getInventoryData, inventoryDataLoader] = useAxiosGet();
   const [, saveData, saveDataLoader] = useAxiosPost();
@@ -66,7 +62,7 @@ export default function AssetLiabilityPlanCreateEdit() {
           // setTableData([]);
           onViewButtonClick(formikRef?.current?.values);
         },
-        true,
+        true
       );
     } else {
       return toast.warn('No data to save');
@@ -84,10 +80,9 @@ export default function AssetLiabilityPlanCreateEdit() {
           };
         });
         setBuDDL(newData);
-      },
+      }
     );
     getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
-
   }, []);
 
   const fillPersentageValueInRow = (PercentageValue, index, initialAmount) => {
@@ -130,7 +125,7 @@ export default function AssetLiabilityPlanCreateEdit() {
           (invData) => {
             const updatedDataWithInventory = updatedData?.map((item) => {
               const invDataItem = invData?.find(
-                (invItem) => invItem?.intGeneralLedgerId === item?.glId,
+                (invItem) => invItem?.intGeneralLedgerId === item?.glId
               );
               if (invDataItem) {
                 return {
@@ -154,9 +149,9 @@ export default function AssetLiabilityPlanCreateEdit() {
               }
             });
             setTableData(updatedDataWithInventory);
-          },
+          }
         );
-      },
+      }
     );
   };
 
@@ -309,20 +304,20 @@ export default function AssetLiabilityPlanCreateEdit() {
                                     onChange={(e) => {
                                       if (+e.target.value >= 0) {
                                         const updatedData = [...tableData];
-                                        updatedData[index].entryTypeValue = +e
-                                          .target.value;
+                                        updatedData[index].entryTypeValue =
+                                          +e.target.value;
                                         setTableData(updatedData);
                                         fillPersentageValueInRow(
                                           +e.target.value,
                                           index,
-                                          item?.initialAmount,
+                                          item?.initialAmount
                                         );
                                       } else {
                                         const updatedData = [...tableData];
                                         updatedData[index].entryTypeValue = 0;
                                         setTableData(updatedData);
                                         return toast.warn(
-                                          'Value must be greater than 0',
+                                          'Value must be greater than 0'
                                         );
                                       }
                                     }}
@@ -341,9 +336,9 @@ export default function AssetLiabilityPlanCreateEdit() {
                                           idx === index
                                             ? getUpdatedRowObjectForManual(
                                                 data,
-                                                newValue,
+                                                newValue
                                               )
-                                            : data,
+                                            : data
                                       );
                                       setTableData(updatedData);
                                     }}

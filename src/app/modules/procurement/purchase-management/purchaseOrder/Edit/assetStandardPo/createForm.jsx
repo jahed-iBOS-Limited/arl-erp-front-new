@@ -1,4 +1,3 @@
-
 import React, { useEffect, useMemo, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { ISelect } from '../../../../../_helper/_inputDropDown';
@@ -67,7 +66,6 @@ export default function AssetStandardPOCreateForm({
   useEffect(() => {
     // all input fields : this function will set our all input fields  , then we will use loop to generate input fields in UI
     setInputFieldsFunc(setInputFields, storeData);
-
   }, [supplierNameDDL, currencyDDL, paymentTermsDDL, incoTermsDDL]);
 
   useEffect(() => {
@@ -115,10 +113,8 @@ export default function AssetStandardPOCreateForm({
     getItemDDL(
       singleData?.objHeaderDTO?.businessPartnerId,
       singleData?.objHeaderDTO?.referenceTypeId,
-      0,
+      0
     );
-
-
   }, [singleData]);
 
   // add single item to row or add all item to row
@@ -167,11 +163,11 @@ export default function AssetStandardPOCreateForm({
         arr = rowDto?.filter(
           (item) =>
             item.referenceNo?.value === values?.referenceNo?.value &&
-            item?.item?.value === values?.item?.value,
+            item?.item?.value === values?.item?.value
         );
       } else {
         arr = rowDto?.filter(
-          (item) => item?.item?.value === values?.item?.value,
+          (item) => item?.item?.value === values?.item?.value
         );
       }
 
@@ -242,14 +238,13 @@ export default function AssetStandardPOCreateForm({
         singleData?.objHeaderDTO?.warehouseId,
         supplierId,
         refType,
-        referenceNo,
-      ),
+        referenceNo
+      )
     );
   };
 
   useEffect(() => {
     getRefNoDDL();
-
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   // getRefNoDdlBySupplier
@@ -262,7 +257,7 @@ export default function AssetStandardPOCreateForm({
       singleData?.objHeaderDTO?.plantId,
       singleData?.objHeaderDTO?.warehouseId,
       singleData?.objHeaderDTO?.referenceTypeName,
-      setRefNoDDL,
+      setRefNoDDL
     );
   };
 
@@ -328,22 +323,22 @@ export default function AssetStandardPOCreateForm({
 
   useEffect(() => {
     getTransferBu(
-      `/procurement/PurchaseOrder/TransferPoBusinessUnit?UnitId=${selectedBusinessUnit?.value}`,
+      `/procurement/PurchaseOrder/TransferPoBusinessUnit?UnitId=${selectedBusinessUnit?.value}`
     );
     getBuTransaction(
-      `/fino/BusinessTransaction/BusinessTransactionList?GroupId=1&BusinessUnitId=${selectedBusinessUnit?.value}`,
+      `/fino/BusinessTransaction/BusinessTransactionList?GroupId=1&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
     getCostCenterDDL(
       profileData?.accountId,
       transferBusinessUnitId,
       transferBusinessUnitId && transferBusinessUnitName ? true : false,
-      setCostCenterList,
+      setCostCenterList
     );
     getCostElementDDL(
       profileData?.accountId,
       transferBusinessUnitId,
       transferBusinessUnitId && transferBusinessUnitName ? true : false,
-      setCostElementList,
+      setCostElementList
     );
   }, [selectedBusinessUnit]);
 
@@ -473,7 +468,7 @@ export default function AssetStandardPOCreateForm({
                         if (v.length < 3) return [];
                         return axios
                           .get(
-                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${singleData?.objHeaderDTO?.sbuId}`,
+                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${singleData?.objHeaderDTO?.sbuId}`
                           )
                           .then((res) => {
                             const updateList = res?.data.map((item) => ({
@@ -529,7 +524,7 @@ export default function AssetStandardPOCreateForm({
                           />
                         </div>
                       )
-                    ),
+                    )
                   )}
                   <div className="col-lg-2">
                     <IInput
@@ -614,13 +609,13 @@ export default function AssetStandardPOCreateForm({
                             profileData?.accountId,
                             valueOption?.value,
                             values?.isTransfer,
-                            setCostCenterList,
+                            setCostCenterList
                           );
                           getCostElementDDL(
                             profileData?.accountId,
                             valueOption?.value,
                             values?.isTransfer,
-                            setCostElementList,
+                            setCostElementList
                           );
                         }
                       }}
@@ -697,7 +692,7 @@ export default function AssetStandardPOCreateForm({
                             getItemDDL(
                               values?.supplierName?.value,
                               singleData?.objHeaderDTO?.referenceTypeId,
-                              value,
+                              value
                             );
                           }
                         }}
@@ -735,7 +730,7 @@ export default function AssetStandardPOCreateForm({
                                   singleData?.objHeaderDTO?.warehouseId
                                 }&RefTypeId=${
                                   singleData?.objHeaderDTO?.referenceTypeId
-                                }&RefNoId=${0}&searchTerm=${v}`,
+                                }&RefNoId=${0}&searchTerm=${v}`
                               )
                               .then((res) => {
                                 const updateList = res?.data.map((item) => ({
@@ -813,8 +808,8 @@ export default function AssetStandardPOCreateForm({
                               ? !values.item
                               : false
                             : !values.isAllItem
-                            ? !values.referenceNo || !values.item
-                            : !values.referenceNo
+                              ? !values.referenceNo || !values.item
+                              : !values.referenceNo
                         }
                         style={{
                           marginTop: '20px',

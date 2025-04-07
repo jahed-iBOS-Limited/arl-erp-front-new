@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getRegionAreaTerritory = async ({
   channelId,
@@ -12,9 +12,9 @@ export const getRegionAreaTerritory = async ({
   territoryId,
 }) => {
   setLoading(true);
-  const region = regionId ? `&regionId=${regionId}` : "";
-  const area = areaId ? `&areaId=${areaId}` : "";
-  const territory = territoryId ? `&territoryId=${territoryId}` : "";
+  const region = regionId ? `&regionId=${regionId}` : '';
+  const area = areaId ? `&areaId=${areaId}` : '';
+  const territory = territoryId ? `&territoryId=${territoryId}` : '';
   try {
     const res = await axios.get(
       `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${channelId}${region}${area}${territory}`

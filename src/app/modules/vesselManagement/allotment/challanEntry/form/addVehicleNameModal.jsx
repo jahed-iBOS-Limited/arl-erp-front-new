@@ -1,24 +1,24 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import * as Yup from "yup";
-import IForm from "../../../../_helper/_form";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { getVehicleDDL } from "../helper";
-import useAxiosGet from "./../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "./../../../../_helper/customHooks/useAxiosPost";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import IForm from '../../../../_helper/_form';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { getVehicleDDL } from '../helper';
+import useAxiosGet from './../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from './../../../../_helper/customHooks/useAxiosPost';
 
 const initData = {
   // vehicleCity: "",
   // vehicleRegistrationLetter: "",
   // vehicleRegistrationNumber: "",
   // vehicleManualNo: "",
-  vehicleManualFinalNo: "",
-  vehicleType: "",
-  ownerType: "",
-  capacity: "",
+  vehicleManualFinalNo: '',
+  vehicleType: '',
+  ownerType: '',
+  capacity: '',
 };
 
 // Validation schema
@@ -35,14 +35,14 @@ const validationSchema = Yup.object().shape({
   //   label: Yup.string().required("Vehicle Registration Number is required"),
   //   value: Yup.string().required("Vehicle Registration Number is required"),
   // }),
-  vehicleManualFinalNo: Yup.string().required("Vehicle Full No is required"),
+  vehicleManualFinalNo: Yup.string().required('Vehicle Full No is required'),
   vehicleType: Yup.object().shape({
-    label: Yup.string().required("Vehicle Type is required"),
-    value: Yup.string().required("Vehicle Type is required"),
+    label: Yup.string().required('Vehicle Type is required'),
+    value: Yup.string().required('Vehicle Type is required'),
   }),
   ownerType: Yup.object().shape({
-    label: Yup.string().required("Owner Type is required"),
-    value: Yup.string().required("Owner Type is required"),
+    label: Yup.string().required('Owner Type is required'),
+    value: Yup.string().required('Owner Type is required'),
   }),
   // vehicleManualNo: Yup.string()
   //   .min(0, "Minimum 2 symbols")
@@ -90,7 +90,6 @@ export default function AddVehicleNameModal({
     // );
     getVehicleTypeDDL(`/tms/Vehicle/GetVehicleTypeDDL`);
     getCapacityDDL(`/tms/TransportMgtDDL/GetVehicleCapacityDDL`);
-
   }, []);
 
   const saveHandler = async (values, cb) => {
@@ -98,7 +97,7 @@ export default function AddVehicleNameModal({
       `/tms/LigterLoadUnload/CreateVehicleForG2G`,
       {
         // vehicleNo: vehicleAddress || values?.vehicleManualFinalNo || "",
-        vehicleNo: values?.vehicleManualFinalNo || "",
+        vehicleNo: values?.vehicleManualFinalNo || '',
         businessUnitId: selectedBusinessUnit?.value,
         accountId: profileData?.accountId,
         ownerTypeId: values.ownerType?.value,
@@ -140,7 +139,7 @@ export default function AddVehicleNameModal({
               value: vehicleTypeDDL[2]?.value,
               label: vehicleTypeDDL[2]?.label,
             },
-            ownerType: { value: 2, label: "Customize" },
+            ownerType: { value: 2, label: 'Customize' },
             capacity: {
               value: capacityDDL[7]?.value,
               label: capacityDDL[7]?.label,
@@ -171,7 +170,7 @@ export default function AddVehicleNameModal({
                   <div className="col-lg-12">
                     <div
                       className="row bank-journal bank-journal-custom bj-left"
-                      style={{ paddingBottom: "0px" }}
+                      style={{ paddingBottom: '0px' }}
                     >
                       <div className="col-lg-2 mb-2">
                         <label>Vehicle Full No</label>
@@ -192,7 +191,7 @@ export default function AddVehicleNameModal({
                           value={values?.vehicleType}
                           label="Vehicle Type"
                           onChange={(valueOption) => {
-                            setFieldValue("vehicleType", valueOption);
+                            setFieldValue('vehicleType', valueOption);
                           }}
                           placeholder="Vehicle Type"
                           errors={errors}
@@ -204,14 +203,14 @@ export default function AddVehicleNameModal({
                         <NewSelect
                           name="ownerType"
                           options={[
-                            { value: 1, label: "Company" },
-                            { value: 3, label: "Customer" },
-                            { value: 2, label: "Customize" },
+                            { value: 1, label: 'Company' },
+                            { value: 3, label: 'Customer' },
+                            { value: 2, label: 'Customize' },
                           ]}
                           value={values?.ownerType}
                           label="Owner Type"
                           onChange={(valueOption) => {
-                            setFieldValue("ownerType", valueOption);
+                            setFieldValue('ownerType', valueOption);
                           }}
                           placeholder="Owner Type"
                           errors={errors}
@@ -225,7 +224,7 @@ export default function AddVehicleNameModal({
                           value={values?.capacity}
                           label="Capacity"
                           onChange={(valueOption) => {
-                            setFieldValue("capacity", valueOption);
+                            setFieldValue('capacity', valueOption);
                           }}
                           placeholder="Capacity"
                           errors={errors}
@@ -238,14 +237,14 @@ export default function AddVehicleNameModal({
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

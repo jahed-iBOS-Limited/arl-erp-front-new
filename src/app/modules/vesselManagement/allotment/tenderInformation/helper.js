@@ -1,8 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-
-
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 
 export const GetLighterStevedoreDDL = async (setter) => {
   try {
@@ -20,8 +18,9 @@ export const GetLighterStevedoreDDL = async (setter) => {
 export const getMotherVesselDDL = async (accId, buId, setter, portId) => {
   try {
     const res = await Axios.get(
-      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${portId ||
-      0}`
+      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${
+        portId || 0
+      }`
     );
     setter(res.data);
   } catch (error) {
@@ -31,21 +30,21 @@ export const getMotherVesselDDL = async (accId, buId, setter, portId) => {
 
 export const validationSchema = Yup.object().shape({
   motherVessel: Yup.object().shape({
-    label: Yup.string().required("Mother Vessel is required"),
-    value: Yup.string().required("Mother Vessel is required"),
+    label: Yup.string().required('Mother Vessel is required'),
+    value: Yup.string().required('Mother Vessel is required'),
   }),
   item: Yup.object().shape({
-    label: Yup.string().required("Item is required"),
-    value: Yup.string().required("Item is required"),
+    label: Yup.string().required('Item is required'),
+    value: Yup.string().required('Item is required'),
   }),
-  lotNo: Yup.string().required("Lot No is required"),
+  lotNo: Yup.string().required('Lot No is required'),
   cnf: Yup.object().shape({
-    label: Yup.string().required("CNF is required"),
-    value: Yup.string().required("CNF is required"),
+    label: Yup.string().required('CNF is required'),
+    value: Yup.string().required('CNF is required'),
   }),
   steveDore: Yup.object().shape({
-    label: Yup.string().required("Steve dore is required"),
-    value: Yup.string().required("Steve dore is required"),
+    label: Yup.string().required('Steve dore is required'),
+    value: Yup.string().required('Steve dore is required'),
   }),
 });
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export function BankInfoComponent({ data }) {
   return (
@@ -29,7 +29,7 @@ export function BankInfoComponent({ data }) {
       </div>
       <div className="col-lg-12 headerWrapper">
         <div className="headerKey">SWIFT CODE :</div>
-        <div className="headerValue">{data?.swiftCode || ""}</div>
+        <div className="headerValue">{data?.swiftCode || ''}</div>
       </div>
     </div>
   );

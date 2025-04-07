@@ -26,13 +26,12 @@ const ProductToFG = () => {
   const [rowData, setRowData] = useState([]);
   const { selectedBusinessUnit, profileData } = useSelector(
     (state) => state.authData,
-    shallowEqual,
+    shallowEqual
   );
   useEffect(() => {
     getProductInfo(`costmgmt/Precosting/ProductGetById?productId=0`, (data) => {
       setRowData(data?.commonCostElement || []);
     });
-
   }, [selectedBusinessUnit?.value]);
 
   const saveHandler = (values) => {
@@ -67,13 +66,13 @@ const ProductToFG = () => {
         } else {
           toast.error('Failed!');
         }
-      },
+      }
     );
   };
 
   const addNewFeatureHandler = (values) => {
     let foundData = rowData?.filter(
-      (item) => item?.costElementName === values?.costElementName,
+      (item) => item?.costElementName === values?.costElementName
     );
     if (foundData?.length > 0) {
       toast.warning('Cost element already exist', { toastId: 'Fae' });
@@ -87,7 +86,7 @@ const ProductToFG = () => {
 
   const handleDelete = (fgValue) => {
     const filterData = rowData.filter(
-      (item) => item.costElementName !== fgValue,
+      (item) => item.costElementName !== fgValue
     );
     setRowData(filterData);
   };

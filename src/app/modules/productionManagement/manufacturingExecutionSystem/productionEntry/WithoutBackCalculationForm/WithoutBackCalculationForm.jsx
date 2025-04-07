@@ -1,12 +1,12 @@
-import { Field, Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import IViewModal from "../../../../_helper/_viewModal";
-import CreateTableRow from "../Table/CreateTableRow";
+import { Field, Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import IViewModal from '../../../../_helper/_viewModal';
+import CreateTableRow from '../Table/CreateTableRow';
 import {
   getOrderQuantityDDL,
   getOtherOutputItemDDL,
@@ -14,9 +14,9 @@ import {
   getProductionOrderDDL,
   getShopFloorDDL,
   getWorkCenterDDL,
-} from "../helper";
-import BackCalculationModal from "./backCalculationModal";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
+} from '../helper';
+import BackCalculationModal from './backCalculationModal';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
 
 export default function FormCmp({
   initData,
@@ -37,8 +37,8 @@ export default function FormCmp({
   const [productionOrderDDL, setProductionOrderDDL] = useState([]);
   const [shopFloorDDL, setShopFloorDDL] = useState([]);
   const [workCenterDDL, setWorkCenterDDL] = useState([]);
-  const [orderQuantity, setGetOrderQuantity] = useState("");
-  const [productionItemQuantity, setProductionQuantity] = useState("");
+  const [orderQuantity, setGetOrderQuantity] = useState('');
+  const [productionItemQuantity, setProductionQuantity] = useState('');
   const [isShowModal, setIsShowModal] = useState(false);
   const location = useLocation();
 
@@ -79,7 +79,7 @@ export default function FormCmp({
     );
 
     if (isExist) {
-      toast.warn("Item already added!");
+      toast.warn('Item already added!');
     } else {
       setRowData([
         ...rowData,
@@ -98,8 +98,8 @@ export default function FormCmp({
           code: values?.othersOutputItem?.code,
         },
       ]);
-      setFieldValue("othersOutputQty", "");
-      setFieldValue("othersOutputItem", "");
+      setFieldValue('othersOutputQty', '');
+      setFieldValue('othersOutputItem', '');
     }
   };
 
@@ -116,9 +116,9 @@ export default function FormCmp({
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          totalAmount : "",
-          rate : "",
-          qty :""
+          totalAmount: '',
+          rate: '',
+          qty: '',
         }}
         // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -174,12 +174,12 @@ export default function FormCmp({
                               values?.productionOrder?.value,
                               setGetOrderQuantity
                             );
-                            setFieldValue("plantName", valueOption);
-                            setFieldValue("shopFloor", "");
-                            setFieldValue("productionOrder", "");
-                            setFieldValue("othersOutputItem", "");
-                            setFieldValue("materialCost", "");
-                            setFieldValue("overheadCost", "");
+                            setFieldValue('plantName', valueOption);
+                            setFieldValue('shopFloor', '');
+                            setFieldValue('productionOrder', '');
+                            setFieldValue('othersOutputItem', '');
+                            setFieldValue('materialCost', '');
+                            setFieldValue('overheadCost', '');
                           }}
                           placeholder="Plant Name"
                           errors={errors}
@@ -193,10 +193,10 @@ export default function FormCmp({
                           options={shopFloorDDL}
                           value={values?.shopFloor}
                           onChange={(valueOption) => {
-                            setFieldValue("workcenterName", "");
-                            setFieldValue("materialCost", "");
-                            setFieldValue("overheadCost", "");
-                            setFieldValue("shopFloor", valueOption);
+                            setFieldValue('workcenterName', '');
+                            setFieldValue('materialCost', '');
+                            setFieldValue('overheadCost', '');
+                            setFieldValue('shopFloor', valueOption);
                             getWorkCenterDDL(
                               profileData?.accountId,
                               selectedBusinessUnit?.value,
@@ -218,10 +218,10 @@ export default function FormCmp({
                           options={workCenterDDL}
                           value={values?.workcenterName}
                           onChange={(valueOption) => {
-                            setFieldValue("productionOrder", "");
-                            setFieldValue("materialCost", "");
-                            setFieldValue("overheadCost", "");
-                            setFieldValue("workcenterName", valueOption);
+                            setFieldValue('productionOrder', '');
+                            setFieldValue('materialCost', '');
+                            setFieldValue('overheadCost', '');
+                            setFieldValue('workcenterName', valueOption);
                             getProductionOrderDDL(
                               profileData.accountId,
                               selectedBusinessUnit.value,
@@ -257,9 +257,9 @@ export default function FormCmp({
                               valueOption?.itemId,
                               setProductionQuantity
                             );
-                            setFieldValue("productionOrder", valueOption);
-                            setFieldValue("materialCost", "");
-                            setFieldValue("overheadCost", "");
+                            setFieldValue('productionOrder', valueOption);
+                            setFieldValue('materialCost', '');
+                            setFieldValue('overheadCost', '');
                           }}
                           placeholder="Production Order"
                           label="Production Order"
@@ -278,7 +278,7 @@ export default function FormCmp({
                           onChange={(e) => {
                             if (e?.target?.value) {
                               setFieldValue(
-                                "dteProductionDate",
+                                'dteProductionDate',
                                 e?.target?.value
                               );
                             }
@@ -289,11 +289,11 @@ export default function FormCmp({
                         <NewSelect
                           name="shift"
                           options={shiftDDL}
-                          value={values?.shift ? values.shift : ""}
+                          value={values?.shift ? values.shift : ''}
                           onChange={(valueOption) => {
-                            setFieldValue("shift", valueOption);
-                            setFieldValue("materialCost", "");
-                            setFieldValue("overheadCost", "");
+                            setFieldValue('shift', valueOption);
+                            setFieldValue('materialCost', '');
+                            setFieldValue('overheadCost', '');
                           }}
                           placeholder="Shift"
                           errors={errors}
@@ -304,13 +304,13 @@ export default function FormCmp({
                       <div className="col-lg-3">
                         <InputField
                           name="goodQty"
-                          value={values?.goodQty >= 0 ? values?.goodQty : ""}
+                          value={values?.goodQty >= 0 ? values?.goodQty : ''}
                           label="Good Qty"
                           step="any"
                           onChange={(e) => {
-                            setFieldValue("goodQty", e.target.value);
-                            setFieldValue("materialCost", "");
-                            setFieldValue("overheadCost", "");
+                            setFieldValue('goodQty', e.target.value);
+                            setFieldValue('materialCost', '');
+                            setFieldValue('overheadCost', '');
                           }}
                           placeholder="Good Qty"
                           type="number"
@@ -323,8 +323,8 @@ export default function FormCmp({
                         <div className="col-lg-3">
                           <button
                             type="button"
-                            style={{ marginTop: "19px" }}
-                            className={"btn btn-primary mr-2"}
+                            style={{ marginTop: '19px' }}
+                            className={'btn btn-primary mr-2'}
                             onClick={() => {
                               setIsShowModal(true);
                             }}
@@ -352,18 +352,15 @@ export default function FormCmp({
                           checked={
                             values?.checkOutputItem >= 0
                               ? values?.checkOutputItem
-                              : ""
+                              : ''
                           }
                           value={
                             values?.checkOutputItem
                               ? values?.checkOutputItem
-                              : ""
+                              : ''
                           }
                           onChange={(e) => {
-                            setFieldValue(
-                              "checkOutputItem",
-                              e.target.checked
-                            );
+                            setFieldValue('checkOutputItem', e.target.checked);
                           }}
                           disabled={
                             !values?.plantName?.value ||
@@ -383,7 +380,10 @@ export default function FormCmp({
                             name="isLastProduction"
                             checked={values?.isLastProduction}
                             onChange={(e) => {
-                              setFieldValue("isLastProduction", e.target.checked);
+                              setFieldValue(
+                                'isLastProduction',
+                                e.target.checked
+                              );
                             }}
                           />
                         </div>
@@ -398,7 +398,7 @@ export default function FormCmp({
                                 value={values?.othersOutputItem}
                                 onChange={(valueOption) => {
                                   setFieldValue(
-                                    "othersOutputItem",
+                                    'othersOutputItem',
                                     valueOption
                                   );
                                 }}
@@ -413,7 +413,7 @@ export default function FormCmp({
                                 value={
                                   values?.othersOutputQty >= 0
                                     ? values?.othersOutputQty
-                                    : ""
+                                    : ''
                                 }
                                 min="1"
                                 label="Others Output Quantity"
@@ -464,11 +464,11 @@ export default function FormCmp({
                       Order Quantity: {orderQuantity[0]?.quantity}
                     </p>
                     <p className="m-0 font-weight-bold">
-                      Produced Quantity: {productionItemQuantity}{" "}
+                      Produced Quantity: {productionItemQuantity}{' '}
                     </p>
                   </div>
                   <p className="mt-3 font-weight-bold">
-                    UoM: {orderQuantity[0]?.uomName}{" "}
+                    UoM: {orderQuantity[0]?.uomName}{' '}
                   </p>
                   {isBackCalculationValue === 2 && (
                     <>
@@ -479,7 +479,10 @@ export default function FormCmp({
                         Overhead Cost: {_formatMoney(values?.overheadCost)}
                       </p>
                       <p className="mt-3 font-weight-bold">
-                        Grand Total: {_formatMoney(values?.materialCost + values?.overheadCost)}
+                        Grand Total:{' '}
+                        {_formatMoney(
+                          values?.materialCost + values?.overheadCost
+                        )}
                       </p>
                     </>
                   )}
@@ -502,13 +505,13 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onClick={() => handleSubmit}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

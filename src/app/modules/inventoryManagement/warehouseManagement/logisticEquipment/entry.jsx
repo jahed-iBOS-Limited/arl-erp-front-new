@@ -44,12 +44,11 @@ export default function LogisticEquipmentEntry() {
 
   useEffect(() => {
     getShipPointList(
-      `/wms/ShipPoint/GetShipPointDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
+      `/wms/ShipPoint/GetShipPointDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
     );
     if (location?.state?.item) {
       setFormList([{ ...location?.state?.item }]);
     }
-
   }, [location, selectedBusinessUnit]);
 
   const saveHandler = async (values, cb) => {
@@ -60,7 +59,7 @@ export default function LogisticEquipmentEntry() {
       `/oms/CastingSchedule/CreateAndUpdateCastingScheduleToolsInfo`,
       formList,
       cb,
-      true,
+      true
     );
   };
 
@@ -177,7 +176,7 @@ export default function LogisticEquipmentEntry() {
                         onChange={(e) => {
                           setFieldValue(
                             'transitMixtureExplain',
-                            e.target.value,
+                            e.target.value
                           );
                         }}
                         errors={errors}
@@ -503,7 +502,7 @@ export default function LogisticEquipmentEntry() {
                             <span
                               onClick={() => {
                                 const data = formList?.filter(
-                                  (itm, i) => i !== index,
+                                  (itm, i) => i !== index
                                 );
                                 setFormList(data);
                               }}

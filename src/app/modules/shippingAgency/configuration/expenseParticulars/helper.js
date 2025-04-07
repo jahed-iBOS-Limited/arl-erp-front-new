@@ -11,13 +11,13 @@ export const categoryDDL = [
 export const createUpdateExpenseParticularsApi = async (
   payload,
   setDisabled,
-  cb,
+  cb
 ) => {
   try {
     setDisabled(true);
     await axios.post(
       `${imarineBaseUrl}/domain/ASLLAgency/CreateUpdateExpenseParticulars`,
-      payload,
+      payload
     );
 
     toast.success('Submitted Successfully');
@@ -36,14 +36,14 @@ export const getExpenseParticularsLandingApi = async (
   pageNo,
   pageSize,
   setter,
-  setLoading,
+  setLoading
 ) => {
   setLoading(true);
   setter([]);
   try {
     const _category = category ? `&Category=${category}` : '';
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/ASLLAgency/GetExpenseParticularsLanding?FromDate=${fromDate}&ToDate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${_category}`,
+      `${imarineBaseUrl}/domain/ASLLAgency/GetExpenseParticularsLanding?FromDate=${fromDate}&ToDate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${_category}`
     );
     setter(res?.data);
     setLoading(false);
@@ -56,7 +56,7 @@ export const getExpenseParticularsById = async (id, setLoading, setter) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/ASLLAgency/GetExpenseParticularsById?expenceId=${id}`,
+      `${imarineBaseUrl}/domain/ASLLAgency/GetExpenseParticularsById?expenceId=${id}`
     );
     setLoading(false);
     setter(res?.data);

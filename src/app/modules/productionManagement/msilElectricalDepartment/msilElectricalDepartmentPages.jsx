@@ -1,19 +1,19 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import GeneratorRunningHour from "./generatorRunningHour";
-import GeneratorRunningHourCreate from "./generatorRunningHour/Form/addEditForm";
-import FuelConsumption from "./generatorFuelConsumption";
-import FuelConsumptionCreate from "./generatorFuelConsumption/Form/addEditForm";
-import REBConsumption from "./rebConsumption";
-import REBConsumptionCreate from "./rebConsumption/Form/addEditForm";
-import RebShutdown from "./rebShutdown";
-import RebShutdownCreate from "./rebShutdown/Form/addEditForm";
-import MeltingREBConsumption from "./meltingREBConsumption";
-import GeneratorGasConsumptionLanding from "./generatorGasConsumption";
-import GeneratorGasConsumptionCreate from "./generatorGasConsumption/addEditForm";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
+import GeneratorRunningHour from './generatorRunningHour';
+import GeneratorRunningHourCreate from './generatorRunningHour/Form/addEditForm';
+import FuelConsumption from './generatorFuelConsumption';
+import FuelConsumptionCreate from './generatorFuelConsumption/Form/addEditForm';
+import REBConsumption from './rebConsumption';
+import REBConsumptionCreate from './rebConsumption/Form/addEditForm';
+import RebShutdown from './rebShutdown';
+import RebShutdownCreate from './rebShutdown/Form/addEditForm';
+import MeltingREBConsumption from './meltingREBConsumption';
+import GeneratorGasConsumptionLanding from './generatorGasConsumption';
+import GeneratorGasConsumptionCreate from './generatorGasConsumption/addEditForm';
 
 export function MsilElectricalDepartmentPages() {
   const userRole = useSelector(
@@ -71,24 +71,32 @@ export function MsilElectricalDepartmentPages() {
       <ContentRoute
         path="/production-management/msil-Electrical/GeneratorFuelConsumption/edit/:id"
         component={
-          fuelConsumption?.isEdit ? (selectedBusinessUnit?.value === 4 ? GeneratorGasConsumptionCreate : FuelConsumptionCreate) : NotPermittedPage
+          fuelConsumption?.isEdit
+            ? selectedBusinessUnit?.value === 4
+              ? GeneratorGasConsumptionCreate
+              : FuelConsumptionCreate
+            : NotPermittedPage
         }
       />
       <ContentRoute
         path="/production-management/msil-Electrical/GeneratorFuelConsumption/create"
         component={
-          fuelConsumption?.isCreate ? (
-            [4, 171, 224].includes(selectedBusinessUnit?.value) ? GeneratorGasConsumptionCreate : FuelConsumptionCreate
-          ) : NotPermittedPage
+          fuelConsumption?.isCreate
+            ? [4, 171, 224].includes(selectedBusinessUnit?.value)
+              ? GeneratorGasConsumptionCreate
+              : FuelConsumptionCreate
+            : NotPermittedPage
         }
       />
       <ContentRoute
         path="/production-management/msil-Electrical/GeneratorFuelConsumption"
         // component={fuelConsumption?.isView ? FuelConsumption : NotPermittedPage}
         component={
-          fuelConsumption?.isView ? (
-            selectedBusinessUnit?.value === 4 ? GeneratorGasConsumptionLanding : FuelConsumption
-          ) : NotPermittedPage
+          fuelConsumption?.isView
+            ? selectedBusinessUnit?.value === 4
+              ? GeneratorGasConsumptionLanding
+              : FuelConsumption
+            : NotPermittedPage
         }
       />
       <ContentRoute

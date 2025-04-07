@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 // Create performance guarantee;
 export const performanceGuaranteeCreate = async (
@@ -14,7 +14,7 @@ export const performanceGuaranteeCreate = async (
     let res = await Axios.post(`/imp/FormulaForCalculation/CreatePG`, payload);
 
     setDisabled(false);
-    toast.success(res?.response?.data || "Create successfully");
+    toast.success(res?.response?.data || 'Create successfully');
     setIsShowModal(false);
     cb && cb();
   } catch (error) {

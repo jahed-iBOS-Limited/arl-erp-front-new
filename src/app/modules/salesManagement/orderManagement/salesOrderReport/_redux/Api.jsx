@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 // Save created data
 export function saveCreateData(data) {
@@ -24,7 +24,7 @@ export function getGridData(
   pageSize,
   search
 ) {
-  const searchPath = search ? `searchTerm=${search}&` : "";
+  const searchPath = search ? `searchTerm=${search}&` : '';
   return axios.get(
     `/oms/SalesOrder/GetSalesOrderPaginationSearch?${searchPath}AccountId=${accId}&BUnitId=${buId}&ShipPointId=${shipPointId}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&ReportTypeId=${reportTypeId}`
   );
@@ -269,5 +269,7 @@ export function getCreditLimitForInternalUser(pId) {
   return axios.get(`/oms/SalesOrder/GetCreditLimitForInternalUser?pId=${pId}`);
 }
 export function GetSalesConfigurationBalanceCheck(accId, buId) {
-  return axios.get(`/oms/SalesOffice/GetSalesConfiguration?AccountId=${accId}&BusinessUnitId=${buId}`);
+  return axios.get(
+    `/oms/SalesOffice/GetSalesConfiguration?AccountId=${accId}&BusinessUnitId=${buId}`
+  );
 }

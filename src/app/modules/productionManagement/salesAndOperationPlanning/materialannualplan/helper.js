@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 // horizon ddl
 export const getHorizonDDLView = async (
@@ -19,7 +19,7 @@ export const getHorizonDDLView = async (
         return new Date(a.startdatetime) - new Date(b.enddatetime);
       })
     );
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getHorizonDDLCreate = async (
@@ -39,7 +39,7 @@ export const getHorizonDDLCreate = async (
         return new Date(a.startdatetime) - new Date(b.enddatetime);
       })
     );
-  } catch (error) { }
+  } catch (error) {}
 };
 
 // Plant Item DDL
@@ -56,10 +56,10 @@ export const getItemListSalesPlanDDL = async (
       `/mes/SalesPlanning/GetSalesPlanItemsAll?AccountId=${accId}&BusinessUnitId=${buId}&plantId=${plantId}&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     res.data.data.forEach((item) => {
-      item["itemPlanQty"] = "";
+      item['itemPlanQty'] = '';
     });
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 const uniqueData = (data) => {
@@ -101,7 +101,7 @@ export const createMaterialRequirementPlanning = async (
     );
 
     setLoading(false);
-    toast.success(res?.data?.message || "Created successfully", {
+    toast.success(res?.data?.message || 'Created successfully', {
       toastId: 14214,
     });
     cb();
@@ -184,14 +184,14 @@ export const getMrplanningInfoDetails_api = async (
   setLoading
 ) => {
   try {
-    setLoading(true)
+    setLoading(true);
     const res = await Axios.get(
       `/mes/SalesPlanning/GetMrplanningInfoDetail?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&PlanningHorizonId=${horizonId}&PlanningHorizonRowId=${horizonRowId}`
     );
     setter(res?.data);
-    setLoading(false)
+    setLoading(false);
   } catch (error) {
     setter([]);
-    setLoading(false)
+    setLoading(false);
   }
 };

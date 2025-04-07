@@ -1,13 +1,11 @@
-
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
-import { _currentTime } from "../../../../_helper/_currentTime";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { empAttachment_action } from "../../../../_helper/attachmentUpload";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { _currentTime } from '../../../../_helper/_currentTime';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 import {
   EditVehicleLogBook,
   getFuelTypeDDL,
@@ -15,34 +13,34 @@ import {
   getSingleData,
   getSupplierDDL,
   saveVehicleLogBook,
-} from "../helper";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import Form from "./form";
+} from '../helper';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import Form from './form';
 
 const initData = {
   travelDate: _todayDate(),
-  fromAddress: "",
+  fromAddress: '',
   fromTime: _currentTime(),
-  toAddress: "",
+  toAddress: '',
   toTime: _currentTime(),
   startMileage: 10,
-  endMileage: "",
-  consumedMileage: "",
-  usageType: "",
+  endMileage: '',
+  consumedMileage: '',
+  usageType: '',
   fuelPurchased: false,
-  fuelType: "",
-  quantity: "",
-  totalAmount: "",
-  paymentMethod: "",
-  supplier: "",
-  fuelStation: "",
-  referenceNo: "",
-  comments: "",
-  purchaseType: "credit",
-  rate: "",
-  referenceDate: "",
-  cashAmount: "",
-  creditAmount: "",
+  fuelType: '',
+  quantity: '',
+  totalAmount: '',
+  paymentMethod: '',
+  supplier: '',
+  fuelStation: '',
+  referenceNo: '',
+  comments: '',
+  purchaseType: 'credit',
+  rate: '',
+  referenceDate: '',
+  cashAmount: '',
+  creditAmount: '',
 };
 
 export default function VehicleLogBookForm({
@@ -70,7 +68,7 @@ export default function VehicleLogBookForm({
   const [fileObjects, setFileObjects] = useState([]);
   const [Mileage, setMileage] = useState([]);
   const [fuelCost, setFuelCost] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   // get initial data
   useEffect(() => {
@@ -122,7 +120,7 @@ export default function VehicleLogBookForm({
         // if (values.fuelPurchased === true) {
         payload = {
           objVehicleLog: {
-            travelCode: "string",
+            travelCode: 'string',
             accountId: profileData?.accountId,
             businessUnitId: selectedBusinessUnit?.value,
             businessUnitName: selectedBusinessUnit?.label,
@@ -139,10 +137,10 @@ export default function VehicleLogBookForm({
             vehicleEndMileage: +values.endMileage,
             vehicleConsumedMileage: +values.consumedMileage,
             isPersonalUsage:
-              values.usageType.label === "Personal" ? true : false,
+              values.usageType.label === 'Personal' ? true : false,
             isFuelPurchased: values.fuelPurchased,
-            comments: values.comments || "",
-            attachmentLink: "",
+            comments: values.comments || '',
+            attachmentLink: '',
             actionBy: profileData?.userId,
           },
           objFuelLog: fuelCost,
@@ -181,7 +179,7 @@ export default function VehicleLogBookForm({
             const modifyPlyload = {
               objVehicleLog: {
                 ...payload.objVehicleLog,
-                attachmentLink: data[0]?.id || "",
+                attachmentLink: data[0]?.id || '',
               },
               objFuelLog: fuelCost,
             };
@@ -197,7 +195,7 @@ export default function VehicleLogBookForm({
   };
 
   const addToFuelCost = (values, cb) => {
-    if (values?.purchaseType === "cash") {
+    if (values?.purchaseType === 'cash') {
       if (
         fuelCost?.find(
           (item) =>
@@ -223,7 +221,7 @@ export default function VehicleLogBookForm({
     const obj = {
       fuelTypeId: values?.fuelType?.value,
       fuelTypeName: values?.fuelType?.label,
-      fuelStationName: values?.fuelStation?.label || "",
+      fuelStationName: values?.fuelStation?.label || '',
       fuelStationId: values?.fuelStation?.value || 0,
       quantity: Number(values?.quantity),
       referenceDate: values?.referenceDate,
@@ -233,18 +231,18 @@ export default function VehicleLogBookForm({
       creditAmount: Number(values?.creditAmount) || 0,
       actionBy: profileData?.userId,
       paymentMethodId:
-        values?.purchaseType === "cash"
+        values?.purchaseType === 'cash'
           ? 1
-          : values?.purchaseType === "credit"
+          : values?.purchaseType === 'credit'
             ? 2
             : 3,
       rate: Number(values?.rate),
       amount: Number(values?.totalAmount),
       paymentMethod: values?.purchaseType,
       businessPartnerId: values?.supplier?.value || 0,
-      businessPartnerName: values?.supplier?.label || "",
+      businessPartnerName: values?.supplier?.label || '',
       applicantEnroll:
-        state?.values?.entryBy === "own"
+        state?.values?.entryBy === 'own'
           ? profileData?.employeeId
           : state?.values?.vehicleNo?.vehicelUserEnroll,
     };

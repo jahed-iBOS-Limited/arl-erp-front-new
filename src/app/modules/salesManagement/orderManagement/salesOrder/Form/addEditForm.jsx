@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import Form from './form';
@@ -178,7 +177,7 @@ export default function SalesOrderForm({
         transportZoneDDL: state.salesOrder.transportZoneDDL,
       };
     },
-    { shallowEqual },
+    { shallowEqual }
   );
   // get single sales order  unit from store
   const singleData = useSelector((state) => {
@@ -220,14 +219,13 @@ export default function SalesOrderForm({
           profileData?.accountId,
           selectedBusinessUnit?.value,
           id,
-          setDisabled,
-        ),
+          setDisabled
+        )
       );
       dispatch(getSalesOrderApproveCheck_action(profileData?.userId));
     } else {
       dispatch(setSalesOrderSingleEmpty());
     }
-
   }, [id]);
   //Initial single row data set
   useEffect(() => {
@@ -251,11 +249,10 @@ export default function SalesOrderForm({
           {
             soldtoParty: singleData?.objHeader?.soldtoParty,
             pricingDate: singleData?.objHeader?.pricingDate,
-          },
-        ),
+          }
+        )
       );
     }
-
   }, [singleData]);
 
   //Dispatch Get inital action
@@ -265,13 +262,13 @@ export default function SalesOrderForm({
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setBrokerDDL,
-        setDisabled,
+        setDisabled
       );
       dispatch(
         getCurrencyListDDL_Action(
           profileData?.accountId,
-          selectedBusinessUnit?.value,
-        ),
+          selectedBusinessUnit?.value
+        )
       );
       dispatch(getOrderReferanceTypeDDL_Action());
       dispatch(getBUalesOrgIncotermDDL_Action());
@@ -279,29 +276,28 @@ export default function SalesOrderForm({
         getPaymentTermsListDDL_Action(
           profileData?.accountId,
           selectedBusinessUnit?.value,
-          headerData?.salesOrg?.value,
-        ),
+          headerData?.salesOrg?.value
+        )
       );
       dispatch(
         getItemUOMDDL_Action(
           profileData?.accountId,
-          selectedBusinessUnit?.value,
-        ),
+          selectedBusinessUnit?.value
+        )
       );
       dispatch(
         GetSalesConfigurationBalanceCheck_acion(
           profileData?.accountId,
-          selectedBusinessUnit?.value,
-        ),
+          selectedBusinessUnit?.value
+        )
       );
       dispatch(
         getTransportZoneDDL_action(
           profileData?.accountId,
-          selectedBusinessUnit?.value,
-        ),
+          selectedBusinessUnit?.value
+        )
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const responseData = (soldToPartnerId, soId, salesOrderCode) => {
@@ -324,7 +320,7 @@ export default function SalesOrderForm({
         payload,
         (resData) => {
           cb(resData);
-        },
+        }
       );
     } else {
       cb();
@@ -379,7 +375,7 @@ export default function SalesOrderForm({
               toast.warning('Balance not available', { toastId: 465656 });
             } else {
               dispatch(
-                saveEditedSalesOrder(payload, setDisabled, callBackFunc),
+                saveEditedSalesOrder(payload, setDisabled, callBackFunc)
               );
             }
           }
@@ -390,7 +386,7 @@ export default function SalesOrderForm({
         const newRowDto = rowDto.map((itm, index) => {
           // these two values (commissionRate, commissionAmount) are only for distributor channel of Akij essentials Ltd.
           const commissionRate = commissionRates?.find(
-            (rate) => rate?.itemId === itm?.itemId,
+            (rate) => rate?.itemId === itm?.itemId
           )?.discountRate;
           const commissionAmount = commissionRate * itm?.numRequestQuantity;
 
@@ -445,8 +441,9 @@ export default function SalesOrderForm({
             shippointName: headerData.shippoint.label,
             intTerritoryId: values?.shipToParty?.territoryId,
             shipToPartnerContactNo:
-              `${values?.shipToPartnerContactNoNameOnly ||
-                ''}-${values?.shipToPartnerContactNo || ''}` || '',
+              `${
+                values?.shipToPartnerContactNoNameOnly || ''
+              }-${values?.shipToPartnerContactNo || ''}` || '',
             shiptoPartnerAddress: values?.shiptoPartnerAddress || 'N/A',
             allotmentId: +values?.alotement?.value || 0,
             productType: [224, 171].includes(selectedBusinessUnit?.value)
@@ -477,7 +474,7 @@ export default function SalesOrderForm({
                 responseData,
                 setRowDto,
                 setDisabled,
-              }),
+              })
             );
             setRowDto([]);
           }
@@ -496,8 +493,8 @@ export default function SalesOrderForm({
         getSalesContactDDL_Action(
           profileData?.accountId,
           selectedBusinessUnit?.value,
-          values?.soldtoParty?.value,
-        ),
+          values?.soldtoParty?.value
+        )
       );
     } else if (id === 4) {
       dispatch(
@@ -505,15 +502,15 @@ export default function SalesOrderForm({
           profileData?.accountId,
           selectedBusinessUnit?.value,
           values?.soldtoParty?.value,
-          id,
-        ),
+          id
+        )
       );
     } else if (id === 3) {
       dispatch(
         getSalesOrderDDL_action(
           profileData?.accountId,
-          selectedBusinessUnit?.value,
-        ),
+          selectedBusinessUnit?.value
+        )
       );
     } else if (id === 1) {
       dispatch(
@@ -521,8 +518,8 @@ export default function SalesOrderForm({
           profileData?.accountId,
           selectedBusinessUnit?.value,
           headerData?.distributionChannel?.value,
-          headerData?.salesOrg?.value,
-        ),
+          headerData?.salesOrg?.value
+        )
       );
     }
   };
@@ -595,8 +592,8 @@ export default function SalesOrderForm({
                 (+itm?.quantity * +_price || 0) +
                 numOrderValue
               : selectedBusinessUnit?.value === 175
-              ? +itm?.quantity * additionalRate + numOrderValue
-              : +numOrderValue,
+                ? +itm?.quantity * additionalRate + numOrderValue
+                : +numOrderValue,
           numDiscountValue: itm?.discountValue,
           netValue: netValue,
           isFree: itm?.isFree ? 'Yes' : 'No',
@@ -634,7 +631,7 @@ export default function SalesOrderForm({
         dispatch(
           getSalesDiscount_Action(payload, setDisabled, (salesDiscount) => {
             salesDiscountCB(salesDiscount, addData);
-          }),
+          })
         );
       }
     }
@@ -796,7 +793,7 @@ export default function SalesOrderForm({
     sl,
     numOrderValue,
     numDiscountValue,
-    numItemPrice,
+    numItemPrice
   ) => {
     const total = +numItemPrice * +value;
     const discount = (total * numDiscountValue) / 100;
@@ -812,7 +809,7 @@ export default function SalesOrderForm({
     numOrderValue,
     numDiscountValue,
     numItemPrice,
-    transportRate,
+    transportRate
   ) => {
     const cloneArray = [...rowDto];
     const total = +cloneArray[sl].numRequestQuantity * value;
@@ -843,8 +840,8 @@ export default function SalesOrderForm({
         headerData?.salesOrg?.value,
         setDisabled,
         setFieldValue,
-        selectedBusinessUnit,
-      ),
+        selectedBusinessUnit
+      )
     );
     dispatch(
       getPriceForInternalUseVATAX_Action(
@@ -857,8 +854,8 @@ export default function SalesOrderForm({
         headerData?.salesOrg?.value,
         setDisabled,
         setFieldValue,
-        selectedBusinessUnit,
-      ),
+        selectedBusinessUnit
+      )
     );
     if (values?.referenceNo?.value) {
       dispatch(
@@ -866,8 +863,8 @@ export default function SalesOrderForm({
           values?.refType?.value,
           values?.referenceNo?.value,
           currentValue,
-          setFieldValue,
-        ),
+          setFieldValue
+        )
       );
     }
     dispatch(
@@ -876,8 +873,8 @@ export default function SalesOrderForm({
         selectedBusinessUnit?.value,
         headerData?.plant?.value,
         currentValue,
-        setFieldValue,
-      ),
+        setFieldValue
+      )
     );
   };
   //total amount calculation
@@ -910,30 +907,30 @@ export default function SalesOrderForm({
         getShipToPartner_Action(
           profileData?.accountId,
           selectedBusinessUnit.value,
-          singleData?.objHeader?.soldToPartnerId,
-        ),
+          singleData?.objHeader?.soldToPartnerId
+        )
       );
       dispatch(
-        getPartnerBalance_action(singleData?.objHeader?.soldToPartnerId),
+        getPartnerBalance_action(singleData?.objHeader?.soldToPartnerId)
       );
       dispatch(
-        getUndeliveryValues_action(singleData?.objHeader?.soldToPartnerId),
+        getUndeliveryValues_action(singleData?.objHeader?.soldToPartnerId)
       );
       dispatch(
-        getPriceStructureCheck_Acion(singleData?.objHeader?.soldToPartnerId, 1),
+        getPriceStructureCheck_Acion(singleData?.objHeader?.soldToPartnerId, 1)
       );
       dispatch(
         getDiscountStructureCheck_Action(
           singleData?.objHeader?.soldToPartnerId,
-          2,
-        ),
+          2
+        )
       );
       dispatch(
         getAvailableBalance_Action(
           singleData?.objHeader?.soldToPartnerId,
           [+id],
-          1,
-        ),
+          1
+        )
       );
       // if 'Bongo Traders Ltd' BUI Select
       if (singleData?.objHeader?.allotmentId) {
@@ -941,14 +938,13 @@ export default function SalesOrderForm({
           getAllocateItemDDLAction(
             profileData?.accountId,
             selectedBusinessUnit.value,
-            singleData?.objHeader?.allotmentId,
-          ),
+            singleData?.objHeader?.allotmentId
+          )
         );
       } else {
         referenceNoHandler(singleData?.objHeader?.refferenceTypeId);
       }
     }
-
   }, [id, singleData]);
 
   const salesOrderApprovalHandler = () => {
@@ -960,8 +956,8 @@ export default function SalesOrderForm({
         getSalesOrderApproval_Aciton(
           headerData?.salesOrderId,
           profileData?.userId,
-          callBackFunc,
-        ),
+          callBackFunc
+        )
       );
     } else {
       toast.warning('Approval permission not found');
@@ -981,10 +977,9 @@ export default function SalesOrderForm({
       getChannelBaseCollectionDays(
         selectedBusinessUnit?.value,
         headerData?.distributionChannel?.value,
-        selCollectionDays,
+        selCollectionDays
       );
     }
-
   }, [headerData]);
 
   useEffect(() => {
@@ -997,12 +992,10 @@ export default function SalesOrderForm({
       dispatch(SetSalesDiscountEmpty_action());
       dispatch(SetTotalPendingQuantityEmptyAction());
     };
-
   }, []);
 
   useEffect(() => {
     balanceCheckFunc();
-
   }, [total]);
 
   useEffect(() => {
@@ -1021,11 +1014,10 @@ export default function SalesOrderForm({
           headerData?.sbu?.value,
           headerData?.salesOrg?.value,
           headerData?.shippoint?.value,
-          headerData?.distributionChannel?.value,
-        ),
+          headerData?.distributionChannel?.value
+        )
       );
     }
-
   }, [profileData, selectedBusinessUnit, headerData]);
 
   // cancel handler

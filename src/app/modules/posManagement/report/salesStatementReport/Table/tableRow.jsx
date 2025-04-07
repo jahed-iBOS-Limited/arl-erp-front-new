@@ -1,30 +1,33 @@
-
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import * as Yup from "yup";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import * as Yup from 'yup';
 // import {
 //   getAssetAssignReportData,
 // } from "../helper";
-import { businessUnitPlant_api, getItemCategoryDDLByTypeId_api, getItemTypeListDDL_api, getSBU, ItemSubCategory_api, wearhouse_api } from "../../../../_helper/_commonApi";
-import { _currentTime } from "../../../../_helper/_currentTime";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import { downloadFile } from "../../../../_helper/downloadFile";
-import { SetReportsInventoryStatementAction } from "../../../../_helper/reduxForLocalStorage/Actions";
 import {
-  inventoryStatement_api,
-} from "../helper";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import DetailsModal from "./detailsModal";
-import TableAssetRegister from "./TableAssetRegister";
-import TableForDetail from "./TableForDetail";
+  businessUnitPlant_api,
+  getItemCategoryDDLByTypeId_api,
+  getItemTypeListDDL_api,
+  getSBU,
+  ItemSubCategory_api,
+  wearhouse_api,
+} from '../../../../_helper/_commonApi';
+import { _currentTime } from '../../../../_helper/_currentTime';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import { downloadFile } from '../../../../_helper/downloadFile';
+import { SetReportsInventoryStatementAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import { inventoryStatement_api } from '../helper';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import DetailsModal from './detailsModal';
+import TableAssetRegister from './TableAssetRegister';
+import TableForDetail from './TableForDetail';
 
 const validationSchema = Yup.object().shape({});
 
@@ -34,16 +37,16 @@ export function TableRow(props) {
   );
 
   const initData = {
-    plant: reportsInventoryStatement?.plant || "",
-    wh: reportsInventoryStatement?.wh || "",
-    itemCategory: reportsInventoryStatement?.itemCategory || "",
-    itemSubCategory: reportsInventoryStatement?.itemSubCategory || "",
+    plant: reportsInventoryStatement?.plant || '',
+    wh: reportsInventoryStatement?.wh || '',
+    itemCategory: reportsInventoryStatement?.itemCategory || '',
+    itemSubCategory: reportsInventoryStatement?.itemSubCategory || '',
     fromDate: reportsInventoryStatement?.fromDate || _todayDate(),
     fromTime: reportsInventoryStatement?.fromTime || _currentTime(),
     toDate: reportsInventoryStatement?.toDate || _todayDate(),
     toTime: reportsInventoryStatement?.toTime || _currentTime(),
-    itemType: reportsInventoryStatement?.itemType || "",
-    type: reportsInventoryStatement?.type || "",
+    itemType: reportsInventoryStatement?.itemType || '',
+    type: reportsInventoryStatement?.type || '',
   };
 
   const dispatch = useDispatch();
@@ -66,16 +69,12 @@ export function TableRow(props) {
   const [wareHouseDDL, setwareHouseDDL] = useState([]);
   const [inventoryStatement, setInventoryStatement] = useState([]);
   const [isShowModal, setIsShowModal] = useState(false);
-  const [tableItem, setTableItem] = useState("");
-  const [sbuList, setSbuList] = useState("");
+  const [tableItem, setTableItem] = useState('');
+  const [sbuList, setSbuList] = useState('');
 
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
-      getSBU(
-        profileData?.accountId,
-        selectedBusinessUnit?.value,
-        setSbuList
-      );
+      getSBU(profileData?.accountId, selectedBusinessUnit?.value, setSbuList);
       businessUnitPlant_api(
         profileData?.accountId,
         selectedBusinessUnit?.value,
@@ -115,27 +114,37 @@ export function TableRow(props) {
   };
 
   const downloadFileBasedOnType = (values) => {
-    const searchPath = searchKeyword ? `Search=${searchKeyword}&` : "";
+    const searchPath = searchKeyword ? `Search=${searchKeyword}&` : '';
 
     let api;
     if (values?.type?.value === 2) {
       // api = `/wms/WmsReport/InventoryStatementNewDownload?${searchPath}AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&warehouseId=${values?.wh?.value}&plantId=${values?.plant?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&Itemtype=${values?.itemType?.value}&ItemCategory=${values?.itemCategory?.value}&itemSubCategory=${values?.itemSubCategory?.value}&PageNo=${1}&PageSize=${10000}&viewOrder=desc`
-      api = `/wms/WmsReport/InventoryStatementDetailDownload?${searchPath}AccountId=${profileData?.accountId
-        }&BusinessUnitId=${selectedBusinessUnit?.value}&warehouseId=${values?.wh?.value
-        }&plantId=${values?.plant?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate
-        }&Itemtype=${values?.itemType?.value}&ItemCategory=${values?.itemCategory?.value
-        }&itemSubCategory=${values?.itemSubCategory?.value
-        }&PageNo=${pageNo}&PageSize=${10000}&viewOrder=desc`;
+      api = `/wms/WmsReport/InventoryStatementDetailDownload?${searchPath}AccountId=${
+        profileData?.accountId
+      }&BusinessUnitId=${selectedBusinessUnit?.value}&warehouseId=${
+        values?.wh?.value
+      }&plantId=${values?.plant?.value}&fromDate=${values?.fromDate}&toDate=${
+        values?.toDate
+      }&Itemtype=${values?.itemType?.value}&ItemCategory=${
+        values?.itemCategory?.value
+      }&itemSubCategory=${
+        values?.itemSubCategory?.value
+      }&PageNo=${pageNo}&PageSize=${10000}&viewOrder=desc`;
     } else {
-      api = `/wms/WmsReport/InventoryRegisterDownload?AccountId=${profileData?.accountId
-        }&BusinessUnitId=${selectedBusinessUnit?.value}&warehouseId=${values?.wh?.value
-        }&plantId=${values?.plant?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate
-        }&type=${values?.type?.value}&Itemtype=${values?.itemType?.value
-        }&ItemCategory=${values?.itemCategory?.value}&itemSubCategory=${values?.itemSubCategory?.value
-        }&PageNo=${pageNo}&PageSize=${10000}&viewOrder=desc`;
+      api = `/wms/WmsReport/InventoryRegisterDownload?AccountId=${
+        profileData?.accountId
+      }&BusinessUnitId=${selectedBusinessUnit?.value}&warehouseId=${
+        values?.wh?.value
+      }&plantId=${values?.plant?.value}&fromDate=${values?.fromDate}&toDate=${
+        values?.toDate
+      }&type=${values?.type?.value}&Itemtype=${
+        values?.itemType?.value
+      }&ItemCategory=${values?.itemCategory?.value}&itemSubCategory=${
+        values?.itemSubCategory?.value
+      }&PageNo=${pageNo}&PageSize=${10000}&viewOrder=desc`;
     }
 
-    downloadFile(api, "Inventory Statement", "xlsx", setLoading);
+    downloadFile(api, 'Inventory Statement', 'xlsx', setLoading);
   };
 
   return (
@@ -146,7 +155,7 @@ export function TableRow(props) {
             enableReinitialize={true}
             initialValues={initData}
             validationSchema={validationSchema}
-            onSubmit={(values, { setSubmitting, resetForm }) => { }}
+            onSubmit={(values, { setSubmitting, resetForm }) => {}}
           >
             {({ errors, touched, setFieldValue, isValid, values }) => (
               <>
@@ -164,8 +173,8 @@ export function TableRow(props) {
                             value={values?.plant}
                             label="Plant"
                             onChange={(valueOption) => {
-                              setFieldValue("plant", valueOption);
-                              setFieldValue("wh", "");
+                              setFieldValue('plant', valueOption);
+                              setFieldValue('wh', '');
                               wearhouse_api(
                                 profileData?.accountId,
                                 selectedBusinessUnit?.value,
@@ -177,7 +186,7 @@ export function TableRow(props) {
                                 SetReportsInventoryStatementAction({
                                   ...values,
                                   plant: valueOption,
-                                  wh: "",
+                                  wh: '',
                                 })
                               );
                             }}
@@ -193,7 +202,7 @@ export function TableRow(props) {
                             value={values?.wh}
                             label="WareHouse"
                             onChange={(valueOption) => {
-                              setFieldValue("wh", valueOption);
+                              setFieldValue('wh', valueOption);
                               dispatch(
                                 SetReportsInventoryStatementAction({
                                   ...values,
@@ -213,9 +222,9 @@ export function TableRow(props) {
                             value={values?.itemType}
                             label="Item Type"
                             onChange={(valueOption) => {
-                              setFieldValue("itemType", valueOption);
+                              setFieldValue('itemType', valueOption);
                               valueOption?.value !== 0 &&
-                                setFieldValue("itemCategory", "");
+                                setFieldValue('itemCategory', '');
 
                               getItemCategoryDDLByTypeId_api(
                                 profileData.accountId,
@@ -227,7 +236,7 @@ export function TableRow(props) {
                                 SetReportsInventoryStatementAction({
                                   ...values,
                                   itemType: valueOption,
-                                  itemCategory: ""
+                                  itemCategory: '',
                                 })
                               );
                             }}
@@ -243,8 +252,8 @@ export function TableRow(props) {
                             value={values?.itemCategory}
                             label="Item Category"
                             onChange={(valueOption) => {
-                              setFieldValue("itemCategory", valueOption);
-                              setFieldValue("itemSubCategory", "");
+                              setFieldValue('itemCategory', valueOption);
+                              setFieldValue('itemSubCategory', '');
                               ItemSubCategory_api(
                                 profileData?.accountId,
                                 selectedBusinessUnit?.value,
@@ -255,7 +264,7 @@ export function TableRow(props) {
                                 SetReportsInventoryStatementAction({
                                   ...values,
                                   itemCategory: valueOption,
-                                  itemSubCategory: ""
+                                  itemSubCategory: '',
                                 })
                               );
                             }}
@@ -271,7 +280,7 @@ export function TableRow(props) {
                             value={values?.itemSubCategory}
                             label="Item Sub Category"
                             onChange={(valueOption) => {
-                              setFieldValue("itemSubCategory", valueOption);
+                              setFieldValue('itemSubCategory', valueOption);
                               dispatch(
                                 SetReportsInventoryStatementAction({
                                   ...values,
@@ -288,15 +297,15 @@ export function TableRow(props) {
                           <NewSelect
                             name="type"
                             options={[
-                              { value: 2, label: "Inventory Register" },
-                              { value: 1, label: "Service Register" },
-                              { value: 3, label: "Asset Register" },
+                              { value: 2, label: 'Inventory Register' },
+                              { value: 1, label: 'Service Register' },
+                              { value: 3, label: 'Asset Register' },
                             ]}
                             value={values?.type}
                             label="Type"
                             onChange={(valueOption) => {
                               setInventoryStatement([]);
-                              setFieldValue("type", valueOption);
+                              setFieldValue('type', valueOption);
                               dispatch(
                                 SetReportsInventoryStatementAction({
                                   ...values,
@@ -321,7 +330,7 @@ export function TableRow(props) {
                                 dispatch(
                                   SetReportsInventoryStatementAction({
                                     ...values,
-                                    fromDate: e?.target?.value
+                                    fromDate: e?.target?.value,
                                   })
                                 );
                               }}
@@ -340,14 +349,14 @@ export function TableRow(props) {
                                 dispatch(
                                   SetReportsInventoryStatementAction({
                                     ...values,
-                                    toDate: e?.target?.value
+                                    toDate: e?.target?.value,
                                   })
                                 );
                               }}
                             />
                           </div>
                         </div>
-                        <div style={{ marginTop: "22px" }} className="col-lg-2">
+                        <div style={{ marginTop: '22px' }} className="col-lg-2">
                           <button
                             type="button"
                             className="btn btn-primary"
@@ -441,15 +450,7 @@ export function TableRow(props) {
                       setPageSize,
                     }}
                     rowsPerPageOptions={[
-                      5,
-                      10,
-                      20,
-                      50,
-                      100,
-                      200,
-                      300,
-                      400,
-                      500,
+                      5, 10, 20, 50, 100, 200, 300, 400, 500,
                     ]}
                   />
                 )}

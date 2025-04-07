@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 
 // export const GetLighterStevedoreDDL = async (setter) => {
 //   try {
@@ -31,7 +31,7 @@ import * as Yup from "yup";
 //   setLoading && setLoading(true);
 //   try {
 //     const res = await Axios.get(
-//       
+//
 //     );
 //     cb && cb(res?.data);
 //     setLoading && setLoading(false);
@@ -47,7 +47,7 @@ export const setShipPointData = async (url, setter) => {
     if (res.status === 200) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const deleteG2GInfo = async (id, setLoading, cb) => {
@@ -77,7 +77,7 @@ export const getG2GData = async (url, setRowDto) => {
 export const getItemTypeData = async (accId, buId, setter) => {
   try {
     const res = await Axios.get(`/wms/WmsReport/GetItemTypeListDDL`);
-    setter(res?.data.filter((itm) => itm?.label !== "ALL"));
+    setter(res?.data.filter((itm) => itm?.label !== 'ALL'));
   } catch (error) {
     setter([]);
   }
@@ -110,7 +110,7 @@ export const postDataEdit = async (url, payload, cb) => {
   try {
     const res = await Axios?.put(url, payload);
     if (res?.status === 200) {
-      toast.success("Edit success");
+      toast.success('Edit success');
       cb && cb();
     }
   } catch (error) {
@@ -120,15 +120,15 @@ export const postDataEdit = async (url, payload, cb) => {
 
 export const validationSchema = Yup.object().shape({
   item: Yup.object().shape({
-    label: Yup.string().required("Item is required"),
-    value: Yup.string().required("Item is required"),
+    label: Yup.string().required('Item is required'),
+    value: Yup.string().required('Item is required'),
   }),
   shipPoint: Yup.object().shape({
-    label: Yup.string().required("Shipping Point is required"),
-    value: Yup.string().required("Shipping Point is required"),
+    label: Yup.string().required('Shipping Point is required'),
+    value: Yup.string().required('Shipping Point is required'),
   }),
-  date: Yup.string().required("Date is required"),
-  bustingBagQnt: Yup.number().required("Quantity is required"),
-  othersBagQnt: Yup.number().required("Quantity is required"),
-  cnfbagQnt: Yup.number().required("Quantity is required"),
+  date: Yup.string().required('Date is required'),
+  bustingBagQnt: Yup.number().required('Quantity is required'),
+  othersBagQnt: Yup.number().required('Quantity is required'),
+  cnfbagQnt: Yup.number().required('Quantity is required'),
 });

@@ -1,20 +1,19 @@
-
-import React from "react";
-import PaginationTable from "../../../../_helper/_tablePagination";
+import React from 'react';
+import PaginationTable from '../../../../_helper/_tablePagination';
 
 const headers = [
-  "SL",
-  "Ghat Name",
-  "Lighter Name",
-  "Supplier Name",
-  "Direct Qty",
-  "Dam Qty",
-  "Dam Rate",
-  "Remaining Dam Qty",
-  "Other Labor Qty",
-  "Other Labor Rate",
-  "Other Cost",
-  "Bill Amount",
+  'SL',
+  'Ghat Name',
+  'Lighter Name',
+  'Supplier Name',
+  'Direct Qty',
+  'Dam Qty',
+  'Dam Rate',
+  'Remaining Dam Qty',
+  'Other Labor Qty',
+  'Other Labor Rate',
+  'Other Cost',
+  'Bill Amount',
   // "Action",
 ];
 
@@ -44,7 +43,7 @@ const DumpToTruckDeliveryLandingTable = ({ obj }) => {
             <table
               id="table-to-xlsx"
               className={
-                "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
               }
             >
               <thead>
@@ -64,7 +63,7 @@ const DumpToTruckDeliveryLandingTable = ({ obj }) => {
                   totalBillAmount += item?.billAmount;
                   return (
                     <tr key={index}>
-                      <td style={{ width: "40px" }} className="text-center">
+                      <td style={{ width: '40px' }} className="text-center">
                         {index + 1}
                       </td>
                       <td>{item?.shipPointName}</td>
@@ -83,7 +82,7 @@ const DumpToTruckDeliveryLandingTable = ({ obj }) => {
                   );
                 })}
 
-                <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+                <tr style={{ fontWeight: 'bold', textAlign: 'right' }}>
                   <td colSpan={4} className="text-right">
                     Total
                   </td>

@@ -1,17 +1,16 @@
-
-import React, { useEffect } from "react";
-import NewSelect from "../../../../_helper/_select";
-import { getOwnVehicleNo, getVehicleNoDDL } from "../helper";
-import InputField from "../../../../_helper/_inputField";
-import { useHistory } from "react-router-dom";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
+import React, { useEffect } from 'react';
+import NewSelect from '../../../../_helper/_select';
+import { getOwnVehicleNo, getVehicleNoDDL } from '../helper';
+import InputField from '../../../../_helper/_inputField';
+import { useHistory } from 'react-router-dom';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
+import YearMonthForm from '../../../../_helper/commonInputFieldsGroups/yearMonthForm';
 
 const typeList = [
-  { value: 1, label: "Vehicle Log Book for (Credit)" },
-  { value: 2, label: "Vehicle Problem Entry" },
-  { value: 3, label: "Vehicle Trip Target Entry" },
+  { value: 1, label: 'Vehicle Log Book for (Credit)' },
+  { value: 2, label: 'Vehicle Problem Entry' },
+  { value: 3, label: 'Vehicle Trip Target Entry' },
 ];
 
 const VehicleLogLandingForm = ({ obj }) => {
@@ -40,8 +39,9 @@ const VehicleLogLandingForm = ({ obj }) => {
   const getVehicles = (values) => {
     const capacityId = values?.vehicleCapacity?.value;
     getVehicleList(
-      `/tms/TransportMgtDDL/GetVehicleByCapacityId?Accountid=${accId}&BusinessUnitid=${buId}&VehicleTypeID=${capacityId ||
-        0}`
+      `/tms/TransportMgtDDL/GetVehicleByCapacityId?Accountid=${accId}&BusinessUnitid=${buId}&VehicleTypeID=${
+        capacityId || 0
+      }`
     );
   };
 
@@ -73,8 +73,8 @@ const VehicleLogLandingForm = ({ obj }) => {
                 value={values?.type}
                 label="Type"
                 onChange={(valueOption) => {
-                  setFieldValue("type", valueOption);
-                  setFieldValue("vehicleNo", "");
+                  setFieldValue('type', valueOption);
+                  setFieldValue('vehicleNo', '');
                   setRowData([]);
                 }}
                 placeholder="Type"
@@ -117,7 +117,7 @@ const VehicleLogLandingForm = ({ obj }) => {
               />
             )}
 
-            <div className="col-lg-3" style={{ marginTop: "19px" }}>
+            <div className="col-lg-3" style={{ marginTop: '19px' }}>
               <button
                 onClick={() => getGridData(values, pageNo, pageSize)}
                 type="button"
@@ -132,14 +132,14 @@ const VehicleLogLandingForm = ({ obj }) => {
                   type="button"
                   className="btn btn-primary"
                   disabled={
-                    values?.travelDateFrom === "" ||
-                    values?.travelDateTo === "" ||
-                    values?.vehicleNo === ""
+                    values?.travelDateFrom === '' ||
+                    values?.travelDateTo === '' ||
+                    values?.vehicleNo === ''
                   }
                   onClick={() =>
                     history.push({
                       pathname:
-                        "/transport-management/routecostmanagement/routestandardcost/vehicleLogExpense/create",
+                        '/transport-management/routecostmanagement/routestandardcost/vehicleLogExpense/create',
                       state: {
                         values,
                       },
@@ -187,11 +187,11 @@ const FormOne = ({ obj }) => {
               type="radio"
               name="entryBy"
               value="own"
-              checked={values?.entryBy === "own"}
+              checked={values?.entryBy === 'own'}
               className="mr-1 pointer"
               onChange={(e) => {
-                setFieldValue("entryBy", e?.target?.value);
-                setFieldValue("vehicleNo", "");
+                setFieldValue('entryBy', e?.target?.value);
+                setFieldValue('vehicleNo', '');
                 setRowData([]);
                 getOwnVehicleNo(employeeId, setVehicleNoList);
               }}
@@ -203,11 +203,11 @@ const FormOne = ({ obj }) => {
             type="radio"
             name="entryBy"
             value="other"
-            checked={values?.entryBy === "other"}
+            checked={values?.entryBy === 'other'}
             className="mr-1 pointer"
             onChange={(e) => {
-              setFieldValue("entryBy", e?.target?.value);
-              setFieldValue("vehicleNo", "");
+              setFieldValue('entryBy', e?.target?.value);
+              setFieldValue('vehicleNo', '');
               setRowData([]);
               getVehicleNoDDL(accId, buId, setVehicleNoList);
             }}
@@ -224,7 +224,7 @@ const FormOne = ({ obj }) => {
           value={values?.vehicleNo}
           label="Vehicle No."
           onChange={(valueOption) => {
-            setFieldValue("vehicleNo", valueOption);
+            setFieldValue('vehicleNo', valueOption);
           }}
           placeholder="Vehicle No."
         />
@@ -264,7 +264,7 @@ const FormTwo = ({ obj }) => {
           options={vehicleList || []}
           value={values?.vehicleNo}
           onChange={(valueOption) => {
-            setFieldValue("vehicleNo", valueOption);
+            setFieldValue('vehicleNo', valueOption);
           }}
         />
       </div>
@@ -276,7 +276,7 @@ const FormTwo = ({ obj }) => {
           options={ShipPointDDL || []}
           value={values?.shipPoint}
           onChange={(valueOption) => {
-            setFieldValue("shipPoint", valueOption);
+            setFieldValue('shipPoint', valueOption);
           }}
         />
       </div>
@@ -296,7 +296,7 @@ const FormThree = ({ obj }) => {
 
   return (
     <>
-      {" "}
+      {' '}
       <div className="col-lg-3">
         <NewSelect
           label="ShipPoint"
@@ -305,7 +305,7 @@ const FormThree = ({ obj }) => {
           options={ShipPointDDL || []}
           value={values?.shipPoint}
           onChange={(valueOption) => {
-            setFieldValue("shipPoint", valueOption);
+            setFieldValue('shipPoint', valueOption);
           }}
         />
       </div>
@@ -317,7 +317,7 @@ const FormThree = ({ obj }) => {
           value={values?.vehicleCapacity}
           label="Vehicle Category"
           onChange={(valueOption) => {
-            setFieldValue("vehicleCapacity", valueOption);
+            setFieldValue('vehicleCapacity', valueOption);
             getVehicles({ ...values, vehicleCapacity: valueOption });
           }}
           placeholder="Vehicle Category"
@@ -328,10 +328,10 @@ const FormThree = ({ obj }) => {
           label="Vehicle No"
           placeholder="Vehicle No"
           name="vehicleNo"
-          options={[{ value: 0, label: "All" }, ...vehicleList] || []}
+          options={[{ value: 0, label: 'All' }, ...vehicleList] || []}
           value={values?.vehicleNo}
           onChange={(valueOption) => {
-            setFieldValue("vehicleNo", valueOption);
+            setFieldValue('vehicleNo', valueOption);
           }}
         />
       </div>

@@ -1,45 +1,45 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import findIndex from "../../_helper/_findIndex";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import AllowanceSetUpLanding from "./allowanceSetUp";
-import { checkPostNewTable } from "./checkPostNew/Table/tableHeader";
-import CheckPostNewCreateForm from "./checkPostNew/create/addForm";
-import CheckPostNewViewForm from "./checkPostNew/view/addForm";
-import CostComponentLanding from "./costComponent";
-import CostComponentCreateForm from "./costComponent/create/addForm";
-import { PartnerWiseRentSetupLanding } from "./partnerWiseRentSetup";
-import PartnerWiseRentSetupForm from "./partnerWiseRentSetup/Form/addEditForm";
-import PartnerWiseRentSetupExtendForm from "./partnerWiseRentSetup/extend/addEditForm";
-import { RouteStandardLanding } from "./routeStandard";
-import RouteStandardForm from "./routeStandard/Form/addEditForm";
-import ShipmentCostRatePermitForm from "./shipmentCostRatePermit/create/addForm";
-import { ShipmentCostRatePermitLanding } from "./shipmentCostRatePermit/landing/grid";
-import ShippmentTerritoryForm from "./shippmentTerritory/create/addForm";
-import { ShippmentTerritory } from "./shippmentTerritory/landing";
-import TranportOrganizationLanding from "./transportOrganization";
-import TransportOrganizationCreateForm from "./transportOrganization/Form/addEditForm";
-import TransportOrgExtendForm from "./transportOrganization/extend/addEditForm";
-import { TransportRoute } from "./transportRoute";
-import TransportRouteForm from "./transportRoute/Form/addEditForm";
-import { TransportZone } from "./transportZone";
-import TransportZoneForm from "./transportZone/Form/addEditForm";
-import { Vehicle } from "./vehicle";
-import VehicleForm from "./vehicle/Form/addEditForm";
-import VehicleUserTagging from "./vehicleUserTagging";
-import ZoneCostRateForm from "./zoneCostRate/create/addForm";
-import { ZoneCostRateLanding } from "./zoneCostRate/landing";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import findIndex from '../../_helper/_findIndex';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
+import AllowanceSetUpLanding from './allowanceSetUp';
+import { checkPostNewTable } from './checkPostNew/Table/tableHeader';
+import CheckPostNewCreateForm from './checkPostNew/create/addForm';
+import CheckPostNewViewForm from './checkPostNew/view/addForm';
+import CostComponentLanding from './costComponent';
+import CostComponentCreateForm from './costComponent/create/addForm';
+import { PartnerWiseRentSetupLanding } from './partnerWiseRentSetup';
+import PartnerWiseRentSetupForm from './partnerWiseRentSetup/Form/addEditForm';
+import PartnerWiseRentSetupExtendForm from './partnerWiseRentSetup/extend/addEditForm';
+import { RouteStandardLanding } from './routeStandard';
+import RouteStandardForm from './routeStandard/Form/addEditForm';
+import ShipmentCostRatePermitForm from './shipmentCostRatePermit/create/addForm';
+import { ShipmentCostRatePermitLanding } from './shipmentCostRatePermit/landing/grid';
+import ShippmentTerritoryForm from './shippmentTerritory/create/addForm';
+import { ShippmentTerritory } from './shippmentTerritory/landing';
+import TranportOrganizationLanding from './transportOrganization';
+import TransportOrganizationCreateForm from './transportOrganization/Form/addEditForm';
+import TransportOrgExtendForm from './transportOrganization/extend/addEditForm';
+import { TransportRoute } from './transportRoute';
+import TransportRouteForm from './transportRoute/Form/addEditForm';
+import { TransportZone } from './transportZone';
+import TransportZoneForm from './transportZone/Form/addEditForm';
+import { Vehicle } from './vehicle';
+import VehicleForm from './vehicle/Form/addEditForm';
+import VehicleUserTagging from './vehicleUserTagging';
+import ZoneCostRateForm from './zoneCostRate/create/addForm';
+import { ZoneCostRateLanding } from './zoneCostRate/landing';
 // import ShippingPointTransportZoneLanding from "./shippingPointTransportZone";
 // import ShippingPointTransportZoneLandingCreateEdit from "./shippingPointTransportZone/createEdit";
-import FuelRateConfigCreateAndEdit from "./fuleRateConfig/create";
-import FuelRateConfig from "./fuleRateConfig/landing";
-import ShippingPointTransportZoneForm from "./shippingPointTransportZone/form/addEditForm";
-import ShippingPointTransportZoneLanding from "./shippingPointTransportZone/landing/form";
-import VehicleAllowanceSetup from "./vehicleAllowanceSetup/Landing";
-import PumpInformation from "./pumpinformation";
-import CreateEditPumpInformation from "./pumpinformation/createEdit";
+import FuelRateConfigCreateAndEdit from './fuleRateConfig/create';
+import FuelRateConfig from './fuleRateConfig/landing';
+import ShippingPointTransportZoneForm from './shippingPointTransportZone/form/addEditForm';
+import ShippingPointTransportZoneLanding from './shippingPointTransportZone/landing/form';
+import VehicleAllowanceSetup from './vehicleAllowanceSetup/Landing';
+import PumpInformation from './pumpinformation';
+import CreateEditPumpInformation from './pumpinformation/createEdit';
 
 export function ConfigurationPages() {
   const userRole = useSelector(
@@ -48,17 +48,17 @@ export function ConfigurationPages() {
   );
 
   const transportOrganizationPermission =
-    userRole[findIndex(userRole, "Transport Organization")];
-  const vehiclePermission = userRole[findIndex(userRole, "Vehicle")];
+    userRole[findIndex(userRole, 'Transport Organization')];
+  const vehiclePermission = userRole[findIndex(userRole, 'Vehicle')];
   const routeCostComponentPermission =
-    userRole[findIndex(userRole, "Route Cost Component")];
+    userRole[findIndex(userRole, 'Route Cost Component')];
   const routeCostSetupPermission =
-    userRole[findIndex(userRole, "Route Cost Setup")];
-  const checkPostPermission = userRole[findIndex(userRole, "Check Post")];
+    userRole[findIndex(userRole, 'Route Cost Setup')];
+  const checkPostPermission = userRole[findIndex(userRole, 'Check Post')];
   const transportRoutePermission =
-    userRole[findIndex(userRole, "Transport Route")];
+    userRole[findIndex(userRole, 'Transport Route')];
   const transportZonePermission =
-    userRole[findIndex(userRole, "Transport Zone")];
+    userRole[findIndex(userRole, 'Transport Zone')];
 
   return (
     <Switch>

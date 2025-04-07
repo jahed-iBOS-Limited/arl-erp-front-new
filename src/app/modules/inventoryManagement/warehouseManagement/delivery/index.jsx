@@ -1,9 +1,9 @@
-import React from "react";
-import { DeliveryTable } from "./Table/tableHeader";
-import { UiProvider } from "../../../_helper/uiContextHelper";
-import ViewForm from "./View/viewModal";
-import { Route } from "react-router-dom";
-import  './style.css'
+import React from 'react';
+import { DeliveryTable } from './Table/tableHeader';
+import { UiProvider } from '../../../_helper/uiContextHelper';
+import ViewForm from './View/viewModal';
+import { Route } from 'react-router-dom';
+import './style.css';
 
 export function Delivery({ history }) {
   const uIEvents = {};
@@ -17,7 +17,9 @@ export function Delivery({ history }) {
             id={match && match.params.id}
             history={history}
             onHide={() => {
-              history.push("/inventory-management/warehouse-management/delivery");
+              history.push(
+                '/inventory-management/warehouse-management/delivery'
+              );
             }}
           />
         )}

@@ -19,34 +19,29 @@ const ProductMainIndex = ({
 }) => {
   const history = useHistory();
   const [uomDDL, getUomDDL, uomDDLLoading] = useAxiosGet();
-  const [
-    productLanding,
-    getProductLanding,
-    productLandingLandingLoading,
-  ] = useAxiosGet();
+  const [productLanding, getProductLanding, productLandingLandingLoading] =
+    useAxiosGet();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
 
   const { selectedBusinessUnit, profileData } = useSelector(
     (state) => state.authData,
-    shallowEqual,
+    shallowEqual
   );
 
   useEffect(() => {
     commonLandingApi();
-
   }, [profileData]);
 
   useEffect(() => {
     getUomDDL(
-      `/item/ItemUOM/GetItemUOMDDL?AccountId=${profileData.accountId}&BusinessUnitId=${selectedBusinessUnit.value}`,
+      `/item/ItemUOM/GetItemUOMDDL?AccountId=${profileData.accountId}&BusinessUnitId=${selectedBusinessUnit.value}`
     );
-
   }, []);
 
   const commonLandingApi = (PageNo = pageNo, PageSize = pageSize) => {
     getProductLanding(
-      `/costmgmt/Precosting/ProductLanding?businessUnitId=${selectedBusinessUnit.value}&pageNo=${PageNo}&pageSize=${PageSize}`,
+      `/costmgmt/Precosting/ProductLanding?businessUnitId=${selectedBusinessUnit.value}&pageNo=${PageNo}&pageSize=${PageSize}`
     );
   };
 

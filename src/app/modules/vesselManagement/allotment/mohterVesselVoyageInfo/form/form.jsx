@@ -1,18 +1,17 @@
-
-import React from "react";
-import { Formik, Form } from "formik";
-import { useHistory } from "react-router";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import { useHistory } from 'react-router';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import { validationSchema } from "../helper";
-import TextArea from "../../../../_helper/TextArea";
+} from '../../../../../../_metronic/_partials/controls';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import { validationSchema } from '../helper';
+import TextArea from '../../../../_helper/TextArea';
 
 export default function FormCmp({
   title,
@@ -27,7 +26,7 @@ export default function FormCmp({
 }) {
   const history = useHistory();
   const commonDisableHandler = () => {
-    return viewType === "view";
+    return viewType === 'view';
   };
 
   return (
@@ -66,7 +65,7 @@ export default function FormCmp({
                       <i className="fa fa-arrow-left"></i>
                       Back
                     </button>
-                    {viewType !== "view" && (
+                    {viewType !== 'view' && (
                       <>
                         <button
                           type="reset"
@@ -74,11 +73,11 @@ export default function FormCmp({
                             resetForm(initData);
                           }}
                           className="btn btn-light ml-2"
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         >
                           <i className="fa fa-redo"></i>
                           Reset
-                        </button>{" "}
+                        </button>{' '}
                         <button
                           type="submit"
                           className="btn btn-primary ml-2"
@@ -114,7 +113,7 @@ export default function FormCmp({
                           label="Mother Vessel"
                           onChange={(e) => {
                             onChangeHandler(
-                              "motherVessel",
+                              'motherVessel',
                               values,
                               e,
                               setFieldValue
@@ -165,7 +164,7 @@ export default function FormCmp({
                           label="Loading Port"
                           onChange={(e) => {
                             onChangeHandler(
-                              "loadingPort",
+                              'loadingPort',
                               values,
                               e,
                               setFieldValue
@@ -185,7 +184,7 @@ export default function FormCmp({
                           label="Discharging Port"
                           onChange={(e) => {
                             onChangeHandler(
-                              "dischargingPort",
+                              'dischargingPort',
                               values,
                               e,
                               setFieldValue
@@ -205,7 +204,7 @@ export default function FormCmp({
                           value={values?.cnf}
                           label="CNF"
                           onChange={(e) => {
-                            onChangeHandler("cnf", values, e, setFieldValue);
+                            onChangeHandler('cnf', values, e, setFieldValue);
                           }}
                           placeholder="CNF"
                           errors={errors}
@@ -221,7 +220,7 @@ export default function FormCmp({
                           label="Steve Dore"
                           onChange={(e) => {
                             onChangeHandler(
-                              "stevedore",
+                              'stevedore',
                               values,
                               e,
                               setFieldValue

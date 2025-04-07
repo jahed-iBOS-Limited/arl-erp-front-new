@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getDeliverySchedulePlan = async (
   accId,
@@ -46,25 +46,24 @@ export const CreateTransportScheduleTypeApi = async (data, setLoading, cb) => {
 };
 
 export const commonfilterGridData = (values, allGridData) => {
-  
   // filter grid data by region, area, territory but is field not mendatory
   const filterGridData = allGridData?.filter((itm) => {
     itm.itemCheck = false;
     let regionFilter =
-      values?.region?.label === "All"
+      values?.region?.label === 'All'
         ? true
         : itm?.region === values?.region?.label;
     let areaFilter =
-      values?.area?.label === "All" ? true : itm?.area === values?.area?.label;
+      values?.area?.label === 'All' ? true : itm?.area === values?.area?.label;
     let territoryFilter =
-      values?.territory?.label === "All"
+      values?.territory?.label === 'All'
         ? true
         : itm?.territory === values?.territory?.label;
 
     // this is for logistic by filter trackingType type complete
     let logisticByFilter =
       values?.trackingType?.value === 1 ||
-      values?.logisticByFilter?.label === "All"
+      values?.logisticByFilter?.label === 'All'
         ? true
         : itm?.providerTypeName === values?.logisticByFilter?.label;
     if (

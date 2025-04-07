@@ -1,7 +1,6 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 import { _dateFormatter } from './../../../_helper/_dateFormate';
-
 
 export const GetPurchaseLogSummary_api = async (
   accId,
@@ -17,7 +16,7 @@ export const GetPurchaseLogSummary_api = async (
       `/vat/AuditLog/GetPurchaseLogSummary?AccountId=${accId}&BusinessUnitId=${buid}&FromDate=${fromDate}&ToDate=${toDate}`
     );
     if (res.status === 200 && res?.data) {
-      if (res?.data?.length === 0) toast.warning("Data Not Found");
+      if (res?.data?.length === 0) toast.warning('Data Not Found');
       setter(res?.data);
       setLoading(false);
     }
@@ -40,7 +39,7 @@ export const GetDebitNoteLogSummary_api = async (
       `/vat/AuditLog/GetDebitNoteLogSummary?AccountId=${accId}&BusinessUnitId=${buid}&FromDate=${fromDate}&ToDate=${toDate}`
     );
     if (res.status === 200 && res?.data) {
-      if (res?.data?.length === 0) toast.warning("Data Not Found");
+      if (res?.data?.length === 0) toast.warning('Data Not Found');
       setter(res?.data);
       setLoading(false);
     }
@@ -72,7 +71,7 @@ export const GetPurchaseLog_api = async (
       `/vat/AuditLog/GetPurchaseLog?AccountId=${accId}&BusinessUnitId=${buid}&TaxPurchaseId=${taxPurchaseId}`
     );
     if (res.status === 200 && res?.data) {
-      if (res?.data?.length === 0) toast.warning("Data Not Found");
+      if (res?.data?.length === 0) toast.warning('Data Not Found');
       setter(res?.data);
       setLoading(false);
     }
@@ -143,7 +142,7 @@ export const GetDebitNoteLog_api = async (
       `/vat/AuditLog/GetDebitNoteLog?AccountId=${accId}&BusinessUnitId=${buid}&TaxPurchaseId=${taxPurchaseId}`
     );
     if (res.status === 200 && res?.data) {
-      if (res?.data?.length === 0) toast.warning("Data Not Found");
+      if (res?.data?.length === 0) toast.warning('Data Not Found');
       setter(res?.data);
       setLoading(false);
     }
@@ -166,7 +165,7 @@ export const GetSalesLog_api = async (
       `/vat/AuditLog/GetSalesLog?AccountId=${accId}&BusinessUnitId=${buid}&TaxSalesId=${taxPurchaseId}`
     );
     if (res.status === 200 && res?.data) {
-      if (res?.data?.length === 0) toast.warning("Data Not Found");
+      if (res?.data?.length === 0) toast.warning('Data Not Found');
       setter(res?.data);
       setLoading(false);
     }
@@ -189,7 +188,7 @@ export const GetCreditNoteLog_api = async (
       `/vat/AuditLog/GetCreditNoteLog?AccountId=${accId}&BusinessUnitId=${buid}&TaxSalesId=${taxPurchaseId}`
     );
     if (res.status === 200 && res?.data) {
-      if (res?.data?.length === 0) toast.warning("Data Not Found");
+      if (res?.data?.length === 0) toast.warning('Data Not Found');
       setter(res?.data);
       setLoading(false);
     }
@@ -210,7 +209,7 @@ export const GetTreasuryDepositLog_api = async (
       `/vat/AuditLog/GetTreasuryDepositLog?TreasuryId=${taxPurchaseId}`
     );
     if (res.status === 200 && res?.data) {
-      if (res?.data?.length === 0) toast.warning("Data Not Found");
+      if (res?.data?.length === 0) toast.warning('Data Not Found');
       setter(res?.data);
       setLoading(false);
     }
@@ -230,7 +229,7 @@ export const GetPurchaseLogAllDetails_api = async (
       `/vat/AuditLog/GetPurchaseLogAllDetails?TaxPurchaseId=${taxPurchaseId}`
     );
     if (res.status === 200 && res?.data) {
-      if (res?.data?.length === 0) toast.warning("Data Not Found");
+      if (res?.data?.length === 0) toast.warning('Data Not Found');
 
       const data = res?.data?.map((singeleItem) => {
         const taxPurchase = singeleItem?.objHeaderDTO;
@@ -280,7 +279,7 @@ export const GetPurchaseLogAllDetails_api = async (
             at: atTotal,
             totalAmount: totalAmount,
             amount: +amount,
-            supplyTypeName: item.supplyTypeName || "",
+            supplyTypeName: item.supplyTypeName || '',
             supplyTypeId: item?.supplyTypeId || 0,
           };
         });
@@ -293,70 +292,70 @@ export const GetPurchaseLogAllDetails_api = async (
                   value: taxPurchase?.supplierId,
                   label: `${taxPurchase?.supplierName}(${taxPurchase?.supplierBin})`,
                 }
-              : "",
-            address: taxPurchase?.supplierAddress || "",
+              : '',
+            address: taxPurchase?.supplierAddress || '',
             transactionDate: taxPurchase?.purchaseDateTime
               ? _dateFormatter(taxPurchase?.purchaseDateTime)
-              : "",
+              : '',
             tradeType: taxPurchase?.tradeTypeId
               ? {
                   value: taxPurchase?.tradeTypeId,
                   label: taxPurchase?.tradeTypeName,
                 }
-              : "",
+              : '',
             port: taxPurchase?.portId
               ? {
                   value: taxPurchase?.portId,
                   label: taxPurchase?.portName,
                 }
-              : "",
+              : '',
             paymentTerm: taxPurchase?.paymentTerms
               ? {
                   value: taxPurchase?.paymentTerms,
                   label: taxPurchase?.paymentTermsName,
                 }
-              : "",
-            vehicalInfo: { value: 1, label: taxPurchase?.vehicleNo || "" },
-            refferenceNo: taxPurchase?.referanceNo || "",
+              : '',
+            vehicalInfo: { value: 1, label: taxPurchase?.vehicleNo || '' },
+            refferenceNo: taxPurchase?.referanceNo || '',
             refferenceDate: taxPurchase?.referanceDate
               ? _dateFormatter(taxPurchase?.referanceDate)
-              : "",
+              : '',
             totalTdsAmount: taxPurchase?.tdstotal || 0,
             totalVdsAmount: taxPurchase?.vdstotal || 0,
             totalAtv: taxPurchase?.atvtotal || 0,
             totalAit: taxPurchase?.aittotal || 0,
-            selectedItem: "",
-            selectedUom: "",
-            quantity: "",
-            rate: "",
+            selectedItem: '',
+            selectedUom: '',
+            quantity: '',
+            rate: '',
             purchaseType: taxPurchase?.purchaseType
               ? { value: 10, label: taxPurchase?.purchaseType }
-              : "",
+              : '',
             lcDate: taxPurchase?.lcdate
               ? _dateFormatter(taxPurchase?.lcdate)
-              : "",
+              : '',
             customsHouse: taxPurchase?.customHouseId
               ? {
                   value: taxPurchase?.customHouseId,
                   label: taxPurchase?.customHouseName,
                   code: taxPurchase?.customHouseCode,
                 }
-              : "",
-            CustomsHouseCode: taxPurchase?.customHouseCode || "",
+              : '',
+            CustomsHouseCode: taxPurchase?.customHouseCode || '',
             country: taxPurchase?.orginCountryId
               ? {
                   value: taxPurchase?.orginCountryId,
                   label: taxPurchase?.orginCountryName,
                 }
-              : "",
+              : '',
             CPCCode: taxPurchase?.cpcID
               ? {
                   value: taxPurchase?.cpcID,
                   label: taxPurchase?.cpcCode,
                   details: taxPurchase?.cpcDetails,
                 }
-              : "",
-            numberOfItem: taxPurchase?.noItem || "",
+              : '',
+            numberOfItem: taxPurchase?.noItem || '',
           },
           objListRowDTO: rowDtoCalculationFunc(objRow),
           auditLog: singeleItem?.auditLog,
@@ -382,7 +381,7 @@ export const GetDebitNoteLogAllDetails_api = async (
       `/vat/AuditLog/GetDebitNoteLogAllDetails?TaxPurchaseId=${taxPurchaseId}`
     );
     if (res.status === 200 && res?.data) {
-      if (res?.data?.length === 0) toast.warning("Data Not Found");
+      if (res?.data?.length === 0) toast.warning('Data Not Found');
       setter(res?.data);
       setLoading(false);
     }
@@ -406,7 +405,7 @@ export const GetSalesLogSummary_api = async (
       `/vat/AuditLog/GetSalesLogSummary?AccountId=${accId}&BusinessUnitId=${buid}&FromDate=${fromDate}&ToDate=${toDate}`
     );
     if (res.status === 200 && res?.data) {
-      if (res?.data?.length === 0) toast.warning("Data Not Found");
+      if (res?.data?.length === 0) toast.warning('Data Not Found');
       setter(res?.data);
       setLoading(false);
     }
@@ -430,7 +429,7 @@ export const GetCreditNoteLogSummary_api = async (
       `/vat/AuditLog/GetCreditNoteLogSummary?AccountId=${accId}&BusinessUnitId=${buid}&FromDate=${fromDate}&ToDate=${toDate}`
     );
     if (res.status === 200 && res?.data) {
-      if (res?.data?.length === 0) toast.warning("Data Not Found");
+      if (res?.data?.length === 0) toast.warning('Data Not Found');
       setter(res?.data);
       setLoading(false);
     }
@@ -454,7 +453,7 @@ export const GetTreasuryDepositSummary_api = async (
       `/vat/AuditLog/GetTreasuryDepositSummary?AccountId=${accId}&BusinessUnitId=${buid}&FromDate=${fromDate}&ToDate=${toDate}`
     );
     if (res.status === 200 && res?.data) {
-      if (res?.data?.length === 0) toast.warning("Data Not Found");
+      if (res?.data?.length === 0) toast.warning('Data Not Found');
       setter(res?.data);
       setLoading(false);
     }
@@ -464,8 +463,12 @@ export const GetTreasuryDepositSummary_api = async (
   }
 };
 
-export const GetTreasuryDepositLogDetails_api = async (LogId, setter, setLoading) => {
-  setLoading(true)
+export const GetTreasuryDepositLogDetails_api = async (
+  LogId,
+  setter,
+  setLoading
+) => {
+  setLoading(true);
   try {
     const res = await axios.get(
       `/vat/AuditLog/GetTreasuryDepositLogDetails?LogId=${LogId}`
@@ -513,14 +516,12 @@ export const GetTreasuryDepositLogDetails_api = async (LogId, setter, setLoading
         description: data?.naraation,
       };
       setter(newData);
-      setLoading(false)
+      setLoading(false);
     }
   } catch (error) {
-    setLoading(false)
+    setLoading(false);
   }
 };
-
-
 
 export const GetTreasuryDepositLogAllDetails_api = async (
   treasuryId,
@@ -533,56 +534,56 @@ export const GetTreasuryDepositLogAllDetails_api = async (
       `/vat/AuditLog/GetTreasuryDepositLogAllDetails?TreasuryId=${treasuryId}`
     );
     if (res.status === 200 && res?.data) {
-      if (res?.data?.length === 0) toast.warning("Data Not Found");
+      if (res?.data?.length === 0) toast.warning('Data Not Found');
 
       setLoading(false);
 
-      setter(res?.data?.map(itm => {
-        return {
-          ...itm,
-          branchName: {
-            value: itm.taxBranchId,
-            label: itm.taxBranchName,
-          },
-          branchAddress: itm.taxBranchAddress,
-          depositeType: {
-            value: itm.treasuryDepositTypeId,
-            label: itm.treasuryDepositTypeName,
-          },
-          depositAmount: itm.depositAmount,
-          depositDate: _dateFormatter(itm.depositDate),
-          challanNo: itm.trChallanNo,
-          challanDate: _dateFormatter(itm.trChallanDate),
-          instrumentNo: itm.instumentNo,
-          instrumentDate: _dateFormatter(itm.instrumentDate),
-          bankName: {
-            value: itm.bankId,
-            label: itm.bankName,
-          },
-          bankBranch: {
-            value: itm.bankBranchId,
-            label: itm.bankBranchName,
-          },
-          divisionName: {
-            value: itm.divisionId,
-            label: itm.divisionName,
-          },
-          districtName: {
-            value: itm.districtId,
-            label: itm.district,
-          },
-          depositorName: {
-            value: itm.depositorId,
-            label: itm.depositorName,
-          },
-          description: itm?.naraation,
-        }
-      }))
-
+      setter(
+        res?.data?.map((itm) => {
+          return {
+            ...itm,
+            branchName: {
+              value: itm.taxBranchId,
+              label: itm.taxBranchName,
+            },
+            branchAddress: itm.taxBranchAddress,
+            depositeType: {
+              value: itm.treasuryDepositTypeId,
+              label: itm.treasuryDepositTypeName,
+            },
+            depositAmount: itm.depositAmount,
+            depositDate: _dateFormatter(itm.depositDate),
+            challanNo: itm.trChallanNo,
+            challanDate: _dateFormatter(itm.trChallanDate),
+            instrumentNo: itm.instumentNo,
+            instrumentDate: _dateFormatter(itm.instrumentDate),
+            bankName: {
+              value: itm.bankId,
+              label: itm.bankName,
+            },
+            bankBranch: {
+              value: itm.bankBranchId,
+              label: itm.bankBranchName,
+            },
+            divisionName: {
+              value: itm.divisionId,
+              label: itm.divisionName,
+            },
+            districtName: {
+              value: itm.districtId,
+              label: itm.district,
+            },
+            depositorName: {
+              value: itm.depositorId,
+              label: itm.depositorName,
+            },
+            description: itm?.naraation,
+          };
+        })
+      );
     }
   } catch (error) {
     setLoading(false);
     setter([]);
   }
 };
-

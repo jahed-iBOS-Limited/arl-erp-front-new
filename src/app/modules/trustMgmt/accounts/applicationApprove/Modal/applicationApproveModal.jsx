@@ -1,18 +1,18 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import InputField from "../../../../_helper/_inputField";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import TextArea from "../../../../_helper/TextArea";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import InputField from '../../../../_helper/_inputField';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import TextArea from '../../../../_helper/TextArea';
 
 const initData = {
-  effectiveDate: "",
-  expiryDate: "",
-  amount: "",
-  remarks: "",
+  effectiveDate: '',
+  expiryDate: '',
+  amount: '',
+  remarks: '',
 };
 
 export const ApplicationApproveModal = ({
@@ -57,20 +57,20 @@ export const ApplicationApproveModal = ({
   }, [singleData]);
 
   const callBack = (data) => {
-    toast.success(data[0]?.Column1 || "Successfully Submitted");
+    toast.success(data[0]?.Column1 || 'Successfully Submitted');
     setisShowModal(false);
     if (filterObj) {
       getData(
         getLadingData(
-          "GetAllPendingDonationApplicationList",
+          'GetAllPendingDonationApplicationList',
           filterObj?.fromDate,
           filterObj?.toDate,
           filterObj?.unitId || 4,
-          "",
-          "",
-          "",
-          "",
-          ""
+          '',
+          '',
+          '',
+          '',
+          ''
         )
       );
     }
@@ -81,7 +81,7 @@ export const ApplicationApproveModal = ({
         enableReinitialize={true}
         // validationSchema={validationSchema}
         initialValues={singleData ? modifyData : initData}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({
           handleSubmit,
@@ -175,15 +175,15 @@ export const ApplicationApproveModal = ({
                       <div className="text-right">
                         <button
                           type="button"
-                          style={{ fontSize: "12px" }}
+                          style={{ fontSize: '12px' }}
                           className="btn btn-primary"
                           onClick={() => {
                             getApproveData(
                               getLadingData(
-                                "DonationApplicationApproval",
+                                'DonationApplicationApproval',
                                 values?.effectiveDate,
                                 values?.expiryDate,
-                                "",
+                                '',
                                 values?.amount,
                                 profileData?.userId,
                                 1,
@@ -205,40 +205,84 @@ export const ApplicationApproveModal = ({
                 <div className="details-title text-center mt-4 mb-5">
                   <h4>Application Details Information</h4>
                 </div>
-                <div style={{ marginLeft: "50px" }} className="row">
+                <div style={{ marginLeft: '50px' }} className="row">
                   <div className="col-md-6">
-                    <p><strong>Applicant's Name :</strong> {singleData?.strApplicantName}</p>
-                    <p><strong>Name of Beneficiary :</strong> {singleData?.strPatientName}</p>
                     <p>
-                      <strong>Account Holder's Name :</strong> {singleData?.strAccountHolderName}
+                      <strong>Applicant's Name :</strong>{' '}
+                      {singleData?.strApplicantName}
                     </p>
-                    <p><strong>Address :</strong> {singleData?.strAddress}</p>
-                    <p><strong>Contact No :</strong> {singleData?.strContactNo}</p>
-                    <p><strong>Remarks :</strong> {singleData?.strRemarks}</p>
+                    <p>
+                      <strong>Name of Beneficiary :</strong>{' '}
+                      {singleData?.strPatientName}
+                    </p>
+                    <p>
+                      <strong>Account Holder's Name :</strong>{' '}
+                      {singleData?.strAccountHolderName}
+                    </p>
+                    <p>
+                      <strong>Address :</strong> {singleData?.strAddress}
+                    </p>
+                    <p>
+                      <strong>Contact No :</strong> {singleData?.strContactNo}
+                    </p>
+                    <p>
+                      <strong>Remarks :</strong> {singleData?.strRemarks}
+                    </p>
                     <p>
                       <strong>Effective Date :</strong>
                       {_dateFormatter(singleData?.dteEffectiveDate)}
                     </p>
-                    <p><strong>Expiry Date : </strong> {_dateFormatter(singleData?.dteEndDate)}</p>
-                    <p><strong>Bank Name :</strong> {singleData?.strBankName}</p>
-                    <p><strong>Bank Branch :</strong> {singleData?.strBankBranchName}</p>
+                    <p>
+                      <strong>Expiry Date : </strong>{' '}
+                      {_dateFormatter(singleData?.dteEndDate)}
+                    </p>
+                    <p>
+                      <strong>Bank Name :</strong> {singleData?.strBankName}
+                    </p>
+                    <p>
+                      <strong>Bank Branch :</strong>{' '}
+                      {singleData?.strBankBranchName}
+                    </p>
                   </div>
                   <div className="col-md-6">
-                    <p><strong>Amount :</strong> {singleData?.monAmount}</p>
-                    <p><strong>Mode of Payment :</strong> {singleData?.strModeOfPayment}</p>
-                    <p><strong>Donation Name :</strong> {singleData?.strDonationName || ""}</p>
                     <p>
-                      <strong>Cause of Donation/Zakat :</strong> {singleData?.strDonationType}
+                      <strong>Amount :</strong> {singleData?.monAmount}
                     </p>
-                    <p><strong>Donation Purpose :</strong> {singleData?.strDonationPurpose}</p>
                     <p>
-                      <strong>Hospitals/Institutes :</strong> {singleData?.strOrganizationName || ""}
+                      <strong>Mode of Payment :</strong>{' '}
+                      {singleData?.strModeOfPayment}
                     </p>
-                    <p><strong>National ID :</strong> {singleData?.strNationalID}</p>
+                    <p>
+                      <strong>Donation Name :</strong>{' '}
+                      {singleData?.strDonationName || ''}
+                    </p>
+                    <p>
+                      <strong>Cause of Donation/Zakat :</strong>{' '}
+                      {singleData?.strDonationType}
+                    </p>
+                    <p>
+                      <strong>Donation Purpose :</strong>{' '}
+                      {singleData?.strDonationPurpose}
+                    </p>
+                    <p>
+                      <strong>Hospitals/Institutes :</strong>{' '}
+                      {singleData?.strOrganizationName || ''}
+                    </p>
+                    <p>
+                      <strong>National ID :</strong> {singleData?.strNationalID}
+                    </p>
 
-                    <p><strong>Account Holder :</strong> {singleData?.strAccountHolderName}</p>
-                    <p><strong>Account Type :</strong> {singleData?.strAccountType}</p>
-                    <p><strong>Account No :</strong> {singleData?.strAccountNo}</p>
+                    <p>
+                      <strong>Account Holder :</strong>{' '}
+                      {singleData?.strAccountHolderName}
+                    </p>
+                    <p>
+                      <strong>Account Type :</strong>{' '}
+                      {singleData?.strAccountType}
+                    </p>
+                    <p>
+                      <strong>Account No :</strong> {singleData?.strAccountNo}
+                    </p>
                     <p
                       onClick={() => {
                         dispatch(
@@ -248,7 +292,10 @@ export const ApplicationApproveModal = ({
                         );
                       }}
                     >
-                      <strong>Attachment :</strong> <span style={{ color: "#3699FF", cursor: "pointer" }}>{singleData?.strAttachmentUrl}</span>
+                      <strong>Attachment :</strong>{' '}
+                      <span style={{ color: '#3699FF', cursor: 'pointer' }}>
+                        {singleData?.strAttachmentUrl}
+                      </span>
                     </p>
                   </div>
                 </div>

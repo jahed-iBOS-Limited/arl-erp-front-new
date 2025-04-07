@@ -1,17 +1,17 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
-import ICustomCard from "../../_helper/_customCard";
-import { _dateFormatter } from "../../_helper/_dateFormate";
-import IEdit from "../../_helper/_helperIcons/_edit";
-import IView from "../../_helper/_helperIcons/_view";
-import Loading from "../../_helper/_loading";
-import IViewModal from "../../_helper/_viewModal";
-import ViewModal from "./ViewModal";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import useAxiosGet from '../../_helper/customHooks/useAxiosGet';
+import ICustomCard from '../../_helper/_customCard';
+import { _dateFormatter } from '../../_helper/_dateFormate';
+import IEdit from '../../_helper/_helperIcons/_edit';
+import IView from '../../_helper/_helperIcons/_view';
+import Loading from '../../_helper/_loading';
+import IViewModal from '../../_helper/_viewModal';
+import ViewModal from './ViewModal';
 
 const initData = {
-  search: "",
+  search: '',
 };
 
 const CreateDocumentLanding = () => {
@@ -21,9 +21,8 @@ const CreateDocumentLanding = () => {
   let history = useHistory();
   useEffect(() => {
     getLanding(
-      "/hcm/SafetyAndCompliance/LegalDocumentALLGET?strPartType=LegalDocumentNameLanding"
+      '/hcm/SafetyAndCompliance/LegalDocumentALLGET?strPartType=LegalDocumentNameLanding'
     );
-
   }, []);
 
   return (
@@ -37,14 +36,14 @@ const CreateDocumentLanding = () => {
           {({ errors, touched, setFieldValue, isValid, values }) => (
             <>
               <div
-                style={{ transform: "translateY(-40px)" }}
+                style={{ transform: 'translateY(-40px)' }}
                 className="text-right"
               >
                 <button
                   disabled={false}
                   onClick={() => {
                     history.push(
-                      "/safety-compliance/nestedsf/legal-document-name-create"
+                      '/safety-compliance/nestedsf/legal-document-name-create'
                     );
                   }}
                   className="btn btn-primary ml-3"
@@ -75,7 +74,7 @@ const CreateDocumentLanding = () => {
                             return (
                               <tr key={index}>
                                 <td
-                                  style={{ width: "30px" }}
+                                  style={{ width: '30px' }}
                                   className="text-center"
                                 >
                                   {index + 1}
@@ -87,15 +86,15 @@ const CreateDocumentLanding = () => {
                                 </td>
                                 <td>
                                   <span className="pl-2">
-                                    {item?.strBusinessUnitName || "All"}
+                                    {item?.strBusinessUnitName || 'All'}
                                   </span>
                                 </td>
                                 <td>
                                   <span className="pl-2">
-                                    {item?.strWorkplaceGroupName || "All"}
+                                    {item?.strWorkplaceGroupName || 'All'}
                                   </span>
                                 </td>
-                                <td>{item?.strWorkplaceName || "All"}</td>
+                                <td>{item?.strWorkplaceName || 'All'}</td>
                                 <td className="text-center">
                                   {_dateFormatter(item?.dteNotifyReminderDate)}
                                 </td>

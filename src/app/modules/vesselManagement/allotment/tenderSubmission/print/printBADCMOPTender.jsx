@@ -1,6 +1,6 @@
-import React, { useMemo } from "react";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import { convertToText } from "../helper";
+import React, { useMemo } from 'react';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import { convertToText } from '../helper';
 
 const PrintBADCMOPTender = ({ tenderDetails, tenderPrintId }) => {
   // total amount
@@ -54,8 +54,8 @@ const PrintBADCMOPTender = ({ tenderDetails, tenderPrintId }) => {
 
   return tenderPrintId === 0 ? (
     <div className="">
-      <table style={{ margin: "20px 0", width: "100%" }}>
-        <thead style={{ padding: "10px 0", textAlign: "center" }}>
+      <table style={{ margin: '20px 0', width: '100%' }}>
+        <thead style={{ padding: '10px 0', textAlign: 'center' }}>
           <tr>
             <th>No</th>
             <th>Descriptions of Route</th>
@@ -105,26 +105,26 @@ const PrintBADCMOPTender = ({ tenderDetails, tenderPrintId }) => {
     <div className="">
       <div>
         <p>
-          {" "}
+          {' '}
           <strong>
             Annexure-
-            {tenderPrintId === 1 ? "A" : tenderPrintId === 4 ? "B" : ""}:
-          </strong>{" "}
+            {tenderPrintId === 1 ? 'A' : tenderPrintId === 4 ? 'B' : ''}:
+          </strong>{' '}
           {tenderPrintId === 1
             ? `Transportation and stacking of MOP fertilizer from the ghats of Chattogram port/private ghat and the
 godowns of Chattogram city corporation areas/industrial areas/port areas/BADC's Transit godown
 1&2/Dewanhat/any other local godowns of BADC to the following godowns/center:`
             : tenderPrintId === 4
-            ? `Transportation and stacking of MOP fertilizer from the godowns of
+              ? `Transportation and stacking of MOP fertilizer from the godowns of
           Khulna city corporation areas/ industrial areas/any other local
           godowns in Mongla port/Khulna ghat's local godown/Boyra
           godown/Ruzvelt's Transit godown/Shiromoni ghat/any other local godowns
           of BADC to the following godowns/center`
-            : ""}
+              : ''}
         </p>
       </div>
-      <table style={{ margin: "20px 0" }}>
-        <thead style={{ padding: "10px 0", textAlign: "center" }}>
+      <table style={{ margin: '20px 0' }}>
+        <thead style={{ padding: '10px 0', textAlign: 'center' }}>
           <tr>
             <th rowSpan={3}>No</th>
             <th rowSpan={3}>Descriptions of Route</th>
@@ -136,10 +136,10 @@ godowns of Chattogram city corporation areas/industrial areas/port areas/BADC's 
               Quantity <br />
               (M.Ton)
             </th>
-            <th style={{ width: "120px" }} rowSpan={1} colSpan={1}>
+            <th style={{ width: '120px' }} rowSpan={1} colSpan={1}>
               Unit Rate BDT
             </th>
-            <th style={{ width: "120px" }} rowSpan={1} colSpan={1}>
+            <th style={{ width: '120px' }} rowSpan={1} colSpan={1}>
               Amount BDT
             </th>
           </tr>
@@ -170,7 +170,7 @@ godowns of Chattogram city corporation areas/industrial areas/port areas/BADC's 
 
           <tr>
             <td colSpan={5}>
-              In Words:{" "}
+              In Words:{' '}
               <span className="text-uppercase">
                 {convertToText(totalAmount)}
               </span>

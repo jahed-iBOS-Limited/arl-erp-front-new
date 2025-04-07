@@ -1,49 +1,53 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import * as Yup from "yup";
-import { getPlantList, getPurchaseOrganizationDDL, getSBU, getWhList } from "../../../../_helper/_commonApi";
-import ICustomCard from "../../../../_helper/_customCard";
-import IView from "../../../../_helper/_helperIcons/_view";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import ILoader from "../../../../_helper/loader/_loader";
-import { setIndentStatementAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import { ItemReqViewTableRow } from "../../../purchase-management/purchaseRequestNew/report/tableRow";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import {
+  getPlantList,
+  getPurchaseOrganizationDDL,
+  getSBU,
+  getWhList,
+} from '../../../../_helper/_commonApi';
+import ICustomCard from '../../../../_helper/_customCard';
+import IView from '../../../../_helper/_helperIcons/_view';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import ILoader from '../../../../_helper/loader/_loader';
+import { setIndentStatementAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import { ItemReqViewTableRow } from '../../../purchase-management/purchaseRequestNew/report/tableRow';
 import {
   getItemCategoryDDLByTypeApi,
   getItemTypeListDDL_api,
   getPurchaseRequestLanding,
-} from "../helper";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import PaginationSearch from "./../../../../_helper/_search";
-import PaginationTable from "./../../../../_helper/_tablePagination";
+} from '../helper';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import PaginationSearch from './../../../../_helper/_search';
+import PaginationTable from './../../../../_helper/_tablePagination';
 
 const validationSchema = Yup.object().shape({
-  toDate: Yup.string().when("fromDate", (fromDate, Schema) => {
-    if (fromDate) return Schema.required("To date is required");
+  toDate: Yup.string().when('fromDate', (fromDate, Schema) => {
+    if (fromDate) return Schema.required('To date is required');
   }),
 });
 
 let initData = {
-  wh: "",
-  plant: "",
-  po: "",
-  sbu: "",
-  status: "",
+  wh: '',
+  plant: '',
+  po: '',
+  sbu: '',
+  status: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  type: "",
+  type: '',
   itemCategory: {
     value: 0,
-    label: "All",
+    label: 'All',
   },
   itemType: {
     value: 0,
-    label: "All",
+    label: 'All',
   },
 };
 
@@ -60,10 +64,10 @@ const PurchaseRequestReportTable = () => {
   const dispatch = useDispatch();
 
   // ddl state
-  const [sbuList, setSbuList] = useState("");
-  const [poList, setPoList] = useState("");
-  const [plantList, setPlantList] = useState("");
-  const [whList, setWhList] = useState("");
+  const [sbuList, setSbuList] = useState('');
+  const [poList, setPoList] = useState('');
+  const [plantList, setPlantList] = useState('');
+  const [whList, setWhList] = useState('');
   const [itemCategoryDDLByType, setItemCategoryDDLByType] = useState([]);
 
   // landing
@@ -118,7 +122,7 @@ const PurchaseRequestReportTable = () => {
         pageNo,
         pageSize,
         indentStatement?.type?.value || 3,
-        "",
+        '',
         indentStatement?.itemCategory?.value || 0,
         indentStatement?.itemType?.value || 0
         // 3 means All
@@ -152,7 +156,6 @@ const PurchaseRequestReportTable = () => {
 
       getItemTypeListDDL_api(setItemTypeOption);
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   // //setPositionHandler
@@ -171,7 +174,7 @@ const PurchaseRequestReportTable = () => {
       pageNo,
       pageSize,
       values?.type?.value,
-      "",
+      '',
       values?.itemCategory?.value || 0,
       values?.itemType?.value || 0
     );
@@ -213,13 +216,13 @@ const PurchaseRequestReportTable = () => {
       pageNo,
       pageSize,
       values?.type?.value,
-      "",
+      '',
       values?.itemCategory?.value || 0,
       values?.itemType?.value || 0
     );
   };
 
-  const [currentItem, setCurrentItem] = useState("");
+  const [currentItem, setCurrentItem] = useState('');
   const [isShowModal, setIsShowModal] = useState(false);
 
   return (
@@ -230,7 +233,7 @@ const PurchaseRequestReportTable = () => {
           validationSchema={validationSchema}
           initialValues={indentStatement || initData}
           //validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({
             handleSubmit,
@@ -245,7 +248,7 @@ const PurchaseRequestReportTable = () => {
               <Form className="form form-label-left">
                 <div
                   className="row global-form"
-                  style={{ background: " #d6dadd" }}
+                  style={{ background: ' #d6dadd' }}
                 >
                   <div className="col-lg-3">
                     <NewSelect
@@ -254,12 +257,12 @@ const PurchaseRequestReportTable = () => {
                       value={values?.sbu}
                       label="SBU"
                       onChange={(v) => {
-                        setFieldValue("sbu", v);
+                        setFieldValue('sbu', v);
                       }}
                       placeholder="SBU"
                       errors={errors}
                       touched={touched}
-                    />{" "}
+                    />{' '}
                   </div>
                   <div className="col-lg-3">
                     <NewSelect
@@ -268,7 +271,7 @@ const PurchaseRequestReportTable = () => {
                       value={values?.po}
                       label="Purchase Organization"
                       onChange={(v) => {
-                        setFieldValue("po", v);
+                        setFieldValue('po', v);
                       }}
                       placeholder="Purchase Organization"
                       errors={errors}
@@ -289,8 +292,8 @@ const PurchaseRequestReportTable = () => {
                           v?.value,
                           setWhList
                         );
-                        setFieldValue("plant", v);
-                        setFieldValue("wh", "");
+                        setFieldValue('plant', v);
+                        setFieldValue('wh', '');
                       }}
                       placeholder="Plant"
                       errors={errors}
@@ -304,7 +307,7 @@ const PurchaseRequestReportTable = () => {
                       value={values?.wh}
                       label="Warehouse"
                       onChange={(v) => {
-                        setFieldValue("wh", v);
+                        setFieldValue('wh', v);
                       }}
                       placeholder="Warehouse"
                       errors={errors}
@@ -333,7 +336,7 @@ const PurchaseRequestReportTable = () => {
                         name="fromDate"
                         placeholder="From date"
                         type="date"
-                        style={{ width: "100%" }}
+                        style={{ width: '100%' }}
                       />
                     </div>
                   </div>
@@ -345,7 +348,7 @@ const PurchaseRequestReportTable = () => {
                         name="toDate"
                         placeholder="To date"
                         type="date"
-                        style={{ width: "100%" }}
+                        style={{ width: '100%' }}
                       />
                     </div>
                   </div>
@@ -353,19 +356,19 @@ const PurchaseRequestReportTable = () => {
                     <NewSelect
                       name="type"
                       options={[
-                        { value: 1, label: "Pending" },
-                        { value: 2, label: "PO Issued" },
-                        { value: 3, label: "All" },
+                        { value: 1, label: 'Pending' },
+                        { value: 2, label: 'PO Issued' },
+                        { value: 3, label: 'All' },
                       ]}
                       value={values?.type}
                       label="Type"
                       onChange={(v) => {
-                        setFieldValue("type", v);
+                        setFieldValue('type', v);
                       }}
                       placeholder="Type"
                       errors={errors}
                       touched={touched}
-                    />{" "}
+                    />{' '}
                   </div>
                   <div className="col-lg-3">
                     <NewSelect
@@ -374,10 +377,10 @@ const PurchaseRequestReportTable = () => {
                       value={values?.itemType}
                       label="Item Type"
                       onChange={(valueOption) => {
-                        setFieldValue("itemType", valueOption);
-                        setFieldValue("itemCategory", {
+                        setFieldValue('itemType', valueOption);
+                        setFieldValue('itemCategory', {
                           value: 0,
-                          label: "All",
+                          label: 'All',
                         });
                         getItemCategoryDDLByTypeApi(
                           profileData?.accountId,
@@ -398,7 +401,7 @@ const PurchaseRequestReportTable = () => {
                         [
                           {
                             value: 0,
-                            label: "All",
+                            label: 'All',
                           },
                           ...itemCategoryDDLByType,
                         ] || []
@@ -406,7 +409,7 @@ const PurchaseRequestReportTable = () => {
                       value={values?.itemCategory}
                       label="Item Category"
                       onChange={(v) => {
-                        setFieldValue("itemCategory", v);
+                        setFieldValue('itemCategory', v);
                       }}
                       placeholder="Item Category"
                       errors={errors}
@@ -489,19 +492,19 @@ const PurchaseRequestReportTable = () => {
                               <td>{item?.pendingQty}</td>
                               <td>{item?.receiveQty}</td>
                               <td className="text-center">
-                                {item?.strStatus ? "Approved" : "Pending"}
+                                {item?.strStatus ? 'Approved' : 'Pending'}
                               </td>
                               <td className="text-center">
                                 {item?.strRemarks}
                               </td>
                               <td className="text-center align-middle">
                                 <span>
-                                  {" "}
+                                  {' '}
                                   <IView
                                     classes={
                                       indentTable === item?.sl
-                                        ? "text-primary"
-                                        : ""
+                                        ? 'text-primary'
+                                        : ''
                                     }
                                     clickHandler={() => {
                                       // history.push({

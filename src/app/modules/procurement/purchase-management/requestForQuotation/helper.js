@@ -73,11 +73,11 @@ export const rfqReportExcel = (rowData) => {
 
 export const createQuotationPrepare = async (
   erpUserId,
-  requestForQuotationId,
+  requestForQuotationId
 ) => {
   try {
     const response = await axios.post(
-      `${eProcurementBaseURL}/RequestForQuotation/UpdateRequestForQuotationStatus?erpUserId=${erpUserId}&requestForQuotationId=${requestForQuotationId}&type=Prepared`,
+      `${eProcurementBaseURL}/RequestForQuotation/UpdateRequestForQuotationStatus?erpUserId=${erpUserId}&requestForQuotationId=${requestForQuotationId}&type=Prepared`
     );
     return response?.data;
   } catch (error) {

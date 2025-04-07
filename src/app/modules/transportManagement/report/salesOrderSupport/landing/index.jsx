@@ -1,40 +1,40 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IButton from "../../../../_helper/iButton";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import Table from "./table";
-import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IButton from '../../../../_helper/iButton';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import Table from './table';
+import PowerBIReport from '../../../../_helper/commonInputFieldsGroups/PowerBIReport';
 
-const groupId = "e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a";
-const reportId = "3b28ad18-c237-49fe-97e2-7480d3482e1a";
+const groupId = 'e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a';
+const reportId = '3b28ad18-c237-49fe-97e2-7480d3482e1a';
 
 const initData = {
-  reportType: "",
-  customer: "",
-  SONo: "",
-  shipPoint: "",
-  channel: "",
+  reportType: '',
+  customer: '',
+  SONo: '',
+  shipPoint: '',
+  channel: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
 
 const reportTypes = [
-  { value: 1, label: "SO Base" },
-  { value: 2, label: "Party Base" },
-  { value: 3, label: "Channel Base" },
-  { value: 4, label: "Shipping Point Base" },
-  { value: 5, label: "Unit Base" },
-  { value: 6, label: "Customer Configuration Status" },
+  { value: 1, label: 'SO Base' },
+  { value: 2, label: 'Party Base' },
+  { value: 3, label: 'Channel Base' },
+  { value: 4, label: 'Shipping Point Base' },
+  { value: 5, label: 'Unit Base' },
+  { value: 6, label: 'Customer Configuration Status' },
 ];
 
 function SalesOrderSupport() {
@@ -63,15 +63,14 @@ function SalesOrderSupport() {
     getSalesDDL(
       `/oms/SalesOrganization/GetSalesOrganizationDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
-
   }, []);
 
   // parameter values
   function parameterValues(values) {
     return [
-      { name: "intpartid", value: `${values?.reportType?.value}` },
-      { name: "intcustomerid", value: `${values?.customer?.value}` },
-      { name: "intUnitid", value: `${buId}` },
+      { name: 'intpartid', value: `${values?.reportType?.value}` },
+      { name: 'intcustomerid', value: `${values?.customer?.value}` },
+      { name: 'intUnitid', value: `${buId}` },
     ];
   }
 
@@ -89,12 +88,11 @@ function SalesOrderSupport() {
             value={values?.channel}
             onChange={(valueOption) => {
               getCustomerDDL(
-                `/partner/PManagementCommonDDL/GetCustomerNameBySalesOrgDDL?AccountId=${accId}&BusinessUnitId=${buId}&SalesOrganization=${values
-                  ?.sale?.value || 0}&DistribuitionChannelId=${
-                  valueOption?.value
-                }`
+                `/partner/PManagementCommonDDL/GetCustomerNameBySalesOrgDDL?AccountId=${accId}&BusinessUnitId=${buId}&SalesOrganization=${
+                  values?.sale?.value || 0
+                }&DistribuitionChannelId=${valueOption?.value}`
               );
-              setFieldValue("channel", valueOption);
+              setFieldValue('channel', valueOption);
               setShowReport(false);
             }}
           />
@@ -109,7 +107,7 @@ function SalesOrderSupport() {
               getCustomerDDL(
                 `/partner/PManagementCommonDDL/GetCustomerNameBySalesOrgDDL?AccountId=${accId}&BusinessUnitId=${buId}&SalesOrganization=${valueOption?.value}&DistribuitionChannelId=${values?.channel?.value}`
               );
-              setFieldValue("sale", valueOption);
+              setFieldValue('sale', valueOption);
               setShowReport(false);
             }}
           />
@@ -118,10 +116,10 @@ function SalesOrderSupport() {
           <NewSelect
             name="customer"
             label="Customer"
-            options={[{ value: 0, label: "All" }, ...customerDDL]}
+            options={[{ value: 0, label: 'All' }, ...customerDDL]}
             value={values?.customer}
             onChange={(valueOption) => {
-              setFieldValue("customer", valueOption);
+              setFieldValue('customer', valueOption);
               setShowReport(false);
             }}
           />
@@ -142,10 +140,13 @@ function SalesOrderSupport() {
     getData(
       // `/oms/SalesInformation/GetOrderChallanNPending?intpartid=${id}&SOCode=${values?.SONo ||
       //   ""}${partnerId}${channelId}${shipPointId}&intUnitId=${buId || 0}`,
-      `/oms/SalesInformation/GetOrderChallanNPending?intpartid=${id}&SOCode=${values?.SONo ||
-        0}&intpartnerid=${partnerId || 0}&intChannelid=${channelId ||
-        0}&intshippingPoint=${shipPointId || 0}&intUnitId=${buId ||
-        0}&FromDate=${fromDate}&ToDate=${toDate}`,
+      `/oms/SalesInformation/GetOrderChallanNPending?intpartid=${id}&SOCode=${
+        values?.SONo || 0
+      }&intpartnerid=${partnerId || 0}&intChannelid=${
+        channelId || 0
+      }&intshippingPoint=${shipPointId || 0}&intUnitId=${
+        buId || 0
+      }&FromDate=${fromDate}&ToDate=${toDate}`,
       (resData) => {
         setGridData(resData);
       }
@@ -186,12 +187,12 @@ function SalesOrderSupport() {
                       value={values?.reportType}
                       label="Report Type"
                       onChange={(valueOption) => {
-                        setFieldValue("reportType", valueOption);
+                        setFieldValue('reportType', valueOption);
                         if (valueOption.value !== 1) {
-                          setFieldValue("SONo", "");
+                          setFieldValue('SONo', '');
                         } else if (valueOption.value !== 3) {
-                          setFieldValue("fromDate", _todayDate());
-                          setFieldValue("toDate", _todayDate());
+                          setFieldValue('fromDate', _todayDate());
+                          setFieldValue('toDate', _todayDate());
                         }
                         setShowReport(false);
                         setGridData([]);
@@ -239,7 +240,7 @@ function SalesOrderSupport() {
                       <SearchAsyncSelect
                         selectedValue={values?.customer}
                         handleChange={(valueOption) => {
-                          setFieldValue("customer", valueOption);
+                          setFieldValue('customer', valueOption);
                           setGridData([]);
                         }}
                         isDisabled={!values?.channel}
@@ -264,7 +265,7 @@ function SalesOrderSupport() {
                         value={values?.shipPoint}
                         label="Shipping Point"
                         onChange={(valueOption) => {
-                          setFieldValue("shipPoint", valueOption);
+                          setFieldValue('shipPoint', valueOption);
                         }}
                         placeholder="Shipping Point"
                         errors={errors}

@@ -1,22 +1,21 @@
-
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./Form";
-import IForm from "../../../../../_helper/_form";
-import { postCafeteriaEntry } from "../../helper/action";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import Loading from "../../../../../_helper/_loading";
-import { toast } from "react-toastify";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './Form';
+import IForm from '../../../../../_helper/_form';
+import { postCafeteriaEntry } from '../../helper/action';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import Loading from '../../../../../_helper/_loading';
+import { toast } from 'react-toastify';
 
 const initData = {
   ToDate: _todayDate(),
-  selectType: "private",
-  empName: "",
-  MealFor: "1",
+  selectType: 'private',
+  empName: '',
+  MealFor: '1',
   CountMeal: 1,
-  TypeId: "",
-  Narration: "",
-  consumePlace:""
+  TypeId: '',
+  Narration: '',
+  consumePlace: '',
 };
 
 export default function MealRequisition({
@@ -31,26 +30,26 @@ export default function MealRequisition({
   }, shallowEqual);
 
   const saveHandler = async (values, cb) => {
-    if (values?.selectType === "public" && !values?.empName)
-      return toast.warn("Employee is required");
+    if (values?.selectType === 'public' && !values?.empName)
+      return toast.warn('Employee is required');
     let isOwnGuest;
     let isPayable;
     if (values) {
-      if (values.MealFor === "2") {
+      if (values.MealFor === '2') {
         isOwnGuest = 1;
         isPayable = 0;
-      } else if (values.MealFor === "1") {
+      } else if (values.MealFor === '1') {
         isOwnGuest = 0;
         isPayable = 1;
       }
       postCafeteriaEntry(
         1,
         values?.ToDate,
-        values?.selectType === "public"
+        values?.selectType === 'public'
           ? values?.empName?.value
           : profileData.employeeId,
         values?.TypeId?.value,
-        values?.selectType === "public" ? 1 : 0,
+        values?.selectType === 'public' ? 1 : 0,
         values.MealFor,
         values.CountMeal,
         isOwnGuest,

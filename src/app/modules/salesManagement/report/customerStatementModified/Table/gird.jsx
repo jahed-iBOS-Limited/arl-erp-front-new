@@ -1,8 +1,8 @@
-import moment from "moment";
-import React from "react";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
+import moment from 'moment';
+import React from 'react';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import { _fixedPoint } from './../../../../_helper/_fixedPoint';
 
 function TableGird({ rowDto, values, buId }) {
   let GrandQuantity = 0;
@@ -16,12 +16,12 @@ function TableGird({ rowDto, values, buId }) {
         ? 10
         : 9
       : buId === 175
-      ? 9
-      : 8;
+        ? 9
+        : 8;
 
   return (
     <div className="react-bootstrap-table table-responsive">
-      <table className={"table table-striped table-bordered global-table "}>
+      <table className={'table table-striped table-bordered global-table '}>
         <thead>
           <tr>
             <th>SL</th>
@@ -62,7 +62,7 @@ function TableGird({ rowDto, values, buId }) {
               );
               return (
                 <>
-                  <tr style={{ background: "#f1dbdb" }}>
+                  <tr style={{ background: '#f1dbdb' }}>
                     <td
                       colSpan={
                         values?.shippointDDL?.value === 0
@@ -70,8 +70,8 @@ function TableGird({ rowDto, values, buId }) {
                             ? 14
                             : 13
                           : [4, 175].includes(buId)
-                          ? 13
-                          : 12
+                            ? 13
+                            : 12
                       }
                       className="text-left"
                     >
@@ -83,7 +83,7 @@ function TableGird({ rowDto, values, buId }) {
                     return (
                       <tr key={i}>
                         <td>{i + 1}</td>
-                        <td>{moment(itm?.deliveryDate).format("lll")}</td>
+                        <td>{moment(itm?.deliveryDate).format('lll')}</td>
                         {/* <td>{_dateFormatter(itm?.deliveryDate)}</td> */}
                         <td>{itm?.partnerCode}</td>
                         <td>{itm?.so}</td>
@@ -91,7 +91,7 @@ function TableGird({ rowDto, values, buId }) {
                         {buId === 175 && <td>{itm.manualChallan}</td>}
                         <td> {itm.itemCode}</td>
                         <td> {itm.itemName}</td>
-                        {values?.shippointDDL?.label === "All" && (
+                        {values?.shippointDDL?.label === 'All' && (
                           <td>{itm.shipPointName}</td>
                         )}
                         <td className="text-center">{itm.uomName}</td>

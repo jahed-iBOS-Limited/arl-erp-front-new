@@ -1,6 +1,6 @@
-import { toast } from "react-toastify";
-import * as requestFromServer from "./Api";
-import { commonDDLSlice } from "./Slice";
+import { toast } from 'react-toastify';
+import * as requestFromServer from './Api';
+import { commonDDLSlice } from './Slice';
 const { actions: slice } = commonDDLSlice;
 
 // Employee DDL
@@ -158,16 +158,15 @@ export const getControllingUnitDDLAction = (accId, buId) => (dispatch) => {
 };
 
 // getSalesOfficeDDL by org id
-export const getSalesOfficeDDLAction = (accId, buId, salesOrgId) => (
-  dispatch
-) => {
-  requestFromServer.getSalesOfficeDDL(accId, buId, salesOrgId).then((res) => {
-    const { status, data } = res;
-    if (status === 200 && data) {
-      dispatch(slice.SetSalesOfficeDDL(res.data));
-    }
-  });
-};
+export const getSalesOfficeDDLAction =
+  (accId, buId, salesOrgId) => (dispatch) => {
+    requestFromServer.getSalesOfficeDDL(accId, buId, salesOrgId).then((res) => {
+      const { status, data } = res;
+      if (status === 200 && data) {
+        dispatch(slice.SetSalesOfficeDDL(res.data));
+      }
+    });
+  };
 
 // getSalesOrgDDL
 export const getSalesOrgDDLAction = (accId, buId) => (dispatch) => {
@@ -198,68 +197,65 @@ export const getSupplierDDLAction = (accId, buId) => (dispatch) => {
     }
   });
 };
-export const getShippointDDLCommon_action = (userId, clientId, buId) => (
-  dispatch
-) => {
-  requestFromServer
-    .getShippointDDL(userId, clientId, buId)
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        const newData = res?.data.map((data) => {
-          return {
-            ...data,
-            label: data?.organizationUnitReffName,
-            value: data?.organizationUnitReffId,
-            address: data?.address,
-          };
-        });
-        dispatch(slice.SetShippointDDL(newData));
-      }
-    })
-    .catch((err) => {
-      dispatch(slice.SetShippointDDL([]));
-    });
-};
+export const getShippointDDLCommon_action =
+  (userId, clientId, buId) => (dispatch) => {
+    requestFromServer
+      .getShippointDDL(userId, clientId, buId)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          const newData = res?.data.map((data) => {
+            return {
+              ...data,
+              label: data?.organizationUnitReffName,
+              value: data?.organizationUnitReffId,
+              address: data?.address,
+            };
+          });
+          dispatch(slice.SetShippointDDL(newData));
+        }
+      })
+      .catch((err) => {
+        dispatch(slice.SetShippointDDL([]));
+      });
+  };
 
 // getUomDDL
-export const getUomDDLItemId_Action = (accId, buId, itemId, setFieldValue) => (
-  dispatch
-) => {
-  requestFromServer.getuomDDLItemId(accId, buId, itemId).then((res) => {
-    const { status, data } = res;
-    if (status === 200 && data) {
-      dispatch(slice.SetUomDDL(res.data));
-      setFieldValue && setFieldValue("uom", res.data[0] || "");
-    }
-  });
-};
-// getDownlloadFileView_Action
-export const getDownlloadFileView_Action = (id, closeModal, cb, setLoading, apiUrl) => (
-  dispatch
-) => {
-  setLoading && setLoading(true);
-  requestFromServer
-    .getDownlloadFileView(id, apiUrl)
-    .then((res) => {
+export const getUomDDLItemId_Action =
+  (accId, buId, itemId, setFieldValue) => (dispatch) => {
+    requestFromServer.getuomDDLItemId(accId, buId, itemId).then((res) => {
       const { status, data } = res;
       if (status === 200 && data) {
-        // console.log(res)
-        const obj = {
-          url: res?.config?.url,
-          type: res?.headers?.["content-type"],
-          model: closeModal ? false : true,
-        };
-
-        dispatch(slice.SetImageView(obj));
-        cb && cb();
-        setLoading && setLoading(false);
+        dispatch(slice.SetUomDDL(res.data));
+        setFieldValue && setFieldValue('uom', res.data[0] || '');
       }
-    })
-    .catch((err) => {
-      setLoading && setLoading(false);
     });
-};
+  };
+// getDownlloadFileView_Action
+export const getDownlloadFileView_Action =
+  (id, closeModal, cb, setLoading, apiUrl) => (dispatch) => {
+    setLoading && setLoading(true);
+    requestFromServer
+      .getDownlloadFileView(id, apiUrl)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          // console.log(res)
+          const obj = {
+            url: res?.config?.url,
+            type: res?.headers?.['content-type'],
+            model: closeModal ? false : true,
+          };
+
+          dispatch(slice.SetImageView(obj));
+          cb && cb();
+          setLoading && setLoading(false);
+        }
+      })
+      .catch((err) => {
+        setLoading && setLoading(false);
+      });
+  };
 
 // getDownlloadFileView_Action
 export const setDownlloadFileViewEmpty = () => async (dispatch) => {
@@ -280,11 +276,11 @@ export const getGenerateExcelDataFormat_Action = (payload) => () => {
     .getGenerateExcelDataFormat(payload)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         const url = window.URL.createObjectURL(new Blob([res.data]));
-        const link = document.createElement("a");
+        const link = document.createElement('a');
         link.href = url;
-        link.setAttribute("download", `hello.xlsx`);
+        link.setAttribute('download', `hello.xlsx`);
         document.body.appendChild(link);
         link.click();
       }
@@ -299,7 +295,7 @@ export const getGenerateExcelDataFormat_Action = (payload) => () => {
 export const getMultipleFileView_Action = (ids) => (dispatch) => {
   const obj = {
     url: ids,
-    type: "",
+    type: '',
     model: true,
   };
   dispatch(slice.SetMultipleImageView(obj));
@@ -307,7 +303,7 @@ export const getMultipleFileView_Action = (ids) => (dispatch) => {
 export const getMultipleFileViewEmpty = (ids) => (dispatch) => {
   const obj = {
     url: [],
-    type: "",
+    type: '',
     model: false,
   };
   dispatch(slice.SetMultipleImageView(obj));

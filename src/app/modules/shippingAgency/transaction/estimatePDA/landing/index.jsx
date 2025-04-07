@@ -1,26 +1,25 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   getExpensePDALandingApi,
   getSBUListDDLApi,
   getVesselDDL,
-  getVoyageNoDDLApi
-} from "../helper";
-import LandingTable from "./table";
+  getVoyageNoDDLApi,
+} from '../helper';
+import LandingTable from './table';
 
 const initData = {
-
-  sbu: "",
-  vesselName: "",
-  voyageNo: "",
+  sbu: '',
+  vesselName: '',
+  voyageNo: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -48,7 +47,6 @@ const EstimatePDALanding = () => {
       commonGridData(pageNo, pageSize, initData);
       getVoyageNoDDLApi(accId, buId, setVoyageNoDDLApi);
     }
-
   }, [accId, buId]);
 
   const commonGridData = (
@@ -68,8 +66,8 @@ const EstimatePDALanding = () => {
       accId,
       buId,
       setGridData,
-      setLoading,
-    )
+      setLoading
+    );
   };
   return (
     <>
@@ -78,100 +76,96 @@ const EstimatePDALanding = () => {
         {({ values, setFieldValue, touched, errors }) => (
           <>
             <ICustomCard
-              title='Estimate PDA'
+              title="Estimate PDA"
               createHandler={() => {
                 history.push(`/ShippingAgency/Transaction/EstimatePDA/Create`);
               }}
             >
-              <div className='row global-form my-3'>
-                <div className='col-lg-3'>
+              <div className="row global-form my-3">
+                <div className="col-lg-3">
                   <NewSelect
                     isSearchable={true}
                     options={sbuDDL || []}
-                    name='sbu'
+                    name="sbu"
                     onChange={(valueOption) => {
-                      setFieldValue("sbu", valueOption);
+                      setFieldValue('sbu', valueOption);
                       setGridData([]);
                     }}
-                    placeholder='SBU'
+                    placeholder="SBU"
                     errors={errors}
                     value={values?.sbu}
                     touched={touched}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <NewSelect
-                    value={values?.vesselName || ""}
+                    value={values?.vesselName || ''}
                     isSearchable={true}
                     options={vesselDDL || []}
-                    name='vesselName'
-                    label='Vessel Name'
-                    placeholder='Vessel Name'
+                    name="vesselName"
+                    label="Vessel Name"
+                    placeholder="Vessel Name"
                     onChange={(valueOption) => {
-                      setFieldValue("vesselName", valueOption);
+                      setFieldValue('vesselName', valueOption);
                       setGridData([]);
                     }}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <NewSelect
-                    name='voyageNo'
-                    value={values?.voyageNo || ""}
+                    name="voyageNo"
+                    value={values?.voyageNo || ''}
                     isSearchable={true}
                     options={voyageNoDDLApi || []}
-                    placeholder='Voyage No'
-                    label='Voyage No'
+                    placeholder="Voyage No"
+                    label="Voyage No"
                     onChange={(valueOption) => {
-                      setFieldValue("voyageNo", valueOption);
+                      setFieldValue('voyageNo', valueOption);
                       setGridData([]);
                     }}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <InputField
                     value={values?.fromDate}
-                    label='From Date'
-                    name='fromDate'
-                    type='date'
+                    label="From Date"
+                    name="fromDate"
+                    type="date"
                     onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
+                      setFieldValue('fromDate', e.target.value);
                       setGridData([]);
                     }}
                   />
                 </div>
 
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <InputField
                     value={values?.toDate}
-                    label='To Date'
-                    name='toDate'
-                    type='date'
+                    label="To Date"
+                    name="toDate"
+                    type="date"
                     onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
+                      setFieldValue('toDate', e.target.value);
                       setGridData([]);
                     }}
                   />
                 </div>
-                <div className='col d-flex align-items-end justify-content-end'>
+                <div className="col d-flex align-items-end justify-content-end">
                   <button
-                    className='btn btn-primary mt-3'
+                    className="btn btn-primary mt-3"
                     onClick={() => {
                       commonGridData(1, pageSize, values);
                     }}
-                    disabled={
-                      !values?.fromDate ||
-                      !values?.toDate
-                    }
+                    disabled={!values?.fromDate || !values?.toDate}
                   >
                     View
                   </button>
                 </div>
               </div>
-
 
               <LandingTable
                 obj={{

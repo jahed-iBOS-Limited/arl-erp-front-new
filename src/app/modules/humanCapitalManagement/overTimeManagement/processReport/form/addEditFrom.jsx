@@ -1,60 +1,59 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { getYearDDLForProcessReport } from "../helper";
-import { getWorkplaceDDL_api } from "../../../../_helper/_commonApi";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { getYearDDLForProcessReport } from '../helper';
+import { getWorkplaceDDL_api } from '../../../../_helper/_commonApi';
 
 const statusDDL = [
-  { value: -1, label: "All" },
+  { value: -1, label: 'All' },
 
-  { value: 0, label: "Not Processed" },
+  { value: 0, label: 'Not Processed' },
 ];
 
 const currentMonthInitData = () => {
   let month = new Date().getMonth();
-  let option = "";
+  let option = '';
   switch (month) {
     case 0:
-      option = { value: 1, label: "January" };
+      option = { value: 1, label: 'January' };
       break;
     case 1:
-      option = { value: 2, label: "February" };
+      option = { value: 2, label: 'February' };
       break;
     case 2:
-      option = { value: 3, label: "March" };
+      option = { value: 3, label: 'March' };
       break;
     case 3:
-      option = { value: 4, label: "April" };
+      option = { value: 4, label: 'April' };
       break;
     case 4:
-      option = { value: 5, label: "May" };
+      option = { value: 5, label: 'May' };
       break;
     case 5:
-      option = { value: 6, label: "June" };
+      option = { value: 6, label: 'June' };
       break;
     case 6:
-      option = { value: 7, label: "July" };
+      option = { value: 7, label: 'July' };
       break;
     case 7:
-      option = { value: 8, label: "August" };
+      option = { value: 8, label: 'August' };
       break;
     case 8:
-      option = { value: 9, label: "September" };
+      option = { value: 9, label: 'September' };
       break;
     case 9:
-      option = { value: 10, label: "October" };
+      option = { value: 10, label: 'October' };
       break;
     case 10:
-      option = { value: 11, label: "November" };
+      option = { value: 11, label: 'November' };
       break;
     case 11:
-      option = { value: 12, label: "December" };
+      option = { value: 12, label: 'December' };
       break;
     default:
-      option = "";
+      option = '';
   }
   return option;
 };
@@ -62,7 +61,7 @@ const currentMonthInitData = () => {
 let currentYear = new Date().getFullYear();
 
 let initData = {
-  workPlace: "",
+  workPlace: '',
   month: currentMonthInitData(),
   year: { value: currentYear, label: currentYear },
   status: statusDDL[0],
@@ -80,7 +79,7 @@ export function ProcessReport({
     return state.authData;
   }, shallowEqual);
 
-  const saveHandler = async (values, cb) => { };
+  const saveHandler = async (values, cb) => {};
 
   const [objProps, setObjprops] = useState({});
   const [workPlaceDDL, setWorkplaceDDL] = useState([]);
@@ -95,19 +94,19 @@ export function ProcessReport({
   }, [profileData, selectedBusinessUnit]);
 
   const monthDDL = [
-    { value: 0, label: "All" },
-    { value: 1, label: "January" },
-    { value: 2, label: "February" },
-    { value: 3, label: "March" },
-    { value: 4, label: "April" },
-    { value: 5, label: "May" },
-    { value: 6, label: "June" },
-    { value: 7, label: "July" },
-    { value: 8, label: "August" },
-    { value: 9, label: "September" },
-    { value: 10, label: "October" },
-    { value: 11, label: "November" },
-    { value: 12, label: "December" },
+    { value: 0, label: 'All' },
+    { value: 1, label: 'January' },
+    { value: 2, label: 'February' },
+    { value: 3, label: 'March' },
+    { value: 4, label: 'April' },
+    { value: 5, label: 'May' },
+    { value: 6, label: 'June' },
+    { value: 7, label: 'July' },
+    { value: 8, label: 'August' },
+    { value: 9, label: 'September' },
+    { value: 10, label: 'October' },
+    { value: 11, label: 'November' },
+    { value: 12, label: 'December' },
   ];
 
   useEffect(() => {
@@ -116,7 +115,7 @@ export function ProcessReport({
 
   return (
     <IForm
-      title={"Requisition Process Report"}
+      title={'Requisition Process Report'}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenReset={true}

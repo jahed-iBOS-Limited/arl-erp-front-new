@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
 import {
   getCheckPostListDDL,
   getVehicleNoDDL,
@@ -11,19 +11,19 @@ import {
   saveCheckpostVehicleInOut,
   getCameFromDDL,
   getcheckPostItemView,
-} from "../helper";
-import Loading from "../../../../_helper/_loading";
+} from '../helper';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
   id: undefined,
-  checkPost: "",
-  vehicleNo: "",
-  driverName: "",
-  driverContact: "",
-  usePurpose: "",
-  plant: "",
-  shipPoint: "",
-  cameFrom: "",
+  checkPost: '',
+  vehicleNo: '',
+  driverName: '',
+  driverContact: '',
+  usePurpose: '',
+  plant: '',
+  shipPoint: '',
+  cameFrom: '',
 };
 
 export default function CheckPostForm({
@@ -108,7 +108,7 @@ export default function CheckPostForm({
           purposeName: values?.usePurpose?.label,
           cameFrom: values?.cameFrom || 0,
         };
-       saveCheckpostVehicleInOut(payload, cb, setDisabled);
+        saveCheckpostVehicleInOut(payload, cb, setDisabled);
       }
     } else {
       setDisabled(false);

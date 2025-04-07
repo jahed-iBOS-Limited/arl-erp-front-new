@@ -62,7 +62,7 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
         gridItem?.billRegisterId,
         selectedBusinessUnit?.value,
         setSingleData,
-        setDisabled,
+        setDisabled
       );
     }
   }, [gridItem, selectedBusinessUnit]);
@@ -83,7 +83,7 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
 
   const saveHandler = (values) => {
     let netPaymentAmount = +parseInt(
-      singleData?.objHeaderDTO?.netPaymentAmount || 0,
+      singleData?.objHeaderDTO?.netPaymentAmount || 0
     );
     let approvalAmount = parseInt(+values?.approveAmount || 0);
     if (
@@ -112,7 +112,7 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
       setDisabled,
       girdDataFunc,
       values,
-      setModalShow,
+      setModalShow
     );
   };
 
@@ -131,9 +131,8 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
           label: item.profitCenterName,
         }));
         setProfitCenterList(result);
-      },
+      }
     );
-
   }, []);
 
   return (
@@ -193,7 +192,7 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                         <div className="row global-form printSectionNone">
                           {gridItem?.billType === 1 &&
                           parseInt(
-                            singleData?.objHeaderDTO?.netPaymentAmount || 0,
+                            singleData?.objHeaderDTO?.netPaymentAmount || 0
                           ) !== parseInt(+values?.approveAmount || 0) ? (
                             <div className="col-lg-3">
                               <NewSelect
@@ -270,8 +269,8 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                             onClick={() => {
                               dispatch(
                                 getMultipleFileView_Action(
-                                  objHeaderDTO?.billImages,
-                                ),
+                                  objHeaderDTO?.billImages
+                                )
                               );
                             }}
                             className="btn btn-primary ml-2 printSectionNone"
@@ -399,7 +398,7 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                           <p>
                             <b>Bill Date:</b>{' '}
                             {_dateFormatter(
-                              singleData?.objHeaderDTO?.billPaymentDate,
+                              singleData?.objHeaderDTO?.billPaymentDate
                             )}
                           </p>
                           <p style={{ marginRight: '5px' }}>
@@ -482,13 +481,13 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                                       (
                                         item?.transectionValue /
                                         item?.transectionQty
-                                      ).toFixed(2),
+                                      ).toFixed(2)
                                     )}
                                   </td>
                                   <td> {item?.transectionQty}</td>
                                   <td>
                                     {numberWithCommas(
-                                      (item?.transectionValue || 0).toFixed(2),
+                                      (item?.transectionValue || 0).toFixed(2)
                                     )}
                                   </td>
                                 </tr>
@@ -510,7 +509,7 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                                   (
                                     singleData?.objHeaderDTO
                                       ?.totalReferenceAmount || 0
-                                  ).toFixed(2),
+                                  ).toFixed(2)
                                 )}
                                 TK
                               </span>
@@ -522,7 +521,7 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                                   (
                                     singleData?.objHeaderDTO
                                       ?.grossInvoiceAmount || 0
-                                  ).toFixed(2),
+                                  ).toFixed(2)
                                 )}
                                 TK
                               </span>
@@ -534,7 +533,7 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                                   (
                                     singleData?.objHeaderDTO?.deductionAmount ||
                                     0
-                                  ).toFixed(2),
+                                  ).toFixed(2)
                                 )}
                                 TK
                               </span>
@@ -546,7 +545,7 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                                   (
                                     singleData?.objHeaderDTO
                                       ?.advanceAdjustmentAmount || 0
-                                  ).toFixed(2),
+                                  ).toFixed(2)
                                 )}
                                 TK
                                 {/* <span>
@@ -561,7 +560,7 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                                   (
                                     singleData?.objHeaderDTO
                                       ?.netPaymentAmount || 0
-                                  ).toFixed(2),
+                                  ).toFixed(2)
                                 )}
                                 TK
                               </span>

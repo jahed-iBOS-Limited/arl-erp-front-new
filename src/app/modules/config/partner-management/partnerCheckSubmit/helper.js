@@ -1,6 +1,6 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const getPartnerCheckSubmitById = async (
   accId,
@@ -90,9 +90,9 @@ export const editORDeletePartnerChequeSubmit = async (
     );
     res?.data?.message
       ? payload?.edit?.length
-        ? toast.success("Updated Successfully!")
-        : toast.success("Deleted Successfully!")
-      : toast.warn("Something went wrong!");
+        ? toast.success('Updated Successfully!')
+        : toast.success('Deleted Successfully!')
+      : toast.warn('Something went wrong!');
     cb && cb();
     setLoading(false);
   } catch (error) {

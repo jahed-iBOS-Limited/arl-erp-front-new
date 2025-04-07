@@ -1,9 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
-  error: "",
-  msg: "",
+  error: '',
+  msg: '',
   salesOfficeDDL: [],
   soldToPartyDDL: [],
   BUsalesOrgIncotermDDL: [],
@@ -16,14 +16,14 @@ const initState = {
   loadingPointDDL: [],
   pendingDeliveryDDL: [],
   gridData: [],
-  deliverydata: "",
-  singleData: "",
-  vehicleSingeData: "",
-  deliveryItemVolumeInfo: "",
+  deliverydata: '',
+  singleData: '',
+  vehicleSingeData: '',
+  deliveryItemVolumeInfo: '',
 };
 
 export const shipmentSlice = createSlice({
-  name: "shipment",
+  name: 'shipment',
   initialState: initState,
   reducers: {
     SetSalesOfficeDDL: (state, action) => {
@@ -88,7 +88,7 @@ export const shipmentSlice = createSlice({
       state.vehicleSingeData = payload;
     },
     SetSingleStoreEmpty: (state) => {
-      state.singleData = "";
+      state.singleData = '';
     },
 
     SetDeliveryItemVolumeInfo: (state, action) => {

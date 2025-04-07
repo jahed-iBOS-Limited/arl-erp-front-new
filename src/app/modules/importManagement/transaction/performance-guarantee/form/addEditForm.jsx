@@ -1,36 +1,33 @@
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import Form from './form';
+import { performanceGuaranteeCreate } from '../helper';
 
-
-
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import Form from "./form";
-import { performanceGuaranteeCreate } from "../helper";
-
-import { _todayDate } from "../../../../_helper/_todayDate";
-import * as Yup from "yup";
-import { toast } from "react-toastify";
+import { _todayDate } from '../../../../_helper/_todayDate';
+import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
 const initData = {
-  pgAmount: "",
+  pgAmount: '',
   pgDueDate: _todayDate(),
   paymentDate: _todayDate(),
-  exchangeRate: "",
-  pgAmountBDT: "",
+  exchangeRate: '',
+  pgAmountBDT: '',
 };
 //Dropdown loading finish
 
 export const validationSchema = Yup.object().shape({
   exchangeRate: Yup.number()
-    .positive("Exchange Rate must be positive")
-    .min(1, "Minimum Value is 1")
-    .required("Exchange Rate is required"),
+    .positive('Exchange Rate must be positive')
+    .min(1, 'Minimum Value is 1')
+    .required('Exchange Rate is required'),
   pgAmount: Yup.number()
-    .positive("PG Amount must be positive")
-    .min(1, "Minimum Value is 1")
-    .required("PG Amount is required"),
+    .positive('PG Amount must be positive')
+    .min(1, 'Minimum Value is 1')
+    .required('PG Amount is required'),
 });
 export default function AddEditForm({
   documentReleaseValue,
@@ -70,7 +67,7 @@ export default function AddEditForm({
         cb
       );
     } else {
-      return toast.warn("Please fill all field");
+      return toast.warn('Please fill all field');
     }
   };
   return (

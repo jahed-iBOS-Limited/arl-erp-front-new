@@ -1,8 +1,6 @@
-import React from "react";
+import React from 'react';
 
-
-const DoFirst = ({doFirst}) => {
-
+const DoFirst = ({ doFirst }) => {
   return (
     <div className="card card-height">
       <strong className="p-2">1. Do First</strong>

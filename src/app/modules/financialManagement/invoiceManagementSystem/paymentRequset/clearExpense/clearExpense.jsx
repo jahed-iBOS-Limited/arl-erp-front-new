@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import ClearExpenseViewModel from "./clearExpenseViewModel";
-import IView from "./../../../../_helper/_helperIcons/_view";
+import React, { useState } from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import ClearExpenseViewModel from './clearExpenseViewModel';
+import IView from './../../../../_helper/_helperIcons/_view';
 
 function ClearExpenseGrid({
   gridData,
@@ -10,9 +10,8 @@ function ClearExpenseGrid({
   setClearExpenseGridData,
 }) {
   const [isClearExpenseViewModel, setIsClearExpenseViewModel] = useState(false);
-  const [gridRowDataClearExpViewBtn, setGridRowDataClearExpViewBtn] = useState(
-    ""
-  );
+  const [gridRowDataClearExpViewBtn, setGridRowDataClearExpViewBtn] =
+    useState('');
 
   return (
     <>
@@ -21,7 +20,7 @@ function ClearExpenseGrid({
           <table className="table table-striped table-bordered mt-3 global-table">
             <thead>
               <tr>
-                <th style={{ width: "25px" }}>
+                <th style={{ width: '25px' }}>
                   <input
                     type="checkbox"
                     id="parent"
@@ -32,16 +31,16 @@ function ClearExpenseGrid({
                     }}
                   />
                 </th>
-                <th style={{ width: "35px" }}>SL</th>
-                <th style={{ width: "150px" }}>Submit Date</th>
-                <th style={{ width: "150px" }}>Expense Code</th>
-                <th style={{ width: "150px" }}>Expense For Name</th>
+                <th style={{ width: '35px' }}>SL</th>
+                <th style={{ width: '150px' }}>Submit Date</th>
+                <th style={{ width: '150px' }}>Expense Code</th>
+                <th style={{ width: '150px' }}>Expense For Name</th>
 
-                <th style={{ width: "150px" }}>Cost Center Name</th>
-                <th style={{ width: "150px" }}>Disbursement Center Name</th>
-                <th style={{ width: "150px" }}>Total Amount</th>
-                <th style={{ width: "150px" }}>Comments</th>
-                <th style={{ width: "150px" }}>Action</th>
+                <th style={{ width: '150px' }}>Cost Center Name</th>
+                <th style={{ width: '150px' }}>Disbursement Center Name</th>
+                <th style={{ width: '150px' }}>Total Amount</th>
+                <th style={{ width: '150px' }}>Comments</th>
+                <th style={{ width: '150px' }}>Action</th>
               </tr>
             </thead>
             <tbody>

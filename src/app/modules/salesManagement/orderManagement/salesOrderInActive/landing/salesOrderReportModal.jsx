@@ -1,8 +1,8 @@
-import React from "react";
-import { Modal } from "react-bootstrap";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import { saveSalesOrderInactiveView } from "../helper";
-import { shallowEqual, useSelector } from "react-redux";
+import React from 'react';
+import { Modal } from 'react-bootstrap';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import { saveSalesOrderInactiveView } from '../helper';
+import { shallowEqual, useSelector } from 'react-redux';
 
 export default function SalesOrderReportModal({
   data,
@@ -13,10 +13,9 @@ export default function SalesOrderReportModal({
   setLoading,
   isSaveWork = true,
 }) {
-
   const { profileData } = useSelector((state) => {
     return state.authData;
-  }, shallowEqual); 
+  }, shallowEqual);
 
   // Undelivery QTY Handler
   const rowDtoHandler = (name, value, index) => {
@@ -63,7 +62,7 @@ export default function SalesOrderReportModal({
                 type="button"
                 className="btn btn-primary"
                 onClick={(e) => {
-                  if(!isSaveWork) return;
+                  if (!isSaveWork) return;
                   saveHandler();
                 }}
               >
@@ -91,7 +90,7 @@ export default function SalesOrderReportModal({
                       <td>{item?.itemName}</td>
                       <td className="text-right">{item?.orderQuantity}</td>
                       <td className="text-right">{item?.deliveredQuantity}</td>
-                      <td style={{ width: "130px" }}>
+                      <td style={{ width: '130px' }}>
                         <input
                           name="undeliveryQuantity"
                           className="form-controls w-100 text-right"
@@ -107,7 +106,7 @@ export default function SalesOrderReportModal({
                               // e.target.value <= item?.orderQuantity
                             ) {
                               rowDtoHandler(
-                                "undeliveryQuantity",
+                                'undeliveryQuantity',
                                 e.target.value,
                                 index
                               );

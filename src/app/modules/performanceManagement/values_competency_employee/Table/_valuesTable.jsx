@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 
 const Thead = ({ headerName }) => {
   return (
@@ -35,7 +35,6 @@ export default function ValuesTable({
         ..._data?.values,
       });
     }
-
   }, [_data]);
 
   return (
@@ -64,22 +63,23 @@ export default function ValuesTable({
                           <td> {itm?.measureNameBySupervisor} </td>
                         )}
                         {console.log(
-                          "numMeasureValueByEmployee",
+                          'numMeasureValueByEmployee',
                           itm?.numMeasureValueByEmployee
                         )}
                         <td className="text-center">
                           <button
                             type="button"
                             style={{
-                              cursor: "text",
-                              minHeight: "20px",
-                              minWidth: "90%",
+                              cursor: 'text',
+                              minHeight: '20px',
+                              minWidth: '90%',
                             }}
                             className="btn p-0 border text-left border-primary"
                             onClick={() => {
                               history.push({
-                                pathname: `${viewModalPath}/?id=${index +
-                                  1}&type=values`,
+                                pathname: `${viewModalPath}/?id=${
+                                  index + 1
+                                }&type=values`,
                                 valuesOrComId: itm?.valuesOrComId,
                                 typeId: 2,
                                 name: itm?.valuesOrComName,
@@ -114,16 +114,17 @@ export default function ValuesTable({
                       <button
                         type="button"
                         style={{
-                          cursor: "text",
-                          minHeight: "20px",
-                          minWidth: "90%",
+                          cursor: 'text',
+                          minHeight: '20px',
+                          minWidth: '90%',
                         }}
                         className="btn p-0 border text-left border-primary"
                         placeholder="scale"
                         onClick={() => {
                           history.push({
-                            pathname: `${viewModalPath}/?id=${index +
-                              1}&type=values`,
+                            pathname: `${viewModalPath}/?id=${
+                              index + 1
+                            }&type=values`,
                             modalData: itm,
                             typeId: 2,
                           });

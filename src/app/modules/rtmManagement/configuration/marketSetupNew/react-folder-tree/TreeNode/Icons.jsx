@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export const AiFillCaretRight = ({ onClick }) => {
   return (
@@ -170,7 +170,7 @@ export const AiOutlineFolderAdd = ({ onClick }) => {
   );
 };
 
-export const AiOutlineCheck = ({ onClick}) => {
+export const AiOutlineCheck = ({ onClick }) => {
   return (
     <svg
       stroke="currentColor"

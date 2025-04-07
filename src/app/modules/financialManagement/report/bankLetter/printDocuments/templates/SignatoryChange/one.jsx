@@ -1,7 +1,7 @@
-import React from "react";
-import "../../templates/style.scss";
-import moment from "moment/moment";
-import { formatDate } from "../../../../../../_helper/_dateFormate";
+import React from 'react';
+import '../../templates/style.scss';
+import moment from 'moment/moment';
+import { formatDate } from '../../../../../../_helper/_dateFormate';
 
 const SignatoryChangeOne = ({ singleRowItem }) => {
   const {
@@ -22,10 +22,10 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
       <div
         className="bank-letter-template-common-wrapper signatory-wrapper"
         contentEditable={true}
-        style={{ textAlign: "Justify" }}
+        style={{ textAlign: 'Justify' }}
       >
         <p style={{ fontSize: 16 }}>
-          <b>Date: {moment(strDate).format("LL")} </b>
+          <b>Date: {moment(strDate).format('LL')} </b>
         </p>
         <br />
 
@@ -35,26 +35,26 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
           </p>
           <p>{strBankName}</p>
           <p>
-            {" "}
+            {' '}
             {`${strBranchName} `}
-            {strBranchName?.toLowerCase().includes("branch") ? "" : "Branch"}
+            {strBranchName?.toLowerCase().includes('branch') ? '' : 'Branch'}
           </p>
-          <p>{strBranchAddress || ""}</p>
+          <p>{strBranchAddress || ''}</p>
         </div>
         <br />
         <div>
-          <p style={{ gap: "10px" }} className="d-flex">
+          <p style={{ gap: '10px' }} className="d-flex">
             <div>
-              <strong>Subject: </strong>{" "}
+              <strong>Subject: </strong>{' '}
             </div>
             <div>
               <strong>
                 Regarding the inclusion of two new signatories in replacement of
-                one existing Signatories, A/C: {strAccountNo} , {strAccountName}{" "}
-                with {strBankName} , {strBranchName}{" "}
-                {strBranchName?.toLowerCase().includes("branch")
-                  ? ""
-                  : "Branch"}
+                one existing Signatories, A/C: {strAccountNo} , {strAccountName}{' '}
+                with {strBankName} , {strBranchName}{' '}
+                {strBranchName?.toLowerCase().includes('branch')
+                  ? ''
+                  : 'Branch'}
               </strong>
             </div>
           </p>
@@ -66,54 +66,54 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
           </p>
           {/* <br /> */}
           <p>
-            We acknowledge your support in the business of{" "}
-            <b> {strAccountName} .</b> We have been maintaining a{" "}
-            <b> {strAccountType} </b> account in your branch bearing account no-{" "}
+            We acknowledge your support in the business of{' '}
+            <b> {strAccountName} .</b> We have been maintaining a{' '}
+            <b> {strAccountType} </b> account in your branch bearing account no-{' '}
             <b> {strAccountNo} .</b> Currently, we have 05 signatories but our
             management wants to replace one existing signatories with two new
             signatories for the smooth operation of the company. Details of the
             signatory changes are given below:
           </p>
           <br />
-          <table className="signatory" style={{ border: "1px solid black" }}>
+          <table className="signatory" style={{ border: '1px solid black' }}>
             <thead>
               <tr>
-                <td style={{ width: 100, textAlign: "center" }}>S.L.</td>
-                <td style={{ textAlign: "center" }}>Name</td>
-                <td style={{ textAlign: "center" }}>Designation</td>
-                <td style={{ textAlign: "center" }}>Remarks</td>
+                <td style={{ width: 100, textAlign: 'center' }}>S.L.</td>
+                <td style={{ textAlign: 'center' }}>Name</td>
+                <td style={{ textAlign: 'center' }}>Designation</td>
+                <td style={{ textAlign: 'center' }}>Remarks</td>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>1.</td>
-                <td style={{ fontWeight: 700, textAlign: "center" }}>
+                <td style={{ fontWeight: 700, textAlign: 'center' }}>
                   B.M. Shahinur Islam
                 </td>
-                <td style={{ textAlign: "center" }}>Chief Financial Officer</td>
-                <td style={{ fontWeight: 700, textAlign: "center" }}>
+                <td style={{ textAlign: 'center' }}>Chief Financial Officer</td>
+                <td style={{ fontWeight: 700, textAlign: 'center' }}>
                   To be Excluded
                 </td>
               </tr>
               <tr>
                 <td>2.</td>
-                <td style={{ fontWeight: 700, textAlign: "center" }}>
+                <td style={{ fontWeight: 700, textAlign: 'center' }}>
                   Md. Sheikh Sadi
                 </td>
-                <td style={{ textAlign: "center" }}>Chief Treasury Officer</td>
+                <td style={{ textAlign: 'center' }}>Chief Treasury Officer</td>
                 <td
                   rowSpan={2}
-                  style={{ fontWeight: 700, textAlign: "center" }}
+                  style={{ fontWeight: 700, textAlign: 'center' }}
                 >
                   To be Included
                 </td>
               </tr>
               <tr>
                 <td>3.</td>
-                <td style={{ fontWeight: 700, textAlign: "center" }}>
+                <td style={{ fontWeight: 700, textAlign: 'center' }}>
                   Md. Anamul Haque
                 </td>
-                <td style={{ textAlign: "center" }}>Manager (Finance)</td>
+                <td style={{ textAlign: 'center' }}>Manager (Finance)</td>
                 {/* <td colspan="2">To be Excluded</td> */}
               </tr>
             </tbody>
@@ -143,7 +143,7 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
             <br />
             <br />
 
-            <p style={{ marginTop: "0px", marginBottom: "-7px" }}>
+            <p style={{ marginTop: '0px', marginBottom: '-7px' }}>
               <strong>(Sheikh Jasim Uddin)</strong>
             </p>
 
@@ -153,7 +153,7 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
 
         <div
           style={{
-            pageBreakAfter: "always",
+            pageBreakAfter: 'always',
           }}
         ></div>
         <p style={{}}>
@@ -169,11 +169,11 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
           present.
         </p>
         <p>
-          1. Mr. Sheikh Nasir Uddin{" "}
+          1. Mr. Sheikh Nasir Uddin{' '}
           <span style={{ marginLeft: 50 }}> Sd/- </span>
         </p>
         <p>
-          2. Mr. Sheikh Jasim Uddin{" "}
+          2. Mr. Sheikh Jasim Uddin{' '}
           <span style={{ marginLeft: 50 }}> Sd/- </span>
         </p>
         <p>
@@ -201,24 +201,24 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
           Besides this,the Board of Directors, for better interest and smooth
           running of the business of the company new authorization for the
           <b>
-            {" "}
-            {strBankName} , {strAccountNo}{" "}
+            {' '}
+            {strBankName} , {strAccountNo}{' '}
           </b>
-          has been provided to{" "}
+          has been provided to{' '}
           <b>
             1. Md. Sheikh Sadi- Chief Treasury Officer &amp; 2. Md. Anamul
-            Haque- Manager (Finance){" "}
+            Haque- Manager (Finance){' '}
           </b>
           as a replacement for one existing signatories namely:
           <b> B.M. Shahinur Islam- Chief Financial Officer</b>. From now onward,
           the new signatories along with the remaining four existing signatories
           namely:
           <b>
-            {" "}
+            {' '}
             1. Md. Sheikh Sadi- Chief Treasury Officer, 2. Md. Masud Rana- Chief
             Supply Chain Officer, 3. Iftekhar Uddin Chowdhury- Senior Manager
             (Treasury), 4. Raihan Kabir- Deputy CFO, 5. Rakibul Alam Khan-
-            Manager (Finance) and 6. Md. Anamul Haque- Manager (Finance){" "}
+            Manager (Finance) and 6. Md. Anamul Haque- Manager (Finance){' '}
           </b>
           from now onward can jointly by any <b>two of the six </b>sign and
           endorse:
@@ -248,8 +248,8 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
         <p>
           for all Banking transactions of the
           <b>
-            {" "}
-            {strBankName} , {strAccountNo}.{" "}
+            {' '}
+            {strBankName} , {strAccountNo}.{' '}
           </b>
           on behalf of the Company.
         </p>
@@ -267,30 +267,30 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
         <p style={{ marginTop: 40, marginLeft: 65 }}>
           <b>Sd/-</b>
         </p>
-        <p style={{ marginTop: "-15px" }}>
+        <p style={{ marginTop: '-15px' }}>
           <b>(Sheikh Jasim Uddin)</b>
         </p>
-        <p style={{ marginTop: "-15px" }}>
+        <p style={{ marginTop: '-15px' }}>
           <b>Managing Director</b>
         </p>
         <div
           style={{
-            pageBreakAfter: "always",
+            pageBreakAfter: 'always',
           }}
         ></div>
-        <div style={{ textAlign: "center" }}>
+        <div style={{ textAlign: 'center' }}>
           <b>
             <u> ANNEXURE -1</u>
           </b>
         </div>
         <br />
-        <div style={{ textAlign: "center", marginTop: "-15px" }}>
+        <div style={{ textAlign: 'center', marginTop: '-15px' }}>
           <b>
             <u> LIST OF AUTHORIZED OFFICERS</u>
           </b>
         </div>
-        <div style={{ margin: "20px 100px" }}>
-          <table style={{ border: "1px solid black" }}>
+        <div style={{ margin: '20px 100px' }}>
+          <table style={{ border: '1px solid black' }}>
             <thead>
               <tr>
                 <td style={{}}>
@@ -310,7 +310,7 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
                   </p>
                   <p className="ml-5"> Chief Treasury Officer</p>
                 </td>
-                <td style={{ padding: "65px 10px" }} />
+                <td style={{ padding: '65px 10px' }} />
                 <td rowSpan={6} />
               </tr>
               <tr>
@@ -320,47 +320,47 @@ const SignatoryChangeOne = ({ singleRowItem }) => {
                   </p>
                   <p className="ml-5"> Chief Supply Chain Officer</p>
                 </td>
-                <td style={{ padding: "65px 10px" }} />
+                <td style={{ padding: '65px 10px' }} />
               </tr>
               <tr>
                 <td className="text-left">
                   <p className="text-left">
-                    {" "}
-                    3. <b>Iftekhar Uddin Chowdhury,</b>{" "}
+                    {' '}
+                    3. <b>Iftekhar Uddin Chowdhury,</b>{' '}
                   </p>
                   <p className="ml-5">Senior Manager (Treasury)</p>
                 </td>
-                <td style={{ padding: "65px 10px" }} />
+                <td style={{ padding: '65px 10px' }} />
               </tr>
               <tr>
                 <td>
                   <p>
-                    {" "}
-                    4. <b>Raihan Kabir,</b>{" "}
+                    {' '}
+                    4. <b>Raihan Kabir,</b>{' '}
                   </p>
                   <p className="ml-5"> Deputy CFO</p>
                 </td>
-                <td style={{ padding: "65px 10px" }} />
+                <td style={{ padding: '65px 10px' }} />
               </tr>
               <tr>
                 <td>
                   <p>
-                    {" "}
+                    {' '}
                     5. <b>Rakibul Alam Khan, </b>
-                  </p>{" "}
+                  </p>{' '}
                   <p className="ml-5"> Manager (Finance)</p>
                 </td>
-                <td style={{ padding: "65px 10px" }} />
+                <td style={{ padding: '65px 10px' }} />
               </tr>
               <tr>
                 <td>
                   <p>
-                    {" "}
-                    6. <b> Md. Anamul Haque, </b>{" "}
+                    {' '}
+                    6. <b> Md. Anamul Haque, </b>{' '}
                   </p>
                   <p className="ml-5"> Manager (Finance)</p>
                 </td>
-                <td style={{ padding: "65px 10px" }} />
+                <td style={{ padding: '65px 10px' }} />
               </tr>
             </tbody>
           </table>

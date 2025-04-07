@@ -105,7 +105,7 @@ export default function DispatchRequisitionCreateEdit() {
             setRowData([]);
             cb && cb();
           },
-      true,
+      true
     );
   };
   const loadUserList = (v) => {
@@ -126,7 +126,7 @@ export default function DispatchRequisitionCreateEdit() {
       (item) =>
         item?.dispatchType === values?.dispatchType?.label &&
         item?.documentMaterialName === values?.parcelName &&
-        item?.quantity === values?.qty,
+        item?.quantity === values?.qty
     );
     if (checkDuplicate) return toast.warn('Duplicate Data Found');
     const newRowItem = {
@@ -150,21 +150,19 @@ export default function DispatchRequisitionCreateEdit() {
 
   useEffect(() => {
     getUoMList(
-      `/item/ItemUOM/GetItemUOMDDL?AccountId=${accId}&BusinessUnitId=${buId}`,
+      `/item/ItemUOM/GetItemUOMDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
     getPlantListddl(
-      `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${buId}&PlantId=0`,
+      `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${buId}&PlantId=0`
     );
-
   }, [accId, buId]);
 
   useEffect(() => {
     if (id) {
       getSingleItem(
-        `/tms/DocumentDispatch/GetDocumentDispatchById?DispatchId=${id}`,
+        `/tms/DocumentDispatch/GetDocumentDispatchById?DispatchId=${id}`
       );
     }
-
   }, [id]);
 
   useEffect(() => {
@@ -179,8 +177,8 @@ export default function DispatchRequisitionCreateEdit() {
           header?.ToPlantId && header?.ToLocation
             ? { value: header?.ToPlantId, label: header?.ToLocation }
             : header?.ToLocation
-            ? header?.ToLocation
-            : '',
+              ? header?.ToLocation
+              : '',
         receiverType: header?.DispatchType
           ? {
               value: header?.DispatchType === 'Internal' ? 1 : 2,
@@ -197,8 +195,8 @@ export default function DispatchRequisitionCreateEdit() {
                 businessUnitName: header?.ReceiverBusinessUnit,
               }
             : header?.ReceiverName
-            ? header?.ReceiverName
-            : '',
+              ? header?.ReceiverName
+              : '',
         reciverBuName:
           header?.ReceiverBusinessUnitId && header?.ReceiverBusinessUnit
             ? {
@@ -232,7 +230,6 @@ export default function DispatchRequisitionCreateEdit() {
       }));
       setRowData(modifyRowDate);
     }
-
   }, [header, row]);
 
   return (
@@ -339,7 +336,7 @@ export default function DispatchRequisitionCreateEdit() {
                           });
                           if (!valueOption) return;
                           getToLocationPlantDDL(
-                            `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${valueOption?.businessUnitId}&PlantId=0`,
+                            `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${valueOption?.businessUnitId}&PlantId=0`
                           );
                         }}
                         loadOptions={loadUserList}

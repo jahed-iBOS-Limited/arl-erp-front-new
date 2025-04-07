@@ -1,12 +1,9 @@
-
-
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import {
   getSingleDataById,
   saveEditedBillofMaterial,
@@ -17,40 +14,40 @@ import {
   getMaterialDDL,
   getCostElementDDL,
   saveBillofMaterial,
-} from "../helper";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { _timeFormatter } from "../../../../_helper/_timeFormatter";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "./../../../../_helper/_loading";
-import ICustomCard from "../../../../_helper/_customCard";
-import { useHistory } from "react-router-dom";
+} from '../helper';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { _timeFormatter } from '../../../../_helper/_timeFormatter';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import Loading from './../../../../_helper/_loading';
+import ICustomCard from '../../../../_helper/_customCard';
+import { useHistory } from 'react-router-dom';
 
 const initData = {
-  copyfrombomname: "",
-  plant: "",
-  shopFloor: "",
-  bomName: "",
-  bomVersion: "",
-  bomType: "",
-  bomCode: "",
-  product: "",
-  lotSize: "",
-  netWeight: "",
-  wastage: "",
-  material: "",
-  quantity: "",
-  uom: "",
+  copyfrombomname: '',
+  plant: '',
+  shopFloor: '',
+  bomName: '',
+  bomVersion: '',
+  bomType: '',
+  bomCode: '',
+  product: '',
+  lotSize: '',
+  netWeight: '',
+  wastage: '',
+  material: '',
+  quantity: '',
+  uom: '',
   isStandardBoM: false,
-  itemCode: "",
-  UOM: "",
-  costElement: "",
-  costElementAmount: "",
+  itemCode: '',
+  UOM: '',
+  costElement: '',
+  costElementAmount: '',
 };
 
 export default function BillofMaretialViewForm() {
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [objProps, setObjprops] = useState({});
   const location = useLocation();
   const params = useParams();
@@ -65,15 +62,15 @@ export default function BillofMaretialViewForm() {
   const bomTypeDDL = [
     {
       value: 1,
-      label: "Main (Paddy to Rice)",
+      label: 'Main (Paddy to Rice)',
     },
     {
       value: 2,
-      label: "Conversion (Rice to Rice)",
+      label: 'Conversion (Rice to Rice)',
     },
     {
       value: 3,
-      label: "Re-Process (Rice to Rice)",
+      label: 'Re-Process (Rice to Rice)',
     },
   ];
 
@@ -102,7 +99,7 @@ export default function BillofMaretialViewForm() {
     }
   }, [params]);
 
-  console.log(params?.id, "jj")
+  console.log(params?.id, 'jj');
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -147,7 +144,6 @@ export default function BillofMaretialViewForm() {
         setMaterial
       );
     }
-
   }, [singleData]);
 
   const saveHandler = async (values, cb) => {
@@ -207,7 +203,7 @@ export default function BillofMaretialViewForm() {
           createRowBOE: costElementRowData,
         };
         if (objRow.length === 0) {
-          toast.warning("Please add material");
+          toast.warning('Please add material');
         } else {
           saveBillofMaterial(payload, cb, setDisabled);
         }
@@ -220,21 +216,21 @@ export default function BillofMaretialViewForm() {
   // Row Data Setter
   const setter = (payload, type) => {
     // Set Material Row Data
-    if (type === "M") {
+    if (type === 'M') {
       const foundData = rowDto?.some(
         (item) => item?.material?.value === payload?.material?.value
       );
       foundData
-        ? toast.warn("Duplicate Data Not Allowed")
+        ? toast.warn('Duplicate Data Not Allowed')
         : setRowDto([...rowDto, payload]);
     }
     // Set Cost Element Row Data
-    else if (type === "C") {
+    else if (type === 'C') {
       const foundData = costElementRowData?.some(
         (item) => item?.costElementId === payload?.costElementId
       );
       foundData
-        ? toast.warn("Duplicate Data Not Allowed")
+        ? toast.warn('Duplicate Data Not Allowed')
         : setCostElementRowData([...costElementRowData, payload]);
     }
   };
@@ -259,11 +255,11 @@ export default function BillofMaretialViewForm() {
 
   return (
     <ICustomCard
-      title={"View of Bill of Material"}
+      title={'View of Bill of Material'}
       backHandler={() => {
         history.goBack();
       }}
-      renderProps={() => { }}
+      renderProps={() => {}}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

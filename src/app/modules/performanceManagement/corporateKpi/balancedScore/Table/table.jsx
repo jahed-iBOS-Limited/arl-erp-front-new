@@ -1,21 +1,21 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import Select from "react-select";
-import { useState } from "react";
-import customStyles from "../../../../selectCustomStyle";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import Select from 'react-select';
+import { useState } from 'react';
+import customStyles from '../../../../selectCustomStyle';
 import {
   getReportAction,
   getYearDDLAction,
   setReportEmpty,
-} from "../../../_redux/Actions";
-import { getMonthDDLAction } from "../../PerformanceChart/_redux/Actions";
-import ICard from "../../../../_helper/_card";
-import { useHistory } from "react-router-dom";
-import { getCorporateDepertmentDDL } from "./../helper";
-import IViewModal from "../../../../_helper/_viewModal";
-import ReportView from "../../../sbuKpi/reportView/ReportView";
-import { getPmsReportAction } from "../../../_helper/getReportAction";
-import PmsCommonTableScorecard from "../../../_helper/pmsCommonTable/PmsCommonTableScorecard.jsx";
+} from '../../../_redux/Actions';
+import { getMonthDDLAction } from '../../PerformanceChart/_redux/Actions';
+import ICard from '../../../../_helper/_card';
+import { useHistory } from 'react-router-dom';
+import { getCorporateDepertmentDDL } from './../helper';
+import IViewModal from '../../../../_helper/_viewModal';
+import ReportView from '../../../sbuKpi/reportView/ReportView';
+import { getPmsReportAction } from '../../../_helper/getReportAction';
+import PmsCommonTableScorecard from '../../../_helper/pmsCommonTable/PmsCommonTableScorecard.jsx';
 
 export default function BalancedTable() {
   let storeData = useSelector(
@@ -45,9 +45,9 @@ export default function BalancedTable() {
   const [report, setReport] = useState({});
 
   const dispatch = useDispatch();
-  const [year, setYear] = useState("");
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
+  const [year, setYear] = useState('');
+  const [from, setFrom] = useState('');
+  const [to, setTo] = useState('');
   const history = useHistory();
   const [corporateDDL, setCorporateDDL] = useState([]);
   const [corporate, setCorporate] = useState({
@@ -55,7 +55,7 @@ export default function BalancedTable() {
     label: profileData?.departmentName,
   });
   const [isShowModal, setIsShowModal] = useState(false);
-  const [currentItem, setCurrentItem] = useState("");
+  const [currentItem, setCurrentItem] = useState('');
 
   useEffect(() => {
     if (profileData && selectedBusinessUnit) {
@@ -63,7 +63,6 @@ export default function BalancedTable() {
         getYearDDLAction(profileData?.accountId, selectedBusinessUnit?.value)
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -71,7 +70,6 @@ export default function BalancedTable() {
       dispatch(getMonthDDLAction(yearDDL[0]?.value));
     }
     setYear({ value: yearDDL[0]?.value, label: yearDDL[0]?.label });
-
   }, [yearDDL]);
 
   useEffect(() => {
@@ -82,7 +80,6 @@ export default function BalancedTable() {
         setCorporateDDL
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -98,7 +95,6 @@ export default function BalancedTable() {
         4
       );
     }
-
   }, [selectedBusinessUnit, corporate]);
 
   useEffect(() => {
@@ -119,7 +115,6 @@ export default function BalancedTable() {
     return () => {
       dispatch(setReportEmpty());
     };
-
   }, [selectedBusinessUnit, corporate]);
 
   useEffect(() => {
@@ -151,7 +146,7 @@ export default function BalancedTable() {
         // componentRef={printRef}
         clickHandler={() =>
           history.push({
-            pathname: "/performance-management/corporate-kpi/scorecard/print",
+            pathname: '/performance-management/corporate-kpi/scorecard/print',
             state: { corporate, year, from, to },
           })
         }

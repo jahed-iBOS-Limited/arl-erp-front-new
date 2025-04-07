@@ -1,20 +1,20 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const updateTransportZone = async (payload, setLoading, cb) => {
   try {
     setLoading(true);
     const res = await axios.put(
-      "/tms/TransportZone/UpdateTransportZoneByDeliveryCode",
+      '/tms/TransportZone/UpdateTransportZoneByDeliveryCode',
       payload
     );
     setLoading(false);
     cb();
-    toast.success(res?.data?.message || "Submitted Successfully");
+    toast.success(res?.data?.message || 'Submitted Successfully');
   } catch (error) {
     setLoading(false);
     toast.error(
-      error?.response?.data?.message || "Something went wrong, try again"
+      error?.response?.data?.message || 'Something went wrong, try again'
     );
   }
 };
@@ -33,14 +33,14 @@ export const getZoneInfoByChallanCode = async (
     // setter(res?.data);
     const zoneInfo = res?.data;
 
-    setFieldValue("shiptoPartyName", zoneInfo?.partnerName || "");
-    setFieldValue("address", zoneInfo?.shippingAddress || "");
-    setFieldValue("partner", {
-      label: zoneInfo?.partnerName || "",
+    setFieldValue('shiptoPartyName', zoneInfo?.partnerName || '');
+    setFieldValue('address', zoneInfo?.shippingAddress || '');
+    setFieldValue('partner', {
+      label: zoneInfo?.partnerName || '',
       value: zoneInfo?.partnerId || 0,
     });
-    setFieldValue("transportZone", {
-      label: zoneInfo?.zoneName || "",
+    setFieldValue('transportZone', {
+      label: zoneInfo?.zoneName || '',
       value: zoneInfo?.zoneId || 0,
     });
   } catch (error) {}

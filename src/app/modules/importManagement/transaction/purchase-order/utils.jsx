@@ -1,48 +1,48 @@
-import { _todayDate } from "../../../_helper/_todayDate";
-import IWarningModal from "../../../_helper/_warningModal";
-import * as Yup from "yup";
-import axios from "axios";
-import { ValidatePoNo } from "./helper";
-import { toast } from "react-toastify";
+import { _todayDate } from '../../../_helper/_todayDate';
+import IWarningModal from '../../../_helper/_warningModal';
+import * as Yup from 'yup';
+import axios from 'axios';
+import { ValidatePoNo } from './helper';
+import { toast } from 'react-toastify';
 
 export const initData = {
-  supplierName: "",
-  deliveryAddress: "",
+  supplierName: '',
+  deliveryAddress: '',
   orderDate: _todayDate(),
   lastShipmentDate: _todayDate(),
-  currency: "",
-  paymentTerms: "",
-  incoTerm: "",
-  supplierReferenc: "",
+  currency: '',
+  paymentTerms: '',
+  incoTerm: '',
+  supplierReferenc: '',
   PIDate: _todayDate(),
   validity: _todayDate(),
-  freight: "",
+  freight: '',
   // grossDiscount: "",
-  purchaseRequestNo: "",
-  item: "",
-  isAllItem: "",
-  uom: "",
-  amount: "",
-  rate: "",
-  quantity: "",
+  purchaseRequestNo: '',
+  item: '',
+  isAllItem: '',
+  uom: '',
+  amount: '',
+  rate: '',
+  quantity: '',
 };
 
 //validation scheme;
 export const validationSchema = Yup.object().shape({
-  deliveryAddress: Yup.string().required("Delivery Address is required"),
+  deliveryAddress: Yup.string().required('Delivery Address is required'),
   paymentTerms: Yup.object().shape({
-    value: Yup.string().required("Payment Terms is required"),
+    value: Yup.string().required('Payment Terms is required'),
   }),
 
-  supplierReference: Yup.string().required("Supplier Reference is required"),
+  supplierReference: Yup.string().required('Supplier Reference is required'),
   // purchaseRequestNo: Yup.string().required("Purchase Request is required"),
 });
 
 //set row data
 export const setRowAmount = (key, index, amount, gridData, setRowDto) => {
   let data = [...gridData];
-  data[index][key] = amount ? amount : "";
-  data[index]["totalAmount"] = Number(
+  data[index][key] = amount ? amount : '';
+  data[index]['totalAmount'] = Number(
     +data[index].quantity * +data[index].rate
   )?.toFixed(2);
   setRowDto([...data]);
@@ -56,8 +56,10 @@ export const loadPartsList = (v) => {
 
 export const setter = (values, rowDto, setRowDto) => {
   let data = [...rowDto];
-  const isExist = rowDto.findIndex(item => item.referenceId === values?.item?.referenceId);
-  if(isExist < 0){
+  const isExist = rowDto.findIndex(
+    (item) => item.referenceId === values?.item?.referenceId
+  );
+  if (isExist < 0) {
     let obj = {
       ...values?.item,
       uom: { value: values?.item?.uomId, label: values?.item?.uomName },
@@ -66,10 +68,9 @@ export const setter = (values, rowDto, setRowDto) => {
       // currency:
     };
     return setRowDto([...data, obj]);
-  }else{
-    toast.warn("Already exists!")
+  } else {
+    toast.warn('Already exists!');
   }
-  
 };
 
 //after creating po then message modal

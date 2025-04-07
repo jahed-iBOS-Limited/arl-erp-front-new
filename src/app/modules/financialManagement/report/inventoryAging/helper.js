@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { createFile } from "../../../_helper/excel";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { createFile } from '../../../_helper/excel';
 
 export const getInventoryAgingLanding = async (
   unitId,
@@ -10,7 +10,7 @@ export const getInventoryAgingLanding = async (
   setter,
   pageNo,
   pageSize,
-  setLoading,
+  setLoading
 ) => {
   try {
     setLoading(true);
@@ -21,7 +21,7 @@ export const getInventoryAgingLanding = async (
     setLoading(false);
   } catch (error) {
     setLoading(false);
-    toast.error(error?.response?.data?.message || "Error occured");
+    toast.error(error?.response?.data?.message || 'Error occured');
     setter([]);
   }
 };
@@ -30,49 +30,49 @@ class Cell {
   constructor(label, align, format) {
     this.text = label;
     this.alignment = `${align}:middle`;
-    this.format = format
+    this.format = format;
   }
   getCell() {
     return {
       text: this.text,
       fontSize: 7,
-      border: "all 000000 thin",
-      alignment: this.alignment || "",
-      textFormat: this.format
-    }
+      border: 'all 000000 thin',
+      alignment: this.alignment || '',
+      textFormat: this.format,
+    };
   }
 }
 
 const getTableData = (row) => {
   const data = row?.map((item, index) => {
     return [
-      new Cell(index + 1, "center", "text").getCell(),
-      new Cell(item?.code, "left", "text").getCell(),
-      new Cell(item?.itemName, "left", "text").getCell(),
-      new Cell(item?.uoM, "left", "text").getCell(),
-      new Cell(item?.stockQty, "right", "number").getCell(),
-      new Cell(item?.stockCoverDay, "right", "number").getCell(),
-      new Cell(item?.avgUseDay, "right", "text").getCell(),
-      new Cell(item?.lastIssueDays, "right", "text").getCell(),
-      new Cell(item?.leadTime, "right", "number").getCell(),
+      new Cell(index + 1, 'center', 'text').getCell(),
+      new Cell(item?.code, 'left', 'text').getCell(),
+      new Cell(item?.itemName, 'left', 'text').getCell(),
+      new Cell(item?.uoM, 'left', 'text').getCell(),
+      new Cell(item?.stockQty, 'right', 'number').getCell(),
+      new Cell(item?.stockCoverDay, 'right', 'number').getCell(),
+      new Cell(item?.avgUseDay, 'right', 'text').getCell(),
+      new Cell(item?.lastIssueDays, 'right', 'text').getCell(),
+      new Cell(item?.leadTime, 'right', 'number').getCell(),
     ];
   });
-  return data
+  return data;
 };
 
 export const generateExcel = (header, row, setLoading) => {
-  console.log("rowdata", row);
-  setLoading(true)
+  console.log('rowdata', row);
+  setLoading(true);
   const excel = {
-    name: "Inventory Analysis",
+    name: 'Inventory Analysis',
     sheets: [
       {
-        name: "Inventory Analysis",
+        name: 'Inventory Analysis',
         gridLine: false,
         rows: [header, ...getTableData(row)],
       },
     ],
   };
   createFile(excel);
-  setLoading(false)
+  setLoading(false);
 };

@@ -1,9 +1,9 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import { toast } from "react-toastify";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { getDifferenceBetweenTime } from "../helper";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { toast } from 'react-toastify';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { getDifferenceBetweenTime } from '../helper';
 
 export default function MeltingProductionForm({
   initData,
@@ -60,14 +60,14 @@ export default function MeltingProductionForm({
                   <NewSelect
                     name="shift"
                     options={[
-                      { value: "A", label: "A" },
-                      { value: "B", label: "B" },
-                      { value: "C", label: "C" },
+                      { value: 'A', label: 'A' },
+                      { value: 'B', label: 'B' },
+                      { value: 'C', label: 'C' },
                     ]}
                     value={values?.shift}
                     label="Shift"
                     onChange={(valueOption) => {
-                      setFieldValue("shift", valueOption);
+                      setFieldValue('shift', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -81,15 +81,15 @@ export default function MeltingProductionForm({
                     type="time"
                     onChange={(e) => {
                       if (!values?.date)
-                        return toast.warn("Please select date");
-                      setFieldValue("heatStartTime", e.target.value);
+                        return toast.warn('Please select date');
+                      setFieldValue('heatStartTime', e.target.value);
                       if (values?.date && values?.heatEndTime) {
                         let difference = getDifferenceBetweenTime(
                           values?.date,
                           e.target.value,
                           values?.heatEndTime
                         );
-                        setFieldValue("totalHeatTime", difference);
+                        setFieldValue('totalHeatTime', difference);
                       }
                     }}
                   />
@@ -102,15 +102,15 @@ export default function MeltingProductionForm({
                     type="time"
                     onChange={(e) => {
                       if (!values?.date)
-                        return toast.warn("Please select date");
-                      setFieldValue("heatEndTime", e.target.value);
+                        return toast.warn('Please select date');
+                      setFieldValue('heatEndTime', e.target.value);
                       if (values?.date && values?.heatStartTime) {
                         let difference = getDifferenceBetweenTime(
                           values?.date,
                           values?.heatStartTime,
                           e.target.value
                         );
-                        setFieldValue("totalHeatTime", difference);
+                        setFieldValue('totalHeatTime', difference);
                       }
                     }}
                   />
@@ -190,12 +190,12 @@ export default function MeltingProductionForm({
                     onChange={(e) => {
                       if (+e.target.value > 24) return;
                       if (+e.target.value === 24) {
-                        setFieldValue("hours", 23);
-                        setFieldValue("minutes", 59);
+                        setFieldValue('hours', 23);
+                        setFieldValue('minutes', 59);
                         return;
                       }
-                      setFieldValue("hours", e.target.value);
-                      setFieldValue("minutes", "");
+                      setFieldValue('hours', e.target.value);
+                      setFieldValue('minutes', '');
                     }}
                   />
                 </div>
@@ -208,7 +208,7 @@ export default function MeltingProductionForm({
                     disabled={+values?.hours === 23 && +values?.minutes > 58}
                     onChange={(e) => {
                       if (+e.target.value > 59) return;
-                      setFieldValue("minutes", e.target.value);
+                      setFieldValue('minutes', e.target.value);
                     }}
                   />
                 </div>
@@ -220,8 +220,8 @@ export default function MeltingProductionForm({
                     type="number"
                     onChange={(e) => {
                       if (+e.target.value < 0) return;
-                      if (e.target.value.includes(".")) return;
-                      setFieldValue("mpanelNo", e.target.value);
+                      if (e.target.value.includes('.')) return;
+                      setFieldValue('mpanelNo', e.target.value);
                     }}
                   />
                 </div>
@@ -233,8 +233,8 @@ export default function MeltingProductionForm({
                     type="number"
                     onChange={(e) => {
                       if (+e.target.value < 0) return;
-                      if (e.target.value.includes(".")) return;
-                      setFieldValue("crucibleNo", e.target.value);
+                      if (e.target.value.includes('.')) return;
+                      setFieldValue('crucibleNo', e.target.value);
                     }}
                   />
                 </div>
@@ -246,8 +246,8 @@ export default function MeltingProductionForm({
                     type="number"
                     onChange={(e) => {
                       if (+e.target.value < 0) return;
-                      if (e.target.value.includes(".")) return;
-                      setFieldValue("crucibleLiningHeatNo", e.target.value);
+                      if (e.target.value.includes('.')) return;
+                      setFieldValue('crucibleLiningHeatNo', e.target.value);
                     }}
                   />
                 </div>
@@ -255,14 +255,14 @@ export default function MeltingProductionForm({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

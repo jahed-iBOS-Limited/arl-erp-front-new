@@ -1,24 +1,24 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
-import { _monthLastDate } from "../../../_helper/_monthLastDate";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import "./style.css";
-import { debounce } from "lodash";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _monthFirstDate } from '../../../_helper/_monthFirstDate';
+import { _monthLastDate } from '../../../_helper/_monthLastDate';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import './style.css';
+import { debounce } from 'lodash';
 const initData = {
   fromDate: _monthFirstDate(),
   toDate: _monthLastDate(),
-  businessUnit: "",
-  businessPartner: "",
+  businessUnit: '',
+  businessPartner: '',
 };
 
 export default function InventoryLoanApproveLanding() {
@@ -34,7 +34,6 @@ export default function InventoryLoanApproveLanding() {
   }, shallowEqual);
   const [isDisabled, setDisabled] = useState(false);
 
-
   const getLandingData = (values, pageNo, pageSize) => {
     getRowData(
       `/wms/InventoryLoan/GetLoanItemLanding?AccountId=${profileData?.accountId}&BusinessUnitId=${values?.businessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&partnerId=${values?.partner?.value}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=asc`
@@ -46,9 +45,9 @@ export default function InventoryLoanApproveLanding() {
   };
   const handleRateChange = (value, itemQty, index) => {
     const data = [...rowData?.data];
-    console.log("rowData", data);
-    data[index]["itemRate"] = +value;
-    data[index]["itemAmount"] = value * itemQty;
+    console.log('rowData', data);
+    data[index]['itemRate'] = +value;
+    data[index]['itemAmount'] = value * itemQty;
     setRowData((prevState) => ({
       ...prevState,
       rowData: data,
@@ -62,7 +61,6 @@ export default function InventoryLoanApproveLanding() {
     getBusinessUnitDDL(
       `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${profileData?.accountId}`
     );
-
   }, []);
 
   const debounceHandelar = debounce(({ setLoading, CB }) => {
@@ -124,7 +122,7 @@ export default function InventoryLoanApproveLanding() {
                       placeholder="Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                         setRowData([]);
                       }}
                     />
@@ -137,7 +135,7 @@ export default function InventoryLoanApproveLanding() {
                       placeholder="To Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                         setRowData([]);
                       }}
                     />
@@ -146,12 +144,12 @@ export default function InventoryLoanApproveLanding() {
                     <NewSelect
                       name="businessUnit"
                       options={
-                        [{ value: 0, label: "All" }, ...businessUnitDDL] || []
+                        [{ value: 0, label: 'All' }, ...businessUnitDDL] || []
                       }
                       value={values?.businessUnit}
                       label="Business Unit"
                       onChange={(valueOption) => {
-                        setFieldValue("businessUnit", valueOption);
+                        setFieldValue('businessUnit', valueOption);
                         setRowData([]);
                       }}
                       placeholder="Business Unit"
@@ -163,12 +161,12 @@ export default function InventoryLoanApproveLanding() {
                     <NewSelect
                       name="partner"
                       options={
-                        [{ value: 0, label: "All" }, ...partnerDDl] || []
+                        [{ value: 0, label: 'All' }, ...partnerDDl] || []
                       }
                       value={values?.partner}
                       label="Business Partner"
                       onChange={(valueOption) => {
-                        setFieldValue("partner", valueOption);
+                        setFieldValue('partner', valueOption);
                         setRowData([]);
                       }}
                       placeholder="Business Partner"
@@ -176,7 +174,7 @@ export default function InventoryLoanApproveLanding() {
                       touched={touched}
                     />
                   </div>
-                  <div style={{ marginTop: "17px" }} className="col-lg">
+                  <div style={{ marginTop: '17px' }} className="col-lg">
                     <button
                       type="button"
                       className="btn btn-primary"
@@ -207,7 +205,7 @@ export default function InventoryLoanApproveLanding() {
                               <th>Loan & Transaction Type</th>
                               <th>Transaction Date</th>
                               <th>Warehouse</th>
-                              <th style={{ minWidth: "80px" }}>Icn Number</th>
+                              <th style={{ minWidth: '80px' }}>Icn Number</th>
                               <th>Shipment Name</th>
                               <th>Survey Report No</th>
                               <th>Mother Vessel</th>
@@ -216,8 +214,8 @@ export default function InventoryLoanApproveLanding() {
                               <th
                                 className="table-header"
                                 style={{
-                                  backgroundColor: "#ffc107 ",
-                                  minWidth: "80px",
+                                  backgroundColor: '#ffc107 ',
+                                  minWidth: '80px',
                                 }}
                               >
                                 QTY
@@ -225,8 +223,8 @@ export default function InventoryLoanApproveLanding() {
                               <th
                                 className="table-header"
                                 style={{
-                                  backgroundColor: "#ffc107",
-                                  minWidth: "80px",
+                                  backgroundColor: '#ffc107',
+                                  minWidth: '80px',
                                 }}
                               >
                                 Rate
@@ -234,8 +232,8 @@ export default function InventoryLoanApproveLanding() {
                               <th
                                 className="table-header"
                                 style={{
-                                  backgroundColor: "#ffc107 ",
-                                  minWidth: "80px",
+                                  backgroundColor: '#ffc107 ',
+                                  minWidth: '80px',
                                 }}
                               >
                                 Amount
@@ -279,13 +277,13 @@ export default function InventoryLoanApproveLanding() {
                                   {item?.itemName}
                                 </td>
                                 <td
-                                  style={{ backgroundColor: "#ffc107" }}
+                                  style={{ backgroundColor: '#ffc107' }}
                                   className="text-center"
                                 >
                                   {item?.itemQty}
                                 </td>
-                                {item?.intLoanTypeName === "External Loan" &&
-                                item?.transTypeName === "Receive" ? (
+                                {item?.intLoanTypeName === 'External Loan' &&
+                                item?.transTypeName === 'Receive' ? (
                                   <td>
                                     <InputField
                                       name="itemRate"
@@ -302,7 +300,7 @@ export default function InventoryLoanApproveLanding() {
                                   </td>
                                 ) : (
                                   <td
-                                    style={{ backgroundColor: "#ffc107" }}
+                                    style={{ backgroundColor: '#ffc107' }}
                                     className="text-center"
                                   >
                                     {item?.itemRate}
@@ -310,8 +308,8 @@ export default function InventoryLoanApproveLanding() {
                                 )}
                                 <td
                                   style={{
-                                    backgroundColor: "#ffc107",
-                                    marginRight: "3px",
+                                    backgroundColor: '#ffc107',
+                                    marginRight: '3px',
                                   }}
                                   className="text-right"
                                 >
@@ -330,7 +328,7 @@ export default function InventoryLoanApproveLanding() {
                                         CB: () => {
                                           approveLoan(
                                             `/wms/InventoryLoan/ItemInventoryLoanTransaction?LoanId=${item?.loanId}&ItemRate=${item?.itemRate}&NumAmount=${item?.itemAmount}&ActionById=${profileData?.accountId}`,
-                                            "",
+                                            '',
                                             () => {
                                               getLandingData(
                                                 values,

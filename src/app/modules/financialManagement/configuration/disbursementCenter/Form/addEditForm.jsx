@@ -1,22 +1,21 @@
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import Loading from './../../../../_helper/_loading';
 
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import Loading from "./../../../../_helper/_loading";
-
-import IForm from "../../../../_helper/_form";
+import IForm from '../../../../_helper/_form';
 import {
   createDisbursementCenter_api,
   getDisbursementcenterById_api,
   getSBUListDDL_api,
   editDisbursementCenter_api,
-} from "./../helper";
+} from './../helper';
 
 const initData = {
   id: undefined,
-  disbursementCenter: "",
-  sbu: "",
-  disbursementCenterCode: "",
+  disbursementCenter: '',
+  sbu: '',
+  disbursementCenterCode: '',
 };
 
 export default function DisbursementCenterForm({
@@ -70,7 +69,6 @@ export default function DisbursementCenterForm({
       }
     } else {
       setDisabled(false);
-
     }
   };
 

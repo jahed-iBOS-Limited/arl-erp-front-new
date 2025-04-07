@@ -1,20 +1,21 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { getItemCategoryDDLByTypeId_api, getItemTypeListDDL_api, ItemSubCategory_api, wearhouse_api } from "../../../../_helper/_commonApi";
-import { _currentTime } from "../../../../_helper/_currentTime";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { SetReportsInventoryStockAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import {
-  businessUnitPlant_api,
-  inventoryStatement_api,
-} from "../helper";
-import "../style.css";
-import CustomPaginationActionsTable from "./pagination";
-
+  getItemCategoryDDLByTypeId_api,
+  getItemTypeListDDL_api,
+  ItemSubCategory_api,
+  wearhouse_api,
+} from '../../../../_helper/_commonApi';
+import { _currentTime } from '../../../../_helper/_currentTime';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { SetReportsInventoryStockAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import { businessUnitPlant_api, inventoryStatement_api } from '../helper';
+import '../style.css';
+import CustomPaginationActionsTable from './pagination';
 
 const InventoryStockTable = () => {
   const [plantDDL, setPlantDDL] = useState([]);
@@ -49,7 +50,6 @@ const InventoryStockTable = () => {
         setPlantDDL
       );
       getItemTypeListDDL_api(setItemTypeOption);
-
     }
   }, [selectedBusinessUnit, profileData]);
 
@@ -68,28 +68,28 @@ const InventoryStockTable = () => {
     );
   };
 
-  const { reportsInventoryStock } = useSelector(state => state?.localStorage)
+  const { reportsInventoryStock } = useSelector((state) => state?.localStorage);
 
   const initData = {
-    plant: reportsInventoryStock?.plant || "",
-    wh: reportsInventoryStock?.wh || "",
-    itemCategory: reportsInventoryStock?.itemCategory || "",
-    itemSubCategory: reportsInventoryStock?.itemSubCategory || "",
+    plant: reportsInventoryStock?.plant || '',
+    wh: reportsInventoryStock?.wh || '',
+    itemCategory: reportsInventoryStock?.itemCategory || '',
+    itemSubCategory: reportsInventoryStock?.itemSubCategory || '',
     fromDate: reportsInventoryStock?.fromDate || _todayDate(),
     fromTime: reportsInventoryStock?.fromTime || _currentTime(),
     toDate: reportsInventoryStock?.toDate || _todayDate(),
     toTime: reportsInventoryStock?.toTime || _currentTime(),
-    itemType: reportsInventoryStock?.itemType || "",
+    itemType: reportsInventoryStock?.itemType || '',
   };
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   return (
     <ICustomCard title="Inventory Stock">
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({
           handleSubmit,
@@ -112,8 +112,8 @@ const InventoryStockTable = () => {
                     value={values?.plant}
                     label="Plant"
                     onChange={(valueOption) => {
-                      setFieldValue("plant", valueOption);
-                      setFieldValue("wh", "");
+                      setFieldValue('plant', valueOption);
+                      setFieldValue('wh', '');
                       wearhouse_api(
                         profileData?.accountId,
                         selectedBusinessUnit?.value,
@@ -125,7 +125,7 @@ const InventoryStockTable = () => {
                         SetReportsInventoryStockAction({
                           ...values,
                           plant: valueOption,
-                          wh: ""
+                          wh: '',
                         })
                       );
                     }}
@@ -141,11 +141,11 @@ const InventoryStockTable = () => {
                     value={values?.wh}
                     label="WareHouse"
                     onChange={(valueOption) => {
-                      setFieldValue("wh", valueOption);
+                      setFieldValue('wh', valueOption);
                       dispatch(
                         SetReportsInventoryStockAction({
                           ...values,
-                          wh: valueOption
+                          wh: valueOption,
                         })
                       );
                     }}
@@ -161,9 +161,9 @@ const InventoryStockTable = () => {
                     value={values?.itemType}
                     label="Item Type"
                     onChange={(valueOption) => {
-                      setFieldValue("itemType", valueOption);
+                      setFieldValue('itemType', valueOption);
                       valueOption?.value !== 0 &&
-                        setFieldValue("itemCategory", "");
+                        setFieldValue('itemCategory', '');
 
                       getItemCategoryDDLByTypeId_api(
                         profileData.accountId,
@@ -175,7 +175,7 @@ const InventoryStockTable = () => {
                         SetReportsInventoryStockAction({
                           ...values,
                           itemType: valueOption,
-                          itemCategory: ""
+                          itemCategory: '',
                         })
                       );
                     }}
@@ -191,8 +191,8 @@ const InventoryStockTable = () => {
                     value={values?.itemCategory}
                     label="Item Category"
                     onChange={(valueOption) => {
-                      setFieldValue("itemCategory", valueOption);
-                      setFieldValue("itemSubCategory", "");
+                      setFieldValue('itemCategory', valueOption);
+                      setFieldValue('itemSubCategory', '');
                       ItemSubCategory_api(
                         profileData?.accountId,
                         selectedBusinessUnit?.value,
@@ -203,7 +203,7 @@ const InventoryStockTable = () => {
                         SetReportsInventoryStockAction({
                           ...values,
                           itemCategory: valueOption,
-                          itemSubCategory: ""
+                          itemSubCategory: '',
                         })
                       );
                     }}
@@ -219,7 +219,7 @@ const InventoryStockTable = () => {
                     value={values?.itemSubCategory}
                     label="Item Sub Category"
                     onChange={(valueOption) => {
-                      setFieldValue("itemSubCategory", valueOption);
+                      setFieldValue('itemSubCategory', valueOption);
                       dispatch(
                         SetReportsInventoryStockAction({
                           ...values,
@@ -232,7 +232,7 @@ const InventoryStockTable = () => {
                     touched={touched}
                   />
                 </div>
-                <div style={{ marginTop: "17px" }} className="col text-right">
+                <div style={{ marginTop: '17px' }} className="col text-right">
                   <button
                     type="button"
                     className="btn btn-primary"
@@ -256,7 +256,7 @@ const InventoryStockTable = () => {
                 // setIsShowModal={setIsShowModal}
                 setInventoryStatement={setInventoryStatement}
                 inventoryStatementAllData={inventoryStatementAllData}
-              // setTableItem={setTableItem}
+                // setTableItem={setTableItem}
               />
             </Form>
           </>

@@ -1,24 +1,24 @@
-import React from "react";
-import ICustomTable from "../../../chartering/_chartinghelper/_customTable";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import React from 'react';
+import ICustomTable from '../../../chartering/_chartinghelper/_customTable';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 const headers = [
-  { name: "SL", style: { minWidth: "30px" } },
-  { name: "Challan Code", style: { minWidth: "100px" } },
-  { name: "Mother Vessel", style: { minWidth: "100px" } },
-  { name: "Program No", style: { minWidth: "60px" } },
-  { name: "Sold to Partner", style: { minWidth: "120px" } },
-  { name: "Ship to Partner", style: { minWidth: "120px" } },
-  { name: "Address", style: { minWidth: "150px" } },
-  { name: "Delivery Date", style: { minWidth: "90px" } },
-  { name: "ShipPoint", style: { minWidth: "120px" } },
-  { name: "Quantity", style: { minWidth: "60px" } },
-  { name: "Quantity (ton)", style: { minWidth: "60px" } },
-  { name: "Local Revenue Rate", style: { minWidth: "40px" } },
-  { name: "International Revenue Rate", style: { minWidth: "40px" } },
-  { name: "Transport Revenue Rate", style: { minWidth: "40px" } },
-  { name: "Item Price", style: { minWidth: "50px" } },
-  { name: "Amount", style: { minWidth: "30px" } },
+  { name: 'SL', style: { minWidth: '30px' } },
+  { name: 'Challan Code', style: { minWidth: '100px' } },
+  { name: 'Mother Vessel', style: { minWidth: '100px' } },
+  { name: 'Program No', style: { minWidth: '60px' } },
+  { name: 'Sold to Partner', style: { minWidth: '120px' } },
+  { name: 'Ship to Partner', style: { minWidth: '120px' } },
+  { name: 'Address', style: { minWidth: '150px' } },
+  { name: 'Delivery Date', style: { minWidth: '90px' } },
+  { name: 'ShipPoint', style: { minWidth: '120px' } },
+  { name: 'Quantity', style: { minWidth: '60px' } },
+  { name: 'Quantity (ton)', style: { minWidth: '60px' } },
+  { name: 'Local Revenue Rate', style: { minWidth: '40px' } },
+  { name: 'International Revenue Rate', style: { minWidth: '40px' } },
+  { name: 'Transport Revenue Rate', style: { minWidth: '40px' } },
+  { name: 'Item Price', style: { minWidth: '50px' } },
+  { name: 'Amount', style: { minWidth: '30px' } },
 ];
 
 export default function ChallanWiseSalesReport({ obj }) {

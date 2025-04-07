@@ -1,4 +1,3 @@
-
 import { Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
@@ -65,12 +64,8 @@ const GudamAllotmentLanding = () => {
     return state.authData;
   }, shallowEqual);
   const [domesticPortDDL, getPortDDL] = useAxiosGet();
-  const [
-    motherVesselDDL,
-    getMotherVesselDDL,
-    ,
-    setMotherVesselDDL,
-  ] = useAxiosGet();
+  const [motherVesselDDL, getMotherVesselDDL, , setMotherVesselDDL] =
+    useAxiosGet();
   const [organizationDDL, getOrganizationDDL] = useAxiosGet();
 
   // get user data from store
@@ -84,33 +79,36 @@ const GudamAllotmentLanding = () => {
     const ToDate = values?.toDate ? `&ToDate=${values?.toDate}` : '';
     const reportTypeId = values?.reportType?.value;
 
-    const urlForDetails = `/tms/LigterLoadUnload/GetLighterShipToPartnerAllotment?BusinessUnitId=${buId}&SoldtoPartnerID=${values
-      ?.organization?.value || 0}&MotherVesselId=${values?.motherVessel
-      ?.value || 0}&PageNo=1&PageSize=100${FromDate}${ToDate}`;
+    const urlForDetails = `/tms/LigterLoadUnload/GetLighterShipToPartnerAllotment?BusinessUnitId=${buId}&SoldtoPartnerID=${
+      values?.organization?.value || 0
+    }&MotherVesselId=${
+      values?.motherVessel?.value || 0
+    }&PageNo=1&PageSize=100${FromDate}${ToDate}`;
 
-    const urlForTopSheet = `/tms/LigterLoadUnload/GetLighterShipToPartnerAllotmentTopsheet?BusinessUnitId=${buId}&SoldtoPartnerID=${values
-      ?.organization?.value || 0}&MotherVesselId=${values?.motherVessel
-      ?.value || 0}${FromDate}${ToDate}`;
+    const urlForTopSheet = `/tms/LigterLoadUnload/GetLighterShipToPartnerAllotmentTopsheet?BusinessUnitId=${buId}&SoldtoPartnerID=${
+      values?.organization?.value || 0
+    }&MotherVesselId=${values?.motherVessel?.value || 0}${FromDate}${ToDate}`;
 
-    const urlForMismatch = `/tms/LigterLoadUnload/GetLighterShipToPartnerAllotmentMismatchTopsheet?BusinessUnitId=${buId}&SoldtoPartnerID=${values
-      ?.organization?.value || 0}&MotherVesselId=${values?.motherVessel
-      ?.value || 0}&PageNo=${pageNo}&PageSize=${pageSize}${FromDate}${ToDate}`;
+    const urlForMismatch = `/tms/LigterLoadUnload/GetLighterShipToPartnerAllotmentMismatchTopsheet?BusinessUnitId=${buId}&SoldtoPartnerID=${
+      values?.organization?.value || 0
+    }&MotherVesselId=${
+      values?.motherVessel?.value || 0
+    }&PageNo=${pageNo}&PageSize=${pageSize}${FromDate}${ToDate}`;
 
     const URL =
       reportTypeId === 1
         ? urlForDetails
         : reportTypeId === 3
-        ? urlForMismatch
-        : urlForTopSheet;
+          ? urlForMismatch
+          : urlForTopSheet;
     getRowData(URL);
   };
 
   useEffect(() => {
     getOrganizationDDL(
-      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`,
+      `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
     );
     getData(initData, pageNo, pageSize);
-
   }, [accId, buId]);
 
   // set PositionHandler
@@ -120,7 +118,6 @@ const GudamAllotmentLanding = () => {
 
   useEffect(() => {
     getPortDDL(`/wms/FertilizerOperation/GetDomesticPortDDL`);
-
   }, []);
 
   const deleteHandler = (id, values) => {
@@ -242,7 +239,7 @@ const GudamAllotmentLanding = () => {
                                 profileData?.accountId
                               }&BusinessUnitId=${
                                 selectedBusinessUnit?.value
-                              }&PortId=${valueOption?.value || 0}`,
+                              }&PortId=${valueOption?.value || 0}`
                             );
                           } else {
                             setFieldValue('loadingPort', '');
@@ -349,7 +346,7 @@ const GudamAllotmentLanding = () => {
                                 <td className="text-right">
                                   {_fixedPoint(
                                     item?.extraAllotmentQuantity,
-                                    true,
+                                    true
                                   )}
                                 </td>
                                 <td

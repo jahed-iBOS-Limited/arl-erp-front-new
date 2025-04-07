@@ -1,19 +1,19 @@
-import React, {useEffect, useState} from "react";
-import {useRouteMatch} from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useRouteMatch } from 'react-router-dom';
 
 export function Content({ children }) {
   const match = useRouteMatch() || {};
-  const animationEndClass = "grid-animateContent-finished";
+  const animationEndClass = 'grid-animateContent-finished';
   const [cssClassesState, setCssClassesState] = useState([
-    "grid-animateContent",
-    animationEndClass
+    'grid-animateContent',
+    animationEndClass,
   ]);
 
   useEffect(() => {
     // for animation start should toggle 'grid-animateContent-finished' css class
     // TODO: change useMemo
     const fullClasses = [...cssClassesState];
-    const startAnimation = fullClasses.filter(el => el !== animationEndClass);
+    const startAnimation = fullClasses.filter((el) => el !== animationEndClass);
     setCssClassesState(startAnimation);
     const timeOutId = setTimeout(() => {
       setCssClassesState(fullClasses);
@@ -22,7 +22,6 @@ export function Content({ children }) {
     return () => {
       clearTimeout(timeOutId);
     };
-
   }, [match.url]);
 
   return <>{children}</>;

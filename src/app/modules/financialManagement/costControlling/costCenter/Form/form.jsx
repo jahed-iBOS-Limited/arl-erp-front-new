@@ -1,42 +1,42 @@
-import React from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { Input } from "../../../../../../_metronic/_partials/controls";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
-import FormikError from "./../../../../_helper/_formikError";
-import Axios from "axios";
-import { shallowEqual, useSelector } from "react-redux";
+import React from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { Input } from '../../../../../../_metronic/_partials/controls';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import SearchAsyncSelect from './../../../../_helper/SearchAsyncSelect';
+import FormikError from './../../../../_helper/_formikError';
+import Axios from 'axios';
+import { shallowEqual, useSelector } from 'react-redux';
 // Validation schema
 const validationSchema = Yup.object().shape({
   costCenterName: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Code is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Code is required'),
   costCenterCode: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Controlling Unit Name is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Controlling Unit Name is required'),
   // responsiblePerson: Yup.object().shape({
   //   label: Yup.string().required("Responsible Person is required"),
   //   value: Yup.string().required("Responsible Person is required"),
   // }),
   sbu: Yup.object().shape({
-    label: Yup.string().required("SBU is required"),
-    value: Yup.string().required("SBU is required"),
+    label: Yup.string().required('SBU is required'),
+    value: Yup.string().required('SBU is required'),
   }),
   cu: Yup.object().shape({
-    label: Yup.string().required("Controlling Unit is required"),
-    value: Yup.string().required("Controlling Unit is required"),
+    label: Yup.string().required('Controlling Unit is required'),
+    value: Yup.string().required('Controlling Unit is required'),
   }),
   ccGroupName: Yup.object().shape({
-    label: Yup.string().required("Group Name is required"),
-    value: Yup.string().required("Group Name is required"),
+    label: Yup.string().required('Group Name is required'),
+    value: Yup.string().required('Group Name is required'),
   }),
   profitCenter: Yup.object().shape({
-    label: Yup.string().required("Profit Center is required"),
-    value: Yup.string().required("Profit Center is required"),
+    label: Yup.string().required('Profit Center is required'),
+    value: Yup.string().required('Profit Center is required'),
   }),
 });
 
@@ -92,7 +92,7 @@ export default function FormCmp({
               <div className="form-group row">
                 <div className="col-lg-3">
                   <Field
-                    value={values.costCenterName || ""}
+                    value={values.costCenterName || ''}
                     name="costCenterName"
                     component={Input}
                     disabled={isEdit}
@@ -103,7 +103,7 @@ export default function FormCmp({
 
                 <div className="col-lg-3">
                   <Field
-                    value={values.costCenterCode || ""}
+                    value={values.costCenterCode || ''}
                     name="costCenterCode"
                     component={Input}
                     disabled={isEdit}
@@ -123,7 +123,7 @@ export default function FormCmp({
                         value={values?.sbu}
                         isDisabled={isEdit}
                         onChange={(valueOption) => {
-                          setFieldValue("sbu", valueOption);
+                          setFieldValue('sbu', valueOption);
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -132,16 +132,16 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
                     {errors && errors.sbu && touched && touched.sbu
                       ? errors.sbu.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
                 <div className="col-lg-3">
@@ -156,10 +156,10 @@ export default function FormCmp({
                         placeholder="Select Controlling Unit"
                         value={values?.cu}
                         onChange={(valueOption) => {
-                          setFieldValue("cu", valueOption);
-                          setFieldValue("costCenterType", "");
-                          setFieldValue("ccGroupName", "");
-                          setFieldValue("profitCenter", "");
+                          setFieldValue('cu', valueOption);
+                          setFieldValue('costCenterType', '');
+                          setFieldValue('ccGroupName', '');
+                          setFieldValue('profitCenter', '');
                           CostCenterType(valueOption?.value);
                           CostCenterGroup(valueOption?.value);
                           profitCenter_Acion(valueOption?.value);
@@ -171,16 +171,16 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
                     {errors && errors.cu && touched && touched.cu
                       ? errors.cu.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
                 <div className="col-lg-3">
@@ -195,7 +195,7 @@ export default function FormCmp({
                         placeholder="Select Group Name"
                         value={values?.ccGroupName}
                         onChange={(valueOption) => {
-                          setFieldValue("ccGroupName", valueOption);
+                          setFieldValue('ccGroupName', valueOption);
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -204,10 +204,10 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
@@ -216,7 +216,7 @@ export default function FormCmp({
                     touched &&
                     touched.ccGroupName
                       ? errors.ccGroupName.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
                 <div className="col-lg-3">
@@ -231,7 +231,7 @@ export default function FormCmp({
                         placeholder="Select Profit Center Name"
                         value={values?.profitCenter}
                         onChange={(valueOption) => {
-                          setFieldValue("profitCenter", valueOption);
+                          setFieldValue('profitCenter', valueOption);
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -240,10 +240,10 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
@@ -252,7 +252,7 @@ export default function FormCmp({
                     touched &&
                     touched.profitCenter
                       ? errors.profitCenter.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
                 <div className="col-lg-3 mt-1">
@@ -260,7 +260,7 @@ export default function FormCmp({
                   <SearchAsyncSelect
                     selectedValue={values?.responsiblePerson}
                     handleChange={(valueOption) => {
-                      setFieldValue("responsiblePerson", valueOption);
+                      setFieldValue('responsiblePerson', valueOption);
                     }}
                     loadOptions={loadUserList}
                   />
@@ -274,14 +274,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

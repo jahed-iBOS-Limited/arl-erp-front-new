@@ -1,18 +1,18 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import * as Yup from "yup";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import Loading from "../../../_helper/_loading";
-import PaginationSearch from "../../../_helper/_search";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import Loading from '../../../_helper/_loading';
+import PaginationSearch from '../../../_helper/_search';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
 
 const initData = {
-  bscPerspective: { value: 0, label: "All" },
-  status: { value: true, label: "Active" },
+  bscPerspective: { value: 0, label: 'All' },
+  status: { value: true, label: 'Active' },
 };
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -27,11 +27,11 @@ export function TableRow({ saveHandler }) {
   const [bscPerspectiveDDL, getBscPerspectiveDDL] = useAxiosGet();
   const [bscSelectedData, setBscSelectedData] = useState({
     value: 0,
-    label: "All",
+    label: 'All',
   });
   const [selectedStatus, setSelectedStatus] = useState({
     value: true,
-    label: "Active",
+    label: 'Active',
   });
 
   // get user profile data from store
@@ -43,16 +43,14 @@ export function TableRow({ saveHandler }) {
     getGridData(
       `/pms/KPI/GetKPIMasterDataPagination?accountId=${
         profileData?.accountId
-      }&search=${""}&bscPerspectiveId=${
+      }&search=${''}&bscPerspectiveId=${
         bscSelectedData?.value
       }&status=${selectedStatus?.value}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
-
   }, [profileData]);
 
   useEffect(() => {
     getBscPerspectiveDDL(`/pms/CommonDDL/BSCPerspectiveDDL`);
-
   }, []);
 
   //setPositionHandler
@@ -60,7 +58,7 @@ export function TableRow({ saveHandler }) {
     getGridData(
       `/pms/KPI/GetKPIMasterDataPagination?accountId=${
         profileData?.accountId
-      }&search=${searchValue || ""}&bscPerspectiveId=${
+      }&search=${searchValue || ''}&bscPerspectiveId=${
         bscSelectedData?.value
       }&status=${selectedStatus?.value}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
@@ -102,22 +100,22 @@ export function TableRow({ saveHandler }) {
                     <NewSelect
                       name="bscPerspective"
                       options={
-                        [{ value: 0, label: "All" }, ...bscPerspectiveDDL] || []
+                        [{ value: 0, label: 'All' }, ...bscPerspectiveDDL] || []
                       }
                       value={values?.bscPerspective}
                       label="BSC Perspective"
                       onChange={(valueOption) => {
                         if (!valueOption) {
-                          setFieldValue("bscPerspective", {
+                          setFieldValue('bscPerspective', {
                             value: 0,
-                            label: "All",
+                            label: 'All',
                           });
                           setBscSelectedData({
                             value: 0,
-                            label: "All",
+                            label: 'All',
                           });
                         } else {
-                          setFieldValue("bscPerspective", valueOption);
+                          setFieldValue('bscPerspective', valueOption);
                           setBscSelectedData(valueOption);
                         }
                       }}
@@ -130,20 +128,20 @@ export function TableRow({ saveHandler }) {
                     <NewSelect
                       name="status"
                       options={[
-                        { value: true, label: "Active" },
-                        { value: false, label: "Inactive" },
+                        { value: true, label: 'Active' },
+                        { value: false, label: 'Inactive' },
                       ]}
                       value={values?.status}
                       label="Status"
                       onChange={(valueOption) => {
                         if (!valueOption) {
-                          setFieldValue("status", {
+                          setFieldValue('status', {
                             value: true,
-                            label: "Active",
+                            label: 'Active',
                           });
-                          setSelectedStatus({ value: true, label: "Active" });
+                          setSelectedStatus({ value: true, label: 'Active' });
                         } else {
-                          setFieldValue("status", valueOption);
+                          setFieldValue('status', valueOption);
                           setSelectedStatus(valueOption);
                         }
                       }}
@@ -153,7 +151,7 @@ export function TableRow({ saveHandler }) {
                     />
                   </div>
 
-                  <div style={{ marginTop: "19px" }}>
+                  <div style={{ marginTop: '19px' }}>
                     <button
                       type="button"
                       className="btn btn-primary"
@@ -161,7 +159,7 @@ export function TableRow({ saveHandler }) {
                         getGridData(
                           `/pms/KPI/GetKPIMasterDataPagination?accountId=${
                             profileData?.accountId
-                          }&search=${""}&bscPerspectiveId=${
+                          }&search=${''}&bscPerspectiveId=${
                             values?.bscPerspective?.value
                           }&status=${selectedStatus?.value}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
                         );
@@ -181,10 +179,10 @@ export function TableRow({ saveHandler }) {
                       <table className="table mt-3 bj-table bj-table-landing sales_order_landing_table mr-1">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>Sl</th>
+                            <th style={{ width: '30px' }}>Sl</th>
                             <th>KPI Name</th>
-                            <th style={{ minWidth: "60px" }}>KPI Code</th>
-                            <th style={{ minWidth: "90px" }}>
+                            <th style={{ minWidth: '60px' }}>KPI Code</th>
+                            <th style={{ minWidth: '90px' }}>
                               BSC Perspective
                             </th>
                             <th>Action</th>

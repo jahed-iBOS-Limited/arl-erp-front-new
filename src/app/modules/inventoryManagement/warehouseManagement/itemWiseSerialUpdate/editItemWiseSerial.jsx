@@ -1,15 +1,15 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import Select from "react-select";
-import customStyles from "../../../selectCustomStyle";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IForm from "../../../_helper/_form";
-import { IInput } from "../../../_helper/_input";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import Select from 'react-select';
+import customStyles from '../../../selectCustomStyle';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import IForm from '../../../_helper/_form';
+import { IInput } from '../../../_helper/_input';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 const initData = {};
 export default function ItemWiseSerialEdit() {
@@ -26,7 +26,6 @@ export default function ItemWiseSerialEdit() {
     return state.authData;
   }, shallowEqual);
 
-
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
@@ -37,7 +36,6 @@ export default function ItemWiseSerialEdit() {
     getChallanNoDDL(
       `/wms/ItemWiseSerialUpdate/GetChallanListDDL?BusinessUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, [id]);
 
   const saveHandler = async (values, cb) => {
@@ -59,14 +57,14 @@ export default function ItemWiseSerialEdit() {
         mrrdate: itm?.mrrdate,
         itemWiseSerialNo: itm?.itemWiseSerialNo,
         customerId: itm?.challanNoForGet?.customerId || 0,
-        customerName: itm?.challanNoForGet?.customerName || "",
-        challanNo: itm?.challanNoForGet?.label || "",
+        customerName: itm?.challanNoForGet?.customerName || '',
+        challanNo: itm?.challanNoForGet?.label || '',
         salesOrderId: itm?.challanNoForGet?.salesOrderId || 0,
-        salesOrderCode: itm?.challanNoForGet?.salesOrderCode || "",
-        salesOrderDate: itm?.challanNoForGet?.salesOrderDate || "",
+        salesOrderCode: itm?.challanNoForGet?.salesOrderCode || '',
+        salesOrderDate: itm?.challanNoForGet?.salesOrderDate || '',
         serialNo: itm?.serialNo,
-        challanDate: itm?.challanNoForGet?.deliveryDate || "",
-        itemCode: itm?.itemCode || "",
+        challanDate: itm?.challanNoForGet?.deliveryDate || '',
+        itemCode: itm?.itemCode || '',
         actionBy: profileData?.userId,
         insertDate: _todayDate(),
         isActive: true,
@@ -82,7 +80,7 @@ export default function ItemWiseSerialEdit() {
     );
   };
 
-  console.log("row", rowData);
+  console.log('row', rowData);
 
   const rowDtoHandler = (name, index, value) => {
     const data = [...rowData];
@@ -229,7 +227,7 @@ export default function ItemWiseSerialEdit() {
                                 <td>{item?.supplierName}</td>
                                 <td
                                   className="disabled-feedback disable-border"
-                                  style={{ width: "150px" }}
+                                  style={{ width: '150px' }}
                                 >
                                   <IInput
                                     value={rowData[index]?.serialNo}
@@ -237,7 +235,7 @@ export default function ItemWiseSerialEdit() {
                                     type="text"
                                     onChange={(e) => {
                                       rowDtoHandler(
-                                        "serialNo",
+                                        'serialNo',
                                         index,
                                         e.target.value
                                       );
@@ -258,11 +256,11 @@ export default function ItemWiseSerialEdit() {
                                     }}
                                  />
                               </td> */}
-                                <td style={{ width: "150px" }}>
+                                <td style={{ width: '150px' }}>
                                   <Select
                                     value={item?.challanNoForGet || {}}
                                     onChange={(valueOption) => {
-                                      rowDtoHandler("challanNoForGet", index, {
+                                      rowDtoHandler('challanNoForGet', index, {
                                         value: valueOption?.label,
                                         label: valueOption?.label,
                                         salesOrderId: valueOption?.salesOrderId,
@@ -297,14 +295,14 @@ export default function ItemWiseSerialEdit() {
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

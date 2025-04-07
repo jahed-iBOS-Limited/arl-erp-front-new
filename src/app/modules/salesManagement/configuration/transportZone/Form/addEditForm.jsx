@@ -1,19 +1,18 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   saveTransportZone,
   saveEditedTransportZone,
   getTransportZoneById,
   setTransportZoneSingleEmpty,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
   id: undefined,
-  transportZoneName: "",
+  transportZoneName: '',
 };
 
 export default function TransportZoneForm({
@@ -47,7 +46,6 @@ export default function TransportZoneForm({
     } else {
       dispatch(setTransportZoneSingleEmpty());
     }
-
   }, [id]);
 
   const saveHandler = async (values, cb) => {
@@ -58,7 +56,7 @@ export default function TransportZoneForm({
           transportZoneName: values.transportZoneName,
           actionBy: profileData.userId,
         };
-        dispatch(saveEditedTransportZone(payload,setDisabled));
+        dispatch(saveEditedTransportZone(payload, setDisabled));
       } else {
         const payload = {
           transportZoneName: values.transportZoneName,
@@ -66,10 +64,9 @@ export default function TransportZoneForm({
           actionBy: profileData.userId,
           accountId: profileData.accountId,
         };
-        dispatch(saveTransportZone({ data: payload, cb },setDisabled));
+        dispatch(saveTransportZone({ data: payload, cb }, setDisabled));
       }
     } else {
-
     }
   };
   // const disableHandler = (cond) => {
@@ -77,7 +74,7 @@ export default function TransportZoneForm({
   // };
   return (
     <IForm
-      title={id ? "Edit Transport Zone" : "Create Transport Zone"}
+      title={id ? 'Edit Transport Zone' : 'Create Transport Zone'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >
@@ -86,7 +83,7 @@ export default function TransportZoneForm({
         {...objProps}
         initData={singleData || initData}
         saveHandler={saveHandler}
-       // disableHandler={disableHandler}
+        // disableHandler={disableHandler}
         accountId={profileData?.accountId}
         selectedBusinessUnit={selectedBusinessUnit}
         isEdit={id || false}

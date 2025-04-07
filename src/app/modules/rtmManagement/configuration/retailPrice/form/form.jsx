@@ -4,14 +4,15 @@ import { DropzoneDialogBase } from 'react-mui-dropzone';
 import { useDispatch } from 'react-redux';
 import InputField from '../../../../_helper/_inputField';
 import { NegetiveCheck } from '../../../../_helper/_negitiveCheck';
-import { empAttachment_action } from "../../../../_helper/attachmentUpload";
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 import { getItemDDL } from '../helper';
 import IDelete from './../../../../_helper/_helperIcons/_delete';
 import IView from './../../../../_helper/_helperIcons/_view';
 import { getDownlloadFileView_Action } from './../../../../_helper/_redux/Actions';
 import NewSelect from './../../../../_helper/_select';
 
-function FormCmp({  initData,
+function FormCmp({
+  initData,
   btnRef,
   saveHandler,
   resetBtnRef,
@@ -143,7 +144,7 @@ function FormCmp({  initData,
                   onChange={(e) => {
                     setFieldValue(
                       'rate',
-                      Math.abs(e.target.value) / values?.packageQuantity,
+                      Math.abs(e.target.value) / values?.packageQuantity
                     );
                     setFieldValue('tprate', Math.abs(e.target.value));
                   }}
@@ -170,7 +171,7 @@ function FormCmp({  initData,
                   onChange={(e) => {
                     setFieldValue(
                       'rate',
-                      values?.tprate / Math.abs(e.target.value),
+                      values?.tprate / Math.abs(e.target.value)
                     );
                     setFieldValue('packageQuantity', Math.abs(e.target.value));
                   }}
@@ -314,7 +315,7 @@ function FormCmp({  initData,
                                 handleInputChange(
                                   index,
                                   e.target.value,
-                                  'tprate',
+                                  'tprate'
                                 );
                               }}
                             />
@@ -351,8 +352,8 @@ function FormCmp({  initData,
                                   clickHandler={() => {
                                     dispatch(
                                       getDownlloadFileView_Action(
-                                        item?.productImage,
-                                      ),
+                                        item?.productImage
+                                      )
                                     );
                                   }}
                                 />
@@ -384,7 +385,7 @@ function FormCmp({  initData,
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name,
+                  (item) => item.file.name !== deleteFileObj.file.name
                 );
                 setFileObjects(newData);
               }}

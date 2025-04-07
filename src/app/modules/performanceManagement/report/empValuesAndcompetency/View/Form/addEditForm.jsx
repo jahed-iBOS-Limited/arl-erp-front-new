@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-import IForm from "./../../../../../_helper/_form";
-import { getEmployeeBasicInfoByIdAction, getValuesAndCompByEmpIdAction } from "../../../../_redux/Actions";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
+import IForm from './../../../../../_helper/_form';
+import {
+  getEmployeeBasicInfoByIdAction,
+  getValuesAndCompByEmpIdAction,
+} from '../../../../_redux/Actions';
 import { useLocation } from 'react-router';
-
 
 const initData = {};
 
@@ -38,13 +40,13 @@ export default function ValuesAndCompetencyPage() {
     competencyList,
     vcData,
     measureScaleTop,
-    measuringScaleButtom
+    measuringScaleButtom,
   } = pmsData;
 
   const dispatch = useDispatch();
   const [valuesData, setValuesData] = useState({});
   const [competencyData, setCompetencyData] = useState({});
-  const { state: headerData} = useLocation();
+  const { state: headerData } = useLocation();
   const [objProps, setObjprops] = useState({});
 
   // here we faces is a yearId issue, that need to be solved.
@@ -53,12 +55,9 @@ export default function ValuesAndCompetencyPage() {
       dispatch(getEmployeeBasicInfoByIdAction(headerData?.employeeId));
       dispatch(getValuesAndCompByEmpIdAction(headerData?.employeeId, 11));
     }
-
-
   }, [headerData]);
 
   useEffect(() => {
-
     let payloadOne;
 
     let payloadTwo;
@@ -80,8 +79,6 @@ export default function ValuesAndCompetencyPage() {
         };
       });
     }
-
-
   }, [valuesData, valueList]);
 
   const disableHandler = (cond) => {
@@ -115,8 +112,7 @@ export default function ValuesAndCompetencyPage() {
         profileData={profileData}
         headerData={headerData}
         measureScaleTop={measureScaleTop}
-        measuringScaleButtom ={measuringScaleButtom}
-
+        measuringScaleButtom={measuringScaleButtom}
       />
     </IForm>
   );

@@ -2,10 +2,10 @@ export const _todayDate = () => {
   var today = new Date();
   const todayDate =
     today.getFullYear() +
-    "-" +
-    ("0" + (today.getMonth() + 1)).slice(-2) +
-    "-" +
-    ("0" + today.getDate()).slice(-2);
+    '-' +
+    ('0' + (today.getMonth() + 1)).slice(-2) +
+    '-' +
+    ('0' + today.getDate()).slice(-2);
   return todayDate;
 };
 
@@ -13,14 +13,14 @@ export const _firstDateOfMonth = () => {
   var today = new Date();
   const firstDate =
     today.getFullYear() +
-    "-" +
-    ("0" + (today.getMonth() + 1)).slice(-2) +
-    "-01";
+    '-' +
+    ('0' + (today.getMonth() + 1)).slice(-2) +
+    '-01';
   return firstDate;
 };
 
 export const _lastDateOfMonth = (dateString) => {
-  if (!dateString) return "";
+  if (!dateString) return '';
 
   // Parse the input date
   const date = new Date(dateString);
@@ -36,10 +36,10 @@ export const _lastDateOfMonth = (dateString) => {
   // Format the last day to 'YYYY-MM-DD'
   const lastDate =
     lastDay.getFullYear() +
-    "-" +
-    ("0" + (lastDay.getMonth() + 1)).slice(-2) +
-    "-" +
-    ("0" + lastDay.getDate()).slice(-2);
+    '-' +
+    ('0' + (lastDay.getMonth() + 1)).slice(-2) +
+    '-' +
+    ('0' + lastDay.getDate()).slice(-2);
 
   return lastDate;
 };
@@ -49,15 +49,15 @@ export const _previousDate = (prevDays = 30) => {
   today.setDate(today.getDate() - prevDays); // Subtract the number of days passed as prevDays
   const previousDate =
     today.getFullYear() +
-    "-" +
-    ("0" + (today.getMonth() + 1)).slice(-2) +
-    "-" +
-    ("0" + today.getDate()).slice(-2);
+    '-' +
+    ('0' + (today.getMonth() + 1)).slice(-2) +
+    '-' +
+    ('0' + today.getDate()).slice(-2);
   return previousDate;
 };
 
 export const _lastDateOfMonthPreviousYear = (dateString) => {
-  if(!dateString) return "";
+  if (!dateString) return '';
   const date = new Date(dateString);
   const previousYear = date.getFullYear() - 1;
   const month = date.getMonth() + 1;
@@ -70,25 +70,23 @@ export const _lastDateOfMonthPreviousYear = (dateString) => {
 
   const lastDatePreviousYear =
     lastDayPreviousYear.getFullYear() +
-    "-" +
-    ("0" + (lastDayPreviousYear.getMonth() + 1)).slice(-2) +
-    "-" +
-    ("0" + lastDayPreviousYear.getDate()).slice(-2);
+    '-' +
+    ('0' + (lastDayPreviousYear.getMonth() + 1)).slice(-2) +
+    '-' +
+    ('0' + lastDayPreviousYear.getDate()).slice(-2);
 
   return lastDatePreviousYear;
 };
-
-
 
 // date 3 month ago
 export const _threeMonthAgoDate = () => {
   var today = new Date();
   const todayDate =
     today.getFullYear() +
-    "-" +
-    ("0" + (today.getMonth() - 2)).slice(-2) +
-    "-" +
-    ("0" + today.getDate()).slice(-2);
+    '-' +
+    ('0' + (today.getMonth() - 2)).slice(-2) +
+    '-' +
+    ('0' + today.getDate()).slice(-2);
   return todayDate;
 };
 
@@ -100,12 +98,12 @@ export const _oneMonthLater = (fromDate) => {
   }
   const todayDate =
     today.getFullYear() +
-    "-" +
-    ("0" + (today.getMonth() + 2)).slice(-2) +
-    "-" +
-    ("0" + today.getDate()).slice(-2);
+    '-' +
+    ('0' + (today.getMonth() + 2)).slice(-2) +
+    '-' +
+    ('0' + today.getDate()).slice(-2);
   return todayDate;
-}
+};
 
 export const _todayDateTime12HFormet = () => {
   const now = new Date();
@@ -115,7 +113,7 @@ export const _todayDateTime12HFormet = () => {
   const hours = now.getHours().toString().padStart(2, '0');
   const minutes = now.getMinutes().toString().padStart(2, '0');
   return `${year}-${month}-${day}T${hours}:${minutes}`;
-}
+};
 
 export const _getCurrentMonthYearForInput = () => {
   const now = new Date();
@@ -124,12 +122,12 @@ export const _getCurrentMonthYearForInput = () => {
   return `${year}-${month}`;
 };
 
-export const _getPreviousDate=()=> {
+export const _getPreviousDate = () => {
   const today = new Date();
   const previousDate = new Date(today.getTime() - 24 * 60 * 60 * 1000);
 
   const day = ('0' + previousDate.getDate()).slice(-2);
-  const month = ('0' + (previousDate.getMonth() + 1)).slice(-2); 
+  const month = ('0' + (previousDate.getMonth() + 1)).slice(-2);
   const year = previousDate.getFullYear();
-  return `${year}-${month}-${day}`
-}
+  return `${year}-${month}-${day}`;
+};

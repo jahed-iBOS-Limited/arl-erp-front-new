@@ -1,5 +1,5 @@
 // import { merge } from "lodash"
-import { createFile } from "../../../../_helper/excel/index";
+import { createFile } from '../../../../_helper/excel/index';
 
 class Cell {
   constructor(label, align, format) {
@@ -11,8 +11,8 @@ class Cell {
     return {
       text: this.text,
       fontSize: 7,
-      border: "all 000000 thin",
-      alignment: this.alignment || "",
+      border: 'all 000000 thin',
+      alignment: this.alignment || '',
       textFormat: this.format,
     };
   }
@@ -21,13 +21,13 @@ class Cell {
 const getTableData = (row, values) => {
   const data = row?.map((item, index) => {
     return [
-      new Cell(index + 1, "center", "text").getCell(),
-      new Cell(item?.strPayee, "left", "text").getCell(),
-      new Cell(item?.strBankAccountNo, "right", "text").getCell(),
-      new Cell(item?.numAmount, "right", "money").getCell(),
-      new Cell(item?.strPayBankCode || "", "left", "text").getCell(),
-      new Cell(item?.strNaration || "", "left", "text").getCell(),
-      new Cell(item?.strEmail || "", "left", "text").getCell(),
+      new Cell(index + 1, 'center', 'text').getCell(),
+      new Cell(item?.strPayee, 'left', 'text').getCell(),
+      new Cell(item?.strBankAccountNo, 'right', 'text').getCell(),
+      new Cell(item?.numAmount, 'right', 'money').getCell(),
+      new Cell(item?.strPayBankCode || '', 'left', 'text').getCell(),
+      new Cell(item?.strNaration || '', 'left', 'text').getCell(),
+      new Cell(item?.strEmail || '', 'left', 'text').getCell(),
     ];
   });
   return data;
@@ -43,10 +43,10 @@ export const formatSeven = (
   fileName
 ) => {
   const excel = {
-    name: "Bank Advice",
+    name: 'Bank Advice',
     sheets: [
       {
-        name: "Bank Advice",
+        name: 'Bank Advice',
         gridLine: false,
         rows: [
           // [
@@ -171,46 +171,46 @@ export const formatSeven = (
           // ],
           [
             {
-              text: "SL",
+              text: 'SL',
               fontSize: 7,
               bold: true,
-              border: "all 000000 thin",
+              border: 'all 000000 thin',
             },
             {
-              text: "Payee Name",
+              text: 'Payee Name',
               fontSize: 7,
               bold: true,
-              border: "all 000000 thin",
+              border: 'all 000000 thin',
             },
             {
-              text: "Payee Account No",
+              text: 'Payee Account No',
               fontSize: 7,
               bold: true,
-              border: "all 000000 thin",
+              border: 'all 000000 thin',
             },
             {
-              text: "Amount (USD)",
+              text: 'Amount (USD)',
               fontSize: 7,
               bold: true,
-              border: "all 000000 thin",
+              border: 'all 000000 thin',
             },
             {
-              text: "Payee Bank Code",
+              text: 'Payee Bank Code',
               fontSize: 7,
               bold: true,
-              border: "all 000000 thin",
+              border: 'all 000000 thin',
             },
             {
-              text: "Reason",
+              text: 'Reason',
               fontSize: 7,
               bold: true,
-              border: "all 000000 thin",
+              border: 'all 000000 thin',
             },
             {
-              text: "Email",
+              text: 'Email',
               fontSize: 7,
               bold: true,
-              border: "all 000000 thin",
+              border: 'all 000000 thin',
             },
           ],
           ...getTableData(row, values),

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import ICustomCard from "../../../../_helper/_customCard";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import ICustomCard from '../../../../_helper/_customCard';
+import { useHistory } from 'react-router-dom';
 import {
   getActivityDDL,
   getGridData,
@@ -11,26 +11,26 @@ import {
   getModuleNameDDL,
   getPlantDDL,
   BOMApprovalLanding,
-} from "../helper";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import LeaveApprovalGrid from "../leaveApprovalGrid/landing";
-import MovementApprovalGrid from "../moveApprovalGrid/landing";
-import LoanApprovalGrid from "../loanApprovalGrid/landing";
-import IConfirmModal from "./../../../../_helper/_confirmModal";
-import "./approval.css";
-import PurchaseOrderApprovalGrid from "../purchaseOrder/landing";
-import PurchaseRequestApprovalGrid from "../purchaseRequest/landing";
-import ItemRequestApprovalGrid from "../itemRequest/landing";
-import PurchaseReturnApprovalGrid from "../returnPo/landing";
-import GatePassApprovalGrid from "../gatePass/landing";
-import { setIBOS_app_activityAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import NewSelect from "../../../../_helper/_select";
-import BillOfMaterialTable from "./billOfMaterialTable";
-import { saveBOMApproval_api } from "./../helper";
+} from '../helper';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import LeaveApprovalGrid from '../leaveApprovalGrid/landing';
+import MovementApprovalGrid from '../moveApprovalGrid/landing';
+import LoanApprovalGrid from '../loanApprovalGrid/landing';
+import IConfirmModal from './../../../../_helper/_confirmModal';
+import './approval.css';
+import PurchaseOrderApprovalGrid from '../purchaseOrder/landing';
+import PurchaseRequestApprovalGrid from '../purchaseRequest/landing';
+import ItemRequestApprovalGrid from '../itemRequest/landing';
+import PurchaseReturnApprovalGrid from '../returnPo/landing';
+import GatePassApprovalGrid from '../gatePass/landing';
+import { setIBOS_app_activityAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import NewSelect from '../../../../_helper/_select';
+import BillOfMaterialTable from './billOfMaterialTable';
+import { saveBOMApproval_api } from './../helper';
 
 export function TableRow(props) {
   const [billSubmitBtn, setBillSubmitBtn] = useState(true);
@@ -60,9 +60,9 @@ export function TableRow(props) {
 
   // DDL & selected DDL Item
   const [moduleNameDDL, setModuleNameDDL] = useState([]);
-  const [selectedModule, setSelectedModule] = useState("");
-  const [selectedPlant, setSelectedPlant] = useState("");
-  const [activityName, setActivityName] = useState("");
+  const [selectedModule, setSelectedModule] = useState('');
+  const [selectedPlant, setSelectedPlant] = useState('');
+  const [activityName, setActivityName] = useState('');
   const [activity, setActivity] = useState([]);
   const [activityChange, setActivityChange] = useState(0);
 
@@ -80,14 +80,14 @@ export function TableRow(props) {
   // Other's Grid Data load by onchange
   const onChangeForActivity = (activity) => {
     if (
-      activity?.label === "Loan Approval" ||
-      activity?.label === "Movement Approval" ||
-      activity?.label === "Leave Approval" ||
-      activity?.label === "Purchase Order" ||
-      activity?.label === "Purchase Request" ||
-      activity?.label === "Item Request" ||
-      activity?.label === "Purchase Return" ||
-      activity?.label === "Gate Pass"
+      activity?.label === 'Loan Approval' ||
+      activity?.label === 'Movement Approval' ||
+      activity?.label === 'Leave Approval' ||
+      activity?.label === 'Purchase Order' ||
+      activity?.label === 'Purchase Request' ||
+      activity?.label === 'Item Request' ||
+      activity?.label === 'Purchase Return' ||
+      activity?.label === 'Gate Pass'
     ) {
       setActivityChange((prev) => prev + 1);
       return;
@@ -119,11 +119,10 @@ export function TableRow(props) {
     if (
       profileData?.accountId &&
       selectedBusinessUnit?.value &&
-      activityName?.label === "Bill Of Material"
+      activityName?.label === 'Bill Of Material'
     ) {
       commonBillOfMaterialGridFunc(pageNo, pageSize);
     }
-
   }, [profileData, selectedBusinessUnit, activityName]);
 
   // const singleApprovalndler = (poId) => {
@@ -160,9 +159,8 @@ export function TableRow(props) {
       setActivityName(activity?.activityName);
       onChangeForActivity(activity.activityName);
       getActivityDDL(activity?.moduleName?.value, setActivity);
-      setSelectedPlant(activity?.selectedPlant || "");
+      setSelectedPlant(activity?.selectedPlant || '');
     }
-
   }, []);
 
   useEffect(() => {
@@ -241,7 +239,7 @@ export function TableRow(props) {
   // approveSubmitlHandler btn submit handler
   const approveSubmitlHandler = (values) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to post the selected approve submit`,
       yesAlertFunc: () => {
         const filterSelectedData = rowDto?.data?.filter(
@@ -256,7 +254,7 @@ export function TableRow(props) {
           };
         });
         // Bill Of Material
-        if (activityName?.label === "Bill Of Material") {
+        if (activityName?.label === 'Bill Of Material') {
           const filterSelectedData = tableData?.data?.filter(
             (item) => item?.isSelected
           );
@@ -290,7 +288,7 @@ export function TableRow(props) {
               onChange={(valueOption) => {
                 setRowDto([]);
                 setTableData([]);
-                setActivityName("");
+                setActivityName('');
                 setSelectedPlant(valueOption);
               }}
               options={plantDDL}
@@ -305,7 +303,7 @@ export function TableRow(props) {
               onChange={(valueOption) => {
                 setRowDto([]);
                 setTableData([]);
-                setActivityName("");
+                setActivityName('');
                 setSelectedModule(valueOption);
                 getActivityDDL(valueOption?.value, setActivity);
               }}
@@ -323,9 +321,9 @@ export function TableRow(props) {
                 setRowDto([]);
                 dispatch(
                   setIBOS_app_activityAction({
-                    activityName: valueOption || "",
-                    moduleName: selectedModule || "",
-                    selectedPlant: selectedPlant || "",
+                    activityName: valueOption || '',
+                    moduleName: selectedModule || '',
+                    selectedPlant: selectedPlant || '',
                   })
                 );
                 setActivityName(valueOption);
@@ -339,14 +337,14 @@ export function TableRow(props) {
             />
           </div>
 
-          {activityName?.label === "Loan Approval" ||
-          activityName?.label === "Movement Approval" ||
-          activityName?.label === "Leave Approval" ||
-          activityName?.label === "Purchase Order" ||
-          activityName?.label === "Purchase Request" ||
-          activityName?.label === "Item Request" ||
-          activityName?.label === "Purchase Return" ||
-          activityName?.label === "Gate Pass" ? null : (
+          {activityName?.label === 'Loan Approval' ||
+          activityName?.label === 'Movement Approval' ||
+          activityName?.label === 'Leave Approval' ||
+          activityName?.label === 'Purchase Order' ||
+          activityName?.label === 'Purchase Request' ||
+          activityName?.label === 'Item Request' ||
+          activityName?.label === 'Purchase Return' ||
+          activityName?.label === 'Gate Pass' ? null : (
             <div className="col-lg-3 mt-4 offset-3 d-flex justify-content-end">
               <button
                 type="button"
@@ -361,21 +359,21 @@ export function TableRow(props) {
         </div>
 
         {/* All Grid */}
-        {activityName?.label === "Loan Approval" ||
-        activityName?.label === "Movement Approval" ||
-        activityName?.label === "Leave Approval" ||
-        activityName?.label === "Purchase Order" ||
-        activityName?.label === "Purchase Request" ||
-        activityName?.label === "Item Request" ||
-        activityName?.label === "Purchase Return" ||
-        activityName?.label === "Gate Pass" ? (
+        {activityName?.label === 'Loan Approval' ||
+        activityName?.label === 'Movement Approval' ||
+        activityName?.label === 'Leave Approval' ||
+        activityName?.label === 'Purchase Order' ||
+        activityName?.label === 'Purchase Request' ||
+        activityName?.label === 'Item Request' ||
+        activityName?.label === 'Purchase Return' ||
+        activityName?.label === 'Gate Pass' ? (
           <>
-            {activityName?.label === "Leave Approval" && <LeaveApprovalGrid />}
-            {activityName?.label === "Movement Approval" && (
+            {activityName?.label === 'Leave Approval' && <LeaveApprovalGrid />}
+            {activityName?.label === 'Movement Approval' && (
               <MovementApprovalGrid />
             )}
-            {activityName?.label === "Loan Approval" && <LoanApprovalGrid />}
-            {activityName?.label === "Purchase Order" && (
+            {activityName?.label === 'Loan Approval' && <LoanApprovalGrid />}
+            {activityName?.label === 'Purchase Order' && (
               <PurchaseOrderApprovalGrid
                 onChangeForActivity={onChangeForActivity}
                 activityName={activityName}
@@ -384,7 +382,7 @@ export function TableRow(props) {
               />
             )}
             {}
-            {activityName?.label === "Purchase Request" && (
+            {activityName?.label === 'Purchase Request' && (
               <PurchaseRequestApprovalGrid
                 onChangeForActivity={onChangeForActivity}
                 activityName={activityName}
@@ -392,7 +390,7 @@ export function TableRow(props) {
                 selectedPlant={selectedPlant}
               />
             )}
-            {activityName?.label === "Item Request" && (
+            {activityName?.label === 'Item Request' && (
               <ItemRequestApprovalGrid
                 onChangeForActivity={onChangeForActivity}
                 activityName={activityName}
@@ -400,7 +398,7 @@ export function TableRow(props) {
                 selectedPlant={selectedPlant}
               />
             )}
-            {activityName?.label === "Purchase Return" && (
+            {activityName?.label === 'Purchase Return' && (
               <PurchaseReturnApprovalGrid
                 onChangeForActivity={onChangeForActivity}
                 activityName={activityName}
@@ -408,7 +406,7 @@ export function TableRow(props) {
                 selectedPlant={selectedPlant}
               />
             )}
-            {activityName?.label === "Gate Pass" && (
+            {activityName?.label === 'Gate Pass' && (
               <GatePassApprovalGrid
                 onChangeForActivity={onChangeForActivity}
                 activityName={activityName}
@@ -424,7 +422,7 @@ export function TableRow(props) {
                 {loading && <Loading />}
                 <thead>
                   <tr>
-                    <th style={{ width: "20px" }}>
+                    <th style={{ width: '20px' }}>
                       <input
                         type="checkbox"
                         id="parent"
@@ -437,7 +435,7 @@ export function TableRow(props) {
                     <th>Reff Code</th>
                     <th>Transaction Date</th>
                     <th>Due Date</th>
-                    {activityName?.label === "Purchase Order" && (
+                    {activityName?.label === 'Purchase Order' && (
                       <th>Amount</th>
                     )}
                     <th>Quantity</th>
@@ -469,7 +467,7 @@ export function TableRow(props) {
                       <td className="text-center">
                         {_dateFormatter(item.dueDate)}
                       </td>
-                      {activityName?.label === "Purchase Order" && (
+                      {activityName?.label === 'Purchase Order' && (
                         <td className="text-center">{item.amount}</td>
                       )}
                       <td className="text-center">{item.quantity}</td>
@@ -483,7 +481,7 @@ export function TableRow(props) {
                       <IApproval />
                     </span> */}
 
-                        {activityName?.label === "Purchase Request" && (
+                        {activityName?.label === 'Purchase Request' && (
                           <span
                             onClick={(e) => {
                               history.push(
@@ -492,7 +490,7 @@ export function TableRow(props) {
                             }}
                           >
                             <OverlayTrigger
-                              overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}
+                              overlay={<Tooltip id="cs-icon">{'View'}</Tooltip>}
                             >
                               <span>
                                 <i
@@ -504,7 +502,7 @@ export function TableRow(props) {
                           </span>
                         )}
 
-                        {activityName?.label === "Purchase Order" && (
+                        {activityName?.label === 'Purchase Order' && (
                           <span
                             onClick={(e) => {
                               history.push({
@@ -514,7 +512,7 @@ export function TableRow(props) {
                             }}
                           >
                             <OverlayTrigger
-                              overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}
+                              overlay={<Tooltip id="cs-icon">{'View'}</Tooltip>}
                             >
                               <span>
                                 <i
@@ -526,7 +524,7 @@ export function TableRow(props) {
                           </span>
                         )}
 
-                        {activityName?.label === "Item Request" && (
+                        {activityName?.label === 'Item Request' && (
                           <span
                             onClick={(e) => {
                               history.push(
@@ -535,7 +533,7 @@ export function TableRow(props) {
                             }}
                           >
                             <OverlayTrigger
-                              overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}
+                              overlay={<Tooltip id="cs-icon">{'View'}</Tooltip>}
                             >
                               <span>
                                 <i
@@ -567,7 +565,7 @@ export function TableRow(props) {
             </div>
           )
         )}
-        {activityName?.label === "Bill Of Material" && (
+        {activityName?.label === 'Bill Of Material' && (
           <BillOfMaterialTable
             obj={{
               loading,

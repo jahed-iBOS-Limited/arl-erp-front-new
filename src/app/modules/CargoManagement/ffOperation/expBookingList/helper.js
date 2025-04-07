@@ -13,7 +13,7 @@ export const cancelHandler = ({ item, deleteBookingRequestById, CB }) => {
         null,
         () => {
           CB();
-        },
+        }
       );
     },
   };

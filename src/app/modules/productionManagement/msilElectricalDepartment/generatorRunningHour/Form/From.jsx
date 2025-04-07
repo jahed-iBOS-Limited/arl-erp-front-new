@@ -1,17 +1,17 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 import {
   convertDecimalToTime,
   convertTimeIntoDecimal,
   getDifferenceBetweenTime,
-} from "../../../msilProduction/meltingProduction/helper";
-import { getActualDuration } from "./helper";
+} from '../../../msilProduction/meltingProduction/helper';
+import { getActualDuration } from './helper';
 
 export default function GeneratorRunningHourForm({
   initData,
@@ -67,19 +67,19 @@ export default function GeneratorRunningHourForm({
                   <NewSelect
                     name="shift"
                     options={[
-                      { value: "A", label: "A" },
-                      { value: "B", label: "B" },
-                      { value: "C", label: "C" },
-                      { value: "General", label: "General" },
+                      { value: 'A', label: 'A' },
+                      { value: 'B', label: 'B' },
+                      { value: 'C', label: 'C' },
+                      { value: 'General', label: 'General' },
                     ]}
                     value={values?.shift}
                     label="Shift"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("shift", valueOption);
+                        setFieldValue('shift', valueOption);
                       } else {
-                        setFieldValue("generatorName", "");
-                        setFieldValue("shift", "");
+                        setFieldValue('generatorName', '');
+                        setFieldValue('shift', '');
                       }
                     }}
                     isDisabled={!values?.date || params?.id}
@@ -100,15 +100,15 @@ export default function GeneratorRunningHourForm({
                             `/mes/MSIL/GetPreviousGeneratorReading?BusinessUnitId=4&GeneratorName=${valueOption?.label}`,
                             (data) => {
                               setFieldValue(
-                                "numPreviousReading",
+                                'numPreviousReading',
                                 data?.numPreviousReading
                               );
                             }
                           );
                         }
-                        setFieldValue("generatorName", valueOption);
+                        setFieldValue('generatorName', valueOption);
                       } else {
-                        setFieldValue("generatorName", "");
+                        setFieldValue('generatorName', '');
                       }
                     }}
                     errors={errors}
@@ -124,7 +124,7 @@ export default function GeneratorRunningHourForm({
                       name="runningLoad"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("runningLoad", +e.target.value);
+                        setFieldValue('runningLoad', +e.target.value);
                       }}
                     />
                   </div>
@@ -148,9 +148,9 @@ export default function GeneratorRunningHourForm({
                       name="numPresentReading"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("numPresentReading", +e.target.value);
+                        setFieldValue('numPresentReading', +e.target.value);
                         setFieldValue(
-                          "numGeneration",
+                          'numGeneration',
                           +e.target.value - values?.numPreviousReading
                         );
                       }}
@@ -177,8 +177,8 @@ export default function GeneratorRunningHourForm({
                     type="time"
                     onChange={(e) => {
                       if (!values?.date)
-                        return toast.warn("Please select date");
-                      setFieldValue("startTime", e.target.value);
+                        return toast.warn('Please select date');
+                      setFieldValue('startTime', e.target.value);
                       if (
                         values?.date &&
                         values?.endTime &&
@@ -189,7 +189,7 @@ export default function GeneratorRunningHourForm({
                           e.target.value,
                           values?.endTime
                         );
-                        setFieldValue("totalTime", difference);
+                        setFieldValue('totalTime', difference);
                       }
                     }}
                   />
@@ -202,8 +202,8 @@ export default function GeneratorRunningHourForm({
                     type="time"
                     onChange={(e) => {
                       if (!values?.date)
-                        return toast.warn("Please select date");
-                      setFieldValue("endTime", e.target.value);
+                        return toast.warn('Please select date');
+                      setFieldValue('endTime', e.target.value);
                       if (
                         values?.date &&
                         values?.startTime &&
@@ -214,7 +214,7 @@ export default function GeneratorRunningHourForm({
                           values?.startTime,
                           e.target.value
                         );
-                        setFieldValue("totalTime", difference);
+                        setFieldValue('totalTime', difference);
                       }
                     }}
                   />
@@ -226,11 +226,11 @@ export default function GeneratorRunningHourForm({
                     value={values?.totalTime}
                     label={
                       selectedBusinessUnit?.value !== 4
-                        ? "Total Hours"
-                        : "Actual Running Hours"
+                        ? 'Total Hours'
+                        : 'Actual Running Hours'
                     }
                     name="totalTime"
-                    type={"type"}
+                    type={'type'}
                   />
                 </div>
 
@@ -257,37 +257,37 @@ export default function GeneratorRunningHourForm({
                         name="strBreakdownType"
                         options={[
                           {
-                            value: "Poor Load",
-                            label: "Poor Load",
+                            value: 'Poor Load',
+                            label: 'Poor Load',
                           },
                           {
-                            value: "REB / Overload",
-                            label: "REB / Overload",
+                            value: 'REB / Overload',
+                            label: 'REB / Overload',
                           },
                           {
-                            value: "Gas Pressure Low",
-                            label: "Gas Pressure Low",
+                            value: 'Gas Pressure Low',
+                            label: 'Gas Pressure Low',
                           },
                           {
-                            value: "Troubleshooting",
-                            label: "Troubleshooting",
+                            value: 'Troubleshooting',
+                            label: 'Troubleshooting',
                           },
                           {
-                            value: "Schedule Maintenance",
-                            label: "Schedule Maintenance",
+                            value: 'Schedule Maintenance',
+                            label: 'Schedule Maintenance',
                           },
                           {
-                            value: "BreakDown",
-                            label: "BreakDown",
+                            value: 'BreakDown',
+                            label: 'BreakDown',
                           },
                         ]}
                         value={values?.strBreakdownType}
                         label="BreakDown Type"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("strBreakdownType", valueOption);
+                            setFieldValue('strBreakdownType', valueOption);
                           } else {
-                            setFieldValue("strBreakdownType", "");
+                            setFieldValue('strBreakdownType', '');
                           }
                         }}
                         isDisabled={!values?.date || params?.id}
@@ -303,14 +303,14 @@ export default function GeneratorRunningHourForm({
                         name="strStartTime"
                         type="time"
                         onChange={(e) => {
-                          setFieldValue("strStartTime", e.target.value);
+                          setFieldValue('strStartTime', e.target.value);
                           if (values?.date && e.target.value) {
                             let breakdownDifference = getDifferenceBetweenTime(
                               values?.date,
                               e.target.value,
                               values?.strEndTime
                             );
-                            setFieldValue("numDuration", breakdownDifference);
+                            setFieldValue('numDuration', breakdownDifference);
                           }
                         }}
                       />
@@ -323,8 +323,8 @@ export default function GeneratorRunningHourForm({
                         type="time"
                         onChange={(e) => {
                           if (!values?.date)
-                            return toast.warn("Please select date");
-                          setFieldValue("strEndTime", e.target.value);
+                            return toast.warn('Please select date');
+                          setFieldValue('strEndTime', e.target.value);
                           if (values?.date && e.target.value) {
                             let breakdownDifference = getDifferenceBetweenTime(
                               values?.date,
@@ -332,7 +332,7 @@ export default function GeneratorRunningHourForm({
                               e.target.value
                             );
                             setFieldValue(
-                              "numDuration",
+                              'numDuration',
                               convertTimeIntoDecimal(breakdownDifference)
                             );
                           }
@@ -356,14 +356,14 @@ export default function GeneratorRunningHourForm({
                         name="strReasonOfStopage"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("strReasonOfStopage", e.target.value);
+                          setFieldValue('strReasonOfStopage', e.target.value);
                         }}
                         disabled={
                           params?.id && selectedBusinessUnit?.value === 4
                         }
                       />
                     </div>
-                    <div style={{ marginTop: "15px" }} className="col-lg-1">
+                    <div style={{ marginTop: '15px' }} className="col-lg-1">
                       <button
                         type="button"
                         onClick={() => {
@@ -377,7 +377,7 @@ export default function GeneratorRunningHourForm({
                           }
                           addRowDataData(values, (rowData) => {
                             setFieldValue(
-                              "totalTime",
+                              'totalTime',
                               convertDecimalToTime(
                                 8.0 - (getActualDuration(rowData) || 0.0) || 0.0
                               )
@@ -394,15 +394,15 @@ export default function GeneratorRunningHourForm({
                         ADD
                       </button>
                     </div>
-                    <div style={{ marginTop: "20px" }}>
-                      <strong style={{ marginRight: "5px" }}>
-                        {" "}
-                        Total Breakdown Hour :{" "}
-                        {convertDecimalToTime(getActualDuration(rowData)) || ""}
+                    <div style={{ marginTop: '20px' }}>
+                      <strong style={{ marginRight: '5px' }}>
+                        {' '}
+                        Total Breakdown Hour :{' '}
+                        {convertDecimalToTime(getActualDuration(rowData)) || ''}
                       </strong>
                       <strong>
-                        {" "}
-                        Actual Running Hours :{" "}
+                        {' '}
+                        Actual Running Hours :{' '}
                         {location?.state?.tmTotalHour
                           ? location?.state?.tmTotalHour
                           : convertDecimalToTime(
@@ -434,8 +434,8 @@ export default function GeneratorRunningHourForm({
                             return (
                               <tr key={index}>
                                 <td className="text-center align-middle">
-                                  {" "}
-                                  {index + 1}{" "}
+                                  {' '}
+                                  {index + 1}{' '}
                                 </td>
                                 <td className="text-center align-middle">
                                   {item?.strBreakdownType}
@@ -456,7 +456,7 @@ export default function GeneratorRunningHourForm({
                                   <OverlayTrigger
                                     overlay={
                                       <Tooltip id="delete-icon">
-                                        {"Delete"}
+                                        {'Delete'}
                                       </Tooltip>
                                     }
                                   >
@@ -465,7 +465,7 @@ export default function GeneratorRunningHourForm({
                                         onClick={() => {
                                           removeHandler(index, (rowData) => {
                                             setFieldValue(
-                                              "totalTime",
+                                              'totalTime',
                                               convertDecimalToTime(
                                                 8.0 -
                                                   (getActualDuration(rowData) ||
@@ -491,13 +491,13 @@ export default function GeneratorRunningHourForm({
               ) : null}
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

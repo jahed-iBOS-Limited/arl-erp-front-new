@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import IDelete from './../../../_helper/_helperIcons/_delete';
 
 export default function HoldInvoice({
@@ -12,9 +12,8 @@ export default function HoldInvoice({
   values,
   setId,
   voucherCode,
-  deleteHoldingDataHandler
+  deleteHoldingDataHandler,
 }) {
-
   return (
     <table className="table table-striped table-bordered global-table">
       <thead>
@@ -23,7 +22,7 @@ export default function HoldInvoice({
           <th>Customer Name</th>
           <th>Total Item Qty</th>
           <th>Total Amount</th>
-          <th style={{ width: "80px" }}>Action</th>
+          <th style={{ width: '80px' }}>Action</th>
         </tr>
       </thead>
       <tbody className="itemList">
@@ -37,7 +36,7 @@ export default function HoldInvoice({
               <button
                 type="button"
                 className="btn btn-outline-dark mr-1 pointer"
-                style={{ padding: "1px 10px", fontSize: "11px" }}
+                style={{ padding: '1px 10px', fontSize: '11px' }}
                 onClick={() => saveHandler(values, true)}
               >
                 Hold
@@ -55,11 +54,11 @@ export default function HoldInvoice({
               <button
                 type="button"
                 className="btn btn-outline-dark mr-1 pointer"
-                style={{ padding: "1px 10px", fontSize: "11px" }}
-                disabled={id===item?.deliveryId}
-                onClick={() =>{
-                  setId(item?.deliveryId)
-                  setHoldingInvoice()
+                style={{ padding: '1px 10px', fontSize: '11px' }}
+                disabled={id === item?.deliveryId}
+                onClick={() => {
+                  setId(item?.deliveryId);
+                  setHoldingInvoice();
                 }}
               >
                 Recall

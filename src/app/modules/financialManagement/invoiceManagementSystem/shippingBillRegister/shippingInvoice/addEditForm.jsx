@@ -1,42 +1,42 @@
-import React, { useEffect, useState } from "react";
-import { confirmAlert } from "react-confirm-alert"; // Import
-import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
-import { getImageuploadStatus } from "../../../../_helper/_commonApi";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { attachmentUpload } from "../../../../_helper/attachmentUpload";
-import { compressfile } from "../../../../_helper/compressfile";
-import { getPurchaseOrgDDL, getWarehouseDDL } from "../../billregister/helper";
-import { saveShippingPurchaseInvoice } from "../helper";
-import Form from "./form";
-import "./purchaseInvoice.css";
+import React, { useEffect, useState } from 'react';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { getImageuploadStatus } from '../../../../_helper/_commonApi';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { attachmentUpload } from '../../../../_helper/attachmentUpload';
+import { compressfile } from '../../../../_helper/compressfile';
+import { getPurchaseOrgDDL, getWarehouseDDL } from '../../billregister/helper';
+import { saveShippingPurchaseInvoice } from '../helper';
+import Form from './form';
+import './purchaseInvoice.css';
 
 const initData = {
-  purchaseOrg: "",
-  plant: "",
-  warehouse: "",
-  supplierName: "",
-  purchaseOrder: "",
-  invoiceNumber: "",
-  invoiceDate: "",
-  remarks: "",
-  selectGRN: "",
+  purchaseOrg: '',
+  plant: '',
+  warehouse: '',
+  supplierName: '',
+  purchaseOrder: '',
+  invoiceNumber: '',
+  invoiceDate: '',
+  remarks: '',
+  selectGRN: '',
   checked: false,
-  ginvoiceAmount: "",
-  deducationAmount: "",
-  invoiceAmount: "",
+  ginvoiceAmount: '',
+  deducationAmount: '',
+  invoiceAmount: '',
   paymentDueDate: _todayDate(),
-  grossInvoiceAmount: "",
+  grossInvoiceAmount: '',
   deductionAmount: 0,
-  netPaymentAmount: "",
+  netPaymentAmount: '',
   advanceAdjustment: true,
-  totalAdjustedBalance: "",
-  new_Adv_Adjustment: "",
-  curentAdjustmentBalance: "",
+  totalAdjustedBalance: '',
+  new_Adv_Adjustment: '',
+  curentAdjustmentBalance: '',
 };
 
 export default function ShippingSupplerInvoiceForm() {
@@ -89,7 +89,7 @@ export default function ShippingSupplerInvoiceForm() {
         (data) => data?.referenceId === values?.selectGRN?.value
       );
       if (data) {
-        toast.warning("GRN Already added");
+        toast.warning('GRN Already added');
         // alert("GRN Already added");
       } else {
         // let refAmount = values?.selectGRN?.amount + values?.selectGRN?.vatAmount
@@ -117,7 +117,7 @@ export default function ShippingSupplerInvoiceForm() {
             referenceId: values?.selectGRN?.value,
             challanNo: values?.selectGRN?.challanNo,
             referenceAmount: (refAmount || 0).toFixed(2),
-            referenceName: values?.selectGRN?.label.split("(")[0],
+            referenceName: values?.selectGRN?.label.split('(')[0],
             inventoryTransectionGroupId:
               values?.selectGRN?.inventoryTransectionGroupId,
             actionBy: profileData.userId,
@@ -133,21 +133,24 @@ export default function ShippingSupplerInvoiceForm() {
           0
         );
         // let totalAmount = totalGrn + values?.selectGRN?.amount;
-        setFieldValue("grossInvoiceAmount", totalGrn);
-        setFieldValue("paymentDueDate", values?.selectGRN?.duePaymentDate);
+        setFieldValue('grossInvoiceAmount', totalGrn);
+        setFieldValue('paymentDueDate', values?.selectGRN?.duePaymentDate);
         // const diff =
         //   Number(supplierAmountInfo?.poAdvanceAmount?.toFixed(2)) -
         //   Number(supplierAmountInfo?.totalAdjustedBalance?.toFixed(2));
         if (Number(supplierAmountInfo?.poPendingAdjustment) >= totalGrn) {
-          setFieldValue("new_Adv_Adjustment", totalGrn);
+          setFieldValue('new_Adv_Adjustment', totalGrn);
           setFieldValue(
-            "curentAdjustmentBalance",
+            'curentAdjustmentBalance',
             values?.totalAdjustedBalance - totalGrn
           );
         } else {
-          setFieldValue("new_Adv_Adjustment", Number(supplierAmountInfo?.poPendingAdjustment));
           setFieldValue(
-            "curentAdjustmentBalance",
+            'new_Adv_Adjustment',
+            Number(supplierAmountInfo?.poPendingAdjustment)
+          );
+          setFieldValue(
+            'curentAdjustmentBalance',
             values?.totalAdjustedBalance - supplierAmountInfo?.poAdvanceAmount
           );
         }
@@ -170,7 +173,7 @@ export default function ShippingSupplerInvoiceForm() {
           inventoryTransectionGroupId: data?.inventoryTransectionGroupId,
           lastActionDateTime: _todayDate(),
           serverDateTime: _todayDate(),
-          referenceName: data?.label.split("(")[0],
+          referenceName: data?.label.split('(')[0],
           active: true,
         };
       });
@@ -180,24 +183,27 @@ export default function ShippingSupplerInvoiceForm() {
         (total, value) => total + +value?.referenceAmount || 0,
         0
       );
-      setFieldValue("grossInvoiceAmount", totalGrn);
+      setFieldValue('grossInvoiceAmount', totalGrn);
       setFieldValue(
-        "paymentDueDate",
+        'paymentDueDate',
         grnDDLData[grnDDLData?.length - 1]?.duePaymentDate
       );
       // const diff =
       //   Number(supplierAmountInfo?.poAdvanceAmount?.toFixed(2)) -
       //   Number(supplierAmountInfo?.totalAdjustedBalance?.toFixed(2));
       if (Number(supplierAmountInfo?.poPendingAdjustment) >= totalGrn) {
-        setFieldValue("new_Adv_Adjustment", totalGrn);
+        setFieldValue('new_Adv_Adjustment', totalGrn);
         setFieldValue(
-          "curentAdjustmentBalance",
+          'curentAdjustmentBalance',
           values?.totalAdjustedBalance - totalGrn
         );
       } else {
-        setFieldValue("new_Adv_Adjustment", Number(supplierAmountInfo?.poPendingAdjustment));
         setFieldValue(
-          "curentAdjustmentBalance",
+          'new_Adv_Adjustment',
+          Number(supplierAmountInfo?.poPendingAdjustment)
+        );
+        setFieldValue(
+          'curentAdjustmentBalance',
           values?.totalAdjustedBalance - supplierAmountInfo?.poAdvanceAmount
         );
       }
@@ -210,14 +216,17 @@ export default function ShippingSupplerInvoiceForm() {
       (total, value) => total + +value?.referenceAmount || 0,
       0
     );
-    setFieldValue("grossInvoiceAmount", totalGrn);
+    setFieldValue('grossInvoiceAmount', totalGrn);
     // const diff =
     //   Number(supplierAmountInfo?.poAdvanceAmount?.toFixed(2)) -
     //   Number(supplierAmountInfo?.totalAdjustedBalance?.toFixed(2));
     if (Number(supplierAmountInfo?.poPendingAdjustment) >= totalGrn) {
-      setFieldValue("new_Adv_Adjustment", totalGrn);
+      setFieldValue('new_Adv_Adjustment', totalGrn);
     } else {
-      setFieldValue("new_Adv_Adjustment", Number(supplierAmountInfo?.poPendingAdjustment));
+      setFieldValue(
+        'new_Adv_Adjustment',
+        Number(supplierAmountInfo?.poPendingAdjustment)
+      );
     }
     setgrnGridData(data);
   };
@@ -230,16 +239,16 @@ export default function ShippingSupplerInvoiceForm() {
   const modalView = (code) => {
     return confirmAlert({
       title: `Bill Code: ${code} `,
-      message: "",
+      message: '',
       buttons: [],
     });
   };
 
-  console.log("headerData", headerData)
+  console.log('headerData', headerData);
 
   const saveHandler = async (values, cb) => {
     if (!values?.warehouse?.value) {
-      return toast.warn("Please select Warehouse.")
+      return toast.warn('Please select Warehouse.');
     }
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       // create api
@@ -253,7 +262,7 @@ export default function ShippingSupplerInvoiceForm() {
         purchaseOrganizationId: values.purchaseOrg.value,
         purchaseOrganizationName: values.purchaseOrg.label,
         plantId: headerData?.plant?.value || 0,
-        plantName: headerData?.plant?.label || "",
+        plantName: headerData?.plant?.label || '',
         warehouseId: values.warehouse.value,
         warehouseName: values.warehouse.label,
         businessPartnerId: values.purchaseOrder.supplierId || 0,
@@ -270,7 +279,7 @@ export default function ShippingSupplerInvoiceForm() {
         netPaymentAmount:
           +values?.grossInvoiceAmount - +values?.new_Adv_Adjustment || 0,
         paymentDueDate: values.paymentDueDate,
-        remarks: values.remarks || "",
+        remarks: values.remarks || '',
         actionBy: profileData.userId,
         lastActionDateTime: values.invoiceDate,
         serverDateTime: values.invoiceDate,
@@ -283,7 +292,7 @@ export default function ShippingSupplerInvoiceForm() {
         if (r?.data) {
           if (fileObjects.length < 1) {
             setDisabled(false);
-            return toast.warn("Attachment required");
+            return toast.warn('Attachment required');
           } else {
             const compressedFile = await compressfile(
               fileObjects?.map((f) => f.file)
@@ -312,7 +321,7 @@ export default function ShippingSupplerInvoiceForm() {
                     modalView
                   );
                 } else {
-                  toast.warning("You must have to add atleast one item");
+                  toast.warning('You must have to add atleast one item');
                 }
               })
               .catch((err) => {
@@ -369,7 +378,7 @@ export default function ShippingSupplerInvoiceForm() {
               );
             }
           } else {
-            toast.warning("You must have to add atleast one item");
+            toast.warning('You must have to add atleast one item');
           }
         }
       } catch (error) {

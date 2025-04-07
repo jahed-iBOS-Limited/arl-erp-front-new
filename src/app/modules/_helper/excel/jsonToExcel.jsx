@@ -1,4 +1,4 @@
-import { createFile } from "./index";
+import { createFile } from './index';
 export const generateJsonToExcel = (header, data, fileName, getZakatBlob) => {
   const headerMap = new Map();
   header.forEach((head) => {
@@ -9,11 +9,11 @@ export const generateJsonToExcel = (header, data, fileName, getZakatBlob) => {
   data.forEach((item, index) => {
     newData[index] = [];
     header.forEach((head) => {
-      head["border"] = "all #000000 thin";
-      head["bold"] = true;
-      head["fontSize"] = 11;
+      head['border'] = 'all #000000 thin';
+      head['bold'] = true;
+      head['fontSize'] = 11;
       newData[index].push({
-        text: item[head.key] !== null ? item[head?.key] : "",
+        text: item[head.key] !== null ? item[head?.key] : '',
         textFormat: head?.textFormat,
         alignment: head?.alignment,
         border: head?.border,
@@ -23,11 +23,11 @@ export const generateJsonToExcel = (header, data, fileName, getZakatBlob) => {
 
   createFile(
     {
-      name: fileName ? fileName : "excel",
-      creator: "ibos.io",
+      name: fileName ? fileName : 'excel',
+      creator: 'ibos.io',
       sheets: [
         {
-          name: "sheet-1",
+          name: 'sheet-1',
           gridLine: false,
           header: header,
           rows: [header, ...newData],

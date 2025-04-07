@@ -1,13 +1,13 @@
-import axios from "axios";
-import { models } from "powerbi-client";
-import { PowerBIEmbed } from "powerbi-client-react";
-import React, { useEffect } from "react";
-import "react-confirm-alert/src/react-confirm-alert.css";
-import { useDispatch, useSelector } from "react-redux";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { SetPowerBiAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import Loading from "../../../../_helper/_loading";
-import "./styles.css";
+import axios from 'axios';
+import { models } from 'powerbi-client';
+import { PowerBIEmbed } from 'powerbi-client-react';
+import React, { useEffect } from 'react';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import { useDispatch, useSelector } from 'react-redux';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { SetPowerBiAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import Loading from '../../../../_helper/_loading';
+import './styles.css';
 
 const SalesOfficersKPIReport = ({
   values,
@@ -41,7 +41,7 @@ const SalesOfficersKPIReport = ({
           };
           try {
             const payload = {
-              accessLevel: "View",
+              accessLevel: 'View',
             };
             // 3rd api
             const resGenerateToken = await axios.post(
@@ -72,7 +72,6 @@ const SalesOfficersKPIReport = ({
 
   useEffect(() => {
     getData();
-
   }, []);
   return (
     <div>
@@ -80,19 +79,19 @@ const SalesOfficersKPIReport = ({
       {localStorageData?.generateToken ? (
         <PowerBIEmbed
           embedConfig={{
-            type: "report",
+            type: 'report',
             id: localStorageData?.reportId,
             embedUrl: localStorageData?.embedUrl,
             accessToken: localStorageData?.generateToken,
             tokenType: models.TokenType.Embed,
             parameterValues: [
-              { name: "unitid", value: `${selectedBusinessUnit}` },
-              { name: "ChannelId", value: `${values?.channel?.value}` },
-              { name: "fromdate", value: `${values?.fromDate}` },
-              { name: "toDate", value: `${values?.toDate}` },
-              { name: "RATId", value: `${ratId}` },
-              { name: "intLevelid", value: `${levelId}` },
-              { name: "intEmployeeid", value: `${userId}` },
+              { name: 'unitid', value: `${selectedBusinessUnit}` },
+              { name: 'ChannelId', value: `${values?.channel?.value}` },
+              { name: 'fromdate', value: `${values?.fromDate}` },
+              { name: 'toDate', value: `${values?.toDate}` },
+              { name: 'RATId', value: `${ratId}` },
+              { name: 'intLevelid', value: `${levelId}` },
+              { name: 'intEmployeeid', value: `${userId}` },
             ],
             settings: {
               commands: {
@@ -105,26 +104,26 @@ const SalesOfficersKPIReport = ({
           eventHandlers={
             new Map([
               [
-                "loaded",
+                'loaded',
                 function () {
-                  console.log("Report loaded");
+                  console.log('Report loaded');
                 },
               ],
               [
-                "rendered",
+                'rendered',
                 function () {
-                  console.log("Report rendered");
+                  console.log('Report rendered');
                 },
               ],
               [
-                "error",
+                'error',
                 function (event) {
                   console.log(event.detail);
                 },
               ],
             ])
           }
-          cssClassName={"powerbi-report-style-class"}
+          cssClassName={'powerbi-report-style-class'}
           getEmbeddedComponent={(embeddedReport) => {
             window.report = embeddedReport;
           }}

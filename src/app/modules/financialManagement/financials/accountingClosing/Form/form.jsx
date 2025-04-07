@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { getBusinessUnitDDL } from "../../../report/balanceReport/helper";
-import NewSelect from "../../../../_helper/_select";
+import React, { useEffect, useState } from 'react';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { getBusinessUnitDDL } from '../../../report/balanceReport/helper';
+import NewSelect from '../../../../_helper/_select';
 // Validation schema
 const validationSchema = Yup.object().shape({
-  currentPeriodEndDate: Yup.string().required("Date is required"),
+  currentPeriodEndDate: Yup.string().required('Date is required'),
 });
 
 export default function FormCmp({
@@ -42,7 +42,7 @@ export default function FormCmp({
                 value={values?.businessUnit}
                 label="Business Unit"
                 onChange={(valueOption) => {
-                  setFieldValue("businessUnit", valueOption);
+                  setFieldValue('businessUnit', valueOption);
                 }}
                 placeholder="Business Unit"
               />
@@ -54,7 +54,7 @@ export default function FormCmp({
                 value={values?.fromDate}
                 name="fromDate"
                 onChange={(e) => {
-                  setFieldValue("fromDate", e.target.value);
+                  setFieldValue('fromDate', e.target.value);
                 }}
                 type="date"
               />
@@ -66,7 +66,7 @@ export default function FormCmp({
                 value={values?.toDate}
                 name="fromDate"
                 onChange={(e) => {
-                  setFieldValue("toDate", e.target.value);
+                  setFieldValue('toDate', e.target.value);
                 }}
                 type="date"
               />
@@ -74,28 +74,28 @@ export default function FormCmp({
           </div>
           <div className="row">
             <div className="col-md-12">
-             <div className="table-responsive">
-             <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm">
-                <thead>
-                  <tr></tr>
-                </thead>
-                <tbody>
-                  <tr></tr>
-                </tbody>
-              </table>
-             </div>
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm">
+                  <thead>
+                    <tr></tr>
+                  </thead>
+                  <tbody>
+                    <tr></tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
           <button
             type="submit"
-            style={{ display: "none" }}
+            style={{ display: 'none' }}
             ref={btnRef}
             onSubmit={() => handleSubmit()}
           ></button>
 
           <button
             type="reset"
-            style={{ display: "none" }}
+            style={{ display: 'none' }}
             ref={resetBtnRef}
             onSubmit={() => resetForm(initData)}
           ></button>

@@ -1,17 +1,21 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-
-
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getEmpInfoById = async (valueOption, setFieldValue, fieldName) => {
   try {
-    let res = await Axios.get(`/hcm/HCMDDL/GetEmployeeDetailsByEmpId?EmpId=${valueOption?.value}`);
-    let { employeeInfoDesignation, employeeBusinessUnit, employeeInfoDepartment } = res?.data
+    let res = await Axios.get(
+      `/hcm/HCMDDL/GetEmployeeDetailsByEmpId?EmpId=${valueOption?.value}`
+    );
+    let {
+      employeeInfoDesignation,
+      employeeBusinessUnit,
+      employeeInfoDepartment,
+    } = res?.data;
     setFieldValue(
-      "employeeInfo",
+      'employeeInfo',
       `${employeeInfoDesignation},${employeeInfoDepartment},${employeeBusinessUnit}`
     );
-    setFieldValue(fieldName, { ...valueOption, ...res?.data })
+    setFieldValue(fieldName, { ...valueOption, ...res?.data });
   } catch (error) {
     return null;
   }
@@ -29,9 +33,7 @@ export const getCountryDDL = async (setter) => {
 
 export const getDistrictDDLAction = async (countryId, divisionId, setter) => {
   try {
-    const res = await Axios.get(
-      `/hcm/HCMDDL/GetBDAllDistrictDDL`
-    );
+    const res = await Axios.get(`/hcm/HCMDDL/GetBDAllDistrictDDL`);
     setter(res?.data);
   } catch (error) {
     setter([]);
@@ -49,7 +51,7 @@ export const leaveAppLandingPagintaion_api = async (
       `/hcm/LeaveApplication/LeaveApplicationLandingPagintaion?EmployeeId=${empId}&PageNo=1&PageSize=1000&viewOrder=desc`
     );
     const data = res?.data;
-    console.log(res?.data, "res?.data");
+    console.log(res?.data, 'res?.data');
     setter(data?.data);
     setLoader(false);
   } catch (error) {
@@ -58,7 +60,13 @@ export const leaveAppLandingPagintaion_api = async (
   }
 };
 
-export const changeReqSaveAction = async (payload, setLoader, changeReqDateCb, PrevValues, setIsShowModal) => {
+export const changeReqSaveAction = async (
+  payload,
+  setLoader,
+  changeReqDateCb,
+  PrevValues,
+  setIsShowModal
+) => {
   setLoader(true);
   try {
     const res = await Axios.post(
@@ -66,12 +74,12 @@ export const changeReqSaveAction = async (payload, setLoader, changeReqDateCb, P
       payload
     );
     // callback for leave application, it will be called from modal, when user save req date
-    changeReqDateCb(PrevValues)
-    setIsShowModal(false)
-    toast.success(res.data?.message || "Updated successfully");
+    changeReqDateCb(PrevValues);
+    setIsShowModal(false);
+    toast.success(res.data?.message || 'Updated successfully');
     setLoader(false);
   } catch (error) {
-    toast.warn(error?.response?.data?.message || "Please try again");
+    toast.warn(error?.response?.data?.message || 'Please try again');
     setLoader(false);
   }
 };
@@ -146,18 +154,20 @@ export const saveLeaveMovementAction = async (data, cb, setDisabled) => {
   } = data;
   try {
     if ((typeId === 10 || typeId === 8) && (!tmStart || !tmEnd))
-      return toast.warn("Time is required");
+      return toast.warn('Time is required');
     setDisabled(true);
 
     let fromModifiedTime = tmStart || null;
     let toModifiedTime = tmEnd || null;
 
-    let url = `/hcm/HCMLeaveApplication/LeaveApplication?leaveTypeId=${typeId}&employeeId=${employeeId}&accountId=${accountId}&businessUnitId=${businessUnitId}&applicationDate=${applicationDate}&appliedFromDate=${appliedFromDate}&appliedToDate=${appliedToDate}&leaveReason=${reason}&addressDuetoLeave=${addressDueToLeaveMove}&ActionBy=${actionBy}&documentFile=${documentFile ? documentFile : ""
-      }`;
+    let url = `/hcm/HCMLeaveApplication/LeaveApplication?leaveTypeId=${typeId}&employeeId=${employeeId}&accountId=${accountId}&businessUnitId=${businessUnitId}&applicationDate=${applicationDate}&appliedFromDate=${appliedFromDate}&appliedToDate=${appliedToDate}&leaveReason=${reason}&addressDuetoLeave=${addressDueToLeaveMove}&ActionBy=${actionBy}&documentFile=${
+      documentFile ? documentFile : ''
+    }`;
 
     if (fromModifiedTime && toModifiedTime) {
-      url = `/hcm/HCMLeaveApplication/LeaveApplication?leaveTypeId=${typeId}&employeeId=${employeeId}&accountId=${accountId}&businessUnitId=${businessUnitId}&applicationDate=${applicationDate}&appliedFromDate=${appliedFromDate}&appliedToDate=${appliedToDate}&leaveReason=${reason}&addressDuetoLeave=${addressDueToLeaveMove}&ActionBy=${actionBy}&documentFile=${documentFile ? documentFile : ""
-        }&startTime=${fromModifiedTime}&endTime=${toModifiedTime}`;
+      url = `/hcm/HCMLeaveApplication/LeaveApplication?leaveTypeId=${typeId}&employeeId=${employeeId}&accountId=${accountId}&businessUnitId=${businessUnitId}&applicationDate=${applicationDate}&appliedFromDate=${appliedFromDate}&appliedToDate=${appliedToDate}&leaveReason=${reason}&addressDuetoLeave=${addressDueToLeaveMove}&ActionBy=${actionBy}&documentFile=${
+        documentFile ? documentFile : ''
+      }&startTime=${fromModifiedTime}&endTime=${toModifiedTime}`;
     }
     let res = await Axios.post(url);
     // do not remove this status code check, this is mendatory
@@ -182,7 +192,7 @@ export const saveMovementAction = async (data, cb, setDisabled) => {
       `/hcm/HCMMovementApplication/CreateMovementApplication`,
       data
     );
-    toast.success("Submitted successfully");
+    toast.success('Submitted successfully');
     cb();
     setDisabled(false);
   } catch (error) {
@@ -202,7 +212,7 @@ export const removeLeaveMoveAction = async (
       `/hcm/LeaveAndMovement/RemoveLeaveOrMovement`,
       payload?.data
     );
-    toast.success(res.data?.message || "Leave/Movement remove successfully");
+    toast.success(res.data?.message || 'Leave/Movement remove successfully');
     setRowDto(updateRowDto);
     payload.cb();
   } catch (error) {
@@ -220,7 +230,7 @@ export const removeOfficialMovement_api = async (
       `/hcm/OfficialMovement/RemoveOfficialMovement`,
       payload?.data
     );
-    toast.success(res.data?.message || "Leave/Movement remove successfully");
+    toast.success(res.data?.message || 'Leave/Movement remove successfully');
     setRowDto(updateRowDto);
     payload.cb();
   } catch (error) {

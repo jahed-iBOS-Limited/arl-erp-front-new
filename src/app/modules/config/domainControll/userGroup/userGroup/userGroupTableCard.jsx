@@ -1,4 +1,3 @@
-
 import React, { useEffect, useMemo, useState } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import Axios from 'axios';
@@ -30,7 +29,7 @@ export function UserGroupTable() {
     setLoading(true);
     try {
       const res = await Axios.get(
-        `/domain/CreateUserGroup/GetUserGroupInformationPasignation?AccountId=${accId}&businessUnitId=${buId}&Status=true&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
+        `/domain/CreateUserGroup/GetUserGroupInformationPasignation?AccountId=${accId}&businessUnitId=${buId}&Status=true&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
       );
       setProducts(res?.data);
       setLoading(false);
@@ -45,7 +44,7 @@ export function UserGroupTable() {
       profileData?.accountId,
       selectedBusinessUnit.value,
       pageNo,
-      pageSize,
+      pageSize
     );
   };
 
@@ -55,7 +54,7 @@ export function UserGroupTable() {
         profileData.accountId,
         selectedBusinessUnit.value,
         pageNo,
-        pageSize,
+        pageSize
       );
     }
   }, [selectedBusinessUnit, profileData]);

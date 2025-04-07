@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { GetProfitCenterPagination } from "../helper";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import { GetProfitCenterPagination } from '../helper';
 
 export function TableRow() {
   const [gridData, setGridData] = useState([]);
@@ -27,7 +27,6 @@ export function TableRow() {
         setGridData
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   return (

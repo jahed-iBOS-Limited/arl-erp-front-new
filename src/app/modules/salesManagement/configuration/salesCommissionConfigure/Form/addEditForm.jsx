@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -49,7 +48,7 @@ export default function SalesCommissionConfigureEntryForm() {
 
   useEffect(() => {
     getDesignationList(
-      `/hcm/HCMDDL/GetPeopleDeskDesignationDDL?accountId=${accountId}&businessUnitId=${buId}`,
+      `/hcm/HCMDDL/GetPeopleDeskDesignationDDL?accountId=${accountId}&businessUnitId=${buId}`
     );
   }, []);
 
@@ -58,10 +57,10 @@ export default function SalesCommissionConfigureEntryForm() {
       `/wms/WmsReport/GetCommissionTypeDDL?businessUnitId=${buId}`,
       (resData) => {
         setCommissionTypes(resData?.data);
-      },
+      }
     );
     getCustomerTypeDDL(
-      `/oms/DistributionChannel/GetCustomerStatusTypeDDL?BUnitId=${buId}`,
+      `/oms/DistributionChannel/GetCustomerStatusTypeDDL?BUnitId=${buId}`
     );
   }, [buId]);
 
@@ -126,7 +125,7 @@ export default function SalesCommissionConfigureEntryForm() {
       ].includes(commissionTypeId)
     ) {
       const isCommonRateApplicable = [35, 36, 37, 38, 39, 40, 46, 43].includes(
-        commissionTypeId,
+        commissionTypeId
       );
       const commissionRate = commonRate || 0;
 
@@ -181,7 +180,7 @@ export default function SalesCommissionConfigureEntryForm() {
           }));
 
           setRowData(modifyData);
-        },
+        }
       );
     }
   };
@@ -243,7 +242,7 @@ export default function SalesCommissionConfigureEntryForm() {
       () => {
         cb();
       },
-      true,
+      true
     );
   };
 

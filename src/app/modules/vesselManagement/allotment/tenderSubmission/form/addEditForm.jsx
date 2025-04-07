@@ -91,7 +91,7 @@ export default function TenderSubmissionCreateEditForm() {
         // this is only for badc mop state that update mop rows data when edit
         (values) => {
           updateMopRowsData(values?.rowDTOs);
-        },
+        }
       );
 
       if (landingPageState?.businessPartnerName === 'BCIC') {
@@ -101,7 +101,7 @@ export default function TenderSubmissionCreateEditForm() {
           accountId,
           buUnId,
           getGodownDDL,
-          updateGodownDDL,
+          updateGodownDDL
         );
       }
 
@@ -111,11 +111,10 @@ export default function TenderSubmissionCreateEditForm() {
           accountId,
           buUnId,
           landingPageState?.dischargePortId,
-          getMotherVesselDDL,
+          getMotherVesselDDL
         );
       }
     }
-
   }, []);
 
   const saveHandler = (values, mopRowsData, tenderId, cb) => {
@@ -129,7 +128,7 @@ export default function TenderSubmissionCreateEditForm() {
         userId,
       }),
       cb,
-      true,
+      true
     );
   };
 
@@ -244,7 +243,7 @@ export default function TenderSubmissionCreateEditForm() {
               accountId,
               buUnId,
               valueOption?.value,
-              getMotherVesselDDL,
+              getMotherVesselDDL
             );
           }}
           errors={errors}
@@ -349,7 +348,7 @@ export default function TenderSubmissionCreateEditForm() {
                         onChange={(valueOption) => {
                           setFieldValue(
                             `localTransportations[${index}].godownName`,
-                            valueOption,
+                            valueOption
                           );
                         }}
                         errors={errors}
@@ -377,7 +376,7 @@ export default function TenderSubmissionCreateEditForm() {
                         onChange={(e) => {
                           setFieldValue(
                             `localTransportations[${index}].quantity`,
-                            e.target.value,
+                            e.target.value
                           );
                         }}
                       />
@@ -396,7 +395,7 @@ export default function TenderSubmissionCreateEditForm() {
                         onChange={(e) => {
                           setFieldValue(
                             `localTransportations[${index}].price`,
-                            e.target.value,
+                            e.target.value
                           );
                         }}
                       />
@@ -521,7 +520,7 @@ export default function TenderSubmissionCreateEditForm() {
               buUnId,
               getMopRowsData,
               values,
-              updateMopRowsData,
+              updateMopRowsData
             )
           }
           disabled={
@@ -693,7 +692,7 @@ export default function TenderSubmissionCreateEditForm() {
                           accountId,
                           buUnId,
                           getGodownDDL,
-                          updateGodownDDL,
+                          updateGodownDDL
                         );
                       }
                     }}
@@ -714,7 +713,7 @@ export default function TenderSubmissionCreateEditForm() {
                     values,
                     setFieldValue,
                     errors,
-                    touched,
+                    touched
                   )}
 
                 {/* Form Field for BCIC Foreign Part */}
@@ -723,7 +722,7 @@ export default function TenderSubmissionCreateEditForm() {
                     values,
                     setFieldValue,
                     errors,
-                    touched,
+                    touched
                   )}
 
                 {/* Form Field for BADC */}
@@ -757,7 +756,7 @@ export default function TenderSubmissionCreateEditForm() {
                   values,
                   setFieldValue,
                   validateForm,
-                  setTouched,
+                  setTouched
                 )}
 
               {/* Form Field for BCIC Local Part */}

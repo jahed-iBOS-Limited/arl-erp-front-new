@@ -1,27 +1,27 @@
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./Form";
-import IForm from "../../../../_helper/_form";
-import { toast } from "react-toastify";
-import {saveData} from "../helper"
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './Form';
+import IForm from '../../../../_helper/_form';
+import { toast } from 'react-toastify';
+import { saveData } from '../helper';
 
 let initData = {
-  employeeDDL:null,
-  monthDDL:null,
-  yearDDL:null,
-  additionalAmount: "",
-  deductionAmount: "",
-  department: "",
-  designation: "",
-  employeeName: "",
-  averageDaamount: "",
-  monthlyMeetingExpAmount: "",
-  monthlyOthersAmount: "",
-  monthlyTaamount: "",
-  totalDaamount: "",
-  totalPresentDay: "",
-  totalWorkingDay: "",
-  meetingExpense:"",
+  employeeDDL: null,
+  monthDDL: null,
+  yearDDL: null,
+  additionalAmount: '',
+  deductionAmount: '',
+  department: '',
+  designation: '',
+  employeeName: '',
+  averageDaamount: '',
+  monthlyMeetingExpAmount: '',
+  monthlyOthersAmount: '',
+  monthlyTaamount: '',
+  totalDaamount: '',
+  totalPresentDay: '',
+  totalWorkingDay: '',
+  meetingExpense: '',
 };
 
 export default function SalesforceMonthlyTaDa({
@@ -49,15 +49,16 @@ export default function SalesforceMonthlyTaDa({
 
   const saveHandler = async (values, cb) => {
     try {
-      const res = saveData(values,profileData?.accountId, selectedBusinessUnit.value,profileData?.userId)
-      toast.success('data successfully added')
-      console.log(res)
-      cb()
-    } catch (error) {
-      
-    }
- 
-
+      const res = saveData(
+        values,
+        profileData?.accountId,
+        selectedBusinessUnit.value,
+        profileData?.userId
+      );
+      toast.success('data successfully added');
+      console.log(res);
+      cb();
+    } catch (error) {}
   };
 
   const disableHandler = (cond) => {
@@ -68,7 +69,7 @@ export default function SalesforceMonthlyTaDa({
 
   return (
     <IForm
-      title={"Sales Force Monthly TaDa"}
+      title={'Sales Force Monthly TaDa'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

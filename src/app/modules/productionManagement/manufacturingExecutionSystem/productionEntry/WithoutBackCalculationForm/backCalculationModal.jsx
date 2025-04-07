@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { Form, Formik } from "formik";
-import IForm from "../../../../_helper/_form";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { Form, Formik } from 'formik';
+import IForm from '../../../../_helper/_form';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import { toast } from 'react-toastify';
 
 export default function BackCalculationModal({
   values,
@@ -35,7 +35,7 @@ export default function BackCalculationModal({
       currenctItem?.requiredQuantity * currenctItem?.numStockRateByDate
     );
   }, 0);
-console.log("calculateTotalValue", calculateTotalValue)
+  console.log('calculateTotalValue', calculateTotalValue);
   const calculateTotalExpence = () => {
     const { lotSize, billOfExpense } = rowData?.[0] || {};
     return (billOfExpense / lotSize) * goodQty;
@@ -88,7 +88,6 @@ console.log("calculateTotalValue", calculateTotalValue)
         );
       }
     );
-
   }, [productionOrderId, wareHouseId, goodQty, values?.dteProductionDate]);
 
   return (
@@ -102,17 +101,17 @@ console.log("calculateTotalValue", calculateTotalValue)
             message: `Are you sure about returning the remaining quantity of the product?`,
             yesAlertFunc: () => {
               if (values?.isLastProduction) {
-                setFieldValue("materialCost", calculateTotalValue);
-                setFieldValue("overheadCost", calculateTotalExpence());
+                setFieldValue('materialCost', calculateTotalValue);
+                setFieldValue('overheadCost', calculateTotalExpence());
                 setIsShowModal(false);
               }
             },
             noAlertFunc: () => {},
           });
         } else {
-          console.log("calculateTotalValue2", calculateTotalValue)
-          setFieldValue("materialCost", calculateTotalValue);
-          setFieldValue("overheadCost", calculateTotalExpence());
+          console.log('calculateTotalValue2', calculateTotalValue);
+          setFieldValue('materialCost', calculateTotalValue);
+          setFieldValue('overheadCost', calculateTotalExpence());
           setIsShowModal(false);
         }
       }}
@@ -121,7 +120,7 @@ console.log("calculateTotalValue", calculateTotalValue)
         <>
           {(bomDetailsLoader || stockQtyListLoader) && <Loading />}
           <IForm
-            title={"BOM Calculation"}
+            title={'BOM Calculation'}
             getProps={setObjprops}
             isHiddenReset
             isHiddenBack
@@ -140,7 +139,7 @@ console.log("calculateTotalValue", calculateTotalValue)
                         <th>Rate</th>
                         <th>Value</th>
                         <th>
-                          {values?.isLastProduction ? "Return Qty" : "Rest Qty"}
+                          {values?.isLastProduction ? 'Return Qty' : 'Rest Qty'}
                         </th>
                       </tr>
                     </thead>
@@ -197,8 +196,8 @@ console.log("calculateTotalValue", calculateTotalValue)
                                   (+item?.numApprovedQuantity || 0) -
                                     (+item?.requiredQuantity || 0) >=
                                   1
-                                    ? "text-warning"
-                                    : ""
+                                    ? 'text-warning'
+                                    : ''
                                 }
                               >
                                 {(+item?.numApprovedQuantity || 0) -
@@ -246,13 +245,13 @@ console.log("calculateTotalValue", calculateTotalValue)
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
               ></button>
             </Form>

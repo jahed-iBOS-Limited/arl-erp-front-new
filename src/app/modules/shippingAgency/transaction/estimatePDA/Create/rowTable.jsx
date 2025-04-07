@@ -139,7 +139,7 @@ function RowTable({ rowDto, setRowDto, editId, widthOutModfifyRowDto }) {
                                         |
                                       </span>{' '}
                                       {moment(itm?.billDate).format(
-                                        'YYYY-MM-DD',
+                                        'YYYY-MM-DD'
                                       )}{' '}
                                       <span
                                         style={{
@@ -211,7 +211,7 @@ function RowTable({ rowDto, setRowDto, editId, widthOutModfifyRowDto }) {
                                   rowDto?.filter(
                                     (itm) =>
                                       itm?.category === 'Operation' &&
-                                      +itm?.estimatedAmount > 0,
+                                      +itm?.estimatedAmount > 0
                                   ) || [];
                               } else {
                                 list = [item];
@@ -255,7 +255,7 @@ function RowTable({ rowDto, setRowDto, editId, widthOutModfifyRowDto }) {
               <b>
                 {rowDto?.reduce(
                   (acc, cur) => acc + (+cur?.estimatedAmount || 0),
-                  0,
+                  0
                 ) || 0}
               </b>
             </td>
@@ -263,7 +263,7 @@ function RowTable({ rowDto, setRowDto, editId, widthOutModfifyRowDto }) {
               <b>
                 {rowDto?.reduce(
                   (acc, cur) => acc + (+cur?.customerFinalAmount || 0),
-                  0,
+                  0
                 ) || 0}
               </b>
             </td>
@@ -271,7 +271,7 @@ function RowTable({ rowDto, setRowDto, editId, widthOutModfifyRowDto }) {
               <b>
                 {rowDto?.reduce(
                   (acc, cur) => acc + (+cur?.actualAmount || 0),
-                  0,
+                  0
                 ) || 0}
               </b>
             </td>
@@ -282,9 +282,9 @@ function RowTable({ rowDto, setRowDto, editId, widthOutModfifyRowDto }) {
                     acc +
                     (cur?.estimatePDABillCreateDtos?.reduce(
                       (acc, cur) => acc + (+cur?.total || 0),
-                      0,
+                      0
                     ) || 0),
-                  0,
+                  0
                 ) || 0}
               </b>
             </td>
@@ -293,31 +293,32 @@ function RowTable({ rowDto, setRowDto, editId, widthOutModfifyRowDto }) {
         </tbody>
       </table>
 
-      {// Bill Modal
-      isBillModal && (
-        <>
-          <IViewModal
-            show={isBillModal}
-            onHide={() => {
-              isShowBillModal(false);
-              setClickRowData({});
-            }}
-          >
-            <BillForm
-              clickRowData={clickRowData}
-              estimatePDABillAddHandler={({ billRowDto, cb }) => {
-                const copyRowDto = [...rowDto];
-                copyRowDto[
-                  clickRowData?.rowIdx
-                ].estimatePDABillCreateDtos = billRowDto;
-                setRowDto(copyRowDto);
+      {
+        // Bill Modal
+        isBillModal && (
+          <>
+            <IViewModal
+              show={isBillModal}
+              onHide={() => {
                 isShowBillModal(false);
                 setClickRowData({});
               }}
-            />
-          </IViewModal>
-        </>
-      )}
+            >
+              <BillForm
+                clickRowData={clickRowData}
+                estimatePDABillAddHandler={({ billRowDto, cb }) => {
+                  const copyRowDto = [...rowDto];
+                  copyRowDto[clickRowData?.rowIdx].estimatePDABillCreateDtos =
+                    billRowDto;
+                  setRowDto(copyRowDto);
+                  isShowBillModal(false);
+                  setClickRowData({});
+                }}
+              />
+            </IViewModal>
+          </>
+        )
+      }
       {modalShow && (
         <>
           <IViewModal

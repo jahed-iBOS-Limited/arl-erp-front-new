@@ -1,16 +1,15 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import Form from "./form";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import Form from './form';
+import { toast } from 'react-toastify';
 
 const initData = {
-  channel: "",
-  customer: "",
-  partnerGroup: "",
+  channel: '',
+  customer: '',
+  partnerGroup: '',
 };
 
 export default function BusinessPartnerGroupForm() {
@@ -57,7 +56,7 @@ export default function BusinessPartnerGroupForm() {
       setRowData([...rowData, newRow]);
       cb && cb();
     } catch (error) {
-      console.log("Error occurred");
+      console.log('Error occurred');
     }
   };
 
@@ -67,7 +66,7 @@ export default function BusinessPartnerGroupForm() {
 
   const saveHandler = (values, cb) => {
     if (rowData?.length < 1) {
-      return toast.warn("Please add at least one row!");
+      return toast.warn('Please add at least one row!');
     } else {
       postData(
         `/partner/BusinessPartnerBasicInfo/CreateBusinessPartnerGroupDetails`,

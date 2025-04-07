@@ -1,8 +1,8 @@
-import React from "react";
-import { SalesTerritoryTable } from "./Table/tableHeader";
-import { UiProvider } from "../../../_helper/uiContextHelper";
-import ViewForm from "./View/viewModal";
-import { Route } from "react-router-dom";
+import React from 'react';
+import { SalesTerritoryTable } from './Table/tableHeader';
+import { UiProvider } from '../../../_helper/uiContextHelper';
+import ViewForm from './View/viewModal';
+import { Route } from 'react-router-dom';
 
 export default function SalesTerritory({ history }) {
   const uIEvents = {
@@ -23,7 +23,7 @@ export default function SalesTerritory({ history }) {
             id={match && match.params.id}
             history={history}
             onHide={() => {
-              history.push("/sales-management/configuration/salesterritory");
+              history.push('/sales-management/configuration/salesterritory');
             }}
           />
         )}

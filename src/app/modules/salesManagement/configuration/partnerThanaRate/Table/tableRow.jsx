@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { getPartnerTransportZoneLanding } from "../helper";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { getPartnerTransportZoneLanding } from '../helper';
 
 export function TableRow() {
   const history = useHistory();
@@ -37,7 +37,6 @@ export function TableRow() {
         setGridData
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize) => {
@@ -61,12 +60,12 @@ export function TableRow() {
               <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                 <thead>
                   <tr>
-                    <th style={{ width: "35px" }}>SL</th>
+                    <th style={{ width: '35px' }}>SL</th>
                     <th>Shipping Name</th>
                     {/* <th>Partner Name</th> */}
                     <th>Zone Name</th>
                     <th>Per Bag Price</th>
-                    <th style={{ width: "90px" }}>Actions</th>
+                    <th style={{ width: '90px' }}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>

@@ -1,20 +1,19 @@
-
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IForm from "../../../../_helper/_form";
-import { createRouteStandardCost } from "../helper";
-import Form from "./form";
-import Loading from "./../../../../_helper/_loading";
-import { toast } from "react-toastify";
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IForm from '../../../../_helper/_form';
+import { createRouteStandardCost } from '../helper';
+import Form from './form';
+import Loading from './../../../../_helper/_loading';
+import { toast } from 'react-toastify';
 
 const initData = {
   id: undefined,
-  transportOrganizationName: "",
-  routeName: "",
-  vehicleCapacity: "",
-  componentName: "",
-  amount: "",
-  shipPoint: "",
+  transportOrganizationName: '',
+  routeName: '',
+  vehicleCapacity: '',
+  componentName: '',
+  amount: '',
+  shipPoint: '',
   itemLists: [],
 };
 
@@ -39,7 +38,7 @@ export default function RouteStandardForm({
   const saveHandler = async (values, cb) => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (values?.itemLists?.length === 0)
-        return toast.warn("Please add atleast one item");
+        return toast.warn('Please add atleast one item');
 
       const payload = values?.itemLists?.map((itm) => ({
         standardCostId: itm?.standardCostId || 0,
@@ -65,11 +64,11 @@ export default function RouteStandardForm({
 
   return (
     <IForm
-      title='Create Route Cost Setup'
+      title="Create Route Cost Setup"
       getProps={setObjprops}
       isDisabled={isDisabled}
-      isHiddenSave={type === "view"}
-      isHiddenReset={type === "view"}
+      isHiddenSave={type === 'view'}
+      isHiddenReset={type === 'view'}
     >
       {isDisabled && <Loading />}
       <Form

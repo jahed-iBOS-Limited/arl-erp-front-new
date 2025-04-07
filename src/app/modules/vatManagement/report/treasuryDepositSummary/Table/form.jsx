@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import InputField from "../../../../_helper/_inputField";
-import { useSelector } from "react-redux";
-import GridData from "./grid";
-import { shallowEqual } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import InputField from '../../../../_helper/_inputField';
+import { useSelector } from 'react-redux';
+import GridData from './grid';
+import { shallowEqual } from 'react-redux';
 
 import {
   ModalProgressBar,
@@ -12,11 +12,11 @@ import {
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
+} from '../../../../../../_metronic/_partials/controls';
 
-import NewSelect from "../../../../_helper/_select";
-import { getVatBranches_api, TreasuryDepositReport_api } from "../helper";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import NewSelect from '../../../../_helper/_select';
+import { getVatBranches_api, TreasuryDepositReport_api } from '../helper';
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -25,9 +25,9 @@ const initData = {
   id: undefined,
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  itemType: "",
-  branch: "",
-  itemName: "",
+  itemType: '',
+  branch: '',
+  itemName: '',
 };
 
 export default function HeaderForm() {
@@ -68,7 +68,7 @@ export default function HeaderForm() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Treasury Deposit Summary"}>
+              <CardHeader title={'Treasury Deposit Summary'}>
                 <CardHeaderToolbar>
                   {/* <button
                     onClick={() => {
@@ -92,7 +92,7 @@ export default function HeaderForm() {
                         value={values?.branch}
                         label="Branch"
                         onChange={(valueOption) => {
-                          setFieldValue("branch", valueOption);
+                          setFieldValue('branch', valueOption);
                         }}
                         placeholder="Branch"
                         errors={errors}

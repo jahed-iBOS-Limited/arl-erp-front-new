@@ -1,7 +1,7 @@
-import * as requestFromServer from "./Api";
-import { distributionChannelSlice } from "./Slice";
-import { toast } from "react-toastify";
-import { isArray } from "lodash";
+import * as requestFromServer from './Api';
+import { distributionChannelSlice } from './Slice';
+import { toast } from 'react-toastify';
+import { isArray } from 'lodash';
 const { actions: slice } = distributionChannelSlice;
 
 export const GetSBUListDDLAction = (accId, buId) => (dispatch) => {
@@ -19,7 +19,7 @@ export const saveDistributionChannel = (payload, setDisabled) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
         setDisabled(false);
       }
@@ -37,7 +37,7 @@ export const saveEditedDistributionChannel = (payload, setDisabled) => () => {
     .then((res) => {
       if (res.status === 200) {
         console.log(res.data);
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         setDisabled(false);
       }
     })
@@ -48,46 +48,42 @@ export const saveEditedDistributionChannel = (payload, setDisabled) => () => {
     });
 };
 // action for get grid data
-export const getDistributionChanneData = (
-  accId,
-  buId,
-  setLoading,
-  pageNo,
-  pageSize,
-  search
-) => (dispatch) => {
-  setLoading(true);
-  return requestFromServer
-    .getGridData(accId, buId, pageNo, pageSize, search)
-    .then((res) => {
-      setLoading(false);
-      return dispatch(slice.SetGridData(res.data));
-    })
-    .catch((err) => {
-      setLoading(false);
-    });
-};
+export const getDistributionChanneData =
+  (accId, buId, setLoading, pageNo, pageSize, search) => (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .getGridData(accId, buId, pageNo, pageSize, search)
+      .then((res) => {
+        setLoading(false);
+        return dispatch(slice.SetGridData(res.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
 // action for get data by id single
 export const getDistributionChannelById = (id, setDisabled) => (dispatch) => {
-  setDisabled && setDisabled(true)
+  setDisabled && setDisabled(true);
   return requestFromServer
     .getDataById(id)
     .then((res) => {
-      setDisabled && setDisabled(false)
+      setDisabled && setDisabled(false);
       if (res.status === 200 && isArray(res?.data)) {
         const item = res?.data?.[0];
         const data = {
           ...item,
-          SBU: item?.sbuid ? {
-            value: item?.sbuid,
-            label: item?.sbuname,
-          }: "",
+          SBU: item?.sbuid
+            ? {
+                value: item?.sbuid,
+                label: item?.sbuname,
+              }
+            : '',
         };
         return dispatch(slice.SetDataById(data));
       }
     })
     .catch((err) => {
-      setDisabled && setDisabled(false)
+      setDisabled && setDisabled(false);
     });
 };
 // set single store empty

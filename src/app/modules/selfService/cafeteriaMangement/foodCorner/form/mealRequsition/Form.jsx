@@ -1,49 +1,53 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { Input } from "../../../../../../../_metronic/_partials/controls";
-import NewSelect from "../../../../../_helper/_select";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { Input } from '../../../../../../../_metronic/_partials/controls';
+import NewSelect from '../../../../../_helper/_select';
 import {
   fetchEmpBasicInfo,
   fetchPartOneMealDetails,
   fetchPartTwoMealDetails,
   getMealConsumePlaceDDL,
-} from "../../helper/action";
-import SearchAsyncSelect from "../../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
-import { shallowEqual, useSelector } from "react-redux";
-import { _todayDate } from "../../../../../_helper/_todayDate";
+} from '../../helper/action';
+import SearchAsyncSelect from '../../../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _todayDate } from '../../../../../_helper/_todayDate';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  ToDate: Yup.string().required("Date is required"),
-  CountMeal: Yup.string().required("Number of meal is required"),
+  ToDate: Yup.string().required('Date is required'),
+  CountMeal: Yup.string().required('Number of meal is required'),
   TypeId: Yup.object()
     .shape({
-      value: Yup.string().required("Type is required"),
-      label: Yup.string().required("Type is required"),
+      value: Yup.string().required('Type is required'),
+      label: Yup.string().required('Type is required'),
     })
-    .typeError("Type is required"),
-    consumePlace: Yup.object().shape({
-      value: Yup.string().required("Meal consume place is required"),
-      label: Yup.string().required("Meal consume place is required"),
-    }).typeError("Meal consume place is required"),
+    .typeError('Type is required'),
+  consumePlace: Yup.object()
+    .shape({
+      value: Yup.string().required('Meal consume place is required'),
+      label: Yup.string().required('Meal consume place is required'),
+    })
+    .typeError('Meal consume place is required'),
 });
 
 // Is Public Validation Schema
 const validationSchemaForPublic = Yup.object().shape({
-  ToDate: Yup.string().required("Date is required"),
-  CountMeal: Yup.string().required("Number of meal is required"),
+  ToDate: Yup.string().required('Date is required'),
+  CountMeal: Yup.string().required('Number of meal is required'),
   TypeId: Yup.object()
     .shape({
-      value: Yup.string().required("Type is required"),
-      label: Yup.string().required("Type is required"),
+      value: Yup.string().required('Type is required'),
+      label: Yup.string().required('Type is required'),
     })
-    .typeError("Type is required"),
-    consumePlace: Yup.object().shape({
-      value: Yup.string().required("Meal consume place is required"),
-      label: Yup.string().required("Meal consume place is required"),
-    }).typeError("Meal consume place is required"),
+    .typeError('Type is required'),
+  consumePlace: Yup.object()
+    .shape({
+      value: Yup.string().required('Meal consume place is required'),
+      label: Yup.string().required('Meal consume place is required'),
+    })
+    .typeError('Meal consume place is required'),
 });
 
 export default function FormCmp({
@@ -58,8 +62,7 @@ export default function FormCmp({
 }) {
   const [basicInfo, setbasicInfo] = useState(null);
   const [isPublic] = useState(false);
-  const [mealConsumePlaceDDL, setmealConsumePlaceDDL] = useState([])
-
+  const [mealConsumePlaceDDL, setmealConsumePlaceDDL] = useState([]);
 
   useEffect(() => {
     fetchEmpBasicInfo(profileData.employeeId, setbasicInfo);
@@ -92,8 +95,8 @@ export default function FormCmp({
             label: profileData?.employeeFullName,
           },
           TypeId: {
-            value: "2",
-            label: "Irregular",
+            value: '2',
+            label: 'Irregular',
           },
         }}
         validationSchema={
@@ -104,8 +107,8 @@ export default function FormCmp({
             let selectType = values?.selectType;
             let emp = values?.empName;
             resetForm(initData);
-            setFieldValue("selectType", selectType);
-            setFieldValue("empName", emp);
+            setFieldValue('selectType', selectType);
+            setFieldValue('empName', emp);
           });
         }}
       >
@@ -122,7 +125,7 @@ export default function FormCmp({
             <Form className="form form-label-right">
               <div className="row">
                 <div className="col-lg-6">
-                  {values?.selectType === "private" ? (
+                  {values?.selectType === 'private' ? (
                     <>
                       <NewSelect
                         name="empName"
@@ -142,7 +145,7 @@ export default function FormCmp({
                         selectedValue={values?.empName}
                         isSearchIcon={true}
                         handleChange={(valueOption) => {
-                          setFieldValue("empName", valueOption);
+                          setFieldValue('empName', valueOption);
                           setEmpId(valueOption?.value);
                           // setFieldValue("enrollId", valueOption?.value);
                           setbasicInfo(null);
@@ -207,13 +210,13 @@ export default function FormCmp({
                   <NewSelect
                     name="TypeId"
                     options={[
-                      { value: "1", label: "Regular" },
-                      { value: "2", label: "Irregular" },
+                      { value: '1', label: 'Regular' },
+                      { value: '2', label: 'Irregular' },
                     ]}
                     value={values?.TypeId}
                     label="Type"
                     onChange={(valueOption) => {
-                      setFieldValue("TypeId", valueOption);
+                      setFieldValue('TypeId', valueOption);
                     }}
                     placeholder="Type"
                     errors={errors}
@@ -227,7 +230,7 @@ export default function FormCmp({
                     value={values?.consumePlace}
                     label="Meal Consume Place"
                     onChange={(valueOption) => {
-                      setFieldValue("consumePlace", valueOption);
+                      setFieldValue('consumePlace', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -244,7 +247,7 @@ export default function FormCmp({
                     />
                     Own
                   </label>
-                  {values?.selectType === "public" && (
+                  {values?.selectType === 'public' && (
                     <label>
                       <Field
                         className="mx-1"
@@ -270,14 +273,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

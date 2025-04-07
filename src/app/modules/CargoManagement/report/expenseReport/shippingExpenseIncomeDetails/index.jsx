@@ -9,10 +9,9 @@ export default function ShippingExpenseIncomeDetails({ bookingId }) {
   useEffect(() => {
     if (bookingId) {
       getShippingExpenseIncomeDetails(
-        `${imarineBaseUrl}/domain/ShippingService/ShippingExpenseIncomeDetails?bookingId=${bookingId}`,
+        `${imarineBaseUrl}/domain/ShippingService/ShippingExpenseIncomeDetails?bookingId=${bookingId}`
       );
     }
-
   }, [bookingId]);
   return (
     <div>
@@ -88,7 +87,7 @@ export default function ShippingExpenseIncomeDetails({ bookingId }) {
                   <strong>
                     {data?.reduce(
                       (acc, item) => acc + (+item?.chargeAmount || 0),
-                      0,
+                      0
                     )}
                   </strong>
                 </td>
@@ -96,7 +95,7 @@ export default function ShippingExpenseIncomeDetails({ bookingId }) {
                   <strong>
                     {data?.reduce(
                       (acc, item) => acc + (+item?.actualExpense || 0),
-                      0,
+                      0
                     )}
                   </strong>
                 </td>

@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import NewSelect from "../../../../../../../_helper/_select";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import NewSelect from '../../../../../../../_helper/_select';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../../../../_metronic/_partials/controls";
+} from '../../../../../../../../../_metronic/_partials/controls';
 import {
   // getTerritoryByTypeIdDDL,
   getTerritoryDDLByTypeAndDisId,
@@ -17,21 +17,21 @@ import {
   // getAreaDDL,
   // getTerritoryDDL,
   // getSectionDDL,
-} from "./helper";
+} from './helper';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   territoryType: Yup.object().shape({
-    label: Yup.string().required("Territory Type is required"),
-    value: Yup.string().required("Territory Type is required"),
+    label: Yup.string().required('Territory Type is required'),
+    value: Yup.string().required('Territory Type is required'),
   }),
   territory: Yup.object().shape({
-    label: Yup.string().required("Territory is required"),
-    value: Yup.string().required("Territory is required"),
+    label: Yup.string().required('Territory is required'),
+    value: Yup.string().required('Territory is required'),
   }),
   distributionChannel: Yup.object().shape({
-    label: Yup.string().required("Distribution Channel is required"),
-    value: Yup.string().required("Distribution Channel is required"),
+    label: Yup.string().required('Distribution Channel is required'),
+    value: Yup.string().required('Distribution Channel is required'),
   }),
   // section: Yup.object().shape({
   //   label: Yup.string().required("Section is required"),
@@ -79,10 +79,10 @@ export default function FormCmp({
           setFieldValue,
           isValid,
         }) => (
-          <div className={!edit ? "editForm" : ""}>
+          <div className={!edit ? 'editForm' : ''}>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Create Salesforce Territory Information"}>
+              <CardHeader title={'Create Salesforce Territory Information'}>
                 <CardHeaderToolbar>
                   {edit ? (
                     <>
@@ -127,11 +127,16 @@ export default function FormCmp({
                     <div className="col-lg-3">
                       <NewSelect
                         name="distributionChannel"
-                        options={[...distributionChannelDDL, {value:0, label: "Top"}] || []}
+                        options={
+                          [
+                            ...distributionChannelDDL,
+                            { value: 0, label: 'Top' },
+                          ] || []
+                        }
                         value={values?.distributionChannel}
                         label="Distribution Channel"
                         onChange={(valueOption) => {
-                          setFieldValue("distributionChannel", valueOption);
+                          setFieldValue('distributionChannel', valueOption);
                         }}
                         placeholder="Distribution Channel"
                         errors={errors}
@@ -160,8 +165,8 @@ export default function FormCmp({
                             valueOption?.value,
                             setTerritoryDDL
                           );
-                          setFieldValue("territory", "");
-                          setFieldValue("territoryType", valueOption);
+                          setFieldValue('territory', '');
+                          setFieldValue('territoryType', valueOption);
                         }}
                         placeholder="Territory Type"
                         errors={errors}
@@ -176,7 +181,7 @@ export default function FormCmp({
                         value={values?.territory}
                         label="Territory"
                         onChange={(valueOption) => {
-                          setFieldValue("territory", valueOption);
+                          setFieldValue('territory', valueOption);
                         }}
                         placeholder="Territory"
                         errors={errors}

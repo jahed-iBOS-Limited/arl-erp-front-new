@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   saveShipment,
   getSalesContactById,
@@ -13,50 +13,50 @@ import {
   getVehicleSingleDatabyVehicleIdAction,
   getDeliveryItemVolumeInfoAction,
   getIsSubsidyRunningAction,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
 import {
   getPlantDDLAction,
   getSalesOrgDDLAction,
   getDistributionChannelDDLAction,
   getItemSaleDDLAction,
-} from "../../../../_helper/_redux/Actions";
-import { isUniq } from "../../../../_helper/uniqChecker";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { useLocation } from "react-router-dom";
-import { getLoadingPointDDLAction } from "./../_redux/Actions";
-import { toast } from "react-toastify";
-import Loading from "./../../../../_helper/_loading";
-import { shipmentInfoUpdate } from "../helper";
+} from '../../../../_helper/_redux/Actions';
+import { isUniq } from '../../../../_helper/uniqChecker';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { useLocation } from 'react-router-dom';
+import { getLoadingPointDDLAction } from './../_redux/Actions';
+import { toast } from 'react-toastify';
+import Loading from './../../../../_helper/_loading';
+import { shipmentInfoUpdate } from '../helper';
 
 const initData = {
   id: undefined,
-  Vehicle: "",
-  vehicleId: "",
-  route: "",
-  transportMode: "",
-  transportZone: "",
-  shipPoint: "",
-  shipmentType: "",
-  loadingPoint: "",
-  pendingDelivery: "",
+  Vehicle: '',
+  vehicleId: '',
+  route: '',
+  transportMode: '',
+  transportZone: '',
+  shipPoint: '',
+  shipmentType: '',
+  loadingPoint: '',
+  pendingDelivery: '',
   startDate: _todayDate(),
   shipmentdate: _todayDate(),
-  lastDistance: "",
+  lastDistance: '',
   estimatedTimeofArrival: _todayDate(),
   planedLoadingTime: _todayDate(),
-  driverName: "",
-  driverContactNo: "",
-  driverId: "",
-  supplierName: "",
-  isLaborImpart: { value: false, label: "No" },
-  laborSupplierName: "",
-  totalBundle: "",
-  totalPieces: "",
-  veichleEntry: "",
-  strCardNo: "",
-  cnfSupplier: "",
-  freightForwarder: "",
+  driverName: '',
+  driverContactNo: '',
+  driverId: '',
+  supplierName: '',
+  isLaborImpart: { value: false, label: 'No' },
+  laborSupplierName: '',
+  totalBundle: '',
+  totalPieces: '',
+  veichleEntry: '',
+  strCardNo: '',
+  cnfSupplier: '',
+  freightForwarder: '',
 };
 
 export default function ExportShipmentForm({
@@ -124,7 +124,6 @@ export default function ExportShipmentForm({
     } else {
       dispatch(setSalesContactSingleEmpty());
     }
-
   }, [accId, buId, id]);
 
   //Dispatch Get emplist action for get emplist ddl
@@ -140,7 +139,6 @@ export default function ExportShipmentForm({
       dispatch(getItemSaleDDLAction(accId, buId));
       dispatch(GetVehicleDDLAction(accId, buId, setvehicleDDLLoding));
     }
-
   }, [buId, accId]);
 
   const vehicleSingeDataView = (id, accId, buId, setter) => {
@@ -153,13 +151,13 @@ export default function ExportShipmentForm({
 
   const saveHandler = async (values, cb) => {
     if (rowDto?.length < 1) {
-      return toast.warn("Please add at least one item");
+      return toast.warn('Please add at least one item');
     }
-    if(!values?.cnfSupplier?.value){
-      return toast.warn("Please add CNF Supplier")
+    if (!values?.cnfSupplier?.value) {
+      return toast.warn('Please add CNF Supplier');
     }
-    if(!values?.freightForwarder?.value){
-      return toast.warn("Please add Freight Forwarder Supplier")
+    if (!values?.freightForwarder?.value) {
+      return toast.warn('Please add Freight Forwarder Supplier');
     }
     if (values && accId && buId) {
       if (id) {
@@ -236,7 +234,7 @@ export default function ExportShipmentForm({
             businessUnitId: buId,
             businessUnitName: buName,
             supplierId: values?.supplierName?.value || 0,
-            supplierName: values?.supplierName?.label || "",
+            supplierName: values?.supplierName?.label || '',
             shipmentDate: values?.shipmentdate,
             routeId: values?.route?.value,
             routeName: values?.route?.label,
@@ -253,7 +251,7 @@ export default function ExportShipmentForm({
             driverName: values?.driverName,
             driverContactNo: values?.driverContactNo,
             actionBy: userId,
-            lastActionDateTime: "2023-01-18T07:12:29.402Z",
+            lastActionDateTime: '2023-01-18T07:12:29.402Z',
             unloadVehicleWeight: vehicleSingleData?.weight,
             unloadVehicleVolume: vehicleSingleData?.volume,
             itemTotalGrowssWeight:
@@ -272,7 +270,7 @@ export default function ExportShipmentForm({
             totalBundel: values?.totalBundle || 0,
             totalPieces: values?.totalPieces || 0,
             veichleEntryId: values.veichleEntry?.value || 0,
-            veichleEntryCode: values.veichleEntry?.label || "",
+            veichleEntryCode: values.veichleEntry?.label || '',
           },
           shipmentRowEntryList: rowDto.map((itm) => {
             return {
@@ -323,11 +321,11 @@ export default function ExportShipmentForm({
           shipmentRowEntryList: shipmentRowEntryList,
           shipmentHeader: {
             cnfId: values?.cnfSupplier?.value || 0,
-            cnfName: values?.cnfSupplier?.label || "",
+            cnfName: values?.cnfSupplier?.label || '',
             freightForwarderId: values?.freightForwarder?.value || 0,
-            freightForwarderName: values?.freightForwarder?.label || "",
+            freightForwarderName: values?.freightForwarder?.label || '',
             veichleEntryId: values.veichleEntry?.value || 0,
-            veichleEntryCode: values.veichleEntry?.label || "",
+            veichleEntryCode: values.veichleEntry?.label || '',
             supplierId: values?.supplierName?.value || 0,
             supplierName: values?.supplierName?.label || 0,
             shipmentId: values.shipPoint.value,
@@ -392,7 +390,7 @@ export default function ExportShipmentForm({
     if (deliveryeDatabydata) {
       if (+deliveryItemVolumeInfo?.netWeight <= 0) {
         toast.warn(
-          "Please configure item unit of measurement [UOM] using Configuration>Item Management>Item Profile"
+          'Please configure item unit of measurement [UOM] using Configuration>Item Management>Item Profile'
         );
         return;
       }
@@ -422,7 +420,7 @@ export default function ExportShipmentForm({
         },
       ];
 
-      if (isUniq("deliveryCode", values.pendingDelivery?.label, rowDto)) {
+      if (isUniq('deliveryCode', values.pendingDelivery?.label, rowDto)) {
         // route ddl options set
         const newRouteList = routeInfo?.map((item) => ({
           value: item?.routeId,
@@ -431,7 +429,7 @@ export default function ExportShipmentForm({
         const routeListJoin = [...routeListDDL, ...newRouteList];
         const unique = [
           ...new Map(
-            [...routeListJoin].map((item) => [item["value"], item])
+            [...routeListJoin].map((item) => [item['value'], item])
           ).values(),
         ];
 
@@ -440,50 +438,50 @@ export default function ExportShipmentForm({
         if (stockStatusOnShipment) {
           const rowDtoArry = [...rowDto, ...newData];
           // formik value set
-          setFieldValue("route", unique?.[0]?.value ? unique?.[0] : "");
+          setFieldValue('route', unique?.[0]?.value ? unique?.[0] : '');
           setFieldValue(
-            "transportZone",
+            'transportZone',
             routeInfo?.[0]?.zoneId
               ? {
                   value: routeInfo?.[0]?.zoneId,
                   label: routeInfo?.[0]?.zoneName,
                 }
-              : ""
+              : ''
           );
           const isCostlaborRateStatus = rowDtoArry?.some(
             (itm) => itm?.costlaborRateStatus
           );
           setFieldValue(
-            "isLaborImpart",
+            'isLaborImpart',
             isCostlaborRateStatus
-              ? { value: true, label: "Yes" }
-              : { value: false, label: "No" }
+              ? { value: true, label: 'Yes' }
+              : { value: false, label: 'No' }
           );
 
           // rowdto set
           const uniqueTwo = [
             ...new Map(
-              [...rowDtoArry].map((item) => [item["deliveryCode"], item])
+              [...rowDtoArry].map((item) => [item['deliveryCode'], item])
             ).values(),
           ];
           setRowDto(uniqueTwo);
         }
       }
       if (deliveryeDatabydata.distanceKM > values.lastDistance) {
-        setFieldValue("lastDistance", deliveryeDatabydata.distanceKM);
+        setFieldValue('lastDistance', deliveryeDatabydata.distanceKM);
         setFieldValue(
-          "lastDestinationKmCustomerId",
+          'lastDestinationKmCustomerId',
           deliveryeDatabydata.shipToPartnerId || 0
         );
       } else {
-        setFieldValue("lastDistance", values.lastDistance);
+        setFieldValue('lastDistance', values.lastDistance);
         setFieldValue(
-          "lastDestinationKmCustomerId",
+          'lastDestinationKmCustomerId',
           values?.lastDestinationKmCustomerId || 0
         );
       }
     } else {
-      toast.warning("Data not found");
+      toast.warning('Data not found');
     }
   };
   // row remove
@@ -495,10 +493,10 @@ export default function ExportShipmentForm({
       (itm) => itm?.costlaborRateStatus
     );
     setFieldValue(
-      "isLaborImpart",
+      'isLaborImpart',
       isCostlaborRateStatus
-        ? { value: true, label: "Yes" }
-        : { value: false, label: "No" }
+        ? { value: true, label: 'Yes' }
+        : { value: false, label: 'No' }
     );
   };
 
@@ -518,14 +516,12 @@ export default function ExportShipmentForm({
           null
         );
     }
-
   }, [singleData?.shipmentRowList]);
 
   useEffect(() => {
     return () => {
       dispatch(setSalesContactSingleEmpty());
     };
-
   }, []);
 
   useEffect(() => {
@@ -541,12 +537,11 @@ export default function ExportShipmentForm({
         )
       );
     }
-
   }, [headerData]);
 
   return (
     <IForm
-      title={id ? "Edit Export Shipment" : "Create Export Shipment"}
+      title={id ? 'Edit Export Shipment' : 'Create Export Shipment'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

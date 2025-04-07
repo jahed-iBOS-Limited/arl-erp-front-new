@@ -1,49 +1,49 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import WastageProductionForm from "./form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import WastageProductionForm from './form';
 
 const initData = {
-  date: "",
-  shift: "",
-  productName: "",
-  millRunningHour: "",
-  millRunningMinute: "",
-  actualProductionHour: "",
-  actualProductionMinute: "",
-  othersProductName: "",
-  quantity: "",
-  avgWeight: "",
+  date: '',
+  shift: '',
+  productName: '',
+  millRunningHour: '',
+  millRunningMinute: '',
+  actualProductionHour: '',
+  actualProductionMinute: '',
+  othersProductName: '',
+  quantity: '',
+  avgWeight: '',
 };
 
 const validationSchema = Yup.object().shape({
-  date: Yup.string().required("Date is required"),
-  millRunningHour: Yup.number().required("Mill running hour is required"),
-  millRunningMinute: Yup.number().required("Mill running minute is required"),
-  actualProductionHour: Yup.number().required("Production hour is required"),
+  date: Yup.string().required('Date is required'),
+  millRunningHour: Yup.number().required('Mill running hour is required'),
+  millRunningMinute: Yup.number().required('Mill running minute is required'),
+  actualProductionHour: Yup.number().required('Production hour is required'),
   actualProductionMinute: Yup.number().required(
-    "Production minute is required"
+    'Production minute is required'
   ),
   shift: Yup.object()
     .shape({
-      label: Yup.string().required("Shift is required"),
-      value: Yup.string().required("Shift is required"),
+      label: Yup.string().required('Shift is required'),
+      value: Yup.string().required('Shift is required'),
     })
-    .typeError("Shift is required"),
+    .typeError('Shift is required'),
   productName: Yup.object()
     .shape({
-      label: Yup.string().required("Product name is required"),
-      value: Yup.string().required("Product name is required"),
+      label: Yup.string().required('Product name is required'),
+      value: Yup.string().required('Product name is required'),
     })
-    .typeError("Product name is required"),
+    .typeError('Product name is required'),
 });
 
 export default function WastageProductionCreate() {
@@ -53,7 +53,7 @@ export default function WastageProductionCreate() {
   const [productDDL, getProductDDL] = useAxiosGet();
   const [otherProductDDL, getOtherProductDDL] = useAxiosGet();
   const [, saveData] = useAxiosPost();
-  const [modifyData, setModifyData] = useState("");
+  const [modifyData, setModifyData] = useState('');
   const [editData, getEditData] = useAxiosGet();
   const params = useParams();
 
@@ -71,7 +71,6 @@ export default function WastageProductionCreate() {
         `/mes/MSIL/GetRollingWastageAndProductionHourById?HeaderId=${params?.id}`
       );
     }
-
   }, [params?.id]);
 
   useEffect(() => {
@@ -87,16 +86,16 @@ export default function WastageProductionCreate() {
           label: editData?.header?.strMainItemName,
         },
         millRunningHour: Number(
-          editData?.header?.tmMillRunningHour?.split(":")[0]
+          editData?.header?.tmMillRunningHour?.split(':')[0]
         ),
         millRunningMinute: Number(
-          editData?.header?.tmMillRunningHour?.split(":")[1]
+          editData?.header?.tmMillRunningHour?.split(':')[1]
         ),
         actualProductionHour: Number(
-          editData?.header?.tmActualProductionHour?.split(":")[0]
+          editData?.header?.tmActualProductionHour?.split(':')[0]
         ),
         actualProductionMinute: Number(
-          editData?.header?.tmActualProductionHour?.split(":")[1]
+          editData?.header?.tmActualProductionHour?.split(':')[1]
         ),
       });
 
@@ -118,27 +117,29 @@ export default function WastageProductionCreate() {
           }))
       );
     }
-
   }, [editData?.header?.intWastageAndProductionHourHeaderId]);
 
   useEffect(() => {
-    getProductDDL(`/mes/MSIL/GetAllMSIL?PartName=MainItemOfRolling&BusinessUnitId=${selectedBusinessUnit.value}`);
-    getOtherProductDDL(`/mes/MSIL/GetAllMSIL?PartName=OthersItemOfRolling&BusinessUnitId=${selectedBusinessUnit.value}`);
-
+    getProductDDL(
+      `/mes/MSIL/GetAllMSIL?PartName=MainItemOfRolling&BusinessUnitId=${selectedBusinessUnit.value}`
+    );
+    getOtherProductDDL(
+      `/mes/MSIL/GetAllMSIL?PartName=OthersItemOfRolling&BusinessUnitId=${selectedBusinessUnit.value}`
+    );
   }, []);
 
   const addHandler = (values, setFieldValue) => {
     if (!values?.othersProductName?.value)
-      return toast.warn("Others product name is required");
+      return toast.warn('Others product name is required');
 
     if (values?.othersProductName?.value === 91408 && !values?.quantity)
-      return toast.warn("Quantity is required");
+      return toast.warn('Quantity is required');
 
-    if (!values?.avgWeight) return toast.warn("Avg weight is required");
+    if (!values?.avgWeight) return toast.warn('Avg weight is required');
     const isExist = productList.findIndex(
       (item) =>
-        item?.othersProductName?.label?.replace(/\s/g, "").toLowerCase() ===
-        values?.othersProductName?.label?.replace(/\s/g, "")?.toLowerCase()
+        item?.othersProductName?.label?.replace(/\s/g, '').toLowerCase() ===
+        values?.othersProductName?.label?.replace(/\s/g, '')?.toLowerCase()
     );
     if (isExist !== -1)
       return toast.warn(`${values?.othersProductName?.label} already exist`);
@@ -153,9 +154,9 @@ export default function WastageProductionCreate() {
       ...productList,
     ]);
 
-    setFieldValue("othersProductName", "");
-    setFieldValue("quantity", "");
-    setFieldValue("avgWeight", "");
+    setFieldValue('othersProductName', '');
+    setFieldValue('quantity', '');
+    setFieldValue('avgWeight', '');
   };
 
   const removeHandler = (index) => {
@@ -165,7 +166,7 @@ export default function WastageProductionCreate() {
 
   const saveHandler = async (values, cb) => {
     if (!productList?.length)
-      return toast.warn("Please add at least one product");
+      return toast.warn('Please add at least one product');
 
     let millRunningHour =
       values?.millRunningHour?.toString()?.length < 2
@@ -233,7 +234,7 @@ export default function WastageProductionCreate() {
 
   return (
     <IForm
-      title={"Create Wastage Production Hour"}
+      title={'Create Wastage Production Hour'}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenReset={true}

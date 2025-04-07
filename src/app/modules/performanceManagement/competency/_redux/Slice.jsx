@@ -1,17 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
-  error: "",
-  msg: "",
+  error: '',
+  msg: '',
   empDDL: [],
   gridData: [],
-  singleData: "",
+  singleData: '',
   empClusterList: [],
 };
 
 export const competencyTwoSlice = createSlice({
-  name: "competencyTwo",
+  name: 'competencyTwo',
   initialState: initState,
   reducers: {
     SetEmpDDL: (state, action) => {
@@ -34,7 +34,7 @@ export const competencyTwoSlice = createSlice({
       state.singleData = payload;
     },
     SetSingleStoreEmpty: (state) => {
-      state.singleData = "";
+      state.singleData = '';
     },
   },
 });

@@ -1,19 +1,19 @@
-import React, { useEffect } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { IInput } from "../../../../_helper/_input";
-import { useState } from "react";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import KpiEntryGrid from "./kpiEntryGrid";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import KpiReportTable from "./reportTable";
-import { setIndividualKpi_Action } from "../../../../_helper/reduxForLocalStorage/Actions";
-import axios from "axios";
-import { toast } from "react-toastify";
-import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
-import { getPmsReportAction } from "../../../_helper/getReportAction";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getObjectiveDDLAction } from "../../../_redux/Actions";
+import React, { useEffect } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { IInput } from '../../../../_helper/_input';
+import { useState } from 'react';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import KpiEntryGrid from './kpiEntryGrid';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import KpiReportTable from './reportTable';
+import { setIndividualKpi_Action } from '../../../../_helper/reduxForLocalStorage/Actions';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import SearchAsyncSelect from './../../../../_helper/SearchAsyncSelect';
+import { getPmsReportAction } from '../../../_helper/getReportAction';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { getObjectiveDDLAction } from '../../../_redux/Actions';
 
 const saveKpiTransafer = async (
   pmsId,
@@ -26,7 +26,7 @@ const saveKpiTransafer = async (
       `/pms/Kpi2/TransferTergetKPI?PmsId=${pmsId}&FromEmployeeId=${FromEmployeeId}&ToEmployeeId=${ToEmployeeId}&ActionBy=${ActionBy}`
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Transfer Succes");
+      toast.success(res?.message || 'Transfer Succes');
     }
   } catch (error) {}
 };
@@ -34,41 +34,41 @@ const saveKpiTransafer = async (
 // Validation schema
 const validationSchema = Yup.object().shape({
   employee: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Employee is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Employee is required'),
   kpiname: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(300, "Maximum 300 symbols")
-    .required("Kpi Name is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(300, 'Maximum 300 symbols')
+    .required('Kpi Name is required'),
   bscPerspective: Yup.object().shape({
-    label: Yup.string().required("Bscperspective is required"),
-    value: Yup.string().required("Bscperspective is required"),
+    label: Yup.string().required('Bscperspective is required'),
+    value: Yup.string().required('Bscperspective is required'),
   }),
   kpiformat: Yup.object().shape({
-    label: Yup.string().required("Kpi format is required"),
-    value: Yup.string().required("Kpi format is required"),
+    label: Yup.string().required('Kpi format is required'),
+    value: Yup.string().required('Kpi format is required'),
   }),
   weight: Yup.object().shape({
-    label: Yup.string().required("Weight is required"),
-    value: Yup.string().required("Weight is required"),
+    label: Yup.string().required('Weight is required'),
+    value: Yup.string().required('Weight is required'),
   }),
   maxiMini: Yup.object().shape({
-    label: Yup.string().required("Field is required"),
-    value: Yup.string().required("Field is required"),
+    label: Yup.string().required('Field is required'),
+    value: Yup.string().required('Field is required'),
   }),
   dataSource: Yup.object().shape({
-    label: Yup.string().required("Data Source is required"),
-    value: Yup.string().required("Data Source is required"),
+    label: Yup.string().required('Data Source is required'),
+    value: Yup.string().required('Data Source is required'),
   }),
 
   targetFrequency: Yup.object().shape({
-    label: Yup.string().required("Target Frequency is required"),
-    value: Yup.string().required("Target Frequency is required"),
+    label: Yup.string().required('Target Frequency is required'),
+    value: Yup.string().required('Target Frequency is required'),
   }),
   aggregationType: Yup.object().shape({
-    label: Yup.string().required("Aggregation Type is required"),
-    value: Yup.string().required("Aggregation Type is required"),
+    label: Yup.string().required('Aggregation Type is required'),
+    value: Yup.string().required('Aggregation Type is required'),
   }),
 });
 
@@ -108,11 +108,11 @@ export default function FormCmp({
   const [objRowTargetAchivment, setObjRowTargetAchivment] = useState({});
   const [allValue, setAllValue] = useState(0);
   const dispatch = useDispatch();
-  const [employee, setEmployee] = useState("");
-  const [year, setYear] = useState("");
+  const [employee, setEmployee] = useState('');
+  const [year, setYear] = useState('');
   const [isTransfer, setIsTransfer] = useState(false);
   // const [employeeListDDL, setEmployeeListDDL] = useState(false);
-  const [employeeName, setEmployeeName] = useState("");
+  const [employeeName, setEmployeeName] = useState('');
   const [isCopyKPI, setIsCopyKPI] = useState(false);
   const [kpiDDL, getKpiDDL, , setKpiDDL] = useAxiosGet();
 
@@ -134,8 +134,8 @@ export default function FormCmp({
   const kpiDetails = (values) => {
     return [
       {
-        label: "Select Objective",
-        name: "objective",
+        label: 'Select Objective',
+        name: 'objective',
         options: objectiveDDL,
         isDisabled: !values.employee?.value,
         dependencyFunc: (currentValue, values, setter) => {
@@ -144,31 +144,31 @@ export default function FormCmp({
               getKpiDDL(
                 `/pms/KPI/GetKPIMasterDataDDL?accountId=${profileData?.accountId}&bscId=${res.data[0]?.value}`
               );
-              setter("bscPerspective", res.data[0]);
-              setter("kpiname", "");
+              setter('bscPerspective', res.data[0]);
+              setter('kpiname', '');
             });
           }
           if (!currentValue) {
-            setter("bscPerspective", "");
-            setter("kpiname", "");
+            setter('bscPerspective', '');
+            setter('kpiname', '');
             setKpiDDL([]);
           }
         },
       },
 
       {
-        label: "Select BSC Perspective",
-        name: "bscPerspective",
+        label: 'Select BSC Perspective',
+        name: 'bscPerspective',
         options: bscPerspectiveDDL,
         dependencyFunc: (currentValue, values, setter) => {
           if (currentValue) {
             getKpiDDL(
               `/pms/KPI/GetKPIMasterDataDDL?accountId=${profileData?.accountId}&bscId=${currentValue}`
             );
-            setter("kpiname", "");
+            setter('kpiname', '');
           }
           if (!currentValue) {
-            setter("kpiname", "");
+            setter('kpiname', '');
             setKpiDDL([]);
           }
         },
@@ -177,62 +177,62 @@ export default function FormCmp({
         //   : bscPerspectiveDefaultValue,
       },
       {
-        label: "KPI Name",
-        name: "kpiname",
+        label: 'KPI Name',
+        name: 'kpiname',
         options: kpiDDL || [],
         defaultValue: values.kpiname,
         // isInput: false,
       },
       {
-        label: "Select KPI Format",
-        name: "kpiformat",
+        label: 'Select KPI Format',
+        name: 'kpiformat',
         options: [
-          { label: "% of", value: "% of" },
-          { label: "# of", value: "# of" },
+          { label: '% of', value: '% of' },
+          { label: '# of', value: '# of' },
           {
-            label: "Amount",
-            value: "BDT",
+            label: 'Amount',
+            value: 'BDT',
           },
           {
-            label: "Amount ($)",
-            value: "$",
+            label: 'Amount ($)',
+            value: '$',
           },
         ],
         defaultValue: values.kpiformat,
       },
       {
-        label: "Select Weight",
-        name: "weight",
+        label: 'Select Weight',
+        name: 'weight',
         options: weightDDL,
         defaultValue: values.weight,
       },
       {
-        label: "Select Data Source",
-        name: "dataSource",
+        label: 'Select Data Source',
+        name: 'dataSource',
         options: dataSourceDDL,
         defaultValue: values.dataSource,
       },
       {
-        label: "Select Max/Mini",
-        name: "maxiMini",
+        label: 'Select Max/Mini',
+        name: 'maxiMini',
         options: [
-          { label: "Maximization", value: 1 },
-          { label: "Minimization", value: 2 },
+          { label: 'Maximization', value: 1 },
+          { label: 'Minimization', value: 2 },
         ],
         defaultValue: values.maxiMini,
       },
       {
-        label: "Select Aggregation Type",
+        label: 'Select Aggregation Type',
         defaultValue: values.aggregationType,
-        name: "aggregationType",
+        name: 'aggregationType',
         options: [
           {
-            label: "Avarage",
-            value: "avarage",
+            label: 'Avarage',
+            value: 'avarage',
           },
           {
-            label: "Sum",
-            value: "sum",
+            label: 'Sum',
+            value: 'sum',
           },
         ],
       },
@@ -252,7 +252,7 @@ export default function FormCmp({
 
   useEffect(() => {
     const size = strategicParticularsGrid?.length;
-    const key = frequencyId === 2 ? "monthId" : "quarterId";
+    const key = frequencyId === 2 ? 'monthId' : 'quarterId';
     if (size) {
       const tempObj = {};
       strategicParticularsGrid.forEach((itm, idx) => {
@@ -260,7 +260,6 @@ export default function FormCmp({
       });
       setObjRowTargetAchivment(tempObj);
     }
-
   }, [strategicParticularsGrid]);
 
   useEffect(() => {
@@ -273,13 +272,12 @@ export default function FormCmp({
             {
               ...objRowTargetAchivment[i],
               target: +allValue,
-              actualEndDate: "2020-09-27T12:37:16.694Z",
+              actualEndDate: '2020-09-27T12:37:16.694Z',
             },
           ])
         )
       );
     }
-
   }, [allValue]);
 
   useEffect(() => {
@@ -304,7 +302,6 @@ export default function FormCmp({
       }
       getEmployeeBasicInfo(individualKpi?.value);
     }
-
   }, [yearDDL]);
 
   const loadEmployeeList = (v) => {
@@ -327,7 +324,7 @@ export default function FormCmp({
         initialValues={{
           ...initData,
           year: { value: yearDDL[0]?.value, label: yearDDL[0]?.label },
-          employee: individualKpi?.value ? individualKpi : "",
+          employee: individualKpi?.value ? individualKpi : '',
         }}
         validationSchema={
           isCopyKPI ? copyKPIvalidationSchema : validationSchema
@@ -440,7 +437,7 @@ export default function FormCmp({
                         isDisabled={isEdit}
                         loadOptions={loadEmployeeList}
                         handleChange={(valueOption) => {
-                          setFieldValue("employee", valueOption);
+                          setFieldValue('employee', valueOption);
                           dispatch(
                             setIndividualKpi_Action({
                               value: valueOption?.value,
@@ -504,7 +501,7 @@ export default function FormCmp({
                             copyEmployee: values?.copyEmployee,
                             copyYear: values?.copyYear,
                           });
-                          setter("year", selectedValue);
+                          setter('year', selectedValue);
                           dispatch(
                             getObjectiveDDLAction(
                               profileData.accountId,
@@ -514,11 +511,11 @@ export default function FormCmp({
                               value
                             )
                           );
-                          setter("objective", "");
-                          setter("bscPerspective", "");
-                          setter("kpiname", "");
+                          setter('objective', '');
+                          setter('bscPerspective', '');
+                          setter('kpiname', '');
                           if (values?.employee?.value) {
-                            setter("employee", {
+                            setter('employee', {
                               value: values?.employee?.value,
                               label: values?.employee?.label,
                             });
@@ -542,14 +539,14 @@ export default function FormCmp({
                     <div className="col-lg-3">
                       <IInput value={values?.url} label="URL" name="url" />
                     </div>
-                    <div style={{ marginTop: "28px" }} className="col-lg-3">
+                    <div style={{ marginTop: '28px' }} className="col-lg-3">
                       <span className="mr-2">Is Daily Entry?</span>
                       <Field
                         type="checkbox"
                         name="isDailyEntry"
                         checked={values?.isDailyEntry}
                         onChange={(e) =>
-                          setFieldValue("isDailyEntry", e.target.checked)
+                          setFieldValue('isDailyEntry', e.target.checked)
                         }
                       />
                     </div>
@@ -557,21 +554,22 @@ export default function FormCmp({
                 )}
                 {employeeBasicInfo && (
                   <div
-                    style={{ paddingLeft: "1.08em" }}
+                    style={{ paddingLeft: '1.08em' }}
                     className=" row mt-3 employee_info"
                   >
                     <div className="col-lg-12">
                       {id && (
                         <>
-                          <b>Enroll </b>: {employeeBasicInfo?.employeeId},{" "}
-                          <b>Employee </b>: {employeeBasicInfo?.employeeName},{" "}
+                          <b>Enroll </b>: {employeeBasicInfo?.employeeId},{' '}
+                          <b>Employee </b>: {employeeBasicInfo?.employeeName}
+                          ,{' '}
                         </>
                       )}
                       <b> Designation </b>: {employeeBasicInfo?.designationName}
                       , <b> Department </b>: {employeeBasicInfo?.departmentName}
                       , <b> Supervisor </b>: {employeeBasicInfo?.supervisorName}
-                      , <b> SBU </b>: {employeeBasicInfo?.sbuName},{" "}
-                      <b> Business Unit </b>:{" "}
+                      , <b> SBU </b>: {employeeBasicInfo?.sbuName},{' '}
+                      <b> Business Unit </b>:{' '}
                       {employeeBasicInfo?.businessUnitName}
                     </div>
 
@@ -584,10 +582,10 @@ export default function FormCmp({
                               onClick={(e) => {
                                 setIsTransfer((trans) => !trans);
                               }}
-                              style={{ marginTop: "20px" }}
+                              style={{ marginTop: '20px' }}
                               class="btn btn-primary"
                             >
-                              {isTransfer ? "Close" : "Transfer"}
+                              {isTransfer ? 'Close' : 'Transfer'}
                             </button>
                           </div>
 
@@ -606,7 +604,7 @@ export default function FormCmp({
                               <div class="col-lg-3">
                                 <button
                                   type="button"
-                                  style={{ marginTop: "20px" }}
+                                  style={{ marginTop: '20px' }}
                                   onClick={() => {
                                     saveKpiTransafer(
                                       id,
@@ -620,7 +618,7 @@ export default function FormCmp({
                                 >
                                   Save
                                 </button>
-                              </div>{" "}
+                              </div>{' '}
                             </>
                           )}
                         </div>
@@ -632,7 +630,7 @@ export default function FormCmp({
               {/* <hr style=""/> */}
 
               {/* KPI Details */}
-              <div className={isEdit ? "d-none" : "mt-4"}>
+              <div className={isEdit ? 'd-none' : 'mt-4'}>
                 <hr className="mt-0 p-0" />
                 <div className="row">
                   {kpiDetails(values).map((itm, idx) =>
@@ -722,7 +720,7 @@ export default function FormCmp({
                     strategicParticularsGrid={strategicParticularsGrid}
                   />
                 ) : (
-                  ""
+                  ''
                 )}
               </div>
 
@@ -734,14 +732,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => {
                   resetForm(initData);

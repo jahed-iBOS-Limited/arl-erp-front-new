@@ -1,53 +1,53 @@
+import React, { useEffect, useState } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IForm from '../../../../_helper/_form';
+import { _todayDate } from '../../../../_helper/_todayDate';
 
+import { getPartnerTypeDDL } from '../../../../_helper/_commonApi';
+import { createPaymentVoucher } from '../helper';
+import Loading from './../../../../_helper/_loading';
+import Form from './form';
 
-import React, { useEffect, useState } from "react";
-import { confirmAlert } from "react-confirm-alert";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory, useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import IForm from "../../../../_helper/_form";
-import { _todayDate } from "../../../../_helper/_todayDate";
-
-import { getPartnerTypeDDL } from "../../../../_helper/_commonApi";
-import { createPaymentVoucher } from "../helper";
-import Loading from "./../../../../_helper/_loading";
-import Form from "./form";
-
-
-export default function BankJournalCreateForm({ journalType, setBankModelShow, gridData, values, getLanding }) {
-
+export default function BankJournalCreateForm({
+  journalType,
+  setBankModelShow,
+  gridData,
+  values,
+  getLanding,
+}) {
   const [partnerTypeDDL, setPartnerTypeDDL] = useState([]);
 
-
   const initData = {
-    bankAcc: "",
+    bankAcc: '',
     partner: { value: gridData?.intPartnerId, label: gridData?.strPayee },
-    receiveFrom: "",
-    instrumentType: "",
-    instrumentNo: "",
+    receiveFrom: '',
+    instrumentType: '',
+    instrumentNo: '',
     instrumentDate: _todayDate(),
-    headerNarration: "",
+    headerNarration: '',
     placedInBank: false,
     placingDate: _todayDate(),
     paidTo: gridData?.strPayee,
-    transferTo: "",
-    sendToGLBank: "",
-    transaction: "",
-    partnerType: { value: 1, label: "Supplier" },
+    transferTo: '',
+    sendToGLBank: '',
+    transaction: '',
+    partnerType: { value: 1, label: 'Supplier' },
     // amount is for bank receive and bank payment row
     amount: gridData?.monAmount,
     // transferAmount is for bank transfer header
-    transferAmount: "",
+    transferAmount: '',
     narration: `${gridData?.strBillNo} ${gridData?.strPayee}`,
     transactionDate: _todayDate(),
-    customerSupplierStatus: "customer",
-    paymentType: values?.type
+    customerSupplierStatus: 'customer',
+    paymentType: values?.type,
   };
-
 
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const history = useHistory();
   const location = useLocation();
   const params = useParams();
@@ -60,7 +60,7 @@ export default function BankJournalCreateForm({ journalType, setBankModelShow, g
   }, shallowEqual);
   const { profileData, selectedBusinessUnit } = storeData;
 
-  let netAmount = rowDto?.reduce((total, value) => total + value?.amount, 0)
+  let netAmount = rowDto?.reduce((total, value) => total + value?.amount, 0);
 
   //save event Modal (code see)
   const IConfirmModal = (props) => {
@@ -70,7 +70,7 @@ export default function BankJournalCreateForm({ journalType, setBankModelShow, g
       message: message,
       buttons: [
         {
-          label: "Ok",
+          label: 'Ok',
           onClick: () => noAlertFunc(),
         },
       ],
@@ -84,16 +84,20 @@ export default function BankJournalCreateForm({ journalType, setBankModelShow, g
   const saveHandler = async (value, cb) => {
     // setDisabled(true);
     if (values && profileData.accountId && selectedBusinessUnit) {
-
-
-      if ((values?.billType?.value === 1 || values?.billType?.value === 2 || values?.billType?.value === 5) && !value?.partner) return toast.warn("Partner is required")
+      if (
+        (values?.billType?.value === 1 ||
+          values?.billType?.value === 2 ||
+          values?.billType?.value === 5) &&
+        !value?.partner
+      )
+        return toast.warn('Partner is required');
 
       let payload = [
         {
           unitId: selectedBusinessUnit?.value,
           sbuId: values?.sbuUnit?.value,
           billId: gridData?.intBillId,
-          bankAccountId: value?.bankAcc?.value || "",
+          bankAccountId: value?.bankAcc?.value || '',
           payDate: gridData?.paymentDate,
           billTypeId: gridData?.intBillType,
           billTypeName: values?.billType?.label,
@@ -106,7 +110,7 @@ export default function BankJournalCreateForm({ journalType, setBankModelShow, g
           payeName: value?.partner?.label || value?.paidTo,
           debitGLId: gridData?.intDebitGL,
           cashGLId: 0,
-          cashGlName: "",
+          cashGlName: '',
           transectionDate: value?.transactionDate,
           narration: rowDto[0]?.narration,
           transectionTypeId: rowDto[0]?.transaction?.value,
@@ -115,16 +119,24 @@ export default function BankJournalCreateForm({ journalType, setBankModelShow, g
           actionByName: profileData?.userName,
           numAmount: rowDto[0]?.amount,
           businessTransactionId: rowDto[0]?.transaction?.value,
-          businessTransactionName: rowDto[0]?.transaction?.businessTransactionName,
+          businessTransactionName:
+            rowDto[0]?.transaction?.businessTransactionName,
           businessTransactionGLId: rowDto[0]?.transaction?.generalLedgerId,
           businessTransactionGLName: rowDto[0]?.transaction?.generalLedgerName,
-        }
-      ]
+        },
+      ];
 
       if (rowDto.length === 0) {
-        toast.warning("Please select at least one");
+        toast.warning('Please select at least one');
       } else {
-        createPaymentVoucher(payload, cb, setBankModelShow, setDisabled, getLanding, values);
+        createPaymentVoucher(
+          payload,
+          cb,
+          setBankModelShow,
+          setDisabled,
+          getLanding,
+          values
+        );
       }
     }
   };
@@ -136,7 +148,7 @@ export default function BankJournalCreateForm({ journalType, setBankModelShow, g
     if (count === 0) {
       setRowDto([...rowDto, values]);
     } else {
-      toast.warn("Not allowed to duplicate transaction");
+      toast.warn('Not allowed to duplicate transaction');
     }
   };
   const remover = (index) => {
@@ -158,10 +170,10 @@ export default function BankJournalCreateForm({ journalType, setBankModelShow, g
     <IForm
       title={
         journalType === 4
-          ? "Create Bank Receipt"
+          ? 'Create Bank Receipt'
           : journalType === 5
-            ? "Create Bank Payments"
-            : "Create Bank Transfer"
+            ? 'Create Bank Payments'
+            : 'Create Bank Transfer'
       }
       getProps={setObjprops}
       isDisabled={isDisabled}

@@ -12,13 +12,13 @@ export function SBUTable() {
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
   const selectedBusinessUnit = useSelector(
-    (state) => state.authData.selectedBusinessUnit,
+    (state) => state.authData.selectedBusinessUnit
   );
   const profileData = useSelector((state) => state.authData.profileData);
   const dispatchProduct = async (accid, buid, pageNo, pageSize) => {
     try {
       const res = await Axios.get(
-        `/costmgmt/SBU/GetSBULandingPaging?AccountId=${accid}&BusinessUnitId=${buid}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`,
+        `/costmgmt/SBU/GetSBULandingPaging?AccountId=${accid}&BusinessUnitId=${buid}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
       );
       setProducts(res.data);
     } catch (error) {}
@@ -29,9 +29,8 @@ export function SBUTable() {
       profileData.accountId,
       selectedBusinessUnit.value,
       pageNo,
-      pageSize,
+      pageSize
     );
-
   }, [selectedBusinessUnit, profileData]);
 
   // UI Context
@@ -53,7 +52,7 @@ export function SBUTable() {
       profileData.accountId,
       selectedBusinessUnit.value,
       pageNo,
-      pageSize,
+      pageSize
     );
   };
 

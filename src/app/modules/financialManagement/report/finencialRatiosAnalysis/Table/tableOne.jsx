@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import ICustomTable from "../../../../_helper/_customTable";
-import { toast } from "react-toastify";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import BasicModal from "../../../../_helper/_BasicModal";
+import React, { useState } from 'react';
+import ICustomTable from '../../../../_helper/_customTable';
+import { toast } from 'react-toastify';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import BasicModal from '../../../../_helper/_BasicModal';
 
 const TableOne = ({ rowDto }) => {
   const [isShowModel, setIsShowModel] = useState(false);
-  const [formula, setFormula] = useState("");
+  const [formula, setFormula] = useState('');
 
-  const headers = ["SL", "Rario Name", "Std Ratio", "Act Ratio", "Matric"];
+  const headers = ['SL', 'Rario Name', 'Std Ratio', 'Act Ratio', 'Matric'];
   return (
     <div>
       <h6 className="m-0 p-0 mt-2">Financial Ratio</h6>
@@ -18,15 +18,19 @@ const TableOne = ({ rowDto }) => {
             <tr
               key={index}
               style={{
-                fontWeight: Number.isInteger(item?.numSL || 0) ? "bold" : "",
+                fontWeight: Number.isInteger(item?.numSL || 0) ? 'bold' : '',
               }}
             >
               <>
                 <td className="text-right">{item?.numSL}</td>
                 <td className="text-left">{item?.strRarioName}</td>
-                <td className="text-right">{item?.stdRatio ? item?.stdRatio : ""}</td>
+                <td className="text-right">
+                  {item?.stdRatio ? item?.stdRatio : ''}
+                </td>
                 {/* <td className="text-right">{item?.numRatio ? item?.numRatio : ""}</td> */}
-                <td className="text-right">{item?.numRatio ? item?.numRatio : ""}</td>
+                <td className="text-right">
+                  {item?.numRatio ? item?.numRatio : ''}
+                </td>
                 <td>
                   {item?.strMatric}
                   {!Number.isInteger(item?.numSL || 0) && (
@@ -43,11 +47,11 @@ const TableOne = ({ rowDto }) => {
                           class="fa fa-info-circle"
                           aria-hidden="true"
                           onClick={() => {
-                            if (item?.strFormula !== "") {
+                            if (item?.strFormula !== '') {
                               setFormula(item?.strFormula);
                               setIsShowModel(true);
                             } else {
-                              return toast.warn("No Formula Found");
+                              return toast.warn('No Formula Found');
                             }
                           }}
                         ></i>
@@ -70,9 +74,9 @@ const TableOne = ({ rowDto }) => {
           myStyle={{
             width: 300,
             height: 100,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
           hideBackdrop={true}
         >

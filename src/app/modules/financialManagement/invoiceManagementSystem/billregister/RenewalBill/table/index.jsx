@@ -1,20 +1,20 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import * as Yup from "yup";
-import IConfirmModal from "../../../../../_helper/_confirmModal";
-import IForm from "../../../../../_helper/_form";
-import Loading from "../../../../../_helper/_loading";
-import NewSelect from "../../../../../_helper/_select";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import IViewModal from "../../../../../_helper/_viewModal";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../../_helper/customHooks/useAxiosPost";
-import RenewalApprovalTable from "../../../../../assetManagement/maintenance/renewalRegApproval/table/renewalApprovalTable";
-import SubmittedRow from "../../../../../assetManagement/maintenance/renewalRegistration/view/viewModal";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import IConfirmModal from '../../../../../_helper/_confirmModal';
+import IForm from '../../../../../_helper/_form';
+import Loading from '../../../../../_helper/_loading';
+import NewSelect from '../../../../../_helper/_select';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import IViewModal from '../../../../../_helper/_viewModal';
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../../_helper/customHooks/useAxiosPost';
+import RenewalApprovalTable from '../../../../../assetManagement/maintenance/renewalRegApproval/table/renewalApprovalTable';
+import SubmittedRow from '../../../../../assetManagement/maintenance/renewalRegistration/view/viewModal';
 const validationSchema = Yup.object().shape({});
 const initData = {
-  employee: "",
+  employee: '',
 };
 export default function RenewalBillForm({ headerData }) {
   const [loading] = useState(false);
@@ -34,7 +34,6 @@ export default function RenewalBillForm({ headerData }) {
     getEmployeeDDL(
       `/asset/LandingView/GetRenewalRegistrationList?typeId=99&dteFrom=${_todayDate()}&dteTo=${_todayDate()}`
     );
-
   }, []);
 
   useEffect(() => {
@@ -63,13 +62,12 @@ export default function RenewalBillForm({ headerData }) {
 
   useEffect(() => {
     getLandingData();
-
   }, []);
 
   const confirmToApprove = (values) => {
     let confirmObject = {
-      title: "Are you sure?",
-      message: "",
+      title: 'Are you sure?',
+      message: '',
       yesAlertFunc: async () => {
         const rowList = gridData
           ?.filter((item) => item?.checked)
@@ -77,7 +75,7 @@ export default function RenewalBillForm({ headerData }) {
             return {
               employeeId: values?.employee?.value,
               renewalCode: item?.renewalCode,
-              naration: "",
+              naration: '',
               plantId: headerData?.plant?.value || 0,
               sbuId: headerData?.sbu?.value || 0,
               netAmount: item?.approvedAmount || 0,
@@ -95,7 +93,7 @@ export default function RenewalBillForm({ headerData }) {
         );
       },
       noAlertFunc: () => {
-        "";
+        '';
       },
     };
     IConfirmModal(confirmObject);
@@ -137,13 +135,13 @@ export default function RenewalBillForm({ headerData }) {
                         value={values?.employee}
                         label="Employee"
                         onChange={(valueOption) => {
-                          setFieldValue("employee", valueOption);
+                          setFieldValue('employee', valueOption);
                         }}
                       />
                     </div>
 
                     <div
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                       className="col-lg-4 col-md-4"
                     >
                       <button
@@ -176,7 +174,7 @@ export default function RenewalBillForm({ headerData }) {
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

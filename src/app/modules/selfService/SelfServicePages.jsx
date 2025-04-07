@@ -36,7 +36,7 @@ import ResolutionLanding from '../common/fetures/complainManagement/resolution/l
 export function SelfServicePages() {
   const userRole = useSelector(
     (state) => state?.authData?.userRole,
-    shallowEqual,
+    shallowEqual
   );
 
   let officialInfo = null;
@@ -193,7 +193,7 @@ export function SelfServicePages() {
           /> */}
           <ContentRoute
             path="/self-service/complainmanagement"
-            component={() => ComplainManagement("self-service")}
+            component={() => ComplainManagement('self-service')}
           />
         </Switch>
       </div>

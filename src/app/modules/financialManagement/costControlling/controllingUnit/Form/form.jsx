@@ -1,21 +1,21 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { IInput } from "../../../../_helper/_input";
-import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
-import FormikError from "./../../../../_helper/_formikError";
-import Axios from "axios";
-import { shallowEqual, useSelector } from "react-redux";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { IInput } from '../../../../_helper/_input';
+import SearchAsyncSelect from './../../../../_helper/SearchAsyncSelect';
+import FormikError from './../../../../_helper/_formikError';
+import Axios from 'axios';
+import { shallowEqual, useSelector } from 'react-redux';
 // Validation schema
 const validationSchema = Yup.object().shape({
   controllingUnitCode: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Code is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Code is required'),
   controllingUnitName: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Controlling Unit Name is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Controlling Unit Name is required'),
 });
 
 export default function FormCmp({
@@ -83,7 +83,7 @@ export default function FormCmp({
                   <SearchAsyncSelect
                     selectedValue={values?.responsiblePerson}
                     handleChange={(valueOption) => {
-                      setFieldValue("responsiblePerson", valueOption);
+                      setFieldValue('responsiblePerson', valueOption);
                     }}
                     loadOptions={loadUserList}
                   />
@@ -97,14 +97,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

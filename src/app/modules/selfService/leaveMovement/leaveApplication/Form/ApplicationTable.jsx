@@ -1,15 +1,15 @@
-import React, { useEffect,useState } from "react";
-import { useDispatch } from "react-redux";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Loading from "../../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IView from '../../../../_helper/_helperIcons/_view';
+import Loading from '../../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import {
   leaveAppLandingPagintaion_api,
   OfficialMoveLandingPagination_api,
-} from "../helper";
+} from '../helper';
 
-const ApplicationTable = ({empId}) => {
+const ApplicationTable = ({ empId }) => {
   const [loading, setLoading] = useState(false);
   const [rowDto, setRowDto] = useState([]);
   const [, setRowDtoTwo] = useState([]);
@@ -29,14 +29,14 @@ const ApplicationTable = ({empId}) => {
       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table mr-1">
         <thead>
           <tr>
-            <th style={{ width: "35px" }}>SL</th>
-            <th style={{ width: "95px" }}>Application Type</th>
-            <th style={{ width: "90px" }}>Submitted Date</th>
-            <th style={{ width: "90px" }}>From Date</th>
-            <th style={{ width: "90px" }}>To Date</th>
+            <th style={{ width: '35px' }}>SL</th>
+            <th style={{ width: '95px' }}>Application Type</th>
+            <th style={{ width: '90px' }}>Submitted Date</th>
+            <th style={{ width: '90px' }}>From Date</th>
+            <th style={{ width: '90px' }}>To Date</th>
             <th>Reason</th>
-            <th style={{ width: "60px" }}>Status</th>
-            <th style={{ width: "62px" }}>Attachment</th>
+            <th style={{ width: '60px' }}>Status</th>
+            <th style={{ width: '62px' }}>Attachment</th>
           </tr>
         </thead>
         <tbody>
@@ -69,8 +69,8 @@ const ApplicationTable = ({empId}) => {
               </td>
               <td
                 style={{
-                  verticalAlign: "middle",
-                  textAlign: "center",
+                  verticalAlign: 'middle',
+                  textAlign: 'center',
                 }}
               >
                 <div className="">

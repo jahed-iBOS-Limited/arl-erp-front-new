@@ -43,7 +43,7 @@ export default function FormCmp({
   useEffect(() => {
     const total = dailyCollectionData.reduce(
       (total, item) => (item.isSelected ? total + item.targetAmount : total),
-      0,
+      0
     );
     setTotal(total || 0);
   }, [dailyCollectionData]);
@@ -59,9 +59,8 @@ export default function FormCmp({
         }));
 
         setRegionList(data);
-      },
+      }
     );
-
   }, []);
 
   useEffect(() => {
@@ -73,7 +72,6 @@ export default function FormCmp({
       }));
       setDailyCollectionData(modifyData);
     }
-
   }, [perDayCollect]);
   return (
     <>
@@ -125,7 +123,7 @@ export default function FormCmp({
                                     }));
 
                                     setAreaList(data);
-                                  },
+                                  }
                                 );
                               }
                             }}
@@ -193,7 +191,7 @@ export default function FormCmp({
                               setPerDayCollect(
                                 values?.totalPlanTaka > 0 && +e.target.value > 0
                                   ? +values?.totalPlanTaka / +e.target.value
-                                  : 0,
+                                  : 0
                               );
                             }}
                           />
@@ -214,7 +212,7 @@ export default function FormCmp({
                             const data = generateDataset(
                               values?.monthYear?.split('-')[1],
                               values?.monthYear?.split('-')[0],
-                              ['Friday', 'Saturday'],
+                              ['Friday', 'Saturday']
                             );
                             setDailyCollectionData(data);
                           }}
@@ -239,7 +237,7 @@ export default function FormCmp({
                                   checked={
                                     dailyCollectionData?.length > 0
                                       ? dailyCollectionData?.every(
-                                          (item) => item?.isSelected,
+                                          (item) => item?.isSelected
                                         )
                                       : false
                                   }
@@ -250,7 +248,7 @@ export default function FormCmp({
                                           ...item,
                                           isSelected: e?.target?.checked,
                                         };
-                                      }),
+                                      })
                                     );
                                   }}
                                 />
@@ -293,8 +291,8 @@ export default function FormCmp({
                                     onChange={(e) => {
                                       if (+e.target.value < 0) return;
                                       const data = [...dailyCollectionData];
-                                      data[index]['targetAmount'] = +e.target
-                                        .value;
+                                      data[index]['targetAmount'] =
+                                        +e.target.value;
                                       setDailyCollectionData(data);
                                     }}
                                   />
@@ -349,7 +347,7 @@ export default function FormCmp({
                                   checked={
                                     monthlyCollectionData?.length > 0
                                       ? monthlyCollectionData?.every(
-                                          (item) => item?.isSelected,
+                                          (item) => item?.isSelected
                                         )
                                       : false
                                   }
@@ -360,7 +358,7 @@ export default function FormCmp({
                                           ...item,
                                           isSelected: e?.target?.checked,
                                         };
-                                      }),
+                                      })
                                     );
                                   }}
                                 />
@@ -397,8 +395,8 @@ export default function FormCmp({
                                     onChange={(e) => {
                                       if (+e.target.value < 0) return;
                                       const data = [...monthlyCollectionData];
-                                      data[index]['budgetedSalesQnt'] = +e
-                                        .target.value;
+                                      data[index]['budgetedSalesQnt'] =
+                                        +e.target.value;
                                       setDailyCollectionData(data);
                                     }}
                                   />
@@ -410,8 +408,8 @@ export default function FormCmp({
                                     onChange={(e) => {
                                       if (+e.target.value < 0) return;
                                       const data = [...monthlyCollectionData];
-                                      data[index]['budgetedSalesAmount'] = +e
-                                        .target.value;
+                                      data[index]['budgetedSalesAmount'] =
+                                        +e.target.value;
                                       setDailyCollectionData(data);
                                     }}
                                   />
@@ -486,7 +484,7 @@ export default function FormCmp({
                               values?.salesman?.value,
                               setRowData,
                               setLoading,
-                              RAT,
+                              RAT
                             );
                             setFieldValue('area', {
                               value: RAT?.areaId,
@@ -496,7 +494,7 @@ export default function FormCmp({
                               value: RAT?.territoryId,
                               label: RAT?.territoryName,
                             });
-                          },
+                          }
                         );
                       }}
                       disabled={!values?.month}
@@ -560,7 +558,7 @@ export default function FormCmp({
                                 rowDataHandler(
                                   'isSelected',
                                   index,
-                                  !item.isSelected,
+                                  !item.isSelected
                                 );
                               }}
                               className="text-center"
@@ -608,7 +606,7 @@ export default function FormCmp({
                                   rowDataHandler(
                                     'week1',
                                     index,
-                                    e?.target?.value,
+                                    e?.target?.value
                                   );
                                 }}
                               />
@@ -622,7 +620,7 @@ export default function FormCmp({
                                   rowDataHandler(
                                     'week2',
                                     index,
-                                    e?.target?.value,
+                                    e?.target?.value
                                   );
                                 }}
                               />
@@ -636,7 +634,7 @@ export default function FormCmp({
                                   rowDataHandler(
                                     'week3',
                                     index,
-                                    e?.target?.value,
+                                    e?.target?.value
                                   );
                                 }}
                               />
@@ -650,7 +648,7 @@ export default function FormCmp({
                                   rowDataHandler(
                                     'week4',
                                     index,
-                                    e?.target?.value,
+                                    e?.target?.value
                                   );
                                 }}
                               />

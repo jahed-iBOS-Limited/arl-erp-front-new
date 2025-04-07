@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useParams } from "react-router";
-import NotPermittedPage from "../../../../_helper/notPermitted/NotPermittedPage";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useParams } from 'react-router';
+import NotPermittedPage from '../../../../_helper/notPermitted/NotPermittedPage';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   CreatePartnerProductAllocation,
   customerListDDL,
@@ -12,26 +12,26 @@ import {
   productDDL,
   upozilaDDL,
   getLcNoDDL,
-} from "../helper";
-import Form from "./form";
-import "../style.css";
-import { toast } from "react-toastify";
+} from '../helper';
+import Form from './form';
+import '../style.css';
+import { toast } from 'react-toastify';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  customer: "",
-  dealerName: "",
-  upozila: "",
-  productName: "",
-  allotedQnt: "",
-  uomName: "",
-  rate: "",
-  grandTotal: "",
-  remarks: "",
+  customer: '',
+  dealerName: '',
+  upozila: '',
+  productName: '',
+  allotedQnt: '',
+  uomName: '',
+  rate: '',
+  grandTotal: '',
+  remarks: '',
   permissionDate: _todayDate(),
-  permissionNo: "",
-  lCno: "",
+  permissionNo: '',
+  lCno: '',
 };
 
 export default function PartnerProductAllocationForm() {
@@ -71,7 +71,6 @@ export default function PartnerProductAllocationForm() {
       selectedBusinessUnit?.value,
       setUpozilaList
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = async (values, cb) => {
@@ -91,7 +90,7 @@ export default function PartnerProductAllocationForm() {
     } else {
       /* Create Block */
       if (rowData?.length === 0) {
-        toast.warn("Please Add at least one item");
+        toast.warn('Please Add at least one item');
         return;
       }
 
@@ -130,7 +129,7 @@ export default function PartnerProductAllocationForm() {
     );
 
     if (checkDuplicate) {
-      toast.warning("Duplicate item not allowed!");
+      toast.warning('Duplicate item not allowed!');
       return;
     }
 
@@ -151,8 +150,8 @@ export default function PartnerProductAllocationForm() {
   }
 
   if (
-    (type === "view" && !productionAllocation?.isView) ||
-    (type === "edit" && !productionAllocation?.isEdit)
+    (type === 'view' && !productionAllocation?.isView) ||
+    (type === 'edit' && !productionAllocation?.isEdit)
   )
     return <NotPermittedPage />;
 

@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import InputField from "./../../../../_helper/_inputField";
-import NewSelect from "./../../../../_helper/_select";
-import IViewModal from "./../../../../_helper/_viewModal";
-import DdlOptionViewModel from "./ddlOptionViewModel";
-import IDelete from "./../../../../_helper/_helperIcons/_delete";
-import { GetProfileControlerTypeDDL_api } from "../helper";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import InputField from './../../../../_helper/_inputField';
+import NewSelect from './../../../../_helper/_select';
+import IViewModal from './../../../../_helper/_viewModal';
+import DdlOptionViewModel from './ddlOptionViewModel';
+import IDelete from './../../../../_helper/_helperIcons/_delete';
+import { GetProfileControlerTypeDDL_api } from '../helper';
 
 const validationSchema = Yup.object().shape({
   sectionName: Yup.string()
-    .min(1, "Minimum 1 symbols")
-    .max(1000, "Maximum 100 symbols")
-    .required("Section Name required"),
+    .min(1, 'Minimum 1 symbols')
+    .max(1000, 'Maximum 100 symbols')
+    .required('Section Name required'),
   // businessUnit: Yup.object().shape({
   //   label: Yup.string().required("Business Unit required"),
   //   value: Yup.string().required("Business Unit required"),
@@ -33,7 +33,7 @@ export default function FormCmp({
   addDdlOptionFuc,
 }) {
   const [modalShowDDL, setModalShowDDL] = useState(false);
-  const [createTableRowItm, setCreateTableRowItm] = useState("");
+  const [createTableRowItm, setCreateTableRowItm] = useState('');
   const [controlerTypeDDL, setControlerTypeDDL] = useState([]);
 
   useEffect(() => {
@@ -85,9 +85,7 @@ export default function FormCmp({
                   />
                 </div>
                 <div className="col-lg-2">
-                  <div
-                    className="mr-5 pt-5"
-                  >
+                  <div className="mr-5 pt-5">
                     <Field
                       name="isMendatory"
                       component={() => (
@@ -95,9 +93,9 @@ export default function FormCmp({
                           id="isMendatory"
                           type="checkbox"
                           style={{
-                            position: "relative",
-                            top: "2px",
-                            marginLeft: "3px",
+                            position: 'relative',
+                            top: '2px',
+                            marginLeft: '3px',
                           }}
                           label="Is Mandatory"
                           className="mr-3"
@@ -105,7 +103,7 @@ export default function FormCmp({
                           checked={values?.isMendatory}
                           name="isMendatory"
                           onChange={(e) => {
-                            setFieldValue("isMendatory", e.target.checked);
+                            setFieldValue('isMendatory', e.target.checked);
                           }}
                         />
                       )}
@@ -120,8 +118,8 @@ export default function FormCmp({
                     value={values?.controlName}
                     label="Control Name"
                     onChange={(valueOption) => {
-                      setFieldValue("controlName", valueOption);
-                      valueOption?.label === "DDL" && setModalShowDDL(true);
+                      setFieldValue('controlName', valueOption);
+                      valueOption?.label === 'DDL' && setModalShowDDL(true);
                     }}
                     placeholder="Control Name"
                     errors={errors}
@@ -151,69 +149,69 @@ export default function FormCmp({
                 </div>
               </div>
               <div className="table-responsive">
-              <table className="table table-striped table-bordered mt-3 global-table">
-                <thead>
-                  <tr>
-                    <th style={{ width: "20px" }}>SL</th>
-                    <th style={{ width: "20px" }}>Attribute Name</th>
-                    <th style={{ width: "20px" }}>Is Mandatory</th>
-                    <th style={{ width: "20px" }}>Control Name</th>
-                    <th style={{ width: "20px" }}>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rowDto?.map((tableData, index) => (
-                    <tr key={index}>
-                      <td> {index + 1} </td>
-                      <td> {tableData?.attributeName} </td>
-                      <td> {tableData?.isMendatory ? "true" : "false"} </td>
-                      <td>
-                        {tableData?.controlName === "DDL" ? (
-                          <span
-                            onClick={() => {
-                              setModalShowDDL(true);
-                              setCreateTableRowItm({
-                                ...tableData,
-                                index: index,
-                              });
-                              setDdlOptionRow(tableData?.optionList);
-                            }}
-                            style={{
-                              color: "blue",
-                              cursor: "pointer",
-                              borderBottom: "1px solid",
-                            }}
-                          >
-                            {tableData?.controlName}
-                          </span>
-                        ) : (
-                          tableData?.controlName
-                        )}
-                      </td>
-                      <td className="text-center">
-                        {tableData?.attributeId === 0 && (
-                          <IDelete
-                            id={index}
-                            remover={(id) => {
-                              setRowDto(
-                                rowDto.filter((itm, idx) => idx !== id)
-                              );
-                            }}
-                          />
-                        )}
-                      </td>
+                <table className="table table-striped table-bordered mt-3 global-table">
+                  <thead>
+                    <tr>
+                      <th style={{ width: '20px' }}>SL</th>
+                      <th style={{ width: '20px' }}>Attribute Name</th>
+                      <th style={{ width: '20px' }}>Is Mandatory</th>
+                      <th style={{ width: '20px' }}>Control Name</th>
+                      <th style={{ width: '20px' }}>Action</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {rowDto?.map((tableData, index) => (
+                      <tr key={index}>
+                        <td> {index + 1} </td>
+                        <td> {tableData?.attributeName} </td>
+                        <td> {tableData?.isMendatory ? 'true' : 'false'} </td>
+                        <td>
+                          {tableData?.controlName === 'DDL' ? (
+                            <span
+                              onClick={() => {
+                                setModalShowDDL(true);
+                                setCreateTableRowItm({
+                                  ...tableData,
+                                  index: index,
+                                });
+                                setDdlOptionRow(tableData?.optionList);
+                              }}
+                              style={{
+                                color: 'blue',
+                                cursor: 'pointer',
+                                borderBottom: '1px solid',
+                              }}
+                            >
+                              {tableData?.controlName}
+                            </span>
+                          ) : (
+                            tableData?.controlName
+                          )}
+                        </td>
+                        <td className="text-center">
+                          {tableData?.attributeId === 0 && (
+                            <IDelete
+                              id={index}
+                              remover={(id) => {
+                                setRowDto(
+                                  rowDto.filter((itm, idx) => idx !== id)
+                                );
+                              }}
+                            />
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
               <IViewModal
                 modelSize="lg"
                 show={modalShowDDL}
                 onHide={() => {
                   setModalShowDDL(false);
-                  setCreateTableRowItm("");
-                  createTableRowItm?.controlName === "DDL" &&
+                  setCreateTableRowItm('');
+                  createTableRowItm?.controlName === 'DDL' &&
                     setDdlOptionRow([]);
                 }}
                 title={`Attribute Name: ${
@@ -234,14 +232,14 @@ export default function FormCmp({
               </IViewModal>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onClick={() => {
                   resetForm(initData);

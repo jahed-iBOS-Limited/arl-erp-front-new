@@ -1,23 +1,21 @@
-
-
-import React, { useState, useEffect } from "react";
-import Form from "./form";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import ICustomCard from "../../../../_helper/_customCard";
-import { shallowEqual, useSelector, useDispatch } from "react-redux";
-import { getSingleDataAction } from "../_redux/Actions";
-import { getImageFile_api } from "../helper";
-import { invTransactionSlice } from "./../_redux/Slice";
-import { toast } from "react-toastify";
+import React, { useState, useEffect } from 'react';
+import Form from './form';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import ICustomCard from '../../../../_helper/_customCard';
+import { shallowEqual, useSelector, useDispatch } from 'react-redux';
+import { getSingleDataAction } from '../_redux/Actions';
+import { getImageFile_api } from '../helper';
+import { invTransactionSlice } from './../_redux/Slice';
+import { toast } from 'react-toastify';
 const { actions: slice } = invTransactionSlice;
 
 const initData = {
-  referenceTypeName: "",
-  referenceCode: "",
-  transactionTypeName: "",
-  businessPartnerName: "",
-  personnelName: "",
-  comments: "",
+  referenceTypeName: '',
+  referenceCode: '',
+  transactionTypeName: '',
+  businessPartnerName: '',
+  personnelName: '',
+  comments: '',
 };
 
 export default function ViewInvTransactionFormImport({
@@ -35,7 +33,6 @@ export default function ViewInvTransactionFormImport({
   useEffect(() => {
     dispatch(getSingleDataAction(id));
     return () => dispatch(slice.setSingleDDL([]));
-
   }, [id]);
 
   const disableHandler = (cond) => {

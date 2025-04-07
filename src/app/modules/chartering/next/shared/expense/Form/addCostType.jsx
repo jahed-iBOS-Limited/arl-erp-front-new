@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { Formik } from "formik";
-import * as Yup from "yup";
-import { getCostTypeDDL, saveNewCostType } from "../helper";
-import Loading from "../../../../_chartinghelper/loading/_loading";
-import FormikSelect from "../../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../../_chartinghelper/common/selectCustomStyle";
-import FormikInput from "../../../../_chartinghelper/common/formikInput";
+import React, { useState } from 'react';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+import { getCostTypeDDL, saveNewCostType } from '../helper';
+import Loading from '../../../../_chartinghelper/loading/_loading';
+import FormikSelect from '../../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../../_chartinghelper/common/selectCustomStyle';
+import FormikInput from '../../../../_chartinghelper/common/formikInput';
 
 export default function AddCostTypeForm({ setOpen, value, setCostTypeDDL }) {
   const initData = {
@@ -13,15 +13,15 @@ export default function AddCostTypeForm({ setOpen, value, setCostTypeDDL }) {
       value: value?.voyageNo?.voyageTypeID,
       label: value?.voyageNo?.voyageTypeName,
     },
-    costTypeName: "",
+    costTypeName: '',
   };
 
   const validationSchema = Yup.object().shape({
     voyageType: Yup.object().shape({
-      label: Yup.string().required("Voyage Type is required"),
-      value: Yup.string().required("Voyage Type is required"),
+      label: Yup.string().required('Voyage Type is required'),
+      value: Yup.string().required('Voyage Type is required'),
     }),
-    costTypeName: Yup.string().required("Cost Type Name is required"),
+    costTypeName: Yup.string().required('Cost Type Name is required'),
   });
 
   const [loading, setLoading] = useState(false);
@@ -70,13 +70,13 @@ export default function AddCostTypeForm({ setOpen, value, setCostTypeDDL }) {
                   <button
                     type="button"
                     onClick={() => resetForm(initData)}
-                    className={"btn btn-info reset-btn ml-2 px-3 py-2"}
+                    className={'btn btn-info reset-btn ml-2 px-3 py-2'}
                   >
                     Reset
                   </button>
                   <button
                     type="submit"
-                    className={"btn btn-primary ml-2 px-3 py-2"}
+                    className={'btn btn-primary ml-2 px-3 py-2'}
                     onClick={handleSubmit}
                     disabled={false}
                   >
@@ -88,18 +88,18 @@ export default function AddCostTypeForm({ setOpen, value, setCostTypeDDL }) {
                 <div className="row">
                   <div className="col-lg-6">
                     <FormikSelect
-                      value={values?.voyageType || ""}
+                      value={values?.voyageType || ''}
                       isSearchable={true}
                       options={[
-                        { value: 1, label: "Time Charter" },
-                        { value: 2, label: "Voyage Charter" },
+                        { value: 1, label: 'Time Charter' },
+                        { value: 2, label: 'Voyage Charter' },
                       ]}
                       styles={customStyles}
                       name="voyageType"
                       placeholder="Voyage Type"
                       label="Voyage Type"
                       onChange={(valueOption) => {
-                        setFieldValue("voyageType", valueOption);
+                        setFieldValue('voyageType', valueOption);
                       }}
                       errors={errors}
                       touched={touched}

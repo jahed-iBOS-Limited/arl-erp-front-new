@@ -1,7 +1,7 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import InputField from "../../../../../../_helper/_inputField";
-import { validationSchema } from "../helper";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import InputField from '../../../../../../_helper/_inputField';
+import { validationSchema } from '../helper';
 
 // Validation schema
 export default function FormCmp({
@@ -246,13 +246,13 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 // onSubmit={() => resetForm(initData)}
               ></button>

@@ -45,7 +45,7 @@ const ChatBoatWrapper = ({ timeRemainingCB }) => {
         setChatList([...modfyData, { text: obj?.resData, to: false }]);
         setText('');
         setMsgLoading(false);
-      },
+      }
     );
   };
 

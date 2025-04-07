@@ -1,21 +1,20 @@
-
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { Formik } from "formik";
-import { Form } from "react-bootstrap";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import { useEffect } from "react";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { Formik } from 'formik';
+import { Form } from 'react-bootstrap';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import { useEffect } from 'react';
 import {
   GetBankListForOutstandingLCReport,
   GetBusinessUnitDDL,
   GetOutstandingLCReport,
-} from "../helper";
-import NewSelect from "../../../../_helper/_select";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { useRef } from "react";
+} from '../helper';
+import NewSelect from '../../../../_helper/_select';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { useRef } from 'react';
 
 const TableRow = () => {
   const [rowDto, setRowDto] = useState([]);
@@ -53,118 +52,118 @@ const TableRow = () => {
   const printRef = useRef();
 
   const initData = {
-    unit: "",
-    bank: "",
+    unit: '',
+    bank: '',
   };
 
   const header = [
     {
-      name: "SL",
+      name: 'SL',
       style: {
-        minWidth: "50px",
+        minWidth: '50px',
       },
     },
     {
-      name: "Unit",
+      name: 'Unit',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Bank",
+      name: 'Bank',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "LC No",
+      name: 'LC No',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "LC Date",
+      name: 'LC Date',
       style: {
-        minWidth: "80px",
+        minWidth: '80px',
       },
     },
     {
-      name: "LC Type",
+      name: 'LC Type',
       style: {
-        minWidth: "80px",
+        minWidth: '80px',
       },
     },
     {
-      name: "Benificiary",
+      name: 'Benificiary',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Invoice No",
+      name: 'Invoice No',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
 
     {
-      name: "Inv Date",
+      name: 'Inv Date',
       style: {
-        minWidth: "80px",
+        minWidth: '80px',
       },
     },
     {
-      name: "Shipment",
+      name: 'Shipment',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Acc. Date",
+      name: 'Acc. Date',
       style: {
-        minWidth: "80px",
+        minWidth: '80px',
       },
     },
     {
-      name: "Start Date",
+      name: 'Start Date',
       style: {
-        minWidth: "80px",
+        minWidth: '80px',
       },
     },
     {
-      name: "Tenor Days",
+      name: 'Tenor Days',
       style: {
-        minWidth: "50px",
+        minWidth: '50px',
       },
     },
     {
-      name: "Mat. Date",
+      name: 'Mat. Date',
       style: {
-        minWidth: "80px",
+        minWidth: '80px',
       },
     },
     {
-      name: "Bank Rate",
+      name: 'Bank Rate',
       style: {
-        minWidth: "50px",
+        minWidth: '50px',
       },
     },
     {
-      name: "Libor Rate",
+      name: 'Libor Rate',
       style: {
-        minWidth: "50px",
+        minWidth: '50px',
       },
     },
     {
-      name: "Invoice Amount",
+      name: 'Invoice Amount',
       style: {
-        minWidth: "80px",
+        minWidth: '80px',
       },
     },
     {
-      name: "Currency",
+      name: 'Currency',
       style: {
-        minWidth: "50px",
+        minWidth: '50px',
       },
     },
   ];
@@ -184,7 +183,7 @@ const TableRow = () => {
               trigger={() => (
                 <button className="btn btn-primary">
                   <img
-                    style={{ width: "25px", paddingRight: "5px" }}
+                    style={{ width: '25px', paddingRight: '5px' }}
                     src={printIcon}
                     alt="print-icon"
                   />
@@ -218,7 +217,7 @@ const TableRow = () => {
                       label="Unit"
                       options={unitDDL || []}
                       onChange={(valueOption) => {
-                        setFieldValue("unit", valueOption);
+                        setFieldValue('unit', valueOption);
                         if (!valueOption) {
                           setRowDto([]);
                         }
@@ -233,7 +232,7 @@ const TableRow = () => {
                       label="Bank"
                       options={bankDDL || []}
                       onChange={(valueOption) => {
-                        setFieldValue("bank", valueOption);
+                        setFieldValue('bank', valueOption);
                         if (!valueOption) {
                           setRowDto([]);
                         }
@@ -266,11 +265,11 @@ const TableRow = () => {
                   //   )}
                   <div className="loan-scrollable-table">
                     <div
-                      style={{ maxHeight: "400px" }}
+                      style={{ maxHeight: '400px' }}
                       className="scroll-table _table scroll-table-auto"
                     >
                       <table
-                        style={{ maxHeight: "500px" }}
+                        style={{ maxHeight: '500px' }}
                         className="table table-striped table-bordered global-table"
                         ref={printRef}
                       >
@@ -307,9 +306,7 @@ const TableRow = () => {
                                   {item?.tenoDays}
                                 </td>
                                 <td>{_dateFormatter(item?.maturityDate)}</td>
-                                <td className="text-right">
-                                  {item?.bankRate}
-                                </td>
+                                <td className="text-right">{item?.bankRate}</td>
                                 <td className="text-right">
                                   {item?.liborRate}
                                 </td>

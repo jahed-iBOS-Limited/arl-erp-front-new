@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import InputField from "../../../_helper/_inputField";
-import IButton from "../../../_helper/iButton";
-import { BillApproved_api } from "./helper";
-import { shallowEqual, useSelector } from "react-redux";
-import Loading from "../../../_helper/_loading";
+import React, { useState } from 'react';
+import InputField from '../../../_helper/_inputField';
+import IButton from '../../../_helper/iButton';
+import { BillApproved_api } from './helper';
+import { shallowEqual, useSelector } from 'react-redux';
+import Loading from '../../../_helper/_loading';
 
 export default function BillApproveForm({ obj }) {
   const { values, gridItem, gridDataFunc, landingValues, setModalShow } = obj;
@@ -22,7 +22,7 @@ export default function BillApproveForm({ obj }) {
       unitId: buId,
       billTypeId: gridItem?.billType,
       approvedAmount: +values?.approveAmount,
-      remarks: values?.remarks || "",
+      remarks: values?.remarks || '',
     };
     const payload = {
       bill: [modifyGridData],
@@ -65,8 +65,8 @@ export default function BillApproveForm({ obj }) {
             />
           </div>
           <IButton
-            className={"btn-info"}
-            colSize={"col-lg-3"}
+            className={'btn-info'}
+            colSize={'col-lg-3'}
             onClick={() => {
               saveHandler(values);
             }}

@@ -1,20 +1,19 @@
-
-import Axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import FormikError from "../../../../_helper/_formikError";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import Axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import FormikError from '../../../../_helper/_formikError';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import {
   SaveInventoryLoanValidationSchema,
   getBusinessPartnerDDL,
   getSBUListDDL_api,
   getShipmentDDL,
-} from "../helper";
-import { debounce } from "lodash";
+} from '../helper';
+import { debounce } from 'lodash';
 
 export default function FormCmp({
   initData,
@@ -31,8 +30,7 @@ export default function FormCmp({
   const [, getItemRate, itemRateLoader] = useAxiosGet();
   const [plantDDL, getPlantDDL] = useAxiosGet();
   const [warehouseDDL, getWarehouseDDL, , setWarehouseDDL] = useAxiosGet();
-    const [isDisabled, setDisabled] = useState(false);
-  
+  const [isDisabled, setDisabled] = useState(false);
 
   const polcList = (v) => {
     if (v?.length < 3) return [];
@@ -55,8 +53,6 @@ export default function FormCmp({
     getPlantDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=1&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
     );
-
-
   }, [profileData, selectedBusinessUnit]);
 
   const debounceHandelar = debounce(({ setLoading, CB }) => {
@@ -126,7 +122,7 @@ export default function FormCmp({
                       value={values?.sbu}
                       label="Select SBU"
                       onChange={(valueOption) => {
-                        setFieldValue("sbu", valueOption);
+                        setFieldValue('sbu', valueOption);
                       }}
                       placeholder="Select SBU"
                       errors={errors}
@@ -144,7 +140,7 @@ export default function FormCmp({
                           : `From Business Partner`
                       }
                       onChange={(valueOption) => {
-                        setFieldValue("partner", valueOption);
+                        setFieldValue('partner', valueOption);
                       }}
                       placeholder="Business Partner"
                       errors={errors}
@@ -157,13 +153,13 @@ export default function FormCmp({
                       <NewSelect
                         name="issueFrom"
                         options={[
-                          { value: 1, label: "Warehouse" },
-                          { value: 2, label: "Shipment" },
+                          { value: 1, label: 'Warehouse' },
+                          { value: 2, label: 'Shipment' },
                         ]}
                         value={values?.issueFrom}
                         label="Issue From"
                         onChange={(valueOption) => {
-                          setFieldValue("issueFrom", valueOption);
+                          setFieldValue('issueFrom', valueOption);
                         }}
                         placeholder="Issue From"
                         errors={errors}
@@ -179,14 +175,14 @@ export default function FormCmp({
                       label="Plant"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("plant", valueOption);
-                          setFieldValue("warehouse", "");
+                          setFieldValue('plant', valueOption);
+                          setFieldValue('warehouse', '');
                           getWarehouseDDL(
                             `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${valueOption?.value}`
                           );
                         } else {
-                          setFieldValue("plant", "");
-                          setFieldValue("warehouse", "");
+                          setFieldValue('plant', '');
+                          setFieldValue('warehouse', '');
                           setWarehouseDDL([]);
                         }
                       }}
@@ -206,10 +202,10 @@ export default function FormCmp({
                             : `Warehouse`
                         }
                         onChange={(valueOption) => {
-                          setFieldValue("item", "");
-                          setFieldValue("lcNo", "");
-                          setFieldValue("shipment", "");
-                          setFieldValue("warehouse", valueOption);
+                          setFieldValue('item', '');
+                          setFieldValue('lcNo', '');
+                          setFieldValue('shipment', '');
+                          setFieldValue('warehouse', valueOption);
                         }}
                         placeholder="Warehouse"
                         errors={errors}
@@ -226,7 +222,7 @@ export default function FormCmp({
                           selectedValue={values?.lcNo}
                           isSearchIcon={true}
                           handleChange={(valueOption) => {
-                            setFieldValue("lcNo", valueOption);
+                            setFieldValue('lcNo', valueOption);
                             getShipmentDDL(
                               profileData?.accountId,
                               selectedBusinessUnit?.value,
@@ -245,7 +241,7 @@ export default function FormCmp({
                           value={values?.shipment}
                           label="Shipment"
                           onChange={(valueOption) => {
-                            setFieldValue("shipment", valueOption);
+                            setFieldValue('shipment', valueOption);
                           }}
                           placeholder="Shipment"
                           errors={errors}
@@ -261,7 +257,7 @@ export default function FormCmp({
                       value={values?.lighterVessel}
                       name="lighterVessel"
                       onChange={(e) => {
-                        setFieldValue("lighterVessel", e.target.value);
+                        setFieldValue('lighterVessel', e.target.value);
                       }}
                       placeholder="Lighter Vessel"
                       type="text"
@@ -273,7 +269,7 @@ export default function FormCmp({
                       value={values?.motherVessel}
                       name="motherVessel"
                       onChange={(e) => {
-                        setFieldValue("motherVessel", e.target.value);
+                        setFieldValue('motherVessel', e.target.value);
                       }}
                       placeholder="Mother Vessel"
                       type="text"
@@ -294,7 +290,7 @@ export default function FormCmp({
                       value={values?.surveyReportNo}
                       name="surveyReportNo"
                       onChange={(e) => {
-                        setFieldValue("surveyReportNo", e.target.value);
+                        setFieldValue('surveyReportNo', e.target.value);
                       }}
                       placeholder="Survey Report No"
                       type="text"
@@ -303,16 +299,16 @@ export default function FormCmp({
                   <div className="col-lg-3">
                     <div className="d-flex align-items-center justify-content-between">
                       <label>Item Name</label>
-                      <span style={{ marginTop: "8px" }}>
+                      <span style={{ marginTop: '8px' }}>
                         {values?.itemRate
-                          ? `Rate: ${values?.itemRate || ""}`
-                          : ""}
+                          ? `Rate: ${values?.itemRate || ''}`
+                          : ''}
                       </span>
                     </div>
                     <SearchAsyncSelect
                       selectedValue={values?.item}
                       handleChange={(valueOption) => {
-                        setFieldValue("item", valueOption);
+                        setFieldValue('item', valueOption);
                         if (valueOption) {
                           // getItemRate(
                           //   `/wms/InventoryTransaction/sprRuningRate?businessUnitId=${
@@ -324,11 +320,13 @@ export default function FormCmp({
                           // );
                           getItemRate(
                             `/wms/InventoryLoan/GetItemRate?ItemId=${valueOption?.value}&BusinessUnitId=${selectedBusinessUnit?.value}`,
-                            (data) => setFieldValue("itemRate", data)
+                            (data) => setFieldValue('itemRate', data)
                           );
-                          getAvailableStock(`/wms/InventoryTransaction/sprRuningQty?businessUnitId=${selectedBusinessUnit?.value}&whId=${values?.warehouse?.value}&itemId=${valueOption?.value}`)
+                          getAvailableStock(
+                            `/wms/InventoryTransaction/sprRuningQty?businessUnitId=${selectedBusinessUnit?.value}&whId=${values?.warehouse?.value}&itemId=${valueOption?.value}`
+                          );
                         } else {
-                          setFieldValue("itemRate", "");
+                          setFieldValue('itemRate', '');
                         }
                       }}
                       loadOptions={(v) => {
@@ -338,8 +336,9 @@ export default function FormCmp({
                             profileData?.accountId
                           }&BUnitId=${
                             selectedBusinessUnit?.value
-                          }&WareHouseId=${values?.warehouse?.value ||
-                            0}&Search=${v}`
+                          }&WareHouseId=${
+                            values?.warehouse?.value || 0
+                          }&Search=${v}`
                         ).then((res) => res?.data);
                       }}
                     />
@@ -355,7 +354,7 @@ export default function FormCmp({
                       value={values?.quantity}
                       name="quantity"
                       onChange={(e) => {
-                        setFieldValue("quantity", e.target.value);
+                        setFieldValue('quantity', e.target.value);
                       }}
                       placeholder="Quantity"
                       type="number"
@@ -368,7 +367,7 @@ export default function FormCmp({
                         value={+values?.itemRate}
                         name="itemRate"
                         onChange={(e) => {
-                          setFieldValue("itemRate", +e.target.value);
+                          setFieldValue('itemRate', +e.target.value);
                         }}
                         placeholder="itemRate"
                         type="number"
@@ -376,7 +375,8 @@ export default function FormCmp({
                     </div>
                   )}
                   {values?.createType === 2 &&
-                    values?.itemRate && values?.quantity && (
+                    values?.itemRate &&
+                    values?.quantity && (
                       <div className="col-lg-3">
                         <label>Total Amount</label>
                         <InputField
@@ -393,7 +393,7 @@ export default function FormCmp({
                       value={values?.narration}
                       name="narration"
                       onChange={(e) => {
-                        setFieldValue("narration", e.target.value);
+                        setFieldValue('narration', e.target.value);
                       }}
                       placeholder="Narration"
                       type="text"
@@ -403,13 +403,13 @@ export default function FormCmp({
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

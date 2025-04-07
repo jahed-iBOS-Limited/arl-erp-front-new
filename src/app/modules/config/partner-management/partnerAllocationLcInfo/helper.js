@@ -1,18 +1,18 @@
-import * as Yup from "yup";
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import * as Yup from 'yup';
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const validationSchema = Yup.object().shape({
-  lCno: Yup.string().required("LC No is required"),
-  lCdate: Yup.string().required("LC Date is required"),
-  supplierCountry: Yup.object().required("Supplier Country is required"),
-  bankName: Yup.object().required("Bank Name is required"),
-  branchName: Yup.object().required("Branch Name is required"),
-  shipName: Yup.string().required("Ship Name is required"),
-  color: Yup.string().required("Color is required"),
-  allotmentRefNo: Yup.string().required("Allotment Ref No is required"),
-  allotmentRefDate: Yup.string().required("Allotment Ref Date is required"),
+  lCno: Yup.string().required('LC No is required'),
+  lCdate: Yup.string().required('LC Date is required'),
+  supplierCountry: Yup.object().required('Supplier Country is required'),
+  bankName: Yup.object().required('Bank Name is required'),
+  branchName: Yup.object().required('Branch Name is required'),
+  shipName: Yup.string().required('Ship Name is required'),
+  color: Yup.string().required('Color is required'),
+  allotmentRefNo: Yup.string().required('Allotment Ref No is required'),
+  allotmentRefDate: Yup.string().required('Allotment Ref Date is required'),
 });
 
 export const getSupplierCountryDDL = async (setter) => {
@@ -66,7 +66,7 @@ export const CreatePartnerProductAllocationLcInfo = async (
       `/partner/PartnerAllotmentHeader/CreatePartnerAllotmentHeader`,
       data
     );
-    toast.success(res?.data?.message || "Submitted Successfully");
+    toast.success(res?.data?.message || 'Submitted Successfully');
     cb();
     setLoading(false);
   } catch (error) {
@@ -82,7 +82,7 @@ export const EditPartnerProductAllocationLcInfo = async (data, setLoading) => {
       `/partner/PartnerAllotmentHeader/EditPartnerAllotmentHeader`,
       data
     );
-    toast.success(res?.data?.message || "Updated Successfully");
+    toast.success(res?.data?.message || 'Updated Successfully');
     setLoading(false);
   } catch (error) {
     toast.error(error?.response?.data?.message);

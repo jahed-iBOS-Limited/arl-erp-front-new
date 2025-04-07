@@ -1,29 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import Loading from "./../../../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import Loading from './../../../../_helper/_loading';
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   CardBody,
-} from "./../../../../../../_metronic/_partials/controls";
-import ICustomTable from "../../../../_helper/_customTable";
-import { DeleteBusinessPartner, getLandingData } from "../helper";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import IView from "../../../../_helper/_helperIcons/_view";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { Formik, Form } from "formik";
-import PaginationSearch from "../../../../_helper/_search";
+} from './../../../../../../_metronic/_partials/controls';
+import ICustomTable from '../../../../_helper/_customTable';
+import { DeleteBusinessPartner, getLandingData } from '../helper';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import IView from '../../../../_helper/_helperIcons/_view';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { Formik, Form } from 'formik';
+import PaginationSearch from '../../../../_helper/_search';
 
 const header = [
-  "SL",
-  "Name",
-  "Type",
+  'SL',
+  'Name',
+  'Type',
   // "Cover Note Prefix",
   // "Policy Prefix",
-  "Action",
+  'Action',
 ];
 
 const LCBusinessPartnerLanding = () => {
@@ -52,7 +52,7 @@ const LCBusinessPartnerLanding = () => {
       getLandingData(
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        "",
+        '',
         pageNo,
         pageSize,
         setGridData,
@@ -74,13 +74,13 @@ const LCBusinessPartnerLanding = () => {
   };
 
   const paginationSearchHandlerSearch = (searchValue) => {
-    setPositionHandler(0,pageSize)
+    setPositionHandler(0, pageSize);
   };
 
   const RemoveBusinessPartner = (id, poId) => {
     if (id && profileData?.accountId && selectedBusinessUnit?.value) {
       let confirmObject = {
-        title: "Are you sure want to delete?",
+        title: 'Are you sure want to delete?',
         // message: "If you close this, it can not be undone",
         yesAlertFunc: async () => {
           // Delete Data and Fetch Grid Data
@@ -88,7 +88,7 @@ const LCBusinessPartnerLanding = () => {
             getLandingData(
               profileData?.accountId,
               selectedBusinessUnit?.value,
-              "",
+              '',
               pageNo,
               pageSize,
               setGridData,
@@ -97,7 +97,7 @@ const LCBusinessPartnerLanding = () => {
             );
           });
         },
-        noAlertFunc: () => { },
+        noAlertFunc: () => {},
       };
       IConfirmModal(confirmObject);
     }
@@ -106,17 +106,16 @@ const LCBusinessPartnerLanding = () => {
   return (
     <>
       {loading && <Loading />}
-      <Formik enableReinitialize={true} initialValues={{ poDDL: "" }}>
+      <Formik enableReinitialize={true} initialValues={{ poDDL: '' }}>
         {({ setFieldValue, values }) => (
           <>
-
             <Card>
               <CardHeader title="LC Business Partner">
                 <CardHeaderToolbar>
                   <button
                     onClick={() =>
                       history.push(
-                        "/managementImport/transaction/lc-business-partner/create"
+                        '/managementImport/transaction/lc-business-partner/create'
                       )
                     }
                     className="btn btn-primary"
@@ -154,7 +153,7 @@ const LCBusinessPartnerLanding = () => {
                     gridData?.data?.map((item, index) => {
                       return (
                         <tr key={index}>
-                          <td style={{ width: "30px" }} className="text-center">
+                          <td style={{ width: '30px' }} className="text-center">
                             {item?.sl}
                           </td>
                           <td>
@@ -176,17 +175,18 @@ const LCBusinessPartnerLanding = () => {
                           // className="text-center d-flex justify-content-center"
                           >
                             <div className="d-flex justify-content-around align-items-center">
-                              {item?.partnerType === "Insurance Company" ||
-                                item?.partnerType === "Bank" ||
-                                item?.partnerType === "CnF Agency" ? (
+                              {item?.partnerType === 'Insurance Company' ||
+                              item?.partnerType === 'Bank' ||
+                              item?.partnerType === 'CnF Agency' ? (
                                 <span className="view">
                                   <IView
                                     clickHandler={() => {
                                       history.push({
-                                        pathname: `/managementImport/transaction/lc-business-partner/view/${item?.partnerType !== "Bank"
-                                          ? item?.businessPartnerId
-                                          : item?.bankAccIdAsSupplierId
-                                          }/${item?.partnerTypeId}`,
+                                        pathname: `/managementImport/transaction/lc-business-partner/view/${
+                                          item?.partnerType !== 'Bank'
+                                            ? item?.businessPartnerId
+                                            : item?.bankAccIdAsSupplierId
+                                        }/${item?.partnerTypeId}`,
                                         state: item,
                                       });
                                     }}
@@ -196,7 +196,7 @@ const LCBusinessPartnerLanding = () => {
                                 <span>
                                   <i
                                     className={`fa pointer fa-eye`}
-                                    style={{ opacity: ".0" }}
+                                    style={{ opacity: '.0' }}
                                     aria-hidden="true"
                                   ></i>
                                 </span>
@@ -220,7 +220,12 @@ const LCBusinessPartnerLanding = () => {
                   <PaginationTable
                     count={gridData?.totalCount}
                     setPositionHandler={setPositionHandler}
-                    paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
+                    paginationState={{
+                      pageNo,
+                      setPageNo,
+                      pageSize,
+                      setPageSize,
+                    }}
                   />
                 )}
               </CardBody>
@@ -228,7 +233,6 @@ const LCBusinessPartnerLanding = () => {
           </>
         )}
       </Formik>
-
     </>
   );
 };

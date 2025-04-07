@@ -1,36 +1,38 @@
-import { Field, Form, Formik } from "formik";
-import React from "react";
-import Select from "react-select";
-import * as Yup from "yup";
-import { Input } from "../../../../../../_metronic/_partials/controls";
-import customStyles, { createCustomSelectStyles } from "../../../../selectCustomStyle";
+import { Field, Form, Formik } from 'formik';
+import React from 'react';
+import Select from 'react-select';
+import * as Yup from 'yup';
+import { Input } from '../../../../../../_metronic/_partials/controls';
+import customStyles, {
+  createCustomSelectStyles,
+} from '../../../../selectCustomStyle';
 import { getBusinessTransactionDDL } from './helper';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   costElementName: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Element Name is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Element Name is required'),
   // costElementCode: Yup.string()
   //   .min(2, "Minimum 2 symbols")
   //   .max(100, "Maximum 100 symbols")
   //   .required("Code is required"),
   controllingUnit: Yup.object().shape({
-    label: Yup.string().required("Controlling unit is required"),
-    value: Yup.string().required("Controlling unit is required"),
+    label: Yup.string().required('Controlling unit is required'),
+    value: Yup.string().required('Controlling unit is required'),
   }),
   businessTransaction: Yup.object().shape({
-    label: Yup.string().required("Business Transaction unit is required"),
-    value: Yup.string().required("Business Transaction unit is required"),
+    label: Yup.string().required('Business Transaction unit is required'),
+    value: Yup.string().required('Business Transaction unit is required'),
   }),
   // costCenter: Yup.object().shape({
   //   label: Yup.string().required("Cost center is required"),
   //   value: Yup.string().required("Cost center is required"),
   // }),
   generalLedger: Yup.object().shape({
-    label: Yup.string().required("General Ledger is required"),
-    value: Yup.string().required("General Ledger is required"),
+    label: Yup.string().required('General Ledger is required'),
+    value: Yup.string().required('General Ledger is required'),
   }),
 });
 
@@ -48,10 +50,8 @@ export default function FormCmp({
   accountId,
   selectedBusinessUnit,
   businessTransactionDDL,
-  setBusinessTransactionDDL
+  setBusinessTransactionDDL,
 }) {
-
-
   return (
     <>
       <Formik
@@ -78,7 +78,7 @@ export default function FormCmp({
               <div className="form-group row">
                 <div className="col-lg-3">
                   <Field
-                    value={values.costElementName || ""}
+                    value={values.costElementName || ''}
                     name="costElementName"
                     component={Input}
                     placeholder="Element Name"
@@ -103,9 +103,9 @@ export default function FormCmp({
                             selectedBusinessUnit?.value,
                             valueOption?.value,
                             setBusinessTransactionDDL
-                          )
-                          setFieldValue("generalLedger", valueOption);
-                          setFieldValue("businessTransaction", "");
+                          );
+                          setFieldValue('generalLedger', valueOption);
+                          setFieldValue('businessTransaction', '');
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -114,10 +114,10 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
@@ -126,7 +126,7 @@ export default function FormCmp({
                     touched &&
                     touched.generalLedger
                       ? errors.generalLedger.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
 
@@ -141,19 +141,19 @@ export default function FormCmp({
                         placeholder="Select Business Transaction"
                         value={values?.businessTransaction}
                         onChange={(valueOption) => {
-                          setFieldValue("businessTransaction", valueOption);
+                          setFieldValue('businessTransaction', valueOption);
                         }}
                         // isSearchable={true}
                         styles={customStyles}
                       />
                     )}
                   />
-                   <p
+                  <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
@@ -162,7 +162,7 @@ export default function FormCmp({
                     touched &&
                     touched.businessTransaction
                       ? errors.businessTransaction.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
 
@@ -178,9 +178,9 @@ export default function FormCmp({
                         placeholder="Select Controlling Unit"
                         value={values?.controllingUnit}
                         onChange={(valueOption) => {
-                          setFieldValue("controllingUnit", valueOption);
+                          setFieldValue('controllingUnit', valueOption);
                           controllUniIdFunc(valueOption?.value);
-                          setFieldValue("costCenter", "");
+                          setFieldValue('costCenter', '');
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -189,10 +189,10 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
@@ -201,7 +201,7 @@ export default function FormCmp({
                     touched &&
                     touched.controllingUnit
                       ? errors.controllingUnit.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
 
@@ -213,16 +213,13 @@ export default function FormCmp({
                       <Select
                         options={costCenterDDL}
                         placeholder="Select Cost Center"
-                        value={values.costCenter || ""}
+                        value={values.costCenter || ''}
                         onChange={(valueOption) => {
-                          setFieldValue(
-                            "costCenter",
-                            valueOption || ""
-                          );
+                          setFieldValue('costCenter', valueOption || '');
                         }}
                         styles={createCustomSelectStyles({
                           isAutoHeight: true,
-                          minHeight: "30px"
+                          minHeight: '30px',
                         })}
                         name="costCenter"
                         isDisabled={!values?.controllingUnit}
@@ -234,34 +231,30 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
-                    {errors &&
-                    errors.costCenter &&
-                    touched &&
-                    touched.org
+                    {errors && errors.costCenter && touched && touched.org
                       ? errors.costCenter
-                      : ""}
+                      : ''}
                   </p>
                 </div>
-
               </div>
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

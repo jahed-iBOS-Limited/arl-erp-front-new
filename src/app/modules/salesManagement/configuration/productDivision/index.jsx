@@ -1,6 +1,6 @@
-import React from "react";
-import { ProductDivisionTable } from "./Table/tableHeader";
-import { UiProvider } from "../../../_helper/uiContextHelper";
+import React from 'react';
+import { ProductDivisionTable } from './Table/tableHeader';
+import { UiProvider } from '../../../_helper/uiContextHelper';
 
 export default function ProductDivision({ history }) {
   const uIEvents = {

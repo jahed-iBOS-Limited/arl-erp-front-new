@@ -1,45 +1,45 @@
-import { Form, Formik } from "formik";
-import _ from "lodash";
-import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import printIcon from "../../../../_helper/images/print-icon.png";
+import { Form, Formik } from 'formik';
+import _ from 'lodash';
+import moment from 'moment';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import printIcon from '../../../../_helper/images/print-icon.png';
 import {
   GetProductionDataReport,
   getItemNameDDL,
   getShopfloorDDL,
-} from "../helper";
-import { getPlantNameDDL_api } from "../../../../_helper/_commonApi";
+} from '../helper';
+import { getPlantNameDDL_api } from '../../../../_helper/_commonApi';
 
 const initData = {
-  plant: "",
-  shopFloor: "",
-  itemName: "",
-  bomType: "",
+  plant: '',
+  shopFloor: '',
+  itemName: '',
+  bomType: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
 
 const bomTypeDDL = [
-  { value: 0, label: "All" },
+  { value: 0, label: 'All' },
   {
     value: 1,
-    label: "Main (Paddy to Rice)",
+    label: 'Main (Paddy to Rice)',
   },
   {
     value: 2,
-    label: "Conversion (Rice to Rice)",
+    label: 'Conversion (Rice to Rice)',
   },
   {
     value: 3,
-    label: "Re-Process (Rice to Rice)",
+    label: 'Re-Process (Rice to Rice)',
   },
 ];
 
@@ -67,7 +67,6 @@ function ProductionDataLanding() {
       selectedBusinessUnit?.value,
       setPlantDDL
     );
-
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   const printRef = useRef();
@@ -102,9 +101,9 @@ function ProductionDataLanding() {
                       value={values?.plant}
                       label="Select Plant"
                       onChange={(valueOption) => {
-                        setFieldValue("plant", valueOption);
-                        setFieldValue("shopFloor", "");
-                        setFieldValue("itemName", "");
+                        setFieldValue('plant', valueOption);
+                        setFieldValue('shopFloor', '');
+                        setFieldValue('itemName', '');
                         setGridData([]);
                         getShopfloorDDL(
                           profileData?.accountId,
@@ -121,13 +120,13 @@ function ProductionDataLanding() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="shopFloor"
-                      options={[{ value: 0, label: "All" }, ...shopFloor]}
+                      options={[{ value: 0, label: 'All' }, ...shopFloor]}
                       value={values?.shopFloor}
                       label="Select Shop Floor"
                       onChange={(valueOption) => {
                         setGridData([]);
-                        setFieldValue("shopFloor", valueOption);
-                        setFieldValue("itemName", "");
+                        setFieldValue('shopFloor', valueOption);
+                        setFieldValue('itemName', '');
                         setItemName([]);
                         getItemNameDDL(
                           profileData?.accountId,
@@ -147,11 +146,11 @@ function ProductionDataLanding() {
                     <NewSelect
                       placeholder="Select Item Name"
                       onChange={(valueOption) => {
-                        setFieldValue("itemName", valueOption);
+                        setFieldValue('itemName', valueOption);
                         setGridData([]);
                       }}
-                      options={[{ value: 0, label: "All" }, ...itemName] || []}
-                      value={values?.itemName || ""}
+                      options={[{ value: 0, label: 'All' }, ...itemName] || []}
+                      value={values?.itemName || ''}
                       isSearchable={true}
                       name="itemName"
                       isDisabled={!values?.plant || !values?.shopFloor}
@@ -166,7 +165,7 @@ function ProductionDataLanding() {
                       value={values?.bomType}
                       label="BOM Type"
                       onChange={(valueOption) => {
-                        setFieldValue("bomType", valueOption);
+                        setFieldValue('bomType', valueOption);
                         setGridData([]);
                       }}
                       errors={errors}
@@ -181,7 +180,7 @@ function ProductionDataLanding() {
                       placeholder="From Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e?.target?.value);
+                        setFieldValue('fromDate', e?.target?.value);
                       }}
                     />
                   </div>
@@ -193,11 +192,11 @@ function ProductionDataLanding() {
                       placeholder="To Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e?.target?.value);
+                        setFieldValue('toDate', e?.target?.value);
                       }}
                     />
                   </div>
-                  <div style={{ marginTop: "15px" }} className="col-lg">
+                  <div style={{ marginTop: '15px' }} className="col-lg">
                     <button
                       type="button"
                       className="btn btn-primary"
@@ -218,7 +217,7 @@ function ProductionDataLanding() {
                   </div>
                   {gridData?.length > 0 && (
                     <div
-                      style={{ marginTop: "15px" }}
+                      style={{ marginTop: '15px' }}
                       className="col-lg-3 d-flex justify-content-end"
                     >
                       <div>
@@ -229,7 +228,7 @@ function ProductionDataLanding() {
                               className="btn btn-primary px-4 py-1"
                             >
                               <img
-                                style={{ width: "25px", paddingRight: "5px" }}
+                                style={{ width: '25px', paddingRight: '5px' }}
                                 src={printIcon}
                                 alt="print-icon"
                               />
@@ -301,16 +300,16 @@ function ProductionDataLanding() {
                               <td className="text-center">
                                 {item?.productionDate
                                   ? moment(item?.productionDate).format(
-                                    "YYYY-MM-DD HH:mm A"
-                                  )
-                                  : ""}
+                                      'YYYY-MM-DD HH:mm A'
+                                    )
+                                  : ''}
                               </td>
                               <td className="text-center">
                                 {item?.approveProductionDate
                                   ? moment(item?.approveProductionDate).format(
-                                    "YYYY-MM-DD HH:mm A"
-                                  )
-                                  : ""}
+                                      'YYYY-MM-DD HH:mm A'
+                                    )
+                                  : ''}
                               </td>
                             </tr>
                           );
@@ -318,13 +317,13 @@ function ProductionDataLanding() {
 
                         <tr>
                           <td colSpan={4} className="text-right">
-                            {" "}
-                            Total{" "}
+                            {' '}
+                            Total{' '}
                           </td>
 
                           <td className="text-right">
                             <b>
-                              {" "}
+                              {' '}
                               {_fixedPoint(
                                 _.sumBy(
                                   gridData,

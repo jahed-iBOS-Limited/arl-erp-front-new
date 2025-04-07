@@ -1,13 +1,12 @@
-
-import React, { useEffect, useState } from "react";
-import Select from "react-select";
-import customStyles from "../../../selectCustomStyle";
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { updateChartTypeAction, updateIsShownAction } from "./_redux/Actions";
-import { useParams } from "react-router-dom";
-import IHeart from "../../../_helper/_helperIcons/_heart";
-import { getPmsReportAction } from "../../_helper/getReportAction";
-import PmsCommonTable from "../../_helper/pmsCommonTable/PmsCommonTable";
+import React, { useEffect, useState } from 'react';
+import Select from 'react-select';
+import customStyles from '../../../selectCustomStyle';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { updateChartTypeAction, updateIsShownAction } from './_redux/Actions';
+import { useParams } from 'react-router-dom';
+import IHeart from '../../../_helper/_helperIcons/_heart';
+import { getPmsReportAction } from '../../_helper/getReportAction';
+import PmsCommonTable from '../../_helper/pmsCommonTable/PmsCommonTable';
 
 export default function PerformanceChart({ values }) {
   const dispatch = useDispatch();
@@ -41,8 +40,6 @@ export default function PerformanceChart({ values }) {
         2
       );
     }
-
-
   }, [values, depId]);
 
   const callGetReportAction = () => {
@@ -66,15 +63,15 @@ export default function PerformanceChart({ values }) {
     <div className="performance-chart">
       <PmsCommonTable
         ths={[
-          { name: "BSC" },
-          { name: "Objective" },
-          { name: "KPI" },
-          { name: "SRF" },
-          { name: "Weight" },
-          { name: "Target" },
-          { name: "Ach." },
-          { name: "Chart Type" },
-          { name: "Chart" },
+          { name: 'BSC' },
+          { name: 'Objective' },
+          { name: 'KPI' },
+          { name: 'SRF' },
+          { name: 'Weight' },
+          { name: 'Target' },
+          { name: 'Ach.' },
+          { name: 'Chart Type' },
+          { name: 'Chart' },
         ]}
       >
         {report?.infoList?.map((itm, indx) => (
@@ -91,8 +88,8 @@ export default function PerformanceChart({ values }) {
                 )}
                 {item?.isParent && (
                   <td className="obj" rowspan={item?.numberOfChild}>
-                    {" "}
-                    {item?.parentName}{" "}
+                    {' '}
+                    {item?.parentName}{' '}
                   </td>
                 )}
                 <td> {item?.label} </td>
@@ -104,7 +101,7 @@ export default function PerformanceChart({ values }) {
                   {indx !== report?.infoList.length - 1 && (
                     <div
                       className="perform-select"
-                      style={{ height: "100%", zIndex: "9999", width: "90px" }}
+                      style={{ height: '100%', zIndex: '9999', width: '90px' }}
                     >
                       <Select
                         isSearchable={true}
@@ -114,9 +111,9 @@ export default function PerformanceChart({ values }) {
                           label: item.chart_type_label,
                         }}
                         options={[
-                          { value: 1, label: "Bar" },
-                          { value: 2, label: "Donut" },
-                          { value: 3, label: "Gauge" },
+                          { value: 1, label: 'Bar' },
+                          { value: 2, label: 'Donut' },
+                          { value: 3, label: 'Gauge' },
                         ]}
                         placeholder="Select"
                         onChange={(valueOption) => {
@@ -142,7 +139,7 @@ export default function PerformanceChart({ values }) {
                     (item?.chart_type === 1 ? (
                       <div className="d-flex justify-content-between">
                         <i
-                          style={{ fontSize: "22px", color: "#34495e" }}
+                          style={{ fontSize: '22px', color: '#34495e' }}
                           className="far fa-chart-bar"
                         ></i>
                         <IHeart
@@ -155,7 +152,7 @@ export default function PerformanceChart({ values }) {
                     ) : item?.chart_type === 2 ? (
                       <div className="d-flex justify-content-between">
                         <i
-                          style={{ fontSize: "22px", color: "#3498db" }}
+                          style={{ fontSize: '22px', color: '#3498db' }}
                           className="fas fa-dot-circle"
                         ></i>
                         <IHeart
@@ -168,7 +165,7 @@ export default function PerformanceChart({ values }) {
                     ) : (
                       <div className="d-flex justify-content-between">
                         <i
-                          style={{ fontSize: "22px", color: "#e67e22" }}
+                          style={{ fontSize: '22px', color: '#e67e22' }}
                           className="fas fa-tachometer-alt"
                         ></i>
                         <IHeart

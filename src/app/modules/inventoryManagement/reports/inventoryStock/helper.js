@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from 'axios';
 // import { toast } from "react-toastify";
 
 //businessUnitPlant_api Api call
@@ -16,9 +16,7 @@ export const businessUnitPlant_api = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-
-  }
+  } catch (error) {}
 };
 
 //InventoryStatement_api Api call
@@ -33,10 +31,10 @@ export const inventoryStatement_api = async (
   itemSubId,
   setter,
   setinventoryStatementAllData,
-  search,
+  search
 ) => {
   setLoading(true);
-  const searchPath = search ? `search=${search}&` : "";
+  const searchPath = search ? `search=${search}&` : '';
   try {
     const res = await Axios.get(
       //`/wms/WmsReport/InventoryStatement?accountId=${accId}&businessUnitId=${buId}&warehouseId=${warehouseId}&plantId=${plantId}&itemCategoryId=${itemcatId}&itemSubCategoryId=${itemSubId}&fromDate=${fromDate}&toDate=${toDate}`
@@ -78,7 +76,6 @@ export const InventoryLedger_api = async (
       setLoading(false);
     }
   } catch (error) {
-
     setLoading(false);
   }
 };

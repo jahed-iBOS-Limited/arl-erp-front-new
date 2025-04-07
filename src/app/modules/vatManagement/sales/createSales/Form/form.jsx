@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import Axios from "axios";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import Axios from 'axios';
 import {
   GetCustomHouseDDL_api,
   getTradeTypeDDL,
@@ -15,52 +15,52 @@ import {
   getSelectedItemInfo,
   getTaxPortDDL,
   GetHSCodeByTarrifSchedule_api,
-} from "../helper";
+} from '../helper';
 
-import * as Yup from "yup";
-import { NegetiveCheck } from "../../../../_helper/_negitiveCheck";
-import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
-import FormikError from "./../../../../_helper/_formikError";
+import * as Yup from 'yup';
+import { NegetiveCheck } from '../../../../_helper/_negitiveCheck';
+import SearchAsyncSelect from './../../../../_helper/SearchAsyncSelect';
+import FormikError from './../../../../_helper/_formikError';
 
 const validationSchema = Yup.object().shape({
   deliveryTo: Yup.object().shape({
-    label: Yup.string().required("Delivery To is required"),
-    value: Yup.string().required("Delivery To is required"),
+    label: Yup.string().required('Delivery To is required'),
+    value: Yup.string().required('Delivery To is required'),
   }),
 
   supplier: Yup.object().shape({
-    label: Yup.string().required("Customer Name/Bin No is required"),
-    value: Yup.string().required("Customer Name/Bin No is required"),
+    label: Yup.string().required('Customer Name/Bin No is required'),
+    value: Yup.string().required('Customer Name/Bin No is required'),
   }),
 
   tradeType: Yup.object().shape({
-    label: Yup.string().required("Trade Type is required"),
-    value: Yup.string().required("Trade Type is required"),
+    label: Yup.string().required('Trade Type is required'),
+    value: Yup.string().required('Trade Type is required'),
   }),
   refferenceNo: Yup.string(),
-  vehicalInfo: Yup.string().required("Vehical Info is required"),
-  address: Yup.string().required("address is required"),
-  deliveryAddress: Yup.string().required("Delivery Address is required"),
+  vehicalInfo: Yup.string().required('Vehical Info is required'),
+  address: Yup.string().required('address is required'),
+  deliveryAddress: Yup.string().required('Delivery Address is required'),
 
-  transactionDate: Yup.date().required("Trade Type is required"),
-  refferenceDate: Yup.date().required("Trade Type is required"),
-  taxDeliveryDateTime: Yup.date().required("Trade Type is required"),
+  transactionDate: Yup.date().required('Trade Type is required'),
+  refferenceDate: Yup.date().required('Trade Type is required'),
+  taxDeliveryDateTime: Yup.date().required('Trade Type is required'),
 
-  customsHouse: Yup.string().when("tradeType", {
+  customsHouse: Yup.string().when('tradeType', {
     is: (tradeType) => {
       return [3, 4].includes(+tradeType?.value);
     },
     then: Yup.string()
-      .required("Customs House is required")
-      .typeError("Customs House is required"),
+      .required('Customs House is required')
+      .typeError('Customs House is required'),
   }),
-  port: Yup.string().when("tradeType", {
+  port: Yup.string().when('tradeType', {
     is: (tradeType) => {
       return [3, 4].includes(+tradeType?.value);
     },
     then: Yup.string()
-      .required("Port is required")
-      .typeError("Port is required"),
+      .required('Port is required')
+      .typeError('Port is required'),
   }),
 });
 
@@ -80,7 +80,6 @@ export default function FormCmp({
   dataHandler,
   itemSelectHandler,
 }) {
-
   const [customHouseDDL, setCustomHouseDDL] = useState([]);
   const [taxPortDDL, setTaxPortDDL] = useState([]);
   const [tradeTypeDDL, setTradeTypeDDL] = useState([]);
@@ -135,7 +134,7 @@ export default function FormCmp({
             <Form className="form form-label-right">
               <div className="row global-form">
                 <div className="col-lg-12">
-                  <div className="row" style={{ paddingBottom: "10px 0" }}>
+                  <div className="row" style={{ paddingBottom: '10px 0' }}>
                     <div className="col-lg-3 pl pr-1 mb-1">
                       <NewSelect
                         name="tradeType"
@@ -143,10 +142,10 @@ export default function FormCmp({
                         value={values?.tradeType}
                         label="Trade Type"
                         onChange={(valueOption) => {
-                          setFieldValue("tradeType", valueOption);
-                          setFieldValue("selectedItem", "");
-                          setFieldValue("selectedUom", "");
-                          setFieldValue("rate", "");
+                          setFieldValue('tradeType', valueOption);
+                          setFieldValue('selectedItem', '');
+                          setFieldValue('selectedUom', '');
+                          setFieldValue('rate', '');
                           setTarrifScheduleInfoOne([]);
                           setTarrifScheduleInfoTwo([]);
                         }}
@@ -179,11 +178,11 @@ export default function FormCmp({
                     <div className="col-lg-3 mb-1">
                       <label>Customer Name/Bin No</label>
                       <SearchAsyncSelect
-                        selectedValue={values?.supplier || ""}
+                        selectedValue={values?.supplier || ''}
                         handleChange={(valueOption) => {
-                          setFieldValue("supplier", valueOption);
-                          setFieldValue("deliveryTo", "");
-                          setFieldValue("address", valueOption?.address);
+                          setFieldValue('supplier', valueOption);
+                          setFieldValue('deliveryTo', '');
+                          setFieldValue('address', valueOption?.address);
                           setDeliveryToDDL([]);
                           getDeliveryToDDL(
                             valueOption?.value,
@@ -240,9 +239,9 @@ export default function FormCmp({
                         value={values?.deliveryTo}
                         label="Delivery To"
                         onChange={(valueOption) => {
-                          setFieldValue("deliveryTo", valueOption);
+                          setFieldValue('deliveryTo', valueOption);
                           setFieldValue(
-                            "deliveryAddress",
+                            'deliveryAddress',
                             valueOption?.address
                           );
                         }}
@@ -256,7 +255,7 @@ export default function FormCmp({
                     <div className="col-lg-3 pl pr-1 mb-1">
                       <label>Delivery Address</label>
                       <InputField
-                        value={values?.deliveryAddress || ""}
+                        value={values?.deliveryAddress || ''}
                         name="deliveryAddress"
                         placeholder="Address"
                         type="text"
@@ -284,10 +283,10 @@ export default function FormCmp({
                             value={values?.customsHouse}
                             label="Customs House"
                             onChange={(valueOption) => {
-                              setFieldValue("customsHouse", valueOption);
+                              setFieldValue('customsHouse', valueOption);
                               setFieldValue(
-                                "customsHouseCode",
-                                valueOption?.code || ""
+                                'customsHouseCode',
+                                valueOption?.code || ''
                               );
                             }}
                             placeholder="Customs House"
@@ -315,7 +314,7 @@ export default function FormCmp({
                             value={values?.port}
                             label="Port"
                             onChange={(valueOption) => {
-                              setFieldValue("port", valueOption);
+                              setFieldValue('port', valueOption);
                             }}
                             placeholder="Port"
                             errors={errors}
@@ -363,7 +362,7 @@ export default function FormCmp({
 
                 {/* Item Input */}
                 <div className="col-md-12">
-                  <div className="row " style={{ paddingTop: "10px" }}>
+                  <div className="row " style={{ paddingTop: '10px' }}>
                     <div className="col-lg-2 pl pr-1 mb-1">
                       <NewSelect
                         name="selectedItem"
@@ -371,7 +370,7 @@ export default function FormCmp({
                         value={values?.selectedItem}
                         label="Item"
                         onChange={(valueOption) => {
-                          setFieldValue("selectedUom", {
+                          setFieldValue('selectedUom', {
                             value: valueOption?.uomId,
                             label: valueOption?.uomName,
                           });
@@ -399,7 +398,7 @@ export default function FormCmp({
                             );
                           }
 
-                          setFieldValue("selectedItem", valueOption);
+                          setFieldValue('selectedItem', valueOption);
                         }}
                         placeholder="Item Name"
                         errors={errors}
@@ -414,7 +413,7 @@ export default function FormCmp({
                         value={values?.selectedUom}
                         label="UOM"
                         onChange={(valueOption) => {
-                          setFieldValue("selectedUom", valueOption);
+                          setFieldValue('selectedUom', valueOption);
                         }}
                         placeholder="Select Uom"
                         errors={errors}
@@ -431,11 +430,11 @@ export default function FormCmp({
                         type="number"
                         min="0"
                         onChange={(e) => {
-                          setFieldValue("quantity", e.target.value);
+                          setFieldValue('quantity', e.target.value);
                           NegetiveCheck(
                             e.target.value,
                             setFieldValue,
-                            "quantity"
+                            'quantity'
                           );
                         }}
 
@@ -452,8 +451,8 @@ export default function FormCmp({
                         type="number"
                         disabled={true}
                         onChange={(e) => {
-                          setFieldValue("rate", e.target.value);
-                          NegetiveCheck(e.target.value, setFieldValue, "rate");
+                          setFieldValue('rate', e.target.value);
+                          NegetiveCheck(e.target.value, setFieldValue, 'rate');
                         }}
                       />
                     </div>
@@ -468,16 +467,16 @@ export default function FormCmp({
                           !values.rate
                         }
                         style={{
-                          marginTop: "16px",
+                          marginTop: '16px',
                         }}
                         onClick={(e) => {
                           setter({ values, selectedItemInfo }, () => {
                             setValues({
                               ...values,
-                              selectedItem: "",
-                              selectedUom: "",
-                              quantity: "",
-                              rate: "",
+                              selectedItem: '',
+                              selectedUom: '',
+                              quantity: '',
+                              rate: '',
                             });
                             setSelectedItemInfo({});
                           });
@@ -492,10 +491,10 @@ export default function FormCmp({
                         <>
                           <div className="d-flex justify-content-between w-100">
                             <div className="">
-                              <label style={{ display: "block" }}>
-                                <span style={{ fontWeight: "bold" }}>
-                                  HSCode:{" "}
-                                </span>{" "}
+                              <label style={{ display: 'block' }}>
+                                <span style={{ fontWeight: 'bold' }}>
+                                  HSCode:{' '}
+                                </span>{' '}
                                 {values?.selectedItem?.hsCode}
                               </label>
                             </div>
@@ -504,10 +503,10 @@ export default function FormCmp({
                             {tarrifScheduleInfoOne?.length > 0 && (
                               <>
                                 <div className="">
-                                  <label style={{ display: "block" }}>
-                                    <span style={{ fontWeight: "bold" }}>
-                                      Vat:{" "}
-                                    </span>{" "}
+                                  <label style={{ display: 'block' }}>
+                                    <span style={{ fontWeight: 'bold' }}>
+                                      Vat:{' '}
+                                    </span>{' '}
                                     {tarrifScheduleInfoOne?.[0]?.vat}
                                   </label>
                                 </div>
@@ -525,10 +524,10 @@ export default function FormCmp({
                             {tarrifScheduleInfoTwo?.length > 0 && (
                               <>
                                 <div className="">
-                                  <label style={{ display: "block" }}>
-                                    <span style={{ fontWeight: "bold" }}>
-                                      Vat:{" "}
-                                    </span>{" "}
+                                  <label style={{ display: 'block' }}>
+                                    <span style={{ fontWeight: 'bold' }}>
+                                      Vat:{' '}
+                                    </span>{' '}
                                     {tarrifScheduleInfoTwo?.[0]?.vat}
                                   </label>
                                 </div>
@@ -544,10 +543,10 @@ export default function FormCmp({
                             )}
 
                             <div className="">
-                              <label style={{ display: "block" }}>
-                                <span style={{ fontWeight: "bold" }}>
-                                  Description:{" "}
-                                </span>{" "}
+                              <label style={{ display: 'block' }}>
+                                <span style={{ fontWeight: 'bold' }}>
+                                  Description:{' '}
+                                </span>{' '}
                                 {values?.selectedItem?.description}
                               </label>
                             </div>
@@ -561,22 +560,22 @@ export default function FormCmp({
 
               <div className="row">
                 <div className="col-lg-12 pr-0">
-                  <table className={"table global-table"}>
+                  <table className={'table global-table'}>
                     <thead
                     // className={rowDto?.length < 1 && "d-none"}
                     >
                       <tr>
-                        <th style={{ width: "20px" }}>SL</th>
-                        <th style={{ width: "120px" }}>Item Name</th>
-                        <th style={{ width: "100px" }}>UOM</th>
-                        <th style={{ width: "50px" }}>Quantity</th>
-                        <th style={{ width: "50px" }}>Rate</th>
-                        <th style={{ width: "50px" }}>SD%</th>
-                        <th style={{ width: "50px" }}>VAT%</th>
-                        <th style={{ width: "50px" }}>Surcharge</th>
-                        <th style={{ width: "50px" }}>Total Amount</th>
-                        <th style={{ width: "50px" }}>isFree</th>
-                        <th style={{ width: "50px" }}>Action</th>
+                        <th style={{ width: '20px' }}>SL</th>
+                        <th style={{ width: '120px' }}>Item Name</th>
+                        <th style={{ width: '100px' }}>UOM</th>
+                        <th style={{ width: '50px' }}>Quantity</th>
+                        <th style={{ width: '50px' }}>Rate</th>
+                        <th style={{ width: '50px' }}>SD%</th>
+                        <th style={{ width: '50px' }}>VAT%</th>
+                        <th style={{ width: '50px' }}>Surcharge</th>
+                        <th style={{ width: '50px' }}>Total Amount</th>
+                        <th style={{ width: '50px' }}>isFree</th>
+                        <th style={{ width: '50px' }}>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -620,7 +619,7 @@ export default function FormCmp({
                           <td className="text-center">
                             <input
                               onChange={(e) => {
-                                dataHandler("isFree", e.target.checked, index);
+                                dataHandler('isFree', e.target.checked, index);
                               }}
                               checked={item.isFree}
                               type="checkbox"
@@ -638,14 +637,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

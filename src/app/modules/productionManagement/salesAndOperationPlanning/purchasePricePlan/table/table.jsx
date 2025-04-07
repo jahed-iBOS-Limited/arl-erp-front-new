@@ -1,28 +1,24 @@
-import React, { useEffect, useState } from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import { useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IViewModal from "../../../../_helper/_viewModal";
-import Loading from "../../../../_helper/_loading";
-import VersionModal from "./versionModal";
-import { SetSalesAndProductionTableLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getLandingPlantDDL } from "../../../../_helper/_commonApi";
+import React, { useEffect, useState } from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IViewModal from '../../../../_helper/_viewModal';
+import Loading from '../../../../_helper/_loading';
+import VersionModal from './versionModal';
+import { SetSalesAndProductionTableLandingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { getLandingPlantDDL } from '../../../../_helper/_commonApi';
 
 const PurchasePlanTable = () => {
   const [fiscalYearDDL, getFiscalYearDDL, fiscalYearDDLloader] = useAxiosGet();
   const [plantDDL, setPlantDDL] = useState([]);
   const history = useHistory();
   const dispatch = useDispatch();
-  const [
-    purchasePlan,
-    getPurchasePlan,
-    purchasePlanLoader,
-    setPurchasePlan,
-  ] = useAxiosGet();
+  const [purchasePlan, getPurchasePlan, purchasePlanLoader, setPurchasePlan] =
+    useAxiosGet();
 
   const [versionModalShow, setVersionModalShow] = useState(false);
   const [versionModalData, setVersionModalData] = useState();
@@ -52,11 +48,10 @@ const PurchasePlanTable = () => {
         `/mes/SalesPlanning/GetPurchasePlanding?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${plant?.value}&StrYear=${year?.label}`
       );
     }
-
   }, [profileData, selectedBusinessUnit, plant, year]);
 
   const createHandler = () => {
-    history.push("/internal-control/budget/PurchasePlan/Create");
+    history.push('/internal-control/budget/PurchasePlan/Create');
   };
 
   return (
@@ -70,7 +65,7 @@ const PurchasePlanTable = () => {
               setPurchasePlan([]);
               dispatch(
                 SetSalesAndProductionTableLandingAction({
-                  year: "",
+                  year: '',
                   plant: v,
                 })
               );
@@ -109,7 +104,7 @@ const PurchasePlanTable = () => {
                 `/mes/SalesPlanning/GetPurchasePlanding?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${plant?.value}&StrYear=${year?.label}`
               );
             }}
-            style={{ marginTop: "18px" }}
+            style={{ marginTop: '18px' }}
             className="btn btn-primary"
             disabled={!plant || !year}
           >

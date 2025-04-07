@@ -54,7 +54,6 @@ export default function AddForm({
 
   useEffect(() => {
     getPurchaseOrganizationDDL(profileData?.accountId, 4, setPurchaseOrg);
-
   }, []);
 
   const saveData = async (values, cb) => {
@@ -94,7 +93,7 @@ export default function AddForm({
           setDisabled(true);
           const res = await Axios.post(
             '/item/ItemMaster/CreateItemMaster',
-            itemBasicData,
+            itemBasicData
           );
           // const res = await Axios.post(
           //   "/item/ItemBasic/CreateItemBasic",
@@ -117,7 +116,7 @@ export default function AddForm({
           setDisabled(true);
           const res = await Axios.post(
             '/item/ItemMaster/CreateItemMaster',
-            itemBasicData,
+            itemBasicData
           );
           // const res = await Axios.post(
           //   "/item/ItemBasic/CreateItemBasic",

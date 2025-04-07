@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 // import { useHistory } from "react-router-dom";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { Formik } from "formik";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Form } from "react-bootstrap";
-import IConfirmModal from "./../../../../_helper/_confirmModal";
-import { getPurchaseOrderGridData, approvalApi } from "./helper";
-import { setPoApprovalId } from "../../../../_helper/reduxForLocalStorage/Actions";
-import PaginationSearch from "./../../../../_helper/_search";
-import IViewModal from "../../../../_helper/_viewModal";
-import { PurchaseOrderViewTableRow } from "../../../../procurement/purchase-management/purchaseOrder/report/tableRow";
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { Formik } from 'formik';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
+import IConfirmModal from './../../../../_helper/_confirmModal';
+import { getPurchaseOrderGridData, approvalApi } from './helper';
+import { setPoApprovalId } from '../../../../_helper/reduxForLocalStorage/Actions';
+import PaginationSearch from './../../../../_helper/_search';
+import IViewModal from '../../../../_helper/_viewModal';
+import { PurchaseOrderViewTableRow } from '../../../../procurement/purchase-management/purchaseOrder/report/tableRow';
 
 let initData = {};
 
@@ -31,7 +31,7 @@ const PurchaseOrderApprovalGrid = ({
   const [billSubmitBtn, setBillSubmitBtn] = useState(true);
   const dispatch = useDispatch();
   const [isShowModal, setIsShowModal] = useState(false);
-  const [currentItem, setCurrentItem] = useState("");
+  const [currentItem, setCurrentItem] = useState('');
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
@@ -47,7 +47,6 @@ const PurchaseOrderApprovalGrid = ({
 
   useEffect(() => {
     cb();
-
   }, [activityChange]);
 
   let cb = () => {
@@ -60,7 +59,7 @@ const PurchaseOrderApprovalGrid = ({
       setLoader,
       pageNo,
       pageSize,
-      "",
+      '',
       selectedPlant?.value
     );
   };
@@ -108,7 +107,7 @@ const PurchaseOrderApprovalGrid = ({
   // approveSubmitlHandler btn submit handler
   const approveSubmitlHandler = (values) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to post the selected approve submit`,
       yesAlertFunc: () => {
         const filterSelectedData = rowDto?.data?.filter(
@@ -149,7 +148,7 @@ const PurchaseOrderApprovalGrid = ({
       setLoader,
       pageNo,
       pageSize,
-      "",
+      '',
       selectedPlant?.value
     );
   };
@@ -165,7 +164,7 @@ const PurchaseOrderApprovalGrid = ({
       0,
       pageSize,
       value,
-      "",
+      '',
       selectedPlant?.value
     );
     setPageNo(0);
@@ -178,7 +177,7 @@ const PurchaseOrderApprovalGrid = ({
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          applicationType: { value: 1, label: "Pending Application" },
+          applicationType: { value: 1, label: 'Pending Application' },
         }}
         // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -235,7 +234,7 @@ const PurchaseOrderApprovalGrid = ({
                 <table className="table table-striped table-bordered global-table">
                   <thead>
                     <tr>
-                      <th style={{ width: "20px" }}>
+                      <th style={{ width: '20px' }}>
                         <input
                           type="checkbox"
                           id="parent"
@@ -310,14 +309,14 @@ const PurchaseOrderApprovalGrid = ({
                             }}
                           >
                             <OverlayTrigger
-                              overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}
+                              overlay={<Tooltip id="cs-icon">{'View'}</Tooltip>}
                             >
-                              <span style={{ cursor: "pointer" }}>
+                              <span style={{ cursor: 'pointer' }}>
                                 <i
                                   className={`fas fa-eye ${
                                     lastPOApprovalId === item?.transectionId
-                                      ? "text-primary"
-                                      : ""
+                                      ? 'text-primary'
+                                      : ''
                                   }`}
                                   aria-hidden="true"
                                 ></i>
@@ -331,7 +330,7 @@ const PurchaseOrderApprovalGrid = ({
                 </table>
               </div>
             ) : (
-              ""
+              ''
             )}
             {rowDto?.data?.length > 0 && (
               <PaginationTable

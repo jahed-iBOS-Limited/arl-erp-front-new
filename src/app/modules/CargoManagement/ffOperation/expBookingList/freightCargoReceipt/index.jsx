@@ -39,7 +39,6 @@ const FreightCargoReceipt = ({ rowClickData }) => {
     if (bookingRequestId) {
       commonGetByIdHandler();
     }
-
   }, [bookingRequestId]);
   const saveHandler = (values) => {
     createHblFcrNumber(
@@ -47,7 +46,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
       null,
       () => {
         commonGetByIdHandler();
-      },
+      }
     );
   };
   const commonGetByIdHandler = () => {
@@ -55,7 +54,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
       `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
       (resData) => {
         const modeOfTransportId = [2, 3].includes(
-          rowClickData?.modeOfTransportId,
+          rowClickData?.modeOfTransportId
         )
           ? 2
           : 1;
@@ -76,7 +75,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
         } else {
           setTransportPlanningData(transportPlanningSea);
         }
-      },
+      }
     );
   };
   const bookingData = shipBookingRequestGetById || {};
@@ -111,12 +110,12 @@ const FreightCargoReceipt = ({ rowClickData }) => {
 
   const totalGrossWeightKG = bookingData?.rowsData?.reduce(
     (acc, item) => acc + (+item?.totalGrossWeightKG || 0),
-    0,
+    0
   );
 
   const totalVolumetricWeight = bookingData?.rowsData?.reduce(
     (acc, item) => acc + (+item?.totalVolumetricWeight || 0),
-    0,
+    0
   );
   const totalChargeableWeight =
     totalVolumetricWeight > totalGrossWeightKG
@@ -491,7 +490,7 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                     :{' '}
                     {bookingData?.transportPlanning
                       ?.flatMap((item) =>
-                        item?.airTransportRow?.map((row) => row?.flightNumber),
+                        item?.airTransportRow?.map((row) => row?.flightNumber)
                       )
                       .join(', ')}
                   </span>
@@ -522,24 +521,24 @@ const FreightCargoReceipt = ({ rowClickData }) => {
                       <>
                         {moment(bookingData?.seaMasterBlDate).isValid() &&
                           moment(bookingData?.seaMasterBlDate).format(
-                            'DD MMM YYYY',
+                            'DD MMM YYYY'
                           )}{' '}
                         {bookingData?.airMasterBlDate
                           ? ', ' +
                               moment(bookingData?.airMasterBlDate).isValid() &&
                             moment(bookingData?.airMasterBlDate).format(
-                              'DD MMM YYYY',
+                              'DD MMM YYYY'
                             )
                           : ''}
                       </>
                     ) : (
                       (moment(bookingData?.seaMasterBlDate).isValid() &&
                         moment(bookingData?.seaMasterBlDate).format(
-                          'DD MMM YYYY',
+                          'DD MMM YYYY'
                         )) ||
                       (moment(bookingData?.airMasterBlDate).isValid() &&
                         moment(bookingData?.airMasterBlDate).format(
-                          'DD MMM YYYY',
+                          'DD MMM YYYY'
                         ))
                     )}
                   </span>

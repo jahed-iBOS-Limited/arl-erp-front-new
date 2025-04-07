@@ -1,22 +1,21 @@
-
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import IEdit from "../../../_chartinghelper/icons/_edit";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import PaginationSearch from "../../../_chartinghelper/_search";
-import PaginationTable from "../../../_chartinghelper/_tablePagination";
-import { activeInactiveCargo, GetCargoLandingData } from "../helper";
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import IEdit from '../../../_chartinghelper/icons/_edit';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import PaginationSearch from '../../../_chartinghelper/_search';
+import PaginationTable from '../../../_chartinghelper/_tablePagination';
+import { activeInactiveCargo, GetCargoLandingData } from '../helper';
 
 const headers = [
-  { name: "SL" },
-  { name: "Cargo Name" },
-  { name: "SF (m³/t)" },
-  { name: "Pre-loading Survey" },
-  { name: "Status" },
-  { name: "Actions" },
+  { name: 'SL' },
+  { name: 'Cargo Name' },
+  { name: 'SF (m³/t)' },
+  { name: 'Pre-loading Survey' },
+  { name: 'Status' },
+  { name: 'Actions' },
 ];
 
 export default function CargoTable() {
@@ -31,7 +30,7 @@ export default function CargoTable() {
   }, shallowEqual);
 
   useEffect(() => {
-    GetCargoLandingData(pageNo, pageSize, "", setGridData, setLoading);
+    GetCargoLandingData(pageNo, pageSize, '', setGridData, setLoading);
   }, [profileData, selectedBusinessUnit]);
 
   const setPositionHandler = (pageNo, pageSize, searchValue) => {
@@ -57,7 +56,7 @@ export default function CargoTable() {
 
   const changeStatus = (id, status) => {
     activeInactiveCargo(id, status, setLoading, () => {
-      GetCargoLandingData(pageNo, pageSize, "", setGridData, setLoading);
+      GetCargoLandingData(pageNo, pageSize, '', setGridData, setLoading);
     });
   };
 
@@ -70,9 +69,9 @@ export default function CargoTable() {
           <div>
             <button
               type="button"
-              className={"btn btn-primary px-3 py-2"}
+              className={'btn btn-primary px-3 py-2'}
               onClick={() =>
-                history.push("/chartering/configuration/cargo/create")
+                history.push('/chartering/configuration/cargo/create')
               }
             >
               Create +
@@ -93,19 +92,19 @@ export default function CargoTable() {
         <ICustomTable ths={headers}>
           {gridData?.data?.map((item, index) => (
             <tr key={index}>
-              <td style={{ width: "40px" }} className="text-center">
+              <td style={{ width: '40px' }} className="text-center">
                 {index + 1}
               </td>
               <td>{item?.cargoName}</td>
               <td>{item?.sfm3}</td>
               <td>{`${
-                item?.preloadingSurvey ? "Required" : "Not Required"
+                item?.preloadingSurvey ? 'Required' : 'Not Required'
               } `}</td>
-              <td style={{ width: "80px" }} className="text-center">
+              <td style={{ width: '80px' }} className="text-center">
                 {item?.isActive ? (
                   <OverlayTrigger
                     overlay={
-                      <Tooltip id="cs-icon">{"Click here to Inactive"}</Tooltip>
+                      <Tooltip id="cs-icon">{'Click here to Inactive'}</Tooltip>
                     }
                   >
                     <span>
@@ -123,7 +122,7 @@ export default function CargoTable() {
                 ) : (
                   <OverlayTrigger
                     overlay={
-                      <Tooltip id="cs-icon">{"Click here to Active"}</Tooltip>
+                      <Tooltip id="cs-icon">{'Click here to Active'}</Tooltip>
                     }
                   >
                     <span>
@@ -140,7 +139,7 @@ export default function CargoTable() {
                   </OverlayTrigger>
                 )}
               </td>
-              <td style={{ width: "50px" }} className="text-center">
+              <td style={{ width: '50px' }} className="text-center">
                 <div className="d-flex justify-content-around">
                   <IEdit
                     clickHandler={() => {

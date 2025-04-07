@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const salesOrderComplete = async (
   orderStatus,
@@ -15,12 +15,12 @@ export const salesOrderComplete = async (
     );
     if (res?.status === 200) {
       cb();
-      toast.success(res?.data?.message, { toastId: "soc" });
+      toast.success(res?.data?.message, { toastId: 'soc' });
       setIsLoading(false);
     }
   } catch (err) {
     toast.warning(err?.response?.data?.message, {
-      toastId: "soc",
+      toastId: 'soc',
     });
     setIsLoading(false);
   }
@@ -32,12 +32,12 @@ export const cancelSalesOrder = async (payload, setIsLoading, cb) => {
     let res = await axios.put(`/oms/SalesOrder/CancelSalesOrder`, payload);
     if (res?.status === 200) {
       cb();
-      toast.success(res?.data?.message, { toastId: "cso" });
+      toast.success(res?.data?.message, { toastId: 'cso' });
       setIsLoading(false);
     }
   } catch (err) {
     toast.warning(err?.response?.data?.message, {
-      toastId: "cso",
+      toastId: 'cso',
     });
     setIsLoading(false);
   }
@@ -60,14 +60,14 @@ export const saveShippointTransfer = async (obj) => {
     );
     if (res?.status === 200) {
       cb();
-      toast.success(res?.data?.message, { toastId: "cso" });
+      toast.success(res?.data?.message, { toastId: 'cso' });
       setLoading(false);
       setIsTransferModel(false);
       callBackFuncGridData();
     }
   } catch (err) {
     toast.warning(err?.response?.data?.message, {
-      toastId: "cso",
+      toastId: 'cso',
     });
     setLoading(false);
     setIsTransferModel(false);
@@ -80,12 +80,12 @@ export const rejectSalesOrder = async (payload, setIsLoading, cb) => {
     let res = await axios.put(`/oms/SalesOrder/RejectSalesOrder`, payload);
     if (res?.status === 200) {
       cb();
-      toast.success(res?.data?.message, { toastId: "cso" });
+      toast.success(res?.data?.message, { toastId: 'cso' });
       setIsLoading(false);
     }
   } catch (err) {
     toast.warning(err?.response?.data?.message, {
-      toastId: "cso",
+      toastId: 'cso',
     });
     setIsLoading(false);
   }

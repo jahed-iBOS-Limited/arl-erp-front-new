@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   chartTypeDDL: [],
@@ -6,7 +6,7 @@ const initState = {
 };
 
 export const corporatePerformanceChartSlice = createSlice({
-  name: "corporatePerformanceChart",
+  name: 'corporatePerformanceChart',
   initialState: initState,
   reducers: {
     SetChartTypeDDL: (state, action) => {

@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { saveItemGroupForPrivilege_api } from "../helper";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import { isUniq } from "./../../../../_helper/uniqChecker";
-import Form from "./form";
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { saveItemGroupForPrivilege_api } from '../helper';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import { isUniq } from './../../../../_helper/uniqChecker';
+import Form from './form';
 const initData = {
   id: undefined,
-  outletName: "",
-  itemGroupName: "",
-  item: "",
+  outletName: '',
+  itemGroupName: '',
+  item: '',
 };
 
 export default function ItemGroupForPrivilegeForm({
@@ -33,9 +33,9 @@ export default function ItemGroupForPrivilegeForm({
       } else {
         const payload = {
           head: {
-            itemGroupName: values?.itemGroupName || "",
+            itemGroupName: values?.itemGroupName || '',
             actionById: profileData?.userId || 0,
-            actionByName: profileData?.userName || "",
+            actionByName: profileData?.userName || '',
             createServerDate: _todayDate(),
             createUserDate: _todayDate(),
             isActive: true,
@@ -49,7 +49,7 @@ export default function ItemGroupForPrivilegeForm({
           row: rowDto,
         };
         if (rowDto?.length === 0) {
-          toast.warn("Please select at least one item");
+          toast.warn('Please select at least one item');
           return false;
         }
         saveItemGroupForPrivilege_api(payload, cb, setDisabled);
@@ -69,7 +69,7 @@ export default function ItemGroupForPrivilegeForm({
       itemCategoryName: values?.item?.itemCategoryName,
     };
 
-    if (isUniq("itemId", values?.item?.value, rowDto)) {
+    if (isUniq('itemId', values?.item?.value, rowDto)) {
       setRowDto([...rowDto, ob]);
     }
   };
@@ -82,7 +82,7 @@ export default function ItemGroupForPrivilegeForm({
   return (
     <IForm
       getProps={setObjprops}
-      title={"Create Item Group For Privilege"}
+      title={'Create Item Group For Privilege'}
       isDisabled={isDisabled}
     >
       {isDisabled && <Loading />}

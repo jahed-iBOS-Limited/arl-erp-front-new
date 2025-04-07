@@ -1,34 +1,34 @@
-import { Form, Formik } from "formik";
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import IForm from "../../../../_helper/_form";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
-import { _monthLastDate } from "../../../../_helper/_monthLastDate";
-import PaginationSearch from "../../../../_helper/_search";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { getShiftDDL } from "../../../manufacturingExecutionSystem/productionEntry/helper";
+import { Form, Formik } from 'formik';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import IForm from '../../../../_helper/_form';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { _monthFirstDate } from '../../../../_helper/_monthFirstDate';
+import { _monthLastDate } from '../../../../_helper/_monthLastDate';
+import PaginationSearch from '../../../../_helper/_search';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { getShiftDDL } from '../../../manufacturingExecutionSystem/productionEntry/helper';
 import {
   breakdownTypeDDLForCraneStopageDetails,
   craneNameDDLForCraneStopageDetails,
   onCreateOrEditCraneStopageDetails,
   onGetCraneStopageDetailsLanding,
-} from "../helper";
+} from '../helper';
 const initialValues = {
   id: null,
   date: null,
   shift: null,
-  craneName: "",
+  craneName: '',
   breakdownType: null,
-  duration: "",
-  stopageDetails: "",
+  duration: '',
+  stopageDetails: '',
   createdAt: null,
   createdBy: null,
 };
@@ -70,7 +70,7 @@ const CranStopage = () => {
   const [filterObj, setFilterObj] = useState({
     fromDate: _monthFirstDate(),
     toDate: _monthLastDate(),
-    search: "",
+    search: '',
     pageNo: 1,
     pageSize: 10,
   });
@@ -79,11 +79,8 @@ const CranStopage = () => {
   useEffect(() => {
     getShiftDDL(accountId, selectedBusinessUnit?.value, setShiftDDL);
   }, [accountId, selectedBusinessUnit]);
-  const [
-    ,
-    createCraneStopesDetails,
-    loadingOnCreateCranStopesDetails,
-  ] = useAxiosPost();
+  const [, createCraneStopesDetails, loadingOnCreateCranStopesDetails] =
+    useAxiosPost();
   const [
     cranStopageDetailsLanding,
     getCranStopageDetailsLanding,
@@ -101,7 +98,6 @@ const CranStopage = () => {
       pageSize: filterObj?.pageSize,
       search: filterObj?.search,
     });
-
   }, []);
   return (
     <>
@@ -114,7 +110,7 @@ const CranStopage = () => {
           // validationSchema={validationSchema}
           onSubmit={(formValues, { resetForm }) => {
             if (!rowList?.length) {
-              return toast.warn("Please add at least one row");
+              return toast.warn('Please add at least one row');
             }
             onCreateOrEditCraneStopageDetails({
               accountId,
@@ -152,13 +148,13 @@ const CranStopage = () => {
               <Form>
                 <button
                   type="button"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   onClick={handleSubmit}
                 ></button>
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onClick={() => {
                     resetForm();
@@ -172,7 +168,7 @@ const CranStopage = () => {
                       name="date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("date", e.target.value);
+                        setFieldValue('date', e.target.value);
                       }}
                       touched={touched}
                     />
@@ -184,7 +180,7 @@ const CranStopage = () => {
                       value={values?.shift}
                       label="Shift"
                       onChange={(valueOption) => {
-                        setFieldValue("shift", valueOption);
+                        setFieldValue('shift', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -197,7 +193,7 @@ const CranStopage = () => {
                       value={values?.craneName}
                       label="Crane Name"
                       onChange={(valueOption) => {
-                        setFieldValue("craneName", valueOption);
+                        setFieldValue('craneName', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -210,7 +206,7 @@ const CranStopage = () => {
                       value={values?.breakdownType}
                       label="Breakdown Type"
                       onChange={(valueOption) => {
-                        setFieldValue("breakdownType", valueOption);
+                        setFieldValue('breakdownType', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -223,7 +219,7 @@ const CranStopage = () => {
                       name="duration"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("duration", e.target.value);
+                        setFieldValue('duration', e.target.value);
                       }}
                       touched={touched}
                     />
@@ -235,12 +231,12 @@ const CranStopage = () => {
                       name="stopageDetails"
                       type="text"
                       onChange={(e) => {
-                        setFieldValue("stopageDetails", e.target.value);
+                        setFieldValue('stopageDetails', e.target.value);
                       }}
                       touched={touched}
                     />
                   </div>
-                  <div style={{ marginTop: "17px" }}>
+                  <div style={{ marginTop: '17px' }}>
                     <button
                       disabled={
                         !values?.date ||
@@ -270,9 +266,9 @@ const CranStopage = () => {
                             <th>Shift</th>
                             <th>Crane Name</th>
                             <th>Breakdown Type</th>
-                            <th style={{ width: "70px" }}>Duration</th>
+                            <th style={{ width: '70px' }}>Duration</th>
                             <th>Stopage Details</th>
-                            <th style={{ width: "70px" }}>Action</th>
+                            <th style={{ width: '70px' }}>Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -283,9 +279,9 @@ const CranStopage = () => {
                                   {item?.date
                                     ? moment(
                                         item?.date,
-                                        "YYYY-MM-DDThh:mm:ss"
-                                      ).format("DD-MM-YYYY")
-                                    : "N/A"}
+                                        'YYYY-MM-DDThh:mm:ss'
+                                      ).format('DD-MM-YYYY')
+                                    : 'N/A'}
                                 </td>
                                 <td>{item?.shift?.label}</td>
                                 <td>{item?.craneName?.label}</td>
@@ -325,7 +321,7 @@ const CranStopage = () => {
                         onChange={(e) => {
                           setFilterObj((prev) => ({
                             ...prev,
-                            fromDate: e?.target?.value || "",
+                            fromDate: e?.target?.value || '',
                           }));
                         }}
                       />
@@ -339,14 +335,14 @@ const CranStopage = () => {
                         onChange={(e) => {
                           setFilterObj((prev) => ({
                             ...prev,
-                            toDate: e?.target?.value || "",
+                            toDate: e?.target?.value || '',
                           }));
                         }}
                       />
                     </div>
                     <div className="col-md-2">
                       <button
-                        style={{ marginTop: "18px" }}
+                        style={{ marginTop: '18px' }}
                         type="button"
                         className="btn btn-primary ml-3"
                         onClick={() => {
@@ -397,7 +393,7 @@ const CranStopage = () => {
                               <th>Shift</th>
                               <th>Crane Name</th>
                               <th>Breakdown Type</th>
-                              <th style={{ width: "70px" }}>Duration</th>
+                              <th style={{ width: '70px' }}>Duration</th>
                               <th>Stopage Details</th>
                               {/* <th style={{ width: "70px" }}>Action</th> */}
                             </tr>
@@ -410,9 +406,9 @@ const CranStopage = () => {
                                   {item?.entryDate
                                     ? moment(
                                         item?.entryDate,
-                                        "YYYY-MM-DDThh:mm:ss"
-                                      ).format("DD-MM-YYYY")
-                                    : "N/A"}
+                                        'YYYY-MM-DDThh:mm:ss'
+                                      ).format('DD-MM-YYYY')
+                                    : 'N/A'}
                                 </td>
                                 <td>{item?.shiftName}</td>
                                 <td>{item?.craneName}</td>

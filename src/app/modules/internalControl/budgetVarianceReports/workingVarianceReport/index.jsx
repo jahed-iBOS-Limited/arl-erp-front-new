@@ -1,21 +1,21 @@
-import { Formik } from "formik";
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import numberWithCommas from "../../../_helper/_numberWithCommas";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+} from '../../../../../_metronic/_partials/controls';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import numberWithCommas from '../../../_helper/_numberWithCommas';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 
 const initData = {
-  currentBusinessUnit: "",
+  currentBusinessUnit: '',
   toDate: _todayDate(),
 };
 const InventoryVarianceReport = () => {
@@ -36,7 +36,7 @@ const InventoryVarianceReport = () => {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Inventory Variance Report"}></CardHeader>
+              <CardHeader title={'Inventory Variance Report'}></CardHeader>
               <CardBody>
                 {lodar && <Loading />}
                 <div className="form-group  global-form">
@@ -49,10 +49,10 @@ const InventoryVarianceReport = () => {
                         label="Business Unit"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("currentBusinessUnit", valueOption);
+                            setFieldValue('currentBusinessUnit', valueOption);
                             setRowData([]);
                           } else {
-                            setFieldValue("currentBusinessUnit", "");
+                            setFieldValue('currentBusinessUnit', '');
                             setRowData([]);
                           }
                         }}
@@ -70,14 +70,14 @@ const InventoryVarianceReport = () => {
                         placeholder="To date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("toDate", e.target.value);
+                          setFieldValue('toDate', e.target.value);
                         }}
                       />
                     </div>
                     {console.log(values)}
                     <div>
                       <button
-                        style={{ marginTop: "20px" }}
+                        style={{ marginTop: '20px' }}
                         className="btn btn-primary ml-2"
                         disabled={
                           !values?.currentBusinessUnit || !values?.toDate

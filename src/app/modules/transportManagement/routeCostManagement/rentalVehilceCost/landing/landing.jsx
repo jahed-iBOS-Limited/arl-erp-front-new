@@ -1,44 +1,44 @@
-import Axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import ReactToPrint from "react-to-print";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
-import CancelRentalVehicleCost from "../dialog/cancel";
+import Axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import ReactToPrint from 'react-to-print';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import ICon from '../../../../chartering/_chartinghelper/icons/_icon';
+import CancelRentalVehicleCost from '../dialog/cancel';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "./../../../../../../_metronic/_partials/controls";
-import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
-import IConfirmModal from "./../../../../_helper/_confirmModal";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import FormikError from "./../../../../_helper/_formikError";
-import { setRentalVehilceCostLandingAction } from "./../../../../_helper/reduxForLocalStorage/Actions";
+} from './../../../../../../_metronic/_partials/controls';
+import SearchAsyncSelect from './../../../../_helper/SearchAsyncSelect';
+import IConfirmModal from './../../../../_helper/_confirmModal';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import FormikError from './../../../../_helper/_formikError';
+import { setRentalVehilceCostLandingAction } from './../../../../_helper/reduxForLocalStorage/Actions';
 import {
   EditRentalVehicleBillSubmit_api,
   EditShipmentStandardCost_api,
   GetRentalVehicleCostLandingPasignation_api,
-} from "./../helper";
+} from './../helper';
 
 const validationSchema = Yup.object().shape({
   reportType: Yup.object().shape({
-    label: Yup.string().required("Report Type  is required"),
-    value: Yup.string().required("Report Type  is required"),
+    label: Yup.string().required('Report Type  is required'),
+    value: Yup.string().required('Report Type  is required'),
   }),
 });
 
@@ -47,10 +47,10 @@ const initData = {
   toDate: _todayDate(),
   reportType: {
     value: 1,
-    label: "Pending",
+    label: 'Pending',
   },
-  supplierName: { value: 0, label: "All" },
-  reportTypeOne: { value: 0, label: "All" },
+  supplierName: { value: 0, label: 'All' },
+  reportTypeOne: { value: 0, label: 'All' },
   itemLists: [],
 };
 
@@ -58,7 +58,7 @@ const colSpan = {
   Pending: 13,
   Complete: 12,
 
-  ["Bill Submit"]: 10,
+  ['Bill Submit']: 10,
 };
 const RentalVehilceCostLanding = () => {
   const [loading, setLoading] = useState(false);
@@ -66,7 +66,7 @@ const RentalVehilceCostLanding = () => {
   const [intItemLists, setIntItemLists] = useState([]);
 
   const [show, setShow] = useState(false);
-  const [tripId, setTripId] = useState("");
+  const [tripId, setTripId] = useState('');
   // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -107,14 +107,14 @@ const RentalVehilceCostLanding = () => {
   };
 
   const paginationSearchHandler = (searchValue, values, setFieldValue) => {
-    setFieldValue("itemLists", []);
+    setFieldValue('itemLists', []);
     gridDataFunc(values, null, setFieldValue, searchValue);
   };
 
   const saveHandler = (values, cb) => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       let confirmObject = {
-        title: "Are you sure?",
+        title: 'Are you sure?',
         yesAlertFunc: () => {
           if (values?.itemLists.length > 0) {
             // send all items when type COMPLETE is selected
@@ -125,12 +125,12 @@ const RentalVehilceCostLanding = () => {
 
             const paylaod = filterSelectedData?.map((itm) => ({
               vehicleSupplierId: itm?.supplierId || 0,
-              vehicleSupplierName: itm?.supplierName || "",
+              vehicleSupplierName: itm?.supplierName || '',
               tripId: itm?.tripId || 0,
               additionalCost: +itm?.additionalCost || 0,
-              additionalCostReason: itm?.additionalCostReason || "",
+              additionalCostReason: itm?.additionalCostReason || '',
               deductionCost: +itm?.deductionCost || 0,
-              deductionCostReason: itm?.deductionCostReason || "",
+              deductionCostReason: itm?.deductionCostReason || '',
               actionBy: profileData?.userId,
             }));
 
@@ -150,7 +150,7 @@ const RentalVehilceCostLanding = () => {
               );
             }
           } else {
-            toast.warning("Item not selected");
+            toast.warning('Item not selected');
           }
         },
         noAlertFunc: () => {},
@@ -165,7 +165,7 @@ const RentalVehilceCostLanding = () => {
   const itemSlectedHandler = (value, index, setFieldValue, values) => {
     const copyRowDto = [...values?.itemLists];
     copyRowDto[index].itemCheck = !copyRowDto[index].itemCheck;
-    setFieldValue("itemLists", copyRowDto);
+    setFieldValue('itemLists', copyRowDto);
 
     // btn hide conditon
     const bllSubmitBtn = copyRowDto.some((itm) => itm.itemCheck === true);
@@ -182,7 +182,7 @@ const RentalVehilceCostLanding = () => {
       ...itm,
       itemCheck: value,
     }));
-    setFieldValue("itemLists", modifyGridData);
+    setFieldValue('itemLists', modifyGridData);
     // btn hide conditon
     const bllSubmitBtn = modifyGridData.some((itm) => itm.itemCheck === true);
     if (bllSubmitBtn) {
@@ -201,12 +201,11 @@ const RentalVehilceCostLanding = () => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       gridDataFunc(rentalVehilceCostLanding, setIntItemLists, null);
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   const loadOptions = async (v) => {
-    await [{ value: 0, label: "All" }];
-    if (v.length < 3) return [{ value: 0, label: "All" }];
+    await [{ value: 0, label: 'All' }];
+    if (v.length < 3) return [{ value: 0, label: 'All' }];
     return Axios.get(
       `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${
         profileData?.accountId
@@ -215,7 +214,7 @@ const RentalVehilceCostLanding = () => {
       const updateList = res?.data.map((item) => ({
         ...item,
       }));
-      return [{ value: 0, label: "All" }, ...updateList];
+      return [{ value: 0, label: 'All' }, ...updateList];
     });
   };
 
@@ -268,12 +267,12 @@ const RentalVehilceCostLanding = () => {
                       <button
                         type="button"
                         className="btn btn-primary"
-                        style={{ padding: "2px 5px" }}
+                        style={{ padding: '2px 5px' }}
                       >
                         <img
                           style={{
-                            width: "25px",
-                            paddingRight: "5px",
+                            width: '25px',
+                            paddingRight: '5px',
                           }}
                           src={printIcon}
                           alt="print-icon"
@@ -293,12 +292,12 @@ const RentalVehilceCostLanding = () => {
                     <div className="col-lg-3">
                       <NewSelect
                         name="shipPoint"
-                        options={[{ value: 0, label: "All" }, ...shipPointDDL]}
+                        options={[{ value: 0, label: 'All' }, ...shipPointDDL]}
                         value={values?.shipPoint}
                         label="Shippoint"
                         onChange={(valueOption) => {
-                          setFieldValue("shipPoint", valueOption);
-                          setFieldValue("itemLists", []);
+                          setFieldValue('shipPoint', valueOption);
+                          setFieldValue('itemLists', []);
                         }}
                         placeholder="Shippoint"
                         errors={errors}
@@ -310,8 +309,8 @@ const RentalVehilceCostLanding = () => {
                       <SearchAsyncSelect
                         selectedValue={values.supplierName}
                         handleChange={(valueOption) => {
-                          setFieldValue("itemLists", []);
-                          setFieldValue("supplierName", valueOption);
+                          setFieldValue('itemLists', []);
+                          setFieldValue('supplierName', valueOption);
                         }}
                         loadOptions={loadOptions}
                       />
@@ -325,16 +324,16 @@ const RentalVehilceCostLanding = () => {
                       <NewSelect
                         label="Report Type"
                         options={[
-                          { value: 0, label: "All" },
-                          { value: 1, label: "Delivery Chalan" },
-                          { value: 2, label: "Transfer Chalan" },
+                          { value: 0, label: 'All' },
+                          { value: 1, label: 'Delivery Chalan' },
+                          { value: 2, label: 'Transfer Chalan' },
                         ]}
                         value={values?.reportTypeOne}
                         placeholder="Report Type"
                         name="reportTypeOne"
                         onChange={(valueOption) => {
-                          setFieldValue("itemLists", []);
-                          setFieldValue("reportTypeOne", valueOption);
+                          setFieldValue('itemLists', []);
+                          setFieldValue('reportTypeOne', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -344,15 +343,15 @@ const RentalVehilceCostLanding = () => {
                       <NewSelect
                         name="reportType"
                         options={[
-                          { value: 1, label: "Pending" },
-                          { value: 2, label: "Complete" },
+                          { value: 1, label: 'Pending' },
+                          { value: 2, label: 'Complete' },
                           // { value: 3, label: "Bill Submit" },
                         ]}
                         value={values?.reportType}
                         label="Type"
                         onChange={(valueOption) => {
-                          setFieldValue("itemLists", []);
-                          setFieldValue("reportType", valueOption);
+                          setFieldValue('itemLists', []);
+                          setFieldValue('reportType', valueOption);
                         }}
                         placeholder="Type"
                         errors={errors}
@@ -382,13 +381,13 @@ const RentalVehilceCostLanding = () => {
 
                     <div
                       className="col text-right"
-                      style={{ marginTop: "14px" }}
+                      style={{ marginTop: '14px' }}
                     >
                       <button
                         type="button"
                         className="btn btn-primary mr-2"
                         onClick={() => {
-                          setFieldValue("itemLists", []);
+                          setFieldValue('itemLists', []);
                           dispatch(setRentalVehilceCostLandingAction(values));
                           gridDataFunc(values, null, setFieldValue);
                         }}
@@ -415,7 +414,7 @@ const RentalVehilceCostLanding = () => {
                   <div className="react-bootstrap-table table-responsive">
                     <div className="loan-scrollable-table scroll-table-auto">
                       <div
-                        style={{ maxHeight: "540px" }}
+                        style={{ maxHeight: '540px' }}
                         className="scroll-table _table scroll-table-auto table-responsive"
                       >
                         {values?.itemLists?.length > 0 && (
@@ -429,7 +428,7 @@ const RentalVehilceCostLanding = () => {
                               <tr>
                                 {/* only show checkbox when pending type is selected */}
                                 {values?.reportType?.value === 1 && (
-                                  <th style={{ minWidth: "20px" }}>
+                                  <th style={{ minWidth: '20px' }}>
                                     <input
                                       type="checkbox"
                                       id="parent"
@@ -443,56 +442,56 @@ const RentalVehilceCostLanding = () => {
                                     />
                                   </th>
                                 )}
-                                <th style={{ minWidth: "45px" }}>SL No</th>
-                                <th style={{ minWidth: "145px" }}>
+                                <th style={{ minWidth: '45px' }}>SL No</th>
+                                <th style={{ minWidth: '145px' }}>
                                   Supplier Name
                                 </th>
-                                <th style={{ minWidth: "145px" }}>
+                                <th style={{ minWidth: '145px' }}>
                                   Ship To Partner Id
                                 </th>
-                                <th style={{ minWidth: "140px" }}>
+                                <th style={{ minWidth: '140px' }}>
                                   Ship To Party Name
                                 </th>
-                                <th style={{ minWidth: "170px" }}>
+                                <th style={{ minWidth: '170px' }}>
                                   Sold To Party Name
                                 </th>
-                                <th style={{ minWidth: "70px" }}>
+                                <th style={{ minWidth: '70px' }}>
                                   Shipment Date
                                 </th>
-                                <th style={{ minWidth: "102px" }}>
+                                <th style={{ minWidth: '102px' }}>
                                   Shipment Code
                                 </th>
-                                <th style={{ minWidth: "110px" }}>
+                                <th style={{ minWidth: '110px' }}>
                                   Chalan No.
                                 </th>
-                                <th style={{ minWidth: "110px" }}>Total Qty</th>
-                                <th style={{ minWidth: "105px" }}>
+                                <th style={{ minWidth: '110px' }}>Total Qty</th>
+                                <th style={{ minWidth: '105px' }}>
                                   Vehicle No.
                                 </th>
 
-                                <th style={{ minWidth: "155px" }}>
+                                <th style={{ minWidth: '155px' }}>
                                   Route Name
                                 </th>
-                                <th style={{ minWidth: "70px" }}>Zone Name</th>
-                                <th style={{ minWidth: "60px" }}>
+                                <th style={{ minWidth: '70px' }}>Zone Name</th>
+                                <th style={{ minWidth: '60px' }}>
                                   Distance KM
                                 </th>
-                                <th style={{ minWidth: "60px" }}>Rental</th>
-                                <th style={{ minWidth: "60px" }}>Additional</th>
-                                <th style={{ minWidth: "70px" }}>
+                                <th style={{ minWidth: '60px' }}>Rental</th>
+                                <th style={{ minWidth: '60px' }}>Additional</th>
+                                <th style={{ minWidth: '70px' }}>
                                   Additional Reason
                                 </th>
-                                <th style={{ minWidth: "65px" }}>
+                                <th style={{ minWidth: '65px' }}>
                                   Deduction Cost
                                 </th>
-                                <th style={{ minWidth: "70px" }}>
+                                <th style={{ minWidth: '70px' }}>
                                   Deduction Cost Reason
                                 </th>
-                                <th style={{ minWidth: "60px" }}>
+                                <th style={{ minWidth: '60px' }}>
                                   Net Payable
                                 </th>
                                 {/* {values?.reportType?.value === 1 && ( */}
-                                <th style={{ minWidth: "100px" }}>Action</th>
+                                <th style={{ minWidth: '100px' }}>Action</th>
                                 {/* )} */}
                               </tr>
                             </thead>
@@ -671,7 +670,7 @@ const RentalVehilceCostLanding = () => {
                                             history.push({
                                               pathname: `/transport-management/routecostmanagement/rentalVehicleCost/pending/${data?.shipmentId}`,
                                               state: {
-                                                type: "view",
+                                                type: 'view',
                                                 data: {
                                                   ...values,
                                                   ...data,
@@ -697,7 +696,7 @@ const RentalVehilceCostLanding = () => {
                                               history.push({
                                                 pathname: `/transport-management/routecostmanagement/rentalVehicleCost/pending/${data?.shipmentId}`,
                                                 state: {
-                                                  type: "zoneUpdate",
+                                                  type: 'zoneUpdate',
                                                   data: {
                                                     ...values,
                                                     ...data,
@@ -763,8 +762,8 @@ const RentalVehilceCostLanding = () => {
                                 </td>
                                 <td className="text-right">
                                   <b>
-                                    {" "}
-                                    {claculator(values?.itemLists, "totalCost")}
+                                    {' '}
+                                    {claculator(values?.itemLists, 'totalCost')}
                                   </b>
                                 </td>
 
@@ -772,7 +771,7 @@ const RentalVehilceCostLanding = () => {
                                   <b>
                                     {claculator(
                                       values?.itemLists,
-                                      "additionalCost"
+                                      'additionalCost'
                                     )}
                                   </b>
                                 </td>
@@ -781,14 +780,14 @@ const RentalVehilceCostLanding = () => {
                                   <b>
                                     {claculator(
                                       values?.itemLists,
-                                      "deductionCost"
+                                      'deductionCost'
                                     )}
                                   </b>
                                 </td>
                                 <td> </td>
                                 <td className="text-right">
                                   <b>
-                                    {" "}
+                                    {' '}
                                     {values?.itemLists?.reduce(
                                       (acc, cur) =>
                                         (acc +=

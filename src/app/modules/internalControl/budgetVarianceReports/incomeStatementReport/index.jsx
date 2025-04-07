@@ -91,8 +91,6 @@ export function IncomeStatementReport() {
         });
       }
     });
-
-
   }, []);
 
   const pdfExport = (fileName) => {
@@ -121,7 +119,6 @@ export function IncomeStatementReport() {
   const [incomeStatementRow, setIncomeStatementRow] = useState(null);
 
   const {
-
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state.authData, shallowEqual);
 
@@ -214,7 +211,7 @@ export function IncomeStatementReport() {
                           // );
                           if (valueOption?.value) {
                             getSubDivisionDDL(
-                              `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=${accountId}&BusinessUnitGroup=${valueOption?.label}`,
+                              `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=${accountId}&BusinessUnitGroup=${valueOption?.label}`
                             );
                           }
                         }}
@@ -247,7 +244,7 @@ export function IncomeStatementReport() {
                               accountId,
                               values?.enterpriseDivision?.value,
                               setBusinessUnitDDL,
-                              valueOption,
+                              valueOption
                             );
                           }
                         }}
@@ -281,7 +278,7 @@ export function IncomeStatementReport() {
                                 setFieldValue('businessUnit', valueOption);
                                 setFieldValue(
                                   'profitCenter',
-                                  profitCenterDDLData?.[0] || '',
+                                  profitCenterDDLData?.[0] || ''
                                 );
                                 // dispatch(
                                 //   SetReportIncomestatementAction({
@@ -291,7 +288,7 @@ export function IncomeStatementReport() {
                                 //       profitCenterDDLData?.[0] || "",
                                 //   })
                                 // );
-                              },
+                              }
                             );
                           }
                         }}
@@ -431,7 +428,7 @@ export function IncomeStatementReport() {
                           dispatch(
                             SetReportIncomestatementAction({
                               ...values,
-                            }),
+                            })
                           );
                           getIncomeStatement_api(
                             values?.fromDate,
@@ -447,7 +444,7 @@ export function IncomeStatementReport() {
                             values?.enterpriseDivision?.value,
                             values?.conversionRate,
                             values?.subDivision,
-                            values?.reportType?.value,
+                            values?.reportType?.value
                           );
                         }}
                         disabled={
@@ -604,7 +601,7 @@ export function IncomeStatementReport() {
                                           {' '}
                                           {data?.monCurrentPeriodAmount
                                             ? numberWithCommas(
-                                                data?.monCurrentPeriodAmount.toFixed(),
+                                                data?.monCurrentPeriodAmount.toFixed()
                                               )
                                             : 0}
                                         </span>
@@ -612,7 +609,7 @@ export function IncomeStatementReport() {
                                       <td className="text-right">
                                         {data?.monLastPeriodAmount
                                           ? numberWithCommas(
-                                              data?.monLastPeriodAmount.toFixed(),
+                                              data?.monLastPeriodAmount.toFixed()
                                             )
                                           : 0}
                                       </td>
@@ -623,7 +620,7 @@ export function IncomeStatementReport() {
                                               (
                                                 data?.monCurrentPeriodAmount -
                                                 data?.monLastPeriodAmount
-                                              )?.toFixed(),
+                                              )?.toFixed()
                                             )
                                           : ''}
                                       </td>
@@ -635,7 +632,7 @@ export function IncomeStatementReport() {
                                     className="text-center d-none"
                                     colSpan={4}
                                   >{`System Generated Report - ${moment().format(
-                                    'LLLL',
+                                    'LLLL'
                                   )}`}</td>
                                 </tr>
                               </tbody>

@@ -1,17 +1,16 @@
-
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import Form from "../common/form";
-import Axios from "axios";
-import shortid from "shortid";
-import { toast } from "react-toastify";
-import { useSelector, shallowEqual } from "react-redux";
+} from '../../../../../../_metronic/_partials/controls';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import Form from '../common/form';
+import Axios from 'axios';
+import shortid from 'shortid';
+import { toast } from 'react-toastify';
+import { useSelector, shallowEqual } from 'react-redux';
 
 export default function EditForm({
   history,
@@ -20,7 +19,7 @@ export default function EditForm({
   },
 }) {
   const [isDisabled, setDisabled] = useState(false);
-  const [initProduct, setInitProduct] = useState("");
+  const [initProduct, setInitProduct] = useState('');
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -44,12 +43,12 @@ export default function EditForm({
     try {
       setDisabled(true);
       const res = await Axios.put(
-        "/wms/Warehouse/EditWarehouse",
+        '/wms/Warehouse/EditWarehouse',
         warehouseData
       );
       cb();
       setDisabled(false);
-      toast.success(res.data?.message || "Submitted successfully", {
+      toast.success(res.data?.message || 'Submitted successfully', {
         toastId: shortid(),
       });
       backToWarehouseList();
@@ -83,7 +82,8 @@ export default function EditForm({
 
   // gat by id
   const getWarehouseById_api = async (id) => {
-    const res = await Axios.get(`/wms/Warehouse/GetWarehouseById?accountId=${profileData.accountId}&warehouseId=${id}
+    const res =
+      await Axios.get(`/wms/Warehouse/GetWarehouseById?accountId=${profileData.accountId}&warehouseId=${id}
     `);
     const { data, status } = res;
     // console.log(res)
@@ -96,7 +96,6 @@ export default function EditForm({
     if (id) {
       getWarehouseById_api(id);
     }
-
   }, [id]);
   return (
     <Card>

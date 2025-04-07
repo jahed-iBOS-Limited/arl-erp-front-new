@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { Formik } from "formik";
-import { Form } from "react-bootstrap";
-import * as Yup from "yup";
-import ICustomCard from "../../../../_helper/_customCard";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { getFinancialStatementMainLanding } from "../helper";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { Formik } from 'formik';
+import { Form } from 'react-bootstrap';
+import * as Yup from 'yup';
+import ICustomCard from '../../../../_helper/_customCard';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { getFinancialStatementMainLanding } from '../helper';
 
 const initData = {
-  copyForm: "",
+  copyForm: '',
 };
 
 // Validation schema
@@ -44,7 +44,6 @@ const FinancialStatement = () => {
       // );
       getFinancialStatementMainLanding(setRowDto);
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   return (
@@ -76,12 +75,12 @@ const FinancialStatement = () => {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
-                            <th style={{ width: "190px" }}>FS Componet Type</th>
-                            <th style={{ width: "190px" }}>FS Componet Code</th>
+                            <th style={{ width: '30px' }}>SL</th>
+                            <th style={{ width: '190px' }}>FS Componet Type</th>
+                            <th style={{ width: '190px' }}>FS Componet Code</th>
                             <th>FS Component</th>
                             {/* <th>Use For</th> */}
-                            <th style={{ width: "90px" }}>Actions</th>
+                            <th style={{ width: '90px' }}>Actions</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -123,14 +122,14 @@ const FinancialStatement = () => {
                                         },
                                       })
                                     }
-                                    style={{ cursor: "pointer" }}
+                                    style={{ cursor: 'pointer' }}
                                   >
                                     <i
                                       class="fa fa-plus"
                                       aria-hidden="true"
                                     ></i>
                                   </span>
-                                  <span style={{ paddingLeft: "5px" }}>
+                                  <span style={{ paddingLeft: '5px' }}>
                                     <IView
                                       clickHandler={() =>
                                         history.push({

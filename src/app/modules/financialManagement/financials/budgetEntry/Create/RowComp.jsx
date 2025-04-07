@@ -1,7 +1,7 @@
-import React from "react";
-import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+import React from 'react';
+import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 
 const RowComp = ({ obj }) => {
   let {
@@ -78,7 +78,7 @@ const RowComp = ({ obj }) => {
             options={GLDDL}
             value={values?.gl}
             onChange={(valueOption) => {
-              setFieldValue("gl", valueOption);
+              setFieldValue('gl', valueOption);
             }}
             errors={errors}
             touched={touched}
@@ -95,7 +95,7 @@ const RowComp = ({ obj }) => {
               type="number"
               value={values?.amount}
               onChange={(e) => {
-                setFieldValue("amount", e.target.value);
+                setFieldValue('amount', e.target.value);
               }}
               errors={errors}
               touched={touched}
@@ -103,7 +103,7 @@ const RowComp = ({ obj }) => {
           </div>
           <div className="col-lg-2">
             <ButtonStyleOne
-              style={{ marginTop: "19px" }}
+              style={{ marginTop: '19px' }}
               label="Add"
               type="button"
               onClick={() => {

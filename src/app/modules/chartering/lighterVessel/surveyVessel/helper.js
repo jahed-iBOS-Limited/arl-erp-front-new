@@ -20,12 +20,12 @@ export const getSurveyVesselData = async (
   pageNo,
   pageSize,
   setter,
-  setLoading,
+  setLoading
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/LighterVesselSurvey/GetCargoLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
+      `${imarineBaseUrl}/domain/LighterVesselSurvey/GetCargoLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     setter(res?.data);
     setLoading(false);
@@ -40,7 +40,7 @@ export const createSurveyVessel = async (data, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/LighterVesselSurvey/CreateLighterVesselSurvey`,
-      data,
+      data
     );
     toast.success(res?.data?.message || 'Created Successfully');
     cb();
@@ -53,7 +53,7 @@ export const createSurveyVessel = async (data, cb) => {
 // Business Unit DDL
 export function getBUDDL(userId, clientId) {
   return axios.get(
-    `/domain/OrganizationalUnitUserPermission/GetBusinessUnitPermissionbyUser?UserId=${userId}&ClientId=${clientId}`,
+    `/domain/OrganizationalUnitUserPermission/GetBusinessUnitPermissionbyUser?UserId=${userId}&ClientId=${clientId}`
   );
 }
 
@@ -65,7 +65,7 @@ export const editSurveyVessel = async (data, cb) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/LighterVesselSurvey/EditLighterVesselSurvey`,
-      data,
+      data
     );
     toast.success(res?.data?.message || 'Created Successfully');
     cb();

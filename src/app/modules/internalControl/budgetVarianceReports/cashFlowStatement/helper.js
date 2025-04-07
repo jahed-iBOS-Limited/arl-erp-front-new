@@ -1,5 +1,5 @@
-import axios from "axios";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import axios from 'axios';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const getSbuDDLAction = async (accId, buId, setter) => {
   try {
@@ -22,20 +22,22 @@ export const getCashFlowStatement = async (
   enterPriceDivision,
   conversionRate,
   viewType,
-  businessUnitSubGroup 
+  businessUnitSubGroup
 ) => {
   try {
     setLoading(true);
     const res = await axios.get(
-      `/fino/Report/GetCashFlowStatement?BusinessUnitGroup=${enterPriceDivision?.label ||
-        ""}&businessUnitId=${businessUnitId}&sbuId=${sbuId}&fromDate=${_dateFormatter(
+      `/fino/Report/GetCashFlowStatement?BusinessUnitGroup=${
+        enterPriceDivision?.label || ''
+      }&businessUnitId=${businessUnitId}&sbuId=${sbuId}&fromDate=${_dateFormatter(
         fromDate
-      )}&toDate=${_dateFormatter(toDate)}&ConvertionRate=${conversionRate}&Type=${viewType?.value || 0}&BusinessUnitSubGroup=${businessUnitSubGroup?.label || ""}`
+      )}&toDate=${_dateFormatter(toDate)}&ConvertionRate=${conversionRate}&Type=${viewType?.value || 0}&BusinessUnitSubGroup=${businessUnitSubGroup?.label || ''}`
     );
 
     const resNumAmountFromProjectedApi = await axios.get(
-      `/fino/Report/GetCashFlowStatementProjected?BusinessUnitGroup=${enterPriceDivision?.label ||
-        ""}&businessUnitId=${businessUnitId}&sbuId=${sbuId}&fromDate=${_dateFormatter(
+      `/fino/Report/GetCashFlowStatementProjected?BusinessUnitGroup=${
+        enterPriceDivision?.label || ''
+      }&businessUnitId=${businessUnitId}&sbuId=${sbuId}&fromDate=${_dateFormatter(
         fromDate
       )}&toDate=${_dateFormatter(toDate)}&ConvertionRate=${conversionRate}`
     );
@@ -53,9 +55,9 @@ export const getCashFlowStatement = async (
       };
     });
 
-    console.log("res data", res?.data);
-    console.log("filterGetData", filterGetData);
-    console.log("modifiedData", modifiedData);
+    console.log('res data', res?.data);
+    console.log('filterGetData', filterGetData);
+    console.log('modifiedData', modifiedData);
 
     setLoading(false);
     setter(modifiedData);
@@ -85,7 +87,7 @@ export const getBusinessDDLByED = async (
   try {
     const res = await axios.get(
       `/hcm/HCMDDL/GetBusinessUnitByBusinessUnitGroupDDL?AccountId=${accId}&BusinessUnitGroup=${enterpriseDivisionLabel}${
-        subDivision ? `&SubGroup=${subDivision?.value}` : ""
+        subDivision ? `&SubGroup=${subDivision?.value}` : ''
       }`
     );
     if (res.status === 200 && res?.data) {

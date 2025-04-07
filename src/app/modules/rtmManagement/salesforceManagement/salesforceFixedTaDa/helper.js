@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 // Real
 
@@ -12,7 +12,7 @@ export const createSalesForceTaDa = async (payload, cb, setDisabled) => {
       payload
     );
     if (res.status === 200 && res?.data) {
-      toast.success(res.data?.message || "Created successfully");
+      toast.success(res.data?.message || 'Created successfully');
       cb();
       setDisabled(false);
     }
@@ -30,7 +30,7 @@ export const editSalesForceTaDa = async (payload, setDisabled) => {
       payload
     );
     if (res.status === 200 && res?.data) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       // cb();
       setDisabled(false);
     }
@@ -87,13 +87,13 @@ export const getEmployeeDetails = async (empId, cb) => {
     const res = await Axios.get(
       `/pms/KPI/GetEmployeeBasicInfoById?EmployeeId=${empId}`
     );
-    console.log("res?.data", res?.data);
+    console.log('res?.data', res?.data);
     if (res.status === 200 && res?.data) {
       // setter(res?.data);
       cb(res.data);
     }
   } catch (error) {
     // console.log("error", error?.response?.data)
-    toast.warn(error?.response?.data?.Message, { toastId: "gederr" });
+    toast.warn(error?.response?.data?.Message, { toastId: 'gederr' });
   }
 };

@@ -1,35 +1,35 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import IViewModal from "./../../../../_helper/_viewModal";
-import NewSelect from "./../../../../_helper/_select";
-import { useSelector, shallowEqual } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import IViewModal from './../../../../_helper/_viewModal';
+import NewSelect from './../../../../_helper/_select';
+import { useSelector, shallowEqual } from 'react-redux';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
+} from './../../../../../../_metronic/_partials/controls';
 import {
   getSBUDDL_Api,
   getWarehouseDDL_api,
   getById,
   createItemRequest,
-} from "../helper";
-import InputField from "./../../../../_helper/_inputField";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import IDelete from "./../../../../_helper/_helperIcons/_delete";
-import { toast } from "react-toastify";
-import Loading from "../../../../_helper/_loading";
-import { confirmAlert } from "react-confirm-alert";
+} from '../helper';
+import InputField from './../../../../_helper/_inputField';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import IDelete from './../../../../_helper/_helperIcons/_delete';
+import { toast } from 'react-toastify';
+import Loading from '../../../../_helper/_loading';
+import { confirmAlert } from 'react-confirm-alert';
 
 const initData = {
   id: undefined,
-  sbu: "",
-  warehouse: "",
-  plant: "",
-  referenceNo: "",
+  sbu: '',
+  warehouse: '',
+  plant: '',
+  referenceNo: '',
   validity: _todayDate(),
   requestDate: _todayDate(),
   dueDate: _todayDate(),
@@ -38,33 +38,33 @@ const initData = {
 // Validation schema
 const validationSchema = Yup.object().shape({
   sbu: Yup.object().shape({
-    label: Yup.string().required("SBU is required"),
-    value: Yup.string().required("SBU is required"),
+    label: Yup.string().required('SBU is required'),
+    value: Yup.string().required('SBU is required'),
   }),
   warehouse: Yup.object().shape({
-    label: Yup.string().required("Warehouse is required"),
-    value: Yup.string().required("Warehouse is required"),
+    label: Yup.string().required('Warehouse is required'),
+    value: Yup.string().required('Warehouse is required'),
   }),
   plant: Yup.object().shape({
-    label: Yup.string().required("Plant is required"),
-    value: Yup.string().required("Plant is required"),
+    label: Yup.string().required('Plant is required'),
+    value: Yup.string().required('Plant is required'),
   }),
   referenceNo: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Reference No  is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Reference No  is required'),
   requestDate: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Request Date  is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Request Date  is required'),
   validity: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Validity  is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Validity  is required'),
   dueDate: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Due Date  is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Due Date  is required'),
 });
 
 export default function ProductionOrderViewFormModel({
@@ -113,8 +113,8 @@ export default function ProductionOrderViewFormModel({
       title: code,
       buttons: [
         {
-          label: "Ok",
-          onClick: () => "",
+          label: 'Ok',
+          onClick: () => '',
         },
       ],
     });
@@ -136,7 +136,6 @@ export default function ProductionOrderViewFormModel({
         setSBUDDL
       );
     }
-
   }, [landingTableRow]);
 
   // Quantity Handler
@@ -163,14 +162,14 @@ export default function ProductionOrderViewFormModel({
         // Negetive Check
         const foundNegetiveCheck = rowDto?.filter((item) => item?.qty < 0);
         if (foundNegetiveCheck.length > 0) {
-          toast.warn("Negetive Value Not Allowed");
+          toast.warn('Negetive Value Not Allowed');
         } else {
           // Check If requested qty is greater then suggestion qty
           const foundValueNot = rowDto?.filter((item) => item?.isError);
           if (foundValueNot?.length > 0) {
             toast.warning(
-              "Request Quantity Must Be Lesser Than Suggested Quantity",
-              { toastId: "rqmlt" }
+              'Request Quantity Must Be Lesser Than Suggested Quantity',
+              { toastId: 'rqmlt' }
             );
           } else {
             const payload = {
@@ -183,9 +182,9 @@ export default function ProductionOrderViewFormModel({
                 itemRequestTypeId: 0,
                 referenceTypeId: 1,
                 sbuid: values?.sbu?.value || 0,
-                sbuname: values?.sbu?.label || "",
+                sbuname: values?.sbu?.label || '',
                 plantId: values?.plant?.value || 0,
-                plantName: values?.plant?.label || "",
+                plantName: values?.plant?.label || '',
                 warehouseId: values?.warehouse?.value || 0,
                 actionBy: profileData?.userId,
               },
@@ -204,14 +203,14 @@ export default function ProductionOrderViewFormModel({
           }
         }
       } else {
-        toast.warning("You must have to add atleast one item");
+        toast.warning('You must have to add atleast one item');
       }
     }
   };
 
   return (
     <div>
-      <IViewModal show={show} onHide={onHide} title={""} btnText="Close">
+      <IViewModal show={show} onHide={onHide} title={''} btnText="Close">
         {loading && <Loading />}
         <>
           <Formik
@@ -249,7 +248,7 @@ export default function ProductionOrderViewFormModel({
               <div className="">
                 <Card>
                   {true && <ModalProgressBar />}
-                  <CardHeader title={"Create Item Request"}>
+                  <CardHeader title={'Create Item Request'}>
                     <CardHeaderToolbar>
                       <button
                         onClick={handleSubmit}
@@ -270,7 +269,7 @@ export default function ProductionOrderViewFormModel({
                             value={values?.sbu}
                             label="Select SBU"
                             onChange={(valueOption) => {
-                              setFieldValue("sbu", valueOption);
+                              setFieldValue('sbu', valueOption);
                             }}
                             placeholder="Select SBU"
                             errors={errors}
@@ -284,7 +283,7 @@ export default function ProductionOrderViewFormModel({
                             value={values?.plant}
                             label="Select Plant"
                             onChange={(valueOption) => {
-                              setFieldValue("plant", valueOption);
+                              setFieldValue('plant', valueOption);
                             }}
                             placeholder="Select Plant"
                             errors={errors}
@@ -299,7 +298,7 @@ export default function ProductionOrderViewFormModel({
                             value={values?.warehouse}
                             label="Select Warehouse"
                             onChange={(valueOption) => {
-                              setFieldValue("warehouse", valueOption);
+                              setFieldValue('warehouse', valueOption);
                             }}
                             placeholder="Select Warehouse"
                             errors={errors}
@@ -378,15 +377,15 @@ export default function ProductionOrderViewFormModel({
                                 </td>
                                 <td
                                   style={{
-                                    width: "200px",
+                                    width: '200px',
                                   }}
                                   className="text-center align-middle table-input"
                                 >
                                   <span className="input-div">
                                     <input
-                                      value={item?.qty || ""}
+                                      value={item?.qty || ''}
                                       className={`${
-                                        item?.isError ? "input-qty" : ""
+                                        item?.isError ? 'input-qty' : ''
                                       }  form-control`}
                                       onChange={(e) => {
                                         // Set Error False
@@ -444,7 +443,7 @@ export default function ProductionOrderViewFormModel({
                       </div>
 
                       {errorMsg && (
-                        <small style={{ color: "red" }}>
+                        <small style={{ color: 'red' }}>
                           * Request Quantity Must Be Lesser Than Suggested
                           Quantity
                         </small>

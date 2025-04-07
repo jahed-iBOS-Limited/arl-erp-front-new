@@ -1,26 +1,26 @@
-import React, { useState, useRef, useEffect } from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import DetailsModal from "./detailsModal";
-import ReactToPrint from "react-to-print";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import "../style.css";
+import React, { useState, useRef, useEffect } from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import { Formik, Form } from 'formik';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import DetailsModal from './detailsModal';
+import ReactToPrint from 'react-to-print';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import '../style.css';
 import {
   getTerritoryDDL,
   getCustomerDDL,
   inventoryStatement_api,
-} from "../helper";
-import CustomPaginationActionsTable from "./pagination";
+} from '../helper';
+import CustomPaginationActionsTable from './pagination';
 // import { _timeFormatter } from "./../../../../_helper/_timeFormatter";
 
 const initData = {
-  territory: "",
-  customer: "",
+  territory: '',
+  customer: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -33,7 +33,7 @@ const InventoryStatementTable = () => {
   const [inventoryStatementAllData, setinventoryStatementAllData] = useState(
     []
   );
-  const [tableItem, setTableItem] = useState("");
+  const [tableItem, setTableItem] = useState('');
   const printRef = useRef();
 
   // get user profile data from store
@@ -101,8 +101,8 @@ const InventoryStatementTable = () => {
                         valueOption?.value,
                         setCustomerDDL
                       );
-                      setFieldValue("territory", valueOption);
-                      setFieldValue("customer", "");
+                      setFieldValue('territory', valueOption);
+                      setFieldValue('customer', '');
                     }}
                     placeholder="Territory"
                     errors={errors}
@@ -116,7 +116,7 @@ const InventoryStatementTable = () => {
                     value={values?.customer}
                     label="Customer"
                     onChange={(valueOption) => {
-                      setFieldValue("customer", valueOption);
+                      setFieldValue('customer', valueOption);
                     }}
                     placeholder="Customer"
                     errors={errors}
@@ -149,7 +149,7 @@ const InventoryStatementTable = () => {
                   <button
                     type="button"
                     className="btn btn-primary"
-                    style={{ marginTop: "14px" }}
+                    style={{ marginTop: '14px' }}
                     onClick={() => {
                       inventoryStatementClickHandler(values);
                     }}
@@ -166,15 +166,15 @@ const InventoryStatementTable = () => {
                   <div
                     className="text-right pointer"
                     style={{
-                      position: "absolute",
-                      top: "161px",
-                      right: "42px",
+                      position: 'absolute',
+                      top: '161px',
+                      right: '42px',
                     }}
                   >
                     <ReactToPrint
                       trigger={() => (
                         <i
-                          style={{ fontSize: "18px" }}
+                          style={{ fontSize: '18px' }}
                           className="fas fa-print"
                         ></i>
                       )}
@@ -191,8 +191,8 @@ const InventoryStatementTable = () => {
                     <h3>{selectedBusinessUnit?.label}</h3>
                   </div>
                   <div className="d-flex justify-content-around">
-                    <h6>Plant: {"values?.plant?.label"}</h6>
-                    <h6>WareHouse: {"values?.wh?.label"}</h6>
+                    <h6>Plant: {'values?.plant?.label'}</h6>
+                    <h6>WareHouse: {'values?.wh?.label'}</h6>
                   </div>
                   <div className="text-center">
                     <h6>Inventory Statement</h6>

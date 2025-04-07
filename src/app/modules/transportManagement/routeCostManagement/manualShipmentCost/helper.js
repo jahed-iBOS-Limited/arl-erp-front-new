@@ -1,8 +1,8 @@
-import Axios from "axios";
-import moment from "moment";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _todayDate } from "./../../../_helper/_todayDate";
+import Axios from 'axios';
+import moment from 'moment';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _todayDate } from './../../../_helper/_todayDate';
 export const createSales = async (payload, cb) => {
   try {
     const res = await Axios.post(
@@ -10,7 +10,7 @@ export const createSales = async (payload, cb) => {
       payload
     );
     if (res.status === 200 && res?.data) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
     }
   } catch (error) {
@@ -39,7 +39,7 @@ export const editShipment = async (payload, setDisabled) => {
       payload
     );
     if (res.status === 200 && res?.data) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       setDisabled(false);
     }
   } catch (error) {
@@ -56,7 +56,7 @@ export const getVatBranches = async (accid, buid, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getSupplierDDL = async (accId, buId, setter) => {
@@ -67,7 +67,7 @@ export const getSupplierDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getDeliveryToDDL = async (soldToPrtnrId, setter) => {
@@ -78,7 +78,7 @@ export const getDeliveryToDDL = async (soldToPrtnrId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getTaxConfig = async (buId, setter) => {
@@ -89,7 +89,7 @@ export const getTaxConfig = async (buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data[0]);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getTradeTypeDDL = async (setter) => {
@@ -98,7 +98,7 @@ export const getTradeTypeDDL = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getPaymentTermDDL = async (setter) => {
@@ -109,7 +109,7 @@ export const getPaymentTermDDL = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getItemDDL = async (accId, buId, setter) => {
@@ -120,7 +120,7 @@ export const getItemDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getUomDDL = async (accId, buId, setter) => {
@@ -131,7 +131,7 @@ export const getUomDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getItemAmounts = (item, selectedItemInfo) => {
@@ -204,39 +204,37 @@ export const getShipmentByID = async (
     if (res.status === 200 && res?.data) {
       setDisabled && setDisabled(false);
       const objHeader = res?.data?.objHeader;
-      const vehicleInTime = moment(objHeader?.vehicleInDate).format("HH:mm:ss");
+      const vehicleInTime = moment(objHeader?.vehicleInDate).format('HH:mm:ss');
       const newObj = {
         ...objHeader,
         shipmentDate: _dateFormatter(objHeader.shipmentDate),
-        daQuantity: "",
-        daAmount: "",
+        daQuantity: '',
+        daAmount: '',
         downTraip: false,
-        downTripAllowns: "",
+        downTripAllowns: '',
         downTripCash: objHeader?.downTripCash || 0,
         downTripCredit: objHeader?.downTripCredit || 0,
         businessUnitName: objHeader?.downTripUnitId
           ? {
-            value: objHeader.downTripUnitId,
-            label: objHeader.downTripUnitName,
-          }
-          : "",
+              value: objHeader.downTripUnitId,
+              label: objHeader.downTripUnitName,
+            }
+          : '',
         extraMillage: objHeader?.extraMillage || 0,
         fuelDate: _todayDate(),
-        fuelStationName: "",
-        fuelType: "",
-        fuelQty: "",
-        supplier: "",
-        purchaseType: "Cash",
+        fuelStationName: '',
+        fuelType: '',
+        fuelQty: '',
+        supplier: '',
+        purchaseType: 'Cash',
         purchaseCashAmount: 0,
         credit: 0,
         cash: 0,
-        fuelAmount: "",
+        fuelAmount: '',
         vehicleInDate: objHeader?.vehicleInDate
           ? _dateFormatter(objHeader?.vehicleInDate)
-          : "",
-        vehicleInTime: objHeader?.vehicleInDate
-          ? vehicleInTime
-          : "",
+          : '',
+        vehicleInTime: objHeader?.vehicleInDate ? vehicleInTime : '',
       };
       setter(newObj);
       const modify = res?.data?.objList?.map((itm) => ({
@@ -265,7 +263,7 @@ export const GetFuelConstInfoById_api = async (shipmentCost, setter) => {
       }));
       setter(modifiedData);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getComponentDDL = async (accId, setter) => {
@@ -276,7 +274,7 @@ export const getComponentDDL = async (accId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 export const GetSupplierFuelStationDDL_api = async (
   partnerId,
@@ -291,7 +289,7 @@ export const GetSupplierFuelStationDDL_api = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 export const GetVehicleFuelTypeDDL_api = async (setter) => {
   try {
@@ -301,7 +299,7 @@ export const GetVehicleFuelTypeDDL_api = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 export const GetSupplierListDDL_api = async (accId, busId, setter) => {
   try {
@@ -311,7 +309,7 @@ export const GetSupplierListDDL_api = async (accId, busId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 export const GetShipToPartnerDistanceByShipmentId_api = async (
   shipmentId,
@@ -329,7 +327,7 @@ export const GetShipToPartnerDistanceByShipmentId_api = async (
         }))
       );
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 export const GetPartnerShippingInformation_api = async (shipmentId, setter) => {
   try {
@@ -344,7 +342,7 @@ export const GetPartnerShippingInformation_api = async (shipmentId, setter) => {
         }))
       );
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getChalanInfo = async (shipmentId, setter) => {
@@ -367,12 +365,12 @@ export const billSubmitApi = async (setLoading, payload, cb) => {
     );
     if (res.status === 200) {
       setLoading(false);
-      toast.success(res?.data?.message, { toastId: "billSubmitApi" });
+      toast.success(res?.data?.message, { toastId: 'billSubmitApi' });
       cb();
     }
   } catch (error) {
     setLoading(false);
-    toast.warn(error?.response?.data?.message, { toastId: "billSubmitApErr" });
+    toast.warn(error?.response?.data?.message, { toastId: 'billSubmitApErr' });
   }
 };
 export const EditVehiclePartnerRentAmount_api = async (
@@ -390,13 +388,13 @@ export const EditVehiclePartnerRentAmount_api = async (
     );
     if (res.status === 200) {
       toast.success(res?.data?.message, {
-        toastId: "EditVehiclePartnerRentAmount",
+        toastId: 'EditVehiclePartnerRentAmount',
       });
       vehicleReantUpdateCB(idx);
     }
   } catch (error) {
     toast.warn(error?.response?.data?.message, {
-      toastId: "EditVehiclePartnerRentAmount",
+      toastId: 'EditVehiclePartnerRentAmount',
     });
   }
 };
@@ -418,14 +416,14 @@ export const EditVehiclePartnerDistenceKM_api = async (
     );
     if (res.status === 200) {
       toast.success(res?.data?.message, {
-        toastId: "EditVehiclePartnerRentAmount",
+        toastId: 'EditVehiclePartnerRentAmount',
       });
       vehicleReantUpdateCB(idx);
       millageAllowanceRowValueChange(ristanceKM, values, setFieldValue);
     }
   } catch (error) {
     toast.warn(error?.response?.data?.message, {
-      toastId: "EditVehiclePartnerRentAmount",
+      toastId: 'EditVehiclePartnerRentAmount',
     });
   }
 };
@@ -447,16 +445,16 @@ export const getSelectedItemInfo = async (
           value: res?.data[0].uomId,
           label: res?.data[0].uomName,
         };
-        setFieldValue("selectedUom", value);
-        setFieldValue("rate", res?.data[0]?.basePrice);
+        setFieldValue('selectedUom', value);
+        setFieldValue('rate', res?.data[0]?.basePrice);
         setter(res?.data[0]);
       } else {
-        setFieldValue("selectedUom", {});
-        setFieldValue("rate", "");
+        setFieldValue('selectedUom', {});
+        setFieldValue('rate', '');
         setter({});
       }
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getGridData = async (
@@ -481,7 +479,7 @@ export const getGridData = async (
     paginationSetter(res?.data);
 
     if (res?.data?.data?.length === 0) {
-      toast.warning("No data found", { toastId: "ndf" });
+      toast.warning('No data found', { toastId: 'ndf' });
     } else {
       setter(res?.data?.objHeader);
     }
@@ -499,7 +497,7 @@ export const getSalesInvoiceById = async (id, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 //
 
@@ -511,7 +509,7 @@ export const getDownTripData = async (vehiId, accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data[0]);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getBUMilageAllowance = async (accId, buId, setter) => {
@@ -522,9 +520,8 @@ export const getBUMilageAllowance = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data[0]);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
-
 
 export const GetShipmentCostEntryStatus_api = async (
   accId,
@@ -537,7 +534,7 @@ export const GetShipmentCostEntryStatus_api = async (
       `/tms/ShipmentStandardCost/GetShipmentCostEntryStatus?accountid=${accId}&businessunitid=${buId}&TripId=${tripId}`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getBusinessUnitDDL_api = async (actionBy, accountId, setter) => {
@@ -554,7 +551,7 @@ export const getBusinessUnitDDL_api = async (actionBy, accountId, setter) => {
       });
       setter(newdata);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const GetVehicleDDL = async (accId, buId, setter) => {
@@ -563,7 +560,7 @@ export const GetVehicleDDL = async (accId, buId, setter) => {
       `/tms/Vehicle/GetCompanyVehicleDDL?AccountId=${accId}&BusinessUnitId=${buId}&OwnerTypeId=1`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getRouteNameDDL = async (accId, buId, setter) => {
@@ -572,7 +569,7 @@ export const getRouteNameDDL = async (accId, buId, setter) => {
       `/oms/Shipment/GetTransportRouteListDDL?AccountId=${accId}&BUnitId=${buId}`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getWareHouseDDL = async (accId, buId, setter) => {

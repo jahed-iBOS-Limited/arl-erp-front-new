@@ -1,5 +1,5 @@
-import axios from "axios";
-import { _todayDate } from "./../../../_helper/_todayDate";
+import axios from 'axios';
+import { _todayDate } from './../../../_helper/_todayDate';
 
 export const getDashBoardPDDReportApi = async (
   buId,
@@ -8,7 +8,7 @@ export const getDashBoardPDDReportApi = async (
   setter,
   setLoading
 ) => {
-  setter("");
+  setter('');
   setLoading(true);
   try {
     const res = await axios.get(
@@ -17,7 +17,7 @@ export const getDashBoardPDDReportApi = async (
 
     // Regular Sum
     let RegularSum = res?.data
-      ?.filter((item) => item?.shipmentType === "Regular")
+      ?.filter((item) => item?.shipmentType === 'Regular')
       ?.reduce(
         (acc, curr) => acc + (+curr?.totalDC || +curr?.numQuantity || 0),
         0
@@ -25,7 +25,7 @@ export const getDashBoardPDDReportApi = async (
 
     // Special Sum
     let SpecialSum = res?.data
-      ?.filter((item) => item?.shipmentType === "Special")
+      ?.filter((item) => item?.shipmentType === 'Special')
       ?.reduce(
         (acc, curr) => acc + (+curr?.totalDC || +curr?.numQuantity || 0),
         0
@@ -33,7 +33,7 @@ export const getDashBoardPDDReportApi = async (
 
     //Express  sum
     let ExpressSum = res?.data
-      ?.filter((item) => item?.shipmentType === "Express")
+      ?.filter((item) => item?.shipmentType === 'Express')
       ?.reduce(
         (acc, curr) => acc + (+curr?.totalDC || +curr?.numQuantity || 0),
         0
@@ -56,7 +56,7 @@ export const getDashBoardPDDDCPendingQtyReportApi = async (
   setter,
   setLoading
 ) => {
-  setter("");
+  setter('');
   setLoading(true);
   try {
     const res = await axios.get(
@@ -65,17 +65,17 @@ export const getDashBoardPDDDCPendingQtyReportApi = async (
 
     // Regular Sum
     let RegularSum = res?.data
-      ?.filter((item) => item?.shipmentType === "Regular")
+      ?.filter((item) => item?.shipmentType === 'Regular')
       ?.reduce((acc, curr) => acc + (+curr?.numQuantity || 0), 0);
 
     // Special Sum
     let SpecialSum = res?.data
-      ?.filter((item) => item?.shipmentType === "Special")
+      ?.filter((item) => item?.shipmentType === 'Special')
       ?.reduce((acc, curr) => acc + (+curr?.numQuantity || 0), 0);
 
     //Express  sum
     let ExpressSum = res?.data
-      ?.filter((item) => item?.shipmentType === "Express")
+      ?.filter((item) => item?.shipmentType === 'Express')
       ?.reduce((acc, curr) => acc + (+curr?.numQuantity || 0), 0);
     setter({
       Regular: RegularSum || 0,
@@ -96,7 +96,7 @@ export const getDashBoardPDDOnTimeDeliveryReportApi = async (
   setLoading
 ) => {
   setLoading(true);
-  setter("");
+  setter('');
   try {
     const res = await axios.get(
       `/oms/SalesInformation/GetDashBoardPDDReport?rpttypeId=${rpttypeId}&shipmentType=0&businessUnitId=${buId}&shipPointId=${shipPointId}&fromDate=${_todayDate()}&toDate=${_todayDate()}`
@@ -134,7 +134,7 @@ export const getDashBoardPDDReporttransferOutQntApi = async (
   setLoading
 ) => {
   setLoading(true);
-  setter("");
+  setter('');
   try {
     const res = await axios.get(
       `/oms/SalesInformation/GetDashBoardPDDReport?rpttypeId=${rpttypeId}&shipmentType=0&businessUnitId=${buId}&shipPointId=${shipPointId}&fromDate=${_todayDate()}&toDate=${_todayDate()}`
@@ -162,7 +162,7 @@ export const getDashBoardPDDReportVehicleApi = async (
   setLoading
 ) => {
   setLoading(true);
-  setter("");
+  setter('');
   try {
     const res = await axios.get(
       `/oms/SalesInformation/GetDashBoardPDDReport?rpttypeId=${rpttypeId}&shipmentType=0&businessUnitId=${buId}&shipPointId=${shipPointId}&fromDate=${_todayDate()}&toDate=${_todayDate()}`
@@ -170,7 +170,7 @@ export const getDashBoardPDDReportVehicleApi = async (
 
     // Company Sum
     let CompanySum = res?.data
-      ?.filter((item) => item?.vehicleMode === "Company")
+      ?.filter((item) => item?.vehicleMode === 'Company')
       ?.reduce(
         (acc, curr) => acc + (+curr?.totalGateIn || +curr?.totalGateOut || 0),
         0
@@ -178,7 +178,7 @@ export const getDashBoardPDDReportVehicleApi = async (
 
     // Supplier Sum
     let SupplierSum = res?.data
-      ?.filter((item) => item?.vehicleMode === "Supplier")
+      ?.filter((item) => item?.vehicleMode === 'Supplier')
       ?.reduce(
         (acc, curr) => acc + (+curr?.totalGateIn || +curr?.totalGateOut || 0),
         0
@@ -201,7 +201,7 @@ export const getDashBoardPDDDepotPendingReportApi = async (
   setter,
   setLoading
 ) => {
-  setter("");
+  setter('');
   setLoading(true);
   try {
     const res = await axios.get(

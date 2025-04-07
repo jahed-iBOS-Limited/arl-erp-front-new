@@ -1,6 +1,3 @@
-
-
-
 import React, { useState, useEffect } from 'react';
 import Form from './form';
 import { _todayDate } from './../../../../../../_helper/_todayDate';
@@ -154,15 +151,15 @@ export default function TrainingInformation() {
             attachment: uploadImage[0]?.id
               ? uploadImage[0]?.id
               : values?.attachment
-              ? values?.attachment
-              : '',
+                ? values?.attachment
+                : '',
           };
 
           editEmployeeTrainingInfo_api(copyRodto, cb, setDisabled).then(
             (data) => {
               getEmpTrainingInfoById_api(headerData?.employeeId, setSingleData);
               setEditClick(false);
-            },
+            }
           );
         } else {
           toast.warn('Please add at least one');
@@ -174,14 +171,14 @@ export default function TrainingInformation() {
             (data) => {
               getEmpTrainingInfoById_api(
                 headerData?.employeeId,
-                setSingleData,
+                setSingleData
               ).then((data) => {
                 getEmpTrainingInfoById_api(
                   headerData?.employeeId,
-                  setSingleData,
+                  setSingleData
                 );
               });
-            },
+            }
           );
         } else {
           toast.warn('Please add at least one');
@@ -204,7 +201,7 @@ export default function TrainingInformation() {
       (item) =>
         item?.trainingTitle === values?.trainingTitle &&
         item?.issuingOrganization === values?.issuingOrganization &&
-        item?.trainingYear == values?.traningYear?.label,
+        item?.trainingYear == values?.traningYear?.label
     );
 
     if (isFound?.length > 0) return toast.warn('Not allowed to duplicate item');
@@ -245,7 +242,6 @@ export default function TrainingInformation() {
 
   useEffect(() => {
     getTrainingInfoById();
-
   }, []);
 
   useEffect(() => {

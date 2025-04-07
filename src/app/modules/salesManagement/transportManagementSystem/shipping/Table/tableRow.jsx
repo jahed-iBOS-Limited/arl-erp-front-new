@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { Field, Form, Formik } from "formik";
-import { useHistory } from "react-router-dom";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import { getSalesContactGridData } from "../_redux/Actions";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { Field, Form, Formik } from 'formik';
+import { useHistory } from 'react-router-dom';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import { getSalesContactGridData } from '../_redux/Actions';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
 
-import { toast } from "react-toastify";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
+import { toast } from 'react-toastify';
+import IView from '../../../../_helper/_helperIcons/_view';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
 
 export function TableRow({
   gridDataPgi,
@@ -46,8 +46,6 @@ export function TableRow({
     }));
 
     setRowDto(modifyGridData);
-
-
   }, [gridData]);
 
   const itemSlectedHandler = (value, index) => {
@@ -99,7 +97,7 @@ export function TableRow({
             value: shippointDDL[0]?.value,
             label: shippointDDL[0]?.label,
           },
-          reportType: { value: 2, label: "Incomplete" },
+          reportType: { value: 2, label: 'Incomplete' },
         }}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
@@ -146,8 +144,8 @@ export function TableRow({
                         <ISelect
                           label="Report Type"
                           options={[
-                            { value: 1, label: "Complete" },
-                            { value: 2, label: "Incomplete" },
+                            { value: 1, label: 'Complete' },
+                            { value: 2, label: 'Incomplete' },
                           ]}
                           defaultValue={values.reportType}
                           name="reportType"
@@ -212,18 +210,18 @@ export function TableRow({
                                   savePgiData(itm.shipmentId, gridRefresh);
                                 }
                               } else {
-                                toast.warn("Please Select Incomplete Data", {
+                                toast.warn('Please Select Incomplete Data', {
                                   toastId: 456,
                                 });
                               }
                             });
                             if (isTrue) {
-                              toast.success("All selected pgi are saved...!", {
+                              toast.success('All selected pgi are saved...!', {
                                 toastId: 456,
                               });
                               //window.location.reload(false);
                             } else {
-                              toast.warn("Select a pgi first..", {
+                              toast.warn('Select a pgi first..', {
                                 toastId: 456,
                               });
                             }
@@ -239,14 +237,14 @@ export function TableRow({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initialData)}
               ></button>
@@ -260,7 +258,7 @@ export function TableRow({
                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                       <thead>
                         <tr>
-                          <th style={{ width: "90px" }}>
+                          <th style={{ width: '90px' }}>
                             <input
                               type="checkbox"
                               id="parent"
@@ -269,14 +267,14 @@ export function TableRow({
                               }}
                             />
                           </th>
-                          <th style={{ width: "50px" }}>Sl</th>
-                          <th style={{ width: "90px" }}>Shipment No</th>
-                          <th style={{ width: "90px" }}>Contact Date</th>
+                          <th style={{ width: '50px' }}>Sl</th>
+                          <th style={{ width: '90px' }}>Shipment No</th>
+                          <th style={{ width: '90px' }}>Contact Date</th>
                           <th>Route Name</th>
                           <th>Transport Mode</th>
                           <th>Shipping Type Name</th>
                           <th>Vehicle Name</th>
-                          <th style={{ width: "90px" }}>Actions</th>
+                          <th style={{ width: '90px' }}>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -325,10 +323,12 @@ export function TableRow({
                               </div>
                             </td>
                             <td>
-                              <div className="pl-2">{td.shippingTypeName}</div>{" "}
+                              <div className="pl-2">
+                                {td.shippingTypeName}
+                              </div>{' '}
                             </td>
                             <td>
-                              <div className="pl-2">{td.vehicleName}</div>{" "}
+                              <div className="pl-2">{td.vehicleName}</div>{' '}
                             </td>
                             <td>
                               <div className="d-flex justify-content-around">

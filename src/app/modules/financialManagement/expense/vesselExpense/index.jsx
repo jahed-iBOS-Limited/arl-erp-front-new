@@ -1,9 +1,8 @@
-import React from "react";
-import { Route } from "react-router-dom";
-import ViewModal  from "./View/viewModal";
-import ExpenseRegisterLanding from "./Table/table";
-import './style.css'
-
+import React from 'react';
+import { Route } from 'react-router-dom';
+import ViewModal from './View/viewModal';
+import ExpenseRegisterLanding from './Table/table';
+import './style.css';
 
 export function VesselExpenseLanding() {
   return (
@@ -15,7 +14,7 @@ export function VesselExpenseLanding() {
             id={match && match.params.id}
             history={history}
             onHide={() => {
-              history.push("/financial-management/expense/vesselexpense");
+              history.push('/financial-management/expense/vesselexpense');
             }}
           />
         )}

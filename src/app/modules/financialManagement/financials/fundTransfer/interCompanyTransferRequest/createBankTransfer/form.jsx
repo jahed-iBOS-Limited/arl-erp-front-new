@@ -16,7 +16,11 @@ import FormikError from '../../../../../_helper/_formikError';
 import { IInput } from '../../../../../_helper/_input';
 import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actions';
 import { _todayDate } from '../../../../../_helper/_todayDate';
-import { PaymentValidationSchema, ReceiveValidationSchema, TransferValidationSchema } from '../../../../../_helper/_validationSchema';
+import {
+  PaymentValidationSchema,
+  ReceiveValidationSchema,
+  TransferValidationSchema,
+} from '../../../../../_helper/_validationSchema';
 import { attachmentUpload } from '../../../../../_helper/attachmentUpload';
 import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
 import placeholderImg from '../../../../../_helper/images/placeholderImg.png';
@@ -77,7 +81,7 @@ export default function FormCmp({
         profileData.accountId,
         selectedBusinessUnit.value,
         3,
-        setSendToGLBank,
+        setSendToGLBank
       );
     }
   }, [profileData, selectedBusinessUnit]);
@@ -90,7 +94,7 @@ export default function FormCmp({
     getCostCenterDDL(
       selectedBusinessUnit.value,
       profileData.accountId,
-      setCostCenterDDL,
+      setCostCenterDDL
     );
     getPartnerTypeDDL(setPartnerTypeDDL);
     getRevenueElementListDDL(selectedBusinessUnit.value, setRevenueElementDDL);
@@ -103,10 +107,13 @@ export default function FormCmp({
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${profileData?.accountId
-        }&BusinessUnitId=${selectedBusinessUnit?.value
-        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${partnerType?.reffPrtTypeId
-        }`,
+        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${
+          profileData?.accountId
+        }&BusinessUnitId=${
+          selectedBusinessUnit?.value
+        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${
+          partnerType?.reffPrtTypeId
+        }`
       )
       .then((res) => {
         return res?.data;
@@ -126,16 +133,15 @@ export default function FormCmp({
           let newBankAcc =
             data?.length > 0
               ? data.map((item) => ({
-                ...item,
-                value: item?.bankId,
-                label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
-              }))
+                  ...item,
+                  value: item?.bankId,
+                  label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
+                }))
               : [];
           setPartnerBank(newBankAcc);
-        },
+        }
       );
     }
-
   }, [initData]);
 
   return (
@@ -178,7 +184,7 @@ export default function FormCmp({
                         setBankJournalCreateAction({
                           ...values,
                           transferAmount: '',
-                        }),
+                        })
                       );
                     }
                   });
@@ -234,7 +240,7 @@ export default function FormCmp({
                                 valueOption?.bankBranch_Id,
                                 valueOption?.value,
                                 setFieldValue,
-                                'instrumentNo',
+                                'instrumentNo'
                               );
                             }
                           }
@@ -325,7 +331,7 @@ export default function FormCmp({
                               if (jorunalType === 4) {
                                 setFieldValue(
                                   'receiveFrom',
-                                  valueOption?.label,
+                                  valueOption?.label
                                 );
                               } else if (jorunalType === 5) {
                                 setFieldValue('paidTo', valueOption?.label);
@@ -340,13 +346,13 @@ export default function FormCmp({
                                   let newBankAcc =
                                     data?.length > 0
                                       ? data.map((item) => ({
-                                        ...item,
-                                        value: item?.bankId,
-                                        label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
-                                      }))
+                                          ...item,
+                                          value: item?.bankId,
+                                          label: `${item?.bankShortName}: ${item?.bankAccountNo}`,
+                                        }))
                                       : [];
                                   setPartnerBank(newBankAcc);
-                                },
+                                }
                               );
                             }}
                             loadOptions={loadTransactionList}
@@ -361,7 +367,7 @@ export default function FormCmp({
                         {/* ["Supplier", "Customer", "Investment Partner"] */}
                         {jorunalType === 5 &&
                           ['Investment Partner']?.includes(
-                            values?.partnerType?.label,
+                            values?.partnerType?.label
                           ) && (
                             <div
                               style={{ marginBottom: '12px' }}
@@ -372,7 +378,7 @@ export default function FormCmp({
                                 onChange={(valueOption) => {
                                   setFieldValue(
                                     'partnerBankAccount',
-                                    valueOption,
+                                    valueOption
                                   );
                                 }}
                                 // isDisabled={!values?.transaction}
@@ -597,7 +603,7 @@ export default function FormCmp({
                                   selectedBusinessUnit.value,
                                   profileData.accountId,
                                   valueOption?.value,
-                                  setCostElementDDL,
+                                  setCostElementDDL
                                 );
                                 setFieldValue('costElement', '');
                               } else {
@@ -746,8 +752,8 @@ export default function FormCmp({
                                     e.stopPropagation();
                                     dispatch(
                                       getDownlloadFileView_Action(
-                                        attachmentFile,
-                                      ),
+                                        attachmentFile
+                                      )
                                     );
                                   }}
                                   className="ml-2"
@@ -827,13 +833,13 @@ export default function FormCmp({
                                   values?.bankAcc?.bankBranch_Id,
                                   values?.bankAcc?.value,
                                   setFieldValue,
-                                  'instrumentNo',
+                                  'instrumentNo'
                                 );
                               }
                             } else {
                               generateAdviceNo(
                                 selectedBusinessUnit?.value,
-                                setFieldValue,
+                                setFieldValue
                               );
                             }
                           }

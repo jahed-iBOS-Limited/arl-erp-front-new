@@ -1,24 +1,24 @@
-import axios from "axios";
-import { Formik } from "formik";
-import React from "react";
-import * as Yup from "yup";
+import axios from 'axios';
+import { Formik } from 'formik';
+import React from 'react';
+import * as Yup from 'yup';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import FullChallanTable from "./fullChallanTable";
-import PartialChallanTable from "./partialChallanTable";
+} from '../../../../../../_metronic/_partials/controls';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import FullChallanTable from './fullChallanTable';
+import PartialChallanTable from './partialChallanTable';
 
 const ValidationSchema = Yup.object().shape({
-  reason: Yup.string().required("Reason is required"),
+  reason: Yup.string().required('Reason is required'),
 });
 
 function Form({
@@ -54,7 +54,7 @@ function Form({
                     onClick={() => {
                       history.goBack();
                     }}
-                    className={"btn btn-secondary px-3 py-2"}
+                    className={'btn btn-secondary px-3 py-2'}
                   >
                     <i className="fa fa-arrow-left pr-1"></i>
                     Back
@@ -62,7 +62,7 @@ function Form({
 
                   <button
                     type="submit"
-                    className={"btn btn-primary ml-2 px-3 py-2"}
+                    className={'btn btn-primary ml-2 px-3 py-2'}
                     onClick={handleSubmit}
                     disabled={false}
                   >
@@ -78,14 +78,14 @@ function Form({
                     <NewSelect
                       name="returnType"
                       options={[
-                        { value: 1, label: "Full Challan" },
-                        { value: 2, label: "Partial Challan" },
+                        { value: 1, label: 'Full Challan' },
+                        { value: 2, label: 'Partial Challan' },
                       ]}
                       value={values?.returnType}
                       label="Return Type"
                       onChange={(valueOption) => {
-                        setFieldValue("returnType", valueOption);
-                        setFieldValue("customer", "");
+                        setFieldValue('returnType', valueOption);
+                        setFieldValue('customer', '');
                         setGridData([]);
                       }}
                       placeholder="Return Type"
@@ -102,7 +102,7 @@ function Form({
                       territory: false,
                       allElement: false,
                       onChange: () => {
-                        setFieldValue("customer", "");
+                        setFieldValue('customer', '');
                         setGridData([]);
                       },
                     }}
@@ -113,7 +113,7 @@ function Form({
                     <SearchAsyncSelect
                       selectedValue={values?.customer}
                       handleChange={(valueOption) => {
-                        setFieldValue("customer", valueOption);
+                        setFieldValue('customer', valueOption);
                         setGridData([]);
                       }}
                       isDisabled={!values?.channel}
@@ -138,7 +138,7 @@ function Form({
                         placeholder="Challan"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("challan", e.target.value);
+                          setFieldValue('challan', e.target.value);
                           setGridData([]);
                         }}
                       />

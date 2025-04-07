@@ -1,7 +1,7 @@
 .hblContainer {
-    font-size: 11px;
-    border: 1px solid #000;
-    position: relative;
+  font-size: 11px;
+  border: 1px solid #000;
+  position: relative;
 }
 
 .hblContainer h1,
@@ -10,276 +10,273 @@
 .hblContainer h4,
 .hblContainer h5,
 .hblContainer h6 {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .hblContainer p,
 .hblContainer h3 {
-    margin: 0;
-    padding: 2px 5px 0px 5px;
-    line-height: 12px;
+  margin: 0;
+  padding: 2px 5px 0px 5px;
+  line-height: 12px;
 }
 
 .hblContainer tr td {
-    font-size: 12px !important;
+  font-size: 12px !important;
 }
 
 .hblContainer .airandConsigneeInfo .top {
-    display: flex;
+  display: flex;
 }
 
 .hblContainer .airandConsigneeInfo .top .leftSide {
-    width: 50%;
+  width: 50%;
 }
 
 .hblContainer .airandConsigneeInfo .top .rightSide {
-    width: 50%;
+  width: 50%;
 }
 
 .hblContainer .shipperInfo,
 .hblContainer .consigneeInfo,
 .hblContainer .notifyParty {
-    height: 130px;
+  height: 130px;
 }
 
 .hblContainer .preCarriageInfo,
 .hblContainer .oceanVesselInfo {
-    display: flex;
+  display: flex;
 }
 
-
-
 .hblContainer .preCarriageInfo .rightSide {
-    width: 189px;
+  width: 189px;
 }
 
 .hblContainer .textTitle {
-    text-transform: uppercase;
-    font-style: italic;
-    font-weight: 500;
+  text-transform: uppercase;
+  font-style: italic;
+  font-weight: 500;
 }
 
 .hblContainer .rightSideTop {
-    display: flex;
-    border-bottom: 1px solid #000;
-    height: 40px;
+  display: flex;
+  border-bottom: 1px solid #000;
+  height: 40px;
 }
 
 .hblContainer .rightSideMiddleContent {
-    display: flex;
-    flex-direction: column;
-    border-bottom: 1px solid #000;
-    height: 260px;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #000;
+  height: 260px;
+  align-items: center;
 }
 
 .hblContainer .rightSide .rightSideMiddleTitle {
-    border-bottom: 1px solid #000;
+  border-bottom: 1px solid #000;
 }
 
 .hblContainer .rightSide .rightSideButtom .borderBottomTime {
-    display: flex;
+  display: flex;
 }
 
 .hblContainer .rightSide .rightSideButtom .borderBottomTime p {
-    width: 50%;
+  width: 50%;
 }
 
 .hblContainer .rightSideBottom {
-    /* padding-left: 5px; */
-    height: 147px;
+  /* padding-left: 5px; */
+  height: 147px;
 }
 
 .hblContainer .borderRight {
-    border-right: 1px solid #000;
+  border-right: 1px solid #000;
 }
 
 .hblContainer .borderBottom {
-    border-bottom: 1px solid #000;
+  border-bottom: 1px solid #000;
 }
 
 .hblContainer .borderTop {
-    border-top: 1px solid #000;
+  border-top: 1px solid #000;
 }
 
 .hblContainer .borderLeft {
-    border-left: 1px solid #000;
+  border-left: 1px solid #000;
 }
 
 .hblContainer .firstColumn {
-    width: 230px;
-    border-right: 1px solid #000;
-    min-height: 30px;
+  width: 230px;
+  border-right: 1px solid #000;
+  min-height: 30px;
 }
 
 .hblContainer .secondColumn {
-    width: 530px;
+  width: 530px;
 }
 
 .hblContainer .thirdColumn {
-    flex: 1;
+  flex: 1;
 }
 
 .hblContainer .middle {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
 }
 
 .hblContainer .middle .firstRow {
-    display: flex;
-    min-height: 50px;
+  display: flex;
+  min-height: 50px;
 }
 
-
 .hblContainer .middle .firstRow .secondColumn {
-    display: flex;
+  display: flex;
 }
 
 .hblContainer .middle .firstRow .secondColumn .item:nth-child(1) {
-    width: 180px;
+  width: 180px;
 }
 
 .hblContainer .middle .firstRow .secondColumn .item:nth-child(2) {
-    flex: 1;
-    text-align: center;
+  flex: 1;
+  text-align: center;
 }
 
 .hblContainer .middle .firstRow .thirdColumn {
-    text-align: center;
+  text-align: center;
 }
 
 .hblContainer .middle .secondRow {
-    display: flex;
-    text-align: center;
+  display: flex;
+  text-align: center;
 }
 
 .hblContainer .middle .secondRow .secondColumn {
-    display: flex;
+  display: flex;
 }
 
 .hblContainer .middle .secondRow .secondColumn .item:nth-child(1) {
-    width: 70px;
-    padding: 0 5px;
+  width: 70px;
+  padding: 0 5px;
 }
 
 .hblContainer .middle .secondRow .secondColumn .item:nth-child(2) {
-    flex: 1;
+  flex: 1;
 }
 
 .hblContainer .middle .secondRow .thirdColumn {
-    display: flex;
+  display: flex;
 }
 
 .hblContainer .middle .secondRow .thirdColumn .item:nth-child(1) {
-    flex: 1;
+  flex: 1;
 }
 
 .hblContainer .middle .secondRow .thirdColumn .item:nth-child(2) {
-    flex: 1;
+  flex: 1;
 }
 
 .hblContainer .middle .thirdRow {
-    display: flex;
+  display: flex;
 }
 
 .hblContainer .middle .thirdRow .firstColumn {
-    height: 450px;
+  height: 450px;
 }
 
 .hblContainer .middle .thirdRow .secondColumn {
-    display: flex;
+  display: flex;
 }
 
 .hblContainer .middle .thirdRow .secondColumn .item:nth-child(1) {
-    padding: 0 5px;
-    width: 70px;
+  padding: 0 5px;
+  width: 70px;
 }
 
 .hblContainer .middle .thirdRow .secondColumn .item:nth-child(2) {
-    flex: 1;
+  flex: 1;
 }
 
 .hblContainer .middle .thirdRow .thirdColumn {
-    display: flex;
+  display: flex;
 }
 
 .hblContainer .middle .thirdRow .thirdColumn .item:nth-child(1) {
-    flex: 1;
+  flex: 1;
 }
 
 .hblContainer .middle .thirdRow .thirdColumn .item:nth-child(2) {
-    flex: 1;
+  flex: 1;
 }
 
 .hblContainer .bottom {
-    display: flex;
-    width: 100%;
+  display: flex;
+  width: 100%;
 }
 
 .hblContainer .bottom .bottomLeft {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .hblContainer .bottom .bottomRight {
-    display: flex;
-    height: 380px;
-    padding: 0 5px;
+  display: flex;
+  height: 380px;
+  padding: 0 5px;
 }
 
 .hblContainer .bottom .bottomLeft .bottomFirstColumn {
-    display: flex;
-    height: 100%;
+  display: flex;
+  height: 100%;
 }
 
 .hblContainer .bottom .bottomLeft .bottomSecondColumn {
-    display: flex;
+  display: flex;
 }
 
 .hblContainer .bottom .bottomLeft .bottomThirdColumn {
-    display: flex;
+  display: flex;
 }
 
 .hblWrapper .multipleInvoicePrint {
-    display: none;
+  display: none;
 }
 
 @media print {
-    .hblWrapper .multipleInvoicePrint {
-        display: block !important;
-    }
+  .hblWrapper .multipleInvoicePrint {
+    display: block !important;
+  }
 }
 
 .printSectionNone {
-    display: none !important;
+  display: none !important;
 }
 
 .hblWrapper .ql-editor {
-    padding: 0px;
-    margin: 0px;
-    overflow: unset;
-    font-size: 11px;
+  padding: 0px;
+  margin: 0px;
+  overflow: unset;
+  font-size: 11px;
 }
 
 .hblWrapper pre {
-    background-color: transparent !important;
-    /* Light gray background */
-    border: 1px solid transparent !important;
-    /* Add a border */
-    border-radius: 50px;
-    /* Rounded corners */
-    padding: 10px;
-    /* Add padding */
-    font-family: Arial, sans-serif;
-    /* Change font */
-    font-size: 14px;
-    /* Adjust font size */
-    color: #333;
-    /* Text color */
-    white-space: pre-wrap;
-    /* Allow wrapping for long lines */
-    word-wrap: break-word;
-    /* Break long words if necessary */
+  background-color: transparent !important;
+  /* Light gray background */
+  border: 1px solid transparent !important;
+  /* Add a border */
+  border-radius: 50px;
+  /* Rounded corners */
+  padding: 10px;
+  /* Add padding */
+  font-family: Arial, sans-serif;
+  /* Change font */
+  font-size: 14px;
+  /* Adjust font size */
+  color: #333;
+  /* Text color */
+  white-space: pre-wrap;
+  /* Allow wrapping for long lines */
+  word-wrap: break-word;
+  /* Break long words if necessary */
 }

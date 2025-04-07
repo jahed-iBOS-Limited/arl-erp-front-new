@@ -1,7 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const GetItemNameDDL = async (accId, buId, typeId, setter) => {
   try {
@@ -60,14 +59,14 @@ export const getItemTransferOutById = async (
         setter(res?.data);
         setLoading && setLoading(false);
       } else {
-        toast.warning("No data found");
+        toast.warning('No data found');
         setter({});
         setLoading && setLoading(false);
       }
     }
   } catch (error) {
     console.log(error.message);
-    setter("");
+    setter('');
   }
 };
 
@@ -104,7 +103,7 @@ export const saveTrasnferOut = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -127,7 +126,7 @@ export const GetTransferOutPagination = async (
 ) => {
   try {
     setLoading(true);
-    const searchPath = search ? `searchTerm=${search}&` : "";
+    const searchPath = search ? `searchTerm=${search}&` : '';
     const res = await Axios.get(
       `/vat/ItemTransferOut/GetItemTransferOutSearchPagination?${searchPath}accountId=${accId}&businessUnitId=${buId}&taxBranchId=${taxBranchId}&ItemTypeId=${itemId}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
     );
@@ -135,7 +134,7 @@ export const GetTransferOutPagination = async (
       if (res?.data?.data?.length > 0) {
         setter(res?.data);
       } else {
-        toast.warning("Data not found");
+        toast.warning('Data not found');
         setter({});
       }
       setLoading(false);
@@ -225,7 +224,7 @@ export const saveEditedTransferOut = async (data, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       setDisabled(false);
     }
   } catch (error) {

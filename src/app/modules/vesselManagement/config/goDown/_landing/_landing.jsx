@@ -1,37 +1,36 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import IViewModal from "../../../../_helper/_viewModal";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import GodownForm from "../_form/_form";
-import { deleteGodown } from "../helper";
+} from '../../../../../../_metronic/_partials/controls';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import IViewModal from '../../../../_helper/_viewModal';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import GodownForm from '../_form/_form';
+import { deleteGodown } from '../helper';
 
 const headers = [
-  "SL",
-  "Business Partner",
-  "Transport Zone",
-  "Godown Name",
-  "Godown Address",
-  "Contact No",
-  "Unloading Supplier",
-  "Unloading Rate",
-  "Bolgate Unload Rate",
-  "Remarks",
-  "Action",
+  'SL',
+  'Business Partner',
+  'Transport Zone',
+  'Godown Name',
+  'Godown Address',
+  'Contact No',
+  'Unloading Supplier',
+  'Unloading Rate',
+  'Bolgate Unload Rate',
+  'Remarks',
+  'Action',
 ];
 
 const GodownLanding = () => {
@@ -40,7 +39,7 @@ const GodownLanding = () => {
   const [rowData, getRowData, isLoading] = useAxiosGet();
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [formType, setFormType] = useState("");
+  const [formType, setFormType] = useState('');
   const [singleItem, setSingleItem] = useState({});
   const [businessPartnerDDL, getBusinessPartnerDDL] = useAxiosGet();
 
@@ -63,8 +62,8 @@ const GodownLanding = () => {
 
   const deleteHandler = (id, values) => {
     const objProps = {
-      title: "Are You Sure?",
-      message: "Are you sure you want to delete this Godown?",
+      title: 'Are You Sure?',
+      message: 'Are you sure you want to delete this Godown?',
       yesAlertFunc: () => {
         deleteGodown(id, setLoading, () => {
           getData(values, pageNo, pageSize);
@@ -84,7 +83,7 @@ const GodownLanding = () => {
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={{ businessPartner: "" }}
+        initialValues={{ businessPartner: '' }}
         onSubmit={() => {}}
       >
         {({ values, setFieldValue }) => (
@@ -96,7 +95,7 @@ const GodownLanding = () => {
                   <div className="d-flex justify-content-end">
                     <button
                       onClick={() => {
-                        setFormType("create");
+                        setFormType('create');
                         setShow(true);
                       }}
                       className="btn btn-primary ml-2"
@@ -126,7 +125,7 @@ const GodownLanding = () => {
                           value={values?.businessPartner}
                           label="Business Partner"
                           onChange={(e) => {
-                            setFieldValue("businessPartner", e);
+                            setFieldValue('businessPartner', e);
                             getData(
                               { ...values, businessPartner: e },
                               pageNo,
@@ -144,7 +143,7 @@ const GodownLanding = () => {
                       <table
                         id="table-to-xlsx"
                         className={
-                          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                          'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                         }
                       >
                         <thead>
@@ -159,7 +158,7 @@ const GodownLanding = () => {
                             return (
                               <tr key={index}>
                                 <td
-                                  style={{ width: "40px" }}
+                                  style={{ width: '40px' }}
                                   className="text-center"
                                 >
                                   {index + 1}
@@ -179,7 +178,7 @@ const GodownLanding = () => {
                                 <td>{item?.remarks}</td>
 
                                 <td
-                                  style={{ width: "80px" }}
+                                  style={{ width: '80px' }}
                                   className="text-center"
                                 >
                                   <div className="d-flex justify-content-around">
@@ -194,7 +193,7 @@ const GodownLanding = () => {
                                     <span>
                                       <IEdit
                                         onClick={() => {
-                                          setFormType("edit");
+                                          setFormType('edit');
                                           setSingleItem(item);
                                           setShow(true);
                                         }}

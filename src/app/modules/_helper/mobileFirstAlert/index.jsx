@@ -18,7 +18,7 @@ function MobileFirstAlert() {
   var userAgent = navigator.userAgent || navigator.vendor || window.opera;
   const isMobileUser =
     /android|iPad|iPhone|iPod|Opera Mini|IEMobile|WPDesktop|Windows Phone/i.test(
-      userAgent,
+      userAgent
     );
   useEffect(() => {
     if (!isMobileUser && import.meta.NODE_ENV !== 'development') {
@@ -44,7 +44,6 @@ function MobileFirstAlert() {
     } else {
       setIsShowAlert(false);
     }
-
   }, []);
   const handleClose = () => {
     setIsShowAlert(false);

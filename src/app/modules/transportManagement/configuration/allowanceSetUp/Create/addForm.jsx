@@ -1,30 +1,30 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { useLocation, useParams } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { useLocation, useParams } from 'react-router-dom';
 import {
   getSingleData,
   GetVahicleDDL,
   saveAllowanceSetUp,
   GetComponentDDL,
   GetAllowanceSetUpPagination,
-} from "../helper";
-import Loading from "./../../../../_helper/_loading";
-import { toast } from "react-toastify";
+} from '../helper';
+import Loading from './../../../../_helper/_loading';
+import { toast } from 'react-toastify';
 
 const initData = {
-  vahicleCapacity: "",
-  daamount: "",
-  daComponent: "",
-  downTripAllowance: "",
-  allowance: "",
+  vahicleCapacity: '',
+  daamount: '',
+  daComponent: '',
+  downTripAllowance: '',
+  allowance: '',
 };
 
 export default function AllowanceSetUpCreateForm() {
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [objProps, setObjprops] = useState({});
   const location = useLocation();
   const params = useParams();
@@ -42,7 +42,7 @@ export default function AllowanceSetUpCreateForm() {
 
   const { profileData, selectedBusinessUnit } = storeData;
   useEffect(() => {
-    if ((profileData?.accountId && selectedBusinessUnit?.value)) {
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
       GetVahicleDDL(setVahicleCapacity);
       GetComponentDDL(profileData.accountId, setDaComponent);
       GetComponentDDL(profileData.accountId, setAllowance);
@@ -63,7 +63,6 @@ export default function AllowanceSetUpCreateForm() {
         setRowDto
       );
     }
-
   }, [params]); // location
 
   const saveHandler = async (values, cb) => {
@@ -99,15 +98,16 @@ export default function AllowanceSetUpCreateForm() {
   };
 
   const setter = (payload) => {
-    console.log(payload?.dacostComponentId, payload?.downTripAllowanceId )
+    console.log(payload?.dacostComponentId, payload?.downTripAllowanceId);
     const duplicateCheck = gridData?.filter(
       (item) =>
         item?.dacostComponentId === payload?.dacostComponentId &&
-        item?.downTripAllowanceId === payload?.downTripAllowanceId &&  item?.vehicleCapacityId === payload?.vehicleCapacityId
+        item?.downTripAllowanceId === payload?.downTripAllowanceId &&
+        item?.vehicleCapacityId === payload?.vehicleCapacityId
     );
-    console.log(duplicateCheck)
+    console.log(duplicateCheck);
     if (duplicateCheck?.length > 0) {
-      toast.warning("Not Allowed Duplicate Item");
+      toast.warning('Not Allowed Duplicate Item');
     } else {
       setGridData([payload, ...gridData]);
     }
@@ -129,7 +129,7 @@ export default function AllowanceSetUpCreateForm() {
   };
   return (
     <IForm
-      title={"Allowance Set-Up"}
+      title={'Allowance Set-Up'}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenBack={true}

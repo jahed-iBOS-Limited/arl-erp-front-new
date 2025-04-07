@@ -15,13 +15,11 @@ import {
 import './app.css';
 
 createRoot(document.getElementById('root')!).render(
-  <>
-    <MetronicLayoutProvider>
-      <MetronicSubheaderProvider>
-        <MetronicSplashScreenProvider>
-          <App store={store} persistor={persistor} basename={'/'} />
-        </MetronicSplashScreenProvider>
-      </MetronicSubheaderProvider>
-    </MetronicLayoutProvider>
-  </>,
+  <MetronicLayoutProvider>
+    <MetronicSubheaderProvider>
+      <MetronicSplashScreenProvider>
+        <App store={store} persistor={persistor} basename={'/'} />
+      </MetronicSplashScreenProvider>
+    </MetronicSubheaderProvider>
+  </MetronicLayoutProvider>
 );

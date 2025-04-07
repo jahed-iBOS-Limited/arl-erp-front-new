@@ -1,4 +1,3 @@
-
 import Axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
@@ -24,7 +23,7 @@ export default function PartnerBasic() {
   //fileObjects
   const [fileObjects, setFileObjects] = useState([]);
   const selectedBusinessUnit = useSelector(
-    (state) => state.authData.selectedBusinessUnit,
+    (state) => state.authData.selectedBusinessUnit
   );
   const profileData = useSelector((state) => state.authData.profileData);
 
@@ -34,7 +33,7 @@ export default function PartnerBasic() {
 
   const getBusinessUnitById = async (accid, buid, id) => {
     const res = await Axios.get(
-      `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerByID?accountId=${accid}&businessUnitId=${buid}&partnerID=${id}`,
+      `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerByID?accountId=${accid}&businessUnitId=${buid}&partnerID=${id}`
     );
     const { data, status } = res;
     console.log({ resData: data });
@@ -63,21 +62,21 @@ export default function PartnerBasic() {
           /* Last Added */
           division: r?.divisionId
             ? {
-              value: r?.divisionId,
-              label: r?.divisionName,
-            }
+                value: r?.divisionId,
+                label: r?.divisionName,
+              }
             : '',
           district: r?.districtId
             ? {
-              value: r?.districtId,
-              label: r?.districtName,
-            }
+                value: r?.districtId,
+                label: r?.districtName,
+              }
             : '',
           policeStation: r?.upazilaId
             ? {
-              value: r?.upazilaId,
-              label: r?.upazilaName,
-            }
+                value: r?.upazilaId,
+                label: r?.upazilaName,
+              }
             : '',
           proprietor: r?.propitor || '',
           contactPerson: r?.contactPerson || '',
@@ -85,9 +84,9 @@ export default function PartnerBasic() {
           contactNumber3: r?.contactNumber3 || '',
           cargoType: r?.cargoTypeId
             ? {
-              value: r?.cargoTypeId,
-              label: r?.cargoType,
-            }
+                value: r?.cargoTypeId,
+                label: r?.cargoType,
+              }
             : '',
         };
         setData(singleObject);
@@ -154,7 +153,7 @@ export default function PartnerBasic() {
             getBusinessUnitById(
               profileData.accountId,
               selectedBusinessUnit.value,
-              id,
+              id
             );
           });
         });
@@ -164,7 +163,7 @@ export default function PartnerBasic() {
           getBusinessUnitById(
             profileData.accountId,
             selectedBusinessUnit.value,
-            id,
+            id
           );
         });
       }

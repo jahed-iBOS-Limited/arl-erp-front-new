@@ -1,16 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
-  error: "",
-  msg: "",
+  error: '',
+  msg: '',
   SBUListDDL: [],
   gridData: [],
-  singleData: "",
+  singleData: '',
 };
 
 export const distributionChannelSlice = createSlice({
-  name: "distributionChannel",
+  name: 'distributionChannel',
   initialState: initState,
   reducers: {
     SetSBUListDDL: (state, action) => {
@@ -28,7 +28,7 @@ export const distributionChannelSlice = createSlice({
       state.singleData = payload;
     },
     SetSingleStoreEmpty: (state) => {
-      state.singleData = "";
+      state.singleData = '';
     },
   },
 });

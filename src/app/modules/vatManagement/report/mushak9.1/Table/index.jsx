@@ -1,11 +1,10 @@
-
 import React from 'react';
 import HeaderForm from './form';
-import  '../style.css';
+import '../style.css';
 export default function MushakLanding() {
   return (
-    < div className="mushak9_1_wrapper ">
+    <div className="mushak9_1_wrapper ">
       <HeaderForm />
     </div>
-  )
+  );
 }

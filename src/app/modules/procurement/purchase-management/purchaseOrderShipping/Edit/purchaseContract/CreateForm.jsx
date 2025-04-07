@@ -65,7 +65,7 @@ export default function CreateForm({
       arr = rowDto?.filter(
         (item) =>
           item.referenceNo?.value === values?.referenceNo?.value &&
-          item?.item?.value === values?.item?.value,
+          item?.item?.value === values?.item?.value
       );
     } else {
       arr = rowDto?.filter((item) => item?.item?.value === values?.item?.value);
@@ -147,8 +147,8 @@ export default function CreateForm({
         singleData?.objHeaderDTO?.warehouseId,
         supplierId,
         refType,
-        referenceNo,
-      ),
+        referenceNo
+      )
     );
   };
 
@@ -194,10 +194,8 @@ export default function CreateForm({
     getItemDDL(
       singleData?.objHeaderDTO?.businessPartnerId,
       singleData?.objHeaderDTO?.referenceTypeId,
-      0,
+      0
     );
-
-
   }, [singleData]);
 
   const {
@@ -224,7 +222,6 @@ export default function CreateForm({
 
   useEffect(() => {
     getRefNoDDL();
-
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   // getRefNoDdlBySupplier
@@ -237,7 +234,7 @@ export default function CreateForm({
       singleData?.objHeaderDTO?.plantId,
       singleData?.objHeaderDTO?.warehouseId,
       singleData?.objHeaderDTO?.referenceType,
-      setRefNoDDL,
+      setRefNoDDL
     );
   };
 
@@ -315,7 +312,7 @@ export default function CreateForm({
                           getItemDDL(
                             values?.supplierName?.value,
                             singleData?.objHeaderDTO?.referenceTypeId,
-                            values?.referenceNo?.value,
+                            values?.referenceNo?.value
                           );
                         }
                       }}
@@ -529,7 +526,7 @@ export default function CreateForm({
                             getItemDDL(
                               values?.supplierName?.value,
                               singleData?.objHeaderDTO?.referenceTypeId,
-                              valueOption?.value,
+                              valueOption?.value
                             );
                           }
                         }}
@@ -569,7 +566,7 @@ export default function CreateForm({
                                   values?.supplierName?.value
                                 }&RefTypeId=${
                                   singleData?.objHeaderDTO?.referenceTypeId
-                                }&RefNoId=${0}&searchTerm=${v}`,
+                                }&RefNoId=${0}&searchTerm=${v}`
                               )
                               .then((res) => {
                                 const updateList = res?.data.map((item) => ({

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import Form from "./form";
-import Loading from "./../../../../_helper/_loading";
-import { getCustomerGroupById } from "../helper";
+import React, { useEffect, useState } from 'react';
+import Form from './form';
+import Loading from './../../../../_helper/_loading';
+import { getCustomerGroupById } from '../helper';
 
 function CustomerGroupForPrivilegeView({ rowClickData }) {
   const [rowDto, setRowDto] = useState([]);
@@ -9,10 +9,14 @@ function CustomerGroupForPrivilegeView({ rowClickData }) {
 
   useEffect(() => {
     if (rowClickData?.customerGroupId) {
-      getCustomerGroupById(rowClickData?.customerGroupId, setRowDto, setLoading);
+      getCustomerGroupById(
+        rowClickData?.customerGroupId,
+        setRowDto,
+        setLoading
+      );
     }
   }, [rowClickData]);
-  
+
   return (
     <div>
       {loading && <Loading />}

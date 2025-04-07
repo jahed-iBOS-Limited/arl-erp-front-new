@@ -5,7 +5,7 @@ export const getVoyageByIdShow = async (voyageId, setter, setLoading) => {
   setLoading && setLoading(true);
   try {
     const res = await axios.get(
-      `/hcm/VoyageChecklist/GetVoyageById?VoyageId=${voyageId}`,
+      `/hcm/VoyageChecklist/GetVoyageById?VoyageId=${voyageId}`
     );
     if (res?.data) {
       setter(res?.data);
@@ -22,7 +22,7 @@ export const createVoyageChecklist = async (payload, setLoading, cb) => {
   try {
     const res = await axios.post(
       `/hcm/VoyageChecklist/CreateVoyageCheckListRow`,
-      payload,
+      payload
     );
     cb && cb();
     toast.success(res?.data?.message || 'Created Successfully');
@@ -39,12 +39,12 @@ export const getVoyageChecklistPasignation = async (
   pageNo,
   pageSize,
   setter,
-  setLoading,
+  setLoading
 ) => {
   setLoading && setLoading(true);
   try {
     const res = await axios.get(
-      `/hcm/VoyageChecklist/VoyageChecklistPasignation?viewOrder=${viewOrder}&pageNo=${pageNo}&pageSize=${pageSize}`,
+      `/hcm/VoyageChecklist/VoyageChecklistPasignation?viewOrder=${viewOrder}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
     if (res?.data) {
       setter(res?.data);

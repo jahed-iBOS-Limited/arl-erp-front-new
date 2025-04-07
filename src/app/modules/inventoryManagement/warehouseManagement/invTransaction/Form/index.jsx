@@ -1,27 +1,26 @@
-
-import React, { useState, useEffect } from "react";
-import IForm from "../../../../_helper/_form";
-import IssueInvantory from "./issueInvantory/CreateForm";
-import ReturnDelivery from "./returnDelivery/CreateForm";
-import ReleaseInventory from "./releaseInventory/CreateForm";
-import ReceiveInventory from "./receiveInventory/createForm";
-import { IQueryParser } from "../../../../_helper/_queryParser";
-import { useLocation } from "react-router-dom";
-import TransferInventory from "./transferInventory/createForm";
-import RemoveInventory from "./removeInventory/CreateForm";
-import AdjustInventory from "./adjustInventory/CreateForm";
-import InventoryPosting from "./inventoryPosting/CreateForm";
-import InternalInventory from "./internalInventory/CreateForm";
-import { useSelector } from "react-redux";
-import TransferInForm from "./transferIn/createForm";
-import IssueReturnForm from "./issueReturn/createForm";
+import React, { useState, useEffect } from 'react';
+import IForm from '../../../../_helper/_form';
+import IssueInvantory from './issueInvantory/CreateForm';
+import ReturnDelivery from './returnDelivery/CreateForm';
+import ReleaseInventory from './releaseInventory/CreateForm';
+import ReceiveInventory from './receiveInventory/createForm';
+import { IQueryParser } from '../../../../_helper/_queryParser';
+import { useLocation } from 'react-router-dom';
+import TransferInventory from './transferInventory/createForm';
+import RemoveInventory from './removeInventory/CreateForm';
+import AdjustInventory from './adjustInventory/CreateForm';
+import InventoryPosting from './inventoryPosting/CreateForm';
+import InternalInventory from './internalInventory/CreateForm';
+import { useSelector } from 'react-redux';
+import TransferInForm from './transferIn/createForm';
+import IssueReturnForm from './issueReturn/createForm';
 
 export function ForminvTrans() {
   const [isDisabled, setDisabled] = useState(true);
   const [title, setTitle] = useState(null);
   const [InvForm, setInvForm] = useState(<></>);
 
-  const potype = IQueryParser("potype");
+  const potype = IQueryParser('potype');
   const location = useLocation();
 
   const lastInvData = useSelector((state) => state?.localStorage?.lastInvData);
@@ -43,7 +42,7 @@ export function ForminvTrans() {
             />
           );
           setTitle(
-            `Create Receive Inventory ${lastInvData ? lastInvData : ""}`
+            `Create Receive Inventory ${lastInvData ? lastInvData : ''}`
           );
         }
         break;
@@ -56,7 +55,7 @@ export function ForminvTrans() {
               {...objProps}
             />
           );
-          setTitle("Create Issue Inventory");
+          setTitle('Create Issue Inventory');
         }
         break;
       case 3:
@@ -68,7 +67,7 @@ export function ForminvTrans() {
               {...objProps}
             />
           );
-          setTitle("Create Purchase Return");
+          setTitle('Create Purchase Return');
         }
         break;
       case 4:
@@ -80,7 +79,7 @@ export function ForminvTrans() {
               {...objProps}
             />
           );
-          setTitle("Create Transfer Inventory (Warehouse)");
+          setTitle('Create Transfer Inventory (Warehouse)');
         }
         break;
       case 5:
@@ -92,7 +91,7 @@ export function ForminvTrans() {
               {...objProps}
             />
           );
-          setTitle("Create Release Inventory");
+          setTitle('Create Release Inventory');
         }
         break;
       case 6:
@@ -104,7 +103,7 @@ export function ForminvTrans() {
               {...objProps}
             />
           );
-          setTitle("Create Remove Inventory");
+          setTitle('Create Remove Inventory');
         }
         break;
       case 7:
@@ -116,7 +115,7 @@ export function ForminvTrans() {
               {...objProps}
             />
           );
-          setTitle("Create Adjust Inventory");
+          setTitle('Create Adjust Inventory');
         }
         break;
       case 8:
@@ -128,7 +127,7 @@ export function ForminvTrans() {
               {...objProps}
             />
           );
-          setTitle("Create Cancel Inventory Posting");
+          setTitle('Create Cancel Inventory Posting');
         }
         break;
       case 9:
@@ -140,7 +139,7 @@ export function ForminvTrans() {
               {...objProps}
             />
           );
-          setTitle("Create Transfer Inventory (internal)");
+          setTitle('Create Transfer Inventory (internal)');
         }
         break;
       case 13:
@@ -152,7 +151,7 @@ export function ForminvTrans() {
               {...objProps}
             />
           );
-          setTitle("Create Transfer In");
+          setTitle('Create Transfer In');
         }
         break;
       case 14:
@@ -164,7 +163,7 @@ export function ForminvTrans() {
               {...objProps}
             />
           );
-          setTitle("Create Issue Return");
+          setTitle('Create Issue Return');
         }
         break;
       default:
@@ -175,14 +174,17 @@ export function ForminvTrans() {
             {...objProps}
           />
         );
-        setTitle("Create Receive Inventory");
+        setTitle('Create Receive Inventory');
         break;
     }
-
   }, [potype, objProps, lastInvData]);
 
   return (
-    <IForm title={`${title}(Warehouse : ${location?.state?.warehouse?.label})`} getProps={setObjprops} isDisabled={isDisabled}>
+    <IForm
+      title={`${title}(Warehouse : ${location?.state?.warehouse?.label})`}
+      getProps={setObjprops}
+      isDisabled={isDisabled}
+    >
       {InvForm}
     </IForm>
   );

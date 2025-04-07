@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { GetTreasuryDepositLogAllDetails_api } from "../../helper";
+import React, { useEffect, useState } from 'react';
+import { GetTreasuryDepositLogAllDetails_api } from '../../helper';
 
-import Loading from "./../../../../../_helper/_loading";
-import moment from "moment";
-import TresuaryDepositViewModal from "./../../../../transaction/tresuaryDeposit/View/viewForm";
+import Loading from './../../../../../_helper/_loading';
+import moment from 'moment';
+import TresuaryDepositViewModal from './../../../../transaction/tresuaryDeposit/View/viewForm';
 function MultipleViewTreasuryDeposit({ parentRowClickData }) {
   const [loading, setLoading] = useState(false);
   const [viewData, setViewData] = useState([]);
@@ -24,11 +24,11 @@ function MultipleViewTreasuryDeposit({ parentRowClickData }) {
         <>
           <div className="mt-8">
             <p className="p-0 m-0">
-              <b>Activity</b>: {itm?.activity}{" "}
+              <b>Activity</b>: {itm?.activity}{' '}
             </p>
             <p className="p-0 m-0">
-              <b>Action Date/Time</b>:{" "}
-              {moment(itm?.activityTime).format("DD-MMM-YY, LTS")}
+              <b>Action Date/Time</b>:{' '}
+              {moment(itm?.activityTime).format('DD-MMM-YY, LTS')}
             </p>
           </div>
 

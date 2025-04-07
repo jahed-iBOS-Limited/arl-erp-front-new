@@ -45,7 +45,7 @@ export default function ItemTable({ grandParentIndex, parentIndex, itemRows }) {
                             e,
                             grandParentIndex,
                             parentIndex,
-                            childIndex,
+                            childIndex
                           )
                         }
                       />
@@ -77,7 +77,7 @@ export default function ItemTable({ grandParentIndex, parentIndex, itemRows }) {
                             e,
                             grandParentIndex,
                             parentIndex,
-                            childIndex,
+                            childIndex
                           )
                         }
                       />
@@ -88,7 +88,7 @@ export default function ItemTable({ grandParentIndex, parentIndex, itemRows }) {
                           handleRowItemDelete(
                             grandParentIndex,
                             parentIndex,
-                            childIndex,
+                            childIndex
                           )
                         }
                       >

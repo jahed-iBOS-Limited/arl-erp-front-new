@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { Form, Formik } from "formik";
-import { IInput } from "../../../../../_helper/_input";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import { shallowEqual, useSelector } from "react-redux";
-import PowerBIReport from "../../../../../_helper/commonInputFieldsGroups/PowerBIReport";
+import React, { useState } from 'react';
+import { Form, Formik } from 'formik';
+import { IInput } from '../../../../../_helper/_input';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import { shallowEqual, useSelector } from 'react-redux';
+import PowerBIReport from '../../../../../_helper/commonInputFieldsGroups/PowerBIReport';
 
 const initData = {
   fromDate: _todayDate(),
@@ -22,14 +22,14 @@ export function PurchaseAndSalesInfo({ printRef, setLoading }) {
   const parameterValues = (values) => {
     return [
       {
-        name: "IntBusinessUnitId",
+        name: 'IntBusinessUnitId',
         value: selectedBusinessUnit?.value?.toString(),
       },
       {
-        name: "dteFromDate",
+        name: 'dteFromDate',
         value: values?.fromDate,
       },
-      { name: "dteToDate", value: values?.toDate },
+      { name: 'dteToDate', value: values?.toDate },
     ];
   };
 
@@ -51,7 +51,7 @@ export function PurchaseAndSalesInfo({ printRef, setLoading }) {
                   name="fromDate"
                   type="date"
                   onChange={(e) => {
-                    setFieldValue("fromDate", e?.target?.value);
+                    setFieldValue('fromDate', e?.target?.value);
                     setIsShow(false);
                   }}
                 />
@@ -64,7 +64,7 @@ export function PurchaseAndSalesInfo({ printRef, setLoading }) {
                   name="toDate"
                   type="date"
                   onChange={(e) => {
-                    setFieldValue("toDate", e?.target?.value);
+                    setFieldValue('toDate', e?.target?.value);
                     setIsShow(false);
                   }}
                 />

@@ -1,9 +1,8 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import ICustomCard from "../../../../_helper/_customCard";
-import { getFinancialStatementById } from "../helper";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import ICustomCard from '../../../../_helper/_customCard';
+import { getFinancialStatementById } from '../helper';
+import { useLocation } from 'react-router-dom';
 
 export function FinacialStatementViewForm({
   history,
@@ -32,7 +31,6 @@ export function FinacialStatementViewForm({
         setGeneralLedgerRowDto
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   return (

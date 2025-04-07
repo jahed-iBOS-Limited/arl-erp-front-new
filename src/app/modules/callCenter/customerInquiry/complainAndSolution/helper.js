@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const DeleteComplain = async (id, setLoading, cb) => {
   setLoading(true);
@@ -68,11 +68,11 @@ const getPayload = (values, status, userId, levelId, rowData, id, buId) => {
       permissionFor: 1,
       complainId: +id,
       businessUnitId: buId,
-      tsdComments: levelId === 1 ? values?.comment : "",
-      productionComments: levelId === 2 ? values?.comment : "",
-      logisticComments: levelId === 3 ? values?.comment : "",
-      plantHeadComments: levelId === 4 ? values?.comment : "",
-      salesHeadComments: levelId === 5 ? values?.comment : "",
+      tsdComments: levelId === 1 ? values?.comment : '',
+      productionComments: levelId === 2 ? values?.comment : '',
+      logisticComments: levelId === 3 ? values?.comment : '',
+      plantHeadComments: levelId === 4 ? values?.comment : '',
+      salesHeadComments: levelId === 5 ? values?.comment : '',
     },
     approveRow: rows,
   };
@@ -84,11 +84,11 @@ const getPayload = (values, status, userId, levelId, rowData, id, buId) => {
     complainId: +id,
     businessUnitId: buId,
     problemQnt: 0,
-    tsdComments: levelId === 1 ? values?.comment : "",
-    productionComments: levelId === 2 ? values?.comment : "",
-    logisticComments: levelId === 3 ? values?.comment : "",
-    plantHeadComments: levelId === 4 ? values?.comment : "",
-    salesHeadComments: levelId === 5 ? values?.comment : "",
+    tsdComments: levelId === 1 ? values?.comment : '',
+    productionComments: levelId === 2 ? values?.comment : '',
+    logisticComments: levelId === 3 ? values?.comment : '',
+    plantHeadComments: levelId === 4 ? values?.comment : '',
+    salesHeadComments: levelId === 5 ? values?.comment : '',
   };
   return status ? approvementPayload : rejectionPayload;
 };

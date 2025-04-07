@@ -1,7 +1,14 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
-export const CNFDetailsReport = async (accId, businessUnit, fromDate, toDate, setter, setLoader) => {
+export const CNFDetailsReport = async (
+  accId,
+  businessUnit,
+  fromDate,
+  toDate,
+  setter,
+  setLoader
+) => {
   setLoader(true);
   try {
     const res = await axios.get(

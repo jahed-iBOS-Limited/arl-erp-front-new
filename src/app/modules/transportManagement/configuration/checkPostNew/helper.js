@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 //create cost component
 export const createCheckPostList = async (data, cb, setDisabled) => {
@@ -10,12 +10,11 @@ export const createCheckPostList = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted successfully");
+      toast.success(res?.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
   } catch (error) {
-    
     setDisabled(false);
   }
 };
@@ -34,12 +33,10 @@ export const CheckPostListLandingPagination = async (
       `/tms/CheckPostList/CheckPostListLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     if (res.status === 200 && res?.data) {
-      
       setter(res?.data);
       setLoading(false);
     }
   } catch (error) {
-    
     setLoading(false);
   }
 };
@@ -55,9 +52,7 @@ export const getCheckPostListById = async (checkpostId, setter) => {
       };
       setter(newData);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 // edit
 export const editCheckPostList = async (data, setDisabled) => {
@@ -65,11 +60,10 @@ export const editCheckPostList = async (data, setDisabled) => {
   try {
     const res = await Axios.put(`/tms/CheckPostList/EditCheckPostList`, data);
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Edited successfully");
+      toast.success(res?.data?.message || 'Edited successfully');
       setDisabled(false);
     }
   } catch (error) {
-    
     setDisabled(false);
   }
 };

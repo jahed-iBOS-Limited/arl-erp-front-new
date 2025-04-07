@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Select from "react-select";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Select from 'react-select';
 import {
   getScaleForValueDDLAction,
   getValuesPopUpAction,
   getCompetencyPopUpAction,
-} from "../_redux/Actions";
-import { useLocation } from "react-router-dom";
-import { IQueryParser } from "../../_helper/_queryParser";
-import IViewModal from "../../_helper/_viewModal";
-import customStyles from "../../selectCustomStyle";
+} from '../_redux/Actions';
+import { useLocation } from 'react-router-dom';
+import { IQueryParser } from '../../_helper/_queryParser';
+import IViewModal from '../../_helper/_viewModal';
+import customStyles from '../../selectCustomStyle';
 
 export default function ViewModal({ show, onHide, history, children }) {
   const location = useLocation();
   const { modalData } = location;
   const { valuesOrComId, typeId, name, existedName } = location;
 
-  const id = IQueryParser("id");
-  const type = IQueryParser("type");
+  const id = IQueryParser('id');
+  const type = IQueryParser('type');
 
   const [obj, setObj] = useState({});
   const data = useSelector(
@@ -45,9 +45,8 @@ export default function ViewModal({ show, onHide, history, children }) {
   // if not modaldata go back
   useEffect(() => {
     if (!modalData) {
-      history.push("/performance-management/employee-entry");
+      history.push('/performance-management/employee-entry');
     }
-
   }, [modalData]);
 
   useEffect(() => {
@@ -71,7 +70,6 @@ export default function ViewModal({ show, onHide, history, children }) {
         )
       );
     }
-
   }, [modalData]);
 
   useEffect(() => {
@@ -81,13 +79,12 @@ export default function ViewModal({ show, onHide, history, children }) {
     if (valuesOrComId && typeId === 3) {
       dispatch(getCompetencyPopUpAction(valuesOrComId));
     }
-
   }, [valuesOrComId, typeId]);
 
   return (
     <div className="viewModal">
       <IViewModal
-        title={typeId === 2 ? "Measuring Values" : "Measuring Competencies"}
+        title={typeId === 2 ? 'Measuring Values' : 'Measuring Competencies'}
         show={show}
         onHide={onHide}
         isShow={false}
@@ -95,7 +92,7 @@ export default function ViewModal({ show, onHide, history, children }) {
         <div className="modelBody mt-4">
           <p>
             <i className="fa fa-font"></i>
-            <b>{typeId === 2 ? "Value" : "Competency"} Name: </b>
+            <b>{typeId === 2 ? 'Value' : 'Competency'} Name: </b>
             {modalData?.coreValueName || modalData?.competencyName || name}
           </p>
           <p>
@@ -119,8 +116,8 @@ export default function ViewModal({ show, onHide, history, children }) {
                         .length > 0 && (
                         <h3
                           style={{
-                            background: "#a9f2ab",
-                            padding: "10px 12px",
+                            background: '#a9f2ab',
+                            padding: '10px 12px',
                           }}
                         >
                           <b>Positive</b>
@@ -140,8 +137,8 @@ export default function ViewModal({ show, onHide, history, children }) {
                         .length > 0 && (
                         <h3
                           style={{
-                            background: "#f49999",
-                            padding: "10px 12px",
+                            background: '#f49999',
+                            padding: '10px 12px',
                           }}
                         >
                           <b>Negative</b>
@@ -165,8 +162,8 @@ export default function ViewModal({ show, onHide, history, children }) {
                         .length > 0 && (
                         <h3
                           style={{
-                            background: "#a9f2ab",
-                            padding: "10px 12px",
+                            background: '#a9f2ab',
+                            padding: '10px 12px',
                           }}
                         >
                           <b>Positive</b>
@@ -181,12 +178,12 @@ export default function ViewModal({ show, onHide, history, children }) {
                       })}
                     </div>
                     <div>
-                    {valuesPopupData?.filter((item) => !item.isPositive)
+                      {valuesPopupData?.filter((item) => !item.isPositive)
                         .length > 0 && (
                         <h3
                           style={{
-                            background: "#f49999",
-                            padding: "10px 12px",
+                            background: '#f49999',
+                            padding: '10px 12px',
                           }}
                         >
                           <b>Negative</b>
@@ -226,7 +223,7 @@ export default function ViewModal({ show, onHide, history, children }) {
               />
             </div>
             <button
-              style={{ transform: "translateY(-5px)" }}
+              style={{ transform: 'translateY(-5px)' }}
               className="btn btn-primary ml-6"
               disabled={valuesOrComId}
               onClick={() => onHide(obj)}

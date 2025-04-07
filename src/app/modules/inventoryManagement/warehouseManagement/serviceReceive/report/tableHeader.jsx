@@ -1,5 +1,5 @@
-import React from "react";
-import { TableRow } from "./tableRow";
+import React from 'react';
+import { TableRow } from './tableRow';
 
 export function ServiceReceiveReportView({
   history,
@@ -7,7 +7,5 @@ export function ServiceReceiveReportView({
     params: { Rcid },
   },
 }) {
-  return (
-      <TableRow Rcid ={Rcid}/>
-  );
+  return <TableRow Rcid={Rcid} />;
 }

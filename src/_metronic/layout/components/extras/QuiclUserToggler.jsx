@@ -1,4 +1,3 @@
-
 import objectPath from 'object-path';
 import React, { useMemo } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
@@ -20,7 +19,7 @@ export function QuickUserToggler() {
 
   const notifyCount = useSelector(
     (state) => state?.chattingApp?.notifyCount,
-    shallowEqual,
+    shallowEqual
   );
 
   const loginInfoPeopleDesk = getCookie('loginInfoPeopleDesk');

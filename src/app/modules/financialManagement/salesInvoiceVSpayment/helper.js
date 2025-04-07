@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 // create
 export const CreateSalesInvoiceDetails = async (payload) => {
@@ -9,7 +9,7 @@ export const CreateSalesInvoiceDetails = async (payload) => {
       payload
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
     }
   } catch (error) {
     toast.error(error?.response?.data?.message);

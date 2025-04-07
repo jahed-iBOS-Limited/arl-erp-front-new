@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getInfoBySOCode = async (accId, buId, soCode, setLoading, cb) => {
   setLoading(true);
@@ -23,7 +23,7 @@ export const getLatLong = async (url, setLoading, cb) => {
     setLoading(false);
   } catch (error) {
     toast.error(
-      "This location was not found to create hologram base delivery. please try another location!"
+      'This location was not found to create hologram base delivery. please try another location!'
     );
     setLoading(false);
   }

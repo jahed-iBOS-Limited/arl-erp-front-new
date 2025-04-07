@@ -1,15 +1,13 @@
-
-
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from 'react';
 // import io from "socket.io-client";
-import ICustomCard from "../../_helper/_customCard";
-import MessageBox from "./messageBox";
-import UserList from "./userList";
-import "./chatApp.css";
-import { getAllChatUsers, sendMessage } from "./helper";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { setCurrentChatUserEmptyAction } from "./_redux/Actions";
+import ICustomCard from '../../_helper/_customCard';
+import MessageBox from './messageBox';
+import UserList from './userList';
+import './chatApp.css';
+import { getAllChatUsers, sendMessage } from './helper';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { setCurrentChatUserEmptyAction } from './_redux/Actions';
 
 const ChatApps = () => {
   const userInfo = useSelector((state) => {
@@ -62,7 +60,7 @@ const ChatApps = () => {
       toId: currentChatUser?._id,
       text: text,
     };
-    if (text === "") return toast.warn("Add message");
+    if (text === '') return toast.warn('Add message');
     sendMessage(payload, chatList, setChatList);
   };
 
@@ -123,7 +121,7 @@ const ChatApps = () => {
                 setMsgLoading={setMsgLoading}
               />
             ) : (
-              <div style={{ marginTop: "30px" }}>
+              <div style={{ marginTop: '30px' }}>
                 <b>Please Select User</b>
               </div>
             )}

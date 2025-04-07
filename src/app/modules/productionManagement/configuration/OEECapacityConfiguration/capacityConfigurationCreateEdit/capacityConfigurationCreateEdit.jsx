@@ -45,11 +45,8 @@ export default function CapacityConfigurationCreateEdit() {
   //Call Apis - get
   const [plantNameDDL, getPlantNameDDL, plantNameDDLLoading] = useAxiosGet();
   const [shopFloorDDL, getShopFloorDDL, shopFloorDDLLoading] = useAxiosGet();
-  const [
-    machineNameDDL,
-    getMachineNameDDL,
-    machineNameDDLLoading,
-  ] = useAxiosGet();
+  const [machineNameDDL, getMachineNameDDL, machineNameDDLLoading] =
+    useAxiosGet();
   //   const [machineNoDDL, getMachineNoDDL, machineNoDDLLoading] = useAxiosGet();
   const [bomNameDDL, getBomNameDDL, bomNameDDLLoading] = useAxiosGet();
 
@@ -59,7 +56,6 @@ export default function CapacityConfigurationCreateEdit() {
 
   useEffect(() => {
     getPlantNameDDL(plantNameDDLApi(buId, accId, userId));
-
   }, [buId, accId, userId]);
 
   const loadItemNameDDL = (searchText, PlantId) => {
@@ -123,14 +119,14 @@ export default function CapacityConfigurationCreateEdit() {
         `/mes/OeeProductWaste/EditCapacityConfiguration`,
         editingPayload,
         cb,
-        true,
+        true
       );
     } else {
       saveCapacityConfiguration(
         `/mes/OeeProductWaste/CreateCapacityConfiguration`,
         savePayload,
         cb,
-        true,
+        true
       );
     }
   };
@@ -159,8 +155,11 @@ export default function CapacityConfigurationCreateEdit() {
         touched,
       }) => (
         <>
-          {(bomNameDDLLoading || plantNameDDLLoading || shopFloorDDLLoading || machineNameDDLLoading) && <Loading />}
-          {console.log({errors, touched})}
+          {(bomNameDDLLoading ||
+            plantNameDDLLoading ||
+            shopFloorDDLLoading ||
+            machineNameDDLLoading) && <Loading />}
+          {console.log({ errors, touched })}
           <IForm
             title={`${
               location?.state?.rowData ? 'Edit' : 'Create'
@@ -181,7 +180,7 @@ export default function CapacityConfigurationCreateEdit() {
                       setFieldValue('plantName', valueOption);
                       if (valueOption?.value) {
                         getShopFloorDDL(
-                          shopFloorNameDDLApi(accId, buId, valueOption.value),
+                          shopFloorNameDDLApi(accId, buId, valueOption.value)
                         );
                       }
                     }}
@@ -200,7 +199,7 @@ export default function CapacityConfigurationCreateEdit() {
                       setFieldValue('shopFloor', valueOption);
                       if (valueOption) {
                         getMachineNameDDL(
-                          machineNameDDLApi(buId, valueOption.value),
+                          machineNameDDLApi(buId, valueOption.value)
                         );
                       }
                     }}
@@ -237,7 +236,7 @@ export default function CapacityConfigurationCreateEdit() {
                             plantId: values?.plantName.value,
                             itemId: valueOption.value,
                             shopFloorId: values?.shopFloor.value,
-                          }),
+                          })
                         );
                       }
                     }}

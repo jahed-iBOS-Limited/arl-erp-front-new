@@ -1,9 +1,9 @@
-import { Workbook } from "exceljs";
-import * as fs from "file-saver";
+import { Workbook } from 'exceljs';
+import * as fs from 'file-saver';
 // import { inWords } from "../../../../_helper/_convertMoneyToWord";
-import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { toast } from "react-toastify";
+import { dateFormatWithMonthName } from '../../../../_helper/_dateFormate';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { toast } from 'react-toastify';
 // import { excelGenerator } from "./excelGenerator";
 
 const createExcelFile = (
@@ -20,57 +20,57 @@ const createExcelFile = (
   fileName,
   isOldExcelDownload
 ) => {
-  console.log("tableData", tableData);
+  console.log('tableData', tableData);
   let workbook = new Workbook();
-  let worksheet = workbook.addWorksheet("Bank Advice");
+  let worksheet = workbook.addWorksheet('Bank Advice');
 
   if (isHeaderNeeded) {
     let companyName = worksheet.addRow([comapanyNameHeader]);
-    companyName.font = { size: 20, underline: "single", bold: true };
-    worksheet.mergeCells("A1:L1");
-    worksheet.getCell("A1").alignment = { horizontal: "center" };
+    companyName.font = { size: 20, underline: 'single', bold: true };
+    worksheet.mergeCells('A1:L1');
+    worksheet.getCell('A1').alignment = { horizontal: 'center' };
 
     let companyLocation = worksheet.addRow([
-      "Akij House, 198 Bir Uttam, Gulshan Link Road, Tejgaon, Dhaka-1208.",
+      'Akij House, 198 Bir Uttam, Gulshan Link Road, Tejgaon, Dhaka-1208.',
     ]);
-    companyLocation.font = { size: 14, underline: "single", bold: true };
-    worksheet.mergeCells("A2:L2");
-    worksheet.getCell("A2").alignment = { horizontal: "center" };
+    companyLocation.font = { size: 14, underline: 'single', bold: true };
+    worksheet.mergeCells('A2:L2');
+    worksheet.getCell('A2').alignment = { horizontal: 'center' };
 
     worksheet.addRow(dataHeader);
-    worksheet.mergeCells("A3:L14");
-    worksheet.getCell("A3").alignment = {
-      horizontal: "left",
+    worksheet.mergeCells('A3:L14');
+    worksheet.getCell('A3').alignment = {
+      horizontal: 'left',
       wrapText: true,
     };
     worksheet.addRow([]);
-    worksheet.mergeCells("A15:L15");
+    worksheet.mergeCells('A15:L15');
   }
 
   // let applicationHeader = worksheet.addRow([dataHeader]);
 
   let codeNo = 0;
   let accountNo = 0;
-  let amount = "#";
-  let routingNo = "#";
+  let amount = '#';
+  let routingNo = '#';
   let _tableHeader = worksheet.addRow(tableHeader);
   _tableHeader.font = { bold: true };
   _tableHeader.eachCell((cell) => {
-    cell.alignment = { horizontal: "center" };
-    if (cell.value === "Code No") {
+    cell.alignment = { horizontal: 'center' };
+    if (cell.value === 'Code No') {
       codeNo = cell._address[0];
-    } else if (cell.value === "Account No") {
+    } else if (cell.value === 'Account No') {
       accountNo = cell?._address[0];
-    } else if (cell.value === "Amount") {
+    } else if (cell.value === 'Amount') {
       amount = cell?._address[0];
-    } else if (cell.value === "Routing No") {
+    } else if (cell.value === 'Routing No') {
       routingNo = cell?._address[0];
     }
     worksheet.getCell(`${cell._address}`).border = {
-      top: { style: "thin" },
-      left: { style: "thin" },
-      bottom: { style: "thin" },
-      right: { style: "thin" },
+      top: { style: 'thin' },
+      left: { style: 'thin' },
+      bottom: { style: 'thin' },
+      right: { style: 'thin' },
     };
   });
   // console.log(routingNo)
@@ -78,22 +78,22 @@ const createExcelFile = (
   _tableData.forEach((row) => {
     row.eachCell((cell) => {
       if (cell._address[0] === codeNo) {
-        cell.alignment = { horizontal: "right" };
+        cell.alignment = { horizontal: 'right' };
       }
       if (cell._address[0] === amount) {
-        cell.numFmt = "#,##0.00";
+        cell.numFmt = '#,##0.00';
       }
       if (cell._address[0] === accountNo) {
-        cell.numFmt = "@";
+        cell.numFmt = '@';
       }
       if (cell._address[0] === routingNo) {
-        cell.numFmt = "@";
+        cell.numFmt = '@';
       }
       worksheet.getCell(`${cell._address}`).border = {
-        top: { style: "thin" },
-        left: { style: "thin" },
-        bottom: { style: "thin" },
-        right: { style: "thin" },
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' },
       };
     });
   });
@@ -102,12 +102,12 @@ const createExcelFile = (
     const _tableBottom = worksheet.addRow(tableBottom);
     _tableBottom.font = { bold: true };
     _tableBottom.eachCell((cell) => {
-      cell.numFmt = "#,##0.00";
+      cell.numFmt = '#,##0.00';
       worksheet.getCell(`${cell._address}`).border = {
-        top: { style: "thin" },
-        left: { style: "thin" },
-        bottom: { style: "thin" },
-        right: { style: "thin" },
+        top: { style: 'thin' },
+        left: { style: 'thin' },
+        bottom: { style: 'thin' },
+        right: { style: 'thin' },
       };
     });
     worksheet.addRow();
@@ -128,38 +128,37 @@ const createExcelFile = (
   if (isOldExcelDownload) {
     excelDownlaod({ workbook, fileName });
   } else {
-     // worksheet.mergeCells(`D${bottom3.number}:F${bottom3.number}`);
-  workbook.xlsx.writeBuffer().then((data) => {
-    let blob = new Blob([data], {
-      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    // worksheet.mergeCells(`D${bottom3.number}:F${bottom3.number}`);
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+      if (getBlobData) {
+        getBlobData(blob);
+      } else {
+        fs.saveAs(blob, `${fileName}.xls`);
+      }
     });
-    if (getBlobData) {
-      getBlobData(blob);
-    } else {
-      fs.saveAs(blob, `${fileName}.xls`);
-    }
-  });
   }
-
 };
 
 const excelDownlaod = async ({ workbook, fileName }) => {
   const buffer = await workbook.xlsx.writeBuffer();
   const blob = new Blob([buffer], {
-    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
   });
   const formData = new FormData();
-  formData.append("file", blob, `${fileName}.xlsx`);
+  formData.append('file', blob, `${fileName}.xlsx`);
   const url = `https://automation.ibos.io/convert_xlsx_to_xls/`;
   fetch(url, {
-    method: "POST",
+    method: 'POST',
     body: formData,
   })
     .then((response) => {
       if (response.ok) {
         // If the response contains a PDF file
         if (
-          response.headers.get("content-type") === "application/vnd.ms-excel"
+          response.headers.get('content-type') === 'application/vnd.ms-excel'
         ) {
           // Extract the filename from the response headers
           const filename = `${fileName}-new.xls`;
@@ -168,32 +167,31 @@ const excelDownlaod = async ({ workbook, fileName }) => {
             // Create a temporary URL for the blob
             const url = window.URL.createObjectURL(blob);
             // Create a link element to trigger the download
-            const link = document.createElement("a");
+            const link = document.createElement('a');
             link.href = url;
-            link.setAttribute("download", filename);
+            link.setAttribute('download', filename);
             // Append the link to the body and trigger the download
             document.body.appendChild(link);
             link.click();
             // Clean up by revoking the object URL
             window.URL.revokeObjectURL(url);
-            toast.success("File downloaded successfully as:", filename);
+            toast.success('File downloaded successfully as:', filename);
           });
         } else {
-          toast.warn("Request Failed");
+          toast.warn('Request Failed');
         }
       } else {
-        toast.error("Request failed");
+        toast.error('Request failed');
       }
     })
     .catch((error) => {
-      console.error("Error:", error);
+      console.error('Error:', error);
     });
 };
 
-
 const getTableData = (row, keys, totalKey) => {
   const data = row?.map((item, index) => {
-    item["slNo"] = index + 1;
+    item['slNo'] = index + 1;
     return keys?.map((key) => item[key]);
   });
   return data;
@@ -210,17 +208,17 @@ export const generateExcel = (
   fileName,
   isOldExcelDownload
 ) => {
-  console.log("row", row);
+  console.log('row', row);
   row.forEach((item) => {
-    item["debitAccount"] = values?.bankAccountNo?.bankAccNo;
+    item['debitAccount'] = values?.bankAccountNo?.bankAccNo;
   });
   const dataHeader = [
     `To\nDate: ${dateFormatWithMonthName(_todayDate())}\nThe Manager\n${
       values?.bankAccountNo?.bankName
     }.\n${values?.bankAccountNo?.address}\nSubject : ${
-      values?.advice?.info === "ibbl"
-        ? "Payment Instruction."
-        : "Payment Instruction by BEFTN."
+      values?.advice?.info === 'ibbl'
+        ? 'Payment Instruction.'
+        : 'Payment Instruction by BEFTN.'
     }\nDear Sir,\nWe do hereby requesting you to make payment by transferring the amount to the respective Account Holder as shown below in detailed by debiting our CD Account No.${
       values?.bankAccountNo?.bankAccNo
     }\nDetailed particulars of each Account Holder:`,
@@ -228,158 +226,158 @@ export const generateExcel = (
 
   let tableColumnInfo = {};
   switch (values?.advice?.info) {
-    case "ibblBEFTN":
-    case "primeBEFTN":
+    case 'ibblBEFTN':
+    case 'primeBEFTN':
       tableColumnInfo = {
-        strBankAccountName: "Account Name",
-        strPayeCode: "Code No",
-        strBankName: "Bank Name",
-        strBankBranchName: "Branch Name",
-        strBankAccType: "A/C Type",
-        strBankAccountNo: "Account No",
-        numAmount: "Amount",
-        strPaymentReff: "Payment Info",
-        strComments: "Comments",
-        strRoutingNumber: "Routing No",
-        strInstrumentNo: "Instrument No",
-        slNo: "SL No",
+        strBankAccountName: 'Account Name',
+        strPayeCode: 'Code No',
+        strBankName: 'Bank Name',
+        strBankBranchName: 'Branch Name',
+        strBankAccType: 'A/C Type',
+        strBankAccountNo: 'Account No',
+        numAmount: 'Amount',
+        strPaymentReff: 'Payment Info',
+        strComments: 'Comments',
+        strRoutingNumber: 'Routing No',
+        strInstrumentNo: 'Instrument No',
+        slNo: 'SL No',
       };
       break;
-    case "ibbl":
-    case "prime":
+    case 'ibbl':
+    case 'prime':
       tableColumnInfo = {
-        slNo: "Sl No",
-        strAccountNo: "Account No",
-        strBankAccountName: "Account Name",
-        numAmount: "Amount",
-        strInstrumentNo: "Instrument No",
-        strBankBranchName: "Branch",
+        slNo: 'Sl No',
+        strAccountNo: 'Account No',
+        strBankAccountName: 'Account Name',
+        numAmount: 'Amount',
+        strInstrumentNo: 'Instrument No',
+        strBankBranchName: 'Branch',
       };
       break;
-    case "scb":
+    case 'scb':
       tableColumnInfo = {
-        strBankAccountName: "Account Name",
-        strPayeCode: "Code No",
-        strBankName: "Bank Name",
-        strBankBranchName: "Branch Name",
-        strBankAccType: "A/C Type",
-        strBankAccountNo: "Account No",
-        numAmount: "Amount",
-        strPaymentReff: "Payment Info",
-        strComments: "Comments",
-        strRoutingNumber: "Routing No",
-        strInstrumentNo: "Instrument No",
-        slNo: "SL No",
-        debitAccount: "Debit Account",
+        strBankAccountName: 'Account Name',
+        strPayeCode: 'Code No',
+        strBankName: 'Bank Name',
+        strBankBranchName: 'Branch Name',
+        strBankAccType: 'A/C Type',
+        strBankAccountNo: 'Account No',
+        numAmount: 'Amount',
+        strPaymentReff: 'Payment Info',
+        strComments: 'Comments',
+        strRoutingNumber: 'Routing No',
+        strInstrumentNo: 'Instrument No',
+        slNo: 'SL No',
+        debitAccount: 'Debit Account',
       };
       break;
-    case "above36Character":
+    case 'above36Character':
       tableColumnInfo = {
-        slNo: "SL",
-        strPayee: "Payee Name",
-        strBankAccountNo: "Payee Account No",
-        numAmount: "Amount (USD)",
-        strPayBankCode: "Payee Bank Code",
-        strNaration: "Reason",
-        strEmail: "Email",
+        slNo: 'SL',
+        strPayee: 'Payee Name',
+        strBankAccountNo: 'Payee Account No',
+        numAmount: 'Amount (USD)',
+        strPayBankCode: 'Payee Bank Code',
+        strNaration: 'Reason',
+        strEmail: 'Email',
       };
       break;
-    case "below36Character":
+    case 'below36Character':
       tableColumnInfo = {
-        slNo: "SL",
-        strPayee: "Payee Name",
-        strBankAccountNo: "Payee Account No",
-        numAmount: "Amount (USD)",
-        strPayBankCode: "Payee Bank Code",
-        strNaration: "Reason",
-        strEmail: "Email",
+        slNo: 'SL',
+        strPayee: 'Payee Name',
+        strBankAccountNo: 'Payee Account No',
+        numAmount: 'Amount (USD)',
+        strPayBankCode: 'Payee Bank Code',
+        strNaration: 'Reason',
+        strEmail: 'Email',
       };
       break;
-    case "import":
+    case 'import':
       tableColumnInfo = {
-        slNo: "SL",
-        strRequestFor: "Request For",
-        strNaration: "Description",
-        numAmount: "Debiting Amount",
+        slNo: 'SL',
+        strRequestFor: 'Request For',
+        strNaration: 'Description',
+        numAmount: 'Debiting Amount',
       };
       break;
     default:
       tableColumnInfo = {
-        strBankAccountName: "Account Name",
-        strPayeCode: "Code No",
-        strBankName: "Bank Name",
-        strBankBranchName: "Branch Name",
-        strBankAccType: "A/C Type",
-        strBankAccountNo: "Account No",
-        numAmount: "Amount",
-        strPaymentReff: "Payment Info",
-        strComments: "Comments",
-        strRoutingNumber: "Routing No",
-        strInstrumentNo: "Instrument No",
-        slNo: "SL No",
-        debitAccount: "Debit Account",
+        strBankAccountName: 'Account Name',
+        strPayeCode: 'Code No',
+        strBankName: 'Bank Name',
+        strBankBranchName: 'Branch Name',
+        strBankAccType: 'A/C Type',
+        strBankAccountNo: 'Account No',
+        numAmount: 'Amount',
+        strPaymentReff: 'Payment Info',
+        strComments: 'Comments',
+        strRoutingNumber: 'Routing No',
+        strInstrumentNo: 'Instrument No',
+        slNo: 'SL No',
+        debitAccount: 'Debit Account',
       };
       break;
   }
   const tableDataInfo = getTableData(
     row,
     Object.keys(tableColumnInfo),
-    "numAmount"
+    'numAmount'
   );
   let tableBottom = [];
   let bottom3 = [];
   switch (values?.advice?.info) {
-    case "ibblBEFTN":
-      tableBottom = ["", "", "", "", "", "Total", total, "", "", "", "", ""];
-      bottom3 = ["Authorize Signature                  Authorize Signature"];
+    case 'ibblBEFTN':
+      tableBottom = ['', '', '', '', '', 'Total', total, '', '', '', '', ''];
+      bottom3 = ['Authorize Signature                  Authorize Signature'];
       break;
-    case "ibbl":
-      tableBottom = ["", "", "Total", total, "", ""];
-      bottom3 = ["Authorize Signature                  Authorize Signature"];
+    case 'ibbl':
+      tableBottom = ['', '', 'Total', total, '', ''];
+      bottom3 = ['Authorize Signature                  Authorize Signature'];
       break;
-    case "scb":
+    case 'scb':
       tableBottom = [
-        "",
-        "",
-        "",
-        "",
-        "",
-        "Total",
+        '',
+        '',
+        '',
+        '',
+        '',
+        'Total',
         total,
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
       ];
       bottom3 = [
-        "Authorize Signature                  Authorize Signature                  Authorize Signature",
+        'Authorize Signature                  Authorize Signature                  Authorize Signature',
       ];
       break;
     default:
       tableBottom = [
-        "",
-        "",
-        "",
-        "",
-        "",
-        "Total",
+        '',
+        '',
+        '',
+        '',
+        '',
+        'Total',
         total,
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
       ];
       bottom3 = [
-        "Authorize Signature                  Authorize Signature                  Authorize Signature",
+        'Authorize Signature                  Authorize Signature                  Authorize Signature',
       ];
       break;
   }
 
-  console.log("tableDataInfo", tableDataInfo);
+  console.log('tableDataInfo', tableDataInfo);
 
   const bottom1 = [`In Word : ${totalInWords} Taka Only`];
   const bottom2 = [`For ${selectedBusinessUnit?.label}`];

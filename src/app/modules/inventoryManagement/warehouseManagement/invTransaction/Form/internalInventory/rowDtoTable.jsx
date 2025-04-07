@@ -1,5 +1,5 @@
-import React from "react";
-import IDelete from "../../../../../_helper/_helperIcons/_delete";
+import React from 'react';
+import IDelete from '../../../../../_helper/_helperIcons/_delete';
 
 const RowDtoTable = ({ rowDto, remover }) => {
   return (
@@ -26,8 +26,8 @@ const RowDtoTable = ({ rowDto, remover }) => {
                   <tr key={index}>
                     <td className="text-center align-middle"> {index + 1} </td>
                     <td className="text-center align-middle">
-                      {" "}
-                      {item?.itemCode}{" "}
+                      {' '}
+                      {item?.itemCode}{' '}
                     </td>
                     <td className="">{item?.itemName}</td>
                     <td className="">{item?.uoMname}</td>

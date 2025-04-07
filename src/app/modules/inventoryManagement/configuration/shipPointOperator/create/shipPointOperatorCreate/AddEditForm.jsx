@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import IForm from "../../../../../_helper/_form";
-import Loading from "../../../../../_helper/_loading";
-import { saveShipPointOperator } from "../../helper";
-import Form from "./Form";
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import IForm from '../../../../../_helper/_form';
+import Loading from '../../../../../_helper/_loading';
+import { saveShipPointOperator } from '../../helper';
+import Form from './Form';
 
 const initData = {
-  user: "",
-  shipPoint: "",
+  user: '',
+  shipPoint: '',
 };
 
 export function ShipPointOperatorCreateForm() {
@@ -38,7 +38,7 @@ export function ShipPointOperatorCreateForm() {
       setRowData([...rowData, newRow]);
       cb();
     } catch (error) {
-      console.log("error");
+      console.log('error');
     }
   };
 
@@ -48,7 +48,7 @@ export function ShipPointOperatorCreateForm() {
 
   const saveHandler = (cb) => {
     if (rowData?.length < 1) {
-      return toast.warn("Please add at least one row!");
+      return toast.warn('Please add at least one row!');
     }
     saveShipPointOperator(rowData, setLoading, () => {
       setRowData([]);
@@ -58,7 +58,7 @@ export function ShipPointOperatorCreateForm() {
 
   return (
     <IForm
-      title={"Shipping Point Operator"}
+      title={'Shipping Point Operator'}
       getProps={setObjprops}
       isDisabled={loading}
       isHiddenReset

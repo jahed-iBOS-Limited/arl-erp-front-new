@@ -1,8 +1,7 @@
-
-import React from "react";
-import NewSelect from "../../../../_helper/_select";
-import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
-import IButton from "../../../../_helper/iButton";
+import React from 'react';
+import NewSelect from '../../../../_helper/_select';
+import YearMonthForm from '../../../../_helper/commonInputFieldsGroups/yearMonthForm';
+import IButton from '../../../../_helper/iButton';
 
 const types = [];
 
@@ -21,7 +20,7 @@ const ShipToPartyTargetLandingForm = ({ obj }) => {
                 value={values?.type}
                 label="Type"
                 onChange={(valueOption) => {
-                  setFieldValue("type", valueOption);
+                  setFieldValue('type', valueOption);
                 }}
                 placeholder="Select Type"
               />

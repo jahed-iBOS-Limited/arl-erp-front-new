@@ -1,26 +1,26 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from 'react';
 import {
   getSinglePurchase,
   generate66,
   getTreasuryChallanNoDDL,
   SetIsGenerated_api,
-} from "../helper";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import govLogo from "../images/govLogo.png";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import Loading from "./../../../../_helper/_loading";
+} from '../helper';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import govLogo from '../images/govLogo.png';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import Loading from './../../../../_helper/_loading';
 
 function ReportBody({ viewClick }) {
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [treasuryDDL, setTreasuryDDL] = useState("");
+  const [treasuryDDL, setTreasuryDDL] = useState('');
   const [, setRowDto] = useState([]);
   const printRef = useRef();
 
@@ -35,10 +35,10 @@ function ReportBody({ viewClick }) {
 
   // State For Input
   const [date, setDate] = useState(_todayDate());
-  const [challanNo, setChallanNo] = useState("");
+  const [challanNo, setChallanNo] = useState('');
   const [balance, setBalance] = useState(0);
 
-  const [certificateNo, setCertificateNo] = useState("");
+  const [certificateNo, setCertificateNo] = useState('');
   const [dateIssue, setDateIssue] = useState(_todayDate());
 
   useEffect(() => {
@@ -57,7 +57,7 @@ function ReportBody({ viewClick }) {
 
   const SetIsGeneratedFunc = () => {
     const paylaod = [singleData?.taxPurchaseId];
-    SetIsGenerated_api(paylaod);;
+    SetIsGenerated_api(paylaod);
   };
   const genarateHandler = () => {
     const payload = {
@@ -67,7 +67,7 @@ function ReportBody({ viewClick }) {
         businessUnitId: selectedBusinessUnit?.value,
         taxBranchId: singleData?.taxBranchId,
         nameofWithholdingEntity: singleData?.businessUnitName,
-        certificateNo: "",
+        certificateNo: '',
         addressofWithholdingEntity: singleData?.companyAddress,
         dateofIssue: dateIssue || _todayDate(),
         binofWithholdingEntity: singleData?.companyBin,
@@ -83,7 +83,7 @@ function ReportBody({ viewClick }) {
           supplierId: +singleData?.supplierId || 0,
           supplierName: singleData?.supplierName,
           biNno: +singleData?.supplierBin || 0,
-          invMushakChallanNo: singleData?.chalanNo || "",
+          invMushakChallanNo: singleData?.chalanNo || '',
           invIssueDate: singleData?.purchaseDateTime,
           totalValueofSupply: +singleData?.total || 0,
           amountofVat: +singleData?.vdstotal || 0,
@@ -112,7 +112,7 @@ function ReportBody({ viewClick }) {
           {!certificateNo && (
             <button
               type="button"
-              style={{ padding: "6px 5px" }}
+              style={{ padding: '6px 5px' }}
               disabled={!challanNo || isLoading}
               className="btn btn-primary mr-2"
               onClick={() => {
@@ -129,12 +129,12 @@ function ReportBody({ viewClick }) {
                 <button
                   type="button"
                   className="btn btn-primary"
-                  style={{ padding: "2px 5px" }}
+                  style={{ padding: '2px 5px' }}
                 >
                   <img
                     style={{
-                      width: "25px",
-                      paddingRight: "5px",
+                      width: '25px',
+                      paddingRight: '5px',
                     }}
                     src={printIcon}
                     alt="print-icon"
@@ -152,7 +152,7 @@ function ReportBody({ viewClick }) {
         {/* Header Part */}
         <div className="text-center d-flex justify-content-between mt-4 mb-8">
           <div>
-            <img src={govLogo} alt={"Ibos"} />
+            <img src={govLogo} alt={'Ibos'} />
           </div>
           <div>
             <h5 className="text-center">
@@ -171,8 +171,8 @@ function ReportBody({ viewClick }) {
           <div>
             <sapn
               style={{
-                border: "2px solid #808080",
-                padding: "2px",
+                border: '2px solid #808080',
+                padding: '2px',
               }}
               className="text-right font-weight-bold"
             >
@@ -182,29 +182,29 @@ function ReportBody({ viewClick }) {
         </div>
         {/* Header Part End */}
 
-        <div style={{ width: "100%" }} className="row row-wrapper">
-          <div style={{ width: "50%" }} className="col-lg-6">
+        <div style={{ width: '100%' }} className="row row-wrapper">
+          <div style={{ width: '50%' }} className="col-lg-6">
             <h6>Name of withholding Entity : {singleData?.businessUnitName}</h6>
             <h6>
               Address of Withholding Entity : {singleData?.companyAddress}
             </h6>
             <h6>
-              BIN Of withholding Entity (if applicable) :{" "}
+              BIN Of withholding Entity (if applicable) :{' '}
               {singleData?.companyBin}
             </h6>
           </div>
-          <div style={{ width: "50%" }} className="col-lg-6">
+          <div style={{ width: '50%' }} className="col-lg-6">
             <h6>Certificate No : {certificateNo}</h6>
             {/* <h6>Date of issue : {_dateFormatter(dateIssue)}</h6> */}
             <h6 className="d-flex align-items-center">
               <span>Date of issue : </span>
               <sapn>
-                {" "}
+                {' '}
                 {certificateNo ? (
                   _dateFormatter(dateIssue)
                 ) : (
                   <input
-                    style={{ padding: ".1rem .5rem" }}
+                    style={{ padding: '.1rem .5rem' }}
                     type="date"
                     value={dateIssue}
                     className="form-control ml-2"
@@ -241,7 +241,7 @@ function ReportBody({ viewClick }) {
                   date
                 ) : (
                   <input
-                    style={{ padding: ".1rem .5rem" }}
+                    style={{ padding: '.1rem .5rem' }}
                     type="date"
                     value={date}
                     className="form-control ml-2"
@@ -328,7 +328,7 @@ function ReportBody({ viewClick }) {
           <h6 className="mb-10">Signature of In-Charge</h6>
         </div>
         <div>
-          <span style={{ borderTop: "1px solid #808080", fontSize: "1rem" }}>
+          <span style={{ borderTop: '1px solid #808080', fontSize: '1rem' }}>
             1 VAT & SD (if any inclusive price)
           </span>
         </div>

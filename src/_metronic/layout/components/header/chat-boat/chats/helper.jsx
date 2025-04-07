@@ -5,7 +5,7 @@ export const getAllChatUsers = async (setter, setLoading) => {
   setLoading(true);
   try {
     const res = await Axios.get(
-      `${import.meta.env.REACT_APP_CHAT_BACKEND_URL}/chatapi/users`,
+      `${import.meta.env.REACT_APP_CHAT_BACKEND_URL}/chatapi/users`
     );
     setter(res?.data);
     setLoading(false);
@@ -19,14 +19,14 @@ export const getSingleUserMessageList = async (
   fromId,
   toId,
   setter,
-  setMsgLoading,
+  setMsgLoading
 ) => {
   setMsgLoading(true);
   try {
     const res = await Axios.get(
       `${
         import.meta.env.REACT_APP_CHAT_BACKEND_URL
-      }/chatapi/allmessages/${fromId}/${toId}`,
+      }/chatapi/allmessages/${fromId}/${toId}`
     );
     setter(res?.data);
     setMsgLoading(false);
@@ -41,7 +41,7 @@ export const sendMessage = async (payload, chatList, setChatList) => {
   try {
     const res = await Axios.post(
       `${import.meta.env.REACT_APP_CHAT_BACKEND_URL}/chatapi/message`,
-      payload,
+      payload
     );
     if (res.status === 200) {
       let msg = {

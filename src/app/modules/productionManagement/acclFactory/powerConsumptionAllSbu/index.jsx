@@ -1,29 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { Formik } from "formik";
-import Loading from "../../../_helper/_loading";
-import InputField from "../../../_helper/_inputField";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { Formik } from 'formik';
+import Loading from '../../../_helper/_loading';
+import InputField from '../../../_helper/_inputField';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 // import IEdit from '../../../_helper/_helperIcons/_edit';
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
-import { _monthLastDate } from "../../../_helper/_monthLastDate";
-import NewSelect from "../../../_helper/_select";
-import { shallowEqual, useSelector } from "react-redux";
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _monthFirstDate } from '../../../_helper/_monthFirstDate';
+import { _monthLastDate } from '../../../_helper/_monthLastDate';
+import NewSelect from '../../../_helper/_select';
+import { shallowEqual, useSelector } from 'react-redux';
 const initData = {
   fromDate: _monthFirstDate(),
   toDate: _monthLastDate(),
   strShift: {
-    value: "",
-    label: "All",
+    value: '',
+    label: 'All',
   },
 };
 const PowerConsumptionAllsbu = () => {
@@ -40,7 +40,6 @@ const PowerConsumptionAllsbu = () => {
     getRowData(
       `/mes/MSIL/GetPowerCosumptionAllSBULanding?BusinessUnitId=${selectedBusinessUnit?.value}&FromDate=${initData?.fromDate}&ToDate=${initData?.toDate}&Shift=${initData?.strShift?.value}&pageNumber=${pageNo}&pageSize=${pageSize}`
     );
-
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -60,7 +59,7 @@ const PowerConsumptionAllsbu = () => {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Power Consumption All SBU"}>
+              <CardHeader title={'Power Consumption All SBU'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
@@ -87,9 +86,9 @@ const PowerConsumptionAllsbu = () => {
                         name="fromDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("fromDate", e.target.value);
-                          setFieldValue("toDate", "");
-                          setFieldValue("strShift", "");
+                          setFieldValue('fromDate', e.target.value);
+                          setFieldValue('toDate', '');
+                          setFieldValue('strShift', '');
                           setRowData([]);
                         }}
                       />
@@ -101,8 +100,8 @@ const PowerConsumptionAllsbu = () => {
                         name="toDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("toDate", e.target.value);
-                          setFieldValue("strShift", "");
+                          setFieldValue('toDate', e.target.value);
+                          setFieldValue('strShift', '');
                           setRowData([]);
                         }}
                       />
@@ -111,15 +110,15 @@ const PowerConsumptionAllsbu = () => {
                       <NewSelect
                         name="strShift"
                         options={[
-                          { value: "A", label: "A" },
-                          { value: "B", label: "B" },
-                          { value: "C", label: "C" },
-                          { value: "", label: "All" },
+                          { value: 'A', label: 'A' },
+                          { value: 'B', label: 'B' },
+                          { value: 'C', label: 'C' },
+                          { value: '', label: 'All' },
                         ]}
                         value={values?.strShift}
                         label="Shift"
                         onChange={(valueOption) => {
-                          setFieldValue("strShift", valueOption);
+                          setFieldValue('strShift', valueOption);
                           setRowData([]);
                         }}
                         errors={errors}
@@ -128,7 +127,7 @@ const PowerConsumptionAllsbu = () => {
                     </div>
                     <div>
                       <button
-                        style={{ marginTop: "18px" }}
+                        style={{ marginTop: '18px' }}
                         disabled={
                           !values?.fromDate ||
                           !values?.toDate ||
@@ -154,7 +153,7 @@ const PowerConsumptionAllsbu = () => {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th colSpan={4} style={{ width: "30px" }}>
+                            <th colSpan={4} style={{ width: '30px' }}>
                               SL
                             </th>
                             <th colSpan={4}>Date</th>

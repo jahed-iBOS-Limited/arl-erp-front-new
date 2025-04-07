@@ -80,7 +80,6 @@ const GrowModel = () => {
 
   useEffect(() => {
     getYearDDL(accountId, setYearDDL);
-
   }, []);
 
   const saveHandler = (values, rowDto) => {
@@ -115,7 +114,6 @@ const GrowModel = () => {
     };
     createGrowModel(payload, setLoading);
   };
-
 
   const editData = (name, value) => {
     const data = { ...rowDto };
@@ -201,7 +199,7 @@ const GrowModel = () => {
                             valueOption?.value,
                             values?.quarterDDLgroup?.value || 0,
                             setLoading,
-                            setRowDto,
+                            setRowDto
                           );
                         }
                       }}
@@ -223,7 +221,7 @@ const GrowModel = () => {
                           values?.yearDDLgroup?.value || 0,
                           valueOption?.value,
                           setLoading,
-                          setRowDto,
+                          setRowDto
                         );
                       }}
                       placeholder="Quarter"

@@ -1,48 +1,44 @@
-import { Formik } from "formik";
-import React, { useEffect, useMemo, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import { toast } from "react-toastify";
+import { Formik } from 'formik';
+import React, { useEffect, useMemo, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import { toast } from 'react-toastify';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import { _currentTime } from "../../../_helper/_currentTime";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import PaginationSearch from "../../../_helper/_search";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _timeFormatter } from "../../../_helper/_timeFormatter";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import BulkDetails from "./bulkDetails";
-import { calculateTimeDifference } from "./helper";
+} from '../../../../../_metronic/_partials/controls';
+import { _currentTime } from '../../../_helper/_currentTime';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import PaginationSearch from '../../../_helper/_search';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _timeFormatter } from '../../../_helper/_timeFormatter';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import BulkDetails from './bulkDetails';
+import { calculateTimeDifference } from './helper';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  businessUnit: "",
-  shipPoint: "",
+  businessUnit: '',
+  shipPoint: '',
 };
 function GateItemEntry() {
   const history = useHistory();
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [rowData, getRowData, lodar, setRowData] = useAxiosGet();
-  const [
-    shipPoint,
-    getShipPoint,
-    shipPointLoader,
-    setShipPoint,
-  ] = useAxiosGet();
+  const [shipPoint, getShipPoint, shipPointLoader, setShipPoint] =
+    useAxiosGet();
   const [isShowModel, setIsShowModel] = useState(false);
   const [itemList, setItemList] = useState();
   const [landingValues, setLandingValues] = useState();
@@ -61,8 +57,8 @@ function GateItemEntry() {
   }, [selectedBusinessUnit]);
 
   const landingData = (values) => {
-    let strFromDate = values?.fromDate ? `&fromDate=${values?.fromDate}` : "";
-    let strToDate = values?.fromDate ? `&toDate=${values?.toDate}` : "";
+    let strFromDate = values?.fromDate ? `&fromDate=${values?.fromDate}` : '';
+    let strToDate = values?.fromDate ? `&toDate=${values?.toDate}` : '';
     getRowData(
       `/mes/MSIL/GateEntryItemLanding?businessUnitId=${values?.businessUnit?.value}&shipPointId=${values?.shipPoint?.value}&pageNo=${pageNo}&pageSize=${pageSize}${strFromDate}${strToDate}`
     );
@@ -78,13 +74,11 @@ function GateItemEntry() {
         );
       }
     );
-
   }, []);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
-
-    let strFromDate = values?.fromDate ? `&fromDate=${values?.fromDate}` : "";
-    let strToDate = values?.fromDate ? `&toDate=${values?.toDate}` : "";
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
+    let strFromDate = values?.fromDate ? `&fromDate=${values?.fromDate}` : '';
+    let strToDate = values?.fromDate ? `&toDate=${values?.toDate}` : '';
 
     getRowData(
       `/mes/MSIL/GateEntryItemLanding?businessUnitId=${values?.businessUnit?.value}&shipPointId=${values?.shipPoint?.value}&pageNo=${pageNo}&pageSize=${pageSize}&search=${searchValue}${strFromDate}${strToDate}`
@@ -110,7 +104,7 @@ function GateItemEntry() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Gate Item Entry"}>
+              <CardHeader title={'Gate Item Entry'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
@@ -141,16 +135,16 @@ function GateItemEntry() {
                             `/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${valueOption?.value}&AutoId=${profileData?.userId}`,
                             (data) => {
                               if (data?.length === 0)
-                                return toast.warn("No Ship Point Found");
-                              setFieldValue("shipPoint", data[0]);
+                                return toast.warn('No Ship Point Found');
+                              setFieldValue('shipPoint', data[0]);
                             }
                           );
-                          setFieldValue("businessUnit", valueOption);
+                          setFieldValue('businessUnit', valueOption);
                           setRowData([]);
-                          setFieldValue("shipPoint", "");
+                          setFieldValue('shipPoint', '');
                         } else {
-                          setFieldValue("shipPoint", "");
-                          setFieldValue("businessUnit", "");
+                          setFieldValue('shipPoint', '');
+                          setFieldValue('businessUnit', '');
                           setRowData([]);
                           setShipPoint([]);
                         }
@@ -165,10 +159,10 @@ function GateItemEntry() {
                       label="Ship Point"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("shipPoint", valueOption);
+                          setFieldValue('shipPoint', valueOption);
                           setRowData([]);
                         } else {
-                          setFieldValue("shipPoint", "");
+                          setFieldValue('shipPoint', '');
                           setRowData([]);
                         }
                       }}
@@ -181,7 +175,7 @@ function GateItemEntry() {
                       label="From Date"
                       value={values?.fromDate}
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                       }}
                     />
                   </div>
@@ -193,13 +187,13 @@ function GateItemEntry() {
                       min={values?.fromDate}
                       value={values?.toDate}
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                     />
                   </div>
                   <div>
                     <button
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                       type="button"
                       className="btn btn-primary"
                       disabled={
@@ -229,7 +223,7 @@ function GateItemEntry() {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>তারিখ </th>
                             <th>সাপ্লায়ার/কাস্টমারের নাম </th>
                             <th>ড্রাইভারের নাম </th>
@@ -238,31 +232,29 @@ function GateItemEntry() {
                             <th>রেজি. নং</th>
                             <th>প্রবেশের সময়</th>
                             <th>বহির্গমনের সময়</th>
-                            <th style={{width:'70px'}}>সময়কাল</th>
+                            <th style={{ width: '70px' }}>সময়কাল</th>
                             <th>চালান নাম্বার </th>
                             {selectedBusinessUnit?.value === 4 ? (
                               <th>ভ্যাট চালান নাম্বার</th>
                             ) : null}
                             <th>পণ্যের নাম</th>
                             <th>শিফট ইনচার্জ </th>
-                            <th style={{ width: "50px" }}>Action</th>
+                            <th style={{ width: '50px' }}>Action</th>
                             {isBulkEdit?.isEdit && (
-                              <th style={{ width: "50px" }}>Is Bulk</th>
+                              <th style={{ width: '50px' }}>Is Bulk</th>
                             )}
                           </tr>
                         </thead>
                         <tbody>
                           {rowData?.data?.length > 0 &&
                             rowData?.data?.map((item, index) => {
-                              const {
-                                exceed,
-                                formattedTimeDiff,
-                              } = calculateTimeDifference(
-                                item?.tmOutTime
-                                  ? item?.tmOutTime
-                                  : _currentTime(),
-                                item?.tmInTime
-                              );
+                              const { exceed, formattedTimeDiff } =
+                                calculateTimeDifference(
+                                  item?.tmOutTime
+                                    ? item?.tmOutTime
+                                    : _currentTime(),
+                                  item?.tmInTime
+                                );
 
                               return (
                                 <tr key={index}>
@@ -282,12 +274,12 @@ function GateItemEntry() {
                                     {item?.strEntryCode}
                                   </td>
                                   <td className="text-center">
-                                    {_timeFormatter(item?.tmInTime || "")}
+                                    {_timeFormatter(item?.tmInTime || '')}
                                   </td>
                                   <td className="text-center">
-                                    {_timeFormatter(item?.tmOutTime || "")}
+                                    {_timeFormatter(item?.tmOutTime || '')}
                                   </td>
-                                  <td className={exceed ? "text-danger" : ""}>
+                                  <td className={exceed ? 'text-danger' : ''}>
                                     {formattedTimeDiff}
                                   </td>
                                   <td className="text-center">
@@ -315,13 +307,13 @@ function GateItemEntry() {
                                           <OverlayTrigger
                                             overlay={
                                               <Tooltip id="cs-icon">
-                                                {"Bulk"}
+                                                {'Bulk'}
                                               </Tooltip>
                                             }
                                           >
                                             <span>
                                               <i
-                                                style={{ fontSize: "18px" }}
+                                                style={{ fontSize: '18px' }}
                                                 className={`fa fa-bullseye pointer`}
                                                 onClick={() => {
                                                   setIsShowModel(true);
@@ -334,7 +326,7 @@ function GateItemEntry() {
                                         </td>
                                       ) : (
                                         <td className="text-center">
-                                          {item?.isBulk ? "Yes" : "No"}
+                                          {item?.isBulk ? 'Yes' : 'No'}
                                         </td>
                                       )}
                                     </>

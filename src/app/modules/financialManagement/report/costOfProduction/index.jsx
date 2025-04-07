@@ -50,13 +50,12 @@ function CostOfProduction() {
           arr.push(obj);
         });
         setRowDto(arr);
-      },
+      }
     );
   };
 
   useEffect(() => {
     getData(initData);
-
   }, []);
 
   return (

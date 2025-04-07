@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import IViewModal from "../../../_helper/_viewModal";
+import React, { useEffect, useState } from 'react';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
+import IViewModal from '../../../_helper/_viewModal';
 function HealthSummaryModal({ clickRowData }) {
   const [isShowModal, setIsShowModal] = useState(false);
   const [clickRowDataMachienDetils, setClickRowDataMachienDetils] = useState(
@@ -19,7 +19,6 @@ function HealthSummaryModal({ clickRowData }) {
         setGridData(resData);
       }
     );
-
   }, []);
   return (
     <div>
@@ -78,7 +77,7 @@ function HealthSummaryModal({ clickRowData }) {
               setIsShowModal(false);
               setClickRowDataMachienDetils({});
             }}
-            title={clickRowDataMachienDetils?.machineName || ""}
+            title={clickRowDataMachienDetils?.machineName || ''}
           >
             <MachienDetils
               clickRowData={clickRowData}
@@ -109,7 +108,6 @@ const MachienDetils = ({
         setGridData(resData);
       }
     );
-
   }, []);
 
   return (

@@ -46,10 +46,10 @@ export default function FormCmp({
 }) {
   const [open, setOpen] = React.useState(false);
   const [employeeEducationLevelDDL, setEmployeeEducationLevelDDL] = useState(
-    [],
+    []
   );
   const [eployeeEducationDegreeDDL, setEmployeeEducationDegreeDDL] = useState(
-    [],
+    []
   );
   const [resultDDL, setResultDDL] = useState([]);
   const [yearDecrementDDL, setYearDecrementDDL] = useState([]);
@@ -67,7 +67,7 @@ export default function FormCmp({
   const degreeOnChangeHandler = (value) => {
     getEmployeeEducationDegreeDDL_api(
       value?.educationLevelId,
-      setEmployeeEducationDegreeDDL,
+      setEmployeeEducationDegreeDDL
     );
   };
 
@@ -150,7 +150,7 @@ export default function FormCmp({
                             setFieldValue('majorGroup', '');
                             getEmployeeEducationDegreeDDL_api(
                               valueOption?.value,
-                              setEmployeeEducationDegreeDDL,
+                              setEmployeeEducationDegreeDDL
                             );
                             setFieldValue('examDegree', '');
                           }}
@@ -233,7 +233,7 @@ export default function FormCmp({
                           onChange={(event) => {
                             setFieldValue(
                               'rorignInstitute',
-                              event.target.checked,
+                              event.target.checked
                             );
                           }}
                         />
@@ -458,7 +458,7 @@ export default function FormCmp({
                                                 editBtnHandler(
                                                   index,
                                                   itm,
-                                                  setValues,
+                                                  setValues
                                                 );
                                                 degreeOnChangeHandler(itm);
                                               }}
@@ -497,7 +497,7 @@ export default function FormCmp({
                     }}
                     onDelete={(deleteFileObj) => {
                       const newData = fileObjects.filter(
-                        (item) => item.file.name !== deleteFileObj.file.name,
+                        (item) => item.file.name !== deleteFileObj.file.name
                       );
                       setFileObjects(newData);
                     }}

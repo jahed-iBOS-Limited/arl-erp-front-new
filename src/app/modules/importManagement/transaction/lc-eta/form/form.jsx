@@ -1,15 +1,14 @@
-
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import FormikError from "../../../../_helper/_formikError";
-import InputField from "../../../../_helper/_inputField";
-import { validationSchema } from "../helper";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import FormikError from '../../../../_helper/_formikError';
+import InputField from '../../../../_helper/_inputField';
+import { validationSchema } from '../helper';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../../_helper/_loading';
+import { toast } from 'react-toastify';
 export default function FormCmp({
   initData,
   btnRef,
@@ -17,7 +16,7 @@ export default function FormCmp({
   resetBtnRef,
   isEdit,
 }) {
-  const [, gettLetterOfCreaditByPo, lcLoading] = useAxiosGet("");
+  const [, gettLetterOfCreaditByPo, lcLoading] = useAxiosGet('');
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -61,19 +60,19 @@ export default function FormCmp({
                     <div className="col-lg-3 col-md-3">
                       <label>PO No/ LC No</label>
                       <SearchAsyncSelect
-                        selectedValue={values?.poNo || ""}
+                        selectedValue={values?.poNo || ''}
                         isSearchIcon={true}
                         paddingRight={10}
                         handleChange={(valueOption) => {
-                          setFieldValue("poNo", valueOption);
-                          setFieldValue("lcid", "");
+                          setFieldValue('poNo', valueOption);
+                          setFieldValue('lcid', '');
                           gettLetterOfCreaditByPo(
                             `/imp/Shipment/GettLetterOfCreaditByPo?PoId=${valueOption?.value}`,
                             (resData) => {
-                              setFieldValue("lcid", resData?.lcid || "");
+                              setFieldValue('lcid', resData?.lcid || '');
                             },
                             (errors) => {
-                              toast.warning("LC Not Found");
+                              toast.warning('LC Not Found');
                             }
                           );
                         }}
@@ -91,7 +90,7 @@ export default function FormCmp({
                   <div className="col-lg-3">
                     <label>ETA Date</label>
                     <InputField
-                      value={values?.etaDate || ""}
+                      value={values?.etaDate || ''}
                       name="etaDate"
                       placeholder="ETA Date"
                       type="date"
@@ -101,7 +100,7 @@ export default function FormCmp({
                   <div className="col-lg-3">
                     <label>Invoice No</label>
                     <InputField
-                      value={values?.invoiceNo || ""}
+                      value={values?.invoiceNo || ''}
                       name="invoiceNo"
                       placeholder="Invoice No"
                       type="text"
@@ -111,7 +110,7 @@ export default function FormCmp({
                   <div className="col-lg-3">
                     <label>BL No</label>
                     <InputField
-                      value={values?.blNo || ""}
+                      value={values?.blNo || ''}
                       name="blNo"
                       placeholder="BL No"
                       type="text"
@@ -121,7 +120,7 @@ export default function FormCmp({
                   <div className="col-lg-3">
                     <label>Vessel Name</label>
                     <InputField
-                      value={values?.vesselName || ""}
+                      value={values?.vesselName || ''}
                       name="vesselName"
                       placeholder="Vessel Name"
                       type="text"
@@ -132,7 +131,7 @@ export default function FormCmp({
                   <div className="col-lg-3">
                     <label>Number of Container</label>
                     <InputField
-                      value={values?.numberOfContainer || ""}
+                      value={values?.numberOfContainer || ''}
                       name="numberOfContainer"
                       placeholder="Number of Container"
                       type="number"
@@ -143,14 +142,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

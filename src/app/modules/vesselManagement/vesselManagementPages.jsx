@@ -1,9 +1,9 @@
-import React, { Suspense } from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute, LayoutSplashScreen } from "../../../_metronic/layout";
-import AllotmentPages from "./allotment/allotmentPages";
-import ConfigPages from "./config/configpages";
-import ReportPages from "./report/vesselReportPages";
+import React, { Suspense } from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute, LayoutSplashScreen } from '../../../_metronic/layout';
+import AllotmentPages from './allotment/allotmentPages';
+import ConfigPages from './config/configpages';
+import ReportPages from './report/vesselReportPages';
 
 export default function VesselManagementPages() {
   return (

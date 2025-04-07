@@ -1,8 +1,5 @@
-import CommonLoadAndDischargePortDocument from "../commonComponents/landing";
+import CommonLoadAndDischargePortDocument from '../commonComponents/landing';
 
 export default function LoadPort() {
-
-  return (
-    <CommonLoadAndDischargePortDocument fetureName={"Load Port"} />
-  );
+  return <CommonLoadAndDischargePortDocument fetureName={'Load Port'} />;
 }

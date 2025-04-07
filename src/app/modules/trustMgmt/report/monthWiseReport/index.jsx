@@ -1,25 +1,24 @@
-import React, { useState } from "react";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
-import Form from "./form";
-import MonthWiseTable from "./monthWiseTable";
+import React, { useState } from 'react';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IForm from '../../../_helper/_form';
+import Loading from '../../../_helper/_loading';
+import Form from './form';
+import MonthWiseTable from './monthWiseTable';
 
 const initData = {
-  fromDate: "",
-  toDate: "",
-  unitName: "",
+  fromDate: '',
+  toDate: '',
+  unitName: '',
 };
 
 export default function MonthWiseReport() {
-  const [isDisabled, ] = useState(false);
+  const [isDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
-  const [rowDto, getData, , ] = useAxiosGet();
-
+  const [rowDto, getData, ,] = useAxiosGet();
 
   return (
     <IForm
-      title={"Month Wise Report"}
+      title={'Month Wise Report'}
       getProps={setObjprops}
       isHiddenBack={true}
       isHiddenReset={true}
@@ -33,7 +32,7 @@ export default function MonthWiseReport() {
         getData={getData}
         rowDto={rowDto}
       />
-      <MonthWiseTable rowDto={rowDto}/>
+      <MonthWiseTable rowDto={rowDto} />
     </IForm>
   );
 }

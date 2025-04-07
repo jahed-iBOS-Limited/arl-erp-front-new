@@ -62,17 +62,15 @@
   display: none;
 }
 
-
 @media screen and (max-width: 767px) {
   .transactionInvoice .headerKey,
   .transactionInvoice .headerValue {
     font-size: 12px !important;
   }
-
 }
 
 @media print {
-  body{
+  body {
     background-color: white !important;
   }
   .invoiceForChartererWraper {
@@ -100,6 +98,6 @@
   }
   .transactionInvoice .invoice-header,
   .transactionInvoice .invoice-footer {
-  display: block !important;
-}
+    display: block !important;
+  }
 }

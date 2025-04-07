@@ -52,7 +52,7 @@ const paymentsJournal = Yup.object().shape({
     .min(1, 'Minimum 1 symbols')
     .max(
       1000000000000000000000000000000,
-      'Maximum 1000000000000000000000000000000 symbols',
+      'Maximum 1000000000000000000000000000000 symbols'
     )
     .required('Paid To required'),
   narration: Yup.string()
@@ -124,33 +124,32 @@ export default function FormCmp({
           profileData?.accountId,
           selectedBusinessUnit.value,
           2,
-          setGeneralLedgerDDL,
+          setGeneralLedgerDDL
         );
       } else if (journalTypeId === 3) {
         getSendToGLBank(
           profileData?.accountId,
           selectedBusinessUnit.value,
           3,
-          setGeneralLedgerDDL,
+          setGeneralLedgerDDL
         );
       }
       getCostElementDDL(
         selectedBusinessUnit.value,
         profileData.accountId,
-        setCostElementDDL,
+        setCostElementDDL
       );
       getCostCenterDDL(
         selectedBusinessUnit.value,
         profileData.accountId,
-        setCostCenterDDL,
+        setCostCenterDDL
       );
       getRevenueElementListDDL(
         selectedBusinessUnit.value,
-        setRevenueElementDDL,
+        setRevenueElementDDL
       );
       getRevenueCenterListDDL(selectedBusinessUnit.value, setRevenueCenterDDL);
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {
@@ -158,7 +157,7 @@ export default function FormCmp({
       getBankAccountDDL_api(
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        setBankAccountDDL,
+        setBankAccountDDL
       );
     }
   }, [profileData, selectedBusinessUnit, initData]);
@@ -179,7 +178,7 @@ export default function FormCmp({
           selectedBusinessUnit?.value
         }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${
           partnerType?.reffPrtTypeId
-        }`,
+        }`
       )
       .then((res) => {
         return res?.data;
@@ -198,8 +197,8 @@ export default function FormCmp({
           journalTypeId === 1
             ? receiptsJournal
             : journalTypeId === 2
-            ? paymentsJournal
-            : transferJournal
+              ? paymentsJournal
+              : transferJournal
         }
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
@@ -284,13 +283,13 @@ export default function FormCmp({
                                 profileData?.accountId,
                                 selectedBusinessUnit.value,
                                 2,
-                                setGeneralLedgerDDL,
+                                setGeneralLedgerDDL
                               );
                               if (valueOption?.value === 3) {
                                 getBankAccountDDL_api(
                                   profileData?.accountId,
                                   selectedBusinessUnit.value,
-                                  setBankAccountDDL,
+                                  setBankAccountDDL
                                 );
                               }
 
@@ -370,7 +369,7 @@ export default function FormCmp({
                               if (journalTypeId === 1) {
                                 setFieldValue(
                                   'receiveFrom',
-                                  valueOption?.label,
+                                  valueOption?.label
                                 );
                               } else if (journalTypeId === 2) {
                                 setFieldValue('paidTo', valueOption?.label);

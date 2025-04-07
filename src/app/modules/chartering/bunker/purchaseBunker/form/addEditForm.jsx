@@ -1,36 +1,35 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router';
+import { toast } from 'react-toastify';
 import {
   getCharterPartyDDL,
   GetPortDDL,
   getSupplierDDL,
   getVesselDDL,
-} from "../../../helper";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import { _todayDate } from "../../../_chartinghelper/_todayDate";
+} from '../../../helper';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import { _todayDate } from '../../../_chartinghelper/_todayDate';
 import {
   editPurchaseBunker,
   getPurchaseBunkerById,
   savePurchaseBunker,
-} from "../helper";
-import Form from "./form";
+} from '../helper';
+import Form from './form';
 
 const initData = {
-  vesselName: "",
-  voyageNo: "",
-  purchaseFrom: "",
-  supplierName: "",
-  supplierPort: "",
-  charterer: "",
+  vesselName: '',
+  voyageNo: '',
+  purchaseFrom: '',
+  supplierName: '',
+  supplierPort: '',
+  charterer: '',
   purchaseDate: _todayDate(),
-  currency: "",
-  item: "",
-  itemQty: "",
-  itemRate: "",
-  itemValue: "",
+  currency: '',
+  item: '',
+  itemQty: '',
+  itemRate: '',
+  itemValue: '',
 };
 
 export default function PurchaseBunkerForm() {
@@ -83,7 +82,7 @@ export default function PurchaseBunkerForm() {
             purchaseBunkerHeaderId: rowData[0]?.purchaseBunkerHeaderId,
 
             itemId: values?.item?.value || 0,
-            itemName: values?.item?.label || "",
+            itemName: values?.item?.label || '',
             itemQty: +values?.itemQty,
             itemRate: +values?.itemRate,
             itemValue: +values?.itemValue,
@@ -106,11 +105,11 @@ export default function PurchaseBunkerForm() {
         voyageId: values?.voyageNo?.value,
         voyageNo: values?.voyageNo?.label,
         purchaseFromId: 1,
-        purchaseFromName: "Supplier",
+        purchaseFromName: 'Supplier',
         stakeholderId: values?.supplierName?.value,
-        companyName: values?.supplierName?.label || "",
+        companyName: values?.supplierName?.label || '',
         portId: values?.supplierPort?.value || 0,
-        portName: values?.supplierPort?.label || "",
+        portName: values?.supplierPort?.label || '',
         purchaseDate: values?.purchaseDate,
         accountId: profileData?.accountId,
         businessUnitId: selectedBusinessUnit?.value,
@@ -118,9 +117,9 @@ export default function PurchaseBunkerForm() {
 
         /* Blank */
         currencyId: 0,
-        currencyName: "",
+        currencyName: '',
         itemId: 0,
-        itemName: "",
+        itemName: '',
         purchaseBunkerRow: [
           {
             itemId: values?.item?.value,

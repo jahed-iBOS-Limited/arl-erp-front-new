@@ -1,16 +1,15 @@
-
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import { useLocation } from "react-router-dom";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import { createCargo, editCargo } from "../helper";
-import Form from "./form";
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import { useLocation } from 'react-router-dom';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import { createCargo, editCargo } from '../helper';
+import Form from './form';
 
 const initData = {
-  cargoGroup: "",
-  cargoName: "",
-  sf: "",
+  cargoGroup: '',
+  cargoName: '',
+  sf: '',
   required: false,
   notRequired: true,
 };
@@ -58,7 +57,7 @@ export default function CargoForm() {
     <>
       {loading && <Loading />}
       <Form
-        title={type === "edit" ? "Edit Cargo" : "Create Cargo"}
+        title={type === 'edit' ? 'Edit Cargo' : 'Create Cargo'}
         initData={
           id
             ? {

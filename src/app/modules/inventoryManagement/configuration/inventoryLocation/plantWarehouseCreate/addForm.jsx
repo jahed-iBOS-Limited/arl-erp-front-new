@@ -1,23 +1,22 @@
-
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { useSelector, shallowEqual } from "react-redux";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import Form from "../common/form";
-import Axios from "axios";
-import { toast } from "react-toastify";
-import shortid from "shortid";
-import Loading from "../../../../_helper/_loading";
+} from '../../../../../../_metronic/_partials/controls';
+import { useSelector, shallowEqual } from 'react-redux';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import Form from '../common/form';
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
+import Loading from '../../../../_helper/_loading';
 const initProduct = {
   id: undefined,
-  inventoryLocationName: "",
-  plantName: "",
-  warehouseName: "",
+  inventoryLocationName: '',
+  plantName: '',
+  warehouseName: '',
 };
 
 export default function InventoryLocationAddForm({
@@ -39,7 +38,6 @@ export default function InventoryLocationAddForm({
   }, shallowEqual);
 
   const saveBusinessUnit = async (values, cb) => {
-
     if (!id && values) {
       const businessData = {
         inventoryLocationName: values.inventoryLocationName,
@@ -48,19 +46,19 @@ export default function InventoryLocationAddForm({
         plantId: values.plantName.value,
         warehouseId: values.warehouseName.value,
         actionBy: profileData.userId,
-        lastActionDateTime: "2020-07-09T10:19:10.705Z",
+        lastActionDateTime: '2020-07-09T10:19:10.705Z',
         active: true,
       };
 
       try {
         setDisabled(true);
         const res = await Axios.post(
-          "/wms/InventoryLocation/CreateInventoryLocation",
+          '/wms/InventoryLocation/CreateInventoryLocation',
           businessData
         );
         cb(initProduct);
         setDisabled(false);
-        toast.success(res.data?.message || "Submitted successfully", {
+        toast.success(res.data?.message || 'Submitted successfully', {
           toastId: shortid(),
         });
       } catch (error) {
@@ -68,7 +66,6 @@ export default function InventoryLocationAddForm({
         setDisabled(false);
       }
     } else {
-
     }
   };
 
@@ -115,14 +112,14 @@ export default function InventoryLocationAddForm({
             className="btn btn-primary ml-2"
             onClick={saveBtnClicker}
             ref={btnRef}
-             disabled={isDisabled}
+            disabled={isDisabled}
           >
             Save
           </button>
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody>
-      {isDisabled && <Loading />}
+        {isDisabled && <Loading />}
         <div className="mt-0">
           <Form
             product={initProduct}

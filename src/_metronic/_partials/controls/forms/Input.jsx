@@ -1,18 +1,18 @@
-import React from "react";
-import { FieldFeedbackLabel } from "./FieldFeedbackLabel";
-import ITooltip from "../../../../app/modules/_helper/_tooltip";
+import React from 'react';
+import { FieldFeedbackLabel } from './FieldFeedbackLabel';
+import ITooltip from '../../../../app/modules/_helper/_tooltip';
 
 const getFieldCSSClasses = (touched, errors) => {
-  const classes = ["form-control"];
+  const classes = ['form-control'];
   if (touched && errors) {
-    classes.push("is-invalid");
+    classes.push('is-invalid');
   }
 
   if (touched && !errors) {
-    classes.push("is-valid");
+    classes.push('is-valid');
   }
 
-  return classes.join(" ");
+  return classes.join(' ');
 };
 
 export function Input({
@@ -21,7 +21,7 @@ export function Input({
   label,
   withFeedbackLabel = true,
   customFeedbackLabel,
-  type = "text",
+  type = 'text',
   isInfo,
   content,
   ...props
@@ -31,9 +31,7 @@ export function Input({
       {label && (
         <label>
           {label}
-          {isInfo && (
-            <ITooltip content={content} />
-          )}{" "}
+          {isInfo && <ITooltip content={content} />}{' '}
         </label>
       )}
       <input

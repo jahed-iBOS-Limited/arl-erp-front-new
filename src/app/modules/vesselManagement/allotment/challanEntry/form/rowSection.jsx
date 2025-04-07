@@ -1,14 +1,14 @@
-import React from "react";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+import React from 'react';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 
 const headers = [
-  "SL",
-  "Item Name",
-  "Product Qty (Bag)",
-  "Item Price",
-  "Action",
+  'SL',
+  'Item Name',
+  'Product Qty (Bag)',
+  'Item Price',
+  'Action',
 ];
 
 export default function RowSection({ obj }) {
@@ -43,7 +43,7 @@ export default function RowSection({ obj }) {
                 touched={touched}
                 isDisabled={true}
                 onChange={(e) => {
-                  onChangeHandler("item", values, e, setFieldValue);
+                  onChangeHandler('item', values, e, setFieldValue);
                 }}
               />
             </div>
@@ -56,7 +56,7 @@ export default function RowSection({ obj }) {
                 name="quantity"
                 onChange={(e) => {
                   // setFieldValue("quantity", e?.target?.value);
-                  onChangeHandler("quantity", values, e, setFieldValue);
+                  onChangeHandler('quantity', values, e, setFieldValue);
                 }}
                 type="text"
                 disabled={disableHandler() || id}
@@ -117,7 +117,7 @@ export default function RowSection({ obj }) {
                 type="text"
                 disabled={disableHandler()}
                 onChange={(e) => {
-                  onChangeHandler("emptyBag", values, e, setFieldValue);
+                  onChangeHandler('emptyBag', values, e, setFieldValue);
                 }}
               />
             </div>
@@ -135,9 +135,9 @@ export default function RowSection({ obj }) {
                 onClick={() => {
                   addRow(values, (rows) => {
                     // setFieldValue("item", "");
-                    setFieldValue("quantity", "");
+                    setFieldValue('quantity', '');
                     setFieldValue(
-                      "emptyBag",
+                      'emptyBag',
                       rows?.reduce((a, b) => (a += b?.emptyBag), 0)
                     );
                   });
@@ -146,7 +146,7 @@ export default function RowSection({ obj }) {
                   !values?.item ||
                   !values?.quantity ||
                   id ||
-                  (state?.type === "badc"
+                  (state?.type === 'badc'
                     ? !values?.motherVessel || !values?.port
                     : !values?.godown)
                 }
@@ -164,7 +164,7 @@ export default function RowSection({ obj }) {
               <table
                 id="table-to-xlsx"
                 className={
-                  "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                  'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                 }
               >
                 <thead>
@@ -178,7 +178,7 @@ export default function RowSection({ obj }) {
                   {rowData?.map((item, index) => {
                     return (
                       <tr key={index}>
-                        <td style={{ width: "40px" }} className="text-center">
+                        <td style={{ width: '40px' }} className="text-center">
                           {index + 1}
                         </td>
                         <td>{item?.itemName}</td>
@@ -195,7 +195,7 @@ export default function RowSection({ obj }) {
                                 setRowData(data);
                               }}
                               type="number"
-                              style={{ textAlign: "right" }}
+                              style={{ textAlign: 'right' }}
                             />
                           ) : (
                             item?.quantity
@@ -203,14 +203,14 @@ export default function RowSection({ obj }) {
                         </td>
                         <td className="text-right">{item?.itemPrice}</td>
                         {!id && (
-                          <td style={{ width: "80px" }} className="text-center">
+                          <td style={{ width: '80px' }} className="text-center">
                             {
                               <div className="d-flex justify-content-around">
                                 <span
                                   onClick={() => {
                                     deleteRow(index, (rows) => {
                                       setFieldValue(
-                                        "emptyBag",
+                                        'emptyBag',
                                         rows?.reduce(
                                           (a, b) => (a += b?.emptyBag),
                                           0

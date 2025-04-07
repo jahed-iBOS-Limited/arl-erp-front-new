@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from 'axios';
 export const getAssetReceiveReportData = async (
   accId,
   buId,
@@ -10,7 +10,7 @@ export const getAssetReceiveReportData = async (
   pageSize,
   search
 ) => {
-  const searchPath = search ? `searchTearm=${search}&` : "";
+  const searchPath = search ? `searchTearm=${search}&` : '';
   setLoading(true);
   try {
     const res = await Axios.get(
@@ -31,7 +31,7 @@ export const getPlantList = async (userId, accId, buId, setter) => {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getPurchaseRequestLanding = async (
@@ -53,7 +53,7 @@ export const getPurchaseRequestLanding = async (
   itemTypeId
 ) => {
   setLoading(true);
-  const searchPath = search ? `searchTerm=${search}&` : "";
+  const searchPath = search ? `searchTerm=${search}&` : '';
   try {
     const res = await Axios.get(
       `/procurement/PurchaseRequest/GetIndentStatement?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&SortType=${sortType}&Sbu=${sbu}&PurchaseOrganizationId=${poId}&Plant=${plantId}&WearHouse=${whId}&fromDate=${fromDate}&toDate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&ItemCategoryId=${itemCtgId || 0}&ItemTypeId=${itemTypeId}&viewOrder=desc`
@@ -64,7 +64,6 @@ export const getPurchaseRequestLanding = async (
     setLoading(false);
   }
 };
-
 
 export const getItemCategoryDDLByTypeApi = async (
   accId,
@@ -84,7 +83,7 @@ export const getItemCategoryDDLByTypeApi = async (
       };
     });
     setter(dataMapping);
-  } catch (error) { }
+  } catch (error) {}
 };
 export const getItemTypeListDDL_api = async (setter) => {
   try {
@@ -92,5 +91,5 @@ export const getItemTypeListDDL_api = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };

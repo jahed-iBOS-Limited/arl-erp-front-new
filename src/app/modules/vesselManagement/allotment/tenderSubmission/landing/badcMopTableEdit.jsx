@@ -1,6 +1,6 @@
-import React from "react";
-import InputField from "../../../../_helper/_inputField";
-import { mopTenderEditDataTableHeader } from "../helper";
+import React from 'react';
+import InputField from '../../../../_helper/_inputField';
+import { mopTenderEditDataTableHeader } from '../helper';
 
 const BADCMopTableEdit = ({
   mopRowsData,
@@ -13,7 +13,7 @@ const BADCMopTableEdit = ({
       <table
         id="table-to-xlsx"
         className={
-          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm global-table common-scrollable-table two-column-sticky"
+          'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm global-table common-scrollable-table two-column-sticky'
         }
       >
         <thead>
@@ -36,13 +36,13 @@ const BADCMopTableEdit = ({
 
                 <td>
                   <InputField
-                    value={item?.actualQuantity || ""}
+                    value={item?.actualQuantity || ''}
                     type="number"
                     placeholder="0"
                     onChange={(e) => {
                       const newValue = e.target?.value || 0;
                       const newMopRowsData = [...mopRowsData];
-                      newMopRowsData[index]["actualQuantity"] = newValue;
+                      newMopRowsData[index]['actualQuantity'] = newValue;
                       updateMopRowsData(newMopRowsData);
                     }}
                   />

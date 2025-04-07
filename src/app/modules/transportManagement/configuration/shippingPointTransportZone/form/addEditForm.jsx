@@ -1,27 +1,26 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams, useHistory } from "react-router-dom";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import Form from "./form";
-import FormTwo from "./formTwo";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams, useHistory } from 'react-router-dom';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import Form from './form';
+import FormTwo from './formTwo';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { toast } from 'react-toastify';
 
 const initData = {
-  shippingPoint: "",
-  route: "",
-  wareHouse: "",
-  transportZone: "",
+  shippingPoint: '',
+  route: '',
+  wareHouse: '',
+  transportZone: '',
   // these are for second form (FormTwo)
-  employee: "",
-  bank: "",
-  branch: "",
-  bankAccountName: "",
-  bankAccountNumber: "",
-  routingNumber: "",
-  isPublic: "",
+  employee: '',
+  bank: '',
+  branch: '',
+  bankAccountName: '',
+  bankAccountNumber: '',
+  routingNumber: '',
+  isPublic: '',
 };
 
 export default function ShippingPointTransportZoneForm() {
@@ -132,7 +131,7 @@ export default function ShippingPointTransportZoneForm() {
 
   const saveHandlerTwo = (values, cb) => {
     if (rows?.length < 1) {
-      return toast.warn("Please add at least one row!");
+      return toast.warn('Please add at least one row!');
     }
     if ([2].includes(state?.type?.value)) {
       saveData(
@@ -153,7 +152,7 @@ export default function ShippingPointTransportZoneForm() {
         row?.bankAccountNumber === values?.bankAccountNumber
     );
     if (exist) {
-      return toast.warn("Duplicate bank account or Employee is ont allowed!");
+      return toast.warn('Duplicate bank account or Employee is ont allowed!');
     }
     try {
       const newRow = {
@@ -187,23 +186,23 @@ export default function ShippingPointTransportZoneForm() {
 
   const setBankInfo = (currentValue, setFieldValue) => {
     if (currentValue) {
-      setFieldValue("bank", {
+      setFieldValue('bank', {
         label: currentValue?.bankName,
         value: currentValue?.bankId,
       });
-      setFieldValue("branch", {
+      setFieldValue('branch', {
         label: currentValue?.branchName,
         value: currentValue?.branchId,
       });
-      setFieldValue("bankAccountName", currentValue?.bankAccountName);
-      setFieldValue("bankAccountNumber", currentValue?.accountNumber);
-      setFieldValue("routingNumber", currentValue?.routingNumber);
+      setFieldValue('bankAccountName', currentValue?.bankAccountName);
+      setFieldValue('bankAccountNumber', currentValue?.accountNumber);
+      setFieldValue('routingNumber', currentValue?.routingNumber);
     } else {
-      setFieldValue("bank", "");
-      setFieldValue("branch", "");
-      setFieldValue("bankAccountName", "");
-      setFieldValue("bankAccountNumber", "");
-      setFieldValue("routingNumber", "");
+      setFieldValue('bank', '');
+      setFieldValue('branch', '');
+      setFieldValue('bankAccountName', '');
+      setFieldValue('bankAccountNumber', '');
+      setFieldValue('routingNumber', '');
     }
   };
 
@@ -215,7 +214,7 @@ export default function ShippingPointTransportZoneForm() {
     savingLoader;
 
   // title is common
-  const title = `${id ? "Edit" : "Create"} ${state?.type?.label}`;
+  const title = `${id ? 'Edit' : 'Create'} ${state?.type?.label}`;
 
   return (
     <>
@@ -263,7 +262,7 @@ export default function ShippingPointTransportZoneForm() {
           }}
         />
       ) : (
-        ""
+        ''
       )}
     </>
   );

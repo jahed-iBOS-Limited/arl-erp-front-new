@@ -1,25 +1,24 @@
-
-import React, { useEffect, useRef, useState } from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { Formik } from "formik";
-import { Form } from "formik";
-import Loading from "../../../../_helper/_loading";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import { debitCreditStatus, getDistributionChannelDDL } from "../helper";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import NewSelect from "./../../../../_helper/_select";
-import InputField from "./../../../../_helper/_inputField";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import moment from "moment";
+import React, { useEffect, useRef, useState } from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import { Formik } from 'formik';
+import { Form } from 'formik';
+import Loading from '../../../../_helper/_loading';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import { debitCreditStatus, getDistributionChannelDDL } from '../helper';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import NewSelect from './../../../../_helper/_select';
+import InputField from './../../../../_helper/_inputField';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import moment from 'moment';
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  distributionChannel: "",
+  distributionChannel: '',
 };
 
 function DebitCreditStatus() {
@@ -65,7 +64,7 @@ function DebitCreditStatus() {
                       value={values?.distributionChannel}
                       label="Distribution Channel"
                       onChange={(valueOption) => {
-                        setFieldValue("distributionChannel", valueOption);
+                        setFieldValue('distributionChannel', valueOption);
                         setGridData([]);
                       }}
                       placeholder="Distribution Channel"
@@ -81,7 +80,7 @@ function DebitCreditStatus() {
                       placeholder="Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                         setGridData([]);
                       }}
                     />
@@ -94,7 +93,7 @@ function DebitCreditStatus() {
                       placeholder="Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                         setGridData([]);
                       }}
                     />
@@ -131,12 +130,12 @@ function DebitCreditStatus() {
                               <button
                                 type="button"
                                 className="btn btn-primary"
-                                style={{ padding: "2px 5px" }}
+                                style={{ padding: '2px 5px' }}
                               >
                                 <img
                                   style={{
-                                    width: "25px",
-                                    paddingRight: "5px",
+                                    width: '25px',
+                                    paddingRight: '5px',
                                   }}
                                   src={printIcon}
                                   alt="print-icon"
@@ -153,9 +152,9 @@ function DebitCreditStatus() {
                             className="p-2 btn btn-primary"
                             table="table-to-xlsx"
                             filename={`iBOS Debit Credit Status excel`}
-                            sheet={"tablexls"}
+                            sheet={'tablexls'}
                             buttonText="Export to Excel"
-                            style={{ padding: "0px" }}
+                            style={{ padding: '0px' }}
                           />
                         </div>
                       </div>
@@ -164,11 +163,11 @@ function DebitCreditStatus() {
 
                       <div className="d-flex justify-content-center">
                         <h5>
-                          From Date:{" "}
-                          {moment(values?.fromDate).format("DD-MM-YYYY")}
+                          From Date:{' '}
+                          {moment(values?.fromDate).format('DD-MM-YYYY')}
                         </h5>
                         <h5 className="ml-5">
-                          To Date: {moment(values?.toDate).format("DD-MM-YYYY")}
+                          To Date: {moment(values?.toDate).format('DD-MM-YYYY')}
                         </h5>
                       </div>
                     </div>

@@ -8,12 +8,12 @@ export const getMonthlyVoyageStatement = async (
   fromDate,
   toDate,
   setter,
-  setLoading,
+  setLoading
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/LighterVesselTrip/GetLighterVesselDispatchDamarage?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}`,
+      `${imarineBaseUrl}/domain/LighterVesselTrip/GetLighterVesselDispatchDamarage?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}`
       // `${imarineBaseUrl}/domain/LighterVesselStatement/GetLighterVesselTripStatement?AccountId=${accId}&BusinessUnitId=${buId}&searchDate=${date}`
     );
     setter(
@@ -22,7 +22,7 @@ export const getMonthlyVoyageStatement = async (
         jvDisable: item?.jvDisable || false,
         ajDisable: item?.ajDisable || false,
         estFreightAmount: item?.estimatedCargoQty * item?.numFreight,
-      })),
+      }))
     );
     setLoading(false);
   } catch (error) {
@@ -39,23 +39,23 @@ export const getDieselStatement = async (
   setLoading,
   setTotalJVAmount,
   setGrandTotalAmount,
-  setGrandTotalQty,
+  setGrandTotalQty
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/LighterVesselTrip/GetLighterTripDisselExpByDateWise?FromDate=${fromDate}&ToDate=${toDate}&BusinessUnitId=${buId}`,
+      `${imarineBaseUrl}/domain/LighterVesselTrip/GetLighterTripDisselExpByDateWise?FromDate=${fromDate}&ToDate=${toDate}&BusinessUnitId=${buId}`
       // `${imarineBaseUrl}/domain/LighterVesselTrip/GetLighterTripDisselExp?TripDate=${date}&BusinessUnitId=${buId}`
     );
 
     const totalJVAmount = res?.data?.reduce(
       (acc, curr) => acc + (curr?.dieselExpJvCode ? 0 : curr?.amount),
-      0,
+      0
     );
 
     const grandTotalAmount = res?.data?.reduce(
       (acc, curr) => acc + curr?.amount,
-      0,
+      0
     );
 
     const grandTotalQty = res?.data?.reduce((acc, curr) => acc + curr?.qty, 0);
@@ -72,7 +72,7 @@ export const getDieselStatement = async (
     for (let i = 0; i < arrayUniqueByKey?.length; i++) {
       const item = arrayUniqueByKey[i];
       const data = res?.data?.filter(
-        (e) => e?.lighterVesselId === item?.lighterVesselId,
+        (e) => e?.lighterVesselId === item?.lighterVesselId
       );
       mainArray.push(data);
     }
@@ -92,17 +92,17 @@ export const getDieselStatementTwo = async (
   setter,
   setLoading,
   setGrandTotalAmount,
-  setGrandTotalQty,
+  setGrandTotalQty
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/LighterVesselTrip/GetLighterTripDisselExpInDateRange?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}`,
+      `${imarineBaseUrl}/domain/LighterVesselTrip/GetLighterTripDisselExpInDateRange?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}`
     );
 
     const grandTotalAmount = res?.data?.reduce(
       (acc, curr) => acc + curr?.amount,
-      0,
+      0
     );
 
     const grandTotalQty = res?.data?.reduce((acc, curr) => acc + curr?.qty, 0);
@@ -118,7 +118,7 @@ export const getDieselStatementTwo = async (
     for (let i = 0; i < arrayUniqueByKey?.length; i++) {
       const item = arrayUniqueByKey[i];
       const data = res?.data?.filter(
-        (e) => e?.lighterVesselId === item?.lighterVesselId,
+        (e) => e?.lighterVesselId === item?.lighterVesselId
       );
       mainArray.push(data);
     }
@@ -138,23 +138,23 @@ export const getLineExpense = async (
   setter,
   setLoading,
   setTotalJVAmount,
-  setGrandTotal,
+  setGrandTotal
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/LighterVesselTrip/LighterVesselTripLineExpByDateWise?FromDate=${fromDate}&ToDate=${toDate}&BusinessUnitId=${buId}`,
+      `${imarineBaseUrl}/domain/LighterVesselTrip/LighterVesselTripLineExpByDateWise?FromDate=${fromDate}&ToDate=${toDate}&BusinessUnitId=${buId}`
       // `${imarineBaseUrl}/domain/LighterVesselTrip/LighterVesselTripLineExp?TripDate=${date}&BusinessUnitId=${buId}`
     );
 
     const totalJVAmount = res?.data?.reduce(
       (acc, curr) => acc + (curr?.lineExpJVCode ? 0 : curr?.costAmount),
-      0,
+      0
     );
 
     const grandTotal = res?.data?.reduce(
       (acc, curr) => acc + curr?.costAmount,
-      0,
+      0
     );
     setGrandTotal(grandTotal);
 
@@ -168,7 +168,7 @@ export const getLineExpense = async (
     for (let i = 0; i < arrayUniqueByKey?.length; i++) {
       const item = arrayUniqueByKey[i];
       const data = res?.data?.filter(
-        (e) => e?.lighterVesselId === item?.lighterVesselId,
+        (e) => e?.lighterVesselId === item?.lighterVesselId
       );
       mainArray.push(data);
     }
@@ -186,15 +186,15 @@ export const getStoreExpense = async (
   buId,
   date,
   setter,
-  setLoading,
+  setLoading
   // setTotalJVAmount
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
       `${imarineBaseUrl}/domain/LighterVesselTrip/GetLighterVesselMonthlyStoreExp?accountId=${accId}&businessUnitId=${buId}&monthId=${new Date(
-        date,
-      ).getMonth()}&yearid=${new Date(date).getFullYear()}`,
+        date
+      ).getMonth()}&yearid=${new Date(date).getFullYear()}`
     );
 
     // const totalJVAmount = res?.data?.reduce(
@@ -235,7 +235,7 @@ export const CreateJournalVoucher = async (
   actionBy,
   setLoading,
   cb,
-  values,
+  values
 ) => {
   setLoading(true);
   const diesel = `/domain/LighterVesselTrip/LighterVesselDiselJV?accountId=${accId}&businessUnitId=${buId}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&Narration=${narration}&Actionby=${actionBy}`;

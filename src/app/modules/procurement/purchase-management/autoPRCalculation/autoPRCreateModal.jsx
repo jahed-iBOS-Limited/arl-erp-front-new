@@ -34,7 +34,8 @@ export default function AutoPRCreateModal({
   const [singleRowData, setSingleRowData] = useState();
   const [, onCreateMRPFromProduction, saveLoader] = useAxiosPost();
   const [showModal, setShowModal] = useState(false);
-  const [showPproductionScheduleModal, setShowPproductionScheduleModal] = useState(false);
+  const [showPproductionScheduleModal, setShowPproductionScheduleModal] =
+    useState(false);
   const [plantDDL, setPlantDDL] = useState([]);
   const [showBreakdownModal, setShowBreakdownModal] = useState(false);
   const [warehouseStockModalShow, setWarehouseStockModalShow] = useState(false);
@@ -42,7 +43,7 @@ export default function AutoPRCreateModal({
   // reducer
   const [commonItemDetailsState, commonItemDetailsDispatch] = useReducer(
     commonItemReducer,
-    commonItemInitialState,
+    commonItemInitialState
   );
 
   console.log('singleRowData', singleRowData);
@@ -56,12 +57,12 @@ export default function AutoPRCreateModal({
 
   const [, getSaveStatus, loading2] = useAxiosGet();
 
-  const saveHandler = (values, cb) => { };
+  const saveHandler = (values, cb) => {};
 
   const getData = (values) => {
     setAutoRawMaterialData([]);
     getAutoRawMaterialData(
-      `/procurement/MRPFromProduction/GetMRPFromProductionScheduleDetailsNew?businessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&isForecast=true&plantId=${values?.plant?.value || 0}`,
+      `/procurement/MRPFromProduction/GetMRPFromProductionScheduleDetailsNew?businessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&isForecast=true&plantId=${values?.plant?.value || 0}`
     );
   };
 
@@ -76,7 +77,7 @@ export default function AutoPRCreateModal({
       }}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
-        saveHandler(values, () => { });
+        saveHandler(values, () => {});
       }}
     >
       {({
@@ -154,7 +155,7 @@ export default function AutoPRCreateModal({
                             (res) => {
                               if (res) {
                                 return toast.warn(
-                                  'The selected date is already exists',
+                                  'The selected date is already exists'
                                 );
                               } else {
                                 onCreateMRPFromProduction(
@@ -165,13 +166,13 @@ export default function AutoPRCreateModal({
                                     setShowSaveModal(false);
                                     setAutoRawMaterialData([]);
                                   },
-                                  true,
+                                  true
                                 );
                               }
-                            },
+                            }
                           );
                         },
-                        noAlertFunc: () => { },
+                        noAlertFunc: () => {},
                       });
                     }}
                   >
@@ -192,8 +193,13 @@ export default function AutoPRCreateModal({
                       label="Business Unit"
                       onChange={(valueOption) => {
                         setFieldValue('businessUnit', valueOption || '');
-                        setFieldValue('plant', ''); 
-                        getPlantDDL(profileData?.userId,profileData?.accountId,valueOption?.value,setPlantDDL)
+                        setFieldValue('plant', '');
+                        getPlantDDL(
+                          profileData?.userId,
+                          profileData?.accountId,
+                          valueOption?.value,
+                          setPlantDDL
+                        );
                         setAutoRawMaterialData([]);
                       }}
                       errors={errors}
@@ -201,20 +207,20 @@ export default function AutoPRCreateModal({
                     />
                   </div>
                   <div className="col-lg-3">
-                      <NewSelect
-                        name="plant"
-                        options={plantDDL}
-                        value={values?.plant}
-                        label="Select Plant"
-                        onChange={(valueOption) => {
-                          setFieldValue("plant", valueOption);
-                          setAutoRawMaterialData([]);
-                        }}
-                        placeholder="Select Plant"
-                        errors={errors}
-                        touched={touched}
-                      />
-                    </div>
+                    <NewSelect
+                      name="plant"
+                      options={plantDDL}
+                      value={values?.plant}
+                      label="Select Plant"
+                      onChange={(valueOption) => {
+                        setFieldValue('plant', valueOption);
+                        setAutoRawMaterialData([]);
+                      }}
+                      placeholder="Select Plant"
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
                   <div className="col-lg-3">
                     <InputField
                       value={values?.fromDate}
@@ -258,7 +264,7 @@ export default function AutoPRCreateModal({
                     <button
                       type="button"
                       onClick={() => {
-                        setShowPproductionScheduleModal(true)
+                        setShowPproductionScheduleModal(true);
                       }}
                       disabled={!values?.businessUnit}
                       className="btn btn-primary mt-5 ml-5"
@@ -455,7 +461,8 @@ export default function AutoPRCreateModal({
               <ProductionScheduleModal
                 buId={values?.businessUnit?.value}
                 fromData={values?.fromDate}
-                toDate={values?.toDate} />
+                toDate={values?.toDate}
+              />
             </IViewModal>
           </IForm>
         </>

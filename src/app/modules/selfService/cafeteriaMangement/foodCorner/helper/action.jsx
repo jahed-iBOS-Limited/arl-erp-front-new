@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const fetchMenuListData = async (accId, setter) => {
   try {
@@ -107,7 +107,6 @@ export const menuUpdatePost = async (enrollId, list, setEditMode, setter) => {
   }
 };
 
-
 export const getMealConsumePlaceDDL = async (setter) => {
   try {
     let res = await axios.get(
@@ -116,4 +115,3 @@ export const getMealConsumePlaceDDL = async (setter) => {
     setter(res.data);
   } catch (error) {}
 };
-

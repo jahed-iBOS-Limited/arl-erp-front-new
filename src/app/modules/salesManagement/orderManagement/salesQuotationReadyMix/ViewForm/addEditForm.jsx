@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   getSalesQuotationById,
   setSalesQuotationSingleEmpty,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
 
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import Loading from "../../../../_helper/_loading";
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
   id: undefined,
-  salesOrg: "",
-  channel: "",
-  salesOffice: "",
-  soldtoParty: "",
-  partnerReffNo: "",
+  salesOrg: '',
+  channel: '',
+  salesOffice: '',
+  soldtoParty: '',
+  partnerReffNo: '',
   pricingDate: _todayDate(),
-  itemList: "",
-  quantity: "",
-  price: "",
-  value: "",
-  specification: "",
-  uom: "",
-  quotationCode: "",
+  itemList: '',
+  quantity: '',
+  price: '',
+  value: '',
+  specification: '',
+  uom: '',
+  quotationCode: '',
   isSpecification: false,
 };
 
@@ -65,7 +65,6 @@ export default function SalesQuotationViewForm({ history, show, onHide, id }) {
     } else {
       dispatch(setSalesQuotationSingleEmpty());
     }
-
   }, [id]);
 
   // single data Specification set
@@ -75,7 +74,6 @@ export default function SalesQuotationViewForm({ history, show, onHide, id }) {
       setSpecRowDto(singleData?.objSpec);
       setSpecTableData(singleData?.objSpec);
     }
-
   }, [singleData]);
 
   //Total Qty & Total Amount calculation
@@ -96,7 +94,6 @@ export default function SalesQuotationViewForm({ history, show, onHide, id }) {
     return () => {
       dispatch(setSalesQuotationSingleEmpty());
     };
-
   }, []);
 
   return (
@@ -107,7 +104,7 @@ export default function SalesQuotationViewForm({ history, show, onHide, id }) {
       isShow={singleData && false}
     >
       <IForm
-        title={"View Sales Quotation"}
+        title={'View Sales Quotation'}
         getProps={setObjprops}
         isDisabled={isDisabled}
         isHiddenReset

@@ -1,34 +1,33 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getSBUDDL } from "../../../../transportManagement/report/productWiseShipmentReport/helper";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _firstDateofMonth } from '../../../../_helper/_firstDateOfCurrentMonth';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { getSBUDDL } from '../../../../transportManagement/report/productWiseShipmentReport/helper';
 import {
   editSalesReturn,
   salesReturnApprove_api,
   salesReturnCancel,
-} from "../helper";
-import EditAndApprove from "./editAndApprove";
-import DamageEntryLandingForm from "./form";
-import DamageEntryLandingTable from "./table";
+} from '../helper';
+import EditAndApprove from './editAndApprove';
+import DamageEntryLandingForm from './form';
+import DamageEntryLandingTable from './table';
 
 const initData = {
   fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
-  status: { value: 0, label: "All" },
-  viewAs: { value: 1, label: "Supervisor" },
-  narration: "",
-  returnType: "",
-  sbu: "",
+  status: { value: 0, label: 'All' },
+  viewAs: { value: 1, label: 'Supervisor' },
+  narration: '',
+  returnType: '',
+  sbu: '',
 };
 
 const RecevingChallanAttachmentEntryLanding = () => {
@@ -59,8 +58,9 @@ const RecevingChallanAttachmentEntryLanding = () => {
       values?.status?.value
     }&BusuinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${
       values?.toDate
-    }&pageNo=${_pageNo}&pageSize=${_pageSize}&SalesReturnType=${3}&viewOrder=desc&CustomerId=${values
-      ?.customer?.value || 0}&ChannelId=${values?.channel?.value || 0}`;
+    }&pageNo=${_pageNo}&pageSize=${_pageSize}&SalesReturnType=${3}&viewOrder=desc&CustomerId=${
+      values?.customer?.value || 0
+    }&ChannelId=${values?.channel?.value || 0}`;
 
     landingActions(url, (resData) => {
       setGridData({
@@ -109,11 +109,11 @@ const RecevingChallanAttachmentEntryLanding = () => {
   };
 
   const salesReturnApprove = (values, item) => {
-    let url = "";
+    let url = '';
     let payload = {};
     if ([2].includes(values?.viewAs?.value)) {
       if (!values?.narration) {
-        return toast.warning("Narration is required");
+        return toast.warning('Narration is required');
       }
       url = `/oms/SalesInformation/SalesChallanReturnApprove?Challan=${item?.deliveryChallan}&unitid=${buId}&intpartid=3&strNarration=${values?.narration}&intInactiveBy=${userId}&intCustomerid=${item?.businessPartnerId}`;
     }
@@ -153,7 +153,7 @@ const RecevingChallanAttachmentEntryLanding = () => {
   const editHandler = (values) => {
     const selectedItems = gridData?.data?.filter((item) => item?.isSelected);
     if (selectedItems?.length < 1) {
-      return toast.warn("Please select at least one row!");
+      return toast.warn('Please select at least one row!');
     }
     // const payload = {
     //   head: {

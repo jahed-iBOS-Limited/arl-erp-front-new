@@ -1,24 +1,23 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 import {
   Card,
   CardBody,
   CardHeader,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
-import { _monthLastDate } from "../../../_helper/_monthLastDate";
-import PaginationSearch from "../../../_helper/_search";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _timeFormatter } from "../../../_helper/_timeFormatter";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _monthFirstDate } from '../../../_helper/_monthFirstDate';
+import { _monthLastDate } from '../../../_helper/_monthLastDate';
+import PaginationSearch from '../../../_helper/_search';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _timeFormatter } from '../../../_helper/_timeFormatter';
 
 const initData = {
   fromDate: _monthFirstDate(),
@@ -45,7 +44,7 @@ function UnloadingRegister() {
     );
   }, []);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getlandingData(
       `/mes/MSIL/GetUnloadingRegisterLanding?fromDate=${values?.fromDate}&toDate=${values?.toDate}&intAccountId=${profileData?.accountId}&intBusinessUnitId=${selectedBusinessUnit?.value}&pageNo=${pageNo}&pageSize=${pageSize}&search=${searchValue}`
     );
@@ -67,7 +66,7 @@ function UnloadingRegister() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Unloading Register"}>
+              <CardHeader title={'Unloading Register'}>
                 {/* <CardHeaderToolbar>
                   <button
                     onClick={() => {
@@ -92,7 +91,7 @@ function UnloadingRegister() {
                       name="fromDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                       }}
                       errors={errors}
                       touched={touched}
@@ -105,7 +104,7 @@ function UnloadingRegister() {
                       name="toDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                       errors={errors}
                       touched={touched}
@@ -114,7 +113,7 @@ function UnloadingRegister() {
 
                   <div className="col-md-3">
                     <button
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                       type="button"
                       className="btn btn-primary ml-3"
                       disabled={!values?.fromDate || !values?.toDate}
@@ -129,13 +128,13 @@ function UnloadingRegister() {
                   </div>
                   <div className="col-md-3">
                     <button
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                       type="button"
                       className="btn btn-primary float-right"
                       onClick={() => {
                         history.push({
                           pathname:
-                            "/production-management/ACCLFactory/Unloading-Register/createCranStopage",
+                            '/production-management/ACCLFactory/Unloading-Register/createCranStopage',
                         });
                       }}
                     >
@@ -155,23 +154,23 @@ function UnloadingRegister() {
                         <table className="table table-striped table-bordered bj-table bj-table-landing">
                           <thead>
                             <tr>
-                              <th style={{ minWidth: "30px" }}>Sl</th>
-                              <th style={{ minWidth: "120px" }}>
+                              <th style={{ minWidth: '30px' }}>Sl</th>
+                              <th style={{ minWidth: '120px' }}>
                                 Lighter Vessel Name
                               </th>
-                              <th style={{ minWidth: "85px" }}>Recieve Date</th>
-                              <th style={{ minWidth: "85px" }}>Recieve Time</th>
-                              <th style={{ minWidth: "85px" }}>Start Date</th>
-                              <th style={{ minWidth: "85px" }}>Start Time</th>
-                              <th style={{ minWidth: "85px" }}>End Date</th>
-                              <th style={{ minWidth: "85px" }}>End Time</th>
+                              <th style={{ minWidth: '85px' }}>Recieve Date</th>
+                              <th style={{ minWidth: '85px' }}>Recieve Time</th>
+                              <th style={{ minWidth: '85px' }}>Start Date</th>
+                              <th style={{ minWidth: '85px' }}>Start Time</th>
+                              <th style={{ minWidth: '85px' }}>End Date</th>
+                              <th style={{ minWidth: '85px' }}>End Time</th>
                               {/* <th style={{ minWidth: "85px" }}>Item</th>
                               <th style={{ minWidth: "85px" }}>Quantity</th> */}
-                              <th style={{ minWidth: "85px" }}>Crane</th>
+                              <th style={{ minWidth: '85px' }}>Crane</th>
                               {/* <th style={{ minWidth: "85px" }}>BN QTY</th>
                               <th style={{ minWidth: "85px" }}>Survey QTY</th>
                               <th style={{ minWidth: "85px" }}>Survey No</th> */}
-                              <th style={{ minWidth: "85px" }}>
+                              <th style={{ minWidth: '85px' }}>
                                 Mobile Number
                               </th>
                               {/* <th style={{ minWidth: "120px" }}>PO Number</th>
@@ -190,7 +189,7 @@ function UnloadingRegister() {
                               <th style={{ minWidth: "85px" }}>UoM</th>
                               <th style={{ minWidth: "85px" }}>Remarks</th>
                               <th style={{ minWidth: "85px" }}>Status</th> */}
-                              <th style={{ minWidth: "50px" }}>Action</th>
+                              <th style={{ minWidth: '50px' }}>Action</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -203,19 +202,19 @@ function UnloadingRegister() {
                                     {_dateFormatter(item?.dteReceiveDate)}
                                   </td>
                                   <td className="text-center">
-                                    {_timeFormatter(item?.tmReceiveTime || "")}
+                                    {_timeFormatter(item?.tmReceiveTime || '')}
                                   </td>
                                   <td className="text-center">
                                     {_dateFormatter(item?.dteStartDate)}
                                   </td>
                                   <td className="text-center">
-                                    {_timeFormatter(item?.tmStartTime || "")}
+                                    {_timeFormatter(item?.tmStartTime || '')}
                                   </td>
                                   <td className="text-center">
                                     {_dateFormatter(item?.dteEndDate)}
                                   </td>
                                   <td className="text-center">
-                                    {_timeFormatter(item?.tmEndTime || "")}
+                                    {_timeFormatter(item?.tmEndTime || '')}
                                   </td>
                                   {/* <td>{item?.strRawMaterialName}</td>
                                   <td className="text-center">

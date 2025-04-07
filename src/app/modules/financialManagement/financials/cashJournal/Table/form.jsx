@@ -1,45 +1,41 @@
-
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import Select from "react-select";
-import { getSBU } from "../../../../_helper/_commonApi";
-import findIndex from "../../../../_helper/_findIndex";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { bankJournalValidationSchema } from "../../../../_helper/_validationSchema";
-import { setCashJournalLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import { getCashJournalGridData } from "../_redux/Actions";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import Select from 'react-select';
+import { getSBU } from '../../../../_helper/_commonApi';
+import findIndex from '../../../../_helper/_findIndex';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { bankJournalValidationSchema } from '../../../../_helper/_validationSchema';
+import { setCashJournalLandingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import { getCashJournalGridData } from '../_redux/Actions';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "./../../../../../../_metronic/_partials/controls";
-import FormikError from "./../../../../_helper/_formikError";
-import { IInput } from "./../../../../_helper/_input";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import customStyles from "./../../../../selectCustomStyle";
+} from './../../../../../../_metronic/_partials/controls';
+import FormikError from './../../../../_helper/_formikError';
+import { IInput } from './../../../../_helper/_input';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import customStyles from './../../../../selectCustomStyle';
 import {
   EmptyCashJournalGridData,
   getCashJournalGridDatabyCode,
-} from "./../_redux/Actions";
-import GridData from "./grid";
-
-
+} from './../_redux/Actions';
+import GridData from './grid';
 
 const initData = {
   id: undefined,
-  sbu: "",
-  accountingJournalTypeId: "",
+  sbu: '',
+  accountingJournalTypeId: '',
   transactionDate: _todayDate(),
   completeDate: _todayDate(),
   toDate: _todayDate(),
   fromDate: _todayDate(),
-  code: "",
-  type: "notComplated",
+  code: '',
+  type: 'notComplated',
 };
 
 export default function HeaderForm({
@@ -60,13 +56,8 @@ export default function HeaderForm({
 }) {
   const [sbuDDl, setSbuDDl] = useState([]);
   const [journalTypeDDL, setJournalTypeDDL] = useState([]);
-  const {
-    pageNo,
-    setPageNo,
-    pageSize,
-    setPageSize,
-    totalCountRowDto,
-  } = paginationState;
+  const { pageNo, setPageNo, pageSize, setPageSize, totalCountRowDto } =
+    paginationState;
 
   let cashJournal = useSelector(
     (state) => {
@@ -78,12 +69,9 @@ export default function HeaderForm({
     { shallowEqual }
   );
 
-  let { userRole } = useSelector(
-    (state) => state?.authData,
-    { shallowEqual }
-  );
+  let { userRole } = useSelector((state) => state?.authData, { shallowEqual });
 
-  const userPermission = userRole[findIndex(userRole, "Cash Journal")];
+  const userPermission = userRole[findIndex(userRole, 'Cash Journal')];
 
   const canCreate = userPermission?.isCreate;
 
@@ -94,19 +82,14 @@ export default function HeaderForm({
   //Dispatch Get getEmpDDLAction
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
-      getSBU(
-        profileData?.accountId,
-        selectedBusinessUnit.value,
-        setSbuDDl
-      );
+      getSBU(profileData?.accountId, selectedBusinessUnit.value, setSbuDDl);
       setJournalTypeDDL([
-        { value: 1, label: "Cash Receipts" },
-        { value: 2, label: "Cash Payments" },
-        { value: 3, label: "Cash Transfer" },
+        { value: 1, label: 'Cash Receipts' },
+        { value: 2, label: 'Cash Payments' },
+        { value: 3, label: 'Cash Transfer' },
       ]);
     }
     return () => dispatch(EmptyCashJournalGridData());
-
   }, [selectedBusinessUnit, profileData]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -134,22 +117,22 @@ export default function HeaderForm({
           fromDate: _todayDate(),
           toDate: _todayDate(),
           completeDate: _todayDate(),
-          type: cashJournalLanding?.type || "notComplated",
+          type: cashJournalLanding?.type || 'notComplated',
         }}
         validationSchema={bankJournalValidationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
             <Form className="form form-label-right cj">
               <Card>
                 {true && <ModalProgressBar />}
-                <CardHeader title={"Cash Journal"}>
+                <CardHeader title={'Cash Journal'}>
                   <CardHeaderToolbar>
                     <button
                       onClick={() => {
                         dispatch(
-                          setCashJournalLandingAction({ ...values, code: "" })
+                          setCashJournalLandingAction({ ...values, code: '' })
                         );
                         history.push({
                           pathname: `${window.location.pathname}/create`,
@@ -162,7 +145,9 @@ export default function HeaderForm({
                       }}
                       className="btn btn-primary"
                       disabled={
-                        !canCreate || !values?.sbu || !values?.accountingJournalTypeId
+                        !canCreate ||
+                        !values?.sbu ||
+                        !values?.accountingJournalTypeId
                       }
                     >
                       Create
@@ -171,7 +156,7 @@ export default function HeaderForm({
                 </CardHeader>
                 <CardBody
                   style={{
-                    padding: "10px",
+                    padding: '10px',
                   }}
                 >
                   <div className="row m-0 align-items-stretch">
@@ -180,14 +165,14 @@ export default function HeaderForm({
                       <div
                         className="row m-0 bank-journal bank-journal-custom bj-left pb-2"
                         style={{
-                          rowGap: "10px",
+                          rowGap: '10px',
                         }}
                       >
                         <div className="col-lg-4 p-0 pr-1">
                           <label>Select SBU</label>
                           <Select
                             onChange={(valueOption) => {
-                              setFieldValue("sbu", valueOption);
+                              setFieldValue('sbu', valueOption);
                               setRowDto([]);
                             }}
                             options={sbuDDl || []}
@@ -218,7 +203,7 @@ export default function HeaderForm({
                             placeholder="Journal Type"
                             onChange={(valueOption) => {
                               setFieldValue(
-                                "accountingJournalTypeId",
+                                'accountingJournalTypeId',
                                 valueOption
                               );
                               setRowDto([]);
@@ -233,7 +218,7 @@ export default function HeaderForm({
 
                         <div
                           className="col-lg-4 p-0"
-                          style={{ position: "relative" }}
+                          style={{ position: 'relative' }}
                         >
                           <span>Journal Code</span>
                           <IInput value={values.code} name="code" />
@@ -241,10 +226,10 @@ export default function HeaderForm({
                           <i
                             class="fas fa-search"
                             style={{
-                              position: "absolute",
-                              right: "20px",
-                              top: "22px",
-                              fontSize: "13px",
+                              position: 'absolute',
+                              right: '20px',
+                              top: '22px',
+                              fontSize: '13px',
                             }}
                           ></i>
                         </div>
@@ -259,7 +244,7 @@ export default function HeaderForm({
                               value={values?.fromDate}
                               name="fromDate"
                               onChange={(e) => {
-                                setFieldValue("fromDate", e.target.value);
+                                setFieldValue('fromDate', e.target.value);
                               }}
                               type="date"
                             />
@@ -274,7 +259,7 @@ export default function HeaderForm({
                               value={values?.toDate}
                               name="toDate"
                               onChange={(e) => {
-                                setFieldValue("toDate", e.target.value);
+                                setFieldValue('toDate', e.target.value);
                               }}
                               type="date"
                             />
@@ -284,8 +269,8 @@ export default function HeaderForm({
                         <div
                           className="col-lg-6"
                           style={{
-                            display: "flex",
-                            alignContent: "end",
+                            display: 'flex',
+                            alignContent: 'end',
                           }}
                         >
                           <div
@@ -297,14 +282,14 @@ export default function HeaderForm({
                               <input
                                 type="radio"
                                 name="type"
-                                checked={values.type === "notComplated"}
+                                checked={values.type === 'notComplated'}
                                 className="mr-1 pointer"
                                 onChange={(e) => {
-                                  setFieldValue("searchEmployee", {
+                                  setFieldValue('searchEmployee', {
                                     value: profileData.userId,
                                     label: profileData.userName,
                                   });
-                                  setFieldValue("type", "notComplated");
+                                  setFieldValue('type', 'notComplated');
                                   setRowDto([]);
                                   dispatch(
                                     getCashJournalGridData(
@@ -329,10 +314,10 @@ export default function HeaderForm({
                               <input
                                 type="radio"
                                 name="type"
-                                checked={values.type === "complated"}
+                                checked={values.type === 'complated'}
                                 className="mr-1 pointer"
                                 onChange={(e) => {
-                                  setFieldValue("type", "complated");
+                                  setFieldValue('type', 'complated');
                                   setRowDto([]);
                                   dispatch(
                                     getCashJournalGridData(
@@ -358,10 +343,10 @@ export default function HeaderForm({
                               <input
                                 type="radio"
                                 name="type"
-                                checked={values.type === "canceled"}
+                                checked={values.type === 'canceled'}
                                 className="mr-1 pointer"
                                 onChange={(e) => {
-                                  setFieldValue("type", "canceled");
+                                  setFieldValue('type', 'canceled');
                                   setRowDto([]);
                                   dispatch(
                                     getCashJournalGridData(
@@ -397,7 +382,7 @@ export default function HeaderForm({
                               dispatch(
                                 setCashJournalLandingAction({
                                   ...values,
-                                  code: "",
+                                  code: '',
                                 })
                               );
                               if (!values.code) {
@@ -433,20 +418,20 @@ export default function HeaderForm({
                     <div className="col-lg-3 p-0">
                       <div
                         className="bank-journal bank-journal-custom bj-left py-2"
-                        style={{ height: "100%" }}
+                        style={{ height: '100%' }}
                       >
                         <div
                           className="row m-0"
                           style={{
-                            gap: "10px",
+                            gap: '10px',
                           }}
                         >
                           <div
                             style={{
-                              width: "5px",
-                              height: "100%",
-                              background: "white",
-                              position: "absolute",
+                              width: '5px',
+                              height: '100%',
+                              background: 'white',
+                              position: 'absolute',
                               top: 0,
                             }}
                           ></div>
@@ -458,7 +443,7 @@ export default function HeaderForm({
                                 value={values?.completeDate}
                                 name="completeDate"
                                 onChange={(e) =>
-                                  setFieldValue("completeDate", e.target.value)
+                                  setFieldValue('completeDate', e.target.value)
                                 }
                                 type="date"
                               />

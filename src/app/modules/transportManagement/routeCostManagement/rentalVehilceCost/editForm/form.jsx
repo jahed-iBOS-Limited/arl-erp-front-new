@@ -1,6 +1,6 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import InputField from "../../../../_helper/_inputField";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import InputField from '../../../../_helper/_inputField';
 
 export default function FormCmp({
   saveHandler,

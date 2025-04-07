@@ -1,8 +1,5 @@
-import React from "react";
-import {
-  UserStatusCssClasses,
-  UserStatusTitles
-} from "../../UserUIHelpers";
+import React from 'react';
+import { UserStatusCssClasses, UserStatusTitles } from '../../UserUIHelpers';
 
 export const StatusColumnFormatter = (cellContent, row) => (
   <span

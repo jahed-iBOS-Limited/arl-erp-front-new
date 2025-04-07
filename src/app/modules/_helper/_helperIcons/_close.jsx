@@ -1,11 +1,11 @@
-import React from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import React from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 export default function IClose({ closer, id, title, styles }) {
   return (
     <div>
       <OverlayTrigger
-        overlay={<Tooltip id="close-icon">{title || "Close"}</Tooltip>}
+        overlay={<Tooltip id="close-icon">{title || 'Close'}</Tooltip>}
       >
         <span>
           <i

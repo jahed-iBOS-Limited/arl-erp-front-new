@@ -1,9 +1,9 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import decimalToPercentage from "../../../_helper/_decimalToPercentage";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import percentageToDecemal from "../../../_helper/_percentageToDecemal";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import decimalToPercentage from '../../../_helper/_decimalToPercentage';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import percentageToDecemal from '../../../_helper/_percentageToDecemal';
 
 // Get Supplier List DDL
 // https://localhost:44396/imp/LCBusinessPartner/GetSupplierListDDL?accountId=2&businessUnitId=164&partnerTypeId=16
@@ -56,7 +56,7 @@ export const CreateBusinessPartner = async (payload, cb) => {
       payload
     );
     if (res.status === 200 && res?.data) {
-      toast.success(res.message || "Submitted  successfully");
+      toast.success(res.message || 'Submitted  successfully');
       cb();
     }
   } catch (error) {
@@ -72,7 +72,7 @@ export const CreateBusinessPartnerForBank = async (payload, cb) => {
       payload
     );
     if (res.status === 200 && res?.data) {
-      toast.success(res.message || "Submitted  successfully");
+      toast.success(res.message || 'Submitted  successfully');
       cb();
     }
   } catch (error) {
@@ -82,14 +82,14 @@ export const CreateBusinessPartnerForBank = async (payload, cb) => {
 
 // Create Business Partner fot cnf"
 export const CreateBusinessPartnerForCnF = async (payload, cb) => {
-  if (payload.length < 1) return toast.warn("Please add atleast one row");
+  if (payload.length < 1) return toast.warn('Please add atleast one row');
   try {
     const res = await axios.post(
       `/imp/FormulaForCalculation/CreateFormulaForCnFCharge`,
       payload
     );
     if (res.status === 200 && res?.data) {
-      toast.success(res.message || "Submitted  successfully");
+      toast.success(res.message || 'Submitted  successfully');
       cb();
     }
   } catch (error) {
@@ -139,7 +139,7 @@ export const CreateInsuranceCompany = async (
     );
     if (res.status === 200 && res?.data) {
       setDisabled(false);
-      toast.success(res.data.message || "Submitted  successfully");
+      toast.success(res.data.message || 'Submitted  successfully');
       cb();
     }
   } catch (error) {
@@ -201,12 +201,12 @@ export const checkBusinessPartner = async (
           value: res?.data?.businessPartnerId,
           label: res?.data?.businessPartnerName,
         },
-        shippingAgent: "",
+        shippingAgent: '',
         bank: {
           value: res?.data?.bankId,
           label: res?.data?.bankName,
         },
-        provider: "",
+        provider: '',
         coverNotePrefix: res?.data?.coverNotePrefix,
         policyPrefix: res?.data?.policyPrefix,
         commissionPercentage: decimalToPercentage(
@@ -233,7 +233,7 @@ export const checkBusinessPartner = async (
         otherCharge: res?.data?.numOtherBankCharge,
         isToleranceIncluded: res?.data?.isToleranceInclude,
         isMinChargeIncluded: res?.data?.isMinimumApplied,
-        minCharge: "",
+        minCharge: '',
         ddCommissionRate: decimalToPercentage(res?.data?.numComDdrate),
         ddCommissionMinimum: decimalToPercentage(res?.data?.numComDdminimum),
         ttCommissionRate: decimalToPercentage(res?.data?.numComTtrate),
@@ -245,7 +245,7 @@ export const checkBusinessPartner = async (
           return {
             ...item,
             numRate: item?.numRate * 100,
-            numToAmount: item?.numToAmount || "",
+            numToAmount: item?.numToAmount || '',
           };
         })
       );
@@ -266,7 +266,7 @@ export const DeleteBusinessPartner = async (lcPartnerId, getLandingData) => {
       `/imp/LCBusinessPartner/DeleteBusinessPartner?LCPartnerId=${lcPartnerId}`
     );
     if (res.status === 200) {
-      toast.success(res.message || "Deleted  successfully");
+      toast.success(res.message || 'Deleted  successfully');
       getLandingData();
     }
   } catch (error) {
@@ -294,12 +294,12 @@ export const GetBusinessPartnerDetails = async (
         value: res?.data?.businessPartnerId,
         label: res?.data?.businessPartnerName,
       },
-      shippingAgent: "",
+      shippingAgent: '',
       bank: {
         value: res?.data?.bankId,
         label: res?.data?.bankName,
       },
-      provider: "",
+      provider: '',
       coverNotePrefix: res?.data?.coverNotePrefix,
       policyPrefix: res?.data?.policyPrefix,
       commissionPercentage: decimalToPercentage(
@@ -328,7 +328,7 @@ export const GetBusinessPartnerDetails = async (
       otherCharge: res?.data?.numOtherBankCharge,
       isToleranceIncluded: res?.data?.isToleranceInclude,
       isMinChargeIncluded: res?.data?.isMinimumApplied,
-      minCharge: "",
+      minCharge: '',
       ddCommissionRate: decimalToPercentage(res?.data?.numComDdrate),
       ddCommissionMinimum: decimalToPercentage(res?.data?.numComDdminimum),
       ttCommissionRate: decimalToPercentage(res?.data?.numComTtrate),
@@ -339,7 +339,7 @@ export const GetBusinessPartnerDetails = async (
       return {
         ...item,
         numRate: item?.numRate * 100,
-        numToAmount: item?.numToAmount || "",
+        numToAmount: item?.numToAmount || '',
       };
     });
     console.log(res);
@@ -354,40 +354,40 @@ export const GetBusinessPartnerDetails = async (
 export const validationSchema = Yup.object().shape({
   type: Yup.object()
     .shape({
-      label: Yup.string().required("Type is required"),
-      value: Yup.string().required("Type is required"),
+      label: Yup.string().required('Type is required'),
+      value: Yup.string().required('Type is required'),
     })
-    .typeError("Type is required"),
+    .typeError('Type is required'),
   supplier: Yup.object()
     .shape({
-      label: Yup.string().required("Supplier is required"),
-      value: Yup.string().required("Supplier is required"),
+      label: Yup.string().required('Supplier is required'),
+      value: Yup.string().required('Supplier is required'),
     })
-    .typeError("Supplier is required"),
+    .typeError('Supplier is required'),
 });
 
 export const supplierValidationSchema = Yup.object().shape({
   type: Yup.object()
     .shape({
-      label: Yup.string().required("Type is required"),
-      value: Yup.string().required("Type is required"),
+      label: Yup.string().required('Type is required'),
+      value: Yup.string().required('Type is required'),
     })
-    .typeError("Type is required"),
+    .typeError('Type is required'),
   // shippingAgent: Yup.string().required("Supplier is required"),
 });
 export const insuranceValidationSchema = Yup.object().shape({
   type: Yup.object()
     .shape({
-      label: Yup.string().required("Type is required"),
-      value: Yup.string().required("Type is required"),
+      label: Yup.string().required('Type is required'),
+      value: Yup.string().required('Type is required'),
     })
-    .typeError("Type is required"),
+    .typeError('Type is required'),
   supplier: Yup.object()
     .shape({
-      label: Yup.string().required("Supplier is required"),
-      value: Yup.string().required("Supplier is required"),
+      label: Yup.string().required('Supplier is required'),
+      value: Yup.string().required('Supplier is required'),
     })
-    .typeError("Supplier is required"),
+    .typeError('Supplier is required'),
   // coverNotePrefix: Yup.string().required("Cover note prefix is required"),
   // policyPrefix: Yup.string().required("Policy prefix is required"),
   // commissionPercentage: Yup.number()
@@ -421,23 +421,23 @@ export const insuranceValidationSchema = Yup.object().shape({
 export const validationSchemaForTypeBank = Yup.object().shape({
   type: Yup.object()
     .shape({
-      label: Yup.string().required("Type is required"),
-      value: Yup.string().required("Type is required"),
+      label: Yup.string().required('Type is required'),
+      value: Yup.string().required('Type is required'),
     })
-    .typeError("Type is required"),
+    .typeError('Type is required'),
   supplier: Yup.object()
     .shape({
-      label: Yup.string().required("Supplier is required"),
-      value: Yup.string().required("Supplier is required"),
+      label: Yup.string().required('Supplier is required'),
+      value: Yup.string().required('Supplier is required'),
     })
-    .typeError("Supplier is required"),
+    .typeError('Supplier is required'),
 
   bank: Yup.object()
     .shape({
-      label: Yup.string().required("Bank is required"),
-      value: Yup.string().required("Bank is required"),
+      label: Yup.string().required('Bank is required'),
+      value: Yup.string().required('Bank is required'),
     })
-    .typeError("Bank is required"),
+    .typeError('Bank is required'),
   // atsightCommissionQ1: Yup.number()
   //   .min(0, "Atsight Commission Q1 has to be a valid number")
   //   .required("Atsight Commission Q1 is required"),
@@ -479,19 +479,19 @@ export const validationSchemaForTypeBank = Yup.object().shape({
 export const validationSchemaForCRF = Yup.object().shape({
   type: Yup.object()
     .shape({
-      label: Yup.string().required("Type is required"),
-      value: Yup.string().required("Type is required"),
+      label: Yup.string().required('Type is required'),
+      value: Yup.string().required('Type is required'),
     })
-    .typeError("Type is required"),
+    .typeError('Type is required'),
   supplier: Yup.object()
     .shape({
-      label: Yup.string().required("Supplier is required"),
-      value: Yup.string().required("Supplier is required"),
+      label: Yup.string().required('Supplier is required'),
+      value: Yup.string().required('Supplier is required'),
     })
-    .typeError("Supplier is required"),
+    .typeError('Supplier is required'),
   from: Yup.number()
-    .min(0, "From has to be a valid number")
-    .required("From is required"),
+    .min(0, 'From has to be a valid number')
+    .required('From is required'),
   // to: Yup.number()
   //   .min(0, "To has to be a valid number")
   //   .required("To is required"),

@@ -29,14 +29,16 @@ export const getIncomeStatement_api = async (
   viewType,
   typeRef,
   forecastType = true,
-  subDivisionLabel,
+  subDivisionLabel
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `/fino/IncomeStatement/GetIncomeStatementProjected?partName=${partName}&dteFromDate=${fromDate}&dteToDate=${toDate}&dteFromDateL=${fromDateL}&dteToDateL=${toDateL}&BusinessUnitGroup=${edLabel}&BusinessUnitId=${buId}&SBUID=${0}&intProfitCenId=${profitCenId ||
-        0}&fsComponentId=0&GLId=0&SUBGLId=0&ConvertionRate=${conversionRate}&SubGroup=${subDivisionLabel ||
-        'all'}&reportTypeId=${reportType}&ViewType=${viewType}&ViewTypeReff=${typeRef}&isForecast=${forecastType}`,
+      `/fino/IncomeStatement/GetIncomeStatementProjected?partName=${partName}&dteFromDate=${fromDate}&dteToDate=${toDate}&dteFromDateL=${fromDateL}&dteToDateL=${toDateL}&BusinessUnitGroup=${edLabel}&BusinessUnitId=${buId}&SBUID=${0}&intProfitCenId=${
+        profitCenId || 0
+      }&fsComponentId=0&GLId=0&SUBGLId=0&ConvertionRate=${conversionRate}&SubGroup=${
+        subDivisionLabel || 'all'
+      }&reportTypeId=${reportType}&ViewType=${viewType}&ViewTypeReff=${typeRef}&isForecast=${forecastType}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -146,12 +148,12 @@ export const projectedFinancialRatios = async ({
     const toDateStr = toDate.toISOString().split('T')[0];
 
     const financialRatioApi = await axios.get(
-      `/fino/BudgetFinancial/GetFinancialRatioProjectd?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&Todate=${values?.toDate}&Type=2`,
+      `/fino/BudgetFinancial/GetFinancialRatioProjectd?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&Todate=${values?.toDate}&Type=2`
     );
     const financialRatioTableResponse = financialRatioApi.data;
 
     const financialRatioComponentApi = await axios.get(
-      `/fino/BudgetFinancial/GetFinancialRatioProjectd?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&Todate=${values?.toDate}&Type=1`,
+      `/fino/BudgetFinancial/GetFinancialRatioProjectd?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&Todate=${values?.toDate}&Type=1`
     );
     const financialRatioTableForLastPeriodResponse =
       financialRatioComponentApi.data;
@@ -178,7 +180,7 @@ export const projectedFinancialRatios = async ({
           Todate: values?.toDate,
           Type: 1,
         },
-      },
+      }
     );
     const financialRatioComponentTableResponse = componentResponse.data;
 
@@ -191,7 +193,7 @@ export const projectedFinancialRatios = async ({
           Todate: toDateStr,
           Type: 1,
         },
-      },
+      }
     );
     const financialRatioComponentTableForLastPeriodResponse =
       componentLastPeriodResponse.data;

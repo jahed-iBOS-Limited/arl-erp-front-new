@@ -1,20 +1,20 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import IForm from "../../../../_helper/_form";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IForm from '../../../../_helper/_form';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 const initData = {
-  businessUnit: "",
-  itemSubCategoryName: "",
-  itemCategoryName: "",
-  itemTypeName: "",
+  businessUnit: '',
+  itemSubCategoryName: '',
+  itemCategoryName: '',
+  itemTypeName: '',
 };
 
 export default function ItemSubCategoryExpend() {
@@ -72,7 +72,7 @@ export default function ItemSubCategoryExpend() {
           true
         );
       } else {
-        toast.warn("Please add minimum one new Business Unit");
+        toast.warn('Please add minimum one new Business Unit');
       }
     }
   };
@@ -97,13 +97,13 @@ export default function ItemSubCategoryExpend() {
         (item) => item?.businessUnitId === values?.businessUnit?.value
       )
     ) {
-      return toast.warn("Business Unit already added");
+      return toast.warn('Business Unit already added');
     }
     const checkCategoryStatus = await checkFunction(
       values?.businessUnit?.value
     );
     if (!checkCategoryStatus) {
-      return toast.warn("Category not configured for this Business Unit");
+      return toast.warn('Category not configured for this Business Unit');
     }
 
     try {
@@ -135,7 +135,7 @@ export default function ItemSubCategoryExpend() {
     }
   };
 
-  console.log("rowData", rowData);
+  console.log('rowData', rowData);
 
   useEffect(() => {
     if (id) {
@@ -143,7 +143,7 @@ export default function ItemSubCategoryExpend() {
         itemSubCategoryName: itemMasterSubCategoryName,
         itemCategoryName: itemMasterCategoryName,
         itemTypeName: itemMasterTypeName,
-        businessUnit: "",
+        businessUnit: '',
       };
       setSingleData(editedInitData);
     }
@@ -156,7 +156,6 @@ export default function ItemSubCategoryExpend() {
         }
       );
     }
-
   }, [id]);
 
   return (
@@ -170,7 +169,7 @@ export default function ItemSubCategoryExpend() {
             resetForm(initData);
           });
         } else {
-          toast.warn("Please add minimum one Business Unit");
+          toast.warn('Please add minimum one Business Unit');
         }
       }}
     >
@@ -201,7 +200,7 @@ export default function ItemSubCategoryExpend() {
                     type="text"
                     placeholder="Item Sub Category Name"
                     onChange={(e) => {
-                      setFieldValue("itemSubCategoryName", e.target.value);
+                      setFieldValue('itemSubCategoryName', e.target.value);
                     }}
                   />
                 </div>
@@ -214,7 +213,7 @@ export default function ItemSubCategoryExpend() {
                     type="text"
                     placeholder="Item Category Name"
                     onChange={(e) => {
-                      setFieldValue("itemCategoryName", e.target.value);
+                      setFieldValue('itemCategoryName', e.target.value);
                     }}
                   />
                 </div>
@@ -227,7 +226,7 @@ export default function ItemSubCategoryExpend() {
                     type="text"
                     placeholder="Item Type Name"
                     onChange={(e) => {
-                      setFieldValue("itemTypeName", e.target.value);
+                      setFieldValue('itemTypeName', e.target.value);
                     }}
                   />
                 </div>
@@ -238,7 +237,7 @@ export default function ItemSubCategoryExpend() {
                     value={values?.businessUnit}
                     label="Business Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("businessUnit", valueOption);
+                      setFieldValue('businessUnit', valueOption);
                     }}
                     // isDisabled={id}
                   />
@@ -249,7 +248,7 @@ export default function ItemSubCategoryExpend() {
                     className="btn btn-primary"
                     onClick={() => {
                       addRow(values, () => {
-                        setFieldValue("businessUnit", "");
+                        setFieldValue('businessUnit', '');
                       });
                     }}
                     disabled={!values?.businessUnit}
@@ -263,7 +262,7 @@ export default function ItemSubCategoryExpend() {
                 <div className="table-responsive">
                   <table
                     className={
-                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                      'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                     }
                   >
                     <thead>
@@ -277,17 +276,17 @@ export default function ItemSubCategoryExpend() {
                     </thead>
                     {rowData?.businessUnit?.map((item, index) => (
                       <tr key={index}>
-                        <td className="text-center" style={{ width: "40px" }}>
+                        <td className="text-center" style={{ width: '40px' }}>
                           {index + 1}
                         </td>
                         <td className="text-left">
-                          {itemMasterSubCategoryName || ""}
+                          {itemMasterSubCategoryName || ''}
                         </td>
                         <td className="text-left">
-                          {itemMasterCategoryName || ""}
+                          {itemMasterCategoryName || ''}
                         </td>
                         <td className="text-left">
-                          {itemMasterTypeName || ""}
+                          {itemMasterTypeName || ''}
                         </td>
                         <td className="text-left">{item?.businessUnitName}</td>
                       </tr>
@@ -297,14 +296,14 @@ export default function ItemSubCategoryExpend() {
               )}
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -1,32 +1,32 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import IButton from "../../../../_helper/iButton";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Loading from "../../../../_helper/_loading";
-import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
-import PaginationSearch from "../../../../_helper/_search";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import IButton from '../../../../_helper/iButton';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
+import Loading from '../../../../_helper/_loading';
+import { _monthFirstDate } from '../../../../_helper/_monthFirstDate';
+import PaginationSearch from '../../../../_helper/_search';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   DeleteLoadingInformation,
   GetDomesticPortDDL,
   getLighterLoadUnloadPagination,
-} from "../helper";
+} from '../helper';
 
 const initData = {
   fromDate: _monthFirstDate(),
   toDate: _todayDate(),
-  port: { value: 0, label: "All" },
-  organization: "",
+  port: { value: 0, label: 'All' },
+  organization: '',
 };
 
 export function LoadingLandingTable() {
@@ -36,7 +36,7 @@ export function LoadingLandingTable() {
   const [loading, setLoading] = useState(false);
   const [portDDL, setPortDDL] = useState([]);
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
 
   //paginationState
   const [pageNo, setPageNo] = useState(0);
@@ -70,7 +70,6 @@ export function LoadingLandingTable() {
     if (accId && buId) {
       setLandingData(pageNo, pageSize, initData, searchTerm);
     }
-
   }, [accId, buId]);
 
   let totalQuantity = 0;
@@ -99,13 +98,13 @@ export function LoadingLandingTable() {
                   <NewSelect
                     name="organization"
                     options={[
-                      { value: 73244, label: "G2G BADC" },
-                      { value: 73245, label: "G2G BCIC" },
+                      { value: 73244, label: 'G2G BADC' },
+                      { value: 73245, label: 'G2G BCIC' },
                     ]}
                     value={values?.organization}
                     label="Organization"
                     onChange={(valueOption) => {
-                      setFieldValue("organization", valueOption);
+                      setFieldValue('organization', valueOption);
                     }}
                     placeholder="Organization"
                   />
@@ -113,12 +112,12 @@ export function LoadingLandingTable() {
                 <div className="col-lg-3">
                   <NewSelect
                     name="port"
-                    options={[{ value: 0, label: "All" }, ...portDDL] || []}
+                    options={[{ value: 0, label: 'All' }, ...portDDL] || []}
                     value={values?.port}
                     label="Port"
                     placeholder="Port"
                     onChange={(valueOption) => {
-                      setFieldValue("port", valueOption);
+                      setFieldValue('port', valueOption);
                     }}
                   />
                 </div>
@@ -143,11 +142,11 @@ export function LoadingLandingTable() {
                     <table className="table table-striped table-bordered global-table">
                       <thead>
                         <tr>
-                          <th style={{ width: "40px" }}>SL</th>
+                          <th style={{ width: '40px' }}>SL</th>
                           <th>Mother Vessel</th>
                           <th>Program No</th>
                           <th>Survey Quantity</th>
-                          <th style={{ width: "70px" }}>Action</th>
+                          <th style={{ width: '70px' }}>Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -187,9 +186,9 @@ export function LoadingLandingTable() {
                                     className="mr-1"
                                     onClick={() => {
                                       let confirmObject = {
-                                        title: "Are you sure?",
+                                        title: 'Are you sure?',
                                         message:
-                                          "Are you sure you want to delete this Loading Information",
+                                          'Are you sure you want to delete this Loading Information',
                                         yesAlertFunc: async () => {
                                           DeleteLoadingInformation(
                                             item?.voyageNo,

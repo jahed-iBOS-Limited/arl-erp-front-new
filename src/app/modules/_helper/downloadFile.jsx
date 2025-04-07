@@ -1,20 +1,20 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const downloadFile = (url, fileName, extension, setLoading) => {
   setLoading && setLoading(true);
   axios({
     url: url,
-    method: "GET",
-    responseType: "blob", // important
+    method: 'GET',
+    responseType: 'blob', // important
   })
     .then((response) => {
       const urlTwo = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
+      const link = document.createElement('a');
       link.href = urlTwo;
       //   const fileExtension = imageView?.type.split('/')[1];
-      link.setAttribute("download", fileName);
-      link.setAttribute("download", `${fileName}.${extension}`);
+      link.setAttribute('download', fileName);
+      link.setAttribute('download', `${fileName}.${extension}`);
       document.body.appendChild(link);
       setLoading && setLoading(false);
       link.click();
@@ -29,12 +29,12 @@ export const getPDFAction = async (url, setLoading) => {
     setLoading(true);
     await axios
       .get(url, {
-        responseType: "blob",
+        responseType: 'blob',
       })
       .then((response) => {
         setLoading(false);
         //Create a Blob from the PDF Stream
-        const file = new Blob([response.data], { type: "application/pdf" });
+        const file = new Blob([response.data], { type: 'application/pdf' });
         //Build a URL from the file
         const fileURL = URL.createObjectURL(file);
         //Open the URL on new Window
@@ -43,10 +43,10 @@ export const getPDFAction = async (url, setLoading) => {
       })
       .catch((error) => {
         setLoading(false);
-        toast.warn(error?.response?.data?.message || "Failed, try again");
+        toast.warn(error?.response?.data?.message || 'Failed, try again');
       });
   } catch (error) {
     setLoading(false);
-    toast.warn(error?.response?.data?.message || "Failed, try again");
+    toast.warn(error?.response?.data?.message || 'Failed, try again');
   }
 };

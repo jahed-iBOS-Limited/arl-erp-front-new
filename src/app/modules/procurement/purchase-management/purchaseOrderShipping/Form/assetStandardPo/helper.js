@@ -1,96 +1,98 @@
-import * as Yup from "yup";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import Axios from "axios";
-import { toast } from "react-toastify";
+import * as Yup from 'yup';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const initData = {
   isTransfer: true,
-  transferBusinessUnit: "",
-  transferBusinessUnitSupplier: "",
-  businessTransaction: "",
-  leadTimeDays: "",
-  supplierName: "",
-  deliveryAddress: "",
+  transferBusinessUnit: '',
+  transferBusinessUnitSupplier: '',
+  businessTransaction: '',
+  leadTimeDays: '',
+  supplierName: '',
+  deliveryAddress: '',
   orderDate: _todayDate(),
   // last shipment date will after 15 days of current
   lastShipmentDate: _dateFormatter(
     new Date(new Date().getTime() + 15 * 24 * 60 * 60 * 1000)
   ),
-  currency: {value:141, label:"Taka"},
-  paymentTerms: { value: 2, label: "Credit" },
-  cash: "",
-  payDays: "",
-  incoterms: { value: 1, label: "CFR (Cost And Freight)" },
-  supplierReference: "",
+  currency: { value: 141, label: 'Taka' },
+  paymentTerms: { value: 2, label: 'Credit' },
+  cash: '',
+  payDays: '',
+  incoterms: { value: 1, label: 'CFR (Cost And Freight)' },
+  supplierReference: '',
   referenceDate: _todayDate(),
   validity: _todayDate(),
-  otherTerms: "",
-  referenceNo: "",
-  item: "",
+  otherTerms: '',
+  referenceNo: '',
+  item: '',
   deliveryDate: _todayDate(),
   isAllItem: false,
-  freight: "",
-  commision: "",
-  discount: "",
-  othersCharge: "",
+  freight: '',
+  commision: '',
+  discount: '',
+  othersCharge: '',
   // costCenter: "",
   // costElement: "",
   // profitCenter: "",
-  originOfSparesShip: "",
-  descriptionShip: "",
-  supplyLocationShip: "",
+  originOfSparesShip: '',
+  descriptionShip: '',
+  supplyLocationShip: '',
 };
 
 //  Validation schema
 export const validationSchema = Yup.object().shape({
   supplierName: Yup.object()
     .shape({
-      label: Yup.string().required("Supplier name is required"),
-      value: Yup.string().required("Supplier name is required"),
+      label: Yup.string().required('Supplier name is required'),
+      value: Yup.string().required('Supplier name is required'),
     })
     .nullable(),
-  deliveryAddress: Yup.string().required("Delivery address is required"),
-  orderDate: Yup.date().required("Order date is required"),
-  lastShipmentDate: Yup.date().required("Last shipment date is required"),
+  deliveryAddress: Yup.string().required('Delivery address is required'),
+  orderDate: Yup.date().required('Order date is required'),
+  lastShipmentDate: Yup.date().required('Last shipment date is required'),
   currency: Yup.object().shape({
-    label: Yup.string().required("Currency is required"),
-    value: Yup.string().required("Currency is required"),
+    label: Yup.string().required('Currency is required'),
+    value: Yup.string().required('Currency is required'),
   }),
   paymentTerms: Yup.object().shape({
-    label: Yup.string().required("Payment terms is required"),
-    value: Yup.string().required("Payment terms is required"),
+    label: Yup.string().required('Payment terms is required'),
+    value: Yup.string().required('Payment terms is required'),
   }),
   payDays: Yup.number()
-    .required("Pay days is required")
-    .min(1, "Minimum 1 Days"),
-  cash: Yup.number()
-    .min(1, "Minimum 1")
-    .max(100, "Maximum 100"),
+    .required('Pay days is required')
+    .min(1, 'Minimum 1 Days'),
+  cash: Yup.number().min(1, 'Minimum 1').max(100, 'Maximum 100'),
   incoterms: Yup.object().shape({
-    label: Yup.string().required("Incoterm is required"),
-    value: Yup.string().required("Incoterm is required"),
+    label: Yup.string().required('Incoterm is required'),
+    value: Yup.string().required('Incoterm is required'),
   }),
 
-  validity: Yup.date().required("Validity date is required"),
-  transferBusinessUnit: Yup.object().when("isTransfer", {
+  validity: Yup.date().required('Validity date is required'),
+  transferBusinessUnit: Yup.object().when('isTransfer', {
     is: true,
     then: Yup.object()
       .shape({
-        value: Yup.string().required("Transfer Business unit is required"),
-        label: Yup.string().required("Transfer Business unit is required"),
+        value: Yup.string().required('Transfer Business unit is required'),
+        label: Yup.string().required('Transfer Business unit is required'),
       })
-      .typeError("Transfer Business unit is required"),
+      .typeError('Transfer Business unit is required'),
     otherwise: Yup.object(),
   }),
-  transferBusinessUnitSupplier: Yup.object().when("isTransfer", {
+  transferBusinessUnitSupplier: Yup.object().when('isTransfer', {
     is: true,
     then: Yup.object()
       .shape({
-        value: Yup.string().required("Transfer Business unit Supplier is required"),
-        label: Yup.string().required("Transfer Business unit Supplier is required"),
+        value: Yup.string().required(
+          'Transfer Business unit Supplier is required'
+        ),
+        label: Yup.string().required(
+          'Transfer Business unit Supplier is required'
+        ),
       })
-      .typeError("Transfer Business unit Supplier is required"),
+      .typeError('Transfer Business unit Supplier is required'),
     otherwise: Yup.object(),
   }),
   // costCenter: Yup.object().when("isTransfer", {
@@ -133,33 +135,33 @@ export const setInputFieldsFunc = (setInputFields, storeData) => {
 
   setInputFields([
     {
-      label: "Delivery address",
-      name: "deliveryAddress",
+      label: 'Delivery address',
+      name: 'deliveryAddress',
       type: 2,
     },
     {
-      label: "Order date",
-      name: "orderDate",
+      label: 'Order date',
+      name: 'orderDate',
       type: 3,
       disabled: true,
     },
     {
-      label: "Last shipment date",
-      name: "lastShipmentDate",
+      label: 'Last shipment date',
+      name: 'lastShipmentDate',
       type: 3,
     },
     {
-      label: "Currency",
-      name: "currency",
+      label: 'Currency',
+      name: 'currency',
       type: 1,
       options: currencyDDL,
       dependencyFunc: (currentValue, values, setter, label) => {
-        setter("isTransfer", currentValue === 141 ? true : false)
+        setter('isTransfer', currentValue === 141 ? true : false);
       },
     },
     {
-      label: "Payment terms",
-      name: "paymentTerms",
+      label: 'Payment terms',
+      name: 'paymentTerms',
       type: 1,
       options: paymentTermsDDL,
       dependencyFunc: (currentValue, values, setter, label) => {},
@@ -171,10 +173,10 @@ export const setInputFieldsFunc = (setInputFields, storeData) => {
     //   isNum: true,
     // },
     {
-      label: "Pay days (After Invoice)",
-      name: "payDays",
+      label: 'Pay days (After Invoice)',
+      name: 'payDays',
       type: 2,
-      min: "1",
+      min: '1',
       isNum: true,
     },
     // {
@@ -196,8 +198,8 @@ export const setInputFieldsFunc = (setInputFields, storeData) => {
     //   type: 3,
     // },
     {
-      label: "Validity",
-      name: "validity",
+      label: 'Validity',
+      name: 'validity',
       type: 3,
     },
     // {
@@ -231,13 +233,12 @@ export const getRefNoDdlForStandradPo = async (
   buPartnerId,
   refTypeId,
   purchaseOrgId,
-  plantId, 
+  plantId,
   warehouseId,
   setter
 ) => {
-  
-  const prReferenceDDL = `/procurement/ShipRequestForQuotation/GetShipPurchaseRequestForPODDL?BusinessUnitId=${buId}&SBUId=${sbuId}&PlantId=${plantId}&WarehouseId=${warehouseId}&PurchaseOrganizationId=${purchaseOrgId}`
-  const rfqReferenceDDL = `/procurement/ShipRequestForQuotation/GetRFQShipForSupplierDDL?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${sbuId}&BusinessPartnerId=${buPartnerId}&WarehouseId=${warehouseId}`
+  const prReferenceDDL = `/procurement/ShipRequestForQuotation/GetShipPurchaseRequestForPODDL?BusinessUnitId=${buId}&SBUId=${sbuId}&PlantId=${plantId}&WarehouseId=${warehouseId}&PurchaseOrganizationId=${purchaseOrgId}`;
+  const rfqReferenceDDL = `/procurement/ShipRequestForQuotation/GetRFQShipForSupplierDDL?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${sbuId}&BusinessPartnerId=${buPartnerId}&WarehouseId=${warehouseId}`;
   try {
     const res = await Axios.get(
       refTypeId === 2 ? prReferenceDDL : rfqReferenceDDL

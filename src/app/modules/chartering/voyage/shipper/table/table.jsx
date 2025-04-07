@@ -1,29 +1,28 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory, useLocation, useParams } from "react-router";
-import IEdit from "../../../_chartinghelper/icons/_edit";
-import IView from "../../../_chartinghelper/icons/_view";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import PaginationTable from "../../../_chartinghelper/_tablePagination";
-import IViewModal from "../../../_chartinghelper/_viewModal";
-import ShipperForm from "../Form/addEditForm";
-import { getShipperLandingData } from "../helper";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useLocation, useParams } from 'react-router';
+import IEdit from '../../../_chartinghelper/icons/_edit';
+import IView from '../../../_chartinghelper/icons/_view';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import PaginationTable from '../../../_chartinghelper/_tablePagination';
+import IViewModal from '../../../_chartinghelper/_viewModal';
+import ShipperForm from '../Form/addEditForm';
+import { getShipperLandingData } from '../helper';
 
 const initData = {
-  vesselName: "",
-  voyageNo: "",
+  vesselName: '',
+  voyageNo: '',
 };
 
 const headers = [
-  { name: "SL" },
-  { name: "Charter Name" },
-  { name: "Shipper Name" },
-  { name: "Vessel Name" },
-  { name: "Voyage No" },
-  { name: "Actions" },
+  { name: 'SL' },
+  { name: 'Charter Name' },
+  { name: 'Shipper Name' },
+  { name: 'Vessel Name' },
+  { name: 'Voyage No' },
+  { name: 'Actions' },
 ];
 
 export default function ShipperLandingAndForm() {
@@ -87,7 +86,7 @@ export default function ShipperLandingAndForm() {
                   <button
                     type="button"
                     onClick={() => history.goBack()}
-                    className={"btn btn-secondary px-3 py-2 reset-btn mr-2"}
+                    className={'btn btn-secondary px-3 py-2 reset-btn mr-2'}
                   >
                     Back
                   </button>
@@ -95,9 +94,9 @@ export default function ShipperLandingAndForm() {
                     type="button"
                     onClick={() => {
                       setShowModal(true);
-                      setModalData({ landingData, formType: "Create" });
+                      setModalData({ landingData, formType: 'Create' });
                     }}
-                    className={"btn btn-primary px-3 py-2 reset-btn mr-2"}
+                    className={'btn btn-primary px-3 py-2 reset-btn mr-2'}
                   >
                     Create New +
                   </button>
@@ -119,7 +118,7 @@ export default function ShipperLandingAndForm() {
                             setModalData({
                               landingData,
                               landingItem: item,
-                              formType: "View",
+                              formType: 'View',
                               id: item?.cargoHireId,
                             });
                             setShowModal(true);
@@ -130,7 +129,7 @@ export default function ShipperLandingAndForm() {
                             setModalData({
                               landingData,
                               landingItem: item,
-                              formType: "Edit",
+                              formType: 'Edit',
                               id: item?.cargoHireId,
                             });
                             setShowModal(true);

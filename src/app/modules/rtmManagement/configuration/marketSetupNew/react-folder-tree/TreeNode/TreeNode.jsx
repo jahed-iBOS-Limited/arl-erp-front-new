@@ -1,10 +1,7 @@
-import React, {
-  useContext,
-  useState,
-} from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { 
+import {
   AiFillCaretRight,
   AiFillCaretDown,
   AiOutlineFolder,
@@ -15,8 +12,8 @@ import {
   AiOutlineEdit,
   AiOutlineFileAdd,
   AiOutlineFolderAdd,
-  AiOutlineCheck
-} from "./Icons"
+  AiOutlineCheck,
+} from './Icons';
 
 import CheckBox from '../CheckBox/CheckBox';
 import ConfigContext from '../FolderTree/context';
@@ -27,16 +24,13 @@ import {
   getDefaultIcon,
 } from '../utils/iconUtils';
 
-const TreeNode = ({
-  path,
-  name,
-  checked,
-  isOpen,
-  children,
-  ...restData
-}) => {
+const TreeNode = ({ path, name, checked, isOpen, children, ...restData }) => {
   const nodeData = {
-    path, name, checked, isOpen, ...restData,
+    path,
+    name,
+    checked,
+    isOpen,
+    ...restData,
   };
   const {
     handleCheck,
@@ -76,29 +70,24 @@ const TreeNode = ({
   let TypeIcon = FileIcon;
   let TypeIconType = 'FileIcon';
   if (isFolder) {
-    TypeIcon = isOpen
-      ? FolderOpenIcon
-      : FolderIcon;
+    TypeIcon = isOpen ? FolderOpenIcon : FolderIcon;
 
-    TypeIconType = isOpen
-      ? 'FolderOpenIcon'
-      : 'FolderIcon';
+    TypeIconType = isOpen ? 'FolderOpenIcon' : 'FolderIcon';
   }
 
-  const handleCheckBoxChange = e => {
+  const handleCheckBoxChange = (e) => {
     const newStatus = +e.target.checked;
     handleCheck(path, newStatus);
   };
 
+  const onNameChange = (newName) => handleRename(path, newName);
 
-  const onNameChange = newName => handleRename(path, newName);
-
-  const selectMe = () => (!isEditing && setIsSelected(true));
+  const selectMe = () => !isEditing && setIsSelected(true);
   const unSelectMe = () => setIsSelected(false);
 
-  const openMe = () =>{
+  const openMe = () => {
     handleToggleOpen(path, true);
-  } 
+  };
   const closeMe = () => handleToggleOpen(path, false);
 
   const editMe = () => {
@@ -108,15 +97,15 @@ const TreeNode = ({
 
   const deleteMe = () => handleDelete(path);
 
-  const addFile = () =>{
-    handleAddNode(path, 'file')
-    openMe()
+  const addFile = () => {
+    handleAddNode(path, 'file');
+    openMe();
   };
-  
+
   const addFolder = () => {
     handleAddNode(path, 'folder');
-    openMe()
-  }
+    openMe();
+  };
 
   const handleNameClick = () => {
     const defaultOnClick = selectMe;
@@ -127,112 +116,96 @@ const TreeNode = ({
     }
   };
   const TreeNodeToolBar = (
-    <span className={ iconContainerClassName('TreeNodeToolBar') }>
+    <span className={iconContainerClassName('TreeNodeToolBar')}>
       <EditIcon
-        className={ iconClassName('EditIcon') }
-        onClick={ editMe }
-        nodeData={ nodeData }
+        className={iconClassName('EditIcon')}
+        onClick={editMe}
+        nodeData={nodeData}
       />
       <DeleteIcon
-        className={ iconClassName('DeleteIcon') }
-        onClick={ deleteMe }
-        nodeData={ nodeData }
+        className={iconClassName('DeleteIcon')}
+        onClick={deleteMe}
+        nodeData={nodeData}
       />
-      {
-        isFolder && (
-          <>
-            <AddFolderIcon
-              className={ iconClassName('AddFolderIcon') }
-              onClick={ addFolder }
-              nodeData={ nodeData }
-            />
-            <AddFileIcon
-              className={ iconClassName('AddFileIcon') }
-              onClick={ addFile }
-              nodeData={ nodeData }
-            />
-          </>
-        )
-      }
+      {isFolder && (
+        <>
+          <AddFolderIcon
+            className={iconClassName('AddFolderIcon')}
+            onClick={addFolder}
+            nodeData={nodeData}
+          />
+          <AddFileIcon
+            className={iconClassName('AddFileIcon')}
+            onClick={addFile}
+            nodeData={nodeData}
+          />
+        </>
+      )}
 
       <CancelIcon
-        className={ iconClassName('CancelIcon') }
-        onClick={ unSelectMe }
-        nodeData={ nodeData }
+        className={iconClassName('CancelIcon')}
+        onClick={unSelectMe}
+        nodeData={nodeData}
       />
     </span>
   );
 
   const folderCaret = (
-    <span
-      className={ iconContainerClassName('caretContainer') }
-    >
-      {
-        isOpen
-          ? (
-            <CaretDownIcon
-              className={ iconClassName('CaretDownIcon') }
-              onClick={ closeMe }
-              nodeData={ nodeData }
-            />
-          )
-          : (
-            <CaretRightIcon
-              className={ iconClassName('CaretRightIcon') }
-              onClick={ openMe }
-              nodeData={ nodeData }
-            />
-          )
-      }
+    <span className={iconContainerClassName('caretContainer')}>
+      {isOpen ? (
+        <CaretDownIcon
+          className={iconClassName('CaretDownIcon')}
+          onClick={closeMe}
+          nodeData={nodeData}
+        />
+      ) : (
+        <CaretRightIcon
+          className={iconClassName('CaretRightIcon')}
+          onClick={openMe}
+          nodeData={nodeData}
+        />
+      )}
     </span>
   );
 
   return (
     <>
-      <div className='TreeNode' style={ treeNodeStyle }>
-        { showCheckbox && (
-          <CheckBox
-            status={ checked }
-            onChange={ handleCheckBoxChange }
-          />
+      <div className="TreeNode" style={treeNodeStyle}>
+        {showCheckbox && (
+          <CheckBox status={checked} onChange={handleCheckBoxChange} />
         )}
 
-        { isFolder && folderCaret }
+        {isFolder && folderCaret}
 
-        <span className={ iconContainerClassName('typeIconContainer') }>
+        <span className={iconContainerClassName('typeIconContainer')}>
           <TypeIcon
-            className={ iconClassName(TypeIconType) }
-            onClick={ selectMe }
-            nodeData={ nodeData }
+            className={iconClassName(TypeIconType)}
+            onClick={selectMe}
+            nodeData={nodeData}
           />
         </span>
 
         <span
-          className={ iconContainerClassName('editableNameContainer') }
-          onClick={ handleNameClick }
+          className={iconContainerClassName('editableNameContainer')}
+          onClick={handleNameClick}
         >
           <EditableName
-            isEditing={ isEditing }
-            setIsEditing={ setIsEditing }
-            onNameChange={ onNameChange }
-            OKIcon={ OKIcon }
-            CancelIcon={ CancelIcon }
-            nodeData={ nodeData }
+            isEditing={isEditing}
+            setIsEditing={setIsEditing}
+            onNameChange={onNameChange}
+            OKIcon={OKIcon}
+            CancelIcon={CancelIcon}
+            nodeData={nodeData}
           />
         </span>
-        { isSelected && TreeNodeToolBar }
-
+        {isSelected && TreeNodeToolBar}
       </div>
 
-      {
-        isFolder && isOpen && children.map((data, idx) => (
-          <TreeNode
-            key={ data._id }
-            path={ [...path, idx] }
-            { ...data }
-          />
-        ))
-      }
+      {isFolder &&
+        isOpen &&
+        children.map((data, idx) => (
+          <TreeNode key={data._id} path={[...path, idx]} {...data} />
+        ))}
     </>
   );
 };

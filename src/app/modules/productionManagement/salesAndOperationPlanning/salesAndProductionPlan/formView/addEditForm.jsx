@@ -1,31 +1,29 @@
-
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { useLocation, useParams } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { useLocation, useParams } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
 import {
   getSalesPlanById,
   editSalesPlanning,
   saveItemRequest,
-} from "../helper";
-import { toast } from "react-toastify";
-import { getPlantDDL } from "../../../../_helper/_commonApi";
+} from '../helper';
+import { toast } from 'react-toastify';
+import { getPlantDDL } from '../../../../_helper/_commonApi';
 
 const initData = {
-  plant: "",
-  year: "",
-  horizon: "",
-  startDate: "",
-  endDate: "",
-  itemName: "",
-  qty: "",
-  planningHorizonId: "",
-  monthId: "",
-  itemId: "",
-  itemPlanQty: "",
+  plant: '',
+  year: '',
+  horizon: '',
+  startDate: '',
+  endDate: '',
+  itemName: '',
+  qty: '',
+  planningHorizonId: '',
+  monthId: '',
+  itemId: '',
+  itemPlanQty: '',
 };
 export default function SalesAndProductionPlanCreateFormView({
   history,
@@ -33,11 +31,9 @@ export default function SalesAndProductionPlanCreateFormView({
     params: { viewId: id },
   },
 }) {
-
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
   const [salesPlanData, setSalesPlanData] = useState([]);
-
 
   const [singleData, setSingleData] = useState({});
   const [objProps, setObjprops] = useState({});
@@ -91,8 +87,6 @@ export default function SalesAndProductionPlanCreateFormView({
   const saveHandler = async (values, cb) => {
     if (values && profileData.accountId && selectedBusinessUnit) {
       if (params?.viewId) {
-
-
         const payload = {
           header: {
             salesPlanId: params?.viewId,
@@ -109,7 +103,7 @@ export default function SalesAndProductionPlanCreateFormView({
             endDateTime: values?.endDate,
             yearId: values?.year?.value,
             monthId: values?.horizon?.value,
-            version: "string",
+            version: 'string',
             accountId: profileData?.accountId,
             businessUnitId: selectedBusinessUnit?.value,
             plantId: values?.plant?.value,
@@ -119,7 +113,7 @@ export default function SalesAndProductionPlanCreateFormView({
         };
 
         if (rowDto?.length === 0) {
-          toast.warning("Please add Item and quantity");
+          toast.warning('Please add Item and quantity');
         } else {
           saveItemRequest(payload);
           cb();
@@ -141,7 +135,7 @@ export default function SalesAndProductionPlanCreateFormView({
       (item) => item?.itemId === values?.itemName?.value
     );
     if (findDuplicate) {
-      toast.warning("Item already added");
+      toast.warning('Item already added');
     } else {
       let rowDataValues = {
         itemId: values?.itemName?.value,
@@ -173,10 +167,9 @@ export default function SalesAndProductionPlanCreateFormView({
     setSalesPlanData(rowData);
   }, [rowDto?.length]);
 
-
   return (
     <IForm
-      title={"Sales Plan View"}
+      title={'Sales Plan View'}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenSave={true}

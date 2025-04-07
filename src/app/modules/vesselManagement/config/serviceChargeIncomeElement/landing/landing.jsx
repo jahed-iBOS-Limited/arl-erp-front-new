@@ -1,26 +1,25 @@
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ICustomCard from '../../../../_helper/_customCard';
+import IView from '../../../../_helper/_helperIcons/_view';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IButton from '../../../../_helper/iButton';
+import DetailsTable from './detailsTable';
+import { _firstDateofMonth } from '../../../../_helper/_firstDateOfCurrentMonth';
+import { PortAndMotherVessel } from '../../../common/components';
+import NewSelect from '../../../../_helper/_select';
+import { GetShipPointDDL } from '../../../allotment/loadingInformation/helper';
 
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import ICustomCard from "../../../../_helper/_customCard";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IButton from "../../../../_helper/iButton";
-import DetailsTable from "./detailsTable";
-import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
-import { PortAndMotherVessel } from "../../../common/components";
-import NewSelect from "../../../../_helper/_select";
-import { GetShipPointDDL } from "../../../allotment/loadingInformation/helper";
-
-const ALL = { value: 0, label: "All" };
+const ALL = { value: 0, label: 'All' };
 const initData = {
-  port: "",
+  port: '',
   motherVessel: ALL,
   warehouse: ALL,
   fromDate: _firstDateofMonth(),
@@ -81,10 +80,10 @@ const ServiceChargeAndIncomeElementLanding = () => {
         {({ values, setFieldValue }) => (
           <>
             <ICustomCard
-              title={"Service Charge and Income Element"}
+              title={'Service Charge and Income Element'}
               createHandler={() => {
                 history.push(
-                  "/vessel-management/configuration/ServiceChargeAndIncomeElement/config"
+                  '/vessel-management/configuration/ServiceChargeAndIncomeElement/config'
                 );
               }}
             >
@@ -98,12 +97,12 @@ const ServiceChargeAndIncomeElementLanding = () => {
                       <NewSelect
                         name="warehouse"
                         options={
-                          [{ value: 0, label: "All" }, ...shipPointDDL] || []
+                          [{ value: 0, label: 'All' }, ...shipPointDDL] || []
                         }
                         value={values?.warehouse}
                         label="ShipPoint"
                         onChange={(e) => {
-                          setFieldValue("warehouse", e);
+                          setFieldValue('warehouse', e);
                         }}
                         placeholder="ShipPoint"
                       />
@@ -121,24 +120,24 @@ const ServiceChargeAndIncomeElementLanding = () => {
               </form>
               <div className="react-bootstrap-table table-responsive">
                 <table
-                  className={"table table-striped table-bordered global-table "}
+                  className={'table table-striped table-bordered global-table '}
                 >
                   <thead>
                     <tr>
-                      <th style={{ minWidth: "30px" }} rowSpan={2}>
+                      <th style={{ minWidth: '30px' }} rowSpan={2}>
                         SL
                       </th>
                       <th>Mother Vessel</th>
                       <th>Ship Point </th>
                       <th>Item</th>
-                      <th style={{ minWidth: "70px" }}>Actions</th>
+                      <th style={{ minWidth: '70px' }}>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {rowData?.data?.map((item, i) => {
                       return (
                         <tr key={i}>
-                          <td className="text-center" style={{ width: "30px" }}>
+                          <td className="text-center" style={{ width: '30px' }}>
                             {i + 1}
                           </td>
                           <td className="text-center">
@@ -146,9 +145,9 @@ const ServiceChargeAndIncomeElementLanding = () => {
                           </td>
                           <td className="text-center">{item?.shipPointName}</td>
                           <td className="text-center">{item?.itemName}</td>
-                          <td className="text-center" style={{ width: "50px" }}>
+                          <td className="text-center" style={{ width: '50px' }}>
                             <IView
-                              title={"View cost & income elements rate"}
+                              title={'View cost & income elements rate'}
                               clickHandler={() => {
                                 rowSetter(item);
                                 setShow(true);
@@ -176,7 +175,7 @@ const ServiceChargeAndIncomeElementLanding = () => {
               )}
             </ICustomCard>
             <IViewModal
-              title={"Details"}
+              title={'Details'}
               show={show}
               onHide={() => {
                 getData(values, pageNo, pageSize);

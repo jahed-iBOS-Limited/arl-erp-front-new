@@ -1,15 +1,15 @@
-import React from "react";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import ICustomTable from "../../../../chartering/_chartinghelper/_customTable";
-import "./style.css";
+import React from 'react';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import ICustomTable from '../../../../chartering/_chartinghelper/_customTable';
+import './style.css';
 
 const headers = [
-  { name: "SL" },
-  { name: "Unit Name" },
-  { name: "Application Amount" },
-  { name: "Approved by Supervisor" },
-  { name: "Approved by Line Manager" },
-  { name: "Approved by HR" },
+  { name: 'SL' },
+  { name: 'Unit Name' },
+  { name: 'Application Amount' },
+  { name: 'Approved by Supervisor' },
+  { name: 'Approved by Line Manager' },
+  { name: 'Approved by HR' },
 ];
 
 function PrintableTable({ gridData, printRef }) {

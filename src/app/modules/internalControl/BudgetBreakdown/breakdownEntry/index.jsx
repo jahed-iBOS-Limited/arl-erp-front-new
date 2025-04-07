@@ -22,12 +22,8 @@ const initData = {
 
 export default function BreakdownEntry() {
   const formikRef = React.useRef(null);
-  const [
-    tableData,
-    getTableData,
-    tableDataLoader,
-    setTableData,
-  ] = useAxiosGet();
+  const [tableData, getTableData, tableDataLoader, setTableData] =
+    useAxiosGet();
   const [, saveData, saveDataLoader] = useAxiosPost();
   const [objProps, setObjprops] = useState({});
   const [
@@ -61,7 +57,7 @@ export default function BreakdownEntry() {
         const updatedTableData = tableData.map((tableRow) => {
           // Find the corresponding API data for the current accountHeadId
           const matchingApiAccount = apiData.find(
-            (apiAccount) => apiAccount.accountHeadId === tableRow.accountHeadId,
+            (apiAccount) => apiAccount.accountHeadId === tableRow.accountHeadId
           );
 
           if (
@@ -74,7 +70,7 @@ export default function BreakdownEntry() {
           const monthData = tableRow?.monthData?.map((item) => {
             const matchingBudget =
               matchingApiAccount?.monthlyBudgets?.find(
-                (month) => month?.monthId === item?.monthId,
+                (month) => month?.monthId === item?.monthId
               ) || {};
 
             return {
@@ -91,7 +87,7 @@ export default function BreakdownEntry() {
         });
 
         setTableData(updatedTableData);
-      },
+      }
     );
   };
 
@@ -107,13 +103,12 @@ export default function BreakdownEntry() {
           data.map((item) => ({
             value: item?.organizationUnitReffId,
             label: item?.organizationUnitReffName,
-          })),
-        ),
+          }))
+        )
     );
     getGLList(
-      `/fino/FinanceCommonDDL/GetGeneralLedegerForBudgetDDL?accountId=${profileData?.accountId}`,
+      `/fino/FinanceCommonDDL/GetGeneralLedegerForBudgetDDL?accountId=${profileData?.accountId}`
     );
-
   }, [profileData]);
 
   const getLastDateOfMonth = (year, month) => {
@@ -129,7 +124,7 @@ export default function BreakdownEntry() {
     }
 
     const filteredData = tableData.filter((item) =>
-      item.monthData.some((month) => parseFloat(month.budgetAmount) >= 0),
+      item.monthData.some((month) => parseFloat(month.budgetAmount) >= 0)
     );
 
     if (!filteredData.length) {
@@ -158,7 +153,7 @@ export default function BreakdownEntry() {
 
     // Filter out items with no valid budget
     const validPayload = payload.filter(
-      (item) => parseFloat(item?.budget) >= 0,
+      (item) => parseFloat(item?.budget) >= 0
     );
 
     if (validPayload.length) {
@@ -166,7 +161,7 @@ export default function BreakdownEntry() {
         '/fino/BudgetaryManage/CreateUpdateBudgetEntry',
         validPayload,
         cb, // Reset tableData after saving
-        true,
+        true
       );
     } else {
       toast.warn('No valid data to save');
@@ -192,15 +187,16 @@ export default function BreakdownEntry() {
             getBudgetDataForNextYear(
               `/fino/BudgetaryManage/GetBudgetOperatingExpenses?businessUnitId=${
                 values?.businessUnit?.value
-              }&generalLedgerId=${values?.gl?.value}&yearId=${values?.year
-                ?.value + 1}&SubGlId=${values?.businessTransaction?.value}`,
+              }&generalLedgerId=${values?.gl?.value}&yearId=${
+                values?.year?.value + 1
+              }&SubGlId=${values?.businessTransaction?.value}`,
               (dataForNext) => {
                 updateMonthlyData(dataForPrev, dataForNext);
-              },
+              }
             );
-          },
+          }
         );
-      },
+      }
     );
   };
 
@@ -305,7 +301,7 @@ export default function BreakdownEntry() {
                               return itm;
                             });
                             setProfitCenterDDL(newData);
-                          },
+                          }
                         );
                       }
                     }}
@@ -353,7 +349,7 @@ export default function BreakdownEntry() {
                               label: item?.buesinessTransactionName,
                             }));
                             setBusinessTransactionList(data);
-                          },
+                          }
                         );
                       }
                     }}
@@ -466,10 +462,10 @@ export default function BreakdownEntry() {
                                         idx === index
                                           ? getUpdatedRowObjectForManual(
                                               data,
-                                              newValue,
+                                              newValue
                                             )
-                                          : data,
-                                      ),
+                                          : data
+                                      )
                                     );
                                   }}
                                 />
@@ -483,18 +479,17 @@ export default function BreakdownEntry() {
                                       name={`entryTypeValue-${month.monthId}`}
                                       onChange={(e) => {
                                         const updatedData = [...tableData];
-                                        updatedData[
-                                          index
-                                        ].monthData = updatedData[
-                                          index
-                                        ].monthData.map((m) =>
-                                          m.monthId === month.monthId
-                                            ? {
-                                                ...m,
-                                                budgetAmount: e.target.value,
-                                              }
-                                            : m,
-                                        );
+                                        updatedData[index].monthData =
+                                          updatedData[index].monthData.map(
+                                            (m) =>
+                                              m.monthId === month.monthId
+                                                ? {
+                                                    ...m,
+                                                    budgetAmount:
+                                                      e.target.value,
+                                                  }
+                                                : m
+                                          );
                                         setTableData(updatedData);
                                       }}
                                     />
@@ -511,7 +506,7 @@ export default function BreakdownEntry() {
                                 tableData?.length > 0 &&
                                 tableData.reduce((sum, item) => {
                                   const monthItem = item?.monthData?.find(
-                                    (m) => m.monthId === month.monthId,
+                                    (m) => m.monthId === month.monthId
                                   );
                                   return (
                                     sum +

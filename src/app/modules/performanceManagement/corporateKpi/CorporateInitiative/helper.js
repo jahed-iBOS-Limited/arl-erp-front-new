@@ -1,5 +1,5 @@
-import axios from "axios";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import axios from 'axios';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const getCorporateDepartmentDDL = async (accId, buId, setter) => {
   try {
@@ -30,16 +30,15 @@ export const getCategoryDDL = async (setter) => {
     let res = await axios.get(`/pms/CommonDDL/StrategicParticularsTypeDDL`);
     const newData = res?.data?.filter(
       (data) =>
-        data?.label === "Initiatives" ||
-        data?.label === "Milestone" ||
-        data?.label === "Program"
+        data?.label === 'Initiatives' ||
+        data?.label === 'Milestone' ||
+        data?.label === 'Program'
     );
     setter(newData);
   } catch (err) {
     setter([]);
   }
 };
-
 
 export const getStrategicDataAction = async (
   accId,
@@ -55,11 +54,10 @@ export const getStrategicDataAction = async (
   setLoading
 ) => {
   try {
-    setLoading(true)
+    setLoading(true);
     let res = await axios.get(
       `/pms/StrategicParticulars/GetStrategicInitiativeLanding?accountId=${accId}&businessUnitId=${buId}&InitiativeTypeId=${initiativeId}&InitiativeTypeRefaranceId=${initiativeTypeRefId}&CategoryId=${categoryId}&YearId=${yearId}`
     );
-    
 
     let financeData = [];
     let customerData = [];
@@ -74,8 +72,8 @@ export const getStrategicDataAction = async (
         initiativeNo: item?.initiativeNo,
         comment: item?.comment,
         statusValueLabel: { value: item?.statusId, label: item?.status },
-        ownerName: {value : item?.ownerId, label: item?.ownerName},
-        priorityName: {value: item?.priorityId, label: item?.priorityName},
+        ownerName: { value: item?.ownerId, label: item?.ownerName },
+        priorityName: { value: item?.priorityId, label: item?.priorityName },
         budget: item?.budget,
         startDate: _dateFormatter(item?.startDate),
         endDate: _dateFormatter(item?.endDate),
@@ -101,16 +99,15 @@ export const getStrategicDataAction = async (
       setProcess(processData);
       setGrowth(growthData);
     }
-    setLoading(false)
+    setLoading(false);
   } catch (err) {
-    setLoading(false)
+    setLoading(false);
     setFinance([]);
     setCustomer([]);
     setProcess([]);
     setGrowth([]);
   }
 };
-
 
 export const getStatudDDLAction = async (setter) => {
   try {

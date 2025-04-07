@@ -1,22 +1,22 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import ICustomCard from "../../../../_helper/_customCard";
-import IView from "../../../../_helper/_helperIcons/_view";
+import React from 'react';
+import { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ICustomCard from '../../../../_helper/_customCard';
+import IView from '../../../../_helper/_helperIcons/_view';
 // import IEdit from "../../../../_helper/_helperIcons/_edit";
 import {
   getSBUDDL_api,
   getPlantDDL_api,
   getWareHouseDDL_api,
   getReceiveShopFloorLandingAction,
-} from "./../helper";
-import Loading from "../../../../_helper/_loading";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { Formik } from "formik";
-import NewSelect from "./../../../../_helper/_select";
-import { setreceiveShopFloorLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import PaginationTable from "../../../../_helper/_tablePagination";
+} from './../helper';
+import Loading from '../../../../_helper/_loading';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { Formik } from 'formik';
+import NewSelect from './../../../../_helper/_select';
+import { setreceiveShopFloorLandingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import PaginationTable from '../../../../_helper/_tablePagination';
 export function TableRow() {
   const history = useHistory();
   const [sbuDDL, setSbuDDL] = useState([]);
@@ -30,9 +30,9 @@ export function TableRow() {
   const dispatch = useDispatch();
 
   const initData = {
-    sbu: "",
-    plant: "",
-    warehouse: "",
+    sbu: '',
+    plant: '',
+    warehouse: '',
   };
 
   const receiveFromShopFloorInitData = useSelector(
@@ -148,7 +148,7 @@ export function TableRow() {
                   onClick={() => {
                     history.push({
                       pathname:
-                        "/production-management/mes/receivefromshopfloor/create",
+                        '/production-management/mes/receivefromshopfloor/create',
                       state: values,
                     });
                     dispatch(setreceiveShopFloorLandingAction(values));
@@ -170,7 +170,7 @@ export function TableRow() {
                       options={sbuDDL}
                       value={values?.sbu}
                       onChange={(valueOption) => {
-                        setFieldValue("sbu", valueOption);
+                        setFieldValue('sbu', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -183,9 +183,9 @@ export function TableRow() {
                       options={plantDDL}
                       value={values?.plant}
                       onChange={(valueOption) => {
-                        setFieldValue("warehouse", "");
+                        setFieldValue('warehouse', '');
                         // setSelectedPlant(valueOption);
-                        setFieldValue("plant", valueOption);
+                        setFieldValue('plant', valueOption);
                         getWareHouseDDL_api(
                           profileData?.userId,
                           profileData?.accountId,
@@ -205,14 +205,14 @@ export function TableRow() {
                       options={wareHouseDDL}
                       value={values?.warehouse}
                       onChange={(valueOption) => {
-                        setFieldValue("warehouse", valueOption);
+                        setFieldValue('warehouse', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
                       placeholder="Warehouse"
                     />
                   </div>
-                  <div style={{ width: "175px" }} className="mr-4">
+                  <div style={{ width: '175px' }} className="mr-4">
                     <button
                       type="button"
                       className="btn btn-primary mt-6"

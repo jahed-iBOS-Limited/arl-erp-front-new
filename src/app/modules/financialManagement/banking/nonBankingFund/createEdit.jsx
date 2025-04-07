@@ -55,20 +55,14 @@ export default function NonBankingFundCreateEdit() {
 
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
-    shallowEqual,
+    shallowEqual
   );
   const [, saveData, saveDataLaoder] = useAxiosPost();
-  const [
-    depositeTypeDDL,
-    getDepositeTypeDDL,
-    depositeTypeDDLloader,
-  ] = useAxiosGet();
+  const [depositeTypeDDL, getDepositeTypeDDL, depositeTypeDDLloader] =
+    useAxiosGet();
   const [partnerDDL, getPartnerDDL, partnerDDLloader] = useAxiosGet();
-  const [
-    bankAccountDDL,
-    getbankAccountDDL,
-    bankAccountDDLloader,
-  ] = useAxiosGet();
+  const [bankAccountDDL, getbankAccountDDL, bankAccountDDLloader] =
+    useAxiosGet();
   const { id } = useParams();
 
   useEffect(() => {
@@ -77,7 +71,6 @@ export default function NonBankingFundCreateEdit() {
     getDepositeTypeDDL(`/fino/FundManagement/GetDepositTypeDDL`);
     getPartnerDDL(`/fino/FundManagement/GetNonBankingPartnerDDL?businessUnitId=${selectedBusinessUnit?.value}
     `);
-
   }, []);
 
   const saveHandler = (values, cb) => {

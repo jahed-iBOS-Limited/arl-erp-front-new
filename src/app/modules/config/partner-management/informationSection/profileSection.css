@@ -1,23 +1,22 @@
 .hcm-config-profile-section .switch input:empty ~ span {
-    position: relative;
-    height: 20px !important;
-    width: 45px!important;
+  position: relative;
+  height: 20px !important;
+  width: 45px !important;
 }
 
 .hcm-config-profile-section .switch input:empty ~ span:after {
-    height: 13px !important;
-    width: 13px !important;
+  height: 13px !important;
+  width: 13px !important;
 }
 
-.hcm-config-profile-section .switch input:empty ~ span:before, 
+.hcm-config-profile-section .switch input:empty ~ span:before,
 .hcm-config-profile-section .switch input:empty ~ span:after {
-    width: 45px;
+  width: 45px;
 }
 
 .switch input:checked ~ span:before {
-    background-color: #ECF0F3;
+  background-color: #ecf0f3;
 }
-
 
 /* input:checked + .slider {
     background-color: #2196F3;
@@ -26,8 +25,6 @@
 input:focus + .slider {
     box-shadow: 0 0 1px #2196F3;
 } */
-
-
 
 /* .switch {
     position: relative;
@@ -81,7 +78,7 @@ input:focus + .slider {
   }
   
   /* Rounded sliders */
-  /* .slider.round {
+/* .slider.round {
     border-radius: 34px;
   }
   

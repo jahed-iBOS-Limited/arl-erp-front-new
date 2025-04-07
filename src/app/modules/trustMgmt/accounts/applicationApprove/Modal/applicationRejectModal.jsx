@@ -1,14 +1,14 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import TextArea from "../../../../_helper/TextArea";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import TextArea from '../../../../_helper/TextArea';
 
 const initData = {
-  reason: "",
+  reason: '',
 };
 
 export const ApplicationRejectModal = ({
@@ -17,15 +17,9 @@ export const ApplicationRejectModal = ({
   setisRejectodal,
   filterObj,
 }) => {
-
-  const { profileData } = useSelector(
-    (state) => state?.authData,
-    shallowEqual
-  );
-
+  const { profileData } = useSelector((state) => state?.authData, shallowEqual);
 
   const [landingData, getRejectData] = useAxiosGet();
-
 
   const getLadingData = (
     name,
@@ -42,20 +36,20 @@ export const ApplicationRejectModal = ({
   };
 
   const callBack = (data) => {
-    toast.success(data[0]?.Column1 || "Rejected Successfully");
+    toast.success(data[0]?.Column1 || 'Rejected Successfully');
     setisRejectodal(false);
     if (filterObj) {
       getData(
         getLadingData(
-          "GetAllPendingDonationApplicationList",
+          'GetAllPendingDonationApplicationList',
           filterObj?.fromDate,
           filterObj?.toDate,
           filterObj?.unitId || 4,
-          "",
-          "",
-          "",
-          "",
-          ""
+          '',
+          '',
+          '',
+          '',
+          ''
         )
       );
     }
@@ -68,7 +62,7 @@ export const ApplicationRejectModal = ({
         enableReinitialize={true}
         // validationSchema={validationSchema}
         initialValues={initData}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({
           handleSubmit,
@@ -109,16 +103,16 @@ export const ApplicationRejectModal = ({
                       <div>
                         <button
                           type="button"
-                          style={{ fontSize: "12px" }}
+                          style={{ fontSize: '12px' }}
                           className="btn btn-primary"
                           onClick={() => {
                             getRejectData(
                               getLadingData(
-                                "DonationApplicationApproval",
-                                "",
-                                "",
-                                "",
-                                "",
+                                'DonationApplicationApproval',
+                                '',
+                                '',
+                                '',
+                                '',
                                 profileData?.userId,
                                 2,
                                 singleData?.intApplicationID,
@@ -139,35 +133,67 @@ export const ApplicationRejectModal = ({
                 <div className="details-title text-center mt-4 mb-5">
                   <h4>Application Details Information</h4>
                 </div>
-                <div style={{ marginLeft: "50px" }} className="row">
+                <div style={{ marginLeft: '50px' }} className="row">
                   <div className="col-md-6">
-                    <p><strong>Applicant's Name :</strong> {singleData?.strApplicantName || ""}</p>
-                    <p><strong>Name of Beneficiary :</strong> {singleData?.strPatientName}</p>
                     <p>
-                      <strong>Account Holder's Name :</strong> {singleData?.strAccountHolderName}
+                      <strong>Applicant's Name :</strong>{' '}
+                      {singleData?.strApplicantName || ''}
                     </p>
-                    <p><strong>Address :</strong> {singleData?.strAddress}</p>
-                    <p><strong>Contact No :</strong> {singleData?.strContactNo || ""}</p>
-                    <p><strong>Remarks :</strong> {singleData?.strRemarks}</p>
+                    <p>
+                      <strong>Name of Beneficiary :</strong>{' '}
+                      {singleData?.strPatientName}
+                    </p>
+                    <p>
+                      <strong>Account Holder's Name :</strong>{' '}
+                      {singleData?.strAccountHolderName}
+                    </p>
+                    <p>
+                      <strong>Address :</strong> {singleData?.strAddress}
+                    </p>
+                    <p>
+                      <strong>Contact No :</strong>{' '}
+                      {singleData?.strContactNo || ''}
+                    </p>
+                    <p>
+                      <strong>Remarks :</strong> {singleData?.strRemarks}
+                    </p>
                     <p>
                       <strong>Effective Date :</strong>
                       {_dateFormatter(singleData?.dteEffectiveDate)}
                     </p>
-                    <p><strong>Expiry Date : </strong> {_dateFormatter(singleData?.dteEndDate)}</p>
+                    <p>
+                      <strong>Expiry Date : </strong>{' '}
+                      {_dateFormatter(singleData?.dteEndDate)}
+                    </p>
                     <div />
                   </div>
                   <div className="col-md-6">
-                    <p><strong>Amount :</strong> {singleData?.monAmount}</p>
-                    <p><strong>Mode of Payment :</strong> {singleData?.strModeOfPayment}</p>
-                    <p><strong>Donation Name :</strong> {singleData?.strDonationName}</p>
                     <p>
-                      <strong>Cause of Donation/Zakat :</strong> {singleData?.strDonationType}
+                      <strong>Amount :</strong> {singleData?.monAmount}
                     </p>
-                    <p><strong>Donation Purpose :</strong> {singleData?.strDonationPurpose}</p>
                     <p>
-                      <strong>Hospitals/Institutes :</strong> {singleData?.strOrganizationName}
+                      <strong>Mode of Payment :</strong>{' '}
+                      {singleData?.strModeOfPayment}
                     </p>
-                    <p><strong>National ID :</strong> {singleData?.strNationalID}</p>
+                    <p>
+                      <strong>Donation Name :</strong>{' '}
+                      {singleData?.strDonationName}
+                    </p>
+                    <p>
+                      <strong>Cause of Donation/Zakat :</strong>{' '}
+                      {singleData?.strDonationType}
+                    </p>
+                    <p>
+                      <strong>Donation Purpose :</strong>{' '}
+                      {singleData?.strDonationPurpose}
+                    </p>
+                    <p>
+                      <strong>Hospitals/Institutes :</strong>{' '}
+                      {singleData?.strOrganizationName}
+                    </p>
+                    <p>
+                      <strong>National ID :</strong> {singleData?.strNationalID}
+                    </p>
                     <p
                       onClick={() => {
                         dispatch(
@@ -177,7 +203,10 @@ export const ApplicationRejectModal = ({
                         );
                       }}
                     >
-                      <strong>Attachment :</strong> <span style={{ color: "#3699FF", cursor: "pointer" }}>{singleData?.strAttachmentUrl}</span>
+                      <strong>Attachment :</strong>{' '}
+                      <span style={{ color: '#3699FF', cursor: 'pointer' }}>
+                        {singleData?.strAttachmentUrl}
+                      </span>
                     </p>
                   </div>
                 </div>

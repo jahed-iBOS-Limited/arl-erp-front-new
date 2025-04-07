@@ -1,39 +1,39 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
-import IForm from "../../../../../_helper/_form";
-import Loading from "../../../../../_helper/_loading";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../../_helper/customHooks/useAxiosPost";
-import { getWarehouseDDL } from "../../helper";
-import Form from "./form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IForm from '../../../../../_helper/_form';
+import Loading from '../../../../../_helper/_loading';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../../_helper/customHooks/useAxiosPost';
+import { getWarehouseDDL } from '../../helper';
+import Form from './form';
 
 const initData = {
-  billNo: "",
+  billNo: '',
   billDate: _todayDate(),
   paymentDueDate: new Date(new Date().setDate(new Date().getDate() + 15)),
-  narration: "",
-  billAmount: "",
-  warehouse: { value: "", label: "All" },
+  narration: '',
+  billAmount: '',
+  warehouse: { value: '', label: 'All' },
   toDate: _todayDate(),
   fromDate: _todayDate(),
 };
 
 const headers = [
-  "SL",
-  "Employee Name",
-  "Enroll",
-  "Workplace",
-  "Designation",
-  "Start Date",
-  "Start Time",
-  "End Date",
-  "End Time",
-  "Taka",
-  "Approve Amount",
-  "Remarks",
+  'SL',
+  'Employee Name',
+  'Enroll',
+  'Workplace',
+  'Designation',
+  'Start Date',
+  'Start Time',
+  'End Date',
+  'End Time',
+  'Taka',
+  'Approve Amount',
+  'Remarks',
 ];
 
 export default function PumpFoodingBillForm() {
@@ -46,7 +46,7 @@ export default function PumpFoodingBillForm() {
 
   const [supplierDDL, setSupplierDDL] = useState([]);
   const [warehouseDDL, setWareHouseDDL] = useState([]);
-  const [uploadedImage, setUploadedImage] = useState("");
+  const [uploadedImage, setUploadedImage] = useState('');
   const { state: headerData } = useLocation();
   const [rowData, getRowData, loader, setRowData] = useAxiosGet({ data: [] });
   const [, postData, loading] = useAxiosPost();
@@ -63,13 +63,12 @@ export default function PumpFoodingBillForm() {
         setWareHouseDDL
       );
     }
-
   }, [accId, buId, headerData]);
 
   const getRows = (values, cb) => {
     getRowData(
       `/hcm/MenuListOfFoodCorner/GetPumpFoodingBillPagination?BusinessUnitId=${buId}&warehouseId=${values?.warehouse?.value}&Status=3&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&PageNo=1&PageSize=10000&ViewOrder=desc`,
-      cb&&cb
+      cb && cb
     );
   };
 
@@ -80,7 +79,7 @@ export default function PumpFoodingBillForm() {
     //   0
     // );
     if (!selectedItems?.length) {
-      return toast.warn("Please select at least one row");
+      return toast.warn('Please select at least one row');
     }
 
     const payload = {

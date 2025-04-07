@@ -1,11 +1,11 @@
-import React from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import React from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 export default function IDelete({ remover, id, title }) {
   return (
     <div>
       <OverlayTrigger
-        overlay={<Tooltip id="delete-icon">{title || "Delete"}</Tooltip>}
+        overlay={<Tooltip id="delete-icon">{title || 'Delete'}</Tooltip>}
       >
         <span>
           <i

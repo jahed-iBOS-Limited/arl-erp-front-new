@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getShippointDDL = async (accId, buId, setter) => {
   try {
@@ -72,7 +72,7 @@ export const savePartnerTransportZoneAction = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -93,7 +93,7 @@ export const saveEditedPartnerTransportZoneAction = async (
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       setDisabled(false);
     }
   } catch (error) {
@@ -152,7 +152,7 @@ export const GetPartnerTransportZoneById = async (partnerId, setter) => {
         rate: data?.perBagPrice,
         vehicleCapacity: {
           value: data?.vehicleCapacityId || 0,
-          label: data?.vehicleCapacityName || "",
+          label: data?.vehicleCapacityName || '',
         },
       };
       setter(newData);

@@ -50,7 +50,7 @@ function ChallanCancel() {
       values?.strNarration,
       partId,
       setGridData,
-      setLoading,
+      setLoading
     );
   };
 
@@ -114,7 +114,7 @@ function ChallanCancel() {
                           // if (searchValue?.length < 3) return [];
                           return axios
                             .get(
-                              `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${searchValue}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${values?.distributionChannel?.value}`,
+                              `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${searchValue}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${values?.distributionChannel?.value}`
                             )
                             .then((res) => res?.data);
                         }}

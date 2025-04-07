@@ -110,7 +110,7 @@
 }
 .single-pms-slider-report-item-head:before {
   position: absolute;
-  content: "";
+  content: '';
   width: 95%;
   height: 95%;
   -webkit-clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);

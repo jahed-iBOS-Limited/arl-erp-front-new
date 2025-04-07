@@ -17,20 +17,15 @@ export default function AuditSchedulesView() {
   const [, onSaveAction, saveLoading] = useAxiosPost();
 
   const printRef = React.useRef();
-  const [
-    scheduleData,
-    getSingleScheduleData,
-    loading,
-    setSingleScheduleData,
-  ] = useAxiosGet();
+  const [scheduleData, getSingleScheduleData, loading, setSingleScheduleData] =
+    useAxiosGet();
 
   useEffect(() => {
     if (viewData?.intAuditScheduleId)
       getSingleScheduleDataHandler(
         viewData?.intAuditScheduleId,
-        getSingleScheduleData,
+        getSingleScheduleData
       );
-
   }, []);
 
   return (
@@ -81,10 +76,10 @@ export default function AuditSchedulesView() {
                 () => {
                   getSingleScheduleDataHandler(
                     viewData?.intAuditScheduleId,
-                    getSingleScheduleData,
+                    getSingleScheduleData
                   );
                 },
-                true,
+                true
               );
             }}
             type="button"

@@ -1,16 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
-  error: "",
-  msg: "",
+  error: '',
+  msg: '',
   empDDL: [],
   shippointDDL: [],
   pendingOrderGridData: [],
 };
 
 export const pendingOrderSlice = createSlice({
-  name: "pendingOrder",
+  name: 'pendingOrder',
   initialState: initState,
   reducers: {
     SetEmpDDL: (state, action) => {

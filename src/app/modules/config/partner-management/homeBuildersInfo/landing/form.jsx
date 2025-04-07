@@ -1,8 +1,7 @@
-
-import React from "react";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import IButton from "../../../../_helper/iButton";
-import NewSelect from "../../../../_helper/_select";
+import React from 'react';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import IButton from '../../../../_helper/iButton';
+import NewSelect from '../../../../_helper/_select';
 
 const HomeBuildersInfoLandingForm = ({ obj }) => {
   const { values, setFieldValue, getData, pageNo, pageSize } = obj;
@@ -16,14 +15,14 @@ const HomeBuildersInfoLandingForm = ({ obj }) => {
               <NewSelect
                 name="type"
                 options={[
-                  { value: 1, label: "Engineer" },
-                  { value: 2, label: "Mason" },
-                  { value: 3, label: "IHB" },
+                  { value: 1, label: 'Engineer' },
+                  { value: 2, label: 'Mason' },
+                  { value: 3, label: 'IHB' },
                 ]}
                 value={values?.type}
                 label="Type"
                 onChange={(valueOption) => {
-                  setFieldValue("type", valueOption);
+                  setFieldValue('type', valueOption);
                 }}
                 placeholder="Type"
               />

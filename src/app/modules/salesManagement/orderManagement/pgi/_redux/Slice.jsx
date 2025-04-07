@@ -1,16 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
-  error: "",
-  msg: "",
+  error: '',
+  msg: '',
   gridData: [],
   IsPGICheck: {},
-  singleData: "",
+  singleData: '',
 };
 
 export const PGISlice = createSlice({
-  name: "pgi",
+  name: 'pgi',
   initialState: initState,
   reducers: {
     SetGridData: (state, action) => {
@@ -23,7 +23,7 @@ export const PGISlice = createSlice({
       state.singleData = payload;
     },
     SetSingleStoreEmpty: (state) => {
-      state.singleData = "";
+      state.singleData = '';
     },
     SetIsPGICheck: (state, action) => {
       const { payload } = action;

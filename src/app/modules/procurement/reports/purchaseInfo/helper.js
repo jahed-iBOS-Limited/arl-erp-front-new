@@ -1,5 +1,4 @@
-import Axios from "axios";
-
+import Axios from 'axios';
 
 export const getPlantList = async (userId, accId, buId, setter) => {
   try {
@@ -7,7 +6,7 @@ export const getPlantList = async (userId, accId, buId, setter) => {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
     setter([{ value: 0, label: 'All' }, ...res?.data]);
-  } catch (error) { }
+  } catch (error) {}
 };
 export const getRequestTypeList = async (setter) => {
   try {
@@ -19,7 +18,7 @@ export const getRequestTypeList = async (setter) => {
       label: item?.purchaseRequestTypeName,
     }));
     setter(data);
-  } catch (error) { }
+  } catch (error) {}
 };
 export const getPurchaseOrganizationData = async (accountId, buId, setter) => {
   try {
@@ -31,5 +30,3 @@ export const getPurchaseOrganizationData = async (accountId, buId, setter) => {
     setter([]);
   }
 };
-
-

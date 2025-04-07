@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 export const getEmployeeDDL = async (accId, busId, setter, setLoader) => {
   setLoader(true);
@@ -63,7 +63,7 @@ export const loanApproveAction = async (
       `/hcm/HCMLoanReport/GetLoanApproveAndReScheduleProcess?PartId=${partId}&ApplicationId=${applicationId}&LoanTypeId=${loanTypeId}&UserID=${userId}&LoanAmount=${loanAmount}&NumberOfInstallment=${numberOfinstallment}&ApproveLoanAmount=${approveLoanAmount}&ApproveNumberOfInstallment=${approveNumberOfinstallment}&EffectiveDate=${effectiveDate}&Remarks=${remarks}`
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Loan approve successfully");
+      toast.success(res.data?.message || 'Loan approve successfully');
     }
   } catch (error) {
     toast.error(error?.response?.data?.message);
@@ -77,7 +77,7 @@ export const loanRejectedAction = async (id, updateRowDto, setRowDto) => {
     );
     if (res.status === 200) {
       toast.success(
-        res.data?.message || "Loan application cancel successfully"
+        res.data?.message || 'Loan application cancel successfully'
       );
       setRowDto(updateRowDto);
     }

@@ -1,30 +1,30 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
-import * as Yup from "yup";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import * as Yup from 'yup';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { saveVehiclesWeight } from "../helper";
-import { GetItemWeightInfo_action, SaveVehicleWeight } from "../_redux/Actions";
-import InputField from "./../../../../_helper/_inputField";
-import Loading from "./../../../../_helper/_loading";
-import VehicleWeightTable from "./grid";
+} from '../../../../../../_metronic/_partials/controls';
+import { saveVehiclesWeight } from '../helper';
+import { GetItemWeightInfo_action, SaveVehicleWeight } from '../_redux/Actions';
+import InputField from './../../../../_helper/_inputField';
+import Loading from './../../../../_helper/_loading';
+import VehicleWeightTable from './grid';
 const validationSchema = Yup.object().shape({
   vehicleUnloadedWeight: Yup.number()
-    .min(1, "Minimum 1 number")
-    .required("Vehicle Unloaded Weight required"),
+    .min(1, 'Minimum 1 number')
+    .required('Vehicle Unloaded Weight required'),
   // .test("approveAmount", "invalid number ", function(value) {
   //   return 10 >= value;
   // }),
   vehicleLoadedWeight: Yup.number()
-    .min(1, "Minimum 1 number")
-    .required("Vehicle Loaded Weight required")
-    .test("approveAmount", "invalid number ", function(value) {
+    .min(1, 'Minimum 1 number')
+    .required('Vehicle Loaded Weight required')
+    .test('approveAmount', 'invalid number ', function (value) {
       const validaionCheck =
         this.parent.maximumToleranceTotal >= +value &&
         this.parent.minimumToleranceTotal <= +value;
@@ -32,11 +32,11 @@ const validationSchema = Yup.object().shape({
     }),
 });
 const initData = {
-  totalGrossWeight: "",
-  vehicleUnloadedWeight: "",
-  vehicleLoadedWeight: "",
-  totalBundle: "",
-  totalPieces: "",
+  totalGrossWeight: '',
+  vehicleUnloadedWeight: '',
+  vehicleLoadedWeight: '',
+  totalBundle: '',
+  totalPieces: '',
 };
 
 const VehicleWeight = (id) => {
@@ -72,7 +72,7 @@ const VehicleWeight = (id) => {
       )
     );
     saveVehiclesWeight(rowDto, setLoading, () => {
-      history.push("/transport-management/shipmentmanagement/shipping");
+      history.push('/transport-management/shipmentmanagement/shipping');
     });
   };
   useEffect(() => {
@@ -85,7 +85,6 @@ const VehicleWeight = (id) => {
         )
       );
     }
-
   }, [landingData]);
 
   return (
@@ -113,7 +112,7 @@ const VehicleWeight = (id) => {
           <>
             {loading && <Loading />}
             <Card>
-              <CardHeader title={"Vehicle Weight"}>
+              <CardHeader title={'Vehicle Weight'}>
                 <CardHeaderToolbar>
                   <button
                     type="submit"
@@ -130,16 +129,16 @@ const VehicleWeight = (id) => {
                     <div className="col-md-9 offset-md-3">
                       <div
                         style={{
-                          display: "flex",
-                          alignItems: "center",
+                          display: 'flex',
+                          alignItems: 'center',
                         }}
                       >
-                        <p style={{ minWidth: "255px", marginBottom: 0 }}>
+                        <p style={{ minWidth: '255px', marginBottom: 0 }}>
                           <b>Minimum Weight Tolerance: </b>
                           {values?.vehicleUnloadedWeight &&
                             values?.minimumToleranceTotal}
                         </p>
-                        <p style={{ minWidth: "255px", marginBottom: 0 }}>
+                        <p style={{ minWidth: '255px', marginBottom: 0 }}>
                           <b>Maximum Weight Tolerance: </b>
                           {values?.vehicleUnloadedWeight &&
                             values?.maximumToleranceTotal}
@@ -159,21 +158,22 @@ const VehicleWeight = (id) => {
                     </div>
                     <div className="col-lg-3">
                       <label>
-                        {`Vehicle Unloaded Weight ${selectedBusinessUnit?.value ===
-                          4 && "(TON)"}`}{" "}
+                        {`Vehicle Unloaded Weight ${
+                          selectedBusinessUnit?.value === 4 && '(TON)'
+                        }`}{' '}
                       </label>
                       <InputField
-                        value={values?.vehicleUnloadedWeight || ""}
+                        value={values?.vehicleUnloadedWeight || ''}
                         placeholder="Vehicle Unloaded Weight"
                         name="vehicleUnloadedWeight"
                         type="number"
                         onChange={(e) => {
                           setFieldValue(
-                            "vehicleUnloadedWeight",
+                            'vehicleUnloadedWeight',
                             e.target.value
                           );
                           setFieldValue(
-                            "minimumToleranceTotal",
+                            'minimumToleranceTotal',
                             +e.target.value + values?.minimumTolerance
                             // it changed by mahmud hasan according to monir vi. date: 20-12-2022
                             // _fixedPoint(
@@ -185,7 +185,7 @@ const VehicleWeight = (id) => {
                             // )
                           );
                           setFieldValue(
-                            "maximumToleranceTotal",
+                            'maximumToleranceTotal',
                             +e.target.value + values?.maximumTolerance
                             // it changed by mahmud hasan according to monir vi. date: 20-12-2022
                             // _fixedPoint(
@@ -201,11 +201,12 @@ const VehicleWeight = (id) => {
                     </div>
                     <div className="col-md-3">
                       <label>
-                        {`Vehicle Loaded Weight ${selectedBusinessUnit?.value ===
-                          4 && "(TON)"}`}{" "}
+                        {`Vehicle Loaded Weight ${
+                          selectedBusinessUnit?.value === 4 && '(TON)'
+                        }`}{' '}
                       </label>
                       <InputField
-                        value={values?.vehicleLoadedWeight || ""}
+                        value={values?.vehicleLoadedWeight || ''}
                         placeholder="Vehicle Loaded Weight"
                         name="vehicleLoadedWeight"
                         type="number"

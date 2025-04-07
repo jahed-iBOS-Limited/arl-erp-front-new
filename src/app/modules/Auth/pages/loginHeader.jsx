@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { Container, Row, Navbar, Nav } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import Logo from "./asset/logo.svg";
-import "react-toastify/dist/ReactToastify.css";
+import React, { Component } from 'react';
+import { Container, Row, Navbar, Nav } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import Logo from './asset/logo.svg';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default class Header extends Component {
   render() {

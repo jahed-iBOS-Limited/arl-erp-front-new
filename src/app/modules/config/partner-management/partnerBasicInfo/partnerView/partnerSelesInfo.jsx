@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export default function PartnerSalesInfo({ sales, shippintAddress }) {
   return (
@@ -6,34 +6,34 @@ export default function PartnerSalesInfo({ sales, shippintAddress }) {
       <h3>Partner Sales Info</h3>
       <div class="row mt-6">
         <div class="col-lg-3">
-          <label style={{ fontWeight: "bold" }}>Customer Type</label>
+          <label style={{ fontWeight: 'bold' }}>Customer Type</label>
           <div>{sales?.customerType}</div>
         </div>
         <div class="col-lg-3">
-          <label style={{ fontWeight: "bold" }}>sales Organization</label>
+          <label style={{ fontWeight: 'bold' }}>sales Organization</label>
           <div>{sales?.salesOrganizationName}</div>
         </div>
         <div class="col-lg-3">
-          <label style={{ fontWeight: "bold" }}>Distribution Channel</label>
+          <label style={{ fontWeight: 'bold' }}>Distribution Channel</label>
           <div>{sales?.distributionChannelName}</div>
         </div>
         <div class="col-lg-3">
-          <label style={{ fontWeight: "bold" }}>Sales Territory</label>
+          <label style={{ fontWeight: 'bold' }}>Sales Territory</label>
           <div>{sales?.distributionChannelCode}</div>
         </div>
       </div>
       <div class="row mt-6">
         <div class="col-lg-3">
-          <label style={{ fontWeight: "bold" }}>Price Structure</label>
+          <label style={{ fontWeight: 'bold' }}>Price Structure</label>
           <div>{sales?.priceStructureName}</div>
         </div>
         <div class="col-lg-3">
-          <label style={{ fontWeight: "bold" }}>Payment Mode</label>
+          <label style={{ fontWeight: 'bold' }}>Payment Mode</label>
           <div>{sales?.creditFacilityType}</div>
         </div>
         <div class="col-lg-3">
-          <label style={{ fontWeight: "bold" }}>Exclusivity</label>
-          <div>{sales?.isExclusive ? "Exclusive" : "Non-Exclusive"}</div>
+          <label style={{ fontWeight: 'bold' }}>Exclusivity</label>
+          <div>{sales?.isExclusive ? 'Exclusive' : 'Non-Exclusive'}</div>
         </div>
       </div>
       <div className="row">
@@ -45,9 +45,9 @@ export default function PartnerSalesInfo({ sales, shippintAddress }) {
               name="isTaxOnDeliveryAmount"
               label="Tax On Delivery"
               style={{
-                marginRight: "5px",
-                position: "relative",
-                top: "3px",
+                marginRight: '5px',
+                position: 'relative',
+                top: '3px',
               }}
               checked={sales?.isTaxBasedOnDeliveryAmount}
             />
@@ -62,9 +62,9 @@ export default function PartnerSalesInfo({ sales, shippintAddress }) {
               name="priceIncludingTax"
               label="Price Including Tax"
               style={{
-                marginRight: "5px",
-                position: "relative",
-                top: "3px",
+                marginRight: '5px',
+                position: 'relative',
+                top: '3px',
               }}
               checked={sales?.isBackCalculation}
             />
@@ -79,9 +79,9 @@ export default function PartnerSalesInfo({ sales, shippintAddress }) {
               name="isManualAuto"
               label="Is Manual Auto"
               style={{
-                marginRight: "5px",
-                position: "relative",
-                top: "3px",
+                marginRight: '5px',
+                position: 'relative',
+                top: '3px',
               }}
               checked={sales?.isManualAuto}
             />

@@ -1,22 +1,21 @@
-
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import Form from "../common/form";
-import Axios from "axios";
-import shortid from "shortid";
-import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import Loading from "./../../../../_helper/_loading";
+} from '../../../../../../_metronic/_partials/controls';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import Form from '../common/form';
+import Axios from 'axios';
+import shortid from 'shortid';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import Loading from './../../../../_helper/_loading';
 const initProduct = {
   id: undefined,
-  sbuname: "",
-  sbucode: "",
+  sbuname: '',
+  sbucode: '',
 };
 
 export default function SbuAddForm({
@@ -46,10 +45,10 @@ export default function SbuAddForm({
       };
 
       try {
-        const res = await Axios.post("/costmgmt/SBU/CreateSBU", warehouseData);
+        const res = await Axios.post('/costmgmt/SBU/CreateSBU', warehouseData);
         cb(initProduct);
         setDisabled(false);
-        toast.success(res.data?.message || "Submitted successfully", {
+        toast.success(res.data?.message || 'Submitted successfully', {
           toastId: shortid(),
         });
       } catch (error) {
@@ -58,7 +57,6 @@ export default function SbuAddForm({
       }
     } else {
       setDisabled(false);
-
     }
   };
 

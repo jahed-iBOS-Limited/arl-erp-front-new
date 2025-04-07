@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useMemo, useState } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import { useSelector, shallowEqual } from 'react-redux';
@@ -48,7 +46,7 @@ export function TableRow(props) {
       profileData.userId,
       profileData.accountId,
       selectedBusinessUnit.value,
-      setCheckPostDDL,
+      setCheckPostDDL
     );
     getItemRequestGridData(
       selectCheckPost.value,
@@ -58,13 +56,12 @@ export function TableRow(props) {
       setLoading,
       pageNo,
       pageSize,
-      setPageCount,
+      setPageCount
     );
   }, [profileData.userId, profileData.accountId, selectedBusinessUnit.value]);
 
   // UI Context
   const uIContext = useUIContext();
-
 
   // Table columns
   const columns = [
@@ -104,7 +101,7 @@ export function TableRow(props) {
       setLoading,
       pageNo,
       pageSize,
-      setPageCount,
+      setPageCount
     );
   };
   return (
@@ -147,7 +144,7 @@ export function TableRow(props) {
                   setLoading,
                   pageNo,
                   pageSize,
-                  setPageCount,
+                  setPageCount
                 )
               }
             >

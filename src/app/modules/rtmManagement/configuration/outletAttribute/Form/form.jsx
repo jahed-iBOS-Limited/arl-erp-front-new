@@ -1,17 +1,17 @@
-import React from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
+import React from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  profileTypeName: Yup.string().required("profile Type Name is required"),
+  profileTypeName: Yup.string().required('profile Type Name is required'),
   isMandatory: Yup.bool(),
   controlName: Yup.object().shape({
-    value: Yup.string().required("control Name is required"),
-    label: Yup.string().required("control Name is required"),
+    value: Yup.string().required('control Name is required'),
+    label: Yup.string().required('control Name is required'),
   }),
 });
 
@@ -55,7 +55,7 @@ export default function FormCmp({
                 <div className="col-lg-12">
                   <div
                     className="row bank-journal bank-journal-custom bj-left"
-                    style={{ paddingBottom: "10px" }}
+                    style={{ paddingBottom: '10px' }}
                   >
                     <div className="col-lg-3">
                       <label>Attribute Name</label>
@@ -68,7 +68,7 @@ export default function FormCmp({
 
                     <div className="col-lg-2">
                       <div
-                        style={{ position: "relative", top: "15px" }}
+                        style={{ position: 'relative', top: '15px' }}
                         className="mr-5"
                       >
                         <label htmlFor="isMandatory">Is Mandatory</label>
@@ -78,14 +78,14 @@ export default function FormCmp({
                             <input
                               id="isMandatory"
                               type="checkbox"
-                              style={{ position: "relative", top: "2px" }}
+                              style={{ position: 'relative', top: '2px' }}
                               label="Is Mandatory"
                               className="ml-2"
                               value={values?.isMandatory || false}
                               checked={values?.isMandatory}
                               name="isMandatory"
                               onChange={(e) => {
-                                setFieldValue("isMandatory", e.target.checked);
+                                setFieldValue('isMandatory', e.target.checked);
                               }}
                             />
                           )}
@@ -96,15 +96,15 @@ export default function FormCmp({
                       <NewSelect
                         name="controlName"
                         options={[
-                          { label: "DDL", value: 1 },
-                          { label: "Date", value: 2 },
-                          { label: "TextBox", value: 3 },
-                          { label: "Number", value: 4 },
+                          { label: 'DDL', value: 1 },
+                          { label: 'Date', value: 2 },
+                          { label: 'TextBox', value: 3 },
+                          { label: 'Number', value: 4 },
                         ]}
                         value={values?.controlName}
                         label="Attribute Type"
                         onChange={(valueOption) => {
-                          setFieldValue("controlName", valueOption);
+                          setFieldValue('controlName', valueOption);
                         }}
                         placeholder="Attribute Type"
                         errors={errors}
@@ -115,7 +115,7 @@ export default function FormCmp({
                 </div>
                 <div className="col-lg-12">
                   {values?.controlName?.value === 1 ? (
-                    <div className={"row bank-journal-custom bj-left"}>
+                    <div className={'row bank-journal-custom bj-left'}>
                       <div className="col-lg-3">
                         <label>Value Name</label>
                         <InputField
@@ -128,7 +128,7 @@ export default function FormCmp({
 
                       <div className="col-lg-1 pl-2 bank-journal">
                         <button
-                          style={{ marginTop: "6px", marginLeft: "-5px" }}
+                          style={{ marginTop: '6px', marginLeft: '-5px' }}
                           type="button"
                           className="btn btn-primary"
                           disabled={!values?.valueName}
@@ -148,12 +148,12 @@ export default function FormCmp({
                   {/* Table Header input end */}
                   <div className="row">
                     <div className="col-lg-12 pr-0 pl-0">
-                      <table className={"table mt-1 bj-table"}>
-                        <thead className={rowDto?.length < 1 && "d-none"}>
+                      <table className={'table mt-1 bj-table'}>
+                        <thead className={rowDto?.length < 1 && 'd-none'}>
                           <tr>
-                            <th style={{ width: "20px" }}>SL</th>
-                            <th style={{ width: "100px" }}>Value Name</th>
-                            <th style={{ width: "20px" }}>Actions</th>
+                            <th style={{ width: '20px' }}>SL</th>
+                            <th style={{ width: '100px' }}>Value Name</th>
+                            <th style={{ width: '20px' }}>Actions</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -179,13 +179,13 @@ export default function FormCmp({
               {/* Row Dto Table End */}
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

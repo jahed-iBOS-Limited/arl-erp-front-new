@@ -1,17 +1,17 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import Loading from "../../../../_helper/_loading";
-import { ShippointChange } from "../helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import Loading from '../../../../_helper/_loading';
+import { ShippointChange } from '../helper';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "./../../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
+} from './../../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
 
 export function ChallanModal({
   ShippointDDL,
@@ -31,7 +31,6 @@ export function ChallanModal({
         `/wms/ShipPointWarehouse/GetShipPointWarehouseDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&ShipPointId=${ShippointDDL[0]?.value}`
       );
     }
-
   }, [ShippointDDL]);
 
   return (
@@ -39,7 +38,7 @@ export function ChallanModal({
       <Formik
         enableReinitialize={true}
         initialValues={{
-          pgiShippoint: ShippointDDL[0] || "",
+          pgiShippoint: ShippointDDL[0] || '',
         }}
         onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
@@ -55,7 +54,7 @@ export function ChallanModal({
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Challan Shippoint Transfer update"}>
+              <CardHeader title={'Challan Shippoint Transfer update'}>
                 <CardHeaderToolbar>
                   <button
                     disabled={
@@ -89,8 +88,8 @@ export function ChallanModal({
                             <div className="col-lg-12">
                               <p
                                 style={{
-                                  fontSize: "16px",
-                                  backgroundColor: "yellow",
+                                  fontSize: '16px',
+                                  backgroundColor: 'yellow',
                                 }}
                                 className="text-center text-bold"
                               >
@@ -106,7 +105,7 @@ export function ChallanModal({
                               name="pgiShippoint"
                               setFieldValue={setFieldValue}
                               dependencyFunc={(id) => {
-                                setFieldValue("warehouse", "");
+                                setFieldValue('warehouse', '');
                                 setWarehouseDDL([]);
                                 if (id) {
                                   getWarehouseDDL(

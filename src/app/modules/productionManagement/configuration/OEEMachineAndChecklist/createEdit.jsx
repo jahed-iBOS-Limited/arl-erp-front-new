@@ -1,24 +1,24 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import * as Yup from "yup";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import InputField from "../../../_helper/_inputField";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import * as Yup from 'yup';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import InputField from '../../../_helper/_inputField';
 
 const initData = {
-  plant: "",
-  shopFloor: "",
-  machineName: "",
-  scheduleType: "",
-  checkPerson: "",
+  plant: '',
+  shopFloor: '',
+  machineName: '',
+  scheduleType: '',
+  checkPerson: '',
 
   //   for row
 
-  checkListCriteriaType: "",
-  checkListCriteria: "",
-  standardValue: "",
-  imageUrl: "",
+  checkListCriteriaType: '',
+  checkListCriteria: '',
+  standardValue: '',
+  imageUrl: '',
 };
 
 const validationSchema = Yup.object().shape({});
@@ -27,7 +27,7 @@ export default function OEEMachineAndChecklistLandingCreateEdit() {
   const [objProps, setObjprops] = useState({});
 
   const saveHandler = (values, cb) => {
-    alert("Working...");
+    alert('Working...');
   };
   return (
     <Formik
@@ -51,7 +51,7 @@ export default function OEEMachineAndChecklistLandingCreateEdit() {
       }) => (
         <>
           {false && <Loading />}
-          <IForm title={""} getProps={setObjprops}>
+          <IForm title={''} getProps={setObjprops}>
             <Form>
               <h4>Machine details</h4>
               <div className="form-group  global-form row">
@@ -64,13 +64,13 @@ export default function OEEMachineAndChecklistLandingCreateEdit() {
                   <NewSelect
                     name="checkListCriteriaType"
                     options={[
-                      { value: 1, label: "Item-1" },
-                      { value: 2, label: "Item-2" },
+                      { value: 1, label: 'Item-1' },
+                      { value: 2, label: 'Item-2' },
                     ]}
                     value={values?.checkListCriteriaType}
                     label="CheckList Criteria Type"
                     onChange={(valueOption) => {
-                      setFieldValue("checkListCriteriaType", valueOption);
+                      setFieldValue('checkListCriteriaType', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -83,7 +83,7 @@ export default function OEEMachineAndChecklistLandingCreateEdit() {
                     name="checkListCriteria"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("checkListCriteria", e.target.value);
+                      setFieldValue('checkListCriteria', e.target.value);
                     }}
                   />
                 </div>
@@ -94,14 +94,14 @@ export default function OEEMachineAndChecklistLandingCreateEdit() {
                     name="standardValue"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("standardValue", e.target.value);
+                      setFieldValue('standardValue', e.target.value);
                     }}
                   />
                 </div>
                 <div
                   className="col-lg-3"
                   style={{
-                    marginTop: "18px",
+                    marginTop: '18px',
                   }}
                 >
                   <button
@@ -130,14 +130,14 @@ export default function OEEMachineAndChecklistLandingCreateEdit() {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

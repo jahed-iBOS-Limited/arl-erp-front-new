@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import { _dateFormatterTwo } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import React, { useEffect } from 'react';
+import { _dateFormatterTwo } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 export default function TripExpenseModal({ item, values }) {
   const { vehicelUserEnroll } = item || {};
@@ -12,14 +12,13 @@ export default function TripExpenseModal({ item, values }) {
     getTripExpense(
       `/mes/VehicleLog/GetVehicleUserWiseTripExpense?vehicleUserEnroll=${vehicelUserEnroll}&fromDate=${fromDate}&todate=${toDate}`
     );
-
   }, [vehicelUserEnroll, fromDate, toDate]);
   let grandTotal = 0;
   return (
     <>
       {loadingTripExpeseData && <Loading />}
-      <h4 style={{ marginTop: "30px" }} className="text-center">
-      Trip Expense Status
+      <h4 style={{ marginTop: '30px' }} className="text-center">
+        Trip Expense Status
       </h4>
       <div className="d-flex justify-content-between mt-5">
         <div>
@@ -39,7 +38,6 @@ export default function TripExpenseModal({ item, values }) {
           </p>
         </div>
         <div>
-
           <p>
             <strong>
               Designation : {tripExpense[0]?.vehicleUserDesignation}
@@ -52,7 +50,7 @@ export default function TripExpenseModal({ item, values }) {
       </div>
 
       <div className="table-responsive">
-        <table id="" className={"table table-bordered mt-4"}>
+        <table id="" className={'table table-bordered mt-4'}>
           <thead>
             <tr>
               <th className="text-center">Sl No</th>
@@ -74,18 +72,18 @@ export default function TripExpenseModal({ item, values }) {
                       {_dateFormatterTwo(item?.tripDate)}
                     </td>
                     <td className="text-center">{item?.tripCode}</td>
-                    <td style={{ marginRight: "5px" }} className="text-right">
+                    <td style={{ marginRight: '5px' }} className="text-right">
                       {_formatMoney(item?.netAmount)}
                     </td>
                     <td className="text-center">
                       <strong
                         style={{
                           color:
-                            item?.approveStatus === "Approved"
-                              ? "green"
-                              : item?.approveStatus === "Reject"
-                              ? "red"
-                              : "black",
+                            item?.approveStatus === 'Approved'
+                              ? 'green'
+                              : item?.approveStatus === 'Reject'
+                                ? 'red'
+                                : 'black',
                         }}
                       >
                         {item?.approveStatus}
@@ -96,7 +94,7 @@ export default function TripExpenseModal({ item, values }) {
               })}
             <tr>
               <td colSpan={3}>Total</td>
-              <td style={{ marginRight: "5px" }} className="text-right">
+              <td style={{ marginRight: '5px' }} className="text-right">
                 <strong>{_formatMoney(grandTotal)}</strong>
               </td>
               <td></td>

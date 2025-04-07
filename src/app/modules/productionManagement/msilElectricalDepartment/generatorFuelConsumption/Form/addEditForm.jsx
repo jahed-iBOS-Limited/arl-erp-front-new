@@ -1,44 +1,43 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import * as Yup from "yup";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import FuelConsumptionForm from "./form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import * as Yup from 'yup';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import FuelConsumptionForm from './form';
 
 const initData = {
-  date: "",
-  shift: "",
-  generatorName: "",
-  quantity: "",
+  date: '',
+  shift: '',
+  generatorName: '',
+  quantity: '',
 };
 
 const validationSchema = Yup.object().shape({
-  date: Yup.string().required("Date is required"),
-  quantity: Yup.number().required("Quantity is required"),
+  date: Yup.string().required('Date is required'),
+  quantity: Yup.number().required('Quantity is required'),
   shift: Yup.object()
     .shape({
-      label: Yup.string().required("Shift is required"),
-      value: Yup.string().required("Shift is required"),
+      label: Yup.string().required('Shift is required'),
+      value: Yup.string().required('Shift is required'),
     })
-    .typeError("Shift is required"),
+    .typeError('Shift is required'),
   generatorName: Yup.object()
     .shape({
-      label: Yup.string().required("Generator Name is required"),
-      value: Yup.string().required("Generator Name is required"),
+      label: Yup.string().required('Generator Name is required'),
+      value: Yup.string().required('Generator Name is required'),
     })
-    .typeError("Generator Name is required"),
+    .typeError('Generator Name is required'),
 });
 
 export default function FuelConsumptionCreate() {
   const [isDisabled, setDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
-  const [modifyData, setModifyData] = useState("");
+  const [modifyData, setModifyData] = useState('');
   const [productDDL, getProductDDL] = useAxiosGet();
   const [generatorNameDDL, getGeneratorNameDDL] = useAxiosGet([]);
   const [, saveData] = useAxiosPost();
@@ -47,18 +46,20 @@ export default function FuelConsumptionCreate() {
 
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
-}, shallowEqual);
+  }, shallowEqual);
 
   const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
   useEffect(() => {
-    getProductDDL(`/mes/MSIL/GetAllMSIL?PartName=MainItemOfRolling&BusinessUnitId=${selectedBusinessUnit.value}`);
-    getGeneratorNameDDL(`/mes/MSIL/GetAllMSIL?PartName=PowerPlantGeneratorNameDDL&BusinessUnitId=${selectedBusinessUnit?.value}`)
-
+    getProductDDL(
+      `/mes/MSIL/GetAllMSIL?PartName=MainItemOfRolling&BusinessUnitId=${selectedBusinessUnit.value}`
+    );
+    getGeneratorNameDDL(
+      `/mes/MSIL/GetAllMSIL?PartName=PowerPlantGeneratorNameDDL&BusinessUnitId=${selectedBusinessUnit?.value}`
+    );
   }, []);
-
 
   useEffect(() => {
     if (params?.id) {
@@ -75,7 +76,6 @@ export default function FuelConsumptionCreate() {
         quantity: location?.state?.numQuantityLtr,
       });
     }
-
   }, [params?.id]);
 
   const saveHandler = async (values, cb) => {
@@ -107,8 +107,8 @@ export default function FuelConsumptionCreate() {
     <IForm
       title={
         params?.id
-          ? "Edit Fuel Consumption Entry Form"
-          : "Fuel Consumption Entry Form"
+          ? 'Edit Fuel Consumption Entry Form'
+          : 'Fuel Consumption Entry Form'
       }
       getProps={setObjprops}
       isDisabled={isDisabled}

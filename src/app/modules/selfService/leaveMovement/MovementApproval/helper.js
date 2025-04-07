@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 // get selected business unit from store
 
@@ -9,7 +9,7 @@ export const getWorkplaceGroupDDL = async (accId, setter) => {
       `/hcm/HCMDDL/GetWorkPlaceGroupByAccountIdDDL?AccountId=${accId}`
     );
     const data = [...res?.data];
-    data.unshift({ value: 0, label: "All" });
+    data.unshift({ value: 0, label: 'All' });
     setter(data);
   } catch (error) {
     setter([]);
@@ -67,11 +67,11 @@ export const movementApproveAction = async (
       `/hcm/HCMLeaveAndMovementReport/GetOfficialMovement?ApplicationId=${ApplicationId}&UserID=${UserID}&Approved=${Approved}&Rejected=${Rejected}`
     );
     if (res.status === 200) {
-      if (Approved === "true") {
-        toast.success("movement approved successfully");
+      if (Approved === 'true') {
+        toast.success('movement approved successfully');
         cb();
-      } else if (Rejected === "true") {
-        toast.success("movement rejected successfully");
+      } else if (Rejected === 'true') {
+        toast.success('movement rejected successfully');
         cb();
       }
     }

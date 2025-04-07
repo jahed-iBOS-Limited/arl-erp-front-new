@@ -1,41 +1,41 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import * as Yup from "yup";
-import IForm from "./../../../_helper/_form";
-import InputField from "./../../../_helper/_inputField";
-import Loading from "./../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
-import "./styles.css";
-import { useParams } from "react-router-dom";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import NewSelect from "../../../_helper/_select";
-import IView from "../../../_helper/_helperIcons/_view";
-import IViewModal from "../../../_helper/_viewModal";
-import ParticipantRowModal from "./participantRowModal";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import * as Yup from 'yup';
+import IForm from './../../../_helper/_form';
+import InputField from './../../../_helper/_inputField';
+import Loading from './../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
+import './styles.css';
+import { useParams } from 'react-router-dom';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import NewSelect from '../../../_helper/_select';
+import IView from '../../../_helper/_helperIcons/_view';
+import IViewModal from '../../../_helper/_viewModal';
+import ParticipantRowModal from './participantRowModal';
 
 const initData = {
-  eventName: "",
-  eventDescription: "",
-  eventPlace: "",
+  eventName: '',
+  eventDescription: '',
+  eventPlace: '',
   eventStartDate: _todayDate(),
   eventEndDate: _todayDate(),
-  activityName: "",
-  activityStartTime: "",
-  activityEndTime: "",
+  activityName: '',
+  activityStartTime: '',
+  activityEndTime: '',
   isParticipantCount: false,
 };
 
 const validationSchema = Yup.object().shape({
-  eventName: Yup.string().required("Event Name is required"),
-  eventDescription: Yup.string().required("Event Description is required"),
-  eventPlace: Yup.string().required("Event Place is required"),
-  eventStartDate: Yup.string().required("Event Start Date is required"),
-  eventEndDate: Yup.string().required("Event End Date is required"),
+  eventName: Yup.string().required('Event Name is required'),
+  eventDescription: Yup.string().required('Event Description is required'),
+  eventPlace: Yup.string().required('Event Place is required'),
+  eventStartDate: Yup.string().required('Event Start Date is required'),
+  eventEndDate: Yup.string().required('Event End Date is required'),
 });
 
 export default function EventPlanningCreateEdit() {
@@ -58,7 +58,7 @@ export default function EventPlanningCreateEdit() {
     const payload = {
       eventId: id ? id : 0,
       partnerId: values?.customerName.value || 0,
-      partnerName: values?.customerName.label || "",
+      partnerName: values?.customerName.label || '',
       eventName: values?.eventName,
       eventDescription: values?.eventDescription,
       eventPlace: values?.eventPlace,
@@ -76,7 +76,7 @@ export default function EventPlanningCreateEdit() {
       (item) => item?.activityName === values?.activityName
     );
     if (isExist) {
-      return toast.warn("Activity Name is already exist");
+      return toast.warn('Activity Name is already exist');
     } else {
       setActivityList([
         ...activityList,
@@ -90,7 +90,7 @@ export default function EventPlanningCreateEdit() {
           createdBy: profileData?.employeeId,
         },
       ]);
-      setFieldValue("activityName", "");
+      setFieldValue('activityName', '');
     }
   };
 
@@ -114,14 +114,12 @@ export default function EventPlanningCreateEdit() {
         });
       });
     }
-
   }, [id]);
 
   useEffect(() => {
     getCustomerDDL(
       `/partner/PManagementCommonDDL/GetBusinessPartnerbyIdDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PartnerTypeId=2`
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   return (
@@ -150,7 +148,7 @@ export default function EventPlanningCreateEdit() {
           {(saveDataLoader || editDataLoader || getCustomerDDLLoader) && (
             <Loading />
           )}
-          <IForm title={"Event Planning Create"} getProps={setObjprops}>
+          <IForm title={'Event Planning Create'} getProps={setObjprops}>
             <Form>
               {/* header section */}
               <div className="form-group  global-form row">
@@ -161,7 +159,7 @@ export default function EventPlanningCreateEdit() {
                     name="customerName"
                     options={customerDDL}
                     onChange={(valueOption) => {
-                      setFieldValue("customerName", valueOption);
+                      setFieldValue('customerName', valueOption);
                     }}
                   />
                 </div>
@@ -172,7 +170,7 @@ export default function EventPlanningCreateEdit() {
                     name="eventName"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("eventName", e.target.value);
+                      setFieldValue('eventName', e.target.value);
                     }}
                   />
                 </div>
@@ -183,7 +181,7 @@ export default function EventPlanningCreateEdit() {
                     name="eventDescription"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("eventDescription", e.target.value);
+                      setFieldValue('eventDescription', e.target.value);
                     }}
                   />
                 </div>
@@ -194,7 +192,7 @@ export default function EventPlanningCreateEdit() {
                     name="eventPlace"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("eventPlace", e.target.value);
+                      setFieldValue('eventPlace', e.target.value);
                     }}
                   />
                 </div>
@@ -206,7 +204,7 @@ export default function EventPlanningCreateEdit() {
                     type="date"
                     name="eventStartDate"
                     onChange={(e) => {
-                      setFieldValue("eventStartDate", e.target.value);
+                      setFieldValue('eventStartDate', e.target.value);
                     }}
                   />
                 </div>
@@ -218,7 +216,7 @@ export default function EventPlanningCreateEdit() {
                     type="date"
                     name="eventEndDate"
                     onChange={(e) => {
-                      setFieldValue("eventEndDate", e.target.value);
+                      setFieldValue('eventEndDate', e.target.value);
                     }}
                   />
                 </div>
@@ -238,7 +236,7 @@ export default function EventPlanningCreateEdit() {
                           name="activityName"
                           type="text"
                           onChange={(e) => {
-                            setFieldValue("activityName", e.target.value);
+                            setFieldValue('activityName', e.target.value);
                           }}
                         />
                       </div>
@@ -249,7 +247,7 @@ export default function EventPlanningCreateEdit() {
                           name="activityStartTime"
                           type="time"
                           onChange={(e) => {
-                            setFieldValue("activityStartTime", e.target.value);
+                            setFieldValue('activityStartTime', e.target.value);
                           }}
                         />
                       </div>
@@ -260,7 +258,7 @@ export default function EventPlanningCreateEdit() {
                           name="activityEndTime"
                           type="time"
                           onChange={(e) => {
-                            setFieldValue("activityEndTime", e.target.value);
+                            setFieldValue('activityEndTime', e.target.value);
                           }}
                         />
                       </div>
@@ -273,7 +271,7 @@ export default function EventPlanningCreateEdit() {
                             value={values?.isParticipantCount}
                             onChange={(e) => {
                               setFieldValue(
-                                "isParticipantCount",
+                                'isParticipantCount',
                                 e.target.checked
                               );
                             }}
@@ -286,7 +284,7 @@ export default function EventPlanningCreateEdit() {
                       <div
                         className="col-lg-2"
                         style={{
-                          marginTop: "22px",
+                          marginTop: '22px',
                         }}
                       >
                         <button
@@ -344,10 +342,10 @@ export default function EventPlanningCreateEdit() {
                           <td>
                             {item?.activityStartTime
                               ? item?.activityStartTime
-                              : ""}
+                              : ''}
                           </td>
                           <td>{item?.activityEndTime}</td>
-                          <td>{item?.isParticipantCount ? "Yes" : "No"}</td>
+                          <td>{item?.isParticipantCount ? 'Yes' : 'No'}</td>
                           <td>{item?.taken}</td>
                           <td>{item?.remaining}</td>
                           <td className="text-center">
@@ -407,14 +405,14 @@ export default function EventPlanningCreateEdit() {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { getGridData } from "../helper";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { getGridData } from '../helper';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
 // import Loading from "../../../../_helper/_loading";
 
 export function TableRow() {
@@ -14,7 +14,6 @@ export function TableRow() {
   const [loading, setLoading] = useState(false);
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
-
 
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
@@ -32,7 +31,6 @@ export function TableRow() {
         pageSize
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   //setPositionHandler
@@ -59,7 +57,7 @@ export function TableRow() {
             onClick={() =>
               history.push({
                 pathname:
-                  "/rtm-management/configuration/salesTargetConfig/create",
+                  '/rtm-management/configuration/salesTargetConfig/create',
               })
             }
           >
@@ -87,7 +85,7 @@ export function TableRow() {
                     <td className="text-center"> {item.sl}</td>
                     <td>
                       <div className="pr-2 text-right">
-                        {" "}
+                        {' '}
                         {item.lastTargetEntryDay}
                       </div>
                     </td>

@@ -1,19 +1,16 @@
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./Form";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import {
-  getZoneInfoByChallanCode,
-  updateTransportZone,
-} from "../helper";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './Form';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { getZoneInfoByChallanCode, updateTransportZone } from '../helper';
 
 let initData = {
-  type: "",
-  challanNo: "",
-  shiptoPartyName: "",
-  address: "",
-  transportZone: "",
+  type: '',
+  challanNo: '',
+  shiptoPartyName: '',
+  address: '',
+  transportZone: '',
 };
 
 export function TransportZoneUpdateForm() {
@@ -27,7 +24,6 @@ export function TransportZoneUpdateForm() {
   const zoneDDL = useSelector((state) => {
     return state?.commonDDL?.shippointDDL;
   }, shallowEqual);
-
 
   const saveHandler = async (values, cb) => {
     const payload = {
@@ -56,7 +52,7 @@ export function TransportZoneUpdateForm() {
 
   return (
     <IForm
-      title={"Transport Zone Update"}
+      title={'Transport Zone Update'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

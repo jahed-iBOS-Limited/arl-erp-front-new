@@ -52,7 +52,7 @@ export default function ReturnPOCreateForm({
   // add single item to row or add all item to row
   const addRowDtoData = (data, values) => {
     let poDataCheck = rowDto.filter(
-      (data) => data?.referenceNo?.value !== values?.referenceNo?.value,
+      (data) => data?.referenceNo?.value !== values?.referenceNo?.value
     );
     if (poDataCheck.length > 0) {
       return toast.warning('Not allowed to different PO');
@@ -102,11 +102,11 @@ export default function ReturnPOCreateForm({
         arr = rowDto?.filter(
           (item) =>
             item.referenceNo?.value === values?.referenceNo?.value &&
-            item?.item?.value === values?.item?.value,
+            item?.item?.value === values?.item?.value
         );
       } else {
         arr = rowDto?.filter(
-          (item) => item?.item?.value === values?.item?.value,
+          (item) => item?.item?.value === values?.item?.value
         );
       }
 
@@ -207,8 +207,8 @@ export default function ReturnPOCreateForm({
         location?.state?.warehouse?.value,
         supplierId,
         refType,
-        referenceNo,
-      ),
+        referenceNo
+      )
     );
   };
 
@@ -227,7 +227,7 @@ export default function ReturnPOCreateForm({
       location?.state?.warehouse?.value,
       location?.state?.refType?.label,
       supplierId,
-      setRefNoDDL,
+      setRefNoDDL
     );
   };
 
@@ -351,7 +351,7 @@ export default function ReturnPOCreateForm({
           data: payload,
           cb,
           IConfirmModal,
-        }),
+        })
       );
     } else {
     }
@@ -398,7 +398,7 @@ export default function ReturnPOCreateForm({
                         if (v.length < 3) return [];
                         return axios
                           .get(
-                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${location?.state?.sbu?.value}`,
+                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${location?.state?.sbu?.value}`
                           )
                           .then((res) => {
                             const updateList = res?.data.map((item) => ({
@@ -662,7 +662,7 @@ export default function ReturnPOCreateForm({
                         getItemDDL(
                           values?.supplierName?.value,
                           location?.state?.refType?.value,
-                          value,
+                          value
                         );
                         //  }
                       }}
@@ -730,8 +730,8 @@ export default function ReturnPOCreateForm({
                             ? !values.item
                             : false
                           : !values.isAllItem
-                          ? !values.referenceNo || !values.item
-                          : !values.referenceNo
+                            ? !values.referenceNo || !values.item
+                            : !values.referenceNo
                       }
                       style={{
                         marginTop: '30px',

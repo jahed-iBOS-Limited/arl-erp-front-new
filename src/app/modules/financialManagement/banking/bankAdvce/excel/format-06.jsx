@@ -1,22 +1,22 @@
 // import { merge } from "lodash"
-import { createFile } from "../../../../_helper/excel/index";
+import { createFile } from '../../../../_helper/excel/index';
 
 class Cell {
-  constructor(label, align, format,cellRange) {
+  constructor(label, align, format, cellRange) {
     this.text = label;
     this.alignment = `${align}:middle`;
     this.format = format;
-    this.cellRange=cellRange
+    this.cellRange = cellRange;
   }
   getCell() {
     return {
       text: this.text,
       fontSize: 7,
-      border: "all 000000 thin",
-      alignment: this.alignment || "",
+      border: 'all 000000 thin',
+      alignment: this.alignment || '',
       textFormat: this.format,
       cellRange: this.cellRange || false,
-      merge:this.cellRange ? true : false 
+      merge: this.cellRange ? true : false,
     };
   }
 }
@@ -24,10 +24,10 @@ class Cell {
 const getTableData = (row) => {
   const data = row?.map((item, index) => {
     return [
-      new Cell(String(index + 1), "center", "text",).getCell(),
-      new Cell("Duty", "center", "text","B1:C1").getCell(),
-      new Cell(item?.strNaration, "left", "text","D1:G1").getCell(),
-      new Cell(item?.numAmount, "right", "money","H1:I1").getCell(),
+      new Cell(String(index + 1), 'center', 'text').getCell(),
+      new Cell('Duty', 'center', 'text', 'B1:C1').getCell(),
+      new Cell(item?.strNaration, 'left', 'text', 'D1:G1').getCell(),
+      new Cell(item?.numAmount, 'right', 'money', 'H1:I1').getCell(),
     ];
   });
   return data;
@@ -43,10 +43,10 @@ export const formatSix = (
   fileName
 ) => {
   const excel = {
-    name: "Bank Advice",
+    name: 'Bank Advice',
     sheets: [
       {
-        name: "Bank Advice",
+        name: 'Bank Advice',
         gridLine: false,
         rows: [
           // [
@@ -139,35 +139,35 @@ export const formatSix = (
           // ],
           [
             {
-              text: "SL",
+              text: 'SL',
               fontSize: 7,
               bold: true,
-              border: "all 000000 thin",
+              border: 'all 000000 thin',
             },
             {
-              text: "Request For",
+              text: 'Request For',
               fontSize: 7,
               bold: true,
-              border: "all 000000 thin",
-              cellRange: "B1:C1",
+              border: 'all 000000 thin',
+              cellRange: 'B1:C1',
               merge: true,
-              alignment: "center:middle",
+              alignment: 'center:middle',
             },
             {
-              text: "Description",
+              text: 'Description',
               fontSize: 7,
               bold: true,
-              border: "all 000000 thin",
-              cellRange: "D1:G1",
+              border: 'all 000000 thin',
+              cellRange: 'D1:G1',
               merge: true,
-              alignment: "center:middle",
+              alignment: 'center:middle',
             },
             {
-              text: "Debiting Amount",
+              text: 'Debiting Amount',
               fontSize: 7,
               bold: true,
-              border: "all 000000 thin",
-              cellRange: "H1:I1",
+              border: 'all 000000 thin',
+              cellRange: 'H1:I1',
               merge: true,
             },
           ],

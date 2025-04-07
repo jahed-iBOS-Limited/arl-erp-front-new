@@ -9,11 +9,11 @@ export const GetLandingData = async (
   pageNo,
   pageSize,
   searchValue,
-  setter,
+  setter
 ) => {
   try {
     const res = await Axios.get(
-      `/imp/ShippingCharge/GetShippingChargeLandingPasignation?shipmentId=${searchValue}&accountId=${accId}&businessUnitId=${buId}&pageSize=${pageSize}&pageNo=${pageNo}&viewOrder=asc`,
+      `/imp/ShippingCharge/GetShippingChargeLandingPasignation?shipmentId=${searchValue}&accountId=${accId}&businessUnitId=${buId}&pageSize=${pageSize}&pageNo=${pageNo}&viewOrder=asc`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -27,7 +27,7 @@ export const GetLandingData = async (
 export const GetShippingChargeList = async (accId, buId, setter) => {
   try {
     const res = await Axios.get(
-      `/imp/ShippingCharge/GetShippingChargeList?accountId=${accId}&businessUnitId=${buId}`,
+      `/imp/ShippingCharge/GetShippingChargeList?accountId=${accId}&businessUnitId=${buId}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -41,41 +41,41 @@ export const GetShippingChargeList = async (accId, buId, setter) => {
 export const GetSingleData = async (id, setter) => {
   try {
     const res = await Axios.get(
-      `/imp/ShippingCharge/GetShipmentById?shippingChargeId=${id}`,
+      `/imp/ShippingCharge/GetShipmentById?shippingChargeId=${id}`
     );
     if (res.status === 200 && res?.data) {
       const data =
-      // res?.data?.map((item) => ({
-      {
-        billNo: res?.data?.billNo,
-        description: res?.data?.description,
-        instrument: {
-          value: res?.data?.instrumentId,
-          label: res?.data?.instrumentId,
-        },
-        payBank: {
-          value: res?.data?.payBankId,
-          label: res?.data?.payBankName,
-        },
-        deliveryDate: _dateFormatter(res?.data?.deliveryDate),
-        amountBDT: res?.data?.amount,
-        demurrage: res?.data?.demurrageAmount,
-        total: res?.data?.totalAmount,
-        shippingLine: {
-          value: res?.data?.shippingLineId,
-          label: res?.data?.shippingLineId,
-        },
-        agent: {
-          value: res?.data?.forwarderName,
-          label: res?.data?.forwarderName,
-        },
-        arivalDate: _dateFormatter(res?.data?.arivalDate),
-        shipment: {
-          value: res?.data?.shipmentId,
-          label: res?.data?.shipmentId,
-        },
-        paymentDate: _dateFormatter(res?.data?.paymentDate),
-      };
+        // res?.data?.map((item) => ({
+        {
+          billNo: res?.data?.billNo,
+          description: res?.data?.description,
+          instrument: {
+            value: res?.data?.instrumentId,
+            label: res?.data?.instrumentId,
+          },
+          payBank: {
+            value: res?.data?.payBankId,
+            label: res?.data?.payBankName,
+          },
+          deliveryDate: _dateFormatter(res?.data?.deliveryDate),
+          amountBDT: res?.data?.amount,
+          demurrage: res?.data?.demurrageAmount,
+          total: res?.data?.totalAmount,
+          shippingLine: {
+            value: res?.data?.shippingLineId,
+            label: res?.data?.shippingLineId,
+          },
+          agent: {
+            value: res?.data?.forwarderName,
+            label: res?.data?.forwarderName,
+          },
+          arivalDate: _dateFormatter(res?.data?.arivalDate),
+          shipment: {
+            value: res?.data?.shipmentId,
+            label: res?.data?.shipmentId,
+          },
+          paymentDate: _dateFormatter(res?.data?.paymentDate),
+        };
       // }));
       setter(data);
     }
@@ -88,7 +88,7 @@ export const GetSingleData = async (id, setter) => {
 export const GetAgentDDL = async (accId, buId, setter) => {
   try {
     const res = await Axios.get(
-      `/imp/ImportCommonDDL/ShippingAgentNameDDL?accountId=${accId}&businessUnitId=${buId}`,
+      `/imp/ImportCommonDDL/ShippingAgentNameDDL?accountId=${accId}&businessUnitId=${buId}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -102,7 +102,7 @@ export const GetAgentDDL = async (accId, buId, setter) => {
 export const GetShipmentDDL = async (accId, buId, setter) => {
   try {
     const res = await Axios.get(
-      `/imp/ImportCommonDDL/GetShipmentDDL?accountId=${accId}&businessUnitId=${buId}`,
+      `/imp/ImportCommonDDL/GetShipmentDDL?accountId=${accId}&businessUnitId=${buId}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -116,7 +116,7 @@ export const GetShipmentDDL = async (accId, buId, setter) => {
 export const GetShippingLineDDL = async (accId, buId, setter) => {
   try {
     const res = await Axios.get(
-      `/imp/ImportCommonDDL/GetShippingLineDDL?accountId=${accId}&businessUnitId=${buId}`,
+      `/imp/ImportCommonDDL/GetShippingLineDDL?accountId=${accId}&businessUnitId=${buId}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -146,13 +146,13 @@ export const CreateShippingCharge = async (
   buId,
   emId,
   uploadImage,
-  GetShippingChargeList,
+  GetShippingChargeList
 ) => {
   const data = dataSetForCreate(payload, accId, buId, emId, uploadImage);
   try {
     const res = await Axios.post(
       `/imp/ShippingCharge/CreateShippingCharge`,
-      data,
+      data
     );
     if (res.status === 200 && res?.data) {
       toast.success('Create successfully');
@@ -196,7 +196,7 @@ export const EditShippingCharge = async (
   accId,
   buId,
   emId,
-  pid,
+  pid
 ) => {
   const data = dataSetForEdit(payload, accId, buId, emId, pid);
   try {

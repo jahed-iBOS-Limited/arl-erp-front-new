@@ -1,11 +1,11 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IForm from "../../../_helper/_form";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IForm from '../../../_helper/_form';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
 const initData = {};
 const ItemOverallCost = () => {
   const [isDisabled] = useState(false);
@@ -50,14 +50,12 @@ const ItemOverallCost = () => {
     getPlantDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData.userId}&AccId=${profileData.accountId}&BusinessUnitId=${selectedBusinessUnit.value}&OrgUnitTypeId=7`
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
     getGridData(
       `/mes/ShopFloor/GetItemOverallCostReport?billOfMaterialId=307&warehouseId=28`
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -106,7 +104,7 @@ const ItemOverallCost = () => {
                     value={values?.plant}
                     label="Plant"
                     onChange={(valueOption) => {
-                      setFieldValue("plant", valueOption);
+                      setFieldValue('plant', valueOption);
                       getShopFloorDDL(
                         `/mes/MesDDL/GetShopfloorDDL?AccountId=${profileData.accountId}&BusinessUnitid=${selectedBusinessUnit.value}&PlantId=${valueOption?.value}`
                       );
@@ -123,7 +121,7 @@ const ItemOverallCost = () => {
                     value={values?.shopFloor}
                     label="Shop Floor"
                     onChange={(valueOption) => {
-                      setFieldValue("shopFloor", valueOption);
+                      setFieldValue('shopFloor', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -137,7 +135,7 @@ const ItemOverallCost = () => {
                     value={values?.itemName}
                     label="Item Name"
                     onChange={(valueOption) => {
-                      setFieldValue("itemName", valueOption);
+                      setFieldValue('itemName', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -151,14 +149,14 @@ const ItemOverallCost = () => {
                     value={values?.bomName}
                     label="BoM Name"
                     onChange={(valueOption) => {
-                      setFieldValue("bomName", valueOption);
+                      setFieldValue('bomName', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
                     isDisabled={false}
                   />
                 </div>
-                <div style={{ marginTop: "19px" }} className="col-lg-8">
+                <div style={{ marginTop: '19px' }} className="col-lg-8">
                   <div className="d-flex justify-content-between">
                     <div>
                       <b>Item Name: </b>
@@ -171,7 +169,7 @@ const ItemOverallCost = () => {
                     </div>
                   </div>
                 </div>
-                <div style={{ marginTop: "15px" }} className="col-lg-1 ml-5">
+                <div style={{ marginTop: '15px' }} className="col-lg-1 ml-5">
                   <button className="btn btn-primary">Show</button>
                 </div>
               </div>
@@ -185,7 +183,7 @@ const ItemOverallCost = () => {
                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                       <thead>
                         <tr>
-                          <th style={{ width: "30px" }}>SL</th>
+                          <th style={{ width: '30px' }}>SL</th>
                           <th>Material Code</th>
                           <th>Material Name</th>
                           <th>Amount</th>
@@ -232,7 +230,7 @@ const ItemOverallCost = () => {
                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                       <thead>
                         <tr>
-                          <th style={{ width: "30px" }}>SL</th>
+                          <th style={{ width: '30px' }}>SL</th>
                           <th>Cost Center</th>
                           <th>Cost of Element</th>
                           <th>Amount</th>

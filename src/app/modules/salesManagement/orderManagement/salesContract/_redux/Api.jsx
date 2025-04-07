@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 //Call GetSalesOfficeDDLbyId APi
 export function GetSalesOfficeDDLbyId(accId, buId, SalesOrgId) {
@@ -32,7 +32,7 @@ export function saveEditData(data) {
 }
 //Call get grid data api
 export function getGridData(accId, buId, pageNo, pageSize, search) {
-  const searchPath = search ? `searchTerm=${search}&` : "";
+  const searchPath = search ? `searchTerm=${search}&` : '';
 
   return axios.get(
     `/oms/SalesContact/GetSalesContactSearchPasignation?${searchPath}AccountId=${accId}&BUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`

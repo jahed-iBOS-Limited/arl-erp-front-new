@@ -1,5 +1,5 @@
-import React, { useMemo } from "react";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
+import React, { useMemo } from 'react';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
 
 const TableData = ({ adviceReportData, setAdviceReportData }) => {
   // total amount
@@ -30,19 +30,19 @@ const TableData = ({ adviceReportData, setAdviceReportData }) => {
       <div className="table-responsive">
         <table
           className={
-            "table table-striped table-bordered global-table mt-0 table-font-size-sm advice_table"
+            'table table-striped table-bordered global-table mt-0 table-font-size-sm advice_table'
           }
         >
           <thead className="bg-secondary">
             <tr>
               <th
                 style={{
-                  position: "sticky",
-                  left: "0px",
-                  border: "1px solid #ecf0f3",
-                  background: "#fff",
-                  zIndex: "9px",
-                  minWidth: "35px",
+                  position: 'sticky',
+                  left: '0px',
+                  border: '1px solid #ecf0f3',
+                  background: '#fff',
+                  zIndex: '9px',
+                  minWidth: '35px',
                 }}
               >
                 <input
@@ -81,18 +81,18 @@ const TableData = ({ adviceReportData, setAdviceReportData }) => {
               <tr
                 key={index}
                 className={`
-                  ${item?.printCount || item?.mailCount ? "font_color_red" : ""}
-                  ${isAdviceReportDataRowDisabled(item) ? "" : "bg-secondary"}
+                  ${item?.printCount || item?.mailCount ? 'font_color_red' : ''}
+                  ${isAdviceReportDataRowDisabled(item) ? '' : 'bg-secondary'}
                 `}
               >
                 <td
                   className="text-center align-middle"
                   style={{
-                    position: "sticky",
-                    left: "0px",
-                    border: "1px solid #ecf0f3",
-                    background: "#fff",
-                    zIndex: "9px",
+                    position: 'sticky',
+                    left: '0px',
+                    border: '1px solid #ecf0f3',
+                    background: '#fff',
+                    zIndex: '9px',
                   }}
                 >
                   <input
@@ -102,7 +102,7 @@ const TableData = ({ adviceReportData, setAdviceReportData }) => {
                     checked={item?.checked}
                     onChange={(e) => {
                       if (isAdviceReportDataRowDisabled(item)) {
-                        item["checked"] = e.target.checked;
+                        item['checked'] = e.target.checked;
                         setAdviceReportData([...adviceReportData]);
                       }
                     }}
@@ -123,7 +123,7 @@ const TableData = ({ adviceReportData, setAdviceReportData }) => {
                 <td>{item?.strPayee}</td>
                 <td>{item?.strRoutingNumber}</td>
                 <td>
-                  P-{item?.printCount}, M-{item?.mailCount}{" "}
+                  P-{item?.printCount}, M-{item?.mailCount}{' '}
                 </td>
               </tr>
             ))}

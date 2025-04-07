@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { Formik } from "formik";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Form } from "react-bootstrap";
-import IConfirmModal from "./../../../../_helper/_confirmModal";
-import { getPurchaseOrderGridData, approvalApi } from "./helper";
-import { setPurchaseReturnId } from "../../../../_helper/reduxForLocalStorage/Actions";
-import PaginationSearch from "./../../../../_helper/_search";
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { Formik } from 'formik';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
+import IConfirmModal from './../../../../_helper/_confirmModal';
+import { getPurchaseOrderGridData, approvalApi } from './helper';
+import { setPurchaseReturnId } from '../../../../_helper/reduxForLocalStorage/Actions';
+import PaginationSearch from './../../../../_helper/_search';
 
 let initData = {};
 
@@ -44,7 +44,6 @@ const PurchaseReturnApprovalGrid = ({
 
   useEffect(() => {
     cb();
-
   }, [activityChange]);
 
   let cb = () => {
@@ -57,7 +56,7 @@ const PurchaseReturnApprovalGrid = ({
       setLoader,
       pageNo,
       pageSize,
-      "",
+      '',
       selectedPlant?.value
     );
   };
@@ -105,7 +104,7 @@ const PurchaseReturnApprovalGrid = ({
   // approveSubmitlHandler btn submit handler
   const approveSubmitlHandler = (values) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to post the selected approve submit`,
       yesAlertFunc: () => {
         const filterSelectedData = rowDto?.data?.filter(
@@ -146,7 +145,7 @@ const PurchaseReturnApprovalGrid = ({
       setLoader,
       pageNo,
       pageSize,
-      "",
+      '',
       selectedPlant?.value
     );
   };
@@ -174,7 +173,7 @@ const PurchaseReturnApprovalGrid = ({
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          applicationType: { value: 1, label: "Pending Application" },
+          applicationType: { value: 1, label: 'Pending Application' },
         }}
         // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -228,11 +227,11 @@ const PurchaseReturnApprovalGrid = ({
             {/* Table Start */}
             {rowDto?.data?.length ? (
               <div className="table-responsive">
-                {" "}
+                {' '}
                 <table className="table table-striped table-bordered global-table">
                   <thead>
                     <tr>
-                      <th style={{ width: "20px" }}>
+                      <th style={{ width: '20px' }}>
                         <input
                           type="checkbox"
                           id="parent"
@@ -299,14 +298,14 @@ const PurchaseReturnApprovalGrid = ({
                             }}
                           >
                             <OverlayTrigger
-                              overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}
+                              overlay={<Tooltip id="cs-icon">{'View'}</Tooltip>}
                             >
-                              <span style={{ cursor: "pointer" }}>
+                              <span style={{ cursor: 'pointer' }}>
                                 <i
                                   className={`fas fa-eye ${
                                     lastReturnApprovalId === item?.transectionId
-                                      ? "text-primary"
-                                      : ""
+                                      ? 'text-primary'
+                                      : ''
                                   }`}
                                   aria-hidden="true"
                                 ></i>
@@ -317,10 +316,10 @@ const PurchaseReturnApprovalGrid = ({
                       </tr>
                     ))}
                   </tbody>
-                </table>{" "}
+                </table>{' '}
               </div>
             ) : (
-              ""
+              ''
             )}
             {rowDto?.data?.length > 0 && (
               <PaginationTable

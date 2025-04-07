@@ -1,20 +1,20 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
-  error: "",
-  msg: "",
+  error: '',
+  msg: '',
   salesOfficeDDL: [],
   soldToPartyDDL: [],
   BUsalesOrgIncotermDDL: [],
   paymentTermsDDL: [],
   gridData: [],
-  singleData: "",
+  singleData: '',
   salesOrgDDL: [],
 };
 
 export const salesContactSlice = createSlice({
-  name: "salesContact",
+  name: 'salesContact',
   initialState: initState,
   reducers: {
     SetSalesOfficeDDL: (state, action) => {
@@ -42,7 +42,7 @@ export const salesContactSlice = createSlice({
       state.singleData = payload;
     },
     SetSingleStoreEmpty: (state) => {
-      state.singleData = "";
+      state.singleData = '';
     },
     SetSalesOrgDDL: (state, action) => {
       const { payload } = action;

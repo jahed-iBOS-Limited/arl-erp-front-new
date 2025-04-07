@@ -252,7 +252,7 @@ export default function FormCmp({
                                 setFieldValue('bankBranch', valueOption);
                                 setFieldValue(
                                   'routingNumber',
-                                  valueOption?.routingNo,
+                                  valueOption?.routingNo
                                 );
                               }}
                               placeholder="Bank Branch"
@@ -291,7 +291,7 @@ export default function FormCmp({
                                 rowDataAddHandler(values);
                               } else {
                                 toast.warn(
-                                  'BankAccount Number should be at least 13 character',
+                                  'BankAccount Number should be at least 13 character'
                                 );
                               }
                             }}
@@ -365,7 +365,7 @@ export default function FormCmp({
                                           //setFieldValue("isDefaultAccount", e.target.checked);
                                           itemSlectedHandler(
                                             e.target.checked,
-                                            index,
+                                            index
                                           );
                                         }}
                                         disabled={!edit}
@@ -394,7 +394,7 @@ export default function FormCmp({
                                                 editBtnHandler(
                                                   index,
                                                   itm,
-                                                  setValues,
+                                                  setValues
                                                 );
                                                 branchOnChangeHandler(itm);
                                                 console.log(itm, 'jasmin');
@@ -435,7 +435,7 @@ export default function FormCmp({
                     }}
                     onDelete={(deleteFileObj) => {
                       const newData = fileObjects.filter(
-                        (item) => item.file.name !== deleteFileObj.file.name,
+                        (item) => item.file.name !== deleteFileObj.file.name
                       );
                       setFileObjects(newData);
                     }}

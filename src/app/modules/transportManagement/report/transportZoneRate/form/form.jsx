@@ -1,44 +1,43 @@
-
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { IInput } from "../../../../_helper/_input";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import NewSelect from "../../../../_helper/_select";
-import Loading from "../../../../_helper/_loading";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { IInput } from '../../../../_helper/_input';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import NewSelect from '../../../../_helper/_select';
+import Loading from '../../../../_helper/_loading';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import { useHistory } from "react-router";
+} from '../../../../../../_metronic/_partials/controls';
+import { useHistory } from 'react-router';
 
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({
   shipPoint: Yup.object().shape({
-    value: Yup.string().required("Ship Point is required"),
-    label: Yup.string().required("Ship Point is required"),
+    value: Yup.string().required('Ship Point is required'),
+    label: Yup.string().required('Ship Point is required'),
   }),
   zone: Yup.object().shape({
-    value: Yup.string().required("Zone is required"),
-    label: Yup.string().required("Zone is required"),
+    value: Yup.string().required('Zone is required'),
+    label: Yup.string().required('Zone is required'),
   }),
 
-  num3tonRate: Yup.string().required("3 Ton Rate is required"),
-  num5tonRate: Yup.string().required("5 Ton Rate is required"),
-  num7tonRate: Yup.string().required("7 Ton Rate is required"),
-  num1point5TonRate: Yup.string().required("1 Point 5 Ton Rate is required"),
-  num1TonRate: Yup.string().required("1 Ton Rate is required"),
-  num14TonRate: Yup.string().required("14 Ton Rate is required"),
-  num2TonRate: Yup.string().required("2 Ton Rate is required"),
-  num20TonRate: Yup.string().required("20 Ton Rate is required"),
-  distanceKm: Yup.string().required("Distance (Km) is required"),
-  handlingCost: Yup.string().required("Handling Cost is required"),
-  labourCost: Yup.string().required("Labour Cost is required"),
-  additionalAmount: Yup.string().required("Additional Amount is required"),
+  num3tonRate: Yup.string().required('3 Ton Rate is required'),
+  num5tonRate: Yup.string().required('5 Ton Rate is required'),
+  num7tonRate: Yup.string().required('7 Ton Rate is required'),
+  num1point5TonRate: Yup.string().required('1 Point 5 Ton Rate is required'),
+  num1TonRate: Yup.string().required('1 Ton Rate is required'),
+  num14TonRate: Yup.string().required('14 Ton Rate is required'),
+  num2TonRate: Yup.string().required('2 Ton Rate is required'),
+  num20TonRate: Yup.string().required('20 Ton Rate is required'),
+  distanceKm: Yup.string().required('Distance (Km) is required'),
+  handlingCost: Yup.string().required('Handling Cost is required'),
+  labourCost: Yup.string().required('Labour Cost is required'),
+  additionalAmount: Yup.string().required('Additional Amount is required'),
 });
 
 export default function FormCmp({
@@ -81,7 +80,7 @@ export default function FormCmp({
                     onClick={() => {
                       history.goBack();
                     }}
-                    className={"btn btn-light"}
+                    className={'btn btn-light'}
                   >
                     <i className="fa fa-arrow-left"></i>
                     Back
@@ -106,7 +105,7 @@ export default function FormCmp({
                         value={values?.shipPoint}
                         label="Select Shippoint"
                         onChange={(valueOption) => {
-                          setFieldValue("shipPoint", valueOption);
+                          setFieldValue('shipPoint', valueOption);
                         }}
                         placeholder="Select Shippoint"
                         errors={errors}
@@ -121,7 +120,7 @@ export default function FormCmp({
                         value={values?.zone}
                         label="Select Transport Zone"
                         onChange={(valueOption) => {
-                          setFieldValue("zone", valueOption);
+                          setFieldValue('zone', valueOption);
                         }}
                         placeholder="Select Transport Zone"
                         errors={errors}
@@ -138,7 +137,7 @@ export default function FormCmp({
                         type="number"
                         onChange={(e) => {
                           if (e.target.value >= 0) {
-                            setFieldValue("num1TonRate", e.target.value);
+                            setFieldValue('num1TonRate', e.target.value);
                           }
                         }}
                         disabled={isView}
@@ -152,7 +151,7 @@ export default function FormCmp({
                         type="number"
                         onChange={(e) => {
                           if (e.target.value >= 0) {
-                            setFieldValue("num1point5TonRate", e.target.value);
+                            setFieldValue('num1point5TonRate', e.target.value);
                           }
                         }}
                         disabled={isView}
@@ -167,7 +166,7 @@ export default function FormCmp({
                         type="number"
                         onChange={(e) => {
                           if (e.target.value >= 0) {
-                            setFieldValue("num2TonRate", e.target.value);
+                            setFieldValue('num2TonRate', e.target.value);
                           }
                         }}
                         disabled={isView}
@@ -181,7 +180,7 @@ export default function FormCmp({
                         type="number"
                         onChange={(e) => {
                           if (e.target.value >= 0) {
-                            setFieldValue("num3tonRate", e.target.value);
+                            setFieldValue('num3tonRate', e.target.value);
                           }
                         }}
                         disabled={isView}
@@ -196,7 +195,7 @@ export default function FormCmp({
                         type="number"
                         onChange={(e) => {
                           if (e.target.value >= 0) {
-                            setFieldValue("num5tonRate", e.target.value);
+                            setFieldValue('num5tonRate', e.target.value);
                           }
                         }}
                         disabled={isView}
@@ -210,7 +209,7 @@ export default function FormCmp({
                         type="number"
                         onChange={(e) => {
                           if (e.target.value >= 0) {
-                            setFieldValue("num7tonRate", e.target.value);
+                            setFieldValue('num7tonRate', e.target.value);
                           }
                         }}
                         disabled={isView}
@@ -225,7 +224,7 @@ export default function FormCmp({
                         type="number"
                         onChange={(e) => {
                           if (e.target.value >= 0) {
-                            setFieldValue("num14TonRate", e.target.value);
+                            setFieldValue('num14TonRate', e.target.value);
                           }
                         }}
                         disabled={isView}
@@ -240,7 +239,7 @@ export default function FormCmp({
                         type="number"
                         onChange={(e) => {
                           if (e.target.value >= 0) {
-                            setFieldValue("num20TonRate", e.target.value);
+                            setFieldValue('num20TonRate', e.target.value);
                           }
                         }}
                         disabled={isView}
@@ -254,7 +253,7 @@ export default function FormCmp({
                         type="number"
                         onChange={(e) => {
                           if (e.target.value >= 0) {
-                            setFieldValue("additionalAmount", e.target.value);
+                            setFieldValue('additionalAmount', e.target.value);
                           }
                         }}
                         disabled={isView}
@@ -268,7 +267,7 @@ export default function FormCmp({
                         type="number"
                         onChange={(e) => {
                           if (e.target.value > 0) {
-                            setFieldValue("distanceKm", e.target.value);
+                            setFieldValue('distanceKm', e.target.value);
                           }
                         }}
                         disabled={isView}
@@ -282,7 +281,7 @@ export default function FormCmp({
                         type="number"
                         onChange={(e) => {
                           if (e.target.value >= 0) {
-                            setFieldValue("handlingCost", e.target.value);
+                            setFieldValue('handlingCost', e.target.value);
                           }
                         }}
                         disabled={isView}
@@ -296,7 +295,7 @@ export default function FormCmp({
                         type="number"
                         onChange={(e) => {
                           if (e.target.value >= 0) {
-                            setFieldValue("labourCost", e.target.value);
+                            setFieldValue('labourCost', e.target.value);
                           }
                         }}
                         disabled={isView}
@@ -310,7 +309,7 @@ export default function FormCmp({
                         id="isAmountBase"
                         type="checkbox"
                         onChange={(e) => {
-                          setFieldValue("isAmountBase", e?.target?.checked);
+                          setFieldValue('isAmountBase', e?.target?.checked);
                         }}
                         disabled={isView}
                       />

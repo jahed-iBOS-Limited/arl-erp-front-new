@@ -1,5 +1,5 @@
-import moment from "moment";
-import React from "react";
+import moment from 'moment';
+import React from 'react';
 
 export function UnApprovedList(props) {
   return (
@@ -25,7 +25,7 @@ export function UnApprovedList(props) {
               </td>
               <td>
                 <div className="pl-2">
-                  {moment(td?.dteFromDate).format("LL")}
+                  {moment(td?.dteFromDate).format('LL')}
                 </div>
               </td>
               <td>

@@ -64,7 +64,7 @@ export default function VesselAuditLanding() {
       ? `&vesselId=${values?.vessel?.value}`
       : '';
     getGridData(
-      `/hcm/VesselAuditInspection/GetVesselAuditInspectionLanding?businessUnitId=${buId}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&pageNo=${pageNo}&pageSize=${pageSize}${vesselType}${vesselId}`,
+      `/hcm/VesselAuditInspection/GetVesselAuditInspectionLanding?businessUnitId=${buId}&fromDate=${values?.fromDate}&toDate=${values?.toDate}&pageNo=${pageNo}&pageSize=${pageSize}${vesselType}${vesselId}`
     );
   };
   const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
@@ -108,7 +108,7 @@ export default function VesselAuditLanding() {
                     className={'btn btn-primary px-3 py-2'}
                     onClick={() =>
                       history.push(
-                        '/chartering/certificateManagement/vesselAuditInspection/create',
+                        '/chartering/certificateManagement/vesselAuditInspection/create'
                       )
                     }
                   >
@@ -137,7 +137,7 @@ export default function VesselAuditLanding() {
                           valueOption?.value,
                           buId,
                           setVesselDDl,
-                          setLoading,
+                          setLoading
                         );
                       }}
                       errors={errors}
@@ -243,7 +243,7 @@ export default function VesselAuditLanding() {
                           setIsShowHistoryModal(true);
                           getVesselAuditInspectionDetails(
                             `/hcm/VesselAuditInspection/GetVesselAuditInspectionDetails?auditInspectionId=${item?.intAuditInspectionId}&typeId=1
-`,
+`
                           );
                         }}
                       >
@@ -262,7 +262,7 @@ export default function VesselAuditLanding() {
 
                           getVesselAuditInspectionDetails(
                             `/hcm/VesselAuditInspection/GetVesselAuditInspectionDetails?auditInspectionId=${item?.intAuditInspectionId}&typeId=2
-`,
+`
                           );
                         }}
                       >
@@ -279,7 +279,7 @@ export default function VesselAuditLanding() {
                             setIsShowHistoryModal(true);
                             getVesselAuditInspectionDetails(
                               `/hcm/VesselAuditInspection/GetVesselAuditInspectionDetails?auditInspectionId=${item?.intAuditInspectionId}&typeId=0
-`,
+`
                             );
                           }}
                           className="ml-2 mr-3"
@@ -334,8 +334,8 @@ export default function VesselAuditLanding() {
                     ViewType === 1
                       ? 'NC Details'
                       : ViewType === 2
-                      ? 'Non-NC Details'
-                      : 'View Details'
+                        ? 'Non-NC Details'
+                        : 'View Details'
                   }
                 >
                   <NCView

@@ -1,30 +1,27 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { _dateFormatter } from "../../_chartinghelper/_dateFormatter";
-
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { _dateFormatter } from '../../_chartinghelper/_dateFormatter';
 
 export const validationSchema = Yup.object().shape({
   vesselName: Yup.object().shape({
-    label: Yup.string().required("Vessel name is required"),
-    value: Yup.string().required("Vessel name is required"),
+    label: Yup.string().required('Vessel name is required'),
+    value: Yup.string().required('Vessel name is required'),
   }),
   strCertificateTypeName: Yup.object().shape({
-    label: Yup.string().required("Certificate Type is required"),
-    value: Yup.string().required("Certificate Type is required"),
+    label: Yup.string().required('Certificate Type is required'),
+    value: Yup.string().required('Certificate Type is required'),
   }),
   strCertificateName: Yup.object().shape({
-    label: Yup.string().required("Certificate Name is required"),
-    value: Yup.string().required("Certificate Name is required"),
+    label: Yup.string().required('Certificate Name is required'),
+    value: Yup.string().required('Certificate Name is required'),
   }),
-  dteIssueDate: Yup.string().required("Issue Date is required"),
-  dteToDate: Yup.string().required("To Date is required"),
-  strIssuePlace: Yup.string().required("Issue Place is required"),
-  strIssuingAuthority: Yup.string().required(
-    "Issuing Authority is required"
-  ),
-  dteLastSurvey: Yup.string().required("Last Survey Date is required"),
-  strRemarks: Yup.string().required("remarks is required"),
+  dteIssueDate: Yup.string().required('Issue Date is required'),
+  dteToDate: Yup.string().required('To Date is required'),
+  strIssuePlace: Yup.string().required('Issue Place is required'),
+  strIssuingAuthority: Yup.string().required('Issuing Authority is required'),
+  dteLastSurvey: Yup.string().required('Last Survey Date is required'),
+  strRemarks: Yup.string().required('remarks is required'),
 });
 
 //Create and Edit Certificate
@@ -57,8 +54,15 @@ export const getCertificateDDL = async (setter, type, payload) => {
     setter([]);
   }
 };
-//Certificate 
-export const getCertificateLanding = async (setter, type, payload, setLoading, cb, id = null) => {
+//Certificate
+export const getCertificateLanding = async (
+  setter,
+  type,
+  payload,
+  setLoading,
+  cb,
+  id = null
+) => {
   setLoading(true);
   try {
     const res = await axios.post(
@@ -90,7 +94,7 @@ export const getCertificateLanding = async (setter, type, payload, setLoading, c
       strRemarks: res?.data[0]?.strRemarks,
     };
     //setter(res?.data)
-    id ? setter(modifiedData) : setter(res?.data)
+    id ? setter(modifiedData) : setter(res?.data);
     cb && cb();
     toast.success(res?.data?.message);
     setLoading(false);

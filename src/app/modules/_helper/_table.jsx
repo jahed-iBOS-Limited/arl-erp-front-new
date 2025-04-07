@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../_metronic/_partials/controls";
-import { useHistory } from "react-router-dom";
-import IViewModal from "./_viewModal";
+} from '../../../_metronic/_partials/controls';
+import { useHistory } from 'react-router-dom';
+import IViewModal from './_viewModal';
 export function ITable({ title, children, link, isHelp, helpModalComponent }) {
   let history = useHistory();
   const [isShowModal, setisShowModal] = useState(false);

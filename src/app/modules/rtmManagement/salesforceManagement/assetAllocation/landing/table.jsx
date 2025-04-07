@@ -1,31 +1,26 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Loading from "./../../../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Loading from './../../../../_helper/_loading';
 import {
   Card,
   CardHeader,
   CardBody,
-} from "./../../../../../../_metronic/_partials/controls";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import { Formik } from "formik";
-import NewSelect from "./../../../../_helper/_select";
-import {
-  getTerritoryDDL,
-  getRouteDDL,
-  updateAllocation,
-} from "../helper";
-import { ModalProgressBar } from "./../../../../../../_metronic/_partials/controls/ModalProgressBar";
-import { getLandingData } from "../helper";
-import ICheckout from "./../../../../_helper/_helperIcons/_checkout";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import { getBeatDDL } from "../../../../_helper/_commonApi";
+} from './../../../../../../_metronic/_partials/controls';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import { Formik } from 'formik';
+import NewSelect from './../../../../_helper/_select';
+import { getTerritoryDDL, getRouteDDL, updateAllocation } from '../helper';
+import { ModalProgressBar } from './../../../../../../_metronic/_partials/controls/ModalProgressBar';
+import { getLandingData } from '../helper';
+import ICheckout from './../../../../_helper/_helperIcons/_checkout';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import { getBeatDDL } from '../../../../_helper/_commonApi';
 
 const initData = {
-  territory: "",
-  route: "",
-  beat: "",
-  isAllocated: "",
+  territory: '',
+  route: '',
+  beat: '',
+  isAllocated: '',
 };
 
 const AssetAllocationLanding = () => {
@@ -108,7 +103,7 @@ const AssetAllocationLanding = () => {
                       value={values?.territory}
                       label="Territory Name"
                       onChange={(valueOption) => {
-                        setFieldValue("territory", valueOption);
+                        setFieldValue('territory', valueOption);
                       }}
                       placeholder="Territory Name"
                       errors={errors}
@@ -122,7 +117,7 @@ const AssetAllocationLanding = () => {
                       value={values?.route}
                       label="Route Name"
                       onChange={(valueOption) => {
-                        setFieldValue("route", valueOption);
+                        setFieldValue('route', valueOption);
                         getBeatDDL(valueOption?.value, setBeatDDL);
                       }}
                       placeholder="Route Name"
@@ -137,7 +132,7 @@ const AssetAllocationLanding = () => {
                       value={values?.beat}
                       label="Market Name"
                       onChange={(valueOption) => {
-                        setFieldValue("beat", valueOption);
+                        setFieldValue('beat', valueOption);
                       }}
                       placeholder="Market Name"
                       errors={errors}
@@ -148,13 +143,13 @@ const AssetAllocationLanding = () => {
                     <NewSelect
                       name="isAllocated"
                       options={[
-                        { value: 1, label: "Allocated" },
-                        { value: 2, label: "Not Allocated" },
+                        { value: 1, label: 'Allocated' },
+                        { value: 2, label: 'Not Allocated' },
                       ]}
                       value={values?.isAllocated}
                       label="Allocated"
                       onChange={(valueOption) => {
-                        setFieldValue("isAllocated", valueOption);
+                        setFieldValue('isAllocated', valueOption);
                       }}
                       placeholder="Allocated"
                       errors={errors}
@@ -165,7 +160,7 @@ const AssetAllocationLanding = () => {
                     <button
                       type="button"
                       className="btn btn-primary"
-                      style={{ marginTop: "16px" }}
+                      style={{ marginTop: '16px' }}
                       disabled={
                         !values?.beat ||
                         !values?.route ||
@@ -211,7 +206,7 @@ const AssetAllocationLanding = () => {
                         return (
                           <tr key={index}>
                             <td
-                              style={{ width: "30px" }}
+                              style={{ width: '30px' }}
                               className="text-center"
                             >
                               {index + 1}
@@ -259,7 +254,7 @@ const AssetAllocationLanding = () => {
                                 }}
                                 className="text-center"
                               >
-                                <ICheckout title={"Allocated"} />
+                                <ICheckout title={'Allocated'} />
                               </td>
                             ) : (
                               <td className="text-center">-</td>

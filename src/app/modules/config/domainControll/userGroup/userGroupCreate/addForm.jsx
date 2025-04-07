@@ -1,25 +1,24 @@
-
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { useSelector, shallowEqual } from "react-redux";
-import { uniqBy } from "lodash";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import Form from "../common/form";
-import Axios from "axios";
+} from '../../../../../../_metronic/_partials/controls';
+import { useSelector, shallowEqual } from 'react-redux';
+import { uniqBy } from 'lodash';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import Form from '../common/form';
+import Axios from 'axios';
 //
-import { toast } from "react-toastify";
-import shortid from "shortid";
-import Loading from "../../../../_helper/_loading";
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
+import Loading from '../../../../_helper/_loading';
 const initData = {
-  userId: "",
-  userGroupName: "",
-  userGroupCode: "",
-  warehouseName: "",
+  userId: '',
+  userGroupName: '',
+  userGroupCode: '',
+  warehouseName: '',
 };
 
 export default function UserGroupAddForm({
@@ -42,7 +41,7 @@ export default function UserGroupAddForm({
   }, shallowEqual);
 
   const saveBusinessUnit = async (values, cb) => {
-    window.payload = values
+    window.payload = values;
     setDisabled(true);
     if (
       !id &&
@@ -62,7 +61,7 @@ export default function UserGroupAddForm({
           accountId: profileData?.accountId,
           actionBy: profileData?.userId,
           businessUnitId: selectedBusinessUnit?.value,
-          lastActionDateTime: "2020-08-09T11:16:57.939Z",
+          lastActionDateTime: '2020-08-09T11:16:57.939Z',
           isActive: true,
         },
         objListCreateUserGroupRowDTO: dataObj,
@@ -70,12 +69,12 @@ export default function UserGroupAddForm({
       try {
         setDisabled(true);
         const res = await Axios.post(
-          "/domain/CreateUserGroup/CreateUserGroupInfo",
+          '/domain/CreateUserGroup/CreateUserGroupInfo',
           formData
         );
         cb(initData);
         setDisabled(false);
-        toast.success(res.data?.message || "Submitted successfully", {
+        toast.success(res.data?.message || 'Submitted successfully', {
           toastId: shortid(),
         });
         setData([]);
@@ -85,7 +84,6 @@ export default function UserGroupAddForm({
       }
     } else {
       // setDisabled(false);
-
     }
   };
 
@@ -107,7 +105,7 @@ export default function UserGroupAddForm({
   // Check duplicate for show warning
   function hasDuplicates(a) {
     return (
-      uniqBy(a, function(itm) {
+      uniqBy(a, function (itm) {
         return itm.userId;
       }).length !== a.length
     );
@@ -117,11 +115,11 @@ export default function UserGroupAddForm({
   const setDataToState = (payload) => {
     const duplicate = hasDuplicates([...data, payload]);
     if (duplicate) {
-      toast.warn("Not allow duplicate attribute", {
-        toastId: "attribute_duplicate",
+      toast.warn('Not allow duplicate attribute', {
+        toastId: 'attribute_duplicate',
       });
     } else {
-      var uniq = uniqBy([...data, payload], function(itm) {
+      var uniq = uniqBy([...data, payload], function (itm) {
         return itm.userId;
       });
       setData(uniq);

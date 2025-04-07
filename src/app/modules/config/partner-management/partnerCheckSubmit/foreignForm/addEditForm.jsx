@@ -1,31 +1,30 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import Form from "./form";
-import { editExportPaymentPosting } from "../helper";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _firstDateofMonth } from '../../../../_helper/_firstDateOfCurrentMonth';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import Form from './form';
+import { editExportPaymentPosting } from '../helper';
 
 const initData = {
-  customer: "",
-  channel: "",
-  soDate: "",
+  customer: '',
+  channel: '',
+  soDate: '',
   fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
-  salesOrder: "",
-  soRef: "",
-  salesContractRef: "",
-  ttAmount: "",
-  erqValue: "",
-  orqValue: "",
-  conversionRate: "",
-  ttAmountBDT: "",
-  erqValueBDT: "",
-  orqValueBDT: "",
-  finalDestination: "",
+  salesOrder: '',
+  soRef: '',
+  salesContractRef: '',
+  ttAmount: '',
+  erqValue: '',
+  orqValue: '',
+  conversionRate: '',
+  ttAmountBDT: '',
+  erqValueBDT: '',
+  orqValueBDT: '',
+  finalDestination: '',
 };
 
 export default function ExportPaymentPostingForm({
@@ -46,12 +45,8 @@ export default function ExportPaymentPostingForm({
   const [rowData, getRowData, rowLoader, setRowData] = useAxiosGet();
   const [loading, setLoading] = useState(false);
   const [, postData, isLoading] = useAxiosPost();
-  const [
-    singleData,
-    getSingleData,
-    singleDataLoader,
-    setSingleData,
-  ] = useAxiosGet();
+  const [singleData, getSingleData, singleDataLoader, setSingleData] =
+    useAxiosGet();
   const [soList, getSOList, soLoader] = useAxiosGet();
   const [uploadedImage, setUploadedImage] = useState([]);
   const [employeeInfo, getEmployeeInfo] = useAxiosGet();
@@ -68,7 +63,7 @@ export default function ExportPaymentPostingForm({
               label: h?.customerName,
               value: h?.customerId,
             },
-            channel: "",
+            channel: '',
             soDate: h?.soDate,
             ttAmount: h?.ttamount,
             fromDate: _firstDateofMonth(),
@@ -103,13 +98,13 @@ export default function ExportPaymentPostingForm({
           return {
             expenseAutoId: item?.value,
             expenseName: item?.label,
-            expenseAmountBdt: "",
+            expenseAmountBdt: '',
           };
         });
         setRowData(modifyData);
       });
     }
-    if (type === "approve") {
+    if (type === 'approve') {
       getEmployeeInfo(
         `/partner/PartnerOverDue/GetUserInfoForExportPartnerPaymentApproval?userId=${userId}`
       );
@@ -119,15 +114,15 @@ export default function ExportPaymentPostingForm({
   const approver =
     !singleItem?.isSupervisorApproved &&
     employeeInfo?.employeeBasicInfoId === 558793
-      ? "supervisor"
+      ? 'supervisor'
       : !singleItem?.isAccountsApproved && employeeInfo?.employeeBasicInfoId
-      ? "accounts"
-      : "";
+        ? 'accounts'
+        : '';
 
-  console.log(singleItem, "single data");
+  console.log(singleItem, 'single data');
 
-  const supervisor = approver === "supervisor";
-  const accounts = approver === "accounts";
+  const supervisor = approver === 'supervisor';
+  const accounts = approver === 'accounts';
 
   const getSalesOrderList = (values) => {
     getSOList(
@@ -136,7 +131,7 @@ export default function ExportPaymentPostingForm({
   };
 
   const saveHandler = (values, cb) => {
-    if (["edit", "approve"].includes(type)) {
+    if (['edit', 'approve'].includes(type)) {
       const payloadForEdit = {
         objHead: {
           accountId: accId,
@@ -149,7 +144,7 @@ export default function ExportPaymentPostingForm({
           ttAmountBDT: values?.ttAmountBDT,
           erqvalueBDT: values?.erqValueBDT,
           orqvalueBDT: values?.orqValueBDT,
-          remark: "",
+          remark: '',
           actionBy: userId,
         },
         objRow: rowData,
@@ -167,7 +162,7 @@ export default function ExportPaymentPostingForm({
           ttAmountBDT: values?.ttAmountBDT,
           erqvalueBDT: values?.erqValueBDT,
           orqvalueBDT: values?.orqValueBDT,
-          remark: "",
+          remark: '',
           actionBy: userId,
 
           isSupervisorApproved: supervisor
@@ -181,20 +176,18 @@ export default function ExportPaymentPostingForm({
             : values?.supervisorApprovedDateTime,
           isAccountsApproved: accounts ? true : null,
           accountsApprovedBy: accounts ? userId : 0,
-          accountsApprovedDateTime: accounts ? new Date() : "",
+          accountsApprovedDateTime: accounts ? new Date() : '',
         },
         objRow: rowData,
       };
-      console.log(payloadForApprove, "approve payload");
+      console.log(payloadForApprove, 'approve payload');
 
       const payload =
-        type === "edit"
+        type === 'edit'
           ? payloadForEdit
-          : type === "approve"
-          ? payloadForApprove
-          : {};
-
-
+          : type === 'approve'
+            ? payloadForApprove
+            : {};
 
       editExportPaymentPosting(payload, setLoading, () => {
         getData(landingFormValues);
@@ -212,7 +205,7 @@ export default function ExportPaymentPostingForm({
           ttamount: values?.ttAmount,
           erqvalue: values?.erqValue,
           orqvalue: values?.orqValue,
-          remark: "",
+          remark: '',
           actionBy: userId,
 
           conversionRateBDT: values?.conversionRate,

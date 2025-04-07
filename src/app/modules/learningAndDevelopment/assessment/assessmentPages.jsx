@@ -1,12 +1,12 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import AssessmentForm from "./assessmentForm";
-import AssessmentSubmissionForm from "./assessmentForm/create/create";
-import AssessmentFormCreateEdit from "./assessmentForm/createEdit";
-import Submissions from "./assessmentForm/submission";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
+import AssessmentForm from './assessmentForm';
+import AssessmentSubmissionForm from './assessmentForm/create/create';
+import AssessmentFormCreateEdit from './assessmentForm/createEdit';
+import Submissions from './assessmentForm/submission';
 
 export function AssessmentPages() {
   const userRole = useSelector(
@@ -33,11 +33,15 @@ export function AssessmentPages() {
       />
       <ContentRoute
         path="/learningDevelopment/assessment/assessmentForm/view/:viewId"
-        component={assesmentForm?.isView ? AssessmentSubmissionForm : NotPermittedPage}
+        component={
+          assesmentForm?.isView ? AssessmentSubmissionForm : NotPermittedPage
+        }
       />
       <ContentRoute
         path="/learningDevelopment/assessment/assessmentForm/edit/:id"
-        component={assesmentForm?.isCreate ? AssessmentFormCreateEdit : NotPermittedPage}
+        component={
+          assesmentForm?.isCreate ? AssessmentFormCreateEdit : NotPermittedPage
+        }
       />
       <ContentRoute
         path="/learningDevelopment/assessment/assessmentForm"

@@ -1,4 +1,3 @@
-
 import { Paper, Tab, Tabs } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { SaveOutlined } from '@mui/icons-material';
@@ -157,7 +156,7 @@ function DeliveryScheduleplanReport() {
         selectedBusinessUnit?.value,
         0,
         setShipmentTypeDDl,
-        setLoading,
+        setLoading
       );
     }
   }, [profileData, selectedBusinessUnit]);
@@ -165,9 +164,8 @@ function DeliveryScheduleplanReport() {
   // delivery status ddl load
   useEffect(() => {
     getDeliveryStatusDDL(
-      `/oms/SalesOrganization/GetDeliveryScheduleStatusDDL?BusinessUnitId=${selectedBusinessUnit.value}`,
+      `/oms/SalesOrganization/GetDeliveryScheduleStatusDDL?BusinessUnitId=${selectedBusinessUnit.value}`
     );
-
   }, [selectedBusinessUnit]);
 
   const handleChange = (newValue, values) => {
@@ -186,7 +184,7 @@ function DeliveryScheduleplanReport() {
         setGridData(filterData);
 
         setGridDataWithOutFilter(restData);
-      },
+      }
     );
   };
 
@@ -226,7 +224,7 @@ function DeliveryScheduleplanReport() {
         setGridData(filterData);
         setGridDataCopy(structuredClone(filterData));
         setGridDataWithOutFilter(restData);
-      },
+      }
     );
   };
 
@@ -400,7 +398,7 @@ function DeliveryScheduleplanReport() {
                                       ...values,
                                       logisticByFilter: valueOption,
                                     },
-                                    gridDataWithOutFilter,
+                                    gridDataWithOutFilter
                                   );
                                 }
                               }}
@@ -475,8 +473,7 @@ function DeliveryScheduleplanReport() {
                                         scheduleName: itm?.scheduleName || '',
                                         scheduleId:
                                           deliveryStatusDDL.find(
-                                            (i) =>
-                                              i.label === itm?.scheduleName,
+                                            (i) => i.label === itm?.scheduleName
                                           )?.value || 0,
                                         scheduleDate:
                                           itm?.deliveryScheduleDate ||
@@ -489,18 +486,18 @@ function DeliveryScheduleplanReport() {
                                     if (selectedBusinessUnit?.value === 144) {
                                       const isDeliveryStatusSelected =
                                         payload?.every(
-                                          (item) => item.scheduleName !== '',
+                                          (item) => item.scheduleName !== ''
                                         );
 
                                       if (!isDeliveryStatusSelected)
                                         return toast.warn(
-                                          'Delivery Status Must be Selected!',
+                                          'Delivery Status Must be Selected!'
                                         );
                                       return;
                                     }
                                     if (!values?.logisticBy)
                                       return toast.warn(
-                                        'Logistic By Must be Selected!',
+                                        'Logistic By Must be Selected!'
                                       );
                                     console.log(payload);
 
@@ -516,7 +513,7 @@ function DeliveryScheduleplanReport() {
                                         setFieldValue('region', '');
                                         setFieldValue('area', '');
                                         setFieldValue('territory', '');
-                                      },
+                                      }
                                     );
                                   }}
                                 >
@@ -586,7 +583,7 @@ function DeliveryScheduleplanReport() {
                                 onChange: (values) =>
                                   filterGridDataFunc(
                                     values,
-                                    gridDataWithOutFilter,
+                                    gridDataWithOutFilter
                                   ),
                               }}
                             />
@@ -622,8 +619,8 @@ function DeliveryScheduleplanReport() {
                             {_fixedPoint(
                               gridData?.reduce(
                                 (acc, curr) => acc + curr?.quantity,
-                                0,
-                              ),
+                                0
+                              )
                             )}
                           </b>
                         </div>
@@ -711,16 +708,15 @@ function DeliveryScheduleplanReport() {
                                     const isSubmittedPreviosly =
                                       gridDataCopy.find(
                                         (preItem) =>
-                                          preItem.deliveryId ===
-                                          item.deliveryId,
+                                          preItem.deliveryId === item.deliveryId
                                       )?.scheduleName;
 
                                     // deliveryScheduleDate today date check momentjs
                                     const todayDate = moment(new Date()).format(
-                                      'DD-MM-YYYY',
+                                      'DD-MM-YYYY'
                                     );
                                     const deliveryScheduleDate = moment(
-                                      item?.deliveryScheduleDate,
+                                      item?.deliveryScheduleDate
                                     ).format('DD-MM-YYYY');
                                     const isToday =
                                       todayDate === deliveryScheduleDate;
@@ -730,7 +726,7 @@ function DeliveryScheduleplanReport() {
                                       .add(1, 'days')
                                       .format('YYYY-MM-DD');
                                     const nextDayDeliveryScheduleDate = moment(
-                                      item?.deliveryScheduleDate,
+                                      item?.deliveryScheduleDate
                                     ).format('YYYY-MM-DD');
                                     const isNextDay =
                                       new Date(nextDayDate) <=
@@ -742,7 +738,7 @@ function DeliveryScheduleplanReport() {
                                       .format('YYYY-MM-DD');
                                     const yesterdayDeliveryScheduleDate =
                                       moment(item?.deliveryScheduleDate).format(
-                                        'YYYY-MM-DD',
+                                        'YYYY-MM-DD'
                                       );
 
                                     const isYesterday =
@@ -762,7 +758,7 @@ function DeliveryScheduleplanReport() {
                                       const margeResult = orderCodeMargeCount(
                                         index,
                                         item?.salesOrderCode,
-                                        item?.quantity,
+                                        item?.quantity
                                       );
                                       rowSpan = margeResult.count;
                                       totalQty = margeResult.totalQty;
@@ -775,10 +771,10 @@ function DeliveryScheduleplanReport() {
                                           background: isYesterday
                                             ? '#ff8a98'
                                             : isToday
-                                            ? '#e1f0ff'
-                                            : isNextDay
-                                            ? '#ffff00'
-                                            : '',
+                                              ? '#e1f0ff'
+                                              : isNextDay
+                                                ? '#ffff00'
+                                                : '',
                                         }}
                                       >
                                         {values?.trackingType?.value === 1 && (
@@ -855,7 +851,7 @@ function DeliveryScheduleplanReport() {
                                                 if (v?.length < 2) return [];
                                                 return axios
                                                   .get(
-                                                    `/wms/Delivery/GetVehicleByShippointDDL?businessUnitId=${selectedBusinessUnit?.value}&shippointId=${values?.shipPoint?.value}&searchTerm=${v}`,
+                                                    `/wms/Delivery/GetVehicleByShippointDDL?businessUnitId=${selectedBusinessUnit?.value}&shippointId=${values?.shipPoint?.value}&searchTerm=${v}`
                                                   )
                                                   .then((res) => {
                                                     return res?.data || [];
@@ -897,7 +893,7 @@ function DeliveryScheduleplanReport() {
                                         <td>
                                           {item?.challanDateTime &&
                                             moment(
-                                              item?.challanDateTime,
+                                              item?.challanDateTime
                                             ).format('DD-MM-YYYY hh:mm: A')}
                                         </td>
                                         <td style={{ minWidth: '150px' }}>
@@ -910,7 +906,7 @@ function DeliveryScheduleplanReport() {
                                                   ? deliveryStatusDDL?.find(
                                                       (i) =>
                                                         i.label ===
-                                                        item?.scheduleName,
+                                                        item?.scheduleName
                                                     )
                                                   : ''
                                               }
@@ -959,7 +955,7 @@ function DeliveryScheduleplanReport() {
                                                         deliveryStatusDDL.find(
                                                           (i) =>
                                                             i.label ===
-                                                            item?.scheduleName,
+                                                            item?.scheduleName
                                                         )?.value,
                                                       autoId: 0,
                                                       deliveryId:
@@ -970,7 +966,7 @@ function DeliveryScheduleplanReport() {
                                                         profileData?.userId,
                                                     };
                                                     handleDeliveryStatusUpdate(
-                                                      payload,
+                                                      payload
                                                     );
                                                     setShowConfirmModal(false);
                                                   }}
@@ -985,7 +981,7 @@ function DeliveryScheduleplanReport() {
                                         <td>
                                           {item?.deliveryScheduleDate &&
                                             moment(
-                                              item?.deliveryScheduleDate,
+                                              item?.deliveryScheduleDate
                                             ).format('DD-MM-YYYY hh:mm: A')}
                                         </td>
                                         <td>{item?.leadTimeHr}</td>
@@ -1110,7 +1106,7 @@ const RestElements = ({
                     area: '',
                     territory: '',
                   },
-                  gridDataWithOutFilter,
+                  gridDataWithOutFilter
                 );
               }}
               type="checkbox"

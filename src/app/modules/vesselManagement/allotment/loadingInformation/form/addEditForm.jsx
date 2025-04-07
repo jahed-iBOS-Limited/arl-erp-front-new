@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
-import { getMotherVesselInfo } from "../../../../_helper/_commonApi";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { getMotherVesselInfo } from '../../../../_helper/_commonApi';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import {
   CreateLighterLoadUnloadInfo,
   EditLighterLoadingInfo,
@@ -14,29 +14,29 @@ import {
   GetDomesticPortDDL,
   getLoadingInfoByVoyageNo,
   GetShipPointDDL,
-} from "../helper";
-import Form from "./form";
+} from '../helper';
+import Form from './form';
 
 const initData = {
-  allotment: "",
-  surveyNo: "",
-  lighterVessel: "",
-  motherVessel: "",
-  supplier: "",
-  lcNumber: "",
-  loadingPort: "",
-  unloadingPoint: "",
-  sideAt: "",
-  loadingStart: "",
-  loadingComplete: "",
-  customerPassNo: "",
-  boatNote: "",
-  customRotationNumber: "",
+  allotment: '',
+  surveyNo: '',
+  lighterVessel: '',
+  motherVessel: '',
+  supplier: '',
+  lcNumber: '',
+  loadingPort: '',
+  unloadingPoint: '',
+  sideAt: '',
+  loadingStart: '',
+  loadingComplete: '',
+  customerPassNo: '',
+  boatNote: '',
+  customRotationNumber: '',
   loadingDate: _todayDate(),
-  loadedQty: "",
+  loadedQty: '',
   isComplete: false,
-  programNo: "",
-  organization: "",
+  programNo: '',
+  organization: '',
 };
 
 export default function LoadInformationCreate({
@@ -67,18 +67,17 @@ export default function LoadInformationCreate({
     getOrganizationDDL(
       `/tms/LigterLoadUnload/GetG2GBusinessPartnerDDL?BusinessUnitId=${buId}&AccountId=${accId}`
     );
-    if (!type || type !== "view") {
+    if (!type || type !== 'view') {
       GetDomesticPortDDL(setDomesticPortDDL);
       GetShipPointDDL(accId, buId, setShipPointDDL);
     }
-
   }, [accId, buId, type]);
 
   const getVessels = (values) => {
     getMotherVesselDDL(
-      `/wms/FertilizerOperation/GetMotherVesselByOrganizationDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${values
-        ?.loadingPort?.value || 0}&OrganizationId=${values?.organization
-          ?.value || 0}`
+      `/wms/FertilizerOperation/GetMotherVesselByOrganizationDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${
+        values?.loadingPort?.value || 0
+      }&OrganizationId=${values?.organization?.value || 0}`
     );
   };
 
@@ -88,12 +87,12 @@ export default function LoadInformationCreate({
         allotmentNo: rowData[0]?.allotmentNo,
         motherVesselId: values?.motherVessel?.value,
         actionby: userId,
-        customerPassNo: values?.customerPassNo || "",
-        customRotationNumber: "",
+        customerPassNo: values?.customerPassNo || '',
+        customRotationNumber: '',
       };
       const editHeader = {
         voyageNo: values?.voyageNo,
-        customerPassNo: values?.customerPassNo || "",
+        customerPassNo: values?.customerPassNo || '',
       };
       const createData = rowData
         ?.filter((item) => item?.isSelected)
@@ -119,21 +118,21 @@ export default function LoadInformationCreate({
       }));
 
       const payload = {
-        headerObject: type === "edit" ? editHeader : createHeader,
-        rowObject: type === "edit" ? editData : createData,
+        headerObject: type === 'edit' ? editHeader : createHeader,
+        rowObject: type === 'edit' ? editData : createData,
       };
       if (payload.rowObject && payload.rowObject.length > 0) {
-        type === "edit"
+        type === 'edit'
           ? EditLighterLoadingInfo(payload, setDisabled, () => {
-            cb();
-            setRowData([]);
-          })
+              cb();
+              setRowData([]);
+            })
           : CreateLighterLoadUnloadInfo(payload, setDisabled, () => {
-            cb();
-            setRowData([]);
-          });
+              cb();
+              setRowData([]);
+            });
       } else {
-        toast.warning("Please select at least one row");
+        toast.warning('Please select at least one row');
       }
     }
   };
@@ -176,22 +175,22 @@ export default function LoadInformationCreate({
 
   const onChangeHandler = (fieldName, values, currentValue, setFieldValue) => {
     switch (fieldName) {
-      case "motherVessel":
-        setFieldValue("motherVessel", currentValue);
+      case 'motherVessel':
+        setFieldValue('motherVessel', currentValue);
         if (currentValue) {
           getMotherVesselInfo(
             currentValue?.value,
             values?.loadingPort?.value,
             setDisabled,
             (resData) => {
-              setFieldValue("programNo", resData?.programNo || "");
+              setFieldValue('programNo', resData?.programNo || '');
               getAllotmentDataForLoading(
                 values?.loadingPort?.value,
                 currentValue?.value,
                 resData?.programNo,
                 setRowData,
                 setDisabled,
-                (resData) => { }
+                (resData) => {}
               );
             }
           );
@@ -199,12 +198,12 @@ export default function LoadInformationCreate({
 
         break;
 
-      case "allotment":
-        setFieldValue("allotment", currentValue);
+      case 'allotment':
+        setFieldValue('allotment', currentValue);
         break;
 
-      case "lighterVessel":
-        setFieldValue("lighterVessel", currentValue);
+      case 'lighterVessel':
+        setFieldValue('lighterVessel', currentValue);
 
         break;
 
@@ -213,8 +212,9 @@ export default function LoadInformationCreate({
     }
   };
 
-  const title = `${type === "view" ? "View" : type === "edit" ? "Edit" : "Create"
-    } Loading Information`;
+  const title = `${
+    type === 'view' ? 'View' : type === 'edit' ? 'Edit' : 'Create'
+  } Loading Information`;
 
   return (
     <>

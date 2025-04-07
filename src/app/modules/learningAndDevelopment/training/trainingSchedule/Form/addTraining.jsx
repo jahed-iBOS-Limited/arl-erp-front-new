@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import { toast } from "react-toastify";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import { toast } from 'react-toastify';
 
-import InputField from "../../../../_helper/_inputField";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import InputField from '../../../../_helper/_inputField';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 const initData = {
-  trainigName: "",
+  trainigName: '',
 };
 export default function AddTraining({ getTrainingName }) {
   const [trainingList, setTrainList] = useState([]);
@@ -20,7 +20,7 @@ export default function AddTraining({ getTrainingName }) {
   const saveHandler = () => {
     const payload = trainingList?.map((item) => ({
       strTrainingName: item?.name,
-      strTrainingCode: "",
+      strTrainingCode: '',
       isActive: true,
       intActionBy: userId,
       dteActionDate: _todayDate(),
@@ -40,10 +40,10 @@ export default function AddTraining({ getTrainingName }) {
   const addHandler = (values, resetForm) => {
     const isExist = trainingList.findIndex(
       (item) =>
-        item?.name?.replace(/\s/g, "").toLowerCase() ===
-        values?.trainigName?.replace(/\s/g, "")?.toLowerCase()
+        item?.name?.replace(/\s/g, '').toLowerCase() ===
+        values?.trainigName?.replace(/\s/g, '')?.toLowerCase()
     );
-    if (isExist !== -1) return toast.warn("Training Name exist already");
+    if (isExist !== -1) return toast.warn('Training Name exist already');
     setTrainList([{ name: values?.trainigName }, ...trainingList]);
     resetForm(initData);
   };
@@ -78,7 +78,7 @@ export default function AddTraining({ getTrainingName }) {
                   />
                 </div>
 
-                <div style={{ marginTop: "18px" }} className="col-lg-1">
+                <div style={{ marginTop: '18px' }} className="col-lg-1">
                   <button
                     disabled={!values?.trainigName}
                     onClick={() => {
@@ -109,9 +109,9 @@ export default function AddTraining({ getTrainingName }) {
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                     <thead>
                       <tr>
-                        <th style={{ width: "50px" }}>SL</th>
+                        <th style={{ width: '50px' }}>SL</th>
                         <th>Training Name</th>
-                        <th style={{ width: "70px" }}>Action</th>
+                        <th style={{ width: '70px' }}>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -123,7 +123,7 @@ export default function AddTraining({ getTrainingName }) {
                             <td className="text-center">
                               <OverlayTrigger
                                 overlay={
-                                  <Tooltip id="cs-icon">{"Remove"}</Tooltip>
+                                  <Tooltip id="cs-icon">{'Remove'}</Tooltip>
                                 }
                               >
                                 <span>

@@ -1,25 +1,25 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import NewSelect from "../../../_helper/_select";
-import InputField from "../../../_helper/_inputField";
-import { _todayDate } from "../../../_helper/_todayDate";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import axios from "axios";
-import IDelete from "../../../_helper/_helperIcons/_delete";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import IForm from '../../../_helper/_form';
+import Loading from '../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import NewSelect from '../../../_helper/_select';
+import InputField from '../../../_helper/_inputField';
+import { _todayDate } from '../../../_helper/_todayDate';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
+import IDelete from '../../../_helper/_helperIcons/_delete';
 
 const initData = {
-  plant: "",
-  machineName: "",
-  maintenanceType: { value: 1, label: "Electrical" },
+  plant: '',
+  machineName: '',
+  maintenanceType: { value: 1, label: 'Electrical' },
   scheduleEndDate: _todayDate(),
-  frequency: { value: 1, label: "Daily" },
-  responsiblePerson: "",
-  maintenanceTask: "",
+  frequency: { value: 1, label: 'Daily' },
+  responsiblePerson: '',
+  maintenanceTask: '',
 };
 
 const ScheduleMaintainenceCreate = () => {
@@ -72,19 +72,18 @@ const ScheduleMaintainenceCreate = () => {
     setRowData([...rowData, obj]);
 
     // setFieldValue("plant", "");
-    setFieldValue("machineName", "");
-    setFieldValue("maintainenceType", "");
-    setFieldValue("scheduleEndDate", _todayDate());
-    setFieldValue("frequency", "");
-    setFieldValue("maintenanceTask", "");
-    setFieldValue("responsiblePerson", "");
+    setFieldValue('machineName', '');
+    setFieldValue('maintainenceType', '');
+    setFieldValue('scheduleEndDate', _todayDate());
+    setFieldValue('frequency', '');
+    setFieldValue('maintenanceTask', '');
+    setFieldValue('responsiblePerson', '');
   };
 
   useEffect(() => {
     getPlantDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
     );
-
   }, []);
 
   const loadSupervisorAndLineManagerList = (v) => {
@@ -135,12 +134,12 @@ const ScheduleMaintainenceCreate = () => {
                         label="Plant"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("plant", valueOption);
+                            setFieldValue('plant', valueOption);
                             getMachineDDL(
                               `/mes/ScheduleMaintenance/GetAllmachineListDDL?BusinessUnitId=${selectedBusinessUnit?.value}&Plant=${valueOption?.value}`
                             );
                           } else {
-                            setFieldValue("plant", "");
+                            setFieldValue('plant', '');
                           }
                         }}
                       />
@@ -153,9 +152,9 @@ const ScheduleMaintainenceCreate = () => {
                         label="Machine Name"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("machineName", valueOption);
+                            setFieldValue('machineName', valueOption);
                           } else {
-                            setFieldValue("machineName", "");
+                            setFieldValue('machineName', '');
                           }
                         }}
                         placeholder="Machine Name"
@@ -166,16 +165,16 @@ const ScheduleMaintainenceCreate = () => {
                       <NewSelect
                         name="maintenanceType"
                         options={[
-                          { value: 1, label: "Electrical" },
-                          { value: 2, label: "Mechanical" },
+                          { value: 1, label: 'Electrical' },
+                          { value: 2, label: 'Mechanical' },
                         ]}
                         value={values?.maintenanceType}
                         label="Maintainence Type"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("maintenanceType", valueOption);
+                            setFieldValue('maintenanceType', valueOption);
                           } else {
-                            setFieldValue("maintenanceType", "");
+                            setFieldValue('maintenanceType', '');
                           }
                         }}
                         placeholder="Maintainence Type"
@@ -188,9 +187,9 @@ const ScheduleMaintainenceCreate = () => {
                         value={values?.scheduleEndDate}
                         name="scheduleEndDate"
                         placeholder="Date"
-                        type={"date"}
+                        type={'date'}
                         onChange={(e) => {
-                          setFieldValue("scheduleEndDate", e.target.value);
+                          setFieldValue('scheduleEndDate', e.target.value);
                         }}
                       />
                     </div>
@@ -198,18 +197,18 @@ const ScheduleMaintainenceCreate = () => {
                       <NewSelect
                         name="frequency"
                         options={[
-                          { value: "Daily", label: "Daily" },
-                          { value: "Weekly", label: "Weekly" },
-                          { value: "Monthly", label: "Monthly" },
-                          { value: "Yearly", label: "Yearly" },
+                          { value: 'Daily', label: 'Daily' },
+                          { value: 'Weekly', label: 'Weekly' },
+                          { value: 'Monthly', label: 'Monthly' },
+                          { value: 'Yearly', label: 'Yearly' },
                         ]}
                         value={values?.frequency}
                         label="Frequency"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("frequency", valueOption);
+                            setFieldValue('frequency', valueOption);
                           } else {
-                            setFieldValue("frequency", "");
+                            setFieldValue('frequency', '');
                           }
                         }}
                         placeholder="Maintainence Type"
@@ -221,7 +220,7 @@ const ScheduleMaintainenceCreate = () => {
                       <SearchAsyncSelect
                         selectedValue={values?.responsiblePerson}
                         handleChange={(valueOption) => {
-                          setFieldValue("responsiblePerson", valueOption);
+                          setFieldValue('responsiblePerson', valueOption);
                         }}
                         loadOptions={loadSupervisorAndLineManagerList}
                         placeholder="responsiblePerson"
@@ -235,7 +234,7 @@ const ScheduleMaintainenceCreate = () => {
                         placeholder="Maintenance Task"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("maintenanceTask", e.target.value);
+                          setFieldValue('maintenanceTask', e.target.value);
                         }}
                       />
                     </div>
@@ -310,14 +309,14 @@ const ScheduleMaintainenceCreate = () => {
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

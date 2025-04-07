@@ -1,16 +1,19 @@
-import React from "react";
-import { Formik } from "formik";
-import { useHistory } from "react-router";
+import React from 'react';
+import { Formik } from 'formik';
+import { useHistory } from 'react-router';
 
-import { toast } from "react-toastify";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import { getVoyageDDLNew } from "../../../helper";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
-import { vslAndVoyNoValidationSchema } from "../../../../_helper/_validationSchema";
-import { getBunkerPurchaseList, getConsumption } from "../../../../_helper/_commonApi";
+import { toast } from 'react-toastify';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import { getVoyageDDLNew } from '../../../helper';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import { _dateFormatter } from '../../../_chartinghelper/_dateFormatter';
+import { vslAndVoyNoValidationSchema } from '../../../../_helper/_validationSchema';
+import {
+  getBunkerPurchaseList,
+  getConsumption,
+} from '../../../../_helper/_commonApi';
 
 export default function FormCmp({
   title,
@@ -63,24 +66,24 @@ export default function FormCmp({
                     onClick={() => {
                       history.goBack();
                     }}
-                    className={"btn btn-secondary px-3 py-2"}
+                    className={'btn btn-secondary px-3 py-2'}
                   >
                     <i className="fa fa-arrow-left pr-1"></i>
                     Back
                   </button>
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="button"
                       onClick={() => resetForm(initData)}
-                      className={"btn btn-info reset-btn ml-2 px-3 py-2"}
+                      className={'btn btn-info reset-btn ml-2 px-3 py-2'}
                     >
                       Reset
                     </button>
                   )}
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="submit"
-                      className={"btn btn-primary ml-2 px-3 py-2"}
+                      className={'btn btn-primary ml-2 px-3 py-2'}
                       onClick={handleSubmit}
                       disabled={false}
                     >
@@ -93,7 +96,7 @@ export default function FormCmp({
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vesselName || ""}
+                      value={values?.vesselName || ''}
                       isSearchable={true}
                       options={vesselDDL || []}
                       styles={customStyles}
@@ -101,8 +104,8 @@ export default function FormCmp({
                       placeholder="Vessel Name"
                       label="Vessel Name"
                       onChange={(valueOption) => {
-                        setFieldValue("vesselName", valueOption);
-                        setFieldValue("voyageNo", "");
+                        setFieldValue('vesselName', valueOption);
+                        setFieldValue('voyageNo', '');
                         setVoyageDDL([]);
                         setBunkerPurchaseList([]);
                         if (valueOption) {
@@ -118,14 +121,14 @@ export default function FormCmp({
                           });
                         }
                       }}
-                      isDisabled={viewType === "view"}
+                      isDisabled={viewType === 'view'}
                       errors={errors}
                       touched={touched}
                     />
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.voyageNo || ""}
+                      value={values?.voyageNo || ''}
                       isSearchable={true}
                       options={voyageDDL || []}
                       styles={customStyles}
@@ -133,7 +136,7 @@ export default function FormCmp({
                       placeholder="Voyage No"
                       label="Voyage No"
                       onChange={(valueOption) => {
-                        setFieldValue("voyageNo", valueOption);
+                        setFieldValue('voyageNo', valueOption);
                         setBunkerPurchaseList([]);
                         if (valueOption) {
                           getConsumption(
@@ -151,7 +154,7 @@ export default function FormCmp({
                         } else {
                         }
                       }}
-                      isDisabled={!values?.vesselName || viewType === "view"}
+                      isDisabled={!values?.vesselName || viewType === 'view'}
                       errors={errors}
                       touched={touched}
                     />
@@ -174,7 +177,7 @@ export default function FormCmp({
                             ?.filter((e) => e?.itemId === 1)
                             ?.reduce((a, b) => a + Number(b?.consumption), 0)
                             ?.toFixed(2)
-                        ) || ""}
+                        ) || ''}
                       </td>
                     </tr>
                     <tr>
@@ -189,7 +192,7 @@ export default function FormCmp({
                             ?.filter((e) => e?.itemId === 2)
                             ?.reduce((a, b) => a + Number(b?.consumption), 0)
                             ?.toFixed(2)
-                        ) || ""}
+                        ) || ''}
                       </td>
                     </tr>
                     <tr>
@@ -204,7 +207,7 @@ export default function FormCmp({
                             ?.filter((e) => e?.itemId === 3)
                             ?.reduce((a, b) => a + Number(b?.consumption), 0)
                             ?.toFixed(2)
-                        ) || ""}
+                        ) || ''}
                       </td>
                     </tr>
                   </ICustomTable>
@@ -213,16 +216,16 @@ export default function FormCmp({
 
               <ICustomTable
                 ths={[
-                  { name: "SL" },
-                  { name: "Item Name" },
-                  { name: "Purchase Date" },
-                  { name: "Purchase Place" },
-                  { name: "Purchase Qty" },
-                  { name: "Remaining Consumption Qty" },
-                  viewType !== "view" && { name: "Remaining Qty" },
-                  { name: "Item Rate" },
-                  { name: "Consumption" },
-                  { name: "Cost" },
+                  { name: 'SL' },
+                  { name: 'Item Name' },
+                  { name: 'Purchase Date' },
+                  { name: 'Purchase Place' },
+                  { name: 'Purchase Qty' },
+                  { name: 'Remaining Consumption Qty' },
+                  viewType !== 'view' && { name: 'Remaining Qty' },
+                  { name: 'Item Rate' },
+                  { name: 'Consumption' },
+                  { name: 'Cost' },
                 ]}
               >
                 {bunkerPurchaseList?.map((item, index) => (
@@ -230,35 +233,35 @@ export default function FormCmp({
                     <td className="text-center">{index + 1}</td>
                     <td>{item?.itemName}</td>
                     <td>{_dateFormatter(item?.dtePurchaseDate)}</td>
-                    <td>{item?.purchasePortName || ""}</td>
+                    <td>{item?.purchasePortName || ''}</td>
                     <td className="text-right">{item?.itemQty}</td>
                     <td className="text-right">
                       {item?.remaining || item?.remainingQuantity}
                     </td>
-                    {viewType !== "view" && (
+                    {viewType !== 'view' && (
                       <td className="text-right">{item?.remainingQty}</td>
                     )}
                     <td className="text-right">{item?.itemRate}</td>
-                    <td style={{ minWidth: "120px", maxWidth: "120px" }}>
+                    <td style={{ minWidth: '120px', maxWidth: '120px' }}>
                       <FormikInput
                         value={item?.consumption}
                         name="consumption"
                         placeholder="Consumption"
                         type="number"
                         onChange={(e) => {
-                          rowDtoHandler("consumption", e?.target?.value, index);
+                          rowDtoHandler('consumption', e?.target?.value, index);
                         }}
                         onBlur={(e) => {
                           if (e?.target?.value > item?.remaining) {
                             toast.warn(
-                              "Consumption can not be greater than remaining quantity"
+                              'Consumption can not be greater than remaining quantity'
                             );
                             // rowDtoHandler("consumption", "", index);
                           }
                         }}
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </td>
                     <td className="text-right">{item?.itemCost}</td>
@@ -267,7 +270,7 @@ export default function FormCmp({
                 {bunkerPurchaseList?.length > 0 && (
                   <tr className="font-weight-bold">
                     <td
-                      colSpan={viewType === "view" ? 8 : 9}
+                      colSpan={viewType === 'view' ? 8 : 9}
                       className="text-right font-weight-bold"
                     >
                       Total Bunker Cost

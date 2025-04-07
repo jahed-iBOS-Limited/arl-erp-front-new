@@ -1,8 +1,6 @@
-import React from "react";
-import IssueReportTable  from "./Table/table";
+import React from 'react';
+import IssueReportTable from './Table/table';
 
 export function IssueReport({ history }) {
-  return (  
-      <IssueReportTable />
-  );
-};
+  return <IssueReportTable />;
+}

@@ -12,7 +12,7 @@ import { monthDDL } from '../../invoiceManagementSystem/billregister/billCreate/
 export const getBuDDL = async (userId, accountId, setter) => {
   try {
     const res = await axios.get(
-      `/domain/OrganizationalUnitUserPermission/GetBusinessUnitPermissionbyUser?UserId=${userId}&ClientId=${accountId}`,
+      `/domain/OrganizationalUnitUserPermission/GetBusinessUnitPermissionbyUser?UserId=${userId}&ClientId=${accountId}`
     );
     if (res.status === 200 && res?.data) {
       const data = res?.data;
@@ -24,9 +24,8 @@ export const getBuDDL = async (userId, accountId, setter) => {
       });
       setter(newData);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
-
 
 const CostVsRevenuePBR = () => {
   const groupId = `218e3d7e-f3ea-4f66-8150-bb16eb6fc606`;

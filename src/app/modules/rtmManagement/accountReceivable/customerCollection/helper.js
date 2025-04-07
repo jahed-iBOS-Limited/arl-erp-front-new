@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 // Real
 
@@ -11,12 +11,11 @@ export const createCustomerCollection = async (payload, setDisabled) => {
       payload
     );
     if (res.status === 200 && res?.data) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
 
       setDisabled(false);
     }
   } catch (error) {
-    
     toast.error(error?.response?.data?.message);
     setDisabled(false);
   }
@@ -40,7 +39,6 @@ export const getGridData = async (
       setLoading(false);
     }
   } catch (error) {
-    
     setLoading(false);
   }
 };

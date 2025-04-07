@@ -67,7 +67,7 @@ function Dashboardpdd() {
       values?.shipPoint?.value,
       1,
       setDCPending,
-      setLoading,
+      setLoading
     );
     // DC Deliverd
     getDashBoardPDDReportApi(
@@ -75,7 +75,7 @@ function Dashboardpdd() {
       values?.shipPoint?.value,
       2,
       setDCDeliverd,
-      setLoading,
+      setLoading
     );
     // DC Prosessing
     getDashBoardPDDReportApi(
@@ -83,7 +83,7 @@ function Dashboardpdd() {
       values?.shipPoint?.value,
       3,
       setDCProsessing,
-      setLoading,
+      setLoading
     );
     // Delivered Qty
     getDashBoardPDDReportApi(
@@ -91,7 +91,7 @@ function Dashboardpdd() {
       values?.shipPoint?.value,
       4,
       setDCDeliveredQty,
-      setLoading,
+      setLoading
     );
 
     // Vehicle Available
@@ -100,7 +100,7 @@ function Dashboardpdd() {
       values?.shipPoint?.value,
       5,
       setVehicleAvailable,
-      setLoading,
+      setLoading
     );
     // Vehicle Out
     getDashBoardPDDReportVehicleApi(
@@ -108,7 +108,7 @@ function Dashboardpdd() {
       values?.shipPoint?.value,
       6,
       setDCVehicleOut,
-      setLoading,
+      setLoading
     );
     // Transfer Out Qty
     getDashBoardPDDReporttransferOutQntApi(
@@ -116,7 +116,7 @@ function Dashboardpdd() {
       values?.shipPoint?.value,
       7,
       setDCTransferOutQty,
-      setLoading,
+      setLoading
     );
     // DC Pending Qty
     getDashBoardPDDDCPendingQtyReportApi(
@@ -124,7 +124,7 @@ function Dashboardpdd() {
       values?.shipPoint?.value,
       8,
       setDCPendingQty,
-      setLoading,
+      setLoading
     );
 
     // On Time Delivery
@@ -133,7 +133,7 @@ function Dashboardpdd() {
       values?.shipPoint?.value,
       9,
       setOnTimeDelivery,
-      setLoading,
+      setLoading
     );
   };
 
@@ -146,10 +146,9 @@ function Dashboardpdd() {
         0,
         10,
         setDCDepotPending,
-        setLoading,
+        setLoading
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -160,14 +159,13 @@ function Dashboardpdd() {
         0,
         10,
         setDCDepotPending,
-        setLoading,
+        setLoading
       );
     }, 120000); // 120000 milliseconds = 2 minutes
 
     return () => {
       clearInterval(refreshDataInterval); // Clear the interval on component unmount
     };
-
   }, []);
 
   function calculateTotals(options) {
@@ -233,7 +231,7 @@ function Dashboardpdd() {
                             customOnClick={(item) => {}}
                             categoryWiseCardObj={{
                               title: `DC Pending - ${calculateTotals(
-                                DCPending,
+                                DCPending
                               )}`,
                               categoryList: [
                                 {
@@ -255,7 +253,7 @@ function Dashboardpdd() {
                             className="DashboardpddBox__Nine"
                             categoryWiseCardObj={{
                               title: `DC Pending Qty - ${calculateTotals(
-                                DCPendingQty,
+                                DCPendingQty
                               )}`,
                               categoryList: [
                                 {
@@ -279,7 +277,7 @@ function Dashboardpdd() {
                             customOnClick={(item) => {}}
                             categoryWiseCardObj={{
                               title: `DC Processing - ${calculateTotals(
-                                DCProsessing,
+                                DCProsessing
                               )}`,
                               categoryList: [
                                 {
@@ -302,7 +300,7 @@ function Dashboardpdd() {
                             customOnClick={(item) => {}}
                             categoryWiseCardObj={{
                               title: `DC Delivered - ${calculateTotals(
-                                DCDeliverd,
+                                DCDeliverd
                               )}`,
                               categoryList: [
                                 {
@@ -326,7 +324,7 @@ function Dashboardpdd() {
                             customOnClick={(item) => {}}
                             categoryWiseCardObj={{
                               title: `Delivered Qty - ${calculateTotals(
-                                DCDeliveredQty,
+                                DCDeliveredQty
                               )}`,
                               categoryList: [
                                 {
@@ -349,7 +347,7 @@ function Dashboardpdd() {
                             customOnClick={(item) => {}}
                             categoryWiseCardObj={{
                               title: `Vehicle  Available - ${calculateTotals(
-                                VehicleAvailable,
+                                VehicleAvailable
                               )}`,
                               categoryList: [
                                 {
@@ -368,7 +366,7 @@ function Dashboardpdd() {
                             customOnClick={(item) => {}}
                             categoryWiseCardObj={{
                               title: `Vehicle  Out - ${calculateTotals(
-                                DCVehicleOut,
+                                DCVehicleOut
                               )}`,
                               categoryList: [
                                 {

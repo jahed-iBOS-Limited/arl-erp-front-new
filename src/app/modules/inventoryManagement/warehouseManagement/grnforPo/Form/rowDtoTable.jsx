@@ -1,8 +1,8 @@
-import React from "react";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { IInput } from "../../../../_helper/_input";
+import React from 'react';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import { IInput } from '../../../../_helper/_input';
 // import customStyles from "../../../../../selectCustomStyle";
 // import IDelete from "../../../../../_helper/_helperIcons/_delete";
 // import { IInput } from "../../../../../_helper/_input";
@@ -40,22 +40,22 @@ const RowDtoTable = ({
                   <tr key={index}>
                     <td className="text-center align-middle"> {index + 1} </td>
                     <td className="text-center align-middle">
-                      {" "}
-                      {item?.itemCode}{" "}
+                      {' '}
+                      {item?.itemCode}{' '}
                     </td>
                     <td className="text-center align-middle">
                       {item?.itemName}
                     </td>
                     <td className="text-center align-middle">{item?.refQty}</td>
                     <td className="text-center align-middle">
-                      {" "}
-                      {item?.restQty || 0}{" "}
+                      {' '}
+                      {item?.restQty || 0}{' '}
                     </td>
                     <td className="text-center align-middle">
                       <Select
                         onChange={(valueOption) => {
                           rowDtoHandler(
-                            "location",
+                            'location',
                             {
                               value: valueOption?.value,
                               label: valueOption?.label,
@@ -63,7 +63,7 @@ const RowDtoTable = ({
                             index
                           );
                         }}
-                        value={item?.location || ""}
+                        value={item?.location || ''}
                         isSearchable={true}
                         styles={customStyles}
                         options={locationTypeDDL}
@@ -74,7 +74,7 @@ const RowDtoTable = ({
                       <Select
                         onChange={(valueOption) => {
                           rowDtoHandler(
-                            "stockType",
+                            'stockType',
                             {
                               value: valueOption?.value,
                               label: valueOption?.label,
@@ -82,7 +82,7 @@ const RowDtoTable = ({
                             index
                           );
                         }}
-                        defaultValue={item?.stockType || ""}
+                        defaultValue={item?.stockType || ''}
                         isSearchable={true}
                         styles={customStyles}
                         options={stockDDL}
@@ -90,7 +90,7 @@ const RowDtoTable = ({
                       />
                     </td>
                     <td
-                      style={{ width: "100px" }}
+                      style={{ width: '100px' }}
                       className="disabled-feedback disable-border"
                     >
                       <IInput
@@ -101,7 +101,7 @@ const RowDtoTable = ({
                         placeholder="Quantity"
                         required
                         onChange={(e) => {
-                          rowDtoHandler("quantity", e.target.value, index);
+                          rowDtoHandler('quantity', e.target.value, index);
                         }}
                       />
                     </td>

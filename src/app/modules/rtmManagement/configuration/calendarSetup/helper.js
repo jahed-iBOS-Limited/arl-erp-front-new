@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getDamageCalender = async (
   accId,
@@ -37,7 +37,7 @@ export const damageCalenderSave = async (data, setDisabled, cb) => {
     );
     if (res?.status === 200) {
       cb();
-      toast.success(res?.data?.message || "Submitted successfully");
+      toast.success(res?.data?.message || 'Submitted successfully');
       setDisabled(false);
     }
   } catch (error) {

@@ -1,27 +1,27 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import ViewModal from "./viewModal";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import ViewModal from './viewModal';
 
 const initData = {
-  plant: "",
-  channel: "",
-  region: "",
-  area: "",
-  territory: "",
-  year: "",
-  horizon: "",
-  startDate: "",
-  endDate: "",
+  plant: '',
+  channel: '',
+  region: '',
+  area: '',
+  territory: '',
+  year: '',
+  horizon: '',
+  startDate: '',
+  endDate: '',
 };
 export default function DetailsSalesPlanLanding() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -44,7 +44,6 @@ export default function DetailsSalesPlanLanding() {
     getGridData(
       `/mes/SalesPlanning/DetailsSalesPlanLandingPagination?SalesPlanId=${location?.state?.monthlyItem?.salesPlanId}&AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${location?.state?.monthlyValues?.plant?.value}&Year=${location?.state?.monthlyValues?.year?.label}&PlanningHorizonId=${location?.state?.monthlyItem?.horizonId}&PlanningHorizonRowId=${location?.state?.monthlyItem?.planningHorizonRowId}&DistributionChannelId=0&RegoinId=0&AreaId=0&TeritoryId=0&PageNo=1&PageSize=500&ViewOrder=desc`
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {};
@@ -154,13 +153,14 @@ export default function DetailsSalesPlanLanding() {
                     label="Distribution Channel"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("channel", valueOption);
-                        setFieldValue("region", "");
-                        setFieldValue("area", "");
-                        setFieldValue("territory", "");
+                        setFieldValue('channel', valueOption);
+                        setFieldValue('region', '');
+                        setFieldValue('area', '');
+                        setFieldValue('territory', '');
                         getRegionDDL(
-                          `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${valueOption?.value ||
-                            0}`,
+                          `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${
+                            valueOption?.value || 0
+                          }`,
                           (res) => {
                             const newDDL = res?.map((item) => ({
                               ...item,
@@ -173,10 +173,10 @@ export default function DetailsSalesPlanLanding() {
                         setAreaDDL([]);
                         setTerritoryDDL([]);
                       } else {
-                        setFieldValue("channel", "");
-                        setFieldValue("region", "");
-                        setFieldValue("area", "");
-                        setFieldValue("territory", "");
+                        setFieldValue('channel', '');
+                        setFieldValue('region', '');
+                        setFieldValue('area', '');
+                        setFieldValue('territory', '');
                         setRegionDDL([]);
                         setAreaDDL([]);
                         setTerritoryDDL([]);
@@ -195,9 +195,9 @@ export default function DetailsSalesPlanLanding() {
                     label="Region"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("region", valueOption);
-                        setFieldValue("area", "");
-                        setFieldValue("territory", "");
+                        setFieldValue('region', valueOption);
+                        setFieldValue('area', '');
+                        setFieldValue('territory', '');
                         getAreaDDL(
                           `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${
                             values?.channel?.value
@@ -213,9 +213,9 @@ export default function DetailsSalesPlanLanding() {
                         );
                         setTerritoryDDL([]);
                       } else {
-                        setFieldValue("region", "");
-                        setFieldValue("area", "");
-                        setFieldValue("territory", "");
+                        setFieldValue('region', '');
+                        setFieldValue('area', '');
+                        setFieldValue('territory', '');
                         setAreaDDL([]);
                         setTerritoryDDL([]);
                       }
@@ -234,8 +234,8 @@ export default function DetailsSalesPlanLanding() {
                     label="Area"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("area", valueOption);
-                        setFieldValue("territory", "");
+                        setFieldValue('area', valueOption);
+                        setFieldValue('territory', '');
                         getTerritoryDDL(
                           `/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${
                             values?.channel?.value
@@ -252,8 +252,8 @@ export default function DetailsSalesPlanLanding() {
                           }
                         );
                       } else {
-                        setFieldValue("area", "");
-                        setFieldValue("territory", "");
+                        setFieldValue('area', '');
+                        setFieldValue('territory', '');
                         setTerritoryDDL([]);
                       }
                     }}
@@ -270,7 +270,7 @@ export default function DetailsSalesPlanLanding() {
                     value={values?.territory}
                     label="Territory"
                     onChange={(valueOption) => {
-                      setFieldValue("territory", valueOption);
+                      setFieldValue('territory', valueOption);
                     }}
                     placeholder="Territory"
                     isDisabled={!values?.area}
@@ -312,14 +312,16 @@ export default function DetailsSalesPlanLanding() {
                           location?.state?.monthlyItem?.horizonId
                         }&PlanningHorizonRowId=${
                           location?.state?.monthlyItem?.planningHorizonRowId
-                        }&DistributionChannelId=${values?.channel?.value ||
-                          0}&RegoinId=${values?.region?.value ||
-                          0}&AreaId=${values?.area?.value ||
-                          0}&TeritoryId=${values?.territory?.value ||
-                          0}&PageNo=1&PageSize=500&ViewOrder=desc`
+                        }&DistributionChannelId=${
+                          values?.channel?.value || 0
+                        }&RegoinId=${values?.region?.value || 0}&AreaId=${
+                          values?.area?.value || 0
+                        }&TeritoryId=${
+                          values?.territory?.value || 0
+                        }&PageNo=1&PageSize=500&ViewOrder=desc`
                       );
                     }}
-                    style={{ marginTop: "18px" }}
+                    style={{ marginTop: '18px' }}
                     className="btn btn-primary"
                   >
                     View
@@ -327,15 +329,15 @@ export default function DetailsSalesPlanLanding() {
                 </div>
                 <div className="mt-5 ml-5">
                   <h4>
-                    Monthly Total Sales Plan Quantity :{" "}
+                    Monthly Total Sales Plan Quantity :{' '}
                     <span
                       onClick={() => {
                         setIsShowModal(true);
                       }}
                       style={{
-                        color: "blue",
-                        cursor: "pointer",
-                        textDecoration: "underline",
+                        color: 'blue',
+                        cursor: 'pointer',
+                        textDecoration: 'underline',
                       }}
                     >
                       {location?.state?.monthlyItem?.planQTY}
@@ -345,72 +347,72 @@ export default function DetailsSalesPlanLanding() {
               </div>
 
               {gridData?.data?.length > 0 && (
-                          <div className="table-responsive">
-<table className="global-table table">
-                  <>
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Horizon Name</th>
-                        <th>Distribuation Channel</th>
-                        <th>Region</th>
-                        <th>Area</th>
-                        <th>Territory</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Sales Plan Quantity</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.data?.map((item, index) => (
-                        <tr key={index}>
-                          <td>{item?.sl}</td>
-                          <td>{item?.horizonName}</td>
-                          <td>{item?.strDistributionChannelName}</td>
-                          <td>{item?.strRegionName}</td>
-                          <td>{item?.strAreaName}</td>
-                          <td>{item?.strTeritoryName}</td>
-                          <td>{_dateFormatter(item?.startDate)}</td>
-                          <td>{_dateFormatter(item?.endDate)}</td>
-                          <td className="text-center">{item?.planQTY}</td>
-                          <td>
-                            <div className="d-flex justify-content-around">
-                              <span
-                                onClick={() =>
-                                  history.push({
-                                    pathname: `/internal-control/budget/detailsalseplan/details/edit`,
-                                    state: {
-                                      monthlyValues:
-                                        location?.state?.monthlyValues,
-                                      monthlyItem: location?.state?.monthlyItem,
-                                      detailsItem: item,
-                                    },
-                                  })
-                                }
-                              >
-                                <IEdit />
-                              </span>
-                            </div>
-                          </td>
+                <div className="table-responsive">
+                  <table className="global-table table">
+                    <>
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Horizon Name</th>
+                          <th>Distribuation Channel</th>
+                          <th>Region</th>
+                          <th>Area</th>
+                          <th>Territory</th>
+                          <th>Start Date</th>
+                          <th>End Date</th>
+                          <th>Sales Plan Quantity</th>
+                          <th>Action</th>
                         </tr>
-                      ))}
-                      <tr>
-                        <td colSpan={8}>Total</td>
-                        <td className="text-center">
-                          {gridData?.data?.reduce(
-                            (accumulator, currentValue) =>
-                              accumulator + (currentValue?.planQTY || 0),
-                            0
-                          )}
-                        </td>
-                        <td></td>
-                      </tr>
-                    </tbody>
-                  </>
-                </table>
-                          </div>
-
+                      </thead>
+                      <tbody>
+                        {gridData?.data?.map((item, index) => (
+                          <tr key={index}>
+                            <td>{item?.sl}</td>
+                            <td>{item?.horizonName}</td>
+                            <td>{item?.strDistributionChannelName}</td>
+                            <td>{item?.strRegionName}</td>
+                            <td>{item?.strAreaName}</td>
+                            <td>{item?.strTeritoryName}</td>
+                            <td>{_dateFormatter(item?.startDate)}</td>
+                            <td>{_dateFormatter(item?.endDate)}</td>
+                            <td className="text-center">{item?.planQTY}</td>
+                            <td>
+                              <div className="d-flex justify-content-around">
+                                <span
+                                  onClick={() =>
+                                    history.push({
+                                      pathname: `/internal-control/budget/detailsalseplan/details/edit`,
+                                      state: {
+                                        monthlyValues:
+                                          location?.state?.monthlyValues,
+                                        monthlyItem:
+                                          location?.state?.monthlyItem,
+                                        detailsItem: item,
+                                      },
+                                    })
+                                  }
+                                >
+                                  <IEdit />
+                                </span>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                        <tr>
+                          <td colSpan={8}>Total</td>
+                          <td className="text-center">
+                            {gridData?.data?.reduce(
+                              (accumulator, currentValue) =>
+                                accumulator + (currentValue?.planQTY || 0),
+                              0
+                            )}
+                          </td>
+                          <td></td>
+                        </tr>
+                      </tbody>
+                    </>
+                  </table>
+                </div>
               )}
             </Form>
           </IForm>

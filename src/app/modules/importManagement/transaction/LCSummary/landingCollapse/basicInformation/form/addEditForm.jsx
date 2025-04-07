@@ -1,42 +1,39 @@
-
-
-
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import { toast } from "react-toastify";
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import { toast } from 'react-toastify';
 import {
   CardBody,
   CardHeaderToolbar,
   ModalProgressBar,
   Card,
   CardHeader,
-} from "../../../../../../../../_metronic/_partials/controls";
-import Loading from "../../../../../../_helper/_loading";
-import { GetInsuranceTypeDDL, GetProviderDDL } from "../helper";
+} from '../../../../../../../../_metronic/_partials/controls';
+import Loading from '../../../../../../_helper/_loading';
+import { GetInsuranceTypeDDL, GetProviderDDL } from '../helper';
 
 const initData = {
-  indentNumber: "",
-  supplierName: "",
-  bankName: "",
-  LCNumber: "",
-  LCDate: "",
-  incoTerms: "",
-  lastShipmentDate: "",
-  paymentMode: "",
-  HSCode: "",
-  loadingPort: "",
-  destinationPort: "",
-  tolerance: "",
-  currency: "",
-  totalInvoiceAmount: "",
-  cashMargin: "",
-  FDRMargin: "",
-  LCLength: "",
-  insuranceProviderName: "",
-  coverNoteNumber: "",
-  noOfLCAmendments: "",
-  noOfInsuranceAmendments: "",
+  indentNumber: '',
+  supplierName: '',
+  bankName: '',
+  LCNumber: '',
+  LCDate: '',
+  incoTerms: '',
+  lastShipmentDate: '',
+  paymentMode: '',
+  HSCode: '',
+  loadingPort: '',
+  destinationPort: '',
+  tolerance: '',
+  currency: '',
+  totalInvoiceAmount: '',
+  cashMargin: '',
+  FDRMargin: '',
+  LCLength: '',
+  insuranceProviderName: '',
+  coverNoteNumber: '',
+  noOfLCAmendments: '',
+  noOfInsuranceAmendments: '',
 };
 
 export default function BasicInformation() {
@@ -71,7 +68,7 @@ export default function BasicInformation() {
     GetProviderDDL(setProviderDDL);
   }, []);
 
-  console.log(insuranceTypeDDL, providerDDL, "providerDDL", "insuranceTypeDDL");
+  console.log(insuranceTypeDDL, providerDDL, 'providerDDL', 'insuranceTypeDDL');
 
   const saveHandler = async (values, cb) => {};
 

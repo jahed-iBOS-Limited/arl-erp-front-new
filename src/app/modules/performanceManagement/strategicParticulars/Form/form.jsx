@@ -1,34 +1,33 @@
-
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import KpiEntryGrid from "./kpiEntryGrid";
-import { IInput } from "../../../_helper/_input";
-import { ISelect } from "../../../_helper/_inputDropDown";
-import { getDepartmentDDLAction } from "../_redux/Actions";
-import { SetStrategicParticularsGridEmpty } from "../_redux/Actions";
-import { useDispatch } from "react-redux";
-import { getCorporateDepDDLAction } from "./helper";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import axios from "axios";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import KpiEntryGrid from './kpiEntryGrid';
+import { IInput } from '../../../_helper/_input';
+import { ISelect } from '../../../_helper/_inputDropDown';
+import { getDepartmentDDLAction } from '../_redux/Actions';
+import { SetStrategicParticularsGridEmpty } from '../_redux/Actions';
+import { useDispatch } from 'react-redux';
+import { getCorporateDepDDLAction } from './helper';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   year: Yup.object().shape({
-    label: Yup.string().required("Year is required"),
-    value: Yup.string().required("Year is required"),
+    label: Yup.string().required('Year is required'),
+    value: Yup.string().required('Year is required'),
   }),
   targetFrequency: Yup.object().shape({
-    label: Yup.string().required("Target Frequency Type is required"),
-    value: Yup.string().required("Target Frequency Type is required"),
+    label: Yup.string().required('Target Frequency Type is required'),
+    value: Yup.string().required('Target Frequency Type is required'),
   }),
   strategicParticularsName: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(500, "Maximum 500 symbols")
-    .required("Particulars details is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(500, 'Maximum 500 symbols')
+    .required('Particulars details is required'),
   planType: Yup.object().shape({
-    label: Yup.string().required("Plan type is required"),
-    value: Yup.string().required("Plan type is required"),
+    label: Yup.string().required('Plan type is required'),
+    value: Yup.string().required('Plan type is required'),
   }),
 });
 
@@ -58,132 +57,132 @@ export default function FormCmp({
   const [controlls, setControlls] = useState([]);
   const [kpiTargetEntry, setKpiTargetEntry] = useState({});
   const [allValue, setAllValue] = useState(0);
-  const [ownerDepartment, setOwnerDepartment] = useState([])
+  const [ownerDepartment, setOwnerDepartment] = useState([]);
 
   let dispatch = useDispatch();
 
   useEffect(() => {
     setControlls([
       {
-        label: "Select SBU",
-        name: "sbu",
+        label: 'Select SBU',
+        name: 'sbu',
         options: sbuDDL,
       },
 
       {
-        label: "Select Department",
-        name: "department",
+        label: 'Select Department',
+        name: 'department',
         options: depDDL,
       },
       {
-        label: "Select BSC Perspective",
-        name: "bscPerspective",
+        label: 'Select BSC Perspective',
+        name: 'bscPerspective',
         options: bscPerspectiveDDL,
       },
       {
-        label: "Select Plan Type",
-        name: "planType",
+        label: 'Select Plan Type',
+        name: 'planType',
         options: [
-          { value: 1, label: "5 Years" },
-          { value: 2, label: "1 Years" },
-          { value: 3, label: "BSC" },
-          { value: 4, label: "Strategic Initiative" },
+          { value: 1, label: '5 Years' },
+          { value: 2, label: '1 Years' },
+          { value: 3, label: 'BSC' },
+          { value: 4, label: 'Strategic Initiative' },
         ],
       },
       {
-        label: "Select Strategic Particular Type ",
-        name: "strategicParticularType",
+        label: 'Select Strategic Particular Type ',
+        name: 'strategicParticularType',
         options: strategicParticularsTypeDDL,
         dependencyFunc: (currentValue, values, setter) => {
-          setter("targetFrequency", "")
-          dispatch(SetStrategicParticularsGridEmpty())
+          setter('targetFrequency', '');
+          dispatch(SetStrategicParticularsGridEmpty());
           currentValue === 1 &&
-            setter("forObjective", { label: "null", value: 0 });
-          currentValue !== 1 && setter("forObjective", "");
+            setter('forObjective', { label: 'null', value: 0 });
+          currentValue !== 1 && setter('forObjective', '');
         },
       },
       {
-        label: "Strategic Particulars Name",
-        name: "strategicParticularsName",
+        label: 'Strategic Particulars Name',
+        name: 'strategicParticularsName',
         isInput: true,
-        col: "col-lg-9",
+        col: 'col-lg-9',
       },
       {
-        label: "Strategic Particulars Details",
-        name: "description",
+        label: 'Strategic Particulars Details',
+        name: 'description',
         isInput: true,
-        col: "col-lg-12",
+        col: 'col-lg-12',
       },
 
       {
-        label: "Select For Objective",
-        name: "forObjective",
+        label: 'Select For Objective',
+        name: 'forObjective',
         options: strategicObjectiveTypeDDL,
       },
       {
-        label: "Select Owner",
-        name: "owner",
+        label: 'Select Owner',
+        name: 'owner',
         options: ownerDepartment,
       },
       {
-        label: "Select Priority",
-        name: "priority",
+        label: 'Select Priority',
+        name: 'priority',
         options: [
-          { label: "High", value: 1 },
-          { label: "Medium", value: 2 },
-          { label: "Low", value: 3 },
+          { label: 'High', value: 1 },
+          { label: 'Medium', value: 2 },
+          { label: 'Low', value: 3 },
         ],
       },
       {
-        label: "Resource",
-        name: "resource",
-        type: "text",
+        label: 'Resource',
+        name: 'resource',
+        type: 'text',
         isInput: true,
       },
       {
-        label: "Budget",
-        name: "numBudget",
-        type: "number",
+        label: 'Budget',
+        name: 'numBudget',
+        type: 'number',
         isInput: true,
         props: { min: 0 },
       },
       {
-        label: "Target Area",
-        name: "targetArea",
-        type: "text",
+        label: 'Target Area',
+        name: 'targetArea',
+        type: 'text',
         isInput: true,
       },
       {
-        label: "Maxi/Mini",
-        name: "maxi_mini",
+        label: 'Maxi/Mini',
+        name: 'maxi_mini',
         options: [
-          { label: "Maximization", value: 1 },
-          { label: "Minimization", value: 2 },
+          { label: 'Maximization', value: 1 },
+          { label: 'Minimization', value: 2 },
         ],
       },
       {
-        label: "Select Aggregation Type",
-        name: "aggregationType",
+        label: 'Select Aggregation Type',
+        name: 'aggregationType',
         options: [
           {
-            label: "Average",
-            value: "average",
+            label: 'Average',
+            value: 'average',
           },
           {
-            label: "Sum",
-            value: "sum",
+            label: 'Sum',
+            value: 'sum',
           },
         ],
       },
       {
-        label: "Remarks ",
-        name: "remarks",
-        type: "text",
+        label: 'Remarks ',
+        name: 'remarks',
+        type: 'text',
         isInput: true,
       },
       {
-        label: "Select Current Year",
-        name: "year",
+        label: 'Select Current Year',
+        name: 'year',
         options: yearDDL,
       },
     ]);
@@ -212,7 +211,7 @@ export default function FormCmp({
   useEffect(() => {
     if (!strId) {
       const size = strategicParticularsGrid?.length;
-      const key = frequencyId === 2 ? "monthId" : "quarterId";
+      const key = frequencyId === 2 ? 'monthId' : 'quarterId';
       if (size) {
         const tempObj = {};
         strategicParticularsGrid.forEach((itm, idx) => {
@@ -221,19 +220,18 @@ export default function FormCmp({
             [key]: itm.id,
             target: 0,
             pmsfrequencyId: frequencyId,
-            remarks: "",
+            remarks: '',
           };
         });
         setKpiTargetEntry(tempObj);
       }
     }
-
   }, [strategicParticularsGrid]);
 
   useEffect(() => {
     if (strId) {
       const size = objListRow?.length;
-      const key = frequencyId === 2 ? "monthId" : "quarterId";
+      const key = frequencyId === 2 ? 'monthId' : 'quarterId';
       if (size) {
         const tempObj = {};
         objListRow.forEach((itm, idx) => {
@@ -249,7 +247,6 @@ export default function FormCmp({
         setKpiTargetEntry(tempObj);
       }
     }
-
   }, [objListRow]);
 
   useEffect(() => {
@@ -263,14 +260,13 @@ export default function FormCmp({
               {
                 ...kpiTargetEntry[i],
                 target: +allValue,
-                actualEndDate: "2020-09-27T12:37:16.694Z",
+                actualEndDate: '2020-09-27T12:37:16.694Z',
               },
             ])
           )
         );
       }
     }
-
   }, [allValue]);
 
   useEffect(() => {
@@ -283,20 +279,19 @@ export default function FormCmp({
             {
               ...kpiTargetEntry[i],
               target: +allValue,
-              actualEndDate: "2020-09-27T12:37:16.694Z",
+              actualEndDate: '2020-09-27T12:37:16.694Z',
             },
           ])
         )
       );
     }
-
   }, [allValue]);
 
   const disabledHandler = (values, itm) => {
     let isDisabled = false;
-    if (itm.name === "sbu" && !values.isForSbu) {
+    if (itm.name === 'sbu' && !values.isForSbu) {
       isDisabled = true;
-    } else if (itm.name === "department") {
+    } else if (itm.name === 'department') {
       values.isForDepartment || values.isForCorporate
         ? (isDisabled = false)
         : (isDisabled = true);
@@ -309,9 +304,7 @@ export default function FormCmp({
   const loadUserList = (v) => {
     if (v?.length < 2) return [];
     return axios
-      .get(
-        `/hcm/HCMReport/GetARLEmployeeList?BusinessUnitId=${0}&Search=${v}`
-      )
+      .get(`/hcm/HCMReport/GetARLEmployeeList?BusinessUnitId=${0}&Search=${v}`)
       .then((res) => {
         return res?.data;
       })
@@ -321,7 +314,11 @@ export default function FormCmp({
   // get Department
   useEffect(() => {
     dispatch(
-      getDepartmentDDLAction(accountId, selectedBusinessUnit?.value, setOwnerDepartment)
+      getDepartmentDDLAction(
+        accountId,
+        selectedBusinessUnit?.value,
+        setOwnerDepartment
+      )
     );
   }, []);
 
@@ -350,7 +347,7 @@ export default function FormCmp({
         }) => (
           <>
             {disableHandler(!isValid)}
-            {console.log("values", values)}
+            {console.log('values', values)}
             <Form className="form form-label-right">
               <div className="form-group row">
                 <div className="col-lg-3 d-flex justify-content-between text-center">
@@ -364,11 +361,11 @@ export default function FormCmp({
                         <input
                           id="isForEmployee"
                           type="checkbox"
-                          value={values.isForEmployee || ""}
+                          value={values.isForEmployee || ''}
                           checked={values.isForEmployee}
-                          name={values.isForEmployee || ""}
+                          name={values.isForEmployee || ''}
                           onChange={(e) => {
-                            setFieldValue("isForEmployee", e.target.checked);
+                            setFieldValue('isForEmployee', e.target.checked);
                           }}
                         />
                       )}
@@ -385,16 +382,16 @@ export default function FormCmp({
                         <input
                           id="isForDepartment"
                           type="checkbox"
-                          value={values.isForDepartment || ""}
+                          value={values.isForDepartment || ''}
                           checked={values.isForDepartment}
-                          name={values.isForDepartment || ""}
+                          name={values.isForDepartment || ''}
                           onChange={(e) => {
                             // setFieldValue("isForCorporate", false);
-                            setFieldValue("isForDepartment", e.target.checked);
-                            setFieldValue("department", "");
+                            setFieldValue('isForDepartment', e.target.checked);
+                            setFieldValue('department', '');
                             // set depDDL empty first, then call API
                             setDepDDL([]);
-                            setFieldValue("department", "");
+                            setFieldValue('department', '');
                             if (values?.isForCorporate) {
                               getCorporateDepDDLAction(
                                 accountId,
@@ -426,12 +423,12 @@ export default function FormCmp({
                         <input
                           id="isForSbu"
                           type="checkbox"
-                          value={values.isForSbu || ""}
+                          value={values.isForSbu || ''}
                           checked={values.isForSbu}
-                          name={values.isForSbu || ""}
+                          name={values.isForSbu || ''}
                           onChange={(e) => {
-                            setFieldValue("isForSbu", e.target.checked);
-                            setFieldValue("sbu", "");
+                            setFieldValue('isForSbu', e.target.checked);
+                            setFieldValue('sbu', '');
                           }}
                         />
                       )}
@@ -448,15 +445,15 @@ export default function FormCmp({
                         <input
                           id="isForCorporate"
                           type="checkbox"
-                          value={values.isForCorporate || ""}
+                          value={values.isForCorporate || ''}
                           checked={values.isForCorporate}
-                          name={values.isForCorporate || ""}
+                          name={values.isForCorporate || ''}
                           onChange={(e) => {
                             // setFieldValue("isForDepartment", false);
-                            setFieldValue("isForCorporate", e.target.checked);
+                            setFieldValue('isForCorporate', e.target.checked);
                             // set depDDL empty first, then call API
                             setDepDDL([]);
-                            setFieldValue("department", "");
+                            setFieldValue('department', '');
                             if (e.target.checked) {
                               getCorporateDepDDLAction(
                                 accountId,
@@ -481,7 +478,7 @@ export default function FormCmp({
                 </div>
                 {controlls.map((itm, index) => {
                   return itm.isInput ? (
-                    <div key={index} className={itm.col || "col-lg-3"}>
+                    <div key={index} className={itm.col || 'col-lg-3'}>
                       <IInput
                         name={itm.name}
                         value={values[itm.name]}
@@ -492,36 +489,36 @@ export default function FormCmp({
                     </div>
                   ) : (
                     <div key={index} className="col-lg-3">
-                      {(values?.strategicParticularType?.label === "Project" && itm?.name === "owner") ?
-                      <div>
-                        <label>Employee</label>
-                      <SearchAsyncSelect
-                      selectedValue={values[itm.name]}
-                      isSearchIcon={true}
-                      handleChange={(valueOption) => {
-                        setFieldValue(`${itm?.name}`, valueOption);
-                      }}
-                      loadOptions={loadUserList}
-                    />
-                      </div>
-                      :
-
-                      <ISelect
-                        label={itm?.label}
-                        options={itm?.options}
-                        value={values[itm.name]}
-                        dependencyFunc={itm?.dependencyFunc}
-                        name={itm?.name}
-                        setFieldValue={setFieldValue}
-                        errors={errors}
-                        touched={touched}
-                        isDisabled={
-                          // (itm.name === "sbu" && !values.isForSbu) ||
-                          // (itm.name === "department" && (values.isForDepartment || values.isForCorporate) ? false : true)
-                          disabledHandler(values, itm)
-                        }
-                      />}
-
+                      {values?.strategicParticularType?.label === 'Project' &&
+                      itm?.name === 'owner' ? (
+                        <div>
+                          <label>Employee</label>
+                          <SearchAsyncSelect
+                            selectedValue={values[itm.name]}
+                            isSearchIcon={true}
+                            handleChange={(valueOption) => {
+                              setFieldValue(`${itm?.name}`, valueOption);
+                            }}
+                            loadOptions={loadUserList}
+                          />
+                        </div>
+                      ) : (
+                        <ISelect
+                          label={itm?.label}
+                          options={itm?.options}
+                          value={values[itm.name]}
+                          dependencyFunc={itm?.dependencyFunc}
+                          name={itm?.name}
+                          setFieldValue={setFieldValue}
+                          errors={errors}
+                          touched={touched}
+                          isDisabled={
+                            // (itm.name === "sbu" && !values.isForSbu) ||
+                            // (itm.name === "department" && (values.isForDepartment || values.isForCorporate) ? false : true)
+                            disabledHandler(values, itm)
+                          }
+                        />
+                      )}
                     </div>
                   );
                 })}
@@ -535,7 +532,11 @@ export default function FormCmp({
                     setFieldValue={setFieldValue}
                     errors={errors}
                     touched={touched}
-                    isDisabled={strId ? true : !values.year || !values.strategicParticularType?.value}
+                    isDisabled={
+                      strId
+                        ? true
+                        : !values.year || !values.strategicParticularType?.value
+                    }
                     // disabledFields={["year"]}
                     values={values}
                     dependencyFunc={(currentValue, values) =>
@@ -576,19 +577,19 @@ export default function FormCmp({
                     }
                   />
                 ) : (
-                  ""
+                  ''
                 )}
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

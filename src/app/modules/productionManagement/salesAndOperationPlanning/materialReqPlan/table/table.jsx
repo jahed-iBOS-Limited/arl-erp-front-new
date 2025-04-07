@@ -1,16 +1,16 @@
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { YearDDL } from "../../../../_helper/_yearDDL";
-import moment from "moment";
-import { GetBOMPllaningYearly } from "../helper";
-import IViewModal from "../../../../_helper/_viewModal";
-import SaveBillOfMaterialPlanningModal from "./saveBillOfMaterialPlanningModal";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { YearDDL } from '../../../../_helper/_yearDDL';
+import moment from 'moment';
+import { GetBOMPllaningYearly } from '../helper';
+import IViewModal from '../../../../_helper/_viewModal';
+import SaveBillOfMaterialPlanningModal from './saveBillOfMaterialPlanningModal';
 const initData = {
-  year: "",
+  year: '',
 };
 
 const Materialannualplan = () => {
@@ -19,7 +19,7 @@ const Materialannualplan = () => {
   const [viewModal, setViewModal] = useState(false);
   const [clickRowDto, setClickRowDto] = useState({});
 
-  const {  selectedBusinessUnit } = useSelector((state) => {
+  const { selectedBusinessUnit } = useSelector((state) => {
     return {
       profileData: state.authData.profileData,
       selectedBusinessUnit: state.authData.selectedBusinessUnit,
@@ -28,13 +28,9 @@ const Materialannualplan = () => {
 
   const viewHeandelar = (values) => {
     const year = values?.year?.label;
-    const firstDateOfYear = moment(year)
-      .startOf("year")
-      .format("YYYY-MM-DD");
+    const firstDateOfYear = moment(year).startOf('year').format('YYYY-MM-DD');
 
-    const lastDateOfYear = moment(year)
-      .endOf("year")
-      .format("YYYY-MM-DD");
+    const lastDateOfYear = moment(year).endOf('year').format('YYYY-MM-DD');
 
     GetBOMPllaningYearly(
       firstDateOfYear,
@@ -46,7 +42,7 @@ const Materialannualplan = () => {
   };
 
   return (
-    <ICustomCard title='Material Annual Planning'>
+    <ICustomCard title="Material Annual Planning">
       <Formik
         enableReinitialize={true}
         initialValues={initData}
@@ -64,24 +60,24 @@ const Materialannualplan = () => {
             {loading && <Loading />}
 
             {/* Create Row */}
-            <div className='global-form row'>
-              <div className='col-lg-3'>
+            <div className="global-form row">
+              <div className="col-lg-3">
                 <NewSelect
-                  name='year'
+                  name="year"
                   options={YearDDL()}
                   value={values?.year}
                   isSearchable={true}
-                  label='Year'
-                  placeholder='Year'
+                  label="Year"
+                  placeholder="Year"
                   onChange={(valueOption) => {
-                    setFieldValue("year", valueOption);
+                    setFieldValue('year', valueOption);
                     setGridData([]);
                   }}
                   errors={errors}
                   touched={touched}
                 />
               </div>
-              <div className='col-lg-3'>
+              <div className="col-lg-3">
                 <button
                   onClick={() => {
                     viewHeandelar({
@@ -89,8 +85,8 @@ const Materialannualplan = () => {
                       year: values?.year,
                     });
                   }}
-                  style={{ marginTop: "18px" }}
-                  className='btn btn-primary'
+                  style={{ marginTop: '18px' }}
+                  className="btn btn-primary"
                   disabled={!values?.year}
                 >
                   View
@@ -98,8 +94,8 @@ const Materialannualplan = () => {
               </div>
             </div>
 
-            <div className='table-responsive'>
-              <table className='table table-striped table-bordered global-table'>
+            <div className="table-responsive">
+              <table className="table table-striped table-bordered global-table">
                 <thead>
                   <tr>
                     <th>SL</th>
@@ -109,7 +105,7 @@ const Materialannualplan = () => {
                     <th>Rate</th>
                     <th
                       style={{
-                        width: "100px",
+                        width: '100px',
                       }}
                     >
                       Action
@@ -120,13 +116,13 @@ const Materialannualplan = () => {
                   {gridData?.map((item, i) => (
                     <tr key={i + 1}>
                       <td>{i + 1}</td>
-                      <td className=''>{item?.stritemcode}</td>
-                      <td className=''>{item?.stritemname}</td>
-                      <td className='text-right'>{item?.qnt}</td>
-                      <td className='text-right'>{item?.rate}</td>
-                      <td className='text-center'>
+                      <td className="">{item?.stritemcode}</td>
+                      <td className="">{item?.stritemname}</td>
+                      <td className="text-right">{item?.qnt}</td>
+                      <td className="text-right">{item?.rate}</td>
+                      <td className="text-center">
                         <button
-                          className='btn btn-primary'
+                          className="btn btn-primary"
                           onClick={() => {
                             setViewModal(true);
                             setClickRowDto({
@@ -156,7 +152,7 @@ const Materialannualplan = () => {
                 landingCB={() => {
                   setViewModal(false);
                   setClickRowDto({});
-                  viewHeandelar(values)
+                  viewHeandelar(values);
                 }}
               />
             </IViewModal>

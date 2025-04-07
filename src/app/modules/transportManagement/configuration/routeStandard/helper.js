@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getDDL = async (api, setter) => {
   try {
@@ -72,7 +72,7 @@ export const createRouteStandardCost = async (data, cb, setDisabled, id) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       console.log(id);
       !id && cb();
       setDisabled(false);
@@ -91,7 +91,7 @@ export const editRouteStandardCost = async (data, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Edited successfully");
+      toast.success(res?.message || 'Edited successfully');
       setDisabled(false);
     }
   } catch (error) {
@@ -153,26 +153,22 @@ export const GetRouteStandardCostDetails_api = async (
         };
         setFieldValue(obj);
       } else {
-        setFieldValue("itemLists", res?.data?.length > 0 ? res?.data : []);
+        setFieldValue('itemLists', res?.data?.length > 0 ? res?.data : []);
       }
     }
   } catch (error) {
     if (id === 0 || id) {
       setFieldValue([]);
     } else {
-      setFieldValue("itemLists", []);
+      setFieldValue('itemLists', []);
     }
 
     setDisabled && setDisabled(false);
   }
 };
 
-export const getComponentNameDDL = async (
-  accId,
-  setter,
-  setDisabled
-) => {
-  setter([])
+export const getComponentNameDDL = async (accId, setter, setDisabled) => {
+  setter([]);
   try {
     setDisabled && setDisabled(true);
     const res = await axios.get(
@@ -180,9 +176,11 @@ export const getComponentNameDDL = async (
     );
 
     setDisabled && setDisabled(false);
-    setter(res?.data?.map(itm => ({
-      ...itm,
-    })) || []);
+    setter(
+      res?.data?.map((itm) => ({
+        ...itm,
+      })) || []
+    );
   } catch (error) {
     setDisabled && setDisabled(false);
   }
@@ -196,7 +194,7 @@ export const GetRouteStandardCostDetailsApi = async (
   setter,
   setDisabled
 ) => {
-  setter([])
+  setter([]);
   try {
     setDisabled && setDisabled(true);
     const res = await axios.get(
@@ -204,11 +202,13 @@ export const GetRouteStandardCostDetailsApi = async (
     );
 
     setDisabled && setDisabled(false);
-    setter(res?.data?.map(itm => ({
-      ...itm,
-      value: itm?.transportRouteCostComponentId,
-      label: itm?.transportRouteCostComponentName
-    })) || []);
+    setter(
+      res?.data?.map((itm) => ({
+        ...itm,
+        value: itm?.transportRouteCostComponentId,
+        label: itm?.transportRouteCostComponentName,
+      })) || []
+    );
   } catch (error) {
     setDisabled && setDisabled(false);
   }

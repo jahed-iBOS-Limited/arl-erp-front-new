@@ -1,6 +1,6 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import "./JohariWindow.css";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import './JohariWindow.css';
 
 export default function PDFVIEW({ chipList, rowData }) {
   const { employeeId, employeeFullName } = useSelector((state) => {
@@ -25,16 +25,16 @@ export default function PDFVIEW({ chipList, rowData }) {
             <div className="col-lg-4">
               <div>
                 <strong>Designation</strong>:
-                <span>{" "}{rowData?.designation || ""}</span>
+                <span> {rowData?.designation || ''}</span>
               </div>
               <div>
-                <strong>Location</strong>:{" "}
-                <span>{rowData?.workplaceGroup || ""}</span>
+                <strong>Location</strong>:{' '}
+                <span>{rowData?.workplaceGroup || ''}</span>
               </div>
             </div>
             <div className="col-lg-3">
               <div>
-                <strong>Year</strong>: <span>{rowData?.year || ""}</span>
+                <strong>Year</strong>: <span>{rowData?.year || ''}</span>
               </div>
             </div>
           </div>
@@ -43,7 +43,7 @@ export default function PDFVIEW({ chipList, rowData }) {
           {/* start */}
           <div className="col-sm-6 p-0 johari-window-model-open-block">
             <div className="johari-window-model">
-              <strong className="mr-5" style={{ fontSize: "12px" }}>
+              <strong className="mr-5" style={{ fontSize: '12px' }}>
                 Open
               </strong>
               <div className="mt-2">
@@ -57,7 +57,7 @@ export default function PDFVIEW({ chipList, rowData }) {
           {/* start */}
           <div className="col-sm-6 p-0">
             <div className="johari-window-model">
-              <strong className="mr-5" style={{ fontSize: "12px" }}>
+              <strong className="mr-5" style={{ fontSize: '12px' }}>
                 Blind
               </strong>
               <div className="mt-2">
@@ -71,7 +71,7 @@ export default function PDFVIEW({ chipList, rowData }) {
           {/* start */}
           <div className="col-sm-6 p-0 johari-window-model-hidden-block">
             <div className="johari-window-model">
-              <strong className="mr-5" style={{ fontSize: "12px" }}>
+              <strong className="mr-5" style={{ fontSize: '12px' }}>
                 Hidden
               </strong>
               <div className="mt-2">
@@ -85,7 +85,7 @@ export default function PDFVIEW({ chipList, rowData }) {
           {/* start */}
           <div className="col-sm-6 p-0">
             <div className="johari-window-model">
-              <strong className="mr-5" style={{ fontSize: "12px" }}>
+              <strong className="mr-5" style={{ fontSize: '12px' }}>
                 Unknown
               </strong>
               <div className="mt-2">

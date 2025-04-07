@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import Loading from "./../../../../_helper/_loading";
-import IView from "./../../../../_helper/_helperIcons/_view";
-import CostView from "./_costView";
-import IViewModal from "../../../../_helper/_viewModal";
-import BillofMaretialViewApproval from "./View/addForm";
-import CostViewTable from "./CostView/CostView";
-import PaginationTable from "./../../../../_helper/_tablePagination";
+import React, { useState } from 'react';
+import Loading from './../../../../_helper/_loading';
+import IView from './../../../../_helper/_helperIcons/_view';
+import CostView from './_costView';
+import IViewModal from '../../../../_helper/_viewModal';
+import BillofMaretialViewApproval from './View/addForm';
+import CostViewTable from './CostView/CostView';
+import PaginationTable from './../../../../_helper/_tablePagination';
 
 function BillOfMaterialTable({ obj }) {
   const [isShowModal, setisShowModal] = useState(false);
   const [isShowModalForCostView, setisShowModalForCostView] = useState(false);
-  const [id, setId] = useState("");
-  const [item, setItem] = useState("");
+  const [id, setId] = useState('');
+  const [item, setItem] = useState('');
   const {
     loading,
     tableData,
@@ -71,7 +71,7 @@ function BillOfMaterialTable({ obj }) {
         <table className="table table-striped table-bordered global-table">
           {loading && <Loading />}
           <thead>
-            <th style={{ width: "20px" }}>
+            <th style={{ width: '20px' }}>
               <input
                 type="checkbox"
                 id="parent"
@@ -111,7 +111,7 @@ function BillOfMaterialTable({ obj }) {
                   <div className="d-flex justify-content-center">
                     <span className="view mr-3">
                       <IView
-                        title={"BOM View"}
+                        title={'BOM View'}
                         clickHandler={() => {
                           setisShowModal(true);
                           setId(item?.billOfMaterialId);
@@ -120,7 +120,7 @@ function BillOfMaterialTable({ obj }) {
                     </span>
                     <span className="view">
                       <CostView
-                        title={"Cost View"}
+                        title={'Cost View'}
                         clickHandler={() => {
                           setisShowModalForCostView(true);
                           setItem(item);

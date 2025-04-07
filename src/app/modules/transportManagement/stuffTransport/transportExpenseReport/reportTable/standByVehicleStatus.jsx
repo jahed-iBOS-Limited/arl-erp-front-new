@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { _dateFormatterTwo } from "../../../../_helper/_dateFormate";
-import NewIcon from "../../../../_helper/_helperIcons/newIcon";
-import IViewModal from "../../../../_helper/_viewModal";
-import CommonTable from "../../../../_helper/commonTable";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import StandByApprovalModal from "../modalView/standByApprovalModal";
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _dateFormatterTwo } from '../../../../_helper/_dateFormate';
+import NewIcon from '../../../../_helper/_helperIcons/newIcon';
+import IViewModal from '../../../../_helper/_viewModal';
+import CommonTable from '../../../../_helper/commonTable';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import StandByApprovalModal from '../modalView/standByApprovalModal';
 
 export default function StandByVehicleStatus({ rowData, values, getRowData }) {
   const [isShowApproveModal, setShowApproveModal] = useState(false);
@@ -15,21 +15,21 @@ export default function StandByVehicleStatus({ rowData, values, getRowData }) {
     profileData: { userId },
   } = useSelector((state) => state?.authData, shallowEqual);
   const headersData = [
-    "SL",
-    "Employee Name",
-    "Enroll",
-    "Designation",
-    "Email Address",
-    "Job Station",
-    "Tour Date",
-    "Start Time",
-    "End Time",
-    "Destination",
-    "Purpose(In Details)",
-    "Total Person",
-    "Driver Name and Mobile",
-    "Status",
-    "Action",
+    'SL',
+    'Employee Name',
+    'Enroll',
+    'Designation',
+    'Email Address',
+    'Job Station',
+    'Tour Date',
+    'Start Time',
+    'End Time',
+    'Destination',
+    'Purpose(In Details)',
+    'Total Person',
+    'Driver Name and Mobile',
+    'Status',
+    'Action',
   ];
 
   return (
@@ -48,7 +48,9 @@ export default function StandByVehicleStatus({ rowData, values, getRowData }) {
               <td className="text-center">{item?.officeMail}</td>
 
               <td className="text-center">{item?.workplace}</td>
-              <td className="text-center">{_dateFormatterTwo(item?.tourDate)}</td>
+              <td className="text-center">
+                {_dateFormatterTwo(item?.tourDate)}
+              </td>
               <td className="text-center">{item?.bookingTime}</td>
               <td className="text-center">{item?.tourTime}</td>
               <td className="text-center">{item?.tripToAddress}</td>
@@ -62,24 +64,24 @@ export default function StandByVehicleStatus({ rowData, values, getRowData }) {
                 <strong
                   style={{
                     color:
-                      item?.adminStatus === "Approved"
-                        ? "green"
-                        : item?.adminStatus === "Rejected"
-                        ? "red"
-                        : "black",
+                      item?.adminStatus === 'Approved'
+                        ? 'green'
+                        : item?.adminStatus === 'Rejected'
+                          ? 'red'
+                          : 'black',
                   }}
                 >
                   {item?.adminStatus}
                 </strong>
               </td>
               <td>
-                {item?.adminStatus === "Pending" ? (
+                {item?.adminStatus === 'Pending' ? (
                   <>
                     <span
                       style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "5px",
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '5px',
                       }}
                     >
                       <span
@@ -88,13 +90,13 @@ export default function StandByVehicleStatus({ rowData, values, getRowData }) {
                           setSingleData(item);
                         }}
                       >
-                        {" "}
+                        {' '}
                         <NewIcon
                           title="Approve"
-                          customStyles={{ color: "green", fontSize: "14px" }}
+                          customStyles={{ color: 'green', fontSize: '14px' }}
                           iconName="fas fa-check-circle"
                         />
-                      </span>{" "}
+                      </span>{' '}
                       <span
                         onClick={() =>
                           saveReject(
@@ -103,9 +105,9 @@ export default function StandByVehicleStatus({ rowData, values, getRowData }) {
                               isAdminApprove: false,
                               bookingId: item?.bookingId,
                               driverId: 0,
-                              driverName: "",
-                              vehicleId: "",
-                              vehicleName: "",
+                              driverName: '',
+                              vehicleId: '',
+                              vehicleName: '',
                               approvedBy: userId,
                             },
                             () => {
@@ -119,14 +121,14 @@ export default function StandByVehicleStatus({ rowData, values, getRowData }) {
                       >
                         <NewIcon
                           title="Reject"
-                          customStyles={{ color: "red", fontSize: "14px" }}
+                          customStyles={{ color: 'red', fontSize: '14px' }}
                           iconName="fa fa-times-circle closeBtn"
                         />
                       </span>
                     </span>
                   </>
                 ) : (
-                  ""
+                  ''
                 )}
               </td>
             </tr>

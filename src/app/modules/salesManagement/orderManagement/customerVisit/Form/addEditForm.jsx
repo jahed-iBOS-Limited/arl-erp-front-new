@@ -1,34 +1,34 @@
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { getDistributionChannelDDL_api } from "../../../report/customerSalesTargetReport/helper";
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { getDistributionChannelDDL_api } from '../../../report/customerSalesTargetReport/helper';
 import {
   getCustomerVisitById,
   getCategoryDDL_api,
   getTerritoryDDL_api,
   saveCustomerVisit,
   editCustomerVisit,
-} from "../helper";
-import Form from "./form";
+} from '../helper';
+import Form from './form';
 
 const initData = {
-  customerName: "",
-  customerPhone: "",
-  customerAddress: "",
-  contractPersonName: "",
-  contractPersonPhone: "",
-  contractPersonDesignation: "",
-  conversionDate: "",
-  conversionDeadline: _dateFormatter(moment().add(30, "days")),
-  isConversionStatus: "",
-  remarks: "",
+  customerName: '',
+  customerPhone: '',
+  customerAddress: '',
+  contractPersonName: '',
+  contractPersonPhone: '',
+  contractPersonDesignation: '',
+  conversionDate: '',
+  conversionDeadline: _dateFormatter(moment().add(30, 'days')),
+  isConversionStatus: '',
+  remarks: '',
 
-  territory: "",
-  category: "",
+  territory: '',
+  category: '',
 };
 
 export function CustomerVisitForm({
@@ -41,7 +41,7 @@ export function CustomerVisitForm({
   const [objProps, setObjprops] = useState({});
   const [territoryDDL, setTerritoryDDL] = useState([]);
   const [categoryDDL, setCategoryDDL] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [channelList, setChannelList] = useState([]);
   const params = useParams();
 
@@ -78,7 +78,7 @@ export function CustomerVisitForm({
       const payload = {
         customerVisitId: +params?.id,
         isConversionStatus: true,
-        remarks: values?.remarks || "",
+        remarks: values?.remarks || '',
         isActive: true,
       };
       editCustomerVisit(payload, setDisabled);
@@ -92,8 +92,8 @@ export function CustomerVisitForm({
         actionBy: profileData?.userId,
         isConversionStatus: false,
         customerPotentialCategoryId: values?.category?.value || 0,
-        customerPotentialCategoryName: values?.category?.label || "",
-        customerPotentialCategoryTypeName: values?.category?.type || "",
+        customerPotentialCategoryName: values?.category?.label || '',
+        customerPotentialCategoryTypeName: values?.category?.type || '',
         customerName: values?.customerName,
         customerPhone: values?.customerPhone,
         customerAddress: values?.customerAddress,
@@ -110,8 +110,8 @@ export function CustomerVisitForm({
 
   return (
     <IForm
-      title={id ? "Edit Customer Visit" : "Create Customer Visit"}
-      submitBtnText={id ? "Update" : "Save"}
+      title={id ? 'Edit Customer Visit' : 'Create Customer Visit'}
+      submitBtnText={id ? 'Update' : 'Save'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

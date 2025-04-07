@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import "./reportView.css";
+import React, { useState, useEffect } from 'react';
+import './reportView.css';
 
 // this report table is used from four place,
 // individual kpi, sbu kpi, department kpi, corporate kpi
@@ -11,17 +11,16 @@ export default function ReportView({
   to,
   year,
 }) {
-  const [index, setIndex] = useState("");
+  const [index, setIndex] = useState('');
   const [datas, setDatas] = useState([]);
   const [colorIndex, setColorIndex] = useState(0);
 
   useEffect(() => {
     setIndex(currentItem.index);
     setDatas(newData);
-
   }, [currentItem]);
 
-  let colorArr = ["#a6a6a6", "#ffd966"];
+  let colorArr = ['#a6a6a6', '#ffd966'];
 
   const handleArrowRight = () => {
     // right arrow key
@@ -62,20 +61,19 @@ export default function ReportView({
   };
 
   React.useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
 
     // cleanup this component
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener('keydown', handleKeyDown);
     };
-
   }, [index, colorIndex]);
 
   return (
     <div className="pms-report-view">
       <div className="pms-report-view-head">{heading}</div>
       <h6 className="pms-report-view-frequency">
-        {datas[index]?.strFrequency} ({from?.label} - {to?.label} ,{" "}
+        {datas[index]?.strFrequency} ({from?.label} - {to?.label} ,{' '}
         {year?.label})
       </h6>
       <div class="pms-report-view-box">
@@ -97,11 +95,11 @@ export default function ReportView({
           <div className="pms-report-view-single-card">
             <div
               style={{
-                borderTopLeftRadius: "15px",
-                borderTopRightRadius: "15px",
-                background: "rgb(167, 193, 228)",
-                height: "100px",
-                width: "180px",
+                borderTopLeftRadius: '15px',
+                borderTopRightRadius: '15px',
+                background: 'rgb(167, 193, 228)',
+                height: '100px',
+                width: '180px',
               }}
             >
               <h2>Target</h2>
@@ -109,11 +107,11 @@ export default function ReportView({
             </div>
             <div
               style={{
-                borderBottomLeftRadius: "15px",
-                borderBottomRightRadius: "15px",
-                background: "#66FFFF",
-                height: "100px",
-                width: "180px",
+                borderBottomLeftRadius: '15px',
+                borderBottomRightRadius: '15px',
+                background: '#66FFFF',
+                height: '100px',
+                width: '180px',
               }}
             >
               <h2>Previous Target</h2>
@@ -123,11 +121,11 @@ export default function ReportView({
           <div className="pms-report-view-single-card">
             <div
               style={{
-                borderTopLeftRadius: "15px",
-                borderTopRightRadius: "15px",
-                background: "rgb(167, 193, 228)",
-                height: "100px",
-                width: "180px",
+                borderTopLeftRadius: '15px',
+                borderTopRightRadius: '15px',
+                background: 'rgb(167, 193, 228)',
+                height: '100px',
+                width: '180px',
               }}
             >
               <h2>Achievement</h2>
@@ -135,11 +133,11 @@ export default function ReportView({
             </div>
             <div
               style={{
-                borderBottomLeftRadius: "15px",
-                borderBottomRightRadius: "15px",
-                background: "#66FFFF",
-                height: "100px",
-                width: "180px",
+                borderBottomLeftRadius: '15px',
+                borderBottomRightRadius: '15px',
+                background: '#66FFFF',
+                height: '100px',
+                width: '180px',
               }}
             >
               <h2>Previous Achievement</h2>
@@ -149,11 +147,11 @@ export default function ReportView({
           <div className="pms-report-view-single-card">
             <div
               style={{
-                borderTopLeftRadius: "15px",
-                borderTopRightRadius: "15px",
-                background: "rgb(167, 193, 228)",
-                height: "100px",
-                width: "180px",
+                borderTopLeftRadius: '15px',
+                borderTopRightRadius: '15px',
+                background: 'rgb(167, 193, 228)',
+                height: '100px',
+                width: '180px',
               }}
             >
               <h2>Progress</h2>
@@ -169,16 +167,17 @@ export default function ReportView({
                       ((datas[index]?.numTarget || 0) /
                         (datas[index]?.numAchivement || 0)) *
                       100
-                    ).toFixed(2)} %
+                    ).toFixed(2)}{' '}
+                %
               </h1>
             </div>
             <div
               style={{
-                borderBottomLeftRadius: "15px",
-                borderBottomRightRadius: "15px",
-                background: "#66FFFF",
-                height: "100px",
-                width: "180px",
+                borderBottomLeftRadius: '15px',
+                borderBottomRightRadius: '15px',
+                background: '#66FFFF',
+                height: '100px',
+                width: '180px',
               }}
             >
               <h2>Previous Year Progress</h2>
@@ -193,7 +192,8 @@ export default function ReportView({
                       ((datas[index]?.previousYearTarget || 0) /
                         (datas[index]?.previousYearAchivement || 0)) *
                       100
-                    ).toFixed(2)} %
+                    ).toFixed(2)}{' '}
+                %
               </h1>
             </div>
           </div>

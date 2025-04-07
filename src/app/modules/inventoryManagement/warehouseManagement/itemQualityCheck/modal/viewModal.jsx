@@ -14,9 +14,8 @@ export default function QualityCheckViewModal({ singleData }) {
     totalUnloadDeduct = 0;
   useEffect(() => {
     getModalData(
-      `/mes/QCTest/GetItemQualityCheckDataById?qualityCheckId=${singleData?.qualityCheckId}`,
+      `/mes/QCTest/GetItemQualityCheckDataById?qualityCheckId=${singleData?.qualityCheckId}`
     );
-
   }, [singleData]);
   return (
     <div>

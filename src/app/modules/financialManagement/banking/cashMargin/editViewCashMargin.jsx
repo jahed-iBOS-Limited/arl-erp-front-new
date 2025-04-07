@@ -1,32 +1,32 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 
 const initData = {
-  date: "",
-  type: "",
-  amount: "",
-  rowNarration: "",
+  date: '',
+  type: '',
+  amount: '',
+  rowNarration: '',
 
-  cashMarginCode: "",
-  refType: "",
-  refNo: "",
-  bankName: "",
-  principleAmount: "",
-  marginPercent: "",
-  marginAmount: "",
-  balance: "",
-  maturityDate: "",
-  narration: "",
+  cashMarginCode: '',
+  refType: '',
+  refNo: '',
+  bankName: '',
+  principleAmount: '',
+  marginPercent: '',
+  marginAmount: '',
+  balance: '',
+  maturityDate: '',
+  narration: '',
 };
 
 // const validationSchema = Yup.object().shape({
@@ -99,22 +99,21 @@ export default function ViewEditCashMargin() {
                   value: cashMarginHeader?.intBankAccountId,
                   label: cashMarginHeader?.strBankAccountName,
                 }
-              : "",
+              : '',
             cashMarginType: cashMarginHeader?.strCashMarginType
               ? {
                   label: cashMarginHeader?.strCashMarginType,
                   value:
-                    cashMarginHeader?.strCashMarginType === "Cash Refund"
+                    cashMarginHeader?.strCashMarginType === 'Cash Refund'
                       ? 1
                       : 2,
                 }
-              : "",
+              : '',
           });
           setRowData(cashMarginRow);
         }
       );
     }
-
   }, [location]);
 
   const saveHandler = (values, cb) => {
@@ -136,9 +135,9 @@ export default function ViewEditCashMargin() {
         dteMaturityDate: values?.maturityDate,
         strRemarks: values?.narration,
         intCreatedBy: profileData?.userId,
-        strBankAccountName: values?.bankAccountNo?.label || "",
+        strBankAccountName: values?.bankAccountNo?.label || '',
         intBankAccountId: values?.bankAccountNo?.value || 0,
-        strCashMarginType: values?.cashMarginType?.label || "",
+        strCashMarginType: values?.cashMarginType?.label || '',
       },
       cashMarginRow: rowData,
     };
@@ -150,7 +149,6 @@ export default function ViewEditCashMargin() {
         //   `/fino/FundManagement/GetFundCashMarginById?cashMarginId=${location?.state?.intCashMarginId}`,
         //   (data) => {
         //     const { cashMarginHeader, cashMarginRow } = data;
-
         //     setModifyData({
         //       cashMarginCode: cashMarginHeader?.strCashMarginCode,
         //       refType: {
@@ -202,7 +200,6 @@ export default function ViewEditCashMargin() {
       `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}`
     );
     getBankDDL(`/hcm/HCMDDL/GetBankDDL`);
-
   }, [profileData, selectedBusinessUnit]);
   return (
     <Formik
@@ -228,10 +225,10 @@ export default function ViewEditCashMargin() {
           {editLoading && <Loading />}
           <IForm
             customTitle={
-              actionType === "view" ? "View Cash Margin" : "Edit Cash Margin"
+              actionType === 'view' ? 'View Cash Margin' : 'Edit Cash Margin'
             }
             getProps={setObjprops}
-            isDisabled={actionType === "view" ? true : false}
+            isDisabled={actionType === 'view' ? true : false}
           >
             <div className="bank-guarantee-entry">
               <div className="form-group  global-form row">
@@ -243,7 +240,7 @@ export default function ViewEditCashMargin() {
                     type="text"
                     disabled={true}
                     onChange={(e) => {
-                      setFieldValue("cashMarginCode", e.target.value);
+                      setFieldValue('cashMarginCode', e.target.value);
                     }}
                   />
                 </div>
@@ -251,17 +248,17 @@ export default function ViewEditCashMargin() {
                   <NewSelect
                     name="cashMarginType"
                     options={[
-                      { value: 1, label: "Cash Refund" },
-                      { value: 2, label: "Cash Payment" },
+                      { value: 1, label: 'Cash Refund' },
+                      { value: 2, label: 'Cash Payment' },
                     ]}
-                    value={values?.cashMarginType || ""}
+                    value={values?.cashMarginType || ''}
                     label="Cash Margin Type"
                     onChange={(valueOption) => {
-                      setFieldValue("cashMarginType", valueOption);
+                      setFieldValue('cashMarginType', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
-                    isDisabled={actionType === "view" ? true : false}
+                    isDisabled={actionType === 'view' ? true : false}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -270,13 +267,13 @@ export default function ViewEditCashMargin() {
                     options={bankAccountDDL || []}
                     name="bankAccountNo"
                     placeholder="Bank Account No"
-                    value={values?.bankAccountNo || ""}
+                    value={values?.bankAccountNo || ''}
                     onChange={(valueOption) => {
-                      setFieldValue("bankAccountNo", valueOption);
+                      setFieldValue('bankAccountNo', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
-                    isDisabled={actionType === "view" ? true : false}
+                    isDisabled={actionType === 'view' ? true : false}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -286,7 +283,7 @@ export default function ViewEditCashMargin() {
                     value={values?.refType}
                     label="Ref Type"
                     onChange={(valueOption) => {
-                      setFieldValue("refType", valueOption);
+                      setFieldValue('refType', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -301,9 +298,9 @@ export default function ViewEditCashMargin() {
                     name="refNo"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("refNo", e.target.value);
+                      setFieldValue('refNo', e.target.value);
                     }}
-                    disabled={actionType === "view" ? true : false}
+                    disabled={actionType === 'view' ? true : false}
                   />
                 </div>
 
@@ -315,9 +312,9 @@ export default function ViewEditCashMargin() {
                     label="Bank"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("bankName", valueOption);
+                        setFieldValue('bankName', valueOption);
                       } else {
-                        setFieldValue("bank", "");
+                        setFieldValue('bank', '');
                       }
                     }}
                     errors={errors}
@@ -334,7 +331,7 @@ export default function ViewEditCashMargin() {
                     type="number"
                     disabled={true}
                     onChange={(e) => {
-                      setFieldValue("principleAmount", e.target.value);
+                      setFieldValue('principleAmount', e.target.value);
                     }}
                   />
                 </div>
@@ -347,7 +344,7 @@ export default function ViewEditCashMargin() {
                     type="number"
                     disabled={true}
                     onChange={(e) => {
-                      setFieldValue("marginPercent", e.target.value);
+                      setFieldValue('marginPercent', e.target.value);
                     }}
                   />
                 </div>
@@ -360,7 +357,7 @@ export default function ViewEditCashMargin() {
                     type="number"
                     disabled={true}
                     onChange={(e) => {
-                      setFieldValue("marginAmount", e.target.value);
+                      setFieldValue('marginAmount', e.target.value);
                     }}
                   />
                 </div>
@@ -372,7 +369,7 @@ export default function ViewEditCashMargin() {
                     type="date"
                     disabled={true}
                     onChange={(e) => {
-                      setFieldValue("maturityDate", e.target.value);
+                      setFieldValue('maturityDate', e.target.value);
                     }}
                   />
                 </div>
@@ -385,14 +382,14 @@ export default function ViewEditCashMargin() {
                     disabled={true}
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("narration", e.target.value);
+                      setFieldValue('narration', e.target.value);
                     }}
                   />
                 </div>
               </div>
 
               {/* Row Add Section */}
-              {actionType === "edit" && (
+              {actionType === 'edit' && (
                 <div className="form-group  global-form row">
                   <div className="col-lg-3">
                     <InputField
@@ -401,7 +398,7 @@ export default function ViewEditCashMargin() {
                       name="date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("date", e.target.value);
+                        setFieldValue('date', e.target.value);
                       }}
                     />
                   </div>
@@ -409,13 +406,13 @@ export default function ViewEditCashMargin() {
                     <NewSelect
                       name="type"
                       options={[
-                        { value: 1, label: "Deposit" },
-                        { value: 2, label: "Adjustment" },
+                        { value: 1, label: 'Deposit' },
+                        { value: 2, label: 'Adjustment' },
                       ]}
                       value={values?.type}
                       label="Type"
                       onChange={(valueOption) => {
-                        setFieldValue("type", valueOption);
+                        setFieldValue('type', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -430,9 +427,9 @@ export default function ViewEditCashMargin() {
                       type="number"
                       onChange={(e) => {
                         if (e.target.value > 0) {
-                          setFieldValue("amount", e.target.value);
+                          setFieldValue('amount', e.target.value);
                         } else {
-                          setFieldValue("amount", "");
+                          setFieldValue('amount', '');
                         }
                       }}
                     />
@@ -444,7 +441,7 @@ export default function ViewEditCashMargin() {
                       name="rowNarration"
                       type="text"
                       onChange={(e) => {
-                        setFieldValue("rowNarration", e.target.value);
+                        setFieldValue('rowNarration', e.target.value);
                       }}
                     />
                   </div>
@@ -475,14 +472,14 @@ export default function ViewEditCashMargin() {
             <Form>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
@@ -498,12 +495,12 @@ const CashMarginTable = ({ rowData, deleteHandler, actionType }) => {
   let numBalance = 0;
   return (
     <>
-      {" "}
+      {' '}
       <div className="table-responsive">
         <table
           id="table-to-xlsx"
           className={
-            "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+            'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
           }
         >
           <thead>
@@ -513,7 +510,7 @@ const CashMarginTable = ({ rowData, deleteHandler, actionType }) => {
               <th>Deposite</th>
               <th>Adjustment</th>
               <th>Balance</th>
-              {actionType === "edit" && <th>Action</th>}
+              {actionType === 'edit' && <th>Action</th>}
             </tr>
           </thead>
           <tbody>
@@ -526,17 +523,17 @@ const CashMarginTable = ({ rowData, deleteHandler, actionType }) => {
                   <td>
                     {item?.numDepositeAmount !== 0
                       ? item?.numDepositeAmount
-                      : ""}
+                      : ''}
                   </td>
                   <td>
                     {item?.numAdjustmentAmount !== 0
                       ? item?.numAdjustmentAmount
-                      : ""}
+                      : ''}
                   </td>
                   <td>{numBalance}</td>
 
-                  {actionType === "edit" && (
-                    <td style={{ width: "80px" }} className="text-center">
+                  {actionType === 'edit' && (
+                    <td style={{ width: '80px' }} className="text-center">
                       <div className="d-flex justify-content-around">
                         {item?.intRowId === 0 && (
                           <span>

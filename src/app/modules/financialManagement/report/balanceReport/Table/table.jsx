@@ -1,5 +1,3 @@
-
-
 import { useFormik } from 'formik';
 import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react';
@@ -101,10 +99,10 @@ export default function BalancerReportTable() {
             (businessUnitDDLData) => {
               setBusinessUnitDDL(businessUnitDDLData);
               setFieldValue('business', businessUnitDDLData?.[0]);
-            },
+            }
           );
         }
-      },
+      }
     );
   }, [profileData?.accountId]);
   const [showRDLC, setShowRDLC] = useState(false);
@@ -155,7 +153,7 @@ export default function BalancerReportTable() {
                           (businessUnitDDLData) => {
                             setBusinessUnitDDL(businessUnitDDLData);
                             setFieldValue('business', businessUnitDDLData?.[0]);
-                          },
+                          }
                         );
                       }
                     }}
@@ -221,7 +219,7 @@ export default function BalancerReportTable() {
                         setRowDto,
                         setLoading,
                         values?.enterpriseDivision?.label,
-                        values?.conversionRate,
+                        values?.conversionRate
                       );
                     }}
                     disabled={!values?.business || values?.conversionRate < 1}
@@ -381,14 +379,14 @@ export default function BalancerReportTable() {
                                   >
                                     <span className="pr-1">
                                       {numberWithCommas(
-                                        parseFloat(itm.numBalance).toFixed(),
+                                        parseFloat(itm.numBalance).toFixed()
                                       )}
                                     </span>
                                   </td>
                                   <td className="text-right">
                                     {_formatMoney(
                                       itm.numBalance - itm?.numPlanBalance,
-                                      0,
+                                      0
                                     )}
                                   </td>
                                   {/* <td></td> */}
@@ -402,20 +400,20 @@ export default function BalancerReportTable() {
                             <td className="text-right">
                               {_formatMoney(
                                 rowDto?.nonCurrentAssetsTotalPlanBalance,
-                                0,
+                                0
                               )}
                             </td>
                             <td className="text-right">
                               {_formatMoney(
                                 rowDto?.nonCurrentAssetsTotalBalance,
-                                0,
+                                0
                               )}
                             </td>
                             <td className="text-right">
                               {_formatMoney(
                                 rowDto?.nonCurrentAssetsTotalBalance -
                                   rowDto?.nonCurrentAssetsTotalPlanBalance,
-                                0,
+                                0
                               )}
                             </td>
                           </tr>
@@ -443,14 +441,14 @@ export default function BalancerReportTable() {
                                   >
                                     <span className="pr-1">
                                       {numberWithCommas(
-                                        parseFloat(itm.numBalance).toFixed(),
+                                        parseFloat(itm.numBalance).toFixed()
                                       )}
                                     </span>
                                   </td>
                                   <td className="text-right">
                                     {_formatMoney(
                                       itm.numBalance - itm?.numPlanBalance,
-                                      0,
+                                      0
                                     )}
                                   </td>
                                 </tr>
@@ -463,13 +461,13 @@ export default function BalancerReportTable() {
                             <td className="text-right">
                               {_formatMoney(
                                 rowDto?.currentassetsTotalPlanBalance,
-                                0,
+                                0
                               )}
                             </td>
                             <td className="text-right">
                               {_formatMoney(
                                 rowDto?.currentassetsTotalBalance,
-                                0,
+                                0
                               )}
                             </td>
                             <td className="text-right">
@@ -491,7 +489,7 @@ export default function BalancerReportTable() {
                                 (rowDto?.currentassetsTotalPlanBalance || 0) +
                                   (rowDto?.nonCurrentAssetsTotalPlanBalance ||
                                     0),
-                                0,
+                                0
                               )}
                             </td>
                             <td
@@ -501,7 +499,7 @@ export default function BalancerReportTable() {
                               {_formatMoney(
                                 (rowDto?.currentassetsTotalBalance || 0) +
                                   (rowDto?.nonCurrentAssetsTotalBalance || 0),
-                                0,
+                                0
                               )}
                             </td>
                             <td
@@ -542,14 +540,14 @@ export default function BalancerReportTable() {
                                   >
                                     <span className="pr-1">
                                       {numberWithCommas(
-                                        parseFloat(itm.numBalance).toFixed(),
+                                        parseFloat(itm.numBalance).toFixed()
                                       )}
                                     </span>
                                   </td>
                                   <td className="text-right">
                                     {_formatMoney(
                                       itm.numBalance - itm?.numPlanBalance,
-                                      0,
+                                      0
                                     )}
                                   </td>
                                 </tr>
@@ -567,7 +565,7 @@ export default function BalancerReportTable() {
                               {_formatMoney(
                                 rowDto?.equityTotalBalance -
                                   rowDto?.equityTotalPlanBalance,
-                                0,
+                                0
                               )}
                             </td>
                           </tr>
@@ -608,14 +606,14 @@ export default function BalancerReportTable() {
                                   >
                                     <span className="pr-1">
                                       {numberWithCommas(
-                                        parseFloat(itm.numBalance).toFixed(0),
+                                        parseFloat(itm.numBalance).toFixed(0)
                                       )}
                                     </span>
                                   </td>
                                   <td className="text-right">
                                     {_formatMoney(
                                       itm.numBalance - itm?.numPlanBalance,
-                                      0,
+                                      0
                                     )}
                                   </td>
                                 </tr>
@@ -628,20 +626,20 @@ export default function BalancerReportTable() {
                             <td className="text-right">
                               {_formatMoney(
                                 rowDto?.nonCurrentLiabilityTotalPlanBalance,
-                                0,
+                                0
                               )}
                             </td>
                             <td className="text-right">
                               {_formatMoney(
                                 rowDto?.nonCurrentLiabilityTotalBalance,
-                                0,
+                                0
                               )}
                             </td>
                             <td className="text-right">
                               {_formatMoney(
                                 rowDto?.nonCurrentLiabilityTotalBalance -
                                   rowDto?.nonCurrentLiabilityTotalPlanBalance,
-                                0,
+                                0
                               )}
                             </td>
                           </tr>
@@ -681,14 +679,14 @@ export default function BalancerReportTable() {
                                   >
                                     <span className="pr-1">
                                       {numberWithCommas(
-                                        parseFloat(itm.numBalance).toFixed(0),
+                                        parseFloat(itm.numBalance).toFixed(0)
                                       )}
                                     </span>
                                   </td>
                                   <td className="text-right">
                                     {_formatMoney(
                                       itm.numBalance - itm?.numPlanBalance,
-                                      0,
+                                      0
                                     )}
                                   </td>
                                 </tr>
@@ -701,20 +699,20 @@ export default function BalancerReportTable() {
                             <td className="text-right">
                               {_formatMoney(
                                 rowDto?.currentLiabilityTotalPlanBalance,
-                                0,
+                                0
                               )}
                             </td>
                             <td className="text-right">
                               {_formatMoney(
                                 rowDto?.currentLiabilityTotalBalance,
-                                0,
+                                0
                               )}
                             </td>
                             <td className="text-right">
                               {_formatMoney(
                                 rowDto?.currentLiabilityTotalBalance -
                                   rowDto?.currentLiabilityTotalPlanBalance,
-                                0,
+                                0
                               )}
                             </td>
                           </tr>
@@ -736,7 +734,7 @@ export default function BalancerReportTable() {
                             >
                               {_formatMoney(
                                 equityAndLiaTotalForBudget(rowDto),
-                                0,
+                                0
                               )}
                             </td>
                             <td
@@ -752,7 +750,7 @@ export default function BalancerReportTable() {
                               {_formatMoney(
                                 equityAndLiaTotal(rowDto) -
                                   equityAndLiaTotalForBudget(rowDto),
-                                0,
+                                0
                               )}
                             </td>
                           </tr>
@@ -762,7 +760,7 @@ export default function BalancerReportTable() {
                               className="text-center d-none"
                               colSpan={4}
                             >{`System Generated Report - ${moment().format(
-                              'LLLL',
+                              'LLLL'
                             )}`}</td>
                           </tr>
                         </table>

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const getDistributionChannelDDL = async (accId, buId, sbuId, setter) => {
   try {
@@ -40,15 +40,15 @@ export const getPendingShippingReportLandingData = async (
   setter,
   setLoading
 ) => {
-  setLoading && setLoading(true)
+  setLoading && setLoading(true);
   try {
     let res = await axios.get(
       `/oms/Shipment/GetDataOfDeliveriesByTerriroryId?AccountId=${accId}&BusinessUnitId=${buId}&ShipPointId=${shipmentId}&DistributionChannel=${disId}&Region=${region}&Area=${area}&TerritoryId=${terId}&PartnerId=${partnerId}&FromDate=${fromDate}&ToDate=${toDate}`
     );
-    setLoading && setLoading(false)
+    setLoading && setLoading(false);
     setter(res?.data);
   } catch (err) {
-    setLoading && setLoading(false)
+    setLoading && setLoading(false);
     setter([]);
   }
 };

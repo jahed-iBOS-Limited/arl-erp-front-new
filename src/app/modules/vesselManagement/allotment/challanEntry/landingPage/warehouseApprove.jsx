@@ -1,41 +1,31 @@
-import { Formik } from "formik";
-import React, { useState } from "react";
-import Loading from "../../../../_helper/_loading";
-import ICustomCard from "../../../../_helper/_customCard";
-import NewSelect from "../../../../_helper/_select";
-import { PortAndMotherVessel } from "../../../common/components";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { StockOutFromInventoryApproval } from "../helper";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import Loading from '../../../../_helper/_loading';
+import ICustomCard from '../../../../_helper/_customCard';
+import NewSelect from '../../../../_helper/_select';
+import { PortAndMotherVessel } from '../../../common/components';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { StockOutFromInventoryApproval } from '../helper';
 
 const initData = {
-  port: "",
-  motherVessel: "",
-  lighterVessel: "",
+  port: '',
+  motherVessel: '',
+  lighterVessel: '',
 };
 
 const WarehouseApprove = ({ obj }) => {
-  const {
-    formValues,
-    userId,
-    getData,
-    pageNo,
-    pageSize,
-    singleItem,
-    setOpen,
-  } = obj;
+  const { formValues, userId, getData, pageNo, pageSize, singleItem, setOpen } =
+    obj;
 
-  const [
-    lighterDDL,
-    getLighterDDL,
-    lighterLoader,
-    setLighterDDL,
-  ] = useAxiosGet();
+  const [lighterDDL, getLighterDDL, lighterLoader, setLighterDDL] =
+    useAxiosGet();
   const [loading, setLoading] = useState(false);
 
   const getLighters = (values) => {
     getLighterDDL(
-      `/tms/LigterLoadUnload/GetLighterVesselNItemDDL?ShipPointId=${formValues
-        ?.shipPoint?.value || 0}&MotherVesselId=${values?.motherVessel?.value}`,
+      `/tms/LigterLoadUnload/GetLighterVesselNItemDDL?ShipPointId=${
+        formValues?.shipPoint?.value || 0
+      }&MotherVesselId=${values?.motherVessel?.value}`,
       (resData) => {
         const modifyData = resData?.map((item) => {
           return {
@@ -74,7 +64,7 @@ const WarehouseApprove = ({ obj }) => {
           <>
             {loader && <Loading />}
             <ICustomCard
-              title={"Warehouse Approve"}
+              title={'Warehouse Approve'}
               saveHandler={() => {
                 approveSubmitHandler(values);
               }}
@@ -87,7 +77,7 @@ const WarehouseApprove = ({ obj }) => {
                         values,
                         setFieldValue,
                         onChange: (fieldName, allValues) => {
-                          if (fieldName === "motherVessel") {
+                          if (fieldName === 'motherVessel') {
                             getLighters(allValues);
                           }
                         },
@@ -100,7 +90,7 @@ const WarehouseApprove = ({ obj }) => {
                         value={values?.lighterVessel}
                         label="Lighter Vessel"
                         onChange={(e) => {
-                          setFieldValue("lighterVessel", e);
+                          setFieldValue('lighterVessel', e);
                         }}
                         placeholder="Lighter"
                         errors={errors}

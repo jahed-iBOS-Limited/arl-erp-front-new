@@ -1,12 +1,11 @@
-
-import React, { useState } from "react";
-import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { APIUrl } from "../../../../../../App";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import axios from "axios";
-import { useEffect } from "react";
+import React, { useState } from 'react';
+import { dateFormatWithMonthName } from '../../../../_helper/_dateFormate';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { APIUrl } from '../../../../../../App';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import axios from 'axios';
+import { useEffect } from 'react';
 
 export const fetchMoneyInWord = async (number) => {
   try {
@@ -16,8 +15,8 @@ export const fetchMoneyInWord = async (number) => {
 };
 
 const thStyle = {
-  border: "1px solid #000",
-  textAlign: "center",
+  border: '1px solid #000',
+  textAlign: 'center',
 };
 
 export const FormatEight = ({
@@ -51,52 +50,52 @@ export const FormatEight = ({
           <div
             key={index}
             className="advice-table-wrapper rtgs page-break"
-            style={{ margin: "0 60px", position: "relative" }}
+            style={{ margin: '0 60px', position: 'relative' }}
           >
             <img
-              style={{ width: "170px" }}
+              style={{ width: '170px' }}
               src={`${APIUrl}/domain/Document/DownlloadFile?id=${selectedBusinessUnit?.imageId}`}
               alt=""
             />
             <div className="d-flex flex-column justify-content-center align-items-center my-3">
               <h1
                 style={{
-                  fontSize: "30px",
+                  fontSize: '30px',
                 }}
               >
                 {values?.bankAccountNo?.bankName}
               </h1>
               <h3
                 style={{
-                  fontSize: "14px",
+                  fontSize: '14px',
                 }}
               >
                 {values?.bankAccountNo?.bankBranchName}
               </h3>
               <h3
                 style={{
-                  textDecoration: "underline",
-                  fontSize: "14px",
+                  textDecoration: 'underline',
+                  fontSize: '14px',
                 }}
               >
                 RTGS Application Form
               </h3>
             </div>
-            <div className="salaryAdvice" style={{ marginTop: "30px" }}>
+            <div className="salaryAdvice" style={{ marginTop: '30px' }}>
               <p
-                style={{ fontSize: "14px" }}
+                style={{ fontSize: '14px' }}
                 className="font-weight-bold text-right"
               >
                 Date: {dateFormatWithMonthName(values?.dateTime)}
               </p>
               <p
-                style={{ fontSize: "14px" }}
+                style={{ fontSize: '14px' }}
                 className="dearSirSpace font-weight-bold"
               >
                 Dear Sir,
               </p>
               <p
-                style={{ fontSize: "14px", marginBottom: "12px" }}
+                style={{ fontSize: '14px', marginBottom: '12px' }}
                 className="font-weight-bold"
               >
                 We hereby request you to originate an RTGS instruction as per
@@ -122,7 +121,7 @@ export const FormatEight = ({
                   <tr>
                     <td
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                       className="text-left"
                     >
@@ -138,7 +137,7 @@ export const FormatEight = ({
                     <td
                       colSpan={2}
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                     >
                       <div
@@ -152,7 +151,7 @@ export const FormatEight = ({
                     <td
                       colSpan={2}
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                     >
                       <div
@@ -168,7 +167,7 @@ export const FormatEight = ({
                   <tr>
                     <td
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                       className="text-left"
                     >
@@ -184,7 +183,7 @@ export const FormatEight = ({
                     <td
                       colSpan={2}
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                     >
                       <div
@@ -198,7 +197,7 @@ export const FormatEight = ({
                     <td
                       colSpan={2}
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                     >
                       <div
@@ -214,7 +213,7 @@ export const FormatEight = ({
                   <tr>
                     <td
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                       className="text-left"
                     >
@@ -230,7 +229,7 @@ export const FormatEight = ({
                     <td
                       colSpan={2}
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                     >
                       <div
@@ -244,7 +243,7 @@ export const FormatEight = ({
                     <td
                       colSpan={2}
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                     >
                       <div
@@ -260,7 +259,7 @@ export const FormatEight = ({
                   <tr>
                     <td
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                       className="text-left"
                     >
@@ -276,7 +275,7 @@ export const FormatEight = ({
                     <td
                       colSpan={2}
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                     >
                       <div
@@ -290,7 +289,7 @@ export const FormatEight = ({
                     <td
                       colSpan={2}
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                     >
                       <div
@@ -306,7 +305,7 @@ export const FormatEight = ({
                   <tr>
                     <td
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                       className="text-left"
                     >
@@ -322,7 +321,7 @@ export const FormatEight = ({
                     <td
                       colSpan={2}
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                     >
                       <div
@@ -336,7 +335,7 @@ export const FormatEight = ({
                     <td
                       colSpan={2}
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                     >
                       <div
@@ -352,7 +351,7 @@ export const FormatEight = ({
                   <tr>
                     <td
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                       className="text-left"
                     >
@@ -368,7 +367,7 @@ export const FormatEight = ({
                     <td
                       colSpan={2}
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                     >
                       <div
@@ -383,7 +382,7 @@ export const FormatEight = ({
                     <td
                       colSpan={2}
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                     >
                       <div
@@ -400,7 +399,7 @@ export const FormatEight = ({
                   <tr>
                     <td
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                       className="text-left"
                     >
@@ -416,7 +415,7 @@ export const FormatEight = ({
                     <td
                       colSpan={2}
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                     >
                       <div
@@ -430,7 +429,7 @@ export const FormatEight = ({
                     <td
                       colSpan={2}
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                     >
                       <div
@@ -446,7 +445,7 @@ export const FormatEight = ({
                   <tr>
                     <td
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                       className="text-left"
                     >
@@ -461,7 +460,7 @@ export const FormatEight = ({
                     </td>
                     <td
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                       colSpan={4}
                     >
@@ -479,7 +478,7 @@ export const FormatEight = ({
                   <tr>
                     <td
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                       className="text-left"
                     >
@@ -495,7 +494,7 @@ export const FormatEight = ({
                     <td
                       colSpan={4}
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                     >
                       <div
@@ -513,7 +512,7 @@ export const FormatEight = ({
                   <tr>
                     <td
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                       className="text-left"
                     >
@@ -528,7 +527,7 @@ export const FormatEight = ({
                     </td>
                     <td
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                     >
                       <div
@@ -541,7 +540,7 @@ export const FormatEight = ({
                     </td>
                     <td
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                     >
                       <div
@@ -555,7 +554,7 @@ export const FormatEight = ({
                     </td>
                     <td
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                     >
                       <div
@@ -569,7 +568,7 @@ export const FormatEight = ({
                     </td>
                     <td
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                     >
                       <div
@@ -585,7 +584,7 @@ export const FormatEight = ({
                   <tr>
                     <td
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                       className="text-left"
                     >
@@ -600,7 +599,7 @@ export const FormatEight = ({
                     </td>
                     <td
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                     >
                       <div
@@ -615,7 +614,7 @@ export const FormatEight = ({
                     </td>
                     <td
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                     >
                       <div
@@ -627,7 +626,7 @@ export const FormatEight = ({
                     </td>
                     <td
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                     >
                       <div
@@ -639,7 +638,7 @@ export const FormatEight = ({
                     </td>
                     <td
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                     >
                       <div
@@ -655,7 +654,7 @@ export const FormatEight = ({
                   <tr>
                     <td
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                       className="text-left"
                     >
@@ -670,7 +669,7 @@ export const FormatEight = ({
                     </td>
                     <td
                       style={{
-                        border: "1px solid #000",
+                        border: '1px solid #000',
                       }}
                       colSpan={4}
                     >
@@ -690,41 +689,41 @@ export const FormatEight = ({
             <p
               className="mt-5"
               style={{
-                textTransform: "capitalize",
-                fontSize: "14px",
+                textTransform: 'capitalize',
+                fontSize: '14px',
               }}
             >
               {/* In Word: {adviceReportData.length > 0 && totalInWords} Taka Only */}
               Please send an RTGS credit instruction to {item?.strBankName}
             </p>
             <p>Yours Faithfully,</p>
-            <p className="font-weight-bold" style={{ fontSize: "14px" }}>
+            <p className="font-weight-bold" style={{ fontSize: '14px' }}>
               For {values?.bankAccountNo?.accountName}
             </p>
-            <div className="font-weight-bold " style={{ marginTop: "60px" }}>
+            <div className="font-weight-bold " style={{ marginTop: '60px' }}>
               <div className="d-flex">
                 <h6
                   style={{
-                    marginRight: "50px",
-                    fontSize: "14px",
+                    marginRight: '50px',
+                    fontSize: '14px',
                   }}
                 >
                   Authorize Signature
                 </h6>
                 <h6
                   style={{
-                    marginRight: "50px",
-                    fontSize: "14px",
+                    marginRight: '50px',
+                    fontSize: '14px',
                   }}
                 >
                   Authorize Signature
                 </h6>
               </div>
             </div>
-            <p className="font-weight-bold" style={{ fontSize: "14px" }}>
+            <p className="font-weight-bold" style={{ fontSize: '14px' }}>
               A/C No : {values?.bankAccountNo?.bankAccNo}
             </p>
-            <div style={{ marginTop: "150px" }}>
+            <div style={{ marginTop: '150px' }}>
               <b className="rtgs-address">
                 {values?.bankAccountNo?.accountName}
               </b>

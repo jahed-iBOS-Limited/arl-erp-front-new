@@ -1,14 +1,14 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _todayDate } from "../../../_helper/_todayDate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 //validation schema;
 export const validationSchema = Yup.object().shape({
-  indent: Yup.string().required("Indent is required"),
-  poNumber: Yup.string().required("PO Number is required"),
-  lcNumber: Yup.string().required("LC Number is required"),
+  indent: Yup.string().required('Indent is required'),
+  poNumber: Yup.string().required('PO Number is required'),
+  lcNumber: Yup.string().required('LC Number is required'),
 });
 
 export const GetBankDDL = async (setter, accId, businessUnitId) => {
@@ -56,8 +56,9 @@ export const getReport = async (
   setLoading(true);
   try {
     // let query = `/imp/ImportReport/GetReportLCPO?accountId=${accId}&businessUnitId=${buId}`;
-    let query = `/imp/ImportReport/GetLcRegisterReport?&businessUnitId=${buId}&fromDate=${fromDate ||
-      getFifteenDaysAgoDate()}&toDate=${toDate || _todayDate()}`;
+    let query = `/imp/ImportReport/GetLcRegisterReport?&businessUnitId=${buId}&fromDate=${
+      fromDate || getFifteenDaysAgoDate()
+    }&toDate=${toDate || _todayDate()}`;
     // if (poLcId) {
     //   query += `&search=${poLcId}`;
     // }

@@ -1,4 +1,3 @@
-
 import Axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import {
@@ -68,7 +67,7 @@ export default function ConfigItemPlantWareHouse({ isViewPage, onSuccess }) {
       getItemPlantWarehouseInfoByItemId(
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        id,
+        id
       );
     }
   }, [profileData, selectedBusinessUnit, id]);
@@ -76,7 +75,7 @@ export default function ConfigItemPlantWareHouse({ isViewPage, onSuccess }) {
   const getItemPlantWarehouseInfoByItemId = async (accid, buid, id) => {
     try {
       const res = await Axios.get(
-        `/wms/ItemPlantWarehouse/GetItemPlantWarehouseInfoByItemId?accountId=${accid}&businessUnitId=${buid}&itemID=${id}`,
+        `/wms/ItemPlantWarehouse/GetItemPlantWarehouseInfoByItemId?accountId=${accid}&businessUnitId=${buid}&itemID=${id}`
       );
       const { data, status } = res;
       if (status === 200 && data) {
@@ -162,14 +161,14 @@ export default function ConfigItemPlantWareHouse({ isViewPage, onSuccess }) {
             setDisabled(true);
             const res = await Axios.put(
               '/wms/ItemPlantWarehouse/EditConfigItemPlantWarehouse',
-              editConfigPlantWarehouseData,
+              editConfigPlantWarehouseData
             );
 
             // cb();
             getItemPlantWarehouseInfoByItemId(
               profileData?.accountId,
               selectedBusinessUnit?.value,
-              id,
+              id
             );
             toast.success(res.data?.message || 'Submitted successfully', {
               toastId: shortid(),
@@ -250,7 +249,7 @@ export default function ConfigItemPlantWareHouse({ isViewPage, onSuccess }) {
           setDisabled(true);
           const res = await Axios.post(
             '/wms/ItemPlantWarehouse/CreateConfigItemPlantWarehouse',
-            configPlantWarehouseData,
+            configPlantWarehouseData
           );
 
           // if (res.status === 200) {
@@ -261,7 +260,7 @@ export default function ConfigItemPlantWareHouse({ isViewPage, onSuccess }) {
           getItemPlantWarehouseInfoByItemId(
             profileData?.accountId,
             selectedBusinessUnit?.value,
-            id,
+            id
           );
           toast.success(res.data?.message || 'Submitted successfully', {
             toastId: shortid(),
@@ -318,7 +317,7 @@ export default function ConfigItemPlantWareHouse({ isViewPage, onSuccess }) {
     const isExists = defaultRowDto.find(
       (itm) =>
         itm.warehouseId === payload.warehouseId &&
-        itm?.plantId === payload?.plantId,
+        itm?.plantId === payload?.plantId
     );
 
     if (isExists) {
@@ -383,7 +382,7 @@ export default function ConfigItemPlantWareHouse({ isViewPage, onSuccess }) {
 
   const getDataById = async (id) => {
     const res = await Axios.get(
-      `/item/ItemBasic/GetItemBasicByItemId?Itemid=${id}`,
+      `/item/ItemBasic/GetItemBasicByItemId?Itemid=${id}`
     );
     const { data, status } = res;
     if (status === 200) {

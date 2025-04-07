@@ -1,10 +1,10 @@
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
-import { Modal } from "react-bootstrap";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import React from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { Modal } from 'react-bootstrap';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
 
 export default function SalesOrderReportModal({ data, show, onHide }) {
   const [isLoading, setLoading] = useState(true);
@@ -36,15 +36,15 @@ export default function SalesOrderReportModal({ data, show, onHide }) {
                 <table className="table table-striped table-bordered bj-table bj-table-landing text-center">
                   <thead>
                     <tr>
-                      <th style={{ minWidth: "50px" }}>SL</th>
-                      <th style={{ minWidth: "100px" }}>Delivery Date</th>
-                      <th style={{ minWidth: "100px" }}>Delivery Code</th>
-                      <th style={{ minWidth: "75px" }}>Item Code</th>
-                      <th style={{ minWidth: "75px" }}>Item Name</th>
+                      <th style={{ minWidth: '50px' }}>SL</th>
+                      <th style={{ minWidth: '100px' }}>Delivery Date</th>
+                      <th style={{ minWidth: '100px' }}>Delivery Code</th>
+                      <th style={{ minWidth: '75px' }}>Item Code</th>
+                      <th style={{ minWidth: '75px' }}>Item Name</th>
 
-                      <th style={{ minWidth: "75px" }}>Delivery Quantity</th>
-                      <th style={{ minWidth: "100px" }}>Delivery Value</th>
-                      <th style={{ minWidth: "100px" }}>
+                      <th style={{ minWidth: '75px' }}>Delivery Quantity</th>
+                      <th style={{ minWidth: '100px' }}>Delivery Value</th>
+                      <th style={{ minWidth: '100px' }}>
                         Shipment Complete Date
                       </th>
                     </tr>
@@ -70,7 +70,7 @@ export default function SalesOrderReportModal({ data, show, onHide }) {
                         </tr>
                       );
                     })}
-                    <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+                    <tr style={{ fontWeight: 'bold', textAlign: 'right' }}>
                       <td colSpan={5} className="text-right">
                         <b>Total</b>
                       </td>

@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const GetLoadUnloadBillPagination = async (
   accountId,
@@ -60,7 +60,7 @@ export const creata_Api = async (data, cb, setDisabled) => {
     const res = await Axios.post(`/item/ItemSales/CreateLoadUnload`, data);
     if (res.status === 200) {
       setDisabled(false);
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
     }
   } catch (error) {
@@ -118,7 +118,7 @@ export const GetLoadUnloadView = async (
         unloadAmount: unloadAmount,
         vehicleCapacity: vehicleCapacityId
           ? { value: vehicleCapacityId, label: vehicleCapacityName }
-          : "",
+          : '',
       };
       setter(newData);
     }
@@ -133,7 +133,7 @@ export const edit_API = async (data, setDisabled) => {
     const res = await Axios.put(`/item/ItemSales/EditLoadUnloadSingle`, data);
     if (res.status === 200) {
       setDisabled(false);
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
     }
   } catch (error) {
     setDisabled(false);

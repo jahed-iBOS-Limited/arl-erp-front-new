@@ -1,37 +1,37 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import customStyles from "../../../../selectCustomStyle";
-import Select from "react-select";
-import ICustomCard from "../../../../_helper/_customCard";
-import IView from "../../../../_helper/_helperIcons/_view";
+import React from 'react';
+import { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import customStyles from '../../../../selectCustomStyle';
+import Select from 'react-select';
+import ICustomCard from '../../../../_helper/_customCard';
+import IView from '../../../../_helper/_helperIcons/_view';
 // import IEdit from "../../../../_helper/_helperIcons/_edit";
 import {
   getShopfloorDDL,
   getShopFloorTransactionTypeDDL,
   ShopFloorTransactionLandingAction,
-} from "./../helper";
-import Loading from "../../../../_helper/_loading";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { SetShopFloorInventoryTransactionAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import IViewModal from "../../../../_helper/_viewModal";
-import { InventoryTransactionReportViewTableRow } from "../../../../inventoryManagement/warehouseManagement/invTransaction/report/tableRow";
-import { getPlantNameDDL_api } from "../../../../_helper/_commonApi";
+} from './../helper';
+import Loading from '../../../../_helper/_loading';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { SetShopFloorInventoryTransactionAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import IViewModal from '../../../../_helper/_viewModal';
+import { InventoryTransactionReportViewTableRow } from '../../../../inventoryManagement/warehouseManagement/invTransaction/report/tableRow';
+import { getPlantNameDDL_api } from '../../../../_helper/_commonApi';
 export function TableRow() {
   const dispatch = useDispatch();
   const history = useHistory();
   const [plantDDL, setPlantDDL] = useState([]);
-  const [selectedPlant, setSelectedPlant] = useState("");
+  const [selectedPlant, setSelectedPlant] = useState('');
   const [shopfloorDDL, setShopFloorDDL] = useState([]);
-  const [selectedShopFloorDDL, setSelectedShopFloorDDL] = useState("");
+  const [selectedShopFloorDDL, setSelectedShopFloorDDL] = useState('');
   const [transactionTypeDDL, setTransactionTypeDDL] = useState([]);
-  const [selectedTransactionType, setSelectedTransactionType] = useState("");
+  const [selectedTransactionType, setSelectedTransactionType] = useState('');
   const [gridData, setGridData] = useState([]);
   const [loader, setLoader] = useState(false);
 
   const [isShowModal, setIsShowModal] = useState(false);
-  const [currentRowData, setCurrentRowData] = useState("");
+  const [currentRowData, setCurrentRowData] = useState('');
 
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -72,13 +72,12 @@ export function TableRow() {
         setLoader
       );
     }
-
   }, [shopFloorInventoryTransaction, profileData, selectedBusinessUnit]);
 
   const pushData = () => {
     history.push({
       pathname:
-        "/production-management/mes/shopFloorInventoryTransaction/create",
+        '/production-management/mes/shopFloorInventoryTransaction/create',
       state: { selectedTransactionType, selectedPlant, selectedShopFloorDDL },
     });
   };
@@ -126,7 +125,7 @@ export function TableRow() {
                     valueOption?.value,
                     setShopFloorDDL
                   );
-                  setSelectedShopFloorDDL("");
+                  setSelectedShopFloorDDL('');
                 }}
                 value={selectedPlant}
                 options={plantDDL}
@@ -199,11 +198,11 @@ export function TableRow() {
                     <th>Transaction Quantity</th>
                     {(selectedTransactionType?.value === 2 ||
                       selectedTransactionType?.value === 3) && (
-                        <>
-                          <th>Reference Code</th>
-                          <th>Receive From</th>
-                        </>
-                      )}
+                      <>
+                        <th>Reference Code</th>
+                        <th>Receive From</th>
+                      </>
+                    )}
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -229,27 +228,27 @@ export function TableRow() {
 
                       {(selectedTransactionType?.value === 2 ||
                         selectedTransactionType?.value === 3) && (
-                          <>
-                            <td>
-                              <div className="text-center">
-                                {/* {item?.referenceCode} */}
-                                <span
-                                  className="text-primary font-weight-bold cursor-pointer mr-2"
-                                  style={{ textDecoration: "underline" }}
-                                  onClick={() => {
-                                    setCurrentRowData(item);
-                                    setIsShowModal(true);
-                                  }}
-                                >
-                                  {item?.referenceCode ? item?.referenceCode : ""}
-                                </span>
-                              </div>
-                            </td>
-                            <td>
-                              <div className="pl-2">{item?.receiveFrom}</div>
-                            </td>
-                          </>
-                        )}
+                        <>
+                          <td>
+                            <div className="text-center">
+                              {/* {item?.referenceCode} */}
+                              <span
+                                className="text-primary font-weight-bold cursor-pointer mr-2"
+                                style={{ textDecoration: 'underline' }}
+                                onClick={() => {
+                                  setCurrentRowData(item);
+                                  setIsShowModal(true);
+                                }}
+                              >
+                                {item?.referenceCode ? item?.referenceCode : ''}
+                              </span>
+                            </div>
+                          </td>
+                          <td>
+                            <div className="pl-2">{item?.receiveFrom}</div>
+                          </td>
+                        </>
+                      )}
 
                       <td>
                         <div className="d-flex justify-content-around">

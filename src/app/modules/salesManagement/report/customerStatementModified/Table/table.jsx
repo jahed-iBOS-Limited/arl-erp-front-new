@@ -78,7 +78,6 @@ export default function CustomerStatementModifiedReportTable() {
       GetSalesOrganizationDDL_api(accId, buId, setSalesOrgDDl);
       getDistributionDDL(accId, buId, setDistributionChannelDDL);
     }
-
   }, [accId, buId]);
 
   const getGridData = (values) => {
@@ -99,7 +98,7 @@ export default function CustomerStatementModifiedReportTable() {
         values?.salesOrg?.value,
         values?.distributionChannel?.value,
         setRowDto,
-        setLoading,
+        setLoading
       );
     }
     if (values?.reportType?.value === 6) {
@@ -113,18 +112,20 @@ export default function CustomerStatementModifiedReportTable() {
         values?.salesOrg?.value,
         values?.distributionChannel?.value,
         setRowDto,
-        setLoading,
+        setLoading
       );
     }
     if (values?.reportType?.value === 3) {
       getG2GSalesGrid(
-        `/tms/LigterLoadUnload/G2GSalesStatement?accountId=${accId}&businessUnitId=${buId}&shippointId=${values
-          ?.shippointDDL?.value || 0}&businessPartnerId=${values
-          ?.businessPartner?.value || 0}&fromDate=${values?.fromDate}&toDate=${
+        `/tms/LigterLoadUnload/G2GSalesStatement?accountId=${accId}&businessUnitId=${buId}&shippointId=${
+          values?.shippointDDL?.value || 0
+        }&businessPartnerId=${
+          values?.businessPartner?.value || 0
+        }&fromDate=${values?.fromDate}&toDate=${
           values?.toDate
         }&motherVesselId=${values?.motherVessel?.value || 0}&portid=${
           values?.port?.value
-        }`,
+        }`
       );
     }
   };
@@ -190,8 +191,9 @@ export default function CustomerStatementModifiedReportTable() {
                                     setFieldValue('port', valueOption);
                                     setFieldValue('motherVessel', '');
                                     getMotherVesselDDL(
-                                      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${valueOption?.value ||
-                                        0}`,
+                                      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${
+                                        valueOption?.value || 0
+                                      }`
                                     );
                                   }}
                                   placeholder="Loading Port"
@@ -283,7 +285,7 @@ export default function CustomerStatementModifiedReportTable() {
                                   setFieldValue('customerNameDDL', '');
                                   setFieldValue(
                                     'distributionChannel',
-                                    valueOption,
+                                    valueOption
                                   );
                                   setRowDto([]);
 
@@ -299,7 +301,7 @@ export default function CustomerStatementModifiedReportTable() {
                                     buId,
                                     values?.salesOrg?.value,
                                     valueOption?.value,
-                                    setCustomerNameDDL,
+                                    setCustomerNameDDL
                                   );
                                 }}
                                 placeholder="Distribution Channel"
@@ -448,7 +450,7 @@ export default function CustomerStatementModifiedReportTable() {
                               onClick={() => getGridData(values)}
                               disabled={
                                 ([1, 2, 6].includes(
-                                  values?.reportType?.value,
+                                  values?.reportType?.value
                                 ) &&
                                   !values?.salesOrg &&
                                   !values?.shippointDDL &&
@@ -476,7 +478,7 @@ export default function CustomerStatementModifiedReportTable() {
                                     buName,
                                     buAddress,
                                     'Customer Statement',
-                                    'Customer Statement',
+                                    'Customer Statement'
                                     // 100,
                                     // "taka"
                                   );
@@ -557,8 +559,9 @@ export default function CustomerStatementModifiedReportTable() {
                             },
                             {
                               name: 'intDistributionChannel',
-                              value: `${values?.distributionChannel?.value ||
-                                0}`,
+                              value: `${
+                                values?.distributionChannel?.value || 0
+                              }`,
                             },
                             {
                               name: 'intregion',
@@ -578,8 +581,9 @@ export default function CustomerStatementModifiedReportTable() {
                             },
                             {
                               name: 'intYear',
-                              value: `${values?.year?.value ||
-                                new Date().getFullYear()}`,
+                              value: `${
+                                values?.year?.value || new Date().getFullYear()
+                              }`,
                             },
                           ]}
                           parameterPanel={false}

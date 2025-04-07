@@ -11,9 +11,8 @@ export default function VesselNominationAccept() {
 
   useEffect(() => {
     getGridData(
-      `${imarineBaseUrl}/domain/VesselNomination/GetVesselNominationAcceptancesLanding`,
+      `${imarineBaseUrl}/domain/VesselNomination/GetVesselNominationAcceptancesLanding`
     );
-
   }, []);
   return (
     <Formik

@@ -1,10 +1,10 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import moment from "moment";
-import IViewModal from "./../../../../_helper/_viewModal";
-import ViewRegistrationInvoice from "./viewInvoice";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
+import moment from 'moment';
+import IViewModal from './../../../../_helper/_viewModal';
+import ViewRegistrationInvoice from './viewInvoice';
 
 const LandingTable = ({ obj }) => {
   const [isViewModal, setIsViewModal] = React.useState(false);
@@ -13,8 +13,8 @@ const LandingTable = ({ obj }) => {
   const history = useHistory();
 
   return (
-    <div className='table-responsive'>
-      <table className='table table-striped table-bordered global-table'>
+    <div className="table-responsive">
+      <table className="table table-striped table-bordered global-table">
         <thead>
           <tr>
             <th>SL</th>
@@ -37,7 +37,7 @@ const LandingTable = ({ obj }) => {
         <tbody>
           {gridData?.data?.map((item, index) => (
             <tr key={index}>
-              <td className='text-center'> {index + 1}</td>
+              <td className="text-center"> {index + 1}</td>
               <td>{item?.voyageNo}</td>
               <td>{item?.vesselType}</td>
               <td>{item?.vesselName}</td>
@@ -46,7 +46,7 @@ const LandingTable = ({ obj }) => {
               <td>{item?.customSl}</td>
               <td>{item?.loadPortName}</td>
               <td>
-                {moment(item?.arrivedDateTime).format("YYYY-DD-MM, hh:mm A")}
+                {moment(item?.arrivedDateTime).format('YYYY-DD-MM, hh:mm A')}
               </td>
               {/* <td>{item?.cargoName}</td> */}
               <td>{item?.quantity}</td>
@@ -55,9 +55,9 @@ const LandingTable = ({ obj }) => {
               <td>{item?.remarks}</td>
               <td>
                 <div
-                  className='d-flex justify-content-around'
+                  className="d-flex justify-content-around"
                   style={{
-                    gap: "8px",
+                    gap: '8px',
                   }}
                 >
                   <span
@@ -94,7 +94,9 @@ const LandingTable = ({ obj }) => {
               setClickRowData({});
             }}
           >
-            <ViewRegistrationInvoice registrationId={clickRowData?.registrationId}/>
+            <ViewRegistrationInvoice
+              registrationId={clickRowData?.registrationId}
+            />
           </IViewModal>
         </>
       )}

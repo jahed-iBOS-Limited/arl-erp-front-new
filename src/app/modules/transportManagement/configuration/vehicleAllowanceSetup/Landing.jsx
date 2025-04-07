@@ -29,17 +29,10 @@ export default function KeyRegisterLanding() {
   const [gridData, setGridData] = useState([]);
   const [vehicleDDL, getVehicleDDL, vehicleDDLLoading] = useAxiosGet();
   const [, createAllowance, createAllowanceLoading] = useAxiosPost();
-  const [
-    componentDDL,
-    getComponentDDL,
-    componentLoading,
-    setComponentDDL,
-  ] = useAxiosGet();
-  const [
-    ,
-    getDownTripAllowanceDDL,
-    downTripAllowanceDDLLoading,
-  ] = useAxiosGet();
+  const [componentDDL, getComponentDDL, componentLoading, setComponentDDL] =
+    useAxiosGet();
+  const [, getDownTripAllowanceDDL, downTripAllowanceDDLLoading] =
+    useAxiosGet();
 
   const {
     selectedBusinessUnit: buId,
@@ -49,7 +42,7 @@ export default function KeyRegisterLanding() {
   const handlegetDownTripAllowanceDDL = async (componentId) => {
     await getDownTripAllowanceDDL(
       `/tms/AllowenceSetup/AllowanceSetupLanding?AccountId=${accId}&BusinessUnitId=${buId.value}&Componentid=${componentId}`,
-      (data) => setGridData(data),
+      (data) => setGridData(data)
     );
   };
 
@@ -65,10 +58,10 @@ export default function KeyRegisterLanding() {
         (data) => {
           //this filteration is based on the requirement from backend(dev:Monir bhai)
           const filterByDA_costComponentId = data.filter(
-            (item) => item.value === 50 || item.value === 51,
+            (item) => item.value === 50 || item.value === 51
           );
           setComponentDDL(filterByDA_costComponentId);
-        },
+        }
       );
     };
     Promise.all([
@@ -76,14 +69,13 @@ export default function KeyRegisterLanding() {
       handleGetComponentDDL(),
       // handlegetDownTripAllowanceDDL(48),
     ]);
-
   }, [accId, buId]);
 
   //add new allowance
   const AddAllowance = (newRowData, gridData, setGridData) => {
     let updatedGridData;
     const duplicate = gridData?.filter(
-      (item) => item?.vehicleCapacityId === newRowData?.vehicleCapacityId,
+      (item) => item?.vehicleCapacityId === newRowData?.vehicleCapacityId
     );
     if (duplicate?.length > 0) {
       return toast.warning('You cannot add duplicate item.');
@@ -180,7 +172,7 @@ export default function KeyRegisterLanding() {
                           NegetiveCheck(
                             e.target.value,
                             setFieldValue,
-                            'daamount',
+                            'daamount'
                           );
                         }}
                         type="number"
@@ -198,7 +190,7 @@ export default function KeyRegisterLanding() {
                           NegetiveCheck(
                             e.target.value,
                             setFieldValue,
-                            'downTripAllowance',
+                            'downTripAllowance'
                           );
                         }}
                         // disabled={isEdit}
@@ -233,7 +225,7 @@ export default function KeyRegisterLanding() {
                           NegetiveCheck(
                             e.target.value,
                             setFieldValue,
-                            'localMillageRate',
+                            'localMillageRate'
                           );
                         }}
                         // disabled={isEdit}
@@ -250,7 +242,7 @@ export default function KeyRegisterLanding() {
                           NegetiveCheck(
                             e.target.value,
                             setFieldValue,
-                            'outerMillageRate',
+                            'outerMillageRate'
                           );
                         }}
                         // disabled={isEdit}
@@ -271,7 +263,7 @@ export default function KeyRegisterLanding() {
                           NegetiveCheck(
                             e.target.value,
                             setFieldValue,
-                            'carrierAllowanceRate',
+                            'carrierAllowanceRate'
                           );
                         }}
                         // disabled={isEdit}

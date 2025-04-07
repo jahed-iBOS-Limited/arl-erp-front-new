@@ -1,27 +1,26 @@
-
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import InputField from "./../../../../_helper/_inputField";
-import { useSelector } from "react-redux";
-import GridData from "./grid";
-import { shallowEqual } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import InputField from './../../../../_helper/_inputField';
+import { useSelector } from 'react-redux';
+import GridData from './grid';
+import { shallowEqual } from 'react-redux';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
+} from './../../../../../../_metronic/_partials/controls';
 
-import NewSelect from "./../../../../_helper/_select";
+import NewSelect from './../../../../_helper/_select';
 import {
   GetItemTypeDDL_api,
   GetItemNameDDL_api,
   getVatBranches_api,
   PurchaseRegister_Report_api,
-} from "../helper";
-import { _todayDate } from "./../../../../_helper/_todayDate";
+} from '../helper';
+import { _todayDate } from './../../../../_helper/_todayDate';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -30,16 +29,16 @@ const initData = {
   id: undefined,
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  itemType: "",
-  branch: "",
-  itemName: "",
+  itemType: '',
+  branch: '',
+  itemName: '',
 };
 
 export default function HeaderForm() {
   const [rowDto, setRowDto] = useState([]);
   const [loading] = useState(false);
   const [itemName, setItemName] = useState([]);
-  const [, setOrdertableRow] = React.useState("");
+  const [, setOrdertableRow] = React.useState('');
   const [, setModelshow] = React.useState(false);
   const [itemTypeDDL, setitemType] = useState([]);
   const [branchDDL, setBranchDDL] = useState([]);
@@ -78,7 +77,7 @@ export default function HeaderForm() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Purchase Sales Register"}>
+              <CardHeader title={'Purchase Sales Register'}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
@@ -91,8 +90,8 @@ export default function HeaderForm() {
                         value={values?.itemType}
                         label="Item Type"
                         onChange={(valueOption) => {
-                          setFieldValue("itemType", valueOption);
-                          setFieldValue("itemName", "");
+                          setFieldValue('itemType', valueOption);
+                          setFieldValue('itemName', '');
                           setRowDto([]);
                           GetItemNameDDL_api(
                             profileData.accountId,
@@ -116,7 +115,7 @@ export default function HeaderForm() {
                         label="Item"
                         onChange={(valueOption) => {
                           setRowDto([]);
-                          setFieldValue("itemName", valueOption);
+                          setFieldValue('itemName', valueOption);
                         }}
                         placeholder="Item Name"
                         errors={errors}
@@ -132,7 +131,7 @@ export default function HeaderForm() {
                         label="Branch"
                         onChange={(valueOption) => {
                           setRowDto([]);
-                          setFieldValue("branch", valueOption);
+                          setFieldValue('branch', valueOption);
                         }}
                         placeholder="Branch"
                         errors={errors}
@@ -147,7 +146,7 @@ export default function HeaderForm() {
                         placeholder="From Date"
                         type="date"
                         onClick={(e) => {
-                          setFieldValue("fromDate", e.target.value);
+                          setFieldValue('fromDate', e.target.value);
                           setRowDto([]);
                         }}
                       />
@@ -160,7 +159,7 @@ export default function HeaderForm() {
                         placeholder="Top Date"
                         type="date"
                         onClick={(e) => {
-                          setFieldValue("toDate", e.target.value);
+                          setFieldValue('toDate', e.target.value);
                           setRowDto([]);
                         }}
                       />

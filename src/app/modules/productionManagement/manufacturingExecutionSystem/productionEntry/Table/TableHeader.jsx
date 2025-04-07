@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import ICustomCard from "../../../../_helper/_customCard";
-import { GetMESConfigurationBusinessUnitWiseByAccountId } from "../helper";
-import { TableRow } from "./TableRow";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ICustomCard from '../../../../_helper/_customCard';
+import { GetMESConfigurationBusinessUnitWiseByAccountId } from '../helper';
+import { TableRow } from './TableRow';
 
 export default function ProductionEntryTable() {
   const history = useHistory();
@@ -16,7 +16,7 @@ export default function ProductionEntryTable() {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-  const [data, setData] = useState({})
+  const [data, setData] = useState({});
 
   useEffect(() => {
     GetMESConfigurationBusinessUnitWiseByAccountId(
@@ -26,7 +26,7 @@ export default function ProductionEntryTable() {
     );
   }, [profileData, selectedBusinessUnit]);
   const location = {
-    pathname: "/production-management/mes/productionentry/create",
+    pathname: '/production-management/mes/productionentry/create',
     state: {
       data: data,
     },

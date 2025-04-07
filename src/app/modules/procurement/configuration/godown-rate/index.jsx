@@ -40,9 +40,8 @@ export default function GodownRateConfigLanding() {
 
   useEffect(() => {
     getPlantDDL(
-      `/wms/Plant/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`,
+      `/wms/Plant/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
-
   }, [accId, buId]);
   const saveHandler = (values, cb) => {};
   const history = useHistory();
@@ -51,9 +50,9 @@ export default function GodownRateConfigLanding() {
     getGridData(
       `/procurement/PurchaseOrder/GodownRateConfigurationLanding?businessUnitId=${buId}&plantId=${
         values?.plant?.value
-      }&warehouseId=${values?.warehouse?.value || 0}&supplierId=${values
-        ?.supplier?.value ||
-        0}&pageNo=${pageNo}&pageSize=${pageSize}&search=${searchValue}`,
+      }&warehouseId=${values?.warehouse?.value || 0}&supplierId=${
+        values?.supplier?.value || 0
+      }&pageNo=${pageNo}&pageSize=${pageSize}&search=${searchValue}`
     );
   };
 
@@ -99,7 +98,7 @@ export default function GodownRateConfigLanding() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        '/mngProcurement/purchase-configuration/godown-rate-configuration/create',
+                        '/mngProcurement/purchase-configuration/godown-rate-configuration/create'
                       );
                     }}
                   >
@@ -123,7 +122,7 @@ export default function GodownRateConfigLanding() {
                         setFieldValue('plant', valueOption);
                         setGridData([]);
                         getWareHouseDDL(
-                          `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${buId}&PlantId=${valueOption?.value}`,
+                          `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${buId}&PlantId=${valueOption?.value}`
                         );
                       }}
                       errors={errors}
@@ -140,7 +139,7 @@ export default function GodownRateConfigLanding() {
                         setFieldValue('supplier', '');
                         setFieldValue('warehouse', valueOption);
                         getSbuDDL(
-                          `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`,
+                          `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`
                         );
                         getLandingData(values, pageNo, pageSize);
                       }}
@@ -162,7 +161,7 @@ export default function GodownRateConfigLanding() {
                         if (searchValue?.length < 3) return [];
                         return axios
                           .get(
-                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${sbuDDL[0]?.value}`,
+                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${sbuDDL[0]?.value}`
                           )
                           .then((res) => res?.data);
                       }}
@@ -243,9 +242,9 @@ export default function GodownRateConfigLanding() {
                                     e.stopPropagation();
                                     dispatch(
                                       getDownlloadFileView_Action(
-                                        item?.attachmentId,
+                                        item?.attachmentId
                                         // setLoading
-                                      ),
+                                      )
                                     );
                                   }}
                                 >

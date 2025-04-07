@@ -1,20 +1,19 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import ICard from "../../../../../_helper/_card";
-import Loading from "../../../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import { common_api_for_4_types_of_bill } from "../../helper";
-import BillApproveForm from "../../../approvebillregister/approveForm";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import ICard from '../../../../../_helper/_card';
+import Loading from '../../../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actions';
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
+import { common_api_for_4_types_of_bill } from '../../helper';
+import BillApproveForm from '../../../approvebillregister/approveForm';
 
 const initData = {
-  approveAmount: "",
-  approveAmountMax: "",
-  remarks: "",
+  approveAmount: '',
+  approveAmountMax: '',
+  remarks: '',
 };
 
 function ViewCNFBill({
@@ -89,7 +88,7 @@ function ViewCNFBill({
                         <>
                           <tr key={index}>
                             <td
-                              style={{ width: "30px" }}
+                              style={{ width: '30px' }}
                               className="text-center"
                             >
                               {index + 1}
@@ -126,13 +125,13 @@ function ViewCNFBill({
                                         )
                                       );
                                     } else {
-                                      toast.warn("No Attachment Found");
+                                      toast.warn('No Attachment Found');
                                     }
                                   }}
                                   className="ml-2"
                                 >
                                   <i
-                                    style={{ fontSize: "16px" }}
+                                    style={{ fontSize: '16px' }}
                                     className={`fa pointer fa-eye`}
                                     aria-hidden="true"
                                   ></i>

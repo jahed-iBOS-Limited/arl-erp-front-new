@@ -1,20 +1,20 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import Axios from "axios";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import { isUniq } from "./../../../../_helper/uniqChecker";
-import { NegetiveCheck } from "../../../../_helper/_negitiveCheck";
-import { toast } from "react-toastify";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import Axios from 'axios';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import { isUniq } from './../../../../_helper/uniqChecker';
+import { NegetiveCheck } from '../../../../_helper/_negitiveCheck';
+import { toast } from 'react-toastify';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   branchName: Yup.object().shape({
-    label: Yup.string().required("Branch Name is required"),
-    value: Yup.string().required("Branch Name is required"),
+    label: Yup.string().required('Branch Name is required'),
+    value: Yup.string().required('Branch Name is required'),
   }),
   // transactionType: Yup.object().shape({
   //   label: Yup.string().required("Transaction Type is required"),
@@ -25,17 +25,17 @@ const validationSchema = Yup.object().shape({
   //   value: Yup.string().required('Item Name is required'),
   // }),
   branchAddress: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Branch Address is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Branch Address is required'),
   // quantity: Yup.number()
   //   .min(1, 'Minimum 2 symbols')
   //   .max(1000000000, 'Maximum 100 symbols')
   //   .required('Quantity is required'),
   referanceNo: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols"),
-  referenceDate: Yup.date().required("Production Date is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols'),
+  referenceDate: Yup.date().required('Production Date is required'),
 });
 
 export default function FormCmp({
@@ -86,14 +86,14 @@ export default function FormCmp({
             sd: sd,
             vat: vat,
             surcharge: surcharge,
-            totalAmount: (qtyAndRate + sd + vat),
+            totalAmount: qtyAndRate + sd + vat,
           };
-          if (isUniq("itemId", itemName?.value, rowDto)) {
+          if (isUniq('itemId', itemName?.value, rowDto)) {
             setRowDto([...rowDto, newData]);
           }
         } else {
-          toast.warning("Data Not Found", {
-            toastId: "itm",
+          toast.warning('Data Not Found', {
+            toastId: 'itm',
           });
           setDisabled(false);
         }
@@ -147,7 +147,7 @@ export default function FormCmp({
                         value={values?.branchName}
                         label="Branch Name"
                         onChange={(valueOption) => {
-                          setFieldValue("branchName", valueOption);
+                          setFieldValue('branchName', valueOption);
                         }}
                         placeholder="Branch Name"
                         errors={errors}
@@ -183,7 +183,7 @@ export default function FormCmp({
                       />
                     </div> */}
                     <div className="col-lg-12 pr pl-2 mb-1">
-                      <label>Reference No</label>{" "}
+                      <label>Reference No</label>{' '}
                       <InputField
                         value={values?.referanceNo}
                         name="referanceNo"
@@ -207,7 +207,7 @@ export default function FormCmp({
 
                 <div className="col-lg-9">
                   {!isView && (
-                    <div className={"row bank-journal-custom bj-right"}>
+                    <div className={'row bank-journal-custom bj-right'}>
                       <div className="col-lg-4 pr-1 pl mb-1">
                         <NewSelect
                           name="itemName"
@@ -215,7 +215,7 @@ export default function FormCmp({
                           value={values?.itemName}
                           label="Item Name"
                           onChange={(valueOption) => {
-                            setFieldValue("itemName", valueOption);
+                            setFieldValue('itemName', valueOption);
                           }}
                           placeholder="Item Name"
                           errors={errors}
@@ -226,7 +226,7 @@ export default function FormCmp({
                       <div className="col-lg-4 pr-1 pl mb-1 ml-50">
                         <label>Quantity</label>
                         <InputField
-                          value={values?.quantity || ""}
+                          value={values?.quantity || ''}
                           name="quantity"
                           placeholder="Quantity"
                           type="number"
@@ -237,7 +237,7 @@ export default function FormCmp({
                             NegetiveCheck(
                               e.target.value,
                               setFieldValue,
-                              "quantity"
+                              'quantity'
                             );
                           }}
                         />
@@ -245,7 +245,7 @@ export default function FormCmp({
 
                       <div className="col-lg-1 pl-2 bank-journal mt-3">
                         <button
-                          style={{ marginBottom: "20px", marginLeft: "-5px" }}
+                          style={{ marginBottom: '20px', marginLeft: '-5px' }}
                           type="button"
                           className="btn btn-primary"
                           disabled={!values?.itemName || !values?.quantity}
@@ -266,10 +266,10 @@ export default function FormCmp({
                       <div
                         className="col-lg-12 pl-5 pr mb-0 mt-1 h-narration border-gray text-right"
                         style={{
-                          position: "absolute",
-                          top: "-31px",
-                          right: "0",
-                          zIndex: "111",
+                          position: 'absolute',
+                          top: '-31px',
+                          right: '0',
+                          zIndex: '111',
                         }}
                       >
                         <h6 className="p-0 m-0">
@@ -279,19 +279,19 @@ export default function FormCmp({
 
                       <div className="table-responsive">
                         <table className="table table-striped table-bordered global-table mt-0">
-                          <thead className={rowDto?.length < 1 && "d-none"}>
+                          <thead className={rowDto?.length < 1 && 'd-none'}>
                             <tr>
-                              <th style={{ width: "20px" }}>SL</th>
-                              <th style={{ width: "80px" }}>Item Name</th>
-                              <th style={{ width: "60px" }}>UoM</th>
-                              <th style={{ width: "100px" }}>Quantity</th>
-                              <th style={{ width: "60px" }}>Rate</th>
-                              <th style={{ width: "50px" }}>SD(%)</th>
-                              <th style={{ width: "80px" }}>VAT(%)</th>
-                              <th style={{ width: "85px" }}>Surcharge(%)</th>
-                              <th style={{ width: "100px" }}>Total Amount</th>
+                              <th style={{ width: '20px' }}>SL</th>
+                              <th style={{ width: '80px' }}>Item Name</th>
+                              <th style={{ width: '60px' }}>UoM</th>
+                              <th style={{ width: '100px' }}>Quantity</th>
+                              <th style={{ width: '60px' }}>Rate</th>
+                              <th style={{ width: '50px' }}>SD(%)</th>
+                              <th style={{ width: '80px' }}>VAT(%)</th>
+                              <th style={{ width: '85px' }}>Surcharge(%)</th>
+                              <th style={{ width: '100px' }}>Total Amount</th>
                               {!isView && (
-                                <th style={{ width: "30px" }}>Actions</th>
+                                <th style={{ width: '30px' }}>Actions</th>
                               )}
                             </tr>
                           </thead>
@@ -358,13 +358,13 @@ export default function FormCmp({
               {/* Row Dto Table End */}
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

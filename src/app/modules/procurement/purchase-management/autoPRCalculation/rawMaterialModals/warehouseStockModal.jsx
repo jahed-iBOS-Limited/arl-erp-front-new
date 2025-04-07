@@ -12,11 +12,8 @@ const WarehouseStockModal = ({ objProp }) => {
   // state
   const [, setObjprops] = useState({});
 
-  const [
-    warestockData,
-    getWarehouseStockData,
-    warehouseStockDataLoading,
-  ] = useAxiosGet();
+  const [warestockData, getWarehouseStockData, warehouseStockDataLoading] =
+    useAxiosGet();
 
   useEffect(() => {
     fetchWarehouseStockDetailsData({
@@ -25,7 +22,6 @@ const WarehouseStockModal = ({ objProp }) => {
       setSingleRowData,
       values,
     });
-
   }, []);
 
   const isLoading = warehouseStockDataLoading;

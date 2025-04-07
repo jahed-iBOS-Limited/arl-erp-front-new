@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { Form, Formik } from "formik";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../_helper/_formatMoney";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { Form, Formik } from 'formik';
+import Loading from '../../../_helper/_loading';
+import IForm from '../../../_helper/_form';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../_helper/_formatMoney';
 
 const ViewModal = ({ clickedItem, landingValues }) => {
   const [objProps, setObjprops] = useState({});
@@ -26,7 +26,6 @@ const ViewModal = ({ clickedItem, landingValues }) => {
     if (clickedItem && clickedItem?.depositLoanId) {
       getDataById(clickedItem?.depositLoanId);
     }
-
   }, [clickedItem]);
 
   return (
@@ -55,14 +54,14 @@ const ViewModal = ({ clickedItem, landingValues }) => {
             <Form>
               <div className="form-group  global-form row mt-1">
                 <div className="col-lg-3">
-                  <b>Partner:</b> {landingValues?.partner?.label || ""}
+                  <b>Partner:</b> {landingValues?.partner?.label || ''}
                 </div>
                 <div className="col-lg-3">
-                  <b>Deposite Type:</b>{" "}
-                  {landingValues?.depositeType?.label || ""}
+                  <b>Deposite Type:</b>{' '}
+                  {landingValues?.depositeType?.label || ''}
                 </div>
                 <div className="col-lg-3">
-                  <b>Security Number:</b> {clickedItem?.securityNumber || ""}
+                  <b>Security Number:</b> {clickedItem?.securityNumber || ''}
                 </div>
               </div>
 
@@ -110,14 +109,14 @@ const ViewModal = ({ clickedItem, landingValues }) => {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm()}
               ></button>

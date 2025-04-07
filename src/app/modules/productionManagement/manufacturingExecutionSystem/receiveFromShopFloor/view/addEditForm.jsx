@@ -1,14 +1,10 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import { useLocation, useParams } from "react-router-dom";
-import {
-  getRefferenceCode_api,
-  getSingleData,
-} from "../helper";
-import { isUniq } from "../../../../_helper/uniqChecker";
-import ICustomCard from "../../../../_helper/_customCard";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import { useLocation, useParams } from 'react-router-dom';
+import { getRefferenceCode_api, getSingleData } from '../helper';
+import { isUniq } from '../../../../_helper/uniqChecker';
+import ICustomCard from '../../../../_helper/_customCard';
 
 export default function ReceiveFromShopFloorViewForm({
   history,
@@ -18,7 +14,7 @@ export default function ReceiveFromShopFloorViewForm({
 }) {
   const [rowDto, setRowDto] = useState([]);
 
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const location = useLocation();
   const params = useParams();
   const [itemDDL, setItemDDL] = useState([]);
@@ -54,7 +50,6 @@ export default function ReceiveFromShopFloorViewForm({
   const saveHandler = async (values, cb) => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       // if id , then this is for edit , else this is for create
-
     }
   };
 
@@ -67,7 +62,7 @@ export default function ReceiveFromShopFloorViewForm({
       });
       setRowDto(payload);
     } else {
-      if (isUniq("item", values?.item, rowDto)) {
+      if (isUniq('item', values?.item, rowDto)) {
         setRowDto([...rowDto, values]);
       }
     }
@@ -81,12 +76,12 @@ export default function ReceiveFromShopFloorViewForm({
   const [objProps, setObjprops] = useState({});
   return (
     <ICustomCard
-    title={"View Receive From Shop Floor"}
-    backHandler={() => {
-      history.goBack();
-    }}
-    renderProps={() => {}}
-    getProps={setObjprops}
+      title={'View Receive From Shop Floor'}
+      backHandler={() => {
+        history.goBack();
+      }}
+      renderProps={() => {}}
+      getProps={setObjprops}
     >
       <Form
         {...objProps}

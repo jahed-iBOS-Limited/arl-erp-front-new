@@ -1,9 +1,9 @@
-import React from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import React from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 export default function ICon({ title, onClick, classes, children }) {
   return (
-    <OverlayTrigger overlay={<Tooltip id="cs-icon">{title || ""}</Tooltip>}>
+    <OverlayTrigger overlay={<Tooltip id="cs-icon">{title || ''}</Tooltip>}>
       <span
         className={`pointer ${classes}`}
         onClick={() => {
