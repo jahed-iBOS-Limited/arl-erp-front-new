@@ -1,26 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, shallowEqual } from 'react-redux';
-import Form from './form';
-import IForm from '../../../../_helper/_form';
-import { useLocation, useParams } from 'react-router-dom';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import ICustomCard from '../../../../_helper/_customCard';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import {
-  getSingleDataById,
-  saveEditedBillofMaterial,
+  getCostElementDDL,
+  getMaterialDDL,
   getPlantDDL,
   getPreviousBomName,
-  getShopFloorDDL,
   getProductDDL,
-  getMaterialDDL,
-  getCostElementDDL,
+  getShopFloorDDL,
+  getSingleDataById,
   saveBillofMaterial,
+  saveEditedBillofMaterial,
 } from '../helper';
-import { _todayDate } from '../../../../_helper/_todayDate';
-import { _timeFormatter } from '../../../../_helper/_timeFormatter';
-import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import Loading from './../../../../_helper/_loading';
-import ICustomCard from '../../../../_helper/_customCard';
-import { useHistory } from 'react-router-dom';
+import Form from './form';
 
 const initData = {
   copyfrombomname: '',
@@ -77,6 +73,7 @@ export default function BillofMaretialViewForm() {
   // Cost Element state
   const [costElementDDL, setCostElementDDL] = useState([]);
   const [costElementRowData, setCostElementRowData] = useState([]);
+  const [, getCurrentRateList] = useAxiosGet();
 
   const storeData = useSelector((state) => {
     return {
@@ -94,7 +91,32 @@ export default function BillofMaretialViewForm() {
         setSingleData,
         setRowDto,
         setCostElementRowData,
-        setDisabled
+        setDisabled,
+        (data) => {
+          if (data?.newRowData?.length > 0) {
+            const copyRowDto = [...data?.newRowData];
+            const rowItemIds = copyRowDto.map((item) => item?.material?.value);
+            const makeString = rowItemIds?.join(',');
+            getCurrentRateList(
+              `/wms/InventoryLoan/GetMultipleItemRatesByIds?ItemIds=${makeString}&BusinessUnitId=${selectedBusinessUnit?.value}`,
+              (currentRateList) => {
+                const updatedRowDto = copyRowDto.map((item) => {
+                  const foundItem = currentRateList?.find(
+                    (i) => i.intItemId === item?.rowItemId
+                  );
+                  return {
+                    ...item,
+                    apiItemRate: foundItem ? foundItem?.numAverageRate : 0,
+                    itemValue: foundItem
+                      ? (foundItem?.numAverageRate || 0) * (item?.quantity || 0)
+                      : 0,
+                  };
+                });
+                setRowDto(updatedRowDto);
+              }
+            );
+          }
+        }
       );
     }
   }, [params]);

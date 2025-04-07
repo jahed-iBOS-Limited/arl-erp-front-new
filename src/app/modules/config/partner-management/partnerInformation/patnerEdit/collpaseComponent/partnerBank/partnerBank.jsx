@@ -71,7 +71,7 @@ export default function PartnerBank() {
       } else {
         setRowDto([]);
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const saveBusinessUnit = async (values, cb) => {

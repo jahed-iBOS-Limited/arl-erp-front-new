@@ -6,7 +6,7 @@ import Axios from 'axios';
 import Select from 'react-select';
 import customStyles from '../../../../../../selectCustomStyle';
 
-import { dataValidationSchema } from '../../../../../../_helper/_validationSchema'
+import { dataValidationSchema } from '../../../../../../_helper/_validationSchema';
 
 const intiValue = {
   attribute: '',
@@ -43,7 +43,7 @@ export default function FormCmp({
           ]);
           setAttributeList(res.data);
           // setBaseUomList(res2.data);
-        } catch (error) { }
+        } catch (error) {}
       };
       getInfoData();
     }
@@ -58,7 +58,7 @@ export default function FormCmp({
       ]);
       setFieldValue('uom', res2[0]?.data);
       setBaseUomList([res2[0]?.data]);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -131,9 +131,9 @@ export default function FormCmp({
                       className="text-danger"
                     >
                       {errors &&
-                        errors.attribute &&
-                        touched &&
-                        touched.attribute
+                      errors.attribute &&
+                      touched &&
+                      touched.attribute
                         ? errors.attribute.value
                         : ''}
                     </p>
@@ -224,7 +224,7 @@ export default function FormCmp({
                       data.map((itm, idx) => (
                         <tr
                           key={idx}
-                          style={{ marginBottom: "15px", textAlign: "center" }}
+                          style={{ marginBottom: '15px', textAlign: 'center' }}
                         >
                           <td>{idx + 1}</td>
                           <td>{itm.attributeName}</td>
@@ -235,8 +235,8 @@ export default function FormCmp({
                             <span
                               className="pointer alterUomDeleteIcon"
                               style={{
-                                width: "50%",
-                                marginTop: "3px",
+                                width: '50%',
+                                marginTop: '3px',
                               }}
                             >
                               <i
