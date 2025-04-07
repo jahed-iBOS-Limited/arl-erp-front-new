@@ -34,6 +34,8 @@ function SalesInvoiceLandingNew() {
   const [cancelData, getCancelData, cancelLoader] = useAxiosGet();
   const [topSheetData, getTopSheetData, loading, setTopSheetData] =
     useAxiosGet();
+  const [customerDDL, getCustomerDDL, getCustomerDDLLoading] = useAxiosGet();
+
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(20);
@@ -60,6 +62,7 @@ function SalesInvoiceLandingNew() {
           values?.fromDate,
           values?.toDate,
           values?.channel?.value || 0,
+          values?.customer?.value || 0,
           pageNo,
           pageSize,
           search,
@@ -71,7 +74,7 @@ function SalesInvoiceLandingNew() {
       getPendingData(
         `/oms/OManagementReport/GetPendingSalesInvoiceLanding?businessunitId=${buId}&channelId=${
           values?.channel?.value || 0
-        }&fromDate=${values?.fromDate}&toDate=${
+        }&CustomerId=${values?.customer?.value || 0}&fromDate=${values?.fromDate}&toDate=${
           values?.toDate
         }&pageNo=${pageNo}&pageSize=${pageSize}`
       );
@@ -79,7 +82,7 @@ function SalesInvoiceLandingNew() {
       getCancelData(
         `/oms/OManagementReport/GetDeletedSalesInvoiceLanding?BusinessunitId=${buId}&ChannelId=${
           values?.channel?.value || 0
-        }&FromDate=${values?.fromDate}&ToDate=${
+        }&CustomerId=${values?.customer?.value || 0}&FromDate=${values?.fromDate}&ToDate=${
           values?.toDate
         }&PageNo=${pageNo}&PageSize=${pageSize}`
       );
@@ -115,7 +118,8 @@ function SalesInvoiceLandingNew() {
     }
   };
 
-  const isLoading = load || loading || loader || cancelLoader;
+  const isLoading =
+    load || loading || loader || cancelLoader || getCustomerDDLLoading;
 
   return (
     <>
@@ -145,6 +149,10 @@ function SalesInvoiceLandingNew() {
                   getGridData,
                   setFieldValue,
                   setTopSheetData,
+                  getCustomerDDL,
+                  customerDDL,
+                  accId,
+                  buId,
                 }}
               />
 

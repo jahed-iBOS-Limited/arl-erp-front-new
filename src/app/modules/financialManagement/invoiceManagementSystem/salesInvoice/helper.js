@@ -8,6 +8,7 @@ export const getSalesInvoiceLanding = async (
   fromDate,
   toDate,
   channelId,
+  customerId,
   pageNo,
   pageSize,
   search,
@@ -18,7 +19,7 @@ export const getSalesInvoiceLanding = async (
   const searchTerm = search ? `&search=${search}` : '';
   // const commonURL = `/wms/CommercialInvoice/GetCommercialInvoiceLanding?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&Todate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=asc&channelId=${channelId}`;
 
-  const urlForSomeSelectedUnit = `/oms/OManagementReport/GetSalesInvoiceLanding?BusinessunitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${searchTerm}&channelId=${channelId}`;
+  const urlForSomeSelectedUnit = `/oms/OManagementReport/GetSalesInvoiceLanding?BusinessunitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${searchTerm}&channelId=${channelId}&CustomerId=${customerId}`;
 
   try {
     const res = await axios.get(
