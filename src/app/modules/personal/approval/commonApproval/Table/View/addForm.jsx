@@ -8,6 +8,7 @@ import { getSingleDataById } from './helper';
 import { useHistory } from 'react-router-dom';
 import Loading from '../../../../../_helper/_loading';
 import ICustomCard from '../../../../../_helper/_customCard';
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
 
 const initData = {
   copyfrombomname: '',
@@ -49,6 +50,7 @@ export default function BillofMaretialViewApproval({ id }) {
   // Cost Element state
   const [costElementDDL, setCostElementDDL] = useState([]);
   const [costElementRowData, setCostElementRowData] = useState([]);
+  const [, getCurrentRateList] = useAxiosGet();
 
   const storeData = useSelector((state) => {
     return {
@@ -66,7 +68,33 @@ export default function BillofMaretialViewApproval({ id }) {
         setSingleData,
         setRowDto,
         setCostElementRowData,
-        setDisabled
+        setDisabled,
+        (data) => {
+          if (data?.newRowData?.length > 0) {
+            const copyRowDto = [...data?.newRowData];
+            const rowItemIds = copyRowDto.map((item) => item?.material?.value);
+            const makeString = rowItemIds?.join(',');
+            getCurrentRateList(
+              `/wms/InventoryLoan/GetMultipleItemRatesByIds?ItemIds=${makeString}&BusinessUnitId=${selectedBusinessUnit?.value}`,
+              (currentRateList) => {
+                const updatedRowDto = copyRowDto.map((item) => {
+                  const foundItem = currentRateList?.find(
+                    (i) => i.intItemId === item?.rowItemId
+                  );
+                  return {
+                    ...item,
+                    apiItemRate: foundItem ? foundItem?.numAverageRate : 0,
+                    itemValue: foundItem
+                      ? (foundItem?.numAverageRate || 0) * (item?.quantity || 0)
+                      : 0,
+                  };
+                });
+                console.log('updatedRowDto', updatedRowDto);
+                setRowDto(updatedRowDto);
+              }
+            );
+          }
+        }
       );
     }
   }, [id]);

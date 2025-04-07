@@ -271,7 +271,11 @@ export const getSingleDataById = async (
       setRowDto(newRowData);
       setter(newData);
       setDisabled(false);
-      cb && cb(newData);
+      cb &&
+        cb({
+          response: res?.data,
+          newRowData: newRowData,
+        });
     }
   } catch (error) {
     setDisabled(false);
