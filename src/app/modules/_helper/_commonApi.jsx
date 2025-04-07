@@ -1455,11 +1455,9 @@ export const saveBunkerCost = async (payload, setLoading, cb) => {
   }
 };
 
-
-export function fetchInventoryData(obj){
-
+export function fetchInventoryData(obj) {
   // destructure
-  const {getInventoryData,values,updatedData,setTableData}=obj
+  const { getInventoryData, values, updatedData, setTableData } = obj;
 
   getInventoryData(
     `/mes/SalesPlanning/GetGlWiseMaterialBalance?unitId=${
@@ -1468,7 +1466,7 @@ export function fetchInventoryData(obj){
     (invData) => {
       const updatedDataWithInventory = updatedData?.map((item) => {
         const invDataItem = invData?.find(
-          (invItem) => invItem?.intGeneralLedgerId === item?.glId,
+          (invItem) => invItem?.intGeneralLedgerId === item?.glId
         );
         if (invDataItem) {
           return {
@@ -1492,6 +1490,6 @@ export function fetchInventoryData(obj){
         }
       });
       setTableData(updatedDataWithInventory);
-    },
+    }
   );
 }

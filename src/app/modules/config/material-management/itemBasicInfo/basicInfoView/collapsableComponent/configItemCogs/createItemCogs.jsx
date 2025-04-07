@@ -68,7 +68,7 @@ export default function CreateItemPurchaseInfo({
         setExist(true);
         setRowDto(data);
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const saveData = async (values, cb) => {

@@ -13,6 +13,10 @@ function SalesInvoiceLandingForm({ obj }) {
     getGridData,
     setFieldValue,
     setTopSheetData,
+    getCustomerDDL,
+    customerDDL,
+    accId,
+    buId,
   } = obj;
 
   return (
@@ -27,7 +31,7 @@ function SalesInvoiceLandingForm({ obj }) {
               placeholder="Type"
               options={[
                 { value: 1, label: 'Details' },
-                { value: 2, label: 'Top Sheet' },
+                // { value: 2, label: 'Top Sheet' },
               ]}
               onChange={(valueOption) => {
                 setFieldValue('type', valueOption);
@@ -36,6 +40,7 @@ function SalesInvoiceLandingForm({ obj }) {
               }}
             />
           </div>
+
           <RATForm
             obj={{
               values,
@@ -43,12 +48,29 @@ function SalesInvoiceLandingForm({ obj }) {
               region: false,
               area: false,
               territory: false,
-              onChange: () => {
+              allElement: false,
+              onChange: (formValues) => {
                 setRowDto([]);
                 setTopSheetData([]);
+                getCustomerDDL(
+                  `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${accId}&businessUnitId=${buId}&channelId=${formValues?.channel?.value}`
+                );
               },
             }}
           />
+          <div className="col-lg-3">
+            <NewSelect
+              name="customer"
+              value={values?.customer}
+              label="Customer"
+              options={[{ value: 0, label: 'All' }, ...customerDDL] || []}
+              onChange={(valueOption) => {
+                setFieldValue('customer', valueOption);
+                setRowDto([]);
+                setTopSheetData([]);
+              }}
+            />
+          </div>
           <FromDateToDateForm
             obj={{
               values,

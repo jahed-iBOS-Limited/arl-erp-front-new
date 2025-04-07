@@ -1,17 +1,17 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import InputField from "../../../_helper/_inputField";
-import { toast } from "react-toastify";
-import NewSelect from "../../../_helper/_select";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { useParams } from "react-router-dom";
-import {fillPersentageValueInRow} from './helper'
-import { fetchInventoryData } from "../../../_helper/_commonApi";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import Loading from '../../../_helper/_loading';
+import IForm from '../../../_helper/_form';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
+import InputField from '../../../_helper/_inputField';
+import { toast } from 'react-toastify';
+import NewSelect from '../../../_helper/_select';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { useParams } from 'react-router-dom';
+import { fillPersentageValueInRow } from './helper';
+import { fetchInventoryData } from '../../../_helper/_commonApi';
 
 const initData = {
   fiscalYear: '',
@@ -66,8 +66,6 @@ export default function AssetLiabilityPlanEdit() {
       );
     }
   }, [yearId, buId]);
-
-
 
   const calculatePercentageValues = (item) => {
     if (item.entryType === 'Percentage') {
@@ -193,7 +191,12 @@ export default function AssetLiabilityPlanEdit() {
             }
           );
 
-          fetchInventoryData({getInventoryData,values,updatedData,setTableData})
+        fetchInventoryData({
+          getInventoryData,
+          values,
+          updatedData,
+          setTableData,
+        });
       }
     );
   };

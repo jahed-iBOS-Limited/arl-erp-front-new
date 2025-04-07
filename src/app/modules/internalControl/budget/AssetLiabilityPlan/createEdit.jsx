@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import NewSelect from '../../../_helper/_select';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 import { _todayDate } from '../../../_helper/_todayDate';
-import {fillPersentageValueInRow} from './helper'
+import { fillPersentageValueInRow } from './helper';
 import { fetchInventoryData } from '../../../_helper/_commonApi';
 
 const initData = {
@@ -87,7 +87,6 @@ export default function AssetLiabilityPlanCreateEdit() {
     getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
   }, []);
 
-
   const onViewButtonClick = (values) => {
     getTableData(
       `/fino/BudgetFinancial/GetAssetLiabilityPlan?partName=GetForCreate&businessUnitId=${values?.businessUnit?.value}&yearId=${values?.fiscalYear?.value}&yearName=${values?.fiscalYear?.label}&monthId=0&autoId=0&glId=0`,
@@ -96,8 +95,13 @@ export default function AssetLiabilityPlanCreateEdit() {
           ...item,
           fillAllManual: item?.entryTypeValue,
         }));
-        fetchInventoryData({getInventoryData,values,updatedData,setTableData})        
-      },
+        fetchInventoryData({
+          getInventoryData,
+          values,
+          updatedData,
+          setTableData,
+        });
+      }
     );
   };
 
