@@ -1,15 +1,17 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 
 import NewSelect from "../../../../../_helper/_select";
 import InputField from "../../../../../_helper/_inputField";
 import { IInput } from "../../../../../_helper/_input";
+import { _formatMoney } from "../../../../../_helper/_formatMoney";
+import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
 
 const validationSchema = {
   bomName: Yup.string().required("Bom Name is required"),
-  bomVersion: Yup.string().required("Bom Version is required").nullable() ,
+  bomVersion: Yup.string().required("Bom Version is required").nullable(),
   lotSize: Yup.number()
     .min(1, "Minimum 1 Chracter")
     .max(10000000, "Maximum 10000000 Chracter")
@@ -80,8 +82,36 @@ export default function FormCmp({
   setCostElementRowData,
 }) {
   const [valid, setValid] = useState(true);
+  const [, getCurrentRateList] = useAxiosGet();
+  const [isFirstRowDtoLoad, setIsFirstRowDtoLoad] = useState(false);
+
   //to get materialDDL in Edit
 
+
+  useEffect(() => {
+    if (rowDto?.length > 0 && !isFirstRowDtoLoad) {
+      const copyRowDto = [...rowDto];
+      const rowItemIds = copyRowDto.map((item) => item?.material?.value);
+      const makeString = rowItemIds?.join(",");
+      getCurrentRateList(
+        `/wms/InventoryLoan/GetMultipleItemRatesByIds?ItemIds=${makeString}&BusinessUnitId=${selectedBusinessUnit?.value}`,
+        (currentRateList) => {
+          const updatedRowDto = copyRowDto.map((item) => {
+            const foundItem = currentRateList?.find(
+              (i) => i.intItemId === item?.rowItemId
+            );
+            return {
+              ...item,
+              apiItemRate: foundItem ? foundItem?.numAverageRate : 0,
+              itemValue: foundItem ? ((foundItem?.numAverageRate || 0) * (item?.quantity || 0)) : 0,
+            };
+          });
+          setRowDto(updatedRowDto);
+        },
+      );
+      setIsFirstRowDtoLoad(true)
+    }
+  }, [rowDto, isFirstRowDtoLoad]);
 
   return (
     <>
@@ -375,47 +405,93 @@ export default function FormCmp({
                   {/* Table Header input end */}
                   <div className="row">
                     <div className="col-lg-12">
-                     <div className="table-responsive">
-                     <table className={"table mt-1 bj-table"}>
-                        <thead className={rowDto?.length === 0 && "d-none"}>
-                          <tr>
-                            <th style={{ width: "30px" }}>SL</th>
-                            <th style={{ width: "120px" }}>Material</th>
-                            <th style={{ width: "100px" }}>Qty</th>
-                            <th style={{ width: "100px" }}>UoM</th>
-                            {/* <th style={{ width: "50px" }}>Actions</th> */}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {rowDto?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>
-                                <div className="pl-2">
-                                  {item?.material?.label}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-center">
-                                  {item?.quantity}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-center">
-                                  {item?.uomName ||
-                                    item?.material?.description ||
-                                    item?.values?.description}
-                                </div>
-                              </td>
+                      <div className="table-responsive">
+                        <table className={"table mt-1 bj-table"}>
+                          <thead className={rowDto?.length === 0 && "d-none"}>
+                            <tr>
+                              <th style={{ width: "30px" }}>SL</th>
+                              <th style={{ width: "120px" }}>Material</th>
+                              <th style={{ width: "100px" }}>Qty</th>
+                              <th style={{ width: "100px" }}>Item Rate</th>
+                              <th style={{ width: "100px" }}>Value</th>
+                              <th style={{ width: "100px" }}>UoM</th>
+                              {/* <th style={{ width: "50px" }}>Actions</th> */}
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {rowDto?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>
+                                  <div className="pl-2">
+                                    {item?.material?.label}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-center">
+                                    {item?.quantity}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-center">
+                                    {item?.apiItemRate}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-center pr-2">
+                                    {item?.itemValue}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-center">
+                                    {item?.uomName ||
+                                      item?.material?.description ||
+                                      item?.values?.description}
+                                  </div>
+                                </td>
 
-                              {/* <td className="text-center">
+                                {/* <td className="text-center">
                                 <IDelete remover={remover} id={index} />
                               </td> */}
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                     </div>
+                              </tr>
+                            ))}
+                            {/* Show total of Item Rate */}
+                            {rowDto?.length > 0 && (
+                              <tr className="font-weight-bold">
+                                <td colSpan={4} className="text-right pr-2">
+                                  Total:
+                                </td>
+                                <td className="text-center">
+                                  {
+                                    rowDto?.reduce(
+                                      (acc, item) => acc + item?.itemValue,
+                                      0
+                                    )
+                                  }
+                                </td>
+                                <td></td>
+                              </tr>
+                            )}
+                            {/* // Show Bom Rare = Total Item Rate / Lot Size */}
+                            {rowDto?.length > 0 && (
+                              <tr className="font-weight-bold">
+                                <td colSpan={4} className="text-right pr-2">
+                                  BOM Rate:
+                                </td>
+                                <td className="text-center text-danger">
+                                  {
+                                    rowDto?.reduce(
+                                      (acc, item) => acc + item?.itemValue,
+                                      0
+                                    ) / values?.lotSize
+                                  }
+                                </td>
+                                <td></td>
+                              </tr>
+                            )}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
 
@@ -494,48 +570,48 @@ export default function FormCmp({
 
                   <div className="row">
                     <div className="col-lg-12">
-                     <div className="table-responsive">
-                     <table className={"table mt-1 bj-table"}>
-                        <thead
-                          className={costElementRowData?.length < 1 && "d-none"}
-                        >
-                          <tr>
-                            <th style={{ width: "20px" }}>SL</th>
-                            <th style={{ width: "80px" }}>Cost Center</th>
-                            <th style={{ width: "100px" }}>Cost Of Element</th>
-                            <th style={{ width: "100px" }}>Cost Type</th>
-                            <th style={{ width: "60px" }}>Amount</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {costElementRowData?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td>
-                                <div className="pl-2">
-                                  {item?.costCenterName}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="pl-2">
-                                  {item?.costElementName}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="pl-2">
-                                  {item?.productionCostType}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-center pr-2">
-                                  {item?.amount}
-                                </div>
-                              </td>
+                      <div className="table-responsive">
+                        <table className={"table mt-1 bj-table"}>
+                          <thead
+                            className={costElementRowData?.length < 1 && "d-none"}
+                          >
+                            <tr>
+                              <th style={{ width: "20px" }}>SL</th>
+                              <th style={{ width: "80px" }}>Cost Center</th>
+                              <th style={{ width: "100px" }}>Cost Of Element</th>
+                              <th style={{ width: "100px" }}>Cost Type</th>
+                              <th style={{ width: "60px" }}>Amount</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                     </div>
+                          </thead>
+                          <tbody>
+                            {costElementRowData?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>
+                                  <div className="pl-2">
+                                    {item?.costCenterName}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="pl-2">
+                                    {item?.costElementName}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="pl-2">
+                                    {item?.productionCostType}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-center pr-2">
+                                    {item?.amount}
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
                     </div>
                   </div>
                   {/* Bill Of Expense Start End Here */}

@@ -13,9 +13,9 @@ import {
   getShopFloorDDL,
 } from "../helper";
 import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
 import InputField from "../../../../_helper/_inputField";
 import NewSelect from "../../../../_helper/_select";
+import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
 
 const validationSchema = {
   bomName: Yup.string().required("Bom Name is required"),
@@ -91,6 +91,9 @@ export default function FormCmp({
   bomTypeDDL,
 }) {
   const [valid, setValid] = useState(true);
+  const [, getCurrentRateList] = useAxiosGet();
+  const [isFirstRowDtoLoad, setIsFirstRowDtoLoad] = useState(false);
+
   //to get materialDDL in Edit
   useEffect(() => {
     if (plantId) {
@@ -103,6 +106,35 @@ export default function FormCmp({
     }
 
   }, []);
+
+  console.log("rowDto1", rowDto);
+
+  useEffect(() => {
+    if (rowDto?.length > 0 && !isFirstRowDtoLoad) {
+      console.log("rowDto", rowDto);
+      const copyRowDto = [...rowDto];
+      const rowItemIds = copyRowDto.map((item) => item?.material?.value);
+      const makeString = rowItemIds?.join(",");
+      getCurrentRateList(
+        `/wms/InventoryLoan/GetMultipleItemRatesByIds?ItemIds=${makeString}&BusinessUnitId=${selectedBusinessUnit?.value}`,
+        (currentRateList) => {
+          const updatedRowDto = copyRowDto.map((item) => {
+            const foundItem = currentRateList?.find(
+              (i) => i.intItemId === item?.rowItemId
+            );
+            return {
+              ...item,
+              apiItemRate: foundItem ? foundItem?.numAverageRate : 0,
+              itemValue: foundItem ? ((foundItem?.numAverageRate || 0) * (item?.quantity || 0)) : 0,
+            };
+          });
+          console.log("updatedRowDto", updatedRowDto);
+          setRowDto(updatedRowDto);
+        },
+      );
+      setIsFirstRowDtoLoad(true)
+    }
+  }, [rowDto, isFirstRowDtoLoad]);
 
   return (
     <>
@@ -450,6 +482,8 @@ export default function FormCmp({
                               <th style={{ width: "120px" }}>Material</th>
                               <th style={{ width: "120px" }}>Item Code</th>
                               <th style={{ width: "100px" }}>Qty</th>
+                              <th style={{ width: "100px" }}>Item Rate</th>
+                              <th style={{ width: "100px" }}>Value</th>
                               <th style={{ width: "100px" }}>UoM</th>
                               {/* <th style={{ width: "50px" }}>Actions</th> */}
                             </tr>
@@ -475,6 +509,16 @@ export default function FormCmp({
                                 </td>
                                 <td>
                                   <div className="text-center">
+                                    {item?.apiItemRate}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-center">
+                                    {item?.itemValue}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-center">
                                     {item?.uomName ||
                                       item?.material?.description ||
                                       item?.values?.description}
@@ -486,6 +530,40 @@ export default function FormCmp({
                               </td> */}
                               </tr>
                             ))}
+                             {/* Show total of Item Rate */}
+                            {rowDto?.length > 0 && (
+                              <tr className="font-weight-bold">
+                                <td colSpan={5} className="text-right pr-2">
+                                  Total:
+                                </td>
+                                <td className="text-center">
+                                  {
+                                    rowDto?.reduce(
+                                      (acc, item) => acc + item?.itemValue,
+                                      0
+                                    )
+                                  }
+                                </td>
+                                <td></td>
+                              </tr>
+                            )}
+                            {/* // Show Bom Rare = Total Item Rate / Lot Size */}
+                            {rowDto?.length > 0 && (
+                              <tr className="font-weight-bold">
+                                <td colSpan={5} className="text-right pr-2">
+                                  BOM Rate:
+                                </td>
+                                <td className="text-center text-danger">
+                                  {
+                                    rowDto?.reduce(
+                                      (acc, item) => acc + item?.itemValue,
+                                      0
+                                    ) / values?.lotSize
+                                  }
+                                </td>
+                                <td></td>
+                              </tr>
+                            )}
                           </tbody>
                         </table>
                       </div>
