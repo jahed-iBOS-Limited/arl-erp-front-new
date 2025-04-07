@@ -240,7 +240,7 @@ export function Routes() {
     };
 
     if (
-      import.meta.NODE_ENV === 'production' &&
+      import.meta.env.MODE === 'production' &&
       window.location.origin !== 'https://deverp.ibos.io' &&
       window.innerWidth > 768
     ) {
