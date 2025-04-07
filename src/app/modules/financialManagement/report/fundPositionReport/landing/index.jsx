@@ -1,5 +1,3 @@
-
-
 import { Form, Formik } from 'formik';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -55,7 +53,7 @@ function FundPositionReport() {
     getFundPositionReportLanding(
       selectedBusinessUnit?.value,
       setGridData,
-      setLoading,
+      setLoading
     );
   }, [selectedBusinessUnit]);
 

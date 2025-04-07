@@ -27,12 +27,8 @@ export default function ItemRateUpdate() {
     return state.authData;
   }, shallowEqual);
   const [itemList, getItemList, , setItemList] = useAxiosGet();
-  const [
-    itemCategoryList,
-    getItemCategoryList,
-    ,
-    setItemCategoryList,
-  ] = useAxiosGet();
+  const [itemCategoryList, getItemCategoryList, , setItemCategoryList] =
+    useAxiosGet();
   const [
     itemSubCategoryList,
     getItemSubCategoryList,
@@ -60,9 +56,8 @@ export default function ItemRateUpdate() {
       setItemList(modiFyData);
     });
     getPlantList(
-      `/wms/Plant/GetPlantDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
+      `/wms/Plant/GetPlantDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, []);
   const saveHandler = (values, cb) => {};
   const dispatch = useDispatch();
@@ -72,11 +67,13 @@ export default function ItemRateUpdate() {
     getGridData(
       `/procurement/PurchaseOrder/GetAllItemsListForRateConfigure?businessUnitId=${
         selectedBusinessUnit?.value
-      }&plantId=${values?.plant?.value || 0}&warehouseId=${values?.warehouse
-        ?.value || 0}&itemTypeId=${values?.itemType?.value ||
-        0}&itemCategoryId=${values?.itemCategory?.value ||
-        0}&itemSubCategoryId=${values?.itemSubCategory?.value ||
-        0}&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}`,
+      }&plantId=${values?.plant?.value || 0}&warehouseId=${
+        values?.warehouse?.value || 0
+      }&itemTypeId=${values?.itemType?.value || 0}&itemCategoryId=${
+        values?.itemCategory?.value || 0
+      }&itemSubCategoryId=${
+        values?.itemSubCategory?.value || 0
+      }&pageNo=${pageNo}&pageSize=${pageSize}${searchTearm}`
     );
   };
 
@@ -140,7 +137,7 @@ export default function ItemRateUpdate() {
                                 label: item?.itemCategoryName,
                               }));
                               setItemCategoryList(modiFyData);
-                            },
+                            }
                           );
                         }
                       }}
@@ -170,7 +167,7 @@ export default function ItemRateUpdate() {
                                 label: item?.itemSubCategoryName,
                               }));
                               setItemSubCategoryList(modiFyData);
-                            },
+                            }
                           );
                         }
                       }}
@@ -206,7 +203,7 @@ export default function ItemRateUpdate() {
                         setWarehouseList([]);
                         if (valueOption) {
                           getWarehouseList(
-                            `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${valueOption?.value}`,
+                            `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${valueOption?.value}`
                           );
                         }
                       }}
@@ -260,8 +257,16 @@ export default function ItemRateUpdate() {
                           <th>Item Name</th>
                           <th>Uom</th>
                           <th>Effective Date</th>
-                          <th>{[144, 189, 188].includes(selectedBusinessUnit?.value) ? "Rate" : "Rate (Dhaka)"}</th>
-                          {![144, 189, 188].includes(selectedBusinessUnit?.value) && <th>Rate (Chittagong)</th>}
+                          <th>
+                            {[144, 189, 188].includes(
+                              selectedBusinessUnit?.value
+                            )
+                              ? 'Rate'
+                              : 'Rate (Dhaka)'}
+                          </th>
+                          {![144, 189, 188].includes(
+                            selectedBusinessUnit?.value
+                          ) && <th>Rate (Chittagong)</th>}
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -276,9 +281,13 @@ export default function ItemRateUpdate() {
                               {_dateTimeFormatter(item?.effectiveDate)}
                             </td>
                             <td className="text-center">{item?.itemRate}</td>
-                            {![144, 189, 188].includes(selectedBusinessUnit?.value) && <td className="text-center">
-                              {item?.itemOthersRate}
-                            </td>}
+                            {![144, 189, 188].includes(
+                              selectedBusinessUnit?.value
+                            ) && (
+                              <td className="text-center">
+                                {item?.itemOthersRate}
+                              </td>
+                            )}
                             <td className="text-center">
                               <div className="">
                                 {item?.attachment ? (
@@ -294,8 +303,8 @@ export default function ItemRateUpdate() {
                                         e.stopPropagation();
                                         dispatch(
                                           getDownlloadFileView_Action(
-                                            item?.attachment,
-                                          ),
+                                            item?.attachment
+                                          )
                                         );
                                       }}
                                       className="ml-2"

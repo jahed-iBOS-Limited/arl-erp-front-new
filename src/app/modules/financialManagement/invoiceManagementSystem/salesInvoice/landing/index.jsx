@@ -1,44 +1,39 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getSalesInvoiceLanding } from "../helper";
-import ICard from "../../../../_helper/_card";
-import Loading from "../../../../_helper/_loading";
-import SalesInvoiceLandingForm from "./form";
-import PaginationSearch from "../../../../_helper/_search";
-import SalesInvoiceLandingTable from "./table";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import { _firstDateofMonth } from '../../../../_helper/_firstDateOfCurrentMonth';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { getSalesInvoiceLanding } from '../helper';
+import ICard from '../../../../_helper/_card';
+import Loading from '../../../../_helper/_loading';
+import SalesInvoiceLandingForm from './form';
+import PaginationSearch from '../../../../_helper/_search';
+import SalesInvoiceLandingTable from './table';
 
 const initData = {
-  order: "",
-  purchaseOrderNo: "",
+  order: '',
+  purchaseOrderNo: '',
   fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
-  contactPerson: "",
-  contactNo: "",
-  projectName: "",
-  delivery: "",
-  challanNo: "",
-  channel: "",
-  type: { value: 1, label: "Details" },
-  status: { value: 1, label: "Complete" },
+  contactPerson: '',
+  contactNo: '',
+  projectName: '',
+  delivery: '',
+  challanNo: '',
+  channel: '',
+  type: { value: 1, label: 'Details' },
+  status: { value: 1, label: 'Complete' },
 };
 
 function SalesInvoiceLandingNew() {
   const [load, setLoading] = useState(false);
   const [rowDto, setRowDto] = useState([]);
   const [pendingData, getPendingData, loader] = useAxiosGet();
-  const[cancelData, getCancelData, cancelLoader] = useAxiosGet()
-  const [
-    topSheetData,
-    getTopSheetData,
-    loading,
-    setTopSheetData,
-  ] = useAxiosGet();
+  const [cancelData, getCancelData, cancelLoader] = useAxiosGet();
+  const [topSheetData, getTopSheetData, loading, setTopSheetData] =
+    useAxiosGet();
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(20);
@@ -51,10 +46,10 @@ function SalesInvoiceLandingNew() {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const getGridData = (values, pageNo = 0, pageSize = 20, search = "") => {
+  const getGridData = (values, pageNo = 0, pageSize = 20, search = '') => {
     if (values?.status?.value === 1) {
       if (values?.type?.value === 2) {
-        const searchTerm = search ? `&search=${search}` : "";
+        const searchTerm = search ? `&search=${search}` : '';
         getTopSheetData(
           `/oms/OManagementReport/GetSalesInvoiceLandingTopSheet?BusinessunitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${searchTerm}`
         );
@@ -74,17 +69,19 @@ function SalesInvoiceLandingNew() {
       }
     } else if (values?.status?.value === 2) {
       getPendingData(
-        `/oms/OManagementReport/GetPendingSalesInvoiceLanding?businessunitId=${buId}&channelId=${values
-          ?.channel?.value || 0}&fromDate=${values?.fromDate}&toDate=${
+        `/oms/OManagementReport/GetPendingSalesInvoiceLanding?businessunitId=${buId}&channelId=${
+          values?.channel?.value || 0
+        }&fromDate=${values?.fromDate}&toDate=${
           values?.toDate
         }&pageNo=${pageNo}&pageSize=${pageSize}`
       );
-    }else if (values?.status?.value === 3) {
+    } else if (values?.status?.value === 3) {
       getCancelData(
-        `/oms/OManagementReport/GetDeletedSalesInvoiceLanding?BusinessunitId=${buId}&ChannelId=${values
-          ?.channel?.value || 0}&FromDate=${values?.fromDate}&ToDate=${
-            values?.toDate
-          }&PageNo=${pageNo}&PageSize=${pageSize}`
+        `/oms/OManagementReport/GetDeletedSalesInvoiceLanding?BusinessunitId=${buId}&ChannelId=${
+          values?.channel?.value || 0
+        }&FromDate=${values?.fromDate}&ToDate=${
+          values?.toDate
+        }&PageNo=${pageNo}&PageSize=${pageSize}`
       );
     }
   };
@@ -111,10 +108,10 @@ function SalesInvoiceLandingNew() {
       return values?.status?.value === 1
         ? rowDto
         : values?.status?.value === 2
-        ? pendingData
-        : values?.status?.value === 3
-        ? cancelData
-        : [];
+          ? pendingData
+          : values?.status?.value === 3
+            ? cancelData
+            : [];
     }
   };
 

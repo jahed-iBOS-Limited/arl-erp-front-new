@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { _formatMoney } from "../../../../../_helper/_formatMoney";
-import FormikInput from "../../../../_chartinghelper/common/formikInput";
-import IViewModal from "../../../../_chartinghelper/_viewModal";
-import { getOilRateApi } from "../../helper";
-import { calculateTotalExpense } from "../../utils";
-import { UpdateOilRateModal } from "./updateOilRateModal";
+import React, { useEffect, useState } from 'react';
+import { _formatMoney } from '../../../../../_helper/_formatMoney';
+import FormikInput from '../../../../_chartinghelper/common/formikInput';
+import IViewModal from '../../../../_chartinghelper/_viewModal';
+import { getOilRateApi } from '../../helper';
+import { calculateTotalExpense } from '../../utils';
+import { UpdateOilRateModal } from './updateOilRateModal';
 
 const RateEditIcon = ({ onClick }) => {
   return (
     <span
       onClick={() => onClick()}
-      style={{ position: "absolute", top: 0, right: "12px", cursor: "pointer" }}
+      style={{ position: 'absolute', top: 0, right: '12px', cursor: 'pointer' }}
     >
-      <i style={{ color: "#08a5e5" }} className="fa fa-edit"></i>
+      <i style={{ color: '#08a5e5' }} className="fa fa-edit"></i>
     </span>
   );
 };
@@ -26,7 +26,6 @@ export function ExpenseSection(props) {
     getOilRateApi({ values, setFieldValue });
     // if (viewType !== "view" || viewType !== "edit") {
     // }
-
   }, []);
 
   return (
@@ -46,15 +45,15 @@ export function ExpenseSection(props) {
                 placeholder="Amount"
                 onChange={(e) => {
                   setFieldValue(
-                    "numDieselCost",
+                    'numDieselCost',
                     (+e.target.value * +values?.numDieselRate)?.toFixed(2) || 0
                   );
-                  setFieldValue("numDieselSupply", e.target.value);
+                  setFieldValue('numDieselSupply', e.target.value);
                 }}
                 type="number"
                 errors={errors}
                 touched={touched}
-                disabled={viewType === "view"}
+                disabled={viewType === 'view'}
               />
             </div>
             <div className="col-lg-4 relative">
@@ -65,11 +64,11 @@ export function ExpenseSection(props) {
                 placeholder="Rate"
                 onChange={(e) => {
                   setFieldValue(
-                    "numDieselCost",
+                    'numDieselCost',
                     (+e.target.value * +values?.numDieselSupply)?.toFixed(2) ||
                       0
                   );
-                  setFieldValue("numDieselRate", e.target.value);
+                  setFieldValue('numDieselRate', e.target.value);
                 }}
                 type="number"
                 errors={errors}
@@ -103,14 +102,14 @@ export function ExpenseSection(props) {
                 type="number"
                 onChange={(e) => {
                   setFieldValue(
-                    "numLubCost",
+                    'numLubCost',
                     (+e.target.value * +values?.numLubRate)?.toFixed(2) || 0
                   );
-                  setFieldValue("numLubSupply", e.target.value);
+                  setFieldValue('numLubSupply', e.target.value);
                 }}
                 errors={errors}
                 touched={touched}
-                disabled={viewType === "view"}
+                disabled={viewType === 'view'}
               />
             </div>
             <div className="col-lg-4">
@@ -122,10 +121,10 @@ export function ExpenseSection(props) {
                 type="number"
                 onChange={(e) => {
                   setFieldValue(
-                    "numLubCost",
+                    'numLubCost',
                     (+e.target.value * +values?.numLubSupply)?.toFixed(2) || 0
                   );
-                  setFieldValue("numLubRate", e.target.value);
+                  setFieldValue('numLubRate', e.target.value);
                 }}
                 errors={errors}
                 touched={touched}
@@ -154,15 +153,15 @@ export function ExpenseSection(props) {
                 type="number"
                 onChange={(e) => {
                   setFieldValue(
-                    "numHydrolicCost",
+                    'numHydrolicCost',
                     (+e.target.value * +values?.numHydrolicRate)?.toFixed(2) ||
                       0
                   );
-                  setFieldValue("numHydrolicSupply", e.target.value);
+                  setFieldValue('numHydrolicSupply', e.target.value);
                 }}
                 errors={errors}
                 touched={touched}
-                disabled={viewType === "view"}
+                disabled={viewType === 'view'}
               />
             </div>
             <div className="col-lg-4">
@@ -173,12 +172,12 @@ export function ExpenseSection(props) {
                 placeholder="Rate"
                 onChange={(e) => {
                   setFieldValue(
-                    "numHydrolicCost",
+                    'numHydrolicCost',
                     (+e.target.value * +values?.numHydrolicSupply)?.toFixed(
                       2
                     ) || 0
                   );
-                  setFieldValue("numHydrolicRate", e.target.value);
+                  setFieldValue('numHydrolicRate', e.target.value);
                 }}
                 type="number"
                 errors={errors}
@@ -248,7 +247,7 @@ export function ExpenseSection(props) {
                 type="text"
                 errors={errors}
                 touched={touched}
-                disabled={viewType === "view"}
+                disabled={viewType === 'view'}
               />
             </div>
 
@@ -261,7 +260,7 @@ export function ExpenseSection(props) {
                 type="text"
                 errors={errors}
                 touched={touched}
-                disabled={viewType === "view"}
+                disabled={viewType === 'view'}
               />
             </div>
 

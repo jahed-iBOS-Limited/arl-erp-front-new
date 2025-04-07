@@ -1,33 +1,32 @@
-
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../../../_metronic/_partials/controls";
-import Form from "./form";
-import Axios from "axios";
-import shortid from "shortid";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { isUniq } from "../../../../../../_helper/uniqChecker";
-import { toast } from "react-toastify";
-import Loading from "./../../../../../../_helper/_loading";
+} from '../../../../../../../../_metronic/_partials/controls';
+import Form from './form';
+import Axios from 'axios';
+import shortid from 'shortid';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { isUniq } from '../../../../../../_helper/uniqChecker';
+import { toast } from 'react-toastify';
+import Loading from './../../../../../../_helper/_loading';
 
 const initProduct = {
-  purchaseOrganization: "",
-  priceStructure: "",
-  generalLedgerName: "",
-  accuredGeneralLedgerName: "",
-  advancedGeneralLedgerName: "",
-  itemCategory: "",
-  itemName: "",
-  sbu: "",
-  shipPointName: "",
-  tdsSupplierType:"",
-  natureofBusiness: "",
+  purchaseOrganization: '',
+  priceStructure: '',
+  generalLedgerName: '',
+  accuredGeneralLedgerName: '',
+  advancedGeneralLedgerName: '',
+  itemCategory: '',
+  itemName: '',
+  sbu: '',
+  shipPointName: '',
+  tdsSupplierType: '',
+  natureofBusiness: '',
 };
 
 export default function PartnerPurchase() {
@@ -39,7 +38,7 @@ export default function PartnerPurchase() {
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
   const [shipPointRowDto, setShipPointRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   useEffect(() => {
     SingleData(id);
@@ -60,7 +59,7 @@ export default function PartnerPurchase() {
         let newobjdata = res.data[0]?.objdata?.map((item) => ({
           ...item,
           shipPointName: item?.strPartnerShippointName,
-          isActive:true
+          isActive: true,
         }));
 
         //setRowDto([...newData]);
@@ -87,12 +86,12 @@ export default function PartnerPurchase() {
         setSingleData({
           configId,
           sbu: {
-            value: sbuid || "",
-            label: sbuName || "",
+            value: sbuid || '',
+            label: sbuName || '',
           },
           purchaseOrganization: {
-            value: purchaseOrganizationId || "",
-            label: purchaseOrganizationName || "",
+            value: purchaseOrganizationId || '',
+            label: purchaseOrganizationName || '',
           },
           priceStructure: {
             value: priceStructureId,
@@ -103,31 +102,35 @@ export default function PartnerPurchase() {
             label: acPayGLName,
           },
           accuredGeneralLedgerName: {
-            value: accruedPayGLId || "",
-            label: accruedPayGLName || "",
+            value: accruedPayGLId || '',
+            label: accruedPayGLName || '',
           },
           advancedGeneralLedgerName: {
-            value: advanceGLId || "",
-            label: advanceGLName || "",
+            value: advanceGLId || '',
+            label: advanceGLName || '',
           },
-          tdsSupplierType:intTdssupplierTypeId && strTdssupplierTypeName ? {
-            value: intTdssupplierTypeId || "",
-            label: strTdssupplierTypeName || "",
-          } : "",
-          natureofBusiness: IntVdssupplierTypeId && strVdssupplierTypeName ? {
-            value:IntVdssupplierTypeId,
-            label:strVdssupplierTypeName
-          } : "",
-          itemCategory: "",
-          itemName: "",
+          tdsSupplierType:
+            intTdssupplierTypeId && strTdssupplierTypeName
+              ? {
+                  value: intTdssupplierTypeId || '',
+                  label: strTdssupplierTypeName || '',
+                }
+              : '',
+          natureofBusiness:
+            IntVdssupplierTypeId && strVdssupplierTypeName
+              ? {
+                  value: IntVdssupplierTypeId,
+                  label: strVdssupplierTypeName,
+                }
+              : '',
+          itemCategory: '',
+          itemName: '',
         });
       } else {
         setRowDto([]);
         setShipPointRowDto([]);
       }
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   const savePurchase = async (values, cb) => {
@@ -149,7 +152,7 @@ export default function PartnerPurchase() {
       let objdata = shipPointRowDto?.map((itm) => {
         return {
           strPartnerShippointName: itm?.shipPointName,
-          isActive:itm?.isActive
+          isActive: itm?.isActive,
         };
       });
 
@@ -168,7 +171,7 @@ export default function PartnerPurchase() {
           ledgerBalance: 0,
           unbilledAmount: 0,
           actionBy,
-          dteLastActionDateTime: "2020-08-31T04:49:29.981Z",
+          dteLastActionDateTime: '2020-08-31T04:49:29.981Z',
           isActive: true,
           intTdssupplierTypeId: values?.tdsSupplierType?.value || 0,
           IntVdsSupplierTypeId: values?.natureofBusiness?.value || 0,
@@ -180,13 +183,13 @@ export default function PartnerPurchase() {
       try {
         setDisabled(true);
         const res = await Axios.post(
-          "/partner/BusinessPartnerPurchaseInfo/CreateBusinessPartnerPurchaseInfo",
+          '/partner/BusinessPartnerPurchaseInfo/CreateBusinessPartnerPurchaseInfo',
           purchaseData
         );
         if (res.status === 200) {
         }
         cb(initProduct);
-        toast.success(res.data?.message || "Submitted successfully", {
+        toast.success(res.data?.message || 'Submitted successfully', {
           toastId: shortid(),
         });
         setDisabled(false);
@@ -200,13 +203,13 @@ export default function PartnerPurchase() {
   };
 
   const setter = (payload) => {
-    if (isUniq("itemId", payload.itemId, rowDto)) {
+    if (isUniq('itemId', payload.itemId, rowDto)) {
       setRowDto([...rowDto, payload]);
     }
   };
 
   const shipPointSetter = (payload) => {
-    if (isUniq("shipPointName", payload.shipPointName, shipPointRowDto)) {
+    if (isUniq('shipPointName', payload.shipPointName, shipPointRowDto)) {
       setShipPointRowDto([...shipPointRowDto, payload]);
     }
   };
@@ -217,8 +220,10 @@ export default function PartnerPurchase() {
   };
 
   const shipPointRemover = (item) => {
-    if(item.id === 0){
-      const filterArr = shipPointRowDto.filter((itm, idx) => itm.shipPointName !== item.shipPointName);
+    if (item.id === 0) {
+      const filterArr = shipPointRowDto.filter(
+        (itm, idx) => itm.shipPointName !== item.shipPointName
+      );
       setShipPointRowDto(filterArr);
     }
   };
@@ -238,13 +243,13 @@ export default function PartnerPurchase() {
   };
 
   const rowDtoHandler = (name, value, sl) => {
-    let data = [...shipPointRowDto]
-    let _sl = data[sl]
-       _sl[name] = value
-      setShipPointRowDto(data)
-  }
+    let data = [...shipPointRowDto];
+    let _sl = data[sl];
+    _sl[name] = value;
+    setShipPointRowDto(data);
+  };
 
-  console.log(shipPointRowDto,"shipment")
+  console.log(shipPointRowDto, 'shipment');
 
   return (
     <Card>

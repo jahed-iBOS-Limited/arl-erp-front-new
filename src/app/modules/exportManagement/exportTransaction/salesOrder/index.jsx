@@ -1,34 +1,34 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import IView from "../../../_helper/_helperIcons/_view";
-import InputField from "../../../_helper/_inputField";
-import { _monthLastDate } from "../../../_helper/_monthLastDate";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
-import PaginationSearch from "../../../_helper/_search";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import ICon from "../../../chartering/_chartinghelper/icons/_icon";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import JobOrderView from "./jobOrderView";
-import SalesOrderView from "./salesOrderView";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import IView from '../../../_helper/_helperIcons/_view';
+import InputField from '../../../_helper/_inputField';
+import { _monthLastDate } from '../../../_helper/_monthLastDate';
+import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
+import PaginationSearch from '../../../_helper/_search';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import ICon from '../../../chartering/_chartinghelper/icons/_icon';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import JobOrderView from './jobOrderView';
+import SalesOrderView from './salesOrderView';
 
 const initData = {
-  orderType: "",
-  sbu: "",
-  plant: "",
-  salesOrg: "",
-  shipPoint: "",
-  distributionChannel: "",
-  salesOffice: "",
+  orderType: '',
+  sbu: '',
+  plant: '',
+  salesOrg: '',
+  shipPoint: '',
+  distributionChannel: '',
+  salesOffice: '',
   fromDate: _todayDate(),
   toDate: _monthLastDate(),
 };
@@ -54,12 +54,8 @@ export default function SalesOrderLanding() {
   const [sbuDDL, getSbuDDL, sbuLoading] = useAxiosGet();
   const [plantDDL, getPlantDDL, plantLoading] = useAxiosGet();
   const [salesOrgDDL, getSalesOrgDDL, salesOrgLoading] = useAxiosGet();
-  const [
-    shipPointDDL,
-    getShipPointDDL,
-    shipPointLoading,
-    setShipPointDDL,
-  ] = useAxiosGet();
+  const [shipPointDDL, getShipPointDDL, shipPointLoading, setShipPointDDL] =
+    useAxiosGet();
   const [
     distributionChannelDDL,
     getDistributionChannelDDL,
@@ -110,7 +106,6 @@ export default function SalesOrderLanding() {
         profileData?.accountId
       }&BusinessUnitId=${selectedBusinessUnit?.value}&SalesOrgId=${7}`
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {};
@@ -120,18 +115,21 @@ export default function SalesOrderLanding() {
     (data) => data?.value === 96
   );
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getRowData(
       `/oms/SalesOrder/GetForeignSalesOrderPagination?searchTerm=${searchValue}
          &accountId=${profileData?.accountId}&businessUnitId=${
-        selectedBusinessUnit?.value
-      }
-         &salesOrgId=${values?.salesOrg?.value || 0}&plantId=${values?.plant
-        ?.value || 0}
-         &shipPointId=${values?.shipPoint?.value || 0}&channelId=${values
-        ?.distributionChannel?.value || 0}
-         &salesOfficeId=${values?.salesOffice?.value ||
-           0}&pageNo=${pageNo}&pageSize=${pageSize}&viewOrder=desc`,
+           selectedBusinessUnit?.value
+         }
+         &salesOrgId=${values?.salesOrg?.value || 0}&plantId=${
+           values?.plant?.value || 0
+         }
+         &shipPointId=${values?.shipPoint?.value || 0}&channelId=${
+           values?.distributionChannel?.value || 0
+         }
+         &salesOfficeId=${
+           values?.salesOffice?.value || 0
+         }&pageNo=${pageNo}&pageSize=${pageSize}&viewOrder=desc`,
       (data) => {
         setRowData(data);
       }
@@ -146,16 +144,16 @@ export default function SalesOrderLanding() {
       enableReinitialize={true}
       initialValues={{
         ...initData,
-        orderType: orderTypeDDL?.length > 0 ? orderTypeDDL[0] : "",
-        sbu: sbuDDL?.length > 0 ? sbuDDL[0] : "",
-        salesOrg: modifySalesOrgDDL?.length > 0 ? modifySalesOrgDDL[0] : "",
-        shipPoint: shipPointDDL?.length > 0 ? shipPointDDL[0] : "",
+        orderType: orderTypeDDL?.length > 0 ? orderTypeDDL[0] : '',
+        sbu: sbuDDL?.length > 0 ? sbuDDL[0] : '',
+        salesOrg: modifySalesOrgDDL?.length > 0 ? modifySalesOrgDDL[0] : '',
+        shipPoint: shipPointDDL?.length > 0 ? shipPointDDL[0] : '',
         distributionChannel:
           modifyDistribuationChannelDDL?.length > 0
             ? modifyDistribuationChannelDDL[0]
-            : "",
-        plant: plantDDL?.length > 0 ? plantDDL[1] : "",
-        salesOffice: salesOfficeDDL?.length > 0 ? salesOfficeDDL[0] : "",
+            : '',
+        plant: plantDDL?.length > 0 ? plantDDL[1] : '',
+        salesOffice: salesOfficeDDL?.length > 0 ? salesOfficeDDL[0] : '',
       }}
       // validationSchema={{}}
       onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -225,9 +223,9 @@ export default function SalesOrderLanding() {
                     label="Order Type"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("orderType", valueOption);
+                        setFieldValue('orderType', valueOption);
                       } else {
-                        setFieldValue("orderType", "");
+                        setFieldValue('orderType', '');
                       }
                     }}
                   />
@@ -240,14 +238,14 @@ export default function SalesOrderLanding() {
                     label="SBU"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("sbu", valueOption);
+                        setFieldValue('sbu', valueOption);
 
-                        setFieldValue("salesOrg", "");
-                        setFieldValue("distributionChannel", "");
+                        setFieldValue('salesOrg', '');
+                        setFieldValue('distributionChannel', '');
                       } else {
-                        setFieldValue("sbu", "");
-                        setFieldValue("salesOrg", "");
-                        setFieldValue("distributionChannel", "");
+                        setFieldValue('sbu', '');
+                        setFieldValue('salesOrg', '');
+                        setFieldValue('distributionChannel', '');
                       }
                     }}
                   />
@@ -260,11 +258,11 @@ export default function SalesOrderLanding() {
                     label="Plant"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("plant", valueOption);
-                        setFieldValue("salesOffice", "");
+                        setFieldValue('plant', valueOption);
+                        setFieldValue('salesOffice', '');
                       } else {
-                        setFieldValue("plant", "");
-                        setFieldValue("salesOffice", "");
+                        setFieldValue('plant', '');
+                        setFieldValue('salesOffice', '');
                       }
                     }}
                   />
@@ -277,9 +275,9 @@ export default function SalesOrderLanding() {
                     label="Sales Org"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("salesOrg", valueOption);
+                        setFieldValue('salesOrg', valueOption);
                       } else {
-                        setFieldValue("salesOrg", "");
+                        setFieldValue('salesOrg', '');
                       }
                     }}
                   />
@@ -292,9 +290,9 @@ export default function SalesOrderLanding() {
                     label="ShipPoint"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("shipPoint", valueOption);
+                        setFieldValue('shipPoint', valueOption);
                       } else {
-                        setFieldValue("shipPoint", "");
+                        setFieldValue('shipPoint', '');
                       }
                     }}
                   />
@@ -307,9 +305,9 @@ export default function SalesOrderLanding() {
                     label="Distribution Channel"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("distributionChannel", valueOption);
+                        setFieldValue('distributionChannel', valueOption);
                       } else {
-                        setFieldValue("distributionChannel", "");
+                        setFieldValue('distributionChannel', '');
                       }
                     }}
                   />
@@ -322,9 +320,9 @@ export default function SalesOrderLanding() {
                     label="Sales Office"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("salesOffice", valueOption);
+                        setFieldValue('salesOffice', valueOption);
                       } else {
-                        setFieldValue("salesOffice", "");
+                        setFieldValue('salesOffice', '');
                       }
                     }}
                   />
@@ -352,7 +350,7 @@ export default function SalesOrderLanding() {
                 <div className="col-lg-3">
                   <button
                     style={{
-                      marginTop: "17px",
+                      marginTop: '17px',
                     }}
                     className="btn btn-primary"
                     type="button"
@@ -362,12 +360,15 @@ export default function SalesOrderLanding() {
                           profileData?.accountId
                         }&businessUnitId=${
                           selectedBusinessUnit?.value
-                        }&salesOrgId=${values?.salesOrg?.value ||
-                          0}&plantId=${values?.plant?.value ||
-                          0}&shipPointId=${values?.shipPoint?.value ||
-                          0}&channelId=${values?.distributionChannel?.value ||
-                          0}&salesOfficeId=${values?.salesOffice?.value ||
-                          0}&pageNo=${pageNo}&pageSize=${pageSize}&viewOrder=desc`,
+                        }&salesOrgId=${values?.salesOrg?.value || 0}&plantId=${
+                          values?.plant?.value || 0
+                        }&shipPointId=${
+                          values?.shipPoint?.value || 0
+                        }&channelId=${
+                          values?.distributionChannel?.value || 0
+                        }&salesOfficeId=${
+                          values?.salesOffice?.value || 0
+                        }&pageNo=${pageNo}&pageSize=${pageSize}&viewOrder=desc`,
                         (data) => {
                           setRowData(data);
                         }
@@ -391,77 +392,79 @@ export default function SalesOrderLanding() {
                 </div>
                 <div className="col-lg-12">
                   <div className="table-responsive">
-                  <table className="table table-striped table-bordered global-table sales_order_landing_table">
-                    <thead>
-                      <tr>
-                        <th style={{ width: "35px" }}>SL</th>
-                        <th style={{ width: "90px" }}>Order No</th>
-                        <th style={{ width: "90px" }}>Order Date</th>
-                        <th style={{ width: "90px" }}>Ref. Type</th>
-                        <th>Sold To Party</th>
-                        <th>ShipPoint</th>
-                        <th>Payment Terms</th>
-                        <th style={{ width: "75px" }}>Order Total</th>
-                        <th style={{ width: "60px" }}>Approval Status</th>
-                        <th style={{ width: "100px" }}>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowData?.data?.length > 0 &&
-                        rowData?.data?.map((td, index) => (
-                          <tr key={index}>
-                            <td className="text-center"> {td.sl} </td>
-                            <td>
-                              <div className="pl-2">{td.salesOrderCode}</div>
-                            </td>
-                            <td className="text-center">
-                              {td?.salesOrderDate
-                                ? _dateFormatter(td.salesOrderDate)
-                                : ""}
-                            </td>
-                            <td className="text-center">
-                              {td?.refferenceTypeName}
-                            </td>
-                            <td> {td.soldToPartnerName} </td>
-                            <td> {td.shippointName} </td>
-                            <td> {td.paymentTermsName} </td>
-                            <td className="text-right">
-                              {" "}
-                              {td.totalOrderValue
-                                ? _formatMoney(td.totalOrderValue)
-                                : ""}
-                            </td>
-                            <td className="text-right">{""}</td>
-                            <td>
-                              <div className="d-flex justify-content-around">
-                                <span className="view">
-                                  <IView
-                                    clickHandler={() => {
-                                      setSalesQuotationId(td?.quotationId);
-                                      setOrderViewModal(true);
-                                    }}
-                                  />
-                                </span>
-                                <span className="view">
-                                  <ICon
-                                    title={"View Attachment"}
-                                    onClick={() => {
-                                      if (td?.attachmentno) {
-                                        dispatch(
-                                          getDownlloadFileView_Action(
-                                            td?.attachmentno
-                                          )
-                                        );
-                                      } else {
-                                        toast.warn("Attachment not uploaded!");
-                                      }
-                                    }}
-                                  >
-                                    <i class="fas fa-file-image"></i>{" "}
-                                  </ICon>
-                                </span>
-                                {/* job order */}
-                                {/* <span className="Job Order Entry">
+                    <table className="table table-striped table-bordered global-table sales_order_landing_table">
+                      <thead>
+                        <tr>
+                          <th style={{ width: '35px' }}>SL</th>
+                          <th style={{ width: '90px' }}>Order No</th>
+                          <th style={{ width: '90px' }}>Order Date</th>
+                          <th style={{ width: '90px' }}>Ref. Type</th>
+                          <th>Sold To Party</th>
+                          <th>ShipPoint</th>
+                          <th>Payment Terms</th>
+                          <th style={{ width: '75px' }}>Order Total</th>
+                          <th style={{ width: '60px' }}>Approval Status</th>
+                          <th style={{ width: '100px' }}>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rowData?.data?.length > 0 &&
+                          rowData?.data?.map((td, index) => (
+                            <tr key={index}>
+                              <td className="text-center"> {td.sl} </td>
+                              <td>
+                                <div className="pl-2">{td.salesOrderCode}</div>
+                              </td>
+                              <td className="text-center">
+                                {td?.salesOrderDate
+                                  ? _dateFormatter(td.salesOrderDate)
+                                  : ''}
+                              </td>
+                              <td className="text-center">
+                                {td?.refferenceTypeName}
+                              </td>
+                              <td> {td.soldToPartnerName} </td>
+                              <td> {td.shippointName} </td>
+                              <td> {td.paymentTermsName} </td>
+                              <td className="text-right">
+                                {' '}
+                                {td.totalOrderValue
+                                  ? _formatMoney(td.totalOrderValue)
+                                  : ''}
+                              </td>
+                              <td className="text-right">{''}</td>
+                              <td>
+                                <div className="d-flex justify-content-around">
+                                  <span className="view">
+                                    <IView
+                                      clickHandler={() => {
+                                        setSalesQuotationId(td?.quotationId);
+                                        setOrderViewModal(true);
+                                      }}
+                                    />
+                                  </span>
+                                  <span className="view">
+                                    <ICon
+                                      title={'View Attachment'}
+                                      onClick={() => {
+                                        if (td?.attachmentno) {
+                                          dispatch(
+                                            getDownlloadFileView_Action(
+                                              td?.attachmentno
+                                            )
+                                          );
+                                        } else {
+                                          toast.warn(
+                                            'Attachment not uploaded!'
+                                          );
+                                        }
+                                      }}
+                                    >
+                                      <i class="fas fa-file-image"></i>{' '}
+                                    </ICon>
+                                  </span>
+                                  {/* job order */}
+                                  {/* <span className="Job Order Entry">
                                   <IEdit
                                     title="Job Order Entry"
                                     onClick={() => {
@@ -472,20 +475,20 @@ export default function SalesOrderLanding() {
                                     }}
                                   />
                                 </span> */}
-                                <span className="view">
-                                  <IView
-                                    clickHandler={() => {
-                                      setSalesQuotationId(td?.quotationId);
-                                      setJobOrderViewModal(true);
-                                    }}
-                                  />
-                                </span>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
+                                  <span className="view">
+                                    <IView
+                                      clickHandler={() => {
+                                        setSalesQuotationId(td?.quotationId);
+                                        setJobOrderViewModal(true);
+                                      }}
+                                    />
+                                  </span>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
                   </div>
                   {/* Sales Order modal */}
                   <IViewModal
@@ -507,7 +510,7 @@ export default function SalesOrderLanding() {
                       setSalesQuotationId(null);
                     }}
                   >
-                    <JobOrderView salesQuotationId={salesQuotationId}/>
+                    <JobOrderView salesQuotationId={salesQuotationId} />
                   </IViewModal>
                 </div>
                 {rowData?.data?.length > 0 && (

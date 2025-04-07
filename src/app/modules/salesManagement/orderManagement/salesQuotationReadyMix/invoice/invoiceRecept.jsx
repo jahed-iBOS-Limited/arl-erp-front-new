@@ -1,8 +1,8 @@
-import React from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import "./InvoiceRecept.css";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import moment from "moment";
+import React from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import './InvoiceRecept.css';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import moment from 'moment';
 
 const InvoiceRecept = ({ printRef, invoiceData, businessPartnerInfo }) => {
   const {
@@ -26,7 +26,7 @@ const InvoiceRecept = ({ printRef, invoiceData, businessPartnerInfo }) => {
         </div>
         <div className="logo">
           <img
-            style={{ width: "255px", objectFit: "cover" }}
+            style={{ width: '255px', objectFit: 'cover' }}
             src={`${window?.location?.origin}/domain/Document/DownlloadFile?id=${selectedBusinessUnit?.imageId}`}
             alt=""
           />
@@ -35,7 +35,7 @@ const InvoiceRecept = ({ printRef, invoiceData, businessPartnerInfo }) => {
 
       <div className="main_table">
         <div>
-          <p>Date: {moment(_todayDate()).format("DD MMM YYYY")}</p>
+          <p>Date: {moment(_todayDate()).format('DD MMM YYYY')}</p>
           <div className="bold">
             <p>To</p>
             <p>Managing Director</p>
@@ -108,7 +108,7 @@ const InvoiceRecept = ({ printRef, invoiceData, businessPartnerInfo }) => {
           </div>
         </div>
 
-        <p className="text-center bold mb-2">{"Commercial Offer"}</p>
+        <p className="text-center bold mb-2">{'Commercial Offer'}</p>
         <div className="table-responsive">
           <table className="table">
             <thead>
@@ -128,15 +128,15 @@ const InvoiceRecept = ({ printRef, invoiceData, businessPartnerInfo }) => {
                     <td className="text-left">{item?.itemName}</td>
                     <td className="text-center">
                       {/OPC/.test(item?.itemName)
-                        ? "Akij Brand OPC"
-                        : "Akij Brand PCC"}
+                        ? 'Akij Brand OPC'
+                        : 'Akij Brand PCC'}
                     </td>
                     <td className="text-center">{`${item?.paymentMode}`}</td>
                     <td className="text-center">
-                      {item?.isAitinclude ? "Yes" : "No"}
+                      {item?.isAitinclude ? 'Yes' : 'No'}
                     </td>
                     <td className="text-center">
-                      {item?.isIncludeVat ? "Yes" : "No"}
+                      {item?.isIncludeVat ? 'Yes' : 'No'}
                     </td>
                     <td className="text-center">{item?.itemPrice}</td>
                   </tr>

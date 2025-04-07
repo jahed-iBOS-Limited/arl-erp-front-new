@@ -29,7 +29,7 @@ const ProductToRM = () => {
   const [, saveData, tagRMloading] = useAxiosPost();
   const { selectedBusinessUnit, profileData } = useSelector(
     (state) => state.authData,
-    shallowEqual,
+    shallowEqual
   );
   const location = useLocation();
   const history = useHistory();
@@ -41,14 +41,12 @@ const ProductToRM = () => {
       `costmgmt/Precosting/ProductGetById?productId=${item?.productId}`,
       (data) => {
         setRowData(data?.materialMappings || []);
-      },
+      }
     );
-
   }, [selectedBusinessUnit?.value, item?.productId]);
 
   const saveHandler = (values) => {
     const materialMappings = [];
-
 
     rowData?.forEach((data) => {
       if (data?.materialItemName && data?.materialItemId) {
@@ -87,13 +85,13 @@ const ProductToRM = () => {
         if (res.statuscode === 200) {
           history.push('/internal-control/costing/costingconfiguration');
         }
-      },
+      }
     );
   };
 
   const addNewRawMaterialHandler = (values) => {
     let foundData = rowData?.filter(
-      (item) => item?.materialItemId === values?.rawMaterial?.value,
+      (item) => item?.materialItemId === values?.rawMaterial?.value
     );
     if (foundData?.length > 0) {
       toast.warning('Raw Material already exists', { toastId: 'RMe' });
@@ -111,7 +109,7 @@ const ProductToRM = () => {
 
   const handleDelete = (rmValue) => {
     const filterData = rowData.filter(
-      (item) => item.materialItemId !== rmValue,
+      (item) => item.materialItemId !== rmValue
     );
     setRowData(filterData);
   };
@@ -157,7 +155,7 @@ const ProductToRM = () => {
                         if (searchValue?.length < 3) return [];
                         return axios
                           .get(
-                            `/costmgmt/Precosting/GetPrecostingItemDDL?businessUnitId=${selectedBusinessUnit?.value}&itemTypeId=1&search=${searchValue}`,
+                            `/costmgmt/Precosting/GetPrecostingItemDDL?businessUnitId=${selectedBusinessUnit?.value}&itemTypeId=1&search=${searchValue}`
                           )
                           .then((res) => res?.data);
                       }}

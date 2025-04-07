@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { validationSchema, initData, CostElementDDLApi } from './helper';
@@ -80,25 +79,22 @@ export default function CreateForm({
     dispatch(
       getBusinessPartnerDDLAction(
         profileData.accountId,
-        selectedBusinessUnit.value,
-      ),
+        selectedBusinessUnit.value
+      )
     );
     dispatch(
-      getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value),
+      getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value)
     );
     // dispatch(getItemDDLAction(profileData.accountId,selectedBusinessUnit.value,landingData?.plant?.value,landingData?.warehouse?.value))
     dispatch(
       getCostCenterDDLAction(
         profileData.accountId,
         selectedBusinessUnit.value,
-        landingData?.sbu?.value,
-      ),
+        landingData?.sbu?.value
+      )
     );
     dispatch(
-      getprojectNameDDLAction(
-        profileData.accountId,
-        selectedBusinessUnit.value,
-      ),
+      getprojectNameDDLAction(profileData.accountId, selectedBusinessUnit.value)
     );
     dispatch(getStockDDLAction());
     dispatch(
@@ -106,8 +102,8 @@ export default function CreateForm({
         profileData.accountId,
         selectedBusinessUnit.value,
         landingData?.plant?.value,
-        landingData?.warehouse?.value,
-      ),
+        landingData?.warehouse?.value
+      )
     );
     dispatch(getBusinessTransactionDDLAction(selectedBusinessUnit.value));
 
@@ -117,7 +113,6 @@ export default function CreateForm({
       dispatch(slice.setreferenceNoDDL([]));
       dispatch(slice.setTransactionTypeDDL([]));
     };
-
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
   const onChaneForRefType = (refTyp) => {
@@ -128,11 +123,11 @@ export default function CreateForm({
         profileData?.accountId,
         selectedBusinessUnit?.value,
         landingData?.plant?.value,
-        landingData?.warehouse?.value,
-      ),
+        landingData?.warehouse?.value
+      )
     );
     dispatch(
-      getTransactionTypeDDLAction(landingData?.transGrup?.value, refTyp.value),
+      getTransactionTypeDDLAction(landingData?.transGrup?.value, refTyp.value)
     );
     if (refTyp.label === 'NA (Without Reference)') {
       dispatch(
@@ -140,8 +135,8 @@ export default function CreateForm({
           profileData.accountId,
           selectedBusinessUnit.value,
           landingData?.plant?.value,
-          landingData?.warehouse?.value,
-        ),
+          landingData?.warehouse?.value
+        )
       );
     }
   };
@@ -151,8 +146,8 @@ export default function CreateForm({
       getItemforIssueInv(
         values?.refType?.value,
         values?.refType?.label,
-        refNo.value,
-      ),
+        refNo.value
+      )
     );
   };
   //add row Dto Data
@@ -186,7 +181,7 @@ export default function CreateForm({
                 quantity: 0,
               },
             ]);
-          },
+          }
         );
       }
     } else {
@@ -214,7 +209,7 @@ export default function CreateForm({
             };
           });
           setRowDto(data);
-        },
+        }
       );
     }
   };
@@ -324,8 +319,8 @@ export default function CreateForm({
           saveInventoryTransactionForIssue(
             { data: payload, cb },
             setRowDto,
-            setDisabled,
-          ),
+            setDisabled
+          )
         );
         // if (fileObjects.length > 0) {
         //   empAttachment_action(fileObjects).then((data) => {
@@ -360,14 +355,13 @@ export default function CreateForm({
   };
 
   const transTypeDDLIsProductionOrder = transactionTypeDDL?.filter(
-    (itm) => itm?.value === 14,
+    (itm) => itm?.value === 14
   );
   const transTypeDDLNotIsProductionOrder = transactionTypeDDL?.filter(
-    (itm) => itm?.value !== 14 && itm?.label !== 'Issue For Project',
+    (itm) => itm?.value !== 14 && itm?.label !== 'Issue For Project'
   );
   const transTypeDDLObjectForProject = useMemo(() => {
     return transactionTypeDDL?.filter((itm) => itm?.value === 11)[0];
-
   }, [transTypeDDLNotIsProductionOrder]);
 
   const [projectDDL, getProjectDDL] = useAxiosGet();
@@ -445,10 +439,10 @@ export default function CreateForm({
                       if (data?.intProjectId) {
                         setFieldValue(
                           'transType',
-                          transTypeDDLObjectForProject,
+                          transTypeDDLObjectForProject
                         );
                         getProjectDDL(
-                          `/fino/ProjectAccounting/ProjectNameDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
+                          `/fino/ProjectAccounting/ProjectNameDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
                         );
                       }
                       data?.intProjectId && setIsProjectIdExist(true);
@@ -522,7 +516,7 @@ export default function CreateForm({
                               profileData.accountId,
                               selectedBusinessUnit.value,
                               valueOption?.value,
-                              setCostElementDDL,
+                              setCostElementDDL
                             );
                             getProfitcenterDDL(
                               `/costmgmt/ProfitCenter/GetProfitcenterDDLByCostCenterId?costCenterId=${valueOption?.value}&businessUnitId=${selectedBusinessUnit.value}`,
@@ -530,7 +524,7 @@ export default function CreateForm({
                                 if (data?.length) {
                                   setFieldValue('profitcenter', data[0]);
                                 }
-                              },
+                              }
                             );
                             setFieldValue('projName', '');
                             setFieldValue('costElement', '');
@@ -754,7 +748,7 @@ export default function CreateForm({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

@@ -1,9 +1,8 @@
-
 // update price structure when user changes order qty and basic price
-import axios from "axios";
-import Axios from "axios";
-import { isArray } from "lodash-es";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import Axios from 'axios';
+import { isArray } from 'lodash-es';
+import { toast } from 'react-toastify';
 
 export const lastPriceFunc = (arr) => {
   if (!isArray(arr)) return 0;
@@ -57,7 +56,7 @@ export const updatePriceStructure = (
 
       let currentValue = item?.value;
 
-      if (item?.valueType === "amount") {
+      if (item?.valueType === 'amount') {
         item?.mannual === false && (data[index].value = +currentValue);
         data[index].amount = data[index].factor * +currentValue;
       } else {
@@ -111,7 +110,7 @@ export const updateCalculatedValueForPriceStructureModal = (
 
         let currentValue = item?.value;
 
-        if (item?.valueType === "amount") {
+        if (item?.valueType === 'amount') {
           item?.mannual === false && (newData[index].value = +currentValue);
           newData[index].amount = newData[index].factor * +currentValue;
         } else {
@@ -155,7 +154,7 @@ export const findSumFromAndSumTo = (priceStructureData, sumFromSl, sumToSl) => {
 
       let currentValue = item?.value;
 
-      if (item?.valueType === "amount") {
+      if (item?.valueType === 'amount') {
         sumFromAndSumToTotal =
           item?.factor === 1
             ? sumFromAndSumToTotal + +currentValue
@@ -286,57 +285,59 @@ export const getReportPurchaseOrderForShipping = async (poId, orId, setter) => {
 };
 
 function MailSender(parameterName, valueArr) {
-  if(parameterName === "SendTo" && valueArr?.length > 0) {
-     const queryArr = valueArr.map(value => parameterName + "=" + value);
-        return queryArr.join("&");
-  }else{
-     return (parameterName + "=" + [] )
+  if (parameterName === 'SendTo' && valueArr?.length > 0) {
+    const queryArr = valueArr.map((value) => parameterName + '=' + value);
+    return queryArr.join('&');
+  } else {
+    return parameterName + '=' + [];
   }
 }
 
 function toCCMailSend(parameterName, valueArr) {
-  if(parameterName === "SendToCC" && valueArr?.length > 0 ) {
-     const queryArr = valueArr.map(value => parameterName + "=" + value);
-        return queryArr.join("&");
-  }else{
-     console.log("parameterName",parameterName + "=" + [] + "&")
-     return (parameterName + "=" + [] )
+  if (parameterName === 'SendToCC' && valueArr?.length > 0) {
+    const queryArr = valueArr.map((value) => parameterName + '=' + value);
+    return queryArr.join('&');
+  } else {
+    console.log('parameterName', parameterName + '=' + [] + '&');
+    return parameterName + '=' + [];
   }
 }
 
 function toBCCMailSend(parameterName, valueArr) {
-  if(parameterName === "SendToBCC" && valueArr?.length > 0 ) {
-     const queryArr = valueArr.map(value => parameterName + "=" + value);
-        return queryArr.join("&");
-  }else{
-     return (parameterName + "=" + [])
+  if (parameterName === 'SendToBCC' && valueArr?.length > 0) {
+    const queryArr = valueArr.map((value) => parameterName + '=' + value);
+    return queryArr.join('&');
+  } else {
+    return parameterName + '=' + [];
   }
 }
 
 export const sendEmailPostApi = async (values, setLoading) => {
   //const checkMail = Array.isArray(values?.toMail)
-  const toMail = values?.toMail === "" ? [] : values?.toMail?.split(",");
-  const sendCCMail = values?.toCC === "" ? [] : values?.toCC?.split(",");
+  const toMail = values?.toMail === '' ? [] : values?.toMail?.split(',');
+  const sendCCMail = values?.toCC === '' ? [] : values?.toCC?.split(',');
 
   const checkBCCMail = Array.isArray(values?.toBCC);
   let sendBCCMail = [];
   if (!checkBCCMail) {
-    sendBCCMail = values?.toBCC === "" ? [] : values?.toBCC?.split(",");
+    sendBCCMail = values?.toBCC === '' ? [] : values?.toBCC?.split(',');
   }
   let formData = new FormData();
-  formData.append("file", values?.attachment);
+  formData.append('file', values?.attachment);
   setLoading && setLoading(true);
   try {
     let res = await axios.post(
-      `/procurement/ShipRequestForQuotation/SendEMailWithAttachment?${MailSender("SendTo", toMail)}&${toCCMailSend("SendToCC",sendCCMail)}&${toBCCMailSend("SendToBCC",sendBCCMail)}&MailSubject=${values?.subject || ""}&MailBody=${values?.message || ""}`, formData );
+      `/procurement/ShipRequestForQuotation/SendEMailWithAttachment?${MailSender('SendTo', toMail)}&${toCCMailSend('SendToCC', sendCCMail)}&${toBCCMailSend('SendToBCC', sendBCCMail)}&MailSubject=${values?.subject || ''}&MailBody=${values?.message || ''}`,
+      formData
+    );
 
-   toast.success('Mail Send Successfully');
-   setLoading && setLoading(false);
-   return res;
+    toast.success('Mail Send Successfully');
+    setLoading && setLoading(false);
+    return res;
   } catch (error) {
     setLoading && setLoading(false);
     toast.error(
-      error?.response?.data?.message || "Mail cant not send successfully"
+      error?.response?.data?.message || 'Mail cant not send successfully'
     );
   }
 };
@@ -352,11 +353,11 @@ export const postPoApprovalLandingDataAction = async (
     );
     if (res.status === 200) {
       //setter(res?.data);
-      toast.success("Cancel Successfully");
+      toast.success('Cancel Successfully');
       //setLoading(false);
     }
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Cancel Failed");
+    toast.error(error?.response?.data?.message || 'Cancel Failed');
   }
 };
 

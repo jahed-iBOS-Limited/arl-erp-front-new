@@ -1,9 +1,9 @@
-import React, { useRef } from "react";
-import { withRouter } from "react-router-dom";
-import Loading from "./../../../../_helper/_loading";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
+import React, { useRef } from 'react';
+import { withRouter } from 'react-router-dom';
+import Loading from './../../../../_helper/_loading';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
 const GridData = ({ loading, singleData, values }) => {
   // const claculator = (arr, key) => {
   //   const total = arr?.reduce((acc, cur) => (acc += cur?.[key]), 0);
@@ -28,12 +28,12 @@ const GridData = ({ loading, singleData, values }) => {
                 <button
                   type="button"
                   className="btn btn-primary"
-                  style={{ padding: "2px 5px" }}
+                  style={{ padding: '2px 5px' }}
                 >
                   <img
                     style={{
-                      width: "25px",
-                      paddingRight: "5px",
+                      width: '25px',
+                      paddingRight: '5px',
                     }}
                     src={printIcon}
                     alt="print-icon"
@@ -83,17 +83,17 @@ const GridData = ({ loading, singleData, values }) => {
             <table className="table table-striped table-bordered mt-3">
               <thead>
                 <tr>
-                  <th style={{ width: "35px" }}>S/N</th>
-                  <th style={{ width: "200px" }}>Date</th>
-                  <th style={{ width: "200px" }}>Transaction Description</th>
-                  <th style={{ width: "200px" }}>Purchase/Sales Serial</th>
-                  <th style={{ width: "200px" }}>Register Date</th>
-                  <th style={{ width: "200px" }}>Treasury Deposit</th>
-                  <th style={{ width: "200px" }}>Rebate</th>
-                  <th style={{ width: "200px" }}>Other Adjustment</th>
-                  <th style={{ width: "200px" }}>Payable</th>
-                  <th style={{ width: "200px" }}>Closing Balance</th>
-                  <th style={{ width: "200px" }}>Remarks</th>
+                  <th style={{ width: '35px' }}>S/N</th>
+                  <th style={{ width: '200px' }}>Date</th>
+                  <th style={{ width: '200px' }}>Transaction Description</th>
+                  <th style={{ width: '200px' }}>Purchase/Sales Serial</th>
+                  <th style={{ width: '200px' }}>Register Date</th>
+                  <th style={{ width: '200px' }}>Treasury Deposit</th>
+                  <th style={{ width: '200px' }}>Rebate</th>
+                  <th style={{ width: '200px' }}>Other Adjustment</th>
+                  <th style={{ width: '200px' }}>Payable</th>
+                  <th style={{ width: '200px' }}>Closing Balance</th>
+                  <th style={{ width: '200px' }}>Remarks</th>
                 </tr>
               </thead>
               <tbody>
@@ -128,10 +128,10 @@ const GridData = ({ loading, singleData, values }) => {
                       <td> {_dateFormatter(tableData?.transactionDate)} </td>
                       <td> {tableData?.transactionCode} </td>
                       <td>
-                        {" "}
+                        {' '}
                         {tableData?.salesId <= 0
                           ? tableData?.purchaseId
-                          : tableData?.salesId}{" "}
+                          : tableData?.salesId}{' '}
                       </td>
                       <td> {_dateFormatter(tableData?.transactionDate)} </td>
                       <td> {treasuryDeposit?.toFixed(2)} </td>
@@ -144,7 +144,7 @@ const GridData = ({ loading, singleData, values }) => {
                   );
                 })}
                 <tr>
-                  <td colspan="5" style={{ textAlign: "left !important" }}>
+                  <td colspan="5" style={{ textAlign: 'left !important' }}>
                     Total Amount:
                   </td>
                   <td>{treasuryDepositTatal?.toFixed(2)}</td>

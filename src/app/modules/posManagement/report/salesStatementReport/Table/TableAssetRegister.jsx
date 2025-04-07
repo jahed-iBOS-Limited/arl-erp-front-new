@@ -1,7 +1,6 @@
-import React from "react";
-import InfoCircle from "../../../../_helper/_helperIcons/_infoCircle";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-
+import React from 'react';
+import InfoCircle from '../../../../_helper/_helperIcons/_infoCircle';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
 
 const TableAssetRegister = ({
   setTableItem,
@@ -30,33 +29,41 @@ const TableAssetRegister = ({
             inventoryStatement?.map((item, index) => {
               return (
                 <tr key={index + 1}>
-                  <td style={{ width: "30px" }} className="text-center">
+                  <td style={{ width: '30px' }} className="text-center">
                     {item?.sl}
                   </td>
                   <td>
                     <span className="pl-2">{item?.strItemName}</span>
                   </td>
                   <td>
-                    <span className="pl-2">{item?.strInventoryLocationName}</span>
+                    <span className="pl-2">
+                      {item?.strInventoryLocationName}
+                    </span>
                   </td>
 
                   <td className="text-right">
                     <span>{item?.openQty}</span>
                   </td>
                   <td className="text-right">
-                    <span>{numberWithCommas((item?.openValue || 0).toFixed(2))}</span>
+                    <span>
+                      {numberWithCommas((item?.openValue || 0).toFixed(2))}
+                    </span>
                   </td>
                   <td className="text-right">
                     <span>{item?.qty}</span>
                   </td>
                   <td className="text-right">
-                    <span>{numberWithCommas((item?.value || 0).toFixed(2))}</span>
+                    <span>
+                      {numberWithCommas((item?.value || 0).toFixed(2))}
+                    </span>
                   </td>
                   <td className="text-right">
                     <span>{item?.clossingQty}</span>
                   </td>
                   <td className="text-right">
-                    <span>{numberWithCommas((item?.clossingValue || 0).toFixed(2))}</span>
+                    <span>
+                      {numberWithCommas((item?.clossingValue || 0).toFixed(2))}
+                    </span>
                   </td>
                   <td className="text-center">
                     <InfoCircle
@@ -64,7 +71,7 @@ const TableAssetRegister = ({
                         setIsShowModal(true);
                         setTableItem(item);
                       }}
-                      classes={"text-primary"}
+                      classes={'text-primary'}
                     />
                   </td>
                 </tr>

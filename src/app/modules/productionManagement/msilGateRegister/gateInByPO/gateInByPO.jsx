@@ -1,13 +1,13 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IView from "../../../_helper/_helperIcons/_view";
-import Loading from "../../../_helper/_loading";
-import PaginationTable from "../../../_helper/_tablePagination";
-import IViewModal from "../../../_helper/_viewModal";
-import GateInListViewModal from "./GateInListViewModal";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IView from '../../../_helper/_helperIcons/_view';
+import Loading from '../../../_helper/_loading';
+import PaginationTable from '../../../_helper/_tablePagination';
+import IViewModal from '../../../_helper/_viewModal';
+import GateInListViewModal from './GateInListViewModal';
 
 function GateInByPO({ item, date }) {
   const [isShowModel, setIsShowModel] = useState(false);
@@ -22,18 +22,17 @@ function GateInByPO({ item, date }) {
 
   useEffect(() => {
     getRowData(
-      `/mes/MSIL/GetAllGateInByPOLanding?PageNo=${pageNo}&PageSize=${pageSize}&Date=${_dateFormatter(
-        item?.dtePurchaseOrderDate
-      ) || date}&BusinessunitId=${selectedBusinessUnit?.value}`
+      `/mes/MSIL/GetAllGateInByPOLanding?PageNo=${pageNo}&PageSize=${pageSize}&Date=${
+        _dateFormatter(item?.dtePurchaseOrderDate) || date
+      }&BusinessunitId=${selectedBusinessUnit?.value}`
     );
-
   }, []);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getRowData(
-      `/mes/MSIL/GetAllGateInByPOLanding?PageNo=${pageNo}&PageSize=${pageSize}&Date=${_dateFormatter(
-        item?.dtePurchaseOrderDate
-      ) || date}&BusinessunitId=${selectedBusinessUnit?.value}`
+      `/mes/MSIL/GetAllGateInByPOLanding?PageNo=${pageNo}&PageSize=${pageSize}&Date=${
+        _dateFormatter(item?.dtePurchaseOrderDate) || date
+      }&BusinessunitId=${selectedBusinessUnit?.value}`
     );
   };
 
@@ -54,7 +53,7 @@ function GateInByPO({ item, date }) {
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                     <thead>
                       <tr>
-                        <th style={{ width: "30px" }}>SL</th>
+                        <th style={{ width: '30px' }}>SL</th>
                         <th>Date</th>
                         <th>PO Code</th>
                         <th>Supplier Name</th>

@@ -1,11 +1,11 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import Loading from "../../../../_helper/_loading";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { getMonth } from "../../../../salesManagement/report/customerSalesTarget/utils";
-import { toast } from "react-toastify";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import Loading from '../../../../_helper/_loading';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { getMonth } from '../../../../salesManagement/report/customerSalesTarget/utils';
+import { toast } from 'react-toastify';
 
 export default function FormCmp({
   initData,
@@ -41,14 +41,14 @@ export default function FormCmp({
                       <NewSelect
                         name="distributionChannel"
                         options={[
-                          { value: 0, label: "All" },
+                          { value: 0, label: 'All' },
                           ...distributionChannelDDL,
                         ]}
                         value={values?.distributionChannel}
                         label="Distribution Channel"
                         onChange={(valueOption) => {
                           // setRowDto([]);
-                          setFieldValue("distributionChannel", valueOption);
+                          setFieldValue('distributionChannel', valueOption);
                         }}
                         placeholder="Distribution Channel"
                         errors={errors}
@@ -64,7 +64,7 @@ export default function FormCmp({
                         type="date"
                         onChange={(e) => {
                           // setRowDto([]);
-                          setFieldValue("fromDate", e.target.value);
+                          setFieldValue('fromDate', e.target.value);
                         }}
                         errors={errors}
                         touched={touched}
@@ -80,7 +80,7 @@ export default function FormCmp({
                         min={values?.fromDate}
                         onChange={(e) => {
                           // setRowDto([]);
-                          setFieldValue("toDate", e.target.value);
+                          setFieldValue('toDate', e.target.value);
                         }}
                         errors={errors}
                         touched={touched}
@@ -109,14 +109,14 @@ export default function FormCmp({
                   <table className="table table-striped table-bordered global-table">
                     <thead>
                       <tr>
-                        <th style={{ width: "30px" }}>SL</th>
+                        <th style={{ width: '30px' }}>SL</th>
                         <th>Region</th>
                         <th>Item Id</th>
                         <th>Item Name</th>
                         <th>Target Year</th>
                         <th>Target Month</th>
                         <th>Target Quantity</th>
-                        <th style={{ width: "150px" }}>Requisition Quantity</th>
+                        <th style={{ width: '150px' }}>Requisition Quantity</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -153,14 +153,14 @@ export default function FormCmp({
                               onChange={(e) => {
                                 dataChangeHandler(
                                   index,
-                                  "requisitionQty",
+                                  'requisitionQty',
                                   e?.target?.value
                                 );
                               }}
                               onBlur={(e) => {
                                 if (e?.target?.value < td?.targetQuantity) {
                                   toast.warn(
-                                    "Requisition Quantity can not be less than Target Quantity"
+                                    'Requisition Quantity can not be less than Target Quantity'
                                   );
                                 }
                               }}
@@ -188,7 +188,7 @@ export default function FormCmp({
               )}
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>

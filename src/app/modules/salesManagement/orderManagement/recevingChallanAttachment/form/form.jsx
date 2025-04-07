@@ -1,12 +1,12 @@
-import axios from "axios";
-import { Formik } from "formik";
-import React from "react";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import ICustomCard from "../../../../_helper/_customCard";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import IButton from "../../../../_helper/iButton";
-import PartialChallanTable from "./partialChallanTable";
+import axios from 'axios';
+import { Formik } from 'formik';
+import React from 'react';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import ICustomCard from '../../../../_helper/_customCard';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import IButton from '../../../../_helper/iButton';
+import PartialChallanTable from './partialChallanTable';
 
 function Form({
   initData,
@@ -20,7 +20,6 @@ function Form({
   accId,
   buId,
 }) {
-
   return (
     <>
       <Formik
@@ -32,7 +31,7 @@ function Form({
       >
         {({ values, setFieldValue, handleSubmit }) => (
           <ICustomCard
-            title={"Receving Challan Attachment Entry Form"}
+            title={'Receving Challan Attachment Entry Form'}
             backHandler={() => {
               history.goBack();
             }}
@@ -50,7 +49,7 @@ function Form({
                     area: false,
                     territory: false,
                     onChange: () => {
-                      setFieldValue("customer", "");
+                      setFieldValue('customer', '');
                       setGridData([]);
                     },
                   }}
@@ -61,7 +60,7 @@ function Form({
                   <SearchAsyncSelect
                     selectedValue={values?.customer}
                     handleChange={(valueOption) => {
-                      setFieldValue("customer", valueOption);
+                      setFieldValue('customer', valueOption);
                       setGridData([]);
                     }}
                     isDisabled={!values?.channel}
@@ -79,8 +78,6 @@ function Form({
                 </div>
 
                 <FromDateToDateForm obj={{ values, setFieldValue }} />
-                
-               
 
                 <IButton
                   onClick={() => {

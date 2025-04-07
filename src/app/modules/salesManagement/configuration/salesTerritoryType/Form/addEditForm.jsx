@@ -1,22 +1,21 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
 import {
   getSalesTerritoryTypeById,
   saveEditedSalesTerritoryType,
   saveSalesTerritoryType,
   setControllingUnitSingleEmpty,
-} from "../_redux/Actions";
-import Form from "./form";
+} from '../_redux/Actions';
+import Form from './form';
 
 const initData = {
   id: undefined,
-  territoryTypeName: "",
-  levelPosition: "",
-  ddlType:"",
-  channel:""
+  territoryTypeName: '',
+  levelPosition: '',
+  ddlType: '',
+  channel: '',
 };
 
 export default function SalesTerritoryTypeForm({
@@ -51,13 +50,10 @@ export default function SalesTerritoryTypeForm({
     } else {
       dispatch(setControllingUnitSingleEmpty());
     }
-
   }, [id]);
-
 
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
-
     }
   }, [selectedBusinessUnit, profileData]);
 
@@ -68,42 +64,40 @@ export default function SalesTerritoryTypeForm({
           territoryTypeId: +id,
           territoryTypeName: values.territoryTypeName,
           levelPosition: +values.levelPosition,
-          actionBy: profileData.userId
-        }
-        dispatch(saveEditedSalesTerritoryType(payload,setDisabled));
+          actionBy: profileData.userId,
+        };
+        dispatch(saveEditedSalesTerritoryType(payload, setDisabled));
       } else {
         const payload = {
           accountId: profileData.accountId,
           territoryTypeName: values.territoryTypeName,
           businessUnitId: selectedBusinessUnit?.value,
           levelPosition: +values.levelPosition,
-          actionBy: profileData.userId
-        }
-        dispatch(saveSalesTerritoryType({ data: payload, cb },setDisabled));
+          actionBy: profileData.userId,
+        };
+        dispatch(saveSalesTerritoryType({ data: payload, cb }, setDisabled));
       }
     } else {
-
     }
   };
-
 
   const [objProps, setObjprops] = useState({});
 
   return (
     <IForm
-      title={id ? "Edit Sales Territory Type" : "Create Sales Territory Type"}
+      title={id ? 'Edit Sales Territory Type' : 'Create Sales Territory Type'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >
       {isDisabled && <Loading />}
-        <Form
-          {...objProps}
-          initData={singleData || initData}
-          saveHandler={saveHandler}
-          accountId={profileData?.accountId}
-          selectedBusinessUnit={selectedBusinessUnit}
-          isEdit={id || false}
-        />
+      <Form
+        {...objProps}
+        initData={singleData || initData}
+        saveHandler={saveHandler}
+        accountId={profileData?.accountId}
+        selectedBusinessUnit={selectedBusinessUnit}
+        isEdit={id || false}
+      />
     </IForm>
   );
 }

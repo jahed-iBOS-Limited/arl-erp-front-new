@@ -25,7 +25,7 @@ export function ItemCategoryTable() {
     const searchPath = search ? `searchTerm=${search}&` : '';
     try {
       const res = await Axios.get(
-        `/item/MasterCategory/GetItemMasterCategoryPasignation?${searchPath}AccountId=${accId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
+        `/item/MasterCategory/GetItemMasterCategoryPasignation?${searchPath}AccountId=${accId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
       );
       setProducts(res?.data);
       setLoading(false);
@@ -39,7 +39,6 @@ export function ItemCategoryTable() {
 
   useEffect(() => {
     dispatchProduct(profileData.accountId, pageNo, pageSize);
-
   }, [profileData]);
 
   //setPositionHandler

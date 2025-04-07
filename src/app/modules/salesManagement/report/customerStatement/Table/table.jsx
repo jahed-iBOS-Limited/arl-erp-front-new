@@ -1,55 +1,55 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import ICard from "../../../../_helper/_card";
-import ICustomTable from "../../../../_helper/_customTable";
-import { Formik, Form } from "formik";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import NewSelect from "../../../../_helper/_select";
+import React, { useEffect, useState, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import ICard from '../../../../_helper/_card';
+import ICustomTable from '../../../../_helper/_customTable';
+import { Formik, Form } from 'formik';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import NewSelect from '../../../../_helper/_select';
 
 import {
   getCustomerNameDDL,
   GetCustomerStatementLanding,
   GetSalesOrganizationDDL_api,
-} from "../helper";
-import Loading from "../../../../_helper/_loading";
-import InputField from "../../../../_helper/_inputField";
+} from '../helper';
+import Loading from '../../../../_helper/_loading';
+import InputField from '../../../../_helper/_inputField';
 import {
   dateFormatWithMonthName,
   _dateFormatter,
-} from "../../../../_helper/_dateFormate";
-import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import { CreateCustomerStatementExcel } from "../excel/excel";
+} from '../../../../_helper/_dateFormate';
+import { _firstDateofMonth } from '../../../../_helper/_firstDateOfCurrentMonth';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import { CreateCustomerStatementExcel } from '../excel/excel';
 
 const ths = [
-  "Sl",
-  "Date",
-  "SO Number",
-  "Challan No",
-  "Product Name",
-  "UoM",
-  "Quantity",
-  "Rate",
-  "Amount",
+  'Sl',
+  'Date',
+  'SO Number',
+  'Challan No',
+  'Product Name',
+  'UoM',
+  'Quantity',
+  'Rate',
+  'Amount',
 ];
 const thsWithShippointAll = [
-  "Sl",
-  "Date",
-  "SO Number",
-  "Challan No",
-  "Product Name",
-  "Shippoint",
-  "UoM",
-  "Quantity",
-  "Rate",
-  "Amount",
+  'Sl',
+  'Date',
+  'SO Number',
+  'Challan No',
+  'Product Name',
+  'Shippoint',
+  'UoM',
+  'Quantity',
+  'Rate',
+  'Amount',
 ];
 const initData = {
   fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
-  shippointDDL: "",
-  customerNameDDL: "",
-  salesOrg: "",
+  shippointDDL: '',
+  customerNameDDL: '',
+  salesOrg: '',
 };
 
 export default function CustomerStatementReportTable() {
@@ -72,7 +72,6 @@ export default function CustomerStatementReportTable() {
     if (accId && buId) {
       GetSalesOrganizationDDL_api(accId, buId, setSalesOrgDDl);
     }
-
   }, [accId]);
   return (
     <Formik>
@@ -98,7 +97,7 @@ export default function CustomerStatementReportTable() {
                             name="fromDate"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("fromDate", e?.target?.value);
+                              setFieldValue('fromDate', e?.target?.value);
                               setRowDto([]);
                             }}
                           />
@@ -111,7 +110,7 @@ export default function CustomerStatementReportTable() {
                             name="toDate"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("toDate", e?.target?.value);
+                              setFieldValue('toDate', e?.target?.value);
                               setRowDto([]);
                             }}
                           />
@@ -123,8 +122,8 @@ export default function CustomerStatementReportTable() {
                             value={values?.salesOrg}
                             label="Sales Org"
                             onChange={(valueOption) => {
-                              setFieldValue("salesOrg", valueOption);
-                              setFieldValue("customerNameDDL", "");
+                              setFieldValue('salesOrg', valueOption);
+                              setFieldValue('customerNameDDL', '');
                               setRowDto([]);
                               getCustomerNameDDL(
                                 accId,
@@ -142,21 +141,21 @@ export default function CustomerStatementReportTable() {
                           <NewSelect
                             name="shippointDDL"
                             options={
-                              [{ value: 0, label: "All" }, ...shippointDDL] ||
+                              [{ value: 0, label: 'All' }, ...shippointDDL] ||
                               []
                             }
                             value={values?.shippointDDL}
                             label="Shippoint"
                             onChange={(valueOption) => {
-                              setFieldValue("shippointDDL", valueOption);
+                              setFieldValue('shippointDDL', valueOption);
                               setRowDto([]);
                             }}
                             placeholder="Ship Point"
                             errors={errors}
                             touched={touched}
                             isDisabled={
-                              values?.reportDDL?.label === "All" ||
-                              values?.reportDDL?.label === "Customer Name"
+                              values?.reportDDL?.label === 'All' ||
+                              values?.reportDDL?.label === 'Customer Name'
                             }
                           />
                         </div>
@@ -167,7 +166,7 @@ export default function CustomerStatementReportTable() {
                             value={values?.customerNameDDL}
                             label="Customer Name"
                             onChange={(valueOption) => {
-                              setFieldValue("customerNameDDL", valueOption);
+                              setFieldValue('customerNameDDL', valueOption);
                               setRowDto([]);
                             }}
                             placeholder="Customer name"
@@ -206,8 +205,8 @@ export default function CustomerStatementReportTable() {
                                 rowDto,
                                 buName,
                                 buAddress,
-                                "Customer Statement",
-                                "Customer Statement"
+                                'Customer Statement',
+                                'Customer Statement'
                                 // 100,
                                 // "taka"
                               );
@@ -244,7 +243,7 @@ export default function CustomerStatementReportTable() {
                         </div>
                         <ICustomTable
                           ths={
-                            values?.shippointDDL?.label === "All"
+                            values?.shippointDDL?.label === 'All'
                               ? thsWithShippointAll
                               : ths
                           }
@@ -252,10 +251,10 @@ export default function CustomerStatementReportTable() {
                           {rowDto.map((itmOne) => {
                             return (
                               <>
-                                <tr style={{ background: "#f1dbdb" }}>
+                                <tr style={{ background: '#f1dbdb' }}>
                                   <td
                                     colSpan={
-                                      values?.shippointDDL?.label === "All"
+                                      values?.shippointDDL?.label === 'All'
                                         ? thsWithShippointAll.length
                                         : ths.length
                                     }
@@ -276,7 +275,7 @@ export default function CustomerStatementReportTable() {
                                       <td>{itm.deliveryCode}</td>
                                       <td> {itm.itemName}</td>
                                       {values?.shippointDDL?.label ===
-                                        "All" && <td>{itm.shipPointName}</td>}
+                                        'All' && <td>{itm.shipPointName}</td>}
                                       <td className="text-center">
                                         {itm.uomName}
                                       </td>
@@ -299,9 +298,9 @@ export default function CustomerStatementReportTable() {
                                 <tr>
                                   <td
                                     colSpan={
-                                      values?.shippointDDL?.label === "All"
-                                        ? "7"
-                                        : "6"
+                                      values?.shippointDDL?.label === 'All'
+                                        ? '7'
+                                        : '6'
                                     }
                                     className="text-right"
                                   >

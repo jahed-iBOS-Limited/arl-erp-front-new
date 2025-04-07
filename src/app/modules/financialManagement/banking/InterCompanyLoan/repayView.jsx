@@ -27,14 +27,13 @@ export default function RepayViewModal() {
 
   useEffect(() => {
     getData();
-
   }, [location]);
 
   const saveHandler = (values, cb) => {};
 
   const getData = () => {
     getRowData(
-      `/fino/CommonFino/InterCompanyLoanGetById?loanId=${location.state?.loanId}&type=repay&viewByBusinessUnitId=${location?.state?.viewByBusinessUnitId}`,
+      `/fino/CommonFino/InterCompanyLoanGetById?loanId=${location.state?.loanId}&type=repay&viewByBusinessUnitId=${location?.state?.viewByBusinessUnitId}`
     );
   };
 
@@ -107,7 +106,7 @@ export default function RepayViewModal() {
                                       () => {
                                         getData();
                                       },
-                                      true,
+                                      true
                                     );
                                   }}
                                 >

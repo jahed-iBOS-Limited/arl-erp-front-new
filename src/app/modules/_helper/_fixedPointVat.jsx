@@ -1,4 +1,4 @@
-import { _formatMoney } from "./_formatMoney";
+import { _formatMoney } from './_formatMoney';
 export const _fixedPointVat = (num, decimalCount, isMoney) => {
   const convartNum = Number(num || 0).toFixed(decimalCount || 2);
   if (isMoney) {

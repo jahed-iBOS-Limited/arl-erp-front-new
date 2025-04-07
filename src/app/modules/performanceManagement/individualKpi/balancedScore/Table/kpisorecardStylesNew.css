@@ -96,7 +96,8 @@
   .row
   .scorecard-container {
   padding: 1.5rem;
-  box-shadow: 0px 0.497024px 0.994048px rgba(0, 0, 0, 0.3),
+  box-shadow:
+    0px 0.497024px 0.994048px rgba(0, 0, 0, 0.3),
     0px 0.994048px 2.98214px 0.994048px rgba(0, 0, 0, 0.15);
 }
 .individual-kpi-report-wrapper
@@ -274,11 +275,12 @@
 
 .individual-kpi-report-wrapper .kpi-remarks-wrapper {
   /* padding: 1.5rem; */
-  box-shadow: 0px 0.497024px 0.994048px rgba(0, 0, 0, 0.3),
+  box-shadow:
+    0px 0.497024px 0.994048px rgba(0, 0, 0, 0.3),
     0px 0.994048px 2.98214px 0.994048px rgba(0, 0, 0, 0.15);
 }
 
-
-.individual-kpi-report-wrapper .prev-btn:hover ,  .next-btn:hover{
-  box-shadow:0px 0px 3px -1.4px black;
+.individual-kpi-report-wrapper .prev-btn:hover,
+.next-btn:hover {
+  box-shadow: 0px 0px 3px -1.4px black;
 }

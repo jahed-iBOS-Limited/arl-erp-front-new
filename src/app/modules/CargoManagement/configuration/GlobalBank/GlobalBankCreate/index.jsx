@@ -87,14 +87,14 @@ function GlobalBankCreate() {
         }
       },
 
-      'save',
+      'save'
     );
   };
 
   // Get City DDL
   const debouncedGetCityList = _.debounce((value) => {
     setCityDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetPreviousCityDDL?search=${value}`,
+      `${imarineBaseUrl}/domain/ShippingService/GetPreviousCityDDL?search=${value}`
     );
   }, 300);
 
@@ -112,9 +112,8 @@ function GlobalBankCreate() {
           };
         });
         setCurrencyList(modifyData);
-      },
+      }
     );
-
   }, []);
 
   // get bank data by id for edit
@@ -129,15 +128,15 @@ function GlobalBankCreate() {
             primaryAddress: data?.primaryAddress || '',
             country: data?.country
               ? {
-                value: data?.countryId || 0,
-                label: data?.country || '',
-              }
+                  value: data?.countryId || 0,
+                  label: data?.country || '',
+                }
               : '',
             city: data?.city
               ? {
-                value: 0,
-                label: data?.city || '',
-              }
+                  value: 0,
+                  label: data?.city || '',
+                }
               : '',
             phoneNo: data?.phoneNo || '',
             email: data?.email || '',
@@ -148,10 +147,9 @@ function GlobalBankCreate() {
             address2: '',
             gbankAddress: data?.gbankAddress || [],
           });
-        },
+        }
       );
     }
-
   }, [id]);
   return (
     <ICustomCard
@@ -413,7 +411,7 @@ function GlobalBankCreate() {
                             <Button
                               onClick={() => {
                                 const filterData = values.gbankAddress.filter(
-                                  (itm, indx) => indx !== index,
+                                  (itm, indx) => indx !== index
                                 );
                                 setFieldValue('gbankAddress', filterData);
                               }}

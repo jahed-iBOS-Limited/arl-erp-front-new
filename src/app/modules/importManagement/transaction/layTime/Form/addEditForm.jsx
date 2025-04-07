@@ -1,54 +1,51 @@
-
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import { toast } from "react-toastify";
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import { toast } from 'react-toastify';
 // import { getBusinessPartnerTypeDDL, getVesselDDL } from "../../helper";
 // import Loading from "../../_chartinghelper/loading/_loading";
 // import { _todayDate } from "../../_chartinghelper/_todayDate";
-import { editLayTime, saveLayTime } from "../helper";
-import "../../../../chartering/style.css";
-import Form from "./form";
-import { saveLayTimePayloadMaker } from "./utils";
-import { _todayDate } from "../../../../chartering/_chartinghelper/_todayDate";
-import Loading from "../../../../chartering/_chartinghelper/loading/_loading";
+import { editLayTime, saveLayTime } from '../helper';
+import '../../../../chartering/style.css';
+import Form from './form';
+import { saveLayTimePayloadMaker } from './utils';
+import { _todayDate } from '../../../../chartering/_chartinghelper/_todayDate';
+import Loading from '../../../../chartering/_chartinghelper/loading/_loading';
 import {
   getBusinessPartnerTypeDDL,
   getVesselDDL,
-} from "../../../../chartering/helper";
+} from '../../../../chartering/helper';
 
 export const initData = {
   /* Header */
-  vesselName: "",
-  voyageNo: "",
-  layTimeType: { value: 1, label: "Load Port" },
-  timeAllowedForLoading: "",
-  vesselArrived: "",
-  portAt: "",
-  cargoQty: "",
-  cargo: "",
-  loadingRate: "",
-  notTendered: "",
-  demurrageRate: "",
-  loadingCommenced: "",
-  despatchRate: "",
-  loadingCompleted: "",
-  stackHolderName: "",
-  stackHolderType: "",
-  cargoUomSuffix: "",
-  loadUnloadRateSuffix: "",
-  stackHolderBank: "",
+  vesselName: '',
+  voyageNo: '',
+  layTimeType: { value: 1, label: 'Load Port' },
+  timeAllowedForLoading: '',
+  vesselArrived: '',
+  portAt: '',
+  cargoQty: '',
+  cargo: '',
+  loadingRate: '',
+  notTendered: '',
+  demurrageRate: '',
+  loadingCommenced: '',
+  despatchRate: '',
+  loadingCompleted: '',
+  stackHolderName: '',
+  stackHolderType: '',
+  cargoUomSuffix: '',
+  loadUnloadRateSuffix: '',
+  stackHolderBank: '',
 
   /* Row */
   ratio: 100,
-  workingTime: "",
-  workingTimeFrom: "",
+  workingTime: '',
+  workingTimeFrom: '',
   layTimeDate: _todayDate(),
-  layhTimeDay: moment(_todayDate())
-    .format("ddd")
-    .toUpperCase(),
-  remark: "",
+  layhTimeDay: moment(_todayDate()).format('ddd').toUpperCase(),
+  remark: '',
 };
 
 export default function LayTimeForm() {
@@ -79,7 +76,7 @@ export default function LayTimeForm() {
 
   const saveHandler = (values, cb) => {
     if (rowData?.length === 0) {
-      return toast.warning("Please add at least lay time", {
+      return toast.warning('Please add at least lay time', {
         toastId: 112345,
       });
     }
@@ -104,11 +101,11 @@ export default function LayTimeForm() {
       {loading && <Loading />}
       <Form
         title={
-          type === "edit"
-            ? "Edit Lay Time"
-            : type === "view"
-            ? "View Lay Time"
-            : "Lay Time"
+          type === 'edit'
+            ? 'Edit Lay Time'
+            : type === 'view'
+              ? 'View Lay Time'
+              : 'Lay Time'
         }
         initData={initData}
         saveHandler={saveHandler}

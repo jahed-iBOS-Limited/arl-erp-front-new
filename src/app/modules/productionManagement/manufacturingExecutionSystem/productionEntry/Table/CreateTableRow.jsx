@@ -1,8 +1,15 @@
-import React from "react";
-import ICustomTable from "../../../../_helper/_customTable";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
+import React from 'react';
+import ICustomTable from '../../../../_helper/_customTable';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
 
-const tableHeader = ["SL", "Item Code", "Output item", "Output UoM", "Output Qty", "Action"];
+const tableHeader = [
+  'SL',
+  'Item Code',
+  'Output item',
+  'Output UoM',
+  'Output Qty',
+  'Action',
+];
 
 export default function CreateTableRow({
   rowData,
@@ -11,43 +18,35 @@ export default function CreateTableRow({
   dataHandler,
   values,
 }) {
-
   return (
     <ICustomTable ths={tableHeader}>
-      <>{
-        console.log("rowData", rowData)
-      }
+      <>
+        {console.log('rowData', rowData)}
         {rowData &&
           rowData?.map((item, index) => (
-
             <>
-
               <tr key={index}>
                 <td className="text-center">{index + 1}</td>
                 <td>
-                  <div style={{ textAlign: "left" }} className="pl-2">
+                  <div style={{ textAlign: 'left' }} className="pl-2">
                     {item?.code ? item?.code : item?.strItemCode}
                   </div>
                 </td>
                 <td>
-                  <div style={{ textAlign: "left" }} className="pl-2">
+                  <div style={{ textAlign: 'left' }} className="pl-2">
                     {item?.itemName}
                   </div>
                 </td>
                 <td>
-                  <div style={{ textAlign: "left" }} className="pl-2">
+                  <div style={{ textAlign: 'left' }} className="pl-2">
                     {item?.uomName}
                   </div>
                 </td>
-                <td style={{ textAlign: "center", width: "80px" }}>
+                <td style={{ textAlign: 'center', width: '80px' }}>
                   <input
-                    style={{ width: "80px" }}
+                    style={{ width: '80px' }}
                     onChange={(e) => {
-                      dataHandler(
-                        "numQuantity",
-                        e?.target?.value,
-                        index
-                      );
+                      dataHandler('numQuantity', e?.target?.value, index);
                     }}
                     required
                     className="form-control"
@@ -55,12 +54,12 @@ export default function CreateTableRow({
                     name="numQuantity"
                     step="any"
                     defaultValue={
-                      item?.numQuantity >= 0 ? item?.numQuantity : ""
+                      item?.numQuantity >= 0 ? item?.numQuantity : ''
                     }
-                  // disabled={item?.numQuantity === 0 ? true : false}
+                    // disabled={item?.numQuantity === 0 ? true : false}
                   />
                 </td>
-                <td style={{ textAlign: "center" }}>
+                <td style={{ textAlign: 'center' }}>
                   <span onClick={() => deleteHandler(index)}>
                     <IDelete />
                   </span>

@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   selectedUserForChat: null,
@@ -8,7 +8,7 @@ const initialState = {
 };
 
 export const chattingAppSlice = createSlice({
-  name: "chattingApp",
+  name: 'chattingApp',
   initialState: initialState,
   reducers: {
     setSelectedUserForChat: (state, action) => {
@@ -16,7 +16,7 @@ export const chattingAppSlice = createSlice({
       state.selectedUserForChat = payload;
     },
     resetSelectedUserForChat: (state, action) => {
-      state.selectedUserForChat = null
+      state.selectedUserForChat = null;
     },
     setSignalRConnection: (state, action) => {
       state.signalRConnection = action.payload;

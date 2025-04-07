@@ -1,39 +1,44 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
-import * as Yup from "yup";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import ILoader from "../../../../_helper/loader/_loader";
-import {
-  getIssueStatementLanding,
-} from "../helper";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import PaginationSearch from "./../../../../_helper/_search";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import ILoader from '../../../../_helper/loader/_loader';
+import { getIssueStatementLanding } from '../helper';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import PaginationSearch from './../../../../_helper/_search';
 // import { downloadFile } from '../../../../_helper/downloadFile';
-import { getItemCategoryDDLByTypeId_api, getItemTypeListDDL_api, getPlantList, getSBU, getWhList, ItemSubCategory_api } from "../../../../_helper/_commonApi";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { generateJsonToExcel } from "../../../../_helper/excel/jsonToExcel";
+import {
+  getItemCategoryDDLByTypeId_api,
+  getItemTypeListDDL_api,
+  getPlantList,
+  getSBU,
+  getWhList,
+  ItemSubCategory_api,
+} from '../../../../_helper/_commonApi';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { generateJsonToExcel } from '../../../../_helper/excel/jsonToExcel';
 
 const validationSchema = Yup.object().shape({
-  toDate: Yup.string().when("fromDate", (fromDate, Schema) => {
-    if (fromDate) return Schema.required("To date is required");
+  toDate: Yup.string().when('fromDate', (fromDate, Schema) => {
+    if (fromDate) return Schema.required('To date is required');
   }),
 });
 
 let initData = {
-  wh: "",
-  plant: "",
-  sbu: "",
-  status: "",
+  wh: '',
+  plant: '',
+  sbu: '',
+  status: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  issueId: "",
-  costCente: "",
+  issueId: '',
+  costCente: '',
 };
 
 const IssueReportTable = () => {
@@ -42,9 +47,9 @@ const IssueReportTable = () => {
   const [pageSize, setPageSize] = React.useState(100);
 
   // ddl state
-  const [sbuList, setSbuList] = useState("");
-  const [plantList, setPlantList] = useState("");
-  const [whList, setWhList] = useState("");
+  const [sbuList, setSbuList] = useState('');
+  const [plantList, setPlantList] = useState('');
+  const [whList, setWhList] = useState('');
   const [itemTypeOption, setItemTypeOption] = useState([]);
   const [itemCategoryDDL, setItemCategoryDDL] = useState([]);
   const [itemSUBCategoryDDL, setItemSubCategoryDDL] = useState([]);
@@ -89,10 +94,10 @@ const IssueReportTable = () => {
       values?.wh?.value,
       values?.fromDate,
       values?.toDate,
-      values?.itemType?.value || "",
-      values?.itemCategory?.value || "",
-      values?.itemSubCategory?.value || "",
-      values?.costCenter?.value || "",
+      values?.itemType?.value || '',
+      values?.itemCategory?.value || '',
+      values?.itemSubCategory?.value || '',
+      values?.costCenter?.value || '',
       pageNo,
       pageSize
     );
@@ -109,10 +114,10 @@ const IssueReportTable = () => {
       values?.wh?.value,
       values?.fromDate,
       values?.toDate,
-      values?.itemType?.value || "",
-      values?.itemCategory?.value || "",
-      values?.itemSubCategory?.value || "",
-      values?.costCenter?.value || "",
+      values?.itemType?.value || '',
+      values?.itemCategory?.value || '',
+      values?.itemSubCategory?.value || '',
+      values?.costCenter?.value || '',
       pageNo,
       pageSize
     );
@@ -129,10 +134,10 @@ const IssueReportTable = () => {
       values?.wh?.value,
       values?.fromDate,
       values?.toDate,
-      values?.itemType?.value || "",
-      values?.itemCategory?.value || "",
-      values?.itemSubCategory?.value || "",
-      values?.costCenter?.value || "",
+      values?.itemType?.value || '',
+      values?.itemCategory?.value || '',
+      values?.itemSubCategory?.value || '',
+      values?.costCenter?.value || '',
       pageNo,
       pageSize,
       value
@@ -161,82 +166,82 @@ const IssueReportTable = () => {
       (data) => {
         const header = [
           {
-            text: "SL",
-            textFormat: "number",
-            alignment: "center:middle",
-            key: "sl",
+            text: 'SL',
+            textFormat: 'number',
+            alignment: 'center:middle',
+            key: 'sl',
           },
           {
-            text: "Cost Center",
-            textFormat: "text",
-            alignment: "center:middle",
-            key: "strCostCenterName",
+            text: 'Cost Center',
+            textFormat: 'text',
+            alignment: 'center:middle',
+            key: 'strCostCenterName',
           },
           {
-            text: "Issue Code",
-            textFormat: "text",
-            alignment: "center:middle",
-            key: "strInventoryTransactionCode",
+            text: 'Issue Code',
+            textFormat: 'text',
+            alignment: 'center:middle',
+            key: 'strInventoryTransactionCode',
           },
           {
-            text: "Issue Date",
-            textFormat: "date",
-            alignment: "center:middle",
-            key: "dteTransactionDate",
+            text: 'Issue Date',
+            textFormat: 'date',
+            alignment: 'center:middle',
+            key: 'dteTransactionDate',
           },
           {
-            text: "Item Req Code",
-            textFormat: "text",
-            alignment: "center:middle",
-            key: "strItemRequestCode",
+            text: 'Item Req Code',
+            textFormat: 'text',
+            alignment: 'center:middle',
+            key: 'strItemRequestCode',
           },
           {
-            text: "Item Req Date",
-            textFormat: "date",
-            alignment: "center:middle",
-            key: "dteRequestDate",
+            text: 'Item Req Date',
+            textFormat: 'date',
+            alignment: 'center:middle',
+            key: 'dteRequestDate',
           },
           {
-            text: "Item Code",
-            textFormat: "text",
-            alignment: "center:middle",
-            key: "strItemCode",
+            text: 'Item Code',
+            textFormat: 'text',
+            alignment: 'center:middle',
+            key: 'strItemCode',
           },
           {
-            text: "Item Name",
-            textFormat: "text",
-            alignment: "center:middle",
-            key: "strItemName",
+            text: 'Item Name',
+            textFormat: 'text',
+            alignment: 'center:middle',
+            key: 'strItemName',
           },
           {
-            text: "Uom",
-            textFormat: "text",
-            alignment: "center:middle",
-            key: "strUoMName",
+            text: 'Uom',
+            textFormat: 'text',
+            alignment: 'center:middle',
+            key: 'strUoMName',
           },
           {
-            text: "Request Quantity",
-            textFormat: "number",
-            alignment: "center:middle",
-            key: "RequestQty",
+            text: 'Request Quantity',
+            textFormat: 'number',
+            alignment: 'center:middle',
+            key: 'RequestQty',
           },
           {
-            text: "Issue Quantity",
-            textFormat: "number",
-            alignment: "center:middle",
-            key: "IssueQuantity",
+            text: 'Issue Quantity',
+            textFormat: 'number',
+            alignment: 'center:middle',
+            key: 'IssueQuantity',
           },
           {
-            text: "Value",
-            textFormat: "money",
-            alignment: "center:middle",
-            key: "numTotalAmount",
+            text: 'Value',
+            textFormat: 'money',
+            alignment: 'center:middle',
+            key: 'numTotalAmount',
           },
           {
-            text: "Remarks",
-            textFormat: "text",
-            alignment: "center:middle",
-            key: "strRemarks",
+            text: 'Remarks',
+            textFormat: 'text',
+            alignment: 'center:middle',
+            key: 'strRemarks',
           },
         ];
         const _data = data.map((item, index) => {
@@ -254,10 +259,10 @@ const IssueReportTable = () => {
       values?.wh?.value,
       values?.fromDate,
       values?.toDate,
-      values?.itemType?.value || "",
-      values?.itemCategory?.value || "",
-      values?.itemSubCategory?.value || "",
-      values?.costCenter?.value || "",
+      values?.itemType?.value || '',
+      values?.itemCategory?.value || '',
+      values?.itemSubCategory?.value || '',
+      values?.costCenter?.value || '',
       1,
       pageSize
     );
@@ -279,7 +284,7 @@ const IssueReportTable = () => {
           validationSchema={validationSchema}
           initialValues={initData}
           //validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({
             handleSubmit,
@@ -294,7 +299,7 @@ const IssueReportTable = () => {
               <Form className="form form-label-left">
                 <div
                   className="row global-form"
-                  style={{ background: " #d6dadd" }}
+                  style={{ background: ' #d6dadd' }}
                 >
                   <div className="cgetIssueStatementLandingol-lg-3 col-xl-2">
                     <NewSelect
@@ -304,21 +309,21 @@ const IssueReportTable = () => {
                       label="SBU"
                       onChange={(v) => {
                         if (v) {
-                          setFieldValue("sbu", v);
-                          setFieldValue("costCenter", "");
+                          setFieldValue('sbu', v);
+                          setFieldValue('costCenter', '');
                           getCostCenterDDL(
                             `/costmgmt/CostCenter/GetCostCenterDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${v?.value}`
                           );
                         } else {
-                          setFieldValue("sbu", "");
-                          setFieldValue("costCenter", "");
+                          setFieldValue('sbu', '');
+                          setFieldValue('costCenter', '');
                           setCostCenterDDL([]);
                         }
                       }}
                       placeholder="SBU"
                       errors={errors}
                       touched={touched}
-                    />{" "}
+                    />{' '}
                   </div>
 
                   <div className="col-lg-3 col-xl-2">
@@ -335,8 +340,8 @@ const IssueReportTable = () => {
                           v?.value,
                           setWhList
                         );
-                        setFieldValue("plant", v);
-                        setFieldValue("wh", "");
+                        setFieldValue('plant', v);
+                        setFieldValue('wh', '');
                       }}
                       placeholder="Plant"
                       errors={errors}
@@ -350,7 +355,7 @@ const IssueReportTable = () => {
                       value={values?.wh}
                       label="Warehouse"
                       onChange={(v) => {
-                        setFieldValue("wh", v);
+                        setFieldValue('wh', v);
                       }}
                       placeholder="Warehouse"
                       errors={errors}
@@ -361,12 +366,12 @@ const IssueReportTable = () => {
                     <NewSelect
                       name="costCenter"
                       options={
-                        [{ value: 0, label: "All" }, ...costCenterDDL] || []
+                        [{ value: 0, label: 'All' }, ...costCenterDDL] || []
                       }
                       value={values?.costCenter}
                       label="Cost Center"
                       onChange={(v) => {
-                        setFieldValue("costCenter", v);
+                        setFieldValue('costCenter', v);
                       }}
                       placeholder="Cost Center"
                       errors={errors}
@@ -381,9 +386,9 @@ const IssueReportTable = () => {
                       value={values?.itemType}
                       label="Item Type"
                       onChange={(valueOption) => {
-                        setFieldValue("itemType", valueOption);
+                        setFieldValue('itemType', valueOption);
                         valueOption?.value !== 0 &&
-                          setFieldValue("itemCategory", "");
+                          setFieldValue('itemCategory', '');
 
                         getItemCategoryDDLByTypeId_api(
                           profileData.accountId,
@@ -404,8 +409,8 @@ const IssueReportTable = () => {
                       value={values?.itemCategory}
                       label="Item Category"
                       onChange={(valueOption) => {
-                        setFieldValue("itemCategory", valueOption);
-                        setFieldValue("itemSubCategory", "");
+                        setFieldValue('itemCategory', valueOption);
+                        setFieldValue('itemSubCategory', '');
                         ItemSubCategory_api(
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
@@ -425,7 +430,7 @@ const IssueReportTable = () => {
                       value={values?.itemSubCategory}
                       label="Item Sub Category"
                       onChange={(valueOption) => {
-                        setFieldValue("itemSubCategory", valueOption);
+                        setFieldValue('itemSubCategory', valueOption);
                       }}
                       placeholder="Sub Category"
                       errors={errors}
@@ -536,30 +541,30 @@ const IssueReportTable = () => {
                             <tr key={index}>
                               <td>{index + 1}</td>
                               <td>{item?.strCostCenterName}</td>
-                              <td style={{ width: "120px" }}>
+                              <td style={{ width: '120px' }}>
                                 {item?.strInventoryTransactionCode}
                               </td>
-                              <td style={{ width: "70px" }}>
+                              <td style={{ width: '70px' }}>
                                 {_dateFormatter(item?.dteTransactionDate)}
                               </td>
-                              <td style={{ width: "120px" }}>
+                              <td style={{ width: '120px' }}>
                                 {item?.strItemRequestCode}
                               </td>
-                              <td style={{ width: "70px" }}>
+                              <td style={{ width: '70px' }}>
                                 {_dateFormatter(item?.dteRequestDate)}
                               </td>
                               <td>{item?.strItemCode}</td>
                               <td>{item?.strItemName}</td>
-                              <td style={{ width: "70px" }}>
+                              <td style={{ width: '70px' }}>
                                 {item?.strUoMName}
                               </td>
-                              <td style={{ width: "70px" }}>
+                              <td style={{ width: '70px' }}>
                                 {item?.RequestQty}
                               </td>
-                              <td style={{ width: "70px" }}>
+                              <td style={{ width: '70px' }}>
                                 {item?.IssueQuantity}
                               </td>
-                              <td style={{ width: "100px" }}>
+                              <td style={{ width: '100px' }}>
                                 {_formatMoney(item?.numTotalAmount)}
                               </td>
                               <td>{item?.strRemarks}</td>

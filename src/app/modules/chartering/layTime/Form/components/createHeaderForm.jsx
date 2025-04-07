@@ -1,16 +1,17 @@
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import {
-  getBusinessPartnerNameByVoyageDDL, getVoyageDDLNew
-} from "../../../helper";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import {getLayTime } from "../../helper";
-import { initData } from "../addEditForm";
-import { daysToDDHHMM } from "../utils";
-import { getCargoDDL, getPortDDL } from "../../../../_helper/_commonApi";
+  getBusinessPartnerNameByVoyageDDL,
+  getVoyageDDLNew,
+} from '../../../helper';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import { getLayTime } from '../../helper';
+import { initData } from '../addEditForm';
+import { daysToDDHHMM } from '../utils';
+import { getCargoDDL, getPortDDL } from '../../../../_helper/_commonApi';
 
 const HeaderLabelComponent = ({ name }) => {
   return (
@@ -64,11 +65,11 @@ export function CreateHeaderForm({
 
             <div className="col-lg-3">
               <FormikSelect
-                value={values?.layTimeType || ""}
+                value={values?.layTimeType || ''}
                 isSearchable={true}
                 options={[
-                  { value: 1, label: "Load Port" },
-                  { value: 2, label: "Discharge Port" },
+                  { value: 1, label: 'Load Port' },
+                  { value: 2, label: 'Discharge Port' },
                 ]}
                 styles={customStyles}
                 name="layTimeType"
@@ -89,7 +90,7 @@ export function CreateHeaderForm({
             </div>
             <div className="col-lg-3">
               <FormikSelect
-                value={values?.vesselName || ""}
+                value={values?.vesselName || ''}
                 isSearchable={true}
                 options={vesselDDL || []}
                 styles={customStyles}
@@ -116,13 +117,6 @@ export function CreateHeaderForm({
                       isComplete: 2,
                       voyageTypeId: 2,
                     });
-                    // getVoyageDDLFilter({
-                    //   id: valueOption?.value,
-                    //   setter: setVoyageNoDDL,
-                    //   typeId: 2,
-                    //   setLoading: setLoading,
-                    //   isComplete: false,
-                    // });
                   }
                 }}
                 isDisabled={preData?.vesselName?.value || viewType}
@@ -132,7 +126,7 @@ export function CreateHeaderForm({
             </div>
             <div className="col-lg-3 pl-0">
               <FormikSelect
-                value={values?.voyageNo || ""}
+                value={values?.voyageNo || ''}
                 isSearchable={true}
                 options={voyageNoDDL || []}
                 styles={customStyles}
@@ -140,7 +134,7 @@ export function CreateHeaderForm({
                 placeholder="Voyage No"
                 label="Voyage No"
                 onChange={(valueOption) => {
-                  setFieldValue("voyageNo", valueOption);
+                  setFieldValue('voyageNo', valueOption);
                   setValuesState({
                     ...initData,
                     vesselName: values?.vesselName,
@@ -161,15 +155,14 @@ export function CreateHeaderForm({
             <HeaderLabelComponent name="Business Partner Name" />
             <div className="col-lg-3">
               <FormikSelect
-                value={values?.stackHolderType || ""}
+                value={values?.stackHolderType || ''}
                 isSearchable={true}
                 options={stackHolderTypeDDL}
                 styles={customStyles}
                 name="stackHolderType"
                 placeholder="Business Partner Type"
-                // label="Business Partner Type"
                 onChange={(valueOption) => {
-                  setFieldValue("stackHolderType", valueOption);
+                  setFieldValue('stackHolderType', valueOption);
 
                   setValuesState({
                     ...initData,
@@ -186,7 +179,7 @@ export function CreateHeaderForm({
                       values?.voyageNo?.value,
                       valueOption?.value,
                       setStackHolderNameDDL,
-                      setFieldValue // For demurrage, despatch
+                      setFieldValue
                     );
                   }
                 }}
@@ -197,15 +190,14 @@ export function CreateHeaderForm({
 
             <div className="col-lg-3">
               <FormikSelect
-                value={values?.stackHolderName || ""}
+                value={values?.stackHolderName || ''}
                 isSearchable={true}
                 options={stackHolderNameDDL}
                 styles={customStyles}
                 name="stackHolderName"
                 placeholder="Business Partner Name"
-                // label="Business Partner Name"
                 onChange={(valueOption) => {
-                  setFieldValue("stackHolderName", valueOption);
+                  setFieldValue('stackHolderName', valueOption);
                   setValuesState({
                     ...initData,
                     vesselName: values?.vesselName,
@@ -229,8 +221,8 @@ export function CreateHeaderForm({
                   getCargoDDL(
                     values?.voyageNo?.value,
                     values?.stackHolderType?.value === 1
-                      ? "Charterer"
-                      : "Shipper",
+                      ? 'Charterer'
+                      : 'Shipper',
                     valueOption?.value,
                     setCargoDDL
                   );
@@ -246,14 +238,14 @@ export function CreateHeaderForm({
               <HeaderLabelComponent name="Cargo" />
               <div className="col-lg-3">
                 <FormikSelect
-                  value={values?.cargo || ""}
+                  value={values?.cargo || ''}
                   isSearchable={true}
                   options={cargoDDL || []}
                   styles={customStyles}
                   name="cargo"
                   placeholder="Cargo"
                   onChange={(valueOption) => {
-                    setFieldValue("cargo", valueOption);
+                    setFieldValue('cargo', valueOption);
 
                     if (
                       values?.vesselName?.value &&
@@ -323,7 +315,7 @@ export function CreateHeaderForm({
             <>
               <HeaderLabelComponent name="Cargo Quantity" />
               <div className="col-lg-3 d-flex">
-                <div style={{ width: "50%" }}>
+                <div style={{ width: '50%' }}>
                   <FormikInput
                     value={values?.cargoQty}
                     name="cargoQty"
@@ -331,13 +323,13 @@ export function CreateHeaderForm({
                     onChange={(e) => {
                       values?.loadingRate &&
                         setFieldValue(
-                          "timeAllowedForLoading",
+                          'timeAllowedForLoading',
                           (
                             e.target.value / parseFloat(values?.loadingRate)
                           ).toFixed(4) || 0
                         );
 
-                      setFieldValue("cargoQty", e.target.value);
+                      setFieldValue('cargoQty', e.target.value);
                     }}
                     placeholder="Cargo Qty"
                     errors={errors}
@@ -346,7 +338,7 @@ export function CreateHeaderForm({
                   />
                 </div>
 
-                <div style={{ width: "50%" }}>
+                <div style={{ width: '50%' }}>
                   <FormikInput
                     value={values?.cargoUomSuffix}
                     name="cargoUomSuffix"
@@ -363,50 +355,38 @@ export function CreateHeaderForm({
               <HeaderLabelComponent name="BERTHED/Port at" />
               <div className="col-lg-3">
                 <FormikSelect
-                  value={values?.portAt || ""}
+                  value={values?.portAt || ''}
                   isSearchable={true}
                   options={portDDL || []}
                   styles={customStyles}
                   name="portAt"
                   placeholder="BERTHED/Port at"
                   onChange={(valueOption) => {
-                    setFieldValue("portAt", valueOption);
+                    setFieldValue('portAt', valueOption);
                   }}
                   errors={errors}
                   touched={touched}
                 />
               </div>
-              {/* <HeaderLabelComponent name="BERTHED/Port at" />
-              <div className="col-lg-3">
-                <FormikInput
-                  value={values?.portAt}
-                  placeholder="BERTHED/Port at"
-                  name="portAt"
-                  type="text"
-                  errors={errors}
-                  touched={touched}
-                />
-              </div> */}
-              
             </>
             <>
               <HeaderLabelComponent
                 name={
                   values?.layTimeType?.value === 1
-                    ? "Loading Rate"
-                    : "Discharging Rate"
+                    ? 'Loading Rate'
+                    : 'Discharging Rate'
                 }
               />
               <div className="col-lg-3 d-flex">
-                <div style={{ width: "50%" }}>
+                <div style={{ width: '50%' }}>
                   <FormikInput
                     value={values?.loadingRate}
                     name="loadingRate"
                     type="number"
                     placeholder={
                       values?.layTimeType?.value === 1
-                        ? "Loading Rate"
-                        : "Discharging Rate"
+                        ? 'Loading Rate'
+                        : 'Discharging Rate'
                     }
                     onChange={(e) => {
                       const total = (
@@ -414,9 +394,9 @@ export function CreateHeaderForm({
                       )?.toFixed(4);
 
                       values?.cargoQty && e.target.value > 0
-                        ? setFieldValue("timeAllowedForLoading", total)
-                        : setFieldValue("timeAllowedForLoading", "");
-                      setFieldValue("loadingRate", e.target.value);
+                        ? setFieldValue('timeAllowedForLoading', total)
+                        : setFieldValue('timeAllowedForLoading', '');
+                      setFieldValue('loadingRate', e.target.value);
                     }}
                     errors={errors}
                     touched={touched}
@@ -424,7 +404,7 @@ export function CreateHeaderForm({
                   />
                 </div>
 
-                <div style={{ width: "50%" }}>
+                <div style={{ width: '50%' }}>
                   <FormikInput
                     value={values?.loadUnloadRateSuffix}
                     name="loadUnloadRateSuffix"
@@ -450,16 +430,16 @@ export function CreateHeaderForm({
               </div>
             </>
             <>
-              <HeaderLabelComponent name={"Demurrage Rate"} />
+              <HeaderLabelComponent name={'Demurrage Rate'} />
               <div className="col-lg-3">
                 <FormikInput
                   value={values?.demurrageRate}
                   name="demurrageRate"
                   type="number"
-                  placeholder={"Demurrage Rate"}
+                  placeholder={'Demurrage Rate'}
                   onChange={(e) => {
-                    setFieldValue("despatchRate", Number(e.target.value) / 2);
-                    setFieldValue("demurrageRate", e.target.value);
+                    setFieldValue('despatchRate', Number(e.target.value) / 2);
+                    setFieldValue('demurrageRate', e.target.value);
                   }}
                   errors={errors}
                   touched={touched}
@@ -472,8 +452,8 @@ export function CreateHeaderForm({
               <HeaderLabelComponent
                 name={
                   values?.layTimeType?.value === 1
-                    ? "Loading Commenced"
-                    : "Discharging Commenced"
+                    ? 'Loading Commenced'
+                    : 'Discharging Commenced'
                 }
               />
               <div className="col-lg-3">
@@ -487,7 +467,7 @@ export function CreateHeaderForm({
               </div>
             </>
             <>
-              <HeaderLabelComponent name={"Despatch Rate"} />
+              <HeaderLabelComponent name={'Despatch Rate'} />
               <div className="col-lg-3">
                 <FormikInput
                   value={values?.despatchRate}
@@ -506,8 +486,8 @@ export function CreateHeaderForm({
               <HeaderLabelComponent
                 name={
                   values?.layTimeType?.value === 1
-                    ? "Loading Completed"
-                    : "Discharging Completed"
+                    ? 'Loading Completed'
+                    : 'Discharging Completed'
                 }
               />
               <div className="col-lg-3">
@@ -524,7 +504,7 @@ export function CreateHeaderForm({
             <>
               <HeaderLabelComponent
                 name={`Time allowed for ${
-                  values?.layTimeType?.value === 1 ? "Loading" : "Discharging"
+                  values?.layTimeType?.value === 1 ? 'Loading' : 'Discharging'
                 }`}
               />
               <div className="col-lg-3">
@@ -535,7 +515,7 @@ export function CreateHeaderForm({
 
                 {+values?.timeAllowedForLoading ? (
                   <>
-                    /{" "}
+                    /{' '}
                     <strong>
                       <span>
                         {daysToDDHHMM(+values?.timeAllowedForLoading)}

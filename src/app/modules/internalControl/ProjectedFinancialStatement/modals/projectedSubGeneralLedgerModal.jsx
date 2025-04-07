@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import ICustomCard from "../../../_helper/_customCard";
-import ReactToPrint from "react-to-print";
-import Loading from "../../../_helper/_loading";
-import IViewModal from "../../../_helper/_viewModal";
-import VoucherModal from "./voucherModal";
+import React, { useEffect, useRef, useState } from 'react';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import ICustomCard from '../../../_helper/_customCard';
+import ReactToPrint from 'react-to-print';
+import Loading from '../../../_helper/_loading';
+import IViewModal from '../../../_helper/_viewModal';
+import VoucherModal from './voucherModal';
 
 const ProjectedSubGeneralLedgerModal = ({
   values,
@@ -31,8 +31,9 @@ const ProjectedSubGeneralLedgerModal = ({
           values?.enterpriseDivision?.value
         }&BusinessUnitId=${values?.businessUnit?.value}&GLId=${
           generalLedgerRow?.intGeneralLedgerId
-        }&ConvertionRate=${values?.conversionRate}&SubGroup=${values
-          ?.subDivision?.value || "All"}`,
+        }&ConvertionRate=${values?.conversionRate}&SubGroup=${
+          values?.subDivision?.value || 'All'
+        }`,
         (data) => {
           setTotalAmount(
             data?.reduce((value, row) => (value += row?.numAmount), 0) || 0
@@ -40,7 +41,6 @@ const ProjectedSubGeneralLedgerModal = ({
         }
       );
     }
-
   }, [generalLedgerRow?.intGeneralLedgerId, values]);
 
   const [subGeneralLedgerRow, setSubGeneralLedgerRow] = useState(null);
@@ -69,8 +69,8 @@ const ProjectedSubGeneralLedgerModal = ({
                 <div className="d-flex flex-column justify-content-center align-items-center my-2">
                   <span
                     style={{
-                      fontSize: "22px",
-                      fontWeight: "bold",
+                      fontSize: '22px',
+                      fontWeight: 'bold',
                     }}
                   >
                     {values?.businessUnit?.value > 0
@@ -96,7 +96,7 @@ const ProjectedSubGeneralLedgerModal = ({
                     Ledger : <b>{generalLedgerRow?.strGeneralLedgerName}</b>
                   </span>
                   <span>
-                    Ledger Code :{" "}
+                    Ledger Code :{' '}
                     <b>{generalLedgerRow?.strGeneralLedgerCode}</b>
                   </span>
                 </div>
@@ -105,7 +105,7 @@ const ProjectedSubGeneralLedgerModal = ({
               <div className="loan-scrollable-table">
                 <div
                   className="scroll-table _table"
-                  style={{ maxHeight: "540px", overflowX: "hidden" }}
+                  style={{ maxHeight: '540px', overflowX: 'hidden' }}
                 >
                   <table
                     className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-2"
@@ -116,16 +116,16 @@ const ProjectedSubGeneralLedgerModal = ({
                         <th>SL</th>
                         <th>Sub-GL Code</th>
                         <th>
-                          <div style={{ textAlign: "left", marginLeft: "5px" }}>
-                            {" "}
+                          <div style={{ textAlign: 'left', marginLeft: '5px' }}>
+                            {' '}
                             Sub-GL Name
                           </div>
                         </th>
                         <th>
                           <div
-                            style={{ textAlign: "right", marginRight: "5px" }}
+                            style={{ textAlign: 'right', marginRight: '5px' }}
                           >
-                            {" "}
+                            {' '}
                             Amount
                           </div>
                         </th>
@@ -139,12 +139,12 @@ const ProjectedSubGeneralLedgerModal = ({
                               <td>{index + 1}</td>
 
                               <td className="text-center">
-                                {item?.strsubglcode || "N/A"}
+                                {item?.strsubglcode || 'N/A'}
                               </td>
                               <td
-                                style={{ textAlign: "left", marginLeft: "5px" }}
+                                style={{ textAlign: 'left', marginLeft: '5px' }}
                               >
-                                {item?.strsubglname || "N/A"}
+                                {item?.strsubglname || 'N/A'}
                               </td>
                               <td
                                 onClick={() => {
@@ -152,11 +152,11 @@ const ProjectedSubGeneralLedgerModal = ({
                                   setShowVoucherModal(true);
                                 }}
                                 style={{
-                                  textDecoration: "underline",
-                                  color: "blue",
-                                  cursor: "pointer",
-                                  textAlign: "right",
-                                  marginRight: "5px",
+                                  textDecoration: 'underline',
+                                  color: 'blue',
+                                  cursor: 'pointer',
+                                  textAlign: 'right',
+                                  marginRight: '5px',
                                 }}
                               >
                                 {item?.numAmount}
@@ -172,14 +172,14 @@ const ProjectedSubGeneralLedgerModal = ({
                         <td
                           colspan="3"
                           className="text-center ml-1"
-                          style={{ fontWeight: "bold" }}
+                          style={{ fontWeight: 'bold' }}
                         >
                           Total
                         </td>
 
                         <td
                           className="text-right pr-2"
-                          style={{ fontWeight: "bold" }}
+                          style={{ fontWeight: 'bold' }}
                         >
                           {totalAmount || 0}
                         </td>

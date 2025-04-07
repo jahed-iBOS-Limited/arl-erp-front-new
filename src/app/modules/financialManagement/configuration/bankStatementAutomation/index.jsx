@@ -1,21 +1,21 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
-import InputField from "../../../_helper/_inputField";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { getBankStatmentAttachmentLanding } from "./helper";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import moment from "moment";
-import IViewModal from "../../../_helper/_viewModal";
-import EditForm from "./editForm";
+} from '../../../../../_metronic/_partials/controls';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
+import InputField from '../../../_helper/_inputField';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { getBankStatmentAttachmentLanding } from './helper';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import moment from 'moment';
+import IViewModal from '../../../_helper/_viewModal';
+import EditForm from './editForm';
 
 const initData = {
   fromDate: _todayDate(),
@@ -68,39 +68,39 @@ const BankStatementAutomation = () => {
             {loading && <Loading />}
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title='Bank Statement Automation'></CardHeader>
+              <CardHeader title="Bank Statement Automation"></CardHeader>
               <CardBody>
-                <Form className='form form-label-right'>
-                  <div className='form-group row global-form'>
-                    <div className='col-lg-3'>
+                <Form className="form form-label-right">
+                  <div className="form-group row global-form">
+                    <div className="col-lg-3">
                       <label>From Date</label>
                       <InputField
                         value={values?.fromDate}
-                        name='fromDate'
-                        placeholder='From Date'
-                        type='date'
+                        name="fromDate"
+                        placeholder="From Date"
+                        type="date"
                         onChange={(e) => {
-                          setFieldValue("fromDate", e.target.value);
+                          setFieldValue('fromDate', e.target.value);
                         }}
                       />
                     </div>
-                    <div className='col-lg-3'>
+                    <div className="col-lg-3">
                       <label>To Date</label>
                       <InputField
                         value={values?.toDate}
-                        name='toDate'
-                        placeholder='To Date'
-                        type='date'
+                        name="toDate"
+                        placeholder="To Date"
+                        type="date"
                         onChange={(e) => {
-                          setFieldValue("toDate", e.target.value);
+                          setFieldValue('toDate', e.target.value);
                         }}
                       />
                     </div>
-                    <div className='col-lg-3 d-flex justify-content-start align-items-center mt-3'>
+                    <div className="col-lg-3 d-flex justify-content-start align-items-center mt-3">
                       <button
-                        type='button'
+                        type="button"
                         onClick={() => getGridData(values, pageNo, pageSize)}
-                        className='btn btn-primary mt-3'
+                        className="btn btn-primary mt-3"
                         disabled={!values?.fromDate || !values?.toDate}
                       >
                         View
@@ -108,8 +108,8 @@ const BankStatementAutomation = () => {
                     </div>
                   </div>
 
-                  <div className='table-responsive'>
-                    <table className='table table-striped table-bordered global-table'>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered global-table">
                       <thead>
                         <tr>
                           <th>SL</th>
@@ -129,27 +129,27 @@ const BankStatementAutomation = () => {
                             <tr
                               key={i + 1}
                               style={{
-                                background: item?.isInserted ? "" : "#ffadad",
+                                background: item?.isInserted ? '' : '#ffadad',
                               }}
                             >
-                              <td className='text-center'>{i + 1}</td>
-                              <td className='text-left'>{item?.bankName}</td>
-                              <td className='text-left'>{item?.accountNo}</td>
-                              <td className='text-left'>{item?.fileName}</td>
-                              <td className='text-left'>
-                                {" "}
+                              <td className="text-center">{i + 1}</td>
+                              <td className="text-left">{item?.bankName}</td>
+                              <td className="text-left">{item?.accountNo}</td>
+                              <td className="text-left">{item?.fileName}</td>
+                              <td className="text-left">
+                                {' '}
                                 {item?.senderAddress}
                               </td>
-                              <td className='text-left'>{item?.emailHeader}</td>
-                              <td className='text-left'>
+                              <td className="text-left">{item?.emailHeader}</td>
+                              <td className="text-left">
                                 {moment(item?.emailDateTime).format(
-                                  "DD/MM/YYYY"
+                                  'DD/MM/YYYY'
                                 )}
                               </td>
-                              <td className='text-left'>
+                              <td className="text-left">
                                 {item?.statusMessage}
                               </td>
-                              <td className='text-center'>
+                              <td className="text-center">
                                 {!item?.isInserted && (
                                   <span
                                     onClick={() => {
@@ -187,7 +187,7 @@ const BankStatementAutomation = () => {
                     <IViewModal
                       show={isEditModal}
                       onHide={() => setIsEditModal(false)}
-                      title=''
+                      title=""
                     >
                       <EditForm
                         rowClickItem={rowClickItem}

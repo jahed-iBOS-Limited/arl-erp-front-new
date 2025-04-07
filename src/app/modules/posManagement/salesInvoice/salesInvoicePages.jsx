@@ -1,12 +1,12 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { LayoutSplashScreen, ContentRoute } from "../../../../_metronic/layout";
-import { Suspense } from "react";
-import SalesInvoiceForm from "./Form/addEditForm"
-import SalesInvoice from "./landing/landing"
-import CustomerCreditRecoveryForm from "./customerCreditRecovery/addEditForm"
-import VoucherLanding from "../createVoucher/landing/table";
-import CreateVoucherForm from "../createVoucher/form/addEditForm";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { LayoutSplashScreen, ContentRoute } from '../../../../_metronic/layout';
+import { Suspense } from 'react';
+import SalesInvoiceForm from './Form/addEditForm';
+import SalesInvoice from './landing/landing';
+import CustomerCreditRecoveryForm from './customerCreditRecovery/addEditForm';
+import VoucherLanding from '../createVoucher/landing/table';
+import CreateVoucherForm from '../createVoucher/form/addEditForm';
 
 export function SalesInvoicePage() {
   return (

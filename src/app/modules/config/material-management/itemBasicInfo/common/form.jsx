@@ -1,46 +1,46 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { Input } from "../../../../../../_metronic/_partials/controls";
-import Axios from "axios";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { Input } from '../../../../../../_metronic/_partials/controls';
+import Axios from 'axios';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
 
 // Validation schema
 const DataValiadtionSchema = Yup.object().shape({
-  itemName: Yup.string().when("businessUnit", {
+  itemName: Yup.string().when('businessUnit', {
     is: (businessUnit) =>
       businessUnit === 12 ||
       businessUnit === 17 ||
       businessUnit === 102 ||
       businessUnit === 117,
     then: Yup.string()
-      .min(2, "Minimum 2 symbols")
-      .max(500, "Maximum 500 symbols")
-      .required("Item Name is required"),
+      .min(2, 'Minimum 2 symbols')
+      .max(500, 'Maximum 500 symbols')
+      .required('Item Name is required'),
     otherwise: Yup.string()
-      .min(2, "Minimum 2 symbols")
-      .max(150, "Maximum 150 symbols")
-      .required("Item Name is required"),
+      .min(2, 'Minimum 2 symbols')
+      .max(150, 'Maximum 150 symbols')
+      .required('Item Name is required'),
   }),
   itemType: Yup.object().shape({
-    label: Yup.string().required("Item Type is required"),
-    value: Yup.string().required("Item Type is required"),
+    label: Yup.string().required('Item Type is required'),
+    value: Yup.string().required('Item Type is required'),
   }),
   itemCategory: Yup.object().shape({
-    label: Yup.string().required("Category is required"),
-    value: Yup.string().required("Category is required"),
+    label: Yup.string().required('Category is required'),
+    value: Yup.string().required('Category is required'),
   }),
   itemSubCategory: Yup.object().shape({
-    label: Yup.string().required("Sub-category is required"),
-    value: Yup.string().required("Sub-category is required"),
+    label: Yup.string().required('Sub-category is required'),
+    value: Yup.string().required('Sub-category is required'),
   }),
-  purchaseOrg: Yup.object().when("itemType.value", {
+  purchaseOrg: Yup.object().when('itemType.value', {
     is: (value) => value === 3 || value === 4,
     then: Yup.object().shape({}),
     otherwise: Yup.object().shape({
-      value: Yup.string().required("Purchase Organization is required"),
-      label: Yup.string().required("Purchase Organization is required"),
+      value: Yup.string().required('Purchase Organization is required'),
+      label: Yup.string().required('Purchase Organization is required'),
     }),
   }),
   // purchaseOrg: Yup.object().shape({
@@ -63,9 +63,9 @@ export default function FormCmp({
   isWorkable,
   purchaseOrg,
 }) {
-  const [itemTypeList, setItemTypeList] = useState("");
-  const [itemCategoryList, setItemCategoryList] = useState("");
-  const [itemSubCategoryList, setItemSubCategoryList] = useState("");
+  const [itemTypeList, setItemTypeList] = useState('');
+  const [itemCategoryList, setItemCategoryList] = useState('');
+  const [itemSubCategoryList, setItemSubCategoryList] = useState('');
   const [itemTypeOption, setItemTypeOption] = useState([]);
   useEffect(() => {
     getInfoData();
@@ -73,7 +73,7 @@ export default function FormCmp({
 
   const getInfoData = async () => {
     try {
-      const res = await Axios.get("/item/ItemCategory/GetItemTypeListDDL");
+      const res = await Axios.get('/item/ItemCategory/GetItemTypeListDDL');
       setItemTypeList(res.data);
     } catch (error) {}
   };
@@ -126,7 +126,7 @@ export default function FormCmp({
         validationSchema={DataValiadtionSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveData(values, () => {
-            console.log("eeE", values);
+            console.log('eeE', values);
             resetForm(data);
           });
         }}
@@ -146,7 +146,7 @@ export default function FormCmp({
               <div className="form-group row global-form">
                 <div className="col-lg-3">
                   <Field
-                    value={values?.itemName || ""}
+                    value={values?.itemName || ''}
                     name="itemName"
                     component={Input}
                     placeholder="Item Name"
@@ -157,7 +157,7 @@ export default function FormCmp({
                   <>
                     <div className="col-lg-3">
                       <Field
-                        value={values.itemCode || ""}
+                        value={values.itemCode || ''}
                         name="itemCode"
                         component={Input}
                         placeholder="IMPA Code"
@@ -166,7 +166,7 @@ export default function FormCmp({
                     </div>
                     <div className="col-lg-3">
                       <Field
-                        value={values.drawingCode || ""}
+                        value={values.drawingCode || ''}
                         name="drawingCode"
                         component={Input}
                         placeholder="Drawing Code"
@@ -175,7 +175,7 @@ export default function FormCmp({
                     </div>
                     <div className="col-lg-3">
                       <Field
-                        value={values.partNo || ""}
+                        value={values.partNo || ''}
                         name="partNo"
                         component={Input}
                         placeholder="Part No"
@@ -195,8 +195,8 @@ export default function FormCmp({
                         value={values?.itemType}
                         onChange={(valueOption) => {
                           categoryApiCaller(valueOption?.value);
-                          setFieldValue("itemCategory", "");
-                          setFieldValue("itemType", valueOption);
+                          setFieldValue('itemCategory', '');
+                          setFieldValue('itemType', valueOption);
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -207,16 +207,16 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
                     {errors && errors.itemType && touched && touched.itemType
                       ? errors.itemType.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
                 <div className="col-lg-3">
@@ -228,12 +228,12 @@ export default function FormCmp({
                         placeholder="Select Item Category"
                         value={values?.itemCategory}
                         onChange={(valueOption) => {
-                          setFieldValue("itemSubCategory", "");
+                          setFieldValue('itemSubCategory', '');
                           subcategoryApiCaller(
                             valueOption?.value,
                             values.itemType.value
                           );
-                          setFieldValue("itemCategory", valueOption);
+                          setFieldValue('itemCategory', valueOption);
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -243,10 +243,10 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
@@ -255,7 +255,7 @@ export default function FormCmp({
                     touched &&
                     touched.itemCategory
                       ? errors.itemCategory.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
                 <div className="col-lg-3">
@@ -267,7 +267,7 @@ export default function FormCmp({
                         options={itemSubCategoryList}
                         placeholder="Select Item Sub-category"
                         onChange={(valueOption) => {
-                          setFieldValue("itemSubCategory", valueOption);
+                          setFieldValue('itemSubCategory', valueOption);
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -278,10 +278,10 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      marginTop: "0.25rem",
-                      width: "100%",
+                      marginTop: '0.25rem',
+                      width: '100%',
                     }}
                     className="text-danger"
                   >
@@ -290,7 +290,7 @@ export default function FormCmp({
                     errors &&
                     errors?.itemSubCategory
                       ? errors?.itemSubCategory.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
                 <div className="col-lg-3">
@@ -302,7 +302,7 @@ export default function FormCmp({
                         options={purchaseOrg}
                         placeholder="Purchase Organization"
                         onChange={(valueOption) => {
-                          setFieldValue("purchaseOrg", valueOption);
+                          setFieldValue('purchaseOrg', valueOption);
                         }}
                         styles={customStyles}
                         name="purchaseOrg"
@@ -311,10 +311,10 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      marginTop: "0.25rem",
-                      width: "100%",
+                      marginTop: '0.25rem',
+                      width: '100%',
                     }}
                     className="text-danger"
                   >
@@ -323,27 +323,27 @@ export default function FormCmp({
                     errors &&
                     errors?.purchaseOrg
                       ? errors?.purchaseOrg.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={saveBtnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(data)}
               ></button>
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={saveConfigBtnRef}
                 onClick={() => setSaveConfigBtn(true)}
               ></button>

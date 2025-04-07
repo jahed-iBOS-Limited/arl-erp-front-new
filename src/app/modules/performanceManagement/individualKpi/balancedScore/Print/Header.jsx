@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from "react";
-import { useHistory, useLocation } from "react-router-dom";
-import ICard from "../../../../_helper/_card";
-import { useSelector, shallowEqual } from "react-redux";
-import { currentDateAndTime } from "../../../../_helper/currentDateAndTime";
-import { getPmsReportAction } from "../../../_helper/getReportAction";
-import PmsCommonTableScorecard from "../../../_helper/pmsCommonTable/PmsCommonTableScorecard";
+import React, { useEffect, useRef } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import ICard from '../../../../_helper/_card';
+import { useSelector, shallowEqual } from 'react-redux';
+import { currentDateAndTime } from '../../../../_helper/currentDateAndTime';
+import { getPmsReportAction } from '../../../_helper/getReportAction';
+import PmsCommonTableScorecard from '../../../_helper/pmsCommonTable/PmsCommonTableScorecard';
 
 export default function IndBSCPrint() {
   const location = useLocation();
@@ -37,7 +37,6 @@ export default function IndBSCPrint() {
         1
       );
     }
-
   }, [selectedBusinessUnit, state]);
 
   return (
@@ -51,14 +50,14 @@ export default function IndBSCPrint() {
         componentRef={printRef}
         backHandler={() =>
           history.push(
-            "/performance-management/individual-kpi/individual-scorecard/"
+            '/performance-management/individual-kpi/individual-scorecard/'
           )
         }
       >
         <div className="bsc-print-section" ref={printRef}>
           <div className="mx-auto">
             <div className="text-center my-2">
-              <b className="display-5"> {selectedBusinessUnit?.label} </b>{" "}
+              <b className="display-5"> {selectedBusinessUnit?.label} </b>{' '}
               <br />
               <b className="display-5"> Individual Balanced Scorecard </b>
             </div>
@@ -67,24 +66,24 @@ export default function IndBSCPrint() {
                 <b>
                   Employee Name : {state?.employee?.label}[
                   {state?.employee?.value}]
-                </b>{" "}
+                </b>{' '}
                 <br />
                 <b>
-                  {" "}
-                  Designation : {state?.employeeBasicInfo?.designationName}{" "}
-                </b>{" "}
+                  {' '}
+                  Designation : {state?.employeeBasicInfo?.designationName}{' '}
+                </b>{' '}
                 <br />
                 <div>
                   <b>
-                    {" "}
-                    Department : {state?.employeeBasicInfo?.departmentName}{" "}
+                    {' '}
+                    Department : {state?.employeeBasicInfo?.departmentName}{' '}
                   </b>
                 </div>
                 <div>
                   <b>
                     Supervisor : {state?.employeeBasicInfo?.supervisorName}[
                     {state?.employeeBasicInfo?.supervisorId}]
-                  </b>{" "}
+                  </b>{' '}
                 </div>
               </div>
               <div className="text-right">

@@ -1,10 +1,9 @@
-
-import React from "react";
-import ApexBarChart from "../../_chart/apexBarChart";
-import IDonut from "./../../_chart/IDonutChart";
-import ISpeedoMeter from "./../../_chart/ISpeedoMeter";
-import IHeart from "./../../../_helper/_helperIcons/_heart";
-import { subStrString } from "../../_helper/subStrString";
+import React from 'react';
+import ApexBarChart from '../../_chart/apexBarChart';
+import IDonut from './../../_chart/IDonutChart';
+import ISpeedoMeter from './../../_chart/ISpeedoMeter';
+import IHeart from './../../../_helper/_helperIcons/_heart';
+import { subStrString } from '../../_helper/subStrString';
 
 function Card({ itm, updateIsShown }) {
   return (
@@ -18,14 +17,14 @@ function Card({ itm, updateIsShown }) {
           />
 
           <a
-            style={{ position: "absolute", right: "10px", top: "9px" }}
+            style={{ position: 'absolute', right: '10px', top: '9px' }}
             className="ml-3"
             href={`${itm?.strURL}`}
             target="_blank"
           >
             <i
               className={
-                itm?.strURL ? "fas fa-link text-primary" : "fas fa-link"
+                itm?.strURL ? 'fas fa-link text-primary' : 'fas fa-link'
               }
             ></i>
           </a>

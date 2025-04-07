@@ -1,5 +1,5 @@
-import React from "react";
-import From from "./form";
+import React from 'react';
+import From from './form';
 
 function AdvForInternalView({
   gridItem,

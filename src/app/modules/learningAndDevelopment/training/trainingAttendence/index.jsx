@@ -1,17 +1,17 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
 const initData = {
-  trainingSchedule: "",
-  date: "",
+  trainingSchedule: '',
+  date: '',
 };
 export default function TrainingAttendence() {
   const [isDisabled] = useState(false);
@@ -27,7 +27,6 @@ export default function TrainingAttendence() {
 
   useEffect(() => {
     getTrainingScheduleDDL(`/hcm/Training/TrainingScheduleDDL`);
-
   }, []);
 
   // const saveHandler = (values, cb) => {};
@@ -72,13 +71,13 @@ export default function TrainingAttendence() {
                       value={values?.trainingSchedule}
                       label="Training Schedule"
                       onChange={(valueOption) => {
-                        if (valueOption){
-                          setFieldValue("trainingSchedule", valueOption);
-                          setFieldValue("date", "");
+                        if (valueOption) {
+                          setFieldValue('trainingSchedule', valueOption);
+                          setFieldValue('date', '');
                           setRowData([]);
-                        }else{
-                          setFieldValue("trainingSchedule", "");
-                          setFieldValue("date", "");
+                        } else {
+                          setFieldValue('trainingSchedule', '');
+                          setFieldValue('date', '');
                           setRowData([]);
                         }
                         // setFieldValue("trainingSchedule", valueOption);
@@ -99,14 +98,14 @@ export default function TrainingAttendence() {
                       onChange={(e) => {
                         if (!values?.trainingSchedule?.value)
                           return toast.warn(
-                            "Please Select Training Schedule First"
+                            'Please Select Training Schedule First'
                           );
-                        setFieldValue("date", e.target.value);
+                        setFieldValue('date', e.target.value);
                       }}
                     />
                   </div>
 
-                  <div style={{ marginTop: "15px" }} className="col-lg-1">
+                  <div style={{ marginTop: '15px' }} className="col-lg-1">
                     <button
                       type="button"
                       onClick={() => {
@@ -154,7 +153,7 @@ export default function TrainingAttendence() {
                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                       <thead>
                         <tr>
-                          <th style={{ width: "30px" }}>SL</th>
+                          <th style={{ width: '30px' }}>SL</th>
                           <th>Enroll</th>
                           <th>Employee Name</th>
                           <th>Designation</th>

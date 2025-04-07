@@ -1,9 +1,9 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import Loading from "../../../../_helper/_loading";
-import IButton from "../../../../_helper/iButton";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import Loading from '../../../../_helper/_loading';
+import IButton from '../../../../_helper/iButton';
 import {
   CreatePurchasePartner,
   GetSupplierAndVehicleInfo_api,
@@ -12,30 +12,30 @@ import {
   getDistributionChannelDDL_api,
   getSalesOrderDetailInfo,
   productTypeUpdate,
-} from "../helper";
+} from '../helper';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "./../../../../../../_metronic/_partials/controls";
-import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import InputField from "./../../../../_helper/_inputField";
-import NewSelect from "./../../../../_helper/_select";
+} from './../../../../../../_metronic/_partials/controls';
+import SearchAsyncSelect from './../../../../_helper/SearchAsyncSelect';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import InputField from './../../../../_helper/_inputField';
+import NewSelect from './../../../../_helper/_select';
 
 const initData = {
-  customer: "",
-  shipPointCode: "",
-  shipPoint: "",
-  remarks: "",
-  distributionChannel: "",
-  soCode: "",
-  productType: "",
-  reason: "",
-  supplier: "",
-  fuelStationName: "",
+  customer: '',
+  shipPointCode: '',
+  shipPoint: '',
+  remarks: '',
+  distributionChannel: '',
+  soCode: '',
+  productType: '',
+  reason: '',
+  supplier: '',
+  fuelStationName: '',
 };
 
 function ShipmentVehicleStatusUpdate() {
@@ -81,7 +81,7 @@ function ShipmentVehicleStatusUpdate() {
       values?.customer?.value,
       profileData?.userId,
       values?.transportZone?.value || 0,
-      values?.remarks || "",
+      values?.remarks || '',
       setGridData,
       setLoading,
       isUpdateMassage
@@ -96,7 +96,7 @@ function ShipmentVehicleStatusUpdate() {
       values?.shipPoint?.value || 0,
       values?.productType?.value,
       profileData?.userId,
-      values?.reason || "no reason",
+      values?.reason || 'no reason',
       values?.customer?.value,
       setGridData,
       setLoading
@@ -121,14 +121,14 @@ function ShipmentVehicleStatusUpdate() {
         deliverySummeryId: 0,
         businessUnitId: selectedBusinessUnit?.value,
         deliveryId: 0,
-        deliveryCode: "",
+        deliveryCode: '',
         salesOrderNumber: values?.soCode,
         supplierId: 0,
         actionBy: profileData?.userId,
         qnt: 0,
         customerName: values?.customer?.label,
-        delvAddress: "",
-        delvDate: "2022-10-20T09:27:39.148Z",
+        delvAddress: '',
+        delvDate: '2022-10-20T09:27:39.148Z',
         supportTypeId: 1,
         strProductType: values?.productType?.value,
         // process: true,
@@ -172,7 +172,7 @@ function ShipmentVehicleStatusUpdate() {
             <Form>
               <Card>
                 {true && <ModalProgressBar />}
-                <CardHeader title={"Shipment Vehicle Status Update"}>
+                <CardHeader title={'Shipment Vehicle Status Update'}>
                   <CardHeaderToolbar>
                     {[2, 3].includes(values?.reportType?.value) && (
                       <button
@@ -195,24 +195,24 @@ function ShipmentVehicleStatusUpdate() {
                       <NewSelect
                         name="reportType"
                         options={[
-                          { value: 2, label: "Vehicle Has To Out First" },
-                          { value: 3, label: "Not Show In Bill Register" },
-                          { value: 4, label: "Unbuild Amount Update" },
-                          { value: 5, label: "Balance Update" },
-                          { value: 6, label: "Sales Order Detail Info" },
+                          { value: 2, label: 'Vehicle Has To Out First' },
+                          { value: 3, label: 'Not Show In Bill Register' },
+                          { value: 4, label: 'Unbuild Amount Update' },
+                          { value: 5, label: 'Balance Update' },
+                          { value: 6, label: 'Sales Order Detail Info' },
                           {
                             value: 7,
-                            label: "Sales Order Not Show In Dropdown",
+                            label: 'Sales Order Not Show In Dropdown',
                           },
-                          { value: 8, label: "ShipPoint Change" },
-                          { value: 9, label: "Product Type Change" },
-                          { value: 10, label: "Fuel Station Tagging" },
+                          { value: 8, label: 'ShipPoint Change' },
+                          { value: 9, label: 'Product Type Change' },
+                          { value: 10, label: 'Fuel Station Tagging' },
                         ]}
                         value={values?.reportType}
                         label="Report Type"
                         onChange={(valueOption) => {
-                          setFieldValue("reportType", valueOption);
-                          setFieldValue("customer", "");
+                          setFieldValue('reportType', valueOption);
+                          setFieldValue('customer', '');
                           setGridData([]);
                         }}
                         placeholder="Report Type"
@@ -229,9 +229,9 @@ function ShipmentVehicleStatusUpdate() {
                             value={values?.supplier}
                             label="Supplier"
                             onChange={(valueOption) => {
-                              setFieldValue("supplier", valueOption);
+                              setFieldValue('supplier', valueOption);
                               setFieldValue(
-                                "fuelStationName",
+                                'fuelStationName',
                                 valueOption?.label
                               );
                             }}
@@ -249,7 +249,7 @@ function ShipmentVehicleStatusUpdate() {
                             type="text"
                             onChange={(e) => {
                               setFieldValue(
-                                "fuelStationName",
+                                'fuelStationName',
                                 e?.target?.value
                               );
                             }}
@@ -266,8 +266,8 @@ function ShipmentVehicleStatusUpdate() {
                             value={values?.distributionChannel}
                             label="Distribution Channel"
                             onChange={(valueOption) => {
-                              setFieldValue("distributionChannel", valueOption);
-                              setFieldValue("customer", "");
+                              setFieldValue('distributionChannel', valueOption);
+                              setFieldValue('customer', '');
                               setGridData([]);
                             }}
                             placeholder="Distribution Channel"
@@ -283,7 +283,7 @@ function ShipmentVehicleStatusUpdate() {
                               // isDisabled={!values?.distributionChannel}
                               selectedValue={values?.customer}
                               handleChange={(valueOption) => {
-                                setFieldValue("customer", valueOption);
+                                setFieldValue('customer', valueOption);
                                 setGridData([]);
                               }}
                               placeholder="Search Customer"
@@ -323,7 +323,7 @@ function ShipmentVehicleStatusUpdate() {
                             value={values?.shipPoint}
                             label="Shippoint"
                             onChange={(valueOption) => {
-                              setFieldValue("shipPoint", valueOption);
+                              setFieldValue('shipPoint', valueOption);
                               setGridData([]);
                             }}
                             placeholder="Shippoint"
@@ -335,20 +335,20 @@ function ShipmentVehicleStatusUpdate() {
                           <div className="col-lg-3">
                             <label>
                               {values?.reportType?.value === 3
-                                ? "Challan Number"
-                                : "Shippoint code"}
+                                ? 'Challan Number'
+                                : 'Shippoint code'}
                             </label>
                             <InputField
                               value={values?.shipPointCode}
                               name="shipPointCode"
                               placeholder={
                                 values?.reportType?.value === 3
-                                  ? "Challan Number"
-                                  : "Shippoint code"
+                                  ? 'Challan Number'
+                                  : 'Shippoint code'
                               }
                               type="text"
                               onChange={(e) => {
-                                setFieldValue("shipPointCode", e.target.value);
+                                setFieldValue('shipPointCode', e.target.value);
                                 setGridData([]);
                               }}
                             />
@@ -365,32 +365,33 @@ function ShipmentVehicleStatusUpdate() {
                           placeholder="Reason"
                           type="text"
                           onChange={(e) => {
-                            setFieldValue("reason", e.target.value);
+                            setFieldValue('reason', e.target.value);
                             setGridData([]);
                           }}
                         />
                       </div>
                     )}
-                    {values?.reportType?.value === 9 && gridData?.length > 0 && (
-                      <div className="col-lg-3">
-                        <NewSelect
-                          name="productType"
-                          options={[
-                            { value: "Bend", label: "Bend" },
-                            { value: "Straight", label: "Straight" },
-                          ]}
-                          value={values?.productType}
-                          label="Product Type"
-                          onChange={(valueOption) => {
-                            setFieldValue("productType", valueOption);
-                            // setGridData([]);
-                          }}
-                          placeholder="Product Type"
-                          errors={errors}
-                          touched={touched}
-                        />
-                      </div>
-                    )}
+                    {values?.reportType?.value === 9 &&
+                      gridData?.length > 0 && (
+                        <div className="col-lg-3">
+                          <NewSelect
+                            name="productType"
+                            options={[
+                              { value: 'Bend', label: 'Bend' },
+                              { value: 'Straight', label: 'Straight' },
+                            ]}
+                            value={values?.productType}
+                            label="Product Type"
+                            onChange={(valueOption) => {
+                              setFieldValue('productType', valueOption);
+                              // setGridData([]);
+                            }}
+                            placeholder="Product Type"
+                            errors={errors}
+                            touched={touched}
+                          />
+                        </div>
+                      )}
 
                     {values?.reportType?.value !== 10 && (
                       <div className="col d-flex  align-items-end">
@@ -475,113 +476,119 @@ function ShipmentVehicleStatusUpdate() {
                     [4, 5].includes(values?.reportType?.value) ? (
                       <div className="table-responsive">
                         <table className="table table-striped table-bordered global-table">
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            <th>Partner ID</th>
-                            <th>Code</th>
-                            <th>Name</th>
-                            <th>Amount</th>
-                            <th>Ledger Balance</th>
-                            {values?.reportType?.value === 5 && (
-                              <th>Difference Amount</th>
-                            )}
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {gridData?.map((item, index) => (
-                            <tr key={index}>
-                              <td> {index + 1}</td>
-                              <td> {item?.partnerid}</td>
-                              <td> {item?.strBusinessPartnerCode}</td>
-                              <td> {item?.strBusinessPartnerName}</td>
-                              <td> {item?.amount} </td>
-                              <td> {item?.Ledgerbalance}</td>
+                          <thead>
+                            <tr>
+                              <th>SL</th>
+                              <th>Partner ID</th>
+                              <th>Code</th>
+                              <th>Name</th>
+                              <th>Amount</th>
+                              <th>Ledger Balance</th>
                               {values?.reportType?.value === 5 && (
-                                <td> {item?.Ledgerbalance + item?.amount}</td>
+                                <th>Difference Amount</th>
                               )}
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {gridData?.map((item, index) => (
+                              <tr key={index}>
+                                <td> {index + 1}</td>
+                                <td> {item?.partnerid}</td>
+                                <td> {item?.strBusinessPartnerCode}</td>
+                                <td> {item?.strBusinessPartnerName}</td>
+                                <td> {item?.amount} </td>
+                                <td> {item?.Ledgerbalance}</td>
+                                {values?.reportType?.value === 5 && (
+                                  <td> {item?.Ledgerbalance + item?.amount}</td>
+                                )}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
                     ) : [2].includes(values?.reportType?.value) ? (
                       <div className="table-responsive">
                         <table className="table table-striped table-bordered global-table">
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            <th>Status</th>
-                            <th>Is Close</th>
-                            <th>Is Active</th>
-                            <th>Is Bill Submitted</th>
-                            <th>Shipment Code</th>
-                            <th>Shipment Date</th>
-                            <th>Vehicle No.</th>
-                            <th>Solution Information</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {gridData?.map((item, index) => (
-                            <tr key={index}>
-                              <td> {index + 1}</td>
-                              <td> {item?.strStatus ? "True" : "False"}</td>
-                              <td> {item?.isClose ? "True" : "False"}</td>
-                              <td> {item?.isActive ? "True" : "False"}</td>
-                              <td>
-                                {" "}
-                                {item?.isBillSubmited ? "True" : "False"}
-                              </td>
-                              <td> {item?.strShipmentCode}</td>
-                              <td> {_dateFormatter(item?.dteShipmentDate)}</td>
-                              <td> {item?.strVehicleNo}</td>
-                              <td> {item?.strSolnFor}</td>
+                          <thead>
+                            <tr>
+                              <th>SL</th>
+                              <th>Status</th>
+                              <th>Is Close</th>
+                              <th>Is Active</th>
+                              <th>Is Bill Submitted</th>
+                              <th>Shipment Code</th>
+                              <th>Shipment Date</th>
+                              <th>Vehicle No.</th>
+                              <th>Solution Information</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {gridData?.map((item, index) => (
+                              <tr key={index}>
+                                <td> {index + 1}</td>
+                                <td> {item?.strStatus ? 'True' : 'False'}</td>
+                                <td> {item?.isClose ? 'True' : 'False'}</td>
+                                <td> {item?.isActive ? 'True' : 'False'}</td>
+                                <td>
+                                  {' '}
+                                  {item?.isBillSubmited ? 'True' : 'False'}
+                                </td>
+                                <td> {item?.strShipmentCode}</td>
+                                <td>
+                                  {' '}
+                                  {_dateFormatter(item?.dteShipmentDate)}
+                                </td>
+                                <td> {item?.strVehicleNo}</td>
+                                <td> {item?.strSolnFor}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
                     ) : [3].includes(values?.reportType?.value) ? (
                       <div className="table-responsive">
-                          <table className="table table-striped table-bordered global-table">
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            <th>Delivery Code</th>
-                            <th>Delivery Date</th>
-                            <th>ShipPoint Name</th>
-                            {/* <th>Transport Zone Name</th> */}
-                            <th>SoldToPartner Name</th>
-                            <th>ShipToPartner Address</th>
-                            <th>Supplier Name</th>
-                            <th>Transport Zone Rate</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {gridData?.map((item, index) => (
-                            <tr key={index}>
-                              <td> {index + 1}</td>
-                              <td> {item?.strDeliveryCode}</td>
-                              <td> {_dateFormatter(item?.dteDeliveryDate)}</td>
-                              <td> {item?.strShipPointName}</td>
-                              {/* <td> {item?.strTransportZoneName}</td> */}
-                              <td> {item?.strSoldToPartnerName}</td>
-                              <td> {item?.strShipToPartnerAddress}</td>
-                              <td> {item?.strSupplierName}</td>
-                              <td className="text-right">
-                                {item?.numTransportZoneRate}
-                              </td>
+                        <table className="table table-striped table-bordered global-table">
+                          <thead>
+                            <tr>
+                              <th>SL</th>
+                              <th>Delivery Code</th>
+                              <th>Delivery Date</th>
+                              <th>ShipPoint Name</th>
+                              {/* <th>Transport Zone Name</th> */}
+                              <th>SoldToPartner Name</th>
+                              <th>ShipToPartner Address</th>
+                              <th>Supplier Name</th>
+                              <th>Transport Zone Rate</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {gridData?.map((item, index) => (
+                              <tr key={index}>
+                                <td> {index + 1}</td>
+                                <td> {item?.strDeliveryCode}</td>
+                                <td>
+                                  {' '}
+                                  {_dateFormatter(item?.dteDeliveryDate)}
+                                </td>
+                                <td> {item?.strShipPointName}</td>
+                                {/* <td> {item?.strTransportZoneName}</td> */}
+                                <td> {item?.strSoldToPartnerName}</td>
+                                <td> {item?.strShipToPartnerAddress}</td>
+                                <td> {item?.strSupplierName}</td>
+                                <td className="text-right">
+                                  {item?.numTransportZoneRate}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
                     ) : (
                       <div className="table-responsive">
-                         <table className="table table-striped table-bordered global-table">
-                        <thead>
-                          <tr>
-                            {/* {values?.reportType?.value && (
+                        <table className="table table-striped table-bordered global-table">
+                          <thead>
+                            <tr>
+                              {/* {values?.reportType?.value && (
                               <th
                                 onClick={() => allSelect(!selectedAll())}
                                 style={{ width: "40px" }}
@@ -594,25 +601,25 @@ function ShipmentVehicleStatusUpdate() {
                                 />
                               </th>
                             )} */}
-                            <th>SL</th>
-                            <th>Product Type</th>
-                            <th>Is Completed</th>
-                            <th>Is Active</th>
-                            <th>Is Approved</th>
-                            <th>Un_Delivery Qty</th>
-                            <th>Status</th>
-                            <th>ShipPoint Name</th>
-                            <th>Order Qty</th>
-                            <th>Delivery Qty</th>
-                            <th>Item Name</th>
-                            <th>Sold To Partner Name</th>
-                            <th>Sold To Partner Address</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {gridData?.map((item, index) => (
-                            <tr key={index}>
-                              {/* {values?.reportType?.value && (
+                              <th>SL</th>
+                              <th>Product Type</th>
+                              <th>Is Completed</th>
+                              <th>Is Active</th>
+                              <th>Is Approved</th>
+                              <th>Un_Delivery Qty</th>
+                              <th>Status</th>
+                              <th>ShipPoint Name</th>
+                              <th>Order Qty</th>
+                              <th>Delivery Qty</th>
+                              <th>Item Name</th>
+                              <th>Sold To Partner Name</th>
+                              <th>Sold To Partner Address</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {gridData?.map((item, index) => (
+                              <tr key={index}>
+                                {/* {values?.reportType?.value && (
                                 <td
                                   onClick={() => {
                                     rowDataHandler(
@@ -639,9 +646,9 @@ function ShipmentVehicleStatusUpdate() {
                                   />
                                 </td>
                               )} */}
-                              <td style={{ width: "30px" }}> {index + 1}</td>
-                              <td>
-                                {/* {values?.reportType?.value === 9 ? (
+                                <td style={{ width: '30px' }}> {index + 1}</td>
+                                <td>
+                                  {/* {values?.reportType?.value === 9 ? (
                                   <NewSelect
                                     isClearable={false}
                                     name="productType"
@@ -656,29 +663,32 @@ function ShipmentVehicleStatusUpdate() {
                                   />
                                 ) : (
                                   )} */}
-                                {item?.strProductType}
-                              </td>
-                              <td> {item?.hIsCompleted ? "True" : "False"}</td>
-                              <td> {item?.hisActive ? "True" : "False"}</td>
-                              <td> {item?.hisApproved ? "True" : "False"}</td>
-                              <td className="text-right">
-                                {item?.rnumUndeliveryQuantity}
-                              </td>
-                              <td> {item?.statuses}</td>
-                              <td> {item?.hstrShippointName}</td>
-                              <td className="text-right">
-                                {item?.rnumOrderQuantity}
-                              </td>
-                              <td className="text-right">
-                                {item?.rnumDeliveredQuantity}
-                              </td>
-                              <td>{item?.rstrItemName}</td>
-                              <td>{item?.hstrSoldToPartnerName}</td>
-                              <td>{item?.hstrSoldToPartnerAddress}</td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                                  {item?.strProductType}
+                                </td>
+                                <td>
+                                  {' '}
+                                  {item?.hIsCompleted ? 'True' : 'False'}
+                                </td>
+                                <td> {item?.hisActive ? 'True' : 'False'}</td>
+                                <td> {item?.hisApproved ? 'True' : 'False'}</td>
+                                <td className="text-right">
+                                  {item?.rnumUndeliveryQuantity}
+                                </td>
+                                <td> {item?.statuses}</td>
+                                <td> {item?.hstrShippointName}</td>
+                                <td className="text-right">
+                                  {item?.rnumOrderQuantity}
+                                </td>
+                                <td className="text-right">
+                                  {item?.rnumDeliveredQuantity}
+                                </td>
+                                <td>{item?.rstrItemName}</td>
+                                <td>{item?.hstrSoldToPartnerName}</td>
+                                <td>{item?.hstrSoldToPartnerAddress}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
                     )
                   ) : null}

@@ -1,21 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
-  error: "",
-  msg: "",
+  error: '',
+  msg: '',
   departmentDDL: [],
   strategicObjectiveTypeDDL: [],
   strategicParticularsTypeDDL: [],
   gridData: [],
-  singleData: "",
-  strategicParticularsGrid: "",
+  singleData: '',
+  strategicParticularsGrid: '',
   strObjList: [],
-  strTarget: []
+  strTarget: [],
 };
 
 export const strategicParticularsTwoSlice = createSlice({
-  name: "strategicParticularsTwo",
+  name: 'strategicParticularsTwo',
   initialState: initState,
   reducers: {
     SetStrategicParticularsTypeDDL: (state, action) => {
@@ -53,10 +53,10 @@ export const strategicParticularsTwoSlice = createSlice({
       state.singleData = payload;
     },
     SetSingleStoreEmpty: (state) => {
-      state.strategicParticularsGrid = "";
+      state.strategicParticularsGrid = '';
     },
-    SetSingleStoreEmpty_: state => {
-      state.singleData = "";
+    SetSingleStoreEmpty_: (state) => {
+      state.singleData = '';
     },
   },
 });

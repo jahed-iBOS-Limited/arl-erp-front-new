@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import InputField from "../../../../_helper/_inputField";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import NewSelect from "../../../../_helper/_select";
-import { getAccountCategoryDDL, getGeneralLedgerDDL } from "../helper";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import InputField from '../../../../_helper/_inputField';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import NewSelect from '../../../../_helper/_select';
+import { getAccountCategoryDDL, getGeneralLedgerDDL } from '../helper';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  fsComponentName: Yup.string().required("FS Componet Name is required"),
+  fsComponentName: Yup.string().required('FS Componet Name is required'),
   accountCategory: Yup.object().shape({
     label: Yup.string(),
     value: Yup.string(),
@@ -41,7 +41,6 @@ export default function FormCmp({
     if (selectedBusinessUnit && profileData) {
       getAccountCategoryDDL(profileData?.accountId, setAccountCategoryDDL);
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   return (
@@ -54,18 +53,18 @@ export default function FormCmp({
           accountCategory: {
             value: generalLedgerRowDto
               ? generalLedgerRowDto[0]?.accountCategoryId
-              : "",
+              : '',
             label: generalLedgerRowDto
               ? generalLedgerRowDto[0]?.accountCategoryName
-              : "",
+              : '',
           },
           generalLedger: {
             value: generalLedgerRowDto
               ? generalLedgerRowDto[0]?.generalLedgerId
-              : "",
+              : '',
             label: generalLedgerRowDto
               ? generalLedgerRowDto[0]?.generalLedgerName
-              : "",
+              : '',
           },
         }}
         validationSchema={validationSchema}
@@ -97,7 +96,6 @@ export default function FormCmp({
                       placeholder="FS Component Standard Name"
                       disabled
                     />
-
                   </div>
                   <div className="col-lg-4 ">
                     <label>FS Component Coustomize Name</label>
@@ -107,7 +105,6 @@ export default function FormCmp({
                       placeholder="FS Component Coustomize Name"
                       //disabled={generalLedgerRowDto.length > 0 ? true : false}
                     />
-
                   </div>
                 </div>
                 <div className="form-group row">
@@ -124,13 +121,12 @@ export default function FormCmp({
                           valueOption?.value,
                           setGeneralLedgerDDL
                         );
-                        setFieldValue("generalLedger", "");
-                        setFieldValue("accountCategory", valueOption);
+                        setFieldValue('generalLedger', '');
+                        setFieldValue('accountCategory', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
                     />
-
                   </div>
                   <div className="col-lg-3">
                     <label>General Ledger</label>
@@ -139,7 +135,7 @@ export default function FormCmp({
                       options={generalLedgerDDL || []}
                       value={values?.generalLedger}
                       onChange={(valueOption) => {
-                        setFieldValue("generalLedger", valueOption);
+                        setFieldValue('generalLedger', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -176,7 +172,7 @@ export default function FormCmp({
                         addGlGrid(values);
                       }}
                       style={{
-                        marginTop: "24px",
+                        marginTop: '24px',
                       }}
                       disabled={
                         !values?.fsComponentName ||
@@ -229,13 +225,13 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

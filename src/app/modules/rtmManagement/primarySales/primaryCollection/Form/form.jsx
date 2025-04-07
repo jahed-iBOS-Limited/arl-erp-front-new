@@ -1,13 +1,12 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "./../../../../_helper/_inputField";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import NewSelect from '../../../../_helper/_select';
+import InputField from './../../../../_helper/_inputField';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  partnerName: Yup.string()
-    .required("Partner Name Name is required"),
+  partnerName: Yup.string().required('Partner Name Name is required'),
 });
 
 export default function FormCmp({
@@ -28,7 +27,6 @@ export default function FormCmp({
   remover,
   isEdit,
 }) {
-
   return (
     <>
       <Formik
@@ -62,9 +60,9 @@ export default function FormCmp({
                       value={values?.partnerName}
                       label="Partner Name"
                       onChange={(valueOption) => {
-                        setFieldValue("partnerName", valueOption);
+                        setFieldValue('partnerName', valueOption);
                       }}
-                      isDisabled= {isEdit}
+                      isDisabled={isEdit}
                       placeholder="Partner Name"
                       errors={errors}
                       touched={touched}
@@ -181,14 +179,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

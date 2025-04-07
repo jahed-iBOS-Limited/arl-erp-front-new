@@ -1,14 +1,14 @@
-import React from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
+import React from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import ICon from '../../../../chartering/_chartinghelper/icons/_icon';
 import {
   fetchTenderDetailsCallbackForPrintAndCreateEditPage,
   selectEditId,
-} from "../helper";
+} from '../helper';
 
 const BADCTendersTable = ({
   accountId,
@@ -26,17 +26,17 @@ const BADCTendersTable = ({
       <table
         id="table-to-xlsx"
         className={
-          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm global-table"
+          'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm global-table'
         }
       >
         <thead>
           <tr className="cursor-pointer">
             <th>SL</th>
-            <th style={{ width: "150px" }}>Business Partner</th>
+            <th style={{ width: '150px' }}>Business Partner</th>
             <th>Enquiry No</th>
             <th>Item Name</th>
             <th>Load Port</th>
-            <th style={{ width: "150px" }}>Foreign Qty (MT)</th>
+            <th style={{ width: '150px' }}>Foreign Qty (MT)</th>
             <th>Foreign Price (USD)</th>
             <th>Status</th>
             <th>Actions</th>
@@ -46,30 +46,30 @@ const BADCTendersTable = ({
           {submittedTenderLists?.data?.map((item, index) => {
             return (
               <tr key={index}>
-                <td style={{ width: "40px" }} className="text-center">
+                <td style={{ width: '40px' }} className="text-center">
                   {index + 1}
                 </td>
                 <td>{item?.businessPartnerName}</td>
                 <td>{item?.enquiryNo}</td>
                 <td>{item?.itemName}</td>
-                <td style={{ width: "200px" }}>{item?.loadPortName}</td>
-                <td className="text-right" style={{ width: "70px" }}>
+                <td style={{ width: '200px' }}>{item?.loadPortName}</td>
+                <td className="text-right" style={{ width: '70px' }}>
                   {item?.foreignQty}
                 </td>
-                <td className="text-right" style={{ width: "200px" }}>
+                <td className="text-right" style={{ width: '200px' }}>
                   {item?.foreignPriceUsd === null ? 0 : item?.foreignPriceUsd}
                 </td>
-                <td style={{ width: "70px" }}>
+                <td style={{ width: '70px' }}>
                   {item?.isAccept
-                    ? "Approved"
+                    ? 'Approved'
                     : item?.isReject
-                    ? "Reject"
-                    : item?.isPending
-                    ? "Pending"
-                    : "NA"}
+                      ? 'Reject'
+                      : item?.isPending
+                        ? 'Pending'
+                        : 'NA'}
                 </td>
-                <td style={{ width: "80px" }} className="text-center">
-                  <div className="d-flex" style={{ columnGap: "5px" }}>
+                <td style={{ width: '80px' }} className="text-center">
+                  <div className="d-flex" style={{ columnGap: '5px' }}>
                     {!item?.isAccept ? (
                       <span>
                         <IEdit
@@ -110,7 +110,7 @@ const BADCTendersTable = ({
                         overlay={<Tooltip id="cs-icon">Print</Tooltip>}
                       >
                         <i
-                          style={{ fontSize: "16px" }}
+                          style={{ fontSize: '16px' }}
                           class="fa fa-print cursor-pointer"
                           aria-hidden="true"
                         ></i>

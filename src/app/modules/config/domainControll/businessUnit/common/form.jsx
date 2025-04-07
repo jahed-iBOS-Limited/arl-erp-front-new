@@ -93,7 +93,7 @@ export default function FormCmp({
         setCurrency(currencyListTemp);
         currencyListTemp = null;
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   return (
@@ -185,9 +185,9 @@ export default function FormCmp({
                     className="text-danger"
                   >
                     {errors &&
-                      errors.languageName &&
-                      touched &&
-                      touched.languageName
+                    errors.languageName &&
+                    touched &&
+                    touched.languageName
                       ? errors.languageName.value
                       : ''}
                   </p>
@@ -222,9 +222,9 @@ export default function FormCmp({
                     className="text-danger"
                   >
                     {touched &&
-                      touched.currencyName &&
-                      errors &&
-                      errors.currencyName
+                    touched.currencyName &&
+                    errors &&
+                    errors.currencyName
                       ? errors.currencyName.value
                       : ''}
                   </p>
@@ -256,7 +256,7 @@ export default function FormCmp({
                 style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
-              // disabled={true}
+                // disabled={true}
               ></button>
 
               <button
@@ -279,7 +279,7 @@ export default function FormCmp({
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name,
+                  (item) => item.file.name !== deleteFileObj.file.name
                 );
                 setFileObjects(newData);
               }}
@@ -299,7 +299,7 @@ export default function FormCmp({
                   attachmentUpload(compressedFile).then((data) => {
                     setFieldValue(
                       'imageId',
-                      data?.length > 0 ? data[0]?.id : '',
+                      data?.length > 0 ? data[0]?.id : ''
                     );
                   });
                   setOpen(false);

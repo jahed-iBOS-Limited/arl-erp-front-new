@@ -1,48 +1,47 @@
-
-import React, { useState, useEffect } from "react";
-import { Formik, Form, Field } from "formik";
-import Axios from "axios";
-import * as Yup from "yup";
-import { Input } from "../../../../../../../../_metronic/_partials/controls";
-import NewSelect from "../../../../../../_helper/_select";
-import IDelete from "../../../../../../_helper/_helperIcons/_delete";
-import { _dateFormatter } from "../../../../../../_helper/_dateFormate";
-import InputField from "./../../../../../../_helper/_inputField";
-import { getBusinessPartnerBasicinfoAction } from "./helper";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form, Field } from 'formik';
+import Axios from 'axios';
+import * as Yup from 'yup';
+import { Input } from '../../../../../../../../_metronic/_partials/controls';
+import NewSelect from '../../../../../../_helper/_select';
+import IDelete from '../../../../../../_helper/_helperIcons/_delete';
+import { _dateFormatter } from '../../../../../../_helper/_dateFormate';
+import InputField from './../../../../../../_helper/_inputField';
+import { getBusinessPartnerBasicinfoAction } from './helper';
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
   sbu: Yup.object().shape({
-    label: Yup.string().required("SBU is required"),
-    value: Yup.string().required("SBU is required"),
+    label: Yup.string().required('SBU is required'),
+    value: Yup.string().required('SBU is required'),
   }),
   salesOrganaization: Yup.object().shape({
-    label: Yup.string().required("Sales Organaization is required"),
-    value: Yup.string().required("Sales Organaization is required"),
+    label: Yup.string().required('Sales Organaization is required'),
+    value: Yup.string().required('Sales Organaization is required'),
   }),
   customerType: Yup.object().shape({
-    label: Yup.string().required("Customer Type is required"),
-    value: Yup.string().required("Customer Type is required"),
+    label: Yup.string().required('Customer Type is required'),
+    value: Yup.string().required('Customer Type is required'),
   }),
   distributionChannel: Yup.object().shape({
-    label: Yup.string().required("Distribution Channel is required"),
-    value: Yup.string().required("Distribution Channel is required"),
+    label: Yup.string().required('Distribution Channel is required'),
+    value: Yup.string().required('Distribution Channel is required'),
   }),
   salesTerriory: Yup.object().shape({
-    label: Yup.string().required("Sales Terriory is required"),
-    value: Yup.string().required("Sales Terriory is required"),
+    label: Yup.string().required('Sales Terriory is required'),
+    value: Yup.string().required('Sales Terriory is required'),
   }),
   // transportZone: Yup.object().shape({
   //   label: Yup.string().required('Transport Zone is required'),
   //   value: Yup.string().required('Transport Zone is required'),
   // }),
   reconGeneralLedger: Yup.object().shape({
-    label: Yup.string().required("Recon General Ledger is required"),
-    value: Yup.string().required("Recon General Ledger is required"),
+    label: Yup.string().required('Recon General Ledger is required'),
+    value: Yup.string().required('Recon General Ledger is required'),
   }),
   alternetGeneralLedger: Yup.object().shape({
-    label: Yup.string().required("Alternate Generale is required"),
-    value: Yup.string().required("Alternate Generale is required"),
+    label: Yup.string().required('Alternate Generale is required'),
+    value: Yup.string().required('Alternate Generale is required'),
   }),
   // defaultDistanceKm: Yup.number()
   //   .min(0, 'Minimum 0 range')
@@ -57,15 +56,15 @@ const ProductEditSchema = Yup.object().shape({
   //   value: Yup.string().required('Shipping Point  is required'),
   // }),
   priceStructure: Yup.object().shape({
-    label: Yup.string().required("Price Structure is required"),
-    value: Yup.string().required("Price Structure is required"),
+    label: Yup.string().required('Price Structure is required'),
+    value: Yup.string().required('Price Structure is required'),
   }),
   creditLimitAmount: Yup.number()
-    .min(0, "Minimum 0 range")
-    .max(1000000000000000, "Maximum 1000000000000000 range"),
+    .min(0, 'Minimum 0 range')
+    .max(1000000000000000, 'Maximum 1000000000000000 range'),
   morgazeAmount: Yup.number()
-    .min(0, "Minimum 0 range")
-    .max(1000000000000000, "Maximum 1000000000000000 range"),
+    .min(0, 'Minimum 0 range')
+    .max(1000000000000000, 'Maximum 1000000000000000 range'),
 });
 
 export default function FormCmp({
@@ -107,7 +106,7 @@ export default function FormCmp({
   profileData,
 }) {
   const [mortageTypeDDL, setMortageTypeDDL] = useState([]);
-  const [parnerBasicInfo, setParnerBasicInfo] = useState("");
+  const [parnerBasicInfo, setParnerBasicInfo] = useState('');
 
   useEffect(() => {
     getMortageTypeDDL();
@@ -128,9 +127,7 @@ export default function FormCmp({
     try {
       const res = await Axios.get(`/fino/FinanceCommonDDL/GetMortageTypeDDL`);
       setMortageTypeDDL(res.data);
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   return (
@@ -166,14 +163,14 @@ export default function FormCmp({
                         options={[
                           {
                             value: 1,
-                            label: "Dealer",
+                            label: 'Dealer',
                           },
-                          { value: 2, label: "Distributor" },
+                          { value: 2, label: 'Distributor' },
                         ]}
                         value={values?.customerType}
                         label="Customer Type"
                         onChange={(valueOption) => {
-                          setFieldValue("customerType", valueOption);
+                          setFieldValue('customerType', valueOption);
                         }}
                         placeholder="Customer Type"
                         errors={errors}
@@ -188,8 +185,8 @@ export default function FormCmp({
                         label="SBU List"
                         onChange={(valueOption) => {
                           getSalesOrganaizationDDL(valueOption?.value);
-                          setFieldValue("sbu", valueOption);
-                          setFieldValue("salesOrganaization", "");
+                          setFieldValue('sbu', valueOption);
+                          setFieldValue('salesOrganaization', '');
                         }}
                         placeholder="SBU List"
                         errors={errors}
@@ -203,7 +200,7 @@ export default function FormCmp({
                         value={values?.salesOrganaization}
                         label="Sales Organaization"
                         onChange={(valueOption) => {
-                          setFieldValue("salesOrganaization", valueOption);
+                          setFieldValue('salesOrganaization', valueOption);
                         }}
                         placeholder="Sales Organaization"
                         errors={errors}
@@ -218,7 +215,7 @@ export default function FormCmp({
                         value={values?.distributionChannel}
                         label="Distribution Channel"
                         onChange={(valueOption) => {
-                          setFieldValue("distributionChannel", valueOption);
+                          setFieldValue('distributionChannel', valueOption);
                         }}
                         placeholder="Distribution Channel"
                         errors={errors}
@@ -232,7 +229,7 @@ export default function FormCmp({
                         value={values?.salesTerriory}
                         label="Sales Terriory"
                         onChange={(valueOption) => {
-                          setFieldValue("salesTerriory", valueOption);
+                          setFieldValue('salesTerriory', valueOption);
                         }}
                         placeholder="Sales Terriory"
                         errors={errors}
@@ -246,7 +243,7 @@ export default function FormCmp({
                         value={values?.reconGeneralLedger}
                         label="Receiveble GL"
                         onChange={(valueOption) => {
-                          setFieldValue("reconGeneralLedger", valueOption);
+                          setFieldValue('reconGeneralLedger', valueOption);
                         }}
                         placeholder="Receiveble GL"
                         errors={errors}
@@ -260,7 +257,7 @@ export default function FormCmp({
                         value={values?.alternetGeneralLedger}
                         label="Advance Receive GL"
                         onChange={(valueOption) => {
-                          setFieldValue("alternetGeneralLedger", valueOption);
+                          setFieldValue('alternetGeneralLedger', valueOption);
                         }}
                         placeholder="Advance Receive GL"
                         errors={errors}
@@ -275,7 +272,7 @@ export default function FormCmp({
                         value={values?.priceStructure}
                         label="Price Structure"
                         onChange={(valueOption) => {
-                          setFieldValue("priceStructure", valueOption);
+                          setFieldValue('priceStructure', valueOption);
                         }}
                         placeholder="Price Structure"
                         errors={errors}
@@ -290,10 +287,10 @@ export default function FormCmp({
                 <div className="col-lg-3">
                   <h6
                     style={{
-                      textAlign: "center",
-                      fontSize: "10.5px",
-                      fontWeight: "600",
-                      margin: "0 0 3px 0",
+                      textAlign: 'center',
+                      fontSize: '10.5px',
+                      fontWeight: '600',
+                      margin: '0 0 3px 0',
                     }}
                   >
                     Assign Shipping Point
@@ -306,7 +303,7 @@ export default function FormCmp({
                         value={values?.shippingPoint}
                         label="Shipping Point"
                         onChange={(valueOption) => {
-                          setFieldValue("shippingPoint", valueOption);
+                          setFieldValue('shippingPoint', valueOption);
                         }}
                         placeholder="Shipping Point"
                         errors={errors}
@@ -326,7 +323,7 @@ export default function FormCmp({
                           className="btn btn-primary"
                           disabled={!values?.shippingPoint}
                           type="button"
-                          style={{ padding: "5px" }}
+                          style={{ padding: '5px' }}
                         >
                           Add
                         </button>
@@ -337,10 +334,10 @@ export default function FormCmp({
                 <div className="col-lg-9">
                   <h6
                     style={{
-                      textAlign: "center",
-                      fontSize: "10.5px",
-                      fontWeight: "600",
-                      margin: "0 0 3px 0",
+                      textAlign: 'center',
+                      fontSize: '10.5px',
+                      fontWeight: '600',
+                      margin: '0 0 3px 0',
                     }}
                   >
                     Add Shipping Address
@@ -348,13 +345,13 @@ export default function FormCmp({
                   <span
                     className="separtBorder"
                     style={{
-                      position: "absolute",
-                      width: "2px",
-                      background: "white",
-                      height: "81%",
-                      zIndex: "99",
-                      left: "3px",
-                      top: "15px",
+                      position: 'absolute',
+                      width: '2px',
+                      background: 'white',
+                      height: '81%',
+                      zIndex: '99',
+                      left: '3px',
+                      top: '15px',
                     }}
                   ></span>
                   <div className="row bank-journal bank-journal-custom bj-left">
@@ -393,7 +390,7 @@ export default function FormCmp({
                         value={values?.transportZone}
                         label="Transport Zone"
                         onChange={(valueOption) => {
-                          setFieldValue("transportZone", valueOption);
+                          setFieldValue('transportZone', valueOption);
                         }}
                         placeholder="select"
                         errors={errors}
@@ -407,21 +404,25 @@ export default function FormCmp({
                             type="checkbox"
                             onChange={() => {
                               setFieldValue(
-                                "shipToParner",
+                                'shipToParner',
                                 parnerBasicInfo[0]?.businessPartnerName
                               );
                               setFieldValue(
-                                "address",
+                                'address',
                                 parnerBasicInfo[0]?.businessPartnerAddress
                               );
                               setFieldValue(
-                                "contact",
+                                'contact',
                                 parnerBasicInfo[0]?.contactNumber
                               );
                             }}
                             name="shippingAddress"
                             label="Copy Address"
-                            style={{marginRight: "3px", position: "relative", top: "3px"}}
+                            style={{
+                              marginRight: '3px',
+                              position: 'relative',
+                              top: '3px',
+                            }}
                           />
                           <span>Copy Address</span>
                         </label>
@@ -439,7 +440,7 @@ export default function FormCmp({
                             !values?.transportZone
                           }
                           type="button"
-                          style={{ padding: "5px" }}
+                          style={{ padding: '5px' }}
                         >
                           Add
                         </button>
@@ -454,138 +455,143 @@ export default function FormCmp({
                   {rowDto.length > 0 ? (
                     <div className="table-responsive">
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Shipping Point</th>
-                          <th>Default</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowDto.map((itm, idx) => {
-                          return (
-                            <tr key={itm?.shipPointId}>
-                              <td>{idx + 1}</td>
-                              <td>
-                                <div className="pl-2">{itm.shipPointName}</div>
-                              </td>
-                              <td>
-                                <div className="pl-2">
-                                  <input
-                                    id="isDefaultShippoint"
-                                    type="checkbox"
-                                    className=""
-                                    value={itm?.isDefaultShippoint}
-                                    checked={itm?.isDefaultShippoint}
-                                    name={itm?.isDefaultShippoint}
-                                    onChange={(e) => {
-                                      itemSlectedHandler(e.target.checked, idx);
-                                    }}
-                                  />
-                                </div>
-                              </td>
-                              <td className="text-center">
-                                {/* <IDelete
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Shipping Point</th>
+                            <th>Default</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowDto.map((itm, idx) => {
+                            return (
+                              <tr key={itm?.shipPointId}>
+                                <td>{idx + 1}</td>
+                                <td>
+                                  <div className="pl-2">
+                                    {itm.shipPointName}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="pl-2">
+                                    <input
+                                      id="isDefaultShippoint"
+                                      type="checkbox"
+                                      className=""
+                                      value={itm?.isDefaultShippoint}
+                                      checked={itm?.isDefaultShippoint}
+                                      name={itm?.isDefaultShippoint}
+                                      onChange={(e) => {
+                                        itemSlectedHandler(
+                                          e.target.checked,
+                                          idx
+                                        );
+                                      }}
+                                    />
+                                  </div>
+                                </td>
+                                <td className="text-center">
+                                  {/* <IDelete
                                   remover={remover}
                                   id={itm?.shipPointId}
                                 /> */}
-                                <i
-                                  className="fa fa-trash deleteBtn text-danger"
-                                  onClick={() =>
-                                    remover(
-                                      itm?.shipPointId,
-                                      itm?.isDefaultShippoint
-                                    )
-                                  }
-                                ></i>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
+                                  <i
+                                    className="fa fa-trash deleteBtn text-danger"
+                                    onClick={() =>
+                                      remover(
+                                        itm?.shipPointId,
+                                        itm?.isDefaultShippoint
+                                      )
+                                    }
+                                  ></i>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
                     </div>
                   ) : (
-                    ""
+                    ''
                   )}
                 </div>
                 <div className="col-lg-9 pr-0 pl-0">
                   {rowDtoTwo.length > 0 ? (
                     <div className="table-responsive">
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Ship To Parner Name</th>
-                          <th>Address</th>
-                          <th>Contact</th>
-                          <th>Transport Zone</th>
-                          <th>Default</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowDtoTwo.map((itm, idx) => {
-                          return (
-                            <tr key={itm?.shipPointId}>
-                              <td>{idx + 1}</td>
-                              <td>
-                                <div className="pl-2">
-                                  {itm?.partnerShippingName}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="pl-2">
-                                  {itm?.partnerShippingAddress}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="pl-2">
-                                  {itm?.partnerShippingContact}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="pl-2">
-                                  {itm?.transportZoneName}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="pl-2">
-                                  <input
-                                    id="isDefaultshipToParner"
-                                    type="checkbox"
-                                    className=""
-                                    value={itm?.isDefaultAddress}
-                                    checked={itm?.isDefaultAddress}
-                                    name={itm?.isDefaultAddress}
-                                    onChange={(e) => {
-                                      itemSlectedHandlerTwo(
-                                        e.target.checked,
-                                        idx
-                                      );
-                                      shippingAddressTrueFunc(itm);
-                                    }}
-                                  />
-                                </div>
-                              </td>
-                              <td className="text-center">
-                                {/* <IDelete remover={removerTwo} id={idx} /> */}
-                                <i
-                                  className="fa fa-trash deleteBtn text-danger"
-                                  onClick={() =>
-                                    removerTwo(idx, itm?.isDefaultAddress)
-                                  }
-                                ></i>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Ship To Parner Name</th>
+                            <th>Address</th>
+                            <th>Contact</th>
+                            <th>Transport Zone</th>
+                            <th>Default</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowDtoTwo.map((itm, idx) => {
+                            return (
+                              <tr key={itm?.shipPointId}>
+                                <td>{idx + 1}</td>
+                                <td>
+                                  <div className="pl-2">
+                                    {itm?.partnerShippingName}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="pl-2">
+                                    {itm?.partnerShippingAddress}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="pl-2">
+                                    {itm?.partnerShippingContact}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="pl-2">
+                                    {itm?.transportZoneName}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="pl-2">
+                                    <input
+                                      id="isDefaultshipToParner"
+                                      type="checkbox"
+                                      className=""
+                                      value={itm?.isDefaultAddress}
+                                      checked={itm?.isDefaultAddress}
+                                      name={itm?.isDefaultAddress}
+                                      onChange={(e) => {
+                                        itemSlectedHandlerTwo(
+                                          e.target.checked,
+                                          idx
+                                        );
+                                        shippingAddressTrueFunc(itm);
+                                      }}
+                                    />
+                                  </div>
+                                </td>
+                                <td className="text-center">
+                                  {/* <IDelete remover={removerTwo} id={idx} /> */}
+                                  <i
+                                    className="fa fa-trash deleteBtn text-danger"
+                                    onClick={() =>
+                                      removerTwo(idx, itm?.isDefaultAddress)
+                                    }
+                                  ></i>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
                     </div>
                   ) : (
-                    ""
+                    ''
                   )}
                 </div>
               </div>
@@ -594,10 +600,10 @@ export default function FormCmp({
                 <div className="col-lg-6">
                   <h6
                     style={{
-                      textAlign: "center",
-                      fontSize: "10.5px",
-                      fontWeight: "600",
-                      margin: "0 0 3px 0",
+                      textAlign: 'center',
+                      fontSize: '10.5px',
+                      fontWeight: '600',
+                      margin: '0 0 3px 0',
                     }}
                   >
                     Set Credit Limit
@@ -605,7 +611,7 @@ export default function FormCmp({
                   <div className="row bank-journal bank-journal-custom bj-left mr-1">
                     <div className="col-lg-3 mb-2">
                       <Field
-                        value={values?.creditLimitAmount || ""}
+                        value={values?.creditLimitAmount || ''}
                         name="creditLimitAmount"
                         type="number"
                         component={Input}
@@ -618,10 +624,10 @@ export default function FormCmp({
                       <div>Valid From Date</div>
                       <input
                         className="trans-date cj-landing-date"
-                        value={values?.creditValidFrom || ""}
+                        value={values?.creditValidFrom || ''}
                         name="creditValidFrom"
                         onChange={(e) => {
-                          setFieldValue("creditValidFrom", e.target.value);
+                          setFieldValue('creditValidFrom', e.target.value);
                         }}
                         type="date"
                       />
@@ -630,17 +636,17 @@ export default function FormCmp({
                       <div>Valid To Date</div>
                       <input
                         className="trans-date cj-landing-date"
-                        value={values?.creditValidTo || ""}
+                        value={values?.creditValidTo || ''}
                         name="creditValidTo"
                         onChange={(e) => {
-                          setFieldValue("creditValidTo", e.target.value);
+                          setFieldValue('creditValidTo', e.target.value);
                         }}
                         type="date"
                       />
                     </div>
                     <div className="col-lg-3 mt-4">
                       <button
-                        style={{ padding: "5px" }}
+                        style={{ padding: '5px' }}
                         onClick={() => {
                           const obj = {
                             creditLimit: values?.creditLimitAmount,
@@ -668,62 +674,65 @@ export default function FormCmp({
                   <div className="row cash_journal bank-journal bank-journal-custom mr-1">
                     <div className="col-lg-12 pr-0 pl-0">
                       {creditRowDto.length > 0 ? (
-                       <div className="table-responsive">
-                         <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                          <thead>
-                            <tr>
-                              <th>SL</th>
-                              <th>Credit Limit</th>
-                              <th>Valid From</th>
-                              <th>Valid To</th>
-                              <th>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {creditRowDto.map((itm, idx) => {
-                              return (
-                                <tr key={idx}>
-                                  <td className="text-center">{idx + 1}</td>
-                                  <td>
-                                    <InputField
-                                      value={itm?.creditLimit}
-                                      name="names"
-                                      placeholder="Name"
-                                      type="number"
-                                      onChange={(e) =>
-                                        setCreditLimitAmount(
-                                          idx,
-                                          e.target.value
-                                        )
-                                      }
-                                      min="0"
-                                    />
-                                  </td>
-                                  <td>
-                                    <div>
-                                      <div className="text-right pr-2">
-                                        {_dateFormatter(itm?.fromDate)}
+                        <div className="table-responsive">
+                          <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                            <thead>
+                              <tr>
+                                <th>SL</th>
+                                <th>Credit Limit</th>
+                                <th>Valid From</th>
+                                <th>Valid To</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {creditRowDto.map((itm, idx) => {
+                                return (
+                                  <tr key={idx}>
+                                    <td className="text-center">{idx + 1}</td>
+                                    <td>
+                                      <InputField
+                                        value={itm?.creditLimit}
+                                        name="names"
+                                        placeholder="Name"
+                                        type="number"
+                                        onChange={(e) =>
+                                          setCreditLimitAmount(
+                                            idx,
+                                            e.target.value
+                                          )
+                                        }
+                                        min="0"
+                                      />
+                                    </td>
+                                    <td>
+                                      <div>
+                                        <div className="text-right pr-2">
+                                          {_dateFormatter(itm?.fromDate)}
+                                        </div>
                                       </div>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div>
-                                      <div className="text-right pr-2">
-                                        {_dateFormatter(itm?.toDate)}
+                                    </td>
+                                    <td>
+                                      <div>
+                                        <div className="text-right pr-2">
+                                          {_dateFormatter(itm?.toDate)}
+                                        </div>
                                       </div>
-                                    </div>
-                                  </td>
-                                  <td className="text-center">
-                                    <IDelete remover={creditRemover} id={idx} />
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          </tbody>
-                        </table>
-                       </div>
+                                    </td>
+                                    <td className="text-center">
+                                      <IDelete
+                                        remover={creditRemover}
+                                        id={idx}
+                                      />
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
                       ) : (
-                        ""
+                        ''
                       )}
                     </div>
                   </div>
@@ -731,10 +740,10 @@ export default function FormCmp({
                 <div className="col-lg-6">
                   <h6
                     style={{
-                      textAlign: "center",
-                      fontSize: "10.5px",
-                      fontWeight: "600",
-                      margin: "0 0 3px 0",
+                      textAlign: 'center',
+                      fontSize: '10.5px',
+                      fontWeight: '600',
+                      margin: '0 0 3px 0',
                     }}
                   >
                     Add Mortgage Information
@@ -747,7 +756,7 @@ export default function FormCmp({
                         value={values?.morgazeType}
                         label="Mortgage Type"
                         onChange={(valueOption) => {
-                          setFieldValue("morgazeType", valueOption);
+                          setFieldValue('morgazeType', valueOption);
                         }}
                         placeholder="Type"
                         errors={errors}
@@ -774,7 +783,7 @@ export default function FormCmp({
                     </div>
                     <div className="col-lg-3 mt-4 p-1">
                       <button
-                        style={{ padding: "5px" }}
+                        style={{ padding: '5px' }}
                         onClick={() => {
                           const obj = {
                             mortgageTypeId: values?.morgazeType?.value,
@@ -804,55 +813,55 @@ export default function FormCmp({
                       {morgazeRowDto.length > 0 ? (
                         <div className="table-responsive">
                           <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                          <thead>
-                            <tr>
-                              <th>SL</th>
-                              <th>Morgaze Type</th>
-                              <th>Amount</th>
-                              <th>Narration</th>
-                              <th>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {morgazeRowDto.map((itm, idx) => {
-                              return (
-                                <tr key={itm?.mortgageTypeId}>
-                                  <td className="text-center">{idx + 1}</td>
-                                  <td>
-                                    <div>
-                                      <div className="pl-2">
-                                        {itm?.mortageTypeName}
+                            <thead>
+                              <tr>
+                                <th>SL</th>
+                                <th>Morgaze Type</th>
+                                <th>Amount</th>
+                                <th>Narration</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {morgazeRowDto.map((itm, idx) => {
+                                return (
+                                  <tr key={itm?.mortgageTypeId}>
+                                    <td className="text-center">{idx + 1}</td>
+                                    <td>
+                                      <div>
+                                        <div className="pl-2">
+                                          {itm?.mortageTypeName}
+                                        </div>
                                       </div>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div>
-                                      <div className="text-right pr-2">
-                                        {itm?.numMortgageAmount}
+                                    </td>
+                                    <td>
+                                      <div>
+                                        <div className="text-right pr-2">
+                                          {itm?.numMortgageAmount}
+                                        </div>
                                       </div>
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div>
-                                      <div className="text-right pr-2">
-                                        {itm?.narration}
+                                    </td>
+                                    <td>
+                                      <div>
+                                        <div className="text-right pr-2">
+                                          {itm?.narration}
+                                        </div>
                                       </div>
-                                    </div>
-                                  </td>
-                                  <td className="text-center">
-                                    <IDelete
-                                      remover={morgazeRemover}
-                                      id={itm?.mortgageTypeId}
-                                    />
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          </tbody>
-                        </table>
+                                    </td>
+                                    <td className="text-center">
+                                      <IDelete
+                                        remover={morgazeRemover}
+                                        id={itm?.mortgageTypeId}
+                                      />
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
                         </div>
                       ) : (
-                        ""
+                        ''
                       )}
                     </div>
                   </div>
@@ -861,14 +870,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(product)}
               ></button>

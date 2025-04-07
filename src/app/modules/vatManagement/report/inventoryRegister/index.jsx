@@ -1,28 +1,28 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { useSelector } from "react-redux";
-import GridData from "./Table/grid";
-import { shallowEqual } from "react-redux";
-import { _todayDate } from "./../../../_helper/_todayDate";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { useSelector } from 'react-redux';
+import GridData from './Table/grid';
+import { shallowEqual } from 'react-redux';
+import { _todayDate } from './../../../_helper/_todayDate';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../_metronic/_partials/controls";
-import NewSelect from "./../../../_helper/_select";
-import InputField from "./../../../_helper/_inputField";
-import "./inventoryRegister.css";
-import { getFGInventoryRegisterReport, getTaxBranchDDL } from "./helper";
+} from './../../../../../_metronic/_partials/controls';
+import NewSelect from './../../../_helper/_select';
+import InputField from './../../../_helper/_inputField';
+import './inventoryRegister.css';
+import { getFGInventoryRegisterReport, getTaxBranchDDL } from './helper';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
 
 const initData = {
   fromDate: _todayDate(),
-  branch: "",
+  branch: '',
 };
 
 export default function InventoryRegisterLanding() {
@@ -59,7 +59,7 @@ export default function InventoryRegisterLanding() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Finished Goods Inventory Register"}>
+              <CardHeader title={'Finished Goods Inventory Register'}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
@@ -81,7 +81,7 @@ export default function InventoryRegisterLanding() {
                         value={values?.branch}
                         label="Branch"
                         onChange={(valueOption) => {
-                          setFieldValue("branch", valueOption);
+                          setFieldValue('branch', valueOption);
                         }}
                         placeholder="Branch"
                         errors={errors}

@@ -1,8 +1,6 @@
-import React from "react";
-import BillbySupplierReportTable  from "./Table/table";
+import React from 'react';
+import BillbySupplierReportTable from './Table/table';
 
 export function BillBySupplier({ history }) {
-  return (  
-      <BillbySupplierReportTable />
-  );
-};
+  return <BillbySupplierReportTable />;
+}

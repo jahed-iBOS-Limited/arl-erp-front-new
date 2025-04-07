@@ -1,17 +1,17 @@
-import Axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import FormikError from "../../../_helper/_formikError";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
+import Axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import FormikError from '../../../_helper/_formikError';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
 import {
   getBusinessPartnerDDL,
   getSBUListDDL_api,
   getShipmentDDL,
   getWarehouseDDL,
   SaveInventoryLoanValidationSchema,
-} from "../helper";
+} from '../helper';
 
 export default function FormCmp({
   initData,
@@ -113,7 +113,7 @@ export default function FormCmp({
                       value={values?.sbu}
                       label="Select SBU"
                       onChange={(valueOption) => {
-                        setFieldValue("sbu", valueOption);
+                        setFieldValue('sbu', valueOption);
                       }}
                       placeholder="Select SBU"
                       errors={errors}
@@ -128,7 +128,7 @@ export default function FormCmp({
                       value={values?.partner}
                       label="Business Partner"
                       onChange={(valueOption) => {
-                        setFieldValue("partner", valueOption);
+                        setFieldValue('partner', valueOption);
                       }}
                       placeholder="Business Partner"
                       errors={errors}
@@ -145,14 +145,13 @@ export default function FormCmp({
                         isDisabled={loanSingleData?.loanId}
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("lcNo", "");
-                            setFieldValue("shipment", "");
-                            setFieldValue("warehouse", valueOption);
-                            setFieldValue("item", "");
-                          }else{
-                            setFieldValue("item", "");
+                            setFieldValue('lcNo', '');
+                            setFieldValue('shipment', '');
+                            setFieldValue('warehouse', valueOption);
+                            setFieldValue('item', '');
+                          } else {
+                            setFieldValue('item', '');
                           }
-
                         }}
                         placeholder="Warehouse"
                         errors={errors}
@@ -167,14 +166,14 @@ export default function FormCmp({
                         <NewSelect
                           name="issueFrom"
                           options={[
-                            { value: 1, label: "Warehouse" },
-                            { value: 2, label: "Shipment" },
+                            { value: 1, label: 'Warehouse' },
+                            { value: 2, label: 'Shipment' },
                           ]}
                           value={values?.issueFrom}
                           isDisabled={loanSingleData?.loanId}
                           label="Issue From"
                           onChange={(valueOption) => {
-                            setFieldValue("issueFrom", valueOption);
+                            setFieldValue('issueFrom', valueOption);
                           }}
                           placeholder="Issue From"
                           errors={errors}
@@ -191,9 +190,9 @@ export default function FormCmp({
                             label="Warehouse"
                             isDisabled={loanSingleData?.loanId}
                             onChange={(valueOption) => {
-                              setFieldValue("lcNo", "");
-                              setFieldValue("shipment", "");
-                              setFieldValue("warehouse", valueOption);
+                              setFieldValue('lcNo', '');
+                              setFieldValue('shipment', '');
+                              setFieldValue('warehouse', valueOption);
                             }}
                             placeholder="Warehouse"
                             errors={errors}
@@ -211,7 +210,7 @@ export default function FormCmp({
                               isSearchIcon={true}
                               isDisabled={loanSingleData?.loanId}
                               handleChange={(valueOption) => {
-                                setFieldValue("lcNo", valueOption);
+                                setFieldValue('lcNo', valueOption);
                                 getShipmentDDL(
                                   profileData?.accountId,
                                   selectedBusinessUnit?.value,
@@ -232,7 +231,7 @@ export default function FormCmp({
                               isDisabled={loanSingleData?.loanId}
                               label="Ship Point"
                               onChange={(valueOption) => {
-                                setFieldValue("shipPoint", valueOption);
+                                setFieldValue('shipPoint', valueOption);
                               }}
                               placeholder="Ship Point"
                               errors={errors}
@@ -251,7 +250,7 @@ export default function FormCmp({
                       disabled={loanSingleData?.loanId}
                       name="lighterVessel"
                       onChange={(e) => {
-                        setFieldValue("lighterVessel", e.target.value);
+                        setFieldValue('lighterVessel', e.target.value);
                       }}
                       placeholder="Lighter Vessel"
                       type="text"
@@ -265,7 +264,7 @@ export default function FormCmp({
                       name="motherVessel"
                       disabled={loanSingleData?.loanId}
                       onChange={(e) => {
-                        setFieldValue("motherVessel", e.target.value);
+                        setFieldValue('motherVessel', e.target.value);
                       }}
                       placeholder="Mother Vessel"
                       type="text"
@@ -290,7 +289,7 @@ export default function FormCmp({
                       disabled={loanSingleData?.loanId}
                       name="surveyReportNo"
                       onChange={(e) => {
-                        setFieldValue("surveyReportNo", e.target.value);
+                        setFieldValue('surveyReportNo', e.target.value);
                       }}
                       placeholder="Survey Report No"
                       type="text"
@@ -303,9 +302,9 @@ export default function FormCmp({
                       selectedValue={values?.item}
                       handleChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("item", valueOption);
+                          setFieldValue('item', valueOption);
                         } else {
-                          setFieldValue("item", "");
+                          setFieldValue('item', '');
                         }
                       }}
                       loadOptions={(v) => {
@@ -316,7 +315,11 @@ export default function FormCmp({
                       }}
                       disabled={true}
                     />
-                    <FormikError errors={errors} name="item" touched={touched} />
+                    <FormikError
+                      errors={errors}
+                      name="item"
+                      touched={touched}
+                    />
                   </div>
                   {values?.createType === 2 && (
                     <div className="col-lg-3">
@@ -327,9 +330,9 @@ export default function FormCmp({
                         name="rate"
                         onChange={(e) => {
                           if (e?.target?.value < 0) {
-                            setFieldValue("rate", "");
+                            setFieldValue('rate', '');
                           } else {
-                            setFieldValue("rate", e.target.value);
+                            setFieldValue('rate', e.target.value);
                           }
                         }}
                         placeholder="Rate"
@@ -344,7 +347,7 @@ export default function FormCmp({
                       disabled={loanSingleData?.loanId}
                       name="quantity"
                       onChange={(e) => {
-                        setFieldValue("quantity", e.target.value);
+                        setFieldValue('quantity', e.target.value);
                       }}
                       placeholder="Quantity"
                       type="number"
@@ -357,7 +360,7 @@ export default function FormCmp({
                       name="narration"
                       disabled={loanSingleData?.loanId}
                       onChange={(e) => {
-                        setFieldValue("narration", e.target.value);
+                        setFieldValue('narration', e.target.value);
                       }}
                       placeholder="Narration"
                       type="text"
@@ -368,17 +371,17 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
-              // onClick={() => setItemTypeId("")}
+                // onClick={() => setItemTypeId("")}
               ></button>
             </Form>
           </>

@@ -1,24 +1,24 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import * as Yup from "yup";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import ICard from "../../../../_helper/_card";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getPlantList } from "../helper";
-import SummarySheet from "./SummarySheet";
-import ItemWise from "./itemWise";
-import SupplierWise from "./supplierWise";
-import { getSBU, getWhList } from "../../../../_helper/_commonApi";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import ICard from '../../../../_helper/_card';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { getPlantList } from '../helper';
+import SummarySheet from './SummarySheet';
+import ItemWise from './itemWise';
+import SupplierWise from './supplierWise';
+import { getSBU, getWhList } from '../../../../_helper/_commonApi';
 const validationSchema = Yup.object().shape({
   supplierName: Yup.object().shape({
-    label: Yup.string().required("Responsible Person is required"),
-    value: Yup.string().required("Responsible Person is required"),
+    label: Yup.string().required('Responsible Person is required'),
+    value: Yup.string().required('Responsible Person is required'),
   }),
 });
 
@@ -33,8 +33,8 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
   // const [purchaseOrgList, setPurchaseOrgList] = useState([]);
   const initData = {
     id: undefined,
-    supplierName: reportPartnerLedger?.supplierName || "",
-    reportType: { value: 1, label: "Item Wise" },
+    supplierName: reportPartnerLedger?.supplierName || '',
+    reportType: { value: 1, label: 'Item Wise' },
   };
 
   // get user profile data from store
@@ -62,11 +62,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
         selectedBusinessUnit?.value,
         setPlantList
       );
-      getSBU(
-        profileData?.accountId,
-        selectedBusinessUnit?.value,
-        setSBUDDL
-      );
+      getSBU(profileData?.accountId, selectedBusinessUnit?.value, setSBUDDL);
       // getPurchaseOrganizationData(
       //   profileData?.accountId,
       //   selectedBusinessUnit?.value,
@@ -74,7 +70,6 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
       // );
       // getRequestTypeList(setReqTypeList);
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   return (
@@ -107,7 +102,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
               backHandler={backHandler}
               componentRef={printRef}
             >
-              {console.log("values", values)}
+              {console.log('values', values)}
               <Form className="form form-label-right">
                 <div className="row">
                   <div className="col-lg-12">
@@ -118,20 +113,20 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                           options={
                             buId === 144 || buId === 188 || buId === 189
                               ? [
-                                { value: 1, label: "Item Wise" },
-                                { value: 2, label: "Supplier Wise" },
-                                { value: 3, label: "Paddy Purchase Summary" },
-                              ]
+                                  { value: 1, label: 'Item Wise' },
+                                  { value: 2, label: 'Supplier Wise' },
+                                  { value: 3, label: 'Paddy Purchase Summary' },
+                                ]
                               : [
-                                { value: 1, label: "Item Wise" },
-                                { value: 2, label: "Supplier Wise" },
-                              ]
+                                  { value: 1, label: 'Item Wise' },
+                                  { value: 2, label: 'Supplier Wise' },
+                                ]
                           }
                           value={values?.reportType}
                           label="ReportType"
                           onChange={(valueOption) => {
-                            setFieldValue("reportType", valueOption);
-                            setFieldValue("wh", "");
+                            setFieldValue('reportType', valueOption);
+                            setFieldValue('wh', '');
                             setGridData([]);
                           }}
                           placeholder="ReportType"
@@ -155,15 +150,13 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                                 valueOption?.value,
                                 setWhList
                               );
-                              setFieldValue("plant", valueOption);
-
+                              setFieldValue('plant', valueOption);
                             } else {
-                              setFieldValue("plant", "");
+                              setFieldValue('plant', '');
                             }
-                            setFieldValue("wh", "");
-                            setFieldValue("itemName", "")
+                            setFieldValue('wh', '');
+                            setFieldValue('itemName', '');
                             setGridData([]);
-
                           }}
                           placeholder="Plant"
                           errors={errors}
@@ -175,8 +168,8 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                           name="wh"
                           options={
                             values.plant?.value === 0
-                              ? [{ value: 0, label: "All" }]
-                              : [{ value: 0, label: "All" }, ...whList] || []
+                              ? [{ value: 0, label: 'All' }]
+                              : [{ value: 0, label: 'All' }, ...whList] || []
                           }
                           // options={
                           //   values?.reportType?.value === 1
@@ -186,7 +179,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                           value={values?.wh}
                           label="Warehouse"
                           onChange={(v) => {
-                            setFieldValue("wh", v);
+                            setFieldValue('wh', v);
                             setGridData([]);
                           }}
                           placeholder="Warehouse"
@@ -256,7 +249,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                             <SearchAsyncSelect
                               selectedValue={values?.itemName}
                               handleChange={(valueOption) => {
-                                setFieldValue("itemName", valueOption);
+                                setFieldValue('itemName', valueOption);
                                 setGridData([]);
                               }}
                               isDisabled={!values?.plant || !values?.wh}
@@ -281,7 +274,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                               value={values?.sbu}
                               label="SBU"
                               onChange={(valueOption) => {
-                                setFieldValue("sbu", valueOption);
+                                setFieldValue('sbu', valueOption);
                                 setGridData([]);
                               }}
                               placeholder="SBU"
@@ -294,7 +287,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                             <SearchAsyncSelect
                               selectedValue={values.supplierName}
                               handleChange={(valueOption) => {
-                                setFieldValue("supplierName", valueOption);
+                                setFieldValue('supplierName', valueOption);
                                 setGridData([]);
                               }}
                               loadOptions={(v) => {
@@ -324,7 +317,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                           placeholder="From Date"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("fromDate", e.target.value);
+                            setFieldValue('fromDate', e.target.value);
                           }}
                         />
                       </div>
@@ -337,7 +330,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                           type="date"
                           min={values?.fromDate}
                           onChange={(e) => {
-                            setFieldValue("toDate", e.target.value);
+                            setFieldValue('toDate', e.target.value);
                           }}
                         />
                       </div>
@@ -347,7 +340,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                           <SearchAsyncSelect
                             selectedValue={values?.itemName}
                             handleChange={(valueOption) => {
-                              setFieldValue("itemName", valueOption);
+                              setFieldValue('itemName', valueOption);
                               setGridData([]);
                             }}
                             isDisabled={!values?.plant || !values?.wh}
@@ -410,14 +403,14 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                 </div>
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

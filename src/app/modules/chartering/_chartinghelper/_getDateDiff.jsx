@@ -1,4 +1,4 @@
-import { _dateFormatter } from "./_dateFormatter";
+import { _dateFormatter } from './_dateFormatter';
 
 export const getDifference = (date1, date2, decimalCount) => {
   if (!date1 || !date2) return 0;
@@ -30,7 +30,7 @@ export const getTimeDifference = (date, startTime, endTime, decimalCount) => {
     let nextDateTime = new Date(`${nextDate} ${endTime}`);
     diff = nextDateTime.getTime() - date1.getTime();
   }
-  
+
   return Number(
     (diff / (1000 * 60 * 60)).toFixed(
       decimalCount === 0 || decimalCount ? decimalCount : 4

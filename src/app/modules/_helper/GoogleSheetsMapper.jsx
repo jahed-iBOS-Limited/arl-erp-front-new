@@ -11,10 +11,10 @@ const GoogleSheetsMapper = {
 
 export default GoogleSheetsMapper;
 
-const GOOGLE_API_URL = "https://sheets.googleapis.com/v4/spreadsheets";
+const GOOGLE_API_URL = 'https://sheets.googleapis.com/v4/spreadsheets';
 
 const getRanges = (sheetNames = []) => {
-  return sheetNames.map((sheetName) => `ranges=${sheetName}`).join("&");
+  return sheetNames.map((sheetName) => `ranges=${sheetName}`).join('&');
 };
 
 const getSheetsTitleUrl = (sheetId, apiKey) => {
@@ -43,7 +43,7 @@ const makeFetch = async (url, config = {}) => {
     if (!response.ok) {
       throw new ApiResponseError(
         `Request to '${url}' failed with ${response.status}${
-          response.statusText ? `: ${response.statusText}` : ""
+          response.statusText ? `: ${response.statusText}` : ''
         }`,
         {
           status: response.status,
@@ -73,7 +73,7 @@ const mapRecords = (records, headerData) => {
 
 const mapData = ({ sheets, sheetsOptions = [] }) => {
   return sheets.map((sheet) => {
-    const id = sheet.range.split("!")[0].replace(/'/g, "");
+    const id = sheet.range.split('!')[0].replace(/'/g, '');
     const rows = sheet.values || [];
 
     if (rows.length > 0) {

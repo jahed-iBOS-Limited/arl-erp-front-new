@@ -1,8 +1,6 @@
-
-
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   getSalesQuotationById,
   getSalesOrgDDLAction,
@@ -11,61 +9,61 @@ import {
   saveSalesquotation,
   setSalesQuotationSingleEmpty,
   saveEditedSalesquotation,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
 import {
   getSalesOfficeDDLAction,
   getDistributionChannelDDLAction,
   getItemSaleDDLAction,
   getUomDDLItemId_Action,
-} from "../../../../_helper/_redux/Actions";
-import { isUniq } from "../../../../_helper/uniqChecker";
-import { toast } from "react-toastify";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import Loading from "../../../../_helper/_loading";
-import { editSalesQuotationStatusAction } from "./../_redux/Actions";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+} from '../../../../_helper/_redux/Actions';
+import { isUniq } from '../../../../_helper/uniqChecker';
+import { toast } from 'react-toastify';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import Loading from '../../../../_helper/_loading';
+import { editSalesQuotationStatusAction } from './../_redux/Actions';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 const initData = {
   id: undefined,
-  salesOrg: "",
-  channel: "",
-  salesOffice: "",
-  soldtoParty: "",
-  partnerReffNo: "",
+  salesOrg: '',
+  channel: '',
+  salesOffice: '',
+  soldtoParty: '',
+  partnerReffNo: '',
   pricingDate: _todayDate(),
-  itemList: "",
-  quantity: "",
-  price: "",
-  value: "",
-  specification: "",
-  uom: "",
-  quotationCode: "",
+  itemList: '',
+  quantity: '',
+  price: '',
+  value: '',
+  specification: '',
+  uom: '',
+  quotationCode: '',
   isSpecification: false,
   quotationEndDate: _todayDate(),
-  remark: "",
+  remark: '',
 
   // changes by monir bhai
-  salesContract: "",
-  salesTerm: "",
-  modeOfShipment: "",
-  portOfShipment: "",
-  portOfDischarge: "",
-  finalDestination: "",
-  countryOfOrigin: "",
-  contractFor: "",
-  freightCharge: "",
-  termsAndConditions: "",
-  currency: "",
-  strCoraseAggregate: "",
-  strFineAggregate: "",
-  strUsesOfCement: "",
-  paymentMode: "",
-  transportType: "",
-  validityDays: "",
-  exFactoryPrice: "",
-  creditLimitDaysPropose: "",
-  creditLimitAmountsPropose: "",
+  salesContract: '',
+  salesTerm: '',
+  modeOfShipment: '',
+  portOfShipment: '',
+  portOfDischarge: '',
+  finalDestination: '',
+  countryOfOrigin: '',
+  contractFor: '',
+  freightCharge: '',
+  termsAndConditions: '',
+  currency: '',
+  strCoraseAggregate: '',
+  strFineAggregate: '',
+  strUsesOfCement: '',
+  paymentMode: '',
+  transportType: '',
+  validityDays: '',
+  exFactoryPrice: '',
+  creditLimitDaysPropose: '',
+  creditLimitAmountsPropose: '',
 };
 
 export default function SalesQuotationForm({
@@ -118,7 +116,6 @@ export default function SalesQuotationForm({
     } else {
       dispatch(setSalesQuotationSingleEmpty());
     }
-
   }, [id]);
 
   // single data Specification set
@@ -129,7 +126,6 @@ export default function SalesQuotationForm({
       setSpecTableData(singleData?.objSpec);
       setObjTerms(singleData?.objTerms || []);
     }
-
   }, [singleData]);
 
   const salesOfficeDDLDispatcher = (salesOrgId) => {
@@ -183,24 +179,24 @@ export default function SalesQuotationForm({
             totalQuotationQty: total.totalQty,
             actionBy: userId,
             quotationEndDate: values?.quotationEndDate,
-            remark: values?.remark || "",
+            remark: values?.remark || '',
             // changes by monir bhai
-            salesContract: values?.salesContract || "",
-            salesTerm: values?.salesTerm || "",
-            modeOfShipment: values?.modeOfShipment || "",
-            portOfShipment: values?.portOfShipment || "",
-            portOfDischarge: values?.portOfDischarge || "",
-            finalDestination: values?.finalDestination || "",
-            countryOfOrigin: values?.countryOfOrigin || "",
-            contractFor: values?.contractFor || "",
-            freightCharge: +values?.freightCharge || "",
+            salesContract: values?.salesContract || '',
+            salesTerm: values?.salesTerm || '',
+            modeOfShipment: values?.modeOfShipment || '',
+            portOfShipment: values?.portOfShipment || '',
+            portOfDischarge: values?.portOfDischarge || '',
+            finalDestination: values?.finalDestination || '',
+            countryOfOrigin: values?.countryOfOrigin || '',
+            contractFor: values?.contractFor || '',
+            freightCharge: +values?.freightCharge || '',
             currencyPrice: 0,
-            currencyValue: values?.currency?.value || "",
-            currencyRateBdt: values.price || "",
-            paymentMode: values?.paymentMode || "",
-            strUsesOfCement: values?.strUsesOfCement || "",
-            strFineAggregate: values?.strFineAggregate || "",
-            strCoraseAggregate: values?.strCoraseAggregate || "",
+            currencyValue: values?.currency?.value || '',
+            currencyRateBdt: values.price || '',
+            paymentMode: values?.paymentMode || '',
+            strUsesOfCement: values?.strUsesOfCement || '',
+            strFineAggregate: values?.strFineAggregate || '',
+            strCoraseAggregate: values?.strCoraseAggregate || '',
             creditLimitDaysPropose: values?.creditLimitDaysPropose,
             creditLimitAmountsPropose: values?.creditLimitAmountsPropose,
           },
@@ -212,7 +208,7 @@ export default function SalesQuotationForm({
         if (rowDto.length) {
           dispatch(saveEditedSalesquotation(payload, setDisabled));
         } else {
-          toast.warning("You must have to add atleast one item");
+          toast.warning('You must have to add atleast one item');
         }
       } else {
         const objListRowDTO = rowDto.map((itm, index) => {
@@ -245,27 +241,27 @@ export default function SalesQuotationForm({
             totalQuotationQty: total.totalQty,
             actionBy: userId,
             quotationEndDate: values?.quotationEndDate,
-            remark: values?.remark || "",
+            remark: values?.remark || '',
             // changes by monir bhai
-            salesContract: values?.salesContract || "",
-            salesTerm: values?.salesTerm || "",
-            modeOfShipment: values?.modeOfShipment || "",
-            portOfShipment: values?.portOfShipment || "",
-            portOfDischarge: values?.portOfDischarge || "",
-            finalDestination: values?.finalDestination || "",
-            countryOfOrigin: values?.countryOfOrigin || "",
-            contractFor: values?.contractFor || "",
-            freightCharge: +values?.freightCharge || "",
+            salesContract: values?.salesContract || '',
+            salesTerm: values?.salesTerm || '',
+            modeOfShipment: values?.modeOfShipment || '',
+            portOfShipment: values?.portOfShipment || '',
+            portOfDischarge: values?.portOfDischarge || '',
+            finalDestination: values?.finalDestination || '',
+            countryOfOrigin: values?.countryOfOrigin || '',
+            contractFor: values?.contractFor || '',
+            freightCharge: +values?.freightCharge || '',
             currencyPrice: 0,
-            currencyValue: values?.currency?.value || "",
-            currencyRateBdt: values.price || "",
+            currencyValue: values?.currency?.value || '',
+            currencyRateBdt: values.price || '',
             paymentMode:
               buId === 4
                 ? values?.paymentMode?.label
-                : values?.paymentMode || "",
-            strUsesOfCement: values?.strUsesOfCement || "",
-            strFineAggregate: values?.strFineAggregate || "",
-            strCoraseAggregate: values?.strCoraseAggregate || "",
+                : values?.paymentMode || '',
+            strUsesOfCement: values?.strUsesOfCement || '',
+            strFineAggregate: values?.strFineAggregate || '',
+            strCoraseAggregate: values?.strCoraseAggregate || '',
             transportType: values?.transportType?.label,
             validityDays: values?.validityDays,
             creditLimitDaysPropose: values?.creditLimitDaysPropose,
@@ -281,7 +277,7 @@ export default function SalesQuotationForm({
           setSpecTableData([]);
           setSpecRowDto([]);
         } else {
-          toast.warning("You must have to add atleast one item");
+          toast.warning('You must have to add atleast one item');
         }
       }
     } else {
@@ -291,7 +287,7 @@ export default function SalesQuotationForm({
 
   //buttom row table specification string generator
   const strGen = (arr, key1, key2) => {
-    let str = "";
+    let str = '';
     if (arr.length) {
       arr.forEach((itm) => {
         str += `${itm[key1]}-${itm[key2]}, `;
@@ -310,7 +306,7 @@ export default function SalesQuotationForm({
         itemPrice: values.price,
         quotationValue: values.quantity * values.price,
         itemCode: values.itemList.code,
-        specification: strGen(specTableData, "specification", "value"),
+        specification: strGen(specTableData, 'specification', 'value'),
         length: values.length,
         height: values.height,
         uomName: values.uom.label,
@@ -319,7 +315,7 @@ export default function SalesQuotationForm({
       },
     ];
 
-    if (isUniq("itemId", values.itemList.value, rowDto)) {
+    if (isUniq('itemId', values.itemList.value, rowDto)) {
       setRowDto([...rowDto, ...newData]);
       setSpecRowDto([...specRowDto, ...specTableData]);
       setSpecTableData([]);
@@ -357,7 +353,7 @@ export default function SalesQuotationForm({
       value: param.value,
       itemId: param.itemList.value,
     };
-    if (isUniq("specificationId", param.specification.value, specTableData)) {
+    if (isUniq('specificationId', param.specification.value, specTableData)) {
       setSpecTableData([...specTableData, newData]);
     }
   };
@@ -389,7 +385,7 @@ export default function SalesQuotationForm({
       title={
         id
           ? `Edit Sales Quotation [${quationCodeForEditPageTitle}]`
-          : "Create Sales Quotation"
+          : 'Create Sales Quotation'
       }
       getProps={setObjprops}
       isDisabled={isDisabled}

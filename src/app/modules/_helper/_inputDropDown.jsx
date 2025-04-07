@@ -1,9 +1,9 @@
-import React, { useRef, useState } from "react";
-import customStyles from "../selectCustomStyle";
+import React, { useRef, useState } from 'react';
+import customStyles from '../selectCustomStyle';
 // import { Field } from "formik";
-import Select from "react-select";
-import { isArray } from "lodash";
-import { Overlay, Tooltip } from "react-bootstrap";
+import Select from 'react-select';
+import { isArray } from 'lodash';
+import { Overlay, Tooltip } from 'react-bootstrap';
 export function ISelect(props) {
   const [show, setShow] = useState(false);
   const target = useRef(null);
@@ -41,7 +41,7 @@ export function ISelect(props) {
   /*
    **** When use iselect via a LOOP then we don't need to pass isDisabled props (Must not pass)
    */
-  const placeholder = labelHidden ? "" : label;
+  const placeholder = labelHidden ? '' : label;
   return (
     <>
       <div
@@ -51,54 +51,58 @@ export function ISelect(props) {
       >
         <Overlay
           target={target.current}
-          show={ value?.value && show}
+          show={value?.value && show}
           placement="top-start"
         >
           {(props) => (
             <Tooltip id="overlay-example" {...props}>
-           {value?.label}
+              {value?.label}
             </Tooltip>
           )}
         </Overlay>
         <label>{label}</label>
         {/* <Field
           component={() => ( */}
-            <Select
-              onChange={(valueOption) => {
-                setFieldValue(name, valueOption || "");
-                prevDependencyFunc && prevDependencyFunc(values?.year);
-                dependencyFunc &&
-                  dependencyFunc(
-                    valueOption?.value,
-                    values,
-                    setFieldValue,
-                    valueOption?.label,
-                    valueOption
-                  );
-              }}
-              onBlur={() => setShow(false)}
-              isDisabled={isDisabled}
-              isSearchable={true}
-              styles={customStyles}
-              placeholder={placeholder}
-              {...props}
-              isClearable={true}
-            />
-          {/* )}
+        <Select
+          onChange={(valueOption) => {
+            setFieldValue(name, valueOption || '');
+            prevDependencyFunc && prevDependencyFunc(values?.year);
+            dependencyFunc &&
+              dependencyFunc(
+                valueOption?.value,
+                values,
+                setFieldValue,
+                valueOption?.label,
+                valueOption
+              );
+          }}
+          onBlur={() => setShow(false)}
+          isDisabled={isDisabled}
+          isSearchable={true}
+          styles={customStyles}
+          placeholder={placeholder}
+          {...props}
+          isClearable={true}
+        />
+        {/* )}
         /> */}
 
         <p
           style={{
-            fontSize: "0.9rem",
+            fontSize: '0.9rem',
             fontWeight: 400,
-            width: "100%",
-            marginTop: "0.25rem",
+            width: '100%',
+            marginTop: '0.25rem',
           }}
-          className={errors && errors[name] && touched && touched[name] ? "text-danger" : "d-none"} // Change for disabled extra space in ddl bottom
+          className={
+            errors && errors[name] && touched && touched[name]
+              ? 'text-danger'
+              : 'd-none'
+          } // Change for disabled extra space in ddl bottom
         >
           {errors && errors[name] && touched && touched[name]
             ? errors[name].value
-            : ""}
+            : ''}
         </p>
       </div>
     </>

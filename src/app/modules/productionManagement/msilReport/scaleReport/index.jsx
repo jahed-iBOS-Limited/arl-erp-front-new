@@ -1,30 +1,30 @@
-import axios from "axios";
-import { Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import axios from 'axios';
+import { Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _timeFormatter } from "../../../_helper/_timeFormatter";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _timeFormatter } from '../../../_helper/_timeFormatter';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 const initData = {
-  fromDate: "",
-  toDate: "",
-  reportType: { value: 1, label: "Date Wise Report" },
-  supplier: { value: 0, label: "All" },
-  customer: "",
-  material: "",
+  fromDate: '',
+  toDate: '',
+  reportType: { value: 1, label: 'Date Wise Report' },
+  supplier: { value: 0, label: 'All' },
+  customer: '',
+  material: '',
 };
 function ScaleRepot() {
   const selectedBusinessUnit = useSelector((state) => {
@@ -35,17 +35,18 @@ function ScaleRepot() {
   const [rowData, getRowData, lodar, setRowData] = useAxiosGet();
 
   useEffect(() => {
-    getMaterialDDL(`/mes/MSIL/GateEntryItemDDL?intBusinessUnitId=${selectedBusinessUnit?.value}`);
+    getMaterialDDL(
+      `/mes/MSIL/GateEntryItemDDL?intBusinessUnitId=${selectedBusinessUnit?.value}`
+    );
     getSupplierDDLDDL(
       `/mes/MSIL/GetAllMSIL?PartName=PreRawMaterialSupplierDDL&BusinessUnitId=${selectedBusinessUnit?.value}`,
       (data) => {
-        setSupplierDDL([{ value: 0, label: "All" }, ...data])
+        setSupplierDDL([{ value: 0, label: 'All' }, ...data]);
       }
     );
     getRowData(
-      `/mes/MSIL/GetScaleReport?fromDate=${""}&toDate=${""}&intItemid=0&intSupplierId=0`
+      `/mes/MSIL/GetScaleReport?fromDate=${''}&toDate=${''}&intItemid=0&intSupplierId=0`
     );
-
   }, [selectedBusinessUnit]);
 
   const loadUserList = (v) => {
@@ -70,7 +71,7 @@ function ScaleRepot() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Scale Report"}>
+              <CardHeader title={'Scale Report'}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
@@ -85,7 +86,7 @@ function ScaleRepot() {
                         placeholder="Date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("fromDate", e.target.value);
+                          setFieldValue('fromDate', e.target.value);
                         }}
                       />
                     </div>
@@ -97,7 +98,7 @@ function ScaleRepot() {
                         placeholder="Date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("toDate", e.target.value);
+                          setFieldValue('toDate', e.target.value);
                         }}
                       />
                     </div>
@@ -105,32 +106,32 @@ function ScaleRepot() {
                       <NewSelect
                         name="reportType"
                         options={[
-                          { value: 1, label: "Date Wise Report" },
-                          { value: 3, label: "Supplier Wise Report" },
-                          { value: 4, label: "Customer Wise Report" },
-                          { value: 5, label: "Material Wise Report" },
+                          { value: 1, label: 'Date Wise Report' },
+                          { value: 3, label: 'Supplier Wise Report' },
+                          { value: 4, label: 'Customer Wise Report' },
+                          { value: 5, label: 'Material Wise Report' },
                         ]}
                         value={values?.reportType}
                         label="Report Type"
                         onChange={(valueOption) => {
                           if (valueOption) {
                             setRowData([]);
-                            setFieldValue("reportType", valueOption);
-                            setFieldValue("customer", "");
-                            setFieldValue("material", "");
-                            setFieldValue("supplier", {
+                            setFieldValue('reportType', valueOption);
+                            setFieldValue('customer', '');
+                            setFieldValue('material', '');
+                            setFieldValue('supplier', {
                               value: 0,
-                              label: "All",
+                              label: 'All',
                             });
                           } else {
                             setRowData([]);
-                            setFieldValue("reportType", {
+                            setFieldValue('reportType', {
                               value: 1,
-                              label: "Date Wise Report",
+                              label: 'Date Wise Report',
                             });
-                            setFieldValue("supplier", "");
-                            setFieldValue("customer", "");
-                            setFieldValue("material", "");
+                            setFieldValue('supplier', '');
+                            setFieldValue('customer', '');
+                            setFieldValue('material', '');
                           }
                         }}
                       />
@@ -145,7 +146,7 @@ function ScaleRepot() {
                           value={values?.supplier}
                           label="Supplier"
                           onChange={(valueOption) => {
-                            setFieldValue("supplier", valueOption);
+                            setFieldValue('supplier', valueOption);
                           }}
                         />
                       </div>
@@ -157,7 +158,7 @@ function ScaleRepot() {
                         <SearchAsyncSelect
                           selectedValue={values?.customer}
                           handleChange={(valueOption) => {
-                            setFieldValue("customer", valueOption);
+                            setFieldValue('customer', valueOption);
                           }}
                           loadOptions={loadUserList}
                         />
@@ -172,14 +173,14 @@ function ScaleRepot() {
                           value={values?.material}
                           label="Material"
                           onChange={(valueOption) => {
-                            setFieldValue("material", valueOption);
+                            setFieldValue('material', valueOption);
                           }}
                         />
                       </div>
                     ) : null}
                     <div>
                       <button
-                        style={{ marginTop: "18px" }}
+                        style={{ marginTop: '18px' }}
                         type="button"
                         className="btn btn-primary"
                         disabled={
@@ -194,27 +195,30 @@ function ScaleRepot() {
                               values?.reportType?.value === 3
                                 ? 1
                                 : values?.reportType?.value === 4
-                                ? 2
-                                : 0
-                            }&fromDate=${values?.fromDate ||
-                              ""}&toDate=${values?.toDate ||
-                              ""}&intItemid=${values?.material?.value ||
-                              0}&intSupplierId=${values?.supplier?.value ||
+                                  ? 2
+                                  : 0
+                            }&fromDate=${values?.fromDate || ''}&toDate=${
+                              values?.toDate || ''
+                            }&intItemid=${
+                              values?.material?.value || 0
+                            }&intSupplierId=${
+                              values?.supplier?.value ||
                               values?.customer?.value ||
-                              0}`
+                              0
+                            }`
                           );
                         }}
                       >
                         Show
                       </button>
                     </div>
-                    <div style={{ marginTop: "18px" }} className="ml-5">
+                    <div style={{ marginTop: '18px' }} className="ml-5">
                       <ReactHTMLTableToExcel
                         id="scale-report-table-xls-button-att-reports"
                         className="btn btn-primary"
                         table="scale-report-table-to-xlsx"
-                        filename={"Scale Report"}
-                        sheet={"Scale Report"}
+                        filename={'Scale Report'}
+                        sheet={'Scale Report'}
                         buttonText="Export Excel"
                       />
                     </div>
@@ -226,7 +230,10 @@ function ScaleRepot() {
                 </div>
 
                 <div className="loan-scrollable-table">
-                  <div className="scroll-table _table" style={{maxHeight:"540px"}}>
+                  <div
+                    className="scroll-table _table"
+                    style={{ maxHeight: '540px' }}
+                  >
                     <table
                       id="scale-report-table-to-xlsx"
                       className="table table-striped table-bordered bj-table bj-table-landing"
@@ -267,12 +274,12 @@ function ScaleRepot() {
                               <td>{item?.strDriverMobileNo}</td>
                               <td>{item?.strItemName}</td>
                               <td className="text-center">
-                                {_dateFormatter(item?.dteIncomingDate)} &{" "}
-                                {_timeFormatter(item?.incomingTime || "")}
+                                {_dateFormatter(item?.dteIncomingDate)} &{' '}
+                                {_timeFormatter(item?.incomingTime || '')}
                               </td>
                               <td className="text-center">
-                                {_dateFormatter(item?.dteOutgoingDate)} &{" "}
-                                {_timeFormatter(item?.outgoingTime || "")}
+                                {_dateFormatter(item?.dteOutgoingDate)} &{' '}
+                                {_timeFormatter(item?.outgoingTime || '')}
                               </td>
                               <td className="text-center">
                                 {item?.numFirstWeight}

@@ -1,15 +1,15 @@
-import { Formik } from "formik";
-import moment from "moment";
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { getVoyageDDLNew } from "../../../helper";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import { getDifference } from "../../../_chartinghelper/_getDateDiff";
-import { getItemRateForBunker, validationSchema } from "../helper";
-import { dateHandler } from "../../../next/timeCharter/ballastPassage/Form/form";
+import { Formik } from 'formik';
+import moment from 'moment';
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { getVoyageDDLNew } from '../../../helper';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import { getDifference } from '../../../_chartinghelper/_getDateDiff';
+import { getItemRateForBunker, validationSchema } from '../helper';
+import { dateHandler } from '../../../next/timeCharter/ballastPassage/Form/form';
 
 export default function FormCmp({
   title,
@@ -23,15 +23,12 @@ export default function FormCmp({
 }) {
   const history = useHistory();
 
-  // get user profile data from store
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
 
-
-
   return (
-    <>
+    <React.Fragment>
       <Formik
         enableReinitialize={true}
         initialValues={initData}
@@ -59,24 +56,24 @@ export default function FormCmp({
                   <button
                     type="button"
                     onClick={() => history.goBack()}
-                    className={"btn btn-secondary reset-btn ml-2 px-3 py-2"}
+                    className={'btn btn-secondary reset-btn ml-2 px-3 py-2'}
                   >
                     Back
                   </button>
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="button"
                       onClick={() => resetForm(initData)}
-                      className={"btn btn-info reset-btn ml-2 px-3 py-2"}
+                      className={'btn btn-info reset-btn ml-2 px-3 py-2'}
                     >
                       Reset
                     </button>
                   )}
 
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="submit"
-                      className={"btn btn-primary ml-2 px-3 py-2"}
+                      className={'btn btn-primary ml-2 px-3 py-2'}
                       onClick={handleSubmit}
                       disabled={false}
                     >
@@ -89,7 +86,7 @@ export default function FormCmp({
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vesselName || ""}
+                      value={values?.vesselName || ''}
                       isSearchable={true}
                       options={vesselDDL || []}
                       styles={customStyles}
@@ -97,9 +94,9 @@ export default function FormCmp({
                       placeholder="Vessel Name"
                       label="Vessel Name"
                       onChange={(valueOption) => {
-                        setFieldValue("vesselName", valueOption);
+                        setFieldValue('vesselName', valueOption);
                         setValues({ ...initData, vesselName: valueOption });
-                        setFieldValue("voyageNo", "");
+                        setFieldValue('voyageNo', '');
                         setVoyageNoDDL([]);
                         if (valueOption) {
                           getVoyageDDLNew({
@@ -121,7 +118,7 @@ export default function FormCmp({
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.voyageNo || ""}
+                      value={values?.voyageNo || ''}
                       isSearchable={true}
                       options={voyageNoDDL || []}
                       styles={customStyles}
@@ -129,7 +126,7 @@ export default function FormCmp({
                       placeholder="Voyage No"
                       label="Voyage No"
                       onChange={(valueOption) => {
-                        setFieldValue("voyageNo", valueOption);
+                        setFieldValue('voyageNo', valueOption);
                         getItemRateForBunker({
                           accId: profileData?.accountId,
                           buId: selectedBusinessUnit?.value,
@@ -152,19 +149,19 @@ export default function FormCmp({
                       name="ballastStartDate"
                       placeholder="Ballast Start Date-Time"
                       onChange={(e) => {
-                        dateHandler(e, values, setFieldValue, "startDate");
+                        dateHandler(e, values, setFieldValue, 'startDate');
                       }}
                       max={
                         values?.ballastEndDate
                           ? moment(values?.ballastEndDate).format(
-                            "YYYY-MM-DDTHH:mm:ss"
-                          )
-                          : ""
+                              'YYYY-MM-DDTHH:mm:ss'
+                            )
+                          : ''
                       }
                       type="datetime-local"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -174,15 +171,15 @@ export default function FormCmp({
                       name="ballastEndDate"
                       placeholder="Ballast End Date-Time"
                       min={moment(values?.ballastStartDate).format(
-                        "YYYY-MM-DDTHH:mm:ss"
+                        'YYYY-MM-DDTHH:mm:ss'
                       )}
                       onChange={(e) => {
-                        dateHandler(e, values, setFieldValue, "endDate");
+                        dateHandler(e, values, setFieldValue, 'endDate');
                       }}
                       type="datetime-local"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
 
@@ -209,18 +206,18 @@ export default function FormCmp({
                         let cal = Number(
                           values?.ballastDuration * e.target.value
                         );
-                        setFieldValue("lsmgoballastQty", cal);
+                        setFieldValue('lsmgoballastQty', cal);
                         setFieldValue(
-                          "lsmgoballastAmount",
+                          'lsmgoballastAmount',
                           values?.lsmgoballastRate * cal
                         );
 
-                        setFieldValue("lsmgoperDayQty", Number(e.target.value));
+                        setFieldValue('lsmgoperDayQty', Number(e.target.value));
                       }}
                       type="number"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -275,15 +272,15 @@ export default function FormCmp({
                         let cal = Number(
                           values?.ballastDuration * e.target.value
                         );
-                        setFieldValue("lsfoballastQty", cal);
+                        setFieldValue('lsfoballastQty', cal);
                         setFieldValue(
-                          "lsfoballastAmount",
+                          'lsfoballastAmount',
                           values?.lsfoballastRate * cal
                         );
 
-                        setFieldValue("lsfoperDayQty", Number(e.target.value));
+                        setFieldValue('lsfoperDayQty', Number(e.target.value));
                       }}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
 
@@ -331,6 +328,6 @@ export default function FormCmp({
           </>
         )}
       </Formik>
-    </>
+    </React.Fragment>
   );
 }

@@ -36,10 +36,9 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
   useEffect(() => {
     if (bookingRequestId) {
       setShipBookingRequestGetById(
-        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
+        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
       );
     }
-
   }, [bookingRequestId]);
 
   return (
@@ -310,7 +309,7 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
                       <span className="font-bold">
                         {data?.rowsData?.reduce(
                           (acc, item) => acc + +item?.totalGrossWeightKG,
-                          0,
+                          0
                         )}
                       </span>
                     </td>
@@ -318,7 +317,7 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
                       <span className="font-bold">
                         {data?.rowsData?.reduce(
                           (acc, item) => acc + +item?.totalNetWeightKG,
-                          0,
+                          0
                         )}
                       </span>
                     </td>
@@ -326,7 +325,7 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
                       <span className="font-bold">
                         {data?.rowsData?.reduce(
                           (acc, item) => acc + +item?.totalVolumeCBM,
-                          0,
+                          0
                         )}
                       </span>
                     </td>
@@ -335,7 +334,7 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
                         <span className="font-bold">
                           {data?.rowsData?.reduce(
                             (acc, item) => acc + +item?.totalVolumetricWeight,
-                            0,
+                            0
                           )}
                         </span>
                       </td>
@@ -344,7 +343,7 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
                       <span className="font-bold">
                         {data?.rowsData?.reduce(
                           (acc, item) => acc + +item?.totalDimsLength,
-                          0,
+                          0
                         )}
                       </span>
                     </td>
@@ -352,7 +351,7 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
                       <span className="font-bold">
                         {data?.rowsData?.reduce(
                           (acc, item) => acc + +item?.totalDimsWidth,
-                          0,
+                          0
                         )}
                       </span>
                     </td>
@@ -360,7 +359,7 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
                       <span className="font-bold">
                         {data?.rowsData?.reduce(
                           (acc, item) => acc + +item?.totalDimsHeight,
-                          0,
+                          0
                         )}
                       </span>
                     </td>
@@ -368,7 +367,7 @@ export default function ShipmentOrderInvoice({ rowClickData }) {
                       <span className="font-bold">
                         {data?.rowsData?.reduce(
                           (acc, item) => acc + +item?.totalNumberOfPackages,
-                          0,
+                          0
                         )}
                       </span>
                     </td>

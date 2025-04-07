@@ -15,22 +15,21 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
   }, shallowEqual);
   useEffect(() => {
     getGridData(
-      `mes/MSIL/GetRebconsumptionMonthEnding?FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BusinessUnitId=${buId}`,
+      `mes/MSIL/GetRebconsumptionMonthEnding?FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BusinessUnitId=${buId}`
     );
-
   }, []);
 
   const grandTotalValue = useMemo(() => {
     return gridData.reduce(
       (accumulator, item) => accumulator + (item.totalValue || 0),
-      0,
+      0
     );
   }, [gridData]);
 
   const totalRebconsumedUnit = useMemo(() => {
     return gridData.reduce(
       (accumulator, item) => accumulator + (item.totalRebconsumedUnit || 0),
-      0,
+      0
     );
   }, [gridData]);
 
@@ -77,7 +76,7 @@ export default function JVModalView({ values, buId, setShowJVModal }) {
       () => {
         setShowJVModal(false);
       },
-      true,
+      true
     );
   };
 

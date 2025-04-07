@@ -1,6 +1,5 @@
-import CommonLoadAndDischargePortLanding from "../commonComponents/landing";
+import CommonLoadAndDischargePortLanding from '../commonComponents/landing';
 
 export default function EDPADischargePort() {
-
-  return <CommonLoadAndDischargePortLanding featureName={"Discharge Port"} />
+  return <CommonLoadAndDischargePortLanding featureName={'Discharge Port'} />;
 }

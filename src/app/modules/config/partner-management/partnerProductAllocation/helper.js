@@ -1,24 +1,24 @@
-import * as Yup from "yup";
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import * as Yup from 'yup';
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const validationSchema = Yup.object().shape({
   customer: Yup.object().shape({
-    label: Yup.string().required("Customer is required"),
-    value: Yup.string().required("Customer is required"),
+    label: Yup.string().required('Customer is required'),
+    value: Yup.string().required('Customer is required'),
   }),
   // dealerName: Yup.string().required("Dealer Name is required"),
   upozila: Yup.object().shape({
-    label: Yup.string().required("Zone is required"),
-    value: Yup.string().required("Zone is required"),
+    label: Yup.string().required('Zone is required'),
+    value: Yup.string().required('Zone is required'),
   }),
   productName: Yup.object().shape({
-    label: Yup.string().required("Product Name is required"),
-    value: Yup.string().required("Product Name is required"),
+    label: Yup.string().required('Product Name is required'),
+    value: Yup.string().required('Product Name is required'),
   }),
-  allotedQnt: Yup.number().required("Alloted Qnt is required"),
-  rate: Yup.number().required("Rate is required"),
+  allotedQnt: Yup.number().required('Alloted Qnt is required'),
+  rate: Yup.number().required('Rate is required'),
 });
 
 export const customerListDDL = async (accId, buId, setter) => {
@@ -83,7 +83,7 @@ export const CreatePartnerProductAllocation = async (data, setLoading, cb) => {
       `/partner/PartnerAllotment/CreatePartnerAllotment`,
       data
     );
-    toast.success(res?.data?.message || "Submitted Successfully");
+    toast.success(res?.data?.message || 'Submitted Successfully');
     cb();
     setLoading(false);
   } catch (error) {
@@ -96,7 +96,7 @@ export const CreatePartnerAllotmentExcel_api = async (obj) => {
   setLoading(true);
   let formData = new FormData();
   fileObjects.forEach((file) => {
-    formData.append("allotmentExcel", file?.file);
+    formData.append('allotmentExcel', file?.file);
   });
   try {
     let { data } = await Axios.post(
@@ -104,17 +104,17 @@ export const CreatePartnerAllotmentExcel_api = async (obj) => {
       formData,
       {
         headers: {
-          "Content-Type":
-            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          'Content-Type':
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         },
       }
     );
     setLoading(false);
-    toast.success("Upload  successfully");
+    toast.success('Upload  successfully');
     return data;
   } catch (error) {
     setLoading(false);
-    toast.error("Document not upload");
+    toast.error('Document not upload');
   }
 };
 
@@ -125,7 +125,7 @@ export const EditPartnerProductAllocation = async (data, setLoading) => {
       `/partner/PartnerAllotment/EditPartnerAllotment`,
       data
     );
-    toast.success(res?.data?.message || "Updated Successfully");
+    toast.success(res?.data?.message || 'Updated Successfully');
     setLoading(false);
   } catch (error) {
     toast.error(error?.response?.data?.message);
@@ -145,8 +145,8 @@ export const GetPartnerProductAllocationLandingData = async (
   setLoading
 ) => {
   setLoading(true);
-  console.log("type is", type);
-  let url = "";
+  console.log('type is', type);
+  let url = '';
   if (type === 1) {
     // get partner wise
     url = `/partner/PartnerAllotment/GetPartnerAllotmentByPartnerId?AccountId=${accId}&BusinessUnitId=${buId}&PartnerId=${partnerId}`;

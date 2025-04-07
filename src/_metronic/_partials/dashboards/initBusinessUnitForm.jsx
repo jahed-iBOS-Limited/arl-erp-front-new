@@ -1,32 +1,32 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { Input } from "../controls";
-import Axios from "axios";
-import Select from "react-select";
-import customStyles from "../../../app/modules/selectCustomStyle";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { Input } from '../controls';
+import Axios from 'axios';
+import Select from 'react-select';
+import customStyles from '../../../app/modules/selectCustomStyle';
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
   businessUnitName: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Business Unit is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Business Unit is required'),
   businessUnitCode: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(50, "Maximum 50 symbols")
-    .required("Code is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(50, 'Maximum 50 symbols')
+    .required('Code is required'),
   businessUnitAddress: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(300, "Maximum 300 symbols")
-    .required("Address is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(300, 'Maximum 300 symbols')
+    .required('Address is required'),
   languageName: Yup.object().shape({
-    label: Yup.string().required("Language is required"),
-    value: Yup.string().required("Language is required"),
+    label: Yup.string().required('Language is required'),
+    value: Yup.string().required('Language is required'),
   }),
   currencyName: Yup.object().shape({
-    label: Yup.string().required("Base currency is required"),
-    value: Yup.string().required("Base currency is required"),
+    label: Yup.string().required('Base currency is required'),
+    value: Yup.string().required('Base currency is required'),
   }),
 });
 
@@ -41,12 +41,10 @@ export default function FormCmp({
   isEdit,
 }) {
   // console.log(product)
-  const Language_URL =
-    "/domain/Purchase/GetLanguageList";
-  const BaseCurrency_URL =
-    "/domain/Purchase/GetBaseCurrencyList";
-  const [lngList, setLng] = useState("");
-  const [currencyList, setCurrency] = useState("");
+  const Language_URL = '/domain/Purchase/GetLanguageList';
+  const BaseCurrency_URL = '/domain/Purchase/GetBaseCurrencyList';
+  const [lngList, setLng] = useState('');
+  const [currencyList, setCurrency] = useState('');
 
   useEffect(() => {
     getInfoData();
@@ -84,9 +82,7 @@ export default function FormCmp({
           });
         setCurrency(currencyListTemp);
       }
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   return (
@@ -113,13 +109,12 @@ export default function FormCmp({
           isValid,
         }) => (
           <>
-
             {disableHandler(!isValid)}
             <Form className="form form-label-right">
               <div className="form-group row">
                 <div className="col-lg-4">
                   <Field
-                    value={values.businessUnitName || ""}
+                    value={values.businessUnitName || ''}
                     name="businessUnitName"
                     component={Input}
                     placeholder="Business Unit"
@@ -130,7 +125,7 @@ export default function FormCmp({
                 </div>
                 <div className="col-lg-4">
                   <Field
-                    value={values.businessUnitCode || ""}
+                    value={values.businessUnitCode || ''}
                     name="businessUnitCode"
                     component={Input}
                     placeholder="Code"
@@ -140,7 +135,7 @@ export default function FormCmp({
                 </div>
                 <div className="col-lg-4">
                   <Field
-                    value={values.businessUnitAddress || ""}
+                    value={values.businessUnitAddress || ''}
                     name="businessUnitAddress"
                     component={Input}
                     placeholder="Address"
@@ -157,7 +152,7 @@ export default function FormCmp({
                     defaultValue={values.languageName}
                     // value={values.languageName}
                     onChange={(valueOption) => {
-                      setFieldValue("languageName", valueOption);
+                      setFieldValue('languageName', valueOption);
                     }}
                     isSearchable={true}
                     styles={customStyles}
@@ -165,18 +160,19 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
                     {errors &&
                     errors.languageName &&
-                    touched && touched.languageName
+                    touched &&
+                    touched.languageName
                       ? errors.languageName.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
                 <div className="col-lg-4">
@@ -189,7 +185,7 @@ export default function FormCmp({
                         options={currencyList}
                         placeholder="Select base Currency"
                         onChange={(valueOption) => {
-                          setFieldValue("currencyName", valueOption);
+                          setFieldValue('currencyName', valueOption);
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -201,25 +197,26 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      marginTop: "0.25rem",
-                      width: "100%",
+                      marginTop: '0.25rem',
+                      width: '100%',
                     }}
                     className="text-danger"
                   >
                     {touched &&
                     touched.currencyName &&
-                    errors && errors.currencyName
+                    errors &&
+                    errors.currencyName
                       ? errors.currencyName.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
               </div>
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
                 // disabled={true}
@@ -227,7 +224,7 @@ export default function FormCmp({
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(product)}
               ></button>

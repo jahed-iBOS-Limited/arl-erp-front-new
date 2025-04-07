@@ -1,35 +1,34 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   CardBody,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import ICustomTable from "../../../../_helper/_customTable";
-import { Form, Formik } from "formik";
-import { GetPartnerProductAllocationLcInfoLandingData } from "../helper";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IView from "../../../../_helper/_helperIcons/_view";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+} from '../../../../../../_metronic/_partials/controls';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import ICustomTable from '../../../../_helper/_customTable';
+import { Form, Formik } from 'formik';
+import { GetPartnerProductAllocationLcInfoLandingData } from '../helper';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IView from '../../../../_helper/_helperIcons/_view';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 const header = [
-  "SL",
-  "LC No",
-  "LC Date",
-  "Supplier Country",
-  "Bank Name",
-  "Ship Name",
-  "Color",
-  "Reference No",
-  "Reference Date",
-  "Action",
+  'SL',
+  'LC No',
+  'LC Date',
+  'Supplier Country',
+  'Bank Name',
+  'Ship Name',
+  'Color',
+  'Reference No',
+  'Reference Date',
+  'Action',
 ];
 
 const initData = { fromDate: _todayDate(), toDate: _todayDate() };
@@ -84,7 +83,7 @@ const PartnerProductAllocationLcInfo = () => {
                   <button
                     onClick={() => {
                       history.push(
-                        "/config/partner-management/prod-allocation-lcinfo/create"
+                        '/config/partner-management/prod-allocation-lcinfo/create'
                       );
                     }}
                     className="btn btn-primary"
@@ -102,7 +101,7 @@ const PartnerProductAllocationLcInfo = () => {
                           return (
                             <tr key={index}>
                               <td
-                                style={{ width: "30px" }}
+                                style={{ width: '30px' }}
                                 className="text-center"
                               >
                                 {index + 1}
@@ -120,7 +119,7 @@ const PartnerProductAllocationLcInfo = () => {
                                 {_dateFormatter(item?.allotmentRefDate)}
                               </td>
                               <td
-                                style={{ width: "70px" }}
+                                style={{ width: '70px' }}
                                 className="text-center"
                               >
                                 <span

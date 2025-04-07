@@ -1,5 +1,5 @@
-import React from "react";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
+import React from 'react';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
 
 export default function ReferenceViewModal({ refData }) {
   return (

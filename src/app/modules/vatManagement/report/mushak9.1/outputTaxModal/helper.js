@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 export const getHeaderData = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
@@ -20,16 +20,16 @@ export const SalesRegister_Report_api = async (
   setter,
   setLoading
 ) => {
-  setLoading && setLoading(true)
+  setLoading && setLoading(true);
   try {
     const res = await axios.get(
       `/vat/VATSP/SalesRegister?intAccountId=${accid}&intBusinessUnitId=${buid}&intBranch=${branch}&ItemId=${itemId}&FromDate=${fromDate}&ToDate=${toDate}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
-      setLoading && setLoading(false)
+      setLoading && setLoading(false);
     }
   } catch (error) {
-    setLoading && setLoading(false)
+    setLoading && setLoading(false);
   }
 };

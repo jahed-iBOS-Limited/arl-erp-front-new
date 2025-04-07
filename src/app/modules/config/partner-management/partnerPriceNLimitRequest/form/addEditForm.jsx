@@ -1,43 +1,42 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { useParams, useLocation } from "react-router";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "../../../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { useParams, useLocation } from 'react-router';
+import { toast } from 'react-toastify';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import Loading from '../../../../_helper/_loading';
 import {
   getAllPriceSetupInitialDDL,
   savePriceSetup,
-} from "../../../material-management/priceSetup/_redux/Actions";
+} from '../../../material-management/priceSetup/_redux/Actions';
 import {
   approveOrReject,
   // getPartnerPriceAndLimitRequestById,
   saveEditedPartnerPriceAndLimitRequest,
-} from "../helper";
-import Form from "./form";
+} from '../helper';
+import Form from './form';
 
 const initData = {
-  customer: "",
-  address: "",
-  contactPerson: "",
-  contactNumber: "",
-  paymentMode: "",
-  creditLimitType: "",
-  limitDays: "",
-  limitAmount: "",
-  itemName: "",
-  rate: "",
-  soName: "",
-  channelName: "",
-  remarks: "",
+  customer: '',
+  address: '',
+  contactPerson: '',
+  contactNumber: '',
+  paymentMode: '',
+  creditLimitType: '',
+  limitDays: '',
+  limitAmount: '',
+  itemName: '',
+  rate: '',
+  soName: '',
+  channelName: '',
+  remarks: '',
 
   // new fields for price setup
-  conditionType: "",
-  conditionTypeRef: "",
-  startDate: "",
-  endDate: "",
+  conditionType: '',
+  conditionTypeRef: '',
+  startDate: '',
+  endDate: '',
 };
 
 export default function PartnerPriceAndLimitRequestForm() {
@@ -94,7 +93,7 @@ export default function PartnerPriceAndLimitRequestForm() {
   }, [query]);
 
   useEffect(() => {
-    if (!type || type === "edit") {
+    if (!type || type === 'edit') {
       getChannelList(
         `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`
       );
@@ -145,7 +144,7 @@ export default function PartnerPriceAndLimitRequestForm() {
       setRowData(state?.list);
 
       // get item list in edit mode
-      if (type === "edit") {
+      if (type === 'edit') {
         getItemList(
           `/item/ItemSales/GetItemSalesByChannelAndWarehouseDDL?AccountId=${accId}&BUnitId=${buId}&DistributionChannelId=${state?.intDistributionChannel}&SalesOrgId=${state?.intSalesOrganizationId}`
         );
@@ -183,17 +182,17 @@ export default function PartnerPriceAndLimitRequestForm() {
 
   const saveHandler = (values, cb) => {
     if ([1]?.includes(values?.creditLimitType?.value) && !values?.limitDays) {
-      return toast.warn("Please enter days limit");
+      return toast.warn('Please enter days limit');
     } else if (
       [2]?.includes(values?.creditLimitType?.value) &&
       !values?.limitAmount
     ) {
-      return toast.warn("Please enter amount limit");
+      return toast.warn('Please enter amount limit');
     } else if (
       [3]?.includes(values?.creditLimitType?.value) &&
       (!values?.limitDays || !values?.limitAmount)
     ) {
-      return toast.warn("Please enter days and amount limit");
+      return toast.warn('Please enter days and amount limit');
     }
 
     if (!id) {

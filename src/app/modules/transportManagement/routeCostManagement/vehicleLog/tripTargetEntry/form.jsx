@@ -1,9 +1,9 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import YearMonthForm from '../../../../_helper/commonInputFieldsGroups/yearMonthForm';
 
 export default function FormCmp({
   initData,
@@ -51,7 +51,7 @@ export default function FormCmp({
                         daysInMonth(
                           values?.month?.value,
                           values?.year?.value
-                        ) || ""
+                        ) || ''
                       }
                       type="text"
                       disabled
@@ -67,7 +67,7 @@ export default function FormCmp({
                       value={values?.shipPoint}
                       isDisabled={rowData?.length}
                       onChange={(valueOption) => {
-                        setFieldValue("shipPoint", valueOption);
+                        setFieldValue('shipPoint', valueOption);
                       }}
                     />
                   </div>
@@ -78,7 +78,7 @@ export default function FormCmp({
                       value={values?.vehicleCategory}
                       label="Vehicle Category"
                       onChange={(valueOption) => {
-                        setFieldValue("vehicleCategory", valueOption);
+                        setFieldValue('vehicleCategory', valueOption);
 
                         getAndSetRows({
                           ...values,
@@ -99,95 +99,96 @@ export default function FormCmp({
                   {rowData?.length > 0 && (
                     <div className="table-responsive">
                       <table className="table table-striped table-bordered global-table">
-                      <thead>
-                        <tr>
-                          {" "}
-                          <th
-                            onClick={() => allSelect(!selectedAll())}
-                            style={{ minWidth: "30px" }}
-                          >
-                            <input
-                              type="checkbox"
-                              value={selectedAll()}
-                              checked={selectedAll()}
-                              onChange={() => {}}
-                            />
-                          </th>
-                          <th style={{ width: "50px" }}>SL</th>
-                          <th>Vehicle</th>
-                          <th>Vehicle Capacity</th>
-                          <th>Target Trip</th>
-                          <th>Avg. Target Trip</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.map((item, i) => (
-                          <tr key={i + 1}>
-                            <td
-                              onClick={() => {
-                                rowDataHandler(
-                                  "isSelected",
-                                  i,
-                                  !item.isSelected
-                                );
-                              }}
-                              className="text-center"
+                        <thead>
+                          <tr>
+                            {' '}
+                            <th
+                              onClick={() => allSelect(!selectedAll())}
+                              style={{ minWidth: '30px' }}
                             >
                               <input
                                 type="checkbox"
-                                value={item?.isSelected}
-                                checked={item?.isSelected}
+                                value={selectedAll()}
+                                checked={selectedAll()}
                                 onChange={() => {}}
                               />
-                            </td>
-                            <td>{i + 1}</td>
-                            <td>{item?.vehicleName}</td>
-                            <td>{item?.vehicleCategory}</td>
-                            <td>
-                              <InputField
-                                name="tripTarget"
-                                value={item?.tripTarget}
-                                type="text"
-                                onChange={(e) => {
+                            </th>
+                            <th style={{ width: '50px' }}>SL</th>
+                            <th>Vehicle</th>
+                            <th>Vehicle Capacity</th>
+                            <th>Target Trip</th>
+                            <th>Avg. Target Trip</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.map((item, i) => (
+                            <tr key={i + 1}>
+                              <td
+                                onClick={() => {
                                   rowDataHandler(
-                                    "tripTarget",
+                                    'isSelected',
                                     i,
-                                    e?.target?.value
+                                    !item.isSelected
                                   );
                                 }}
-                              />
+                                className="text-center"
+                              >
+                                <input
+                                  type="checkbox"
+                                  value={item?.isSelected}
+                                  checked={item?.isSelected}
+                                  onChange={() => {}}
+                                />
+                              </td>
+                              <td>{i + 1}</td>
+                              <td>{item?.vehicleName}</td>
+                              <td>{item?.vehicleCategory}</td>
+                              <td>
+                                <InputField
+                                  name="tripTarget"
+                                  value={item?.tripTarget}
+                                  type="text"
+                                  onChange={(e) => {
+                                    rowDataHandler(
+                                      'tripTarget',
+                                      i,
+                                      e?.target?.value
+                                    );
+                                  }}
+                                />
+                              </td>
+                              <td>
+                                {_fixedPoint(
+                                  item?.tripTarget /
+                                    daysInMonth(
+                                      values?.month?.value,
+                                      values?.year?.value
+                                    ),
+                                  true
+                                ) || ''}
+                              </td>
+                            </tr>
+                          ))}
+                          <tr>
+                            <td className="text-right" colSpan={4}>
+                              <b>Total</b>
                             </td>
-                            <td>
-                              {_fixedPoint(
-                                item?.tripTarget /
-                                  daysInMonth(
-                                    values?.month?.value,
-                                    values?.year?.value
+                            <td className="text-left">
+                              <b>
+                                {_fixedPoint(
+                                  rowData?.reduce(
+                                    (total, curr) =>
+                                      (total += +curr?.tripTarget),
+                                    0
                                   ),
-                                true
-                              ) || ""}
+                                  true
+                                )}
+                              </b>
                             </td>
+                            <td></td>
                           </tr>
-                        ))}
-                        <tr>
-                          <td className="text-right" colSpan={4}>
-                            <b>Total</b>
-                          </td>
-                          <td className="text-left">
-                            <b>
-                              {_fixedPoint(
-                                rowData?.reduce(
-                                  (total, curr) => (total += +curr?.tripTarget),
-                                  0
-                                ),
-                                true
-                              )}
-                            </b>
-                          </td>
-                          <td></td>
-                        </tr>
-                      </tbody>
-                    </table>
+                        </tbody>
+                      </table>
                     </div>
                   )}
                 </div>
@@ -195,14 +196,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -1,14 +1,14 @@
-import { Formik } from "formik";
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import IViewModal from "../../../../_helper/_viewModal";
+import { Formik } from 'formik';
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import IViewModal from '../../../../_helper/_viewModal';
 
 const initData = {
-  lat: "",
-  long: "",
+  lat: '',
+  long: '',
 };
 
 export default function AddLatLong({ id, show, onHide }) {

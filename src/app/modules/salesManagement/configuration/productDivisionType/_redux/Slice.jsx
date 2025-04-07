@@ -1,15 +1,15 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
   error: '',
-  msg: "",
+  msg: '',
   gridData: [],
-  singleData: "",
+  singleData: '',
 };
 
 export const productDivisionTypeSlice = createSlice({
-  name: "productDivisionType",
+  name: 'productDivisionType',
   initialState: initState,
   reducers: {
     SetGridData: (state, action) => {
@@ -21,10 +21,8 @@ export const productDivisionTypeSlice = createSlice({
       const { payload } = action;
       state.singleData = payload;
     },
-    SetSingleStoreEmpty: state => {
-      state.singleData = "";
+    SetSingleStoreEmpty: (state) => {
+      state.singleData = '';
     },
-
-  }
+  },
 });
-

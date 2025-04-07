@@ -1,6 +1,6 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 
 export const getUnloadingInformationById = async (
   rowId,
@@ -52,9 +52,9 @@ export const getUnloadingInformationById = async (
       },
       receivedAt: receivedDate,
       unloadingStart: unloadStartDate,
-      unloadingDate: "",
-      unloadedQty: "",
-      unloadingComplete: unloadCompleteDate || "",
+      unloadingDate: '',
+      unloadedQty: '',
+      unloadingComplete: unloadCompleteDate || '',
       isComplete: unloadCompleteDate ? true : false,
       item: {
         value: itemId,
@@ -113,10 +113,10 @@ export const getLoadingInfoByVoyageNo = async (
       },
       receivedAt: row?.receiveDate,
       unloadingStart: row?.unloadStartDate,
-      unloadingDate: "",
-      unloadedQty: type === "modify" ? row?.receiveQnt : "",
-      unloadingComplete: row.unloadCompleteDate || "",
-      rowId: type === "modify" ? row?.rowId : "",
+      unloadingDate: '',
+      unloadedQty: type === 'modify' ? row?.receiveQnt : '',
+      unloadingComplete: row.unloadCompleteDate || '',
+      rowId: type === 'modify' ? row?.rowId : '',
       isComplete: row.unloadCompleteDate ? true : false,
       item: {
         value: row?.itemId,
@@ -153,7 +153,7 @@ export const getInfoForUnloading = async (
     // /tms/LigterLoadUnload/GetLighterLoadingInfoToUnload?DestinationId=2&MotherVesselId=127&LighterVesselId=330
 
     if (res?.data?.length < 1) {
-      toast.warn("Loading Information not Found for This Lighter!");
+      toast.warn('Loading Information not Found for This Lighter!');
     } else {
       cb(res?.data[0]);
     }
@@ -227,29 +227,29 @@ export const CreateLighterDumpBill = async (data, cb) => {
 // Validation schema
 export const validationSchema = Yup.object().shape({
   shipPoint: Yup.object().shape({
-    label: Yup.string().required("ShipPoint is required"),
-    value: Yup.string().required("ShipPoint is required"),
+    label: Yup.string().required('ShipPoint is required'),
+    value: Yup.string().required('ShipPoint is required'),
   }),
   motherVessel: Yup.object().shape({
-    label: Yup.string().required("Mother Vessel is required"),
-    value: Yup.string().required("Mother Vessel is required"),
+    label: Yup.string().required('Mother Vessel is required'),
+    value: Yup.string().required('Mother Vessel is required'),
   }),
   // programNo: Yup.object().shape({
   //   label: Yup.string().required("Program is required"),
   //   value: Yup.string().required("Program is required"),
   // }),
   lighterVessel: Yup.object().shape({
-    label: Yup.string().required("Lighter Vessel is required"),
-    value: Yup.string().required("Lighter Vessel is required"),
+    label: Yup.string().required('Lighter Vessel is required'),
+    value: Yup.string().required('Lighter Vessel is required'),
   }),
   // lighterDestination: Yup.object().shape({
   //   label: Yup.string().required("Lighter Destination is required"),
   //   value: Yup.string().required("Lighter Destination is required"),
   // }),
-  receivedAt: Yup.string().required("Received At is required"),
-  unloadingStart: Yup.string().required("Unloading Start Date is required"),
+  receivedAt: Yup.string().required('Received At is required'),
+  unloadingStart: Yup.string().required('Unloading Start Date is required'),
   // unloadingDate: Yup.string().required("Unloading Date is required"),
-  unloadedQty: Yup.string().required("Unloaded Qty is required"),
+  unloadedQty: Yup.string().required('Unloaded Qty is required'),
   // unloadingComplete: Yup.string().when("isComplete", {
   //   is: true,
   //   then: Yup.string().required("Unloading completion date is required"),
@@ -257,9 +257,9 @@ export const validationSchema = Yup.object().shape({
   // }),
 
   // Unloading Completion Date is required only values?.unloadingComplete is true
-  unloadingComplete: Yup.string().when("isComplete", {
+  unloadingComplete: Yup.string().when('isComplete', {
     is: true,
-    then: Yup.string().required("Unloading completion date is required"),
+    then: Yup.string().required('Unloading completion date is required'),
     otherwise: false,
   }),
 });

@@ -1,20 +1,20 @@
-import React, { useState, } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "./../../../../../_helper/_form";
-import { _todayDate } from "./../../../../../_helper/_todayDate";
-import Loading from "./../../../../../_helper/_loading";
-import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import { compressfile } from "../../../../../_helper/compressfile";
-import { attachmentUpload } from "../../../../../_helper/attachmentUpload";
-import { postOthersBillEntry } from "../helper";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from './../../../../../_helper/_form';
+import { _todayDate } from './../../../../../_helper/_todayDate';
+import Loading from './../../../../../_helper/_loading';
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { compressfile } from '../../../../../_helper/compressfile';
+import { attachmentUpload } from '../../../../../_helper/attachmentUpload';
+import { postOthersBillEntry } from '../helper';
 
 const initData = {
-  partnerType: "",
-  partner: "",
-  billAmount:0,
-  narration:"",
-  billDate:_todayDate()
+  partnerType: '',
+  partner: '',
+  billAmount: 0,
+  narration: '',
+  billDate: _todayDate(),
 };
 
 export default function OthersBillForm({ landingValue }) {
@@ -30,12 +30,16 @@ export default function OthersBillForm({ landingValue }) {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-
-
   const saveHandler = async (values, cb) => {
     try {
-      const compressedFile = fileObjects?.length > 0 ? await compressfile(fileObjects?.map((f) => f.file)) : [];
-      const uploadedData = compressedFile?.length>0 ?  await attachmentUpload(compressedFile) : [];
+      const compressedFile =
+        fileObjects?.length > 0
+          ? await compressfile(fileObjects?.map((f) => f.file))
+          : [];
+      const uploadedData =
+        compressedFile?.length > 0
+          ? await attachmentUpload(compressedFile)
+          : [];
       const payload = {
         accountId: profileData?.accountId,
         businessUnitId: selectedBusinessUnit?.value,
@@ -49,9 +53,12 @@ export default function OthersBillForm({ landingValue }) {
         billAmount: values?.billAmount,
         actionById: profileData?.userId,
         billDate: values?.billDate,
-        imageString: uploadedData?.length > 0 ? uploadedData.map(item=>({imageId:item?.id})):[{imageId:""}]
-      }
-      postOthersBillEntry(payload, cb)
+        imageString:
+          uploadedData?.length > 0
+            ? uploadedData.map((item) => ({ imageId: item?.id }))
+            : [{ imageId: '' }],
+      };
+      postOthersBillEntry(payload, cb);
     } catch (error) {
       setDisabled(false);
     }
@@ -76,7 +83,6 @@ export default function OthersBillForm({ landingValue }) {
           setFileObjects={setFileObjects}
           fileObjects={fileObjects}
           setDisabled={setDisabled}
-
         />
       </IForm>
     </div>

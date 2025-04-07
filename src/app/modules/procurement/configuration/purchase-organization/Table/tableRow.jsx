@@ -1,4 +1,3 @@
-
 import React, { useEffect, useMemo, useState } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
@@ -34,8 +33,8 @@ export function TableRow() {
           selectedBusinessUnit.value,
           setLoading,
           pageNo,
-          pageSize,
-        ),
+          pageSize
+        )
       );
     }
   }, [selectedBusinessUnit, profileData]);
@@ -91,8 +90,8 @@ export function TableRow() {
         selectedBusinessUnit?.value,
         setLoading,
         pageNo,
-        pageSize,
-      ),
+        pageSize
+      )
     );
   };
 

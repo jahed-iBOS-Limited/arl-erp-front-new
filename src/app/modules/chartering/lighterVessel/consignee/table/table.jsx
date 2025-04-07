@@ -1,23 +1,21 @@
-
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 // import IEdit from "../../../_chartinghelper/icons/_edit";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import PaginationTable from "../../../_chartinghelper/_tablePagination";
-import IViewModal from "../../../_chartinghelper/_viewModal";
-import ConsigneeForm from "../Form/addEditForm";
-import { getConsigneeList } from "../helper";
+import Loading from '../../../_chartinghelper/loading/_loading';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import PaginationTable from '../../../_chartinghelper/_tablePagination';
+import IViewModal from '../../../_chartinghelper/_viewModal';
+import ConsigneeForm from '../Form/addEditForm';
+import { getConsigneeList } from '../helper';
 
 const headers = [
-  { name: "SL" },
-  { name: "Code" },
-  { name: "Consignee Name" },
-  { name: "Mobile No" },
-  { name: "Email" },
-  { name: "Address" },
-  { name: "License Number" },
+  { name: 'SL' },
+  { name: 'Code' },
+  { name: 'Consignee Name' },
+  { name: 'Mobile No' },
+  { name: 'Email' },
+  { name: 'Address' },
+  { name: 'License Number' },
   // { name: "Actions" },
 ];
 
@@ -75,7 +73,7 @@ export default function ConsigneeTable() {
         <ICustomTable ths={headers}>
           {gridData?.data?.map((item, index) => (
             <tr key={index}>
-              <td className="text-center" style={{ width: "40px" }}>
+              <td className="text-center" style={{ width: '40px' }}>
                 {index + 1}
               </td>
               <td>{item?.businessPartnerCode}</td>

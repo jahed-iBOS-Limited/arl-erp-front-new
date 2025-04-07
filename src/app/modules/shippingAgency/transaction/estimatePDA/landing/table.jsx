@@ -1,10 +1,10 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import IViewModal from "../../../../_helper/_viewModal";
-import ViewInvoice from "./viewInvoice";
-import ViewRegistrationInvoice from "../../../configuration/registration/landing/viewInvoice";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
+import IViewModal from '../../../../_helper/_viewModal';
+import ViewInvoice from './viewInvoice';
+import ViewRegistrationInvoice from '../../../configuration/registration/landing/viewInvoice';
 
 const LandingTable = ({ obj }) => {
   const { gridData } = obj;
@@ -14,8 +14,8 @@ const LandingTable = ({ obj }) => {
   const [isViewModalReg, setIsViewModalReg] = React.useState(false);
 
   return (
-    <div className='table-responsive'>
-      <table className='table table-striped table-bordered global-table'>
+    <div className="table-responsive">
+      <table className="table table-striped table-bordered global-table">
         <thead>
           <tr>
             <th>SL</th>
@@ -30,15 +30,19 @@ const LandingTable = ({ obj }) => {
             <th>Estimated Amount</th>
             <th>Final Amount</th>
             <th>Actual Amount</th>
-            <th style={{
-              width: '70px'
-            }}>Action</th>
+            <th
+              style={{
+                width: '70px',
+              }}
+            >
+              Action
+            </th>
           </tr>
         </thead>
         <tbody>
           {gridData?.data?.map((item, index) => (
             <tr key={index}>
-              <td className='text-center'> {index + 1}</td>
+              <td className="text-center"> {index + 1}</td>
               <td>{item?.sbuName}</td>
               <td>{item?.vesselName}</td>
               <td>{item?.voyageNo}</td>
@@ -52,9 +56,9 @@ const LandingTable = ({ obj }) => {
               <td>{item?.actualAmount}</td>
               <td>
                 <div
-                  className='d-flex'
+                  className="d-flex"
                   style={{
-                    gap: "8px",
+                    gap: '8px',
                   }}
                 >
                   <span
@@ -82,7 +86,7 @@ const LandingTable = ({ obj }) => {
                         setViewClickRowItem(item);
                       }}
                     >
-                      <IView title='Registration View' />
+                      <IView title="Registration View" />
                     </span>
                   ) : null}
                 </div>

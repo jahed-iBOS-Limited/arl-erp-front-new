@@ -1,9 +1,9 @@
-import * as Yup from "yup";
+import * as Yup from 'yup';
 export const initData = {
-  activityName: "",
-  employee: "",
-  fromDate: "",
-  toDate: "",
+  activityName: '',
+  employee: '',
+  fromDate: '',
+  toDate: '',
 };
 
 export const validationSchema = Yup.object().shape({
@@ -23,19 +23,19 @@ export const validationSchema = Yup.object().shape({
 
   fromDate: Yup.date()
     .nullable()
-    .when(["activityName", "employee"], {
+    .when(['activityName', 'employee'], {
       is: (activityName, employee) => !activityName && !employee,
       then: (schema) =>
-        schema.typeError("Invalid date").required("From Date is required"),
+        schema.typeError('Invalid date').required('From Date is required'),
       otherwise: (schema) => schema.nullable(),
     }),
 
   toDate: Yup.date()
     .nullable()
-    .when(["activityName", "employee"], {
+    .when(['activityName', 'employee'], {
       is: (activityName, employee) => !activityName && !employee,
       then: (schema) =>
-        schema.typeError("Invalid date").required("To Date is required"),
+        schema.typeError('Invalid date').required('To Date is required'),
       otherwise: (schema) => schema.nullable(),
     }),
 });

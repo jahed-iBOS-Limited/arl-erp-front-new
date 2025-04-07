@@ -1,10 +1,11 @@
- th, td {
-    border: 1px solid black;
-  }
- td.no-data {
-    border: 0px;
-  }
-.secondLevelTd  td{
-    border: none;
-    border-bottom: 1px solid black !important;
-  }
+th,
+td {
+  border: 1px solid black;
+}
+td.no-data {
+  border: 0px;
+}
+.secondLevelTd td {
+  border: none;
+  border-bottom: 1px solid black !important;
+}

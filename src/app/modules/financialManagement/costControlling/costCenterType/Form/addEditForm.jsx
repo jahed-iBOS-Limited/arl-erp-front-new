@@ -1,22 +1,21 @@
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-
-import Form from "./form";
+import Form from './form';
 import {
   saveCostCenterTypeData,
   getControllingUnitById,
   setControllingUnitSingleEmpty,
   saveEditedCostCenterTypeData,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
-import { getControllingUnitDDLAction } from "../../../../_helper/_redux/Actions";
-import Loading from "./../../../../_helper/_loading";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
+import { getControllingUnitDDLAction } from '../../../../_helper/_redux/Actions';
+import Loading from './../../../../_helper/_loading';
 
 const initData = {
   id: undefined,
-  costCentertypeName: "",
-  controllingUnit: "",
+  costCentertypeName: '',
+  controllingUnit: '',
 };
 
 export default function CostCenterTypeForm({
@@ -53,7 +52,6 @@ export default function CostCenterTypeForm({
     } else {
       dispatch(setControllingUnitSingleEmpty());
     }
-
   }, []);
 
   // //Dispatch get controlling unit name for dropdown
@@ -66,11 +64,9 @@ export default function CostCenterTypeForm({
         )
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {
-
     setDisabled(true);
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (id) {
@@ -81,7 +77,7 @@ export default function CostCenterTypeForm({
           businessUnitId: selectedBusinessUnit.value,
           actionBy: profileData.userId,
           controllingUnitId: values.controllingUnit?.value,
-          lastActionDateTime: "2020-08-19T08:18:34.030Z",
+          lastActionDateTime: '2020-08-19T08:18:34.030Z',
           active: true,
         };
         dispatch(saveEditedCostCenterTypeData(payload, setDisabled));
@@ -92,14 +88,13 @@ export default function CostCenterTypeForm({
           businessUnitId: selectedBusinessUnit.value,
           actionBy: profileData.userId,
           controllingUnitId: values.controllingUnit?.value,
-          lastActionDateTime: "2020-08-19T08:18:34.030Z",
+          lastActionDateTime: '2020-08-19T08:18:34.030Z',
           active: true,
         };
         dispatch(saveCostCenterTypeData({ data: payload, cb, setDisabled }));
       }
     } else {
       setDisabled(false);
-
     }
   };
 

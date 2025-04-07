@@ -1,25 +1,24 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
-import { _monthLastDate } from "../../../_helper/_monthLastDate";
-import PaginationSearch from "../../../_helper/_search";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _timeFormatter } from "../../../_helper/_timeFormatter";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _monthFirstDate } from '../../../_helper/_monthFirstDate';
+import { _monthLastDate } from '../../../_helper/_monthLastDate';
+import PaginationSearch from '../../../_helper/_search';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _timeFormatter } from '../../../_helper/_timeFormatter';
 
 const initData = {
   fromDate: _monthFirstDate(),
@@ -50,7 +49,7 @@ function CargoUnloadingStatement() {
     );
   }, []);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getlandingData(
       `/mes/MSIL/GetCargoUnloadingStatementLanding?fromDate=${values?.fromDate}&toDate=${values?.toDate}&intAccountId=${profileData?.accountId}&intBusinessUnitId=${selectedBusinessUnit?.value}&pageNo=${pageNo}&pageSize=${pageSize}&search=${searchValue}`
     );
@@ -72,7 +71,7 @@ function CargoUnloadingStatement() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Cargo Unloading Statement"}>
+              <CardHeader title={'Cargo Unloading Statement'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
@@ -97,7 +96,7 @@ function CargoUnloadingStatement() {
                       name="fromDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                       }}
                       errors={errors}
                       touched={touched}
@@ -110,7 +109,7 @@ function CargoUnloadingStatement() {
                       name="toDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                       errors={errors}
                       touched={touched}
@@ -119,7 +118,7 @@ function CargoUnloadingStatement() {
 
                   <div>
                     <button
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                       type="button"
                       className="btn btn-primary ml-3"
                       disabled={!values?.fromDate || !values?.toDate}
@@ -146,51 +145,51 @@ function CargoUnloadingStatement() {
                           <table className="table table-striped table-bordered bj-table bj-table-landing">
                             <thead>
                               <tr>
-                                <th style={{ minWidth: "30px" }}>Sl</th>
-                                <th style={{ minWidth: "120px" }}>
+                                <th style={{ minWidth: '30px' }}>Sl</th>
+                                <th style={{ minWidth: '120px' }}>
                                   Lighter Vessel Name
                                 </th>
-                                <th style={{ minWidth: "120px" }}>
+                                <th style={{ minWidth: '120px' }}>
                                   Unload Type
                                 </th>
-                                <th style={{ minWidth: "85px" }}>
+                                <th style={{ minWidth: '85px' }}>
                                   Recieve Date
                                 </th>
-                                <th style={{ minWidth: "85px" }}>
+                                <th style={{ minWidth: '85px' }}>
                                   Recieve Time
                                 </th>
-                                <th style={{ minWidth: "85px" }}>Start Date</th>
-                                <th style={{ minWidth: "85px" }}>Start Time</th>
-                                <th style={{ minWidth: "85px" }}>End Date</th>
-                                <th style={{ minWidth: "85px" }}>End Time</th>
-                                <th style={{ minWidth: "85px" }}>
+                                <th style={{ minWidth: '85px' }}>Start Date</th>
+                                <th style={{ minWidth: '85px' }}>Start Time</th>
+                                <th style={{ minWidth: '85px' }}>End Date</th>
+                                <th style={{ minWidth: '85px' }}>End Time</th>
+                                <th style={{ minWidth: '85px' }}>
                                   Material Name
                                 </th>
-                                <th style={{ minWidth: "85px" }}>BN QTY</th>
-                                <th style={{ minWidth: "85px" }}>Survey QTY</th>
-                                <th style={{ minWidth: "85px" }}>Survey No</th>
-                                <th style={{ minWidth: "85px" }}>
+                                <th style={{ minWidth: '85px' }}>BN QTY</th>
+                                <th style={{ minWidth: '85px' }}>Survey QTY</th>
+                                <th style={{ minWidth: '85px' }}>Survey No</th>
+                                <th style={{ minWidth: '85px' }}>
                                   Mobile Number
                                 </th>
                                 {/* <th style={{ minWidth: "120px" }}>PO Number</th> */}
                                 {/* <th style={{ minWidth: "85px" }}>LC Number</th> */}
-                                <th style={{ minWidth: "85px" }}>
+                                <th style={{ minWidth: '85px' }}>
                                   Unload Point
                                 </th>
-                                <th style={{ minWidth: "120px" }}>
+                                <th style={{ minWidth: '120px' }}>
                                   Number of Hatch
                                 </th>
-                                <th style={{ minWidth: "85px" }}>C.O.O</th>
-                                <th style={{ minWidth: "85px" }}>
+                                <th style={{ minWidth: '85px' }}>C.O.O</th>
+                                <th style={{ minWidth: '85px' }}>
                                   Mother Vessel
                                 </th>
                                 {/* <th style={{ minWidth: "120px" }}>
                                 Raw Material Name
                               </th> */}
                                 {/* <th style={{ minWidth: "85px" }}>UoM</th> */}
-                                <th style={{ minWidth: "85px" }}>Remarks</th>
-                                <th style={{ minWidth: "85px" }}>Status</th>
-                                <th style={{ minWidth: "50px" }}>Action</th>
+                                <th style={{ minWidth: '85px' }}>Remarks</th>
+                                <th style={{ minWidth: '85px' }}>Status</th>
+                                <th style={{ minWidth: '50px' }}>Action</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -203,34 +202,34 @@ function CargoUnloadingStatement() {
                                     <td className="text-center">
                                       {item?.dteReceiveDate
                                         ? _dateFormatter(item?.dteReceiveDate)
-                                        : "N/A"}
+                                        : 'N/A'}
                                     </td>
                                     <td className="text-center">
                                       {item?.tmReceiveTime
                                         ? _timeFormatter(
-                                            item?.tmReceiveTime || "N/A"
+                                            item?.tmReceiveTime || 'N/A'
                                           )
-                                        : "N/A"}
+                                        : 'N/A'}
                                     </td>
                                     <td className="text-center">
                                       {item?.dteStartDate
                                         ? _dateFormatter(item?.dteStartDate)
-                                        : "N/A"}
+                                        : 'N/A'}
                                     </td>
                                     <td className="text-center">
                                       {item?.tmStartTime
                                         ? _timeFormatter(item?.tmStartTime)
-                                        : "N/A"}
+                                        : 'N/A'}
                                     </td>
                                     <td className="text-center">
                                       {item?.dteEndDate
                                         ? _dateFormatter(item?.dteEndDate)
-                                        : "N/A"}
+                                        : 'N/A'}
                                     </td>
                                     <td className="text-center">
                                       {item?.tmEndTime
-                                        ? _timeFormatter(item?.tmEndTime || "")
-                                        : "N/A"}
+                                        ? _timeFormatter(item?.tmEndTime || '')
+                                        : 'N/A'}
                                     </td>
                                     <td className="text-left">
                                       {item?.strRawMaterialName}
@@ -257,15 +256,16 @@ function CargoUnloadingStatement() {
                                     <td
                                       style={{
                                         backgroundColor:
-                                          item.status === "Released"
-                                            ? "#53C557"
-                                            : item.status === "Waiting"
-                                            ? "#E26B0A"
-                                            : item.status === "Work in Progress"
-                                            ? "#F3FF00"
-                                            : item.status === "Stop/Problem"
-                                            ? "#FF0000"
-                                            : "",
+                                          item.status === 'Released'
+                                            ? '#53C557'
+                                            : item.status === 'Waiting'
+                                              ? '#E26B0A'
+                                              : item.status ===
+                                                  'Work in Progress'
+                                                ? '#F3FF00'
+                                                : item.status === 'Stop/Problem'
+                                                  ? '#FF0000'
+                                                  : '',
                                       }}
                                     >
                                       {item?.status}

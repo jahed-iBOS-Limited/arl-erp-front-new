@@ -21,30 +21,29 @@ function FeedbackModal({ clickRowData, landingCB }) {
         if (clickRowData?.status === 'Close') {
           formikRef.current.setFieldValue(
             'feedback',
-            resData?.closingReviewMessage || '',
+            resData?.closingReviewMessage || ''
           );
           setReview(resData?.closingReview || 0);
           formikRef.current.setFieldValue('status', 'Close');
         } else {
           const matchEmployee = resData?.investigationInfo?.find(
-            (itm) => itm?.investigatorId === employeeId,
+            (itm) => itm?.investigatorId === employeeId
           );
           if (formikRef.current) {
             formikRef.current.setFieldValue(
               'feedback',
-              matchEmployee?.investigationReviewMessage || '',
+              matchEmployee?.investigationReviewMessage || ''
             );
 
             setReview(matchEmployee?.investigationReview || 0);
             formikRef.current.setFieldValue(
               'autoId',
-              matchEmployee?.autoId || '',
+              matchEmployee?.autoId || ''
             );
           }
         }
       });
     }
-
   }, [clickRowData]);
 
   return (

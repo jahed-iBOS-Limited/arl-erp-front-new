@@ -1,19 +1,19 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import AllReportSearchInput from "./allReportSearchInput";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import AllReportSearchInput from './allReportSearchInput';
 // import { allSheetData } from "./data";
-import ICustomCard from "../../_helper/_customCard";
-import Loading from "../../_helper/_loading";
-import "./style.scss";
-import { fetchEmpBasicInfo } from "./utility";
-import { _dateFormatter } from "../../_helper/_dateFormate";
+import ICustomCard from '../../_helper/_customCard';
+import Loading from '../../_helper/_loading';
+import './style.scss';
+import { fetchEmpBasicInfo } from './utility';
+import { _dateFormatter } from '../../_helper/_dateFormate';
 function BusinessGlossaryReport() {
   const [renderList, setRenderList] = useState([]);
-  const [searchInput, setSearchInput] = useState("");
+  const [searchInput, setSearchInput] = useState('');
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     try {
-      fetchEmpBasicInfo("", setRenderList, setLoading);
+      fetchEmpBasicInfo('', setRenderList, setLoading);
     } catch (error) {
       console.log(error);
     }
@@ -24,9 +24,9 @@ function BusinessGlossaryReport() {
   };
 
   return (
-    <div className='AllReportWrapper'>
+    <div className="AllReportWrapper">
       {loading && <Loading />}
-      <ICustomCard title='Business Glossary Report'>
+      <ICustomCard title="Business Glossary Report">
         <Formik
           enableReinitialize={true}
           initialValues={{}}
@@ -42,11 +42,11 @@ function BusinessGlossaryReport() {
             isValid,
           }) => (
             <>
-              <Form className='form form-label-left'>
-                <div className='row'>
-                  <div className='col-lg-9 mt-1'>
+              <Form className="form form-label-left">
+                <div className="row">
+                  <div className="col-lg-9 mt-1">
                     <AllReportSearchInput
-                      placeholder='Report Search'
+                      placeholder="Report Search"
                       paginationSearchHandler={(value) => {
                         searchHandler(value);
                       }}
@@ -61,15 +61,15 @@ function BusinessGlossaryReport() {
                     setListRender(!listRender)
                   }}>Click</div> */}
                 </div>
-                <div className='row mt-1'>
-                  <div className='col-lg-12'>
+                <div className="row mt-1">
+                  <div className="col-lg-12">
                     <>
-                      {" "}
-                      <div className='table-responsive'>
-                        <table className='table table-striped table-bordered global-table mt-0'>
+                      {' '}
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered global-table mt-0">
                           <thead>
                             <tr>
-                              <th style={{ width: "30px" }}>SL</th>
+                              <th style={{ width: '30px' }}>SL</th>
                               <th>Date</th>
                               <th>Business Category</th>
                               <th>SBU</th>
@@ -86,12 +86,13 @@ function BusinessGlossaryReport() {
                           </thead>
                           <tbody>
                             {renderList?.map((itm, idx) => {
-                              
                               return (
                                 <>
                                   <tr key={idx + 1}>
                                     <td>{idx + 1}</td>
-                                    <td>{_dateFormatter(itm?.dteCreateDate)}</td>
+                                    <td>
+                                      {_dateFormatter(itm?.dteCreateDate)}
+                                    </td>
                                     <td>{itm?.strBusinessCategory}</td>
                                     <td>{itm?.strSbu}</td>
                                     <td>{itm?.strSection}</td>

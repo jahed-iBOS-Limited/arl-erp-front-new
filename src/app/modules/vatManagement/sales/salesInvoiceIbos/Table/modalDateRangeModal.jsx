@@ -1,12 +1,12 @@
-import React, { useRef } from "react";
-import { useState } from "react";
-import { useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useReactToPrint } from "react-to-print";
-import ISpinner from "../../../../_helper/_spinner";
-import PrintViewSixPointThree from "../../createSales/printView";
-import { GetTaxSalesInvoiceListApi } from "../helper";
-import printIcon from "./../../../../_helper/images/print-icon.png";
+import React, { useRef } from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useReactToPrint } from 'react-to-print';
+import ISpinner from '../../../../_helper/_spinner';
+import PrintViewSixPointThree from '../../createSales/printView';
+import { GetTaxSalesInvoiceListApi } from '../helper';
+import printIcon from './../../../../_helper/images/print-icon.png';
 function ModalDateRangeModal({ values }) {
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -23,7 +23,6 @@ function ModalDateRangeModal({ values }) {
       setGridData,
       setLoading
     );
-
   }, []);
 
   const componentRef = useRef();
@@ -41,13 +40,13 @@ function ModalDateRangeModal({ values }) {
               <button
                 type="button"
                 className="btn btn-primary"
-                style={{ padding: "5px 11px" }}
+                style={{ padding: '5px 11px' }}
                 onClick={handlePrint}
               >
                 <img
                   src={printIcon}
                   alt="print-icon"
-                  style={{ width: "15px" }}
+                  style={{ width: '15px' }}
                 />
                 Print
               </button>

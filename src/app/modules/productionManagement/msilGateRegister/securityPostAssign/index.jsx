@@ -1,24 +1,24 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import IView from "../../../_helper/_helperIcons/_view";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import PaginationTable from "../../../_helper/_tablePagination";
-import IViewModal from "../../../_helper/_viewModal";
-import SecurityPostAssignDetailsView from "./detailsViewModal";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import IView from '../../../_helper/_helperIcons/_view';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import PaginationTable from '../../../_helper/_tablePagination';
+import IViewModal from '../../../_helper/_viewModal';
+import SecurityPostAssignDetailsView from './detailsViewModal';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
 
 function SecurityPostAssign() {
   const history = useHistory();
@@ -36,14 +36,13 @@ function SecurityPostAssign() {
     getRowData(
       `/mes/MSIL/GetAllSecurityPostAssignLanding?intBusinessUnitId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}`
     );
-
   }, []);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getRowData(
       `/mes/MSIL/GetAllSecurityPostAssignLanding?intBusinessUnitId=${
         selectedBusinessUnit?.value
-      }&PageNo=${pageNo}&PageSize=${pageSize}&date=${values?.date || ""}`
+      }&PageNo=${pageNo}&PageSize=${pageSize}&date=${values?.date || ''}`
     );
   };
 
@@ -59,7 +58,7 @@ function SecurityPostAssign() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Security Post Assign"}>
+              <CardHeader title={'Security Post Assign'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
@@ -86,22 +85,23 @@ function SecurityPostAssign() {
                         name="date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("date", e.target.value);
+                          setFieldValue('date', e.target.value);
                           //setDate(e.target.value);
                         }}
                       />
                     </div>
                     <div>
                       <button
-                        style={{ marginTop: "18px" }}
+                        style={{ marginTop: '18px' }}
                         className="btn btn-primary ml-2"
                         disabled={false}
                         onClick={() => {
                           getRowData(
                             `/mes/MSIL/GetAllSecurityPostAssignLanding?intBusinessUnitId=${
                               selectedBusinessUnit?.value
-                            }&PageNo=${pageNo}&PageSize=${pageSize}&date=${values?.date ||
-                              ""}`
+                            }&PageNo=${pageNo}&PageSize=${pageSize}&date=${
+                              values?.date || ''
+                            }`
                           );
                         }}
                       >
@@ -116,7 +116,7 @@ function SecurityPostAssign() {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>তারিখ</th>
                             <th>শিফট</th>
                             {/* <th>নাম</th>
@@ -125,7 +125,7 @@ function SecurityPostAssign() {
                           <th>প্রবেশের সময়</th>
                           <th>বহির্গমনের সময়</th>
                           <th>মন্তব্য</th> */}
-                            <th style={{ width: "80px" }}>Action</th>
+                            <th style={{ width: '80px' }}>Action</th>
                           </tr>
                         </thead>
                         <tbody>

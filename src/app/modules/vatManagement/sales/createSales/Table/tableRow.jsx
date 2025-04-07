@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { getGridData, getSalesInvoiceById } from "../helper";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { SearchForm } from "./form";
-import IView from "../../../../_helper/_helperIcons/_view";
-import SalesInvoiceModel from "../viewModal";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import { GetTaxSalesInvoicePrintStatus_api } from "./../helper";
-import { setSalesLanding_Action } from "../../../../_helper/reduxForLocalStorage/Actions";
-import PaginationTable from "../../../../_helper/_tablePagination";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { getGridData, getSalesInvoiceById } from '../helper';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { SearchForm } from './form';
+import IView from '../../../../_helper/_helperIcons/_view';
+import SalesInvoiceModel from '../viewModal';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import { GetTaxSalesInvoicePrintStatus_api } from './../helper';
+import { setSalesLanding_Action } from '../../../../_helper/reduxForLocalStorage/Actions';
+import PaginationTable from '../../../../_helper/_tablePagination';
 
 export function TableRow() {
   const [gridData, setGridData] = useState([]);
@@ -20,8 +20,8 @@ export function TableRow() {
   const [loading, setLoading] = useState(false);
   const [salesInvoicePrintStatus, setSalesInvoicePrintStatus] = useState(false);
   const [modelShow, setModelShow] = useState(false);
-  const [salesTableRowDto, setSalesTableRowDto] = useState("");
-  const [searchFormValues, setSearchFormValues] = useState("");
+  const [salesTableRowDto, setSalesTableRowDto] = useState('');
+  const [searchFormValues, setSearchFormValues] = useState('');
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
   // get user profile data from store
@@ -80,14 +80,14 @@ export function TableRow() {
               <table className="table table-striped table-bordered mt-3 global-table">
                 <thead>
                   <tr>
-                    <th style={{ width: "35px" }}>SL</th>
-                    <th style={{ width: "100px" }}>Sales Inv No</th>
-                    <th style={{ width: "127px" }}>Customer Name</th>
-                    <th style={{ width: "500px" }}>Customer Addres</th>
-                    <th style={{ width: "100px" }}>Delivery Date</th>
-                    <th style={{ width: "100px" }}>Shipping No</th>
-                    <th style={{ width: "100px" }}>Transaction Date</th>
-                    <th style={{ width: "70px" }}>Actions</th>
+                    <th style={{ width: '35px' }}>SL</th>
+                    <th style={{ width: '100px' }}>Sales Inv No</th>
+                    <th style={{ width: '127px' }}>Customer Name</th>
+                    <th style={{ width: '500px' }}>Customer Addres</th>
+                    <th style={{ width: '100px' }}>Delivery Date</th>
+                    <th style={{ width: '100px' }}>Shipping No</th>
+                    <th style={{ width: '100px' }}>Transaction Date</th>
+                    <th style={{ width: '70px' }}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -171,7 +171,7 @@ export function TableRow() {
         onHide={() => {
           setSingleData({});
           setModelShow(false);
-          setSalesInvoicePrintStatus(false)
+          setSalesInvoicePrintStatus(false);
         }}
         singleData={singleData}
         salesInvoicePrintStatus={salesInvoicePrintStatus}

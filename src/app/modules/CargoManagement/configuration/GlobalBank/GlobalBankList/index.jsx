@@ -22,17 +22,16 @@ export default function GlobalBankList() {
 
   React.useEffect(() => {
     commonLandingApi();
-
   }, []);
   const commonLandingApi = (
     searchValue,
     PageNo = pageNo,
-    PageSize = pageSize,
+    PageSize = pageSize
   ) => {
     GetGlobalBankList(
       `${imarineBaseUrl}/domain/ShippingService/GetGlobalBankLanding?PageNo=${PageNo}&PageSize=${PageSize}&search=${
         searchValue ?? ''
-      }`,
+      }`
     );
   };
   const handleDelete = (id) => {
@@ -42,7 +41,7 @@ export default function GlobalBankList() {
       () => {
         commonLandingApi();
         toast.success('Bank Deleted Successfully');
-      },
+      }
     );
   };
 
@@ -96,7 +95,7 @@ export default function GlobalBankList() {
                         className="btn btn-primary"
                         onClick={() => {
                           history.push(
-                            `/cargoManagement/configuration/globalBank/edit/${item?.bankId}`,
+                            `/cargoManagement/configuration/globalBank/edit/${item?.bankId}`
                           );
                         }}
                       >

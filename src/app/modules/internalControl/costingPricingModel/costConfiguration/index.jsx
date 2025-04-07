@@ -1,5 +1,3 @@
-
-
 import React, { useMemo } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
 import { shallowEqual, useSelector } from 'react-redux';
@@ -24,11 +22,11 @@ function CostingPricingModel() {
 
   const { userRole, selectedBusinessUnit, profileData } = useSelector(
     (state) => state.authData,
-    shallowEqual,
+    shallowEqual
   );
   const permissionForAdministration = useMemo(
     () => userRole?.find((item) => item?.intFeatureId === 1276),
-    [],
+    []
   );
   return (
     <>

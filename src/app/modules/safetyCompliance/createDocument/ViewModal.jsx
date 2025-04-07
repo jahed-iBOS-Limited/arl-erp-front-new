@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from "react";
-import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
-import { downloadFile } from "../../_helper/downloadFile";
-import Loading from "../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import useAxiosGet from '../../_helper/customHooks/useAxiosGet';
+import { downloadFile } from '../../_helper/downloadFile';
+import Loading from '../../_helper/_loading';
 
 const ViewModal = ({ currentItem }) => {
   const [rowDto, getRowDto, loading] = useAxiosGet();
   const [fileLoading, setFileLoading] = useState(false);
 
-  console.log("Current item", currentItem);
+  console.log('Current item', currentItem);
 
   useEffect(() => {
     getRowDto(
       `/hcm/SafetyAndCompliance/LegalDocumentALLGET?strPartType=LegalDocumentNameFileById&intDocumentId=${currentItem?.intDocumentId}`
     );
-
   }, [currentItem]);
 
   return (
@@ -39,9 +38,9 @@ const ViewModal = ({ currentItem }) => {
       >
         <thead>
           <tr>
-            <th style={{ width: "100px" }}>SL</th>
+            <th style={{ width: '100px' }}>SL</th>
             <th>File Name</th>
-            <th style={{ width: "100px" }}>Action</th>
+            <th style={{ width: '100px' }}>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -54,7 +53,7 @@ const ViewModal = ({ currentItem }) => {
                   className="btn btn-primary mr-1"
                   type="button"
                   onClick={() => {
-                    let arr = data?.strFileUrl?.split(".");
+                    let arr = data?.strFileUrl?.split('.');
 
                     downloadFile(
                       `/domain/Document/DownlloadFile?id=${data?.strFileUrl}`,

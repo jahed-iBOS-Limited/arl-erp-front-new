@@ -1,15 +1,14 @@
-
-import React from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { IInput } from "../../../../_helper/_input";
-import ICalendar from "../../../../_helper/_inputCalender";
+import React from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { IInput } from '../../../../_helper/_input';
+import ICalendar from '../../../../_helper/_inputCalender';
 function KpiEntryGrid({
   strategicParticularsGrid,
   objRowTargetAchivment,
   rowDtoHandler,
   pmsfrequencyId,
 }) {
-  const key = pmsfrequencyId === 2 ? "monthId" : "quarterId";
+  const key = pmsfrequencyId === 2 ? 'monthId' : 'quarterId';
   return (
     <div className="row">
       <table className="table table-striped table-bordered">
@@ -63,7 +62,7 @@ function KpiEntryGrid({
                     placeholder={itm.code}
                     name={itm.id || itm.yearId.toString()}
                     onChange={(e) =>
-                      rowDtoHandler("target", e.target.value, idx)
+                      rowDtoHandler('target', e.target.value, idx)
                     }
                     value={objRowTargetAchivment?.[idx]?.target}
                   />

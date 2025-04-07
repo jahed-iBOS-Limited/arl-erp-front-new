@@ -1,33 +1,33 @@
-import { Form, Formik } from "formik";
-import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICard from "../../../../_helper/_card";
+import { Form, Formik } from 'formik';
+import moment from 'moment';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICard from '../../../../_helper/_card';
 import {
   _todaysEndTime,
   _todaysStartTime,
-} from "../../../../_helper/_currentTime";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
+} from '../../../../_helper/_currentTime';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   GetProductWiseShipmentReport,
   getDistributionChannelDDL,
   getSBUDDL,
   getSalesOrgDDL,
-} from "../helper";
-import IView from "./../../../../_helper/_helperIcons/_view";
-import IViewModal from "./../../../../_helper/_viewModal";
-import "./style.css";
-import TransferDetails from "./transferDetails";
+} from '../helper';
+import IView from './../../../../_helper/_helperIcons/_view';
+import IViewModal from './../../../../_helper/_viewModal';
+import './style.css';
+import TransferDetails from './transferDetails';
 
 const initData = {
-  sbu: "",
-  salesOrg: "",
-  distributionChannel: "",
-  reportType: "",
-  shipPint: "",
+  sbu: '',
+  salesOrg: '',
+  distributionChannel: '',
+  reportType: '',
+  shipPint: '',
   fromDate: _todayDate(),
   fromTime: _todaysStartTime(),
   toDate: _todayDate(),
@@ -65,15 +65,14 @@ export default function ProductWiseShipmentReport() {
       );
       getSBUDDL(profileData?.accountId, selectedBusinessUnit?.value, setSbuDDL);
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   const GetReport = (values) => {
     const fromDateTime = moment(
       `${values?.fromDate} ${values?.fromTime}`
-    ).format("YYYY-MM-DDTHH:mm:ss");
+    ).format('YYYY-MM-DDTHH:mm:ss');
     const toDateTime = moment(`${values?.toDate} ${values?.toTime}`).format(
-      "YYYY-MM-DDTHH:mm:ss"
+      'YYYY-MM-DDTHH:mm:ss'
     );
     GetProductWiseShipmentReport(
       profileData?.accountId,
@@ -106,7 +105,7 @@ export default function ProductWiseShipmentReport() {
         isShowPrintBtn={true}
         componentRef={printRef}
         isExcelBtn={true}
-        excelFileNameWillbe={"Product Wise Shipment Report"}
+        excelFileNameWillbe={'Product Wise Shipment Report'}
       >
         <div>
           <div className="mx-auto">
@@ -122,7 +121,7 @@ export default function ProductWiseShipmentReport() {
                           value={values?.sbu}
                           label="SBU"
                           onChange={(valueOption) => {
-                            setFieldValue("sbu", valueOption);
+                            setFieldValue('sbu', valueOption);
                             getSalesOrgDDL(
                               profileData?.accountId,
                               selectedBusinessUnit?.value,
@@ -143,7 +142,7 @@ export default function ProductWiseShipmentReport() {
                           value={values?.salesOrg}
                           label="Sales Org"
                           onChange={(valueOption) => {
-                            setFieldValue("salesOrg", valueOption);
+                            setFieldValue('salesOrg', valueOption);
                           }}
                           placeholder="Select Sales Org"
                           errors={errors}
@@ -158,7 +157,7 @@ export default function ProductWiseShipmentReport() {
                           value={values?.distributionChannel}
                           label="Distribution Channel"
                           onChange={(valueOption) => {
-                            setFieldValue("distributionChannel", valueOption);
+                            setFieldValue('distributionChannel', valueOption);
                             setRowDto([]);
                           }}
                           placeholder="Distribution Channel"
@@ -170,13 +169,13 @@ export default function ProductWiseShipmentReport() {
                         <NewSelect
                           name="reportType"
                           options={[
-                            { value: 1, label: "Shipment" },
-                            { value: 2, label: "Transfer" },
+                            { value: 1, label: 'Shipment' },
+                            { value: 2, label: 'Transfer' },
                           ]}
                           value={values?.reportType}
                           label="Report Type"
                           onChange={(valueOption) => {
-                            setFieldValue("reportType", valueOption);
+                            setFieldValue('reportType', valueOption);
                           }}
                           placeholder="Report Type"
                           errors={errors}
@@ -186,12 +185,14 @@ export default function ProductWiseShipmentReport() {
                       <div className="col-lg-3">
                         <NewSelect
                           name="shipPint"
-                          options={[{ value: 0, label: "All" }, ...shippintDDL] || []}
+                          options={
+                            [{ value: 0, label: 'All' }, ...shippintDDL] || []
+                          }
                           value={values?.shipPint}
                           label="Shippint"
                           onChange={(valueOption) => {
-                            setRowDto([])
-                            setFieldValue("shipPint", valueOption);
+                            setRowDto([]);
+                            setFieldValue('shipPint', valueOption);
                           }}
                           placeholder="Shippint"
                           errors={errors}
@@ -206,7 +207,7 @@ export default function ProductWiseShipmentReport() {
                             type="date"
                             name="fromDate"
                             onChange={(e) => {
-                              setFieldValue("fromDate", e?.target?.value);
+                              setFieldValue('fromDate', e?.target?.value);
                               setRowDto([]);
                             }}
                           />
@@ -225,7 +226,7 @@ export default function ProductWiseShipmentReport() {
                             type="date"
                             name="toDate"
                             onChange={(e) => {
-                              setFieldValue("toDate", e?.target?.value);
+                              setFieldValue('toDate', e?.target?.value);
                               setRowDto([]);
                             }}
                           />
@@ -261,7 +262,7 @@ export default function ProductWiseShipmentReport() {
                         <div className="product-wise-shipment-report">
                           <div className="loan-scrollable-table scroll-table-auto">
                             <div
-                              style={{ maxHeight: "540px" }}
+                              style={{ maxHeight: '540px' }}
                               className="scroll-table _table scroll-table-auto table-responsive"
                             >
                               <table
@@ -273,11 +274,11 @@ export default function ProductWiseShipmentReport() {
                                   <tr>
                                     {rowDto?.head?.length && (
                                       <>
-                                        <th style={{ minWidth: "30px" }}>SL</th>
+                                        <th style={{ minWidth: '30px' }}>SL</th>
                                         {rowDto?.head?.map((item, index) => (
                                           <React.Fragment key={index}>
                                             {index < 4 ? (
-                                              <th style={{ minWidth: "100px" }}>
+                                              <th style={{ minWidth: '100px' }}>
                                                 {item}
                                               </th>
                                             ) : (
@@ -285,9 +286,11 @@ export default function ProductWiseShipmentReport() {
                                             )}
                                           </React.Fragment>
                                         ))}
-                                        {values?.shipPint?.value !== 0 && <th style={{ minWidth: "50px" }}>
-                                          Actions
-                                        </th>}
+                                        {values?.shipPint?.value !== 0 && (
+                                          <th style={{ minWidth: '50px' }}>
+                                            Actions
+                                          </th>
+                                        )}
                                       </>
                                     )}
                                   </tr>
@@ -298,33 +301,34 @@ export default function ProductWiseShipmentReport() {
                                     return (
                                       <tr key={i}>
                                         <td className="text-center">
-                                          {" "}
+                                          {' '}
                                           {i + 1}
                                         </td>
                                         {itm?.map((singleRow, index) => (
                                           <td
-                                            className={`${isNaN(+singleRow)
-                                              ? "text-left"
-                                              : "text-right"
-                                              }`}
+                                            className={`${
+                                              isNaN(+singleRow)
+                                                ? 'text-left'
+                                                : 'text-right'
+                                            }`}
                                             key={index}
                                           >
                                             {makeInt(singleRow)}
                                           </td>
                                         ))}
-                                        {values?.shipPint?.value !== 0 && <td className={"text-center"}>
-                                          <span className="view">
-                                            <IView
-                                              classes={"text-primary"}
-                                              clickHandler={() => {
-
-                                                setCurrentRowData(itm);
-                                                setIsShowModal(true);
-
-                                              }}
-                                            />
-                                          </span>
-                                        </td>}
+                                        {values?.shipPint?.value !== 0 && (
+                                          <td className={'text-center'}>
+                                            <span className="view">
+                                              <IView
+                                                classes={'text-primary'}
+                                                clickHandler={() => {
+                                                  setCurrentRowData(itm);
+                                                  setIsShowModal(true);
+                                                }}
+                                              />
+                                            </span>
+                                          </td>
+                                        )}
                                       </tr>
                                     );
                                   })}

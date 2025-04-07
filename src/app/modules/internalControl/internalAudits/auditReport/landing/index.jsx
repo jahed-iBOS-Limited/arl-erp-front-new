@@ -1,16 +1,15 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IForm from "../../../../_helper/_form";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getAuditReportDataHandler, initData, validation } from "../helper";
-import AuditReportLandingTable from "./table";
-import IViewModal from "../../../../_helper/_viewModal";
-import ConfidentialAuditView from "../confidentialAuditView";
-
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IForm from '../../../../_helper/_form';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { getAuditReportDataHandler, initData, validation } from '../helper';
+import AuditReportLandingTable from './table';
+import IViewModal from '../../../../_helper/_viewModal';
+import ConfidentialAuditView from '../confidentialAuditView';
 
 const AuditReportPage = () => {
   // redux selector
@@ -27,7 +26,6 @@ const AuditReportPage = () => {
       pageSize,
       getAuditReportData
     );
-
   }, []);
 
   // state
@@ -37,11 +35,8 @@ const AuditReportPage = () => {
   const [singleAuditReport, setSingleAuditReport] = useState(null);
 
   // axios get
-  const [
-    auditReportData,
-    getAuditReportData,
-    getAuditReportDataLoading,
-  ] = useAxiosGet();
+  const [auditReportData, getAuditReportData, getAuditReportDataLoading] =
+    useAxiosGet();
 
   // save handler
   const saveHandler = (values, cb) => {
@@ -101,7 +96,7 @@ const AuditReportPage = () => {
                       name="fromDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                       }}
                     />
                   </div>
@@ -112,7 +107,7 @@ const AuditReportPage = () => {
                       name="toDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                     />
                   </div>

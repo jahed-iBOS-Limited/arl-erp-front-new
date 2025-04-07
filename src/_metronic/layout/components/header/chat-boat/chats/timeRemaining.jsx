@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 
 export function TimeRemaining({ timeRemainingCB }) {
   const [time, setTime] = useState(15 * 60);
@@ -15,7 +15,6 @@ export function TimeRemaining({ timeRemainingCB }) {
     return () => {
       clearTimeout(timer);
     };
-
   }, []);
 
   const minutes = Math.floor(time / 60);
@@ -23,24 +22,24 @@ export function TimeRemaining({ timeRemainingCB }) {
   return (
     <p
       style={{
-        position: "absolute",
-        top: "-25px",
-        left: "-12px",
-        zIndex: "9",
+        position: 'absolute',
+        top: '-25px',
+        left: '-12px',
+        zIndex: '9',
       }}
     >
       <b
         style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          gap: "3px",
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          gap: '3px',
         }}
       >
         <i class="fas fa-clock"></i>
-        {`${minutes.toString().padStart(2, "0")}:${seconds
+        {`${minutes.toString().padStart(2, '0')}:${seconds
           .toString()
-          .padStart(2, "0")}`}
+          .padStart(2, '0')}`}
       </b>
     </p>
   );

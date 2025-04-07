@@ -1,6 +1,6 @@
-import axios from "axios";
-import Axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getSalesOrderReportData = async (
   accId,
@@ -20,7 +20,7 @@ export const getSalesOrderReportData = async (
       if (res?.data?.length > 0) {
         setter(res?.data);
       } else {
-        toast.warning("No Data Found");
+        toast.warning('No Data Found');
       }
       setLoading(false);
     }
@@ -98,7 +98,7 @@ export const GetVehicleFuelTypeDDL_api = async (setter) => {
     const res = await Axios.get(
       `/tms/Vehicle/GetVehicleFuelTypeDDL?IsActive=true`
     );
-    const modifiedData = [{ value: 0, label: "All" }, ...res?.data];
+    const modifiedData = [{ value: 0, label: 'All' }, ...res?.data];
     setter(modifiedData);
   } catch (error) {
     setter([]);
@@ -125,7 +125,7 @@ export const getZoneCostReportById = async (zoneCostId, setter, setLoading) => {
     setter(payload);
     setLoading(false);
   } catch (error) {
-    setter("");
+    setter('');
     setLoading(false);
   }
 };

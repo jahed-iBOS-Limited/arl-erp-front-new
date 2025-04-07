@@ -1,16 +1,15 @@
-
-import React, { useEffect, useState } from "react";
-import Form from "./form";
-import ICustomCard from "../../../../_helper/_customCard";
-import { useHistory } from "react-router-dom";
-import { getBudgetEntryLanding, getFinYearDDLAction } from "../helper";
-import Loading from "../../../../_helper/_loading";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import React, { useEffect, useState } from 'react';
+import Form from './form';
+import ICustomCard from '../../../../_helper/_customCard';
+import { useHistory } from 'react-router-dom';
+import { getBudgetEntryLanding, getFinYearDDLAction } from '../helper';
+import Loading from '../../../../_helper/_loading';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 let initData = {
-  financialYear: "",
-  sbu: "",
+  financialYear: '',
+  sbu: '',
 };
 
 export function BudgetEntryLanding() {
@@ -43,11 +42,9 @@ export function BudgetEntryLanding() {
     }
   }, [sbu, finYear]);
 
-
-
   return (
     <ICustomCard
-      title={"Budget Entry"}
+      title={'Budget Entry'}
       createHandler={() =>
         history.push(`/financial-management/financials/budget-entry/create`)
       }

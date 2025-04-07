@@ -1,14 +1,13 @@
-
 /*
  * Change: Last change assign by Ikbal Hossain
  * Des: Remove Country, District, Division, Thana from create, edit, view
  */
 
-import React, { useEffect } from "react";
-import { Form, Row, Col } from "react-bootstrap";
-import IViewModal from "../../../../_helper/_viewModal";
-import { getViewModalData } from "../_redux/Actions";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import React, { useEffect } from 'react';
+import { Form, Row, Col } from 'react-bootstrap';
+import IViewModal from '../../../../_helper/_viewModal';
+import { getViewModalData } from '../_redux/Actions';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 
 export default function ViewForm({ id, show, onHide }) {
   const dispatch = useDispatch();
@@ -37,7 +36,7 @@ export default function ViewForm({ id, show, onHide }) {
         show={show}
         onHide={onHide}
         isShow={modalData && false}
-        title={modalData?.territoryName || ""}
+        title={modalData?.territoryName || ''}
       >
         {modalData ? (
           <div>
@@ -100,7 +99,7 @@ export default function ViewForm({ id, show, onHide }) {
                         placeholder="Loading..."
                       />
                     </Form.Group>
-                  </Col>{" "}
+                  </Col>{' '}
                 </>
               ) : (
                 <h3 className="my-2">

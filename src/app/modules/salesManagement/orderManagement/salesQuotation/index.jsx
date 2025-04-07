@@ -1,9 +1,8 @@
-import React from "react";
-import { SalesQuotationTable } from "./Table/tableHeader";
-import { UiProvider } from "../../../_helper/uiContextHelper";
-import { Route } from "react-router";
-import SalesQuotationViewForm from "./ViewForm/addEditForm";
-
+import React from 'react';
+import { SalesQuotationTable } from './Table/tableHeader';
+import { UiProvider } from '../../../_helper/uiContextHelper';
+import { Route } from 'react-router';
+import SalesQuotationViewForm from './ViewForm/addEditForm';
 
 export default function SalesQuotation({ history }) {
   const uIEvents = {};
@@ -17,7 +16,7 @@ export default function SalesQuotation({ history }) {
             id={match && match.params.view}
             history={history}
             onHide={() => {
-              history.push("/sales-management/ordermanagement/salesquotation");
+              history.push('/sales-management/ordermanagement/salesquotation');
             }}
           />
         )}

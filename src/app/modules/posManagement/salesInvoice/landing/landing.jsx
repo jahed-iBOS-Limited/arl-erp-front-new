@@ -1,21 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { useHistory } from "react-router-dom";
-import { useSelector, useDispatch, shallowEqual } from "react-redux";
-import NewSelect from "../../../_helper/_select";
-import {
-    Card,
-    CardBody
-  } from "../../../../../_metronic/_partials/controls";
-import { SetSalesInvoiceDataAction } from "../../../_helper/reduxForLocalStorage/Actions";
-import { getShippointDDL, getWareHouseDDL } from "../helper";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import NewSelect from '../../../_helper/_select';
+import { Card, CardBody } from '../../../../../_metronic/_partials/controls';
+import { SetSalesInvoiceDataAction } from '../../../_helper/reduxForLocalStorage/Actions';
+import { getShippointDDL, getWareHouseDDL } from '../helper';
 
 const initData = {
-    whName: "",
-    counter: ""
-  };
-  
+  whName: '',
+  counter: '',
+};
+
 // Validation schema
 const validationSchema = Yup.object().shape({
   // whName: Yup.string()
@@ -24,10 +21,7 @@ const validationSchema = Yup.object().shape({
   //   .required("Holiday group name is required"),
 });
 
-export default function SalesInvoice({
-  saveHandler,
-  rowDto,
-}) {
+export default function SalesInvoice({ saveHandler, rowDto }) {
   const history = useHistory();
   const dispatch = useDispatch();
   const [whName, setWhName] = React.useState([]);
@@ -42,11 +36,21 @@ export default function SalesInvoice({
   }, shallowEqual);
 
   useEffect(() => {
-    if(profileData?.accountId && selectedBusinessUnit?.value){
-      getWareHouseDDL(profileData?.accountId, selectedBusinessUnit?.value, profileData?.userId, setWhName);
-      getShippointDDL(profileData?.userId, profileData?.accountId, selectedBusinessUnit?.value, setShippointDDL)
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
+      getWareHouseDDL(
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        profileData?.userId,
+        setWhName
+      );
+      getShippointDDL(
+        profileData?.userId,
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        setShippointDDL
+      );
     }
-  }, [profileData, selectedBusinessUnit])
+  }, [profileData, selectedBusinessUnit]);
 
   return (
     <>
@@ -68,60 +72,60 @@ export default function SalesInvoice({
           setValues,
           isValid,
         }) => (
-            <div className="global-card-header">
-              <Card>
-                <CardBody>
-                  <Form className="form form-label-right">
-                    <div className="global-form">
-                      <div className="row">
-                        <div className="col-lg-3">
-                          <NewSelect
-                            name="whName"
-                            options={whName}
-                            value={values?.whName}
-                            onChange={(valueOption) => {
-                                setFieldValue("whName", valueOption);
-                            }}
-                            placeholder="Warehouse Name"
-                            errors={errors}
-                            touched={touched}
-                          />
-                        </div>
-                        <div className="col-lg-3">
-                          <NewSelect
-                            name="counter"
-                            options={shippointDDL}
-                            value={values?.counter}
-                            onChange={(valueOption) => {
-                              console.log(valueOption)
-                                setFieldValue("counter", valueOption);
-                            }}
-                            placeholder="Shipping Point"
-                            errors={errors}
-                            touched={touched}
-                          />
-                        </div>
-                        <div style={{ marginTop: "18px" }} className="col-lg-1">
-                          <button
-                            disabled={!values?.whName || !values?.counter}
-                            className="btn btn-primary"
-                            onClick={() => {
-                                dispatch(SetSalesInvoiceDataAction(values))
-                                history.push({
-                                    pathname: `/pos-management/sales/sales-invoice/create`
-                                });
-                            }}
-                            type="button"
-                            >
-                                Next
-                          </button>
-                        </div>
+          <div className="global-card-header">
+            <Card>
+              <CardBody>
+                <Form className="form form-label-right">
+                  <div className="global-form">
+                    <div className="row">
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="whName"
+                          options={whName}
+                          value={values?.whName}
+                          onChange={(valueOption) => {
+                            setFieldValue('whName', valueOption);
+                          }}
+                          placeholder="Warehouse Name"
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                      <div className="col-lg-3">
+                        <NewSelect
+                          name="counter"
+                          options={shippointDDL}
+                          value={values?.counter}
+                          onChange={(valueOption) => {
+                            console.log(valueOption);
+                            setFieldValue('counter', valueOption);
+                          }}
+                          placeholder="Shipping Point"
+                          errors={errors}
+                          touched={touched}
+                        />
+                      </div>
+                      <div style={{ marginTop: '18px' }} className="col-lg-1">
+                        <button
+                          disabled={!values?.whName || !values?.counter}
+                          className="btn btn-primary"
+                          onClick={() => {
+                            dispatch(SetSalesInvoiceDataAction(values));
+                            history.push({
+                              pathname: `/pos-management/sales/sales-invoice/create`,
+                            });
+                          }}
+                          type="button"
+                        >
+                          Next
+                        </button>
                       </div>
                     </div>
-                    </Form>
-                </CardBody>
-              </Card>    
-            </div>
+                  </div>
+                </Form>
+              </CardBody>
+            </Card>
+          </div>
         )}
       </Formik>
     </>

@@ -52,7 +52,7 @@ function ProfitAndLossInfo({ values, reportData }) {
     {
       collectionActualAmountInBDT: 0,
       amontUSD: 0,
-    },
+    }
   );
 
   const paymentSum = (reportData?.paymentBillingDatas || [])?.reduce(
@@ -66,7 +66,7 @@ function ProfitAndLossInfo({ values, reportData }) {
     {
       paymentActualAmountInBDT: 0,
       amontUSD: 0,
-    },
+    }
   );
 
   return (
@@ -280,13 +280,13 @@ function ProfitAndLossInfo({ values, reportData }) {
               <b>Amount In Word BDT: </b>
               {convertNumberToWords(
                 collectionSum?.collectionActualAmountInBDT -
-                  paymentSum?.paymentActualAmountInBDT,
+                  paymentSum?.paymentActualAmountInBDT
               )}
             </p>
             <p>
               <b>Amount In WordUSD: </b>
               {convertNumberToWords(
-                collectionSum?.amontUSD - paymentSum?.amontUSD,
+                collectionSum?.amontUSD - paymentSum?.amontUSD
               )}
             </p>
           </div>

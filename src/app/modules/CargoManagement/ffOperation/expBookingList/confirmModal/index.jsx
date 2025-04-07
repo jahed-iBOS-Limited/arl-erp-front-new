@@ -45,7 +45,7 @@ const validationSchema = Yup.object().shape({
 function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
   const { profileData } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
   const tradeTypeId = rowClickData?.tradeTypeId || 1;
   const bookingRequestId = rowClickData?.bookingRequestId;
@@ -90,13 +90,13 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
 
   const debouncedGetCityList = _.debounce((value) => {
     setCityDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetPreviousCityDDL?search=${value}`,
+      `${imarineBaseUrl}/domain/ShippingService/GetPreviousCityDDL?search=${value}`
     );
   }, 300);
 
   const debouncedGetStateList = _.debounce((value) => {
     setStateDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetPreviousStateDDL?search=${value}`,
+      `${imarineBaseUrl}/domain/ShippingService/GetPreviousStateDDL?search=${value}`
     );
   }, 300);
 
@@ -119,7 +119,7 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
             const data = resData || {};
             formikRef.current.setFieldValue(
               'transportPlanningType',
-              data?.modeOfTransport,
+              data?.modeOfTransport
             );
 
             //  consignee Information set value
@@ -130,7 +130,7 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
                     value: data?.consigneeId || 0,
                     label: data?.consigneeName || '',
                   }
-                : '',
+                : ''
             );
             formikRef.current.setFieldValue(
               'consigneeCountry',
@@ -139,7 +139,7 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
                     value: data?.consigCountryId || 0,
                     label: data?.consigCountry || '',
                   }
-                : '',
+                : ''
             );
             formikRef.current.setFieldValue(
               'consigneeDivisionAndState',
@@ -148,27 +148,27 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
                     value: 0,
                     label: data?.consigState || '',
                   }
-                : '',
+                : ''
             );
             formikRef.current.setFieldValue(
               'consigneeAddress',
-              data?.consigneeAddress || '',
+              data?.consigneeAddress || ''
             );
             formikRef.current.setFieldValue(
               'consigneeAddress2',
-              data?.buyerAddress2 || '',
+              data?.buyerAddress2 || ''
             );
             formikRef.current.setFieldValue(
               'consigneeContactPerson',
-              data?.consigneeContactPerson || '',
+              data?.consigneeContactPerson || ''
             );
             formikRef.current.setFieldValue(
               'consigneeContact',
-              data?.consigneeContact || '',
+              data?.consigneeContact || ''
             );
             formikRef.current.setFieldValue(
               'consigneeEmail',
-              data?.consigneeEmail || '',
+              data?.consigneeEmail || ''
             );
 
             formikRef.current.setFieldValue(
@@ -178,7 +178,7 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
                     value: 0,
                     label: data?.notifyBankAddr || '',
                   }
-                : '',
+                : ''
             );
             formikRef.current.setFieldValue(
               'notifyParty',
@@ -187,7 +187,7 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
                     value: 0,
                     label: data?.notifyParty || '',
                   }
-                : '',
+                : ''
             );
             formikRef.current.setFieldValue(
               'buyerBank',
@@ -196,7 +196,7 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
                     value: 0,
                     label: data?.buyerBank || '',
                   }
-                : '',
+                : ''
             );
             formikRef.current.setFieldValue(
               'notifyParty2',
@@ -205,11 +205,11 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
                     value: 0,
                     label: data?.notifyParty2 || '',
                   }
-                : '',
+                : ''
             );
             formikRef.current.setFieldValue(
               'negotiationParty',
-              data?.negotiationParty || '',
+              data?.negotiationParty || ''
             );
             formikRef.current.setFieldValue(
               'freightAgentReference',
@@ -218,7 +218,7 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
                     value: data?.freightAgentReferenceId || 0,
                     label: data?.freightAgentReference || '',
                   }
-                : '',
+                : ''
             );
             formikRef.current.setFieldValue(
               'freightAgentReference2',
@@ -227,42 +227,42 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
                     value: data?.freightAgentReferenceId2 || 0,
                     label: data?.freightAgentReference2 || '',
                   }
-                : '',
+                : ''
             );
             //shippingMark
             formikRef.current.setFieldValue(
               'shippingMark',
-              data?.shippingMark || data?.shippingMark || '',
+              data?.shippingMark || data?.shippingMark || ''
             );
             formikRef.current.setFieldValue(
               'consignCity',
               data?.consignCity
                 ? { value: 0, label: data?.consignCity || '' }
-                : '',
+                : ''
             );
             formikRef.current.setFieldValue(
               'consignPostalCode',
-              data?.consignPostalCode || '',
+              data?.consignPostalCode || ''
             );
 
             // placeOfReceive
             formikRef.current.setFieldValue(
               'placeOfReceive',
-              data?.originAddress || '',
+              data?.originAddress || ''
             );
           }
-        },
+        }
       );
     }
   }, [bookingRequestId]);
 
   useEffect(() => {
     getBuyerBankDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetBlobalBankDDL`,
+      `${imarineBaseUrl}/domain/ShippingService/GetBlobalBankDDL`
     );
     getShipperBankDDL(`${imarineBaseUrl}/domain/OwnerInfo/GetBankDDL`);
     getConsigneeCountryList(
-      `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`,
+      `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`
     );
     getWarehouseDDL(`${imarineBaseUrl}/domain/ShippingService/GetWareHouseDDL`);
   }, []);
@@ -303,7 +303,7 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
             });
             setConsigneeName(modifyData || []);
           }
-        },
+        }
       );
     }
 
@@ -342,7 +342,7 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
             });
             setConsigneeName(modifyData || []);
           }
-        },
+        }
       );
     }
   };
@@ -412,7 +412,7 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
           // createHblFcrNumberApiCall();
           CB();
         },
-        'true',
+        'true'
       );
     }
   };
@@ -422,7 +422,7 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
       .get(
         `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${
           profileData?.accountId
-        }&BusinessUnitId=${225}&Search=${v}`,
+        }&BusinessUnitId=${225}&Search=${v}`
       )
       .then((res) => {
         return res?.data;
@@ -538,7 +538,7 @@ function ConfirmModal({ rowClickData, CB, isManualHBLNoInput }) {
                     handleChange={(valueOption) => {
                       setFieldValue(
                         'freightForwarderRepresentative',
-                        valueOption,
+                        valueOption
                       );
                     }}
                     loadOptions={loadEmp}

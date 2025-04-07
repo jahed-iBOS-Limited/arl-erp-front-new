@@ -1,20 +1,20 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { ISelect } from "../../../_helper/_inputDropDown";
-import { IInput } from "../../../_helper/_input";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import ICustomTable from "../../../_helper/_customTable";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { ISelect } from '../../../_helper/_inputDropDown';
+import { IInput } from '../../../_helper/_input';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import ICustomTable from '../../../_helper/_customTable';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   scaleFor: Yup.object().shape({
-    label: Yup.string().required("Scale for is required"),
-    value: Yup.string().required("Scale for is required"),
+    label: Yup.string().required('Scale for is required'),
+    value: Yup.string().required('Scale for is required'),
   }),
 });
 
-const headers = ["SL", "Scale Name", "Value", "Action"];
+const headers = ['SL', 'Scale Name', 'Value', 'Action'];
 
 export default function FormCmp({
   initData,
@@ -25,7 +25,7 @@ export default function FormCmp({
   remover,
   setter,
   rowDto,
-  scaleForDDL
+  scaleForDDL,
 }) {
   return (
     <>
@@ -75,17 +75,23 @@ export default function FormCmp({
                   />
                 </div>
                 <div className="col-lg-3 disable-border disabled-feedback">
-                  <IInput type="number" min="0" value={values.value} label="Value" name="value" />
+                  <IInput
+                    type="number"
+                    min="0"
+                    value={values.value}
+                    label="Value"
+                    name="value"
+                  />
                 </div>
                 <div className="col-lg-2">
                   <button
                     type="button"
-                    style={{ marginTop: "17px" }}
+                    style={{ marginTop: '17px' }}
                     className="btn btn-primary ml-2"
                     onClick={() => {
-                      setter(values)
-                      setFieldValue("scaleName", "")
-                      setFieldValue("value", "")
+                      setter(values);
+                      setFieldValue('scaleName', '');
+                      setFieldValue('value', '');
                     }}
                     disabled={!values?.scaleName || !values?.value}
                   >
@@ -102,7 +108,10 @@ export default function FormCmp({
                       <tr key={index}>
                         <td className="align-middle"> {index + 1} </td>
                         <td className="align-middle"> {td.scaleName} </td>
-                        <td className="align-middle text-center"> {td.value} </td>
+                        <td className="align-middle text-center">
+                          {' '}
+                          {td.value}{' '}
+                        </td>
                         <td className="align-middle text-center">
                           <IDelete remover={remover} id={td?.scaleName} />
                         </td>
@@ -114,14 +123,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

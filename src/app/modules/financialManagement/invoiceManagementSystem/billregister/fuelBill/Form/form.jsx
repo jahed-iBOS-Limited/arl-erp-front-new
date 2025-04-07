@@ -100,7 +100,7 @@ export default function FormCmp({
                               profileData?.accountId
                             }&UnitId=${selectedBusinessUnit?.value}&SBUId=${
                               headerData?.sbu?.value || 0
-                            }`,
+                            }`
                           ).then((res) => {
                             const updateList = res?.data.map((item) => ({
                               ...item,
@@ -167,7 +167,7 @@ export default function FormCmp({
                             values?.fromDate,
                             values?.toDate,
                             setGridData,
-                            setDisabled,
+                            setDisabled
                           );
                         }}
                         disabled={!values?.supplier}
@@ -229,8 +229,8 @@ export default function FormCmp({
                               clickHandler={() => {
                                 dispatch(
                                   getDownlloadFileView_Action(
-                                    values?.attachmentId,
-                                  ),
+                                    values?.attachmentId
+                                  )
                                 );
                               }}
                             />
@@ -257,8 +257,8 @@ export default function FormCmp({
                         (a, b) =>
                           Number(a) +
                           (b.checked ? Number(b.approvedAmount) : 0),
-                        0,
-                      ),
+                        0
+                      )
                     )}
                   </span>
                 </div>
@@ -282,7 +282,7 @@ export default function FormCmp({
                                       ...item,
                                       checked: e?.target?.checked,
                                     };
-                                  }),
+                                  })
                                 );
                               }}
                             />
@@ -340,7 +340,7 @@ export default function FormCmp({
                               {item?.totalCost >= 0
                                 ? numberWithCommas(item?.totalCost)
                                 : `(${numberWithCommas(
-                                    Math.abs(item?.totalCost),
+                                    Math.abs(item?.totalCost)
                                   )})`}
                             </td>
                             <td style={{ width: '100px' }}>
@@ -387,7 +387,7 @@ export default function FormCmp({
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name,
+                  (item) => item.file.name !== deleteFileObj.file.name
                 );
                 setFileObjects(newData);
               }}

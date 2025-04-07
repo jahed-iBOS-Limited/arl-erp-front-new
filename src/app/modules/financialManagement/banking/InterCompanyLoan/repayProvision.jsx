@@ -35,7 +35,7 @@ export default function RepayProvisionActionModal({ singleData, actionType }) {
       `/fino/CommonFino/InterCompanyLoanRepayProvision`,
       payload,
       cb,
-      true,
+      true
     );
   };
   return (

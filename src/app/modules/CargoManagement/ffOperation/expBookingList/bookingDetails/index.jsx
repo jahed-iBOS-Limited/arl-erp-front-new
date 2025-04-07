@@ -20,22 +20,20 @@ function Details({ rowClickData, isAirOperation }) {
   useEffect(() => {
     if (bookingRequestId) {
       setShipBookingRequestGetById(
-        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`,
+        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}`
       );
       setGetBookedRequestBillingData(
         `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingData?bookingId=${bookingRequestId}`,
         `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}&isAirOperation=${
           isAirOperation || false
-        }`,
+        }`
       );
       setGetBookedRequestBillingData(
         `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingData?bookingId=${bookingRequestId}&isAirOperation=${
           isAirOperation || false
-        }`,
+        }`
       );
     }
-
-
   }, [bookingRequestId]);
 
   const bookingData = shipBookingRequestGetById || {};

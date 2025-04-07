@@ -1,35 +1,33 @@
-import React, { useEffect, useState } from "react";
-import { Form, Formik } from "formik";
-import { useSelector } from "react-redux";
-import ILoader from "../../../_helper/loader/_loader";
-import ICustomCard from "../../../_helper/_customCard";
-import IView from "../../../_helper/_helperIcons/_view";
-import InputField from "../../../_helper/_inputField";
-import PaginationSearch from "../../../_helper/_search";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import {
-  getCancledMRRLanding,
-} from "./helper";
-import IViewModal from "../../../_helper/_viewModal";
-import { InventoryTransactionReportViewTableRow } from "../../warehouseManagement/mrrCancel/report/tableRow";
-import { getPlantList, getSBU, getWhList } from "../../../_helper/_commonApi";
+import React, { useEffect, useState } from 'react';
+import { Form, Formik } from 'formik';
+import { useSelector } from 'react-redux';
+import ILoader from '../../../_helper/loader/_loader';
+import ICustomCard from '../../../_helper/_customCard';
+import IView from '../../../_helper/_helperIcons/_view';
+import InputField from '../../../_helper/_inputField';
+import PaginationSearch from '../../../_helper/_search';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { getCancledMRRLanding } from './helper';
+import IViewModal from '../../../_helper/_viewModal';
+import { InventoryTransactionReportViewTableRow } from '../../warehouseManagement/mrrCancel/report/tableRow';
+import { getPlantList, getSBU, getWhList } from '../../../_helper/_commonApi';
 
 let initData = {
-  wh: "",
-  plant: "",
-  sbu: "",
+  wh: '',
+  plant: '',
+  sbu: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
 
 function CancledMRR() {
   // ddl state
-  const [sbuList, setSbuList] = useState("");
-  const [plantList, setPlantList] = useState("");
-  const [whList, setWhList] = useState("");
+  const [sbuList, setSbuList] = useState('');
+  const [plantList, setPlantList] = useState('');
+  const [whList, setWhList] = useState('');
   const [isShowModal, setIsShowModal] = useState(false);
-  const [currentRowData, setCurrentRowData] = useState("");
+  const [currentRowData, setCurrentRowData] = useState('');
   // landing
   const [landing, setLanding] = useState([]);
   // loading
@@ -45,11 +43,7 @@ function CancledMRR() {
   // get ddl
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getSBU(
-        profileData?.accountId,
-        selectedBusinessUnit?.value,
-        setSbuList
-      );
+      getSBU(profileData?.accountId, selectedBusinessUnit?.value, setSbuList);
       getPlantList(
         profileData?.userId,
         profileData?.accountId,
@@ -57,7 +51,6 @@ function CancledMRR() {
         setPlantList
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   const viewCancledMRR = (values) => {
@@ -91,7 +84,7 @@ function CancledMRR() {
           <Formik
             enableReinitialize={true}
             initialValues={{ ...initData }}
-            onSubmit={(values, { setSubmitting, resetForm }) => { }}
+            onSubmit={(values, { setSubmitting, resetForm }) => {}}
           >
             {({
               handleSubmit,
@@ -106,7 +99,7 @@ function CancledMRR() {
                 <Form className="form form-label-left">
                   <div
                     className="row global-form"
-                    style={{ background: " #d6dadd" }}
+                    style={{ background: ' #d6dadd' }}
                   >
                     <div className="col-lg-4">
                       <NewSelect
@@ -115,12 +108,12 @@ function CancledMRR() {
                         value={values?.sbu}
                         label="SBU"
                         onChange={(v) => {
-                          setFieldValue("sbu", v);
+                          setFieldValue('sbu', v);
                         }}
                         placeholder="SBU"
                         errors={errors}
                         touched={touched}
-                      />{" "}
+                      />{' '}
                     </div>
                     <div className="col-lg-4">
                       <NewSelect
@@ -136,8 +129,8 @@ function CancledMRR() {
                             v?.value,
                             setWhList
                           );
-                          setFieldValue("plant", v);
-                          setFieldValue("wh", "");
+                          setFieldValue('plant', v);
+                          setFieldValue('wh', '');
                         }}
                         placeholder="Plant"
                         errors={errors}
@@ -151,7 +144,7 @@ function CancledMRR() {
                         value={values?.wh}
                         label="Warehouse"
                         onChange={(v) => {
-                          setFieldValue("wh", v);
+                          setFieldValue('wh', v);
                         }}
                         placeholder="Warehouse"
                         errors={errors}
@@ -164,7 +157,7 @@ function CancledMRR() {
                         <InputField
                           value={values?.fromDate}
                           name="fromDate"
-                          style={{ width: "100%" }}
+                          style={{ width: '100%' }}
                           placeholder="From date"
                           type="date"
                         />
@@ -178,7 +171,7 @@ function CancledMRR() {
                           name="toDate"
                           placeholder="To date"
                           type="date"
-                          style={{ width: "100%" }}
+                          style={{ width: '100%' }}
                         />
                       </div>
                     </div>

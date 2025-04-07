@@ -1,26 +1,26 @@
-import React, { useState } from "react";
-import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
-import IForm from "../../../../../_helper/_form";
-import Loading from "../../../../../_helper/_loading";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../../_helper/customHooks/useAxiosPost";
-import Form from "./form";
+import React, { useState } from 'react';
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IForm from '../../../../../_helper/_form';
+import Loading from '../../../../../_helper/_loading';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../../_helper/customHooks/useAxiosPost';
+import Form from './form';
 
 const initData = {
-  supplier: "",
-  billNo: "",
+  supplier: '',
+  billNo: '',
   billDate: _todayDate(),
   paymentDueDate: new Date(new Date().setDate(new Date().getDate() + 15)),
-  narration: "",
-  billAmount: "",
+  narration: '',
+  billAmount: '',
   toDate: _todayDate(),
   fromDate: _todayDate(),
-  port: "",
-  motherVessel: "",
+  port: '',
+  motherVessel: '',
 };
 
 export default function CNFBill() {
@@ -54,11 +54,11 @@ export default function CNFBill() {
 
   const saveHandler = async (values, cb) => {
     if (images?.length < 1) {
-      return toast.warn("Please attach a document");
+      return toast.warn('Please attach a document');
     }
     const selectedItems = gridData?.filter((item) => item?.isSelected);
     if (selectedItems?.length < 1) {
-      return toast.warn("Please select at least one row!");
+      return toast.warn('Please select at least one row!');
     }
     const totalBill = selectedItems?.reduce(
       (acc, item) => acc + +item?.totalAmount,
@@ -89,13 +89,13 @@ export default function CNFBill() {
           intSbuId: headerData?.sbu?.value,
           motherVesselId: item?.motherVesselId,
           actionby: userId,
-          narration: values?.narration || "",
-          challanNo: "",
+          narration: values?.narration || '',
+          challanNo: '',
           deliveryId: item?.programId || 0,
           quantity: item?.receiveQnt,
           ammount: item?.totalAmount,
           billAmount: item?.totalAmount || 0,
-          shipmentCode: "",
+          shipmentCode: '',
           lighterVesselId: item?.cnfid,
           numFreightRateUSD: 0,
           numFreightRateBDT: item?.cnfrate || 0,
@@ -128,9 +128,9 @@ export default function CNFBill() {
   };
   const [objProps, setObjprops] = useState({});
   return (
-    <div className='purchaseInvoice'>
+    <div className="purchaseInvoice">
       <IForm
-        title='G2G CNF Bill'
+        title="G2G CNF Bill"
         getProps={setObjprops}
         isDisabled={loader || loading}
       >

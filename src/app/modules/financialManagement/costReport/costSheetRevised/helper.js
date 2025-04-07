@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getCostSheetRevisedLanding = async (
   unitId,
@@ -17,7 +17,7 @@ export const getCostSheetRevisedLanding = async (
     setLoading(false);
   } catch (error) {
     setLoading(false);
-    toast.error(error?.response?.data?.message || "Error occured");
+    toast.error(error?.response?.data?.message || 'Error occured');
     setter([]);
   }
 };

@@ -1,27 +1,28 @@
-import React from "react";
-import { Suspense } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute, LayoutSplashScreen } from "../../../../_metronic/layout";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import AelReportLanding from "./report";
-import AelReportCreate from "./report/createEdit";
+import React from 'react';
+import { Suspense } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute, LayoutSplashScreen } from '../../../../_metronic/layout';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
+import AelReportLanding from './report';
+import AelReportCreate from './report/createEdit';
 
 export function AelEventPages() {
   const userRole = useSelector(
     (state) => state?.authData?.userRole,
     shallowEqual
-  )
+  );
 
   let aelEventCreatePermission = null;
   let aelEventReportPermission = null;
 
   for (let i = 0; i < userRole.length; i++) {
-
-    if (userRole[i]?.intFeatureId === 1247) { //For Live
+    if (userRole[i]?.intFeatureId === 1247) {
+      //For Live
       aelEventCreatePermission = userRole[i];
     }
-    if (userRole[i]?.intFeatureId === 1248) { //For Live
+    if (userRole[i]?.intFeatureId === 1248) {
+      //For Live
       aelEventReportPermission = userRole[i];
     }
   }
@@ -36,12 +37,20 @@ export function AelEventPages() {
         <ContentRoute
           exact
           path="/pos-management/event/entryAelEvent"
-          component={aelEventCreatePermission?.isCreate ? AelReportCreate : NotPermittedPage}
+          component={
+            aelEventCreatePermission?.isCreate
+              ? AelReportCreate
+              : NotPermittedPage
+          }
         />
         <ContentRoute
           exact
           path="/pos-management/event/reportAelEvent"
-          component={aelEventReportPermission?.isView ? AelReportLanding : NotPermittedPage}
+          component={
+            aelEventReportPermission?.isView
+              ? AelReportLanding
+              : NotPermittedPage
+          }
         />
       </Switch>
     </Suspense>

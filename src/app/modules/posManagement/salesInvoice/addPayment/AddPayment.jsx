@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useReactToPrint } from "react-to-print";
-import InputField from "../../../_helper/_inputField";
-import { Form as FormikForm } from "formik";
-import { Modal } from "react-bootstrap";
-import { ModalProgressBar } from "../../../../../_metronic/_partials/controls";
+import React, { useState, useEffect, useRef } from 'react';
+import { useReactToPrint } from 'react-to-print';
+import InputField from '../../../_helper/_inputField';
+import { Form as FormikForm } from 'formik';
+import { Modal } from 'react-bootstrap';
+import { ModalProgressBar } from '../../../../../_metronic/_partials/controls';
 // import IDelete from "../../../_helper/_helperIcons/_delete";
 // import NewSelect from "../../../_helper/_select";
-import CashIcon from "../../../_helper/_helperIcons/cash.svg";
-import CreditIcon from "../../../_helper/_helperIcons/credit.svg";
-import SalesInvoicePrint from "../invoice/salesInvoicePrint";
-import NewSelect from "../../../_helper/_select";
-import { toast } from "react-toastify";
+import CashIcon from '../../../_helper/_helperIcons/cash.svg';
+import CreditIcon from '../../../_helper/_helperIcons/credit.svg';
+import SalesInvoicePrint from '../invoice/salesInvoicePrint';
+import NewSelect from '../../../_helper/_select';
+import { toast } from 'react-toastify';
 
 const AddPayment = ({
   show,
@@ -32,20 +32,15 @@ const AddPayment = ({
   isDisabled,
   cashReturnAmount,
   setCashReturnAmount,
-  counter
+  counter,
 }) => {
-
   const [cashMethodButtonClicked, setCashMethodButtonClicked] = useState(false);
-  const [creditMethodButtonClicked, setCreditMethodButtonClicked] = useState(
-    true
-  );
-  const [
-    bankCardMethodButtonClicked,
-    setBankCardMethodButtonClicked,
-  ] = useState(false);
-  const [mfsMethodButtonClicked, setMfsCardMethodButtonClicked] = useState(
-    false
-  );
+  const [creditMethodButtonClicked, setCreditMethodButtonClicked] =
+    useState(true);
+  const [bankCardMethodButtonClicked, setBankCardMethodButtonClicked] =
+    useState(false);
+  const [mfsMethodButtonClicked, setMfsCardMethodButtonClicked] =
+    useState(false);
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -56,10 +51,9 @@ const AddPayment = ({
 
   useEffect(() => {
     if (header && rowDto && rowDto?.length > 0) {
-      handlePrint()
+      handlePrint();
     }
-
-  }, [header, rowDto])
+  }, [header, rowDto]);
 
   const addPayment = async () => {
     if (values?.creditAmount > customer?.remainingLimit) {
@@ -67,9 +61,9 @@ const AddPayment = ({
     }
     await saveHandler(values, false, () => {
       onHide();
-      setFieldValue("creditAmount", 0);
-      setFieldValue("cardAmount", 0);
-      setFieldValue("cashAmount", 0);
+      setFieldValue('creditAmount', 0);
+      setFieldValue('cardAmount', 0);
+      setFieldValue('cashAmount', 0);
       setCashMethodButtonClicked(false);
       setCreditMethodButtonClicked(true);
       setBankCardMethodButtonClicked(false);
@@ -87,24 +81,24 @@ const AddPayment = ({
       <Modal
         show={show}
         onHide={onHide}
-        size={"md"}
+        size={'md'}
         aria-labelledby="example-modal-sizes-title-xl"
         dialogClassName="dialogClassName"
         backdrop={false}
       >
         {isLoading && <ModalProgressBar variant="query" />}
         <>
-          {" "}
+          {' '}
           <Modal.Header className="bg-custom d-flex justify-content-between">
             <Modal.Title className="text-left header-text">{title}</Modal.Title>
             <button
               type="button"
               onClick={() => {
                 onHide();
-                setFieldValue("creditAmount", 0);
-                setFieldValue("cardAmount", 0);
-                setFieldValue("cashAmount", 0);
-                setCashReturnAmount(0)
+                setFieldValue('creditAmount', 0);
+                setFieldValue('cardAmount', 0);
+                setFieldValue('cashAmount', 0);
+                setCashReturnAmount(0);
                 setCashMethodButtonClicked(false);
                 setCreditMethodButtonClicked(true);
                 setBankCardMethodButtonClicked(false);
@@ -112,14 +106,14 @@ const AddPayment = ({
               }}
               className="btn btn-light btn-elevate"
               style={{
-                color: "red",
-                background: "transparent",
-                border: "1px solid red",
-                padding: "5px 10px",
-                margin: "0px 5px 5px 0px"
+                color: 'red',
+                background: 'transparent',
+                border: '1px solid red',
+                padding: '5px 10px',
+                margin: '0px 5px 5px 0px',
               }}
             >
-              {"Close"}
+              {'Close'}
             </button>
           </Modal.Header>
           <Modal.Body id="example-modal-sizes-title-xl">
@@ -127,7 +121,7 @@ const AddPayment = ({
               <FormikForm>
                 <div
                   className="form form-label-right"
-                  style={{ margin: "auto" }}
+                  style={{ margin: 'auto' }}
                 >
                   <div>
                     <div className="row">
@@ -135,12 +129,12 @@ const AddPayment = ({
                         <div
                           className={
                             creditMethodButtonClicked
-                              ? "image-icon clicked-button"
-                              : "image-icon"
+                              ? 'image-icon clicked-button'
+                              : 'image-icon'
                           }
                           onClick={() => {
-                            setFieldValue("cashAmount", 0)
-                            setFieldValue("creditAmount", netTotal)
+                            setFieldValue('cashAmount', 0);
+                            setFieldValue('creditAmount', netTotal);
                             setCashMethodButtonClicked(false);
                             setCreditMethodButtonClicked(true);
                             setBankCardMethodButtonClicked(false);
@@ -148,20 +142,20 @@ const AddPayment = ({
                           }}
                         >
                           <img src={CreditIcon} alt="Cash" height="50px" />
-                          <h6 style={{ color: "white", marginTop: "-8px" }}>
+                          <h6 style={{ color: 'white', marginTop: '-8px' }}>
                             Credit
                           </h6>
                         </div>
                         <div
                           className={
                             cashMethodButtonClicked
-                              ? "image-icon clicked-button"
-                              : "image-icon"
+                              ? 'image-icon clicked-button'
+                              : 'image-icon'
                           }
                           onClick={() => {
-                            setCashReturnAmount(0)
-                            setFieldValue("cashAmount", netTotal)
-                            setFieldValue("creditAmount", 0)
+                            setCashReturnAmount(0);
+                            setFieldValue('cashAmount', netTotal);
+                            setFieldValue('creditAmount', 0);
                             setCashMethodButtonClicked(true);
                             setCreditMethodButtonClicked(false);
                             setBankCardMethodButtonClicked(false);
@@ -170,7 +164,7 @@ const AddPayment = ({
                           }}
                         >
                           <img src={CashIcon} alt="Cash" height="50px" />
-                          <h6 style={{ color: "white", marginTop: "-8px" }}>
+                          <h6 style={{ color: 'white', marginTop: '-8px' }}>
                             Cash
                           </h6>
                         </div>
@@ -216,14 +210,14 @@ const AddPayment = ({
                         <div className="image-icon data-show">
                           <h6
                             style={{
-                              color: "white",
-                              fontSize: "12px",
-                              marginTop: "5px",
+                              color: 'white',
+                              fontSize: '12px',
+                              marginTop: '5px',
                             }}
                           >
                             Paid Amount
                           </h6>
-                          <h6 style={{ color: "white" }}>
+                          <h6 style={{ color: 'white' }}>
                             {parseFloat(values?.cashAmount || 0) +
                               parseFloat(values?.creditAmount || 0) +
                               parseFloat(values?.cardAmount || 0) +
@@ -245,14 +239,14 @@ const AddPayment = ({
                         <div className="image-icon data-show">
                           <h6
                             style={{
-                              color: "white",
-                              fontSize: "12px",
-                              marginTop: "5px",
+                              color: 'white',
+                              fontSize: '12px',
+                              marginTop: '5px',
                             }}
                           >
                             Total Bill
                           </h6>
-                          <h6 style={{ color: "white" }}>{totalBill}</h6>
+                          <h6 style={{ color: 'white' }}>{totalBill}</h6>
                         </div>
                         {/* <div className="image-icon data-show">
                           <h6
@@ -292,8 +286,8 @@ const AddPayment = ({
                         </h3>
                       </div>
                       <div className="col-lg-6">
-                        <h3 style={{ fontSize: "12px", marginLeft: "5px" }}>
-                          Cash Return Amount:  {cashReturnAmount}
+                        <h3 style={{ fontSize: '12px', marginLeft: '5px' }}>
+                          Cash Return Amount: {cashReturnAmount}
                         </h3>
                       </div>
                     </div>
@@ -310,7 +304,7 @@ const AddPayment = ({
                             label="Credit Amount"
                             type="number"
                             onChange={(e) => {
-                              setFieldValue("creditAmount", e.target.value);
+                              setFieldValue('creditAmount', e.target.value);
                               //setCreditAmount(parseInt(e.target.value));
                             }}
                             errors={errors}
@@ -334,16 +328,18 @@ const AddPayment = ({
                             onChange={(e) => {
                               if (e.target.value > -1) {
                                 if (e.target.value <= netTotal) {
-                                  setCashReturnAmount(0)
-                                  setFieldValue("cashAmount", e.target.value);
+                                  setCashReturnAmount(0);
+                                  setFieldValue('cashAmount', e.target.value);
                                   setFieldValue(
-                                    "creditAmount",
+                                    'creditAmount',
                                     netTotal - e.target.value
                                   );
                                 } else {
-                                  setFieldValue("creditAmount", 0)
-                                  setFieldValue("cashAmount", e.target.value);
-                                  setCashReturnAmount(e.target.value - netTotal)
+                                  setFieldValue('creditAmount', 0);
+                                  setFieldValue('cashAmount', e.target.value);
+                                  setCashReturnAmount(
+                                    e.target.value - netTotal
+                                  );
                                 }
                               }
                             }}
@@ -365,7 +361,7 @@ const AddPayment = ({
                               value={values?.paymentMethod}
                               label="Payment Method"
                               onChange={(valueOption) => {
-                                setFieldValue("paymentMethod", valueOption);
+                                setFieldValue('paymentMethod', valueOption);
                               }}
                               placeholder="Payment Method"
                               errors={errors}
@@ -380,7 +376,7 @@ const AddPayment = ({
                               label="Card No"
                               type="number"
                               onChange={(e) => {
-                                setFieldValue("cardNo", e.target.value);
+                                setFieldValue('cardNo', e.target.value);
                               }}
                               errors={errors}
                               touched={touched}
@@ -394,7 +390,7 @@ const AddPayment = ({
                               label="Amount"
                               type="number"
                               onChange={(e) => {
-                                setFieldValue("cardAmount", e.target.value);
+                                setFieldValue('cardAmount', e.target.value);
                               }}
                               errors={errors}
                               touched={touched}
@@ -411,11 +407,11 @@ const AddPayment = ({
                           <div className="col-lg-3">
                             <NewSelect
                               name="paymentMethod"
-                              options={[{ value: 1, label: "Bkash" }]}
+                              options={[{ value: 1, label: 'Bkash' }]}
                               value={values?.paymentMethod}
                               label="Payment Method"
                               onChange={(valueOption) => {
-                                setFieldValue("paymentMethod", valueOption);
+                                setFieldValue('paymentMethod', valueOption);
                               }}
                               placeholder="Payment Method"
                               errors={errors}
@@ -430,7 +426,7 @@ const AddPayment = ({
                               label="Account No"
                               type="number"
                               onChange={(e) => {
-                                setFieldValue("cardNo", e.target.value);
+                                setFieldValue('cardNo', e.target.value);
                               }}
                               errors={errors}
                               touched={touched}
@@ -444,7 +440,7 @@ const AddPayment = ({
                               label="MFS Amount"
                               type="number"
                               onChange={(e) => {
-                                setFieldValue("mfsAmount", e.target.value);
+                                setFieldValue('mfsAmount', e.target.value);
                               }}
                               errors={errors}
                               touched={touched}
@@ -458,12 +454,12 @@ const AddPayment = ({
               </FormikForm>
             </>
           </Modal.Body>
-          <Modal.Footer style={{ padding: "0.5rem" }}>
-            <div style={{ margin: "0px auto" }}>
+          <Modal.Footer style={{ padding: '0.5rem' }}>
+            <div style={{ margin: '0px auto' }}>
               <button
                 disabled={isDisabled}
                 className="btn btn-primary mb-1"
-                style={{ padding: "10px 15px", }}
+                style={{ padding: '10px 15px' }}
                 onClick={() => addPayment()}
               >
                 Save & Print

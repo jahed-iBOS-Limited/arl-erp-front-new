@@ -1,17 +1,17 @@
-import React, { useEffect } from "react";
-import { Formik, Form } from "formik";
-import Loading from "../../../../_helper/_loading";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import IViewModal from "../../../../_helper/_viewModal";
-import { useState } from "react";
-import AddTraining from "./addTraining";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { toast } from "react-toastify";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
+import React, { useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import Loading from '../../../../_helper/_loading';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import IViewModal from '../../../../_helper/_viewModal';
+import { useState } from 'react';
+import AddTraining from './addTraining';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { toast } from 'react-toastify';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
 
 export default function FormCmp({
   initData,
@@ -34,22 +34,21 @@ export default function FormCmp({
 
   useEffect(() => {
     getTrainingName(`/hcm/Training/TrainingNameDDL`);
-
   }, []);
 
   const addHandler = (values, resetForm) => {
-    if (!values?.trainigName) return toast.warn("Training Name is required");
-    if (!values?.duration) return toast.warn("Duration is required");
-    if (!values?.fromDate) return toast.warn("From Date is required");
-    if (!values?.toDate) return toast.warn("To Date is required");
-    if (!values?.monthYear) return toast.warn("Month-Year is required");
-    if (!values?.venue) return toast.warn("Venue is required");
+    if (!values?.trainigName) return toast.warn('Training Name is required');
+    if (!values?.duration) return toast.warn('Duration is required');
+    if (!values?.fromDate) return toast.warn('From Date is required');
+    if (!values?.toDate) return toast.warn('To Date is required');
+    if (!values?.monthYear) return toast.warn('Month-Year is required');
+    if (!values?.venue) return toast.warn('Venue is required');
     if (!values?.resourcePerson)
-      return toast.warn("Resource Person is required");
-    if (!values?.batchSize) return toast.warn("Batch Size is required");
-    if (!values?.batchNo) return toast.warn("Batch No is required");
+      return toast.warn('Resource Person is required');
+    if (!values?.batchSize) return toast.warn('Batch Size is required');
+    if (!values?.batchNo) return toast.warn('Batch No is required');
     if (isRequested && !values?.requestedPerson?.value)
-      return toast.warn("Requested Person is required");
+      return toast.warn('Requested Person is required');
     const obj = {
       trainigName: values?.trainigName,
       duration: values?.duration,
@@ -118,14 +117,14 @@ export default function FormCmp({
                       label="Training Name"
                       isDisabled={location?.state?.intTrainingId}
                       onChange={(valueOption) => {
-                        setFieldValue("trainigName", valueOption);
+                        setFieldValue('trainigName', valueOption);
                       }}
                       errors={errors}
                     />
                     {!location?.state?.intTrainingId ? (
-                      <div style={{ marginTop: "23px", paddingLeft: "3px" }}>
+                      <div style={{ marginTop: '23px', paddingLeft: '3px' }}>
                         <OverlayTrigger
-                          overlay={<Tooltip id="cs-icon">{"Add"}</Tooltip>}
+                          overlay={<Tooltip id="cs-icon">{'Add'}</Tooltip>}
                         >
                           <span>
                             <i
@@ -136,7 +135,7 @@ export default function FormCmp({
                         </OverlayTrigger>
                       </div>
                     ) : (
-                      ""
+                      ''
                     )}
                   </div>
                 </div>
@@ -214,7 +213,7 @@ export default function FormCmp({
                   />
                 </div>
                 <div
-                  style={{ marginTop: "20px", marginLeft: "15px" }}
+                  style={{ marginTop: '20px', marginLeft: '15px' }}
                   className="d-flex"
                 >
                   <input
@@ -222,7 +221,7 @@ export default function FormCmp({
                     onChange={() => setIsRequested(!isRequested)}
                     type="checkbox"
                   />
-                  <div style={{ paddingLeft: "5px" }}>
+                  <div style={{ paddingLeft: '5px' }}>
                     <label>Requested Schedule</label>
                   </div>
                 </div>
@@ -233,17 +232,17 @@ export default function FormCmp({
                     <SearchAsyncSelect
                       selectedValue={values?.requestedPerson}
                       handleChange={(valueOption) => {
-                        setFieldValue("requestedPerson", valueOption);
+                        setFieldValue('requestedPerson', valueOption);
                       }}
                       loadOptions={loadSupervisorAndLineManagerList}
                       placeholder="Search by Enroll/ID No/Name (min 3 letter)"
                     />
                   </div>
                 ) : (
-                  ""
+                  ''
                 )}
                 {!location?.state?.intTrainingId ? (
-                  <div style={{ marginTop: "18px" }} className="col-lg-1">
+                  <div style={{ marginTop: '18px' }} className="col-lg-1">
                     <button
                       type="button"
                       onClick={() => {
@@ -255,7 +254,7 @@ export default function FormCmp({
                     </button>
                   </div>
                 ) : (
-                  ""
+                  ''
                 )}
               </div>
 
@@ -265,16 +264,16 @@ export default function FormCmp({
                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                       <thead>
                         <tr>
-                          <th style={{ width: "30px" }}>SL</th>
-                          <th style={{ width: "50px" }}>Training Name</th>
-                          <th style={{ width: "50px" }}>Resource Person</th>
-                          <th style={{ width: "50px" }}>Month-Year</th>
-                          <th style={{ width: "50px" }}>Date</th>
-                          <th style={{ width: "50px" }}>Duration</th>
-                          <th style={{ width: "50px" }}>Venue</th>
-                          <th style={{ width: "50px" }}>BatchSize</th>
-                          <th style={{ width: "50px" }}>BatchNo</th>
-                          <th style={{ width: "50px" }}>Action</th>
+                          <th style={{ width: '30px' }}>SL</th>
+                          <th style={{ width: '50px' }}>Training Name</th>
+                          <th style={{ width: '50px' }}>Resource Person</th>
+                          <th style={{ width: '50px' }}>Month-Year</th>
+                          <th style={{ width: '50px' }}>Date</th>
+                          <th style={{ width: '50px' }}>Duration</th>
+                          <th style={{ width: '50px' }}>Venue</th>
+                          <th style={{ width: '50px' }}>BatchSize</th>
+                          <th style={{ width: '50px' }}>BatchNo</th>
+                          <th style={{ width: '50px' }}>Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -298,7 +297,7 @@ export default function FormCmp({
                               <td className="text-center">
                                 <OverlayTrigger
                                   overlay={
-                                    <Tooltip id="cs-icon">{"Remove"}</Tooltip>
+                                    <Tooltip id="cs-icon">{'Remove'}</Tooltip>
                                   }
                                 >
                                   <span>
@@ -318,19 +317,19 @@ export default function FormCmp({
                   </div>
                 </div>
               ) : (
-                ""
+                ''
               )}
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -1,16 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
-  error: "",
-  msg: "",
+  error: '',
+  msg: '',
   TZDDL: [],
   gridData: [],
-  singleData: "",
+  singleData: '',
 };
 
 export const transportRouteSlice = createSlice({
-  name: "transportRoute",
+  name: 'transportRoute',
   initialState: initState,
   reducers: {
     SetTZDDL: (state, action) => {
@@ -25,11 +25,11 @@ export const transportRouteSlice = createSlice({
 
     SetDataById: (state, action) => {
       const { payload } = action;
-      state.singleData = ""
+      state.singleData = '';
       state.singleData = payload;
     },
     SetSingleStoreEmpty: (state) => {
-      state.singleData = "";
+      state.singleData = '';
     },
   },
 });

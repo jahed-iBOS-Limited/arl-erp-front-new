@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { getSingleDataById } from "../helper";
+import React, { useEffect, useState } from 'react';
+import { getSingleDataById } from '../helper';
 
 const ViewRowItem = ({ currentRowId, item }) => {
   // singledata
-  const [data, setData] = useState("");
+  const [data, setData] = useState('');
 
   // get single data by id
   useEffect(() => {
     getSingleDataById(currentRowId, setData);
-
   }, []);
 
   return (
@@ -16,13 +15,13 @@ const ViewRowItem = ({ currentRowId, item }) => {
       <div className="text-center mt-2">
         <strong className="mr-5">
           Asset Name : {item?.assetName || item?.strAssetName}
-        </strong>{" "}
+        </strong>{' '}
         <strong className="ml-5">
           Service Name : {item?.renewalServiceName}
         </strong>
       </div>
       <div className="table-responsive">
-        <table style={{ width: "50%" }} className="table global-table">
+        <table style={{ width: '50%' }} className="table global-table">
           <thead>
             <tr>
               <th>SL</th>

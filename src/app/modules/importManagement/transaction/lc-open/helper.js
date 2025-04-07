@@ -1,7 +1,7 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 //landing api;
 
 // https://localhost:44396/imp/LetterOfCredit/LetterOfCreditLandingPasignation?accountId=2&businessUnitId=164&searchTerm=420071&bankId=2&fromDate=2021-06-26%2000%3A00%3A00.000&toDate=2021-06-27%2000%3A00%3A00.000&PageSize=100&PageNo=1&viewOrder=asc
@@ -61,9 +61,9 @@ export const getLandingData = async (
 // };
 
 export const marginTypeDDLArr = [
-  { value: 1, label: 'Cash Margin', },
-  { value: 2, label: 'Fdr Margin' }
-]
+  { value: 1, label: 'Cash Margin' },
+  { value: 2, label: 'Fdr Margin' },
+];
 
 //get single data;
 export const getSingleData = async (id, setter, setDisabled) => {
@@ -129,16 +129,16 @@ export const getSingleData = async (id, setter, setDisabled) => {
       },
       bankAccount: res?.data?.bankAccountNo
         ? {
-          value: res?.data?.bankAccountId,
-          label: res?.data?.bankAccountNo,
-        }
-        : "",
+            value: res?.data?.bankAccountId,
+            label: res?.data?.bankAccountNo,
+          }
+        : '',
       description: res?.data?.description,
       // lcMarginPercent: res?.data?.lcMarginPercentage || "",
-      lcMarginValue: res?.data?.lcMarginValue || "",
+      lcMarginValue: res?.data?.lcMarginValue || '',
       lcMarginDueDate: res?.data?.lcMarginDueDate
         ? _dateFormatter(res?.data?.lcMarginDueDate)
-        : "",
+        : '',
     };
 
     setter(payload);
@@ -182,7 +182,7 @@ export const createLCOpen = async (
     );
     setDisabled(false);
     // console.log(res,"res");
-    toast.success(res?.message || "Create successfully");
+    toast.success(res?.message || 'Create successfully');
     cb();
   } catch (error) {
     setDisabled(false);
@@ -202,7 +202,7 @@ const createPayloadChange = (
     countryOriginName: values?.origin?.label,
     currencyName: values?.currency?.label,
     description: values?.description,
-    lcafNo: "",
+    lcafNo: '',
     applicationDate: _dateFormatter(new Date()),
     poId: values?.poId,
     numExchangeRate: values?.exchangeRate,
@@ -214,7 +214,7 @@ const createPayloadChange = (
     plantId: values?.plantId,
     ponumber: values?.poNo,
     lcnumber: values?.lcNo,
-    subPonumber: "",
+    subPonumber: '',
     incoTerms: values?.encoTerms?.value,
     materialTypeId: values?.materialType?.value,
     bankName: values?.bankName?.label,
@@ -238,17 +238,17 @@ const createPayloadChange = (
     bondLicense: false,
     // duration: values?.duration,
     duration: null,
-    openingLcdocumentId: uploadImage[0]?.id || "",
+    openingLcdocumentId: uploadImage[0]?.id || '',
     lastActionBy: profileData?.userId,
     finalDestinationId: values?.finalDestination?.value,
     dueDate: values?.dueDate,
     bankAccountId: values?.bankAccount?.value || 0,
-    bankAccountNo: values?.bankAccount?.label || "",
+    bankAccountNo: values?.bankAccount?.label || '',
     lcMarginPercentage: +values?.lcMarginPercent || 0,
     lcMarginValue: +values?.lcMarginValue || 0,
     lcMarginDueDate: values?.lcMarginDueDate || null,
     marginType: values?.marginType?.value,
-    numInterestRate: values?.numInterestRate || 0
+    numInterestRate: values?.numInterestRate || 0,
   };
   return payload;
 };
@@ -272,7 +272,7 @@ export const updateLCOpen = async (
     setDisabled(true);
     let res = await Axios.put(`/imp/LetterOfCredit/EditLetterOfCredit`, obj);
     setDisabled(false);
-    toast.success(res?.message || "Update successfully");
+    toast.success(res?.message || 'Update successfully');
     // cb();
   } catch (error) {
     setDisabled(false);
@@ -296,7 +296,7 @@ const updatePayloadChange = (
     businessUnitId: selectedBusinessUnit?.value,
     ponumber: values?.poNo,
     lcnumber: values?.lcNo,
-    subPonumber: "",
+    subPonumber: '',
     incoTerms: values?.encoTerms?.value,
     materialTypeId: values?.materialType?.value,
     bankId: values?.bankName?.value,
@@ -319,18 +319,17 @@ const updatePayloadChange = (
     bondLicense: false,
     // duration: values?.duration,
     duration: null,
-    openingLcdocumentId: uploadImage[0]?.id || values?.attachment || "",
+    openingLcdocumentId: uploadImage[0]?.id || values?.attachment || '',
     finalDestinationId: values?.finalDestination?.value,
     dueDate: values?.dueDate,
     bankAccountId: values?.bankAccount?.value || 0,
-    bankAccountNo: values?.bankAccount?.label || "",
+    bankAccountNo: values?.bankAccount?.label || '',
     lcMarginPercentage: +values?.lcMarginPercent || 0,
     lcMarginValue: +values?.lcMarginValue || 0,
     lcMarginDueDate: values?.lcMarginDueDate || null,
   };
   return payload;
 };
-
 
 //Dropdown loading start
 
@@ -441,10 +440,14 @@ export const getCalculationFormLandingForm = async (
     // console.log(values, "calculation form landing");
     setLoading(true);
     const res = await Axios.get(
-      `/imp/FormulaForCalculation/GetFormulaForLcBankCharge?businessUnitId=${businessUnitId}&poId=${values?.poId
-      }&tenorDays=${values?.lcTenor
-      }&poTotalFc=${+values?.PIAmountFC}&toleranceRate=${values?.tolarance
-      }&excRate=${values?.exchangeRate}&bankId=${values?.bankName?.value
+      `/imp/FormulaForCalculation/GetFormulaForLcBankCharge?businessUnitId=${businessUnitId}&poId=${
+        values?.poId
+      }&tenorDays=${
+        values?.lcTenor
+      }&poTotalFc=${+values?.PIAmountFC}&toleranceRate=${
+        values?.tolarance
+      }&excRate=${values?.exchangeRate}&bankId=${
+        values?.bankName?.value
       }&type=${values?.lcType?.value}`
     );
     setLoading(false);
@@ -458,10 +461,10 @@ export const getCalculationFormLandingForm = async (
     // console.log("newObj", newObj);
     setter(newObj && newObj);
     setter({
-      swift: newObj["Swift Charge"],
-      stamp: newObj["Stamp Charge"],
-      stationary: newObj["Stationary Charge"],
-      stampChargeforOther: newObj["Others Charge"],
+      swift: newObj['Swift Charge'],
+      stamp: newObj['Stamp Charge'],
+      stationary: newObj['Stationary Charge'],
+      stampChargeforOther: newObj['Others Charge'],
       lcConfirm: 0,
       tenorQuarter: 0,
       vatRate: 0,
@@ -510,61 +513,63 @@ export const validationSchema = Yup.object().shape({
   // poNo: Yup.object().shape({
   //   value: Yup.string().required("PO No is required"),
   // }),
-  lcNo: Yup.string().required("LC No is required"),
+  lcNo: Yup.string().required('LC No is required'),
   encoTerms: Yup.object().shape({
-    value: Yup.string().required("Enco Terms is required"),
+    value: Yup.string().required('Enco Terms is required'),
   }),
   materialType: Yup.object().shape({
-    value: Yup.string().required("Material Type is required"),
+    value: Yup.string().required('Material Type is required'),
   }),
   lcType: Yup.object().shape({
-    value: Yup.string().required("LC Type is required"),
+    value: Yup.string().required('LC Type is required'),
   }),
   bankName: Yup.object().shape({
-    value: Yup.string().required("Bank Name is required"),
+    value: Yup.string().required('Bank Name is required'),
   }),
   // bankAccount: Yup.object().shape({
   //   value: Yup.string().required("Bank Account is required"),
   //   label: Yup.string().required("Bank Account is required"),
   // }),
   origin: Yup.object().shape({
-    value: Yup.string().required("Origin is required"),
+    value: Yup.string().required('Origin is required'),
   }),
-  loadingPort: Yup.string().required("Loading Port is required"),
+  loadingPort: Yup.string().required('Loading Port is required'),
   finalDestination: Yup.object().shape({
-    value: Yup.string().required("Final Destination is required"),
+    value: Yup.string().required('Final Destination is required'),
   }),
   // tolarance: Yup.number()
   //   .positive("Tolarance Must Be Positive")
   //   .required("Tolarance is required"),
   currency: Yup.object().shape({
-    value: Yup.string().required("Currency is required"),
+    value: Yup.string().required('Currency is required'),
   }),
 
   PIAmountFC: Yup.string()
     // .positive("PI Amount Must Be Positive")
-    .required("PI Amount is required"),
+    .required('PI Amount is required'),
 
   lcTenor: Yup.number()
-    .integer("Must be Integer Number")
-    .positive("LC Tenor is positive"),
-  exchangeRate: Yup.number().required("Exchange Rate is required"),
-  PIAmountBDT: Yup.string().required("PI Amount BDT Number is required"),
+    .integer('Must be Integer Number')
+    .positive('LC Tenor is positive'),
+  exchangeRate: Yup.number().required('Exchange Rate is required'),
+  PIAmountBDT: Yup.string().required('PI Amount BDT Number is required'),
   // pgAmount: Yup.number().positive("PG Amount is always positive"),
   pgDueDate: Yup.date(),
   totalBankCharge: Yup.number()
-    .positive("Total bank Charge is always positive")
-    .required("Total Bank Charge is Required"),
+    .positive('Total bank Charge is always positive')
+    .required('Total Bank Charge is Required'),
   vatOnCharge: Yup.number()
-    .positive("VAT On Charge is always positive")
-    .required("VAT On Charge is Required"),
+    .positive('VAT On Charge is always positive')
+    .required('VAT On Charge is Required'),
   // duration: Yup.date().required("Duration Date is required"),
   // lcMarginPercent: Yup.number()
   //   .required("LC Margin is required"),
-  lcMarginValue: Yup.number().required("LC Margin Value is required"),
-  lcMarginDueDate: Yup.date().required("LC Margin Due Date is required"),
+  lcMarginValue: Yup.number().required('LC Margin Value is required'),
+  lcMarginDueDate: Yup.date().required('LC Margin Due Date is required'),
   marginType: Yup.object().shape({
-    value: Yup.string().required("Margin type is required"),
+    value: Yup.string().required('Margin type is required'),
   }),
-  numInterestRate: Yup.number().min(0, 'Must be above 0').max(100, 'Must be below 100')
+  numInterestRate: Yup.number()
+    .min(0, 'Must be above 0')
+    .max(100, 'Must be below 100'),
 });

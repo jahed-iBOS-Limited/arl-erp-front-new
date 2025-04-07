@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import NewSelect from "./../../../../_helper/_select";
-import { useSelector, shallowEqual } from "react-redux";
-import { getWareHouseDDL } from "../helper";
-import InputField from "./../../../../_helper/_inputField";
-import { getCustomerListByGenderDDL } from "./../helper";
-import IDelete from "./../../../../_helper/_helperIcons/_delete";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import NewSelect from './../../../../_helper/_select';
+import { useSelector, shallowEqual } from 'react-redux';
+import { getWareHouseDDL } from '../helper';
+import InputField from './../../../../_helper/_inputField';
+import { getCustomerListByGenderDDL } from './../helper';
+import IDelete from './../../../../_helper/_helperIcons/_delete';
 // Validation schema
 const validationSchema = Yup.object().shape({
   outletName: Yup.object().shape({
-    label: Yup.string().required("Outlet Name is required"),
-    value: Yup.string().required("Outlet Name is required"),
+    label: Yup.string().required('Outlet Name is required'),
+    value: Yup.string().required('Outlet Name is required'),
   }),
   gender: Yup.object().shape({
-    label: Yup.string().required("Gender is required"),
-    value: Yup.string().required("Gender is required"),
+    label: Yup.string().required('Gender is required'),
+    value: Yup.string().required('Gender is required'),
   }),
   customerGroupName: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .required("Customer Group Name is required"),
+    .min(2, 'Minimum 2 symbols')
+    .required('Customer Group Name is required'),
 });
 
 export default function FormCmp({
@@ -50,21 +50,20 @@ export default function FormCmp({
         setWareHouseDDL
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   const genderDDL = [
     {
-      label: "Male",
-      value: "1",
+      label: 'Male',
+      value: '1',
     },
     {
-      label: "Female",
-      value: "2",
+      label: 'Female',
+      value: '2',
     },
     {
-      label: "Both",
-      value: "0",
+      label: 'Both',
+      value: '0',
     },
   ];
 
@@ -77,7 +76,7 @@ export default function FormCmp({
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
-            setRowDto([])
+            setRowDto([]);
           });
         }}
       >
@@ -99,7 +98,7 @@ export default function FormCmp({
                     label="Outlet Name"
                     value={values?.outletName}
                     onChange={(valueOption) => {
-                      setFieldValue("outletName", valueOption);
+                      setFieldValue('outletName', valueOption);
                     }}
                     placeholder="Outlet Name"
                     errors={errors}
@@ -122,15 +121,14 @@ export default function FormCmp({
                     value={values?.gender}
                     label="Customer's Gender"
                     onChange={(valueOption) => {
-                      setFieldValue("customer", '');
-                      setFieldValue("gender", valueOption);
+                      setFieldValue('customer', '');
+                      setFieldValue('gender', valueOption);
                       getCustomerListByGenderDDL(
                         profileData?.accountId,
                         selectedBusinessUnit?.value,
                         valueOption?.value,
                         setCustomerDDL
                       );
-
                     }}
                     placeholder="Customer's Gender"
                     errors={errors}
@@ -147,8 +145,8 @@ export default function FormCmp({
                     value={values?.customer}
                     label="Customer "
                     onChange={(valueOption) => {
-                      setFieldValue("customer", valueOption);
-                      setIsCheck(false)
+                      setFieldValue('customer', valueOption);
+                      setIsCheck(false);
                     }}
                     placeholder="Customer "
                     errors={errors}
@@ -158,17 +156,17 @@ export default function FormCmp({
                 <div className="col-lg-2 d-flex mt-5">
                   <label>Select All</label>
                   <input
-                    style={{ width: "15px", height: "15px" }}
+                    style={{ width: '15px', height: '15px' }}
                     name="isSelect"
                     checked={isCheck}
                     className="form-control ml-5"
                     type="checkbox"
                     onChange={(e) => {
                       setIsCheck(!isCheck);
-                      setFieldValue("customer", "");
-                      setRowDto([])
+                      setFieldValue('customer', '');
+                      setRowDto([]);
                     }}
-                  // disabled={allFeatureDisabled}
+                    // disabled={allFeatureDisabled}
                   />
                 </div>
                 <div className="col-lg-3 d-flex  align-items-end">
@@ -200,7 +198,7 @@ export default function FormCmp({
                         <td>{index + 1}</td>
                         <td>{item?.customer}</td>
                         <td>{item?.gender}</td>
-                        <td style={{ textAlign: "center" }}>
+                        <td style={{ textAlign: 'center' }}>
                           <span onClick={(e) => removeHandler(index)}>
                             <IDelete />
                           </span>
@@ -212,13 +210,13 @@ export default function FormCmp({
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

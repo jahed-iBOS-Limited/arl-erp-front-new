@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from 'axios';
 
 export const getSingleDataById = async (
   bomId,
@@ -27,7 +27,7 @@ export const getSingleDataById = async (
         itemCode,
         boMUOMName,
         boMuoMid,
-        boMItemVersionName
+        boMItemVersionName,
       } = res?.data?.objHeaderDTO;
 
       const newData = {
@@ -48,18 +48,18 @@ export const getSingleDataById = async (
           label: itemName,
         },
         lotSize: lotSize,
-        netWeight: "",
+        netWeight: '',
         wastage: wastagePercentage,
         isStandardBoM: isStandardBoM,
         itemCode: itemCode,
         objList: res?.data?.objList,
-        costCenter: "",
+        costCenter: '',
         headerUOM: {
           value: boMuoMid,
           label: boMUOMName,
         },
-        material: "",
-        quantity: "",
+        material: '',
+        quantity: '',
       };
       const newRowData = res?.data?.objList?.map((item, index) => ({
         ...item,
@@ -82,4 +82,3 @@ export const getSingleDataById = async (
     setDisabled(false);
   }
 };
-

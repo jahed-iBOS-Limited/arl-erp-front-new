@@ -1,31 +1,30 @@
-
-import React, { useEffect, useState } from "react";
-import Form from "./form";
-import { useSelector, shallowEqual } from "react-redux";
-import Loading from "../../../../_helper/_loading";
-import IForm from "./../../../../_helper/_form";
-import { editSalesTargetSetup, getTerritoryTypeDDL } from "./../helper";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import { toast } from "react-toastify";
-import { createSalesTargetSetup } from "./../helper";
-import { YearDDL } from "../../../../_helper/_yearDDL";
-import { getMonthDDL } from "../../../../_helper/_commonApi";
+import React, { useEffect, useState } from 'react';
+import Form from './form';
+import { useSelector, shallowEqual } from 'react-redux';
+import Loading from '../../../../_helper/_loading';
+import IForm from './../../../../_helper/_form';
+import { editSalesTargetSetup, getTerritoryTypeDDL } from './../helper';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import { toast } from 'react-toastify';
+import { createSalesTargetSetup } from './../helper';
+import { YearDDL } from '../../../../_helper/_yearDDL';
+import { getMonthDDL } from '../../../../_helper/_commonApi';
 
 const initData = {
-  territoryType: "",
-  territory: "",
-  route: "",
-  parentTerritory: "",
-  parentTerritoryId: "",
-  targetMonth: "",
-  targetYear: "",
-  fromDate: "",
-  toDate: "",
-  chanel: "",
-  region: "",
-  area: "",
-  point: "",
-  section: "",
+  territoryType: '',
+  territory: '',
+  route: '',
+  parentTerritory: '',
+  parentTerritoryId: '',
+  targetMonth: '',
+  targetYear: '',
+  fromDate: '',
+  toDate: '',
+  chanel: '',
+  region: '',
+  area: '',
+  point: '',
+  section: '',
 };
 
 const SalesTargetSetupForm = () => {
@@ -125,12 +124,12 @@ const SalesTargetSetupForm = () => {
           editSalesTargetSetup(payload);
         }
       } else {
-        toast.warning("Please update some quantity", {
-          toastId: "Please update some quantity",
+        toast.warning('Please update some quantity', {
+          toastId: 'Please update some quantity',
         });
       }
     } else {
-      toast.warning("Please setup your sales target");
+      toast.warning('Please setup your sales target');
     }
   };
 
@@ -139,7 +138,7 @@ const SalesTargetSetupForm = () => {
   return (
     <>
       <IForm
-        title={"Sales Target Setup"}
+        title={'Sales Target Setup'}
         getProps={setObjprops}
         isDisabled={isDisabled}
       >

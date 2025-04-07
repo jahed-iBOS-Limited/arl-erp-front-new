@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 //getSBUListDDL_api Api call
 export const getSBUListDDL_api = async (accId, buId, setter) => {
@@ -10,9 +10,7 @@ export const getSBUListDDL_api = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 //createDisbursementCenter_api Api call
@@ -24,19 +22,18 @@ export const createDisbursementCenter_api = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200 && res?.data) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
   } catch (error) {
-   
     toast.error(error?.response?.data?.message);
     setDisabled(false);
   }
 };
 
 export const editDisbursementCenter_api = async (data, setDisabled) => {
-  console.log("from edit", data);
+  console.log('from edit', data);
   setDisabled(true);
   try {
     const res = await Axios.put(
@@ -44,12 +41,11 @@ export const editDisbursementCenter_api = async (data, setDisabled) => {
       data
     );
     if (res.status === 200 && res?.data) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
 
       setDisabled(false);
     }
   } catch (error) {
-   
     toast.error(error?.response?.data?.message);
     setDisabled(false);
   }
@@ -77,7 +73,6 @@ export const getDisbursementcenterPasignation_api = async (
     }
   } catch (error) {
     setLoading(false);
-    
   }
 };
 
@@ -98,7 +93,5 @@ export const getDisbursementcenterById_api = async (
       };
       setter(newData);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };

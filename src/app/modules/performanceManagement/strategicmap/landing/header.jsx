@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import NewSelect from '../../../_helper/_select';
-import { empAttachment_action } from "../../../_helper/attachmentUpload";
+import { empAttachment_action } from '../../../_helper/attachmentUpload';
 
 import { DropzoneDialogBase } from 'react-mui-dropzone';
 import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
@@ -163,7 +163,7 @@ export function Header({ onSubmit, onSelect, goalDDL, setGoalDDL }) {
                 disabled={!values?.sbu}
                 onClick={() => setOpen(true)}
               >
-                Map  Upload
+                Map Upload
               </button>
 
               {/* <button
@@ -301,7 +301,7 @@ export function Header({ onSubmit, onSelect, goalDDL, setGoalDDL }) {
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name,
+                  (item) => item.file.name !== deleteFileObj.file.name
                 );
                 setFileObjects(newData);
               }}
@@ -319,9 +319,13 @@ export function Header({ onSubmit, onSelect, goalDDL, setGoalDDL }) {
       </Formik>
       {/* {loading && <Loading/>} */}
 
-      <div className="row" style={{ marginBottom: "30px" }}>
+      <div className="row" style={{ marginBottom: '30px' }}>
         <div className="col-md-12">
-          <img src={imageView?.url} alt="" style={{ width: "100%", padding: "0 25px" }} />
+          <img
+            src={imageView?.url}
+            alt=""
+            style={{ width: '100%', padding: '0 25px' }}
+          />
         </div>
       </div>
     </div>

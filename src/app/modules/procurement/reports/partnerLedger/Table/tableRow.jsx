@@ -1,6 +1,5 @@
-
-import React, { useEffect, useState, useRef } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import React, { useEffect, useState, useRef } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import {
   getControllingUnitGridData,
   getSoldToPartyDDL_Action,
@@ -9,32 +8,32 @@ import {
   SetPartnerledgerGridDataEmptyAction,
   getBusinessPartnerDetails,
   SetBusinessPartnerDetailsEmptyAction,
-} from "../_redux/Actions";
-import { Form, Formik } from "formik";
-import * as Yup from "yup";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import ICard from "../../../../_helper/_card";
-import Loading from "../../../../_helper/_loading";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
-import NewSelect from "./../../../../_helper/_select";
-import InputField from "./../../../../_helper/_inputField";
-import { useHistory, useLocation } from "react-router-dom";
-import { SetReportPartnerLedgerAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+} from '../_redux/Actions';
+import { Form, Formik } from 'formik';
+import * as Yup from 'yup';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import ICard from '../../../../_helper/_card';
+import Loading from '../../../../_helper/_loading';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import SearchAsyncSelect from './../../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
+import NewSelect from './../../../../_helper/_select';
+import InputField from './../../../../_helper/_inputField';
+import { useHistory, useLocation } from 'react-router-dom';
+import { SetReportPartnerLedgerAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 
 const validationSchema = Yup.object().shape({
   supplierName: Yup.object().shape({
-    label: Yup.string().required("Responsible Person is required"),
-    value: Yup.string().required("Responsible Person is required"),
+    label: Yup.string().required('Responsible Person is required'),
+    value: Yup.string().required('Responsible Person is required'),
   }),
 });
 
 export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
-  const [selectedPartnerLedger, setSelectedPartnerLedger] = useState("");
-  const [party, setParty] = useState("");
+  const [selectedPartnerLedger, setSelectedPartnerLedger] = useState('');
+  const [party, setParty] = useState('');
   const printRef = useRef();
   const [loading, setLoading] = useState(false);
   const [state, setState] = useState(useLocation().state);
@@ -43,8 +42,8 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
 
   const initData = {
     id: undefined,
-    supplierName: reportPartnerLedger?.supplierName || "",
-    sbu: reportPartnerLedger?.sbu || "",
+    supplierName: reportPartnerLedger?.supplierName || '',
+    sbu: reportPartnerLedger?.sbu || '',
     fromDate: reportPartnerLedger?.fromDate || _todayDate(),
     toDate: reportPartnerLedger?.toDate || _todayDate(),
   };
@@ -81,7 +80,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
     // distributionChannelName,
   } = businessPartnerDetails;
 
-  console.log(businessPartnerDetails, "businessPartnerDetails");
+  console.log(businessPartnerDetails, 'businessPartnerDetails');
 
   const sbuDDL = useSelector((state) => {
     return state.partnerLedger?.sbuDDL;
@@ -102,7 +101,6 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
         getSbuDDLAction(profileData.accountId, selectedBusinessUnit.value)
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {
@@ -120,7 +118,6 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
         )
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {
@@ -128,7 +125,6 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
       dispatch(SetPartnerledgerGridDataEmptyAction());
       dispatch(SetBusinessPartnerDetailsEmptyAction());
     };
-
   }, []);
 
   return (
@@ -175,13 +171,13 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                             value={values?.sbu}
                             label="SBU"
                             onChange={(valueOption) => {
-                              setFieldValue("sbu", valueOption);
-                              setFieldValue("supplierName", "");
+                              setFieldValue('sbu', valueOption);
+                              setFieldValue('supplierName', '');
                               dispatch(
                                 SetReportPartnerLedgerAction({
                                   ...values,
                                   sbu: valueOption,
-                                  supplierName: "",
+                                  supplierName: '',
                                 })
                               );
                             }}
@@ -197,7 +193,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                             selectedValue={values.supplierName}
                             handleChange={(valueOption) => {
                               dispatch(SetPartnerledgerGridDataEmptyAction());
-                              setFieldValue("supplierName", valueOption);
+                              setFieldValue('supplierName', valueOption);
                             }}
                             loadOptions={(v) => {
                               if (v.length < 3) return [];
@@ -244,7 +240,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                             placeholder="From Date"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("fromDate", e.target.value);
+                              setFieldValue('fromDate', e.target.value);
                               dispatch(SetPartnerledgerGridDataEmptyAction());
                               dispatch(
                                 SetReportPartnerLedgerAction({
@@ -263,7 +259,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                             placeholder="To Date"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("toDate", e.target.value);
+                              setFieldValue('toDate', e.target.value);
                               dispatch(SetPartnerledgerGridDataEmptyAction());
                               dispatch(
                                 SetReportPartnerLedgerAction({
@@ -311,14 +307,14 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>
@@ -326,8 +322,8 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
 
               <div className="mt-1" ref={printRef}>
                 <div>
-                  <h2 style={{ textAlign: "center" }}>Partner Ledger</h2>
-                  <h6 style={{ textAlign: "center" }}>{party}</h6>
+                  <h2 style={{ textAlign: 'center' }}>Partner Ledger</h2>
+                  <h6 style={{ textAlign: 'center' }}>{party}</h6>
                 </div>
                 {/* <div className="row"></div> */}
                 {/* Table Start */}
@@ -361,69 +357,69 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                   </div>
                   <div className="col-lg-12">
                     {partnerLedgerGridData?.length >= 0 && (
-                        <div className="table-responsive">
-                      <table className="table table-striped table-bordered global-table table-font-size-sm">
-                        <thead>
-                          <tr>
-                            <th style={{ width: "30px" }}>SL</th>
-                            <th style={{ width: "90px" }}>Date</th>
-                            <th style={{ width: "90px" }}>Voucher No</th>
-                            <th>Description</th>
-                            <th style={{ width: "90px" }}>Debit Amount</th>
-                            <th style={{ width: "90px" }}>Credit Amount</th>
-                            <th style={{ width: "90px" }}>Balance</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {partnerLedgerGridData?.map((td, index) => (
-                            <tr key={index}>
-                              <td className="text-center">{td?.sl}</td>
-                              <td>
-                                <div className="text-right pr-2">
-                                  {_dateFormatter(td?.transactionDate)}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-right pr-2">
-                                  {td?.transactionId === 0
-                                    ? ""
-                                    : td?.transactionId}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="pl-2">{td?.narration}</div>
-                              </td>
-                              <td>
-                                <div className="text-right pr-2">
-                                  {td?.dbAmount === 0
-                                    ? ""
-                                    : numberWithCommas(
-                                        (td?.dbAmount || 0).toFixed(2)
-                                      )}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-right pr-2">
-                                  {td?.crAmount === 0
-                                    ? ""
-                                    : numberWithCommas(
-                                        (td?.crAmount || 0).toFixed(2)
-                                      )}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-right pr-2">
-                                  {td?.balance === 0
-                                    ? ""
-                                    : numberWithCommas(
-                                        (td?.balance || 0).toFixed(2)
-                                      )}
-                                </div>
-                              </td>
+                      <div className="table-responsive">
+                        <table className="table table-striped table-bordered global-table table-font-size-sm">
+                          <thead>
+                            <tr>
+                              <th style={{ width: '30px' }}>SL</th>
+                              <th style={{ width: '90px' }}>Date</th>
+                              <th style={{ width: '90px' }}>Voucher No</th>
+                              <th>Description</th>
+                              <th style={{ width: '90px' }}>Debit Amount</th>
+                              <th style={{ width: '90px' }}>Credit Amount</th>
+                              <th style={{ width: '90px' }}>Balance</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                          </thead>
+                          <tbody>
+                            {partnerLedgerGridData?.map((td, index) => (
+                              <tr key={index}>
+                                <td className="text-center">{td?.sl}</td>
+                                <td>
+                                  <div className="text-right pr-2">
+                                    {_dateFormatter(td?.transactionDate)}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-right pr-2">
+                                    {td?.transactionId === 0
+                                      ? ''
+                                      : td?.transactionId}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="pl-2">{td?.narration}</div>
+                                </td>
+                                <td>
+                                  <div className="text-right pr-2">
+                                    {td?.dbAmount === 0
+                                      ? ''
+                                      : numberWithCommas(
+                                          (td?.dbAmount || 0).toFixed(2)
+                                        )}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-right pr-2">
+                                    {td?.crAmount === 0
+                                      ? ''
+                                      : numberWithCommas(
+                                          (td?.crAmount || 0).toFixed(2)
+                                        )}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-right pr-2">
+                                    {td?.balance === 0
+                                      ? ''
+                                      : numberWithCommas(
+                                          (td?.balance || 0).toFixed(2)
+                                        )}
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
                     )}
                   </div>

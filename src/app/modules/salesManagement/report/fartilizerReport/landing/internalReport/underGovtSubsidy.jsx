@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment } from 'react';
 
 export default function UnderGovSubsidyTable({ rowData }) {
   return (
@@ -23,7 +23,7 @@ export default function UnderGovSubsidyTable({ rowData }) {
             {rowData?.map((item, index) => (
               <tr
                 style={{
-                  backgroundColor: item?.includes("-") ? "lightblue" : "none",
+                  backgroundColor: item?.includes('-') ? 'lightblue' : 'none',
                 }}
                 key={index}
               >
@@ -31,7 +31,7 @@ export default function UnderGovSubsidyTable({ rowData }) {
                   <Fragment key={key}>
                     <td
                       className={
-                        key === 0 || key === 1 ? "text-left" : "text-right"
+                        key === 0 || key === 1 ? 'text-left' : 'text-right'
                       }
                     >
                       {nested}

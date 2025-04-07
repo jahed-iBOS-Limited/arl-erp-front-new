@@ -1,7 +1,6 @@
 import React from 'react';
 
-const LocalAndInternationalRateDetailsTable = ({rowData}) => {
-
+const LocalAndInternationalRateDetailsTable = ({ rowData }) => {
   return (
     <div className="table-responsive">
       <table
@@ -18,8 +17,12 @@ const LocalAndInternationalRateDetailsTable = ({rowData}) => {
             <th>Godown </th>
             <th>Business Partner</th>
             <th>Port</th>
-            <th>Local <br /> Revinue Rate</th>
-            <th>International <br /> Revinue Rate</th>
+            <th>
+              Local <br /> Revinue Rate
+            </th>
+            <th>
+              International <br /> Revinue Rate
+            </th>
             <th>MotherVessel Freight </th>
           </tr>
         </thead>
@@ -35,9 +38,9 @@ const LocalAndInternationalRateDetailsTable = ({rowData}) => {
                 <td>{item?.godownName}</td>
                 <td>{item?.businessPartnerName}</td>
                 <td>{item?.portName}</td>
-                <td className='text-right'>{item?.localRevenueRate}</td>
-                <td className='text-right'>{item?.motherVesselRevenueRate}</td>
-                <td className='text-right'>{item?.freightInBDT}</td>
+                <td className="text-right">{item?.localRevenueRate}</td>
+                <td className="text-right">{item?.motherVesselRevenueRate}</td>
+                <td className="text-right">{item?.freightInBDT}</td>
               </tr>
             );
           })}

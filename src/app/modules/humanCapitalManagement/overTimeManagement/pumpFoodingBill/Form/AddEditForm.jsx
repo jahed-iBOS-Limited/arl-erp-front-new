@@ -1,44 +1,44 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getTimeDifference } from "../../../../chartering/_chartinghelper/_getDateDiff";
-import { pumpFoodingBillEntry } from "../helper";
-import Form from "./Form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { getTimeDifference } from '../../../../chartering/_chartinghelper/_getDateDiff';
+import { pumpFoodingBillEntry } from '../helper';
+import Form from './Form';
 
 const initData = {
-  workPlace: "",
-  employee: "",
-  enroll: "",
-  designation: "",
-  designationId: "",
-  code: "",
+  workPlace: '',
+  employee: '',
+  enroll: '',
+  designation: '',
+  designationId: '',
+  code: '',
   date: _todayDate(),
-  startTime: "",
-  endTime: "",
-  hours: "",
-  otCount: "",
-  taka: "",
-  remarks: "",
-  warehouse: "",
-  plant: "",
+  startTime: '',
+  endTime: '',
+  hours: '',
+  otCount: '',
+  taka: '',
+  remarks: '',
+  warehouse: '',
+  plant: '',
 };
 
 const headers = [
-  "SL",
-  "Employee Name",
-  "Enroll",
-  "Workplace",
-  "Designation",
-  "Start Date",
-  "Start Time",
-  "End Date",
-  "End Time",
-  "Taka",
-  "Remarks",
-  "Action",
+  'SL',
+  'Employee Name',
+  'Enroll',
+  'Workplace',
+  'Designation',
+  'Start Date',
+  'Start Time',
+  'End Date',
+  'End Time',
+  'Taka',
+  'Remarks',
+  'Action',
 ];
 
 export function PumpFoodingBill() {
@@ -55,8 +55,6 @@ export function PumpFoodingBill() {
     getPlantDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
-
-
   }, [accId, buId, userId]);
 
   const addHandler = (values, cb) => {
@@ -93,13 +91,13 @@ export function PumpFoodingBill() {
         exists?.length > 0 &&
         exists?.some((item) => +item?.employeeId === +values?.employee?.value)
       ) {
-        return toast.warn("Employee is not available in this time interval!");
+        return toast.warn('Employee is not available in this time interval!');
       }
       // custom validation for warehouse
       const warehouseLabel = values?.warehouse?.label;
       const warehouseValue = values?.warehouse?.value;
       if (!warehouseLabel || !warehouseValue)
-        return toast.warn("Please select warehouse");
+        return toast.warn('Please select warehouse');
 
       const diff = getTimeDifference(
         values?.date,

@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import HeaderForm from "./form";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import HeaderForm from './form';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import {
   getCashJournalGridData,
   saveCancel_action,
   saveCompleted_action,
-} from "../_redux/Actions";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { toast } from "react-toastify";
+} from '../_redux/Actions';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { toast } from 'react-toastify';
 export default function CashJournalLanding() {
   const [rowDto, setRowDto] = useState([]);
   const [approval, Setapproval] = useState(true);
@@ -93,7 +93,7 @@ export default function CashJournalLanding() {
         `Complete date should be greather than or equal to journal date for ${isInvalid[0]?.code}`
       );
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to post the selected journals on ${date}?`,
       yesAlertFunc: () => {
         const payload = modifyFilterRowDto.map((itm) => ({
@@ -123,7 +123,7 @@ export default function CashJournalLanding() {
     pageNo,
     pageSize
   ) => {
-    if (type === "notComplated") {
+    if (type === 'notComplated') {
       dispatch(
         getCashJournalGridData(
           selectedBusinessUnit.value,
@@ -140,7 +140,7 @@ export default function CashJournalLanding() {
         //isPosted, isActive, fromdate, todate, voucherCode
       );
     }
-    if (type === "complated") {
+    if (type === 'complated') {
       dispatch(
         getCashJournalGridData(
           selectedBusinessUnit.value,
@@ -157,7 +157,7 @@ export default function CashJournalLanding() {
         //isPosted, isActive, fromdate, todate, voucherCode
       );
     }
-    if (type === "canceled") {
+    if (type === 'canceled') {
       dispatch(
         getCashJournalGridData(
           selectedBusinessUnit.value,
@@ -188,14 +188,13 @@ export default function CashJournalLanding() {
         pageSize
       );
     }
-
   }, []);
 
   const remover = (id, journalTypeValue) => {
     const singleData = [rowDto?.[id]];
     const updateRowDto = rowDto.filter((itm, idx) => idx !== id);
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to cancel the journal?`,
       yesAlertFunc: () => {
         const payload = singleData.map((itm) => ({
@@ -219,7 +218,7 @@ export default function CashJournalLanding() {
     const singleData = [rowDto?.[index]];
     const updateRowDto = rowDto.filter((itm, idx) => idx !== index);
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to post the selected journals on ${date}?`,
       yesAlertFunc: () => {
         const payload = singleData.map((itm) => ({

@@ -1,30 +1,28 @@
-
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { _todayDate } from "../../../_chartinghelper/_todayDate";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import { getSurveyNoDDL, getTripInformation, saveInvoice } from "../helper";
-import Form from "./form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _todayDate } from '../../../_chartinghelper/_todayDate';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import { getSurveyNoDDL, getTripInformation, saveInvoice } from '../helper';
+import Form from './form';
 
 const initData = {
-  surveyNo: "",
-  narration: "",
-  billNo: "",
+  surveyNo: '',
+  narration: '',
+  billNo: '',
   billDate: _todayDate(),
-  month: "",
-  year: "",
+  month: '',
+  year: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
 
 const headers = [
-  { name: "SL" },
-  { name: "Description" },
-  { name: "Voyage No" },
-  { name: "Qty in Mts" },
-  { name: "Rate" },
-  { name: "Total(Taka)" },
+  { name: 'SL' },
+  { name: 'Description' },
+  { name: 'Voyage No' },
+  { name: 'Qty in Mts' },
+  { name: 'Rate' },
+  { name: 'Total(Taka)' },
 ];
 
 export default function InvoiceForm() {
@@ -54,7 +52,7 @@ export default function InvoiceForm() {
       selectedBusinessUnit?.value,
       values?.fromDate,
       values?.toDate,
-      values?.surveyNo?.label || "",
+      values?.surveyNo?.label || '',
       // reportDate,
       setTripInformation,
       setLoading
@@ -73,7 +71,7 @@ export default function InvoiceForm() {
         billDate: values?.billDate,
         consigneePartyId: tripInformation?.objHeder?.consigneePartyId,
         consigneePartyName: tripInformation?.objHeder?.consigneePartyName,
-        consigneeAddress: tripInformation?.objHeder?.consigneeAddress || "",
+        consigneeAddress: tripInformation?.objHeder?.consigneeAddress || '',
         motherVesselId: tripInformation?.objHeder?.motherVesselId,
         motherVesselName: tripInformation?.objHeder?.motherVesselName,
         voyageNo: tripInformation?.objHeder?.voyageNo,
@@ -95,7 +93,7 @@ export default function InvoiceForm() {
     <>
       {loading && <Loading />}
       <Form
-        title={"Create Invoice"}
+        title={'Create Invoice'}
         initData={initData}
         saveHandler={saveHandler}
         setLoading={setLoading}

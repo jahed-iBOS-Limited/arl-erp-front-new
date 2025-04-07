@@ -1,6 +1,4 @@
-import axios from "axios";
-
-
+import axios from 'axios';
 
 export const getShopfloorDDL = async (accId, buId, plantId, setter) => {
   try {
@@ -28,7 +26,7 @@ export const getShopfloorIssueReportLandingData = async (
 ) => {
   setLoading(true);
   try {
-    const searchPath = search ? `search=${search}&` : "";
+    const searchPath = search ? `search=${search}&` : '';
     const res = await axios.get(
       `/mes/MESReport/GetShopfloorIssueReport?${searchPath}accountId=${accId}&businessUnitId=${buId}&plantId=${pId}&shopfloorId=${sId}&fromDate=${fromDate}&toDate=${toDate}`
     );

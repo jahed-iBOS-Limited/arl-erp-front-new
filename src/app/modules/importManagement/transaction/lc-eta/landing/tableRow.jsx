@@ -1,41 +1,42 @@
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import Axios from "axios";
-import { Formik } from "formik";
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import Axios from 'axios';
+import { Formik } from 'formik';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import ICustomTable from "../../../../_helper/_customTable";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { toast } from "react-toastify";
+} from '../../../../../../_metronic/_partials/controls';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import ICustomTable from '../../../../_helper/_customTable';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _firstDateofMonth } from '../../../../_helper/_firstDateOfCurrentMonth';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { toast } from 'react-toastify';
 
 const header = [
-  "SL No.",
-  "ETA Date",
-  "Invoice No",
-  "BL No",
-  "Vessel Name",
-  "Number of Container",
-  "Action",
+  'SL No.',
+  'ETA Date',
+  'Invoice No',
+  'BL No',
+  'Vessel Name',
+  'Number of Container',
+  'Action',
 ];
 
 const TableRow = () => {
-  const [, gettLetterOfCreaditByPo, lcLoading,settLetterOfCreaditByPo ] = useAxiosGet("");
+  const [, gettLetterOfCreaditByPo, lcLoading, settLetterOfCreaditByPo] =
+    useAxiosGet('');
   const history = useHistory();
   const [
     letterOfCreaditETALanding,
     gettLetterOfCreaditETALanding,
     landingLoading,
-  ] = useAxiosGet("");
+  ] = useAxiosGet('');
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
@@ -75,8 +76,8 @@ const TableRow = () => {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          poNo: "",
-          bankDDL: "",
+          poNo: '',
+          bankDDL: '',
           fromDate: _dateFormatter(_firstDateofMonth()),
           toDate: _dateFormatter(new Date()),
         }}
@@ -84,16 +85,14 @@ const TableRow = () => {
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
-          {
-            lcLoading && <Loading />
-          }
+            {lcLoading && <Loading />}
             <Card>
               <CardHeader title="LC ETA">
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
                       history.push({
-                        pathname: "/managementImport/transaction/lc-eta/create",
+                        pathname: '/managementImport/transaction/lc-eta/create',
                       });
                     }}
                     className="btn btn-primary"
@@ -113,8 +112,8 @@ const TableRow = () => {
                       isSearchIcon={true}
                       paddingRight={10}
                       handleChange={(valueOption) => {
-                        settLetterOfCreaditByPo([])
-                        setFieldValue("poNo", valueOption);
+                        settLetterOfCreaditByPo([]);
+                        setFieldValue('poNo', valueOption);
                         gettLetterOfCreaditByPo(
                           `/imp/Shipment/GettLetterOfCreaditByPo?PoId=${valueOption?.value}`,
                           (resData) => {
@@ -126,7 +125,7 @@ const TableRow = () => {
                             girdDataFunc(modifyvalues);
                           },
                           (errors) => {
-                            toast.warning("LC Not Found");
+                            toast.warning('LC Not Found');
                           }
                         );
                       }}
@@ -155,7 +154,7 @@ const TableRow = () => {
                         <td>{item?.blno}</td>
                         <td>{item?.vesselName}</td>
                         <td>{item?.numberOfContainer}</td>
-                        <td style={{ width: "150px" }} className="text-center">
+                        <td style={{ width: '150px' }} className="text-center">
                           <div className="d-flex justify-content-center">
                             <span
                               className="ml-5 edit"

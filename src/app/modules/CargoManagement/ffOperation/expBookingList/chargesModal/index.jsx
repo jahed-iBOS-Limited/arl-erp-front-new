@@ -19,7 +19,7 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
   const formikRef = React.useRef(null);
   const { profileData } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
   const bookingRequestId = rowClickData?.bookingRequestId;
   const [, getSaveBookedRequestBilling, bookedRequestBilling] = useAxiosPost();
@@ -63,19 +63,20 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
       (resShippingHeadOfCharges) => {
         // `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingByMasterBl?MasterBlId=${masterBlId}&modeOfTransportId=${modeOfTransportId}`,
         getBookedRequestBillingData(
-          `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingData?bookingId=${bookingRequestId}&isAirOperation=${isAirOperation ||
-            false}`,
+          `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingData?bookingId=${bookingRequestId}&isAirOperation=${
+            isAirOperation || false
+          }`,
           (resSveData) => {
             if (formikRef.current) {
               // profitSharePercentage add
               formikRef.current.setFieldValue(
                 'profitSharePercentage',
-                resSveData?.[0]?.profitSharePercentage || '',
+                resSveData?.[0]?.profitSharePercentage || ''
               );
               // converstionRateUsd add
               formikRef.current.setFieldValue(
                 'converstionRateUsd',
-                resSveData?.[0]?.converstionRateUsd || '',
+                resSveData?.[0]?.converstionRateUsd || ''
               );
             }
             const arryList = [];
@@ -83,7 +84,7 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
               resShippingHeadOfCharges.forEach((item) => {
                 const saveHeadOfChargeList =
                   resSveData?.filter(
-                    (findItem) => findItem?.headOfChargeId === item?.value,
+                    (findItem) => findItem?.headOfChargeId === item?.value
                   ) || [];
 
                 if (saveHeadOfChargeList?.length > 0) {
@@ -180,9 +181,9 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
               });
               setShippingHeadOfCharges([...arryList]);
             }
-          },
+          }
         );
-      },
+      }
     );
   };
   useEffect(() => {
@@ -202,12 +203,11 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
           };
         });
         setCurrencyList(modifyData);
-      },
+      }
     );
     getShipingCargoTypeDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`,
+      `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`
     );
-
   }, []);
 
   const saveHandler = (values, cb) => {
@@ -277,22 +277,22 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
     const currencyIdEmpty = payloadList?.find((item) => item?.currencyId === 0);
     if (currencyIdEmpty) {
       return toast.warn(
-        `Please select currency for "${currencyIdEmpty?.headOfCharges}" Attribute`,
+        `Please select currency for "${currencyIdEmpty?.headOfCharges}" Attribute`
       );
     }
     // if payloadList 'exchangeRate' empty then return and show warning message "headOfCharges"
     const exchangeRateEmpty = payloadList?.find(
-      (item) => (+item?.exchangeRate || 0) === 0,
+      (item) => (+item?.exchangeRate || 0) === 0
     );
     if (exchangeRateEmpty) {
       return toast.warn(
-        `Please enter exchange rate for "${exchangeRateEmpty?.headOfCharges}" Attribute`,
+        `Please enter exchange rate for "${exchangeRateEmpty?.headOfCharges}" Attribute`
       );
     }
     getSaveBookedRequestBilling(
       `${imarineBaseUrl}/domain/ShippingService/SaveBookedRequestBilling`,
       payloadList,
-      CB,
+      CB
     );
   };
   return (
@@ -406,7 +406,9 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
                     <th rowspan="2"></th>
                     <th rowspan="2">SL</th>
                     <th rowspan="2">Attribute</th>
-                    <th rowspan="2">Currency</th>
+                    <th rowspan="2" style={{ minWidth: '85px' }}>
+                      Currency
+                    </th>
                     <th rowspan="2">Exchange Rate</th>
                     <th colspan="4" className="group-header collection-header">
                       Collection <span>(Amounts & Party)</span>
@@ -645,7 +647,7 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
                             isDisabled={isDisabled || item?.invoiceId}
                             options={[
                               ...(shipingCargoTypeDDL ?? []).filter(
-                                (i) => i?.value !== 8,
+                                (i) => i?.value !== 8
                               ),
                               ...(isAirOperation
                                 ? [
@@ -777,7 +779,7 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
                             }
                             options={[
                               ...(shipingCargoTypeDDL ?? []).filter(
-                                (i) => i?.value !== 8,
+                                (i) => i?.value !== 8
                               ),
                               ...(isAirOperation
                                 ? [
@@ -1031,7 +1033,7 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
                               className="btn btn-primary"
                               onClick={() => {
                                 const hardCopy = JSON.parse(
-                                  JSON.stringify(shippingHeadOfCharges),
+                                  JSON.stringify(shippingHeadOfCharges)
                                 );
                                 // copy above row item copy and add new row
                                 const aboveRow = hardCopy?.[index];
@@ -1066,7 +1068,7 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
                                 ];
                                 console.log(
                                   JSON.stringify(modifiedData, null, 2),
-                                  'modifiedData',
+                                  'modifiedData'
                                 );
                                 setShippingHeadOfCharges(modifiedData);
                               }}

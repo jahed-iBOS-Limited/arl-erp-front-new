@@ -1,17 +1,16 @@
-
-import React, { useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { savePasswordUpdate_Action } from "./../_redux/Actions";
-import { Logout } from "../../../../Auth/_redux/Auth_Actions";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { savePasswordUpdate_Action } from './../_redux/Actions';
+import { Logout } from '../../../../Auth/_redux/Auth_Actions';
 import { clearLocalStorageAction } from './../../../../_helper/reduxForLocalStorage/Actions';
 
 const initData = {
   id: undefined,
-  oldPassword: "",
-  newPassword: "",
-  confirmPassowrd: "",
+  oldPassword: '',
+  newPassword: '',
+  confirmPassowrd: '',
 };
 
 export default function ChangePassWordForm({ history }) {
@@ -47,7 +46,6 @@ export default function ChangePassWordForm({ history }) {
       );
     } else {
       setDisabled(false);
-
     }
   };
 
@@ -57,22 +55,22 @@ export default function ChangePassWordForm({ history }) {
 
   const logoutClick = () => {
     dispatch(Logout());
-    dispatch(clearLocalStorageAction())
-    history.push("/logout");
+    dispatch(clearLocalStorageAction());
+    history.push('/logout');
   };
 
   const showPasswordHandler = (value) => {
-    if (value === "oldPassword") {
+    if (value === 'oldPassword') {
       const oldPassword = { ...showpassword };
       oldPassword.oldPassword = !oldPassword.oldPassword;
       SetShowpassword(oldPassword);
     }
-    if (value === "newPassword") {
+    if (value === 'newPassword') {
       const newPassword = { ...showpassword };
       newPassword.newPassword = !newPassword.newPassword;
       SetShowpassword(newPassword);
     }
-    if (value === "confirmPassowrd") {
+    if (value === 'confirmPassowrd') {
       const confirmPassowrd = { ...showpassword };
       confirmPassowrd.confirmPassowrd = !confirmPassowrd.confirmPassowrd;
       SetShowpassword(confirmPassowrd);

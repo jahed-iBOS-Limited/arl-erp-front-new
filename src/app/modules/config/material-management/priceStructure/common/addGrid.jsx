@@ -1,16 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
-import ReactDOM from "react-dom";
-import Axios from "axios";
-import customStyles from "../../../../selectCustomStyle";
-import { toArray } from "lodash";
-import shortid from "shortid";
-import NewSelect from "./../../../../_helper/_select";
+import React, { useState, useEffect, useRef } from 'react';
+import ReactDOM from 'react-dom';
+import Axios from 'axios';
+import customStyles from '../../../../selectCustomStyle';
+import { toArray } from 'lodash';
+import shortid from 'shortid';
+import NewSelect from './../../../../_helper/_select';
 
 export default function AddGrid({ setRowDto, rowDto, pcDDL, row, setRow }) {
   const tableRef = useRef();
   const valueType = [
-    { value: "amount", label: "Amount" },
-    { value: "percent", label: "Percent" },
+    { value: 'amount', label: 'Amount' },
+    { value: 'percent', label: 'Percent' },
   ];
 
   const [bases, setBases] = useState([]);
@@ -45,7 +45,7 @@ export default function AddGrid({ setRowDto, rowDto, pcDDL, row, setRow }) {
     const addNode = (
       <div className="mt-2" onClick={() => addTrigger()}>
         <i
-          style={{ fontSize: "15px", color: "black" }}
+          style={{ fontSize: '15px', color: 'black' }}
           className="fa pointer fa-plus-circle"
           aria-hidden="true"
         ></i>
@@ -55,14 +55,14 @@ export default function AddGrid({ setRowDto, rowDto, pcDDL, row, setRow }) {
       <div className="d-flex justify-content-center mt-2">
         <span onClick={() => addTrigger()}>
           <i
-            style={{ fontSize: "15px", color: "black" }}
+            style={{ fontSize: '15px', color: 'black' }}
             className="fa pointer fa-plus-circle"
             aria-hidden="true"
           ></i>
         </span>
         <span onClick={() => deleteTrigger()}>
           <i
-            style={{ fontSize: "15px", color: "red" }}
+            style={{ fontSize: '15px', color: 'red' }}
             className="fa pointer fa-trash-alt ml-1"
             aria-hidden="true"
           ></i>
@@ -81,7 +81,6 @@ export default function AddGrid({ setRowDto, rowDto, pcDDL, row, setRow }) {
   //call nodeAjuster
   useEffect(() => {
     nodeAjuster();
-
   }, [row]);
 
   // Get component type ddl from server
@@ -142,7 +141,7 @@ export default function AddGrid({ setRowDto, rowDto, pcDDL, row, setRow }) {
     const {
       data: { factorName },
     } = await getFactor(cid);
-    cell.innerHTML = factorName || "null";
+    cell.innerHTML = factorName || 'null';
   };
 
   //Get Factor from server with cid
@@ -182,7 +181,7 @@ export default function AddGrid({ setRowDto, rowDto, pcDDL, row, setRow }) {
   return (
     <div
       className="table-responsive"
-      style={{ minHeight: "500px", tableLayout: "fixed" }}
+      style={{ minHeight: '500px', tableLayout: 'fixed' }}
     >
       <table
         ref={tableRef}
@@ -214,9 +213,9 @@ export default function AddGrid({ setRowDto, rowDto, pcDDL, row, setRow }) {
                     value={rowDto[idx]?.priceComponent}
                     onChange={(v) => {
                       if (idx === 0 && v?.priceComponentTypeId !== 1) {
-                        alert("First component type must be price!");
+                        alert('First component type must be price!');
                       } else {
-                        rowDtoHandler("priceComponent", v, idx);
+                        rowDtoHandler('priceComponent', v, idx);
                         handleFactor(idx + 1, v.value, v.priceComponentTypeId);
                       }
                     }}
@@ -229,10 +228,10 @@ export default function AddGrid({ setRowDto, rowDto, pcDDL, row, setRow }) {
                     options={valueType || []}
                     value={
                       rowDto[idx]?.priceComponent?.priceComponentTypeId === 6
-                        ? { label: "", value: "" }
+                        ? { label: '', value: '' }
                         : rowDto[idx]?.valueType
                     }
-                    onChange={(v) => rowDtoHandler("valueType", v, idx)}
+                    onChange={(v) => rowDtoHandler('valueType', v, idx)}
                     // placeholder="select.."
                     isDisabled={
                       !idx ||
@@ -244,11 +243,11 @@ export default function AddGrid({ setRowDto, rowDto, pcDDL, row, setRow }) {
                   <input
                     className="form-control-sm form-control-custom"
                     type={
-                      rowDto[idx]?.priceComponent.label === "VAT"
-                        ? "tel"
-                        : "number"
+                      rowDto[idx]?.priceComponent.label === 'VAT'
+                        ? 'tel'
+                        : 'number'
                     }
-                    min={rowDto[idx]?.priceComponent.label === "VAT" ? 0 : 1}
+                    min={rowDto[idx]?.priceComponent.label === 'VAT' ? 0 : 1}
                     step={0.5}
                     pattern="\d*"
                     // max="10"
@@ -258,7 +257,7 @@ export default function AddGrid({ setRowDto, rowDto, pcDDL, row, setRow }) {
                         : rowDto[idx]?.numValue
                     }
                     max={
-                      rowDto[idx]?.valueType?.value === "percent"
+                      rowDto[idx]?.valueType?.value === 'percent'
                         ? 100
                         : 10000000
                     }
@@ -268,8 +267,8 @@ export default function AddGrid({ setRowDto, rowDto, pcDDL, row, setRow }) {
                     }
                     onChange={(e) => {
                       if (+e.target.value < 0)
-                        return rowDtoHandler("numValue", "", idx);
-                      rowDtoHandler("numValue", e.target.value, idx);
+                        return rowDtoHandler('numValue', '', idx);
+                      rowDtoHandler('numValue', e.target.value, idx);
                     }}
                   />
                 </td>
@@ -282,7 +281,7 @@ export default function AddGrid({ setRowDto, rowDto, pcDDL, row, setRow }) {
                     }
                     options={bases || []}
                     value={rowDto[idx]?.baseComponent}
-                    onChange={(v) => rowDtoHandler("baseComponent", v, idx)}
+                    onChange={(v) => rowDtoHandler('baseComponent', v, idx)}
                     // placeholder="select.."
                   />
                 </td>
@@ -298,7 +297,7 @@ export default function AddGrid({ setRowDto, rowDto, pcDDL, row, setRow }) {
                       return { label: k + 1, value: k + 1 };
                     })}
                     value={rowDto[idx]?.sumFromSerial}
-                    onChange={(v) => rowDtoHandler("sumFromSerial", v, idx)}
+                    onChange={(v) => rowDtoHandler('sumFromSerial', v, idx)}
                     // placeholder="select.."
                   />
                 </td>
@@ -318,7 +317,7 @@ export default function AddGrid({ setRowDto, rowDto, pcDDL, row, setRow }) {
                           })
                         : []
                     }
-                    onChange={(v) => rowDtoHandler("sumToSerial", v, idx)}
+                    onChange={(v) => rowDtoHandler('sumToSerial', v, idx)}
                   />
                 </td>
                 <td>
@@ -333,10 +332,10 @@ export default function AddGrid({ setRowDto, rowDto, pcDDL, row, setRow }) {
                     value={rowDto[idx]?.isMannual}
                     defaultChecked={!idx}
                     style={{
-                      marginTop: "8px",
+                      marginTop: '8px',
                     }}
                     onChange={(e) =>
-                      rowDtoHandler("isManual", e.target.checked, idx)
+                      rowDtoHandler('isManual', e.target.checked, idx)
                     }
                   />
                 </td>

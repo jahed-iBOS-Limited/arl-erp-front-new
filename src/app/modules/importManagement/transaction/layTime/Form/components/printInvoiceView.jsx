@@ -159,7 +159,7 @@ export default function PrintInvoiceView({ debitData = {} }) {
                     <p>
                       {amountToWords(
                         +debitData?.objHeader?.despatchRate *
-                          +debitData?.objHeader?.totalUsedDay,
+                          +debitData?.objHeader?.totalUsedDay
                       )}{' '}
                     </p>
                   </td>

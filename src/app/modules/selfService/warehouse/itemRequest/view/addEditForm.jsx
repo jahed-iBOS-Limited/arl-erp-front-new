@@ -1,19 +1,17 @@
-
-
-import React, { useState, useEffect } from "react";
-import Form from "./form";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import ICustomCard from "../../../../_helper/_customCard";
-import { getSingleData } from "../helper";
+import React, { useState, useEffect } from 'react';
+import Form from './form';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import ICustomCard from '../../../../_helper/_customCard';
+import { getSingleData } from '../helper';
 
 const initData = {
-  requestDate: "",
-  validTill: "",
-  dueDate: "",
-  referenceId: "",
-  item: "",
-  quantity: "",
-  remarks: ""
+  requestDate: '',
+  validTill: '',
+  dueDate: '',
+  referenceId: '',
+  item: '',
+  quantity: '',
+  remarks: '',
 };
 
 export default function ViewItemRequestForm({
@@ -29,7 +27,6 @@ export default function ViewItemRequestForm({
   useEffect(() => {
     getSingleData(id, setSingleData);
   }, [id]);
-
 
   const disableHandler = (cond) => {
     setDisabled(cond);

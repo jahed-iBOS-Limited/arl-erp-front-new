@@ -1,16 +1,16 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import BilletConsumption from "./billetConsumption";
-import BilletConsumptionCreate from "./billetConsumption/Form/addEditForm";
-import FinishProduction from "./finishProduction";
-import FinishProductionCreate from "./finishProduction/Form/addEditFrom";
-import QualityReport from "./qualityReport";
-import QualityControlCreate from "./qualityReport/Form/addEditForm";
-import WastageProduction from "./wastageProductionHour";
-import WastageProductionCreate from "./wastageProductionHour/Form/addEditFrom";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
+import BilletConsumption from './billetConsumption';
+import BilletConsumptionCreate from './billetConsumption/Form/addEditForm';
+import FinishProduction from './finishProduction';
+import FinishProductionCreate from './finishProduction/Form/addEditFrom';
+import QualityReport from './qualityReport';
+import QualityControlCreate from './qualityReport/Form/addEditForm';
+import WastageProduction from './wastageProductionHour';
+import WastageProductionCreate from './wastageProductionHour/Form/addEditFrom';
 
 export function MsilRollingDepartmentPages() {
   const userRole = useSelector(

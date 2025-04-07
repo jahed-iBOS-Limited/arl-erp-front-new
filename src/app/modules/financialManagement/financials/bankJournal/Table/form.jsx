@@ -1,45 +1,41 @@
-
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import Select from "react-select";
-import { getSBU } from "../../../../_helper/_commonApi";
-import findIndex from "../../../../_helper/_findIndex";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { bankJournalValidationSchema } from "../../../../_helper/_validationSchema";
-import { setBankJournalLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import Select from 'react-select';
+import { getSBU } from '../../../../_helper/_commonApi';
+import findIndex from '../../../../_helper/_findIndex';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { bankJournalValidationSchema } from '../../../../_helper/_validationSchema';
+import { setBankJournalLandingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 import {
   EmptyBankJournalGridData,
   getBankJournalGridData,
-} from "../_redux/Actions";
+} from '../_redux/Actions';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "./../../../../../../_metronic/_partials/controls";
-import FormikError from "./../../../../_helper/_formikError";
-import { IInput } from "./../../../../_helper/_input";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import customStyles from "./../../../../selectCustomStyle";
-import { getBankJournalGridDatabyCode } from "./../_redux/Actions";
-import GridData from "./grid";
-
-
+} from './../../../../../../_metronic/_partials/controls';
+import FormikError from './../../../../_helper/_formikError';
+import { IInput } from './../../../../_helper/_input';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import customStyles from './../../../../selectCustomStyle';
+import { getBankJournalGridDatabyCode } from './../_redux/Actions';
+import GridData from './grid';
 
 const initData = {
   id: undefined,
-  sbu: "",
-  accountingJournalTypeId: "",
+  sbu: '',
+  accountingJournalTypeId: '',
   transactionDate: _todayDate(),
   completeDate: _todayDate(),
   toDate: _todayDate(),
   fromDate: _todayDate(),
-  code: "",
-  type: "notComplated",
+  code: '',
+  type: 'notComplated',
 };
 
 export default function HeaderForm({
@@ -58,13 +54,8 @@ export default function HeaderForm({
   setRowDto,
   setTypeStatus,
 }) {
-  const {
-    pageNo,
-    setPageNo,
-    pageSize,
-    setPageSize,
-    totalCountRowDto,
-  } = paginationState;
+  const { pageNo, setPageNo, pageSize, setPageSize, totalCountRowDto } =
+    paginationState;
   const [sbuDDl, setSbuDDl] = useState([]);
   const [journalTypeDDL, setJournalTypeDDL] = useState([]);
   let cashJournal = useSelector(
@@ -77,12 +68,9 @@ export default function HeaderForm({
     { shallowEqual }
   );
 
-  let { userRole } = useSelector(
-    (state) => state?.authData,
-    { shallowEqual }
-  );
+  let { userRole } = useSelector((state) => state?.authData, { shallowEqual });
 
-  const userPermission = userRole[findIndex(userRole, "Bank Journal")];
+  const userPermission = userRole[findIndex(userRole, 'Bank Journal')];
 
   const canCreate = userPermission?.isCreate;
 
@@ -96,14 +84,13 @@ export default function HeaderForm({
     if (selectedBusinessUnit?.value && profileData?.accountId) {
       getSBU(profileData?.accountId, selectedBusinessUnit.value, setSbuDDl);
       setJournalTypeDDL([
-        { value: 4, label: "Bank Receipts " },
-        { value: 5, label: "Bank Payments" },
-        { value: 6, label: "Bank Transfer" },
+        { value: 4, label: 'Bank Receipts ' },
+        { value: 5, label: 'Bank Payments' },
+        { value: 6, label: 'Bank Transfer' },
       ]);
     }
 
     return () => dispatch(EmptyBankJournalGridData());
-
   }, [selectedBusinessUnit, profileData]);
   useEffect(() => {
     setTypeStatus(initData?.type);
@@ -132,23 +119,23 @@ export default function HeaderForm({
             bankJournalLanding?.accountingJournalTypeId || journalTypeDDL[0],
           fromDate: bankJournalLanding?.fromDate || _todayDate(),
           toDate: bankJournalLanding?.toDate || _todayDate(),
-          type: bankJournalLanding?.type || "notComplated",
+          type: bankJournalLanding?.type || 'notComplated',
         }}
         validationSchema={bankJournalValidationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
             <Form className="form form-label-right cj">
               <Card>
                 {true && <ModalProgressBar />}
-                <CardHeader title={"Bank Journal"}>
+                <CardHeader title={'Bank Journal'}>
                   <CardHeaderToolbar>
                     <button
                       disabled={!canCreate}
                       onClick={() => {
                         dispatch(
-                          setBankJournalLandingAction({ ...values, code: "" })
+                          setBankJournalLandingAction({ ...values, code: '' })
                         );
                         history.push({
                           pathname: `${window.location.pathname}/create`,
@@ -167,7 +154,7 @@ export default function HeaderForm({
                 </CardHeader>
                 <CardBody
                   style={{
-                    padding: "10px",
+                    padding: '10px',
                   }}
                 >
                   <div className="row m-0 align-items-stretch">
@@ -178,7 +165,7 @@ export default function HeaderForm({
                           <label>Select SBU</label>
                           <Select
                             onChange={(valueOption) => {
-                              setFieldValue("sbu", valueOption);
+                              setFieldValue('sbu', valueOption);
                               setRowDto([]);
                             }}
                             options={sbuDDl || []}
@@ -209,7 +196,7 @@ export default function HeaderForm({
                             placeholder="Journal Type"
                             onChange={(valueOption) => {
                               setFieldValue(
-                                "accountingJournalTypeId",
+                                'accountingJournalTypeId',
                                 valueOption
                               );
                               setRowDto([]);
@@ -223,9 +210,9 @@ export default function HeaderForm({
                         </div>
                         <div
                           className="col-lg-4 p-0 pr-1"
-                          style={{ position: "relative" }}
+                          style={{ position: 'relative' }}
                         >
-                          <span style={{ paddingRight: "10px" }}>
+                          <span style={{ paddingRight: '10px' }}>
                             Journal Code
                           </span>
                           <IInput value={values.code} name="code" />
@@ -233,10 +220,10 @@ export default function HeaderForm({
                           <i
                             class="fas fa-search"
                             style={{
-                              position: "absolute",
-                              right: "4px",
-                              top: "21px",
-                              fontSize: "13px",
+                              position: 'absolute',
+                              right: '4px',
+                              top: '21px',
+                              fontSize: '13px',
                             }}
                           ></i>
                         </div>
@@ -249,7 +236,7 @@ export default function HeaderForm({
                               value={values?.fromDate}
                               name="fromDate"
                               onChange={(e) => {
-                                setFieldValue("fromDate", e.target.value);
+                                setFieldValue('fromDate', e.target.value);
                               }}
                               type="date"
                             />
@@ -263,7 +250,7 @@ export default function HeaderForm({
                               value={values?.toDate}
                               name="toDate"
                               onChange={(e) => {
-                                setFieldValue("toDate", e.target.value);
+                                setFieldValue('toDate', e.target.value);
                               }}
                               type="date"
                             />
@@ -272,8 +259,8 @@ export default function HeaderForm({
                         <div
                           className="col-lg-6 cashJournal_buttom"
                           style={{
-                            display: "flex",
-                            alignContent: "end",
+                            display: 'flex',
+                            alignContent: 'end',
                           }}
                         >
                           <div
@@ -286,15 +273,15 @@ export default function HeaderForm({
                               <input
                                 type="radio"
                                 name="type"
-                                checked={values.type === "notComplated"}
+                                checked={values.type === 'notComplated'}
                                 className="mr-1 pointer"
                                 onChange={(e) => {
-                                  setFieldValue("searchEmployee", {
+                                  setFieldValue('searchEmployee', {
                                     value: profileData.userId,
                                     label: profileData.userName,
                                   });
-                                  setTypeStatus("notComplated");
-                                  setFieldValue("type", "notComplated");
+                                  setTypeStatus('notComplated');
+                                  setFieldValue('type', 'notComplated');
                                   setRowDto([]);
                                   dispatch(
                                     getBankJournalGridData(
@@ -319,11 +306,11 @@ export default function HeaderForm({
                               <input
                                 type="radio"
                                 name="type"
-                                checked={values.type === "complated"}
+                                checked={values.type === 'complated'}
                                 className="mr-1 pointer"
                                 onChange={(e) => {
-                                  setTypeStatus("complated");
-                                  setFieldValue("type", "complated");
+                                  setTypeStatus('complated');
+                                  setFieldValue('type', 'complated');
                                   setRowDto([]);
                                   dispatch(
                                     getBankJournalGridData(
@@ -349,11 +336,11 @@ export default function HeaderForm({
                               <input
                                 type="radio"
                                 name="type"
-                                checked={values.type === "canceled"}
+                                checked={values.type === 'canceled'}
                                 className="mr-1 pointer"
                                 onChange={(e) => {
-                                  setTypeStatus("canceled");
-                                  setFieldValue("type", "canceled");
+                                  setTypeStatus('canceled');
+                                  setFieldValue('type', 'canceled');
                                   setRowDto([]);
                                   dispatch(
                                     getBankJournalGridData(
@@ -385,7 +372,7 @@ export default function HeaderForm({
                               dispatch(
                                 setBankJournalLandingAction({
                                   ...values,
-                                  code: "",
+                                  code: '',
                                 })
                               );
                               if (!values.code) {
@@ -419,20 +406,20 @@ export default function HeaderForm({
                     <div className="col-lg-3 p-0">
                       <div
                         className="bank-journal bank-journal-custom bj-left py-2"
-                        style={{ height: "100%" }}
+                        style={{ height: '100%' }}
                       >
                         <div
                           className="row m-0"
                           style={{
-                            gap: "10px",
+                            gap: '10px',
                           }}
                         >
                           <div
                             style={{
-                              width: "5px",
-                              height: "100%",
-                              background: "white",
-                              position: "absolute",
+                              width: '5px',
+                              height: '100%',
+                              background: 'white',
+                              position: 'absolute',
                               top: 0,
                             }}
                           ></div>
@@ -444,7 +431,7 @@ export default function HeaderForm({
                                 value={values?.completeDate}
                                 name="completeDate"
                                 onChange={(e) =>
-                                  setFieldValue("completeDate", e.target.value)
+                                  setFieldValue('completeDate', e.target.value)
                                 }
                                 type="date"
                               />
@@ -498,19 +485,8 @@ export default function HeaderForm({
                       paginationState={{ ...paginationState }}
                       values={values}
                       rowsPerPageOptions={[
-                        15,
-                        25,
-                        50,
-                        75,
-                        100,
-                        200,
-                        300,
-                        400,
-                        500,
-                        1000,
-                        1500,
-                        2500,
-                        5000,
+                        15, 25, 50, 75, 100, 200, 300, 400, 500, 1000, 1500,
+                        2500, 5000,
                       ]}
                     />
                   )}

@@ -1,11 +1,11 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import AttachFile from "../../../../../_helper/commonInputFieldsGroups/attachemntUpload";
-import IButton from "../../../../../_helper/iButton";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import AttachFile from '../../../../../_helper/commonInputFieldsGroups/attachemntUpload';
+import IButton from '../../../../../_helper/iButton';
 import {
   DeleteTradeOfferConfigurationApi,
   GetDistributionChannelDDL,
@@ -13,12 +13,12 @@ import {
   getItemCategoryDDLByTypeId_api,
   getItemSalesOfferDDLApi,
   getItemSubCategoryDDLByCategoryId_api,
-} from "../../helper";
-import { _dateFormatter } from "./../../../../../_helper/_dateFormate";
-import IDelete from "./../../../../../_helper/_helperIcons/_delete";
-import InputField from "./../../../../../_helper/_inputField";
-import NewSelect from "./../../../../../_helper/_select";
-import { _todayDate } from "./../../../../../_helper/_todayDate";
+} from '../../helper';
+import { _dateFormatter } from './../../../../../_helper/_dateFormate';
+import IDelete from './../../../../../_helper/_helperIcons/_delete';
+import InputField from './../../../../../_helper/_inputField';
+import NewSelect from './../../../../../_helper/_select';
+import { _todayDate } from './../../../../../_helper/_todayDate';
 // Validation schema
 const validationSchema = Yup.object().shape({
   // offerItem: Yup.string().required("Code is required"),
@@ -57,8 +57,6 @@ export default function FormCmp({
         setDistributionChannelDDL
       );
     }
-
-
   }, [selectedBusinessUnit, profileData]);
 
   const addRowHandler = (values) => {
@@ -84,7 +82,7 @@ export default function FormCmp({
         numMaxQuantity = +values?.numMaxQuantity || 0;
 
       if (values?.isProportionalOffer === true && numMinQuantity <= 0)
-        return toast.warn("Minimum Qty  1");
+        return toast.warn('Minimum Qty  1');
 
       if (
         numMinQuantity > numMaxQuantity &&
@@ -94,7 +92,7 @@ export default function FormCmp({
           `Please Input required  maximum  qty "${values?.numMinQuantity}"`
         );
       if (rowDto?.length > 0 && selectedBusinessUnit.value !== 144)
-        return toast.warn("Maximum one item allowed");
+        return toast.warn('Maximum one item allowed');
 
       // const duplicateCheck = rowDto.some(
       //   (itm) => itm?.intOfferItemId === values?.offerItem?.value
@@ -104,11 +102,11 @@ export default function FormCmp({
       const obj = {
         intAutoId: 0,
         intItemId: landingRowData?.itemId || 0,
-        strItemName: landingRowData?.itemName || "",
+        strItemName: landingRowData?.itemName || '',
         intDistributionChannelId: values?.distributionChannel?.value || 0,
-        strDistributionChannelName: values?.distributionChannel?.label || "",
+        strDistributionChannelName: values?.distributionChannel?.label || '',
         intOfferItemId: values?.offerItem?.value || 0,
-        strOfferItemName: values?.offerItem?.label || "",
+        strOfferItemName: values?.offerItem?.label || '',
         dteFromDate: values?.fromDate,
         dteToDate: values?.toDate,
         numOfferQuantity: +values?.offerQuantity || 0,
@@ -151,9 +149,9 @@ export default function FormCmp({
     return [224, 171].includes(selectedBusinessUnit?.value)
       ? offerTypes
       : [
-          { value: 1, label: "Discount on Quantity" },
-          { value: 2, label: "Discount on Rate" },
-          { value: 3, label: "IHB Gift Offer" },
+          { value: 1, label: 'Discount on Quantity' },
+          { value: 2, label: 'Discount on Rate' },
+          { value: 3, label: 'IHB Gift Offer' },
         ];
   };
 
@@ -168,7 +166,7 @@ export default function FormCmp({
             const provValues = values;
             resetForm(initData);
             setFieldValue(
-              "distributionChannel",
+              'distributionChannel',
               provValues?.distributionChannel
             );
             setRowDto([]);
@@ -194,8 +192,8 @@ export default function FormCmp({
                     value={values?.offerType}
                     label="Offer Type"
                     onChange={(valueOption) => {
-                      setFieldValue("offerType", valueOption);
-                      setFieldValue("isProportionalOffer", false);
+                      setFieldValue('offerType', valueOption);
+                      setFieldValue('isProportionalOffer', false);
 
                       // fetch item category ddl
                       getItemCategoryDDLByTypeId_api(
@@ -219,8 +217,8 @@ export default function FormCmp({
                     value={values?.distributionChannel}
                     label="Distribution Channel"
                     onChange={(valueOption) => {
-                      setFieldValue("distributionChannel", valueOption);
-                      setFieldValue("offerItem", "");
+                      setFieldValue('distributionChannel', valueOption);
+                      setFieldValue('offerItem', '');
                       setRowDto([]);
                       distributionChannelHandler({
                         ...values,
@@ -253,9 +251,9 @@ export default function FormCmp({
                         value={values?.itemCategory}
                         label="Item Category"
                         onChange={(valueOption) => {
-                          setFieldValue("itemCategory", valueOption);
+                          setFieldValue('itemCategory', valueOption);
                           valueOption?.value !== 0 &&
-                            setFieldValue("itemSubCategory", "");
+                            setFieldValue('itemSubCategory', '');
 
                           // fetch item sub category ddl
                           getItemSubCategoryDDLByCategoryId_api(
@@ -278,7 +276,7 @@ export default function FormCmp({
                         value={values?.itemSubCategory}
                         label="Item Sub-category"
                         onChange={(valueOption) => {
-                          setFieldValue("itemSubCategory", valueOption);
+                          setFieldValue('itemSubCategory', valueOption);
                         }}
                         placeholder="Item Sub-category"
                         errors={errors}
@@ -294,7 +292,7 @@ export default function FormCmp({
                       value={values?.offerItem}
                       label="Offer Item"
                       onChange={(valueOption) => {
-                        setFieldValue("offerItem", valueOption);
+                        setFieldValue('offerItem', valueOption);
                       }}
                       placeholder="Select Offer Item"
                       errors={errors}
@@ -319,7 +317,7 @@ export default function FormCmp({
                 <div className="col-lg-3">
                   <label>To Date</label>
                   <InputField
-                    value={values?.isOfferContinuous ? "" : values?.toDate}
+                    value={values?.isOfferContinuous ? '' : values?.toDate}
                     name="toDate"
                     placeholder="Name"
                     type="date"
@@ -331,16 +329,16 @@ export default function FormCmp({
                 <div className="col-lg-3">
                   <label>
                     {values?.offerType?.value === 1
-                      ? "Offer Quantity"
-                      : "Discount Rate"}
+                      ? 'Offer Quantity'
+                      : 'Discount Rate'}
                   </label>
                   <InputField
                     value={values?.offerQuantity}
                     name="offerQuantity"
                     placeholder={
                       values?.offerType?.value === 1
-                        ? "Offer Quantity"
-                        : "Discount Rate"
+                        ? 'Offer Quantity'
+                        : 'Discount Rate'
                     }
                     type="number"
                   />
@@ -358,8 +356,8 @@ export default function FormCmp({
                       className="form-check-input ml-3 mt-2"
                       name="isMinApplied"
                       onChange={(e) => {
-                        setFieldValue("isMinApplied", e.target.checked);
-                        setFieldValue("numMinQuantity", "");
+                        setFieldValue('isMinApplied', e.target.checked);
+                        setFieldValue('numMinQuantity', '');
                       }}
                       id="isMinApplied"
                     />
@@ -372,7 +370,7 @@ export default function FormCmp({
                         placeholder="Minimum Qty"
                         type="number"
                         onChange={(e) => {
-                          setFieldValue("numMinQuantity", e.target.value);
+                          setFieldValue('numMinQuantity', e.target.value);
                         }}
                       />
                     </div>
@@ -390,8 +388,8 @@ export default function FormCmp({
                       className="form-check-input ml-3 mt-2"
                       name="isMaxApplied"
                       onChange={(e) => {
-                        setFieldValue("isMaxApplied", e.target.checked);
-                        setFieldValue("numMaxQuantity", "");
+                        setFieldValue('isMaxApplied', e.target.checked);
+                        setFieldValue('numMaxQuantity', '');
                       }}
                       id="isMaxApplied"
                       disabled={values?.isProportionalOffer}
@@ -405,7 +403,7 @@ export default function FormCmp({
                         placeholder="Maximum Qty"
                         type="number"
                         onChange={(e) => {
-                          setFieldValue("numMaxQuantity", e.target.value);
+                          setFieldValue('numMaxQuantity', e.target.value);
                         }}
                       />
                     </div>
@@ -416,7 +414,7 @@ export default function FormCmp({
                   <>
                     <div
                       className="col-lg-3 d-flex align-items-center"
-                      style={{ gap: "10px" }}
+                      style={{ gap: '10px' }}
                     >
                       <div className="d-flex flex-column">
                         <label className="" for="isOfferContinuous">
@@ -430,13 +428,13 @@ export default function FormCmp({
                           name="isOfferContinuous"
                           onChange={(e) => {
                             setFieldValue(
-                              "isOfferContinuous",
+                              'isOfferContinuous',
                               e.target.checked
                             );
                             if (e.target.checked) {
-                              setFieldValue("toDate", _todayDate());
+                              setFieldValue('toDate', _todayDate());
                             } else {
-                              setFieldValue("toDate", values?.fromDate || "");
+                              setFieldValue('toDate', values?.fromDate || '');
                             }
                           }}
                           id="isOfferContinuous"
@@ -455,11 +453,11 @@ export default function FormCmp({
                           name="isProportionalOffer"
                           onChange={(e) => {
                             setFieldValue(
-                              "isProportionalOffer",
+                              'isProportionalOffer',
                               e.target.checked
                             );
-                            setFieldValue("isMaxApplied", false);
-                            setFieldValue("numMaxQuantity", "");
+                            setFieldValue('isMaxApplied', false);
+                            setFieldValue('numMaxQuantity', '');
                           }}
                           id="isProportionalOffer"
                         />
@@ -500,21 +498,21 @@ export default function FormCmp({
                   <table className="table table-striped global-table">
                     <thead>
                       <tr>
-                        <th style={{ width: "30px" }}>SL</th>
-                        <th style={{ width: "50px" }}>Offer Item</th>
-                        <th style={{ width: "50px" }}>From Date</th>
-                        <th style={{ width: "50px" }}>To Date</th>
-                        <th style={{ width: "50px" }}>Offer Quantity</th>
-                        <th style={{ width: "50px" }}>Minimum Qty</th>
-                        <th style={{ width: "50px" }}>Maximum Qty</th>
-                        <th style={{ width: "50px" }}>Offer Continuous</th>
-                        <th style={{ width: "50px" }}>Proportional Offer</th>
-                        <th style={{ width: "50px" }}>Action</th>
+                        <th style={{ width: '30px' }}>SL</th>
+                        <th style={{ width: '50px' }}>Offer Item</th>
+                        <th style={{ width: '50px' }}>From Date</th>
+                        <th style={{ width: '50px' }}>To Date</th>
+                        <th style={{ width: '50px' }}>Offer Quantity</th>
+                        <th style={{ width: '50px' }}>Minimum Qty</th>
+                        <th style={{ width: '50px' }}>Maximum Qty</th>
+                        <th style={{ width: '50px' }}>Offer Continuous</th>
+                        <th style={{ width: '50px' }}>Proportional Offer</th>
+                        <th style={{ width: '50px' }}>Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       {rowDto?.map((data, index) => (
-                        <tr key={index} style={{ textAlign: "center" }}>
+                        <tr key={index} style={{ textAlign: 'center' }}>
                           <td>{index + 1}</td>
                           <td>
                             <div className="pl-2">{data?.strOfferItemName}</div>
@@ -523,12 +521,12 @@ export default function FormCmp({
                           <td>{_dateFormatter(data?.dteFromDate)}</td>
                           <td>
                             {data?.isOfferContinuous
-                              ? ""
+                              ? ''
                               : _dateFormatter(data?.dteToDate)}
                           </td>
                           <td>
                             <InputField
-                              value={data?.numOfferQuantity || ""}
+                              value={data?.numOfferQuantity || ''}
                               name="offerQuantity"
                               placeholder="Offer Quantity"
                               type="number"
@@ -542,8 +540,8 @@ export default function FormCmp({
                           </td>
                           <td>{data?.numMinQuantity || 0}</td>
                           <td>{data?.numMaxQuantity || 0}</td>
-                          <td>{data?.isOfferContinuous ? "Yes" : "No"}</td>
-                          <td>{data?.isProportionalOffer ? "Yes" : "No"}</td>
+                          <td>{data?.isOfferContinuous ? 'Yes' : 'No'}</td>
+                          <td>{data?.isProportionalOffer ? 'Yes' : 'No'}</td>
                           <td>
                             <div className="d-flex justify-content-around">
                               <span
@@ -580,17 +578,17 @@ export default function FormCmp({
                   <table className="table table-striped global-table">
                     <thead>
                       <tr>
-                        <th style={{ width: "30px" }}>SL</th>
-                        <th style={{ width: "50px" }}>Offer Item</th>
-                        <th style={{ width: "50px" }}>Offer Quantity</th>
-                        <th style={{ width: "50px" }}>Minimum Qty</th>
-                        <th style={{ width: "50px" }}>Maximum Qty</th>
-                        <th style={{ width: "50px" }}>Action</th>
+                        <th style={{ width: '30px' }}>SL</th>
+                        <th style={{ width: '50px' }}>Offer Item</th>
+                        <th style={{ width: '50px' }}>Offer Quantity</th>
+                        <th style={{ width: '50px' }}>Minimum Qty</th>
+                        <th style={{ width: '50px' }}>Maximum Qty</th>
+                        <th style={{ width: '50px' }}>Action</th>
                       </tr>
                     </thead>
                     <tbody>
                       {rowDto?.map((data, index) => (
-                        <tr key={index} style={{ textAlign: "center" }}>
+                        <tr key={index} style={{ textAlign: 'center' }}>
                           <td>{index + 1}</td>
                           <td>
                             <div className="pl-2">{data?.itemName}</div>
@@ -636,14 +634,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => {
                   resetForm(initData);

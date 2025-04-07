@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getBuDDL = async (userId, accountId, setter) => {
   try {
@@ -16,9 +16,7 @@ export const getBuDDL = async (userId, accountId, setter) => {
       });
       setter(newData);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 // create extend
 export const saveEmpGroupExtend = async (createData, cb) => {
@@ -29,12 +27,10 @@ export const saveEmpGroupExtend = async (createData, cb) => {
       createData
     );
     if (res?.status === 200 && res?.data) {
-      toast.success(res?.data?.message || "Save Successfully");
+      toast.success(res?.data?.message || 'Save Successfully');
       cb();
     }
-  } catch (error) {
-   
-  }
+  } catch (error) {}
 };
 // landing
 
@@ -46,9 +42,7 @@ export const getEmployeeGroupNameLanding = async (accountId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 // get by ID
 //
@@ -60,9 +54,7 @@ export const getEmployeeGroupNameById = async (empGroupId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 // create group name
 export const createEmployeeGroupNew = async (createData, cb) => {
@@ -72,10 +64,8 @@ export const createEmployeeGroupNew = async (createData, cb) => {
       createData
     );
     if (res?.status === 200 && res?.data) {
-      toast.success(res?.data?.message || "Save Successfully");
+      toast.success(res?.data?.message || 'Save Successfully');
       cb();
     }
-  } catch (error) {
-   
-  }
+  } catch (error) {}
 };

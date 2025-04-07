@@ -1,4 +1,3 @@
-
 import { Formik } from 'formik';
 import React, { useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
@@ -60,7 +59,7 @@ function SalesOrderReportLanding() {
         values?.channel?.value,
         values?.reportType?.value,
         setGridData,
-        setLoading,
+        setLoading
       );
     } else if ([2].includes(typeId)) {
       getRowData(
@@ -70,7 +69,7 @@ function SalesOrderReportLanding() {
           values?.shipPoint?.value
         }&customerId=${values?.customer?.value || 0}&fromDate=${
           values?.fromDate
-        }&toDate=${values?.toDate}&isApproved=true`,
+        }&toDate=${values?.toDate}&isApproved=true`
       );
     }
   };
@@ -91,12 +90,12 @@ function SalesOrderReportLanding() {
           },
         ]
       : values?.reportType?.value === 4
-      ? [
-          { name: 'unitid', value: selectedBusinessUnit?.value?.toString() },
-          { name: 'FromDate', value: values?.fromDate },
-          { name: 'ToDate', value: values?.toDate },
-        ]
-      : [];
+        ? [
+            { name: 'unitid', value: selectedBusinessUnit?.value?.toString() },
+            { name: 'FromDate', value: values?.fromDate },
+            { name: 'ToDate', value: values?.toDate },
+          ]
+        : [];
   };
 
   const setReportId = (reportTypeId) => {

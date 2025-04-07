@@ -1,15 +1,17 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import ICustomCard from "../../../../_helper/_customCard";
-import IClose from "../../../../_helper/_helperIcons/_close";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Loading from "../../../../_helper/_loading";
-import { approvalInActiveByConfigId, getApprovalLandingDataAction } from "../helper";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import IConfirmModal from "./../../../../_helper/_confirmModal";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ICustomCard from '../../../../_helper/_customCard';
+import IClose from '../../../../_helper/_helperIcons/_close';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
+import Loading from '../../../../_helper/_loading';
+import {
+  approvalInActiveByConfigId,
+  getApprovalLandingDataAction,
+} from '../helper';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import IConfirmModal from './../../../../_helper/_confirmModal';
 
 const ApprovalLanding = () => {
   const history = useHistory();
@@ -47,24 +49,21 @@ const ApprovalLanding = () => {
     );
   };
 
-
-
-   // approveSubmitlHandler btn submit handler
-   const approveSubmitlHandler = (confId) => {
+  // approveSubmitlHandler btn submit handler
+  const approveSubmitlHandler = (confId) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to Inactive this approval`,
       yesAlertFunc: () => {
-        approvalInActiveByConfigId(confId).then(()=>
-        getApprovalLandingDataAction(
-          selectedBusinessUnit?.value,
-          setGrid,
-          setLoading,
-          pageNo,
-          pageSize
-        )
-        )
-
+        approvalInActiveByConfigId(confId).then(() =>
+          getApprovalLandingDataAction(
+            selectedBusinessUnit?.value,
+            setGrid,
+            setLoading,
+            pageNo,
+            pageSize
+          )
+        );
       },
       noAlertFunc: () => {},
     };
@@ -75,7 +74,7 @@ const ApprovalLanding = () => {
     <ICustomCard
       title="Approval"
       createHandler={() =>
-        history.push("/config/domain-controll/approvalsetup/create")
+        history.push('/config/domain-controll/approvalsetup/create')
       }
     >
       {loading && <Loading />}
@@ -106,21 +105,23 @@ const ApprovalLanding = () => {
                 <td>{`${item?.anyUsers}`}</td>
                 <td className="text-center">
                   <div className="d-flex justify-content-center align-items-center">
-                  <span>
-                    <IView
-                      clickHandler={() =>
-                        history.push(
-                          `/config/domain-controll/approvalsetup/view/${item?.approvalConfigId}/view`
-                        )
-                      }
-                    />
-                  </span>
-                  <span className="pl-2">
-                    <IClose
-                    title="InActive"
-                    closer={() => approveSubmitlHandler(item?.approvalConfigId) }
-                    />
-                  </span>
+                    <span>
+                      <IView
+                        clickHandler={() =>
+                          history.push(
+                            `/config/domain-controll/approvalsetup/view/${item?.approvalConfigId}/view`
+                          )
+                        }
+                      />
+                    </span>
+                    <span className="pl-2">
+                      <IClose
+                        title="InActive"
+                        closer={() =>
+                          approveSubmitlHandler(item?.approvalConfigId)
+                        }
+                      />
+                    </span>
                   </div>
                 </td>
                 <td className="text-center">

@@ -1,6 +1,6 @@
-import React from "react";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
-import moment from "moment";
+import React from 'react';
+import { _fixedPoint } from './../../../../_helper/_fixedPoint';
+import moment from 'moment';
 
 function Table({ printRef, gridData }) {
   let totalQty = 0;
@@ -17,7 +17,7 @@ function Table({ printRef, gridData }) {
               <th>SL</th>
               <th>Request No</th>
               <th>Delivery Order</th>
-              <th style={{ minWidth: "130px" }}>Delivery Order Date & Time</th>
+              <th style={{ minWidth: '130px' }}>Delivery Order Date & Time</th>
               <th>Item Name</th>
               <th>Quantity</th>
               <th>Party Name</th>
@@ -55,7 +55,7 @@ function Table({ printRef, gridData }) {
                   <td>
                     <div className="">
                       {moment(item?.deliveryOrderDate).format(
-                        "DD/MM/YYYY - h:mm a"
+                        'DD/MM/YYYY - h:mm a'
                       )}
                     </div>
                   </td>
@@ -129,7 +129,7 @@ function Table({ printRef, gridData }) {
             })}
             <tr>
               <td colspan="21" className="pr-2 text-right">
-                {" "}
+                {' '}
                 <b>Total</b>
               </td>
 

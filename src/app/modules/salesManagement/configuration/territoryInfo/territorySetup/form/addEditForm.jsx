@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
 import Loading from './../../../../../_helper/_loading';
 const initData = {
-  channelDDL: "",
-  territoryname: "",
+  channelDDL: '',
+  territoryname: '',
 };
 
 const TerritorySetupForm = ({
   selectedData,
   setIsShowModal,
   setLandingData,
-  value
+  value,
 }) => {
   const [isDisabled, setDisabled] = useState(false);
   // const [singleData, setSingleData] = useState("");
@@ -73,22 +73,24 @@ const TerritorySetupForm = ({
     // }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     setInitFormData({
       ...initData,
-      channelDDL:selectedData?.row?.autoId ? {
-        label:selectedData?.row?.channelName,
-        value:selectedData?.row?.channelId
-      }:null,
-      territoryName:selectedData.row[selectedData?.editlabelKey] || ""
-    })
-  },[selectedData])
+      channelDDL: selectedData?.row?.autoId
+        ? {
+            label: selectedData?.row?.channelName,
+            value: selectedData?.row?.channelId,
+          }
+        : null,
+      territoryName: selectedData.row[selectedData?.editlabelKey] || '',
+    });
+  }, [selectedData]);
   return (
     <>
       {isDisabled && <Loading />}
       <Form
         title={`Territory Setup`}
-        initData={ initFormData}
+        initData={initFormData}
         profileData={profileData}
         selectedBusinessUnit={selectedBusinessUnit}
         saveHandler={saveHandler}

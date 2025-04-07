@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import ReactToPrint from "react-to-print";
+import React, { useState } from 'react';
+import ReactToPrint from 'react-to-print';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../_metronic/_partials/controls";
-import printIcon from "./images/print-icon.png";
-import IViewModal from "./_viewModal";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
+} from '../../../_metronic/_partials/controls';
+import printIcon from './images/print-icon.png';
+import IViewModal from './_viewModal';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 export default function ICard({
   title,
@@ -39,7 +39,7 @@ export default function ICard({
   exportExcel,
   exportExcelTitle,
   exportExcelClickHandler,
-  exportExcelDataLength
+  exportExcelDataLength,
 }) {
   const [isShowModal, setisShowModal] = useState(false);
   return (
@@ -64,7 +64,7 @@ export default function ICard({
                 <button
                   type="button"
                   className="btn btn-light"
-                  style={{ marginRight: "3px" }}
+                  style={{ marginRight: '3px' }}
                   onClick={backHandler}
                 >
                   <i className="fa fa-arrow-left"></i>
@@ -75,18 +75,18 @@ export default function ICard({
                 <button
                   type="button"
                   className={`btn ${
-                    createBtnClass ? createBtnClass : "btn-primary"
+                    createBtnClass ? createBtnClass : 'btn-primary'
                   }`}
-                  style={{ marginRight: "3px" }}
+                  style={{ marginRight: '3px' }}
                   onClick={createHandler}
                   disabled={disableCreateBtn}
                 >
-                  {`${createBtnText ? createBtnText : "Create"}`}
+                  {`${createBtnText ? createBtnText : 'Create'}`}
                 </button>
               )}
               <button
                 type="button"
-                className={isShowPrintPreviewBtn ? "btn btn-primary" : "d-none"}
+                className={isShowPrintPreviewBtn ? 'btn btn-primary' : 'd-none'}
                 onClick={clickHandler}
               >
                 {/* <img
@@ -98,22 +98,22 @@ export default function ICard({
                 {printTitle}
               </button>
               <ReactToPrint
-                documentTitle={documentTitle || "Report"}
+                documentTitle={documentTitle || 'Report'}
                 trigger={() => (
                   <button
                     type="button"
                     className={`${
                       isShowPrintBtn
-                        ? "btn btn-primary m-0 px-2 py-1"
-                        : "d-none"
+                        ? 'btn btn-primary m-0 px-2 py-1'
+                        : 'd-none'
                     }
-                      ${isExcelBtn ? "px-4 py-1" : ""}
+                      ${isExcelBtn ? 'px-4 py-1' : ''}
                     `}
                   >
                     <img
                       style={{
-                        width: "25px",
-                        paddingRight: "5px",
+                        width: '25px',
+                        paddingRight: '5px',
                       }}
                       src={printIcon}
                       alt="print-icon"
@@ -131,11 +131,11 @@ export default function ICard({
                   <ReactHTMLTableToExcel
                     id="test-table-xls-button-att-reports"
                     className="btn btn-primary"
-                    table={exportTableId ? exportTableId : "table-to-xlsx"}
+                    table={exportTableId ? exportTableId : 'table-to-xlsx'}
                     filename={
-                      excelFileNameWillbe ? excelFileNameWillbe : "Sheet"
+                      excelFileNameWillbe ? excelFileNameWillbe : 'Sheet'
                     }
-                    sheet={excelFileNameWillbe ? excelFileNameWillbe : "Sheet"}
+                    sheet={excelFileNameWillbe ? excelFileNameWillbe : 'Sheet'}
                     buttonText="Export Excel"
                   />
                 </div>
@@ -145,10 +145,10 @@ export default function ICard({
                 <button
                   className="btn btn-primary mx-1"
                   type="button"
-                  onClick={exportExcelClickHandler}                  
+                  onClick={exportExcelClickHandler}
                   disabled={exportExcelDataLength > 0 ? false : true}
                 >
-                  {exportExcelTitle || "Export Excel"}
+                  {exportExcelTitle || 'Export Excel'}
                 </button>
               ) : (
                 <></>

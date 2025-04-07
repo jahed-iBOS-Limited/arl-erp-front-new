@@ -1,8 +1,8 @@
-import { Formik } from "formik";
-import React from "react";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
+import { Formik } from 'formik';
+import React from 'react';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
 // import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import { validationSchema } from "../helper";
+import { validationSchema } from '../helper';
 
 export default function FormCmp({ title, initData, saveHandler, editViewTag }) {
   return (
@@ -22,15 +22,15 @@ export default function FormCmp({ title, initData, saveHandler, editViewTag }) {
             <form className="marine-modal-form-card">
               <div className="marine-form-card-heading">
                 <p>{title}</p>
-                {editViewTag !== "view" && (
+                {editViewTag !== 'view' && (
                   <div>
                     <button
                       type="submit"
-                      className={"btn btn-primary ml-2 px-3 py-2"}
+                      className={'btn btn-primary ml-2 px-3 py-2'}
                       onClick={handleSubmit}
                       disabled={false}
                     >
-                      {editViewTag === "edit" ? "Edit" : "Save"}
+                      {editViewTag === 'edit' ? 'Edit' : 'Save'}
                     </button>
                   </div>
                 )}
@@ -59,7 +59,7 @@ export default function FormCmp({ title, initData, saveHandler, editViewTag }) {
                       type="text"
                       errors={errors}
                       touched={touched}
-                      disabled={editViewTag === "view"}
+                      disabled={editViewTag === 'view'}
                     />
                   </div>
                   {/* <div className="col-lg-3">
@@ -86,7 +86,7 @@ export default function FormCmp({ title, initData, saveHandler, editViewTag }) {
                       type="text"
                       errors={errors}
                       touched={touched}
-                      disabled={editViewTag === "view"}
+                      disabled={editViewTag === 'view'}
                     />
                   </div>
                   {/* <div className="col-lg-3">
@@ -113,7 +113,7 @@ export default function FormCmp({ title, initData, saveHandler, editViewTag }) {
                       type="date"
                       errors={errors}
                       touched={touched}
-                      disabled={editViewTag === "view"}
+                      disabled={editViewTag === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -125,7 +125,7 @@ export default function FormCmp({ title, initData, saveHandler, editViewTag }) {
                       type="number"
                       errors={errors}
                       touched={touched}
-                      disabled={editViewTag === "view"}
+                      disabled={editViewTag === 'view'}
                     />
                   </div>
                 </div>

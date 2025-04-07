@@ -1,9 +1,8 @@
-
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import IForm from "../../../../_helper/_form";
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IForm from '../../../../_helper/_form';
 import {
   createPaymentVoucher,
   getAccountNoDDL,
@@ -12,14 +11,14 @@ import {
   getPaymentAdviceIndoPagination,
   getSBUList,
   getTypeDDL,
-} from "../helper";
-import Loading from "./../../../../_helper/_loading";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import Form from "./form";
+} from '../helper';
+import Loading from './../../../../_helper/_loading';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import Form from './form';
 // import { _dateFormatter } from './../../../../_helper/_dateFormate';
-import "../paymentadvice.css";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import '../paymentadvice.css';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 
 export default function PaymentAdviceForm({
   history,
@@ -46,20 +45,14 @@ export default function PaymentAdviceForm({
   const scfSaveBtnRef = useRef(null);
 
   // api action
-  const [
-    bankAsPartnerDDL,
-    getBankAsPartnerDDL,
-    getBankAsPartnerDDLLoading,
-  ] = useAxiosGet([]);
+  const [bankAsPartnerDDL, getBankAsPartnerDDL, getBankAsPartnerDDLLoading] =
+    useAxiosGet([]);
 
   // scf advice formik ref
   const scfAdviceFormikRef = useRef(null);
 
-  const [
-    ,
-    scfAdiveAdjustmentJournal,
-    scfAdiveAdjustmentJournalLoading,
-  ] = useAxiosPost();
+  const [, scfAdiveAdjustmentJournal, scfAdiveAdjustmentJournalLoading] =
+    useAxiosPost();
 
   // const [statusState,setStatusState] = useState()
 
@@ -69,14 +62,14 @@ export default function PaymentAdviceForm({
 
   const initData = {
     date: financialsPaymentAdvice?.date || _todayDate(),
-    sbuUnit: financialsPaymentAdvice?.sbuUnit || "",
-    cashGl: financialsPaymentAdvice?.cashGl || "",
-    accountNo: financialsPaymentAdvice?.accountNo || "",
-    type: financialsPaymentAdvice?.type || "",
-    status: financialsPaymentAdvice?.status || "",
-    billType: financialsPaymentAdvice?.billType || "",
+    sbuUnit: financialsPaymentAdvice?.sbuUnit || '',
+    cashGl: financialsPaymentAdvice?.cashGl || '',
+    accountNo: financialsPaymentAdvice?.accountNo || '',
+    type: financialsPaymentAdvice?.type || '',
+    status: financialsPaymentAdvice?.status || '',
+    billType: financialsPaymentAdvice?.billType || '',
     payDate: _todayDate(),
-    bank: "",
+    bank: '',
   };
 
   // get user profile data from store
@@ -96,7 +89,6 @@ export default function PaymentAdviceForm({
     if (profileData?.userId && profileData?.accountId) {
       getBuUnitDDL(profileData?.userId, profileData?.accountId, setUnitDDL);
     }
-
   }, [profileData]);
 
   useEffect(() => {
@@ -131,7 +123,7 @@ export default function PaymentAdviceForm({
         billTypeId: data?.intBillType,
         billTypeName: values?.billType?.label,
         paymentType: values?.type?.label,
-        isntrumentNo: "",
+        isntrumentNo: '',
         isntrumentTypeId: values?.type?.value,
         isntrumentTypeName: values?.type?.label,
         isntrumentDate: values?.payDate,
@@ -139,11 +131,11 @@ export default function PaymentAdviceForm({
         payeName: data?.strPayee,
         debitGLId: data?.intDebitGL || 0,
         cashGLId: values?.cashGl?.value || 0,
-        cashGlName: values?.cashGl?.label || "",
+        cashGlName: values?.cashGl?.label || '',
         transectionDate: data?.paymentDate,
         narration: data?.strDescription,
         transectionTypeId: 0,
-        transectionTypeName: "",
+        transectionTypeName: '',
         actionById: profileData?.userId,
         actionByName: profileData?.userName,
         numAmount: data?.monAmount,
@@ -166,7 +158,7 @@ export default function PaymentAdviceForm({
             billTypeId: data?.intBillType,
             billTypeName: values?.billType?.label,
             paymentType: values?.type?.label,
-            isntrumentNo: "",
+            isntrumentNo: '',
             isntrumentTypeId: values?.type?.value,
             isntrumentTypeName: values?.type?.label,
             isntrumentDate: values?.payDate,
@@ -174,11 +166,11 @@ export default function PaymentAdviceForm({
             payeName: data?.strPayee,
             debitGLId: data?.intDebitGL || 0,
             cashGLId: values?.cashGl?.value || 0,
-            cashGlName: values?.cashGl?.label || "",
+            cashGlName: values?.cashGl?.label || '',
             transectionDate: data?.paymentDate,
             narration: data?.strDescription,
             transectionTypeId: 0,
-            transectionTypeName: "",
+            transectionTypeName: '',
             actionById: profileData?.userId,
             actionByName: profileData?.userName,
             numAmount: data?.monAmount,
@@ -188,7 +180,7 @@ export default function PaymentAdviceForm({
         });
       // console.log(payload)
       if (payload.length === 0) {
-        toast.warning("Please select at least one");
+        toast.warning('Please select at least one');
       } else {
         createPaymentVoucher(payload, cb, null, setDisabled);
       }
@@ -209,7 +201,7 @@ export default function PaymentAdviceForm({
           billTypeId: filteredItem?.intBillType,
           billTypeName: values?.billType?.label,
           paymentType: values?.type?.label,
-          isntrumentNo: "",
+          isntrumentNo: '',
           isntrumentTypeId: values?.type?.value,
           isntrumentTypeName: values?.type?.label,
           isntrumentDate: values?.payDate,
@@ -217,20 +209,20 @@ export default function PaymentAdviceForm({
           payeName: filteredItem?.strPayee,
           debitGLId: filteredItem?.intDebitGL || 0,
           cashGLId: values?.cashGl?.value || 0,
-          cashGlName: values?.cashGl?.label || "",
+          cashGlName: values?.cashGl?.label || '',
           transectionDate: filteredItem?.paymentDate,
           narration: filteredItem?.strDescription,
           transectionTypeId: 0,
-          transectionTypeName: "",
+          transectionTypeName: '',
           actionById: profileData?.userId,
           actionByName: profileData?.userName,
           numAmount: filteredItem?.monAmount,
           numTds: +filteredItem?.numTds || 0,
           numVds: +filteredItem?.numVds || 0,
           businessTransactionId: 0,
-          businessTransactionName: "",
+          businessTransactionName: '',
           businessTransactionGLId: 0,
-          businessTransactionGLName: "",
+          businessTransactionGLName: '',
           bankAsPartnerId: values?.bank?.bankAsPartnerId || 0,
         };
       });
@@ -245,13 +237,13 @@ export default function PaymentAdviceForm({
         true
       );
     } else {
-      toast.warn("Select at least one data");
+      toast.warn('Select at least one data');
     }
   };
 
   return (
     <IForm
-      title={"Prepare Payment"}
+      title={'Prepare Payment'}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenBack={true}
@@ -262,8 +254,8 @@ export default function PaymentAdviceForm({
         financialsPaymentAdvice?.type?.value !== 8
           ? [
               {
-                label: "Prepare Voucher",
-                className: "btn btn-primary",
+                label: 'Prepare Voucher',
+                className: 'btn btn-primary',
               },
             ]
           : []

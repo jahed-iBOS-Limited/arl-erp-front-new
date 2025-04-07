@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 export const createSales = async (payload, cb) => {
   try {
@@ -9,7 +9,7 @@ export const createSales = async (payload, cb) => {
       payload
     );
     if (res.status === 200 && res?.data) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
     }
   } catch (error) {
@@ -38,7 +38,7 @@ export const editShipment = async (payload, setDisabled, fuleCostSaveCB) => {
       payload
     );
     if (res.status === 200 && res?.data) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       setDisabled(false);
       fuleCostSaveCB && fuleCostSaveCB();
     }
@@ -56,7 +56,7 @@ export const getVatBranches = async (accid, buid, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getSupplierDDL = async (accId, buId, setter) => {
@@ -67,7 +67,7 @@ export const getSupplierDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getDeliveryToDDL = async (soldToPrtnrId, setter) => {
@@ -78,7 +78,7 @@ export const getDeliveryToDDL = async (soldToPrtnrId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getTaxConfig = async (buId, setter) => {
@@ -89,7 +89,7 @@ export const getTaxConfig = async (buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data[0]);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getTradeTypeDDL = async (setter) => {
@@ -98,7 +98,7 @@ export const getTradeTypeDDL = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getPaymentTermDDL = async (setter) => {
@@ -109,7 +109,7 @@ export const getPaymentTermDDL = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getItemDDL = async (accId, buId, setter) => {
@@ -120,7 +120,7 @@ export const getItemDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getUomDDL = async (accId, buId, setter) => {
@@ -131,7 +131,7 @@ export const getUomDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getItemAmounts = (item, selectedItemInfo) => {
@@ -181,10 +181,10 @@ export const getShipmentByID = async (
       const newObj = {
         ...objHeader,
         shipmentDate: _dateFormatter(objHeader.shipmentDate),
-        daQuantity: "",
-        daAmount: "",
+        daQuantity: '',
+        daAmount: '',
         downTraip: false,
-        downTripAllowns: "",
+        downTripAllowns: '',
       };
       setter(newObj);
       const modify = res?.data?.objList?.map((itm) => ({
@@ -210,7 +210,7 @@ export const GetFuelConstInfoById_api = async (shipmentCost, setter) => {
       }));
       setter(modifiedData);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getComponentDDL = async (accId, setter) => {
@@ -221,7 +221,7 @@ export const getComponentDDL = async (accId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 export const GetSupplierFuelStationDDL_api = async (
   partnerId,
@@ -236,7 +236,7 @@ export const GetSupplierFuelStationDDL_api = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 export const GetVehicleFuelTypeDDL_api = async (setter) => {
   try {
@@ -246,7 +246,7 @@ export const GetVehicleFuelTypeDDL_api = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 export const GetSupplierListDDL_api = async (accId, busId, setter) => {
   try {
@@ -256,7 +256,7 @@ export const GetSupplierListDDL_api = async (accId, busId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 export const GetShipToPartnerDistanceByShipmentId_api = async (
   shipmentId,
@@ -274,7 +274,7 @@ export const GetShipToPartnerDistanceByShipmentId_api = async (
         }))
       );
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 export const GetPartnerShippingInformation_api = async (shipmentId, setter) => {
   try {
@@ -289,7 +289,7 @@ export const GetPartnerShippingInformation_api = async (shipmentId, setter) => {
         }))
       );
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getChalanInfo = async (shipmentId, setter) => {
@@ -312,12 +312,12 @@ export const billSubmitApi = async (setLoading, payload, cb) => {
     );
     if (res.status === 200) {
       setLoading(false);
-      toast.success(res?.data?.message, { toastId: "billSubmitApi" });
+      toast.success(res?.data?.message, { toastId: 'billSubmitApi' });
       cb();
     }
   } catch (error) {
     setLoading(false);
-    toast.warn(error?.response?.data?.message, { toastId: "billSubmitApErr" });
+    toast.warn(error?.response?.data?.message, { toastId: 'billSubmitApErr' });
   }
 };
 export const EditVehiclePartnerRentAmount_api = async (
@@ -335,13 +335,13 @@ export const EditVehiclePartnerRentAmount_api = async (
     );
     if (res.status === 200) {
       toast.success(res?.data?.message, {
-        toastId: "EditVehiclePartnerRentAmount",
+        toastId: 'EditVehiclePartnerRentAmount',
       });
       vehicleReantUpdateCB(idx);
     }
   } catch (error) {
     toast.warn(error?.response?.data?.message, {
-      toastId: "EditVehiclePartnerRentAmount",
+      toastId: 'EditVehiclePartnerRentAmount',
     });
   }
 };
@@ -363,14 +363,14 @@ export const EditVehiclePartnerDistenceKM_api = async (
     );
     if (res.status === 200) {
       toast.success(res?.data?.message, {
-        toastId: "EditVehiclePartnerRentAmount",
+        toastId: 'EditVehiclePartnerRentAmount',
       });
       vehicleReantUpdateCB(idx);
       millageAllowanceRowValueChange(ristanceKM, values, setFieldValue);
     }
   } catch (error) {
     toast.warn(error?.response?.data?.message, {
-      toastId: "EditVehiclePartnerRentAmount",
+      toastId: 'EditVehiclePartnerRentAmount',
     });
   }
 };
@@ -392,16 +392,16 @@ export const getSelectedItemInfo = async (
           value: res?.data[0].uomId,
           label: res?.data[0].uomName,
         };
-        setFieldValue("selectedUom", value);
-        setFieldValue("rate", res?.data[0]?.basePrice);
+        setFieldValue('selectedUom', value);
+        setFieldValue('rate', res?.data[0]?.basePrice);
         setter(res?.data[0]);
       } else {
-        setFieldValue("selectedUom", {});
-        setFieldValue("rate", "");
+        setFieldValue('selectedUom', {});
+        setFieldValue('rate', '');
         setter({});
       }
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getGridData = async (
@@ -416,15 +416,17 @@ export const getGridData = async (
 ) => {
   try {
     setLoading(true);
-    const searchPath = searchValue ? `search=${searchValue}&` : "";
+    const searchPath = searchValue ? `search=${searchValue}&` : '';
     const res = await Axios.get(
-      `/tms/ShipmentStandardCost/ShipmentStandardCostPagination?${searchPath}accountId=${accId}&businessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}&status=true&IsClose=${rtId === 2 ? true : rtId
-      }&isBillSubmited=${rtId === 2 ? true : false
+      `/tms/ShipmentStandardCost/ShipmentStandardCostPagination?${searchPath}accountId=${accId}&businessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}&status=true&IsClose=${
+        rtId === 2 ? true : rtId
+      }&isBillSubmited=${
+        rtId === 2 ? true : false
       }&PageNo=1&PageSize=112&viewOrder=desc`
     );
     if (res.status === 200 && res?.data) {
       if (res?.data?.data?.length === 0) {
-        toast.warning("No data found", { toastId: "ndf" });
+        toast.warning('No data found', { toastId: 'ndf' });
       } else {
         if (rtId) {
           setter(
@@ -454,7 +456,7 @@ export const getSalesInvoiceById = async (id, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 //
 
@@ -466,7 +468,7 @@ export const getDownTripData = async (vehiId, accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data[0]);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getBUMilageAllowance = async (accId, buId, setter) => {
@@ -477,7 +479,7 @@ export const getBUMilageAllowance = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data[0]);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const GetShipmentCostEntryStatus_api = async (
@@ -491,5 +493,5 @@ export const GetShipmentCostEntryStatus_api = async (
       `/tms/ShipmentStandardCost/GetShipmentCostEntryStatus?accountid=${accId}&businessunitid=${buId}&TripId=${tripId}`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };

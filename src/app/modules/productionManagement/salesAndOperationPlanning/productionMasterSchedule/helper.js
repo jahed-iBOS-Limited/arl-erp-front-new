@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getCostCenterDDL = async (accId, buId, sbuId, setter) => {
   try {
@@ -167,7 +167,7 @@ export const saveItemRequest = async (data) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
     }
   } catch (error) {
     console.log(error.message);
@@ -189,7 +189,7 @@ export const getMasterSchedulingLandingPageData = async (
     );
     setter(res?.data?.data);
   } catch (error) {
-    toast.error(error?.response?.data?.message)
+    toast.error(error?.response?.data?.message);
     console.log(error);
   }
 };
@@ -220,7 +220,7 @@ export const updateMasterScheduling = async (data, cb) => {
       data
     );
     cb();
-    
+
     toast.success(res?.data?.message);
   } catch (error) {
     console.log(error.message);

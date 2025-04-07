@@ -1,21 +1,21 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import PaginationSearch from "../../../_helper/_search";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _threeMonthAgoDate, _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import PaginationSearch from '../../../_helper/_search';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _threeMonthAgoDate, _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 
 const initData = {
   purchaseOrganization: { value: 0, label: 'ALL' },
   rfqType: { value: 1, label: 'Standard RFQ' },
-  plant: "",
-  warehouse: "",
+  plant: '',
+  warehouse: '',
   fromDate: _threeMonthAgoDate(),
   toDate: _todayDate(),
 };
@@ -28,23 +28,30 @@ export default function ErpQuotationEntryLanding() {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
 
-  const saveHandler = (values, cb) => { };
-  const [purchangeOrgListDDL, getPurchaseOrgListDDL, purchaseOrgListDDLloader] = useAxiosGet();
+  const saveHandler = (values, cb) => {};
+  const [purchangeOrgListDDL, getPurchaseOrgListDDL, purchaseOrgListDDLloader] =
+    useAxiosGet();
   const [plantListDDL, getPlantListDDL, plantListDDLloader] = useAxiosGet();
-  const [warehouseListDDL, getWarehouseListDDL, warehouseListDDLloader] = useAxiosGet();
+  const [warehouseListDDL, getWarehouseListDDL, warehouseListDDLloader] =
+    useAxiosGet();
   const [landingData, , landingDataLoader, setLandingData] = useAxiosGet();
 
   useEffect(() => {
-    getPurchaseOrgListDDL(`/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${profileData?.accountId
-      }&BusinessUnitId=${selectedBusinessUnit?.value}`)
+    getPurchaseOrgListDDL(
+      `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${
+        profileData?.accountId
+      }&BusinessUnitId=${selectedBusinessUnit?.value}`
+    );
 
-    getPlantListDDL(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId
-      }&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`)
-
+    getPlantListDDL(
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${
+        profileData?.userId
+      }&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
+    );
   }, []);
 
-  const getData = (values, pageNo, pageSize, searchValue = "") => {
-    return toast.warn("API is under development")
+  const getData = (values, pageNo, pageSize, searchValue = '') => {
+    return toast.warn('API is under development');
     // getLandingData(`/procurement/RequestForQuotation/GetRequestForQuotationPasignation?AccountId=${profileData?.accountId
     //   }&UnitId=${selectedBusinessUnit?.value
     //   }&RequestTypeId=${values?.rfqType?.value}&SBUId=${values?.sbu?.value
@@ -53,10 +60,10 @@ export default function ErpQuotationEntryLanding() {
     //   }&status=${values?.status?.label}&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize
     //   }&fromDate=${values?.fromDate}&toDate=${values?.toDate}&search=${searchValue}`
     // )
-  }
+  };
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
-    getData(values, pageNo, pageSize, searchValue)
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
+    getData(values, pageNo, pageSize, searchValue);
   };
 
   const paginationSearchHandler = (searchValue, values) => {
@@ -83,7 +90,10 @@ export default function ErpQuotationEntryLanding() {
         touched,
       }) => (
         <>
-          {(purchaseOrgListDDLloader || plantListDDLloader || warehouseListDDLloader || landingDataLoader) && <Loading />}
+          {(purchaseOrgListDDLloader ||
+            plantListDDLloader ||
+            warehouseListDDLloader ||
+            landingDataLoader) && <Loading />}
           <IForm
             title="Quotation Entry Landing"
             isHiddenReset
@@ -111,14 +121,14 @@ export default function ErpQuotationEntryLanding() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="purchaseOrganization"
-                      options={[
-                        { value: 0, label: 'ALL' },
-                        ...purchangeOrgListDDL
-                      ] || []}
+                      options={
+                        [{ value: 0, label: 'ALL' }, ...purchangeOrgListDDL] ||
+                        []
+                      }
                       value={values?.purchaseOrganization}
                       label="Purchase Organization"
                       onChange={(v) => {
-                        setFieldValue("purchaseOrganization", v);
+                        setFieldValue('purchaseOrganization', v);
                         // setLandingData([]);
                       }}
                       placeholder="Purchase Organization"
@@ -129,17 +139,15 @@ export default function ErpQuotationEntryLanding() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="rfqType"
-                      options={
-                        [
-                          { value: 1, label: 'Standard RFQ' },
-                          { value: 2, label: 'Request for Information' },
-                          { value: 3, label: 'Request for Proposal' }
-                        ]
-                      }
+                      options={[
+                        { value: 1, label: 'Standard RFQ' },
+                        { value: 2, label: 'Request for Information' },
+                        { value: 3, label: 'Request for Proposal' },
+                      ]}
                       value={values?.rfqType}
                       label="RFQ Type"
                       onChange={(v) => {
-                        setFieldValue("rfqType", v);
+                        setFieldValue('rfqType', v);
                         setLandingData([]);
                       }}
                       placeholder="RFQ Type"
@@ -156,14 +164,17 @@ export default function ErpQuotationEntryLanding() {
                       label="Plant"
                       onChange={(v) => {
                         if (v) {
-                          setFieldValue("plant", v);
-                          setFieldValue("warehouse", "");
+                          setFieldValue('plant', v);
+                          setFieldValue('warehouse', '');
                           setLandingData([]);
-                          getWarehouseListDDL(`/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${v?.value
-                            }`)
+                          getWarehouseListDDL(
+                            `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${
+                              v?.value
+                            }`
+                          );
                         } else {
-                          setFieldValue("plant", "");
-                          setFieldValue("warehouse", "");
+                          setFieldValue('plant', '');
+                          setFieldValue('warehouse', '');
                         }
                       }}
                       placeholder="Plant"
@@ -178,7 +189,7 @@ export default function ErpQuotationEntryLanding() {
                       value={values?.warehouse}
                       label="Warehouse"
                       onChange={(v) => {
-                        setFieldValue("warehouse", v);
+                        setFieldValue('warehouse', v);
                         setLandingData([]);
                       }}
                       placeholder="Warehouse"
@@ -195,7 +206,7 @@ export default function ErpQuotationEntryLanding() {
                       placeholder="From Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                         setLandingData([]);
                       }}
                     />
@@ -208,7 +219,7 @@ export default function ErpQuotationEntryLanding() {
                       placeholder="To Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                         setLandingData([]);
                       }}
                       disabled={false}
@@ -219,10 +230,10 @@ export default function ErpQuotationEntryLanding() {
                       type="button"
                       className="btn btn-primary"
                       style={{
-                        marginTop: "18px",
+                        marginTop: '18px',
                       }}
                       onClick={() => {
-                        getData(values, pageNo, pageSize)
+                        getData(values, pageNo, pageSize);
                       }}
                       disabled={
                         !values?.purchaseOrganization ||
@@ -238,9 +249,9 @@ export default function ErpQuotationEntryLanding() {
                     <button
                       type="button"
                       className="btn btn-primary ml-1"
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                       onClick={() => {
-                        toast.warn("Export excel is under development")
+                        toast.warn('Export excel is under development');
                       }}
                       disabled={!landingData?.data?.length > 0}
                     >
@@ -256,31 +267,28 @@ export default function ErpQuotationEntryLanding() {
                   />
                 </div>
                 <div>
-                <div className="table-responsive">
-                  <table className="table table-striped table-bordered bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>RFQ No</th>
-                        <th>RFQ Date</th>
-                        <th>RFQ Type</th>
-                        <th>Plant</th>
-                        <th>Warehouse</th>
-                        <th>Currency</th>
-                        <th>RFQ Start Date-Time</th>
-                        <th>RFQ End Date-Time</th>
-                        <th>Created By</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {landingData?.data?.length > 0 && landingData?.data?.map((item, index) => (
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered bj-table bj-table-landing">
+                      <thead>
                         <tr>
-
+                          <th>SL</th>
+                          <th>RFQ No</th>
+                          <th>RFQ Date</th>
+                          <th>RFQ Type</th>
+                          <th>Plant</th>
+                          <th>Warehouse</th>
+                          <th>Currency</th>
+                          <th>RFQ Start Date-Time</th>
+                          <th>RFQ End Date-Time</th>
+                          <th>Created By</th>
+                          <th>Action</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {landingData?.data?.length > 0 &&
+                          landingData?.data?.map((item, index) => <tr></tr>)}
+                      </tbody>
+                    </table>
                   </div>
                   {landingData?.data?.length > 0 ? (
                     <PaginationTable
@@ -293,7 +301,8 @@ export default function ErpQuotationEntryLanding() {
                         setPageSize,
                       }}
                       values={values}
-                    />) : null}
+                    />
+                  ) : null}
                 </div>
               </div>
             </Form>

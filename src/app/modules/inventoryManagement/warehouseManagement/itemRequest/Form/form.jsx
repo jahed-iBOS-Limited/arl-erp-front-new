@@ -1,25 +1,24 @@
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import InputField from "../../../../_helper/_inputField";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { getUOMList } from "../helper";
-import Axios from "axios";
-import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
-import FormikError from "./../../../../_helper/_formikError";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import InputField from '../../../../_helper/_inputField';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import { getUOMList } from '../helper';
+import Axios from 'axios';
+import SearchAsyncSelect from './../../../../_helper/SearchAsyncSelect';
+import FormikError from './../../../../_helper/_formikError';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../../_helper/_loading';
 // import { getCostElement } from "../helper"
 // Validation schema
 const validationSchema = Yup.object().shape({
-  requestDate: Yup.string().required("Request Date is required"),
-  validTill: Yup.string().required("Valid Till Date is required"),
-  dueDate: Yup.string().required("Due Date is required"),
+  requestDate: Yup.string().required('Request Date is required'),
+  validTill: Yup.string().required('Valid Till Date is required'),
+  dueDate: Yup.string().required('Due Date is required'),
   // quantity: Yup.number().required('Quantity is required').min(1),
-  actionType: Yup.object()
-  .shape({
+  actionType: Yup.object().shape({
     value: Yup.number().required('Action For is required'),
     label: Yup.string().required('Action For is required'),
   }),
@@ -45,7 +44,7 @@ export default function FormCmp({
   profileData,
 }) {
   const [uomList, setUOMList] = useState([]);
-  const [itemType, setItemType] = useState("");
+  const [itemType, setItemType] = useState('');
 
   const [, getStockQty, stockQtyLoader] = useAxiosGet();
 
@@ -54,19 +53,22 @@ export default function FormCmp({
       itemType === 1
         ? `/wms/ItemRequestDDL/GetItemForAssetTypeDDL?AccountId=${accountId}&BusinessUnitId=${
             selectedBusinessUnit?.value
-          }&PlantId=${plantId || initData?.intPlantId}&WarehouseId=${whId ||
-            initData?.intWarehouseId}&searchTerm=${v}`
+          }&PlantId=${plantId || initData?.intPlantId}&WarehouseId=${
+            whId || initData?.intWarehouseId
+          }&searchTerm=${v}`
         : itemType === 2
-        ? `/wms/ItemRequestDDL/GetItemForServiceTypeDDL?AccountId=${accountId}&BusinessUnitId=${
-            selectedBusinessUnit?.value
-          }&PlantId=${plantId || initData?.intPlantId}&WarehouseId=${whId ||
-            initData?.intWarehouseId}&searchTerm=${v}`
-        : itemType === 3
-        ? `/wms/ItemRequestDDL/GetItemForOthersTypeDDL?AccountId=${accountId}&BusinessUnitId=${
-            selectedBusinessUnit?.value
-          }&PlantId=${plantId || initData?.intPlantId}&WarehouseId=${whId ||
-            initData?.intWarehouseId}&searchTerm=${v}`
-        : ""
+          ? `/wms/ItemRequestDDL/GetItemForServiceTypeDDL?AccountId=${accountId}&BusinessUnitId=${
+              selectedBusinessUnit?.value
+            }&PlantId=${plantId || initData?.intPlantId}&WarehouseId=${
+              whId || initData?.intWarehouseId
+            }&searchTerm=${v}`
+          : itemType === 3
+            ? `/wms/ItemRequestDDL/GetItemForOthersTypeDDL?AccountId=${accountId}&BusinessUnitId=${
+                selectedBusinessUnit?.value
+              }&PlantId=${plantId || initData?.intPlantId}&WarehouseId=${
+                whId || initData?.intWarehouseId
+              }&searchTerm=${v}`
+            : ''
     ).then((res) => {
       const updateList = res?.data.map((item) => ({
         ...item,
@@ -102,17 +104,17 @@ export default function FormCmp({
                 <div className="col-lg-3">
                   <div className="row global-form">
                     <div className="col-12">
-                       <NewSelect
+                      <NewSelect
                         label="Action For"
                         options={[
-                          { label: "Project", value: 1 },
-                          { label: "Operation", value: 2 },
+                          { label: 'Project', value: 1 },
+                          { label: 'Operation', value: 2 },
                         ]}
                         value={values?.actionType}
                         name="actionType"
                         onChange={(valueOption) => {
-                          setFieldValue("actionType", valueOption || "");
-                          setFieldValue("project", "");
+                          setFieldValue('actionType', valueOption || '');
+                          setFieldValue('project', '');
                         }}
                         errors={errors}
                         touched={touched}
@@ -123,15 +125,15 @@ export default function FormCmp({
                       <NewSelect
                         label="Select Item Group"
                         options={[
-                          { label: "Assets Item", value: 1 },
-                          { label: "Others Item", value: 3 },
+                          { label: 'Assets Item', value: 1 },
+                          { label: 'Others Item', value: 3 },
                         ]}
                         value={values?.itemGroup}
                         placeholder="Select Item Group"
                         name="itemGroup"
                         onChange={(valueOption) => {
-                          setFieldValue("itemGroup", valueOption);
-                          setFieldValue("item", "");
+                          setFieldValue('itemGroup', valueOption);
+                          setFieldValue('item', '');
                           setItemType(valueOption?.value);
                         }}
                         errors={errors}
@@ -166,7 +168,7 @@ export default function FormCmp({
                           placeholder="Select Project"
                           name="project"
                           handleChange={(valueOption) => {
-                            setFieldValue("project", valueOption);
+                            setFieldValue('project', valueOption);
                           }}
                           loadOptions={(value) => {
                             return Axios.get(
@@ -189,20 +191,23 @@ export default function FormCmp({
                       />
                     </div>
                     <div className="col-lg-12 mt-2">
-                    <div className="d-flex align-items-center">
-                    <p className="pr-1 pt-3">
-                      <input
-                        type="checkbox"
-                        checked={values?.isSpecialApproval}
-                      onChange={(e)=>{
-                        setFieldValue("isSpecialApproval", e.target.checked);
-                      }}
-                      />
-                    </p>
-                    <p>
-                      <label>Is Special Approval</label>
-                    </p>
-                  </div>
+                      <div className="d-flex align-items-center">
+                        <p className="pr-1 pt-3">
+                          <input
+                            type="checkbox"
+                            checked={values?.isSpecialApproval}
+                            onChange={(e) => {
+                              setFieldValue(
+                                'isSpecialApproval',
+                                e.target.checked
+                              );
+                            }}
+                          />
+                        </p>
+                        <p>
+                          <label>Is Special Approval</label>
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -213,7 +218,7 @@ export default function FormCmp({
                       <SearchAsyncSelect
                         selectedValue={values?.item}
                         handleChange={(valueOption) => {
-                          setFieldValue("item", valueOption);
+                          setFieldValue('item', valueOption);
                           getStockQty(
                             `/wms/InventoryTransaction/sprRuningQty?businessUnitId=${
                               selectedBusinessUnit?.value
@@ -221,10 +226,10 @@ export default function FormCmp({
                               valueOption?.value
                             }`,
                             (res) => {
-                              setFieldValue("availableStockQty", res);
+                              setFieldValue('availableStockQty', res);
                             }
                           );
-                          setFieldValue("itemUom", {
+                          setFieldValue('itemUom', {
                             value: valueOption?.baseUoMId,
                             label: valueOption?.baseUoMName,
                           });
@@ -291,15 +296,15 @@ export default function FormCmp({
                     </div>
                     <div className="col-lg-1 mt-9">
                       <button
-                        style={{ marginTop: "-7px" }}
+                        style={{ marginTop: '-7px' }}
                         className="btn btn-primary"
                         onClick={(e) => {
                           addItemtoTheGrid(values);
-                          setFieldValue("item", "");
-                          setFieldValue("itemUom", "");
-                          setFieldValue("availableStockQty", "");
-                          setFieldValue("quantity", "");
-                          setFieldValue("remarks", "");
+                          setFieldValue('item', '');
+                          setFieldValue('itemUom', '');
+                          setFieldValue('availableStockQty', '');
+                          setFieldValue('quantity', '');
+                          setFieldValue('remarks', '');
                         }}
                         type="button"
                         disabled={
@@ -335,7 +340,7 @@ export default function FormCmp({
                             <td className="">{item.itemName}</td>
                             <td className="">{item.uoMname}</td>
                             <td className="text-center align-middle table-input">
-                              {item.referenceId ? item.referenceId : ""}
+                              {item.referenceId ? item.referenceId : ''}
                             </td>
                             <td className="text-center align-middle table-input">
                               {item.requestQuantity}
@@ -356,14 +361,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

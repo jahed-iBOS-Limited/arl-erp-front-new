@@ -1,28 +1,27 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import { useParams } from "react-router-dom";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { useHistory } from "react-router-dom";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import Loading from '../../../_helper/_loading';
+import IForm from '../../../_helper/_form';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import { useParams } from 'react-router-dom';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { useHistory } from 'react-router-dom';
 
 const initData = {};
 const ViewEventDetails = () => {
   const history = useHistory();
   const { id } = useParams();
   const [objProps, setObjprops] = useState({});
-  const saveHandler = (values, cb) => { };
+  const saveHandler = (values, cb) => {};
   const [tableData, getTableData, tableDataLoader] = useAxiosGet();
 
   useEffect(() => {
     if (id) {
       getTableData(`/hcm/Training/GetEventById?id=${id}`, (data) => {
-        console.log("data", data);
+        console.log('data', data);
       });
     }
-
   }, [id]);
 
   return (
@@ -49,7 +48,7 @@ const ViewEventDetails = () => {
           <IForm
             isHiddenReset={true}
             isHiddenSave={true}
-            customTitle={"Event Planning"}
+            customTitle={'Event Planning'}
             getProps={setObjprops}
           >
             <Form>
@@ -116,9 +115,13 @@ const ViewEventDetails = () => {
                           <tr key={index}>
                             <td>{index + 1}</td>
                             <td>{item?.activityName}</td>
-                            <td>{item?.activityStartTime ? item?.activityStartTime : ""}</td>
+                            <td>
+                              {item?.activityStartTime
+                                ? item?.activityStartTime
+                                : ''}
+                            </td>
                             <td>{item?.activityEndTime}</td>
-                            <td>{item?.isParticipantCount ? "Yes" : "No"}</td>
+                            <td>{item?.isParticipantCount ? 'Yes' : 'No'}</td>
                             <td>{item?.taken}</td>
                             <td>{item?.remaining}</td>
                             <td className="text-center">
@@ -187,14 +190,14 @@ const ViewEventDetails = () => {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

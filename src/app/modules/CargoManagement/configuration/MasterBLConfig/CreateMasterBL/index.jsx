@@ -92,7 +92,7 @@ function CreateMasterBL() {
           cb();
         }
       },
-      'post',
+      'post'
     );
   };
 
@@ -103,10 +103,10 @@ function CreateMasterBL() {
         `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeShipperDDL?shipperId=${0}&participntTypeId=${typeId}`,
         (res) => {
           setAirServiceProviderDDL(res);
-        },
+        }
       );
       getGSADDL(
-        `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeShipperDDL?shipperId=0&participntTypeId=7`,
+        `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeShipperDDL?shipperId=0&participntTypeId=7`
       );
     }
     // tradeTypeId  = 2 import
@@ -115,10 +115,10 @@ function CreateMasterBL() {
         `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeCongineeDDL?consigneeId=${0}&participntTypeId=${typeId}`,
         (res) => {
           setAirServiceProviderDDL(res);
-        },
+        }
       );
       getGSADDL(
-        `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeCongineeDDL?consigneeId=0&participntTypeId=7`,
+        `${imarineBaseUrl}/domain/ShippingService/ParticipntTypeCongineeDDL?consigneeId=0&participntTypeId=7`
       );
     }
   };
@@ -151,7 +151,7 @@ function CreateMasterBL() {
               value: data?.shippingLineId || 0,
               label: data?.shippingLineName || '',
             }
-          : '',
+          : ''
       );
       formikRef.current.setFieldValue(
         'airLineName',
@@ -160,7 +160,7 @@ function CreateMasterBL() {
               value: data?.airLine || 0,
               label: data?.airLineName || '',
             }
-          : '',
+          : ''
       );
       formikRef.current.setFieldValue('masterBL', data?.masterBL || '');
       formikRef.current.setFieldValue(
@@ -170,11 +170,10 @@ function CreateMasterBL() {
               value: data?.gsaId || 0,
               label: data?.gsaName || '',
             }
-          : '',
+          : ''
       );
       formikRef.current.setFieldValue('tradeType', data?.tradeTypeId || 1);
     }
-
   }, [data, id]);
 
   // tradeType 1 = Export 2 = Import
@@ -295,7 +294,7 @@ function CreateMasterBL() {
                       valueOption?.value &&
                         GetAirServiceProviderDDLFunc(
                           valueOption?.value === 1 ? 5 : 6,
-                          values?.tradeType,
+                          values?.tradeType
                         );
                     }}
                     errors={errors}

@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 //import { UiProvider } from "../../_helper/uiContextHelper";
-import { VatItemTable } from './table/tableHeader'
+import { VatItemTable } from './table/tableHeader';
 
 function reportLanding({ history }) {
   // const uIEvents = {
@@ -16,6 +16,6 @@ function reportLanding({ history }) {
     //<UiProvider uIEvents={uIEvents}>
     <VatItemTable />
     //</UiProvider>
-  )
+  );
 }
-export default reportLanding
+export default reportLanding;

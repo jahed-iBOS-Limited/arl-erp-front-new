@@ -48,7 +48,6 @@ export default function SalesOfficialInfoCollapsePanel() {
     } else if (state?.checkbox === 'banklInformation') {
       setExpanded('panel10');
     }
-
   }, [state]);
 
   const backHandler = () => {

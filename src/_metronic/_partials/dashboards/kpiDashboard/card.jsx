@@ -1,21 +1,18 @@
-import React from "react";
-import IHeart from "../../../../app/modules/_helper/_helperIcons/_heart";
-import IDonut from "../../../../app/modules/performanceManagement/_chart/IDonutChart";
-import ISpeedoMeter from "../../../../app/modules/performanceManagement/_chart/ISpeedoMeter";
-import ApexBarChart from "../../../../app/modules/performanceManagement/_chart/apexBarChart";
+import React from 'react';
+import IHeart from '../../../../app/modules/_helper/_helperIcons/_heart';
+import IDonut from '../../../../app/modules/performanceManagement/_chart/IDonutChart';
+import ISpeedoMeter from '../../../../app/modules/performanceManagement/_chart/ISpeedoMeter';
+import ApexBarChart from '../../../../app/modules/performanceManagement/_chart/apexBarChart';
 function Card({ itm, updateIsShown }) {
-
-
   const subStrString = (str, maxLength) => {
     let newStr;
-    if(str.length > maxLength){
-      newStr = `${str.substr(0, maxLength)}...`
-    }else{
+    if (str.length > maxLength) {
+      newStr = `${str.substr(0, maxLength)}...`;
+    } else {
       newStr = str;
     }
     return newStr;
-  }
-
+  };
 
   return (
     <>
@@ -35,7 +32,7 @@ function Card({ itm, updateIsShown }) {
             // <IBarChart isLoveHidden={true} />
             <ApexBarChart itm={itm} />
           ) : itm.chart_type === 2 ? (
-            <IDonut classes="donut" isLoveHidden={true}  itm={itm}/>
+            <IDonut classes="donut" isLoveHidden={true} itm={itm} />
           ) : (
             <ISpeedoMeter isLoveHidden={true} itm={itm} />
           )}

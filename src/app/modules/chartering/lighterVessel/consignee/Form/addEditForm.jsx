@@ -1,17 +1,15 @@
-
-
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import { createConsignee, saveEditedConsignee } from "../helper";
-import Form from "./form";
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import { createConsignee, saveEditedConsignee } from '../helper';
+import Form from './form';
 
 const initData = {
-  consigneeName: "",
-  mobileNo: "",
-  email: "",
-  address: "",
-  bankAccountNo: "",
+  consigneeName: '',
+  mobileNo: '',
+  email: '',
+  address: '',
+  bankAccountNo: '',
 };
 
 export default function ConsigneeForm({ singleData, setOpen, viewHandler }) {
@@ -60,7 +58,7 @@ export default function ConsigneeForm({ singleData, setOpen, viewHandler }) {
     }
   };
 
-  const title = singleData?.consigneeId ? "Edit Consignee" : "Create Consignee";
+  const title = singleData?.consigneeId ? 'Edit Consignee' : 'Create Consignee';
 
   return (
     <>

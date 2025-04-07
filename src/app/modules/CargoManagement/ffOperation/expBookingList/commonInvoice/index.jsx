@@ -22,7 +22,7 @@ const validationSchema = Yup.object().shape({
 const CommonInvoice = ({ rowClickData, isAirOperation }) => {
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
   const [billingDataFilterData, setBillingDataFilterData] = React.useState([]);
   const formikRef = React.useRef(null);
@@ -38,8 +38,6 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
   const [invoiceNo, GeiInvoiceNo] = useAxiosGet();
   useEffect(() => {
     commonGetByIdHandler();
-
-
   }, [bookingRequestId]);
   const bookingData = {
     ...shipBookingRequestGetById,
@@ -66,7 +64,8 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
   const commonGetByIdHandler = () => {
     if (bookingRequestId) {
       setShipBookingRequestGetById(
-        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}&isAirOperation=${isAirOperation || false
+        `${imarineBaseUrl}/domain/ShippingService/ShipBookingRequestGetById?BookingId=${bookingRequestId}&isAirOperation=${
+          isAirOperation || false
         }`,
         (resData) => {
           const billingDataList = resData?.billingData
@@ -86,17 +85,17 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
             });
           const unique = [
             ...new Map(
-              billingDataList.map((item) => [item['collectionPartyId'], item]),
+              billingDataList.map((item) => [item['collectionPartyId'], item])
             ).values(),
           ];
           setPaymentPartyListDDL(unique || []);
-        },
+        }
       );
     }
   };
   const getInvoiceNo = (bookingRequestId, CusomerId) => {
     GeiInvoiceNo(
-      `${imarineBaseUrl}/domain/ShippingService/GetInvoiceNo?BookingId=${bookingRequestId}&CusomerId=${CusomerId}`,
+      `${imarineBaseUrl}/domain/ShippingService/GetInvoiceNo?BookingId=${bookingRequestId}&CusomerId=${CusomerId}`
     );
   };
 
@@ -134,7 +133,7 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
           formikRef.current.resetForm();
         }
       },
-      true,
+      true
     );
   };
 
@@ -147,7 +146,7 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
     return amountToWords(
       billingDataFilterData?.reduce((acc, cur) => {
         return acc + (+cur?.collectionActualAmount || 0);
-      }, 0) || 0,
+      }, 0) || 0
     );
   };
   // filter by collectionPartyTypeId
@@ -170,7 +169,7 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
             item?.invoiceId &&
             (item?.isAirOperation || false) === (isAirOperation || false)
           );
-        },
+        }
       );
       setBillingDataFilterData(billGenerateFilterData);
     } else {
@@ -180,12 +179,12 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
 
   const totalGrossWeightKG = bookingData?.rowsData?.reduce(
     (acc, item) => acc + (+item?.totalGrossWeightKG || 0),
-    0,
+    0
   );
 
   const totalVolumetricWeight = bookingData?.rowsData?.reduce(
     (acc, item) => acc + (+item?.totalVolumetricWeight || 0),
-    0,
+    0
   );
   const totalChargeableWeight =
     totalVolumetricWeight > totalGrossWeightKG
@@ -204,13 +203,13 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
   const groupBySize =
     transportPlanningSea?.containerDesc?.length > 0
       ? transportPlanningSea?.containerDesc.reduce((acc, obj) => {
-        const key = obj?.size;
-        if (!acc[key]) {
-          acc[key] = [];
-        }
-        acc[key].push(obj);
-        return acc;
-      }, {})
+          const key = obj?.size;
+          if (!acc[key]) {
+            acc[key] = [];
+          }
+          acc[key].push(obj);
+          return acc;
+        }, {})
       : [];
 
   const sumOfRate = Object.keys(groupBySize).map((key) => {
@@ -343,7 +342,8 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                 'Freight Invoice: '
               ) : (
                 <>
-                  {billingDataFilterData?.[0]?.collectionPartyType} INVOICE :{' '}
+                  {billingDataFilterData?.[0]?.collectionPartyType} INVOICE
+                  :{' '}
                 </>
               )}
               {invoiceNo || 'N/A'}
@@ -626,8 +626,8 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                     <span>
                       {bookingData?.dateOfRequest
                         ? moment(bookingData?.dateOfRequest).format(
-                          'YYYY-MM-DD',
-                        )
+                            'YYYY-MM-DD'
+                          )
                         : 'N/A'}
                     </span>
                     <br />
@@ -636,7 +636,7 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                         <span>
                           {' '}
                           {bookingData?.seaMasterBlCode &&
-                            bookingData?.airMasterBlCode ? (
+                          bookingData?.airMasterBlCode ? (
                             <>
                               {bookingData?.seaMasterBlCode}{' '}
                               {bookingData?.airMasterBlCode
@@ -658,8 +658,8 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                     <span>
                       {bookingData?.arrivalDateTime
                         ? moment(bookingData?.arrivalDateTime).format(
-                          'YYYY-MM-DD HH:mm A',
-                        )
+                            'YYYY-MM-DD HH:mm A'
+                          )
                         : 'N/A'}
                     </span>
                   </div>
@@ -710,7 +710,7 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                     <span>
                       {lcType?.lcdate
                         ? moment(lcType?.lcdate).isValid() &&
-                        moment(lcType?.lcdate).format('DD MMM YYYY')
+                          moment(lcType?.lcdate).format('DD MMM YYYY')
                         : 'N/A'}
                     </span>
                     <br />
@@ -724,23 +724,23 @@ const CommonInvoice = ({ rowClickData, isAirOperation }) => {
                       <>
                         <span>
                           {bookingData?.seaMasterBlCode &&
-                            bookingData?.airMasterBlCode ? (
+                          bookingData?.airMasterBlCode ? (
                             <>
                               {bookingData?.seaMasterBlDate &&
                                 moment(bookingData?.seaMasterBlDate).format(
-                                  'YYYY-MM-DD',
+                                  'YYYY-MM-DD'
                                 )}
                               {', '}
                               {bookingData?.airMasterBlDate &&
                                 moment(bookingData?.airMasterBlDate).format(
-                                  'YYYY-MM-DD',
+                                  'YYYY-MM-DD'
                                 )}{' '}
                             </>
                           ) : bookingData?.seaMasterBlDate ||
                             bookingData?.airMasterBlDate ? (
                             moment(
                               bookingData?.seaMasterBlDate ||
-                              bookingData?.airMasterBlDate,
+                                bookingData?.airMasterBlDate
                             ).format('YYYY-MM-DD')
                           ) : (
                             ''

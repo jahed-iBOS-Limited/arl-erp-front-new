@@ -144,10 +144,9 @@ export default function FormCmp({
       getEmpGroupDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        setEmpLavelDDL,
+        setEmpLavelDDL
       );
     }
-
   }, [edit]);
 
   const subOnChangeHandler = (sbuId) => {
@@ -155,7 +154,7 @@ export default function FormCmp({
       profileData?.accountId,
       selectedBusinessUnit?.value,
       sbuId,
-      setCostCenterDDL,
+      setCostCenterDDL
     );
   };
   const businessUnitOnChangeHandler = (buId) => {
@@ -167,15 +166,14 @@ export default function FormCmp({
       getWorkplaceDDL_api(
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        setWorkplaceDDL,
+        setWorkplaceDDL
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
   const loadUserList = (v) => {
     if (v?.length < 3) return [];
     return Axios.get(
-      `/hcm/HCMDDL/GetLineManagerDDLSearch?AccountId=${profileData?.accountId}&Search=${v}`,
+      `/hcm/HCMDDL/GetLineManagerDDLSearch?AccountId=${profileData?.accountId}&Search=${v}`
     ).then((res) => res?.data);
   };
   return (
@@ -521,8 +519,8 @@ export default function FormCmp({
                             clickHandler={() => {
                               dispatch(
                                 getDownlloadFileView_Action(
-                                  values?.empProfileImage,
-                                ),
+                                  values?.empProfileImage
+                                )
                               );
                             }}
                           />
@@ -548,7 +546,7 @@ export default function FormCmp({
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name,
+                  (item) => item.file.name !== deleteFileObj.file.name
                 );
                 setFileObjects(newData);
               }}

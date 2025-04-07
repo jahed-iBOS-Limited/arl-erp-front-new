@@ -1,12 +1,12 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import { toast } from "react-toastify";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { toast } from 'react-toastify';
 
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import InputField from "../../../_helper/_inputField";
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import InputField from '../../../_helper/_inputField';
 const initData = {
-  comment: "",
+  comment: '',
 };
 export default function DeleteModal({
   isApprove,
@@ -40,13 +40,13 @@ export default function DeleteModal({
         }) => (
           <>
             <Form
-              style={{ marginBottom: "15px" }}
+              style={{ marginBottom: '15px' }}
               className="form form-label-right"
             >
               <div className="form-group  global-form">
                 <div className="w-100">
                   <h6 className="text-center">{`Are you want to ${
-                    isApprove ? "approve" : "reject"
+                    isApprove ? 'approve' : 'reject'
                   } ?`}</h6>
                 </div>
                 {!isApprove ? (
@@ -60,7 +60,7 @@ export default function DeleteModal({
                     </div>
                   </div>
                 ) : (
-                  ""
+                  ''
                 )}
 
                 <div className="mt-2 d-flex justify-content-center">
@@ -69,7 +69,7 @@ export default function DeleteModal({
                       disabled={false}
                       onClick={() => {
                         if (!isApprove && !values?.comment)
-                          return toast.warn("Reason is required");
+                          return toast.warn('Reason is required');
                         approveHandler(
                           `/hcm/Training/TrainingRequisitionApproval`,
                           {
@@ -77,11 +77,11 @@ export default function DeleteModal({
                               .filter((data) => data.selectCheckbox)
                               .map((item) => item?.intRequisitionId),
                             isApproved: isApprove ? true : false,
-                            strApprovedBy: isApprove ? profileData?.userId : "",
+                            strApprovedBy: isApprove ? profileData?.userId : '',
                             strRejectedBy: !isApprove
                               ? profileData?.userId
-                              : "",
-                            comments: !isApprove ? values?.comment : "",
+                              : '',
+                            comments: !isApprove ? values?.comment : '',
                           },
                           () => {
                             setisShowModal(false);

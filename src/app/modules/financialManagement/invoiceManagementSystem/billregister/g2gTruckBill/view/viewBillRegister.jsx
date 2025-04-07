@@ -1,18 +1,18 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import IForm from "../../../../../_helper/_form";
-import Loading from "../../../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import BillApproveForm from "../../../approvebillregister/approveForm";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import IForm from '../../../../../_helper/_form';
+import Loading from '../../../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actions';
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
+import BillApproveForm from '../../../approvebillregister/approveForm';
 
 const initData = {
-  approveAmount: "",
-  approveAmountMax: "",
-  remarks: "",
+  approveAmount: '',
+  approveAmountMax: '',
+  remarks: '',
 };
 
 export default function ViewG2GTruckBill({
@@ -36,7 +36,6 @@ export default function ViewG2GTruckBill({
     getGridData(
       `/tms/LigterLoadUnload/GetTruckNLabourSupplierByBillRegisterId?accountId=${accId}&buisinessUnitId=${buId}&billRegisterId=${billRegisterId}&billTypeId=16`
     );
-
   }, [accId, buId]);
 
   return (
@@ -95,7 +94,7 @@ export default function ViewG2GTruckBill({
                     {gridData?.map((item, index) => {
                       return (
                         <tr key={index}>
-                          <td style={{ width: "30px" }} className="text-center">
+                          <td style={{ width: '30px' }} className="text-center">
                             {index + 1}
                           </td>
                           <td>{item?.shipPointName}</td>
@@ -136,13 +135,13 @@ export default function ViewG2GTruckBill({
                                       )
                                     );
                                   } else {
-                                    toast.warn("No Attachment Found");
+                                    toast.warn('No Attachment Found');
                                   }
                                 }}
                                 className="ml-2"
                               >
                                 <i
-                                  style={{ fontSize: "16px" }}
+                                  style={{ fontSize: '16px' }}
                                   className={`fa pointer fa-eye`}
                                   aria-hidden="true"
                                 ></i>
@@ -154,7 +153,7 @@ export default function ViewG2GTruckBill({
                     })}
                   </tbody>
                 </table>
-                </div>
+              </div>
               {/* </div> */}
             </div>
           </form>

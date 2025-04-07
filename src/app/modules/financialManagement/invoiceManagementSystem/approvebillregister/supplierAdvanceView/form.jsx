@@ -1,36 +1,37 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import Loading from "./../../../../_helper/_loading";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import React, { useState, useEffect, useRef } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import Loading from './../../../../_helper/_loading';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
-import { BillApproved_api, GetSupplierAdvancesByBill_api } from "../helper";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import InputField from "./../../../../_helper/_inputField";
-import { getMultipleFileView_Action } from "../../../../_helper/_redux/Actions";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
+} from './../../../../../../_metronic/_partials/controls';
+import { BillApproved_api, GetSupplierAdvancesByBill_api } from '../helper';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import InputField from './../../../../_helper/_inputField';
+import { getMultipleFileView_Action } from '../../../../_helper/_redux/Actions';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
 const initData = {
-  approveAmount: "",
-  approveAmountMax: "",
-  remarks: "",
+  approveAmount: '',
+  approveAmountMax: '',
+  remarks: '',
 };
 
 const validationSchema = Yup.object().shape({
   approveAmount: Yup.number()
-    .min(0, "Minimum 0 number")
-    .required("Approve amount required")
-    .test("approveAmount", "invalid number ", function(value) {
+    .min(0, 'Minimum 0 number')
+    .required('Approve amount required')
+    .test('approveAmount', 'invalid number ', function (value) {
       return this.parent.approveAmountMax >= value;
     }),
 });
-function FormCmp({  gridItem,
+function FormCmp({
+  gridItem,
   laingValues,
   girdDataFunc,
   setModalShow,
@@ -44,7 +45,7 @@ function FormCmp({  gridItem,
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
   const [disabled, setDisabled] = useState(false);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [advanceForSupplierById, setAdvanceForSupplierById] = React.useState(
     []
   );
@@ -60,7 +61,6 @@ function FormCmp({  gridItem,
         setDisabled,
         setAdvanceForSupplierById
       );
-
   }, [profileData, selectedBusinessUnit, gridItem]);
 
   const saveHandler = (values) => {
@@ -69,7 +69,7 @@ function FormCmp({  gridItem,
       unitId: selectedBusinessUnit?.value,
       billTypeId: gridItem?.billType,
       approvedAmount: +values?.approveAmount,
-      remarks: values?.remarks || "",
+      remarks: values?.remarks || '',
     };
     const payload = {
       bill: [modifyGridData],
@@ -116,7 +116,7 @@ function FormCmp({  gridItem,
               {disabled && <Loading />}
               <Card>
                 {true && <ModalProgressBar />}
-                <CardHeader title={"Supplier Advance View"}>
+                <CardHeader title={'Supplier Advance View'}>
                   <CardHeaderToolbar>
                     {laingValues?.status?.value &&
                       laingValues?.status?.value !== 2 && (
@@ -168,17 +168,17 @@ function FormCmp({  gridItem,
                       <div className="col-lg-12 ">
                         <div
                           className="text-center"
-                          style={{ position: "relative" }}
+                          style={{ position: 'relative' }}
                         >
                           <h2>{selectedBusinessUnit?.label}</h2>
                           <h5>{selectedBusinessUnit?.address} </h5>
                           <h3>Supplier Advance</h3>
                           <button
                             style={{
-                              padding: "4px 4px",
-                              position: "absolute",
-                              top: "2px",
-                              right: "70px",
+                              padding: '4px 4px',
+                              position: 'absolute',
+                              top: '2px',
+                              right: '70px',
                             }}
                             onClick={() => {
                               dispatch(
@@ -194,23 +194,23 @@ function FormCmp({  gridItem,
                           </button>
                           <ReactToPrint
                             pageStyle={
-                              "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                              '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
                             }
                             trigger={() => (
                               <button
                                 type="button"
                                 className="btn btn-primary printSectionNone"
                                 style={{
-                                  padding: "2px 5px",
-                                  position: "absolute",
-                                  top: "0",
-                                  right: "0",
+                                  padding: '2px 5px',
+                                  position: 'absolute',
+                                  top: '0',
+                                  right: '0',
                                 }}
                               >
                                 <img
                                   style={{
-                                    width: "25px",
-                                    paddingRight: "5px",
+                                    width: '25px',
+                                    paddingRight: '5px',
                                   }}
                                   src={printIcon}
                                   alt="print-icon"
@@ -228,15 +228,15 @@ function FormCmp({  gridItem,
                         <div className="info d-flex flex-wrap">
                           {singleData?.approveAmount ? (
                             <p className="pr-4">
-                              <b>Payment Amount: </b>{" "}
+                              <b>Payment Amount: </b>{' '}
                               {singleData?.approveAmount || 0}
                             </p>
                           ) : (
-                            ""
+                            ''
                           )}
 
                           <p className="pr-4">
-                            <b>Advance Date: </b>{" "}
+                            <b>Advance Date: </b>{' '}
                             {_dateFormatter(singleData?.advanceDate)}
                           </p>
                           <p className="pr-4">
@@ -266,7 +266,7 @@ function FormCmp({  gridItem,
                       <div className="col-lg-12 ">
                         <div className="d-flex justify-content-between">
                           <p className="m-0 ">
-                            <b>Bill Code:</b> {singleData?.billCode}{" "}
+                            <b>Bill Code:</b> {singleData?.billCode}{' '}
                           </p>
                           <p className="pr-4 m-0">
                             <h6>Advance Amount: {singleData?.amount} </h6>
@@ -281,10 +281,10 @@ function FormCmp({  gridItem,
                             <table className="table table-striped table-bordered mt-3 global-table">
                               <thead>
                                 <tr>
-                                  <th style={{ width: "25px" }}>Sl</th>
-                                  <th style={{ width: "70px" }}>Date</th>
-                                  <th style={{ width: "100px" }}>Amount</th>
-                                  <th style={{ width: "170px" }}>Narration</th>
+                                  <th style={{ width: '25px' }}>Sl</th>
+                                  <th style={{ width: '70px' }}>Date</th>
+                                  <th style={{ width: '100px' }}>Amount</th>
+                                  <th style={{ width: '170px' }}>Narration</th>
                                 </tr>
                               </thead>
                               <tbody>

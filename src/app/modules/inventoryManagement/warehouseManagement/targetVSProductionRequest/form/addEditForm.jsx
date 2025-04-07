@@ -1,20 +1,19 @@
-
-import React, { useState, useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { getDistributionChannelDDL_api } from "../../../../salesManagement/report/customerSalesTargetReport/helper";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { getCustomerSalesTarget, productRequisitionEntry } from "../helper";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { getDistributionChannelDDL_api } from '../../../../salesManagement/report/customerSalesTargetReport/helper';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { getCustomerSalesTarget, productRequisitionEntry } from '../helper';
+import Form from './form';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  distributionChannel: "",
-  area: "",
-  region: "",
-  reportType: { value: 1, label: "Details" },
+  distributionChannel: '',
+  area: '',
+  region: '',
+  reportType: { value: 1, label: 'Details' },
 };
 
 export default function TargetVSProductionRequestForm() {
@@ -57,7 +56,7 @@ export default function TargetVSProductionRequestForm() {
         intId: 0,
         businessUnitId: selectedBusinessUnit?.value,
         intItemId: e?.itemId,
-        strItemCode: "",
+        strItemCode: '',
         strItemName: e?.itemName,
         intUomid: e?.intUmoId,
         strUomcode: e?.strUmoCode,
@@ -90,7 +89,7 @@ export default function TargetVSProductionRequestForm() {
   return (
     <IForm
       isHiddenReset={true}
-      title={"Product Requisition"}
+      title={'Product Requisition'}
       getProps={setObjProps}
       isDisabled={isDisabled}
     >

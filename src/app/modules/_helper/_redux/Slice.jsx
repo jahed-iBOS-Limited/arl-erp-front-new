@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   buDDL: [],
@@ -23,12 +23,12 @@ const initState = {
   frequencyDDL: [],
   imageView: {},
   multipleImageView: {},
-  port : null,
+  port: null,
   OID: '',
 };
 
 export const commonDDLSlice = createSlice({
-  name: "commonDDL",
+  name: 'commonDDL',
   initialState: initState,
   reducers: {
     SetBuDDL: (state, action) => {
@@ -134,8 +134,8 @@ export const commonDDLSlice = createSlice({
 
     SetDownlloadFileViewEmpty: (state) => {
       state.imageView = {
-        url: "",
-        type: "",
+        url: '',
+        type: '',
         model: false,
       };
     },

@@ -1,21 +1,19 @@
-
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { bankJournalValidationSchema } from "../../../../_helper/_validationSchema";
-import { SetInvoicemanagementSystemClearSalesInvoiceAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import { getCustomerDDL_api } from "../helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { bankJournalValidationSchema } from '../../../../_helper/_validationSchema';
+import { SetInvoicemanagementSystemClearSalesInvoiceAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import { getCustomerDDL_api } from '../helper';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "./../../../../../../_metronic/_partials/controls";
-import NewSelect from "./../../../../_helper/_select";
-import { getInvoiceClearPasignation_api } from "./../helper";
-import GridData from "./grid";
+} from './../../../../../../_metronic/_partials/controls';
+import NewSelect from './../../../../_helper/_select';
+import { getInvoiceClearPasignation_api } from './../helper';
+import GridData from './grid';
 
 export default function HeaderForm({
   rowDto,
@@ -30,15 +28,18 @@ export default function HeaderForm({
 }) {
   const { pageNo, setPageNo, pageSize, setPageSize } = paginationState;
   const [customerDDL, setCustomerDDL] = useState([]);
-  const { invoicemanagementSystemClearSalesInvoice } = useSelector(state => state?.localStorage)
-  const dispatch = useDispatch()
-
+  const { invoicemanagementSystemClearSalesInvoice } = useSelector(
+    (state) => state?.localStorage
+  );
+  const dispatch = useDispatch();
 
   const initData = {
-    transactionType: invoicemanagementSystemClearSalesInvoice?.transactionType || "",
-    ReferanceNo: invoicemanagementSystemClearSalesInvoice?.ReferanceNo || "",
-    employeeEnroll: invoicemanagementSystemClearSalesInvoice?.employeeEnroll || "",
-    customer: invoicemanagementSystemClearSalesInvoice?.customer || "",
+    transactionType:
+      invoicemanagementSystemClearSalesInvoice?.transactionType || '',
+    ReferanceNo: invoicemanagementSystemClearSalesInvoice?.ReferanceNo || '',
+    employeeEnroll:
+      invoicemanagementSystemClearSalesInvoice?.employeeEnroll || '',
+    customer: invoicemanagementSystemClearSalesInvoice?.customer || '',
   };
 
   useEffect(() => {
@@ -61,21 +62,21 @@ export default function HeaderForm({
       pageSize,
       values?.customer?.value
     );
-  }
+  };
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={initData}
         validationSchema={bankJournalValidationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
             <Form className="form form-label-right cj p-0">
               <Card>
                 {true && <ModalProgressBar />}
-                <CardHeader title={"Clear Sales Invoice"}>
+                <CardHeader title={'Clear Sales Invoice'}>
                   <CardHeaderToolbar></CardHeaderToolbar>
                 </CardHeader>
                 <CardBody>
@@ -87,11 +88,13 @@ export default function HeaderForm({
                         value={values?.customer}
                         label="Select Customer"
                         onChange={(valueOption) => {
-                          setFieldValue("customer", valueOption);
-                          dispatch(SetInvoicemanagementSystemClearSalesInvoiceAction({
-                            ...values,
-                            customer: valueOption
-                          }))
+                          setFieldValue('customer', valueOption);
+                          dispatch(
+                            SetInvoicemanagementSystemClearSalesInvoiceAction({
+                              ...values,
+                              customer: valueOption,
+                            })
+                          );
                         }}
                         placeholder="Select Customer"
                         errors={errors}
@@ -102,9 +105,9 @@ export default function HeaderForm({
                       <button
                         type="submit"
                         className="btn btn-primary"
-                        style={{ marginTop: "15px" }}
+                        style={{ marginTop: '15px' }}
                         onClick={() => {
-                          gridDataFunc(values)
+                          gridDataFunc(values);
                         }}
                         disabled={!values?.customer}
                       >

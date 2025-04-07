@@ -1,16 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
-  error: "",
-  msg: "",
+  error: '',
+  msg: '',
   sbuDDL: [],
   departmentDDL: [],
   employeeDDL: [],
 };
 
 export const corporateInDividualBalancedScoreSlice = createSlice({
-  name: "corporateInDividualBalancedScore",
+  name: 'corporateInDividualBalancedScore',
   initialState: initState,
   reducers: {
     SetSbuDDL: (state, action) => {
@@ -29,7 +29,7 @@ export const corporateInDividualBalancedScoreSlice = createSlice({
     },
 
     SetSingleStoreEmpty: (state) => {
-      state.singleData = "";
+      state.singleData = '';
     },
   },
 });

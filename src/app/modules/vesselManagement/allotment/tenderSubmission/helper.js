@@ -160,7 +160,7 @@ export const createPageValidationSchema = Yup.object({
             then: Yup.number().required('Price is required'),
             otherwise: Yup.number(),
           }),
-      }),
+      })
     )
     .when('businessPartner', {
       is: (businessPartner) =>
@@ -256,7 +256,7 @@ export const fetchTenderDetailsForCreateEditPage = (
   tenderId,
   accountId,
   buUnId,
-  getTenderDetailsCallback,
+  getTenderDetailsCallback
 ) => {
   const url = `/tms/TenderSubmission/GetTenderSubmissionById?AccountId=${accountId}&BusinessUnitId=${buUnId}&TenderId=${tenderId}`;
   getTenderDetailsCallback(url);
@@ -269,7 +269,7 @@ export const fetchSubmittedTenderData = (
   values,
   pageNo,
   pageSize,
-  getTenderDetailsListFunc,
+  getTenderDetailsListFunc
 ) => {
   let url = '';
 
@@ -300,7 +300,7 @@ export const fetchTenderDetailsCallbackForPrintAndCreateEditPage = (
   values,
   tenderId,
   getTenderDetailsFunc,
-  callback,
+  callback
 ) => {
   let url = '';
   // console.log(values?.businessPartnerName?.label);
@@ -515,7 +515,7 @@ export const selectUrl = (businessPartner, mopTenderId) => {
 export const selectPayload = (
   values,
   mopRowsData,
-  { accountId, buUnId, buUnName, tenderId, userId },
+  { accountId, buUnId, buUnName, tenderId, userId }
 ) => {
   const globalPayload = {
     accountId: accountId,
@@ -683,7 +683,7 @@ function convertToWords(num) {
     if (part > 0) {
       parts.unshift(
         convertBelowThousand(part) +
-          (thousands[thousandIndex] ? ' ' + thousands[thousandIndex] : ''),
+          (thousands[thousandIndex] ? ' ' + thousands[thousandIndex] : '')
       );
     }
     num = Math.floor(num / 1000);
@@ -748,7 +748,7 @@ export const getDischargePortDDL = async (setter) => {
 export const GetLoadPortDDL = async (setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Vessel/GetCountryDDL`,
+      `${imarineBaseUrl}/domain/Vessel/GetCountryDDL`
     );
     setter(res?.data);
   } catch (error) {
@@ -762,7 +762,7 @@ export const fetchGodownDDLList = (
   accountId,
   buUnId,
   getGodownDDLFunc,
-  updateGodownDDLFunc,
+  updateGodownDDLFunc
 ) => {
   const url = `/tms/LigterLoadUnload/GetShipToPartnerG2GPagination?AccountId=${accountId}&BusinessUnitId=${buUnId}&BusinessPartnerId=${
     businessPartner?.value
@@ -783,10 +783,10 @@ export const fetchMotherVesselLists = (
   accId,
   buUnId,
   portId,
-  getMotherVesselDDL,
+  getMotherVesselDDL
 ) => {
   getMotherVesselDDL(
-    `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buUnId}&PortId=${portId}`,
+    `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buUnId}&PortId=${portId}`
   );
 };
 
@@ -839,7 +839,7 @@ export const fetchMOPRowsData = (
   buUnId,
   getMopRowsDataFunc,
   values,
-  updateMopRowsData,
+  updateMopRowsData
 ) => {
   getMopRowsDataFunc(
     `/tms/TenderSubmission/GetBADCMopMasterConfigation?AccountId=${accountId}&BusinessUnitId=${buUnId}`,
@@ -874,7 +874,7 @@ export const fetchMOPRowsData = (
         };
       });
       updateMopRowsData(modifyData);
-    },
+    }
   );
 };
 
@@ -1021,7 +1021,7 @@ export const commonFieldValueChange = (
   values,
   mopRowsData,
   updateMopRowsData,
-  fieldName,
+  fieldName
 ) => {
   const newValue = +e.target.value || 0;
 
@@ -1029,7 +1029,7 @@ export const commonFieldValueChange = (
   const updatedItem = { ...item, [fieldName]: newValue };
 
   const distributedDistance = distributeDistance(
-    fieldName === 'distance' ? newValue : item?.distance,
+    fieldName === 'distance' ? newValue : item?.distance
   );
   // console.log(updatedItem?.additionalCost);
   // console.log(item?.additionalCost);
@@ -1073,7 +1073,7 @@ export const fetchBADCMOPRowsDataForPrintPage = (
   getTenderDetailsFunc,
   callback,
   type = 'initReport',
-  portId,
+  portId
 ) => {
   let url = '';
 

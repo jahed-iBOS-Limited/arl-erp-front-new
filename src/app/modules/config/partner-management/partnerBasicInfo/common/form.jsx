@@ -51,7 +51,7 @@ export default function FormCmp({
   id,
 }) {
   const selectedBusinessUnit = useSelector(
-    (state) => state.authData.selectedBusinessUnit,
+    (state) => state.authData.selectedBusinessUnit
   );
   const [
     shipingCargoTypeDDL,
@@ -76,18 +76,17 @@ export default function FormCmp({
       `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`,
       (resData) => {
         const filterData = resData?.filter((item) =>
-          [1, 2, 8].includes(item.value),
+          [1, 2, 8].includes(item.value)
         );
         setShipingCargoTypeDDL(filterData || []);
-      },
+      }
     );
-
   }, []);
 
   const getInfoData = async () => {
     try {
       const res = await Axios.get(
-        '/partner/BusinessPartnerBasicInfo/GetBusinessPartnerTypeList',
+        '/partner/BusinessPartnerBasicInfo/GetBusinessPartnerTypeList'
       );
       setItemTypeList(res.data);
     } catch (error) {
@@ -106,7 +105,6 @@ export default function FormCmp({
         itemTypes.push(items);
       });
     setItemTypeOption(itemTypes);
-
   }, [itemTypeList]);
 
   const isAkijLogisticsBUI = [225].includes(selectedBusinessUnit?.value);
@@ -306,7 +304,7 @@ export default function FormCmp({
                       18,
                       values?.division?.value,
                       valueOption?.value,
-                      setpoliceStationDDL,
+                      setpoliceStationDDL
                     );
                   }}
                   placeholder="Select City/District"
@@ -345,7 +343,7 @@ export default function FormCmp({
                           onChange={(e) => {
                             setFieldValue('createNewUser', e.target.checked);
                           }}
-                        // disabled={product?.createNewUser}
+                          // disabled={product?.createNewUser}
                         />
                       )}
                       label="Is slab program"
@@ -371,10 +369,10 @@ export default function FormCmp({
                           onChange={(e) => {
                             setFieldValue(
                               'updateUserLoginId',
-                              e.target.checked,
+                              e.target.checked
                             );
                           }}
-                        // disabled={product?.updateUserLoginId}
+                          // disabled={product?.updateUserLoginId}
                         />
                       )}
                       label="Is slab program"
@@ -400,7 +398,7 @@ export default function FormCmp({
                     type="button"
                     onClick={() => {
                       dispatch(
-                        getDownlloadFileView_Action(values?.attachmentLink),
+                        getDownlloadFileView_Action(values?.attachmentLink)
                       );
                     }}
                   >
@@ -438,7 +436,7 @@ export default function FormCmp({
             }}
             onDelete={(deleteFileObj) => {
               const newData = fileObjects.filter(
-                (item) => item.file.name !== deleteFileObj.file.name,
+                (item) => item.file.name !== deleteFileObj.file.name
               );
               setFileObjects(newData);
             }}

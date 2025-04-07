@@ -1,7 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 import { setLastInvDataAction } from '../../../../_helper/reduxForLocalStorage/Actions';
-
 
 export const getSBUDDL = async (accId, buId, setter) => {
   try {
@@ -11,7 +10,7 @@ export const getSBUDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getPlantDDL = async (userId, accId, buId, setter) => {
@@ -22,7 +21,7 @@ export const getPlantDDL = async (userId, accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getWarehouseDDL = async (userId, accId, buId, plantId, setter) => {
@@ -33,7 +32,7 @@ export const getWarehouseDDL = async (userId, accId, buId, plantId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const fetchLandingData = async (
@@ -51,7 +50,7 @@ export const fetchLandingData = async (
   setTotalCount,
   search
 ) => {
-  const searchPath = search ? `searchTerm=${search}&` : "";
+  const searchPath = search ? `searchTerm=${search}&` : '';
   const pageNo = search ? 0 : PageNo;
   try {
     setter([]);
@@ -106,8 +105,8 @@ export const saveServiceReceive = async (
           //window.location.reload();
         },
       };
-      IConfirmModal(obj)
-      dispatch(setLastInvDataAction(res.data?.message))
+      IConfirmModal(obj);
+      dispatch(setLastInvDataAction(res.data?.message));
       cb();
       setDisabled(false);
     }
@@ -132,7 +131,7 @@ export const getPoNumberDDL = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getRowDtoData = async (acId, buId, poId, shipId, setter) => {
@@ -161,12 +160,12 @@ export const getRowDtoData = async (acId, buId, poId, shipId, setter) => {
           totalVat: 0,
           netTotalValue: 0,
           baseBalue: data?.numBasePrice,
-          referenceId: data?.intReferenceId
+          referenceId: data?.intReferenceId,
         };
       });
       setter(newData);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 // foreign po data
@@ -192,12 +191,12 @@ export const getRowDtoForeignPOData = async (id, setter) => {
           vatValue: data?.vatValue || 0,
           discount: data?.discount || 0,
           totalVat: 0,
-          netTotalValue: 0
+          netTotalValue: 0,
         };
       });
       setter(newData);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getSingleDataForEdit = async (id, setter) => {
@@ -222,7 +221,7 @@ export const getSingleDataForEdit = async (id, setter) => {
           quantity: data.numTransactionQuantity,
           numTransactionQuantity: data.numTransactionQuantity,
           monTransactionValue: data?.monTransactionValue,
-          referenceId: data?.intReferenceId
+          referenceId: data?.intReferenceId,
         };
       });
       let newData = {
@@ -259,7 +258,7 @@ export const getSingleDataForEdit = async (id, setter) => {
       };
       setter(newData);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const saveCreateServiceEdit = async (data, cb, setDisabled) => {
@@ -271,7 +270,7 @@ export const saveCreateServiceEdit = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       //cb()
       setDisabled(false);
     }
@@ -288,7 +287,7 @@ export const getCostCenterDDL = async (accId, buId, sbuId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getProjectDDL = async (accId, buId, setter) => {
@@ -299,7 +298,7 @@ export const getProjectDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getServiceReceivedDDL = async (accId, buId, setter) => {
@@ -310,7 +309,7 @@ export const getServiceReceivedDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getReportServiceReceive = async (prId, setter) => {
@@ -319,19 +318,18 @@ export const getReportServiceReceive = async (prId, setter) => {
       `/wms/InventoryView/GetServiceReceiveByIdView?ServiceId=${prId}`
     );
     setter(res?.data[0]);
-  } catch (error) { }
+  } catch (error) {}
 };
-
-
-
-
 
 export const saveAttchmentForPo = async (data, cb) => {
   try {
-    const res = await Axios.post(`/wms/InventoryDocument/CreateInventoryDocumentAttachment`, data);
+    const res = await Axios.post(
+      `/wms/InventoryDocument/CreateInventoryDocumentAttachment`,
+      data
+    );
     if (res.status === 200) {
-      cb()
-      toast.success(res?.message || "Submitted successfully");
+      cb();
+      toast.success(res?.message || 'Submitted successfully');
     }
   } catch (error) {
     toast.error(error?.response?.data?.message);
@@ -342,33 +340,26 @@ export const getAttachmentLandingData = async (refId, setter) => {
   try {
     const res = await Axios.get(
       `/wms/InventoryDocument/GetInventoryDocumentAttachment?ReferenceId=${refId}`
-    )
+    );
     if (res.status === 200 && res?.data) {
-      setter(res?.data)
+      setter(res?.data);
     }
-  } catch (error) {
+  } catch (error) {}
+};
 
-  }
-}
-
-
-export const CancelDocumentAction = async (
-  docId,
-  refId,
-  cb
-) => {
+export const CancelDocumentAction = async (docId, refId, cb) => {
   try {
     const res = await Axios.put(
       `/wms/InventoryDocument/CancelDocumentAttachmets?DocId=${docId}&ReferenceId=${refId}`
     );
     if (res.status === 200) {
       //setter(res?.data);
-      cb()
-      toast.success("Cancel Successfully")
+      cb();
+      toast.success('Cancel Successfully');
       //setLoading(false);
     }
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Cancel Failed")
+    toast.error(error?.response?.data?.message || 'Cancel Failed');
   }
 };
 
@@ -385,10 +376,10 @@ export const inventoryTransactionCancelAction = async (
       `/wms/InventoryTransaction/CancelInventory?InvCode=${code}&UnitId=${buId}&ActionById=${userId}`
     );
     setLoading(false);
-    toast.success(res?.data?.message || "Cancel successfully");
+    toast.success(res?.data?.message || 'Cancel successfully');
     viewGridData();
   } catch (error) {
     setLoading(false);
-    toast.warn(error?.response?.data?.message || "Something went wrong");
+    toast.warn(error?.response?.data?.message || 'Something went wrong');
   }
 };

@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getChalanDDL = async (accId, buId, setIsLoading, setter) => {
   setIsLoading(true);
@@ -79,13 +79,13 @@ export const createDeliveryReceive = async (payload, setIsLoading, cb) => {
     );
     if (res?.status === 200) {
       cb();
-      toast.success(res?.data?.message, { toastId: "createDeliveryReceive" });
+      toast.success(res?.data?.message, { toastId: 'createDeliveryReceive' });
       setIsLoading(false);
     }
   } catch (err) {
     if (err?.response?.status === 500) {
       toast.warning(err?.response?.data?.message, {
-        toastId: "createDeliveryReceiveErr",
+        toastId: 'createDeliveryReceiveErr',
       });
       setIsLoading(false);
     }
@@ -100,13 +100,13 @@ export const editDeliveryReceive = async (payload, setIsLoading) => {
       payload
     );
     if (res?.status === 200) {
-      toast.success(res?.data?.message, { toastId: "editDeliveryReceive" });
+      toast.success(res?.data?.message, { toastId: 'editDeliveryReceive' });
       setIsLoading(false);
     }
   } catch (err) {
     if (err?.response?.status === 500) {
       toast.warning(err?.response?.data?.message, {
-        toastId: "editDeliveryReceiveErr",
+        toastId: 'editDeliveryReceiveErr',
       });
       setIsLoading(false);
     }
@@ -179,7 +179,6 @@ export const getGridData = async (
       setLoading(false);
     }
   } catch (error) {
-    
     setLoading(false);
   }
 };

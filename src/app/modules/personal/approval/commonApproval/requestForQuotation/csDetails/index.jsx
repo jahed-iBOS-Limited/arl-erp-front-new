@@ -21,16 +21,10 @@ const initData = {
   negotiationRate: '',
 };
 export default function CommonCSDetails() {
-
   const [loading, setLoading] = useState([]);
   const location = useLocation();
-  const [
-    csDetailsList,
-    getCsDetailsList,
-
-    getLoading,
-    setCsDetailsList,
-  ] = useAxiosGet([]);
+  const [csDetailsList, getCsDetailsList, getLoading, setCsDetailsList] =
+    useAxiosGet([]);
   const history = useHistory();
   const [selectedItem, setSelectedItem] = useState({});
   const [selectedSupplier, setSelectedSupplier] = useState({});
@@ -45,9 +39,8 @@ export default function CommonCSDetails() {
   }, shallowEqual);
   useEffect(() => {
     getCsDetailsList(
-      `/procurement/RequestForQuotation/GetComparativeStatement?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=0&RequestForQuotationId=${location?.state?.transectionId}`,
+      `/procurement/RequestForQuotation/GetComparativeStatement?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=0&RequestForQuotationId=${location?.state?.transectionId}`
     );
-
   }, [location]);
 
   const saveHandler = async (values, cb) => {};
@@ -151,7 +144,7 @@ export default function CommonCSDetails() {
                     <b>Quotation Start Date:</b>{' '}
                     {csDetailsList?.objHeder?.quotationStartDateTime
                       ? _dateFormatter(
-                          csDetailsList?.objHeder?.quotationStartDateTime,
+                          csDetailsList?.objHeder?.quotationStartDateTime
                         )
                       : ''}
                   </div>
@@ -159,7 +152,7 @@ export default function CommonCSDetails() {
                     <b>Quotation End Date:</b>{' '}
                     {csDetailsList?.objHeder?.quotationEndDateTime
                       ? _dateFormatter(
-                          csDetailsList?.objHeder?.quotationEndDateTime,
+                          csDetailsList?.objHeder?.quotationEndDateTime
                         )
                       : ''}
                   </div>
@@ -229,7 +222,7 @@ export default function CommonCSDetails() {
                                       </div>
                                     </th>
                                   </>
-                                ),
+                                )
                               )}
                             </tr>
                             <tr>
@@ -255,7 +248,7 @@ export default function CommonCSDetails() {
                                       <div>{'Total Amount'}</div>
                                     </th>
                                   </>
-                                ),
+                                )
                               )}
                             </tr>
                           </thead>
@@ -336,7 +329,7 @@ export default function CommonCSDetails() {
                                             : ''}
                                         </td>
                                       </>
-                                    ),
+                                    )
                                   )}
                                 </tr>
                               ))}
@@ -363,7 +356,7 @@ export default function CommonCSDetails() {
                                       {(itm?.sumValue || 0).toFixed(2)}
                                     </td>
                                   </>
-                                ),
+                                )
                               )}
                             </tr>
                             <tr>
@@ -387,11 +380,11 @@ export default function CommonCSDetails() {
                                     >
                                       {`(${itm?.numDiscountPercentage || 0}%)`}
                                     </td>
-                                    <td>{`${getPercentageValue(itm).toFixed(
-                                      2,
-                                    ) || ''}`}</td>
+                                    <td>{`${
+                                      getPercentageValue(itm).toFixed(2) || ''
+                                    }`}</td>
                                   </>
-                                ),
+                                )
                               )}
                             </tr>
                             <tr>
@@ -420,7 +413,7 @@ export default function CommonCSDetails() {
                                       ).toFixed(2)}
                                     </td>
                                   </>
-                                ),
+                                )
                               )}
                             </tr>
                             <tr>
@@ -444,7 +437,7 @@ export default function CommonCSDetails() {
                                       {'Delivery need'}
                                     </td>
                                   </>
-                                ),
+                                )
                               )}
                             </tr>
                             <tr>
@@ -468,7 +461,7 @@ export default function CommonCSDetails() {
                                       {itm?.numOthersCost}
                                     </td>
                                   </>
-                                ),
+                                )
                               )}
                             </tr>
                             <tr>
@@ -511,7 +504,7 @@ export default function CommonCSDetails() {
                                                          ).toFixed(2)}
                                                       </td> */}
                                   </>
-                                ),
+                                )
                               )}
                             </tr>
                             <tr>
@@ -553,7 +546,7 @@ export default function CommonCSDetails() {
                                         ?.strPaymentTermsName || ''}
                                     </td>
                                   </>
-                                ),
+                                )
                               )}
 
                               {/* {csDetailsList?.objPartnerHead?.map(
@@ -595,7 +588,7 @@ export default function CommonCSDetails() {
                                         : 'Excluded'}
                                     </td>
                                   </>
-                                ),
+                                )
                               )}
                             </tr>
                             <tr>
@@ -621,7 +614,7 @@ export default function CommonCSDetails() {
                                         : 'Excluded'}
                                     </td>
                                   </>
-                                ),
+                                )
                               )}
                             </tr>
                             <tr>
@@ -648,7 +641,7 @@ export default function CommonCSDetails() {
                                         : 'Excluded'}
                                     </td>
                                   </>
-                                ),
+                                )
                               )}
                             </tr>
                             <tr>
@@ -672,7 +665,7 @@ export default function CommonCSDetails() {
                                       {itm?.strRemarks}
                                     </td>
                                   </>
-                                ),
+                                )
                               )}
                             </tr>
                           </tbody>

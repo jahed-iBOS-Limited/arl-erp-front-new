@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getPreviousBomName = async (accId, buId, setter) => {
   try {
@@ -98,7 +98,7 @@ export const getCostCenterDDL = async (accId, buId, setter) => {
 };
 
 export const getMaterialDDL = async (accId, buId, plantId, search, setter) => {
-  const searchPath = search ? `search=${search}` : "";
+  const searchPath = search ? `search=${search}` : '';
 
   try {
     const res = await Axios.get(
@@ -145,7 +145,7 @@ export const saveBillofMaterial = async (data, cb, setDisabled) => {
   try {
     const res = await Axios.post(`/mes/BOM/CreateBillOfMaterial`, data);
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -229,9 +229,9 @@ export const getSingleDataById = async (
         bomName: billOfMaterialName,
         bomVersion: boMItemVersionName,
         bomType:
-          billOfTypeId > 0 && billOfTypeName !== ""
+          billOfTypeId > 0 && billOfTypeName !== ''
             ? { value: billOfTypeId, label: billOfTypeName }
-            : "",
+            : '',
         // bomType: {
         //   value: billOfTypeId,
         //   label: billOfTypeName,
@@ -242,18 +242,18 @@ export const getSingleDataById = async (
           label: itemName,
         },
         lotSize: lotSize,
-        netWeight: "",
+        netWeight: '',
         wastage: wastagePercentage,
         isStandardBoM: isStandardBoM,
         itemCode: itemCode,
         objList: res?.data?.objList,
-        costCenter: "",
+        costCenter: '',
         headerUOM: {
           value: boMuoMid,
           label: boMUOMName,
         },
-        material: "",
-        quantity: "",
+        material: '',
+        quantity: '',
       };
       const newRowData = res?.data?.objList?.map((item, index) => ({
         ...item,
@@ -283,7 +283,7 @@ export const saveEditedBillofMaterial = async (data, setDisabled) => {
   try {
     const res = await Axios.put(`/mes/BOM/EditBillOfMaterial`, data);
     if (res.status === 200) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       setDisabled(false);
     }
   } catch (error) {

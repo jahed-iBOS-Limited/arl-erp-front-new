@@ -1,9 +1,8 @@
-import React from "react";
+import React from 'react';
 import {
-   
   UserConditionTitles,
-  UserConditionCssClasses
-} from "../../UserUIHelpers";
+  UserConditionCssClasses,
+} from '../../UserUIHelpers';
 
 export const ConditionColumnFormatter = (cellContent, row) => (
   <>
@@ -14,9 +13,7 @@ export const ConditionColumnFormatter = (cellContent, row) => (
     ></span>
     &nbsp;
     <span
-      className={`font-bold font-${
-        UserConditionCssClasses[row.condition]
-      }`}
+      className={`font-bold font-${UserConditionCssClasses[row.condition]}`}
     >
       {UserConditionTitles[row.condition]}
     </span>

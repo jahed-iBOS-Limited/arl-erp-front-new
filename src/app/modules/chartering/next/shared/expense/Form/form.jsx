@@ -1,18 +1,18 @@
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useHistory, useLocation } from "react-router-dom";
-import FormikInput from "../../../../_chartinghelper/common/formikInput";
-import FormikSelect from "../../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../../_chartinghelper/common/selectCustomStyle";
-import IDelete from "../../../../_chartinghelper/icons/_delete";
-import ICustomTable from "../../../../_chartinghelper/_customTable";
-import { _dateFormatter } from "../../../../_chartinghelper/_dateFormatter";
-import { _formatMoney } from "../../../../../_helper/_formatMoney";
-import IViewModal from "../../../../_chartinghelper/_viewModal";
-import { getBusinessPartnerDDL, validationSchema } from "../helper";
-import AddCostTypeForm from "./addCostType";
-import CashReceiveForm from "./cashReceive";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useHistory, useLocation } from 'react-router-dom';
+import FormikInput from '../../../../_chartinghelper/common/formikInput';
+import FormikSelect from '../../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../../_chartinghelper/common/selectCustomStyle';
+import IDelete from '../../../../_chartinghelper/icons/_delete';
+import ICustomTable from '../../../../_chartinghelper/_customTable';
+import { _dateFormatter } from '../../../../_chartinghelper/_dateFormatter';
+import { _formatMoney } from '../../../../../_helper/_formatMoney';
+import IViewModal from '../../../../_chartinghelper/_viewModal';
+import { getBusinessPartnerDDL, validationSchema } from '../helper';
+import AddCostTypeForm from './addCostType';
+import CashReceiveForm from './cashReceive';
 
 export default function FormCmp({
   title,
@@ -33,27 +33,27 @@ export default function FormCmp({
   const { state: preData } = useLocation();
   const history = useHistory();
   const [open, setOpen] = useState(false);
-  const [businessPartnerLabel, setBusinessPartnerLabel] = useState("");
+  const [businessPartnerLabel, setBusinessPartnerLabel] = useState('');
   const [show, setShow] = useState(false);
   const [singleRow, setSingleRow] = useState({});
 
   const setBPLabel = (businessPartnerTypeId) => {
-    let label = "";
+    let label = '';
     switch (businessPartnerTypeId) {
       case 4:
-        label = "Agency";
+        label = 'Agency';
         break;
       case 9:
-        label = "Surveyor";
+        label = 'Surveyor';
         break;
       case 10:
-        label = "Weather Routing";
+        label = 'Weather Routing';
         break;
       case 12:
-        label = "Security Guard";
+        label = 'Security Guard';
         break;
       case 11:
-        label = "Lighterage";
+        label = 'Lighterage';
         break;
       default:
         break;
@@ -90,10 +90,11 @@ export default function FormCmp({
                     type="button"
                     onClick={() => {
                       history.push({
-                        pathname: `${preData?.voyageType?.value === 1
+                        pathname: `${
+                          preData?.voyageType?.value === 1
                             ? `/chartering/next/offHire`
-                            : "/chartering/layTime/layTime"
-                          }`,
+                            : '/chartering/layTime/layTime'
+                        }`,
                         state: preData,
                       });
                     }}
@@ -111,19 +112,19 @@ export default function FormCmp({
                     <i className="fa fa-arrow-left pr-1"></i>
                     Back
                   </button> */}
-                  {viewType !== "view" && viewType !== "cash" && (
+                  {viewType !== 'view' && viewType !== 'cash' && (
                     <button
                       type="button"
                       onClick={() => resetForm(initData)}
-                      className={"btn btn-info reset-btn ml-2 px-3 py-2"}
+                      className={'btn btn-info reset-btn ml-2 px-3 py-2'}
                     >
                       Reset
                     </button>
                   )}
-                  {viewType !== "view" && viewType !== "cash" && (
+                  {viewType !== 'view' && viewType !== 'cash' && (
                     <button
                       type="submit"
-                      className={"btn btn-primary ml-2 px-3 py-2"}
+                      className={'btn btn-primary ml-2 px-3 py-2'}
                       onClick={handleSubmit}
                       disabled={!rowData?.length}
                     >
@@ -136,7 +137,7 @@ export default function FormCmp({
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vesselName || ""}
+                      value={values?.vesselName || ''}
                       isSearchable={true}
                       styles={customStyles}
                       name="vesselName"
@@ -149,7 +150,7 @@ export default function FormCmp({
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.voyageNo || ""}
+                      value={values?.voyageNo || ''}
                       isSearchable={true}
                       styles={customStyles}
                       name="voyageNo"
@@ -172,11 +173,11 @@ export default function FormCmp({
                       disabled={true}
                     />
                   </div>
-                  {viewType !== "view" && viewType !== "cash" && (
+                  {viewType !== 'view' && viewType !== 'cash' && (
                     <>
                       <div className="col-lg-2">
                         <FormikSelect
-                          value={values?.costType || ""}
+                          value={values?.costType || ''}
                           isSearchable={true}
                           options={costTypeDDL || []}
                           styles={customStyles}
@@ -184,8 +185,8 @@ export default function FormCmp({
                           placeholder="Cost Type"
                           label="Cost Type"
                           onChange={(valueOption) => {
-                            setFieldValue("costType", valueOption);
-                            setFieldValue("businessPartner", "");
+                            setFieldValue('costType', valueOption);
+                            setFieldValue('businessPartner', '');
                             setBusinessPartnerDDL([]);
                             setBPLabel(valueOption?.stackHolderTypeId);
                             getBusinessPartnerDDL(
@@ -214,7 +215,7 @@ export default function FormCmp({
                               setOpen(true);
                             }}
                             className="fas fa-plus-circle fa-2x "
-                            style={{ color: "#007bff", cursor: "pointer" }}
+                            style={{ color: '#007bff', cursor: 'pointer' }}
                           ></i>
                         </OverlayTrigger>
                       </div>
@@ -222,7 +223,7 @@ export default function FormCmp({
                       {values?.costType && businessPartnerLabel && (
                         <div className="col-lg-3">
                           <FormikSelect
-                            value={values?.businessPartner || ""}
+                            value={values?.businessPartner || ''}
                             isSearchable={true}
                             options={businessPartnerDDL || []}
                             styles={customStyles}
@@ -230,7 +231,7 @@ export default function FormCmp({
                             placeholder={businessPartnerLabel}
                             label={businessPartnerLabel}
                             onChange={(valueOption) => {
-                              setFieldValue("businessPartner", valueOption);
+                              setFieldValue('businessPartner', valueOption);
                             }}
                             isDisabled={!values?.voyageNo}
                             errors={errors}
@@ -314,7 +315,7 @@ export default function FormCmp({
                           type="date"
                           errors={errors}
                           touched={touched}
-                        // disabled={true}
+                          // disabled={true}
                         />
                       </div>
 
@@ -356,14 +357,14 @@ export default function FormCmp({
                 <>
                   <ICustomTable
                     ths={[
-                      { name: "SL" },
-                      { name: "Cost Type Name" },
-                      { name: "Transaction Date" },
-                      { name: "Advance Amount" },
-                      { name: "Final Amount" },
+                      { name: 'SL' },
+                      { name: 'Cost Type Name' },
+                      { name: 'Transaction Date' },
+                      { name: 'Advance Amount' },
+                      { name: 'Final Amount' },
                       // { name: "Paid Amount" },
                       // { name: "Due Amount" },
-                      viewType !== "view" && { name: "Action" },
+                      viewType !== 'view' && { name: 'Action' },
                     ]}
                   >
                     {rowData?.map((item, index) => (
@@ -384,18 +385,18 @@ export default function FormCmp({
                         <td className="text-right">
                           {_formatMoney(item?.dueAmount)}
                         </td> */}
-                        {viewType !== "view" && (
+                        {viewType !== 'view' && (
                           <td
                             className="text-center d-flex justify-content-center"
-                          // style={{ maxWidth: "120px" }}
+                            // style={{ maxWidth: "120px" }}
                           >
-                            {(viewType === "edit" || !viewType) && (
+                            {(viewType === 'edit' || !viewType) && (
                               <IDelete remover={removeRow} id={index} />
                             )}
-                            {(viewType === "edit" || viewType === "cash") && (
+                            {(viewType === 'edit' || viewType === 'cash') && (
                               <div className="d-flex justify-content-center">
-                                <span style={{ opacity: "0%" }}>
-                                  <i className="fas fa-lg fa-hand-holding-usd ml-3"></i>{" "}
+                                <span style={{ opacity: '0%' }}>
+                                  <i className="fas fa-lg fa-hand-holding-usd ml-3"></i>{' '}
                                 </span>
 
                                 {(item?.costId === 15 || item?.costId === 16) &&
@@ -408,13 +409,13 @@ export default function FormCmp({
                                       }
                                     >
                                       <div
-                                        style={{ cursor: "pointer" }}
+                                        style={{ cursor: 'pointer' }}
                                         onClick={() => {
                                           setSingleRow(item);
                                           setShow(true);
                                         }}
                                       >
-                                        <i className="fas fa-lg fa-hand-holding-usd ml-3"></i>{" "}
+                                        <i className="fas fa-lg fa-hand-holding-usd ml-3"></i>{' '}
                                       </div>
                                     </OverlayTrigger>
                                   )}

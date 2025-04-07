@@ -74,7 +74,7 @@ export default function RoasterSetup({ basicDataSave }) {
           values?.calenderType?.value === 2 ? values?.calender?.value : 0,
           cb,
           setDisabled,
-          getRosterByIdCb,
+          getRosterByIdCb
         );
       } else {
         //create api
@@ -89,7 +89,7 @@ export default function RoasterSetup({ basicDataSave }) {
           values?.calenderType?.label,
           values?.calenderType?.value === 2 ? values?.calender?.value : 0,
           cb,
-          setDisabled,
+          setDisabled
         );
       }
     } else {
@@ -99,8 +99,6 @@ export default function RoasterSetup({ basicDataSave }) {
 
   useEffect(() => {
     getRoasterSetupInfoById_api(headerData?.employeeId, setSingleData);
-
-
   }, []);
 
   const getRosterByIdCb = () => {
@@ -112,11 +110,10 @@ export default function RoasterSetup({ basicDataSave }) {
       getCalenderDDL_api(
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        setCalenderDDL,
+        setCalenderDDL
       );
       setCalenderRoasterDDL([]);
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {
@@ -124,7 +121,7 @@ export default function RoasterSetup({ basicDataSave }) {
       getCalenderRoasterDDL_api(
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        setCalenderRoasterDDL,
+        setCalenderRoasterDDL
       );
       setCalenderDDL([]);
     }

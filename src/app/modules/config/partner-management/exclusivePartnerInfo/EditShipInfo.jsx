@@ -50,7 +50,7 @@ export default function EditShipInfo({
       setSingleData(null);
       setIsShowUpdateModal(false);
       getGridData(
-        `/partner/BusinessPartnerShippingAddress/GetShipToPartnerAndBankInfoById?shipToPartnerId=${config?.shop?.value}&businessPartnerId=${config?.customer?.value}`,
+        `/partner/BusinessPartnerShippingAddress/GetShipToPartnerAndBankInfoById?shipToPartnerId=${config?.shop?.value}&businessPartnerId=${config?.customer?.value}`
       );
     };
     const payload = {
@@ -82,7 +82,7 @@ export default function EditShipInfo({
       `/partner/BusinessPartnerShippingAddress/UpdateExclusiveShipToPartner`,
       payload,
       cb,
-      true,
+      true
     );
   };
   const validationSchema = Yup.object().shape({});

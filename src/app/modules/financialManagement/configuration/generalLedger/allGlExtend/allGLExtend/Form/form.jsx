@@ -1,15 +1,14 @@
-
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import { GetAllGLExtendPagination } from "../../helper";
-import NewSelect from "../../../../../../_helper/_select";
-import * as Yup from "yup";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import { GetAllGLExtendPagination } from '../../helper';
+import NewSelect from '../../../../../../_helper/_select';
+import * as Yup from 'yup';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   businessUnitName: Yup.object().shape({
-    label: Yup.string().required("BusinessUnit Name is required"),
-    value: Yup.string().required("BusinessUnit Name is required"),
+    label: Yup.string().required('BusinessUnit Name is required'),
+    value: Yup.string().required('BusinessUnit Name is required'),
   }),
 });
 
@@ -47,7 +46,6 @@ export default function FormCmp({
         setLoading
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   // one item select
@@ -73,8 +71,8 @@ export default function FormCmp({
         initialValues={{
           ...initData,
           businessUnitName: {
-            value: selectedBusinessUnit ? selectedBusinessUnit?.value : "",
-            label: selectedBusinessUnit ? selectedBusinessUnit?.label : "",
+            value: selectedBusinessUnit ? selectedBusinessUnit?.value : '',
+            label: selectedBusinessUnit ? selectedBusinessUnit?.label : '',
           },
         }}
         validationSchema={validationSchema}
@@ -105,13 +103,12 @@ export default function FormCmp({
                     value={values?.businessUnitName}
                     label="Business Unit Name"
                     onChange={(valueOption) => {
-                      setFieldValue("businessUnitName", valueOption);
+                      setFieldValue('businessUnitName', valueOption);
                     }}
                     placeholder="Business Unit Name"
                     errors={errors}
                     touched={touched}
                   />
-
                 </div>
               </div>
               <div className="row cash_journal">
@@ -121,7 +118,7 @@ export default function FormCmp({
                       <thead>
                         <tr>
                           {/* {type === "notComplated" ? ( */}
-                          <th style={{ width: "25px" }}>
+                          <th style={{ width: '25px' }}>
                             <input
                               type="checkbox"
                               id="parent"
@@ -195,14 +192,14 @@ export default function FormCmp({
               {/* Row Dto Table End */}
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
                 disabled={!values.businessUnitName}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

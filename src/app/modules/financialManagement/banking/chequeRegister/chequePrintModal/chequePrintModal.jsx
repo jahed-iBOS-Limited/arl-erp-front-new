@@ -1,29 +1,29 @@
-import React, { useRef, useState } from "react";
-import { Formik, Form } from "formik";
-import { Modal } from "react-bootstrap";
-import * as Yup from "yup";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import ISpinner from "../../../../_helper/_spinner";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { dateToDigit } from "./digitToWord";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import { _dateFormatterTwo } from "../../../../_helper/_dateFormate";
-import { bankJournalPrintCount } from "../helper";
+import React, { useRef, useState } from 'react';
+import { Formik, Form } from 'formik';
+import { Modal } from 'react-bootstrap';
+import * as Yup from 'yup';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import ISpinner from '../../../../_helper/_spinner';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { dateToDigit } from './digitToWord';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import { _dateFormatterTwo } from '../../../../_helper/_dateFormate';
+import { bankJournalPrintCount } from '../helper';
 
 const initData = {
-  invoiceAmount: "",
-  pendingAmount: "",
+  invoiceAmount: '',
+  pendingAmount: '',
   cash: false,
   bank: false,
-  advanceReceive: "",
-  advanceAmount: "",
-  balanceAmount: "",
+  advanceReceive: '',
+  advanceAmount: '',
+  balanceAmount: '',
 
-  currentLadger: "",
-  adjustAmount: "",
+  currentLadger: '',
+  adjustAmount: '',
 };
 
 // Validation schema
@@ -43,7 +43,7 @@ export default function ChequePrintModal({ show, onHide, isShow, item }) {
 
   const saveHandler = async (values, cb) => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
-      console.log("saveHandler");
+      console.log('saveHandler');
     }
   };
 
@@ -89,7 +89,7 @@ export default function ChequePrintModal({ show, onHide, isShow, item }) {
                         <Modal.Title className="w-100">
                           <div className="d-flex justify-content-between px-4 py-2">
                             <div className="title">
-                              {"Cheque Print Preview"}
+                              {'Cheque Print Preview'}
                             </div>
                             <div className="d-flex">
                               <div className="mr-4">
@@ -113,8 +113,8 @@ export default function ChequePrintModal({ show, onHide, isShow, item }) {
                                     >
                                       <img
                                         style={{
-                                          width: "25px",
-                                          paddingRight: "5px",
+                                          width: '25px',
+                                          paddingRight: '5px',
                                         }}
                                         src={printIcon}
                                         alt="print-icon"
@@ -147,26 +147,26 @@ export default function ChequePrintModal({ show, onHide, isShow, item }) {
                             {/* Left Part Of Cheque */}
                             <div
                               style={{
-                                position: "absolute",
-                                top: "310px",
-                                left: "88px",
-                                display: "flex",
-                                flexDirection: "column",
-                                textAlign: "left",
-                                fontSize: "11px",
+                                position: 'absolute',
+                                top: '310px',
+                                left: '88px',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                textAlign: 'left',
+                                fontSize: '11px',
                               }}
                             >
                               <div
                                 style={{
-                                  width: "140px",
-                                  paddingLeft: "20px",
-                                  display: "flex",
-                                  flexDirection: "column",
+                                  width: '140px',
+                                  paddingLeft: '20px',
+                                  display: 'flex',
+                                  flexDirection: 'column',
                                 }}
                               >
                                 <span
                                   style={{
-                                    marginBottom: "20px",
+                                    marginBottom: '20px',
                                   }}
                                 >
                                   <strong>{item?.bankJournalCode}</strong>
@@ -177,11 +177,11 @@ export default function ChequePrintModal({ show, onHide, isShow, item }) {
                                 <span>{item?.paidTo}</span>
                                 <span
                                   style={{
-                                    fontWeight: "bold",
-                                    fontSize: "12px",
+                                    fontWeight: 'bold',
+                                    fontSize: '12px',
                                   }}
                                 >
-                                  {"= "}{" "}
+                                  {'= '}{' '}
                                   {numberWithCommas(item?.amount?.toFixed(2))}
                                 </span>
                               </div>
@@ -211,7 +211,7 @@ export default function ChequePrintModal({ show, onHide, isShow, item }) {
                                   Taka {item?.amountInWords} Only.
                                 </div>
                                 <div className="chequePrint-amount">
-                                  <span style={{ marginRight: "-60px" }}>
+                                  <span style={{ marginRight: '-60px' }}>
                                     =&nbsp;
                                     {numberWithCommas(item?.amount?.toFixed(2))}
                                   </span>
@@ -221,8 +221,8 @@ export default function ChequePrintModal({ show, onHide, isShow, item }) {
                               <div className="chequePrint-businessUnit">
                                 <div
                                   style={{
-                                    display: "inline-block",
-                                    textAlign: "left",
+                                    display: 'inline-block',
+                                    textAlign: 'left',
                                   }}
                                 >
                                   For {selectedBusinessUnit?.label}

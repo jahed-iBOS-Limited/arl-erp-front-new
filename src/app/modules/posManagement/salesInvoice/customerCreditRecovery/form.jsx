@@ -1,11 +1,10 @@
-
-import React, { useState, useEffect } from 'react'
-import { Formik, Form } from 'formik'
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { ExcelRenderer } from "react-excel-renderer";
-import * as Yup from "yup";
-import NewSelect from './../../../_helper/_select'
-import { getCustomers } from "./../helper"
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { ExcelRenderer } from 'react-excel-renderer';
+import * as Yup from 'yup';
+import NewSelect from './../../../_helper/_select';
+import { getCustomers } from './../helper';
 //import IDelete from './../../../_helper/_helperIcons/_delete';
 import axios from 'axios';
 import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
@@ -17,7 +16,8 @@ const validationSchema = Yup.object().shape({
   //   .required("Holiday group name is required"),
 });
 
-function FormCmp({  initData,
+function FormCmp({
+  initData,
   btnRef,
   saveHandler,
   resetBtnRef,
@@ -29,8 +29,8 @@ function FormCmp({  initData,
   remover,
   updateRecoverAmount,
 }) {
-  const [fileObject, setFileObject] = useState("");
-  const [warehouseId, setWarehouseId] = useState("")
+  const [fileObject, setFileObject] = useState('');
+  const [warehouseId, setWarehouseId] = useState('');
   const hiddenFileInput = React.useRef(null);
   const loadCustomerList = (v) => {
     if (v?.length < 3) return [];
@@ -66,7 +66,6 @@ function FormCmp({  initData,
         }
       });
     }
-
   }, [fileObject]);
 
   return (
@@ -97,8 +96,8 @@ function FormCmp({  initData,
                     options={whNameDDL}
                     value={values?.whName}
                     onChange={(valueOption) => {
-                      setFieldValue("whName", valueOption);
-                      setWarehouseId(valueOption?.value)
+                      setFieldValue('whName', valueOption);
+                      setWarehouseId(valueOption?.value);
                     }}
                     placeholder="Outlet Name"
                     errors={errors}
@@ -112,37 +111,39 @@ function FormCmp({  initData,
                       selectedValue={values?.customer}
                       name="customer"
                       handleChange={(valueOption) => {
-                        setFieldValue("customer", valueOption);
+                        setFieldValue('customer', valueOption);
                       }}
                       placeholder="Search By Mobile Number"
                       loadOptions={loadCustomerList}
                     />
                   </div>
                 </div>
-                <div style={{ marginTop: "18px" }} className="col-lg-1">
+                <div style={{ marginTop: '18px' }} className="col-lg-1">
                   <button
                     className="btn btn-primary"
                     disabled={!values?.whName}
                     onClick={() => {
-                      getCustomers(values?.whName?.value, values?.customer?.value || 0, setRowDto);
+                      getCustomers(
+                        values?.whName?.value,
+                        values?.customer?.value || 0,
+                        setRowDto
+                      );
                     }}
                     type="button"
                   >
                     View
                   </button>
                 </div>
-                <div className="col-lg-2">
-
-                </div>
+                <div className="col-lg-2"></div>
                 <div className="col-lg-3">
                   <button
                     className="btn btn-primary"
                     onClick={handleClick}
                     type="button"
                     style={{
-                      marginLeft: "10px",
-                      marginTop: "18px",
-                      float: "right"
+                      marginLeft: '10px',
+                      marginTop: '18px',
+                      float: 'right',
                     }}
                   >
                     Import Excel
@@ -151,10 +152,10 @@ function FormCmp({  initData,
                     type="file"
                     onChange={(e) => {
                       setFileObject(e.target.files[0]);
-                      e.target.value = "";
+                      e.target.value = '';
                     }}
                     ref={hiddenFileInput}
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                   />
                   <ReactHTMLTableToExcel
                     id="test-table-xls-button"
@@ -170,7 +171,10 @@ function FormCmp({  initData,
             <div className="row">
               <div className="col-md-12">
                 {/* RowDto */}
-                <table className="table table-striped table-bordered global-table" id="table-to-xlsx">
+                <table
+                  className="table table-striped table-bordered global-table"
+                  id="table-to-xlsx"
+                >
                   <thead>
                     <tr>
                       <th>SL</th>
@@ -189,16 +193,18 @@ function FormCmp({  initData,
                         <td className="text-left">{item?.customerName}</td>
                         <td className="text-left">{item?.customerHR_Code}</td>
                         <td>{item?.employementInfo}</td>
-                        <td className="text-center">{item?.customerDueAmount}</td>
+                        <td className="text-center">
+                          {item?.customerDueAmount}
+                        </td>
                         <td className="text-center">
                           <input
-                            style={{ width: '120px', borderRadius: "5px" }}
+                            style={{ width: '120px', borderRadius: '5px' }}
                             type="number"
                             name="recoverAmount"
                             defaultValue={item?.recoverAmount}
                             value={values?.recoverAmount}
                             onChange={(e) => {
-                              updateRecoverAmount(e.target.value, index)
+                              updateRecoverAmount(e.target.value, index);
                             }}
                           />
                         </td>
@@ -207,29 +213,27 @@ function FormCmp({  initData,
                           </td> */}
                       </tr>
                     ))}
-
                   </tbody>
                 </table>
               </div>
             </div>
             <button
               type="submit"
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
               ref={btnRef}
               onSubmit={() => handleSubmit()}
             ></button>
             <button
               type="reset"
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
               ref={resetBtnRef}
               onSubmit={() => resetForm(initData)}
             ></button>
           </Form>
-
         )}
       </Formik>
     </>
-  )
+  );
 }
 
-export default FormCmp
+export default FormCmp;

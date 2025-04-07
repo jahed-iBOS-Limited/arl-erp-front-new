@@ -1,12 +1,11 @@
-
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import { validationSchema, initData } from "./helper";
-import InputField from "../../../../../_helper/_inputField";
-import RowDtoTable from "./rowDtoTable";
-import { shallowEqual, useSelector, useDispatch } from "react-redux";
-import SearchAsyncSelect from './../../../../../_helper/SearchAsyncSelect'
-import FormikError from './../../../../../_helper/_formikError'
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import { validationSchema, initData } from './helper';
+import InputField from '../../../../../_helper/_inputField';
+import RowDtoTable from './rowDtoTable';
+import { shallowEqual, useSelector, useDispatch } from 'react-redux';
+import SearchAsyncSelect from './../../../../../_helper/SearchAsyncSelect';
+import FormikError from './../../../../../_helper/_formikError';
 import {
   getreferenceTypeDDLAction,
   getTransactionTypeDDLAction,
@@ -17,15 +16,14 @@ import {
   saveInventoryTransactionForTransferInternal,
   attachment_action,
   getItemDDLForWithoutRefAction,
-  getItemDDLForInternalInvAction
-} from "../../_redux/Actions";
-import { ISelect } from "../../../../../_helper/_inputDropDown";
-import { toast } from "react-toastify";
-import Loading from "../../../../../_helper/_loading";
-import { invTransactionSlice } from '../../_redux/Slice'
-import axios from "axios";
-const { actions: slice } = invTransactionSlice
-
+  getItemDDLForInternalInvAction,
+} from '../../_redux/Actions';
+import { ISelect } from '../../../../../_helper/_inputDropDown';
+import { toast } from 'react-toastify';
+import Loading from '../../../../../_helper/_loading';
+import { invTransactionSlice } from '../../_redux/Slice';
+import axios from 'axios';
+const { actions: slice } = invTransactionSlice;
 
 export default function CreateForm({
   btnRef,
@@ -35,7 +33,6 @@ export default function CreateForm({
 }) {
   const [rowDto, setRowDto] = useState([]);
   const dispatch = useDispatch();
-
 
   const [isDisabled, setDisabled] = useState(false);
 
@@ -49,20 +46,16 @@ export default function CreateForm({
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-  const [attachment, setAttachment] = useState("");
+  const [attachment, setAttachment] = useState('');
   // const [attachError, setAttachError] = useState(false);
-
 
   const [currentLocationsDDL, setCurrentLocationsDDL] = useState([]);
   const [toLocationsDDL, setToLocationsDDL] = useState([]);
 
-
-  const onChangeForCurrentLocation = (curLocId) =>{
-      let data = currentLocationsDDL.filter(data=> data?.value !== curLocId)
-      setToLocationsDDL(data)
-  }
-
-
+  const onChangeForCurrentLocation = (curLocId) => {
+    let data = currentLocationsDDL.filter((data) => data?.value !== curLocId);
+    setToLocationsDDL(data);
+  };
 
   // redux store data
   const {
@@ -74,7 +67,7 @@ export default function CreateForm({
   } = useSelector((state) => state?.invTransa);
 
   const onChangeForItem = (value) => {
-    setCurrentLocationsDDL(value?.locationBasedStock)
+    setCurrentLocationsDDL(value?.locationBasedStock);
     // dispatch(
     //   getLocationTypeDDLActionForInternalInv(
     //     profileData.accountId,
@@ -101,11 +94,10 @@ export default function CreateForm({
     //dispatch(getStockDDLAction());
 
     return () => {
-      dispatch(slice.setItemDDL([]))
-      dispatch(slice.setreferenceTypeDDL([]))
+      dispatch(slice.setItemDDL([]));
+      dispatch(slice.setreferenceTypeDDL([]));
       dispatch(slice.setTransactionTypeDDL([]));
-    }
-
+    };
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
   useEffect(() => {
@@ -128,43 +120,42 @@ export default function CreateForm({
       //   );
       // }
     }
-
   }, [referenceTypeDDL]);
 
   //add row Dto Data
   const addRowDtoData = (values) => {
-    if(values.quantity < 1) {
-      toast.warning("Quantity can not less then 1");
-    }else{
-      let data = rowDto?.find((data) => data?.itemId === values?.item?.value);
-    if (data) {
-      toast.warning("Item Already added");
+    if (values.quantity < 1) {
+      toast.warning('Quantity can not less then 1');
     } else {
-      setRowDto([
-        ...rowDto,
-        {
-          itemId: values?.item?.value,
-          itemName: values?.item?.itemName,
-          itemCode: values?.item?.code,
-          uoMid: values?.item?.baseUoMId,
-          uoMname: values?.item?.baseUoMName,
-          numTransactionQuantity: Math.abs(+values.quantity) || 0,
-          monTransactionValue: values.quantity * values.item.baseValue,
-          avaiableStock: +values?.currentStock,
-          inventoryLocationId:values.presentLocation.value ,
-          inventoryLocationName: values.presentLocation.label,
-          batchId: 0,
-          batchNumber: "",
-          inventoryStockTypeId:1,
-          inventoryStockTypeName: "Open Stock",
-          toInventoryLocationId: values?.locaStock?.value,
-          toInventoryLocationName:values?.locaStock.label,
-          toInventoryStockTypeId:1,
-          toInventoryStockTypeName:"Open Stock",
-          strBinNo: values?.presentLocation?.binNumber || ""
-        },
-      ]);
-    }
+      let data = rowDto?.find((data) => data?.itemId === values?.item?.value);
+      if (data) {
+        toast.warning('Item Already added');
+      } else {
+        setRowDto([
+          ...rowDto,
+          {
+            itemId: values?.item?.value,
+            itemName: values?.item?.itemName,
+            itemCode: values?.item?.code,
+            uoMid: values?.item?.baseUoMId,
+            uoMname: values?.item?.baseUoMName,
+            numTransactionQuantity: Math.abs(+values.quantity) || 0,
+            monTransactionValue: values.quantity * values.item.baseValue,
+            avaiableStock: +values?.currentStock,
+            inventoryLocationId: values.presentLocation.value,
+            inventoryLocationName: values.presentLocation.label,
+            batchId: 0,
+            batchNumber: '',
+            inventoryStockTypeId: 1,
+            inventoryStockTypeName: 'Open Stock',
+            toInventoryLocationId: values?.locaStock?.value,
+            toInventoryLocationName: values?.locaStock.label,
+            toInventoryStockTypeId: 1,
+            toInventoryStockTypeName: 'Open Stock',
+            strBinNo: values?.presentLocation?.binNumber || '',
+          },
+        ]);
+      }
     }
   };
 
@@ -176,7 +167,7 @@ export default function CreateForm({
 
   const saveHandler = async (values, cb) => {
     if (rowDto.length === 0) {
-      toast.error("Please Add Item");
+      toast.error('Please Add Item');
     } else {
       if (values && profileData?.accountId && selectedBusinessUnit?.value) {
         const payload = {
@@ -188,7 +179,7 @@ export default function CreateForm({
             referenceTypeId: values.refType.value,
             referenceTypeName: values.refType.label,
             referenceId: values.refNo.value || 0,
-            referenceCode: values.refNo.label || "",
+            referenceCode: values.refNo.label || '',
             accountId: profileData?.accountId,
             accountName: profileData?.accountName,
             businessUnitId: selectedBusinessUnit?.value,
@@ -202,16 +193,16 @@ export default function CreateForm({
             businessPartnerId: values?.busiPartner.value || -1,
             parsonnelId: values?.personnel?.value || -1,
             costCenterId: values?.costCenter?.value || -1,
-            costCenterCode: values?.costCenter?.code || "string",
-            costCenterName: values?.costCenter?.label || "string",
+            costCenterCode: values?.costCenter?.code || 'string',
+            costCenterName: values?.costCenter?.label || 'string',
             projectId: values?.projName?.value || -1,
-            projectCode: values?.projName?.code || "string",
-            projectName: values?.projName?.label || "string",
-            comments: values?.remarks || "",
+            projectCode: values?.projName?.code || 'string',
+            projectName: values?.projName?.label || 'string',
+            comments: values?.remarks || '',
             actionBy: profileData.userId,
-            documentId: "",
+            documentId: '',
             businessPartnerName: values?.busiPartner?.label,
-            gateEntryNo: values?.getEntryn || "",
+            gateEntryNo: values?.getEntryn || '',
           },
           objRow: rowDto.filter((data) => data.numTransactionQuantity > 0),
           objtransfer: {
@@ -227,7 +218,7 @@ export default function CreateForm({
             const modifyPlyload = {
               objHeader: {
                 ...payload?.objHeader,
-                documentId: data[0]?.id || "",
+                documentId: data[0]?.id || '',
               },
               objRow: payload.objRow,
               objtransfer: payload.objtransfer,
@@ -235,7 +226,8 @@ export default function CreateForm({
             dispatch(
               saveInventoryTransactionForTransferInternal(
                 { data: modifyPlyload, cb },
-                setRowDto,setDisabled
+                setRowDto,
+                setDisabled
               )
             );
           });
@@ -243,7 +235,8 @@ export default function CreateForm({
           dispatch(
             saveInventoryTransactionForTransferInternal(
               { data: payload, cb },
-              setRowDto,setDisabled
+              setRowDto,
+              setDisabled
             )
           );
         }
@@ -270,7 +263,7 @@ export default function CreateForm({
 
   return (
     <>
-    {isDisabled && <Loading />}
+      {isDisabled && <Loading />}
       <Formik
         enableReinitialize={true}
         initialValues={{ ...initData, refType: referenceTypeDDL[0] }}
@@ -302,7 +295,7 @@ export default function CreateForm({
                     value={values?.refType}
                     name="refType"
                     onChange={(value) => {
-                      setFieldValue("refType", value);
+                      setFieldValue('refType', value);
                       //onChaneForRefType(value)
                     }}
                     errors={errors}
@@ -316,10 +309,10 @@ export default function CreateForm({
                     value={values?.transType}
                     name="transType"
                     onChange={(value) => {
-                      setFieldValue("transType", value);
-                      setFieldValue("item", "");
-                      setFieldValue("locaStock", "");
-                      setFieldValue("quantity", "");
+                      setFieldValue('transType', value);
+                      setFieldValue('item', '');
+                      setFieldValue('locaStock', '');
+                      setFieldValue('quantity', '');
                       //setRowDto([]);
                     }}
                     // setFieldValue={setFieldValue}
@@ -367,28 +360,32 @@ export default function CreateForm({
                 </div> */}
               </div>
               <div className="form-group row global-form">
-              <div className="col-lg-2">
+                <div className="col-lg-2">
                   <label>Item</label>
                   <SearchAsyncSelect
                     selectedValue={values.item}
                     handleChange={(valueOption) => {
-                      setFieldValue('item', valueOption)
+                      setFieldValue('item', valueOption);
                       onChangeForItem(valueOption);
-                      setFieldValue("locaStock", "");
+                      setFieldValue('locaStock', '');
                     }}
                     loadOptions={(v) => {
-                      if (v?.length < 3) return []
-                      return axios.get(
-                        `/wms/InventoryTransaction/GetItemForInternalTransferInventory?accountId=${profileData.accountId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${landingData?.plant?.value}&whId=${landingData?.warehouse?.value}&searchTerm=${v}`
-                      ).then((res) => {
-                        const updateList = res?.data.map(item => ({
-                          ...item,
-                          label: item?.labelAndCode
-                        }))
-                        return updateList
-                      })
+                      if (v?.length < 3) return [];
+                      return axios
+                        .get(
+                          `/wms/InventoryTransaction/GetItemForInternalTransferInventory?accountId=${profileData.accountId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${landingData?.plant?.value}&whId=${landingData?.warehouse?.value}&searchTerm=${v}`
+                        )
+                        .then((res) => {
+                          const updateList = res?.data.map((item) => ({
+                            ...item,
+                            label: item?.labelAndCode,
+                          }));
+                          return updateList;
+                        });
                     }}
-                    isOptionSelected={(option, selectValue) => selectValue.some(i => i === option)}
+                    isOptionSelected={(option, selectValue) =>
+                      selectValue.some((i) => i === option)
+                    }
                     disabled={true}
                   />
                   <FormikError errors={errors} name="item" touched={touched} />
@@ -419,35 +416,31 @@ export default function CreateForm({
 
                 <div className="col-lg-2">
                   <ISelect
-                    label={
-                      "Transfer From Location"
-                    }
+                    label={'Transfer From Location'}
                     options={currentLocationsDDL}
                     value={values.presentLocation}
-                    onChange={(valueOption)=>{
-                       setFieldValue("presentLocation",valueOption)
-                       setFieldValue("currentStock",valueOption?.currentStock)
-                       onChangeForCurrentLocation(valueOption?.value)
-                       setFieldValue("locaStock","")
-                       setFieldValue("quantity","")
+                    onChange={(valueOption) => {
+                      setFieldValue('presentLocation', valueOption);
+                      setFieldValue('currentStock', valueOption?.currentStock);
+                      onChangeForCurrentLocation(valueOption?.value);
+                      setFieldValue('locaStock', '');
+                      setFieldValue('quantity', '');
                     }}
                     name="presentLocation"
-                   // isDisabled={true}
+                    // isDisabled={true}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
                 <div className="col-lg-2">
                   <ISelect
-                    label={
-                     "Select Transfer To Location"
-                    }
-                    options={toLocationsDDL|| []}
+                    label={'Select Transfer To Location'}
+                    options={toLocationsDDL || []}
                     value={values?.locaStock}
                     name="locaStock"
                     setFieldValue={setFieldValue}
                     errors={errors}
-                    isDisabled={values?.presentLocation === ""}
+                    isDisabled={values?.presentLocation === ''}
                     touched={touched}
                   />
                 </div>
@@ -467,27 +460,26 @@ export default function CreateForm({
                     value={values?.quantity}
                     label="Quantity"
                     type="number"
-                    onChange={(e)=>{
-                      if(values?.currentStock < +e.target.value) return
-                      setFieldValue("quantity",e.target.value)
+                    onChange={(e) => {
+                      if (values?.currentStock < +e.target.value) return;
+                      setFieldValue('quantity', e.target.value);
                     }}
                     placeholder="Quantity"
                     name="quantity"
                   />
                 </div>
 
-
                 <div className="col-lg-1">
                   <button
                     type="button"
-                    style={{marginTop: "20px"}}
-                    onClick={() =>{
-                      addRowDtoData(values)
-                      setFieldValue("item", "");
-                      setFieldValue("locaStock", "");
-                      setFieldValue("presentLocation", "");
-                      setFieldValue("currentStock", "");
-                      setFieldValue("quantity", "");
+                    style={{ marginTop: '20px' }}
+                    onClick={() => {
+                      addRowDtoData(values);
+                      setFieldValue('item', '');
+                      setFieldValue('locaStock', '');
+                      setFieldValue('presentLocation', '');
+                      setFieldValue('currentStock', '');
+                      setFieldValue('quantity', '');
                     }}
                     className="btn btn-primary"
                     disabled={
@@ -509,14 +501,14 @@ export default function CreateForm({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => {
                   resetForm(initData);

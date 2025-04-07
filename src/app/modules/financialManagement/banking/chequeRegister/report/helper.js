@@ -1,27 +1,24 @@
-import Axios from "axios";
+import Axios from 'axios';
 // import { toast } from "react-toastify";
 // import { _dateFormatter } from "../../../_helper/_dateFormate";
 
-export const getBankJournalView = async (journalId,journalTypeId, buId, setter,setLoading) => {
+export const getBankJournalView = async (
+  journalId,
+  journalTypeId,
+  buId,
+  setter,
+  setLoading
+) => {
   try {
-    setLoading(true)
+    setLoading(true);
     const res = await Axios.get(
       `/fino/CommonFino/GetBankJournalReport?JournalId=${journalId}&AccountingJournalTypeId=${journalTypeId}&BusinessUnitId=${buId}`
     );
     if (res.status === 200 && res?.data) {
-      setLoading(false)
+      setLoading(false);
       setter(res?.data);
     }
   } catch (error) {
-    setLoading(false)
+    setLoading(false);
   }
 };
-
-
-
-
-
-
-
-
-

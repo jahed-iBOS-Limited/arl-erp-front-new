@@ -1,43 +1,42 @@
-
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useParams } from "react-router";
-import { getItemRateByVoyageId } from "../../bunker/bunkerInformation/helper";
-import { getVesselDDL } from "../../helper";
-import Loading from "../../_chartinghelper/loading/_loading";
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useParams } from 'react-router';
+import { getItemRateByVoyageId } from '../../bunker/bunkerInformation/helper';
+import { getVesselDDL } from '../../helper';
+import Loading from '../../_chartinghelper/loading/_loading';
 import {
   createOffHire,
   editOffHire,
   getDailyHireByVoyageNo,
   getOffHireById,
-} from "../helper";
-import Form from "./form";
+} from '../helper';
+import Form from './form';
 
 const date = new Date();
 
 const initData = {
-  vesselName: "",
-  voyageNo: "",
-  offHireReason: "",
-  offHireStartDateTime: moment(date).format("yyyy-MM-DDTHH:mm"),
-  offHireEndDateTime: moment(date).format("yyyy-MM-DDTHH:mm"),
-  offHireDuration: "",
-  durationPercentage: "",
-  offHireCostAmount: "",
-  perDayLsmgoQty: "",
-  offHireLsmgoqty: "",
-  offHireLsmgorate: "",
-  offHireLsmgovalue: "",
-  perDayLsfoQty: "",
-  offHireLsfoqty: "",
-  offHireLsforate: "",
-  offHireLsfovalue: "",
-  offHireCve: "",
-  otherCost: "",
-  finalOffHireDuration: "",
-  offHireAddressCommission: "",
-  offHireBrokerCommission: "",
+  vesselName: '',
+  voyageNo: '',
+  offHireReason: '',
+  offHireStartDateTime: moment(date).format('yyyy-MM-DDTHH:mm'),
+  offHireEndDateTime: moment(date).format('yyyy-MM-DDTHH:mm'),
+  offHireDuration: '',
+  durationPercentage: '',
+  offHireCostAmount: '',
+  perDayLsmgoQty: '',
+  offHireLsmgoqty: '',
+  offHireLsmgorate: '',
+  offHireLsmgovalue: '',
+  perDayLsfoQty: '',
+  offHireLsfoqty: '',
+  offHireLsforate: '',
+  offHireLsfovalue: '',
+  offHireCve: '',
+  otherCost: '',
+  finalOffHireDuration: '',
+  offHireAddressCommission: '',
+  offHireBrokerCommission: '',
 };
 
 export default function OffHireForm() {
@@ -184,11 +183,11 @@ export default function OffHireForm() {
       {loading && <Loading />}
       <Form
         title={
-          type === "edit"
-            ? "Edit Off Hire"
-            : type === "view"
-            ? "View Off Hire"
-            : "Create Off Hire"
+          type === 'edit'
+            ? 'Edit Off Hire'
+            : type === 'view'
+              ? 'View Off Hire'
+              : 'Create Off Hire'
         }
         initData={id ? singleData : initData}
         saveHandler={saveHandler}

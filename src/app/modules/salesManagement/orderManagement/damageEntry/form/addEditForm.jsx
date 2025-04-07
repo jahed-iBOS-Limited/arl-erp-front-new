@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { getSalesReturnPreData } from "../helper";
-import Form from "./form";
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { getSalesReturnPreData } from '../helper';
+import Form from './form';
 
 const initData = {
-  channel: "",
-  customer: "",
+  channel: '',
+  customer: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -31,15 +31,17 @@ function DamageEntryForm() {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const commonGridFunc = (values) => {
-    const urlTwo = `/oms/SalesReturnAndCancelProcess/GetDeliveryDataForSalesReturnPartial?accountId=${accId}&businessUnitId=${buId}&channelId=${values?.channel?.value
-      }&businessPartnerId=${values?.customer?.value || 0}&FromDate=${values?.fromDate
-      }&ToDate=${values?.toDate}`;
+    const urlTwo = `/oms/SalesReturnAndCancelProcess/GetDeliveryDataForSalesReturnPartial?accountId=${accId}&businessUnitId=${buId}&channelId=${
+      values?.channel?.value
+    }&businessPartnerId=${values?.customer?.value || 0}&FromDate=${
+      values?.fromDate
+    }&ToDate=${values?.toDate}`;
 
     getSalesReturnPreData(urlTwo, setLoading, (resData) => {
       const modifyData = resData?.data?.map((item) => ({
         ...item,
         isSelected: false,
-        rowData: item?.rowData?.map((elem) => ({ ...elem, returnQty: "" })),
+        rowData: item?.rowData?.map((elem) => ({ ...elem, returnQty: '' })),
       }));
 
       setGridData(modifyData);
@@ -63,12 +65,12 @@ function DamageEntryForm() {
 
   const saveHandler = (values) => {
     if (!uploadedImage[0]?.id) {
-      toast.warn("Please add an attachment.");
+      toast.warn('Please add an attachment.');
       return;
     }
     const selectedItems = gridData?.filter((item) => item.isSelected);
     if (selectedItems?.length === 0) {
-      toast.warn("Please select at least one item");
+      toast.warn('Please select at least one item');
       return;
     }
     const qtyCheck = selectedItems?.filter((header) => {
@@ -76,8 +78,8 @@ function DamageEntryForm() {
         (row) =>
           row?.returnQty > row?.quantity ||
           row?.returnQty >
-          // row?.quantity * (2 / 100) fixed to two decimal
-          _fixedPoint(row?.quantity * (2 / 100), false)
+            // row?.quantity * (2 / 100) fixed to two decimal
+            _fixedPoint(row?.quantity * (2 / 100), false)
       );
     });
 
@@ -130,25 +132,27 @@ function DamageEntryForm() {
         //   };
         // }),
         //! filter if not returnQty
-        row: header?.rowData?.filter((row) => row?.returnQty).map((row) => {
-          return {
-            referenceId: 0,
-            referenceCode: "",
-            itemId: row?.itemId,
-            itemName: row?.itemName,
-            uoMId: 0,
-            uoMName: "",
-            issueQty: 0,
-            returnQty: row?.returnQty,
-            basePrice: row?.itemPrice,
-            returnPercentage: _fixedPoint(
-              (row?.returnQty / row?.quantity) * 100,
-              false
-            ),
-          };
-        }),
+        row: header?.rowData
+          ?.filter((row) => row?.returnQty)
+          .map((row) => {
+            return {
+              referenceId: 0,
+              referenceCode: '',
+              itemId: row?.itemId,
+              itemName: row?.itemName,
+              uoMId: 0,
+              uoMName: '',
+              issueQty: 0,
+              returnQty: row?.returnQty,
+              basePrice: row?.itemPrice,
+              returnPercentage: _fixedPoint(
+                (row?.returnQty / row?.quantity) * 100,
+                false
+              ),
+            };
+          }),
         img: {
-          attatchment: uploadedImage[0]?.id || "",
+          attatchment: uploadedImage[0]?.id || '',
         },
       };
     });

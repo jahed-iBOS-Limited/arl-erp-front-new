@@ -1,19 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
   error: '',
-  msg: "",
+  msg: '',
   sbuDDL: [],
   glDDL: [],
   gridData: [],
 };
 
 export const adjustmentJournalSlice = createSlice({
-  name: "adjustmentJournal",
+  name: 'adjustmentJournal',
   initialState: initState,
   reducers: {
-
     SetSbuDDL: (state, action) => {
       const { payload } = action;
       state.sbuDDL = payload;
@@ -27,7 +26,5 @@ export const adjustmentJournalSlice = createSlice({
       const { payload } = action;
       state.gridData = payload;
     },
-
-  }
+  },
 });
-

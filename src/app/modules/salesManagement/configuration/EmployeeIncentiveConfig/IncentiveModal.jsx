@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
-import Loading from "../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import React, { useEffect } from 'react';
+import Loading from '../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 
 export default function IncentiveModal({ incentiveConfigId }) {
   const [incentiveData, getIncentiveData, loadIncentiveData] = useAxiosGet();
@@ -10,12 +10,11 @@ export default function IncentiveModal({ incentiveConfigId }) {
         `/oms/IncentiveConfig/GetIncentiveConfigById?IncentiveConfigId=${incentiveConfigId}`
       );
     }
-
   }, [incentiveConfigId]);
   return (
     <>
       {loadIncentiveData && <Loading />}
-      <h2 className="text-center mt-3 mb-3" style={{ color: "red" }}>
+      <h2 className="text-center mt-3 mb-3" style={{ color: 'red' }}>
         {incentiveData?.businessUnitName}
       </h2>
       <div className="table-responsive">

@@ -1,9 +1,9 @@
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
-import { Modal } from "react-bootstrap";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import ProductionEntryViewForm from "./ViewForm";
+import React from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { Modal } from 'react-bootstrap';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import ProductionEntryViewForm from './ViewForm';
 
 export default function ProductionEntryViewModal({ data, show, onHide }) {
   const [isLoading, setLoading] = useState(true);

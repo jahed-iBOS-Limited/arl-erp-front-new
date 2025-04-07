@@ -38,5 +38,5 @@ export default tseslint.config(
       'no-var': 'off',
       'react-hooks/exhaustive-deps': 'off',
     },
-  },
+  }
 );

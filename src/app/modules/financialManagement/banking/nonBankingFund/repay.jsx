@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { Form, Formik } from "formik";
-import * as Yup from "yup";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { useParams, useLocation } from "react-router-dom";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { _formatMoney } from "../../../_helper/_formatMoney";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { Form, Formik } from 'formik';
+import * as Yup from 'yup';
+import Loading from '../../../_helper/_loading';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { useParams, useLocation } from 'react-router-dom';
+import IConfirmModal from '../../../_helper/_confirmModal';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { _formatMoney } from '../../../_helper/_formatMoney';
 
 const initData = {
   transactionDate: _todayDate(),
-  amount: "",
-  bankAccountNo: "",
+  amount: '',
+  bankAccountNo: '',
 };
 
 const validationSchema = Yup.object().shape({
-  transactionDate: Yup.string().required("Transaction Date is required"),
-  amount: Yup.number().required("Amount is required"),
+  transactionDate: Yup.string().required('Transaction Date is required'),
+  amount: Yup.number().required('Amount is required'),
   bankAccountNo: Yup.object().shape({
-    label: Yup.string().required("Bank Account No is required"),
-    value: Yup.string().required("Bank Account No is required"),
+    label: Yup.string().required('Bank Account No is required'),
+    value: Yup.string().required('Bank Account No is required'),
   }),
 });
 
@@ -38,11 +38,8 @@ const Repay = () => {
     shallowEqual
   );
 
-  const [
-    bankAccountDDL,
-    getbankAccountDDL,
-    bankAccountDDLloader,
-  ] = useAxiosGet();
+  const [bankAccountDDL, getbankAccountDDL, bankAccountDDLloader] =
+    useAxiosGet();
   const [rowData, getRowData, rowDataLoader] = useAxiosGet();
   const [, saveData, saveDataLaoder] = useAxiosPost();
 
@@ -54,7 +51,7 @@ const Repay = () => {
 
   const saveHandler = (values, cb) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Are you Sure to Repay ${+values?.amount} against security number ${
         location?.state?.securityNumber
       }`,
@@ -79,7 +76,7 @@ const Repay = () => {
         );
       },
       noAlertFunc: () => {
-        "";
+        '';
       },
     };
     IConfirmModal(confirmObject);
@@ -91,7 +88,6 @@ const Repay = () => {
     if (id) {
       getDataById(id);
     }
-
   }, [id]);
 
   return (
@@ -128,7 +124,7 @@ const Repay = () => {
                     name="transactionDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("transactionDate", e.target.value);
+                      setFieldValue('transactionDate', e.target.value);
                     }}
                   />
                 </div>
@@ -139,7 +135,7 @@ const Repay = () => {
                     name="amount"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("amount", e.target.value);
+                      setFieldValue('amount', e.target.value);
                     }}
                   />
                 </div>
@@ -151,9 +147,9 @@ const Repay = () => {
                     label="Bank Account No"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("bankAccountNo", valueOption);
+                        setFieldValue('bankAccountNo', valueOption);
                       } else {
-                        setFieldValue("bankAccountNo", "");
+                        setFieldValue('bankAccountNo', '');
                       }
                     }}
                     errors={errors}
@@ -164,15 +160,15 @@ const Repay = () => {
 
               <div className="form-group  global-form row mt-1">
                 <div className="col-lg-3">
-                  <b>Partner:</b> {location?.landinValues?.partner?.label || ""}
+                  <b>Partner:</b> {location?.landinValues?.partner?.label || ''}
                 </div>
                 <div className="col-lg-3">
-                  <b>Deposite Type:</b>{" "}
-                  {location?.landinValues?.depositeType?.label || ""}
+                  <b>Deposite Type:</b>{' '}
+                  {location?.landinValues?.depositeType?.label || ''}
                 </div>
                 <div className="col-lg-3">
-                  <b>Security Number:</b>{" "}
-                  {location?.state?.securityNumber || ""}
+                  <b>Security Number:</b>{' '}
+                  {location?.state?.securityNumber || ''}
                 </div>
               </div>
 
@@ -220,14 +216,14 @@ const Repay = () => {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

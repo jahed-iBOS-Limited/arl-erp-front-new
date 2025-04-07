@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 //import logo1 from "../../../../logo/logo-1.jpg";
 //import aponbazar from "../../../../logo/aponbazar.svg";
 
@@ -7,14 +7,14 @@ const SalesInvoicePrint = ({
   header,
   rowDto,
   profileData,
-  counter
+  counter,
 }) => {
   let totalQty = 0;
   let totalPrice = 0;
   let totalAmount = 0;
   return (
     <div className="invoice-container" ref={printRef}>
-      {(rowDto?.length > 0 && header) &&
+      {rowDto?.length > 0 && header && (
         <>
           <div className="invoice-header print-header">
             {/* <div style={{marginRight: "10px", marginTop: "-15px"}}>
@@ -22,7 +22,7 @@ const SalesInvoicePrint = ({
             </div> */}
             <div className="text-center">
               <h6>আকিজ ফেয়ার প্রাইস শপ</h6>
-              <h6>{counter?.banglaAddress || ""}</h6>
+              <h6>{counter?.banglaAddress || ''}</h6>
             </div>
           </div>
           <div className="invoice-header text-center">
@@ -30,38 +30,25 @@ const SalesInvoicePrint = ({
           </div>
           <div className="billing-info">
             <div className="bill-to">
-              <p>
-                শপ আইডি : {""} AEFPS
-              </p>
+              <p>শপ আইডি : {''} AEFPS</p>
             </div>
             <div class="bill-to">
-              <p>
-                বিক্রয় কর্মী : {profileData?.userName}
-              </p>
+              <p>বিক্রয় কর্মী : {profileData?.userName}</p>
             </div>
           </div>
           <div className="extra-info">
-            <p>
-              প্রিন্ট তারিখ ও সময় :{" "}
-              {new Date().toLocaleString()}
-            </p>
+            <p>প্রিন্ট তারিখ ও সময় : {new Date().toLocaleString()}</p>
           </div>
           <div className="billing-info">
             <div className="bill-to">
-              <p>
-                ফ্যাক্টরী আইডি : AEFPS
-              </p>
+              <p>ফ্যাক্টরী আইডি : AEFPS</p>
             </div>
             <div class="bill-to">
-              <p>
-                ক্রেতার মোঃ নং : {header?.partnerContactNo}
-              </p>
+              <p>ক্রেতার মোঃ নং : {header?.partnerContactNo}</p>
             </div>
           </div>
           <div className="extra-info">
-            <p>
-              ক্রেতার নাম : {header?.soldToPartnerName}
-            </p>
+            <p>ক্রেতার নাম : {header?.soldToPartnerName}</p>
           </div>
           <div className="invioce-table">
             <table>
@@ -75,9 +62,9 @@ const SalesInvoicePrint = ({
               </thead>
               <tbody>
                 {rowDto?.map((item, index) => {
-                  totalQty += item?.quantity
-                  totalPrice += item?.rate
-                  totalAmount += item?.quantity * item?.rate
+                  totalQty += item?.quantity;
+                  totalPrice += item?.rate;
+                  totalAmount += item?.quantity * item?.rate;
                   return (
                     <tr key={index}>
                       <td className="text-left">
@@ -88,11 +75,12 @@ const SalesInvoicePrint = ({
                       </td>
                       <td className="text-center">{item?.quantity}</td>
                       <td className="text-center">{item?.rate}</td>
-                      <td className="text-right">{(item?.quantity * item?.rate).toFixed(2)}</td>
+                      <td className="text-right">
+                        {(item?.quantity * item?.rate).toFixed(2)}
+                      </td>
                     </tr>
-                  )
-                })
-                }
+                  );
+                })}
                 <tr>
                   <td className="text-left">মোট টাকা</td>
                   <td className="text-center">{totalQty}</td>
@@ -134,9 +122,7 @@ const SalesInvoicePrint = ({
               আকিজ ফেয়ার প্রাইস শপ এর সাথে থাকার জন্য ধন্যবাদ
             </div>
 
-            <div className="w-25 pt-1 mt-10 signature-text">
-              স্বাক্ষর
-            </div>
+            <div className="w-25 pt-1 mt-10 signature-text">স্বাক্ষর</div>
           </div>
 
           <div className="invoice-footer text-center">
@@ -145,7 +131,7 @@ const SalesInvoicePrint = ({
             <p>System By : AKIJ iBOS Limited</p>
           </div>
         </>
-      }
+      )}
     </div>
   );
 };

@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
 
-import { IInput } from "../../../../_helper/_input";
+import { IInput } from '../../../../_helper/_input';
 
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
 // Validation schema for Advance for Internal Expense
 const validationSchema = Yup.object().shape({
   receivedAmount: Yup.number()
-    .min(1, "Minimum 1 symbols")
-    .required("Requested Amount is required"),
+    .min(1, 'Minimum 1 symbols')
+    .required('Requested Amount is required'),
 
-  receivedDate: Yup.string().required("Due date is required"),
+  receivedDate: Yup.string().required('Due date is required'),
   comments: Yup.string(),
 });
 
@@ -54,7 +54,7 @@ export default function FormCmp({
             setValid(true);
           });
 
-          console.log("object");
+          console.log('object');
         }}
       >
         {({ handleSubmit, resetForm, values, isValid }) => (
@@ -63,9 +63,9 @@ export default function FormCmp({
             {/* {setInitValue(values,setFieldValue)} */}
 
             <p className="mt-3 employee_info">
-              <b> Advanced Code</b> : {values.advanceCode},{" "}
-              <b> Requested Amount</b> : {values.advAmount},{" "}
-              <b> Payment Type</b>: {values.paymentType},{" "}
+              <b> Advanced Code</b> : {values.advanceCode},{' '}
+              <b> Requested Amount</b> : {values.advAmount},{' '}
+              <b> Payment Type</b>: {values.paymentType},{' '}
             </p>
 
             <Form className="form form-label-right">
@@ -112,14 +112,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

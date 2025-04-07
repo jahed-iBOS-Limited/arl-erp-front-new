@@ -87,14 +87,13 @@ function Form() {
   useEffect(() => {
     if (buId && accId) {
       setDistrictDDL(
-        `/oms/TerritoryInfo/GetDistrictDDL?countryId=${18}&divisionId=${0}`,
+        `/oms/TerritoryInfo/GetDistrictDDL?countryId=${18}&divisionId=${0}`
       );
       setDDLChannelList(`/oms/CompetitorChannel/GetDDLCompetitorChannelList`);
       setBusinessUnitDDL(
-        `/domain/BusinessUnitDomain/GetBusinessUnitDDL?AccountId=${accId}&BusinessUnitId=0`,
+        `/domain/BusinessUnitDomain/GetBusinessUnitDDL?AccountId=${accId}&BusinessUnitId=0`
       );
     }
-
   }, [accId, buId]);
 
   useEffect(() => {
@@ -141,7 +140,7 @@ function Form() {
           setRowDto(
             resData?.objRowList?.map((itm) => {
               const transactionType = transactionTypeDDL.find(
-                (item) => item.label === itm?.strTransactionType,
+                (item) => item.label === itm?.strTransactionType
               );
               return {
                 ...itm,
@@ -150,18 +149,18 @@ function Form() {
                 strDisplayName:
                   itm?.strDisplayName || itm?.strProductDisplayName || '',
               };
-            }),
+            })
           );
 
           setPoliceStationDDL(
             `/oms/TerritoryInfo/GetThanaDDL?countryId=${18}&divisionId=${0}&districtId=${
               resData?.objHeader?.intDistrictId
-            }`,
+            }`
           );
           setTerritoryDDL(
-            `/oms/TerritoryInfo/GetTerritoryList?AccountId=${accId}&BusinessUnitId=${resData?.objHeader?.intBusinessUnitId}`,
+            `/oms/TerritoryInfo/GetTerritoryList?AccountId=${accId}&BusinessUnitId=${resData?.objHeader?.intBusinessUnitId}`
           );
-        },
+        }
       );
     } else {
       formikRef.current.setValues({
@@ -174,10 +173,9 @@ function Form() {
           : '',
       });
       setTerritoryDDL(
-        `/oms/TerritoryInfo/GetTerritoryList?AccountId=${accId}&BusinessUnitId=${buId}`,
+        `/oms/TerritoryInfo/GetTerritoryList?AccountId=${accId}&BusinessUnitId=${buId}`
       );
     }
-
   }, [id]);
   const history = useHistory();
 
@@ -242,14 +240,14 @@ function Form() {
         '/oms/CompetitorPrice/EditCompetitorPrice',
         payload,
         () => {},
-        true,
+        true
       );
     } else {
       postCreateCompetitorPrice(
         '/oms/CompetitorPrice/CreateCompetitorPrice',
         payload,
         cb,
-        true,
+        true
       );
     }
   };
@@ -262,7 +260,7 @@ function Form() {
       (resData) => {
         setRowDto(resData);
         setAllData(resData);
-      },
+      }
     );
   };
   return (
@@ -334,7 +332,7 @@ function Form() {
                       setFieldValue('businessUnit', valueOption || '');
                       setFieldValue('territory', '');
                       setTerritoryDDL(
-                        `/oms/TerritoryInfo/GetTerritoryList?AccountId=${accId}&BusinessUnitId=${valueOption?.value}`,
+                        `/oms/TerritoryInfo/GetTerritoryList?AccountId=${accId}&BusinessUnitId=${valueOption?.value}`
                       );
                       viewHandler({
                         ...values,
@@ -381,7 +379,7 @@ function Form() {
                       setPoliceStationDDL(
                         `/oms/TerritoryInfo/GetThanaDDL?countryId=${18}&divisionId=${0}&districtId=${
                           valueOption?.value
-                        }`,
+                        }`
                       );
                     }}
                     placeholder="Select District"
@@ -449,7 +447,7 @@ function Form() {
                       onFilterHandler(
                         allData,
                         { ...values, group: { ...valueOption } },
-                        setRowDto,
+                        setRowDto
                       );
                     }}
                     placeholder="Select Group"
@@ -463,7 +461,7 @@ function Form() {
                     options={filterAndMapOptions(
                       allData,
                       values,
-                      'strProductCategory',
+                      'strProductCategory'
                     )}
                     value={values?.subCategory}
                     label="Sub Category"
@@ -474,7 +472,7 @@ function Form() {
                       onFilterHandler(
                         allData,
                         { ...values, subCategory: { ...valueOption } },
-                        setRowDto,
+                        setRowDto
                       );
                     }}
                     placeholder="Sub Category"
@@ -488,7 +486,7 @@ function Form() {
                     options={filterAndMapOptions(
                       allData,
                       values,
-                      'strProductSku',
+                      'strProductSku'
                     )}
                     value={values?.skuName}
                     label="SKU Name"
@@ -498,7 +496,7 @@ function Form() {
                       onFilterHandler(
                         allData,
                         { ...values, skuName: { ...valueOption } },
-                        setRowDto,
+                        setRowDto
                       );
                     }}
                     placeholder="SKU Name"
@@ -512,7 +510,7 @@ function Form() {
                     options={filterAndMapOptions(
                       allData,
                       values,
-                      'strProductBrand',
+                      'strProductBrand'
                     )}
                     value={values?.brandName}
                     label="Brand Name"
@@ -521,7 +519,7 @@ function Form() {
                       onFilterHandler(
                         allData,
                         { ...values, brandName: { ...valueOption } },
-                        setRowDto,
+                        setRowDto
                       );
                     }}
                     placeholder="Brand Name"

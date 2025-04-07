@@ -1,28 +1,27 @@
-
-import React, { useContext, useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router";
-import { Formik } from "formik";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import IEdit from "../../../_chartinghelper/icons/_edit";
-import IView from "../../../_chartinghelper/icons/_view";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import { getVesselDDL, getVoyageDDLNew } from "../../../helper";
-import { getPurchaseBunkerLandingData } from "../helper";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
-import PaginationTable from "../../../_chartinghelper/_tablePagination";
-import { CharteringContext } from "../../../charteringContext";
+import React, { useContext, useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router';
+import { Formik } from 'formik';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import IEdit from '../../../_chartinghelper/icons/_edit';
+import IView from '../../../_chartinghelper/icons/_view';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import { getVesselDDL, getVoyageDDLNew } from '../../../helper';
+import { getPurchaseBunkerLandingData } from '../helper';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import { _dateFormatter } from '../../../_chartinghelper/_dateFormatter';
+import PaginationTable from '../../../_chartinghelper/_tablePagination';
+import { CharteringContext } from '../../../charteringContext';
 
 const headers = [
-  { name: "SL" },
-  { name: "Vessel Name" },
-  { name: "Voyage No" },
-  { name: "Purchase From" },
-  { name: "Company Name" },
-  { name: "Purchase Date" },
-  { name: "Actions" },
+  { name: 'SL' },
+  { name: 'Vessel Name' },
+  { name: 'Voyage No' },
+  { name: 'Purchase From' },
+  { name: 'Company Name' },
+  { name: 'Purchase Date' },
+  { name: 'Actions' },
 ];
 
 export default function PurchaseBunkerTable() {
@@ -68,7 +67,7 @@ export default function PurchaseBunkerTable() {
       values?.voyageNo?.value || 0,
       _pageNo,
       _pageSize,
-      "",
+      '',
       setGridData,
       setLoading
     );
@@ -107,11 +106,11 @@ export default function PurchaseBunkerTable() {
                 <div>
                   <button
                     type="button"
-                    className={"btn btn-primary px-3 py-2"}
+                    className={'btn btn-primary px-3 py-2'}
                     onClick={() => {
                       updateCharteringState(values);
                       history.push({
-                        pathname: "/chartering/bunker/purchaseBunker/create",
+                        pathname: '/chartering/bunker/purchaseBunker/create',
                         state: values,
                       });
                     }}
@@ -125,7 +124,7 @@ export default function PurchaseBunkerTable() {
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vesselName || ""}
+                      value={values?.vesselName || ''}
                       isSearchable={true}
                       options={vesselDDL || []}
                       styles={customStyles}
@@ -133,8 +132,8 @@ export default function PurchaseBunkerTable() {
                       placeholder="Vessel Name"
                       label="Vessel Name"
                       onChange={(valueOption) => {
-                        setFieldValue("vesselName", valueOption);
-                        setFieldValue("voyageNo", "");
+                        setFieldValue('vesselName', valueOption);
+                        setFieldValue('voyageNo', '');
                         const updatedValues = {
                           ...values,
                           vesselName: valueOption,
@@ -152,7 +151,7 @@ export default function PurchaseBunkerTable() {
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.voyageNo || ""}
+                      value={values?.voyageNo || ''}
                       isSearchable={true}
                       options={voyageNoDDL || []}
                       styles={customStyles}
@@ -160,7 +159,7 @@ export default function PurchaseBunkerTable() {
                       placeholder="Voyage No"
                       label="Voyage No"
                       onChange={(valueOption) => {
-                        setFieldValue("voyageNo", valueOption);
+                        setFieldValue('voyageNo', valueOption);
                         const updatedValues = {
                           ...values,
                           voyageNo: valueOption,

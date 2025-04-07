@@ -1,24 +1,24 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import * as Yup from "yup";
-import { getInventoryLocationDDL, getWareHouseDDL } from "../helper";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import * as Yup from 'yup';
+import { getInventoryLocationDDL, getWareHouseDDL } from '../helper';
 
 const validationSchema = Yup.object().shape({
   plantName: Yup.object().shape({
-    label: Yup.string().required("Plant Name  is required"),
-    value: Yup.string().required("Plant Name  is required"),
+    label: Yup.string().required('Plant Name  is required'),
+    value: Yup.string().required('Plant Name  is required'),
   }),
-  shopFloorName: Yup.string().required("Shop Floor Name is required"),
-  shopFloorCode: Yup.string().required("Shop Floor Code is required"),
+  shopFloorName: Yup.string().required('Shop Floor Name is required'),
+  shopFloorCode: Yup.string().required('Shop Floor Code is required'),
   warehouse: Yup.object().shape({
-    label: Yup.string().required("Warehouse is required"),
-    value: Yup.string().required("Warehouse is required"),
+    label: Yup.string().required('Warehouse is required'),
+    value: Yup.string().required('Warehouse is required'),
   }),
   intLocation: Yup.object().shape({
-    label: Yup.string().required("Location is required"),
-    value: Yup.string().required("Location is required"),
+    label: Yup.string().required('Location is required'),
+    value: Yup.string().required('Location is required'),
   }),
 });
 
@@ -68,7 +68,7 @@ export default function FormCmp({
                     value={values?.plantName}
                     label="Plant Name"
                     onChange={(valueOption) => {
-                      setFieldValue("plantName", valueOption);
+                      setFieldValue('plantName', valueOption);
                       getWareHouseDDL(
                         profileData?.userId,
                         profileData?.accountId,
@@ -76,8 +76,8 @@ export default function FormCmp({
                         valueOption?.value,
                         setWarehouseDDL
                       );
-                      setFieldValue("warehouse", "");
-                      setFieldValue("intLocation", "");
+                      setFieldValue('warehouse', '');
+                      setFieldValue('intLocation', '');
                     }}
                     placeholder="Plant Name"
                     errors={errors}
@@ -89,11 +89,11 @@ export default function FormCmp({
                   <NewSelect
                     name="warehouse"
                     options={warehouseDDL}
-                    value={values?.warehouse || ""}
+                    value={values?.warehouse || ''}
                     label="Warehouse Name"
                     onChange={(valueOption) => {
-                      setFieldValue("warehouse", valueOption);
-                      setFieldValue("intLocation", "");
+                      setFieldValue('warehouse', valueOption);
+                      setFieldValue('intLocation', '');
                       getInventoryLocationDDL(
                         profileData?.accountId,
                         selectedBusinessUnit?.value,
@@ -112,10 +112,10 @@ export default function FormCmp({
                   <NewSelect
                     name="intLocation"
                     options={intLocationDDL}
-                    value={values?.intLocation || ""}
+                    value={values?.intLocation || ''}
                     label="Location"
                     onChange={(valueOption) => {
-                      setFieldValue("intLocation", valueOption);
+                      setFieldValue('intLocation', valueOption);
                     }}
                     placeholder="Location"
                     errors={errors}
@@ -148,14 +148,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

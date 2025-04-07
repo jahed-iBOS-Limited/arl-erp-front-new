@@ -1,28 +1,28 @@
-import React, { useState } from "react";
-import { toast } from "react-toastify";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Loading from "../../../../_helper/_loading";
-import IViewModal from "../../../../_helper/_viewModal";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import ICustomTable from "../../../../chartering/_chartinghelper/_customTable";
-import ApproveTable from "./approveTable";
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import IView from '../../../../_helper/_helperIcons/_view';
+import Loading from '../../../../_helper/_loading';
+import IViewModal from '../../../../_helper/_viewModal';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import ICustomTable from '../../../../chartering/_chartinghelper/_customTable';
+import ApproveTable from './approveTable';
 
 const headers = [
-  { name: "SL" },
-  { name: "Unit Name" },
-  { name: "Business Unit Name" },
-  { name: "Application Amount" },
-  { name: "Approved by Supervisor" },
-  { name: "Approved by Line Manager" },
-  { name: "Approved by HR" },
-  { name: "Action" },
+  { name: 'SL' },
+  { name: 'Unit Name' },
+  { name: 'Business Unit Name' },
+  { name: 'Application Amount' },
+  { name: 'Approved by Supervisor' },
+  { name: 'Approved by Line Manager' },
+  { name: 'Approved by HR' },
+  { name: 'Action' },
 ];
 
 function TableFour({ gridData, values, userId, girdDataFunc }) {
   const [rowData, getRowData, loading, setRowData] = useAxiosGet();
   const [show, setShow] = useState(false);
-  const [singleItem, setSingleItem] = useState({}); 
+  const [singleItem, setSingleItem] = useState({});
   let totalApprovedBySupervisor = 0,
     totalApprovedByLineManager = 0,
     totalApprovedByHR = 0,
@@ -54,7 +54,7 @@ function TableFour({ gridData, values, userId, girdDataFunc }) {
           setRowData(modifyData);
           setShow(true);
         } else {
-          toast.warn("Data not found");
+          toast.warn('Data not found');
         }
       }
     );
@@ -100,7 +100,7 @@ function TableFour({ gridData, values, userId, girdDataFunc }) {
             );
           })}
           <tr>
-            <td  className="text-right"></td>
+            <td className="text-right"></td>
             <td colSpan={2} className="text-right">
               <b>Total</b>
             </td>

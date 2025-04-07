@@ -1,13 +1,13 @@
-import * as ExcelJS from "exceljs";
-import { Formik } from "formik";
-import moment from "moment/moment";
-import React from "react";
-import * as Yup from "yup";
-import ICustomCard from "./../../../../_helper/_customCard";
+import * as ExcelJS from 'exceljs';
+import { Formik } from 'formik';
+import moment from 'moment/moment';
+import React from 'react';
+import * as Yup from 'yup';
+import ICustomCard from './../../../../_helper/_customCard';
 const validationSchema = Yup.object().shape({
   tradeType: Yup.object().shape({
-    label: Yup.string().required("Trade Type is required"),
-    value: Yup.string().required("Trade Type is required"),
+    label: Yup.string().required('Trade Type is required'),
+    value: Yup.string().required('Trade Type is required'),
   }),
 });
 
@@ -20,19 +20,19 @@ function BankStatementAutomationloadExcel({ objProps }) {
     const workbook = new ExcelJS.Workbook();
 
     // Add a new worksheet
-    const worksheet = workbook.addWorksheet("Sheet 1");
+    const worksheet = workbook.addWorksheet('Sheet 1');
 
     // Add some rows and columns
     worksheet.columns = [
-      { header: "Transaction Date", key: "transactionDate", width: 15 },
-      { header: "Particular", key: "particulars", width: 15 },
-      { header: "Instrument No", key: "instrumentNo", width: 15 },
-      { header: "Credit", key: "monCredit", width: 15 },
-      { header: "Debit", key: "monDebit", width: 15 },
-      { header: "Balance", key: "monBalance", width: 15 },
+      { header: 'Transaction Date', key: 'transactionDate', width: 15 },
+      { header: 'Particular', key: 'particulars', width: 15 },
+      { header: 'Instrument No', key: 'instrumentNo', width: 15 },
+      { header: 'Credit', key: 'monCredit', width: 15 },
+      { header: 'Debit', key: 'monDebit', width: 15 },
+      { header: 'Balance', key: 'monBalance', width: 15 },
       {
         header: "Row Id (If it's a new row insert, then assign a row ID of 0.)",
-        key: "rowId",
+        key: 'rowId',
         width: 20,
       },
     ];
@@ -40,9 +40,9 @@ function BankStatementAutomationloadExcel({ objProps }) {
     const rows = worksheet.getRow(1);
     for (let i = 0; i < 7; i++) {
       rows.getCell(i + 1).fill = {
-        type: "pattern",
-        pattern: "solid",
-        fgColor: { argb: "FFFFFF00" },
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FFFFFF00' },
       };
     }
 
@@ -63,10 +63,10 @@ function BankStatementAutomationloadExcel({ objProps }) {
       // Transaction Date data validation
       const cellA = worksheet.getCell(`A${row}`);
       cellA.dataValidation = {
-        type: "date",
+        type: 'date',
         showDropDown: true,
-        errorTitle: "Invalid Date",
-        error: "Please enter a valid date in MM/DD/YYYY format.",
+        errorTitle: 'Invalid Date',
+        error: 'Please enter a valid date in MM/DD/YYYY format.',
         showErrorMessage: true,
         formula1: 'AND(ISNUMBER(B2), LEN(TEXT(B2, "MM/DD/YYYY"))=10)',
       };
@@ -74,48 +74,47 @@ function BankStatementAutomationloadExcel({ objProps }) {
       // Credit data validation
       const cellD = worksheet.getCell(`D${row}`);
       cellD.dataValidation = {
-        type: "decimal",
+        type: 'decimal',
         allowBlank: false,
-        error: "Please use input the valid value",
-        errorTitle: "Invalid Selection",
+        error: 'Please use input the valid value',
+        errorTitle: 'Invalid Selection',
         showErrorMessage: true,
-        promptTitle: "Decimal",
+        promptTitle: 'Decimal',
       };
 
       // Debit data validation
       const cellE = worksheet.getCell(`E${row}`);
       cellE.dataValidation = {
-        type: "decimal",
+        type: 'decimal',
         allowBlank: false,
-        error: "Please use input the valid value",
-        errorTitle: "Invalid Selection",
+        error: 'Please use input the valid value',
+        errorTitle: 'Invalid Selection',
         showErrorMessage: true,
-        promptTitle: "Decimal",
+        promptTitle: 'Decimal',
       };
       // Balance data validation
       const cellF = worksheet.getCell(`F${row}`);
       cellF.dataValidation = {
-        type: "decimal",
+        type: 'decimal',
         allowBlank: false,
-        error: "Please use input the valid value",
-        errorTitle: "Invalid Selection",
+        error: 'Please use input the valid value',
+        errorTitle: 'Invalid Selection',
         showErrorMessage: true,
-        promptTitle: "Decimal",
+        promptTitle: 'Decimal',
       };
     }
 
     // Save the workbook
     workbook.xlsx.writeBuffer().then((data) => {
       const blob = new Blob([data], {
-        type:
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });
       // download the file
-      const a = document.createElement("a");
+      const a = document.createElement('a');
       document.body.appendChild(a);
       const url = window.URL.createObjectURL(blob);
       a.href = url;
-      a.download = `BankStatementAutomation-${moment().format("l")}`;
+      a.download = `BankStatementAutomation-${moment().format('l')}`;
       a.click();
     });
   };
@@ -129,39 +128,39 @@ function BankStatementAutomationloadExcel({ objProps }) {
     >
       {({ errors, touched, setFieldValue, isValid, values, handleSubmit }) => (
         <ICustomCard
-          title='Bank Statement Automation Upload'
+          title="Bank Statement Automation Upload"
           renderProps={() => {
             return (
               <>
                 <button
-                  className='btn btn-primary mr-1'
+                  className="btn btn-primary mr-1"
                   onClick={() => {
                     exportToExcel();
                   }}
-                  type='button'
+                  type="button"
                 >
-                  <i className='fa fa-download'></i> Download Excel Format
+                  <i className="fa fa-download"></i> Download Excel Format
                 </button>
                 <button
-                  className='btn btn-primary mr-1'
+                  className="btn btn-primary mr-1"
                   onClick={() => {
                     hiddenFileInput.current.click();
                   }}
-                  type='button'
+                  type="button"
                 >
-                  <i className='fa fa-upload'></i>
+                  <i className="fa fa-upload"></i>
                   Import Excel
                 </button>
                 <input
-                  type='file'
+                  type="file"
                   onChange={async (e) => {
                     uploadHandelar(e.target.files[0], values);
 
-                    hiddenFileInput.current.value = "";
+                    hiddenFileInput.current.value = '';
                   }}
                   ref={hiddenFileInput}
-                  style={{ display: "none" }}
-                  accept='.csv, .ods, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
+                  style={{ display: 'none' }}
+                  accept=".csv, .ods, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
                 />
               </>
             );

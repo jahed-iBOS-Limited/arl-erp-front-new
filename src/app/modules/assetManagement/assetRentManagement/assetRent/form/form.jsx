@@ -1,21 +1,21 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+} from '../../../../../../_metronic/_partials/controls';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 import {
   getAssetDDL,
   getBusinessPartnerDDL,
   getCurrencyDDL,
   getSBUListDDL,
   SaveInventoryLoanValidationSchema,
-} from "../helper";
+} from '../helper';
 
 export default function FormCmp({
   params,
@@ -33,9 +33,9 @@ export default function FormCmp({
   const [sbuDDL, setSBUDDL] = useState([]);
   const [assetDDL, setAssetDDL] = useState([]);
   const [rentTypeDDL] = useState([
-    { value: 1, label: "Daily" },
-    { value: 2, label: "Monthly" },
-    { value: 3, label: "Fixed" },
+    { value: 1, label: 'Daily' },
+    { value: 2, label: 'Monthly' },
+    { value: 3, label: 'Fixed' },
   ]);
 
   useEffect(() => {
@@ -77,11 +77,11 @@ export default function FormCmp({
             <Card>
               <CardHeader
                 title={
-                  params?.type === "edit"
-                    ? "Asset Rent Edit"
-                    : params?.type === "view"
-                    ? "Asset Rent View"
-                    : "Asset Rent Create"
+                  params?.type === 'edit'
+                    ? 'Asset Rent Edit'
+                    : params?.type === 'view'
+                      ? 'Asset Rent View'
+                      : 'Asset Rent Create'
                 }
               >
                 <CardHeaderToolbar>
@@ -90,7 +90,7 @@ export default function FormCmp({
                     onClick={() => {
                       history.goBack();
                     }}
-                    className={false ? "d-none" : "btn btn-light"}
+                    className={false ? 'd-none' : 'btn btn-light'}
                   >
                     <i className="fa fa-arrow-left"></i>
                     Back
@@ -102,7 +102,7 @@ export default function FormCmp({
                       resetForm(initData);
                     }}
                     className={
-                      params?.type === "view" ? "d-none" : "btn btn-light ml-2"
+                      params?.type === 'view' ? 'd-none' : 'btn btn-light ml-2'
                     }
                   >
                     <i className="fa fa-redo"></i>
@@ -112,21 +112,21 @@ export default function FormCmp({
                   <button
                     type="submit"
                     className={
-                      params?.type === "view"
-                        ? "d-none"
-                        : "btn btn-primary ml-2"
+                      params?.type === 'view'
+                        ? 'd-none'
+                        : 'btn btn-primary ml-2'
                     }
                     onClick={handleSubmit}
-                    disabled={params?.type === "view"}
+                    disabled={params?.type === 'view'}
                   >
-                    {"Save"}
+                    {'Save'}
                   </button>
                 </CardHeaderToolbar>
               </CardHeader>
 
               <CardBody>
-                {console.log("Values", values)}
-                {console.log("Errors", errors)}
+                {console.log('Values', values)}
+                {console.log('Errors', errors)}
 
                 <Form className="form form-label-right">
                   <div className="global-form">
@@ -138,11 +138,11 @@ export default function FormCmp({
                           value={values?.rentType}
                           label="Rent Type"
                           onChange={(valueOption) => {
-                            setFieldValue("rentType", valueOption);
+                            setFieldValue('rentType', valueOption);
                           }}
                           placeholder="Rent Type"
                           errors={errors}
-                          isDisabled={type === "view" || type === "edit"}
+                          isDisabled={type === 'view' || type === 'edit'}
                           touched={touched}
                         />
                       </div>
@@ -154,7 +154,7 @@ export default function FormCmp({
                           name="rentFromDate"
                           placeholder="From Date"
                           type="date"
-                          disabled={type === "view"}
+                          disabled={type === 'view'}
                         />
                       </div>
 
@@ -166,7 +166,7 @@ export default function FormCmp({
                             name="rentToDate"
                             placeholder="From Date"
                             type="date"
-                            disabled={type === "view"}
+                            disabled={type === 'view'}
                           />
                         </div>
                       ) : null}
@@ -178,8 +178,8 @@ export default function FormCmp({
                           value={values?.sbu}
                           label="SBU"
                           onChange={(valueOption) => {
-                            setFieldValue("", "");
-                            setFieldValue("sbu", valueOption);
+                            setFieldValue('', '');
+                            setFieldValue('sbu', valueOption);
                             getAssetDDL(
                               profileData?.accountId,
                               selectedBusinessUnit?.value,
@@ -190,7 +190,7 @@ export default function FormCmp({
                           placeholder="SBU"
                           errors={errors}
                           touched={touched}
-                          isDisabled={type === "view" || type === "edit"}
+                          isDisabled={type === 'view' || type === 'edit'}
                         />
                       </div>
 
@@ -201,12 +201,12 @@ export default function FormCmp({
                           value={values?.asset}
                           label="Asset"
                           onChange={(valueOption) => {
-                            setFieldValue("asset", valueOption);
+                            setFieldValue('asset', valueOption);
                           }}
                           placeholder="Asset"
                           errors={errors}
                           touched={touched}
-                          isDisabled={type === "view" || type === "edit"}
+                          isDisabled={type === 'view' || type === 'edit'}
                         />
                       </div>
 
@@ -217,11 +217,11 @@ export default function FormCmp({
                           value={values?.partner}
                           label="Customer"
                           onChange={(valueOption) => {
-                            setFieldValue("partner", valueOption);
+                            setFieldValue('partner', valueOption);
                           }}
                           placeholder="Customer"
                           errors={errors}
-                          isDisabled={type === "view" || type === "edit"}
+                          isDisabled={type === 'view' || type === 'edit'}
                         />
                       </div>
 
@@ -231,11 +231,11 @@ export default function FormCmp({
                           value={values?.rentRate}
                           name="rentRate"
                           onChange={(e) => {
-                            setFieldValue("rentRate", e.target.value);
+                            setFieldValue('rentRate', e.target.value);
                           }}
                           placeholder="Rent"
                           type="number"
-                          disabled={type === "view"}
+                          disabled={type === 'view'}
                         />
                       </div>
 
@@ -246,10 +246,10 @@ export default function FormCmp({
                           value={values?.currency}
                           label="Currency"
                           onChange={(valueOption) => {
-                            setFieldValue("currency", valueOption);
+                            setFieldValue('currency', valueOption);
                           }}
                           placeholder="Currency"
-                          isDisabled={type === "view"}
+                          isDisabled={type === 'view'}
                           errors={errors}
                           touched={touched}
                         />
@@ -262,13 +262,13 @@ export default function FormCmp({
                           name="currConversationRate"
                           onChange={(e) => {
                             setFieldValue(
-                              "currConversationRate",
+                              'currConversationRate',
                               e.target.value
                             );
                           }}
                           placeholder="Base Currency Conversation"
                           type="number"
-                          disabled={type === "view"}
+                          disabled={type === 'view'}
                         />
                       </div>
                     </div>
@@ -276,14 +276,14 @@ export default function FormCmp({
 
                   <button
                     type="submit"
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     ref={btnRef}
                     onSubmit={() => handleSubmit()}
                   ></button>
 
                   <button
                     type="reset"
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     ref={resetBtnRef}
                     onSubmit={() => resetForm(initData)}
                   ></button>

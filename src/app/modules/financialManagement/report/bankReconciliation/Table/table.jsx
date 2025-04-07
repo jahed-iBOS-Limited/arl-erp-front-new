@@ -36,7 +36,7 @@ export const BankReconciliationTable = () => {
     getBankAccDDLAction(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setBankAccDDL,
+      setBankAccDDL
     );
   }, [selectedBusinessUnit, profileData]);
 
@@ -61,7 +61,7 @@ export const BankReconciliationTable = () => {
   // };
 
   const { reportBankReconciliation } = useSelector(
-    (state) => state?.localStorage,
+    (state) => state?.localStorage
   );
 
   const dispatch = useDispatch();
@@ -122,7 +122,7 @@ export const BankReconciliationTable = () => {
                           SetReportBankReconciliationAction({
                             bankAccount: valueOption,
                             date: values?.date,
-                          }),
+                          })
                         );
                       }}
                       placeholder="Bank Account"
@@ -142,7 +142,7 @@ export const BankReconciliationTable = () => {
                           SetReportBankReconciliationAction({
                             date: e?.target?.value,
                             bankAccount: values?.bankAccount,
-                          }),
+                          })
                         );
                       }}
                     />
@@ -158,7 +158,7 @@ export const BankReconciliationTable = () => {
                           values?.date,
                           values?.bankAccount?.value,
                           setReport,
-                          setLoading,
+                          setLoading
                         )
                       }
                     />

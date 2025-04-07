@@ -1,19 +1,19 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IView from "../../../_helper/_helperIcons/_view";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import Details from "./details";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IView from '../../../_helper/_helperIcons/_view';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import Details from './details';
 
 const initData = {
   fromDate: _todayDate(),
@@ -21,7 +21,7 @@ const initData = {
 function Receivableagingsummery() {
   const [rowData, getRowData, loading] = useAxiosGet();
   const [modelShow, setModelShow] = useState(false);
-  const [clickRowDto, setClickRowDto] = useState("");
+  const [clickRowDto, setClickRowDto] = useState('');
 
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
@@ -31,7 +31,6 @@ function Receivableagingsummery() {
     getRowData(
       `/oms/SalesInformation/GetReceiveableAgingSummery?unitID=${selectedBusinessUnit?.value}`
     );
-
   }, []);
   return (
     <>
@@ -45,7 +44,7 @@ function Receivableagingsummery() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Receivable Aging Summery"}>
+              <CardHeader title={'Receivable Aging Summery'}>
                 <CardHeaderToolbar>
                   {/* <button
                     onClick={() => {

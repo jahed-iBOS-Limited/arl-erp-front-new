@@ -1,11 +1,11 @@
-import axios from "axios";
-import { models } from "powerbi-client";
-import { PowerBIEmbed } from "powerbi-client-react";
-import React, { useEffect, useState } from "react";
-import { confirmAlert } from "react-confirm-alert";
-import { useDispatch, useSelector } from "react-redux";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { SetPowerBiAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import axios from 'axios';
+import { models } from 'powerbi-client';
+import { PowerBIEmbed } from 'powerbi-client-react';
+import React, { useEffect, useState } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
+import { useDispatch, useSelector } from 'react-redux';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { SetPowerBiAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 
 export default function ReportsByPowerBI({ reportTypeId }) {
   const [, getRowData] = useAxiosGet();
@@ -17,13 +17,13 @@ export default function ReportsByPowerBI({ reportTypeId }) {
   );
 
   const getPowerBIData = (typeId) => {
-    const groupId = "e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a";
+    const groupId = 'e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a';
     const reportId =
       typeId === 4
-        ? "5e1b59c0-c646-4bae-9ec6-f70de8d99c41" // G2G Challan Info (BI)
+        ? '5e1b59c0-c646-4bae-9ec6-f70de8d99c41' // G2G Challan Info (BI)
         : typeId === 5
-        ? "971cb3ef-54ba-4ef8-92f3-ce5147b36486" // Lighter Vessel Time Sheet (BI)
-        : "";
+          ? '971cb3ef-54ba-4ef8-92f3-ce5147b36486' // Lighter Vessel Time Sheet (BI)
+          : '';
     // 1st api
     const url = `/domain/PowerBIReport/PowerBIAccessToken`;
     getRowData(url, async (data) => {
@@ -46,7 +46,7 @@ export default function ReportsByPowerBI({ reportTypeId }) {
           };
           try {
             const payload = {
-              accessLevel: "View",
+              accessLevel: 'View',
             };
             // 3rd api
             const resGenerateToken = await axios.post(
@@ -78,19 +78,19 @@ export default function ReportsByPowerBI({ reportTypeId }) {
 
   const generateTokenPoppup = () => {
     confirmAlert({
-      title: "Generate Token",
-      message: "Token excess timeout please generate token",
+      title: 'Generate Token',
+      message: 'Token excess timeout please generate token',
       buttons: [
         {
-          label: "Submit",
+          label: 'Submit',
           onClick: () => {
             dispatch(
               SetPowerBiAction({
-                testReportToken: "",
-                reportId: "",
-                datasetId: "",
-                generateToken: "",
-                embedUrl: "",
+                testReportToken: '',
+                reportId: '',
+                datasetId: '',
+                generateToken: '',
+                embedUrl: '',
               })
             );
             window.location.reload();
@@ -104,11 +104,11 @@ export default function ReportsByPowerBI({ reportTypeId }) {
   setTimeout(() => {
     dispatch(
       SetPowerBiAction({
-        testReportToken: "",
-        reportId: "",
-        datasetId: "",
-        generateToken: "",
-        embedUrl: "",
+        testReportToken: '',
+        reportId: '',
+        datasetId: '',
+        generateToken: '',
+        embedUrl: '',
       })
     );
     generateTokenPoppup();
@@ -116,14 +116,13 @@ export default function ReportsByPowerBI({ reportTypeId }) {
 
   useEffect(() => {
     getPowerBIData(reportTypeId);
-
   }, []);
 
   return (
     <>
       <PowerBIEmbed
         embedConfig={{
-          type: "report",
+          type: 'report',
           id: localStorageData?.reportId,
           embedUrl: localStorageData?.embedUrl,
           accessToken: localStorageData?.generateToken,
@@ -141,26 +140,26 @@ export default function ReportsByPowerBI({ reportTypeId }) {
         eventHandlers={
           new Map([
             [
-              "loaded",
-              function() {
+              'loaded',
+              function () {
                 // console.log("Report loaded");
               },
             ],
             [
-              "rendered",
-              function() {
+              'rendered',
+              function () {
                 // console.log("Report rendered");
               },
             ],
             [
-              "error",
-              function(event) {
+              'error',
+              function (event) {
                 // console.log(event.detail);
               },
             ],
           ])
         }
-        cssClassName={"powerbi-report-style-class"}
+        cssClassName={'powerbi-report-style-class'}
         getEmbeddedComponent={(embeddedReport) => {
           window.report = embeddedReport;
         }}

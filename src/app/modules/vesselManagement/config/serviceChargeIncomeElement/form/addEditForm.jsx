@@ -1,20 +1,19 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { GetShipPointDDL } from "../../../allotment/loadingInformation/helper";
-import Form from "./form";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { GetShipPointDDL } from '../../../allotment/loadingInformation/helper';
+import Form from './form';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 const initData = {
-  businessPartner: "",
-  port: "",
-  motherVessel: "",
-  item: "",
-  warehouse: "",
-  programNo: "",
+  businessPartner: '',
+  port: '',
+  motherVessel: '',
+  item: '',
+  warehouse: '',
+  programNo: '',
 };
 
 const ServiceChargeAndIncomeElementForm = () => {
@@ -34,12 +33,12 @@ const ServiceChargeAndIncomeElementForm = () => {
       elementId: item?.autoId,
       element: item?.serviceElementName,
       isSelected: false,
-      rate: "",
+      rate: '',
       typeId: item?.serviceTypeId,
       typeName: item?.serviceTypeName,
-      costCenter: "",
-      costElement: "",
-      profitCenter: "",
+      costCenter: '',
+      costElement: '',
+      profitCenter: '',
     }));
   };
 
@@ -66,7 +65,7 @@ const ServiceChargeAndIncomeElementForm = () => {
     const selectedRows = allRows?.filter((item) => item?.isSelected);
 
     if (selectedRows?.length < 1) {
-      return toast.warn("Please select at least one row!");
+      return toast.warn('Please select at least one row!');
     }
 
     const payload = {

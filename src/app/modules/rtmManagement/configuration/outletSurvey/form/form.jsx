@@ -1,16 +1,16 @@
-
-import React from "react";
-import { Formik, Form } from "formik";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import * as Yup from "yup";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import * as Yup from 'yup';
 
 const validationSchema = Yup.object().shape({
-  surveyName: Yup.string().required("Survey Name is required"),
-  fromDate: Yup.string().required("From Date is required"),
+  surveyName: Yup.string().required('Survey Name is required'),
+  fromDate: Yup.string().required('From Date is required'),
 });
 
-function FormCmp({  initData,
+function FormCmp({
+  initData,
   btnRef,
   saveHandler,
   resetBtnRef,
@@ -49,7 +49,7 @@ function FormCmp({  initData,
     const newRowData = [...questionRowData];
     newRowData[index].multipleQuestionOptionList = [
       {
-        questionOptionName: "",
+        questionOptionName: '',
       },
     ];
     setQuestionRowData(newRowData);
@@ -60,7 +60,7 @@ function FormCmp({  initData,
     const newRowData = [...questionRowData];
     newRowData[index].questionList = [
       {
-        questionOptionName: "",
+        questionOptionName: '',
       },
     ];
     setQuestionRowData(newRowData);
@@ -127,7 +127,7 @@ function FormCmp({  initData,
           resetForm(initData);
           setQuestionRowData([
             {
-              questionName: "",
+              questionName: '',
               questionFieldType: MultipleQuestionFieldTypeDDL[0],
               multipleQuestionOptionList: [],
               questionList: [],
@@ -188,7 +188,7 @@ function FormCmp({  initData,
                     type="checkbox"
                     checked={values?.isContinue}
                     onChange={(e) => {
-                      setFieldValue("isContinue", e.target.checked);
+                      setFieldValue('isContinue', e.target.checked);
                     }}
                   />
                   <label className="pl-2">isContinue</label>
@@ -217,7 +217,7 @@ function FormCmp({  initData,
                                 }
                                 onClick={() => {
                                   const payload = {
-                                    questionName: "",
+                                    questionName: '',
                                     questionFieldType:
                                       MultipleQuestionFieldTypeDDL[0],
                                     multipleQuestionOptionList: [],
@@ -277,10 +277,10 @@ function FormCmp({  initData,
                             onChange={(valueOption) => {
                               cleanQuestionListAndMultipleOptionList(index);
                               questionFieldTypeHandler(valueOption, index);
-                              if (valueOption?.label === "Multiple Option") {
+                              if (valueOption?.label === 'Multiple Option') {
                                 handleMultipleQuestionDropdown(index);
                               }
-                              if (valueOption?.label === "List") {
+                              if (valueOption?.label === 'List') {
                                 handleQuestionList(index);
                               }
                             }}
@@ -303,7 +303,7 @@ function FormCmp({  initData,
                                   >
                                     <div className="w-75 d-flex align-items-center pl-4">
                                       <label className="pr-2">
-                                        {optionIndex + 1}.{" "}
+                                        {optionIndex + 1}.{' '}
                                       </label>
                                       <InputField
                                         required={true}
@@ -330,7 +330,7 @@ function FormCmp({  initData,
                                             }
                                             onClick={() => {
                                               const payload = {
-                                                questionOptionName: "",
+                                                questionOptionName: '',
                                               };
                                               multipleOptionNameAddHandler(
                                                 payload,
@@ -349,16 +349,18 @@ function FormCmp({  initData,
                                               type="button"
                                               className="ml-4 btn btn-danger p-1 text-center"
                                               onClick={() => {
-                                                const filterData = item?.multipleQuestionOptionList?.filter(
-                                                  (item, idx) =>
-                                                    idx !== optionIndex
-                                                );
+                                                const filterData =
+                                                  item?.multipleQuestionOptionList?.filter(
+                                                    (item, idx) =>
+                                                      idx !== optionIndex
+                                                  );
                                                 const newRowData = [
                                                   ...questionRowData,
                                                 ];
                                                 newRowData[
                                                   index
-                                                ].multipleQuestionOptionList = filterData;
+                                                ].multipleQuestionOptionList =
+                                                  filterData;
                                                 setQuestionRowData(newRowData);
                                               }}
                                             >
@@ -388,7 +390,7 @@ function FormCmp({  initData,
                                 >
                                   <div className="w-75 d-flex align-items-center pl-4">
                                     <label className="pr-2">
-                                      {listIndex + 1}.{" "}
+                                      {listIndex + 1}.{' '}
                                     </label>
                                     <InputField
                                       required={true}
@@ -414,7 +416,7 @@ function FormCmp({  initData,
                                           }
                                           onClick={() => {
                                             const payload = {
-                                              questionOptionName: "",
+                                              questionOptionName: '',
                                             };
                                             listNameAddHandler(
                                               payload,
@@ -431,15 +433,16 @@ function FormCmp({  initData,
                                             type="button"
                                             className="ml-4 btn btn-danger p-1 text-center"
                                             onClick={() => {
-                                              const filterData = item?.questionList?.filter(
-                                                (item, idx) => idx !== listIndex
-                                              );
+                                              const filterData =
+                                                item?.questionList?.filter(
+                                                  (item, idx) =>
+                                                    idx !== listIndex
+                                                );
                                               const newRowData = [
                                                 ...questionRowData,
                                               ];
-                                              newRowData[
-                                                index
-                                              ].questionList = filterData;
+                                              newRowData[index].questionList =
+                                                filterData;
                                               setQuestionRowData(newRowData);
                                             }}
                                           >
@@ -464,14 +467,14 @@ function FormCmp({  initData,
 
             <button
               type="submit"
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
               ref={btnRef}
               onSubmit={() => handleSubmit()}
             ></button>
 
             <button
               type="reset"
-              style={{ display: "none" }}
+              style={{ display: 'none' }}
               ref={resetBtnRef}
               onSubmit={() => resetForm(initData)}
             ></button>

@@ -62,18 +62,17 @@ export default function RequestForQuotationLanding() {
         if (data && data[0]) {
           initData.sbu = data[0];
           getWarehouseListDDL(
-            `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${data[0]?.value}`,
+            `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${data[0]?.value}`
           );
         }
-      },
+      }
     );
     getPlantListDDL(
-      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`,
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
     );
     getPurchaseOrgListDDL(
-      `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
+      `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, []);
 
   const getData = (values, pageNo, pageSize, searchValue = '') => {
@@ -82,7 +81,7 @@ export default function RequestForQuotationLanding() {
         selectedBusinessUnit?.value
       }&plantId=${0}&warehouseId=${0}&status=${
         values?.status?.label
-      }&pageNo=${pageNo}&pageSize=${pageSize}&search=${searchValue}`,
+      }&pageNo=${pageNo}&pageSize=${pageSize}&search=${searchValue}`
     );
   };
   const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
@@ -142,7 +141,7 @@ export default function RequestForQuotationLanding() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        '/mngProcurement/purchase-management/rfq/create',
+                        '/mngProcurement/purchase-management/rfq/create'
                       );
                     }}
                   >
@@ -471,7 +470,7 @@ export default function RequestForQuotationLanding() {
                                 <IEdit
                                   onClick={(e) => {
                                     history.push(
-                                      `/mngProcurement/purchase-management/rfq/edit/${item?.requestForQuotationId}`,
+                                      `/mngProcurement/purchase-management/rfq/edit/${item?.requestForQuotationId}`
                                     );
                                   }}
                                 />
@@ -489,7 +488,7 @@ export default function RequestForQuotationLanding() {
                                     onClick={() => {
                                       handleREQReadyForPrepared(
                                         values,
-                                        item?.requestForQuotationId,
+                                        item?.requestForQuotationId
                                       );
                                     }}
                                   >

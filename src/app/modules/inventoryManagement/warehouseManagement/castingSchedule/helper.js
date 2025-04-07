@@ -1,6 +1,6 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const getAllDates = (month, year) => {
   const dates = [];
@@ -68,7 +68,8 @@ export const getItemList = async (
 ) => {
   setLoading(true);
   try {
-    const res = await axios.get(`/item/ItemSales/GetItemSalesByChannelAndWarehouseDDL?AccountId=${accId}&BUnitId=${buId}&DistributionChannelId=${channelId}&SalesOrgId=${saleOrgId}
+    const res =
+      await axios.get(`/item/ItemSales/GetItemSalesByChannelAndWarehouseDDL?AccountId=${accId}&BUnitId=${buId}&DistributionChannelId=${channelId}&SalesOrgId=${saleOrgId}
     `);
     setter(res?.data);
     setLoading(false);
@@ -97,7 +98,8 @@ export const getSalesOrgList = async (accId, buId, setter, setLoading) => {
 export const getRegionList = async (channelId, setter, setLoading) => {
   setLoading(true);
   try {
-    const res = await axios.get(`/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${channelId}
+    const res =
+      await axios.get(`/oms/TerritoryInfo/GetTerrotoryRegionAreaByChannel?channelId=${channelId}
     `);
     setter(
       res?.data?.map((item) => ({
@@ -200,20 +202,17 @@ export const getTargetQtyList = async (
 
     const modifyData = dateListOfTheMonth?.map((item) => {
       if (resGetSavedTargetQtyData[item]) {
-        const {
-          numTargetQuantity,
-          strRemarks,
-          intId,
-        } = resGetSavedTargetQtyData[item];
+        const { numTargetQuantity, strRemarks, intId } =
+          resGetSavedTargetQtyData[item];
 
         return {
           intId,
           date: item,
           avgTargetQty: avgQty || 0,
           liftingQty: numTargetQuantity || 0,
-          remarks: strRemarks || "",
+          remarks: strRemarks || '',
           totalTarget: res?.data[0]?.targetQuantity || 0,
-          areaName: res?.data[0]?.nL6 || "",
+          areaName: res?.data[0]?.nL6 || '',
           areaId: res?.data[0]?.l6 || 0,
           isSelected: numTargetQuantity > 0 ? true : false,
         };
@@ -223,7 +222,7 @@ export const getTargetQtyList = async (
         date: item,
         avgTargetQty: avgQty,
         liftingQty: 0,
-        remarks: "",
+        remarks: '',
         totalTarget: res?.data[0]?.targetQuantity,
         areaName: res?.data[0]?.nL6,
         areaId: res?.data[0]?.l6,
@@ -366,7 +365,7 @@ export const deleteCastingSchedule = async (id, setLoading, cb) => {
       `/oms/CastingSchedule/DeleteCastingSchedule?id=${id}`
     );
 
-    toast.success(res?.data?.message || "Delete Casting Schedule");
+    toast.success(res?.data?.message || 'Delete Casting Schedule');
     cb();
     setLoading(false);
   } catch (error) {

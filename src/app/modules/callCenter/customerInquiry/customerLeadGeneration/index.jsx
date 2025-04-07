@@ -1,41 +1,41 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import * as Yup from "yup";
-import ICustomCard from "../../../_helper/_customCard";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
+import ICustomCard from '../../../_helper/_customCard';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 
 const validationSchema = Yup.object().shape({
   statusAndStage: Yup.object().shape({
-    value: Yup.number().required("Status & Stage is required"),
-    label: Yup.string().required("Status & Stage is required"),
+    value: Yup.number().required('Status & Stage is required'),
+    label: Yup.string().required('Status & Stage is required'),
   }),
   division: Yup.object().shape({
-    value: Yup.number().required("Division is required"),
-    label: Yup.string().required("Division is required"),
+    value: Yup.number().required('Division is required'),
+    label: Yup.string().required('Division is required'),
   }),
   district: Yup.object().shape({
-    value: Yup.number().required("District is required"),
-    label: Yup.string().required("District is required"),
+    value: Yup.number().required('District is required'),
+    label: Yup.string().required('District is required'),
   }),
   thana: Yup.object().shape({
-    value: Yup.number().required("Thana is required"),
-    label: Yup.string().required("Thana is required"),
+    value: Yup.number().required('Thana is required'),
+    label: Yup.string().required('Thana is required'),
   }),
-  fromDate: Yup.string().required("From Date is required"),
-  toDate: Yup.string().required("To Date is required"),
+  fromDate: Yup.string().required('From Date is required'),
+  toDate: Yup.string().required('To Date is required'),
 });
 const STAGE_STATUS = [
-  { value: 1, label: "Suspect" },
-  { value: 2, label: "Prospect" },
-  { value: 3, label: "Lead" },
-  { value: 4, label: "Customer" },
-  { value: 5, label: "Client" },
+  { value: 1, label: 'Suspect' },
+  { value: 2, label: 'Prospect' },
+  { value: 3, label: 'Lead' },
+  { value: 4, label: 'Customer' },
+  { value: 5, label: 'Client' },
 ];
 
 export default function CustomerLeadGeneration() {
@@ -59,7 +59,7 @@ export default function CustomerLeadGeneration() {
   };
   const commonLandingApi = (PageNo = pageNo, PageSize = pageSize) => {
     const values = formikRef.current.values;
-    let querystring = "";
+    let querystring = '';
     if (values?.statusAndStage?.value) {
       querystring += `&stageStatus=${values?.statusAndStage?.label}`;
     }
@@ -81,7 +81,7 @@ export default function CustomerLeadGeneration() {
     getLandingData(
       `/oms/SalesQuotation/GetCustomerAcquisitionPagination?userId=${userId}&businessUnitId=${selectedBusinessUnit?.value}&pageNo=${pageNo}&pageSize=${pageSize}${querystring}`,
       (data) => {
-        console.log(data, "data");
+        console.log(data, 'data');
       }
     );
   };
@@ -107,8 +107,7 @@ export default function CustomerLeadGeneration() {
   // };
 
   React.useEffect(() => {
-    getDivisionDDL("/oms/TerritoryInfo/GetDivisionDDL?countryId=18");
-
+    getDivisionDDL('/oms/TerritoryInfo/GetDivisionDDL?countryId=18');
   }, []);
 
   return (
@@ -116,7 +115,7 @@ export default function CustomerLeadGeneration() {
       title="Customer Lead Generation"
       createHandler={() => {
         history.push(
-          "/call-center-management/customer-inquiry/customerleadgeneration/create"
+          '/call-center-management/customer-inquiry/customerleadgeneration/create'
         );
       }}
       backHandler={() => {
@@ -130,12 +129,12 @@ export default function CustomerLeadGeneration() {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          statusAndStage: "",
-          division: "",
-          district: "",
-          thana: "",
-          fromDate: "",
-          toDate: "",
+          statusAndStage: '',
+          division: '',
+          district: '',
+          thana: '',
+          fromDate: '',
+          toDate: '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -153,21 +152,21 @@ export default function CustomerLeadGeneration() {
             <Form className="form form-label-right">
               <div
                 style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr",
-                  gap: "10px",
+                  display: 'grid',
+                  gridTemplateColumns: '1fr',
+                  gap: '10px',
                 }}
               >
                 <div className="form-group row global-form">
                   {/* Status & Stage */}
                   <div className="col-lg-3">
                     <NewSelect
-                      label={"Status & Stage"}
+                      label={'Status & Stage'}
                       options={STAGE_STATUS || []}
                       value={values?.statusAndStage}
                       name="statusAndStage"
                       onChange={(valueOption) => {
-                        setFieldValue("statusAndStage", valueOption || "");
+                        setFieldValue('statusAndStage', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -177,14 +176,14 @@ export default function CustomerLeadGeneration() {
                   {/* division */}
                   <div className="col-lg-3">
                     <NewSelect
-                      label={"Division"}
+                      label={'Division'}
                       options={divisionDDL || []}
                       value={values?.division}
                       name="division"
                       onChange={(valueOption) => {
-                        setFieldValue("division", valueOption || "");
-                        setFieldValue("district", "");
-                        setFieldValue("thana", "");
+                        setFieldValue('division', valueOption || '');
+                        setFieldValue('district', '');
+                        setFieldValue('thana', '');
                         valueOption?.value && getDistrict(valueOption?.value);
                       }}
                       errors={errors}
@@ -194,13 +193,13 @@ export default function CustomerLeadGeneration() {
                   {/* district */}
                   <div className="col-lg-3">
                     <NewSelect
-                      label={"District"}
+                      label={'District'}
                       options={districtDDL || []}
                       value={values?.district}
                       name="district"
                       onChange={(valueOption) => {
-                        setFieldValue("district", valueOption || "");
-                        setFieldValue("thana", "");
+                        setFieldValue('district', valueOption || '');
+                        setFieldValue('thana', '');
                         valueOption?.value && getThana(valueOption?.value);
                       }}
                       errors={errors}
@@ -232,12 +231,12 @@ export default function CustomerLeadGeneration() {
                   </div> */}
                   <div className="col-lg-3">
                     <NewSelect
-                      label={"Thana"}
+                      label={'Thana'}
                       options={thanaDDL || []}
                       value={values?.thana}
                       name="thana"
                       onChange={(valueOption) => {
-                        setFieldValue("thana", valueOption || "");
+                        setFieldValue('thana', valueOption || '');
                       }}
                       errors={errors}
                       touched={touched}
@@ -256,7 +255,7 @@ export default function CustomerLeadGeneration() {
                       name="fromDate"
                       value={values?.fromDate}
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                       }}
                     />
                   </div>
@@ -268,7 +267,7 @@ export default function CustomerLeadGeneration() {
                       name="toDate"
                       value={values?.toDate}
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                     />
                   </div>
@@ -349,7 +348,7 @@ export default function CustomerLeadGeneration() {
                       Action
                     </button>
                   </td>
-                  <td>{item?.isRejected === true ? "Rejected" : "Active"}</td>
+                  <td>{item?.isRejected === true ? 'Rejected' : 'Active'}</td>
                 </tr>
               ))}
           </tbody>

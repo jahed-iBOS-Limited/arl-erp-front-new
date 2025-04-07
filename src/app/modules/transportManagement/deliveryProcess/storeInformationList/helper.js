@@ -1,7 +1,7 @@
 export const burstingQuantityTableHeader = [
-  "SL",
-  "Date",
-  "Shippoint Name",
-  "Code",
-  "Brusting Qty",
+  'SL',
+  'Date',
+  'Shippoint Name',
+  'Code',
+  'Brusting Qty',
 ];

@@ -1,22 +1,23 @@
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import { useHistory } from 'react-router-dom';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import {
+  createCertificateName,
+  getCertificateDDL,
+  getCertificateLanding,
+} from '../helper';
 
-
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import { useHistory } from "react-router-dom";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import { createCertificateName, getCertificateDDL, getCertificateLanding } from "../helper";
-
-import Form from "./form";
-
+import Form from './form';
 
 const date = new Date();
 
 const initData = {
-  strCertificateName: "",
-  strCertificateTypeName: "",
-  strDateRangeType: "",
+  strCertificateName: '',
+  strCertificateTypeName: '',
+  strDateRangeType: '',
 };
 
 export default function CertificateNameForm() {
@@ -26,7 +27,7 @@ export default function CertificateNameForm() {
   const [loading, setLoading] = useState(false);
 
   // State For DDL
-  const [certificateTypeDDL,setCertificateTypeDDL] = useState([]);
+  const [certificateTypeDDL, setCertificateTypeDDL] = useState([]);
 
   /* State For Row Data All */
   const [singleData, setSingleData] = useState({});
@@ -40,7 +41,7 @@ export default function CertificateNameForm() {
     if (id) {
       getCertificateLanding(
         setSingleData,
-        "CertificateLanding",
+        'CertificateLanding',
         {
           intAccountId: profileData?.accountId,
           intBusinessUnitId: selectedBusinessUnit?.value,
@@ -56,13 +57,12 @@ export default function CertificateNameForm() {
     }
   };
   useEffect(() => {
-    getByIdCalled()
-
+    getByIdCalled();
   }, [id]);
 
   /* Fetch DDL */
   useEffect(() => {
-    getCertificateDDL(setCertificateTypeDDL, "CertificateTypeDDL",{
+    getCertificateDDL(setCertificateTypeDDL, 'CertificateTypeDDL', {
       intAccountId: profileData?.accountId,
       intBusinessUnitId: selectedBusinessUnit?.value,
       intCertificateTypeId: 0,
@@ -71,25 +71,25 @@ export default function CertificateNameForm() {
 
   /* Save Handler */
   const saveHandler = (values, cb) => {
-      /* Create Part */
-      const payload = {
-        intVesselCertificateId: 0,
-        intAccountId: profileData?.accountId,
-        intBusinessUnitId: selectedBusinessUnit?.value,
-        intVesselId: 0,
-        intCertificateTypeId: values?.strCertificateTypeName?.value,
-        strCertificateTypeName: values?.strCertificateTypeName?.label,
-        intCertificateId: +id ? +id : 0,
-        strCertificateName: values?.strCertificateName,
-        strIssuePlace: "",
-        strIssuingAuthority: "",
-        strRemarks: "",
-        strAttachment: "",
-        intActionBy: profileData.actionBy,
-        intDateRangeTypeId: values?.strDateRangeType?.value || "",
-        strDateRangeTypeName: values?.strDateRangeType?.label || "",
-      };
-      createCertificateName(payload, setLoading, cb);
+    /* Create Part */
+    const payload = {
+      intVesselCertificateId: 0,
+      intAccountId: profileData?.accountId,
+      intBusinessUnitId: selectedBusinessUnit?.value,
+      intVesselId: 0,
+      intCertificateTypeId: values?.strCertificateTypeName?.value,
+      strCertificateTypeName: values?.strCertificateTypeName?.label,
+      intCertificateId: +id ? +id : 0,
+      strCertificateName: values?.strCertificateName,
+      strIssuePlace: '',
+      strIssuingAuthority: '',
+      strRemarks: '',
+      strAttachment: '',
+      intActionBy: profileData.actionBy,
+      intDateRangeTypeId: values?.strDateRangeType?.value || '',
+      strDateRangeTypeName: values?.strDateRangeType?.label || '',
+    };
+    createCertificateName(payload, setLoading, cb);
   };
 
   return (
@@ -97,11 +97,11 @@ export default function CertificateNameForm() {
       {loading && <Loading />}
       <Form
         title={
-          type === "view"
-            ? "View Certificate"
-            : type === "edit"
-            ? "Edit Certificate"
-            : "Create Certificate"
+          type === 'view'
+            ? 'View Certificate'
+            : type === 'edit'
+              ? 'Edit Certificate'
+              : 'Create Certificate'
         }
         initData={id ? singleData : initData}
         saveHandler={saveHandler}

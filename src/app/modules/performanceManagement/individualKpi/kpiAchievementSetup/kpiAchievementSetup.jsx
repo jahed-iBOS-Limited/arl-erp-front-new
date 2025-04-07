@@ -57,7 +57,7 @@ const KPIAchievementSetup = () => {
       accId,
       buId,
       values?.department?.value,
-      setEmployeeList,
+      setEmployeeList
     );
   };
 

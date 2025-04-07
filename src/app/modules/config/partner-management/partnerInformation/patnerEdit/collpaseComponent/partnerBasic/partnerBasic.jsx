@@ -1,26 +1,25 @@
-
-import Axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import shortid from "shortid";
+import Axios from 'axios';
+import React, { useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../../../_metronic/_partials/controls";
-import { empAttachment_action } from "../../../../../../_helper/attachmentUpload";
-import Form from "../../../common/form";
-import { editPartnerBasic_api } from "../../../helper";
-import Loading from "./../../../../../../_helper/_loading";
+} from '../../../../../../../../_metronic/_partials/controls';
+import { empAttachment_action } from '../../../../../../_helper/attachmentUpload';
+import Form from '../../../common/form';
+import { editPartnerBasic_api } from '../../../helper';
+import Loading from './../../../../../../_helper/_loading';
 
 export default function PartnerBasic() {
   const { id } = useParams();
   const [isDisabled, setDisabled] = useState(false);
-  const [warehouseData, setData] = useState("");
+  const [warehouseData, setData] = useState('');
   //fileObjects
   const [fileObjects, setFileObjects] = useState([]);
   const selectedBusinessUnit = useSelector(
@@ -53,8 +52,8 @@ export default function PartnerBasic() {
             value: r.businessPartnerTypeId,
             label: r.businessPartnerTypeName,
           },
-          businessPartnerCode: "abc",
-          attachmentLink: r.attachmentLink || "",
+          businessPartnerCode: 'abc',
+          attachmentLink: r.attachmentLink || '',
         };
         setData(singleObject);
       });
@@ -99,7 +98,7 @@ export default function PartnerBasic() {
         empAttachment_action(fileObjects).then((data) => {
           const modifyPlyload = {
             ...warehouseData,
-            attachmentLink: data[0]?.id || "",
+            attachmentLink: data[0]?.id || '',
           };
           editPartnerBasic_api(modifyPlyload, cb, setDisabled).then((data) => {
             getBusinessUnitById(
@@ -120,7 +119,6 @@ export default function PartnerBasic() {
         });
       }
     } catch (error) {
-
       toast.error(error?.response?.data?.message, { toastId: shortid() });
       setDisabled(false);
     }

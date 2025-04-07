@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from 'axios';
 
 export const getAssetPlantDDL = async (userId, accId, buId, setter) => {
   try {
@@ -8,9 +8,7 @@ export const getAssetPlantDDL = async (userId, accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-
-  }
+  } catch (error) {}
 };
 
 export const getAssetSBUDDL = async (accId, buId, setter) => {
@@ -21,9 +19,7 @@ export const getAssetSBUDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-
-  }
+  } catch (error) {}
 };
 
 export const getassetWarehouseData = async (
@@ -40,9 +36,7 @@ export const getassetWarehouseData = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-
-  }
+  } catch (error) {}
 };
 
 export const getGridData = async (
@@ -67,7 +61,6 @@ export const getGridData = async (
       setLoading(false);
     }
   } catch (error) {
-
     setLoading(false);
   }
 };

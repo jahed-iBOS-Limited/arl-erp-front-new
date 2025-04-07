@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import {  useParams } from "react-router-dom";
-import { getRouteCostComponent } from "../helper";
-import Loading from "../../../../_helper/_loading";
-import IViewModal from "../../../../_helper/_viewModal";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import { useParams } from 'react-router-dom';
+import { getRouteCostComponent } from '../helper';
+import Loading from '../../../../_helper/_loading';
+import IViewModal from '../../../../_helper/_viewModal';
 const initData = {
-  transportRouteCostComponent: "",
-  businessTransaction: "",
+  transportRouteCostComponent: '',
+  businessTransaction: '',
 };
 
 export default function CostComponentViewForm({ id, show, onHide }) {
   const [isDisabled, setDisabled] = useState(true);
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const params = useParams();
 
   // taxbranch ddl
@@ -36,7 +36,7 @@ export default function CostComponentViewForm({ id, show, onHide }) {
   }, [profileData, params]);
 
   return (
-    <IViewModal show={show} onHide={onHide} title={"View Cost Component"}>
+    <IViewModal show={show} onHide={onHide} title={'View Cost Component'}>
       {isDisabled && <Loading />}
       <Form
         initData={params?.id ? singleData : initData}

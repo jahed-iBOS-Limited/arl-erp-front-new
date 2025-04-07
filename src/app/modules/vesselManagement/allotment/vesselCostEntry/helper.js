@@ -1,6 +1,6 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const rateUpdateAPI = async (payload, setLoading, cb) => {
   setLoading(true);
@@ -20,8 +20,9 @@ export const rateUpdateAPI = async (payload, setLoading, cb) => {
 export const getMotherVesselDDL = async (accId, buId, setter, portId) => {
   try {
     const res = await axios.get(
-      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${portId ||
-        0}`
+      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${
+        portId || 0
+      }`
     );
     setter(res.data);
   } catch (error) {
@@ -41,8 +42,9 @@ export const GetVesselCostData = async (
   try {
     setLoading(true);
     const res = await axios.get(
-      `/wms/TransportMode/GetsprMotherVesselInfo?Partid=1&UnitId=${buId}&PortId=${portId}&MotherVesselId=${motherVesselId ||
-        0}`
+      `/wms/TransportMode/GetsprMotherVesselInfo?Partid=1&UnitId=${buId}&PortId=${portId}&MotherVesselId=${
+        motherVesselId || 0
+      }`
     );
 
     if (res.status === 200 && res?.data) {
@@ -74,7 +76,7 @@ export const GetVesselCostData = async (
 // };
 export const GetGeneralInfoById = async ({
   id,
-  status ,
+  status,
   setter,
   setRowDto,
   setLoading,
@@ -110,10 +112,10 @@ export const GetGeneralInfoById = async ({
       },
       allotmentDate: _dateFormatter(h?.allotmentDate),
       lotNo: h?.lotNo,
-      type: h?.type || "badc",
+      type: h?.type || 'badc',
       rowType: {
         value: 2,
-        label: "Carrier Rate",
+        label: 'Carrier Rate',
       },
     };
 

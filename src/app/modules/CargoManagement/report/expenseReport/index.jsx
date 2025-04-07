@@ -26,7 +26,7 @@ export default function ExpenseReport() {
     const endDate = moment(values?.toDate).format('YYYY-MM-DD');
     const query = `fromDate=${startDate}&toDate=${endDate}`;
     getShippingExpenseIncomeReportData(
-      `${imarineBaseUrl}/domain/ShippingService/ShippingExpenseIncomeReport?${query}`,
+      `${imarineBaseUrl}/domain/ShippingService/ShippingExpenseIncomeReport?${query}`
     );
   };
   return (
@@ -56,8 +56,8 @@ export default function ExpenseReport() {
                       label={'From Date'}
                       name="fromDate"
                       type="date"
-                      onChange={(e) =>
-                        setFieldValue('fromDate', e.target.value)
+                      onChange={
+                        (e) => setFieldValue('fromDate', e.target.value)
                         // console.log('fromDate', e.target.value)
                       }
                     />
@@ -160,13 +160,13 @@ export default function ExpenseReport() {
                   <td className="text-right">
                     {data?.reduce(
                       (acc, curr) => acc + (+curr?.chargeAmount || 0),
-                      0,
+                      0
                     )}
                   </td>
                   <td className="text-right">
                     {data?.reduce(
                       (acc, curr) => acc + (+curr?.actualExpense || 0),
-                      0,
+                      0
                     )}
                   </td>
                   <td className="text-right">
@@ -175,7 +175,7 @@ export default function ExpenseReport() {
                         acc +
                         ((+curr?.chargeAmount || 0) -
                           (+curr?.actualExpense || 0)),
-                      0,
+                      0
                     )}
                   </td>
                   <td></td>

@@ -1,16 +1,20 @@
-import React from "react";
-import { ItemRequestTable } from "./Table/tableHeader";
-import { UiProvider } from "../../../_helper/uiContextHelper";
-import './purchaseInvoice.css'
+import React from 'react';
+import { ItemRequestTable } from './Table/tableHeader';
+import { UiProvider } from '../../../_helper/uiContextHelper';
+import './purchaseInvoice.css';
 
 export function ItemRequest({ history }) {
   const uIEvents = {
     openEditPage: (id) => {
-      history.push(`/inventory-management/warehouse-management/item-request/edit/${id}`);
+      history.push(
+        `/inventory-management/warehouse-management/item-request/edit/${id}`
+      );
     },
     openViewDialog: (id) => {
-      history.push(`/inventory-management/warehouse-management/item-request/view/${id}`);
-    }
+      history.push(
+        `/inventory-management/warehouse-management/item-request/view/${id}`
+      );
+    },
   };
 
   return (
@@ -18,4 +22,4 @@ export function ItemRequest({ history }) {
       <ItemRequestTable />
     </UiProvider>
   );
-};
+}

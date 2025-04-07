@@ -1,13 +1,12 @@
-
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import { IInput } from "../../../../_helper/_input";
-import { useEffect } from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import { IInput } from '../../../../_helper/_input';
+import { useEffect } from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
 import {
   GetPlantDDL,
   getItemNameDDL,
@@ -16,43 +15,43 @@ import {
   isSOUseOnProductionOrder,
   getShopFloorDDL,
   getBoMDetailsByBoMId,
-} from "../helper";
-import NewSelect from "../../../../_helper/_select";
-import CreateSubPOForm from "../createChildPo/addForm";
-import { useParams } from "react-router-dom";
+} from '../helper';
+import NewSelect from '../../../../_helper/_select';
+import CreateSubPOForm from '../createChildPo/addForm';
+import { useParams } from 'react-router-dom';
 
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({
   plantName: Yup.object().shape({
-    label: Yup.string().required("Plant Name is required"),
-    value: Yup.string().required("Plant Name is required"),
+    label: Yup.string().required('Plant Name is required'),
+    value: Yup.string().required('Plant Name is required'),
   }),
   shopFloor: Yup.object().shape({
-    label: Yup.string().required("Shop Floor is required"),
-    value: Yup.string().required("Shop Floor is required"),
+    label: Yup.string().required('Shop Floor is required'),
+    value: Yup.string().required('Shop Floor is required'),
   }),
   itemName: Yup.object().shape({
-    label: Yup.string().required("Item Name is required"),
-    value: Yup.string().required("Item Name is required"),
+    label: Yup.string().required('Item Name is required'),
+    value: Yup.string().required('Item Name is required'),
   }),
   workCenter: Yup.object().shape({
-    label: Yup.string().required("Work Center is required"),
-    value: Yup.string().required("Work Center is required"),
+    label: Yup.string().required('Work Center is required'),
+    value: Yup.string().required('Work Center is required'),
   }),
   bomName: Yup.object().shape({
-    label: Yup.string().required("BOM Name is required"),
-    value: Yup.string().required("BOM Name is required"),
+    label: Yup.string().required('BOM Name is required'),
+    value: Yup.string().required('BOM Name is required'),
   }),
-  startDate: Yup.string().required("Start Date is required"),
-  startTime: Yup.string().required("Start Time is required"),
-  endDateTime: Yup.string().required("End Date is required"),
-  endTime: Yup.string().required("End Time is required"),
+  startDate: Yup.string().required('Start Date is required'),
+  startTime: Yup.string().required('Start Time is required'),
+  endDateTime: Yup.string().required('End Date is required'),
+  endTime: Yup.string().required('End Time is required'),
   // salesOrderId: Yup.number().when("isSOUseOnProductionOrderTest", {
   //   is: true,
   //   then: Yup.number().required("Sales Order Id is required"),
   //   otherwise: Yup.number(),
   // }),
-  numOrderQty: Yup.number().required("Quantity is required"),
+  numOrderQty: Yup.number().required('Quantity is required'),
 });
 
 export default function FormCmp({
@@ -90,10 +89,8 @@ export default function FormCmp({
   const [isShowTable, setShowTable] = useState(false);
 
   // isSOUseOnProductionOrder
-  const [
-    isSOUseOnProductionOrderType,
-    setIsSOUseOnProductionOrderType,
-  ] = useState(false);
+  const [isSOUseOnProductionOrderType, setIsSOUseOnProductionOrderType] =
+    useState(false);
 
   const [valid, setValid] = useState(true);
   useEffect(() => {
@@ -147,12 +144,12 @@ export default function FormCmp({
                     <NewSelect
                       name="plantName"
                       onChange={(valueOption) => {
-                        setFieldValue("plantName", valueOption);
-                        setFieldValue("itemName", "");
-                        setFieldValue("prtNumber", "");
-                        setFieldValue("workCenter", "");
-                        setFieldValue("bomName", "");
-                        setFieldValue("shopFloor", "");
+                        setFieldValue('plantName', valueOption);
+                        setFieldValue('itemName', '');
+                        setFieldValue('prtNumber', '');
+                        setFieldValue('workCenter', '');
+                        setFieldValue('bomName', '');
+                        setFieldValue('shopFloor', '');
                         setItemName([]);
                         setWorkCenter([]);
                         setBomName([]);
@@ -172,7 +169,7 @@ export default function FormCmp({
                       }}
                       placeholder="Select Plant Name"
                       options={plantName}
-                      value={values?.plantName || ""}
+                      value={values?.plantName || ''}
                       styles={customStyles}
                       errors={errors}
                       touched={touched}
@@ -184,11 +181,11 @@ export default function FormCmp({
                       <NewSelect
                         name="shopFloor"
                         onChange={(valueOption) => {
-                          setFieldValue("shopFloor", valueOption);
-                          setFieldValue("itemName", "");
-                          setFieldValue("prtNumber", "");
-                          setFieldValue("workCenter", "");
-                          setFieldValue("bomName", "");
+                          setFieldValue('shopFloor', valueOption);
+                          setFieldValue('itemName', '');
+                          setFieldValue('prtNumber', '');
+                          setFieldValue('workCenter', '');
+                          setFieldValue('bomName', '');
                           setWorkCenter([]);
                           setBomName([]);
                           getItemNameDDL(
@@ -201,7 +198,7 @@ export default function FormCmp({
                         }}
                         placeholder="Select Shop Floor"
                         options={shopFloorDDL}
-                        value={values?.shopFloor || ""}
+                        value={values?.shopFloor || ''}
                         styles={customStyles}
                         isDisabled={isEdit}
                         errors={errors}
@@ -213,10 +210,10 @@ export default function FormCmp({
                     <NewSelect
                       placeholder="Select Item Name"
                       onChange={(valueOption) => {
-                        setFieldValue("itemName", valueOption);
-                        setFieldValue("workCenter", "");
-                        setFieldValue("bomName", "");
-                        setFieldValue("prtNumber", "");
+                        setFieldValue('itemName', valueOption);
+                        setFieldValue('workCenter', '');
+                        setFieldValue('bomName', '');
+                        setFieldValue('prtNumber', '');
                         setBomName([]);
                         getRoutingToWorkCenterDDL(
                           profileData.accountId,
@@ -227,7 +224,7 @@ export default function FormCmp({
                         );
                       }}
                       options={itemName}
-                      value={values?.itemName || ""}
+                      value={values?.itemName || ''}
                       isSearchable={true}
                       styles={customStyles}
                       name="itemName"
@@ -240,9 +237,9 @@ export default function FormCmp({
                     <NewSelect
                       placeholder="Select Work Center"
                       onChange={(valueOption) => {
-                        setFieldValue("workCenter", valueOption);
-                        setFieldValue("bomName", "");
-                        setFieldValue("prtNumber", "");
+                        setFieldValue('workCenter', valueOption);
+                        setFieldValue('bomName', '');
+                        setFieldValue('prtNumber', '');
                         getRoutingToBOMDDL(
                           profileData.accountId,
                           selectedBusinessUnit.value,
@@ -253,7 +250,7 @@ export default function FormCmp({
                         );
                       }}
                       options={workCenter}
-                      value={values?.workCenter || ""}
+                      value={values?.workCenter || ''}
                       isSearchable={true}
                       styles={customStyles}
                       name="workCenter"
@@ -267,17 +264,17 @@ export default function FormCmp({
                       placeholder="Select Bill Of Material"
                       onChange={(valueOption) => {
                         getBoMDetailsByBoMId(valueOption?.value, setRowDto);
-                        setFieldValue("bomName", valueOption);
-                        setFieldValue("prtNumber", "");
+                        setFieldValue('bomName', valueOption);
+                        setFieldValue('prtNumber', '');
                         setFieldValue(
-                          "baseUomName",
+                          'baseUomName',
                           params.id
                             ? valueOption?.uomName
                             : valueOption?.baseUomName
                         );
                       }}
                       options={bomName}
-                      value={values?.bomName || ""}
+                      value={values?.bomName || ''}
                       isSearchable={true}
                       styles={customStyles}
                       name="bomName"
@@ -370,9 +367,9 @@ export default function FormCmp({
                       disabled={isEdit}
                       onChange={(e) => {
                         if (e.target.value >= 0) {
-                          setFieldValue("salesOrderId", e.target.value);
+                          setFieldValue('salesOrderId', e.target.value);
                         } else {
-                          setFieldValue("salesOrderId", "");
+                          setFieldValue('salesOrderId', '');
                         }
                       }}
                     />
@@ -400,9 +397,9 @@ export default function FormCmp({
                       type="number"
                       onChange={(e) => {
                         if (e.target.value >= 0) {
-                          setFieldValue("numOrderQty", e.target.value);
+                          setFieldValue('numOrderQty', e.target.value);
                         } else {
-                          setFieldValue("numOrderQty", "");
+                          setFieldValue('numOrderQty', '');
                         }
                       }}
                     />
@@ -426,14 +423,14 @@ export default function FormCmp({
                 {/* Row Dto Table End */}
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

@@ -13,7 +13,7 @@ const initData = {
 export default function CostEfficientSupplierList() {
   const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
-    shallowEqual,
+    shallowEqual
   );
 
   const [rowData, getRowData, loder] = useAxiosGet();
@@ -55,14 +55,14 @@ export default function CostEfficientSupplierList() {
                       if (v?.length < 3) return [];
                       return axios
                         .get(
-                          `/item/ItemBasic/GetPurchaseItemDDLByUnit?businessUnitId=${selectedBusinessUnit?.value}&search=${v}`,
+                          `/item/ItemBasic/GetPurchaseItemDDLByUnit?businessUnitId=${selectedBusinessUnit?.value}&search=${v}`
                         )
                         .then((res) =>
                           res?.data?.map((item) => ({
                             ...item,
                             value: item?.itemId,
                             label: item?.itemName,
-                          })),
+                          }))
                         );
                     }}
                   />
@@ -80,7 +80,7 @@ export default function CostEfficientSupplierList() {
                     style={{ marginTop: '17px' }}
                     onClick={() => {
                       getRowData(
-                        `/wms/InventoryTransaction/GetSupplierListWithRanks?businessUnitId=${selectedBusinessUnit?.value}&itemId=${values?.item?.value}`,
+                        `/wms/InventoryTransaction/GetSupplierListWithRanks?businessUnitId=${selectedBusinessUnit?.value}&itemId=${values?.item?.value}`
                       );
                     }}
                   >

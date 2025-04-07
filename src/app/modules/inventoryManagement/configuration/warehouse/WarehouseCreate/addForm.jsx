@@ -1,23 +1,22 @@
-
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { useSelector, shallowEqual } from "react-redux";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import Form from "../common/form";
-import Axios from "axios";
-import { toast } from "react-toastify";
-import shortid from "shortid";
-import Loading from "../../../../_helper/_loading";
+} from '../../../../../../_metronic/_partials/controls';
+import { useSelector, shallowEqual } from 'react-redux';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import Form from '../common/form';
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
+import Loading from '../../../../_helper/_loading';
 const initProduct = {
   id: undefined,
-  warehouseName: "",
-  warehouseCode: "",
-  warehouseAddress: "",
+  warehouseName: '',
+  warehouseCode: '',
+  warehouseAddress: '',
 };
 
 export default function AddForm({
@@ -47,12 +46,12 @@ export default function AddForm({
       try {
         setDisabled(true);
         const res = await Axios.post(
-          "/wms/Warehouse/CreateWarehouse",
+          '/wms/Warehouse/CreateWarehouse',
           warehouseData
         );
         cb(initProduct);
         setDisabled(false);
-        toast.success(res.data?.message || "Submitted successfully", {
+        toast.success(res.data?.message || 'Submitted successfully', {
           toastId: shortid(),
         });
       } catch (error) {
@@ -60,7 +59,6 @@ export default function AddForm({
         setDisabled(false);
       }
     } else {
-
     }
   };
 
@@ -122,14 +120,14 @@ export default function AddForm({
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody>
-      {isDisabled && <Loading />}
+        {isDisabled && <Loading />}
         <div className="mt-0">
           <Form
             product={initProduct}
             btnRef={btnRef}
             saveWarehouse={saveWarehouse}
             resetBtnRef={resetBtnRef}
-           // disableHandler={disableHandler}
+            // disableHandler={disableHandler}
             accountId={profileData?.accountId}
           />
         </div>

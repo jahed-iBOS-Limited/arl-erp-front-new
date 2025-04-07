@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from 'axios';
 // import { toast } from "react-toastify";
 
 // territoryDDL Api call
@@ -10,12 +10,10 @@ export const getTerritoryDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 // CustomerDDl Api call
-export const  getCustomerDDL = async (accId, buId, territoryId, setter) => {
+export const getCustomerDDL = async (accId, buId, territoryId, setter) => {
   try {
     const res = await Axios.get(
       `/rtm/RTMDDL/GetCustomerDDL?AccountId=${accId}&BusinessUnitId=${buId}&TerrytoryId=${territoryId}`
@@ -23,9 +21,7 @@ export const  getCustomerDDL = async (accId, buId, territoryId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 //InventoryStatement_api Api call
@@ -46,9 +42,7 @@ export const inventoryStatement_api = async (
       setter(res?.data?.result?.objrow);
       setinventoryStatementAllData(res?.data?.result?.objrow);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 //InventoryStatement_api Api call
@@ -67,7 +61,5 @@ export const InventoryLedger_api = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data?.result?.objrow);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };

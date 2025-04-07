@@ -1,16 +1,16 @@
-import { Field, Form, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IForm from "../../../../_helper/_form";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import IViewModal from "../../../../_helper/_viewModal";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import IButton from "../../../../_helper/iButton";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import CustomerReceivedModal from "./customerReceivedModal";
+import { Field, Form, Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IForm from '../../../../_helper/_form';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import IViewModal from '../../../../_helper/_viewModal';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import IButton from '../../../../_helper/iButton';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import CustomerReceivedModal from './customerReceivedModal';
 import {
   allObjSBU,
   fetchBankAccountDDL,
@@ -26,8 +26,8 @@ import {
   initData,
   landingInitData,
   marginTypeDDL,
-} from "./helper";
-import ProjectedCashFlowLanding from "./landing";
+} from './helper';
+import ProjectedCashFlowLanding from './landing';
 
 export default function ProjectedCashFlowCreateEdit() {
   // redux
@@ -37,10 +37,8 @@ export default function ProjectedCashFlowCreateEdit() {
 
   // state
   const [objProps, setObjprops] = useState({});
-  const [
-    isCustomerReceivedModalOpen,
-    setIsCustomerReceivedModalOpen,
-  ] = useState(false);
+  const [isCustomerReceivedModalOpen, setIsCustomerReceivedModalOpen] =
+    useState(false);
   const [isCustomerReceivedType, setIsCustomerReceivedType] = useState(false);
   const [customerReceivedRowData, setCustomerReceivedRowData] = useState([]);
   const landingFormikRef = useRef(null);
@@ -50,16 +48,10 @@ export default function ProjectedCashFlowCreateEdit() {
   // api action
   const [, getPOLCNumberData, getPOLCNumberDataLoading] = useAxiosGet();
 
-  const [
-    partnerDataDDL,
-    getPartnerDataDDL,
-    getPartnerDataDDLLoading,
-  ] = useAxiosGet();
-  const [
-    bankAccountDDL,
-    getBankAccountDDL,
-    getBankAccountDDLLoading,
-  ] = useAxiosGet();
+  const [partnerDataDDL, getPartnerDataDDL, getPartnerDataDDLLoading] =
+    useAxiosGet();
+  const [bankAccountDDL, getBankAccountDDL, getBankAccountDDLLoading] =
+    useAxiosGet();
   const [bankNameDDL, getBankNameDDL, getBankNameDDLLoading] = useAxiosGet();
   const [lcTypeDDL, getLCTypeDDL, getLCTypeDDLLoading] = useAxiosGet();
   const [sbuDDL, getSBUDDL, getSBUDDLLoading] = useAxiosGet();
@@ -84,7 +76,7 @@ export default function ProjectedCashFlowCreateEdit() {
       (res) => {
         // set default value with formik ref to landing formik (filter to all)
         // const akijCement = res?.filter((item) => item?.value === 4)[0];
-        landingFormikRef.current.setFieldValue("sbu", allObjSBU);
+        landingFormikRef.current.setFieldValue('sbu', allObjSBU);
 
         // load landing data
         if (res?.length > 0) {
@@ -99,8 +91,6 @@ export default function ProjectedCashFlowCreateEdit() {
         }
       }
     );
-
-
   }, []);
 
   // create edit save handler
@@ -130,8 +120,8 @@ export default function ProjectedCashFlowCreateEdit() {
     const value = e.target?.value;
     resetForm(initData);
     setPCFLandingData([]);
-    setFieldValue("viewType", value);
-    if (value === "customer received") {
+    setFieldValue('viewType', value);
+    if (value === 'customer received') {
       setIsCustomerReceivedType(true);
     } else {
       setIsCustomerReceivedType(false);
@@ -142,7 +132,7 @@ export default function ProjectedCashFlowCreateEdit() {
   const ViewTypeRadioField = (values, setFieldValue, resetForm) => (
     <div
       className="col-lg-12 d-flex"
-      style={{ columnGap: "10px" }}
+      style={{ columnGap: '10px' }}
       role="group"
       aria-labelledby="my-radio-group"
     >
@@ -197,9 +187,9 @@ export default function ProjectedCashFlowCreateEdit() {
           options={sbuDDL || []}
           value={values?.sbu}
           onChange={(valueOption) => {
-            setFieldValue("sbu", valueOption);
-            setFieldValue("bankName", "");
-            setFieldValue("bankAccount", "");
+            setFieldValue('sbu', valueOption);
+            setFieldValue('bankName', '');
+            setFieldValue('bankAccount', '');
             fetchBankNameDDL({
               getBankNameDDL,
             });
@@ -224,8 +214,8 @@ export default function ProjectedCashFlowCreateEdit() {
             options={bankNameDDL || []}
             value={values?.bankName}
             onChange={(valueOption) => {
-              setFieldValue("bankName", valueOption);
-              setFieldValue("bankAccount", "");
+              setFieldValue('bankName', valueOption);
+              setFieldValue('bankAccount', '');
               fetchBankAccountDDL({
                 getBankAccountDDL,
                 profileData,
@@ -244,7 +234,7 @@ export default function ProjectedCashFlowCreateEdit() {
             options={bankAccountDDL || []}
             value={values?.bankAccount}
             onChange={(valueOption) => {
-              setFieldValue("bankAccount", valueOption);
+              setFieldValue('bankAccount', valueOption);
             }}
             errors={errors}
             touched={touched}
@@ -267,7 +257,7 @@ export default function ProjectedCashFlowCreateEdit() {
             name="amount"
             type="number"
             onChange={(e) => {
-              setFieldValue("amount", e.target.value);
+              setFieldValue('amount', e.target.value);
             }}
           />
         </div>
@@ -278,7 +268,7 @@ export default function ProjectedCashFlowCreateEdit() {
             name="paymentDate"
             type="date"
             onChange={(e) => {
-              setFieldValue("paymentDate", e.target.value);
+              setFieldValue('paymentDate', e.target.value);
             }}
           />
         </div>
@@ -289,7 +279,7 @@ export default function ProjectedCashFlowCreateEdit() {
             name="remarks"
             type="text"
             onChange={(e) => {
-              setFieldValue("remarks", e.target.value);
+              setFieldValue('remarks', e.target.value);
             }}
           />
         </div>
@@ -319,7 +309,7 @@ export default function ProjectedCashFlowCreateEdit() {
             options={importPaymentType}
             value={values?.paymentType}
             onChange={(valueOption) => {
-              setFieldValue("paymentType", valueOption);
+              setFieldValue('paymentType', valueOption);
             }}
             errors={errors}
             touched={touched}
@@ -331,7 +321,7 @@ export default function ProjectedCashFlowCreateEdit() {
           <SearchAsyncSelect
             selectedValue={values?.poLC}
             handleChange={(valueOption) => {
-              setFieldValue("poLC", valueOption);
+              setFieldValue('poLC', valueOption);
               setPCFLandingData([]);
               fetchPOLCAndSetFormField({
                 getPOLCNumberData,
@@ -382,7 +372,7 @@ export default function ProjectedCashFlowCreateEdit() {
             options={[]}
             value={values?.beneficiary}
             onChange={(valueOption) => {
-              setFieldValue("beneficiary", valueOption);
+              setFieldValue('beneficiary', valueOption);
             }}
             errors={errors}
             touched={touched}
@@ -395,7 +385,7 @@ export default function ProjectedCashFlowCreateEdit() {
             name="poValue"
             type="text"
             onChange={(e) => {
-              setFieldValue("poValue", e.target.value);
+              setFieldValue('poValue', e.target.value);
             }}
           />
         </div>
@@ -406,7 +396,7 @@ export default function ProjectedCashFlowCreateEdit() {
             options={marginTypeDDL}
             value={values?.marginType}
             onChange={(valueOption) => {
-              setFieldValue("marginType", valueOption);
+              setFieldValue('marginType', valueOption);
             }}
             errors={errors}
             touched={touched}
@@ -429,7 +419,7 @@ export default function ProjectedCashFlowCreateEdit() {
             options={lcTypeDDL || []}
             value={values?.lcType}
             onChange={(valueOption) => {
-              setFieldValue("lcType", valueOption);
+              setFieldValue('lcType', valueOption);
             }}
             errors={errors}
             touched={touched}
@@ -442,7 +432,7 @@ export default function ProjectedCashFlowCreateEdit() {
             options={marginTypeDDL}
             value={values?.marginType}
             onChange={(valueOption) => {
-              setFieldValue("marginType", valueOption);
+              setFieldValue('marginType', valueOption);
             }}
             errors={errors}
             touched={touched}
@@ -455,7 +445,7 @@ export default function ProjectedCashFlowCreateEdit() {
             name="margin"
             type="text"
             onChange={(e) => {
-              setFieldValue("margin", e.target.value);
+              setFieldValue('margin', e.target.value);
             }}
           />
         </div>
@@ -467,8 +457,8 @@ export default function ProjectedCashFlowCreateEdit() {
             type="text"
             onChange={(e) => {
               const value = e.target.value;
-              setFieldValue("docValue", value);
-              setFieldValue("amount", value * values?.exchangeRate);
+              setFieldValue('docValue', value);
+              setFieldValue('amount', value * values?.exchangeRate);
             }}
           />
         </div>
@@ -480,8 +470,8 @@ export default function ProjectedCashFlowCreateEdit() {
             type="text"
             onChange={(e) => {
               const value = e.target.value;
-              setFieldValue("exchangeRate", value);
-              setFieldValue("amount", value * values?.docValue);
+              setFieldValue('exchangeRate', value);
+              setFieldValue('amount', value * values?.docValue);
             }}
           />
         </div>
@@ -511,7 +501,7 @@ export default function ProjectedCashFlowCreateEdit() {
             options={partnerDataDDL || []}
             value={values?.partnerType}
             onChange={(valueOption) => {
-              setFieldValue("partnerType", valueOption);
+              setFieldValue('partnerType', valueOption);
             }}
             errors={errors}
             touched={touched}
@@ -522,7 +512,7 @@ export default function ProjectedCashFlowCreateEdit() {
           <SearchAsyncSelect
             selectedValue={values?.transaction}
             handleChange={(valueOption) => {
-              setFieldValue("transaction", valueOption);
+              setFieldValue('transaction', valueOption);
             }}
             loadOptions={(v) =>
               fetchTransactionList({
@@ -540,7 +530,7 @@ export default function ProjectedCashFlowCreateEdit() {
             name="amount"
             type="number"
             onChange={(e) => {
-              setFieldValue("amount", e.target.value);
+              setFieldValue('amount', e.target.value);
             }}
           />
         </div>
@@ -551,7 +541,7 @@ export default function ProjectedCashFlowCreateEdit() {
             name="dueDate"
             type="date"
             onChange={(e) => {
-              setFieldValue("dueDate", e.target.value);
+              setFieldValue('dueDate', e.target.value);
             }}
           />
         </div>
@@ -562,7 +552,7 @@ export default function ProjectedCashFlowCreateEdit() {
             name="remarks"
             type="text"
             onChange={(e) => {
-              setFieldValue("remarks", e.target.value);
+              setFieldValue('remarks', e.target.value);
             }}
           />
         </div>
@@ -585,7 +575,7 @@ export default function ProjectedCashFlowCreateEdit() {
             placeholder="From Date"
             type="month"
             onChange={(e) => {
-              setFieldValue("month", e?.target?.value);
+              setFieldValue('month', e?.target?.value);
             }}
           />
         </div>
@@ -612,16 +602,16 @@ export default function ProjectedCashFlowCreateEdit() {
     const { values, setFieldValue, errors, touched } = obj;
 
     switch (values?.paymentType?.value) {
-      case "Duty":
+      case 'Duty':
         return null; // all common are enough for this type
-      case "At sight payment":
+      case 'At sight payment':
         return ImportAtSightPaymentFormField({
           values,
           setFieldValue,
           errors,
           touched,
         });
-      case "Margin":
+      case 'Margin':
         return ImportMarginFormField({
           values,
           setFieldValue,
@@ -647,7 +637,7 @@ export default function ProjectedCashFlowCreateEdit() {
           onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
             saveHandler(values, () => {
               resetForm(initData);
-              setFieldValue("viewType", values?.viewType);
+              setFieldValue('viewType', values?.viewType);
               fetchPCFLandingData({
                 createPageValues: values,
                 landingPageValues: landingFormikRef?.current?.values,
@@ -675,7 +665,7 @@ export default function ProjectedCashFlowCreateEdit() {
                     {ViewTypeRadioField(values, setFieldValue, resetForm)}
 
                     {/* Import View Type Form Field */}
-                    {values?.viewType === "import" ? (
+                    {values?.viewType === 'import' ? (
                       <ImportCommonFormField
                         obj={{
                           values,
@@ -696,8 +686,8 @@ export default function ProjectedCashFlowCreateEdit() {
                     ) : null}
 
                     {/* Income & Payment View Type Form Field */}
-                    {(values?.viewType === "income" ||
-                      values?.viewType === "payment") && (
+                    {(values?.viewType === 'income' ||
+                      values?.viewType === 'payment') && (
                       <PaymentAndIncomeFormField
                         obj={{
                           values,
@@ -709,7 +699,7 @@ export default function ProjectedCashFlowCreateEdit() {
                     )}
 
                     {/* Customer Received View Type Form Field */}
-                    {values?.viewType === "customer received" && (
+                    {values?.viewType === 'customer received' && (
                       <CustomerReceivedFormField
                         obj={{
                           values,
@@ -753,11 +743,11 @@ export default function ProjectedCashFlowCreateEdit() {
                 <button
                   type="button"
                   ref={crSaveButtonRef}
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   onClick={() => {
                     saveHandler(values, () => {
                       resetForm(initData);
-                      setFieldValue("viewType", values?.viewType);
+                      setFieldValue('viewType', values?.viewType);
                       setIsCustomerReceivedModalOpen(false);
                       fetchPCFLandingData({
                         createPageValues: values,
@@ -770,14 +760,14 @@ export default function ProjectedCashFlowCreateEdit() {
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

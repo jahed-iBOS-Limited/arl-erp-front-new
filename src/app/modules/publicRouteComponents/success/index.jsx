@@ -1,5 +1,5 @@
-import React from "react";
-import styles from "./style.module.css";
+import React from 'react';
+import styles from './style.module.css';
 
 const SuccessMessageComponent = () => {
   return (
@@ -10,7 +10,7 @@ const SuccessMessageComponent = () => {
         <div className="card w-100 h-100">
           <div
             class="card-header text-center py-sm-4"
-            style={{ backgroundColor: "#1bc577" }}
+            style={{ backgroundColor: '#1bc577' }}
           >
             <i
               class="fa fa-check-circle display-2 py-5 text-white"
@@ -19,7 +19,7 @@ const SuccessMessageComponent = () => {
           </div>
           <div className="d-flex flex-column align-items-center justify-content-center h-100 text-center">
             <h2 className={`mb-4 ${styles.greatText}`}>Great!</h2>
-            <p style={{ fontSize: "18px" }}>
+            <p style={{ fontSize: '18px' }}>
               Your payment has been successfully done.
             </p>
             {/* <button className="btn btn-primary rounded">

@@ -1,18 +1,17 @@
-
-import { isObject } from "lodash";
-import React, { useEffect } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import Select from "react-select";
+import { isObject } from 'lodash';
+import React, { useEffect } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import Select from 'react-select';
 import {
   SetBusinessUnit,
   setBuList,
-} from "../../../../../app/modules/Auth/_redux/Auth_Actions";
+} from '../../../../../app/modules/Auth/_redux/Auth_Actions';
 import {
   getCookie,
   setPeopledeskCookie,
-} from "../../../../../app/modules/_helper/_cookie";
-import { clearLocalStorageAction } from "../../../../../app/modules/_helper/reduxForLocalStorage/Actions";
+} from '../../../../../app/modules/_helper/_cookie';
+import { clearLocalStorageAction } from '../../../../../app/modules/_helper/reduxForLocalStorage/Actions';
 
 export default function SelectUnit() {
   const dispatch = useDispatch();
@@ -54,15 +53,15 @@ export default function SelectUnit() {
     }),
     dropdownIndicator: (base) => ({
       ...base,
-      marginTop: "-5px",
+      marginTop: '-5px',
     }),
     placeholder: (defaultStyles) => ({
       ...defaultStyles,
-      top: "41%",
+      top: '41%',
     }),
     singleValue: (defaultStyles) => ({
       ...defaultStyles,
-      top: "45%",
+      top: '45%',
     }),
   };
 
@@ -76,15 +75,15 @@ export default function SelectUnit() {
         styles={customStyles}
         value={selectedBusinessUnit || (buList && buList[0])}
         defaultValue={selectedBusinessUnit || (buList && buList[0])}
-        placeholder='Select Unit'
+        placeholder="Select Unit"
         onChange={(valueOption) => {
           dispatch(SetBusinessUnit(valueOption));
 
-          const loginInfoPeopleDesk = getCookie("loginInfoPeopleDesk");
-          let info = JSON.parse(loginInfoPeopleDesk || "{}");
+          const loginInfoPeopleDesk = getCookie('loginInfoPeopleDesk');
+          let info = JSON.parse(loginInfoPeopleDesk || '{}');
           if (info?.isAuth) {
             setPeopledeskCookie(
-              "loginInfoPeopleDesk",
+              'loginInfoPeopleDesk',
               JSON.stringify({
                 ...info,
                 peopleDeskBuId: valueOption.value,

@@ -1,9 +1,6 @@
-
-
-
-import React, { useState, useEffect } from 'react'
-import { useSelector, shallowEqual } from 'react-redux'
-import Form from './form'
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
 import {
   getSingleDataForEdit,
   saveItemRequest,
@@ -11,19 +8,19 @@ import {
   getItemAssetDDL,
   getItemforServiceItemDDL,
   getItemForOthersDDL,
-} from '../helper'
-import IForm from '../../../../_helper/_form'
-import { _todayDate } from '../../../../_helper/_todayDate'
-import { useLocation } from 'react-router-dom'
-import { toast } from 'react-toastify'
-import Loading from '../../../../_helper/_loading'
+} from '../helper';
+import IForm from '../../../../_helper/_form';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Loading from '../../../../_helper/_loading';
 
 // console.log(_todayDate())
 
 const initData = {
   requestDate: _todayDate(),
-  validTill: "2021-05-08",
-  dueDate: "2021-05-08",
+  validTill: '2021-05-08',
+  dueDate: '2021-05-08',
   referenceId: '',
   item: '',
   quantity: '',
@@ -31,14 +28,14 @@ const initData = {
   costCenter: '',
   projectName: '',
   itemGroup: '',
-  itemUom: "",
+  itemUom: '',
   // costElement:"",
-  actionType:"",
-  project: "",
-  department: "",
-  availableStockQty: "",
+  actionType: '',
+  project: '',
+  department: '',
+  availableStockQty: '',
   isSpecialApproval: false,
-}
+};
 
 export default function ItemRequestForm({
   history,
@@ -46,41 +43,41 @@ export default function ItemRequestForm({
     params: { id },
   },
 }) {
-  const location = useLocation()
+  const location = useLocation();
   const { profileData, selectedBusinessUnit } = useSelector(
     (store) => store?.authData,
     shallowEqual
   );
-  const [isDisabled, setDisabled] = useState(false)
+  const [isDisabled, setDisabled] = useState(false);
 
-  const [singleData, setSingleData] = useState([])
+  const [singleData, setSingleData] = useState([]);
 
   //item DDL
-  const [itemDDL, setitemDDL] = useState([])
+  const [itemDDL, setitemDDL] = useState([]);
 
   //row dataSourceDDL
-  const [rowlebelData, setrowlebelData] = useState([])
+  const [rowlebelData, setrowlebelData] = useState([]);
 
   useEffect(() => {
     if (id) {
-      setrowlebelData(singleData.objRow)
+      setrowlebelData(singleData.objRow);
     }
-  }, [singleData])
+  }, [singleData]);
 
   useEffect(() => {
     if (id) {
-      getSingleDataForEdit(id, setSingleData)
+      getSingleDataForEdit(id, setSingleData);
     }
-  }, [id])
+  }, [id]);
 
   const addItemtoTheGrid = (values) => {
     if (values.quantity < 0) {
-      return toast.warn("Quantity must be greater than 0");
+      return toast.warn('Quantity must be greater than 0');
     }
 
-    let data = rowlebelData.find((data) => data.itemId === values.item.value)
+    let data = rowlebelData.find((data) => data.itemId === values.item.value);
     if (data) {
-      toast.error('Item already added')
+      toast.error('Item already added');
     } else {
       let itemRow = {
         referenceId: values?.referenceId || '',
@@ -91,19 +88,19 @@ export default function ItemRequestForm({
         uoMname: values?.itemUom?.label,
         requestQuantity: values?.quantity,
         remarks: values?.remarks,
-      }
-      setrowlebelData([...rowlebelData, itemRow])
+      };
+      setrowlebelData([...rowlebelData, itemRow]);
     }
-  }
+  };
 
   const remover = (id) => {
-    let data = rowlebelData.filter((data) => data.itemId !== id)
-    setrowlebelData(data)
-  }
+    let data = rowlebelData.filter((data) => data.itemId !== id);
+    setrowlebelData(data);
+  };
 
   const saveHandler = async (values, cb) => {
-    if(values?.actionType?.value === 1 && !values?.project?.label){
-      return toast.warn("Please Select a Project")
+    if (values?.actionType?.value === 1 && !values?.project?.label) {
+      return toast.warn('Please Select a Project');
     }
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (id) {
@@ -113,34 +110,33 @@ export default function ItemRequestForm({
             referenceId: data?.referenceId,
             itemId: data?.itemId,
             itemCode: data?.itemCode,
-            itemName: data?.itemName.split("[")[0].trim(),
+            itemName: data?.itemName.split('[')[0].trim(),
             uoMId: data?.uoMId,
             uoMName: data?.uoMname,
             requestQuantity: data?.requestQuantity,
             remarks: data?.remarks,
-          }
-        })
+          };
+        });
         const payload = {
           itemRequestHeader: {
             itemRequestId: +id,
           },
           itemRequestRow: rowDatas,
-        }
+        };
 
         if (rowDatas.length) {
-          saveItemReqEdit(payload, cb, setDisabled)
+          saveItemReqEdit(payload, cb, setDisabled);
         } else {
-          toast.warning('You must have to add atleast one item')
+          toast.warning('You must have to add atleast one item');
         }
       } else {
-
-        let rowDataForsave = rowlebelData?.map(data => {
+        let rowDataForsave = rowlebelData?.map((data) => {
           return {
             ...data,
-            itemName: data?.itemName?.split("[")[0].trim(),
-            uoMName: data?.uoMname
-          }
-        })
+            itemName: data?.itemName?.split('[')[0].trim(),
+            uoMName: data?.uoMname,
+          };
+        });
 
         const payload = {
           objHeader: {
@@ -161,26 +157,25 @@ export default function ItemRequestForm({
             plantName: location?.state?.plant?.label,
             warehouseId: location?.state?.wh?.value,
             actionBy: profileData?.userId,
-            ...(values?.actionType?.value === 1 && { intProjectId: values?.project?.value }),
+            ...(values?.actionType?.value === 1 && {
+              intProjectId: values?.project?.value,
+            }),
           },
           objRow: rowDataForsave,
         };
         //window.payload = payload
 
         if (rowlebelData.length) {
-          saveItemRequest(payload, cb, setrowlebelData, setDisabled)
+          saveItemRequest(payload, cb, setrowlebelData, setDisabled);
         } else {
-          toast.warning('You must have to add atleast one item')
+          toast.warning('You must have to add atleast one item');
         }
       }
     } else {
-
     }
-  }
+  };
 
-
-
-  const [objProps, setObjprops] = useState({})
+  const [objProps, setObjprops] = useState({});
 
   const onChangeForItemGroup = (valueOption) => {
     if (valueOption?.label === 'Assets Item') {
@@ -191,7 +186,7 @@ export default function ItemRequestForm({
           singleData?.objHeader?.intPlantId,
           singleData?.objHeader?.intWarehouseId,
           setitemDDL
-        )
+        );
       } else {
         getItemAssetDDL(
           profileData?.accountId,
@@ -199,7 +194,7 @@ export default function ItemRequestForm({
           location?.state?.plant?.value,
           location?.state?.wh?.value,
           setitemDDL
-        )
+        );
       }
     } else if (valueOption?.label === 'Service Item') {
       if (id) {
@@ -209,7 +204,7 @@ export default function ItemRequestForm({
           singleData?.objHeader?.intPlantId,
           singleData?.objHeader?.intWarehouseId,
           setitemDDL
-        )
+        );
       } else {
         getItemforServiceItemDDL(
           profileData?.accountId,
@@ -217,7 +212,7 @@ export default function ItemRequestForm({
           location?.state?.plant?.value,
           location?.state?.wh?.value,
           setitemDDL
-        )
+        );
       }
     } else {
       if (id) {
@@ -227,7 +222,7 @@ export default function ItemRequestForm({
           singleData?.objHeader?.intPlantId,
           singleData?.objHeader?.intWarehouseId,
           setitemDDL
-        )
+        );
       } else {
         getItemForOthersDDL(
           profileData?.accountId,
@@ -235,10 +230,10 @@ export default function ItemRequestForm({
           location?.state?.plant?.value,
           location?.state?.wh?.value,
           setitemDDL
-        )
+        );
       }
     }
-  }
+  };
 
   return (
     <div className="itemRequest">
@@ -269,5 +264,5 @@ export default function ItemRequestForm({
         />
       </IForm>
     </div>
-  )
+  );
 }

@@ -59,7 +59,7 @@ export default function SalesInvoiceModel({
               onClick={() => {
                 EditTaxSalesInvoicePrintStatus_api(
                   salesTableRowDto?.taxSalesId,
-                  cb,
+                  cb
                 );
               }}
             >

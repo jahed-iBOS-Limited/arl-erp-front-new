@@ -34,8 +34,14 @@ export default function UpdateItemRateModal({ propsObj }) {
               <th>Item Name</th>
               <th>Uom</th>
               <th>Effective Date</th>
-              <th>{[144, 189, 188].includes(selectedBusinessUnit?.value) ? "Rate" : "Rate (Dhaka)"}</th>
-              {![144, 189, 188].includes(selectedBusinessUnit?.value) && <th>Rate (Chittagong)</th>}
+              <th>
+                {[144, 189, 188].includes(selectedBusinessUnit?.value)
+                  ? 'Rate'
+                  : 'Rate (Dhaka)'}
+              </th>
+              {![144, 189, 188].includes(selectedBusinessUnit?.value) && (
+                <th>Rate (Chittagong)</th>
+              )}
               <th>Action</th>
             </tr>
           </thead>
@@ -69,18 +75,20 @@ export default function UpdateItemRateModal({ propsObj }) {
                   }}
                 />
               </td>
-              {![144, 189, 188].includes(selectedBusinessUnit?.value) && <td className="text-center">
-                <InputField
-                  type="number"
-                  value={modifyData?.itemOthersRate || ''}
-                  onChange={(e) => {
-                    if (+e.target.value < 0) return;
-                    const data = { ...modifyData };
-                    data['itemOthersRate'] = +e.target.value;
-                    setModifyData(data);
-                  }}
-                />
-              </td>}
+              {![144, 189, 188].includes(selectedBusinessUnit?.value) && (
+                <td className="text-center">
+                  <InputField
+                    type="number"
+                    value={modifyData?.itemOthersRate || ''}
+                    onChange={(e) => {
+                      if (+e.target.value < 0) return;
+                      const data = { ...modifyData };
+                      data['itemOthersRate'] = +e.target.value;
+                      setModifyData(data);
+                    }}
+                  />
+                </td>
+              )}
               <td className="text-center">
                 <div className="">
                   <AttachmentUploaderNew
@@ -130,7 +138,7 @@ export default function UpdateItemRateModal({ propsObj }) {
                               () => {
                                 getLandingData(values, pageNo, pageSize, '');
                               },
-                              true,
+                              true
                             );
                           },
                           noAlertFunc: () => {},

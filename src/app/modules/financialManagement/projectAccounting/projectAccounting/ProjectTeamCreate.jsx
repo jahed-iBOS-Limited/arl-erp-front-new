@@ -64,7 +64,7 @@ const Team = ({
   // const [loading, setLoading] = useState(false);
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state.authData,
-    shallowEqual,
+    shallowEqual
   );
   const [addRole, setAddRole] = useState(false);
   const [allTeam, setAllTeam] = useState([]);
@@ -82,11 +82,9 @@ const Team = ({
 
       setAllTeam(modifiedData || []);
     }
-
   }, [isEdit, projectTeam]);
 
   const [, postData, loading] = useAxiosPost();
-
 
   const [roleDDL, setRoleDDL] = useState([]);
 
@@ -99,10 +97,9 @@ const Team = ({
           // console.log("get", data);
 
           setRoleDDL(response);
-        },
+        }
       );
     }
-
   }, [selectedBusinessUnit?.value, profileData?.accountId]);
 
   // setting  DDL
@@ -136,7 +133,7 @@ const Team = ({
         const isDuplicate = allTeam.some((item) =>
           item?.isEdit
             ? item?.intTeamMemberId === values.intTeamId?.value
-            : item?.intTeamId?.value === values.intTeamId?.value,
+            : item?.intTeamId?.value === values.intTeamId?.value
         );
         isDuplicate && toast.warning('Duplicate Detected');
         !isDuplicate && setAllTeam((prev) => [...prev, values]);
@@ -177,7 +174,7 @@ const Team = ({
                       allTeam,
                       postData,
                       isEdit,
-                      setProject,
+                      setProject
                     )
                   }
                 />
@@ -202,7 +199,7 @@ const Team = ({
                         if (value?.length < 2) return [];
                         return axios
                           .get(
-                            `/fino/ProjectAccounting/EmployeeDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${value}`,
+                            `/fino/ProjectAccounting/EmployeeDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${value}`
                           )
                           .then((response) => {
                             return response.data;
@@ -246,7 +243,7 @@ const Team = ({
                                   getRoleDDL,
                                   setRoleDDL,
                                   setAddRole,
-                                  createRolePayload,
+                                  createRolePayload
                                 );
                               }}
                               className="text-primary px-3"

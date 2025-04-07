@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const createZoneCostSetup = async (data, cb, setDisabled) => {
   setDisabled(true);
@@ -9,7 +9,7 @@ export const createZoneCostSetup = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted successfully");
+      toast.success(res?.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -98,7 +98,7 @@ export const editCheckPostList = async (data, setDisabled) => {
   try {
     const res = await Axios.put(`/tms/CheckPostList/EditCheckPostList`, data);
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Edited successfully");
+      toast.success(res?.data?.message || 'Edited successfully');
       setDisabled(false);
     }
   } catch (error) {

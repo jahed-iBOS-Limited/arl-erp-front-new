@@ -1,10 +1,9 @@
-
-import React from "react";
-import { Formik, Form } from "formik";
-import moment from "moment";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import ICustomTable from "../../../../_helper/_customTable";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import moment from 'moment';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import ICustomTable from '../../../../_helper/_customTable';
 
 import {
   Card,
@@ -12,18 +11,18 @@ import {
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
+} from '../../../../../../_metronic/_partials/controls';
 
 // Validation schema
 
 const header = [
-  "SL",
-  "Provider",
-  "PO No",
-  "Bill Number",
-  "Qty",
-  "Payment Date",
-  "Amount (BDT)",
+  'SL',
+  'Provider',
+  'PO No',
+  'Bill Number',
+  'Qty',
+  'Payment Date',
+  'Amount (BDT)',
 ];
 
 export default function FormCmp({
@@ -111,12 +110,12 @@ export default function FormCmp({
                 {shipment?.lcNumber ? (
                   <p className="pt-5">LC Number: {shipment?.lcNumber}</p>
                 ) : (
-                  ""
+                  ''
                 )}
                 {shipment?.poNumber ? (
                   <p className="pt-5">PO Number: {shipment?.poNumber}</p>
                 ) : (
-                  ""
+                  ''
                 )}
               </div>
               <Form className="form form-label-right">
@@ -132,7 +131,7 @@ export default function FormCmp({
                             placeholder="Shipment"
                             value={values?.shipment}
                             onChange={(valueOption) => {
-                              setFieldValue("shipment", valueOption);
+                              setFieldValue('shipment', valueOption);
                               setShipment(valueOption);
                             }}
                             error={errors}
@@ -147,7 +146,7 @@ export default function FormCmp({
                             placeholder="Provider Name"
                             value={values?.transportProvider}
                             onChange={(valueOption) => {
-                              setFieldValue("transportProvider", valueOption);
+                              setFieldValue('transportProvider', valueOption);
                             }}
                             error={errors}
                             touched={touched}
@@ -161,7 +160,7 @@ export default function FormCmp({
                             placeholder="Transport Type"
                             value={values?.transportType}
                             onChange={(valueOption) => {
-                              setFieldValue("transportType", valueOption);
+                              setFieldValue('transportType', valueOption);
                             }}
                             error={errors}
                             touched={touched}
@@ -246,13 +245,13 @@ export default function FormCmp({
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>
@@ -281,7 +280,7 @@ export default function FormCmp({
                   gridData.map((data, index) => {
                     return (
                       <tr>
-                        <td style={{ width: "30px" }} className="text-center">
+                        <td style={{ width: '30px' }} className="text-center">
                           {index + 1}
                         </td>
                         <td>
@@ -302,7 +301,7 @@ export default function FormCmp({
                         </td>
                         <td>
                           <span className="pl-2">
-                            {moment(data.paymentDate).format("YYYY-MM-DD")}
+                            {moment(data.paymentDate).format('YYYY-MM-DD')}
                           </span>
                         </td>
                         <td>

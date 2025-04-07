@@ -3,9 +3,9 @@ export const matchText = (transcript, menuList) => {
   // exact match first
   const exactmatchedObject = menuList.find((item) => {
     // command space removed
-    const commandWithoutSpace = item.label.replace(/\s/g, "");
+    const commandWithoutSpace = item.label.replace(/\s/g, '');
     // transcript space removed
-    const transcriptWithoutSpace = transcript.replace(/\s/g, "");
+    const transcriptWithoutSpace = transcript.replace(/\s/g, '');
     return (
       commandWithoutSpace.toLowerCase() === transcriptWithoutSpace.toLowerCase()
     );
@@ -18,9 +18,9 @@ export const matchText = (transcript, menuList) => {
   // partial match
   const matchedObject = menuList.find((item) => {
     // command space removed
-    const commandWithoutSpace = item.label.replace(/\s/g, "");
+    const commandWithoutSpace = item.label.replace(/\s/g, '');
     // transcript space removed
-    const transcriptWithoutSpace = transcript.replace(/\s/g, "");
+    const transcriptWithoutSpace = transcript.replace(/\s/g, '');
 
     return commandWithoutSpace
       .toLowerCase()
@@ -42,7 +42,7 @@ export const matchText = (transcript, menuList) => {
 const bestMatch = (menuList, transcript) => {
   // Function to split a sentence into words and remove duplicates
   function splitAndRemoveDuplicates(sentence) {
-    return [...new Set(sentence.toLowerCase().split(" "))];
+    return [...new Set(sentence.toLowerCase().split(' '))];
   }
 
   // Find the menu item with the best word match

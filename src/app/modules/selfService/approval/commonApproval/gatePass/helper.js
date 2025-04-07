@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 // get selected business unit from store
 
@@ -15,14 +15,13 @@ export const getGatePassGridData = async (
   search,
   plantId
 ) => {
-  
-  const Search = search ? `&Search=${search}` : "";
+  const Search = search ? `&Search=${search}` : '';
 
   try {
     setLoading(true);
     const res = await axios.get(
-     // `/procurement/Approval/GetPurchaseRequestApprovalList?BusinessUnitId=${buId}&UserId=${userId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
-     `/procurement/Approval/CoomonApprovalList?AcountId=${accId}&BusinessUnitId=${buId}&UserId=${userId}&ActivityId=${activityId}&viewOrder=desc&PageNo=${pageNo || 1}&PageSize=${pageSize}${Search}&plantId=${plantId}`
+      // `/procurement/Approval/GetPurchaseRequestApprovalList?BusinessUnitId=${buId}&UserId=${userId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+      `/procurement/Approval/CoomonApprovalList?AcountId=${accId}&BusinessUnitId=${buId}&UserId=${userId}&ActivityId=${activityId}&viewOrder=desc&PageNo=${pageNo || 1}&PageSize=${pageSize}${Search}&plantId=${plantId}`
     );
     if (res.status === 200 && res?.data) {
       setter({
@@ -33,7 +32,7 @@ export const getGatePassGridData = async (
         totalCount: res?.data[0]?.totalRows,
         currentPage: res?.data?.currentPage,
         pageSize: res?.data?.pageSize,
-      })
+      });
       // console.log(res.data)
       // setter(res?.data);
       setLoading(false);
@@ -43,7 +42,6 @@ export const getGatePassGridData = async (
   }
 };
 
-
 export const approvalApi = async (
   parameter,
   poayload,
@@ -51,11 +49,14 @@ export const approvalApi = async (
   setBillSubmitBtn
 ) => {
   try {
-    await axios.put(`/procurement/Approval/CommonApproved?AcountId=${parameter.accid}&BusinessUnitId=${parameter?.buId}&UserId=${parameter?.userId}&ActivityId=${parameter?.activityId}`, poayload);
-    toast.success("Approved successfully");
-    setBillSubmitBtn(true)
+    await axios.put(
+      `/procurement/Approval/CommonApproved?AcountId=${parameter.accid}&BusinessUnitId=${parameter?.buId}&UserId=${parameter?.userId}&ActivityId=${parameter?.activityId}`,
+      poayload
+    );
+    toast.success('Approved successfully');
+    setBillSubmitBtn(true);
     onChangeForActivity();
   } catch (error) {
-    toast.error( error?.response?.data?.message || "Approval Failed");
+    toast.error(error?.response?.data?.message || 'Approval Failed');
   }
 };

@@ -35,9 +35,8 @@ export function RFQViewDetails({ currentItem, isHiddenBackBtn }) {
   useEffect(() => {
     //getSingleData(intRequestForQuotationId, setRfqDetails, setRowDto, setRowDtoTwo, setLoading);
     getRfqDetailsData(
-      `/procurement/ShipRequestForQuotation/GetRequestForQuotationShipById?RequestForQuotationId=${intRequestForQuotationId}&accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
+      `/procurement/ShipRequestForQuotation/GetRequestForQuotationShipById?RequestForQuotationId=${intRequestForQuotationId}&accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, [intRequestForQuotationId, profileData, selectedBusinessUnit]);
 
   const printRef = useRef();
@@ -112,7 +111,7 @@ export function RFQViewDetails({ currentItem, isHiddenBackBtn }) {
               className="btn btn-primary ml-2"
               onClick={(e) =>
                 pdfExport(
-                  `${rfqDetailsData[0]?.objHeader?.strRequestForQuotationCode}`,
+                  `${rfqDetailsData[0]?.objHeader?.strRequestForQuotationCode}`
                 )
               }
             >
@@ -199,7 +198,7 @@ export function RFQViewDetails({ currentItem, isHiddenBackBtn }) {
                             <td>RFQ Date:</td>
                             <td>
                               {_dateFormatter(
-                                rfqDetailsData[0]?.objHeader?.dteRfqdate,
+                                rfqDetailsData[0]?.objHeader?.dteRfqdate
                               )}
                             </td>
                           </tr>
@@ -234,14 +233,14 @@ export function RFQViewDetails({ currentItem, isHiddenBackBtn }) {
                             <td>
                               {_dateFormatter(
                                 rfqDetailsData[0]?.objHeader
-                                  ?.quotationStartDateTime,
+                                  ?.quotationStartDateTime
                               )}
                             </td>
                             <td>Quotation End Date:</td>
                             <td>
                               {_dateFormatter(
                                 rfqDetailsData[0]?.objHeader
-                                  ?.quotationEndDateTime,
+                                  ?.quotationEndDateTime
                               )}
                             </td>
                           </tr>

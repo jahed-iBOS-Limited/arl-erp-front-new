@@ -1,6 +1,6 @@
-import React from "react";
-import { UiProvider } from "../../../_helper/uiContextHelper";
-import { GatePassApplicationTable } from "./Table/tableHeader";
+import React from 'react';
+import { UiProvider } from '../../../_helper/uiContextHelper';
+import { GatePassApplicationTable } from './Table/tableHeader';
 
 function GatePassApplicationLanding({ history }) {
   const uIEvents = {

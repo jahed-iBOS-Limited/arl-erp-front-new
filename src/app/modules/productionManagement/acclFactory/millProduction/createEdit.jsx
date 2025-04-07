@@ -1,31 +1,31 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import TextArea from "../../../_helper/TextArea";
-import IClose from "../../../_helper/_helperIcons/_close";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import TextArea from '../../../_helper/TextArea';
+import IClose from '../../../_helper/_helperIcons/_close';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
 
 const initData = {
   dteDate: _todayDate(),
-  shift: "",
-  plant: "",
-  shopFloor: "",
-  mill: "",
-  productType: "",
-  strUomname: "",
-  numRunningHour: "",
-  numQuantity: "",
-  strRemarks: "",
-  breakdownType: "",
-  bom: "",
+  shift: '',
+  plant: '',
+  shopFloor: '',
+  mill: '',
+  productType: '',
+  strUomname: '',
+  numRunningHour: '',
+  numQuantity: '',
+  strRemarks: '',
+  breakdownType: '',
+  bom: '',
 };
 
 export default function MillProductionCreateEdit() {
@@ -69,7 +69,6 @@ export default function MillProductionCreateEdit() {
     getShiftDDL(
       `/mes/MesDDL/GetProductionShiftDDL?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, [userId, accountId, selectedBusinessUnit?.value]);
   const saveHandler = (values, cb) => {
     const payload = {
@@ -79,7 +78,7 @@ export default function MillProductionCreateEdit() {
       intBusinessUnitId: selectedBusinessUnit?.value,
       dteDate: values?.dteDate,
       intShiftId: values?.shift?.value || 0,
-      strShiftName: values?.shift?.label || "",
+      strShiftName: values?.shift?.label || '',
       intPlantId: values?.plant?.value,
       strPlantName: values?.plant?.label,
       intMillId: values?.mill?.value,
@@ -131,7 +130,7 @@ export default function MillProductionCreateEdit() {
             shiftDDLLoader ||
             materialIssueDetailsLoader) && <Loading />}
           <IForm
-            title={id ? "Edit Mill Production" : "Create Mill Production"}
+            title={id ? 'Edit Mill Production' : 'Create Mill Production'}
             getProps={setObjprops}
           >
             <Form>
@@ -144,7 +143,7 @@ export default function MillProductionCreateEdit() {
                     label="shift"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("shift", valueOption);
+                        setFieldValue('shift', valueOption);
                       }
                     }}
                     isDisabled={id || rowData?.length > 0 ? true : false}
@@ -158,7 +157,7 @@ export default function MillProductionCreateEdit() {
                     type="date"
                     disabled={id || rowData?.length > 0 ? true : false}
                     onChange={(e) => {
-                      setFieldValue("dteDate", e?.target?.value);
+                      setFieldValue('dteDate', e?.target?.value);
                     }}
                   />
                 </div>
@@ -209,28 +208,28 @@ export default function MillProductionCreateEdit() {
                     label="Plant"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("plant", valueOption);
-                        setFieldValue("shopFloor", "");
-                        setFieldValue("mill", "");
-                        setFieldValue("productType", "");
-                        setFieldValue("strUomname", "");
-                        setFieldValue("bom", "");
-                        setFieldValue("numRunningHour", "");
-                        setFieldValue("numQuantity", "");
-                        setFieldValue("strRemarks", "");
+                        setFieldValue('plant', valueOption);
+                        setFieldValue('shopFloor', '');
+                        setFieldValue('mill', '');
+                        setFieldValue('productType', '');
+                        setFieldValue('strUomname', '');
+                        setFieldValue('bom', '');
+                        setFieldValue('numRunningHour', '');
+                        setFieldValue('numQuantity', '');
+                        setFieldValue('strRemarks', '');
                         getShopFloor(
                           `/mes/MesDDL/GetShopfloorDDL?AccountId=${accountId}&BusinessUnitid=${selectedBusinessUnit?.value}&PlantId=${valueOption?.value}`
                         );
                       } else {
-                        setFieldValue("plant", "");
-                        setFieldValue("shopFloor", "");
-                        setFieldValue("mill", "");
-                        setFieldValue("productType", "");
-                        setFieldValue("strUomname", "");
-                        setFieldValue("bom", "");
-                        setFieldValue("numRunningHour", "");
-                        setFieldValue("numQuantity", "");
-                        setFieldValue("strRemarks", "");
+                        setFieldValue('plant', '');
+                        setFieldValue('shopFloor', '');
+                        setFieldValue('mill', '');
+                        setFieldValue('productType', '');
+                        setFieldValue('strUomname', '');
+                        setFieldValue('bom', '');
+                        setFieldValue('numRunningHour', '');
+                        setFieldValue('numQuantity', '');
+                        setFieldValue('strRemarks', '');
                       }
                     }}
                     isDisabled={id || rowData?.length > 0 ? true : false}
@@ -245,26 +244,26 @@ export default function MillProductionCreateEdit() {
                     label="Shop Floor"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("shopFloor", valueOption);
-                        setFieldValue("mill", "");
-                        setFieldValue("productType", "");
-                        setFieldValue("strUomname", "");
-                        setFieldValue("bom", "");
-                        setFieldValue("numRunningHour", "");
-                        setFieldValue("numQuantity", "");
-                        setFieldValue("strRemarks", "");
+                        setFieldValue('shopFloor', valueOption);
+                        setFieldValue('mill', '');
+                        setFieldValue('productType', '');
+                        setFieldValue('strUomname', '');
+                        setFieldValue('bom', '');
+                        setFieldValue('numRunningHour', '');
+                        setFieldValue('numQuantity', '');
+                        setFieldValue('strRemarks', '');
                         getMill(
                           `/mes/MesDDL/GetWorkCenterDDL?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${values?.plant?.value}&ShopFloorId=${valueOption?.value}`
                         );
                       } else {
-                        setFieldValue("shopFloor", "");
-                        setFieldValue("mill", "");
-                        setFieldValue("productType", "");
-                        setFieldValue("strUomname", "");
-                        setFieldValue("bom", "");
-                        setFieldValue("numRunningHour", "");
-                        setFieldValue("numQuantity", "");
-                        setFieldValue("strRemarks", "");
+                        setFieldValue('shopFloor', '');
+                        setFieldValue('mill', '');
+                        setFieldValue('productType', '');
+                        setFieldValue('strUomname', '');
+                        setFieldValue('bom', '');
+                        setFieldValue('numRunningHour', '');
+                        setFieldValue('numQuantity', '');
+                        setFieldValue('strRemarks', '');
                       }
                     }}
                     isDisabled={id || rowData?.length > 0 ? true : false}
@@ -278,13 +277,13 @@ export default function MillProductionCreateEdit() {
                     label="Mill Name"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("mill", valueOption);
-                        setFieldValue("productType", "");
-                        setFieldValue("strUomname", "");
-                        setFieldValue("bom", "");
-                        setFieldValue("numRunningHour", "");
-                        setFieldValue("numQuantity", "");
-                        setFieldValue("strRemarks", "");
+                        setFieldValue('mill', valueOption);
+                        setFieldValue('productType', '');
+                        setFieldValue('strUomname', '');
+                        setFieldValue('bom', '');
+                        setFieldValue('numRunningHour', '');
+                        setFieldValue('numQuantity', '');
+                        setFieldValue('strRemarks', '');
                         getItemDDL(
                           `/mes/MesDDL/GetItemListForBackCalculation?accountId=${accountId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${values?.plant?.value}&shopFloorId=${values?.shopFloor?.value}&workCenterId=${valueOption?.value}`,
                           (data) => {
@@ -299,13 +298,13 @@ export default function MillProductionCreateEdit() {
                           }
                         );
                       } else {
-                        setFieldValue("mill", "");
-                        setFieldValue("productType", "");
-                        setFieldValue("strUomname", "");
-                        setFieldValue("bom", "");
-                        setFieldValue("numRunningHour", "");
-                        setFieldValue("numQuantity", "");
-                        setFieldValue("strRemarks", "");
+                        setFieldValue('mill', '');
+                        setFieldValue('productType', '');
+                        setFieldValue('strUomname', '');
+                        setFieldValue('bom', '');
+                        setFieldValue('numRunningHour', '');
+                        setFieldValue('numQuantity', '');
+                        setFieldValue('strRemarks', '');
                       }
                     }}
                     isDisabled={id || rowData?.length > 0 ? true : false}
@@ -319,20 +318,20 @@ export default function MillProductionCreateEdit() {
                     label="Product Type"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("productType", valueOption);
-                        setFieldValue("intUomid", valueOption?.uoMId);
-                        setFieldValue("strUomname", valueOption?.uoMName);
-                        setFieldValue("bom", "");
+                        setFieldValue('productType', valueOption);
+                        setFieldValue('intUomid', valueOption?.uoMId);
+                        setFieldValue('strUomname', valueOption?.uoMName);
+                        setFieldValue('bom', '');
                         getBom(
                           `/mes/MesDDL/GetRoutingToBOMDDL?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&ItemId=${valueOption?.value}&WorkCenterId=${values?.mill?.value}`
                         );
                       } else {
-                        setFieldValue("bom", "");
-                        setFieldValue("productType", "");
-                        setFieldValue("strUomname", "");
-                        setFieldValue("numRunningHour", "");
-                        setFieldValue("numQuantity", "");
-                        setFieldValue("strRemarks", "");
+                        setFieldValue('bom', '');
+                        setFieldValue('productType', '');
+                        setFieldValue('strUomname', '');
+                        setFieldValue('numRunningHour', '');
+                        setFieldValue('numQuantity', '');
+                        setFieldValue('strRemarks', '');
                       }
                     }}
                     isDisabled={id || rowData?.length > 0 ? true : false}
@@ -356,15 +355,15 @@ export default function MillProductionCreateEdit() {
                     isDisabled={id || rowData?.length > 0 ? true : false}
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("bom", valueOption);
-                        setFieldValue("numRunningHour", "");
-                        setFieldValue("numQuantity", "");
-                        setFieldValue("strRemarks", "");
+                        setFieldValue('bom', valueOption);
+                        setFieldValue('numRunningHour', '');
+                        setFieldValue('numQuantity', '');
+                        setFieldValue('strRemarks', '');
                       } else {
-                        setFieldValue("bom", "");
-                        setFieldValue("numRunningHour", "");
-                        setFieldValue("numQuantity", "");
-                        setFieldValue("strRemarks", "");
+                        setFieldValue('bom', '');
+                        setFieldValue('numRunningHour', '');
+                        setFieldValue('numQuantity', '');
+                        setFieldValue('strRemarks', '');
                       }
                     }}
                   />
@@ -378,13 +377,13 @@ export default function MillProductionCreateEdit() {
                     disabled={id || rowData?.length > 0 ? true : false}
                     onChange={(e) => {
                       if (+e.target.value > 24 || +e.target.value < 0) {
-                        setFieldValue("breakdownHour", "");
+                        setFieldValue('breakdownHour', '');
                         return toast.warn(
-                          "Running hour must be in between 0 to 24"
+                          'Running hour must be in between 0 to 24'
                         );
                       } else {
-                        setFieldValue("breakdownHour", "");
-                        setFieldValue("numRunningHour", e.target.value);
+                        setFieldValue('breakdownHour', '');
+                        setFieldValue('numRunningHour', e.target.value);
                       }
                     }}
                   />
@@ -397,15 +396,16 @@ export default function MillProductionCreateEdit() {
                     type="number"
                     onChange={(e) => {
                       if (+e.target.value < 0)
-                        toast.warn("Quantity must be greater than 0");
+                        toast.warn('Quantity must be greater than 0');
                       else {
-                        setFieldValue("numQuantity", e.target.value);
+                        setFieldValue('numQuantity', e.target.value);
                         // setTimeout(() => {
                         getMaterialIssueDetails(
                           `/mes/MSIL/GetMaterialIssueByBOM?BusinessUnitId=${
                             selectedBusinessUnit?.value
-                          }&BillOfMaterialId=${values?.bom?.value}&Quantity=${+e
-                            .target.value || 0}&Date=${values?.dteDate}`
+                          }&BillOfMaterialId=${values?.bom?.value}&Quantity=${
+                            +e.target.value || 0
+                          }&Date=${values?.dteDate}`
                         );
                         // }, 1000);
                       }
@@ -420,7 +420,7 @@ export default function MillProductionCreateEdit() {
                     name="strRemarks"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("strRemarks", e.target.value);
+                      setFieldValue('strRemarks', e.target.value);
                     }}
                     disabled={id || rowData?.length > 0 ? true : false}
                   />
@@ -478,21 +478,21 @@ export default function MillProductionCreateEdit() {
                   <NewSelect
                     name="breakdownType"
                     options={[
-                      { value: 1, label: "Process" },
-                      { value: 2, label: "Mechanical" },
-                      { value: 3, label: "Electrical" },
-                      { value: 4, label: "Power" },
-                      { value: 5, label: "Schedule Maintanence" },
-                      { value: 6, label: "Silo Full" },
-                      { value: 7, label: "Others" },
+                      { value: 1, label: 'Process' },
+                      { value: 2, label: 'Mechanical' },
+                      { value: 3, label: 'Electrical' },
+                      { value: 4, label: 'Power' },
+                      { value: 5, label: 'Schedule Maintanence' },
+                      { value: 6, label: 'Silo Full' },
+                      { value: 7, label: 'Others' },
                     ]}
                     value={values?.breakdownType}
                     label="Breakdown Type"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("breakdownType", valueOption);
+                        setFieldValue('breakdownType', valueOption);
                       } else {
-                        setFieldValue("breakdownType", "");
+                        setFieldValue('breakdownType', '');
                       }
                     }}
                     isDisabled={
@@ -518,10 +518,10 @@ export default function MillProductionCreateEdit() {
                         +e.target.value < 0
                       ) {
                         return toast.warn(
-                          "Sum of Runnig Hour and Breakdown Hour cannot be greater than 24 hours and Breakdown Hour cannot be less than 0"
+                          'Sum of Runnig Hour and Breakdown Hour cannot be greater than 24 hours and Breakdown Hour cannot be less than 0'
                         );
                       } else {
-                        setFieldValue("breakdownHour", e.target.value);
+                        setFieldValue('breakdownHour', e.target.value);
                       }
                     }}
                     disabled={
@@ -543,7 +543,7 @@ export default function MillProductionCreateEdit() {
                     name="breakdownDetails"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("breakdownDetails", e.target.value);
+                      setFieldValue('breakdownDetails', e.target.value);
                     }}
                     disabled={
                       !values?.breakdownType ||
@@ -570,7 +570,7 @@ export default function MillProductionCreateEdit() {
                         24
                       ) {
                         return toast.warning(
-                          "Total Breakdown Hour cannot be greater than 24"
+                          'Total Breakdown Hour cannot be greater than 24'
                         );
                       }
                       setRowData([
@@ -584,9 +584,9 @@ export default function MillProductionCreateEdit() {
                           strBreakdownDetails: values?.breakdownDetails,
                         },
                       ]);
-                      setFieldValue("breakdownType", "");
-                      setFieldValue("breakdownDetails", "");
-                      setFieldValue("breakdownHour", "");
+                      setFieldValue('breakdownType', '');
+                      setFieldValue('breakdownDetails', '');
+                      setFieldValue('breakdownHour', '');
                     }}
                     disabled={
                       !values?.breakdownType ||
@@ -602,15 +602,15 @@ export default function MillProductionCreateEdit() {
                 <div className="col-lg-3">
                   <h4 className="bold">Total Hour: 24</h4>
                   <h4 className="bold">
-                    Running Hour: {values?.numRunningHour || 0}{" "}
+                    Running Hour: {values?.numRunningHour || 0}{' '}
                   </h4>
                   <h4
                     className="bold"
                     style={{
                       color:
                         getRemainingBreakdown(values) > values?.numRunningHour
-                          ? "red"
-                          : "green",
+                          ? 'red'
+                          : 'green',
                     }}
                   >
                     Breakdown Hour: {getRemainingBreakdown(values)}
@@ -619,58 +619,57 @@ export default function MillProductionCreateEdit() {
               </div>
               <div className="row">
                 <div className="col-lg-12">
-                <div className="table-responsive">
-  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                    <thead>
-                      <tr>
-                        <th>Sl</th>
-                        <th>Breakdown Type</th>
-                        <th>Breakdown Details</th>
-                        <th>Breakdown Hour</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowData?.length > 0 &&
-                        rowData?.map((item, index) => {
-                          return (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td className="text-center">
-                                {item.strBreakDownTypeName}
-                              </td>
-                              <td>{item.strBreakdownDetails}</td>
-                              <td className="text-center">
-                                {item.numBreakdownHour}
-                              </td>
-                              <td className="text-center">
-                                <IClose
-                                  closer={() => {
-                                    let data = rowData.filter(
-                                      (x, i) => i !== index
-                                    );
-                                    setRowData(data);
-                                  }}
-                                />
-                              </td>
-                            </tr>
-                          );
-                        })}
-                    </tbody>
-                  </table>
-</div>
-
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                      <thead>
+                        <tr>
+                          <th>Sl</th>
+                          <th>Breakdown Type</th>
+                          <th>Breakdown Details</th>
+                          <th>Breakdown Hour</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rowData?.length > 0 &&
+                          rowData?.map((item, index) => {
+                            return (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td className="text-center">
+                                  {item.strBreakDownTypeName}
+                                </td>
+                                <td>{item.strBreakdownDetails}</td>
+                                <td className="text-center">
+                                  {item.numBreakdownHour}
+                                </td>
+                                <td className="text-center">
+                                  <IClose
+                                    closer={() => {
+                                      let data = rowData.filter(
+                                        (x, i) => i !== index
+                                      );
+                                      setRowData(data);
+                                    }}
+                                  />
+                                </td>
+                              </tr>
+                            );
+                          })}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
               <button
                 type="button"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onClick={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

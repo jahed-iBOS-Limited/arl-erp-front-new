@@ -1,25 +1,25 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Axios from "axios";
-import ICard from "../../../../_helper/_card";
-import ICustomTable from "../../../../_helper/_customTable";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React, { useEffect, useState, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Axios from 'axios';
+import ICard from '../../../../_helper/_card';
+import ICustomTable from '../../../../_helper/_customTable';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 const ths = [
-  "Delivery Code",
-  "Item Name",
-  "Item Code",
-  "Sales Name",
-  "Sales Order Code",
-  "UOM",
+  'Delivery Code',
+  'Item Name',
+  'Item Code',
+  'Sales Name',
+  'Sales Order Code',
+  'UOM',
   // "Price",
   // "Net Value",
-  "Qty",
+  'Qty',
 ];
 
 export default function ShippingPrint({ id, shipmentCode }) {
   const printRef = useRef();
-  const [shippingPrint, setSingleShippingPrintInfo] = useState("");
+  const [shippingPrint, setSingleShippingPrintInfo] = useState('');
   let storeData = useSelector(
     (state) => {
       return {
@@ -69,52 +69,53 @@ export default function ShippingPrint({ id, shipmentCode }) {
                 <div>
                   <b>Delivery From: Dhamrai Food Factory </b> <br />
                   <b>
-                    Partner Name:{" "}
-                    {`${shippingPrint?.objHeader?.strShipToPartnerName}`}{" "}
-                  </b>{" "}
+                    Partner Name:{' '}
+                    {`${shippingPrint?.objHeader?.strShipToPartnerName}`}{' '}
+                  </b>{' '}
                   <br />
                   <b>
-                    Warehouse Name:{" "}
-                    {`${shippingPrint?.objHeader?.strWarehouseName}`}{" "}
-                  </b>{" "}
+                    Warehouse Name:{' '}
+                    {`${shippingPrint?.objHeader?.strWarehouseName}`}{' '}
+                  </b>{' '}
                   <br />
                   <b>
-                    Delivery Type Name:{" "}
-                    {`${shippingPrint?.objHeader?.strDeliveryTypeName}`}{" "}
-                  </b>{" "}
+                    Delivery Type Name:{' '}
+                    {`${shippingPrint?.objHeader?.strDeliveryTypeName}`}{' '}
+                  </b>{' '}
                   <br />
                   <b>
-                    Total Net Value:{" "}
-                    {`${shippingPrint?.objHeader?.numTotalNetValue}`}{" "}
-                  </b>{" "}
+                    Total Net Value:{' '}
+                    {`${shippingPrint?.objHeader?.numTotalNetValue}`}{' '}
+                  </b>{' '}
                   <br />
                   <b>
-                    Total Delivery Value:{" "}
-                    {`${shippingPrint?.objHeader?.numTotalDeliveryValue}`}{" "}
-                  </b>{" "}
+                    Total Delivery Value:{' '}
+                    {`${shippingPrint?.objHeader?.numTotalDeliveryValue}`}{' '}
+                  </b>{' '}
                   <br />
                 </div>
 
                 <div>
                   <b>Delivery Date: {_dateFormatter(new Date())} </b> <br />
                   <b>
-                    Plant Name: {`${shippingPrint?.objHeader?.strPlantName}`}{" "}
-                  </b>{" "}
+                    Plant Name:{' '}
+                    {`${shippingPrint?.objHeader?.strPlantName}`}{' '}
+                  </b>{' '}
                   <br />
                   <b>
-                    Warehouse Address:{" "}
-                    {shippingPrint?.objHeader?.strWarehouseAddress}{" "}
-                  </b>{" "}
+                    Warehouse Address:{' '}
+                    {shippingPrint?.objHeader?.strWarehouseAddress}{' '}
+                  </b>{' '}
                   <br />
                   <b>
-                    Distribution Channel Name:{" "}
-                    {shippingPrint?.objHeader?.strDistributionChannelName}{" "}
-                  </b>{" "}
+                    Distribution Channel Name:{' '}
+                    {shippingPrint?.objHeader?.strDistributionChannelName}{' '}
+                  </b>{' '}
                   <br />
                   <b>
-                    Total Delivery Quantity:{" "}
-                    {shippingPrint?.objHeader?.numTotalDeliveryQuantity}{" "}
-                  </b>{" "}
+                    Total Delivery Quantity:{' '}
+                    {shippingPrint?.objHeader?.numTotalDeliveryQuantity}{' '}
+                  </b>{' '}
                   <br />
                 </div>
               </div>
@@ -163,20 +164,20 @@ export default function ShippingPrint({ id, shipmentCode }) {
             </div>
             <div
               className="d-flex justify-content-between"
-              style={{ margin: "80px 0 0" }}
+              style={{ margin: '80px 0 0' }}
             >
               <div>
-                <b style={{ borderTop: "1px solid", padding: "5px 0 0" }}>
+                <b style={{ borderTop: '1px solid', padding: '5px 0 0' }}>
                   Authority Signature
                 </b>
               </div>
               <div>
-                <b style={{ borderTop: "1px solid", padding: "5px 0 0" }}>
+                <b style={{ borderTop: '1px solid', padding: '5px 0 0' }}>
                   Driver Signature
                 </b>
               </div>
               <div>
-                <b style={{ borderTop: "1px solid", padding: "5px 0 0" }}>
+                <b style={{ borderTop: '1px solid', padding: '5px 0 0' }}>
                   Customer Signature
                 </b>
               </div>

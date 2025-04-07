@@ -1,21 +1,21 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React from "react";
-import { useDispatch } from "react-redux";
-import * as Yup from "yup";
-import SearchAsyncSelect from "../../../../../_helper/SearchAsyncSelect";
-import { _fixedPoint } from "../../../../../_helper/_fixedPoint";
-import FormikError from "../../../../../_helper/_formikError";
-import IView from "../../../../../_helper/_helperIcons/_view";
-import InputField from "../../../../../_helper/_inputField";
-import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
-import NewSelect from "../../../../../_helper/_select";
-import AttachFile from "../../../../../_helper/commonInputFieldsGroups/attachemntUpload";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import * as Yup from 'yup';
+import SearchAsyncSelect from '../../../../../_helper/SearchAsyncSelect';
+import { _fixedPoint } from '../../../../../_helper/_fixedPoint';
+import FormikError from '../../../../../_helper/_formikError';
+import IView from '../../../../../_helper/_helperIcons/_view';
+import InputField from '../../../../../_helper/_inputField';
+import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actions';
+import NewSelect from '../../../../../_helper/_select';
+import AttachFile from '../../../../../_helper/commonInputFieldsGroups/attachemntUpload';
 
 const validationSchema = Yup.object().shape({
-  billNo: Yup.string().required("Bill No is Required"),
-  billDate: Yup.date().required("Bill Date is Required"),
-  paymentDueDate: Yup.date().required("Payment Date is Required"),
+  billNo: Yup.string().required('Bill No is Required'),
+  billDate: Yup.date().required('Bill Date is Required'),
+  paymentDueDate: Yup.date().required('Payment Date is Required'),
 });
 
 export default function FormCmp({
@@ -71,8 +71,8 @@ export default function FormCmp({
                         options={[]}
                         onChange={(e) => {
                           if (e) {
-                            setFieldValue("port", e);
-                            setFieldValue("motherVessel", "");
+                            setFieldValue('port', e);
+                            setFieldValue('motherVessel', '');
                           }
                         }}
                         isDisabled={true}
@@ -86,7 +86,7 @@ export default function FormCmp({
                         name="motherVessel"
                         options={vesselDDL || []}
                         onChange={(e) => {
-                          setFieldValue("motherVessel", e);
+                          setFieldValue('motherVessel', e);
                         }}
                         isDisabled={false}
                       />
@@ -98,14 +98,15 @@ export default function FormCmp({
                         selectedValue={values.supplier}
                         handleChange={(valueOption) => {
                           setGridData([]);
-                          setFieldValue("supplier", valueOption);
+                          setFieldValue('supplier', valueOption);
                         }}
                         loadOptions={(v) => {
                           if (v.length < 3) return [];
                           return axios
                             .get(
-                              `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${headerData
-                                ?.sbu?.value || 0}`
+                              `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${
+                                headerData?.sbu?.value || 0
+                              }`
                             )
                             .then((res) => {
                               const updateList = res?.data.map((item) => ({
@@ -131,7 +132,7 @@ export default function FormCmp({
                         touched={touched}
                         onChange={(e) => {
                           setGridData([]);
-                          setFieldValue("fromDate", e.target.value);
+                          setFieldValue('fromDate', e.target.value);
                         }}
                       />
                     </div>
@@ -145,7 +146,7 @@ export default function FormCmp({
                         touched={touched}
                         onChange={(e) => {
                           setGridData([]);
-                          setFieldValue("toDate", e.target.value);
+                          setFieldValue('toDate', e.target.value);
                         }}
                       />
                     </div>
@@ -236,13 +237,13 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
@@ -252,13 +253,13 @@ export default function FormCmp({
               <div
                 className="col d-flex justify-content-between"
                 style={{
-                  fontSize: "15px",
-                  fontWeight: "bold",
-                  flexWrap: "wrap",
+                  fontSize: '15px',
+                  fontWeight: 'bold',
+                  flexWrap: 'wrap',
                 }}
               >
                 <p>
-                  Total Qty:{" "}
+                  Total Qty:{' '}
                   {_fixedPoint(
                     gridData
                       ?.filter((item) => item?.hatchLabourRate > 0)
@@ -272,7 +273,7 @@ export default function FormCmp({
                   )}
                 </p>
                 <p>
-                  Total Amount:{" "}
+                  Total Amount:{' '}
                   {_fixedPoint(
                     gridData
                       ?.filter((item) => item?.hatchLabourRate > 0)
@@ -333,7 +334,7 @@ export default function FormCmp({
                             type="checkbox"
                             checked={item?.isSelected}
                             onChange={(e) => {
-                              item["isSelected"] =
+                              item['isSelected'] =
                                 item?.hatchLabourRate > 0
                                   ? e.target.checked
                                   : false;
@@ -352,7 +353,7 @@ export default function FormCmp({
                           {item?.hatchLabourRate || 0}
                         </td>
 
-                        <td style={{ width: "200px" }}>
+                        <td style={{ width: '200px' }}>
                           <InputField
                             value={item?.totalAmount}
                             name="totalAmount"

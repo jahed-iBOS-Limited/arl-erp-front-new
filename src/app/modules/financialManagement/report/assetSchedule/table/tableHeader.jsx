@@ -1,17 +1,17 @@
-import React, { useEffect, useRef, useState } from "react";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { Formik, Form } from "formik";
-import InputField from "../../../../_helper/_inputField";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { useSelector, shallowEqual } from "react-redux";
-import { getAssetSchedule } from "../helper";
-import ICard from "../../../../_helper/_card";
-import ILoader from "../../../../_helper/loader/_loader";
-import numberWithCommas from "./../../../../_helper/_numberWithCommas";
-import ReactToPrint from "react-to-print";
-import { getBusinessUnitYearConfigData } from "../helper";
-import { fromDateFromApi } from "../../../../_helper/_formDateFromApi";
-import { _firstDateOfCurrentFiscalYear } from "../../../../_helper/_firstDateOfCurrentFiscalYear";
+import React, { useEffect, useRef, useState } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { Formik, Form } from 'formik';
+import InputField from '../../../../_helper/_inputField';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { useSelector, shallowEqual } from 'react-redux';
+import { getAssetSchedule } from '../helper';
+import ICard from '../../../../_helper/_card';
+import ILoader from '../../../../_helper/loader/_loader';
+import numberWithCommas from './../../../../_helper/_numberWithCommas';
+import ReactToPrint from 'react-to-print';
+import { getBusinessUnitYearConfigData } from '../helper';
+import { fromDateFromApi } from '../../../../_helper/_formDateFromApi';
+import { _firstDateOfCurrentFiscalYear } from '../../../../_helper/_firstDateOfCurrentFiscalYear';
 
 const AssetSchedule = () => {
   const printRef = useRef();
@@ -19,7 +19,7 @@ const AssetSchedule = () => {
   const [assetScheduleData, setAssetScheduleData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [initData, setInitData] = useState({
-    balanceType: "3",
+    balanceType: '3',
     fromDate: _firstDateOfCurrentFiscalYear(),
     toDate: _todayDate(),
   });
@@ -32,7 +32,7 @@ const AssetSchedule = () => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-  const [fromDateFApi, setFromDateFApi] = useState("");
+  const [fromDateFApi, setFromDateFApi] = useState('');
 
   useEffect(() => {
     fromDateFromApi(selectedBusinessUnit?.value, setFromDateFApi);
@@ -73,7 +73,7 @@ const AssetSchedule = () => {
                 <div className="col-lg-3">
                   <label>From Date</label>
                   <InputField
-                    value={values?.fromDate ? values?.fromDate : ""}
+                    value={values?.fromDate ? values?.fromDate : ''}
                     name="fromDate"
                     placeholder="From Date"
                     type="date"
@@ -82,7 +82,7 @@ const AssetSchedule = () => {
                 <div className="col-lg-3">
                   <label>To Date</label>
                   <InputField
-                    value={values?.toDate ? values?.toDate : ""}
+                    value={values?.toDate ? values?.toDate : ''}
                     name="toDate"
                     placeholder="To Date"
                     type="date"
@@ -108,7 +108,7 @@ const AssetSchedule = () => {
                 {assetScheduleData.length > 0 && (
                   <div
                     className="col-lg-auto d-flex"
-                    style={{ marginTop: "25px" }}
+                    style={{ marginTop: '25px' }}
                   >
                     <ReactHTMLTableToExcel
                       id="test-table-xls-button"
@@ -120,7 +120,7 @@ const AssetSchedule = () => {
                     />
                     <ReactToPrint
                       pageStyle={
-                        "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                        '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
                       }
                       trigger={() => (
                         <button
@@ -149,7 +149,7 @@ const AssetSchedule = () => {
                       <div className="col-12 text-center">
                         <h3>{selectedBusinessUnit?.label}</h3>
                         <p>
-                          From <span>{date?.fromDate}</span> To{" "}
+                          From <span>{date?.fromDate}</span> To{' '}
                           <span>{date?.toDate}</span>
                         </p>
                       </div>
@@ -157,7 +157,7 @@ const AssetSchedule = () => {
                     <table
                       id="table-to-xlsx"
                       className="table table-striped table-bordered global-table table-font-size-sm"
-                      style={{ width: "100%" }}
+                      style={{ width: '100%' }}
                     >
                       {/* <thead>
                         <tr>
@@ -307,7 +307,7 @@ const AssetSchedule = () => {
                         )}
                       </tbody> */}
                       <thead>
-                        <tr style={{ fontSize: "18px" }}>
+                        <tr style={{ fontSize: '18px' }}>
                           <th>Asset Name</th>
                           <th>Opening</th>
                           <th>Addition</th>
@@ -327,19 +327,19 @@ const AssetSchedule = () => {
                           <tr key={index}>
                             <td
                               style={{
-                                fontWeight: "bold",
-                                textAlign: "left",
-                                paddingLeft: "1px",
+                                fontWeight: 'bold',
+                                textAlign: 'left',
+                                paddingLeft: '1px',
                               }}
                             >
                               {item?.strGlName}
                             </td>
                             <td
                               style={{
-                                fontWeight: "bold",
-                                textAlign: "end",
-                                fontSize: "12px",
-                                width: "120px",
+                                fontWeight: 'bold',
+                                textAlign: 'end',
+                                fontSize: '12px',
+                                width: '120px',
                               }}
                             >
                               {numberWithCommas(
@@ -348,10 +348,10 @@ const AssetSchedule = () => {
                             </td>
                             <td
                               style={{
-                                textAlign: "end",
-                                paddingRight: "3px",
-                                fontSize: "12px",
-                                width: "140px",
+                                textAlign: 'end',
+                                paddingRight: '3px',
+                                fontSize: '12px',
+                                width: '140px',
                               }}
                             >
                               {numberWithCommas(
@@ -360,9 +360,9 @@ const AssetSchedule = () => {
                             </td>
                             <td
                               style={{
-                                textAlign: "end",
-                                paddingRight: "3px",
-                                fontSize: "12px",
+                                textAlign: 'end',
+                                paddingRight: '3px',
+                                fontSize: '12px',
                               }}
                             >
                               {numberWithCommas(
@@ -371,11 +371,11 @@ const AssetSchedule = () => {
                             </td>
                             <td
                               style={{
-                                fontWeight: "bold",
-                                textAlign: "end",
-                                paddingRight: "3px",
-                                fontSize: "12px",
-                                width: "120px",
+                                fontWeight: 'bold',
+                                textAlign: 'end',
+                                paddingRight: '3px',
+                                fontSize: '12px',
+                                width: '120px',
                               }}
                             >
                               {numberWithCommas(
@@ -384,10 +384,10 @@ const AssetSchedule = () => {
                             </td>
                             <td
                               style={{
-                                textAlign: "end",
-                                paddingRight: "3px",
-                                fontSize: "12px",
-                                width: "140px",
+                                textAlign: 'end',
+                                paddingRight: '3px',
+                                fontSize: '12px',
+                                width: '140px',
                               }}
                             >
                               {numberWithCommas(
@@ -396,10 +396,10 @@ const AssetSchedule = () => {
                             </td>
                             <td
                               style={{
-                                textAlign: "end",
-                                paddingRight: "3px",
-                                fontSize: "12px",
-                                width: "130px",
+                                textAlign: 'end',
+                                paddingRight: '3px',
+                                fontSize: '12px',
+                                width: '130px',
                               }}
                             >
                               {numberWithCommas(
@@ -408,9 +408,9 @@ const AssetSchedule = () => {
                             </td>
                             <td
                               style={{
-                                textAlign: "end",
-                                paddingRight: "3px",
-                                fontSize: "12px",
+                                textAlign: 'end',
+                                paddingRight: '3px',
+                                fontSize: '12px',
                               }}
                             >
                               {numberWithCommas(
@@ -419,9 +419,9 @@ const AssetSchedule = () => {
                             </td>
                             <td
                               style={{
-                                textAlign: "end",
-                                paddingRight: "3px",
-                                fontSize: "12px",
+                                textAlign: 'end',
+                                paddingRight: '3px',
+                                fontSize: '12px',
                               }}
                             >
                               {numberWithCommas(
@@ -430,10 +430,10 @@ const AssetSchedule = () => {
                             </td>
                             <td
                               style={{
-                                fontWeight: "bold",
-                                textAlign: "end",
-                                paddingRight: "3px",
-                                fontSize: "12px",
+                                fontWeight: 'bold',
+                                textAlign: 'end',
+                                paddingRight: '3px',
+                                fontSize: '12px',
                               }}
                             >
                               {numberWithCommas(
@@ -443,15 +443,15 @@ const AssetSchedule = () => {
                           </tr>
                         ))}
                         <tr>
-                          <td colSpan={1} style={{ textAlign: "right" }}>
+                          <td colSpan={1} style={{ textAlign: 'right' }}>
                             <strong> Total</strong>
                           </td>
                           <td
                             style={{
-                              textAlign: "end",
-                              paddingRight: "3px",
-                              fontSize: "14px",
-                              paddingLeft: "4px",
+                              textAlign: 'end',
+                              paddingRight: '3px',
+                              fontSize: '14px',
+                              paddingLeft: '4px',
                             }}
                           >
                             <strong>
@@ -466,10 +466,10 @@ const AssetSchedule = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "end",
-                              paddingRight: "3px",
-                              fontSize: "14px",
-                              paddingLeft: "4px",
+                              textAlign: 'end',
+                              paddingRight: '3px',
+                              fontSize: '14px',
+                              paddingLeft: '4px',
                             }}
                           >
                             <strong>
@@ -484,10 +484,10 @@ const AssetSchedule = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "end",
-                              paddingRight: "3px",
-                              fontSize: "14px",
-                              paddingLeft: "4px",
+                              textAlign: 'end',
+                              paddingRight: '3px',
+                              fontSize: '14px',
+                              paddingLeft: '4px',
                             }}
                           >
                             <strong>
@@ -502,10 +502,10 @@ const AssetSchedule = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "end",
-                              paddingRight: "3px",
-                              fontSize: "14px",
-                              paddingLeft: "4px",
+                              textAlign: 'end',
+                              paddingRight: '3px',
+                              fontSize: '14px',
+                              paddingLeft: '4px',
                             }}
                           >
                             <strong>
@@ -520,10 +520,10 @@ const AssetSchedule = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "end",
-                              paddingRight: "3px",
-                              fontSize: "14px",
-                              paddingLeft: "4px",
+                              textAlign: 'end',
+                              paddingRight: '3px',
+                              fontSize: '14px',
+                              paddingLeft: '4px',
                             }}
                           >
                             <strong>
@@ -538,10 +538,10 @@ const AssetSchedule = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "end",
-                              paddingRight: "3px",
-                              fontSize: "14px",
-                              paddingLeft: "4px",
+                              textAlign: 'end',
+                              paddingRight: '3px',
+                              fontSize: '14px',
+                              paddingLeft: '4px',
                             }}
                           >
                             <strong>
@@ -557,10 +557,10 @@ const AssetSchedule = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "end",
-                              paddingRight: "3px",
-                              fontSize: "14px",
-                              paddingLeft: "4px",
+                              textAlign: 'end',
+                              paddingRight: '3px',
+                              fontSize: '14px',
+                              paddingLeft: '4px',
                             }}
                           >
                             <strong>
@@ -575,10 +575,10 @@ const AssetSchedule = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "end",
-                              paddingRight: "3px",
-                              fontSize: "14px",
-                              paddingLeft: "4px",
+                              textAlign: 'end',
+                              paddingRight: '3px',
+                              fontSize: '14px',
+                              paddingLeft: '4px',
                             }}
                           >
                             <strong>
@@ -593,10 +593,10 @@ const AssetSchedule = () => {
                           </td>
                           <td
                             style={{
-                              textAlign: "end",
-                              paddingRight: "3px",
-                              fontSize: "14px",
-                              paddingLeft: "4px",
+                              textAlign: 'end',
+                              paddingRight: '3px',
+                              fontSize: '14px',
+                              paddingLeft: '4px',
                             }}
                           >
                             <strong>

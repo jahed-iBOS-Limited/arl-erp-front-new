@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
 import {
   editShipment,
   getDownTripData,
@@ -9,56 +9,56 @@ import {
   GetVehicleDDL,
   getRouteNameDDL,
   getWareHouseDDL,
-} from "../helper";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import { GetShipmentCostEntryStatus_api } from "./../helper";
-import { _currentTime } from "./../../../../_helper/_currentTime";
-import moment from "moment";
+} from '../helper';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import { GetShipmentCostEntryStatus_api } from './../helper';
+import { _currentTime } from './../../../../_helper/_currentTime';
+import moment from 'moment';
 const initData = {
-  whName: "",
-  shipPoint: "",
-  vehicle: "",
-  vehicleNo: "",
-  customerName: "",
-  driverName: "",
-  routeName: "",
-  distanceKm: "",
+  whName: '',
+  shipPoint: '',
+  vehicle: '',
+  vehicleNo: '',
+  customerName: '',
+  driverName: '',
+  routeName: '',
+  distanceKm: '',
   shipmentDate: _todayDate(),
-  startMillage: "",
-  endMillage: "",
-  totalStandardCost: "",
-  advanceAmount: "",
-  totalActualCost: "",
-  costComponent: "",
-  daQuantity: "",
-  daAmount: "",
+  startMillage: '',
+  endMillage: '',
+  totalStandardCost: '',
+  advanceAmount: '',
+  totalActualCost: '',
+  costComponent: '',
+  daQuantity: '',
+  daAmount: '',
   downTraip: false,
-  downTripAllowns: "",
+  downTripAllowns: '',
   date: _todayDate(),
-  reason: "",
-  downTripCash: "",
-  downTripCredit: "",
-  businessUnitName: "",
-  Supplier: "",
-  fuelStationName: "",
-  fuelType: "",
-  fuelQty: "",
-  fuelAmount: "",
-  fuelMemoNo: "",
+  reason: '',
+  downTripCash: '',
+  downTripCredit: '',
+  businessUnitName: '',
+  Supplier: '',
+  fuelStationName: '',
+  fuelType: '',
+  fuelQty: '',
+  fuelAmount: '',
+  fuelMemoNo: '',
   fuelDate: _todayDate(),
-  purchaseType: "",
-  cash: "",
-  credit: "",
-  totalActual: "",
-  extraMillage: "",
+  purchaseType: '',
+  cash: '',
+  credit: '',
+  totalActual: '',
+  extraMillage: '',
   vehicleInDate: _todayDate(),
   vehicleInTime: _currentTime(),
-  profitCenter: "",
-  costElement: "",
-  costCenter: "",
+  profitCenter: '',
+  costElement: '',
+  costCenter: '',
 };
 
 export default function ManualShipmentCostForm() {
@@ -68,18 +68,18 @@ export default function ManualShipmentCostForm() {
   const [rowDto, setRowDto] = useState([]);
   const [fuleCost, setFuleCost] = useState([]);
   const { id } = useParams();
-  const [entryStatus, setEntryStatus] = useState("");
-  const [downTripData, setDownTripData] = useState("");
-  const [buMilage, setBuMilage] = useState("");
+  const [entryStatus, setEntryStatus] = useState('');
+  const [downTripData, setDownTripData] = useState('');
+  const [buMilage, setBuMilage] = useState('');
   const [fileObjects, setFileObjects] = useState([]);
-  const [uploadImage, setUploadImage] = useState("");
+  const [uploadImage, setUploadImage] = useState('');
   const [netPayable, setNetPayable] = useState(0);
   const [dicrementNetPayable, setDicrementNetPayable] = useState(0);
   const [advanceAmount, setAdvanceAmount] = useState(0);
   const [vehicleDDL, setVehicleDDL] = useState([]);
   const [routeNameDDL, setRouteNameDDL] = useState([]);
 
-  const [vehicleId, setVehicleId] = useState("");
+  const [vehicleId, setVehicleId] = useState('');
   const [whNameDDL, setWhNameDDL] = useState([]);
   //const location = useLocation();
   // get user profile data from store
@@ -103,7 +103,6 @@ export default function ManualShipmentCostForm() {
         setEntryStatus
       );
     }
-
   }, []);
 
   const totalStandardCost_TotalActualCalFunc = (arry) => {
@@ -150,7 +149,6 @@ export default function ManualShipmentCostForm() {
         setDownTripData
       );
     }
-
   }, [vehicleId]);
 
   useEffect(() => {
@@ -181,7 +179,7 @@ export default function ManualShipmentCostForm() {
   const saveHandler = async (values, cb) => {
     const vehicleInDate = moment(
       `${values?.vehicleInDate} ${values?.vehicleInTime}`
-    ).format("YYYY-MM-DDTHH:mm:ss");
+    ).format('YYYY-MM-DDTHH:mm:ss');
 
     const row = rowDto.map((item) => {
       return {
@@ -198,7 +196,7 @@ export default function ManualShipmentCostForm() {
     //   return;
     // }
     if (row?.length === 0) {
-      toast.warning("Please add at least one Allowance");
+      toast.warning('Please add at least one Allowance');
       return;
     }
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
@@ -209,17 +207,17 @@ export default function ManualShipmentCostForm() {
           sl: 0,
           shipmentCostId: 0,
           shipmentId: 0,
-          shipmentCode: "",
+          shipmentCode: '',
           shipmentDate: values?.shipmentDate,
           vehicleId: values?.vehicle?.value,
           vehicleNo: values?.vehicle?.label,
           driverId: values?.vehicle?.driverId,
           startMillage: +values?.startMillage || 0,
-          extraMillageReason: values?.extraMillageReason || "",
+          extraMillageReason: values?.extraMillageReason || '',
           extraMillage: +values?.extraMillage || 0,
           endMillage: +values?.endMillage || 0,
           routeId: values?.routeName?.value || 0,
-          routeName: values?.routeName?.label || "",
+          routeName: values?.routeName?.label || '',
           totalStandardCost: +values?.totalStandardCost || 0,
           advanceAmount: +values?.advanceAmount || 0,
           totalActualCost: +values?.totalActualCost || 0,
@@ -227,11 +225,11 @@ export default function ManualShipmentCostForm() {
           isAdvanceRequested: false,
           isExpenseEntered: true,
           isClose: true,
-          strInOutStatus: "in",
+          strInOutStatus: 'in',
           isBillSubmited: false,
           vehicleShippingCost: 0,
           expenseRegisterId: 0,
-          expenseRegisterCode: "",
+          expenseRegisterCode: '',
           expenseEntryDate: _todayDate(),
           isAccountsEntry: false,
           accountsEntryDate: _todayDate(),
@@ -248,8 +246,8 @@ export default function ManualShipmentCostForm() {
           wareHouseId: values?.whName?.value,
           vehicleRent: values?.vehicleRent,
           fuelCost: 0,
-          customerName: values?.customerName || "",
-          vehicleInDate: vehicleInDate || "",
+          customerName: values?.customerName || '',
+          vehicleInDate: vehicleInDate || '',
           profitCenterId: values?.profitCenter?.value,
           costElementId: values?.costElement?.value,
           costCeneterId: values?.costCenter?.value,
@@ -269,17 +267,15 @@ export default function ManualShipmentCostForm() {
         item?.transportRouteCostComponent === obj?.transportRouteCostComponent
     );
     if (foundData?.length >= 1)
-      return toast.warn("Not allowed to duplicate items");
+      return toast.warn('Not allowed to duplicate items');
     setRowDto([...rowDto, obj]);
     cb();
 
     if (setFieldValue) {
-      const {
-        totalStandardCost,
-        totalActual,
-      } = totalStandardCost_TotalActualCalFunc([...rowDto, obj]);
-      setFieldValue("totalActualCost", totalActual);
-      setFieldValue("totalStandardCost", totalStandardCost);
+      const { totalStandardCost, totalActual } =
+        totalStandardCost_TotalActualCalFunc([...rowDto, obj]);
+      setFieldValue('totalActualCost', totalActual);
+      setFieldValue('totalStandardCost', totalStandardCost);
     }
   };
 
@@ -288,12 +284,10 @@ export default function ManualShipmentCostForm() {
     setRowDto(filterArr);
 
     if (setFieldValue) {
-      const {
-        totalStandardCost,
-        totalActual,
-      } = totalStandardCost_TotalActualCalFunc(filterArr);
-      setFieldValue("totalActualCost", totalActual);
-      setFieldValue("totalStandardCost", totalStandardCost);
+      const { totalStandardCost, totalActual } =
+        totalStandardCost_TotalActualCalFunc(filterArr);
+      setFieldValue('totalActualCost', totalActual);
+      setFieldValue('totalStandardCost', totalStandardCost);
     }
   };
   const removerTwo = (index) => {
@@ -306,12 +300,10 @@ export default function ManualShipmentCostForm() {
     xData[sl][name] = value;
     setRowDto([...xData]);
     if (setFieldValue) {
-      const {
-        totalStandardCost,
-        totalActual,
-      } = totalStandardCost_TotalActualCalFunc([...xData]);
-      setFieldValue("totalActualCost", totalActual);
-      setFieldValue("totalStandardCost", totalStandardCost);
+      const { totalStandardCost, totalActual } =
+        totalStandardCost_TotalActualCalFunc([...xData]);
+      setFieldValue('totalActualCost', totalActual);
+      setFieldValue('totalStandardCost', totalStandardCost);
     }
   };
 
@@ -348,9 +340,9 @@ export default function ManualShipmentCostForm() {
 
     if (+values?.fuelAmount === purchaseAmount) {
       setFuleCost([...fuleCost, obj]);
-      setUploadImage("");
+      setUploadImage('');
     } else {
-      toast.warning("You have must increase amount ");
+      toast.warning('You have must increase amount ');
     }
     // }
   };
@@ -364,7 +356,7 @@ export default function ManualShipmentCostForm() {
 
     // millageAllowance index find
     let foundMilage = rowDto?.findIndex(
-      (item) => item?.transportRouteCostComponent === "Millage Allowance"
+      (item) => item?.transportRouteCostComponent === 'Millage Allowance'
     );
     const copyRowDto = [...rowDto];
     copyRowDto[foundMilage] = {
@@ -375,12 +367,10 @@ export default function ManualShipmentCostForm() {
     setRowDto([...copyRowDto]);
 
     if (setFieldValue) {
-      const {
-        totalStandardCost,
-        totalActual,
-      } = totalStandardCost_TotalActualCalFunc([...copyRowDto]);
-      setFieldValue("totalActualCost", totalActual);
-      setFieldValue("totalStandardCost", totalStandardCost);
+      const { totalStandardCost, totalActual } =
+        totalStandardCost_TotalActualCalFunc([...copyRowDto]);
+      setFieldValue('totalActualCost', totalActual);
+      setFieldValue('totalStandardCost', totalStandardCost);
     }
   };
 

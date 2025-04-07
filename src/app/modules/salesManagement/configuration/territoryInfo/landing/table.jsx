@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { getTerritorySetupLanding, getChannelDDL } from "../helper";
-import { Formik } from "formik";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import IViewModal from "../../../../_helper/_viewModal";
-import ICard from "../../../../_helper/_card";
-import { useHistory } from "react-router";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { getTerritorySetupLanding, getChannelDDL } from '../helper';
+import { Formik } from 'formik';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import IViewModal from '../../../../_helper/_viewModal';
+import ICard from '../../../../_helper/_card';
+import { useHistory } from 'react-router';
 
 const initData = {
-  channel: { value: 0, label: "All" },
+  channel: { value: 0, label: 'All' },
 };
 
 const TerritoryInfoLanding = () => {
@@ -35,7 +35,6 @@ const TerritoryInfoLanding = () => {
       );
       setLandingData();
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const setLandingData = (values) => {
@@ -73,12 +72,12 @@ const TerritoryInfoLanding = () => {
                     <NewSelect
                       name="channel"
                       options={
-                        [{ value: 0, label: "All" }, ...channelDDL] || []
+                        [{ value: 0, label: 'All' }, ...channelDDL] || []
                       }
                       value={values?.channel}
                       label="Distribution Channel"
                       onChange={(valueOption) => {
-                        setFieldValue("channel", valueOption);
+                        setFieldValue('channel', valueOption);
                       }}
                       placeholder="Distribution Channel"
                       errors={errors}
@@ -90,7 +89,7 @@ const TerritoryInfoLanding = () => {
                     <button
                       type="button"
                       className="btn btn-primary"
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                       onClick={() => {
                         setLandingData(values);
                       }}
@@ -119,18 +118,18 @@ const TerritoryInfoLanding = () => {
                           {<td key={index}>{data?.channelName}</td>}
                           {gridData?.objTypeList?.map((item, keyIndex) => {
                             if (
-                              data[item["territoryTypeCodeName"].toLowerCase()]
+                              data[item['territoryTypeCodeName'].toLowerCase()]
                             ) {
                               if (
-                                item["territoryTypeCodeName"].toLowerCase() !==
-                                data["editBtn"]
+                                item['territoryTypeCodeName'].toLowerCase() !==
+                                data['editBtn']
                               ) {
                                 return (
                                   <td>
                                     {
                                       data[
                                         item[
-                                          "territoryTypeCodeName"
+                                          'territoryTypeCodeName'
                                         ].toLowerCase()
                                       ]
                                     }
@@ -143,19 +142,18 @@ const TerritoryInfoLanding = () => {
                                       {
                                         data[
                                           item[
-                                            "territoryTypeCodeName"
+                                            'territoryTypeCodeName'
                                           ].toLowerCase()
                                         ]
                                       }
                                     </span>
-
                                   </td>
                                 );
                               }
                             } else {
                               if (
-                                item["territoryTypeCodeName"].toLowerCase() !==
-                                data["addBtn"]
+                                item['territoryTypeCodeName'].toLowerCase() !==
+                                data['addBtn']
                               ) {
                                 return <td></td>;
                               } else {

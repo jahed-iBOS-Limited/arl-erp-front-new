@@ -189,7 +189,7 @@ export default function FormCmp({
                             } else {
                               setFieldValue(
                                 'new_Adv_Adjustment',
-                                Number(supplierAmountInfo?.poPendingAdjustment),
+                                Number(supplierAmountInfo?.poPendingAdjustment)
                               );
                             }
                           }
@@ -271,7 +271,7 @@ export default function FormCmp({
                             ) {
                               setFieldValue(
                                 'new_Adv_Adjustment',
-                                e?.target?.value,
+                                e?.target?.value
                               );
                             }
                           }}
@@ -356,8 +356,8 @@ export default function FormCmp({
                               clickHandler={() => {
                                 dispatch(
                                   getDownlloadFileView_Action(
-                                    values?.attachmentId,
-                                  ),
+                                    values?.attachmentId
+                                  )
                                 );
                               }}
                             />
@@ -507,7 +507,7 @@ export default function FormCmp({
                           setFieldValue('new_Adv_Adjustment', '');
                           setFieldValue(
                             'totalGRNAmount',
-                            valueOption?.totalGRNAmount,
+                            valueOption?.totalGRNAmount
                           );
 
                           getGRNDDL(
@@ -518,12 +518,12 @@ export default function FormCmp({
                             valueOption?.warehouseId,
                             valueOption?.value,
                             valueOption?.label,
-                            setgrnDDLData,
+                            setgrnDDLData
                           );
                           GetSupplierAmountInfo(
                             valueOption?.value,
                             setSupplierAmountInfo,
-                            setFieldValue,
+                            setFieldValue
                           );
 
                           if (!valueOption) {
@@ -535,7 +535,7 @@ export default function FormCmp({
                           if (v?.length < 3) return [];
                           return axios
                             .get(
-                              `/procurement/PurchaseOrder/GetPurchaseOrderPIDDL2?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit.value}&SBUId=${headerData?.sbu?.value}&PlantId=${headerData?.plant?.value}&searchTerm=${v}`,
+                              `/procurement/PurchaseOrder/GetPurchaseOrderPIDDL2?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit.value}&SBUId=${headerData?.sbu?.value}&PlantId=${headerData?.plant?.value}&searchTerm=${v}`
                             )
                             .then((res) => {
                               const updateList = res?.data.map((item) => ({
@@ -585,7 +585,7 @@ export default function FormCmp({
                           addGRNtoTheGrid(
                             values,
                             setFieldValue,
-                            supplierAmountInfo,
+                            supplierAmountInfo
                           );
                           setFieldValue('selectGRN', '');
                         }}
@@ -659,13 +659,13 @@ export default function FormCmp({
                                       remover(
                                         index,
                                         setFieldValue,
-                                        supplierAmountInfo,
+                                        supplierAmountInfo
                                       );
                                       setFieldValue(
                                         'grossInvoiceAmount',
                                         totalGrn -
                                           grnGridData[index].referenceAmount ||
-                                          0,
+                                          0
                                       );
                                     }}
                                   >
@@ -750,7 +750,7 @@ export default function FormCmp({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

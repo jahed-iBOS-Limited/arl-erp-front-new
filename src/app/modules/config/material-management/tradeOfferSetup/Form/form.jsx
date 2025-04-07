@@ -1,42 +1,42 @@
-import React from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import { IInput } from "../../../../_helper/_input";
-import ICalendar from "../../../../_helper/_inputCalender";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import shortid from "shortid";
+import React from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import { IInput } from '../../../../_helper/_input';
+import ICalendar from '../../../../_helper/_inputCalender';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import shortid from 'shortid';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   conditionType: Yup.object().shape({
-    label: Yup.string().required("Condition type is required"),
-    value: Yup.string().required("Condition type is required"),
+    label: Yup.string().required('Condition type is required'),
+    value: Yup.string().required('Condition type is required'),
   }),
   itemGrouping: Yup.object().shape({
-    label: Yup.string().required("Item grouping is required"),
-    value: Yup.string().required("Item grouping is required"),
+    label: Yup.string().required('Item grouping is required'),
+    value: Yup.string().required('Item grouping is required'),
   }),
   partnerGrouping: Yup.object().shape({
-    label: Yup.string().required("Partner grouping is required"),
-    value: Yup.string().required("Partner grouping is required"),
+    label: Yup.string().required('Partner grouping is required'),
+    value: Yup.string().required('Partner grouping is required'),
   }),
   roundingType: Yup.object().shape({
-    label: Yup.string().required("Rounding type is required"),
-    value: Yup.string().required("Rounding type is required"),
+    label: Yup.string().required('Rounding type is required'),
+    value: Yup.string().required('Rounding type is required'),
   }),
   startDate: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Start Date is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Start Date is required'),
   endDate: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("End Date is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('End Date is required'),
   offerBasedOn: Yup.object().shape({
-    label: Yup.string().required("Offer based on is required"),
-    value: Yup.string().required("Offer based on is required"),
+    label: Yup.string().required('Offer based on is required'),
+    value: Yup.string().required('Offer based on is required'),
   }),
 });
 
@@ -99,16 +99,16 @@ export default function FormCmp({
                               placeholder="Condition Type"
                               value={values?.conditionType}
                               onChange={(valueOption) => {
-                                setFieldValue("conditionType", valueOption);
-                                setFieldValue("itemGrouping", {
-                                  value: "",
-                                  label: "",
+                                setFieldValue('conditionType', valueOption);
+                                setFieldValue('itemGrouping', {
+                                  value: '',
+                                  label: '',
                                 });
-                                setFieldValue("partnerGrouping", {
-                                  value: "",
-                                  label: "",
+                                setFieldValue('partnerGrouping', {
+                                  value: '',
+                                  label: '',
                                 });
-                                let val = valueOption?.label?.split("/");
+                                let val = valueOption?.label?.split('/');
                                 setConditionType({
                                   queryOne: val[0],
                                   queryTwo: val[1],
@@ -121,10 +121,10 @@ export default function FormCmp({
                         />
                         <p
                           style={{
-                            fontSize: "0.9rem",
+                            fontSize: '0.9rem',
                             fontWeight: 400,
-                            width: "100%",
-                            marginTop: "0.25rem",
+                            width: '100%',
+                            marginTop: '0.25rem',
                           }}
                           className="text-danger"
                         >
@@ -133,7 +133,7 @@ export default function FormCmp({
                           touched &&
                           touched.conditionType
                             ? errors.conditionType.value
-                            : ""}
+                            : ''}
                         </p>
                       </div>
 
@@ -199,13 +199,13 @@ export default function FormCmp({
                           component={() => (
                             <Select
                               options={[
-                                { value: "quantity", label: "Quantity" },
-                                { value: "value", label: "Value" },
+                                { value: 'quantity', label: 'Quantity' },
+                                { value: 'value', label: 'Value' },
                               ]}
                               placeholder="Offer Based On"
                               value={values?.offerBasedOn}
                               onChange={(valueOption) => {
-                                setFieldValue("offerBasedOn", valueOption);
+                                setFieldValue('offerBasedOn', valueOption);
                                 setRow([
                                   {
                                     id: shortid(),
@@ -231,12 +231,12 @@ export default function FormCmp({
                               id={values.isMinimumApplied}
                               type="checkbox"
                               className="ml-2"
-                              value={values.isMinimumApplied || ""}
+                              value={values.isMinimumApplied || ''}
                               checked={values.isMinimumApplied}
                               name={values.isMinimumApplied}
                               onChange={(e) => {
                                 setFieldValue(
-                                  "isMinimumApplied",
+                                  'isMinimumApplied',
                                   e.target.checked
                                 );
                               }}
@@ -255,12 +255,12 @@ export default function FormCmp({
                               id={values.isSlabProgram}
                               type="checkbox"
                               className="ml-2"
-                              value={values.isSlabProgram || ""}
+                              value={values.isSlabProgram || ''}
                               checked={values.isSlabProgram}
                               name={values.isSlabProgram}
                               onChange={(e) => {
                                 setFieldValue(
-                                  "isSlabProgram",
+                                  'isSlabProgram',
                                   e.target.checked
                                 );
                               }}
@@ -288,7 +288,7 @@ export default function FormCmp({
               {row.map((item, index) => {
                 return (
                   <div className="form-group row global-form">
-                    {values.offerBasedOn?.value === "quantity" ? (
+                    {values.offerBasedOn?.value === 'quantity' ? (
                       <>
                         <div className="col-lg">
                           <IInput
@@ -378,15 +378,15 @@ export default function FormCmp({
                         component={() => (
                           <Select
                             options={[
-                              { value: "percent", label: "Percent amount" },
-                              { value: "fixed", label: "Fixed amount" },
-                              { value: "item", label: "Item" },
+                              { value: 'percent', label: 'Percent amount' },
+                              { value: 'fixed', label: 'Fixed amount' },
+                              { value: 'item', label: 'Item' },
                             ]}
                             placeholder="Promotion Type"
                             value={rowDto[index]?.promotionType}
                             onChange={(valueOption) => {
                               rowDtoHandler(
-                                "promotionType",
+                                'promotionType',
                                 valueOption,
                                 index
                               );
@@ -398,7 +398,7 @@ export default function FormCmp({
                       />
                     </div>
 
-                    {rowDto[index]?.promotionType?.value === "item" ? (
+                    {rowDto[index]?.promotionType?.value === 'item' ? (
                       <>
                         <div className="col-lg">
                           <label>Offer Item</label>
@@ -412,7 +412,7 @@ export default function FormCmp({
                                 value={rowDto[index]?.offerItem}
                                 onChange={(valueOption) => {
                                   rowDtoHandler(
-                                    "offerItem",
+                                    'offerItem',
                                     valueOption,
                                     index
                                   );
@@ -435,7 +435,7 @@ export default function FormCmp({
                                 placeholder="Offer item UoM"
                                 value={rowDto[index]?.itemUom}
                                 onChange={(valueOption) => {
-                                  rowDtoHandler("itemUom", valueOption, index);
+                                  rowDtoHandler('itemUom', valueOption, index);
                                 }}
                                 isSearchable={true}
                                 styles={customStyles}
@@ -476,7 +476,7 @@ export default function FormCmp({
                           required
                           min="0"
                           max={
-                            rowDto[index]?.promotionType?.value === "percent"
+                            rowDto[index]?.promotionType?.value === 'percent'
                               ? 100
                               : 999999999
                           }
@@ -487,7 +487,7 @@ export default function FormCmp({
                       <div className="col-lg-1">
                         <span>
                           <i
-                            style={{ marginTop: "36px" }}
+                            style={{ marginTop: '36px' }}
                             onClick={() => remover(index)}
                             className="fa fa-trash deleteBtn"
                             aria-hidden="true"
@@ -501,14 +501,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

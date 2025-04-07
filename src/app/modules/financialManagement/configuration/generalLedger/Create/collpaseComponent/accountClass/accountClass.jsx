@@ -1,24 +1,22 @@
-
-
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from 'react';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../../../_metronic/_partials/controls";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-import Axios from "axios";
-import { toast } from "react-toastify";
-import shortid from "shortid";
-import { getGroupDDLAction } from "../../../_redux/Actions";
-import { getAccountClassPagination_action } from "./../../../_redux/Actions";
+} from '../../../../../../../../_metronic/_partials/controls';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
+import { getGroupDDLAction } from '../../../_redux/Actions';
+import { getAccountClassPagination_action } from './../../../_redux/Actions';
 const initData = {
-  accountClassName: "",
-  accountClassCode: "",
-  accountGroupName: "",
+  accountClassName: '',
+  accountClassCode: '',
+  accountGroupName: '',
 };
 
 export default function AccountClass() {
@@ -53,20 +51,21 @@ export default function AccountClass() {
       dispatch(getGroupDDLAction());
       dispatch(getAccountClassPagination_action(profileData?.accountId));
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   // delete singleData from row
 
   const deleteSingleRow = async (id) => {
     try {
-      const res = await Axios.delete(`/costmgmt/GeneralLedger/DeleteAccountClass?ClassId=${id}`);
+      const res = await Axios.delete(
+        `/costmgmt/GeneralLedger/DeleteAccountClass?ClassId=${id}`
+      );
       if (res.status === 200) {
         dispatch(getAccountClassPagination_action(profileData?.accountId));
-        toast.success("Successfully deleted");
+        toast.success('Successfully deleted');
       }
     } catch (error) {
-      toast.error("Something went wrong");
+      toast.error('Something went wrong');
     }
   };
 
@@ -87,12 +86,12 @@ export default function AccountClass() {
       try {
         setDisabled(true);
         const res = await Axios.post(
-          "/costmgmt/GeneralLedger/CreateAccountClass",
+          '/costmgmt/GeneralLedger/CreateAccountClass',
           data
         );
 
         cb(initData);
-        toast.success(res.data?.message || "Submitted successfully", {
+        toast.success(res.data?.message || 'Submitted successfully', {
           toastId: shortid(),
         });
 

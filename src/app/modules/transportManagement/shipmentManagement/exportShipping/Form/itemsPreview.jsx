@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 
 const ChallanItemsPreview = ({ rowData }) => {
-  const header = ["SL", "Item Name", "Item Qty"];
+  const header = ['SL', 'Item Name', 'Item Qty'];
   return (
     <div className="table-responsive">
       <table
         className={
-          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+          'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
         }
       >
         <thead>
@@ -19,7 +19,7 @@ const ChallanItemsPreview = ({ rowData }) => {
         {rowData?.map((item, index) => {
           return (
             <tr className="cursor-pointer" key={index}>
-              <td style={{ width: "40px" }} className="text-center">
+              <td style={{ width: '40px' }} className="text-center">
                 {index + 1}
               </td>
               <td>{item?.itemName}</td>
@@ -27,7 +27,7 @@ const ChallanItemsPreview = ({ rowData }) => {
             </tr>
           );
         })}
-        <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+        <tr style={{ fontWeight: 'bold', textAlign: 'right' }}>
           <td colSpan={2}>Total</td>
           <td>
             {rowData?.reduce((acc, curr) => {

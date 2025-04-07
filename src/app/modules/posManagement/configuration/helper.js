@@ -1,6 +1,6 @@
 // For Communication with external API's , for example ... get data, post data etc
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 // export const getWareHouseDDL = async (accId, buId, setter) => {
 //   try {
@@ -26,9 +26,7 @@ export const getSalesReportData = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data?.data);
     }
-  } catch (error) {
-
-  }
+  } catch (error) {}
 };
 
 export const getDeliveryReportData = async (
@@ -48,7 +46,7 @@ export const getDeliveryReportData = async (
       if (res?.data?.length > 0) {
         setter(res?.data);
       } else {
-        toast.warning("No Data Found");
+        toast.warning('No Data Found');
       }
       setLoading(false);
     }
@@ -56,7 +54,6 @@ export const getDeliveryReportData = async (
     setLoading(false);
   }
 };
-
 
 export const getWareHouseDDL = async (accId, buId, setter) => {
   try {
@@ -85,16 +82,20 @@ export const getItemDDL = async (
   search
 ) => {
   try {
-    const searchQuery = search ? `&SearchTerm=${search}` : ""
-    const fromString = fromDate ? `&fromDate=${fromDate}` : ""
-    const toString = toDate ? `&toDate=${toDate}` : ""
-    const salesRateString = salesRate ? `&MinRate=${salesRate?.min}&MaxRate=${salesRate?.max}` : ""
-    const mrpString = mrp ? `&MinMRP=${mrp?.min}&MaxMRP=${mrp?.max}` : ""
-    const IsExpierDateSetedString = expiredDate ? `&IsExpierDateSeted=${expiredDate?.value}` : ""
+    const searchQuery = search ? `&SearchTerm=${search}` : '';
+    const fromString = fromDate ? `&fromDate=${fromDate}` : '';
+    const toString = toDate ? `&toDate=${toDate}` : '';
+    const salesRateString = salesRate
+      ? `&MinRate=${salesRate?.min}&MaxRate=${salesRate?.max}`
+      : '';
+    const mrpString = mrp ? `&MinMRP=${mrp?.min}&MaxMRP=${mrp?.max}` : '';
+    const IsExpierDateSetedString = expiredDate
+      ? `&IsExpierDateSeted=${expiredDate?.value}`
+      : '';
     const res = await axios.get(
       `/item/ItemSales/GetItemSalesforPOS?AccountId=${accId}&BUnitId=${buId}&WarehouseId=${whId}${fromString}${toString}&pageSize=${pageSize}&pageNo=${pageNo}&viewOrder=desc${salesRateString}${mrpString}${IsExpierDateSetedString}${searchQuery}`
     );
-    const response = await res?.data?.data.map(item => {
+    const response = await res?.data?.data.map((item) => {
       return {
         rowId: item?.rowId,
         itemId: item?.value,
@@ -110,10 +111,10 @@ export const getItemDDL = async (
         expiredDate: item?.expiredDate,
         purchaseDate: item?.purchaseDate,
         purchaseQty: item?.purchaseQty,
-      }
-    })
+      };
+    });
     setter(response);
-    setTotalCount(res?.data?.totalCount)
+    setTotalCount(res?.data?.totalCount);
   } catch (error) {
     setter([]);
   }
@@ -121,16 +122,17 @@ export const getItemDDL = async (
 
 export const updateItemProfile = async (payload) => {
   try {
-    const res = await axios.post("/oms/POSDelivery/SetsalesItemProfileForPos", payload)
+    const res = await axios.post(
+      '/oms/POSDelivery/SetsalesItemProfileForPos',
+      payload
+    );
     if (res?.status === 200) {
       toast.success(res?.data?.message);
     }
   } catch (error) {
-    toast.error(
-      error?.response?.data?.message
-    );
+    toast.error(error?.response?.data?.message);
   }
-}
+};
 
 export const getDamageReportData = async (
   accId,
@@ -150,7 +152,7 @@ export const getDamageReportData = async (
       if (res?.data?.length > 0) {
         setter(res?.data);
       } else {
-        toast.warning("No Data Found");
+        toast.warning('No Data Found');
       }
       setLoading(false);
     }
@@ -158,6 +160,3 @@ export const getDamageReportData = async (
     setLoading(false);
   }
 };
-
-
-

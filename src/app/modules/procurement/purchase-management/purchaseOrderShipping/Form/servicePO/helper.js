@@ -1,85 +1,89 @@
-import Axios from "axios";
-import * as Yup from "yup";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import { _todayDate } from "../../../../../_helper/_todayDate";
+import Axios from 'axios';
+import * as Yup from 'yup';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import { _todayDate } from '../../../../../_helper/_todayDate';
 
 export const initData = {
   isTransfer: true,
-  transferBusinessUnit: "",
-  transferBusinessUnitSupplier: "",
-  leadTimeDays: "",
-  supplierName: "",
-  deliveryAddress: "",
+  transferBusinessUnit: '',
+  transferBusinessUnitSupplier: '',
+  leadTimeDays: '',
+  supplierName: '',
+  deliveryAddress: '',
   orderDate: _todayDate(),
   // last shipment date will after 15 days of current
   lastShipmentDate: _dateFormatter(
     new Date(new Date().getTime() + 15 * 24 * 60 * 60 * 1000)
   ),
-  currency: {value:141, label:"Taka"},
-  paymentTerms: { value: 2, label: "Credit" },
-  cash: "",
-  payDays: "",
-  incoterms: { value: 1, label: "CFR (Cost And Freight)" },
-  supplierReference: "",
+  currency: { value: 141, label: 'Taka' },
+  paymentTerms: { value: 2, label: 'Credit' },
+  cash: '',
+  payDays: '',
+  incoterms: { value: 1, label: 'CFR (Cost And Freight)' },
+  supplierReference: '',
   referenceDate: _todayDate(),
   validity: _todayDate(),
-  otherTerms: "",
-  referenceNo: "",
-  item: "",
-  controllingUnit: "",
-  costCenter: "",
-  costElement: "",
-  costCenterTwo: "",
-  costElementTwo: "",
-  profitCenterTwo:"",
-  freight: "",
-  discount: "",
-  commision: "",
-  othersCharge: "",
-  profitCenter: "",
-  originOfSparesShip: "",
-  descriptionShip: "",
-  supplyLocationShip: "",
+  otherTerms: '',
+  referenceNo: '',
+  item: '',
+  controllingUnit: '',
+  costCenter: '',
+  costElement: '',
+  costCenterTwo: '',
+  costElementTwo: '',
+  profitCenterTwo: '',
+  freight: '',
+  discount: '',
+  commision: '',
+  othersCharge: '',
+  profitCenter: '',
+  originOfSparesShip: '',
+  descriptionShip: '',
+  supplyLocationShip: '',
 };
 
 //  Validation schema
 export const validationSchema = Yup.object().shape({
   supplierName: Yup.object()
     .shape({
-      label: Yup.string().required("Supplier name is required"),
-      value: Yup.string().required("Supplier name is required"),
+      label: Yup.string().required('Supplier name is required'),
+      value: Yup.string().required('Supplier name is required'),
     })
     .nullable(),
-  deliveryAddress: Yup.string().required("Delivery address is required"),
-  orderDate: Yup.date().required("Order date is required"),
-  lastShipmentDate: Yup.date().required("Last shipment date is required"),
+  deliveryAddress: Yup.string().required('Delivery address is required'),
+  orderDate: Yup.date().required('Order date is required'),
+  lastShipmentDate: Yup.date().required('Last shipment date is required'),
   currency: Yup.object().shape({
-    label: Yup.string().required("Currency is required"),
-    value: Yup.string().required("Currency is required"),
+    label: Yup.string().required('Currency is required'),
+    value: Yup.string().required('Currency is required'),
   }),
   paymentTerms: Yup.object().shape({
-    label: Yup.string().required("Payment terms is required"),
-    value: Yup.string().required("Payment terms is required"),
+    label: Yup.string().required('Payment terms is required'),
+    value: Yup.string().required('Payment terms is required'),
   }),
 
-  transferBusinessUnit: Yup.object().when("isTransfer", {
+  transferBusinessUnit: Yup.object().when('isTransfer', {
     is: true,
     then: Yup.object()
       .shape({
-        value: Yup.string().required("Transfer Business unit is required"),
-        label: Yup.string().required("Transfer Business unit is required"),
+        value: Yup.string().required('Transfer Business unit is required'),
+        label: Yup.string().required('Transfer Business unit is required'),
       })
-      .typeError("Transfer Business unit is required"),
+      .typeError('Transfer Business unit is required'),
     otherwise: Yup.object(),
   }),
-  transferBusinessUnitSupplier: Yup.object().when("isTransfer", {
+  transferBusinessUnitSupplier: Yup.object().when('isTransfer', {
     is: true,
     then: Yup.object()
       .shape({
-        value: Yup.string().required("Transfer Business unit Supplier is required"),
-        label: Yup.string().required("Transfer Business unit Supplier is required"),
+        value: Yup.string().required(
+          'Transfer Business unit Supplier is required'
+        ),
+        label: Yup.string().required(
+          'Transfer Business unit Supplier is required'
+        ),
       })
-      .typeError("Transfer Business unit Supplier is required"),
+      .typeError('Transfer Business unit Supplier is required'),
     otherwise: Yup.object(),
   }),
   // costCenter: Yup.object().when("isTransfer", {
@@ -114,8 +118,8 @@ export const validationSchema = Yup.object().shape({
   // }),
 
   payDays: Yup.number()
-    .required("Pay days is required")
-    .min(1, "Minimum 1 days"),
+    .required('Pay days is required')
+    .min(1, 'Minimum 1 days'),
   // incoterms: Yup.object().shape({
   //   label: Yup.string().required("Incoterm is required"),
   //   value: Yup.string().required("Incoterm is required"),
@@ -147,14 +151,18 @@ export const getCostCenterDDL = async (accId, buId, setter) => {
   } catch (error) {}
 };
 
-export const getCostElementByCostCenterDDL = async (unitId, accountId, costCenterId, setter) => {
+export const getCostElementByCostCenterDDL = async (
+  unitId,
+  accountId,
+  costCenterId,
+  setter
+) => {
   try {
     const res = await Axios.get(
       `/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${accountId}&UnitId=${unitId}&CostCenterId=${costCenterId}`
     );
     setter(res?.data);
-  } catch (error) {
-  }
+  } catch (error) {}
 };
 
 export const getRefNoDdlForServicePo = async (

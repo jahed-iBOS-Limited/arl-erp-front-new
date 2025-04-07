@@ -1,9 +1,9 @@
-import React from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { useHistory } from "react-router-dom";
-import IView from "../../../../_helper/_helperIcons/_view";
-import IApproval from "../../../../_helper/_helperIcons/_approval";
+import React from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import { useHistory } from 'react-router-dom';
+import IView from '../../../../_helper/_helperIcons/_view';
+import IApproval from '../../../../_helper/_helperIcons/_approval';
 
 export default function BrandItemRequisitionLandingTable({ obj }) {
   const { rowData, values, getSingleDataById } = obj;
@@ -17,7 +17,7 @@ export default function BrandItemRequisitionLandingTable({ obj }) {
           <table className="table table-striped table-bordered bj-table bj-table-landing">
             <thead>
               <tr>
-                <th style={{ width: "30px" }}>SL</th>
+                <th style={{ width: '30px' }}>SL</th>
                 <th>Program Type</th>
                 <th>Request Code</th>
                 <th>Area Name</th>
@@ -70,8 +70,8 @@ export default function BrandItemRequisitionLandingTable({ obj }) {
                           <IApproval
                             title={
                               status === 1
-                                ? "Regional Manager Approve"
-                                : "Head Office Approve"
+                                ? 'Regional Manager Approve'
+                                : 'Head Office Approve'
                             }
                             onClick={() => {
                               getSingleDataById(td?.brandRequestId);

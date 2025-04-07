@@ -1,20 +1,20 @@
-import React, { useState, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import ICard from "../../../../_helper/_card";
-import { Formik, Form } from "formik";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import NewSelect from "../../../../_helper/_select";
-import Loading from "../../../../_helper/_loading";
-import InputField from "../../../../_helper/_inputField";
-import { GetLandingData } from "../helper";
-import ICustomTable from "../../../../_helper/_customTable";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React, { useState, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import ICard from '../../../../_helper/_card';
+import { Formik, Form } from 'formik';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import NewSelect from '../../../../_helper/_select';
+import Loading from '../../../../_helper/_loading';
+import InputField from '../../../../_helper/_inputField';
+import { GetLandingData } from '../helper';
+import ICustomTable from '../../../../_helper/_customTable';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 const initData = {
   date: _todayDate(),
-  vehicleProvider: "",
-  deliveryMode: "",
-  assignedTo: "",
+  vehicleProvider: '',
+  deliveryMode: '',
+  assignedTo: '',
 };
 
 export default function DeliveryRequestReport() {
@@ -23,30 +23,30 @@ export default function DeliveryRequestReport() {
   const [loading, setLoading] = useState(false);
 
   const vehicleProviderDDL = [
-    { value: "All", label: "All" },
-    { value: "Company", label: "Company" },
-    { value: "Supplier", label: "Supplier" },
+    { value: 'All', label: 'All' },
+    { value: 'Company', label: 'Company' },
+    { value: 'Supplier', label: 'Supplier' },
   ];
 
   const deliveryModeDDL = [
-    { value: "All", label: "All" },
-    { value: "Day", label: "Day" },
-    { value: "Night", label: "Night" },
+    { value: 'All', label: 'All' },
+    { value: 'Day', label: 'Day' },
+    { value: 'Night', label: 'Night' },
   ];
 
   const headers = [
-    "SL",
-    "Request No",
-    "Request Date",
-    "Party Name",
-    "Delivery Id",
-    "Request Vehicle No",
-    "Vehicle Type",
-    "Delivery Mode",
-    "Car Type",
-    "Bag Type",
-    "Item Name",
-    "Quantity",
+    'SL',
+    'Request No',
+    'Request Date',
+    'Party Name',
+    'Delivery Id',
+    'Request Vehicle No',
+    'Vehicle Type',
+    'Delivery Mode',
+    'Car Type',
+    'Bag Type',
+    'Item Name',
+    'Quantity',
   ];
 
   // get selected business unit from store
@@ -87,7 +87,7 @@ export default function DeliveryRequestReport() {
                             label="Vehicle Provider"
                             placeholder="Vehicle Provider"
                             onChange={(valueOption) => {
-                              setFieldValue("vehicleProvider", valueOption);
+                              setFieldValue('vehicleProvider', valueOption);
                             }}
                             errors={errors}
                             touched={touched}
@@ -101,7 +101,7 @@ export default function DeliveryRequestReport() {
                             label="Delivery Mode"
                             placeholder="Delivery Mode"
                             onChange={(valueOption) => {
-                              setFieldValue("deliveryMode", valueOption);
+                              setFieldValue('deliveryMode', valueOption);
                             }}
                             errors={errors}
                             touched={touched}

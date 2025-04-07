@@ -1,6 +1,6 @@
-import React from "react";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { IInput } from "../../../../_helper/_input";
+import React from 'react';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import { IInput } from '../../../../_helper/_input';
 const RowDtoTable = ({
   rowDto,
   remover,
@@ -41,27 +41,27 @@ const RowDtoTable = ({
                   return (
                     <tr key={index}>
                       <td className="text-center align-middle">
-                        {" "}
-                        {index + 1}{" "}
+                        {' '}
+                        {index + 1}{' '}
                       </td>
                       <td className="text-center align-middle">
-                        {" "}
-                        {item?.itemCode}{" "}
+                        {' '}
+                        {item?.itemCode}{' '}
                       </td>
                       <td className="">{item?.itemName}</td>
                       <td className="">{item?.uoMname}</td>
                       <td
                         className="text-center align-middle"
-                        style={{ width: "200px" }}
+                        style={{ width: '200px' }}
                       >
                         {item?.location?.label}
                       </td>
                       <td className="text-center align-middle">
-                        {" "}
-                        {item?.openStockQty}{" "}
+                        {' '}
+                        {item?.openStockQty}{' '}
                       </td>
                       <td
-                        style={{ width: "100px" }}
+                        style={{ width: '100px' }}
                         className="disabled-feedback disable-border"
                       >
                         <IInput
@@ -72,7 +72,7 @@ const RowDtoTable = ({
                           required
                           onChange={(e) => {
                             rowDtoHandler(
-                              "physicalStockQty",
+                              'physicalStockQty',
                               e.target.value,
                               index
                             );
@@ -90,13 +90,13 @@ const RowDtoTable = ({
                                 : openStockQty;
                             }
                             rowDtoHandler(
-                              "numTransactionQuantity",
+                              'numTransactionQuantity',
                               Number(numTransactionQuantity.toFixed(6)),
                               index
                             );
 
                             rowDtoHandler(
-                              "monTransactionValue",
+                              'monTransactionValue',
                               (numTransactionQuantity * item?.cogs).toFixed(6),
                               index
                             );
@@ -108,8 +108,8 @@ const RowDtoTable = ({
                         {Number(numTransactionQuantity.toFixed(6))}
                       </td>
                       <td className="text-center align-middle">
-                        {" "}
-                        {Number(cogs.toFixed(6))}{" "}
+                        {' '}
+                        {Number(cogs.toFixed(6))}{' '}
                       </td>
                       <td className="text-center align-middle">
                         {item?.monTransactionValue}

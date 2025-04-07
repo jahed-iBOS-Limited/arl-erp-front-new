@@ -1,7 +1,7 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import * as Yup from "yup";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import * as Yup from 'yup';
 import {
   conditionTypeOnChangeHandler,
   customersPurchaseTypeDDL,
@@ -11,49 +11,49 @@ import {
   offerBasedOnDDL,
   schemeTypeDDL,
   valuesEmptyFunc,
-} from "../helper";
-import IDelete from "./../../../../_helper/_helperIcons/_delete";
-import InputField from "./../../../../_helper/_inputField";
-import NewSelect from "./../../../../_helper/_select";
-import RowAddForm from "./rowAddForm";
+} from '../helper';
+import IDelete from './../../../../_helper/_helperIcons/_delete';
+import InputField from './../../../../_helper/_inputField';
+import NewSelect from './../../../../_helper/_select';
+import RowAddForm from './rowAddForm';
 // Validation schema
 const validationSchema = Yup.object().shape({
   // outletName: Yup.array()
   //   .required("Outlet Name is required")
   //   .nullable(),
   nameOfScheme: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .required("Name Of Scheme is required"),
+    .min(2, 'Minimum 2 symbols')
+    .required('Name Of Scheme is required'),
   conditionType: Yup.object().shape({
-    label: Yup.string().required("Condition Type is required"),
-    value: Yup.string().required("Condition Type is required"),
+    label: Yup.string().required('Condition Type is required'),
+    value: Yup.string().required('Condition Type is required'),
   }),
   itemGroup: Yup.object().shape({
-    label: Yup.string().required("Item Group is required"),
-    value: Yup.string().required("Item Group is required"),
+    label: Yup.string().required('Item Group is required'),
+    value: Yup.string().required('Item Group is required'),
   }),
   outletName: Yup.object().shape({
-    label: Yup.string().required("Outlet Name is required"),
-    value: Yup.string().required("Outlet Name is required"),
+    label: Yup.string().required('Outlet Name is required'),
+    value: Yup.string().required('Outlet Name is required'),
   }),
   customerGroup: Yup.object().shape({
-    label: Yup.string().required("Customer Group is required"),
-    value: Yup.string().required("Customer Group is required"),
+    label: Yup.string().required('Customer Group is required'),
+    value: Yup.string().required('Customer Group is required'),
   }),
   offerBasedOn: Yup.object().shape({
-    label: Yup.string().required("Offer Based On is required"),
-    value: Yup.string().required("Offer Based On is required"),
+    label: Yup.string().required('Offer Based On is required'),
+    value: Yup.string().required('Offer Based On is required'),
   }),
   customersPurchaseType: Yup.object().shape({
-    label: Yup.string().required("Customers Purchase Type On is required"),
-    value: Yup.string().required("Customers Purchase Type On is required"),
+    label: Yup.string().required('Customers Purchase Type On is required'),
+    value: Yup.string().required('Customers Purchase Type On is required'),
   }),
   schemeType: Yup.object().shape({
-    label: Yup.string().required("Scheme Type On is required"),
-    value: Yup.string().required("Scheme Type On is required"),
+    label: Yup.string().required('Scheme Type On is required'),
+    value: Yup.string().required('Scheme Type On is required'),
   }),
-  schemeStartDate: Yup.date().required("Scheme Start Date is required"),
-  schemeEndDate: Yup.date().required("Scheme End Date is required"),
+  schemeStartDate: Yup.date().required('Scheme Start Date is required'),
+  schemeEndDate: Yup.date().required('Scheme End Date is required'),
 });
 
 export default function FormCmp({
@@ -90,7 +90,6 @@ export default function FormCmp({
         setItemOfferDDL
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   return (
@@ -122,22 +121,22 @@ export default function FormCmp({
                   <NewSelect
                     name="outletName"
                     options={WareHouseDDL || []}
-                    value={values?.outletName || ""}
+                    value={values?.outletName || ''}
                     label="Outlet Name"
                     onChange={(valueOption) => {
-                      setFieldValue("outletName", valueOption || "");
+                      setFieldValue('outletName', valueOption || '');
                     }}
                     placeholder="Outlet Name"
                     errors={errors}
                     touched={touched}
-                  // isMulti
-                  // closeMenuOnSelect={false}
+                    // isMulti
+                    // closeMenuOnSelect={false}
                   />
                 </div>
                 <div className="col-lg-3">
                   <label>Name Of Scheme</label>
                   <InputField
-                    value={values?.nameOfScheme || ""}
+                    value={values?.nameOfScheme || ''}
                     name="nameOfScheme"
                     placeholder="Name Of Scheme"
                     type="text"
@@ -147,12 +146,12 @@ export default function FormCmp({
                   <NewSelect
                     name="conditionType"
                     options={conditionTypeDDL || []}
-                    value={values?.conditionType || ""}
+                    value={values?.conditionType || ''}
                     label="Condition Type"
                     onChange={(valueOption) => {
-                      setFieldValue("conditionType", valueOption || "");
-                      setFieldValue("itemGroup", "");
-                      setFieldValue("customerGroup", "");
+                      setFieldValue('conditionType', valueOption || '');
+                      setFieldValue('itemGroup', '');
+                      setFieldValue('customerGroup', '');
                       setRowDto([]);
                       valuesEmptyFunc(setFieldValue);
                       conditionTypeOnChangeHandler({
@@ -173,10 +172,10 @@ export default function FormCmp({
                   <NewSelect
                     name="itemGroup"
                     options={itemDDL || []}
-                    value={values?.itemGroup || ""}
+                    value={values?.itemGroup || ''}
                     label="Item / Item Group"
                     onChange={(valueOption) => {
-                      setFieldValue("itemGroup", valueOption || "");
+                      setFieldValue('itemGroup', valueOption || '');
                     }}
                     placeholder="Item / Item Group"
                     errors={errors}
@@ -191,10 +190,10 @@ export default function FormCmp({
                   <NewSelect
                     name="customerGroup"
                     options={customerDDL || []}
-                    value={values?.customerGroup || ""}
+                    value={values?.customerGroup || ''}
                     label="Customer / Customer Group"
                     onChange={(valueOption) => {
-                      setFieldValue("customerGroup", valueOption || "");
+                      setFieldValue('customerGroup', valueOption || '');
                     }}
                     placeholder="Customer / Customer Group"
                     errors={errors}
@@ -208,7 +207,7 @@ export default function FormCmp({
                 <div className="col-lg-3">
                   <label>Scheme Start Date</label>
                   <InputField
-                    value={values?.schemeStartDate || ""}
+                    value={values?.schemeStartDate || ''}
                     name="schemeStartDate"
                     placeholder="Scheme Start Date"
                     type="date"
@@ -217,7 +216,7 @@ export default function FormCmp({
                 <div className="col-lg-3">
                   <label>Scheme End Date</label>
                   <InputField
-                    value={values?.schemeEndDate || ""}
+                    value={values?.schemeEndDate || ''}
                     name="schemeEndDate"
                     placeholder="Scheme End Date"
                     type="date"
@@ -227,11 +226,11 @@ export default function FormCmp({
                   <NewSelect
                     name="offerBasedOn"
                     options={offerBasedOnDDL() || []}
-                    value={values?.offerBasedOn || ""}
+                    value={values?.offerBasedOn || ''}
                     label="Offer Based On"
                     onChange={(valueOption) => {
-                      setFieldValue("offerBasedOn", valueOption || "");
-                      setFieldValue("minimumQuantity", "");
+                      setFieldValue('offerBasedOn', valueOption || '');
+                      setFieldValue('minimumQuantity', '');
                       valuesEmptyFunc(setFieldValue);
                     }}
                     placeholder="Offer Based On"
@@ -244,10 +243,10 @@ export default function FormCmp({
                   <NewSelect
                     name="customersPurchaseType"
                     options={customersPurchaseTypeDDL() || []}
-                    value={values?.customersPurchaseType || ""}
+                    value={values?.customersPurchaseType || ''}
                     label="Customers Purchase Type"
                     onChange={(valueOption) => {
-                      setFieldValue("customersPurchaseType", valueOption || "");
+                      setFieldValue('customersPurchaseType', valueOption || '');
                     }}
                     placeholder="Customers Purchase Type"
                     errors={errors}
@@ -258,10 +257,10 @@ export default function FormCmp({
                   <NewSelect
                     name="schemeType"
                     options={schemeTypeDDL() || []}
-                    value={values?.schemeType || ""}
+                    value={values?.schemeType || ''}
                     label="Scheme Type"
                     onChange={(valueOption) => {
-                      setFieldValue("schemeType", valueOption || "");
+                      setFieldValue('schemeType', valueOption || '');
                       setRowDto([]);
                       valuesEmptyFunc(setFieldValue);
                     }}
@@ -351,7 +350,6 @@ export default function FormCmp({
                               <td className="text-right">
                                 {item?.discountAmount}
                               </td>
-
                             </>
                           )}
                           <td>{item?.durationTypeName}</td>
@@ -383,14 +381,14 @@ export default function FormCmp({
                 </table>
               </div>
               <button
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 type="submit"
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -1,22 +1,21 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { toast } from "react-toastify";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { toast } from 'react-toastify';
 import {
   ExtendPartnerWiseRentSetup,
   getPartnerWiseRentSetupById,
-} from "../helper";
+} from '../helper';
 // import ExtendPartnerWiseRentSetup from ""
 
 const initData = {
   id: undefined,
-  shipPoint: "",
-  vehicle: "",
-  rent: "",
-  additionalRent: "",
-  reason: "",
+  shipPoint: '',
+  vehicle: '',
+  rent: '',
+  additionalRent: '',
+  reason: '',
 };
 
 export default function PartnerWiseRentSetupExtendForm({
@@ -52,12 +51,11 @@ export default function PartnerWiseRentSetupExtendForm({
       setRowDto,
       setDisabled
     );
-
   }, [id]);
 
   const addItemToTheGrid = (values) => {
     if (values.quantity < 0) {
-      return toast.warn("Quantity must be greater than 0");
+      return toast.warn('Quantity must be greater than 0');
     }
 
     let data = rowDto.find(
@@ -66,7 +64,7 @@ export default function PartnerWiseRentSetupExtendForm({
         item?.vehicleCapcityId === values?.vehicle.value
     );
     if (data) {
-      toast.error("Item already added");
+      toast.error('Item already added');
     } else {
       let itemRow = {
         intAccountId: profileData?.accountId,
@@ -76,12 +74,12 @@ export default function PartnerWiseRentSetupExtendForm({
         shippointName: values?.shipPoint.label,
         numRentAmount: +values?.rent,
         numAdditionalRentAmount: +values?.additionalRent || 0,
-        strReason: values?.reason || "",
-        dteLastActionDateTime: "2021-04-25T09:38:01.874Z",
-        dteServerDateTime: "2021-04-25T09:38:01.874Z",
+        strReason: values?.reason || '',
+        dteLastActionDateTime: '2021-04-25T09:38:01.874Z',
+        dteServerDateTime: '2021-04-25T09:38:01.874Z',
         isActive: true,
         vehicleCapcityId: values?.vehicle.value || 0,
-        vehicheCapacity: values?.vehicle.label || "",
+        vehicheCapacity: values?.vehicle.label || '',
       };
 
       setRowDto([itemRow, ...rowDto]);
@@ -100,15 +98,15 @@ export default function PartnerWiseRentSetupExtendForm({
         numRentAmount: +item?.numRentAmount,
         numAditionalRentAmount:
           +item?.numAdditionalRentAmount || item?.numAditionalRentAmount || 0,
-        strReason: item?.strReason || "",
+        strReason: item?.strReason || '',
         vehicleCapcityId: item?.vehicleCapcityId || 0,
-        vehicheCapacity: item?.vehicheCapacity || "",
+        vehicheCapacity: item?.vehicheCapacity || '',
       }));
 
       if (payload?.length > 0) {
         ExtendPartnerWiseRentSetup(payload, cb, setDisabled);
       } else {
-        toast.warning("You must have to add atleast one item");
+        toast.warning('You must have to add atleast one item');
       }
     } else {
       setDisabled(false);
@@ -118,11 +116,11 @@ export default function PartnerWiseRentSetupExtendForm({
 
   return (
     <IForm
-      title='Create Partner Wise Rent Setup'
+      title="Create Partner Wise Rent Setup"
       getProps={setObjprops}
       isDisabled={isDisabled}
-      isHiddenSave={type === "view"}
-      isHiddenReset={type === "view"}
+      isHiddenSave={type === 'view'}
+      isHiddenReset={type === 'view'}
     >
       <Form
         {...objProps}

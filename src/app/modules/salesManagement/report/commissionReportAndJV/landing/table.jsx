@@ -1,64 +1,63 @@
-
-import React from "react";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import InputField from "../../../../_helper/_inputField";
-import { toast } from "react-toastify";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IApproval from "../../../../_helper/_helperIcons/_approval";
-import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
+import React from 'react';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import InputField from '../../../../_helper/_inputField';
+import { toast } from 'react-toastify';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IApproval from '../../../../_helper/_helperIcons/_approval';
+import ICon from '../../../../chartering/_chartinghelper/icons/_icon';
 
 const header = (buId, values) => {
   const typeId = values?.type?.value;
   const H_one = [
-    "SL",
-    "Customer ID",
-    "Customer Code",
-    "Customer Name",
-    "Address",
-    "Region",
-    "Area",
-    "Territory",
-    "Target Qty",
-    "Delivery Quantity",
-    "Achievement",
-    "Commission",
-    "JV Number",
+    'SL',
+    'Customer ID',
+    'Customer Code',
+    'Customer Name',
+    'Address',
+    'Region',
+    'Area',
+    'Territory',
+    'Target Qty',
+    'Delivery Quantity',
+    'Achievement',
+    'Commission',
+    'JV Number',
   ];
 
   const H_two = [
-    "SL",
-    "Customer ID",
-    "Customer Code",
-    "Customer Name",
-    "Address",
-    "Party Status",
-    "Payment Type",
-    "Region",
-    "Area",
-    "Territory",
-    "Target Qty",
-    "Delivery Quantity",
-    "Achievement",
-    "Commission",
+    'SL',
+    'Customer ID',
+    'Customer Code',
+    'Customer Name',
+    'Address',
+    'Party Status',
+    'Payment Type',
+    'Region',
+    'Area',
+    'Territory',
+    'Target Qty',
+    'Delivery Quantity',
+    'Achievement',
+    'Commission',
   ];
 
   const H_three = [
-    "SL",
-    "Customer ID",
-    "Customer Code",
-    "Customer Name",
-    "Address",
-    "Party Status",
-    "Payment Type",
-    "Region",
-    "Area",
-    "Territory",
-    "Target Qty",
-    "Delivery Quantity",
-    "Achievement",
-    "Commission",
-    "ShipToPartner Id",
-    "ShipToPartner Name",
+    'SL',
+    'Customer ID',
+    'Customer Code',
+    'Customer Name',
+    'Address',
+    'Party Status',
+    'Payment Type',
+    'Region',
+    'Area',
+    'Territory',
+    'Target Qty',
+    'Delivery Quantity',
+    'Achievement',
+    'Commission',
+    'ShipToPartner Id',
+    'ShipToPartner Name',
   ];
 
   if (buId === 144) {
@@ -68,7 +67,7 @@ const header = (buId, values) => {
   } else if (typeId !== 8) {
     return H_two;
   } else if (typeId === 8) {
-    return H_two.toSpliced(13, 0, "Commission Rate");
+    return H_two.toSpliced(13, 0, 'Commission Rate');
   }
 };
 
@@ -85,7 +84,7 @@ const CommissionReportAndJVTable = ({ obj }) => {
 
   // is jv number exist
   const isJVNumberExist = (index) => {
-    return Boolean(rowData[index]["strCreatedJVNumber"]);
+    return Boolean(rowData[index]['strCreatedJVNumber']);
   };
 
   return (
@@ -93,7 +92,7 @@ const CommissionReportAndJVTable = ({ obj }) => {
       {rowData?.length > 0 && (
         <table
           className={
-            "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+            'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
           }
         >
           <thead>
@@ -102,7 +101,7 @@ const CommissionReportAndJVTable = ({ obj }) => {
               className="cursor-pointer"
             >
               {![26].includes(values?.type?.value) && (
-                <th style={{ width: "40px" }}>
+                <th style={{ width: '40px' }}>
                   <input
                     type="checkbox"
                     value={selectedAll()}
@@ -145,10 +144,10 @@ const CommissionReportAndJVTable = ({ obj }) => {
                       style={
                         item?.isSelected
                           ? {
-                              backgroundColor: "#aacae3",
-                              width: "40px",
+                              backgroundColor: '#aacae3',
+                              width: '40px',
                             }
-                          : { width: "40px" }
+                          : { width: '40px' }
                       }
                     >
                       <input
@@ -156,13 +155,13 @@ const CommissionReportAndJVTable = ({ obj }) => {
                         value={item?.isSelected}
                         checked={item?.isSelected}
                         onChange={() => {
-                          rowDataHandler(index, "isSelected", !item.isSelected);
+                          rowDataHandler(index, 'isSelected', !item.isSelected);
                         }}
                         disabled={isJVNumberExist(index)}
                       />
                     </td>
                   )}
-                  <td style={{ width: "40px" }} className="text-center">
+                  <td style={{ width: '40px' }} className="text-center">
                     {index + 1}
                   </td>
                   <td>{item?.customerId}</td>
@@ -194,7 +193,7 @@ const CommissionReportAndJVTable = ({ obj }) => {
                     </td>
                   )}
 
-                  <td className="text-right" style={{ width: "150px" }}>
+                  <td className="text-right" style={{ width: '150px' }}>
                     {item?.isEdit ? (
                       <InputField
                         name="commissiontaka"
@@ -206,7 +205,7 @@ const CommissionReportAndJVTable = ({ obj }) => {
                           } else {
                             rowDataHandler(
                               index,
-                              "commissiontaka",
+                              'commissiontaka',
                               +e?.target?.value
                             );
                           }
@@ -219,23 +218,23 @@ const CommissionReportAndJVTable = ({ obj }) => {
 
                   <td
                     style={{
-                      width: "90px",
+                      width: '90px',
                       background: Boolean(item?.strCreatedJVNumber)
-                        ? "#fcebeb"
-                        : "",
+                        ? '#fcebeb'
+                        : '',
                     }}
                   >
-                    {item?.strCreatedJVNumber || ""}
+                    {item?.strCreatedJVNumber || ''}
                   </td>
 
                   {values?.type?.value === 5 && (
                     <>
-                      <td style={{ width: "40px" }}>
+                      <td style={{ width: '40px' }}>
                         <div className="d-flex justify-content-around">
                           {!item?.isEdit ? (
                             <span
                               onClick={() => {
-                                rowDataHandler(index, "isEdit", true);
+                                rowDataHandler(index, 'isEdit', true);
                               }}
                             >
                               <IEdit title="Edit Commission Amount" />
@@ -244,18 +243,18 @@ const CommissionReportAndJVTable = ({ obj }) => {
                             <>
                               <span
                                 onClick={() => {
-                                  editCommission(index, item, "done");
+                                  editCommission(index, item, 'done');
                                 }}
                               >
                                 <IApproval title="Done" />
                               </span>
                               <span
                                 onClick={() => {
-                                  editCommission(index, item, "cancel");
+                                  editCommission(index, item, 'cancel');
                                 }}
                               >
                                 <ICon title="Cancel">
-                                  <i class="fas fa-times-circle"></i>{" "}
+                                  <i class="fas fa-times-circle"></i>{' '}
                                 </ICon>
                               </span>
                             </>
@@ -275,7 +274,7 @@ const CommissionReportAndJVTable = ({ obj }) => {
                 </tr>
               );
             })}
-            <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+            <tr style={{ textAlign: 'right', fontWeight: 'bold' }}>
               <td
                 colSpan={
                   values?.type?.value === 26 ? 10 : buId === 144 ? 9 : 11

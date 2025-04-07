@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import IViewModal from "../../../../../app/modules/_helper/_viewModal";
-import "./style.scss";
-import ChatBoatWrapper from "./chats/chatsApp";
+import React, { useState } from 'react';
+import IViewModal from '../../../../../app/modules/_helper/_viewModal';
+import './style.scss';
+import ChatBoatWrapper from './chats/chatsApp';
 export default function ChatBoat() {
   const [isChatModal, setChatModal] = useState(false);
   const timeRemainingCB = () => {
@@ -9,11 +9,14 @@ export default function ChatBoat() {
   };
   return (
     <>
-      <div className="chat-boat-wrapper" style={{
-        display: "flex",
-        alignItems: "center",
-      }}>
-        <div  className="chat-icon mr-5">
+      <div
+        className="chat-boat-wrapper"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+        }}
+      >
+        <div className="chat-icon mr-5">
           <span
             className="cursor-pointer"
             onClick={() => {
@@ -21,7 +24,7 @@ export default function ChatBoat() {
             }}
           >
             <i
-              style={{ fontSize: "14px", color: "#28bef1" }}
+              style={{ fontSize: '14px', color: '#28bef1' }}
               class="fa fa-comments"
               aria-hidden="true"
             ></i>
@@ -33,8 +36,8 @@ export default function ChatBoat() {
           <IViewModal
             show={isChatModal}
             onHide={() => setChatModal(false)}
-            title={"iBOS Chatbot"}
-            modelSize={"md"}
+            title={'iBOS Chatbot'}
+            modelSize={'md'}
           >
             <ChatBoatWrapper timeRemainingCB={timeRemainingCB} />
           </IViewModal>

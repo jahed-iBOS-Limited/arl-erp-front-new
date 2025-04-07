@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
+import React, { useEffect } from 'react';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
 export function BankForm({
   errors,
   touched,
@@ -15,8 +15,6 @@ export function BankForm({
   onAmountChange,
   selectedPurchase,
 }) {
-
-
   // get user profile data from store
   const storeData = useSelector((state) => {
     return {
@@ -29,7 +27,6 @@ export function BankForm({
 
   useEffect(() => {
     if (profileData.accountId && selectedBusinessUnit?.value) {
-
     }
   }, [profileData, selectedBusinessUnit]);
 
@@ -43,7 +40,7 @@ export function BankForm({
             value={values?.bank}
             label="Select Bank Account"
             onChange={(valueOption) => {
-              setFieldValue("bank", valueOption);
+              setFieldValue('bank', valueOption);
               // if(onBankChange) onBankChange(valueOption)
             }}
             placeholder=" Select Bank Account"
@@ -54,19 +51,22 @@ export function BankForm({
 
         <div className="col-lg-2">
           <InputField
-            value={values?.amount || ""}
+            value={values?.amount || ''}
             label="Amount"
             // disabled={id ? true : false}
             type="number"
             name="amount"
             placeholder="Amount"
             min="0"
-            onChange={(e)=>{
-              if (+e.target.value > 0 && +e.target.value <= +selectedPurchase?.invoiceAmount) {
-                setFieldValue("amount", e.target.value);
+            onChange={(e) => {
+              if (
+                +e.target.value > 0 &&
+                +e.target.value <= +selectedPurchase?.invoiceAmount
+              ) {
+                setFieldValue('amount', e.target.value);
                 if (onAmountChange) onAmountChange(e.target.value);
-              }else {
-                setFieldValue("amount", "");
+              } else {
+                setFieldValue('amount', '');
               }
             }}
           />
@@ -94,7 +94,6 @@ export function BankForm({
           />
         </div>
 
-
         <div className="col-lg-2">
           <NewSelect
             name="instumentType"
@@ -102,7 +101,7 @@ export function BankForm({
             value={values?.instumentType}
             label="Select Istument Type"
             onChange={(valueOption) => {
-              setFieldValue("instumentType", valueOption);
+              setFieldValue('instumentType', valueOption);
             }}
             placeholder=" Select Istument Type"
             errors={errors}

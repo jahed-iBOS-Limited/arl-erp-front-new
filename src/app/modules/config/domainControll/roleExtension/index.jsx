@@ -1,8 +1,8 @@
-import React from "react";
-import { Route } from "react-router-dom";
-import { ViewModal } from "./roleExtensionView/viewModal";
-import { BusinessUnitLandingCard } from "./roleExtensionTable/businessUnitLandingCard";
-import { UiProvider } from "../../../_helper/uiContextHelper";
+import React from 'react';
+import { Route } from 'react-router-dom';
+import { ViewModal } from './roleExtensionView/viewModal';
+import { BusinessUnitLandingCard } from './roleExtensionTable/businessUnitLandingCard';
+import { UiProvider } from '../../../_helper/uiContextHelper';
 
 export function RoleExtension({ history }) {
   const uIEvents = {
@@ -11,7 +11,7 @@ export function RoleExtension({ history }) {
     },
     openViewDialog: (id) => {
       history.push(`/config/domain-controll/role-extension/view/${id}`);
-    }
+    },
   };
 
   return (
@@ -23,8 +23,9 @@ export function RoleExtension({ history }) {
             id={match && match.params.id}
             history={history}
             onHide={() => {
-              history.push("/config/domain-controll/role-extension")
-            }} />
+              history.push('/config/domain-controll/role-extension');
+            }}
+          />
         )}
       </Route>
       <BusinessUnitLandingCard />

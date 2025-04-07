@@ -31,8 +31,8 @@
   position: -webkit-sticky; /* for Safari */
   position: sticky;
   left: 0;
-  border: 1px solid #ecf0f3!important;
-  background: #fff!important;
+  border: 1px solid #ecf0f3 !important;
+  background: #fff !important;
 }
 
 .sales-details-scrollable-table .bg-even {

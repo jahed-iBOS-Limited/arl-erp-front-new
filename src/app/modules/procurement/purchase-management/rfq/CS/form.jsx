@@ -1,8 +1,8 @@
-import React from "react";
-import { Formik, Form, Field } from "formik";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import toArray from "lodash/toArray";
+import React from 'react';
+import { Formik, Form, Field } from 'formik';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import toArray from 'lodash/toArray';
 
 // import { useLocation } from 'react-router-dom'
 
@@ -134,23 +134,23 @@ export default function FormCmp({
                                     <>
                                       <td
                                         style={{
-                                          background: "#87F86B",
-                                          color: "black",
-                                          fontWeight: "bold",
+                                          background: '#87F86B',
+                                          color: 'black',
+                                          fontWeight: 'bold',
                                         }}
                                       >
-                                        {" "}
-                                        {sup?.rate}{" "}
+                                        {' '}
+                                        {sup?.rate}{' '}
                                       </td>
                                       <td
                                         style={{
-                                          background: "#87F86B",
-                                          color: "black",
-                                          fontWeight: "bold",
+                                          background: '#87F86B',
+                                          color: 'black',
+                                          fontWeight: 'bold',
                                         }}
                                       >
-                                        {" "}
-                                        {sup?.value}{" "}
+                                        {' '}
+                                        {sup?.value}{' '}
                                       </td>
                                     </>
                                   ) : (
@@ -192,9 +192,9 @@ export default function FormCmp({
                                     options={rfqSupplier || []}
                                     defaultValue={rowDto[index]?.supplier}
                                     onChange={(valueOption) => {
-                                      setFieldValue("supplier", valueOption);
+                                      setFieldValue('supplier', valueOption);
                                       rowDtoHandler(
-                                        "supplier",
+                                        'supplier',
                                         valueOption,
                                         index
                                       );
@@ -212,23 +212,23 @@ export default function FormCmp({
                                     <>
                                       <td
                                         style={{
-                                          background: "#87F86B",
-                                          color: "black",
-                                          fontWeight: "bold",
+                                          background: '#87F86B',
+                                          color: 'black',
+                                          fontWeight: 'bold',
                                         }}
                                       >
-                                        {" "}
-                                        {sup?.rate}{" "}
+                                        {' '}
+                                        {sup?.rate}{' '}
                                       </td>
                                       <td
                                         style={{
-                                          background: "#87F86B",
-                                          color: "black",
-                                          fontWeight: "bold",
+                                          background: '#87F86B',
+                                          color: 'black',
+                                          fontWeight: 'bold',
                                         }}
                                       >
-                                        {" "}
-                                        {sup?.value}{" "}
+                                        {' '}
+                                        {sup?.value}{' '}
                                       </td>
                                     </>
                                   ) : (
@@ -263,7 +263,7 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>

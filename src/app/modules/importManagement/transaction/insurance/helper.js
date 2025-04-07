@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 export const getLandingData = async (
   accId,
   buId,
@@ -12,10 +12,10 @@ export const getLandingData = async (
   toDate,
   setter
 ) => {
-  const search = searchValue ?? "";
-  const providerID = provider ?? "";
-  const FromDate = fromDate ?? "";
-  const ToDate = toDate ?? "";
+  const search = searchValue ?? '';
+  const providerID = provider ?? '';
+  const FromDate = fromDate ?? '';
+  const ToDate = toDate ?? '';
 
   setLoading(true);
   try {

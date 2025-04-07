@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const GetCustomerStatementLanding = async (
   accId,
@@ -15,13 +15,13 @@ export const GetCustomerStatementLanding = async (
       `/oms/OManagementReport/GetCustomerDeliveryStatement?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}&CustomerId=${customerNameDDL?.value}&ShipPointId=${shippointDDL?.value}&salesOrgId=${salesOrg?.value}`
     );
     const unique = [
-      ...new Map(res?.data?.map((item) => [item["customerId"], item])).values(),
+      ...new Map(res?.data?.map((item) => [item['customerId'], item])).values(),
     ];
 
     if (res?.data?.[0]?.objList?.length > 0) {
       setter(unique);
     } else {
-      toast.warning("Data not found");
+      toast.warning('Data not found');
       setter([]);
     }
 
@@ -36,7 +36,7 @@ export const getCustomerNameDDL = async (accId, buId, orgId, setter) => {
     const res = await Axios.get(
       `/partner/PManagementCommonDDL/GetCustomerNameBySalesOrgDDL?AccountId=${accId}&BusinessUnitId=${buId}&SalesOrganization=${orgId}`
     );
-    const modifiedData = [{ value: 0, label: "All" }, ...res?.data];
+    const modifiedData = [{ value: 0, label: 'All' }, ...res?.data];
     setter(modifiedData);
   } catch (error) {
     setter([]);

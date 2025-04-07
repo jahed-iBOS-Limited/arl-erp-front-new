@@ -1,37 +1,36 @@
-
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import Axios from "axios";
-import Select from "react-select";
-import { toast } from "react-toastify";
-import customStyles from "../../../../selectCustomStyle";
-import { Input } from "../../../../../../_metronic/_partials/controls";
-import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
-import FormikError from "./../../../../_helper/_formikError";
-import { shallowEqual, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import Axios from 'axios';
+import Select from 'react-select';
+import { toast } from 'react-toastify';
+import customStyles from '../../../../selectCustomStyle';
+import { Input } from '../../../../../../_metronic/_partials/controls';
+import SearchAsyncSelect from './../../../../_helper/SearchAsyncSelect';
+import FormikError from './../../../../_helper/_formikError';
+import { shallowEqual, useSelector } from 'react-redux';
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
   employee: Yup.object().shape({
-    label: Yup.string().required("Employee is required"),
-    value: Yup.string().required("Employee is required"),
+    label: Yup.string().required('Employee is required'),
+    value: Yup.string().required('Employee is required'),
   }),
   orgtype: Yup.object().shape({
-    label: Yup.string().required("Organization Type is required"),
-    value: Yup.string().required("Organization Type is required"),
+    label: Yup.string().required('Organization Type is required'),
+    value: Yup.string().required('Organization Type is required'),
   }),
   orgname: Yup.object().shape({
-    label: Yup.string().required("Organization Name is required"),
-    value: Yup.string().required("Organization Name is required"),
+    label: Yup.string().required('Organization Name is required'),
+    value: Yup.string().required('Organization Name is required'),
   }),
 });
 
 const intialValuse = {
-  businessunit: "",
-  employee: "",
-  orgtype: "",
-  orgname: "",
+  businessunit: '',
+  employee: '',
+  orgtype: '',
+  orgname: '',
 };
 
 export default function RoleExForm({
@@ -60,7 +59,7 @@ export default function RoleExForm({
   const getOrgTypeData = async () => {
     try {
       const res = await Axios.get(
-        "/domain/RoleExtension/GetOrganizationTypeList"
+        '/domain/RoleExtension/GetOrganizationTypeList'
       );
       const { status, data } = res;
       if (status === 200 && data.length) {
@@ -126,10 +125,10 @@ export default function RoleExForm({
     };
     const filterArr = state?.filter(
       (item) =>
-        item?.orgtype === values.orgtype.label && values.orgname.label === "ALL"
+        item?.orgtype === values.orgtype.label && values.orgname.label === 'ALL'
     );
     if (filterArr?.length >= 1) {
-      toast.warn("Not allowed");
+      toast.warn('Not allowed');
     } else {
       setUpdateState([...state, d]);
     }
@@ -147,7 +146,7 @@ export default function RoleExForm({
         setEmp(empPayload);
         return true;
       } else {
-        alert("Employee already exist");
+        alert('Employee already exist');
         return false;
       }
     }
@@ -204,7 +203,7 @@ export default function RoleExForm({
                     selectedValue={values?.employee}
                     handleChange={(valueOption) => {
                       const isExist = empSetter(valueOption?.value);
-                      isExist && setFieldValue("employee", valueOption);
+                      isExist && setFieldValue('employee', valueOption);
                     }}
                     loadOptions={loadUserList}
                     disabled={true}
@@ -227,7 +226,7 @@ export default function RoleExForm({
                         placeholder="Select Organization"
                         value={values.orgtype}
                         onChange={(selectedOption) => {
-                          setFieldValue("orgtype", selectedOption);
+                          setFieldValue('orgtype', selectedOption);
                           // setFieldValue("orgname", { label: "", value: "" });
                           getOrgNameData(selectedOption?.value);
                         }}
@@ -249,7 +248,7 @@ export default function RoleExForm({
                         placeholder="Select Organization Name"
                         value={values.orgname}
                         onChange={(selectedOption) => {
-                          setFieldValue("orgname", selectedOption);
+                          setFieldValue('orgname', selectedOption);
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -262,7 +261,7 @@ export default function RoleExForm({
                 <div className="col-lg-4">
                   <button
                     type="button"
-                    style={{ marginTop: "14px" }}
+                    style={{ marginTop: '14px' }}
                     onClick={() => {
                       addItem(values);
                     }}
@@ -293,8 +292,8 @@ export default function RoleExForm({
                           <span
                             className="pointer alterUomDeleteIcon"
                             style={{
-                              width: "50%",
-                              marginTop: "3px",
+                              width: '50%',
+                              marginTop: '3px',
                             }}
                           >
                             <i
@@ -311,7 +310,7 @@ export default function RoleExForm({
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
               ></button>
             </Form>

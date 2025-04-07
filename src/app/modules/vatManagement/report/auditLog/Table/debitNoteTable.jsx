@@ -1,7 +1,7 @@
-import React from "react";
-import { withRouter } from "react-router-dom";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import { _fixedPoint } from './../../../../_helper/_fixedPoint';
 import IView from './../../../../_helper/_helperIcons/_view';
 
 const DebitNoteTable = ({
@@ -18,8 +18,8 @@ const DebitNoteTable = ({
             <table className="table table-striped table-bordered mt-3">
               <thead>
                 <tr>
-                  <th style={{ width: "35px" }}>S/N</th>
-                  <th style={{ width: "150px" }}>Purchase Invoice</th>
+                  <th style={{ width: '35px' }}>S/N</th>
+                  <th style={{ width: '150px' }}>Purchase Invoice</th>
                   <th>Transaction Date</th>
                   <th>SD Total</th>
                   <th>VAT Total</th>
@@ -36,16 +36,16 @@ const DebitNoteTable = ({
                       <td> {tableData?.purchaseCode} </td>
                       <td> {_dateFormatter(tableData?.purchaseDate)} </td>
                       <td className="text-right">
-                        {" "}
-                        {_fixedPoint(tableData?.sdTotal)}{" "}
+                        {' '}
+                        {_fixedPoint(tableData?.sdTotal)}{' '}
                       </td>
                       <td className="text-right">
-                        {" "}
-                        {_fixedPoint(tableData?.vatTotal)}{" "}
+                        {' '}
+                        {_fixedPoint(tableData?.vatTotal)}{' '}
                       </td>
                       <td className="text-right">
-                        {" "}
-                        {_fixedPoint(tableData?.grandTotal)}{" "}
+                        {' '}
+                        {_fixedPoint(tableData?.grandTotal)}{' '}
                       </td>
                       <td> {tableData?.createdBy} </td>
                       <td>

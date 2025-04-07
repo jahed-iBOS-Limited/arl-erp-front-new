@@ -1,7 +1,7 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _todayDate } from "./../../../_helper/_todayDate";
-import { _dateFormatter } from "./../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _todayDate } from './../../../_helper/_todayDate';
+import { _dateFormatter } from './../../../_helper/_dateFormate';
 
 export const GetPartnerAllotmentLanding = async (
   accId,
@@ -37,7 +37,7 @@ export const GetSecondaryDeliveryLanding_api = async (
   setLoading,
   setter
 ) => {
-  const search = searchTerm ? `&SearchTerm=${searchTerm}` : "";
+  const search = searchTerm ? `&SearchTerm=${searchTerm}` : '';
   const urlOne = `/wms/SecondaryDelivery/GetSecondaryDeliveryLanding?AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${fromDate}&ToDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}&reportType=${type}&viewOrder=desc${search}`;
 
   const urlTwo = `/wms/SecondaryDelivery/SecondaryDeliveryUnApprovedBillTopsheet?accountId=${accId}&businessUnitId=${buId}&fromDate=${fromDate}&toDate=${toDate}&searchTerm=${searchTerm}`;
@@ -160,11 +160,11 @@ export const createSecondaryDelivery_api = async (payload) => {
       payload?.data
     );
     if (res.status === 200 && res.data) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       payload.cb();
       payload.setDisabled(false);
       payload.history.push(
-        "/sales-management/ordermanagement/partnerAllotmentChallan"
+        '/sales-management/ordermanagement/partnerAllotmentChallan'
       );
     }
   } catch (error) {
@@ -179,7 +179,7 @@ export const EditSecondaryDelivery_api = async (payload) => {
       payload?.data
     );
     if (res.status === 200 && res.data) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       // payload.cb();
       payload.setDisabled(false);
       payload.setAllotmentChallanModel(false);
@@ -239,29 +239,29 @@ export const GetSecondaryDeliveryById = async (
 
       const modified = {
         ...res?.data,
-        sbu: "",
+        sbu: '',
         shippoint: shippointId
           ? { value: shippointId, label: shippointName }
-          : "",
+          : '',
         commission: numComission || 0,
         soldToParty: soldToPartnerId
           ? { value: soldToPartnerId, label: soldToPartnerName }
-          : "",
+          : '',
         supplierName: supplierId
           ? { value: supplierId, label: supplierName }
-          : "",
+          : '',
         salesCenter: salesCenterId
           ? { value: salesCenterId, label: salesCenterName }
-          : "",
+          : '',
         supplierDate: _dateFormatter(supplierDate) || _todayDate(),
-        itemName: itemId ? { value: itemId, label: itemName } : "",
+        itemName: itemId ? { value: itemId, label: itemName } : '',
         itemPrice: itemRate || 0,
         quantity: numQuantity || 0,
         totalPrice: numTotalPrice || 0,
         supplierCountry:
-          fromCountryName || allotmentDetailsData?.supplierCountry || "",
-        deliveryAddress: deliveryAddress || "",
-        lcNo: lcnumber || allotmentDetailsData?.lcNo || "",
+          fromCountryName || allotmentDetailsData?.supplierCountry || '',
+        deliveryAddress: deliveryAddress || '',
+        lcNo: lcnumber || allotmentDetailsData?.lcNo || '',
         lcDate:
           _dateFormatter(dteLcdate) ||
           _dateFormatter(allotmentDetailsData?.lcDate) ||
@@ -269,23 +269,23 @@ export const GetSecondaryDeliveryById = async (
         bankName:
           bankName ||
           allotmentDetailsData?.bankName +
-            ", " +
+            ', ' +
             allotmentDetailsData?.branchName ||
-          "",
+          '',
         permissionNumber:
-          permissionNumber || allotmentDetailsData?.permissionNo || "",
+          permissionNumber || allotmentDetailsData?.permissionNo || '',
         govtPrice: govtRate || 0,
         permissionDate:
           _dateFormatter(dtePermissionDate) ||
           _dateFormatter(allotmentDetailsData?.permissionDate) ||
           _todayDate(),
         challanDate: _dateFormatter(deliveryDate) || _todayDate(),
-        shipName: shipName || allotmentDetailsData?.shipName || "",
+        shipName: shipName || allotmentDetailsData?.shipName || '',
         maxQuantity: 100000000,
-        color: color || allotmentDetailsData?.color || "",
-        district: zilaName || allotmentDetailsData?.district || "",
-        upazila: upzilaName || allotmentDetailsData?.upazilla || "",
-        accOfPartner: "",
+        color: color || allotmentDetailsData?.color || '',
+        district: zilaName || allotmentDetailsData?.district || '',
+        upazila: upzilaName || allotmentDetailsData?.upazilla || '',
+        accOfPartner: '',
         isAccOfPartner: false,
       };
       setter(modified);

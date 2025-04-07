@@ -1,30 +1,29 @@
-
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import customStyles from "../../../../selectCustomStyle";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IApproval from "../../../../_helper/_helperIcons/_approval";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
+import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import customStyles from '../../../../selectCustomStyle';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IApproval from '../../../../_helper/_helperIcons/_approval';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
 import {
   getGridData,
   getSingleDataById,
   getPlantNameDDL,
   getShopFloorDDL,
-} from "../helper";
-import ProductionEntryViewModal from "../View/ViewModal";
-import Select from "react-select";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
-import BackCalculationPEViewModal from "../ViewForBackCalculation/ViewModal";
-import { getSingleDataByForBackCalculation } from "./../helper";
-import { SetManufacturePETableLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import { toast } from "react-toastify";
-import NewSelect from "../../../../_helper/_select";
+} from '../helper';
+import ProductionEntryViewModal from '../View/ViewModal';
+import Select from 'react-select';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import PaginationSearch from '../../../../_helper/_search';
+import BackCalculationPEViewModal from '../ViewForBackCalculation/ViewModal';
+import { getSingleDataByForBackCalculation } from './../helper';
+import { SetManufacturePETableLandingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import { toast } from 'react-toastify';
+import NewSelect from '../../../../_helper/_select';
 
 export function TableRow({ dataForBackCalculationCheck }) {
   const { manufacturePETableLanding } = useSelector(
@@ -32,12 +31,10 @@ export function TableRow({ dataForBackCalculationCheck }) {
   );
   const [landingData, setLandingData] = useState([]);
   const [modalShow, setModalShow] = useState(false);
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
-  const [
-    modalShowForBackCalculation,
-    setModalShowForBackCalculation,
-  ] = useState(false);
+  const [fromDate, setFromDate] = useState('');
+  const [toDate, setToDate] = useState('');
+  const [modalShowForBackCalculation, setModalShowForBackCalculation] =
+    useState(false);
   const [singleData, setSingleData] = useState({});
   const [singleBackCalculationData, setSingleBackCalculationData] = useState(
     {}
@@ -98,7 +95,7 @@ export function TableRow({ dataForBackCalculationCheck }) {
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, searchValue) => {
     if (!selectPlant || !selectedDDLShop)
-      return toast.warn("Please select plant and shop floor");
+      return toast.warn('Please select plant and shop floor');
     getGridData(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -139,7 +136,7 @@ export function TableRow({ dataForBackCalculationCheck }) {
         setLoading,
         pageNo,
         pageSize,
-        "",
+        '',
         fromDate,
         toDate,
         status?.value
@@ -164,11 +161,11 @@ export function TableRow({ dataForBackCalculationCheck }) {
                 placeholder="Plant Name"
                 onChange={(valueOption) => {
                   setselectPlant(valueOption);
-                  setselectedDDLShop("");
+                  setselectedDDLShop('');
                   dispatch(
                     SetManufacturePETableLandingAction({
                       plant: valueOption,
-                      shopfloor: "",
+                      shopfloor: '',
                     })
                   );
                   getShopFloorDDL(
@@ -180,7 +177,7 @@ export function TableRow({ dataForBackCalculationCheck }) {
                   dispatch(
                     SetManufacturePETableLandingAction({
                       plant: valueOption,
-                      shopfloor: "",
+                      shopfloor: '',
                     })
                   );
                 }}
@@ -215,20 +212,20 @@ export function TableRow({ dataForBackCalculationCheck }) {
               />
             </div>
             <div className="col-lg-2">
-                <NewSelect
-                  name="status"
-                  options={[
-                    { value: false, label: "Pending" },
-                    { value: true, label: "Approved" },
-                  ]}
-                  value={status}
-                  label="Status"
-                  onChange={(valueOption) => {
-                    setStatus(valueOption);
-                    setLandingData([]);
-                  }}
-                />
-              </div>
+              <NewSelect
+                name="status"
+                options={[
+                  { value: false, label: 'Pending' },
+                  { value: true, label: 'Approved' },
+                ]}
+                value={status}
+                label="Status"
+                onChange={(valueOption) => {
+                  setStatus(valueOption);
+                  setLandingData([]);
+                }}
+              />
+            </div>
             <div className="col-lg-2">
               <label>From Date</label>
               <input
@@ -253,7 +250,7 @@ export function TableRow({ dataForBackCalculationCheck }) {
                 }}
               />
             </div>
-            <div style={{ marginTop: "10px" }} className="col-lg-1 ml-5">
+            <div style={{ marginTop: '10px' }} className="col-lg-1 ml-5">
               <button
                 className="btn btn-primary"
                 disabled={!selectedDDLShop || !selectPlant}
@@ -267,7 +264,7 @@ export function TableRow({ dataForBackCalculationCheck }) {
                     setLoading,
                     pageNo,
                     pageSize,
-                    "",
+                    '',
                     fromDate,
                     toDate,
                     status?.value
@@ -281,7 +278,7 @@ export function TableRow({ dataForBackCalculationCheck }) {
         </div>
       </div>
       <div className="row">
-        <div style={{ marginTop: "10px" }} className="col-lg-12 pr-0 pl-0">
+        <div style={{ marginTop: '10px' }} className="col-lg-12 pr-0 pl-0">
           {loading && <Loading />}
           <PaginationSearch
             placeholder="Item Name Search"
@@ -294,20 +291,20 @@ export function TableRow({ dataForBackCalculationCheck }) {
                   <thead>
                     <tr>
                       {/* <th style={{ width: "30px" }}>SL</th> */}
-                      <th style={{ width: "30px" }}>SL</th>
-                      <th style={{ width: "50px" }}>Production Date</th>
-                      <th style={{ width: "50px" }}>Shift</th>
-                      <th style={{ width: "50px" }}>Item Name</th>
-                      <th style={{ width: "50px" }}>UoM Name</th>
-                      <th style={{ width: "50px" }}>Production Order Code</th>
-                      <th style={{ width: "50px" }}>Production Qty</th>
+                      <th style={{ width: '30px' }}>SL</th>
+                      <th style={{ width: '50px' }}>Production Date</th>
+                      <th style={{ width: '50px' }}>Shift</th>
+                      <th style={{ width: '50px' }}>Item Name</th>
+                      <th style={{ width: '50px' }}>UoM Name</th>
+                      <th style={{ width: '50px' }}>Production Order Code</th>
+                      <th style={{ width: '50px' }}>Production Qty</th>
                       {selectedBusinessUnit?.value === 188 ||
                       selectedBusinessUnit?.value === 189 ||
                       selectedBusinessUnit?.value === 144 ? (
-                        <th style={{ width: "50px" }}>Status </th>
+                        <th style={{ width: '50px' }}>Status </th>
                       ) : null}
 
-                      <th style={{ width: "50px" }}>Action</th>
+                      <th style={{ width: '50px' }}>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -334,7 +331,7 @@ export function TableRow({ dataForBackCalculationCheck }) {
                               <span
                                 className="text-primary font-weight-bold cursor-pointer mr-2"
                                 style={{
-                                  textDecoration: "underline",
+                                  textDecoration: 'underline',
                                 }}
                                 onClick={() => {
                                   history.push(
@@ -342,10 +339,10 @@ export function TableRow({ dataForBackCalculationCheck }) {
                                   );
                                 }}
                               >
-                                {item?.productionOrderCode || ""}
+                                {item?.productionOrderCode || ''}
                               </span>
                             ) : (
-                              <span>{item?.productionCode || ""}</span>
+                              <span>{item?.productionCode || ''}</span>
                             )}
                           </div>
                         </td>
@@ -354,7 +351,7 @@ export function TableRow({ dataForBackCalculationCheck }) {
                         selectedBusinessUnit?.value === 189 ||
                         selectedBusinessUnit?.value === 144 ? (
                           <td className="text-center">
-                            {item?.isApprove ? "Approved" : "Pending"}
+                            {item?.isApprove ? 'Approved' : 'Pending'}
                           </td>
                         ) : null}
 

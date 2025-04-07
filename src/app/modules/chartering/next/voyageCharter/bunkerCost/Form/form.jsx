@@ -1,13 +1,16 @@
-import { Formik } from "formik";
-import React, { useEffect } from "react";
-import { useHistory, useLocation } from "react-router";
-import { toast } from "react-toastify";
-import FormikInput from "../../../../_chartinghelper/common/formikInput";
-import ICustomTable from "../../../../_chartinghelper/_customTable";
-import { _dateFormatter } from "../../../../_chartinghelper/_dateFormatter";
+import { Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { useHistory, useLocation } from 'react-router';
+import { toast } from 'react-toastify';
+import FormikInput from '../../../../_chartinghelper/common/formikInput';
+import ICustomTable from '../../../../_chartinghelper/_customTable';
+import { _dateFormatter } from '../../../../_chartinghelper/_dateFormatter';
 
-import { vslAndVoyNoValidationSchema } from "../../../../../_helper/_validationSchema";
-import { getBunkerPurchaseList, getConsumption } from "../../../../../_helper/_commonApi";
+import { vslAndVoyNoValidationSchema } from '../../../../../_helper/_validationSchema';
+import {
+  getBunkerPurchaseList,
+  getConsumption,
+} from '../../../../../_helper/_commonApi';
 
 export default function FormCmp({
   title,
@@ -41,7 +44,6 @@ export default function FormCmp({
         setBunkerPurchaseList
       );
     }
-
   }, [preData?.vesselName?.value, preData?.voyageNo?.value]);
 
   return (
@@ -86,7 +88,7 @@ export default function FormCmp({
                         state: preData,
                       });
                     }}
-                    className={"btn btn-danger px-3 py-2"}
+                    className={'btn btn-danger px-3 py-2'}
                   >
                     Skip
                   </button>
@@ -100,11 +102,11 @@ export default function FormCmp({
                     <i className="fa fa-arrow-left pr-1"></i>
                     Back
                   </button> */}
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="button"
                       onClick={() => resetForm(initData)}
-                      className={"btn btn-info reset-btn ml-2 px-3 py-2"}
+                      className={'btn btn-info reset-btn ml-2 px-3 py-2'}
                     >
                       Reset
                     </button>
@@ -122,14 +124,15 @@ export default function FormCmp({
               <div className="row pl-3">
                 <div className="col-lg-6 form-card-content p-3 shadow-sm rounded">
                   <div className="">
-                    <p style={{ fontSize: "15px" }}>
-                      <b>Vessel Name & Voyage No: </b>{" "}
-                      {values?.vesselName?.label} & V{values?.voyageNo?.label}{" "}
+                    <p style={{ fontSize: '15px' }}>
+                      <b>Vessel Name & Voyage No: </b>{' '}
+                      {values?.vesselName?.label} & V
+                      {values?.voyageNo?.label}{' '}
                     </p>
-                    <p style={{ fontSize: "15px" }}>
+                    <p style={{ fontSize: '15px' }}>
                       <b>Voyage Type: </b> {values?.voyageType?.label}
                     </p>
-                    <p style={{ fontSize: "15px" }}>
+                    <p style={{ fontSize: '15px' }}>
                       <b>Ship Type: </b> {values?.shipType?.label}
                     </p>
                   </div>
@@ -179,16 +182,16 @@ export default function FormCmp({
 
               <ICustomTable
                 ths={[
-                  { name: "SL" },
-                  { name: "Item Name" },
-                  { name: "Purchase Date" },
-                  { name: "Purchase Place" },
-                  { name: "Purchase Qty" },
-                  { name: "Remaining Consumption Qty" },
-                  viewType !== "view" && { name: "Remaining Qty" },
-                  { name: "Item Rate" },
-                  { name: "Consumption" },
-                  { name: "Cost" },
+                  { name: 'SL' },
+                  { name: 'Item Name' },
+                  { name: 'Purchase Date' },
+                  { name: 'Purchase Place' },
+                  { name: 'Purchase Qty' },
+                  { name: 'Remaining Consumption Qty' },
+                  viewType !== 'view' && { name: 'Remaining Qty' },
+                  { name: 'Item Rate' },
+                  { name: 'Consumption' },
+                  { name: 'Cost' },
                 ]}
               >
                 {bunkerPurchaseList?.map((item, index) => (
@@ -196,35 +199,35 @@ export default function FormCmp({
                     <td className="text-center">{index + 1}</td>
                     <td>{item?.itemName}</td>
                     <td>{_dateFormatter(item?.dtePurchaseDate)}</td>
-                    <td>{item?.purchasePortName || ""}</td>
+                    <td>{item?.purchasePortName || ''}</td>
                     <td className="text-right">{item?.itemQty}</td>
                     <td className="text-right">
                       {item?.remaining || item?.remainingQuantity}
                     </td>
-                    {viewType !== "view" && (
+                    {viewType !== 'view' && (
                       <td className="text-right">{item?.remainingQty}</td>
                     )}
                     <td className="text-right">{item?.itemRate}</td>
-                    <td style={{ minWidth: "120px", maxWidth: "120px" }}>
+                    <td style={{ minWidth: '120px', maxWidth: '120px' }}>
                       <FormikInput
                         value={item?.consumption}
                         name="consumption"
                         placeholder="Consumption"
                         type="number"
                         onChange={(e) => {
-                          rowDtoHandler("consumption", e?.target?.value, index);
+                          rowDtoHandler('consumption', e?.target?.value, index);
                         }}
                         onBlur={(e) => {
                           if (e?.target?.value > item?.remaining) {
                             toast.warn(
-                              "Consumption can not be greater than remaining quantity"
+                              'Consumption can not be greater than remaining quantity'
                             );
                             // rowDtoHandler("consumption", "", index);
                           }
                         }}
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </td>
                     <td className="text-right">{item?.itemCost}</td>
@@ -233,7 +236,7 @@ export default function FormCmp({
                 {bunkerPurchaseList?.length > 0 && (
                   <tr className="font-weight-bold">
                     <td
-                      colSpan={viewType === "view" ? 8 : 9}
+                      colSpan={viewType === 'view' ? 8 : 9}
                       className="text-right font-weight-bold"
                     >
                       Total Bunker Cost

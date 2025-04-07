@@ -42,7 +42,7 @@ function ReceiveModal({ rowClickData, CB }) {
                 ...itm,
                 recvQuantity: itm?.totalNumberOfPackages || 0,
               };
-            }) || [],
+            }) || []
           );
 
           if (formikRef.current) {
@@ -50,17 +50,15 @@ function ReceiveModal({ rowClickData, CB }) {
               'wareHouse',
               bookingData?.warehouseId
                 ? {
-                  value: bookingData?.warehouseId,
-                  label: bookingData?.warehouseName,
-                }
-                : '',
+                    value: bookingData?.warehouseId,
+                    label: bookingData?.warehouseName,
+                  }
+                : ''
             );
           }
-        },
+        }
       );
     }
-
-
   }, [bookingRequestId]);
 
   const saveHandler = (values, resetForm) => {
@@ -84,7 +82,7 @@ function ReceiveModal({ rowClickData, CB }) {
       paylaod,
       () => {
         CB();
-      },
+      }
     );
   };
 
@@ -92,7 +90,6 @@ function ReceiveModal({ rowClickData, CB }) {
 
   useEffect(() => {
     getWarehouseDDL(`${imarineBaseUrl}/domain/ShippingService/GetWareHouseDDL`);
-
   }, []);
   return (
     <div className="confirmModal">

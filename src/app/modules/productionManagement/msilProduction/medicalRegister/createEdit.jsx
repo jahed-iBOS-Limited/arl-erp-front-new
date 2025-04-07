@@ -21,8 +21,8 @@ const initData = {
   serviceRecipient: '',
   gender: '',
   designation: '',
-  department:'',
-  section:'',
+  department: '',
+  section: '',
   age: '',
   shift: '',
   doctorName: '',
@@ -58,12 +58,11 @@ export default function MedicalRegisterCreate() {
   useEffect(() => {
     // setEnrollDDL(`/mes/MesDDL/GetAllEmployeeInfoCommonDDL?AccountId=1&BusinessUnitId=171`)
     setMedicineDDL(
-      `/mes/MesDDL/GetAllMedicineListDDL?BusinessunitId=${selectedBusinessUnit?.value}`,
+      `/mes/MesDDL/GetAllMedicineListDDL?BusinessunitId=${selectedBusinessUnit?.value}`
     );
     getServiceReasonDDL(
-      `/mes/MSIL/GetServiceReasonDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${0}`,
+      `/mes/MSIL/GetServiceReasonDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${0}`
     );
-
   }, []);
 
   const loadEnrollList = (v) => {
@@ -72,7 +71,7 @@ export default function MedicalRegisterCreate() {
       .get(
         viewType === 1
           ? `/hcm/HCMDDL/GetEmployeeByAcIdDDL?AccountId=${profileData?.accountId}&search=${v}`
-          : `/mes/MesDDL/GetAllEmployeeInfoCommonDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Search=${v}`,
+          : `/mes/MesDDL/GetAllEmployeeInfoCommonDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Search=${v}`
       )
       .then((res) => {
         return res?.data;
@@ -144,8 +143,8 @@ export default function MedicalRegisterCreate() {
         strDesignationName: id
           ? location?.state?.strDesignationName
           : values?.designation || '',
-        strDepartment:id ? location?.state?.strDepartment : values?.department,
-        strSectionName:id ? location?.state?.strSectionName : values?.section,
+        strDepartment: id ? location?.state?.strDepartment : values?.department,
+        strSectionName: id ? location?.state?.strSectionName : values?.section,
         intAge: +values?.age || 0,
         intShiftId: values?.shift?.value || 0,
         strShiftName: values?.shift?.label || '',
@@ -171,7 +170,7 @@ export default function MedicalRegisterCreate() {
         })),
       },
       id ? '' : cb,
-      true,
+      true
     );
   };
 
@@ -181,7 +180,7 @@ export default function MedicalRegisterCreate() {
       return toast.warn('Medicine Quantity is required');
 
     const isExists = itemList.filter(
-      (item) => item?.medicineName?.value === values?.medicineName?.value,
+      (item) => item?.medicineName?.value === values?.medicineName?.value
     );
 
     if (isExists?.length > 0) return toast.warn('Already exists item');
@@ -318,20 +317,20 @@ export default function MedicalRegisterCreate() {
                               setFieldValue('enroll', valueOption);
                               setFieldValue(
                                 'serviceRecipient',
-                                valueOption?.name,
+                                valueOption?.name
                               );
                               setFieldValue('gender', valueOption?.gender);
                               setFieldValue(
                                 'designation',
-                                valueOption?.designation,
+                                valueOption?.designation
                               );
                               setFieldValue(
                                 'department',
-                                valueOption?.department,
+                                valueOption?.department
                               );
                               setFieldValue(
                                 'section',
-                                valueOption?.sectionName,
+                                valueOption?.sectionName
                               );
                             } else {
                               setFieldValue('enroll', '');
@@ -488,7 +487,7 @@ export default function MedicalRegisterCreate() {
                         onChange={(e) => {
                           if (+e.target.value > selectedItem?.numCurrentStock)
                             return toast.warn(
-                              'Medicine quantity must be smaller than or equal to Stock ',
+                              'Medicine quantity must be smaller than or equal to Stock '
                             );
                           if (+e.target.value > 0) {
                             setFieldValue('medicineQTY', e.target.value);

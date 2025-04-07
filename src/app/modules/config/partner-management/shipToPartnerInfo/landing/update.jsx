@@ -1,11 +1,11 @@
-import { Formik } from "formik";
-import React from "react";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { updateTransportZone } from "../helper";
+import { Formik } from 'formik';
+import React from 'react';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { updateTransportZone } from '../helper';
 
 const initData = {
-  transportZone: "",
+  transportZone: '',
 };
 
 const Update = ({
@@ -69,7 +69,7 @@ const Update = ({
                     options={transportZoneDDL || []}
                     value={values?.transportZone}
                     onChange={(e) => {
-                      setFieldValue("transportZone", e);
+                      setFieldValue('transportZone', e);
                     }}
                     label="Transport Zone"
                     placeholder="Transport Zone"

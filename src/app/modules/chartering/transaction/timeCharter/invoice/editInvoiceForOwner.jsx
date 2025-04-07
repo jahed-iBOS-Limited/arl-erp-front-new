@@ -1,9 +1,7 @@
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { ToWords } from 'to-words';
-import {
-  _formatMoneyWithDoller,
-} from '../../../_chartinghelper/_formatMoney';
+import { _formatMoneyWithDoller } from '../../../_chartinghelper/_formatMoney';
 import { getDifference } from '../../../_chartinghelper/_getDateDiff';
 import FormikInput from '../../../_chartinghelper/common/formikInput';
 import { getOwnerBankInfoDetailsById } from '../helper';
@@ -45,14 +43,10 @@ export default function EditInvoiceForOwner({
     if (values?.beneficiary?.value) {
       getOwnerBankInfoDetailsById(values?.beneficiary?.value, setBankInfoData);
     }
-
-
   }, [values?.beneficiary?.value]);
 
   useEffect(() => {
     setFieldValue('beneficiary', { ...values?.beneficiary, ...bankInfoData });
-
-
   }, [bankInfoData]);
 
   let totalCredit = 0;
@@ -60,9 +54,6 @@ export default function EditInvoiceForOwner({
 
   return (
     <div className="p-4 transactionInvoice">
-      {/* <div className="timeCharterLogo">
-        <img src={akijShippingLogo} alt={akijShippingLogo} />
-      </div> */}
       <h5 className="text-center uppercase mb-4">
         {values?.transactionName?.label} STATEMENT
       </h5>
@@ -137,10 +128,10 @@ export default function EditInvoiceForOwner({
                 let diffDate = parseFloat(
                   getDifference(
                     moment(invoiceHireData?.deliveryDate).format(
-                      'YYYY-MM-DDTHH:mm:ss',
+                      'YYYY-MM-DDTHH:mm:ss'
                     ),
-                    e.target.value,
-                  ),
+                    e.target.value
+                  )
                 );
                 calculateDuration(diffDate);
                 const newArr = copy?.map((item) => {
@@ -166,7 +157,6 @@ export default function EditInvoiceForOwner({
                       ...item,
                       duration: duration,
                       credit: ((12 * invoiceHireData?.cveday) / 365) * duration,
-                      // (duration * invoiceHireData?.cveday) / 30,
                     };
                   }
                   if (item?.key === 'hbc') {
@@ -185,7 +175,7 @@ export default function EditInvoiceForOwner({
                 setRowData(newArr);
               }}
               min={moment(invoiceHireData?.deliveryDate).format(
-                'YYYY-MM-DDTHH:mm:ss',
+                'YYYY-MM-DDTHH:mm:ss'
               )}
               errors={errors}
               touched={touched}
@@ -202,9 +192,9 @@ export default function EditInvoiceForOwner({
           <div className="headerValue">
             {getDifference(
               moment(invoiceHireData?.deliveryDate).format(
-                'YYYY-MM-DDTHH:mm:ss',
+                'YYYY-MM-DDTHH:mm:ss'
               ),
-              values?.redeliveryDate,
+              values?.redeliveryDate
             )}
           </div>
         </div>
@@ -252,7 +242,6 @@ export default function EditInvoiceForOwner({
       </div>
 
       {/* Row And Table Section */}
-      {/* <div className="table-responsive"> */}
       <table className="table mt-3 bj-table bj-table-landing">
         <thead>
           <tr
@@ -281,16 +270,18 @@ export default function EditInvoiceForOwner({
               <tr key={index}>
                 {/* SL */}
                 <td
-                  className={`${item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
-                    } text-center`}
+                  className={`${
+                    item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
+                  } text-center`}
                 >
                   {index + 1}
                 </td>
 
                 {/* Description */}
                 <td
-                  className={`${item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
-                    }`}
+                  className={`${
+                    item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
+                  }`}
                 >
                   {item?.isDescription ? (
                     <FormikInput
@@ -304,7 +295,7 @@ export default function EditInvoiceForOwner({
                           item?.isDescription?.name,
                           e.target.value,
                           item,
-                          rowData,
+                          rowData
                         )
                       }
                       errors={errors}
@@ -318,8 +309,9 @@ export default function EditInvoiceForOwner({
 
                 {/* Duration */}
                 <td
-                  className={`${item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
-                    } text-center`}
+                  className={`${
+                    item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
+                  } text-center`}
                   style={{ width: '150px' }}
                 >
                   {item?.isDuration ? (
@@ -336,7 +328,7 @@ export default function EditInvoiceForOwner({
                             item?.isDuration?.name,
                             e.target.value,
                             item,
-                            rowData,
+                            rowData
                           )
                         }
                         errors={errors}
@@ -352,8 +344,9 @@ export default function EditInvoiceForOwner({
 
                 {/* Quantity */}
                 <td
-                  className={`${item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
-                    }`}
+                  className={`${
+                    item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
+                  }`}
                   style={{ width: '150px' }}
                 >
                   {item?.isQty ? (
@@ -370,7 +363,7 @@ export default function EditInvoiceForOwner({
                             item?.isQty?.name,
                             e.target.value,
                             item,
-                            rowData,
+                            rowData
                           )
                         }
                         errors={errors}
@@ -384,8 +377,9 @@ export default function EditInvoiceForOwner({
 
                 {/* Debit | But Debit Will be Credit for Owner */}
                 <td
-                  className={`${item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
-                    } text-right`}
+                  className={`${
+                    item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
+                  } text-right`}
                   style={{ width: '150px' }}
                 >
                   {item?.isCredit ? (
@@ -398,7 +392,7 @@ export default function EditInvoiceForOwner({
                             item?.isCredit?.name,
                             e.target.value,
                             item,
-                            rowData,
+                            rowData
                           );
                         }}
                         value={item?.credit}
@@ -418,8 +412,9 @@ export default function EditInvoiceForOwner({
 
                 {/* Credit | But Credit Will be Debit For Owner */}
                 <td
-                  className={`${item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
-                    } text-right`}
+                  className={`${
+                    item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
+                  } text-right`}
                   style={{ width: '150px' }}
                 >
                   {item?.isDebit ? (
@@ -436,7 +431,7 @@ export default function EditInvoiceForOwner({
                             item?.isDebit?.name,
                             e.target.value,
                             item,
-                            rowData,
+                            rowData
                           )
                         }
                         errors={errors}
@@ -476,7 +471,7 @@ export default function EditInvoiceForOwner({
                           'isChecked',
                           e.target.checked,
                           item,
-                          rowData,
+                          rowData
                         );
                       }}
                     />
@@ -484,10 +479,10 @@ export default function EditInvoiceForOwner({
 
                   {/* Delete if new row */}
                   {item?.isDescription &&
-                    item?.isDuration &&
-                    item?.isCredit &&
-                    item?.isDebit &&
-                    item?.isQty ? (
+                  item?.isDuration &&
+                  item?.isCredit &&
+                  item?.isDebit &&
+                  item?.isQty ? (
                     <>
                       <span
                         onClick={() => {
@@ -538,7 +533,7 @@ export default function EditInvoiceForOwner({
                   (
                     Number(totalCredit)?.toFixed(2) -
                     Number(totalDebit)?.toFixed(2)
-                  ).toFixed(2),
+                  ).toFixed(2)
                 ) || 0}
               </strong>
             </td>
@@ -557,7 +552,7 @@ export default function EditInvoiceForOwner({
                       (
                         Number(totalCredit)?.toFixed(2) -
                         Number(totalDebit)?.toFixed(2)
-                      ).toFixed(2),
+                      ).toFixed(2)
                     )}`}
                   </strong>
                 </div>

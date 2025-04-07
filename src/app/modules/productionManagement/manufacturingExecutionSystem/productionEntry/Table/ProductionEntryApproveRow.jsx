@@ -17,16 +17,14 @@ import NewSelect from '../../../../_helper/_select';
 
 export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
   const { manufacturePETableLanding } = useSelector(
-    (state) => state.localStorage,
+    (state) => state.localStorage
   );
   const [landingData, setLandingData] = useState([]);
   const [modalShow, setModalShow] = useState(false);
   const [fromDate, setFromDate] = useState('');
   const [toDate, setToDate] = useState('');
-  const [
-    modalShowForBackCalculation,
-    setModalShowForBackCalculation,
-  ] = useState(false);
+  const [modalShowForBackCalculation, setModalShowForBackCalculation] =
+    useState(false);
 
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState({ value: false, label: 'Pending' });
@@ -37,12 +35,12 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
 
   const [plant, setPlant] = useState([]);
   const [selectPlant, setselectPlant] = useState(
-    manufacturePETableLanding?.plant,
+    manufacturePETableLanding?.plant
   );
 
   const [shopFloorDDL, setShopFloorDDL] = useState([]);
   const [selectedDDLShop, setselectedDDLShop] = React.useState(
-    manufacturePETableLanding?.shopfloor,
+    manufacturePETableLanding?.shopfloor
   );
 
   const dispatch = useDispatch();
@@ -60,9 +58,8 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
       profileData.userId,
       profileData.accountId,
       selectedBusinessUnit.value,
-      setPlant,
+      setPlant
     );
-
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
   //setPositionHandler
@@ -81,7 +78,7 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
       searchValue,
       fromDate,
       toDate,
-      status?.value,
+      status?.value
     );
   };
 
@@ -105,16 +102,15 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
         '',
         fromDate,
         toDate,
-        status?.value,
+        status?.value
       );
     selectPlant?.value &&
       getShopFloorDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         selectPlant?.value,
-        setShopFloorDDL,
+        setShopFloorDDL
       );
-
   }, []);
 
   return (
@@ -133,19 +129,19 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
                     SetManufacturePETableLandingAction({
                       plant: valueOption,
                       shopfloor: '',
-                    }),
+                    })
                   );
                   getShopFloorDDL(
                     profileData?.accountId,
                     selectedBusinessUnit?.value,
                     valueOption?.value,
-                    setShopFloorDDL,
+                    setShopFloorDDL
                   );
                   dispatch(
                     SetManufacturePETableLandingAction({
                       plant: valueOption,
                       shopfloor: '',
-                    }),
+                    })
                   );
                 }}
                 value={selectPlant}
@@ -168,7 +164,7 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
                     SetManufacturePETableLandingAction({
                       plant: selectPlant,
                       shopfloor: valueOption,
-                    }),
+                    })
                   );
                 }}
                 isSearchable={true}
@@ -233,7 +229,7 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
                     '',
                     fromDate,
                     toDate,
-                    status?.value,
+                    status?.value
                   );
                 }}
               >
@@ -293,7 +289,7 @@ export function ProductionEntryApproveRow({ dataForBackCalculationCheck }) {
                                 style={{ textDecoration: 'underline' }}
                                 onClick={() => {
                                   history.push(
-                                    `/production-management/mes/productionorder/view/${item?.productionOrderNo}`,
+                                    `/production-management/mes/productionorder/view/${item?.productionOrderNo}`
                                   );
                                 }}
                               >

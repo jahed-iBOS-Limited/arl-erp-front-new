@@ -1,10 +1,10 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { setPreviousPressure, setTotalConsumptionUnit } from "./helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { setPreviousPressure, setTotalConsumptionUnit } from './helper';
 
 export default function REBConsumptionForm({
   initData,
@@ -22,7 +22,6 @@ export default function REBConsumptionForm({
     setConsumptionDDL(
       `/mes/MSIL/GetAllMSIL?PartName=ElectricalREBConsumptionType&BusinessUnitId=${selectedBusinessUnit.value}`
     );
-
   }, []);
 
   return (
@@ -57,13 +56,13 @@ export default function REBConsumptionForm({
                     name="date"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("totalConsumption", "");
-                      setFieldValue("totalConsumptionUnit", "");
-                      setFieldValue("presentPressure", "");
-                      setFieldValue("presentPressureTwo", "");
-                      setFieldValue("presentPressureThree", "");
-                      setFieldValue("presentPressureFour", "");
-                      setFieldValue("date", e.target.value);
+                      setFieldValue('totalConsumption', '');
+                      setFieldValue('totalConsumptionUnit', '');
+                      setFieldValue('presentPressure', '');
+                      setFieldValue('presentPressureTwo', '');
+                      setFieldValue('presentPressureThree', '');
+                      setFieldValue('presentPressureFour', '');
+                      setFieldValue('date', e.target.value);
                       if (values?.rebConsumptionDDL?.value) {
                         getPreviousPressureData(
                           `/mes/MSIL/GetPreviousEntryOfRebconsumption?UserDate=${e.target.value}&REBConsumptionTypeId=${values?.rebConsumptionDDL?.value}&BusinessUnitId=${selectedBusinessUnit?.value}`,
@@ -84,13 +83,13 @@ export default function REBConsumptionForm({
                     label="REB Consumption Type Name"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("totalConsumption", "");
-                        setFieldValue("totalConsumptionUnit", "");
-                        setFieldValue("presentPressure", "");
-                        setFieldValue("presentPressureTwo", "");
-                        setFieldValue("presentPressureThree", "");
-                        setFieldValue("presentPressureFour", "");
-                        setFieldValue("rebConsumptionDDL", valueOption);
+                        setFieldValue('totalConsumption', '');
+                        setFieldValue('totalConsumptionUnit', '');
+                        setFieldValue('presentPressure', '');
+                        setFieldValue('presentPressureTwo', '');
+                        setFieldValue('presentPressureThree', '');
+                        setFieldValue('presentPressureFour', '');
+                        setFieldValue('rebConsumptionDDL', valueOption);
                         getPreviousPressureData(
                           `/mes/MSIL/GetPreviousEntryOfRebconsumption?UserDate=${values?.date}&REBConsumptionTypeId=${valueOption?.value}&BusinessUnitId=${selectedBusinessUnit?.value}`,
                           (data) => {
@@ -98,17 +97,17 @@ export default function REBConsumptionForm({
                           }
                         );
                       } else {
-                        setFieldValue("totalConsumption", "");
-                        setFieldValue("totalConsumptionUnit", "");
-                        setFieldValue("presentPressure", "");
-                        setFieldValue("presentPressureTwo", "");
-                        setFieldValue("presentPressureThree", "");
-                        setFieldValue("presentPressureFour", "");
-                        setFieldValue("rebConsumptionDDL", "");
-                        setFieldValue("previousPressure", "");
-                        setFieldValue("previousPressureTwo", "");
-                        setFieldValue("previousPressureThree", "");
-                        setFieldValue("previousPressureFour", "");
+                        setFieldValue('totalConsumption', '');
+                        setFieldValue('totalConsumptionUnit', '');
+                        setFieldValue('presentPressure', '');
+                        setFieldValue('presentPressureTwo', '');
+                        setFieldValue('presentPressureThree', '');
+                        setFieldValue('presentPressureFour', '');
+                        setFieldValue('rebConsumptionDDL', '');
+                        setFieldValue('previousPressure', '');
+                        setFieldValue('previousPressureTwo', '');
+                        setFieldValue('previousPressureThree', '');
+                        setFieldValue('previousPressureFour', '');
                       }
                     }}
                     errors={errors}
@@ -119,15 +118,15 @@ export default function REBConsumptionForm({
                   <NewSelect
                     name="shift"
                     options={[
-                      { value: "A", label: "A" },
-                      { value: "B", label: "B" },
-                      { value: "C", label: "C" },
-                      { value: "General", label: "General" },
+                      { value: 'A', label: 'A' },
+                      { value: 'B', label: 'B' },
+                      { value: 'C', label: 'C' },
+                      { value: 'General', label: 'General' },
                     ]}
                     value={values?.shift}
                     label="Shift"
                     onChange={(valueOption) => {
-                      setFieldValue("shift", valueOption);
+                      setFieldValue('shift', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -139,8 +138,8 @@ export default function REBConsumptionForm({
                     value={values?.previousPressure}
                     label={
                       selectedBusinessUnit?.value === 144
-                        ? "Previous KWH 11KV Boil (MR)"
-                        : "Previous KWH M1 (Meter Reading)"
+                        ? 'Previous KWH 11KV Boil (MR)'
+                        : 'Previous KWH M1 (Meter Reading)'
                     }
                     name="previousPressure"
                     type="number"
@@ -152,14 +151,14 @@ export default function REBConsumptionForm({
                     value={values?.presentPressure}
                     label={
                       selectedBusinessUnit?.value === 144
-                        ? "Present KWH 11KV Boil (MR)"
-                        : "Present KWH M1 (Meter Reading)"
+                        ? 'Present KWH 11KV Boil (MR)'
+                        : 'Present KWH M1 (Meter Reading)'
                     }
                     name="presentPressure"
                     type="number"
                     onChange={(e) => {
                       setFieldValue(
-                        "totalConsumption",
+                        'totalConsumption',
                         (+e.target.value || 0) +
                           (+values.presentPressureTwo || 0) +
                           (+values.presentPressureThree || 0) +
@@ -169,7 +168,7 @@ export default function REBConsumptionForm({
                             (+values.previousPressureThree || 0) +
                             (+values.previousPressureFour || 0))
                       );
-                      setFieldValue("presentPressure", e.target.value);
+                      setFieldValue('presentPressure', e.target.value);
                       setTotalConsumptionUnit(
                         +e.target.value,
                         values,
@@ -187,8 +186,8 @@ export default function REBConsumptionForm({
                       value={values?.previousPressureTwo}
                       label={
                         selectedBusinessUnit?.value === 144
-                          ? "Previous KWH 11KV Aromatic (MR)"
-                          : "Previous KWH M2 (Meter Reading)"
+                          ? 'Previous KWH 11KV Aromatic (MR)'
+                          : 'Previous KWH M2 (Meter Reading)'
                       }
                       name="previousPressureTwo"
                       type="number"
@@ -203,15 +202,15 @@ export default function REBConsumptionForm({
                       value={values?.presentPressureTwo}
                       label={
                         selectedBusinessUnit?.value === 144
-                          ? "Present KWH 11KV Aromatic (MR)"
-                          : "Present KWH M2 (Meter Reading)"
+                          ? 'Present KWH 11KV Aromatic (MR)'
+                          : 'Present KWH M2 (Meter Reading)'
                       }
                       name="presentPressureTwo"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("presentPressureTwo", e.target.value);
+                        setFieldValue('presentPressureTwo', e.target.value);
                         setFieldValue(
-                          "totalConsumption",
+                          'totalConsumption',
                           (+values.presentPressure || 0) +
                             (+e.target.value || 0) +
                             (+values.presentPressureThree || 0) +
@@ -226,7 +225,7 @@ export default function REBConsumptionForm({
                           values?.rebConsumptionDDL?.value === 4
                         ) {
                           setFieldValue(
-                            "totalConsumptionUnit",
+                            'totalConsumptionUnit',
                             (+e.target.value +
                               (+values?.presentPressure || 0) -
                               ((+values?.previousPressure || 0) +
@@ -247,8 +246,8 @@ export default function REBConsumptionForm({
                         value={values?.previousPressureThree}
                         label={
                           selectedBusinessUnit?.value === 144
-                            ? "Previous KWH 0.4KV Aromatic_1 (MR)"
-                            : "Previous KWH M3 (Meter Reading)"
+                            ? 'Previous KWH 0.4KV Aromatic_1 (MR)'
+                            : 'Previous KWH M3 (Meter Reading)'
                         }
                         name="previousPressureThree"
                         type="number"
@@ -260,15 +259,15 @@ export default function REBConsumptionForm({
                         value={values?.presentPressureThree}
                         label={
                           selectedBusinessUnit?.value === 144
-                            ? "Present KWH 0.4KV Aromatic_1 (MR)"
-                            : "Present KWH M3 (Meter Reading)"
+                            ? 'Present KWH 0.4KV Aromatic_1 (MR)'
+                            : 'Present KWH M3 (Meter Reading)'
                         }
                         name="presentPressureThree"
                         type="number"
                         onChange={(e) => {
-                          setFieldValue("presentPressureThree", e.target.value);
+                          setFieldValue('presentPressureThree', e.target.value);
                           setFieldValue(
-                            "totalConsumption",
+                            'totalConsumption',
                             (+values.presentPressure || 0) +
                               (+values.presentPressureTwo || 0) +
                               (+e.target.value || 0) +
@@ -296,7 +295,11 @@ export default function REBConsumptionForm({
                       <InputField
                         disabled
                         value={values?.previousPressureFour}
-                        label={selectedBusinessUnit?.value === 144 ? "Previous KWH 0.4KV Aromatic_2 (MR)" : "Previous KWH M4 (Meter Reading)"}
+                        label={
+                          selectedBusinessUnit?.value === 144
+                            ? 'Previous KWH 0.4KV Aromatic_2 (MR)'
+                            : 'Previous KWH M4 (Meter Reading)'
+                        }
                         name="previousPressureFour"
                         type="number"
                       />
@@ -305,13 +308,17 @@ export default function REBConsumptionForm({
                       <InputField
                         // disabled={location?.state}
                         value={values?.presentPressureFour}
-                        label={selectedBusinessUnit?.value === 144 ? "Present KWH 0.4KV Aromatic_2 (MR)" : "Present KWH M4 (Meter Reading)"}
+                        label={
+                          selectedBusinessUnit?.value === 144
+                            ? 'Present KWH 0.4KV Aromatic_2 (MR)'
+                            : 'Present KWH M4 (Meter Reading)'
+                        }
                         name="presentPressureFour"
                         type="number"
                         onChange={(e) => {
-                          setFieldValue("presentPressureFour", e.target.value);
+                          setFieldValue('presentPressureFour', e.target.value);
                           setFieldValue(
-                            "totalConsumption",
+                            'totalConsumption',
                             (+values.presentPressure || 0) +
                               (+values.presentPressureTwo || 0) +
                               (+values.presentPressureThree || 0) +
@@ -365,8 +372,8 @@ export default function REBConsumptionForm({
                       name="tmReadingTime"
                       type="time"
                       onChange={(e) => {
-                        setFieldValue("tmReadingTime", e.target.value);
-                        console.log("tmReadingTime", e.target.value);
+                        setFieldValue('tmReadingTime', e.target.value);
+                        console.log('tmReadingTime', e.target.value);
                       }}
                       disabled={params?.id}
                     />
@@ -376,14 +383,14 @@ export default function REBConsumptionForm({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

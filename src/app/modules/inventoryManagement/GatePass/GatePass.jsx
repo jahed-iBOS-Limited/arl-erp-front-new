@@ -1,8 +1,8 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import GatePassApplicationLanding from "./gatePassApplication/index";
-import CreateGatePassApplicationForm from "./gatePassApplication/Create/addForm";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import GatePassApplicationLanding from './gatePassApplication/index';
+import CreateGatePassApplicationForm from './gatePassApplication/Create/addForm';
 // import commonForm from "./gatePassApplication/Create/commonForm";
 // import ViewReport from "./gatePassApplication/View/viewReport";
 
@@ -11,11 +11,11 @@ export function GatePass() {
     <Switch>
       <Redirect
         exact={true}
-        from='/inventory-management'
-        to='/inventory-management/approval'
+        from="/inventory-management"
+        to="/inventory-management/approval"
       />
       <ContentRoute
-        path='/inventory-management/gate-pass/gate-pass-application/edit/:pId'
+        path="/inventory-management/gate-pass/gate-pass-application/edit/:pId"
         component={CreateGatePassApplicationForm}
       />
       {/* <ContentRoute
@@ -23,12 +23,12 @@ export function GatePass() {
         component={ViewReport}
       /> */}
       <ContentRoute
-        path='/inventory-management/gate-pass/gate-pass-application/create'
+        path="/inventory-management/gate-pass/gate-pass-application/create"
         component={CreateGatePassApplicationForm}
       />
 
       <ContentRoute
-        path='/inventory-management/gate-pass/gate-pass-application'
+        path="/inventory-management/gate-pass/gate-pass-application"
         component={GatePassApplicationLanding}
       />
     </Switch>

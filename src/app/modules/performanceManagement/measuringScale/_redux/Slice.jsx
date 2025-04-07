@@ -1,18 +1,17 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
   error: '',
-  msg: "",
+  msg: '',
   scaleForDDL: [],
   gridData: [],
 };
 
 export const measuringScaleTwoSlice = createSlice({
-  name: "measuringScaleTwo",
+  name: 'measuringScaleTwo',
   initialState: initState,
   reducers: {
-
     SetScaleForDDL: (state, action) => {
       const { payload } = action;
       state.scaleForDDL = payload;
@@ -22,6 +21,5 @@ export const measuringScaleTwoSlice = createSlice({
       const { payload } = action;
       state.gridData = payload;
     },
-  }
+  },
 });
-

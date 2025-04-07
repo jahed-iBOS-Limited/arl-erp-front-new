@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
 
-import { toast } from "react-toastify";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { useParams } from "react-router-dom";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { toast } from 'react-toastify';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { useParams } from 'react-router-dom';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 const initData = {
-  trainingSchedule: "",
-  employee: "",
-  resourcePerson: "",
-  designation: "",
-  jobType: "",
-  email: "",
-  phone: "",
-  gender: "",
-  supervisor: "",
+  trainingSchedule: '',
+  employee: '',
+  resourcePerson: '',
+  designation: '',
+  jobType: '',
+  email: '',
+  phone: '',
+  gender: '',
+  supervisor: '',
 };
 export default function TrainingRequisitionApprovalEdit() {
   const [isDisabled, setDisabled] = useState(false);
@@ -35,7 +35,7 @@ export default function TrainingRequisitionApprovalEdit() {
     return state.authData;
   }, shallowEqual);
 
-  console.log("editData", editData);
+  console.log('editData', editData);
 
   useEffect(() => {
     if (params?.editId) {
@@ -48,26 +48,26 @@ export default function TrainingRequisitionApprovalEdit() {
               label: data[0]?.scheduleName,
               name: data[0]?.strTrainingName,
             },
-            employee: "",
+            employee: '',
             resourcePerson: data[0]?.strResourcePerson,
-            designation: "",
-            jobType: "",
-            email: "",
-            gender: "",
-            supervisor: "",
+            designation: '',
+            jobType: '',
+            email: '',
+            gender: '',
+            supervisor: '',
           });
           setRequisitionList(
             data?.map((item) => ({
               trainingSchedule: {
                 value: item?.intScheduleId,
-                label: "",
+                label: '',
                 name: item?.strTrainingName,
               },
               employee: {
                 value: item?.intEmployeeId,
-                label: "",
+                label: '',
                 name: item?.strEmployeeName,
-                code: "",
+                code: '',
               },
               resourcePerson: item?.strResourcePerson,
               designation: {
@@ -80,8 +80,8 @@ export default function TrainingRequisitionApprovalEdit() {
                 value: item?.intEmploymentTypeId,
                 label: item?.strEmploymentType,
               },
-              email: item?.strEmail || "",
-              phone: item?.strPhoneNo || "",
+              email: item?.strEmail || '',
+              phone: item?.strPhoneNo || '',
               gender: item?.strGender,
               supervisor: item?.strSupervisor,
               intRequisitionId: item?.intRequisitionId,
@@ -91,15 +91,13 @@ export default function TrainingRequisitionApprovalEdit() {
         }
       );
     }
-
-
   }, [params?.editId]);
 
-  console.log("requisitionList", requisitionList);
+  console.log('requisitionList', requisitionList);
 
   const saveHandler = async (values, cb) => {
     if (!requisitionList?.length)
-      return toast.warn("Please add at least one Requisition");
+      return toast.warn('Please add at least one Requisition');
     const payload = requisitionList?.map((item) => ({
       intRequisitionId: item?.intRequisitionId || 0,
       intScheduleId: item?.trainingSchedule?.value,
@@ -109,8 +107,8 @@ export default function TrainingRequisitionApprovalEdit() {
       intBusinessUnitId: item?.designation?.businessUnitId,
       intDesignationId: item?.designation?.value,
       strDesignationName: item?.designation?.label,
-      strEmail: item?.emil || "",
-      strPhoneNo: item?.phone || "",
+      strEmail: item?.emil || '',
+      strPhoneNo: item?.phone || '',
       strGender: item?.gender,
       intSupervisorId: item?.designation?.supervisorId,
       strSupervisor: item?.supervisor,
@@ -119,8 +117,8 @@ export default function TrainingRequisitionApprovalEdit() {
       dteActionDate: _todayDate(),
       intActionBy: profileData?.userId,
       isActive: true,
-      strApprovalStatus: "Pending",
-      strComments: "",
+      strApprovalStatus: 'Pending',
+      strComments: '',
       isFromRequisition: item?.isFromRequisition,
     }));
     saveRequisition(

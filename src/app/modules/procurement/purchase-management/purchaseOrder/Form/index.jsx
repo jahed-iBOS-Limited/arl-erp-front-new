@@ -1,12 +1,11 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import IForm from "../../../../_helper/_form";
-import PurchaseContractCreateForm from "./purchaseContract/CreateForm";
-import SubContractPO from "./subcontractPO/CreateForm";
-import ServicePO from "./servicePO/CreateForm";
-import AssetStandardPOCreateForm from "./assetStandardPo/createForm";
-import { IQueryParser } from "../../../../_helper/_queryParser";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import IForm from '../../../../_helper/_form';
+import PurchaseContractCreateForm from './purchaseContract/CreateForm';
+import SubContractPO from './subcontractPO/CreateForm';
+import ServicePO from './servicePO/CreateForm';
+import AssetStandardPOCreateForm from './assetStandardPo/createForm';
+import { IQueryParser } from '../../../../_helper/_queryParser';
 import {
   getCurrencyDDLAction,
   getIncoTermsListDDLAction,
@@ -15,16 +14,16 @@ import {
   getSupplierNameDDLAction,
   savePurchaseOrderForAssetStandardService,
   saveCreateDataForPurchaseContractAction,
-} from "../_redux/Actions";
-import { useLocation } from "react-router-dom";
-import { getUomDDLAction } from "../../../../_helper/_redux/Actions";
-import StockTransferPOCreateForm from "./stockTransfer/createForm";
-import ReturnPOCreateForm from "./returnPO/createForm";
-import { toast } from "react-toastify";
-import Loading from "./../../../../_helper/_loading";
-import { confirmAlert } from "react-confirm-alert";
-import AssetPOCreateForm from "./assetPoForm/createForm";
-import { useHistory } from "react-router-dom";
+} from '../_redux/Actions';
+import { useLocation } from 'react-router-dom';
+import { getUomDDLAction } from '../../../../_helper/_redux/Actions';
+import StockTransferPOCreateForm from './stockTransfer/createForm';
+import ReturnPOCreateForm from './returnPO/createForm';
+import { toast } from 'react-toastify';
+import Loading from './../../../../_helper/_loading';
+import { confirmAlert } from 'react-confirm-alert';
+import AssetPOCreateForm from './assetPoForm/createForm';
+import { useHistory } from 'react-router-dom';
 
 // id 1 = purchase contract
 // id 2 = request
@@ -37,9 +36,9 @@ export function POFormByOrderType() {
   const [poForm, setPoForm] = useState(<></>);
   const dispatch = useDispatch();
 
-  const potype = IQueryParser("potype");
+  const potype = IQueryParser('potype');
   const location = useLocation();
-  const estimatePDAPOPage = location?.state?.estimatePDAPOPage || "";
+  const estimatePDAPOPage = location?.state?.estimatePDAPOPage || '';
   console.log(estimatePDAPOPage);
   const history = useHistory();
   // redux store data
@@ -51,7 +50,7 @@ export function POFormByOrderType() {
   }, shallowEqual);
 
   const lastPo = useSelector(
-    (state) => state?.localStorage?.lastPOData?.split("No")[1]
+    (state) => state?.localStorage?.lastPOData?.split('No')[1]
   );
 
   const { profileData } = storeData;
@@ -84,7 +83,6 @@ export function POFormByOrderType() {
         )
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -97,13 +95,11 @@ export function POFormByOrderType() {
         )
       );
     }
-
   }, [location]);
 
   useEffect(() => {
     dispatch(getPaymentTermsListDDLAction());
     dispatch(getIncoTermsListDDLAction());
-
   }, []);
 
   const IConfirmModal = (props) => {
@@ -113,7 +109,7 @@ export function POFormByOrderType() {
       message: message,
       buttons: [
         {
-          label: "Ok",
+          label: 'Ok',
           onClick: () => noAlertFunc(),
         },
       ],
@@ -134,7 +130,7 @@ export function POFormByOrderType() {
         // check atleast one row item quantity should be greater than 0
         // we will save only those field , where order qty is greater than 0
         const foundArr = rowDto?.filter((item) => item?.orderQty > 0);
-        if (foundArr.length === 0) return toast.warn("Enter quantity");
+        if (foundArr.length === 0) return toast.warn('Enter quantity');
 
         //check basic price is greater then 0
         //if(location?.state?.orderType?.value === 6){
@@ -142,41 +138,41 @@ export function POFormByOrderType() {
           ?.filter((item) => item?.orderQty > 0)
           .filter((item) => item?.basicPrice === 0);
         if (foundBasicPrice.length > 0)
-          return toast.warn("Basic price must be greater then 0");
+          return toast.warn('Basic price must be greater then 0');
         // }
 
         setDisabled(true);
 
         const objRowListDTO = foundArr?.map((item, index) => ({
           referenceId: +item?.referenceNo?.value || 0,
-          referenceCode: item?.referenceNo?.label || "",
+          referenceCode: item?.referenceNo?.label || '',
           referenceQty: +item?.item?.refQty || 0,
           itemId: +item?.item?.value || 0,
-          itemName: item?.item?.itemName || "",
+          itemName: item?.item?.itemName || '',
           uoMid: +item?.selectedUom?.value || 0,
-          uoMname: item?.selectedUom?.label || "",
+          uoMname: item?.selectedUom?.label || '',
           controllingUnitId: +item?.controllingUnit?.value || 0,
           bomId: 0,
-          controllingUnitName: item?.controllingUnit?.label || "",
+          controllingUnitName: item?.controllingUnit?.label || '',
           costCenterId: values?.isTransfer
             ? +item?.costCenter?.value || 0
             : +item?.costCenterTwo?.value || 0,
           costCenterName: values?.isTransfer
             ? item?.costCenter?.label
-            : item?.costCenterTwo?.label || "",
+            : item?.costCenterTwo?.label || '',
           costElementId: values?.isTransfer
             ? +item?.costElement?.value || 0
             : +item?.costElementTwo?.value || 0,
           costElementName: values?.isTransfer
             ? item?.costElement?.label
-            : item?.costElementTwo?.label || "",
-          purchaseDescription: item?.desc || "",
+            : item?.costElementTwo?.label || '',
+          purchaseDescription: item?.desc || '',
           orderQty: +item?.orderQty || 0,
           basePrice: +item?.basicPrice || 0,
           finalPrice: +(item?.orderQty * item?.basicPrice) || 0,
           totalValue: +item?.netValue || 0,
           actionBy: +profileData?.userId || 0,
-          lastActionDateTime: "2020-11-10T08:52:28.574Z",
+          lastActionDateTime: '2020-11-10T08:52:28.574Z',
           vatPercentage: +item?.vat || 0,
           vatAmount: +item?.vatAmount || 0,
           baseVatAmount: +item?.userGivenVatAmount || 0,
@@ -215,27 +211,27 @@ export function POFormByOrderType() {
             warehouseId: +location?.state?.warehouse?.value,
             warehouseName: location?.state?.warehouse?.label,
             supplyingWarehouseId: values?.supplyingWh?.value || 0,
-            supplyingWarehouseName: values?.supplyingWh?.label || "",
+            supplyingWarehouseName: values?.supplyingWh?.label || '',
             purchaseOrganizationId: +location?.state?.purchaseOrg?.value,
             businessPartnerId: +values?.supplierName?.value || 0,
-            purchaseOrderDate: values?.orderDate || "2020-11-10T08:52:28.574Z",
+            purchaseOrderDate: values?.orderDate || '2020-11-10T08:52:28.574Z',
             purchaseOrderTypeId: +location?.state?.orderType?.value,
             incotermsId: +values?.incoterms?.value || 0,
             currencyId: +values?.currency?.value || 0,
             // currencyCode: values?.currency?.label || "",
-            supplierReference: values?.supplierReference || "",
-            returnDate: values?.returnDate || "2020-12-06T09:35:19.200Z",
-            referenceDate: values?.referenceDate || "2020-11-10T08:52:28.574Z",
+            supplierReference: values?.supplierReference || '',
+            returnDate: values?.returnDate || '2020-12-06T09:35:19.200Z',
+            referenceDate: values?.referenceDate || '2020-11-10T08:52:28.574Z',
             referenceTypeId: +location?.state?.refType?.value,
             paymentTerms: +values?.paymentTerms?.value || 0,
             creditPercent: 0,
             cashOrAdvancePercent: parseFloat(values?.cash) || 0,
-            otherTerms: values?.otherTerms || "",
-            poValidityDate: values?.validity || "2020-11-10T08:52:28.574Z",
+            otherTerms: values?.otherTerms || '',
+            poValidityDate: values?.validity || '2020-11-10T08:52:28.574Z',
             lastShipmentDate:
-              values?.lastShipmentDate || "2020-11-10T08:52:28.574Z",
+              values?.lastShipmentDate || '2020-11-10T08:52:28.574Z',
             paymentDaysAfterDelivery: +values.payDays || 0,
-            deliveryAddress: values?.deliveryAddress || "",
+            deliveryAddress: values?.deliveryAddress || '',
             actionBy: +profileData?.userId,
             grossDiscount: values?.discount || 0,
             freight: values?.freight || 0,
@@ -248,7 +244,7 @@ export function POFormByOrderType() {
           },
           objRowListDTO,
           objImageListDTO: values?.attachmentList?.map((attachment) => ({
-            imageId: attachment?.id || "",
+            imageId: attachment?.id || '',
           })),
         };
         dispatch(
@@ -268,25 +264,25 @@ export function POFormByOrderType() {
         // check atleast one row item quantity should be greater than 0
         // we will save only those field , where order qty is greater than 0
         const foundArr = rowDto?.filter((item) => item?.orderQty > 0);
-        if (foundArr.length === 0) return toast.warn("Enter quantity");
+        if (foundArr.length === 0) return toast.warn('Enter quantity');
 
         setDisabled(true);
 
         const objListCPCRowDTO = foundArr?.map((item, index) => ({
           referenceId: +item?.referenceNo?.value || 0,
-          referenceCode: item?.referenceNo?.label || "",
+          referenceCode: item?.referenceNo?.label || '',
           itemId: +item?.item?.value || 0,
-          itemName: item?.item?.itemName || "",
+          itemName: item?.item?.itemName || '',
           uoMid: +item?.selectedUom?.value || 0,
-          uoMname: item?.selectedUom?.label || "",
-          purchaseDescription: item?.desc || "",
+          uoMname: item?.selectedUom?.label || '',
+          purchaseDescription: item?.desc || '',
           referenceQty: +item?.item?.refQty || 0,
           basePrice: +item?.basicPrice || 0,
           finalPrice: +(item?.orderQty * item?.basicPrice) || 0,
-          deliveryDateTime: item?.deliveryDate || "2020-12-06T11:17:58.990Z",
+          deliveryDateTime: item?.deliveryDate || '2020-12-06T11:17:58.990Z',
           totalValue: +item?.netValue || 0,
           actionBy: +profileData?.userId || 0,
-          lastActionDateTime: "2020-11-10T08:52:28.574Z",
+          lastActionDateTime: '2020-11-10T08:52:28.574Z',
           purchaseContractId: 0,
           contractQty: +item?.orderQty || 0,
           // objListCPCPriceingDetailsDTO:
@@ -320,31 +316,31 @@ export function POFormByOrderType() {
             sbuId: +location?.state?.sbu?.value,
             businessPartnerId: +values?.supplierName?.value || 0,
             currencyId: +values?.currency?.value || 0,
-            currencyCode: values?.currency?.label || "",
+            currencyCode: values?.currency?.label || '',
             referenceTypeId: +location?.state?.refType?.value,
             paymentTerms: +values?.paymentTerms?.value || 0,
             creditPercent: 0,
             referenceId: -1,
-            referenceCode: "string",
+            referenceCode: 'string',
             cashOrAdvancePercent: parseFloat(values?.cash) || 0,
             incotermsId: +values?.incoterms?.value || 0,
-            supplierReference: values?.supplierReference || "",
-            referenceDate: values?.referenceDate || "2020-11-10T08:52:28.574Z",
-            otherTerms: values?.otherTerms || "",
+            supplierReference: values?.supplierReference || '',
+            referenceDate: values?.referenceDate || '2020-11-10T08:52:28.574Z',
+            otherTerms: values?.otherTerms || '',
             lastShipmentDate:
-              values?.lastShipmentDate || "2020-11-10T08:52:28.574Z",
+              values?.lastShipmentDate || '2020-11-10T08:52:28.574Z',
             paymentDaysAfterDelivery: +values.payDays || 0,
-            deliveryAddress: values?.deliveryAddress || "",
+            deliveryAddress: values?.deliveryAddress || '',
             actionBy: +profileData?.userId,
-            purchaseContractNo: "string",
+            purchaseContractNo: 'string',
             purchaseContractDate:
-              values?.orderDate || "2020-11-10T08:52:28.574Z",
+              values?.orderDate || '2020-11-10T08:52:28.574Z',
             itemGroupName: values?.itemGroup?.label,
             contractType: values?.contractType?.label,
-            pcvalidityDate: values?.validity || "2020-11-10T08:52:28.574Z",
+            pcvalidityDate: values?.validity || '2020-11-10T08:52:28.574Z',
             approveBy: 0,
-            approveDatetime: "2020-11-21T08:40:39.980Z",
-            lastActionDateTime: "2020-11-21T08:40:39.980Z",
+            approveDatetime: '2020-11-21T08:40:39.980Z',
+            lastActionDateTime: '2020-11-21T08:40:39.980Z',
           },
           objListCPCRowDTO,
         };
@@ -379,7 +375,7 @@ export function POFormByOrderType() {
             />
           );
           setTitle(
-            `Create Purchase Order (Standard PO) ${lastPo ? lastPo : ""}`
+            `Create Purchase Order (Standard PO) ${lastPo ? lastPo : ''}`
           );
         }
         break;
@@ -392,7 +388,7 @@ export function POFormByOrderType() {
               {...objProps}
             />
           );
-          setTitle("Create Purchase Order (Purchase Contract PO)");
+          setTitle('Create Purchase Order (Purchase Contract PO)');
         }
         break;
       case 3:
@@ -404,7 +400,7 @@ export function POFormByOrderType() {
               {...objProps}
             />
           );
-          setTitle("Create Purchase Order (Subcontracting PO)");
+          setTitle('Create Purchase Order (Subcontracting PO)');
         }
         break;
       case 4:
@@ -416,7 +412,7 @@ export function POFormByOrderType() {
               {...objProps}
             />
           );
-          setTitle("Create Purchase Order (Stock Transfer PO)");
+          setTitle('Create Purchase Order (Stock Transfer PO)');
         }
         break;
       case 5:
@@ -431,7 +427,7 @@ export function POFormByOrderType() {
             />
           );
           setTitle(
-            `Create Purchase Order (Service PO) ${lastPo ? lastPo : ""}`
+            `Create Purchase Order (Service PO) ${lastPo ? lastPo : ''}`
           );
         }
         break;
@@ -444,7 +440,7 @@ export function POFormByOrderType() {
               {...objProps}
             />
           );
-          setTitle(`Create Purchase Order (Asset PO) ${lastPo ? lastPo : ""}`);
+          setTitle(`Create Purchase Order (Asset PO) ${lastPo ? lastPo : ''}`);
         }
         break;
       case 8:
@@ -456,7 +452,7 @@ export function POFormByOrderType() {
               {...objProps}
             />
           );
-          setTitle("Create Purchase Order (Return PO)");
+          setTitle('Create Purchase Order (Return PO)');
         }
         break;
       default:
@@ -467,10 +463,9 @@ export function POFormByOrderType() {
             {...objProps}
           />
         );
-        setTitle("Create Purchase Order (Asset PO)");
+        setTitle('Create Purchase Order (Asset PO)');
         break;
     }
-
   }, [potype, objProps, lastPo]);
 
   return (

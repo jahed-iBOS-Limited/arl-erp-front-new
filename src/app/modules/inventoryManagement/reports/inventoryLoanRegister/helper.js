@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const getSbuDDLAction = async (accId, buId, setter) => {
   try {
@@ -18,15 +18,13 @@ export const getRegisterReportAction = async (
   setter,
   setLoading
 ) => {
-  const {
-    sbu = null,
-    fromDate,
-    toDate,
-  } = values;
+  const { sbu = null, fromDate, toDate } = values;
 
   try {
     setLoading(true);
-    const res = await axios.get(`wms/InventoryLoan/GetAccountingRegisterSummaryPartnerItemLoan?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${sbu.value}&PartnerType=4&fromDate=${fromDate}&toDate=${toDate}`);
+    const res = await axios.get(
+      `wms/InventoryLoan/GetAccountingRegisterSummaryPartnerItemLoan?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${sbu.value}&PartnerType=4&fromDate=${fromDate}&toDate=${toDate}`
+    );
     setLoading(false);
     setter(res?.data);
   } catch (error) {

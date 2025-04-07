@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useParams } from 'react-router';
@@ -57,13 +56,12 @@ export default function BusinessPartnerForm() {
     getBusinessPartnerList(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setBusinessPartnerDDL,
+      setBusinessPartnerDDL
     );
 
     if (id) {
       GetStakeholderById(id, setLoading, setSingleData);
     }
-
   }, [profileData, selectedBusinessUnit, id]);
 
   const saveHandler = (values, cb) => {
@@ -131,8 +129,8 @@ export default function BusinessPartnerForm() {
           type === 'edit'
             ? 'Edit Business Partner'
             : type === 'view'
-            ? 'View Business Partner'
-            : 'Create Business Partner'
+              ? 'View Business Partner'
+              : 'Create Business Partner'
         }
         initData={id ? singleData : initData}
         saveHandler={saveHandler}

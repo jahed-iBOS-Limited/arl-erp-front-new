@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
-import { Formik, Form } from "formik";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "./../../../../_helper/_select";
-import { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
+import React, { useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from './../../../../_helper/_select';
+import { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
 import {
   GetDistributionChannelDDL_api,
   GetRegionIdDDL_api,
@@ -16,9 +16,10 @@ import {
   GetTerritoryDDL_api,
   GetPointDDL_api,
   GetSectionDDL_api,
-} from "../helper";
+} from '../helper';
 
-function FormCmp({  initData,
+function FormCmp({
+  initData,
   btnRef,
   saveHandler,
   resetBtnRef,
@@ -37,7 +38,7 @@ function FormCmp({  initData,
   totalTargetAmount,
 }) {
   // Parent Territory Name for 2nd Table Name
-  const [parentTerritoryName, setParentTerritory] = useState("");
+  const [parentTerritoryName, setParentTerritory] = useState('');
   const [distributionChannelDDL, setDistributionChannelDDL] = useState([]);
   const [regionIdDDL, setRegionIdDDL] = useState([]);
   const [areaDDL, setAreaDDL] = useState([]);
@@ -57,8 +58,8 @@ function FormCmp({  initData,
   const quantityHandler = (index, value) => {
     if (value >= 0) {
       let newRowData = [...rowData];
-      newRowData[index]["caseQty"] = value;
-      newRowData[index]["totalAmount"] = +value * newRowData[index]["tprate"];
+      newRowData[index]['caseQty'] = value;
+      newRowData[index]['totalAmount'] = +value * newRowData[index]['tprate'];
       setRowData(newRowData);
     }
 
@@ -81,8 +82,8 @@ function FormCmp({  initData,
   // Price Handler
   const priceHandler = (index, value) => {
     let newRowData = [...rowData];
-    newRowData[index]["tprate"] = +value;
-    newRowData[index]["totalAmount"] = +value * newRowData[index]["caseQty"];
+    newRowData[index]['tprate'] = +value;
+    newRowData[index]['totalAmount'] = +value * newRowData[index]['caseQty'];
     setRowData(newRowData);
   };
 
@@ -94,8 +95,6 @@ function FormCmp({  initData,
         setDistributionChannelDDL
       );
     }
-
-
   }, [selectedBusinessUnit, profileData]);
 
   return (
@@ -153,8 +152,8 @@ function FormCmp({  initData,
                     value={values?.chanel}
                     label="Channel"
                     onChange={(valueOption) => {
-                      setFieldValue("chanel", valueOption);
-                      setFieldValue("Region", "");
+                      setFieldValue('chanel', valueOption);
+                      setFieldValue('Region', '');
                       GetRegionIdDDL_api(
                         profileData?.accountId,
                         selectedBusinessUnit?.value,
@@ -174,8 +173,8 @@ function FormCmp({  initData,
                     value={values?.region}
                     label="Region"
                     onChange={(valueOption) => {
-                      setFieldValue("region", valueOption);
-                      setFieldValue("area", "");
+                      setFieldValue('region', valueOption);
+                      setFieldValue('area', '');
                       GetAreaDDL_api(
                         profileData?.accountId,
                         selectedBusinessUnit?.value,
@@ -196,8 +195,8 @@ function FormCmp({  initData,
                     value={values?.area}
                     label="Area"
                     onChange={(valueOption) => {
-                      setFieldValue("area", valueOption);
-                      setFieldValue("territory", "");
+                      setFieldValue('area', valueOption);
+                      setFieldValue('territory', '');
                       GetTerritoryDDL_api(
                         profileData?.accountId,
                         selectedBusinessUnit?.value,
@@ -218,8 +217,8 @@ function FormCmp({  initData,
                     value={values?.territory}
                     label="Territory Name"
                     onChange={(valueOption) => {
-                      setFieldValue("territory", valueOption);
-                      setFieldValue("point", "");
+                      setFieldValue('territory', valueOption);
+                      setFieldValue('point', '');
                       GetPointDDL_api(
                         profileData?.accountId,
                         selectedBusinessUnit?.value,
@@ -254,8 +253,8 @@ function FormCmp({  initData,
                     value={values?.point}
                     label="Point"
                     onChange={(valueOption) => {
-                      setFieldValue("point", valueOption);
-                      setFieldValue("section", "");
+                      setFieldValue('point', valueOption);
+                      setFieldValue('section', '');
                       GetSectionDDL_api(
                         profileData?.accountId,
                         selectedBusinessUnit?.value,
@@ -276,8 +275,8 @@ function FormCmp({  initData,
                     value={values?.section}
                     label="Section"
                     onChange={(valueOption) => {
-                      setFieldValue("section", valueOption);
-                      setFieldValue("route", "");
+                      setFieldValue('section', valueOption);
+                      setFieldValue('route', '');
                       getRouteByterritoryId(
                         profileData?.accountId,
                         selectedBusinessUnit?.value,
@@ -297,7 +296,7 @@ function FormCmp({  initData,
                     value={values?.route}
                     label="Route Name"
                     onChange={(valueOption) => {
-                      setFieldValue("route", valueOption);
+                      setFieldValue('route', valueOption);
                     }}
                     placeholder="Route Name"
                     errors={errors}
@@ -334,8 +333,8 @@ function FormCmp({  initData,
                     value={values?.targetYear}
                     label="Year"
                     onChange={(valueOption) => {
-                      setFieldValue("targetYear", valueOption);
-                      setFieldValue("targetMonth", "");
+                      setFieldValue('targetYear', valueOption);
+                      setFieldValue('targetMonth', '');
                     }}
                     placeholder="Year"
                     errors={errors}
@@ -350,7 +349,7 @@ function FormCmp({  initData,
                     value={values?.targetMonth}
                     label="Month"
                     onChange={(valueOption) => {
-                      setFieldValue("targetMonth", valueOption);
+                      setFieldValue('targetMonth', valueOption);
                       getTargetDateByMonth(
                         accountId,
                         buId,
@@ -390,7 +389,7 @@ function FormCmp({  initData,
                 <div className="col-lg-3">
                   <button
                     type="button"
-                    style={{ marginTop: "15px" }}
+                    style={{ marginTop: '15px' }}
                     className="btn btn-primary"
                     disabled={
                       !values?.territory?.value ||
@@ -432,14 +431,14 @@ function FormCmp({  initData,
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
@@ -453,11 +452,11 @@ function FormCmp({  initData,
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                     <thead>
                       <tr>
-                        <th style={{ width: "30px" }}>SL</th>
-                        <th style={{ width: "150px" }}>Item Code</th>
-                        <th style={{ width: "80px" }}>Case</th>
-                        <th style={{ width: "80px" }}>TP Rate</th>
-                        <th style={{ width: "100px" }}>Total Amount</th>
+                        <th style={{ width: '30px' }}>SL</th>
+                        <th style={{ width: '150px' }}>Item Code</th>
+                        <th style={{ width: '80px' }}>Case</th>
+                        <th style={{ width: '80px' }}>TP Rate</th>
+                        <th style={{ width: '100px' }}>Total Amount</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -469,8 +468,8 @@ function FormCmp({  initData,
                           </td>
                           <td className="text-center">
                             <input
-                              value={item?.caseQty || ""}
-                              style={{ height: "20px" }}
+                              value={item?.caseQty || ''}
+                              style={{ height: '20px' }}
                               className="form-control"
                               type="number"
                               name="caseQty"
@@ -483,9 +482,9 @@ function FormCmp({  initData,
                           </td>
                           <td className="text-center">
                             <input
-                              value={item?.tprate || ""}
+                              value={item?.tprate || ''}
                               name="tprate"
-                              style={{ height: "20px" }}
+                              style={{ height: '20px' }}
                               className="form-control"
                               type="number"
                               onChange={(e) =>
@@ -496,7 +495,7 @@ function FormCmp({  initData,
                             />
                           </td>
                           <td className="text-right">
-                            {" "}
+                            {' '}
                             <span className="pr-2">
                               {+item?.caseQty * +item?.tprate}
                             </span>
@@ -515,42 +514,42 @@ function FormCmp({  initData,
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                     <thead>
                       <tr>
-                        <th style={{ width: "30px" }}>SL</th>
-                        <th style={{ width: "150px" }}>Item Code</th>
-                        <th style={{ width: "80px" }}>Case</th>
-                        <th style={{ width: "80px" }}>Total Amount</th>
-                        <th style={{ width: "80px" }}>Assigned Case</th>
-                        <th style={{ width: "120px" }}>Assigned Amount</th>
+                        <th style={{ width: '30px' }}>SL</th>
+                        <th style={{ width: '150px' }}>Item Code</th>
+                        <th style={{ width: '80px' }}>Case</th>
+                        <th style={{ width: '80px' }}>Total Amount</th>
+                        <th style={{ width: '80px' }}>Assigned Case</th>
+                        <th style={{ width: '120px' }}>Assigned Amount</th>
                       </tr>
                     </thead>
                     <tbody>
                       {secondRowData?.map((item, index) => (
                         <tr key={index}>
                           <td
-                            style={{ height: "25px" }}
+                            style={{ height: '25px' }}
                             className="text-center"
                           >
                             {index + 1}
                           </td>
-                          <td style={{ height: "25px" }}>
+                          <td style={{ height: '25px' }}>
                             <span className="pl-2">{item?.itemCode}</span>
                           </td>
-                          <td style={{ height: "25px" }} className="text-right">
-                            {" "}
+                          <td style={{ height: '25px' }} className="text-right">
+                            {' '}
                             <span className="pr-2">{item?.caseQty}</span>
                           </td>
-                          <td style={{ height: "25px" }} className="text-right">
-                            {" "}
+                          <td style={{ height: '25px' }} className="text-right">
+                            {' '}
                             <span className="pr-2">{item?.totalAmount}</span>
                           </td>
-                          <td style={{ height: "25px" }} className="text-right">
-                            {" "}
+                          <td style={{ height: '25px' }} className="text-right">
+                            {' '}
                             <span className="pr-2">
                               {rowData[index]?.caseQty}
                             </span>
                           </td>
-                          <td style={{ height: "25px" }} className="text-right">
-                            {" "}
+                          <td style={{ height: '25px' }} className="text-right">
+                            {' '}
                             <span className="pr-2">
                               {+rowData[index]?.caseQty *
                                 +rowData[index]?.tprate}

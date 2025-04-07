@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export default function CommonTable({
   headersData,
@@ -6,42 +6,45 @@ export default function CommonTable({
   tableStyles,
   trStyles,
   columnSticky,
-  children
+  children,
 }) {
   const tableHeader =
     headersData?.length > 0 &&
     headersData?.map((item, index) => {
-        let element;
-        if (typeof item === 'object' && item !== null && !Array.isArray(item)) {
-            element = item?.title;
-        } else {
-            element= item;
-        }
-     
+      let element;
+      if (typeof item === 'object' && item !== null && !Array.isArray(item)) {
+        element = item?.title;
+      } else {
+        element = item;
+      }
+
       return (
         !item?.isHidden && (
-            <th  style={item?.style && item?.style} className={`${item?.className ||""}`} key={index}>
-          {element}
-        </th>
-        ) 
+          <th
+            style={item?.style && item?.style}
+            className={`${item?.className || ''}`}
+            key={index}
+          >
+            {element}
+          </th>
+        )
       );
     });
   return (
-    <div className={`${isScrollable && "loan-scrollable-table"}`}>
+    <div className={`${isScrollable && 'loan-scrollable-table'}`}>
       <div
         style={tableStyles}
-        className={`${isScrollable ? "scroll-table _table table-responsive": "table-responsive"}`}
+        className={`${isScrollable ? 'scroll-table _table table-responsive' : 'table-responsive'}`}
       >
-
         <table
           className={`table table-striped table-bordered bj-table bj-table-landing global-table${
             isScrollable && !columnSticky
-              ? "one-column-sticky"
+              ? 'one-column-sticky'
               : isScrollable && columnSticky === 2
-              ? "two-column-sticky"
-              : isScrollable && columnSticky === 3
-              ? "three-column-sticky"
-              : ""
+                ? 'two-column-sticky'
+                : isScrollable && columnSticky === 3
+                  ? 'three-column-sticky'
+                  : ''
           }`}
         >
           <thead>

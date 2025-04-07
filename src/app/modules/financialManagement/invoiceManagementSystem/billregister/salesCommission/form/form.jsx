@@ -162,7 +162,7 @@ const FormCmp = ({
                         onClick={() =>
                           getData(
                             values?.shipPoint?.value,
-                            values?.partner?.value,
+                            values?.partner?.value
                           )
                         }
                       >
@@ -184,7 +184,7 @@ const FormCmp = ({
                     }}
                     onDelete={(deleteFileObj) => {
                       const newData = fileObjects.filter(
-                        (item) => item.file.name !== deleteFileObj.file.name,
+                        (item) => item.file.name !== deleteFileObj.file.name
                       );
                       setFileObjects(newData);
                     }}

@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { Input } from "../../../../../../_metronic/_partials/controls";
-import Axios from "axios";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import { useSelector, shallowEqual } from "react-redux";
-import { PlantWarehouseTable } from "../plantWarehouseTable/plantWarehouseTableCard";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { Input } from '../../../../../../_metronic/_partials/controls';
+import Axios from 'axios';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import { useSelector, shallowEqual } from 'react-redux';
+import { PlantWarehouseTable } from '../plantWarehouseTable/plantWarehouseTableCard';
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
   plantName: Yup.object().shape({
-    label: Yup.string().required("Plant is required"),
-    value: Yup.string().required("Plant is required"),
+    label: Yup.string().required('Plant is required'),
+    value: Yup.string().required('Plant is required'),
   }),
   warehouseName: Yup.object().shape({
-    label: Yup.string().required("Warehouse is required"),
-    value: Yup.string().required("Warehouse is required"),
+    label: Yup.string().required('Warehouse is required'),
+    value: Yup.string().required('Warehouse is required'),
   }),
 });
 
@@ -28,8 +28,8 @@ export default function FormCmp({
   accountId,
   selectedBusinessUnit,
 }) {
-  const [lngList, setLng] = useState("");
-  const [currencyList, setCurrency] = useState("");
+  const [lngList, setLng] = useState('');
+  const [currencyList, setCurrency] = useState('');
 
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -129,7 +129,7 @@ export default function FormCmp({
                         placeholder="Select Plant"
                         value={values?.plantName}
                         onChange={(valueOption) => {
-                          setFieldValue("plantName", valueOption);
+                          setFieldValue('plantName', valueOption);
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -140,16 +140,16 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
                     {errors && errors.plantName && touched && touched.plantName
                       ? errors.plantName.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
 
@@ -163,7 +163,7 @@ export default function FormCmp({
                         options={currencyList}
                         placeholder="Select Warehouse"
                         onChange={(valueOption) => {
-                          setFieldValue("warehouseName", valueOption);
+                          setFieldValue('warehouseName', valueOption);
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -175,32 +175,33 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      marginTop: "0.25rem",
-                      width: "100%",
+                      marginTop: '0.25rem',
+                      width: '100%',
                     }}
                     className="text-danger"
                   >
                     {touched &&
                     touched.warehouseName &&
-                    errors && errors.warehouseName
+                    errors &&
+                    errors.warehouseName
                       ? errors.warehouseName.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
               </div>
               <PlantWarehouseTable />
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(product)}
               ></button>

@@ -66,7 +66,7 @@ export default function GodownRateCreateEditForm() {
         if (data) {
         }
       },
-      true,
+      true
     );
   };
   const saveHandler = (values, cb) => {
@@ -75,9 +75,8 @@ export default function GodownRateCreateEditForm() {
   };
   useEffect(() => {
     getPlantDDL(
-      `/wms/Plant/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`,
+      `/wms/Plant/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
-
   }, [accId, buId]);
   useEffect(() => {
     setEditAbleInitData({
@@ -125,7 +124,7 @@ export default function GodownRateCreateEditForm() {
                     onChange={(valueOption) => {
                       setFieldValue('plant', valueOption);
                       getWareHouseDDL(
-                        `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${buId}&PlantId=${valueOption?.value}`,
+                        `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${buId}&PlantId=${valueOption?.value}`
                       );
                     }}
                     isDisabled={id}
@@ -142,7 +141,7 @@ export default function GodownRateCreateEditForm() {
                     onChange={(valueOption) => {
                       setFieldValue('warehouse', valueOption);
                       getSbuDDL(
-                        `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`,
+                        `/costmgmt/SBU/GetSBUListDDL?AccountId=${accId}&BusinessUnitId=${buId}&Status=true`
                       );
                     }}
                     errors={errors}
@@ -164,7 +163,7 @@ export default function GodownRateCreateEditForm() {
                       if (searchValue?.length < 3) return [];
                       return axios
                         .get(
-                          `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${sbuDDL[0]?.value}`,
+                          `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${sbuDDL[0]?.value}`
                         )
                         .then((res) => res?.data);
                     }}
@@ -184,7 +183,7 @@ export default function GodownRateCreateEditForm() {
                       if (searchValue?.length < 3) return [];
                       return axios
                         .get(
-                          `/procurement/PurchaseOrderItemDDL/ServicePurchaseOrderItemList?ItemTypeId=0&OrderTypeId=5&AccountId=${accId}&BusinessUnitId=${buId}&SbuId=${sbuDDL[0]?.value}&PurchaseOrgId=11&PlantId=${values?.plant?.value}&WearhouseId=${values?.warehouse?.value}&RefTypeId=3&RefNoId=0&searchTerm=${v}`,
+                          `/procurement/PurchaseOrderItemDDL/ServicePurchaseOrderItemList?ItemTypeId=0&OrderTypeId=5&AccountId=${accId}&BusinessUnitId=${buId}&SbuId=${sbuDDL[0]?.value}&PurchaseOrgId=11&PlantId=${values?.plant?.value}&WearhouseId=${values?.warehouse?.value}&RefTypeId=3&RefNoId=0&searchTerm=${v}`
                         )
                         .then((res) => res?.data);
                     }}
@@ -276,7 +275,7 @@ export default function GodownRateCreateEditForm() {
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

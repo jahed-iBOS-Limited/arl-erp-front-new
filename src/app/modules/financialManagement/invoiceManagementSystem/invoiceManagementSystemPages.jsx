@@ -1,33 +1,33 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import findIndex from "../../_helper/_findIndex";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import ApprovebillregisterLanding from "./approvebillregister/index";
-import BillregisterCreate from "./billregister/billCreate/index";
-import BillregisterLanding from "./billregister/index";
-import ClearPurchaseInvoiceLanding from "./clearPurchaseInvoice/table";
-import ClearPurchaseInvoiceViewForm from "./clearPurchaseInvoice/view/viewForm";
-import ClearSalesInvoiceLanding from "./clearSalesInvoice/Table";
-import CustomerSalesInvoice from "./customerSalesInvoice";
-import PaymentrequsetLanding from "./paymentRequset/index";
-import PurchaseInvoiceForm from "./purchaseInvoice/Form/addEditForm";
-import PurchaseInvoice from "./purchaseInvoice/Table";
-import ViewPurchaseInvoiceForm from "./purchaseInvoice/view/addEditForm";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import findIndex from '../../_helper/_findIndex';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
+import ApprovebillregisterLanding from './approvebillregister/index';
+import BillregisterCreate from './billregister/billCreate/index';
+import BillregisterLanding from './billregister/index';
+import ClearPurchaseInvoiceLanding from './clearPurchaseInvoice/table';
+import ClearPurchaseInvoiceViewForm from './clearPurchaseInvoice/view/viewForm';
+import ClearSalesInvoiceLanding from './clearSalesInvoice/Table';
+import CustomerSalesInvoice from './customerSalesInvoice';
+import PaymentrequsetLanding from './paymentRequset/index';
+import PurchaseInvoiceForm from './purchaseInvoice/Form/addEditForm';
+import PurchaseInvoice from './purchaseInvoice/Table';
+import ViewPurchaseInvoiceForm from './purchaseInvoice/view/addEditForm';
 // import SalesInvoiceLanding from "../salesInvoiceVSpayment/LandingPage/tableHeader";
-import SalesInvoiceVSPaymentCreate from "../salesInvoiceVSpayment/Form/addEditForm";
-import SalesInvoiceVSPaymentLanding from "../salesInvoiceVSpayment/LandingPage/tableHeader";
-import InvoiceWisePaymentLanding from "./invoiceWisePayment/InvoiceWisePaymentLanding";
-import PartnerWisePaymentSummaryLanding from "./invoiceWisePayment/PartnerWisePaymentSummaryLanding";
-import MoneyReceiptSubmitForm from "./moneyReceiptSubmit/form/addEditForm";
-import MoneyReceiptSubmitLandingTable from "./moneyReceiptSubmit/landingPage/table";
+import SalesInvoiceVSPaymentCreate from '../salesInvoiceVSpayment/Form/addEditForm';
+import SalesInvoiceVSPaymentLanding from '../salesInvoiceVSpayment/LandingPage/tableHeader';
+import InvoiceWisePaymentLanding from './invoiceWisePayment/InvoiceWisePaymentLanding';
+import PartnerWisePaymentSummaryLanding from './invoiceWisePayment/PartnerWisePaymentSummaryLanding';
+import MoneyReceiptSubmitForm from './moneyReceiptSubmit/form/addEditForm';
+import MoneyReceiptSubmitLandingTable from './moneyReceiptSubmit/landingPage/table';
 // import SalesInvoiceLanding from "./salesInvoice";
 // import AddEditForm from "./salesInvoice/Form/addEditForm";
-import ShippingBillregisterLanding from "./shippingBillRegister";
-import ShippingSupplerInvoiceForm from "./shippingBillRegister/shippingInvoice/addEditForm";
-import SalesInvoiceForm from "./salesInvoice/formNew/addEditForm";
-import SalesInvoiceLandingNew from "./salesInvoice/landing";
+import ShippingBillregisterLanding from './shippingBillRegister';
+import ShippingSupplerInvoiceForm from './shippingBillRegister/shippingInvoice/addEditForm';
+import SalesInvoiceForm from './salesInvoice/formNew/addEditForm';
+import SalesInvoiceLandingNew from './salesInvoice/landing';
 // import OthersBill from "./othersBill/index"
 // import OthersBillCreateForm from "./othersBill/Form/addEditForm"
 export function InvoiceManagementSystemPages() {
@@ -37,12 +37,12 @@ export function InvoiceManagementSystemPages() {
   );
 
   const purchaseInvoicePermission =
-    userRole[findIndex(userRole, "Purchase Invoice")];
+    userRole[findIndex(userRole, 'Purchase Invoice')];
   const clearPurchaseInvoicePermission =
-    userRole[findIndex(userRole, "Clear Purchase Invoice")];
+    userRole[findIndex(userRole, 'Clear Purchase Invoice')];
   // const customerSalesInvoicePermission = userRole[21];
   const approveBillRegister = userRole.filter(
-    (item) => item?.strFeatureName === "Approve Bill Register"
+    (item) => item?.strFeatureName === 'Approve Bill Register'
   );
 
   const billRegister = userRole.filter((item) => item?.intFeatureId === 907);

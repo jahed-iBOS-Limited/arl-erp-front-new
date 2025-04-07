@@ -1,14 +1,13 @@
-
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import { IInput } from "../../../../_helper/_input";
-import ICalendar from "../../../../_helper/_inputCalender";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "./../../../../_helper/_inputField";
-import { _numberValidation } from "../../../../_helper/_numberValidation";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import { IInput } from '../../../../_helper/_input';
+import ICalendar from '../../../../_helper/_inputCalender';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import NewSelect from '../../../../_helper/_select';
+import InputField from './../../../../_helper/_inputField';
+import { _numberValidation } from '../../../../_helper/_numberValidation';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -34,22 +33,22 @@ export default function FormCmp({
   useEffect(() => {
     setData([
       {
-        label: "Dest. Channel",
-        name: "channel",
+        label: 'Dest. Channel',
+        name: 'channel',
         options: channel,
         value: initData.channel,
         isDisabled: true,
       },
       {
-        label: "Sales Office",
-        name: "salesOffice",
+        label: 'Sales Office',
+        name: 'salesOffice',
         options: salesOffice,
         value: initData.salesOffice,
         isDisabled: true,
       },
       {
-        label: "Sold to Party",
-        name: "soldtoParty",
+        label: 'Sold to Party',
+        name: 'soldtoParty',
         options: soldToParty,
         value: initData.soldtoParty,
         isDisabled: true,
@@ -96,8 +95,8 @@ export default function FormCmp({
                         value={values?.salesOrg}
                         label="Sales Organization"
                         onChange={(valueOption) => {
-                          setFieldValue("salesOrg", valueOption);
-                          setFieldValue("salesOffice", "");
+                          setFieldValue('salesOrg', valueOption);
+                          setFieldValue('salesOffice', '');
                           salesOfficeDDLDispatcher(valueOption?.value);
                         }}
                         placeholder="Sales Organization"
@@ -136,7 +135,7 @@ export default function FormCmp({
                       </div>
                       <div className="col-lg-3">
                         <ICalendar
-                          value={_dateFormatter(values.pricingDate || "")}
+                          value={_dateFormatter(values.pricingDate || '')}
                           label="Pricing Date"
                           name="pricingDate"
                           disabled={isEdit}
@@ -144,7 +143,7 @@ export default function FormCmp({
                       </div>
                       <div className="col-lg-3">
                         <ICalendar
-                          value={_dateFormatter(values.quotationEndDate || "")}
+                          value={_dateFormatter(values.quotationEndDate || '')}
                           label="Quotation End Date"
                           name="quotationEndDate"
                           disabled={isEdit}
@@ -153,7 +152,7 @@ export default function FormCmp({
                       <div className="col-lg-3">
                         <label>Remarks</label>
                         <InputField
-                          value={values?.remark || ""}
+                          value={values?.remark || ''}
                           name="remark"
                           placeholder="Remarks"
                           type="text"
@@ -166,12 +165,12 @@ export default function FormCmp({
                           <>
                             <div className="col-lg-3">
                               <IInput
-                                value={values?.salesContract || ""}
+                                value={values?.salesContract || ''}
                                 label="Sales Contract"
                                 name="salesContract"
                                 onChange={(e) => {
                                   setFieldValue(
-                                    "salesContract",
+                                    'salesContract',
                                     e.target.value
                                   );
                                 }}
@@ -180,23 +179,23 @@ export default function FormCmp({
                             </div>
                             <div className="col-lg-3">
                               <IInput
-                                value={values?.salesTerm || ""}
+                                value={values?.salesTerm || ''}
                                 label="Sales Term"
                                 name="salesTerm"
                                 onChange={(e) => {
-                                  setFieldValue("salesTerm", e.target.value);
+                                  setFieldValue('salesTerm', e.target.value);
                                 }}
                                 disabled={isEdit}
                               />
                             </div>
                             <div className="col-lg-3">
                               <IInput
-                                value={values?.modeOfShipment || ""}
+                                value={values?.modeOfShipment || ''}
                                 label="Mode Of Shipment"
                                 name="modeOfShipment"
                                 onChange={(e) => {
                                   setFieldValue(
-                                    "modeOfShipment",
+                                    'modeOfShipment',
                                     e.target.value
                                   );
                                 }}
@@ -205,12 +204,12 @@ export default function FormCmp({
                             </div>
                             <div className="col-lg-3">
                               <IInput
-                                value={values?.portOfShipment || ""}
+                                value={values?.portOfShipment || ''}
                                 label="Port Of Shipment"
                                 name="portOfShipment"
                                 onChange={(e) => {
                                   setFieldValue(
-                                    "portOfShipment",
+                                    'portOfShipment',
                                     e.target.value
                                   );
                                 }}
@@ -219,12 +218,12 @@ export default function FormCmp({
                             </div>
                             <div className="col-lg-3">
                               <IInput
-                                value={values?.portOfDischarge || ""}
+                                value={values?.portOfDischarge || ''}
                                 label="Port Of Discharge"
                                 name="portOfDischarge"
                                 onChange={(e) => {
                                   setFieldValue(
-                                    "portOfDischarge",
+                                    'portOfDischarge',
                                     e.target.value
                                   );
                                 }}
@@ -233,12 +232,12 @@ export default function FormCmp({
                             </div>
                             <div className="col-lg-3">
                               <IInput
-                                value={values?.finalDestination || ""}
+                                value={values?.finalDestination || ''}
                                 label="Final Destination"
                                 name="finalDestination"
                                 onChange={(e) => {
                                   setFieldValue(
-                                    "finalDestination",
+                                    'finalDestination',
                                     e.target.value
                                   );
                                 }}
@@ -247,12 +246,12 @@ export default function FormCmp({
                             </div>
                             <div className="col-lg-3">
                               <IInput
-                                value={values?.countryOfOrigin || ""}
+                                value={values?.countryOfOrigin || ''}
                                 label="Country Of Origin"
                                 name="countryOfOrigin"
                                 onChange={(e) => {
                                   setFieldValue(
-                                    "countryOfOrigin",
+                                    'countryOfOrigin',
                                     e.target.value
                                   );
                                 }}
@@ -261,24 +260,24 @@ export default function FormCmp({
                             </div>
                             <div className="col-lg-3">
                               <IInput
-                                value={values?.contractFor || ""}
+                                value={values?.contractFor || ''}
                                 label="Contract For"
                                 name="contractFor"
                                 onChange={(e) => {
-                                  setFieldValue("contractFor", e.target.value);
+                                  setFieldValue('contractFor', e.target.value);
                                 }}
                                 disabled={isEdit}
                               />
                             </div>
                             <div className="col-lg-3">
                               <IInput
-                                value={values?.freightCharge || ""}
+                                value={values?.freightCharge || ''}
                                 label="Freight Charge"
                                 name="freightCharge"
                                 type="number"
                                 onChange={(e) => {
                                   setFieldValue(
-                                    "freightCharge",
+                                    'freightCharge',
                                     _numberValidation(e)
                                   );
                                 }}
@@ -329,7 +328,7 @@ export default function FormCmp({
                         <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                           <thead>
                             <tr>
-                              <th style={{ width: "35px" }}>SL</th>
+                              <th style={{ width: '35px' }}>SL</th>
                               <th>Specification</th>
                               <th>Value</th>
                               <th>Item Id</th>
@@ -361,7 +360,7 @@ export default function FormCmp({
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                         <thead>
                           <tr>
-                            <th style={{ width: "35px" }}>SL</th>
+                            <th style={{ width: '35px' }}>SL</th>
                             <th>Item Name</th>
                             <th>Item Code</th>
                             <th>Quantity</th>
@@ -391,7 +390,7 @@ export default function FormCmp({
                             </tr>
                           ))}
                         </tbody>
-                      </table>{" "}
+                      </table>{' '}
                     </div>
                   )}
                 </div>
@@ -399,13 +398,13 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

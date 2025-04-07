@@ -1,9 +1,9 @@
-import React, { useMemo } from "react";
-import { Link } from "react-router-dom";
-import objectPath from "object-path";
+import React, { useMemo } from 'react';
+import { Link } from 'react-router-dom';
+import objectPath from 'object-path';
 // import SVG from "react-inlinesvg";
 // import { toAbsoluteUrl } from "../../../_helpers";
-import { useHtmlClassService } from "../../_core/MetronicLayout";
+import { useHtmlClassService } from '../../_core/MetronicLayout';
 
 export function HeaderMobile() {
   const uiService = useHtmlClassService();
@@ -11,11 +11,11 @@ export function HeaderMobile() {
   const layoutProps = useMemo(() => {
     return {
       headerLogo: uiService.getStickyLogo(),
-      asideDisplay: objectPath.get(uiService.config, "aside.self.display"),
+      asideDisplay: objectPath.get(uiService.config, 'aside.self.display'),
       headerMenuSelfDisplay:
-        objectPath.get(uiService.config, "header.menu.self.display") === true,
-      headerMobileCssClasses: uiService.getClasses("header_mobile", true),
-      headerMobileAttributes: uiService.getAttributes("header_mobile"),
+        objectPath.get(uiService.config, 'header.menu.self.display') === true,
+      headerMobileCssClasses: uiService.getClasses('header_mobile', true),
+      headerMobileAttributes: uiService.getAttributes('header_mobile'),
     };
   }, [uiService]);
 
@@ -69,7 +69,7 @@ export function HeaderMobile() {
             <span className="svg-icon svg-icon-xl">
               <i
                 className="fas fa-user-circle"
-                style={{ fontSize: "20px !important" }}
+                style={{ fontSize: '20px !important' }}
               />
             </span>
           </button>

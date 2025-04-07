@@ -1,31 +1,29 @@
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { getSingleData, createGetPaseData, updateGetPassData } from "../helper";
-import { toast } from "react-toastify";
-import Loading from "../../../../_helper/_loading";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { getSingleData, createGetPaseData, updateGetPassData } from '../helper';
+import { toast } from 'react-toastify';
+import Loading from '../../../../_helper/_loading';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 const initData = {
   date: _dateFormatter(new Date()),
-  fromAddress: "",
-  toAddress: "",
-  item: "",
-  receiversName: "",
-  contactNo: "",
-  remarks: "",
-  quantity: "",
-  uom: "",
-  reason: "",
-  vehicle: "",
-  others: "",
-  fromGateEntry: "",
+  fromAddress: '',
+  toAddress: '',
+  item: '',
+  receiversName: '',
+  contactNo: '',
+  remarks: '',
+  quantity: '',
+  uom: '',
+  reason: '',
+  vehicle: '',
+  others: '',
+  fromGateEntry: '',
   returnable: false,
-  rowRemarks: "",
-  intVehicleEntryId: "",
+  rowRemarks: '',
+  intVehicleEntryId: '',
 };
 
 export default function AddEditFrom({
@@ -61,21 +59,21 @@ export default function AddEditFrom({
         item?.item?.trim().toLowerCase() === values?.item?.trim().toLowerCase()
     );
     if (foundData.length > 0) {
-      return toast.warn("Item already exits");
+      return toast.warn('Item already exits');
     } else {
       const newValue = {
         item: values?.item,
         uom: values?.uom,
         quantity: values?.quantity,
         returnable: values?.returnable ? true : false,
-        strRemarks: values?.rowRemarks || ""
+        strRemarks: values?.rowRemarks || '',
       };
       setRowDto([...rowDto, newValue]);
-      setFieldValue("item", "");
-      setFieldValue("quantity", "");
-      setFieldValue("uom", "");
-      setFieldValue("rowRemarks", "");
-      setFieldValue("returnable", false);
+      setFieldValue('item', '');
+      setFieldValue('quantity', '');
+      setFieldValue('uom', '');
+      setFieldValue('rowRemarks', '');
+      setFieldValue('returnable', false);
     }
   };
 
@@ -108,14 +106,14 @@ export default function AddEditFrom({
         cb
       );
     } else {
-      toast.warn("Please add row");
+      toast.warn('Please add row');
     }
   };
   const [objProps, setObjprops] = useState({});
 
   return (
     <IForm
-      title={pId ? "Edit Get Pass" : "Create Gate Pass"}
+      title={pId ? 'Edit Get Pass' : 'Create Gate Pass'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

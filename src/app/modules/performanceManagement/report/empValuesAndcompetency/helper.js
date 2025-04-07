@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from 'axios';
 
 export const GetDepartmentWithAccountIdDDL_api = async (accId, setter) => {
   try {
@@ -57,13 +57,13 @@ export const getEmployeeValuesCompetencyGrid_api = async (
   pageSize,
   setter
 ) => {
-  const searchPath = search ? `search=${search}&` : "";
-  const ifdepartmentId = departmentId ? `DepartmentId=${departmentId}&` : "";
+  const searchPath = search ? `search=${search}&` : '';
+  const ifdepartmentId = departmentId ? `DepartmentId=${departmentId}&` : '';
   const ifdesignationId = designationId
     ? `DesignationId=${designationId}&`
-    : "";
-  const ifsupervisorId = supervisorId ? `SupervisorId=${supervisorId}&` : "";
-  const ifyearId = yearId ? `YearId=${yearId}&` : "";
+    : '';
+  const ifsupervisorId = supervisorId ? `SupervisorId=${supervisorId}&` : '';
+  const ifyearId = yearId ? `YearId=${yearId}&` : '';
   try {
     const res = await Axios.get(
       `/pms/AssignFunctionalCompetency/EmployeeValuesCompetencyReportLandingPagination?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&${ifdepartmentId}${ifdesignationId}${ifsupervisorId}${ifyearId}viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`

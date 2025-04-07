@@ -1,6 +1,6 @@
-import React from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
+import React from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from './../../../../_helper/_fixedPoint';
 
 function SalesContactReportTable({ obj }) {
   const { gridData, printRef } = obj;
@@ -9,7 +9,7 @@ function SalesContactReportTable({ obj }) {
       <div className="react-bootstrap-table table-responsive pendingDeliveryReport">
         <div className="sta-scrollable-table scroll-table-auto">
           <div
-            style={{ maxHeight: "500px" }}
+            style={{ maxHeight: '500px' }}
             className="scroll-table _table scroll-table-auto"
           >
             <table

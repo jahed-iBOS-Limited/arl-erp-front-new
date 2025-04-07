@@ -1,25 +1,25 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import ICard from "../../../../_helper/_card";
-import { Formik, Form } from "formik";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import NewSelect from "../../../../_helper/_select";
-import Loading from "../../../../_helper/_loading";
-import InputField from "../../../../_helper/_inputField";
+import React, { useEffect, useState, useRef } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import ICard from '../../../../_helper/_card';
+import { Formik, Form } from 'formik';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import NewSelect from '../../../../_helper/_select';
+import Loading from '../../../../_helper/_loading';
+import InputField from '../../../../_helper/_inputField';
 import {
   GetPartnerAllotmentLanding,
   GetSecondaryDeliveryLanding_api,
-} from "../helper";
-import { useHistory } from "react-router";
-import { setPartnerAllotmentChallanLadingAction } from "./../../../../_helper/reduxForLocalStorage/Actions";
-import CompleteTable from "./completeTable";
-import PendingTable, { PendingTableForModify } from "./pendingTable";
-import PaginationSearch from "../../../../_helper/_search";
+} from '../helper';
+import { useHistory } from 'react-router';
+import { setPartnerAllotmentChallanLadingAction } from './../../../../_helper/reduxForLocalStorage/Actions';
+import CompleteTable from './completeTable';
+import PendingTable, { PendingTableForModify } from './pendingTable';
+import PaginationSearch from '../../../../_helper/_search';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  reportType: { value: 1, label: "Pending Delivery" },
+  reportType: { value: 1, label: 'Pending Delivery' },
 };
 
 export default function PartnerAllotmentChallan() {
@@ -27,7 +27,7 @@ export default function PartnerAllotmentChallan() {
   const [rowDto, setRowDto] = useState([]);
   const [loading, setLoading] = useState(false);
   const [challanPrintModalShow, setChallanPrintModalShow] = useState(false);
-  const [deliveryId, setDeliveryId] = useState("");
+  const [deliveryId, setDeliveryId] = useState('');
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
@@ -41,7 +41,7 @@ export default function PartnerAllotmentChallan() {
     return state.localStorage.partnerAllotmentChallanLading;
   }, shallowEqual);
 
-  const getGridData = (values, pageNo, pageSize, searchTerm = "") => {
+  const getGridData = (values, pageNo, pageSize, searchTerm = '') => {
     if (values?.reportType?.value === 1) {
       GetPartnerAllotmentLanding(
         accId,
@@ -71,7 +71,6 @@ export default function PartnerAllotmentChallan() {
     if (accId && buId && partnerAllotmentChallanLading?.reportType?.value) {
       getGridData(partnerAllotmentChallanLading, pageNo, pageSize);
     }
-
   }, [accId, buId]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -87,10 +86,10 @@ export default function PartnerAllotmentChallan() {
   const gridData = [...(rowDto?.data || rowDto)];
 
   const reportTypes = [
-    { value: 1, label: "Pending Delivery" },
-    { value: 2, label: "Pending Commission" },
-    { value: 3, label: "Complete Commission" },
-    { value: 4, label: "Pending Commission (Modify)" },
+    { value: 1, label: 'Pending Delivery' },
+    { value: 2, label: 'Pending Commission' },
+    { value: 3, label: 'Complete Commission' },
+    { value: 4, label: 'Pending Commission (Modify)' },
   ];
 
   return (
@@ -122,7 +121,7 @@ export default function PartnerAllotmentChallan() {
                             label="Report Type"
                             onChange={(valueOption) => {
                               setRowDto([]);
-                              setFieldValue("reportType", valueOption);
+                              setFieldValue('reportType', valueOption);
                             }}
                             placeholder="Report Type"
                             errors={errors}
@@ -136,7 +135,7 @@ export default function PartnerAllotmentChallan() {
                             name="fromDate"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("fromDate", e?.target?.value);
+                              setFieldValue('fromDate', e?.target?.value);
                             }}
                           />
                         </div>
@@ -148,7 +147,7 @@ export default function PartnerAllotmentChallan() {
                               name="toDate"
                               type="date"
                               onChange={(e) => {
-                                setFieldValue("toDate", e?.target?.value);
+                                setFieldValue('toDate', e?.target?.value);
                               }}
                             />
                           </div>
@@ -159,7 +158,7 @@ export default function PartnerAllotmentChallan() {
                             className="btn btn-primary"
                             disabled={!values?.reportType}
                             onClick={() => {
-                              setDeliveryId("");
+                              setDeliveryId('');
                               setRowDto([]);
                               getGridData(values, pageNo, pageSize);
                               dispatch(

@@ -1,13 +1,13 @@
-import React from "react";
-import PaginationSearch from "../../../../_helper/_search";
-import NewSelect from "../../../../_helper/_select";
-import IButton from "../../../../_helper/iButton";
-import { BADCBCICForm, PortAndMotherVessel } from "../../../common/components";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
+import React from 'react';
+import PaginationSearch from '../../../../_helper/_search';
+import NewSelect from '../../../../_helper/_select';
+import IButton from '../../../../_helper/iButton';
+import { BADCBCICForm, PortAndMotherVessel } from '../../../common/components';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
 
 const confirmationTypes = [
-  { value: 1, label: "Receive Confirmation" },
-  { value: 2, label: "Supervisor Confirmation" },
+  { value: 1, label: 'Receive Confirmation' },
+  { value: 2, label: 'Supervisor Confirmation' },
   // { value: 2, label: "Supervisor Confirmation (Truck Bill)" },
   // { value: 3, label: "Supervisor Confirmation (Godown Unload Bill)" },
 ];
@@ -40,7 +40,7 @@ const Form = ({ obj }) => {
           <div className="row">
             {buId === 94 && (
               <BADCBCICForm
-                colSize={"col-lg-3"}
+                colSize={'col-lg-3'}
                 values={values}
                 setFieldValue={setFieldValue}
                 onChange={onChangeHandler}
@@ -55,7 +55,7 @@ const Form = ({ obj }) => {
                   label="Organization"
                   onChange={(valueOption) => {
                     onChangeHandler(
-                      "organization",
+                      'organization',
                       { ...values, organization: valueOption },
                       valueOption,
                       setFieldValue
@@ -72,7 +72,7 @@ const Form = ({ obj }) => {
                 value={values?.confirmationType}
                 label="Confirmation Type"
                 onChange={(e) => {
-                  setFieldValue("confirmationType", e);
+                  setFieldValue('confirmationType', e);
                   setRowData([]);
                 }}
                 placeholder="Confirmation Type"
@@ -81,11 +81,11 @@ const Form = ({ obj }) => {
             <div className="col-lg-3">
               <NewSelect
                 name="shipPoint"
-                options={[{ value: 0, label: "All" }, ...shipPointDDL]}
+                options={[{ value: 0, label: 'All' }, ...shipPointDDL]}
                 value={values?.shipPoint}
                 label="ShipPoint"
                 onChange={(e) => {
-                  setFieldValue("shipPoint", e);
+                  setFieldValue('shipPoint', e);
                   setRowData([]);
                 }}
                 placeholder="ShipPoint"
@@ -94,12 +94,12 @@ const Form = ({ obj }) => {
             <div className="col-lg-3">
               <NewSelect
                 name="shipToPartner"
-                options={[{ value: 0, label: "All" }, ...godownDDL]}
+                options={[{ value: 0, label: 'All' }, ...godownDDL]}
                 value={values?.shipToPartner}
                 label="Ship to Partner"
                 placeholder="Ship to Partner"
                 onChange={(e) => {
-                  setFieldValue("shipToPartner", e);
+                  setFieldValue('shipToPartner', e);
                   setRowData([]);
                 }}
               />
@@ -119,13 +119,13 @@ const Form = ({ obj }) => {
               <NewSelect
                 name="status"
                 options={[
-                  { value: 1, label: "Pending" },
-                  { value: 2, label: "Updated" },
+                  { value: 1, label: 'Pending' },
+                  { value: 2, label: 'Updated' },
                 ]}
                 value={values?.status}
                 label="Status"
                 onChange={(e) => {
-                  setFieldValue("status", e);
+                  setFieldValue('status', e);
                   setRowData([]);
                 }}
                 placeholder="Status"
@@ -134,7 +134,7 @@ const Form = ({ obj }) => {
             <FromDateToDateForm obj={{ values, setFieldValue }} />
 
             <IButton
-              colSize={"col-lg-1"}
+              colSize={'col-lg-1'}
               onClick={() => {
                 getData(values, pageNo, pageSize);
               }}

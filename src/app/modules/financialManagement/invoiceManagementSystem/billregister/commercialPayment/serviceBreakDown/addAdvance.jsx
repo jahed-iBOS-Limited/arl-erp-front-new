@@ -1,4 +1,3 @@
-
 import { Form, Formik } from 'formik';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
 import React, { useEffect, useState } from 'react';
@@ -102,7 +101,7 @@ export default function AddAdvance({
         enableReinitialize={true}
         initialValues={initData}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({
           handleSubmit,
@@ -138,7 +137,7 @@ export default function AddAdvance({
                             data?.supplierId,
                             setAdvanceBill,
                             setBill,
-                            setIsLoading,
+                            setIsLoading
                           );
                         });
                       }}
@@ -203,7 +202,7 @@ export default function AddAdvance({
                           style={{ marginTop: '18px' }}
                           onClick={() => {
                             dispatch(
-                              getDownlloadFileView_Action(uploadImage[0]?.id),
+                              getDownlloadFileView_Action(uploadImage[0]?.id)
                             );
                           }}
                         >
@@ -224,7 +223,7 @@ export default function AddAdvance({
                       }}
                       onDelete={(deleteFileObj) => {
                         const newData = fileObjects.filter(
-                          (item) => item.file.name !== deleteFileObj.file.name,
+                          (item) => item.file.name !== deleteFileObj.file.name
                         );
                         setFileObjects(newData);
                       }}
@@ -352,8 +351,8 @@ export default function AddAdvance({
                                         clickHandler={() => {
                                           dispatch(
                                             getDownlloadFileView_Action(
-                                              item?.attachment,
-                                            ),
+                                              item?.attachment
+                                            )
                                           );
                                         }}
                                       />

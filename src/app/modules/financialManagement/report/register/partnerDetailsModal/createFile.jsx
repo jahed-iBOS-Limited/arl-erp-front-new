@@ -2,7 +2,11 @@
 import * as fs from 'file-saver';
 
 import { getWorkBook, getIndex } from './utils';
-import { getfontStyle, getTextFormat, getFill } from '../../../../_helper/excel/font';
+import {
+  getfontStyle,
+  getTextFormat,
+  getFill,
+} from '../../../../_helper/excel/font';
 import { getAlignment } from './alignment';
 import { getBorder } from '../../../../_helper/excel/border';
 
@@ -96,9 +100,11 @@ export const createFile = (excel, flag) => {
             if (row[_cellIndex]?.merge) {
               const points = row[_cellIndex]?.cellRange?.split(':');
               _sheet.mergeCells(
-                `${points[0][0]}${_addedRow.number + (Number(points[0].slice(1)) - 1)
-                }:${points[1][0]}${_addedRow.number + (Number(points[1].slice(1)) - 1)
-                }`,
+                `${points[0][0]}${
+                  _addedRow.number + (Number(points[0].slice(1)) - 1)
+                }:${points[1][0]}${
+                  _addedRow.number + (Number(points[1].slice(1)) - 1)
+                }`
               );
             }
 

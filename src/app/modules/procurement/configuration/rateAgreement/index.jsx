@@ -1,24 +1,24 @@
-import { default as Axios } from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import FormikError from "../../../_helper/_formikError";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { default as Axios } from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import FormikError from '../../../_helper/_formikError';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 const initData = {
-  sbu: "",
-  purchaseOrganization: "",
-  plant: "",
-  wareHouse: "",
-  item: "",
-  itemType: {value: 2, label:"Standard"},
+  sbu: '',
+  purchaseOrganization: '',
+  plant: '',
+  wareHouse: '',
+  item: '',
+  itemType: { value: 2, label: 'Standard' },
 };
 export default function RateAgreement() {
   const [pageNo, setPageNo] = useState(1);
@@ -39,8 +39,7 @@ export default function RateAgreement() {
   const history = useHistory();
   const getLandingData = (pageNo, pageSize, values) => {
     getRowDto(
-      `/procurement/PurchaseOrder/GetRateAgreement?BusinessUnitId=${buId}&PurchaseOrganisationId=${values?.purchaseOrganization?.value}&PlantId=${values?.plant?.value}&WarehouseId=${values?.wareHouse?.value}&PageNo=${pageNo}&PageSize=${pageSize}`,
-
+      `/procurement/PurchaseOrder/GetRateAgreement?BusinessUnitId=${buId}&PurchaseOrganisationId=${values?.purchaseOrganization?.value}&PlantId=${values?.plant?.value}&WarehouseId=${values?.wareHouse?.value}&PageNo=${pageNo}&PageSize=${pageSize}`
     );
   };
 
@@ -67,7 +66,6 @@ export default function RateAgreement() {
     getPlanListDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
-
   }, [buId]);
 
   return (
@@ -147,7 +145,7 @@ export default function RateAgreement() {
                     value={values?.sbu}
                     label="SBU"
                     onChange={(valueOption) => {
-                      setFieldValue("sbu", valueOption);
+                      setFieldValue('sbu', valueOption);
                     }}
                     placeholder="SBU"
                     errors={errors}
@@ -162,7 +160,7 @@ export default function RateAgreement() {
                     value={values?.purchaseOrganization}
                     label="Purchase Organization"
                     onChange={(valueOption) => {
-                      setFieldValue("purchaseOrganization", valueOption);
+                      setFieldValue('purchaseOrganization', valueOption);
                     }}
                     placeholder="Purchase Organization"
                     errors={errors}
@@ -177,15 +175,15 @@ export default function RateAgreement() {
                     value={values?.plant}
                     label="Plant"
                     onChange={(valueOption) => {
-                      setFieldValue("wareHouse", "");
+                      setFieldValue('wareHouse', '');
                       if (valueOption?.value) {
-                        setFieldValue("plant", valueOption);
+                        setFieldValue('plant', valueOption);
                         getWhListDDL(
                           `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${valueOption?.value}&OrgUnitTypeId=8`
                         );
                       } else {
-                        setFieldValue("wareHouse", "");
-                        setFieldValue("plant", "");
+                        setFieldValue('wareHouse', '');
+                        setFieldValue('plant', '');
                       }
                     }}
                     placeholder="Plant"
@@ -201,7 +199,7 @@ export default function RateAgreement() {
                     value={values?.wareHouse}
                     label="WareHouse"
                     onChange={(valueOption) => {
-                      setFieldValue("wareHouse", valueOption);
+                      setFieldValue('wareHouse', valueOption);
                       if (valueOption) {
                         getRowDto(
                           `/procurement/PurchaseOrder/GetRateAgreement?BusinessUnitId=${buId}&PurchaseOrganisationId=${values?.purchaseOrganization?.value}&PlantId=${values?.plant?.value}&WarehouseId=${valueOption?.value}&PageNo=${pageNo}&PageSize=${pageSize}`
@@ -216,11 +214,14 @@ export default function RateAgreement() {
                 <div className="col-lg-3">
                   <NewSelect
                     name="itemType"
-                    options={[{value: 2, label:"Standard"}, {value:8, label:"Service"}]}
+                    options={[
+                      { value: 2, label: 'Standard' },
+                      { value: 8, label: 'Service' },
+                    ]}
                     value={values?.itemType}
                     label="Item Type"
                     onChange={(valueOption) => {
-                      setFieldValue("itemType", valueOption);
+                      setFieldValue('itemType', valueOption);
                     }}
                     placeholder="SBU"
                     errors={errors}
@@ -233,7 +234,7 @@ export default function RateAgreement() {
                   <SearchAsyncSelect
                     selectedValue={values?.item}
                     handleChange={(valueOption) => {
-                      setFieldValue("item", valueOption);
+                      setFieldValue('item', valueOption);
                     }}
                     loadOptions={(v) => loadUserList(v, values)}
                     isDisabled={!values?.wareHouse}
@@ -247,75 +248,74 @@ export default function RateAgreement() {
               </div>
               <div className="row">
                 <div className="col-lg-12">
-                <div className="table-responsive">
-                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                    <thead>
-                      <tr>
-                        <th>Sl</th>
-                        <th>Contract Name</th>
-                        <th>Contract Code</th>
-                        <th>Warehouse</th>
-                        <th>Contract Date</th>
-                        <th>Item Name</th>
-                        <th>Item Code</th>
-                        <th>Rate Agreement</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowDto?.data?.length > 0 &&
-                        rowDto?.data?.map((item, index) => (
-                          <tr style={{textAlign:"center"}} key={index}>
-                            <td>{index + 1}</td>
-                            <td>{item?.nameOfContact}</td>
-                            <td>{item?.agreementCode}</td>
-                            <td>{item?.warehouseName}</td>
-                            <td>{_dateFormatter(item?.contactDateTime)}</td>
-                            <td>{item?.itemName}</td>
-                            <td>{item?.itemCode}</td>
-                            <td style={{ fontWeight: "bold" }}>
-                              {item?.isForRateAgreement ? (
-                                <span style={{ color: "green" }}>Yes</span>
-                              ) : (
-                                <span style={{ color: "red" }}>No</span>
-                              )}
-                            </td>
-                            <td>{_dateFormatter(item?.contractStartDate)}</td>
-                            <td>{_dateFormatter(item?.contractEndDate)}</td>
-                            <td style={{fontWeight:"bold"}}>
-                              {item?.agreementStatus === "Active" ? (
-                                <span style={{ color: "green" }}>
-                                  {item?.agreementStatus}
-                                </span>
-                              ) : (
-                                <span style={{ color: "red" }}>
-                                  {item?.agreementStatus}
-                                </span>
-                              )}
-                            </td>
-                            <td className="text-center">
-                              {
-                                item?.agreementStatus === "Active" &&
-                                <>
-                                <IEdit
-                                title="Edit"
-                                onClick={() => {
-                                  history.push({
-                                    pathname: `/mngProcurement/purchase-configuration/rate-agreement/edit/${item?.agreementHeaderId}`,
-                                    state: {...values, ...item}
-                                  });
-                                }}
-                              />
-                                </>
-                              }
-                            </td>
-                          </tr>
-                        ))}
-                    </tbody>
-                  </table>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                      <thead>
+                        <tr>
+                          <th>Sl</th>
+                          <th>Contract Name</th>
+                          <th>Contract Code</th>
+                          <th>Warehouse</th>
+                          <th>Contract Date</th>
+                          <th>Item Name</th>
+                          <th>Item Code</th>
+                          <th>Rate Agreement</th>
+                          <th>Start Date</th>
+                          <th>End Date</th>
+                          <th>Status</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {rowDto?.data?.length > 0 &&
+                          rowDto?.data?.map((item, index) => (
+                            <tr style={{ textAlign: 'center' }} key={index}>
+                              <td>{index + 1}</td>
+                              <td>{item?.nameOfContact}</td>
+                              <td>{item?.agreementCode}</td>
+                              <td>{item?.warehouseName}</td>
+                              <td>{_dateFormatter(item?.contactDateTime)}</td>
+                              <td>{item?.itemName}</td>
+                              <td>{item?.itemCode}</td>
+                              <td style={{ fontWeight: 'bold' }}>
+                                {item?.isForRateAgreement ? (
+                                  <span style={{ color: 'green' }}>Yes</span>
+                                ) : (
+                                  <span style={{ color: 'red' }}>No</span>
+                                )}
+                              </td>
+                              <td>{_dateFormatter(item?.contractStartDate)}</td>
+                              <td>{_dateFormatter(item?.contractEndDate)}</td>
+                              <td style={{ fontWeight: 'bold' }}>
+                                {item?.agreementStatus === 'Active' ? (
+                                  <span style={{ color: 'green' }}>
+                                    {item?.agreementStatus}
+                                  </span>
+                                ) : (
+                                  <span style={{ color: 'red' }}>
+                                    {item?.agreementStatus}
+                                  </span>
+                                )}
+                              </td>
+                              <td className="text-center">
+                                {item?.agreementStatus === 'Active' && (
+                                  <>
+                                    <IEdit
+                                      title="Edit"
+                                      onClick={() => {
+                                        history.push({
+                                          pathname: `/mngProcurement/purchase-configuration/rate-agreement/edit/${item?.agreementHeaderId}`,
+                                          state: { ...values, ...item },
+                                        });
+                                      }}
+                                    />
+                                  </>
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                      </tbody>
+                    </table>
                   </div>
                   {rowDto?.data?.length > 0 && (
                     <PaginationTable

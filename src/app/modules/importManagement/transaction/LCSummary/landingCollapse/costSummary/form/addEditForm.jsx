@@ -1,35 +1,32 @@
-
-
-
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../../../_metronic/_partials/controls";
-import Loading from "../../../../../../_helper/_loading";
+} from '../../../../../../../../_metronic/_partials/controls';
+import Loading from '../../../../../../_helper/_loading';
 
 const initData = {
-  shipment: "",
-  BLAWBTRNo: "",
-  BLAWBTRDate: "",
-  LCOpeningCharge: "",
-  insurancePolicy: "",
-  totalDocReleaseCharges: "",
-  paymentOnMaturityAndPG: "",
-  customDutyAndTaxes: "",
-  portCharges: "",
-  shippingCharges: "",
-  transportCharges: "",
-  CFCharges: "",
-  surveyCharges: "",
-  cleaningCharges: "",
-  unloadingCharges: "",
-  shipmentWiseTotalCost: "",
+  shipment: '',
+  BLAWBTRNo: '',
+  BLAWBTRDate: '',
+  LCOpeningCharge: '',
+  insurancePolicy: '',
+  totalDocReleaseCharges: '',
+  paymentOnMaturityAndPG: '',
+  customDutyAndTaxes: '',
+  portCharges: '',
+  shippingCharges: '',
+  transportCharges: '',
+  CFCharges: '',
+  surveyCharges: '',
+  cleaningCharges: '',
+  unloadingCharges: '',
+  shipmentWiseTotalCost: '',
 };
 
 export default function CostSummary() {

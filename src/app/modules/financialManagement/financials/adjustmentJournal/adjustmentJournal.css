@@ -1,5 +1,5 @@
 .adjustment-journal-modal .h4 {
-    font-size: 1.2rem !important;
+  font-size: 1.2rem !important;
 }
 .bj-table-landing thead tr th {
   padding: 5px 0 !important;
@@ -14,15 +14,15 @@
   font-size: 13px !important;
 }
 .table.bj-table-landing td {
-    vertical-align: middle;
+  vertical-align: middle;
 }
 .bank-journal-date .cj-landing-date::-webkit-calendar-picker-indicator {
   font-size: 8px !important;
   margin-left: 0 !important;
   padding-left: 0 !important;
   transform: translateX(-0px) !important;
-} 
-.cashJournal_buttom{
+}
+.cashJournal_buttom {
   background: #dde3e8;
   padding-top: 4px;
 }
@@ -68,12 +68,10 @@
   width: 168px !important;
 }
 
-
-.adjustment-journalReport .reportBorder{
-  border-bottom : 1px solid #000;
-  width:'30px'
+.adjustment-journalReport .reportBorder {
+  border-bottom: 1px solid #000;
+  width: '30px';
 }
-
 
 /* Journal Report table */
 

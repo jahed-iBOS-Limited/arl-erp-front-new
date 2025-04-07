@@ -1,14 +1,14 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import InputField from "../../../_helper/_inputField";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { toast } from "react-toastify";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import InputField from '../../../_helper/_inputField';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { toast } from 'react-toastify';
 const initData = {
   completeDate: _todayDate(),
-  remarks: "",
+  remarks: '',
 };
 export default function ScheduleStatusModal({
   clickedRowData,
@@ -24,7 +24,7 @@ export default function ScheduleStatusModal({
 
   const saveHandler = (values, cb) => {
     if (!values?.completeDate) {
-      return toast.warn("Complete date is required");
+      return toast.warn('Complete date is required');
     }
     const payload = [
       {
@@ -81,7 +81,7 @@ export default function ScheduleStatusModal({
                     type="date"
                     name="completeDate"
                     onChange={(e) => {
-                      setFieldValue("completeDate", e.target.value);
+                      setFieldValue('completeDate', e.target.value);
                     }}
                   />
                 </div>
@@ -92,21 +92,21 @@ export default function ScheduleStatusModal({
                     name="remarks"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("remarks", e.target.value);
+                      setFieldValue('remarks', e.target.value);
                     }}
                   />
                 </div>
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

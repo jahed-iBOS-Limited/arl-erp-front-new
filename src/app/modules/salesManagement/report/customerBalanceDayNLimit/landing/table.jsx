@@ -1,32 +1,32 @@
-import { Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICard from "../../../../_helper/_card";
-import ICustomTable from "../../../../_helper/_customTable";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getUserLoginInfo } from "../helper";
-import Form from "./from";
-import { dayThs, getReportId, groupId, parameterValues } from "./helper";
+import { Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICard from '../../../../_helper/_card';
+import ICustomTable from '../../../../_helper/_customTable';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import PowerBIReport from '../../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { getUserLoginInfo } from '../helper';
+import Form from './from';
+import { dayThs, getReportId, groupId, parameterValues } from './helper';
 
 const initData = {
   date: _todayDate(),
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  channel: "",
-  region: "",
-  area: "",
-  territory: "",
-  partyStatus: "",
-  partyGroup: "",
-  reportType: { value: 1, label: "Days And Amount Base Balance" },
-  viewType: "",
-  businessUnit: { value: 0, label: "All" },
-  itemPrice:"",
-  businessPeriod:""
+  channel: '',
+  region: '',
+  area: '',
+  territory: '',
+  partyStatus: '',
+  partyGroup: '',
+  reportType: { value: 1, label: 'Days And Amount Base Balance' },
+  viewType: '',
+  businessUnit: { value: 0, label: 'All' },
+  itemPrice: '',
+  businessPeriod: '',
 };
 
 export default function CustomerBalanceDaysNLimit() {
@@ -51,7 +51,6 @@ export default function CustomerBalanceDaysNLimit() {
       setData(resData);
     });
     getBuDDL(`/hcm/HCMDDL/GetBusinessunitDDL`);
-
   }, [accId, buId]);
 
   useEffect(() => {
@@ -70,10 +69,10 @@ export default function CustomerBalanceDaysNLimit() {
       data?.empLevelId === 7
         ? +data?.empTerritoryId
         : +data?.levelId === 6
-        ? +data?.areaId
-        : +data?.levelId === 5
-        ? +data?.regionId
-        : +data?.empTerritoryId;
+          ? +data?.areaId
+          : +data?.levelId === 5
+            ? +data?.regionId
+            : +data?.empTerritoryId;
     const intLevelId = data?.empLevelId;
     const url = `/oms/SalesInformation/PartnerBalnceByDaysNLimitAmount?intunit=${buId}&TransactionDate=${values?.date}&customerId=${customerId}&intchannelid=${channelId}&intEmployeeid=${empId}&RATId=${RATId}&intLevelId=${intLevelId}`;
     getRowData(url);
@@ -82,15 +81,15 @@ export default function CustomerBalanceDaysNLimit() {
   const getRowStyle = (value) => {
     return value < 0
       ? {
-          color: "Green",
+          color: 'Green',
           fontWeight: 900,
         }
       : value > 0
-      ? {
-          color: "Red",
-          fontWeight: 900,
-        }
-      : { fontWeight: 900 };
+        ? {
+            color: 'Red',
+            fontWeight: 900,
+          }
+        : { fontWeight: 900 };
   };
 
   return (
@@ -201,7 +200,7 @@ export default function CustomerBalanceDaysNLimit() {
                     )}
 
                     {isShow &&
-                      [2, 3, 4, 5, 6, 7,8,9].includes(
+                      [2, 3, 4, 5, 6, 7, 8, 9].includes(
                         values?.reportType?.value
                       ) && (
                         <PowerBIReport

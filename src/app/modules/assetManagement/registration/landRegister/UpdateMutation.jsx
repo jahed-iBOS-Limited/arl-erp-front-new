@@ -57,7 +57,7 @@ export default function UpdateMutation({
     `,
       payload,
       cb,
-      true,
+      true
     );
   };
   const validationSchema = Yup.object().shape({
@@ -165,7 +165,7 @@ export default function UpdateMutation({
                         console.log({ attachment: attachmentData });
                         setFieldValue(
                           'strMutationAttachment',
-                          attachmentData?.[0]?.id,
+                          attachmentData?.[0]?.id
                         );
                       }
                     }}
@@ -183,8 +183,8 @@ export default function UpdateMutation({
                           e.stopPropagation();
                           dispatch(
                             getDownlloadFileView_Action(
-                              singleData?.strMutationAttachment,
-                            ),
+                              singleData?.strMutationAttachment
+                            )
                           );
                         }}
                         className=" "

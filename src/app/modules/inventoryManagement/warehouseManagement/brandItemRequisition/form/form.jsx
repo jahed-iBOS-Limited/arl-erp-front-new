@@ -1,13 +1,13 @@
-import { Formik } from "formik";
-import React from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import BrandItemRequisitionEntryTable from "./table";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import TextArea from "../../../../_helper/TextArea";
-import IButton from "../../../../_helper/iButton";
-import { useHistory } from "react-router-dom";
+import { Formik } from 'formik';
+import React from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import BrandItemRequisitionEntryTable from './table';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import TextArea from '../../../../_helper/TextArea';
+import IButton from '../../../../_helper/iButton';
+import { useHistory } from 'react-router-dom';
 
 export default function FormCmp({
   type,
@@ -35,15 +35,15 @@ export default function FormCmp({
             title={title}
             backHandler={() => history.goBack()}
             resetHandler={
-              type === "view"
-                ? ""
+              type === 'view'
+                ? ''
                 : () => {
                     resetForm();
                   }
             }
             saveHandler={
-              type === "view"
-                ? ""
+              type === 'view'
+                ? ''
                 : () => {
                     saveHandler(values, () => {
                       resetForm();
@@ -57,19 +57,19 @@ export default function FormCmp({
                   <NewSelect
                     name="programType"
                     options={[
-                      { value: 1, label: "Masson Program" },
-                      { value: 2, label: "Cash Program" },
-                      { value: 3, label: "Market Development" },
+                      { value: 1, label: 'Masson Program' },
+                      { value: 2, label: 'Cash Program' },
+                      { value: 3, label: 'Market Development' },
                     ]}
                     value={values?.programType}
                     label="Program Type"
                     onChange={(valueOption) => {
-                      setFieldValue("programType", valueOption);
+                      setFieldValue('programType', valueOption);
                     }}
                     placeholder="Program Type"
                     errors={errors}
                     touched={touched}
-                    isDisabled={rowData?.length || type === "view"}
+                    isDisabled={rowData?.length || type === 'view'}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -79,7 +79,7 @@ export default function FormCmp({
                     placeholder="Purpose"
                     type="text"
                     name="purpose"
-                    disabled={type === "view"}
+                    disabled={type === 'view'}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -89,10 +89,10 @@ export default function FormCmp({
                     placeholder="Date"
                     type="date"
                     name="requiredDate"
-                    disabled={type === "view"}
+                    disabled={type === 'view'}
                   />
                 </div>
-                {type !== "view" && (
+                {type !== 'view' && (
                   <>
                     <div className="col-lg-12">
                       <hr />
@@ -113,7 +113,7 @@ export default function FormCmp({
                         value={values?.itemCategory}
                         label="Item Category"
                         onChange={(valueOption) => {
-                          setFieldValue("itemCategory", valueOption);
+                          setFieldValue('itemCategory', valueOption);
                           getItemsByCategory({
                             ...values,
                             itemCategory: valueOption,
@@ -131,7 +131,7 @@ export default function FormCmp({
                         value={values?.item}
                         label="Item"
                         onChange={(valueOption) => {
-                          setFieldValue("item", valueOption);
+                          setFieldValue('item', valueOption);
                         }}
                         placeholder="Item"
                         errors={errors}
@@ -146,7 +146,7 @@ export default function FormCmp({
                         value={values?.uom}
                         label="UOM"
                         onChange={(valueOption) => {
-                          setFieldValue("uom", valueOption);
+                          setFieldValue('uom', valueOption);
                         }}
                         placeholder="UOM"
                         errors={errors}

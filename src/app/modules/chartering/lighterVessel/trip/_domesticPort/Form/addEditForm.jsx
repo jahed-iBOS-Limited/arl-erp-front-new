@@ -1,14 +1,12 @@
-
-
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import Loading from "../../../../_chartinghelper/loading/_loading";
-import { createPort } from "../helper";
-import Form from "./form";
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import Loading from '../../../../_chartinghelper/loading/_loading';
+import { createPort } from '../helper';
+import Form from './form';
 
 const initData = {
-  portName: "",
-  portAddress: "",
+  portName: '',
+  portAddress: '',
 };
 
 export default function DomesticPortCreate({
@@ -29,8 +27,8 @@ export default function DomesticPortCreate({
         domesticPortId: 0,
         accountId: profileData?.accountId,
         businessUnitId: selectedBusinessUnit?.value,
-        portName: values?.portName || "",
-        portAddress: values?.portAddress || "",
+        portName: values?.portName || '',
+        portAddress: values?.portAddress || '',
         actionby: profileData?.userId,
       };
       createPort(payload, setLoading, () => {
@@ -42,7 +40,7 @@ export default function DomesticPortCreate({
     }
   };
 
-  const title = singleData?.portId ? "Edit Port" : "Create Port";
+  const title = singleData?.portId ? 'Edit Port' : 'Create Port';
 
   return (
     <>

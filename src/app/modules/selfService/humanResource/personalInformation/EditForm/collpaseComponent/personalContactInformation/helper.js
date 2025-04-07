@@ -1,9 +1,9 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 //getCountryDDL_api
 export const getCountryDDL_api = async (setter) => {
   try {
-    const res = await Axios.get("/hcm/HCMDDL/GetCountryDDL");
+    const res = await Axios.get('/hcm/HCMDDL/GetCountryDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -56,7 +56,7 @@ export const getPoliceStationDDL_api = async (
 
 export const getPostCodeDDL_api = async (setter) => {
   try {
-    const res = await Axios.get("/hcm/HCMDDL/GetPostCodeDDL");
+    const res = await Axios.get('/hcm/HCMDDL/GetPostCodeDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -78,7 +78,7 @@ export const createPersonalContactInfo_api = async (
       payload
     );
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted Successfully");
+      toast.success(res?.data?.message || 'Submitted Successfully');
       cb();
       lainingApi();
       setDisabled(false);
@@ -98,35 +98,34 @@ export const getPersonalContactInfoById_api = async (employeeId, setter) => {
     if (res.status === 200 && res.data) {
       const data = res.data;
 
-      
       const modifyGridData = {
         country: data?.present?.countryId
           ? {
               value: data?.present?.countryId,
               label: data?.present?.countryName,
             }
-          : "",
+          : '',
         divison: data?.present?.divisionId
           ? {
               value: data?.present?.divisionId,
               label: data?.present?.divisionName,
             }
-          : "",
+          : '',
         district: data?.present?.districtId
           ? {
               value: data?.present?.districtId,
               label: data?.present?.districtName,
             }
-          : "",
+          : '',
         policeStation: data?.present?.thanaId
           ? {
               value: data?.present?.thanaId,
               label: data?.present?.thanaName,
             }
-          : "",
+          : '',
         postCode: data?.present?.postCode
           ? { value: 1000, label: data?.present?.postCode }
-          : "",
+          : '',
         village: data?.present?.villageStreet,
         samePresentAddress: data?.parmanent?.countryId ? false : true,
         country2: data?.parmanent?.countryId
@@ -134,28 +133,28 @@ export const getPersonalContactInfoById_api = async (employeeId, setter) => {
               value: data?.parmanent?.countryId,
               label: data?.parmanent?.countryName,
             }
-          : "",
+          : '',
         divison2: data?.parmanent?.divisionId
           ? {
               value: data?.parmanent?.divisionId,
               label: data?.parmanent?.divisionName,
             }
-          : "",
+          : '',
         district2: data?.parmanent?.districtId
           ? {
               value: data?.parmanent?.districtId,
               label: data?.parmanent?.districtName,
             }
-          : "",
+          : '',
         policeStation2: data?.parmanent?.thanaId
           ? {
               value: data?.parmanent?.thanaId,
               label: data?.parmanent?.thanaName,
             }
-          : "",
+          : '',
         postCode2: data?.parmanent?.postCode
           ? { value: 1000, label: data?.parmanent?.postCode }
-          : "",
+          : '',
         village2: data?.parmanent?.villageStreet,
         presentId: data?.present?.contactId || 0,
         parmanentId: data?.parmanent?.contactId || 0,
@@ -163,7 +162,7 @@ export const getPersonalContactInfoById_api = async (employeeId, setter) => {
       if (data?.present?.countryId) {
         setter(modifyGridData);
       } else {
-        setter("");
+        setter('');
       }
     }
   } catch (error) {}
@@ -182,7 +181,7 @@ export const editPersonalContactInfo_api = async (
       payload
     );
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted Successfully");
+      toast.success(res?.data?.message || 'Submitted Successfully');
       lainingApi();
       setDisabled(false);
     }

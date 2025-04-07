@@ -1,6 +1,6 @@
-import Axios from "axios";
+import Axios from 'axios';
 
-export const getWarehouseDDL = async  ({ buId, plantId, setter }) => {
+export const getWarehouseDDL = async ({ buId, plantId, setter }) => {
   try {
     const res = await Axios.get(
       `/asset/DropDown/MntWareHouse?UnitId=${buId}&PlantId=${plantId}`
@@ -8,7 +8,7 @@ export const getWarehouseDDL = async  ({ buId, plantId, setter }) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 export const getPlantDDL = async (userId, accId, buId, setter) => {
   try {
@@ -18,10 +18,8 @@ export const getPlantDDL = async (userId, accId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
-
-
 
 export const getMaintenanceReport = async ({
   warehouseId,
@@ -34,19 +32,17 @@ export const getMaintenanceReport = async ({
   toDate,
   intReffId,
   setter,
-  setLoading
+  setLoading,
 }) => {
   setLoading(true);
   try {
-    const res = await Axios.get(`/asset/Asset/GetAssetManitenanceRPT?intPart=${part}&intUnitId=${businessUnitId}&intPlantId=${plantId}&dteFrom=${fromDate}&dteTo=${toDate}&intReffId=${intReffId}&intRptType=${reportType}&whid=${warehouseId}&status=${status}`
+    const res = await Axios.get(
+      `/asset/Asset/GetAssetManitenanceRPT?intPart=${part}&intUnitId=${businessUnitId}&intPlantId=${plantId}&dteFrom=${fromDate}&dteTo=${toDate}&intReffId=${intReffId}&intRptType=${reportType}&whid=${warehouseId}&status=${status}`
     );
     setLoading(false);
     setter(res?.data);
   } catch (error) {
     setter([]);
     setLoading(false);
-
   }
 };
-
-

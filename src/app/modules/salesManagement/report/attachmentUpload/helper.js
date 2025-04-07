@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const attachmentUploadEntry = async (payload, setLoading, cb) => {
   setLoading(true);
@@ -29,9 +29,9 @@ export const getAttachmentUploads = async (
   setLoading
 ) => {
   setLoading(true);
-  const typeId = type ? `&typeId=${type}` : "";
-  const monthId = month ? `&monthId=${month}` : "";
-  const yearId = year ? `&yearId=${year}` : "";
+  const typeId = type ? `&typeId=${type}` : '';
+  const monthId = month ? `&monthId=${month}` : '';
+  const yearId = year ? `&yearId=${year}` : '';
   try {
     const res = await axios.get(
       `/oms/SiteUploadAttachment/getUploadAttachmentLanding?AccountId=${accId}&BusinessId=${buId}${typeId}${monthId}${yearId}&vieworder=desc&PageNo=${pageNo}&PageSize=${pageSize}`

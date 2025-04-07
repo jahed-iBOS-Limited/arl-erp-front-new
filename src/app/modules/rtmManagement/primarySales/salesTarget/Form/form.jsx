@@ -1,41 +1,41 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
 
-import Axios from "axios";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { getCustomerNameDDL_api, getRate_api } from "../helper";
+import Axios from 'axios';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { getCustomerNameDDL_api, getRate_api } from '../helper';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   itemName: Yup.object().shape({
-    label: Yup.string().required("Item Name is required"),
-    value: Yup.string().required("Item Name is required"),
+    label: Yup.string().required('Item Name is required'),
+    value: Yup.string().required('Item Name is required'),
   }),
   customerName: Yup.object().shape({
-    label: Yup.string().required("Customer Name is required"),
-    value: Yup.string().required("Customer Name  is required"),
+    label: Yup.string().required('Customer Name is required'),
+    value: Yup.string().required('Customer Name  is required'),
   }),
-  territoryName: Yup.string().required("Territory Name is required"),
+  territoryName: Yup.string().required('Territory Name is required'),
   quantity: Yup.number()
-    .min(1, "Minimum 2 symbols")
-    .max(1000000000, "Maximum 100 symbols")
-    .required("Quantity is required"),
-  rate: Yup.number().required("Rate is required"),
+    .min(1, 'Minimum 2 symbols')
+    .max(1000000000, 'Maximum 100 symbols')
+    .required('Quantity is required'),
+  rate: Yup.number().required('Rate is required'),
   month: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Month is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Month is required'),
   year: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Year is required"),
-  startDate: Yup.date().required("Start Date is required"),
-  endDate: Yup.date().required("End Date is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Year is required'),
+  startDate: Yup.date().required('Start Date is required'),
+  endDate: Yup.date().required('End Date is required'),
 });
 
 export default function FormCmp({
@@ -58,8 +58,7 @@ export default function FormCmp({
   remover,
   rowDto,
 }) {
-
-  const [rateForm, setRateForm] = useState("");
+  const [rateForm, setRateForm] = useState('');
 
   useEffect(() => {
     getCustomerNameDDL_api(
@@ -68,7 +67,6 @@ export default function FormCmp({
       state?.values?.territoryName?.value,
       setCustomerNameDDL
     );
-
   }, [accountId, selectedBusinessUnit]);
 
   return (
@@ -127,7 +125,7 @@ export default function FormCmp({
                         value={values?.customerName}
                         label="Customer Name"
                         onChange={(valueOption) => {
-                          setFieldValue("customerName", valueOption);
+                          setFieldValue('customerName', valueOption);
                         }}
                         placeholder="Customer Name"
                         errors={errors}
@@ -190,11 +188,14 @@ export default function FormCmp({
                   </div>
                 </div>
                 <div className="col-lg-10">
-                  <div className={"row bank-journal-custom bj-right"}  style={{
-                      marginLeft: "0px",
-                      marginRight: "0px",
-                      marginTop: "5px",
-                    }}>
+                  <div
+                    className={'row bank-journal-custom bj-right'}
+                    style={{
+                      marginLeft: '0px',
+                      marginRight: '0px',
+                      marginTop: '5px',
+                    }}
+                  >
                     <div className="col-lg-3 pr-1 pl mb-1">
                       <NewSelect
                         name="itemName"
@@ -209,7 +210,7 @@ export default function FormCmp({
                             valueOption?.value,
                             setFieldValue
                           );
-                          setFieldValue("itemName", valueOption);
+                          setFieldValue('itemName', valueOption);
                         }}
                         placeholder="Item Name"
                         errors={errors}
@@ -221,7 +222,7 @@ export default function FormCmp({
                     <div className="col-lg-3 pr-1 pl mb-1 ml-50">
                       <label>Quantity</label>
                       <InputField
-                        value={values?.quantity || ""}
+                        value={values?.quantity || ''}
                         name="quantity"
                         placeholder="Quantity"
                         type="number"
@@ -240,7 +241,7 @@ export default function FormCmp({
 
                     <div className="col-lg-2 pl-2 bank-journal mt-3">
                       <button
-                        style={{ marginBottom: "20px", marginLeft: "15px" }}
+                        style={{ marginBottom: '20px', marginLeft: '15px' }}
                         type="button"
                         className="btn btn-primary"
                         disabled={!values?.itemName}
@@ -264,15 +265,15 @@ export default function FormCmp({
 
                   <div className="row">
                     <div className="col-lg-12 pr-0">
-                      <table className={"table mt-1 bj-table"}>
-                        <thead className={rowDto?.length < 1 && "d-none"}>
+                      <table className={'table mt-1 bj-table'}>
+                        <thead className={rowDto?.length < 1 && 'd-none'}>
                           <tr>
-                            <th style={{ width: "20px" }}>SL</th>
-                            <th style={{ width: "80px" }}>Item Name</th>
-                            <th style={{ width: "100px" }}>Quantity</th>
-                            <th style={{ width: "60px" }}>Rate</th>
-                            <th style={{ width: "100px" }}>Total Amount</th>
-                            <th style={{ width: "30px" }}>Actions</th>
+                            <th style={{ width: '20px' }}>SL</th>
+                            <th style={{ width: '80px' }}>Item Name</th>
+                            <th style={{ width: '100px' }}>Quantity</th>
+                            <th style={{ width: '60px' }}>Rate</th>
+                            <th style={{ width: '100px' }}>Total Amount</th>
+                            <th style={{ width: '30px' }}>Actions</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -313,13 +314,13 @@ export default function FormCmp({
               {/* Row Dto Table End */}
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -1,28 +1,30 @@
-import React, { useEffect, useState } from "react";
-import PaginationSearch from "./../../../../_helper/_search";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
+import React, { useEffect, useState } from 'react';
+import PaginationSearch from './../../../../_helper/_search';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
 //import { useHistory } from 'react-router-dom'
-import { Formik, Form } from "formik";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  getTransactionGroupList,
-  getGRNStatementLanding,
-} from "../helper";
-import ILoader from "../../../../_helper/loader/_loader";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import { Formik, Form } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTransactionGroupList, getGRNStatementLanding } from '../helper';
+import ILoader from '../../../../_helper/loader/_loader';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
 //import PaginationTable from './../../../../_helper/_tablePagination'
-import IView from "../../../../_helper/_helperIcons/_view";
-import NewSelect from "../../../../_helper/_select";
-import * as Yup from "yup";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { setGRNStatementLandingAction } from "./../../../../_helper/reduxForLocalStorage/Actions";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import { downloadFile } from "../../../../_helper/downloadFile";
-import IViewModal from "../../../../_helper/_viewModal";
-import { InventoryTransactionReportViewTableRow } from "../../../warehouseManagement/invTransaction/report/tableRow";
-import { getPlantList, getPurchaseOrganizationDDL, getSBU, getWhList } from "../../../../_helper/_commonApi";
+import IView from '../../../../_helper/_helperIcons/_view';
+import NewSelect from '../../../../_helper/_select';
+import * as Yup from 'yup';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { setGRNStatementLandingAction } from './../../../../_helper/reduxForLocalStorage/Actions';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import { downloadFile } from '../../../../_helper/downloadFile';
+import IViewModal from '../../../../_helper/_viewModal';
+import { InventoryTransactionReportViewTableRow } from '../../../warehouseManagement/invTransaction/report/tableRow';
+import {
+  getPlantList,
+  getPurchaseOrganizationDDL,
+  getSBU,
+  getWhList,
+} from '../../../../_helper/_commonApi';
 
 const validationSchema = Yup.object().shape({
   // toDate: Yup.string().when("fromDate", (fromDate, Schema) => {
@@ -32,14 +34,14 @@ const validationSchema = Yup.object().shape({
 });
 
 let initData = {
-  wh: "",
-  plant: "",
-  sbu: "",
-  status: "",
+  wh: '',
+  plant: '',
+  sbu: '',
+  status: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  transGroup: "",
-  purchaseOrg: "",
+  transGroup: '',
+  purchaseOrg: '',
 };
 
 const IssueReportTable = () => {
@@ -48,12 +50,12 @@ const IssueReportTable = () => {
   const [pageSize, setPageSize] = React.useState(20);
   const [poList, setPoList] = useState([]);
   // ddl state
-  const [sbuList, setSbuList] = useState("");
-  const [plantList, setPlantList] = useState("");
-  const [whList, setWhList] = useState("");
-  const [, setTransGroupDDL] = useState("");
+  const [sbuList, setSbuList] = useState('');
+  const [plantList, setPlantList] = useState('');
+  const [whList, setWhList] = useState('');
+  const [, setTransGroupDDL] = useState('');
   const [isShowModal, setIsShowModal] = useState(false);
-  const [currentItem, setCurrentItem] = useState("");
+  const [currentItem, setCurrentItem] = useState('');
   const dispatch = useDispatch();
   // landing
   const [landing, setLanding] = useState([]);
@@ -62,17 +64,14 @@ const IssueReportTable = () => {
   const [loading, setLoading] = useState(false);
 
   // redux data
-  const {
-    profileData,
-    selectedBusinessUnit,
-    GRNStatementLanding,
-  } = useSelector((state) => {
-    return {
-      profileData: state.authData.profileData,
-      selectedBusinessUnit: state.authData.selectedBusinessUnit,
-      GRNStatementLanding: state.localStorage.GRNStatementLanding,
-    };
-  });
+  const { profileData, selectedBusinessUnit, GRNStatementLanding } =
+    useSelector((state) => {
+      return {
+        profileData: state.authData.profileData,
+        selectedBusinessUnit: state.authData.selectedBusinessUnit,
+        GRNStatementLanding: state.localStorage.GRNStatementLanding,
+      };
+    });
 
   // get ddl
   useEffect(() => {
@@ -108,7 +107,6 @@ const IssueReportTable = () => {
       selectedBusinessUnit?.value,
       setPoList
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   //setPositionHandler
@@ -165,11 +163,14 @@ const IssueReportTable = () => {
   };
 
   const downloadExcelFile = (values) => {
-    let api = `/wms/GrnStatement/newGrnStatementReportDownload?PurchaseOrganization=${values?.purchaseOrg?.value
-      }&SbuId=${values?.sbu?.value}&PlantId=${values?.plant?.value}&WarehouseId=${values?.wh?.value
-      }&FromDate=${values?.fromDate}&Todate=${values?.toDate
-      }&PageNo=${pageNo}&PageSize=${10000}&viewOrder=desc`;
-    downloadFile(api, "GRN Statement", "xlsx", setLoading);
+    let api = `/wms/GrnStatement/newGrnStatementReportDownload?PurchaseOrganization=${
+      values?.purchaseOrg?.value
+    }&SbuId=${values?.sbu?.value}&PlantId=${values?.plant?.value}&WarehouseId=${
+      values?.wh?.value
+    }&FromDate=${values?.fromDate}&Todate=${
+      values?.toDate
+    }&PageNo=${pageNo}&PageSize=${10000}&viewOrder=desc`;
+    downloadFile(api, 'GRN Statement', 'xlsx', setLoading);
   };
 
   return (
@@ -180,7 +181,7 @@ const IssueReportTable = () => {
           validationSchema={validationSchema}
           initialValues={{ ...initData, ...GRNStatementLanding }}
           //validationSchema={validationSchema}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({
             handleSubmit,
@@ -195,7 +196,7 @@ const IssueReportTable = () => {
               <Form className="form form-label-left">
                 <div
                   className="row global-form"
-                  style={{ background: " #d6dadd" }}
+                  style={{ background: ' #d6dadd' }}
                 >
                   <div className="col-lg-3">
                     <NewSelect
@@ -204,12 +205,12 @@ const IssueReportTable = () => {
                       value={values?.sbu}
                       label="SBU"
                       onChange={(v) => {
-                        setFieldValue("sbu", v);
+                        setFieldValue('sbu', v);
                       }}
                       placeholder="SBU"
                       errors={errors}
                       touched={touched}
-                    />{" "}
+                    />{' '}
                   </div>
                   <div className="col-lg-3">
                     <NewSelect
@@ -218,7 +219,7 @@ const IssueReportTable = () => {
                       value={values?.purchaseOrg}
                       label="Purchase Organization"
                       onChange={(optionValue) => {
-                        setFieldValue("purchaseOrg", optionValue);
+                        setFieldValue('purchaseOrg', optionValue);
                       }}
                       placeholder="Purchase Organization"
                       errors={errors}
@@ -239,8 +240,8 @@ const IssueReportTable = () => {
                           v?.value,
                           setWhList
                         );
-                        setFieldValue("plant", v);
-                        setFieldValue("wh", "");
+                        setFieldValue('plant', v);
+                        setFieldValue('wh', '');
                       }}
                       placeholder="Plant"
                       errors={errors}
@@ -254,7 +255,7 @@ const IssueReportTable = () => {
                       value={values?.wh}
                       label="Warehouse"
                       onChange={(v) => {
-                        setFieldValue("wh", v);
+                        setFieldValue('wh', v);
                       }}
                       placeholder="Warehouse"
                       errors={errors}
@@ -392,7 +393,7 @@ const IssueReportTable = () => {
                               </td>
                               <td>{item?.remarks}</td>
                               <td className="text-center align-middle">
-                                {" "}
+                                {' '}
                                 <span>
                                   <IView
                                     clickHandler={() => {

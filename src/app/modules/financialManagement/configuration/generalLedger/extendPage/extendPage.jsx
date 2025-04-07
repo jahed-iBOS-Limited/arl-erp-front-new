@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from "react";
-import IForm from "../../../../_helper/_form";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import IForm from '../../../../_helper/_form';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   getGeneralLedgeExtendById,
   saveExtendGeneralLedger,
-} from "../_redux/Actions";
-import { isUniq } from "../../../../_helper/uniqChecker";
-import { getBUDDLAction } from "../_redux/Actions";
+} from '../_redux/Actions';
+import { isUniq } from '../../../../_helper/uniqChecker';
+import { getBUDDLAction } from '../_redux/Actions';
 
 export default function GeneralLedgerExtendPage({
   history,
@@ -45,12 +45,10 @@ export default function GeneralLedgerExtendPage({
       const { accountId } = profileData;
       dispatch(getBUDDLAction(accountId));
     }
-
   }, [profileData]);
 
   useEffect(() => {
     id && dispatch(getGeneralLedgeExtendById(id));
-
   }, [id]);
   const saveHandler = async (values, cb) => {
     setDisabled(true);
@@ -71,7 +69,6 @@ export default function GeneralLedgerExtendPage({
       }
     } else {
       setDisabled(false);
-
     }
   };
 
@@ -80,7 +77,7 @@ export default function GeneralLedgerExtendPage({
   };
 
   const setter = (payload) => {
-    if (isUniq("businessUnitId", payload.businessUnitId, rowDto)) {
+    if (isUniq('businessUnitId', payload.businessUnitId, rowDto)) {
       setRowDto([...rowDto, payload]);
     }
   };
@@ -93,7 +90,6 @@ export default function GeneralLedgerExtendPage({
     if (extendData.objRow && extendData.objRow.length) {
       setRowDto([...extendData.objRow]);
     }
-
   }, [extendData]);
   return (
     <IForm

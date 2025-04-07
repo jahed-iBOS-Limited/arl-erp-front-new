@@ -1,13 +1,12 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { toast } from "react-toastify";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { toast } from 'react-toastify';
 import {
   getSingleKPIConfigureForExtend,
   SaveExtendKPIConfigure,
-} from "../helper";
+} from '../helper';
 
 const initData = {
   id: undefined,
@@ -21,7 +20,7 @@ export default function KPIConfigureExtendForm({
 }) {
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   // const [loading, setLoading] = useState(false);
 
   // get user profile data from store
@@ -42,19 +41,18 @@ export default function KPIConfigureExtendForm({
   useEffect(() => {
     // if (id) ExtendPartnerById(id, setSingleData);
     getSingleKPIConfigureForExtend(id, setSingleData);
-
   }, [id]);
 
   const addItemToTheGrid = (values) => {
     if (values.quantity < 0) {
-      return toast.warn("Quantity must be greater than 0");
+      return toast.warn('Quantity must be greater than 0');
     }
 
     let data = rowDto.find(
       (item) => item?.Objective === values?.Objective?.label
     );
     if (data) {
-      toast.error("Item already added");
+      toast.error('Item already added');
     } else {
       let newObj = {
         Objective: values.Objective.label,
@@ -74,7 +72,7 @@ export default function KPIConfigureExtendForm({
       if (payload?.length > 0) {
         SaveExtendKPIConfigure(payload, cb, setDisabled);
       } else {
-        toast.warning("You must have to add atleast one item");
+        toast.warning('You must have to add atleast one item');
       }
     } else {
       setDisabled(false);
@@ -87,8 +85,8 @@ export default function KPIConfigureExtendForm({
       title="Extend KPI Configure"
       getProps={setObjprops}
       isDisabled={isDisabled}
-      isHiddenSave={type === "view"}
-      isHiddenReset={type === "view"}
+      isHiddenSave={type === 'view'}
+      isHiddenReset={type === 'view'}
     >
       <Form
         {...objProps}

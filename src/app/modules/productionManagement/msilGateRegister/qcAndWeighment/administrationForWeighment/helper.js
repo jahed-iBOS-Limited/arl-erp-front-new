@@ -11,10 +11,11 @@ export const onGetRowDataOfQcAndWeighment = ({
 }) => {
   if (pageNo > 0) {
     getRowData(
-      `/mes/WeightBridge/GetAllWeightBridgeForAdministrationLanding?PageNo=${pageNo}&PageSize=${pageSize}&AccountId=${accountId}&BusinessUnitId=${businessUnitId ||
-        0}&shipPointId=${shipPointId || 0}${
-        weightDate ? `&WeightDate=${weightDate}` : ""
-      }${search ? `&search=${search}` : ""}`,
+      `/mes/WeightBridge/GetAllWeightBridgeForAdministrationLanding?PageNo=${pageNo}&PageSize=${pageSize}&AccountId=${accountId}&BusinessUnitId=${
+        businessUnitId || 0
+      }&shipPointId=${shipPointId || 0}${
+        weightDate ? `&WeightDate=${weightDate}` : ''
+      }${search ? `&search=${search}` : ''}`,
       (data) => {
         setPaginationState((prev) => ({
           ...prev,

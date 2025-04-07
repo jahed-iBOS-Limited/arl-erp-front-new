@@ -1,24 +1,24 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { shallowEqual, useSelector } from "react-redux";
-import { ContentRoute } from "../../../../_metronic/layout";
-import { ControllingUnit } from "./controllingUnit";
-import CostControllingForm from "./controllingUnit/Form/addEditForm";
-import { ProfitCenterGroup } from "./profitCenterGroup";
-import { CostCenter } from "./costCenter";
-import CostCenterForm from "./costCenter/Form/addEditForm";
-import ProfitCenterGroupFrom from "./profitCenterGroup/Form/addEditForm";
-import { CostCenterGroup } from "./costCenterGroup";
-import { CostElement } from "./costElement";
-import { CostCenterType } from "./costCenterType";
-import CostCenterTypeForm from "./costCenterType/Form/addEditForm";
-import CostElementForm from "./costElement/Form/addEditForm";
-import CostCenterGroupForm from "./costCenterGroup/Form/addEditForm";
-import { ProfitCenterTable } from "./profitCenter/Table/tableHeader";
-import ProfitCenterForm from "./profitCenter/Form/addEditForm";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import WipSetupLanding from "./wipSetup/landing/table";
-import findIndex from "../../_helper/_findIndex";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { shallowEqual, useSelector } from 'react-redux';
+import { ContentRoute } from '../../../../_metronic/layout';
+import { ControllingUnit } from './controllingUnit';
+import CostControllingForm from './controllingUnit/Form/addEditForm';
+import { ProfitCenterGroup } from './profitCenterGroup';
+import { CostCenter } from './costCenter';
+import CostCenterForm from './costCenter/Form/addEditForm';
+import ProfitCenterGroupFrom from './profitCenterGroup/Form/addEditForm';
+import { CostCenterGroup } from './costCenterGroup';
+import { CostElement } from './costElement';
+import { CostCenterType } from './costCenterType';
+import CostCenterTypeForm from './costCenterType/Form/addEditForm';
+import CostElementForm from './costElement/Form/addEditForm';
+import CostCenterGroupForm from './costCenterGroup/Form/addEditForm';
+import { ProfitCenterTable } from './profitCenter/Table/tableHeader';
+import ProfitCenterForm from './profitCenter/Form/addEditForm';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
+import WipSetupLanding from './wipSetup/landing/table';
+import findIndex from '../../_helper/_findIndex';
 
 export function CostControllingPages() {
   const userRole = useSelector(
@@ -27,12 +27,12 @@ export function CostControllingPages() {
   );
 
   const profitCenterGroup =
-    userRole[findIndex(userRole, "Profit Center Group")];
-  const controllingUnit = userRole[findIndex(userRole, "Controlling Unit")];
-  const costCenterGroup = userRole[findIndex(userRole, "Cost Center Group")];
-  const costCenterType = userRole[findIndex(userRole, "Cost Center Type")];
-  const costCenter = userRole[findIndex(userRole, "Cost Center")];
-  const costElement = userRole[findIndex(userRole, "Cost Element")];
+    userRole[findIndex(userRole, 'Profit Center Group')];
+  const controllingUnit = userRole[findIndex(userRole, 'Controlling Unit')];
+  const costCenterGroup = userRole[findIndex(userRole, 'Cost Center Group')];
+  const costCenterType = userRole[findIndex(userRole, 'Cost Center Type')];
+  const costCenter = userRole[findIndex(userRole, 'Cost Center')];
+  const costElement = userRole[findIndex(userRole, 'Cost Element')];
 
   return (
     <Switch>

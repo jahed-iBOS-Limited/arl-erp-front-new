@@ -1,30 +1,30 @@
-import React, { useRef, useState, useEffect } from "react";
-import printIcon from "./../../../../_helper/images/print-icon.png";
-import ReactToPrint from "react-to-print";
-import IViewModal from "./../../../../_helper/_viewModal";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import "./style.css";
-import { useSelector, shallowEqual } from "react-redux";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
-import moment from "moment";
+import React, { useRef, useState, useEffect } from 'react';
+import printIcon from './../../../../_helper/images/print-icon.png';
+import ReactToPrint from 'react-to-print';
+import IViewModal from './../../../../_helper/_viewModal';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import './style.css';
+import { useSelector, shallowEqual } from 'react-redux';
+import { _fixedPoint } from './../../../../_helper/_fixedPoint';
+import moment from 'moment';
 import {
   EditTaxSalesInvoicePrintStatus_api,
   GetTaxSalesInvoicePrintStatus_api,
   getSalesInvoiceById,
   GetSalesLogDetails_api,
-} from "./helper";
+} from './helper';
 const tableTitles = [
-  "SL",
-  "Item Name",
-  "UOM",
-  "Quantity",
-  "Rate(Taka)",
-  "Total Value(Taka",
-  "SD %",
-  "SD Amount",
-  "VAT%/Fixed",
-  "VAT Amount",
-  "Total including VAT&SD",
+  'SL',
+  'Item Name',
+  'UOM',
+  'Quantity',
+  'Rate(Taka)',
+  'Total Value(Taka',
+  'SD %',
+  'SD Amount',
+  'VAT%/Fixed',
+  'VAT Amount',
+  'Total including VAT&SD',
 ];
 export default function SalesInvoiceModel({
   show,
@@ -71,7 +71,6 @@ export default function SalesInvoiceModel({
         );
       }
     }
-
   }, [viewClick]);
 
   return (
@@ -80,9 +79,9 @@ export default function SalesInvoiceModel({
         show={show}
         onHide={() => {
           onHide();
-          setSingleData("");
+          setSingleData('');
         }}
-        title={"Sales Invoice"}
+        title={'Sales Invoice'}
         btnText="Close"
         componentRef={printRef}
         isShow={loading}
@@ -90,12 +89,12 @@ export default function SalesInvoiceModel({
         {redirectAuditLogPage?.logId && (
           <div className="mt-8">
             <p className="p-0 m-0">
-              <b>Activity</b>: {singleData?.auditLog?.activity}{" "}
+              <b>Activity</b>: {singleData?.auditLog?.activity}{' '}
             </p>
             <p className="p-0 m-0">
-              <b>Action Date/Time</b>:{" "}
+              <b>Action Date/Time</b>:{' '}
               {moment(singleData?.auditLog?.activityTime).format(
-                "DD-MMM-YY, LTS"
+                'DD-MMM-YY, LTS'
               )}
             </p>
           </div>
@@ -125,8 +124,8 @@ export default function SalesInvoiceModel({
                     >
                       <img
                         style={{
-                          width: "25px",
-                          paddingRight: "5px",
+                          width: '25px',
+                          paddingRight: '5px',
                         }}
                         src={printIcon}
                         alt="print-icon"
@@ -136,7 +135,7 @@ export default function SalesInvoiceModel({
                   )}
                   content={() => printRef.current}
                   pageStyle={
-                    "@media print{body { -webkit-print-color-adjust: exact;padding: 0 40px; }@page {size: portrait ! important; margin 100px ! important;}}"
+                    '@media print{body { -webkit-print-color-adjust: exact;padding: 0 40px; }@page {size: portrait ! important; margin 100px ! important;}}'
                   }
                 />
               </span>
@@ -147,10 +146,10 @@ export default function SalesInvoiceModel({
                 <div className="top">
                   <div
                     className="d-flex justify-content-end"
-                    style={{ marginBottom: "-35px", marginRight: "50px" }}
+                    style={{ marginBottom: '-35px', marginRight: '50px' }}
                   >
                     <span
-                      style={{ border: "1px solid gray", fontSize: 18 }}
+                      style={{ border: '1px solid gray', fontSize: 18 }}
                       className="p-2"
                     >
                       <strong>Mushak-6.3</strong>
@@ -173,20 +172,20 @@ export default function SalesInvoiceModel({
                   </p>
                   <p>
                     <strong>
-                      Name of Registered Person:{" "}
+                      Name of Registered Person:{' '}
                       {singleData?.objHeader?.businessUnitName}
                     </strong>
                   </p>
                   <p>
                     <strong>
-                      BIN of Registered Person:{" "}
+                      BIN of Registered Person:{' '}
                       {singleData?.objHeader?.companyBin}
                     </strong>
                   </p>
 
                   <p>
                     <strong>
-                      Challan Issuing Address:{" "}
+                      Challan Issuing Address:{' '}
                       {singleData?.objHeader?.taxBranchAddress}
                     </strong>
                   </p>
@@ -195,7 +194,7 @@ export default function SalesInvoiceModel({
             </div>
             <div className="col-lg-12 p-0">
               <div className="d-flex justify-content-between">
-                <div className="left" style={{ width: "715px" }}>
+                <div className="left" style={{ width: '715px' }}>
                   <p>
                     <b>
                       Customer Name: {singleData?.objHeader?.soldtoPartnerName}
@@ -206,19 +205,19 @@ export default function SalesInvoiceModel({
                   </p>
                   <p>
                     <strong>
-                      Customer Address:{" "}
+                      Customer Address:{' '}
                       {singleData?.objHeader?.soldtoPartnerAddress}
                     </strong>
                   </p>
                   <p>
                     <b>
-                      Final Destination:{" "}
+                      Final Destination:{' '}
                       {singleData?.objHeader?.shiptoPartnerAddress}
                     </b>
                   </p>
                   <p>
                     <strong>
-                      Driver Name: {singleData?.objHeader?.driverName || ""}
+                      Driver Name: {singleData?.objHeader?.driverName || ''}
                     </strong>
                   </p>
                 </div>
@@ -228,7 +227,7 @@ export default function SalesInvoiceModel({
                   </p>
                   <p>
                     <b>
-                      Date of Issue:{" "}
+                      Date of Issue:{' '}
                       {singleData?.objHeader?.deliveryDateTime &&
                         _dateFormatter(
                           isPrintBtnClick
@@ -239,12 +238,12 @@ export default function SalesInvoiceModel({
                   </p>
                   <p>
                     <b>
-                      Time of Issue:{" "}
+                      Time of Issue:{' '}
                       {moment(
                         isPrintBtnClick
                           ? new Date()
                           : singleData?.objHeader?.taxDeliveryDateTime
-                      ).format("LTS")}
+                      ).format('LTS')}
                     </b>
                   </p>
                   <p>
@@ -255,8 +254,8 @@ export default function SalesInvoiceModel({
 
                   <p>
                     <strong>
-                      Driver Contact No:{" "}
-                      {singleData?.objHeader?.driverContact || ""}
+                      Driver Contact No:{' '}
+                      {singleData?.objHeader?.driverContact || ''}
                     </strong>
                   </p>
                 </div>
@@ -268,14 +267,14 @@ export default function SalesInvoiceModel({
                   <tr className="vendorListHeading">
                     {tableTitles.map((th, index) => {
                       return (
-                        <th style={{ padding: "0 !important" }} key={index}>
+                        <th style={{ padding: '0 !important' }} key={index}>
                           <div
                             style={{
-                              height: "100%",
-                              display: "block",
-                              background: "#d6dadd",
-                              padding: "10px 0",
-                              fontWeight: "900",
+                              height: '100%',
+                              display: 'block',
+                              background: '#d6dadd',
+                              padding: '10px 0',
+                              fontWeight: '900',
                             }}
                           >
                             {th}
@@ -302,26 +301,26 @@ export default function SalesInvoiceModel({
                     return (
                       <tr key={i}>
                         <td className="text-center">
-                          {" "}
+                          {' '}
                           <b>{i + 1}</b>
                         </td>
                         <td className="text-center">
                           <b>{itm?.taxItemGroupName}</b>
                         </td>
                         <td className="text-center">
-                          {" "}
+                          {' '}
                           <b>{itm?.uomname}</b>
                         </td>
                         <td className="text-center">
-                          {" "}
+                          {' '}
                           <b>{_fixedPoint(itm?.quantity)}</b>
                         </td>
                         <td className="text-center">
-                          {" "}
+                          {' '}
                           <b>{_fixedPoint(itm?.basePrice)}</b>
                         </td>
                         <td className="text-center">
-                          {" "}
+                          {' '}
                           <b>{_fixedPoint(itm?.baseTotal)}</b>
                         </td>
                         {/* <td className="text-center"> {itm?.sdtotal}</td> */}
@@ -329,18 +328,18 @@ export default function SalesInvoiceModel({
                           <b>{`${_fixedPoint(sdPersent)}%`}</b>
                         </td>
                         <td className="text-center">
-                          {" "}
+                          {' '}
                           <b>{_fixedPoint(itm?.sdtotal)}</b>
                         </td>
                         <td className="text-center">
                           <b>{`${_fixedPoint(vatPersent)}%`}</b>
                         </td>
                         <td className="text-center">
-                          {" "}
+                          {' '}
                           <b>{_fixedPoint(itm?.vatTotal)}</b>
                         </td>
                         <td className="text-center">
-                          {" "}
+                          {' '}
                           <b>{_fixedPoint(itm?.grandTotal)}</b>
                         </td>
                       </tr>
@@ -348,26 +347,26 @@ export default function SalesInvoiceModel({
                   })}
                   <tr>
                     <td colSpan="3">
-                      <b>Total:</b>{" "}
+                      <b>Total:</b>{' '}
                     </td>
                     <td className="text-center">
-                      {" "}
-                      <b>{_fixedPoint(actualQty)}</b>{" "}
+                      {' '}
+                      <b>{_fixedPoint(actualQty)}</b>{' '}
                     </td>
                     <td></td>
                     <td className="text-center">
-                      <b>{_fixedPoint(totalwithoutTax)}</b>{" "}
+                      <b>{_fixedPoint(totalwithoutTax)}</b>{' '}
                     </td>
                     <td> </td>
                     <td className="text-center">
-                      <b>{_fixedPoint(amountofSD)}</b>{" "}
+                      <b>{_fixedPoint(amountofSD)}</b>{' '}
                     </td>
                     <td> </td>
                     <td className="text-center">
-                      <b>{_fixedPoint(amountofVAT)}</b>{" "}
+                      <b>{_fixedPoint(amountofVAT)}</b>{' '}
                     </td>
                     <td className="text-center">
-                      <b>{_fixedPoint(totalPrice)}</b>{" "}
+                      <b>{_fixedPoint(totalPrice)}</b>{' '}
                     </td>
                   </tr>
                 </tbody>
@@ -378,7 +377,7 @@ export default function SalesInvoiceModel({
             <div className="col-lg-12 p-0">
               <div
                 className="d-flex justify-content-between px-5"
-                style={{ marginTop: "30px" }}
+                style={{ marginTop: '30px' }}
               >
                 <div>
                   {singleData?.objHeader?.tradeTypeId !== 5 && (
@@ -388,7 +387,7 @@ export default function SalesInvoiceModel({
                   )}
                   <p>
                     <b>
-                      Name of organization Officer-in-charge:{" "}
+                      Name of organization Officer-in-charge:{' '}
                       {profileData?.userName}
                     </b>
                   </p>
@@ -396,13 +395,13 @@ export default function SalesInvoiceModel({
                     <b>Designation: {profileData?.designationName}</b>
                   </p>
                 </div>
-                <p style={{ borderTop: "1px solid" }}>
-                  <b>Signature</b>{" "}
+                <p style={{ borderTop: '1px solid' }}>
+                  <b>Signature</b>{' '}
                 </p>
-                <p style={{ borderTop: "1px solid" }}>
+                <p style={{ borderTop: '1px solid' }}>
                   <b>Driver Signature</b>
                 </p>
-                <p style={{ borderTop: "1px solid" }}>
+                <p style={{ borderTop: '1px solid' }}>
                   <b>Receiver Signature</b>
                 </p>
               </div>

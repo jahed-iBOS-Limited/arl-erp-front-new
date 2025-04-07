@@ -1,43 +1,43 @@
-import React, { useState } from "react";
-import { Formik } from "formik";
-import { shallowEqual, useSelector } from "react-redux";
-import ICard from "../../../_helper/_card";
-import ICustomTable from "../../../_helper/_customTable";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { GetExpenseInfoModifyLandingData, InactiveExpense } from "./helper";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import axios from "axios";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import IClose from "../../../_helper/_helperIcons/_close";
-import IApproval from "../../../_helper/_helperIcons/_approval";
+import React, { useState } from 'react';
+import { Formik } from 'formik';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICard from '../../../_helper/_card';
+import ICustomTable from '../../../_helper/_customTable';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { GetExpenseInfoModifyLandingData, InactiveExpense } from './helper';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import IClose from '../../../_helper/_helperIcons/_close';
+import IApproval from '../../../_helper/_helperIcons/_approval';
 
 const initData = {
-  type: "",
-  employeeName: "",
+  type: '',
+  employeeName: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  expenseGroup: "",
+  expenseGroup: '',
 };
 
 const headers = [
-  "SL",
-  "Expense Code",
-  "Date",
-  "Name",
-  "Enroll",
-  "Amount",
-  "Action",
+  'SL',
+  'Expense Code',
+  'Date',
+  'Name',
+  'Enroll',
+  'Amount',
+  'Action',
 ];
 
 const typeDDL = [
-  { value: 11, label: "Inactive" },
-  { value: 12, label: "Bill Date Change" },
-  { value: 13, label: "Supervisor approve inactive" },
-  { value: 14, label: "Line manager approve inactive" },
+  { value: 11, label: 'Inactive' },
+  { value: 12, label: 'Bill Date Change' },
+  { value: 13, label: 'Supervisor approve inactive' },
+  { value: 14, label: 'Line manager approve inactive' },
 ];
 
 const ExpenseInfoModify = () => {
@@ -89,7 +89,7 @@ const ExpenseInfoModify = () => {
           expenserowid: item?.rrintExpenseRowId,
           updateDate: item?.dteExpenseDate,
           comments: item?.strComments,
-          locations: "",
+          locations: '',
           billAmount: item?.numApplicantAmount,
         },
       ],
@@ -120,7 +120,7 @@ const ExpenseInfoModify = () => {
                       value={values?.type}
                       label="Type"
                       onChange={(valueOption) => {
-                        setFieldValue("type", valueOption);
+                        setFieldValue('type', valueOption);
                         setGridData([]);
                       }}
                       placeholder="Type"
@@ -134,7 +134,7 @@ const ExpenseInfoModify = () => {
                     <SearchAsyncSelect
                       selectedValue={values?.employeeName}
                       handleChange={(valueOption) => {
-                        setFieldValue("employeeName", valueOption);
+                        setFieldValue('employeeName', valueOption);
                         setGridData([]);
                       }}
                       loadOptions={employeeList || []}
@@ -149,7 +149,7 @@ const ExpenseInfoModify = () => {
                       placeholder="Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                       }}
                     />
                   </div>
@@ -161,7 +161,7 @@ const ExpenseInfoModify = () => {
                       placeholder="Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                     />
                   </div>
@@ -170,13 +170,13 @@ const ExpenseInfoModify = () => {
                     <NewSelect
                       name="expenseGroup"
                       options={[
-                        { value: 1, label: "TaDa" },
-                        { value: 2, label: "Other" },
+                        { value: 1, label: 'TaDa' },
+                        { value: 2, label: 'Other' },
                       ]}
                       value={values?.expenseGroup}
                       label="Expense Group"
                       onChange={(valueOption) => {
-                        setFieldValue("expenseGroup", valueOption);
+                        setFieldValue('expenseGroup', valueOption);
                       }}
                       placeholder="Expense Group"
                       errors={errors}
@@ -196,7 +196,7 @@ const ExpenseInfoModify = () => {
                   </div>
                 </div>
               </div>
-              <ICustomTable className={"mt-0"} ths={headers}>
+              <ICustomTable className={'mt-0'} ths={headers}>
                 {gridData?.map((item, index) => {
                   return (
                     <tr key={index}>

@@ -1,109 +1,108 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import ICalendar from "../../../../_helper/_inputCalender";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import Loading from "./../../../../_helper/_loading";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import ICalendar from '../../../../_helper/_inputCalender';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import Loading from './../../../../_helper/_loading';
 // import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import axios from "axios";
-import { Input } from "../../../../../../_metronic/_partials/controls";
-import InputField from "../../../../_helper/_inputField";
-import IViewModal from "../../../../_helper/_viewModal";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import axios from 'axios';
+import { Input } from '../../../../../../_metronic/_partials/controls';
+import InputField from '../../../../_helper/_inputField';
+import IViewModal from '../../../../_helper/_viewModal';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import {
   GetPendingDeliveryDDLAction,
   getDeliveryItemVolumeInfoAction,
   getDeliveryeDatabyId,
   getStockStatusOnShipmentAction,
   getVehicleNo_action,
-} from "../_redux/Actions";
-import { getItemListForChallan, getTransportStatusAndInfo } from "../helper";
-import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
-import FormikError from "./../../../../_helper/_formikError";
-import NewSelect from "./../../../../_helper/_select";
-import { getLoadingPointDDLAction } from "./../_redux/Actions";
-import ChallanItemsPreview from "./itemsPreview";
-import QRCodeScanner from "../../../../_helper/qrCodeScanner";
+} from '../_redux/Actions';
+import { getItemListForChallan, getTransportStatusAndInfo } from '../helper';
+import SearchAsyncSelect from './../../../../_helper/SearchAsyncSelect';
+import FormikError from './../../../../_helper/_formikError';
+import NewSelect from './../../../../_helper/_select';
+import { getLoadingPointDDLAction } from './../_redux/Actions';
+import ChallanItemsPreview from './itemsPreview';
+import QRCodeScanner from '../../../../_helper/qrCodeScanner';
 // import InputField from "../../../../_helper/_inputField";
 // Validation schema
 const validationSchema = Yup.object().shape({
   Vehicle: Yup.object().shape({
-    label: Yup.string().required("Vehicle is required"),
-    value: Yup.string().required("Vehicle is required"),
+    label: Yup.string().required('Vehicle is required'),
+    value: Yup.string().required('Vehicle is required'),
   }),
   route: Yup.object().shape({
-    label: Yup.string().required("route is required"),
-    value: Yup.string().required("route is required"),
+    label: Yup.string().required('route is required'),
+    value: Yup.string().required('route is required'),
   }),
 
   transportZone: Yup.object().shape({
-    label: Yup.string().required("Transport Zone is required"),
-    value: Yup.string().required("Transport Zone is required"),
+    label: Yup.string().required('Transport Zone is required'),
+    value: Yup.string().required('Transport Zone is required'),
   }),
   shipPoint: Yup.object().shape({
-    label: Yup.string().required("Ship Point is required"),
-    value: Yup.string().required("Ship Point is required"),
+    label: Yup.string().required('Ship Point is required'),
+    value: Yup.string().required('Ship Point is required'),
   }),
 
   loadingPoint: Yup.object().shape({
-    label: Yup.string().required("Loading Point is required"),
-    value: Yup.string().required("Loading Point is required"),
+    label: Yup.string().required('Loading Point is required'),
+    value: Yup.string().required('Loading Point is required'),
   }),
   pendingDelivery: Yup.object().shape({
-    label: Yup.string().required("Pending Delivery is required"),
-    value: Yup.string().required("Pending Delivery is required"),
+    label: Yup.string().required('Pending Delivery is required'),
+    value: Yup.string().required('Pending Delivery is required'),
   }),
-  supplierName: Yup.object().when("Vehicle", (Vehicle, Schema) => {
+  supplierName: Yup.object().when('Vehicle', (Vehicle, Schema) => {
     if (Vehicle?.isRental)
-      return Schema.required("Vehicle Supplier Name is required");
+      return Schema.required('Vehicle Supplier Name is required');
   }),
   laborSupplierName: Yup.object().when(
-    "isLaborImpart",
+    'isLaborImpart',
     (isLaborImpart, Schema) => {
       if (isLaborImpart?.value)
-        return Schema.required("Labor/Handling Supplier Name is required");
+        return Schema.required('Labor/Handling Supplier Name is required');
     }
   ),
-  shipmentdate: Yup.date().required("Shipment Date required"),
+  shipmentdate: Yup.date().required('Shipment Date required'),
 
   estimatedTimeofArrival: Yup.date().required(
-    "Estimated Time of Arrival required"
+    'Estimated Time of Arrival required'
   ),
 });
 const validationSchemaEdit = Yup.object().shape({
   lastDistance: Yup.number()
-    .min(0, "Minimum 0 strings")
-    .max(1000000, "Maximum 1000000 strings")
-    .required("Last Distance is required"),
+    .min(0, 'Minimum 0 strings')
+    .max(1000000, 'Maximum 1000000 strings')
+    .required('Last Distance is required'),
 
   Vehicle: Yup.object().shape({
-    label: Yup.string().required("Vehicle is required"),
-    value: Yup.string().required("Vehicle is required"),
+    label: Yup.string().required('Vehicle is required'),
+    value: Yup.string().required('Vehicle is required'),
   }),
   route: Yup.object().shape({
-    label: Yup.string().required("route is required"),
-    value: Yup.string().required("route is required"),
+    label: Yup.string().required('route is required'),
+    value: Yup.string().required('route is required'),
   }),
 
-  shipmentdate: Yup.date().required("Shipment Date required"),
-  supplierName: Yup.object().when("Vehicle", (Vehicle, Schema) => {
-    if (Vehicle?.isRental) return Schema.required("Supplier Name is required");
+  shipmentdate: Yup.date().required('Shipment Date required'),
+  supplierName: Yup.object().when('Vehicle', (Vehicle, Schema) => {
+    if (Vehicle?.isRental) return Schema.required('Supplier Name is required');
   }),
   estimatedTimeofArrival: Yup.date().required(
-    "Estimated Time of Arrival required"
+    'Estimated Time of Arrival required'
   ),
   transportZone: Yup.object().shape({
-    label: Yup.string().required("Transport Zone is required"),
-    value: Yup.string().required("Transport Zone is required"),
+    label: Yup.string().required('Transport Zone is required'),
+    value: Yup.string().required('Transport Zone is required'),
   }),
   laborSupplierName: Yup.object().when(
-    "isLaborImpart",
+    'isLaborImpart',
     (isLaborImpart, Schema) => {
       if (isLaborImpart?.value)
-        return Schema.required("Labor Supplier Name is required");
+        return Schema.required('Labor Supplier Name is required');
     }
   ),
 });
@@ -157,60 +156,59 @@ export default function FormCmp({
   useEffect(() => {
     setControls([
       {
-        label: "Select Ship Point",
-        name: "shipPoint",
+        label: 'Select Ship Point',
+        name: 'shipPoint',
         options: ShippointDDL,
         value: initData.shipPoint,
         isDisabled: true,
         dependencyFunc: (currentValue, values, setter) => {
           dispatch(GetPendingDeliveryDDLAction(currentValue, buId, accountId));
           dispatch(getLoadingPointDDLAction(accountId, buId, currentValue));
-          setter("loadingPoint", "");
-          setter("pendingDelivery", "");
+          setter('loadingPoint', '');
+          setter('pendingDelivery', '');
         },
       },
       {
-        label: "Get Entry Card No",
-        name: "strCardNo",
+        label: 'Get Entry Card No',
+        name: 'strCardNo',
         value: initData.strCardNo,
-        type: "cardInput",
+        type: 'cardInput',
         isDisabled: isEdit,
       },
       {
-        label: "Gate Entry Code",
-        name: "veichleEntry",
+        label: 'Gate Entry Code',
+        name: 'veichleEntry',
         value: initData.veichleEntry,
-        type: "asyncSelect",
+        type: 'asyncSelect',
         isDisabled: isEdit,
       },
       {
-        label: "Select Vehicle",
-        name: "Vehicle",
+        label: 'Select Vehicle',
+        name: 'Vehicle',
         options: vehicleDDL,
         value: initData.Vehicle,
         isDisabled: isEdit ? false : rowDto?.length,
         dependencyFunc: (currentValue, values, setter, label) => {
           vehicleSingeDataView(label, accountId, buId, setter);
-          setter("supplierName", "");
-          setter("laborSupplierName", "");
+          setter('supplierName', '');
+          setter('laborSupplierName', '');
         },
       },
       {
-        label: "Select Route",
-        name: "route",
+        label: 'Select Route',
+        name: 'route',
         options: routeListDDL || [],
         value: initData.route,
         isDisabled: !routeListDDL?.length,
       },
       {
-        label: "Loading Point",
-        name: "loadingPoint",
+        label: 'Loading Point',
+        name: 'loadingPoint',
         options: loadingPointDDL,
         value: initData.loadingPoint,
         isDisabled: isEdit,
       },
     ]);
-
   }, [
     ShippointDDL,
     vehicleDDL,
@@ -230,18 +228,18 @@ export default function FormCmp({
   )?.isGateMaintain;
 
   useEffect(() => {
-    if (vehicleDDL?.length > 0 && document.getElementById("cardNoInput")) {
-      document.getElementById("cardNoInput").focus();
+    if (vehicleDDL?.length > 0 && document.getElementById('cardNoInput')) {
+      document.getElementById('cardNoInput').focus();
     }
   }, [vehicleDDL]);
 
   const qurScanHandler = ({ setFieldValue, values }) => {
-    document.getElementById("cardNoInput").disabled = true;
+    document.getElementById('cardNoInput').disabled = true;
     getEntryCodeDDL(
       `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumberForShipment&BusinessUnitId=${selectedBusinessUnit?.value}&search=${values?.strCardNo}`,
       (data) => {
         if (data[0]?.strEntryCode) {
-          setFieldValue("veichleEntry", isGateMaintain ? data?.[0] : "");
+          setFieldValue('veichleEntry', isGateMaintain ? data?.[0] : '');
           getVehicleEntryDDL(
             `/wms/ItemPlantWarehouse/GetVehicleEntryDDL?accountId=${accountId}&businessUnitId=${buId}&EntryCode=${data[0]?.strEntryCode}`,
             (data) => {
@@ -249,16 +247,16 @@ export default function FormCmp({
                 (i) => i.veichleId === data[0]?.vehicleId
               );
               if (find) {
-                setFieldValue("laborSupplierName", "");
+                setFieldValue('laborSupplierName', '');
                 vehicleSingeDataView(
                   find?.label,
                   accountId,
                   buId,
                   setFieldValue
                 );
-                setFieldValue("Vehicle", find || "");
-                setFieldValue("supplierName", "");
-                setFieldValue("laborSupplierName", "");
+                setFieldValue('Vehicle', find || '');
+                setFieldValue('supplierName', '');
+                setFieldValue('laborSupplierName', '');
                 const controlsModify = [...controls];
                 controlsModify[2].isDisabled = true;
                 setControls(controlsModify);
@@ -266,11 +264,11 @@ export default function FormCmp({
             }
           );
         } else {
-          setFieldValue("strCardNo", "");
-          setFieldValue("veichleEntry", "");
-          document.getElementById("cardNoInput").disabled = false;
-          document.getElementById("cardNoInput").focus();
-          toast.warn("Card Number Not Found");
+          setFieldValue('strCardNo', '');
+          setFieldValue('veichleEntry', '');
+          document.getElementById('cardNoInput').disabled = false;
+          document.getElementById('cardNoInput').focus();
+          toast.warn('Card Number Not Found');
         }
       }
     );
@@ -286,19 +284,19 @@ export default function FormCmp({
                 ...initData,
                 shipPoint: headerData?.pgiShippoint?.value
                   ? headerData?.pgiShippoint
-                  : "",
+                  : '',
                 lastDistance: 0,
-                loadingPoint: loadingPointDDL?.[0] || "",
+                loadingPoint: loadingPointDDL?.[0] || '',
               }
         }
         validationSchema={isEdit ? validationSchemaEdit : validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           if (isGateMaintain && !values?.veichleEntry?.value)
-            return toast.warn("Veichle Entry is required ");
+            return toast.warn('Veichle Entry is required ');
           saveHandler(values, () => {
             resetForm(initData);
-            document.getElementById("cardNoInput").disabled = false;
-            document.getElementById("cardNoInput").focus();
+            document.getElementById('cardNoInput').disabled = false;
+            document.getElementById('cardNoInput').focus();
           });
         }}
       >
@@ -316,7 +314,7 @@ export default function FormCmp({
             {isSubsidyRunning && (
               <marquee
                 direction="left"
-                style={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
+                style={{ fontSize: '15px', fontWeight: 'bold', color: 'red' }}
               >
                 Transport subsidiary is running....
               </marquee>
@@ -328,23 +326,23 @@ export default function FormCmp({
                 {values?.Vehicle && (
                   <div
                     className="col-lg-3"
-                    style={{ backgroundColor: "yellow" }}
+                    style={{ backgroundColor: 'yellow' }}
                   >
                     <h5>
                       {values?.Vehicle?.isRental
-                        ? "Rental Vehicle"
-                        : "Company Vehicle"}
+                        ? 'Rental Vehicle'
+                        : 'Company Vehicle'}
                     </h5>
                   </div>
                 )}
                 <div className="col-lg-12 p-0 m-0">
                   <div
                     className="row global-form m-0"
-                    style={{ paddingBottom: "10px" }}
+                    style={{ paddingBottom: '10px' }}
                   >
                     <>
                       {controls.map((itm) => {
-                        return itm?.type === "asyncSelect" ? (
+                        return itm?.type === 'asyncSelect' ? (
                           isGateMaintain && (
                             <>
                               <div className="col-lg-3">
@@ -353,22 +351,22 @@ export default function FormCmp({
                                   // isDisabled={itm?.isDisabled}
                                   selectedValue={values[itm?.name]}
                                   handleChange={(valueOption) => {
-                                    setFieldValue(itm?.name, valueOption || "");
+                                    setFieldValue(itm?.name, valueOption || '');
                                     const find = vehicleDDL?.find(
                                       (i) =>
                                         i.veichleId === valueOption?.vehicleId
                                     );
                                     if (find) {
-                                      setFieldValue("laborSupplierName", "");
+                                      setFieldValue('laborSupplierName', '');
                                       vehicleSingeDataView(
                                         find?.label,
                                         accountId,
                                         buId,
                                         setFieldValue
                                       );
-                                      setFieldValue("Vehicle", find || "");
-                                      setFieldValue("supplierName", "");
-                                      setFieldValue("laborSupplierName", "");
+                                      setFieldValue('Vehicle', find || '');
+                                      setFieldValue('supplierName', '');
+                                      setFieldValue('laborSupplierName', '');
                                       const controlsModify = [...controls];
                                       controlsModify[2].isDisabled = true;
                                       setControls(controlsModify);
@@ -394,31 +392,31 @@ export default function FormCmp({
                               </div>
                             </>
                           )
-                        ) : itm?.type === "cardInput" ? (
+                        ) : itm?.type === 'cardInput' ? (
                           isGateMaintain && (
                             <div
                               className="col-lg-3 d-flex"
                               style={{
-                                position: "relative",
+                                position: 'relative',
                               }}
                             >
                               <div
                                 style={{
-                                  position: "absolute",
+                                  position: 'absolute',
                                   right: 0,
                                   top: 0,
-                                  cursor: "pointer",
-                                  color: "blue",
-                                  zIndex: "1",
+                                  cursor: 'pointer',
+                                  color: 'blue',
+                                  zIndex: '1',
                                 }}
                                 onClick={() => {
                                   setQRCodeScannerModal(true);
                                 }}
                               >
-                                QR Code{" "}
+                                QR Code{' '}
                                 <i class="fa fa-qrcode" aria-hidden="true"></i>
                               </div>
-                              <div style={{ width: "inherit" }}>
+                              <div style={{ width: 'inherit' }}>
                                 <InputField
                                   disabled={itm?.isDisabled}
                                   id="cardNoInput"
@@ -427,17 +425,17 @@ export default function FormCmp({
                                   name="strCardNo"
                                   type="text"
                                   onKeyPress={(e) => {
-                                    if (e.key === "Enter") {
+                                    if (e.key === 'Enter') {
                                       document.getElementById(
-                                        "cardNoInput"
+                                        'cardNoInput'
                                       ).disabled = true;
                                       getEntryCodeDDL(
                                         `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumberForShipment&BusinessUnitId=${selectedBusinessUnit?.value}&search=${values?.strCardNo}`,
                                         (data) => {
                                           if (data[0]?.strEntryCode) {
                                             setFieldValue(
-                                              "veichleEntry",
-                                              isGateMaintain ? data?.[0] : ""
+                                              'veichleEntry',
+                                              isGateMaintain ? data?.[0] : ''
                                             );
                                             getVehicleEntryDDL(
                                               `/wms/ItemPlantWarehouse/GetVehicleEntryDDL?accountId=${accountId}&businessUnitId=${buId}&EntryCode=${data[0]?.strEntryCode}`,
@@ -449,8 +447,8 @@ export default function FormCmp({
                                                 );
                                                 if (find) {
                                                   setFieldValue(
-                                                    "laborSupplierName",
-                                                    ""
+                                                    'laborSupplierName',
+                                                    ''
                                                   );
                                                   vehicleSingeDataView(
                                                     find?.label,
@@ -459,16 +457,16 @@ export default function FormCmp({
                                                     setFieldValue
                                                   );
                                                   setFieldValue(
-                                                    "Vehicle",
-                                                    find || ""
+                                                    'Vehicle',
+                                                    find || ''
                                                   );
                                                   setFieldValue(
-                                                    "supplierName",
-                                                    ""
+                                                    'supplierName',
+                                                    ''
                                                   );
                                                   setFieldValue(
-                                                    "laborSupplierName",
-                                                    ""
+                                                    'laborSupplierName',
+                                                    ''
                                                   );
                                                   const controlsModify = [
                                                     ...controls,
@@ -479,49 +477,49 @@ export default function FormCmp({
                                               }
                                             );
                                           } else {
-                                            setFieldValue("strCardNo", "");
-                                            setFieldValue("veichleEntry", "");
+                                            setFieldValue('strCardNo', '');
+                                            setFieldValue('veichleEntry', '');
                                             document.getElementById(
-                                              "cardNoInput"
+                                              'cardNoInput'
                                             ).disabled = false;
                                             document
-                                              .getElementById("cardNoInput")
+                                              .getElementById('cardNoInput')
                                               .focus();
-                                            toast.warn("Card Number Not Found");
+                                            toast.warn('Card Number Not Found');
                                           }
                                         }
                                       );
                                     }
                                   }}
                                   onChange={(e) => {
-                                    setFieldValue("strCardNo", e.target.value);
+                                    setFieldValue('strCardNo', e.target.value);
                                   }}
                                 />
                               </div>
                               {!isEdit && (
                                 <span
                                   style={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    marginLeft: "5px",
-                                    cursor: "pointer",
-                                    marginTop: "20px",
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    marginLeft: '5px',
+                                    cursor: 'pointer',
+                                    marginTop: '20px',
                                   }}
                                   onClick={() => {
-                                    setFieldValue("strCardNo", "");
+                                    setFieldValue('strCardNo', '');
                                     document.getElementById(
-                                      "cardNoInput"
+                                      'cardNoInput'
                                     ).disabled = false;
                                     document
-                                      .getElementById("cardNoInput")
+                                      .getElementById('cardNoInput')
                                       .focus();
                                     resetForm(initData);
                                   }}
                                 >
                                   <i
                                     style={{
-                                      color: "blue",
+                                      color: 'blue',
                                     }}
                                     className="fa fa-refresh"
                                     aria-hidden="true"
@@ -561,15 +559,15 @@ export default function FormCmp({
                         <NewSelect
                           name="isLaborImpart"
                           options={[
-                            { value: false, label: "No" },
-                            { value: true, label: "Yes" },
+                            { value: false, label: 'No' },
+                            { value: true, label: 'Yes' },
                           ]}
                           value={values?.isLaborImpart}
                           label="Labor/Handling Provided"
                           onChange={(valueOption) => {
-                            setFieldValue("isLaborImpart", valueOption);
-                            setFieldValue("supplierName", "");
-                            setFieldValue("laborSupplierName", "");
+                            setFieldValue('isLaborImpart', valueOption);
+                            setFieldValue('supplierName', '');
+                            setFieldValue('laborSupplierName', '');
                           }}
                           placeholder="Labor/Handling Provided"
                           errors={errors}
@@ -580,7 +578,7 @@ export default function FormCmp({
                       <div className="col-lg-3">
                         <label>Estimated of Arrival Date </label>
                         <ICalendar
-                          value={values.estimatedTimeofArrival || ""}
+                          value={values.estimatedTimeofArrival || ''}
                           name="estimatedTimeofArrival"
                           disabled={isEdit}
                         />
@@ -588,14 +586,14 @@ export default function FormCmp({
                       <div className="col-lg-3">
                         <label>Planned Loading Time </label>
                         <ICalendar
-                          value={values.planedLoadingTime || ""}
+                          value={values.planedLoadingTime || ''}
                           name="planedLoadingTime"
                           disabled={isEdit}
                         />
                       </div>
                       <div className="col-lg-3">
                         <InputField
-                          value={values.driverName || ""}
+                          value={values.driverName || ''}
                           placeholder="Driver Name"
                           name="driverName"
                           label="Driver Name"
@@ -606,7 +604,7 @@ export default function FormCmp({
                       </div>
                       <div className="col-lg-3">
                         <InputField
-                          value={values.driverContactNo || ""}
+                          value={values.driverContactNo || ''}
                           placeholder="Driver Contact No"
                           name="driverContactNo"
                           label="Driver Contact No"
@@ -615,9 +613,9 @@ export default function FormCmp({
                           disabled
                         />
                       </div>
-                      <div className="col-lg-3" style={{ display: "none" }}>
+                      <div className="col-lg-3" style={{ display: 'none' }}>
                         <InputField
-                          value={values.driverId || ""}
+                          value={values.driverId || ''}
                           placeholder="Driver Id"
                           name="driverId"
                           label="Driver Id"
@@ -635,7 +633,7 @@ export default function FormCmp({
                             value={values?.pendingDelivery}
                             isDisabled={!values?.Vehicle}
                             onChange={(valueOption) => {
-                              setFieldValue("pendingDelivery", valueOption);
+                              setFieldValue('pendingDelivery', valueOption);
                               dispatch(
                                 getDeliveryItemVolumeInfoAction(
                                   valueOption?.value,
@@ -701,7 +699,7 @@ export default function FormCmp({
                           <SearchAsyncSelect
                             selectedValue={values.supplierName}
                             handleChange={(valueOption) => {
-                              setFieldValue("supplierName", valueOption);
+                              setFieldValue('supplierName', valueOption);
                             }}
                             loadOptions={(v) => {
                               if (v.length < 3) return [];
@@ -730,7 +728,7 @@ export default function FormCmp({
                           <SearchAsyncSelect
                             selectedValue={values.laborSupplierName}
                             handleChange={(valueOption) => {
-                              setFieldValue("laborSupplierName", valueOption);
+                              setFieldValue('laborSupplierName', valueOption);
                             }}
                             loadOptions={(v) => {
                               if (v.length < 3) return [];
@@ -759,7 +757,7 @@ export default function FormCmp({
                         <SearchAsyncSelect
                           selectedValue={values.cnfSupplier}
                           handleChange={(valueOption) => {
-                            setFieldValue("cnfSupplier", valueOption);
+                            setFieldValue('cnfSupplier', valueOption);
                           }}
                           loadOptions={(v) => {
                             if (v.length < 3) return [];
@@ -786,7 +784,7 @@ export default function FormCmp({
                         <SearchAsyncSelect
                           selectedValue={values.freightForwarder}
                           handleChange={(valueOption) => {
-                            setFieldValue("freightForwarder", valueOption);
+                            setFieldValue('freightForwarder', valueOption);
                           }}
                           loadOptions={(v) => {
                             if (v.length < 3) return [];
@@ -813,10 +811,10 @@ export default function FormCmp({
                       <div
                         className={
                           values?.Vehicle?.isRental
-                            ? "col-lg-9 d-flex justify-content-between align-items-center"
-                            : "col-lg-11 d-flex justify-content-between align-items-center"
+                            ? 'col-lg-9 d-flex justify-content-between align-items-center'
+                            : 'col-lg-11 d-flex justify-content-between align-items-center'
                         }
-                        style={{ marginTop: "10px" }}
+                        style={{ marginTop: '10px' }}
                       >
                         <div>
                           <b className="mr-2">
@@ -864,19 +862,19 @@ export default function FormCmp({
                         </div>
 
                         <div>
-                          <b>Total Number Of Challan : {rowDto?.length}</b>{" "}
+                          <b>Total Number Of Challan : {rowDto?.length}</b>{' '}
                         </div>
                         <div>
                           <b>
-                            Total Quantity :{" "}
+                            Total Quantity :{' '}
                             {rowDto?.reduce((acc, cur) => {
                               return acc + Number(cur?.quantity);
                             }, 0)}
-                          </b>{" "}
+                          </b>{' '}
                         </div>
                         {buId === 4 && (
                           <div>
-                            <b>Request Vehicle No : {vehicleNo}</b>{" "}
+                            <b>Request Vehicle No : {vehicleNo}</b>{' '}
                           </div>
                         )}
                       </div>
@@ -899,14 +897,16 @@ export default function FormCmp({
                       )}
                       <div className="col-12 mt-3">
                         <p>
-                          <strong>Narration: </strong>{" "}
-                          <mark style={{ backgroundColor: "yellow" }}>
+                          <strong>Narration: </strong>{' '}
+                          <mark style={{ backgroundColor: 'yellow' }}>
                             {transportStatus[0]?.label}
-                          </mark>{" "}
+                          </mark>{' '}
                           {[171, 224].includes(buId) && (
                             <>
-                              , <strong> Unload by Company: </strong>{" "}
-                              {transportStatus[0]?.labourstatus ? "Yes" : "No"}{" "}
+                              , <strong> Unload by Company: </strong>{' '}
+                              {transportStatus[0]?.labourstatus
+                                ? 'Yes'
+                                : 'No'}{' '}
                             </>
                           )}
                         </p>
@@ -924,7 +924,7 @@ export default function FormCmp({
                       <table className="table table-striped table-bordered mt-1 bj-table bj-table-landing sales_order_landing_table">
                         <thead>
                           <tr>
-                            <th style={{ width: "35px" }}>SL</th>
+                            <th style={{ width: '35px' }}>SL</th>
                             <th>Delivery Id</th>
                             <th>Delivery No</th>
                             <th>Ship To Party Name</th>
@@ -1022,7 +1022,7 @@ export default function FormCmp({
                   >
                     <QRCodeScanner
                       QrCodeScannerCB={(result) => {
-                        setFieldValue("strCardNo", result);
+                        setFieldValue('strCardNo', result);
                         setQRCodeScannerModal(false);
                         qurScanHandler({
                           setFieldValue,
@@ -1039,14 +1039,14 @@ export default function FormCmp({
               <button
                 // type="submit"
                 type="button"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 // onSubmit={() => handleSubmit()}
                 onClick={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -1,10 +1,9 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { getRegionAreaTerritory } from "../../salesManagement/report/customerSalesTargetReport/helper";
-import useAxiosGet from "../customHooks/useAxiosGet";
-import Loading from "../_loading";
-import NewSelect from "../_select";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { getRegionAreaTerritory } from '../../salesManagement/report/customerSalesTargetReport/helper';
+import useAxiosGet from '../customHooks/useAxiosGet';
+import Loading from '../_loading';
+import NewSelect from '../_select';
 
 // A common form for Channel, Region, Area, Territory and zone
 const RATForm = ({ obj }) => {
@@ -46,31 +45,31 @@ const RATForm = ({ obj }) => {
     // getTransportZoneDDL(accId, buId, setZoneDDL);
   }, [accId, buId]);
 
-  const col = columnSize ? columnSize : "col-lg-3";
+  const col = columnSize ? columnSize : 'col-lg-3';
 
   const channels =
     allElement !== false
-      ? [{ value: 0, label: "All" }, ...channelList] || []
+      ? [{ value: 0, label: 'All' }, ...channelList] || []
       : channelList || [];
 
   const regions =
     allElement !== false
-      ? [{ value: 0, label: "All" }, ...regionList] || []
+      ? [{ value: 0, label: 'All' }, ...regionList] || []
       : regionList || [];
 
   const areas =
     allElement !== false
-      ? [{ value: 0, label: "All" }, ...areaList] || []
+      ? [{ value: 0, label: 'All' }, ...areaList] || []
       : areaList || [];
 
   const territories =
     allElement !== false
-      ? [{ value: 0, label: "All" }, ...territoryList] || []
+      ? [{ value: 0, label: 'All' }, ...territoryList] || []
       : territoryList || [];
 
   const zones =
     allElement !== false
-      ? [{ value: 0, label: "All" }, ...zoneList] || []
+      ? [{ value: 0, label: 'All' }, ...zoneList] || []
       : zoneList || [];
 
   return (
@@ -84,22 +83,22 @@ const RATForm = ({ obj }) => {
             value={values?.channel}
             label="Distribution Channel"
             onChange={(valueOption) => {
-              setFieldValue("channel", valueOption);
-              setFieldValue("region", "");
-              setFieldValue("area", "");
-              setFieldValue("territory", "");
+              setFieldValue('channel', valueOption);
+              setFieldValue('region', '');
+              setFieldValue('area', '');
+              setFieldValue('territory', '');
               setGridData && setGridData([]);
               if (valueOption && region !== false) {
                 getRegionAreaTerritory({
                   channelId: valueOption?.value,
                   setter: setRegionList,
                   setLoading: setLoading,
-                  value: "regionId",
-                  label: "regionName",
+                  value: 'regionId',
+                  label: 'regionName',
                 });
               }
               onChange &&
-                onChange({ ...values, channel: valueOption }, "channel");
+                onChange({ ...values, channel: valueOption }, 'channel');
             }}
             placeholder="Select Distribution Channel"
             isDisabled={channelDisable}
@@ -114,21 +113,21 @@ const RATForm = ({ obj }) => {
             value={values?.region}
             label="Region"
             onChange={(valueOption) => {
-              setFieldValue("region", valueOption);
-              setFieldValue("area", "");
-              setFieldValue("territory", "");
+              setFieldValue('region', valueOption);
+              setFieldValue('area', '');
+              setFieldValue('territory', '');
               if (valueOption && valueOption?.value !== 0) {
                 getRegionAreaTerritory({
                   channelId: values?.channel?.value,
                   regionId: valueOption?.value,
                   setter: setAreaList,
                   setLoading: setLoading,
-                  value: "areaId",
-                  label: "areaName",
+                  value: 'areaId',
+                  label: 'areaName',
                 });
               }
               onChange &&
-                onChange({ ...values, region: valueOption }, "region");
+                onChange({ ...values, region: valueOption }, 'region');
             }}
             placeholder="Region"
             isDisabled={!values?.channel || regionDisable}
@@ -144,8 +143,8 @@ const RATForm = ({ obj }) => {
             value={values?.area}
             label="Area"
             onChange={(valueOption) => {
-              setFieldValue("area", valueOption);
-              setFieldValue("territory", "");
+              setFieldValue('area', valueOption);
+              setFieldValue('territory', '');
               if (valueOption && valueOption?.value !== 0) {
                 getRegionAreaTerritory({
                   channelId: values?.channel?.value,
@@ -153,11 +152,11 @@ const RATForm = ({ obj }) => {
                   areaId: valueOption?.value,
                   setter: setTerritoryList,
                   setLoading: setLoading,
-                  value: "territoryId",
-                  label: "territoryName",
+                  value: 'territoryId',
+                  label: 'territoryName',
                 });
               }
-              onChange && onChange({ ...values, area: valueOption }, "area");
+              onChange && onChange({ ...values, area: valueOption }, 'area');
             }}
             placeholder="Area"
             isDisabled={!values?.region || areaDisable}
@@ -173,7 +172,7 @@ const RATForm = ({ obj }) => {
             value={values?.territory}
             label="Territory"
             onChange={(valueOption) => {
-              setFieldValue("territory", valueOption);
+              setFieldValue('territory', valueOption);
               getRegionAreaTerritory({
                 channelId: values?.channel?.value,
                 regionId: values?.region?.value,
@@ -181,11 +180,11 @@ const RATForm = ({ obj }) => {
                 territoryId: valueOption?.value,
                 setter: setZoneList,
                 setLoading: setLoading,
-                value: "zoneId",
-                label: "zoneName",
+                value: 'zoneId',
+                label: 'zoneName',
               });
               onChange &&
-                onChange({ ...values, territory: valueOption }, "territory");
+                onChange({ ...values, territory: valueOption }, 'territory');
             }}
             placeholder="Territory"
             isDisabled={!values?.area || territoryDisable}
@@ -200,8 +199,8 @@ const RATForm = ({ obj }) => {
             value={values?.zone}
             label="Zone"
             onChange={(valueOption) => {
-              setFieldValue("zone", valueOption);
-              onChange && onChange({ ...values, zone: valueOption }, "zone");
+              setFieldValue('zone', valueOption);
+              onChange && onChange({ ...values, zone: valueOption }, 'zone');
             }}
             placeholder="Zone"
             isDisabled={zoneDisable}

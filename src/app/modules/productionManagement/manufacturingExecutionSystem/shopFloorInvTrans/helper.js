@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const getSingleData = async (id, setter, setRowDto) => {
   try {
@@ -11,11 +11,11 @@ export const getSingleData = async (id, setter, setRowDto) => {
       const resHeader = res?.data?.getShopFloorInventoryTransactionHeader;
       const resRow = res?.data?.getShopFloorInventoryTransactionRow;
       const header = {
-        amount: "",
+        amount: '',
         checkbox: false,
-        item: "",
-        narration: "",
-        qty: "",
+        item: '',
+        narration: '',
+        qty: '',
         receiveFrom: resHeader?.receiveFromName,
         referenceCode: {
           value: resHeader?.referenceId,
@@ -50,7 +50,7 @@ export const getSingleData = async (id, setter, setRowDto) => {
           },
           transactionQuantity: item?.transactionQty,
           itemCode: item?.itemCode,
-          qty: "",
+          qty: '',
           receiveFrom: resHeader?.receiveFromName,
           referenceCode: {
             value: resHeader?.referenceId,
@@ -72,13 +72,13 @@ export const getSingleData = async (id, setter, setRowDto) => {
         };
       });
 
-      console.log("-===", header);
-      console.log("-===2", row);
+      console.log('-===', header);
+      console.log('-===2', row);
 
       setter(header);
       setRowDto(row);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 // shop floor ddl
@@ -90,7 +90,7 @@ export const getShopfloorDDL = async (accId, buId, plantId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 // shop floor transaction ddl
@@ -100,7 +100,7 @@ export const getShopFloorTransactionTypeDDL = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 // shop floor code ddl
@@ -117,7 +117,7 @@ export const getShopFloorReferenceCodeDDL = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 // Shop Floor Transfer DDL
@@ -134,7 +134,7 @@ export const getShopFloorTransferDDL = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 // Item type DDL
@@ -156,7 +156,7 @@ export const getShopFloorItemDDL = async (
           return {
             ...item,
             label: item?.label + ' [Current Stock: ' + item?.currentStock + ']',
-            itemName: item?.label
+            itemName: item?.label,
           };
         })
       );
@@ -167,7 +167,13 @@ export const getShopFloorItemDDL = async (
 };
 
 // Item type DDL
-export const getShopFloorFGItemDDL = async (accId, buId, plantId, shopFloorId, setter) => {
+export const getShopFloorFGItemDDL = async (
+  accId,
+  buId,
+  plantId,
+  shopFloorId,
+  setter
+) => {
   try {
     const res = await Axios.get(
       `/mes/MesDDL/GetShoopFloorFGItemNameDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&ShopfloorId=${shopFloorId}`
@@ -178,7 +184,7 @@ export const getShopFloorFGItemDDL = async (accId, buId, plantId, shopFloorId, s
           return {
             ...item,
             label: item?.label + ' [Current Stock: ' + item?.currentStock + ']',
-            itemName: item?.label
+            itemName: item?.label,
           };
         })
       );
@@ -201,7 +207,7 @@ export const getInventoryTransactionData = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 // create
@@ -219,7 +225,7 @@ export const createInvTransaction = async (
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -247,7 +253,7 @@ export const ShopFloorTransactionLandingAction = async (
     }
   } catch (error) {
     toast.error(error?.response?.data?.message);
-    setter([])
+    setter([]);
     setLoader(false);
   }
 };

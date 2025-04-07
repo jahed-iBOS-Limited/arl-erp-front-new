@@ -10,13 +10,13 @@
 .custom-file {
   position: relative;
 }
- .custom-file .file_label {
+.custom-file .file_label {
   position: absolute;
   bottom: -32px;
   left: 0px;
 }
 
-.po-label label{
+.po-label label {
   font-size: 10px;
 }
 
@@ -35,8 +35,7 @@
 .inventory-form .css-1mtnpri-IndicatorsContainer,
 .inventory-form .css-1ik8myk-control,
 .inventory-form .form-control,
-
-.inventory-form input[type="date"] {
+.inventory-form input[type='date'] {
   min-height: 22px !important;
   height: 22px !important;
 }
@@ -67,9 +66,9 @@
   margin-right: -8px;
 }
 .inventory-form .css-2b097c-container,
-.inventory-form input[type="text"],
-.inventory-form input[type="number"],
-.inventory-form input[type="date"] {
+.inventory-form input[type='text'],
+.inventory-form input[type='number'],
+.inventory-form input[type='date'] {
   width: 100% !important;
 }
 .border-gray input {
@@ -85,6 +84,6 @@
   margin-top: -8px !important;
 }
 
-.inventory-form input[type="number"] {
+.inventory-form input[type='number'] {
   border: none !important;
 }

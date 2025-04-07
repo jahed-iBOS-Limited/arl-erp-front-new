@@ -1,21 +1,21 @@
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { Formik } from "formik";
-import * as Yup from "yup";
-import { Form } from "react-bootstrap";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import ICheckout from "../../../../_helper/_helperIcons/_checkout";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { getRoutePlanLanding } from "../helper";
-import InputField from "../../../../_helper/_inputField";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+import { Form } from 'react-bootstrap';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
+import ICheckout from '../../../../_helper/_helperIcons/_checkout';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { getRoutePlanLanding } from '../helper';
+import InputField from '../../../../_helper/_inputField';
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  tourDate: Yup.date().required("Tour Date is required"),
+  tourDate: Yup.date().required('Tour Date is required'),
 });
 
 const initData = {
@@ -139,11 +139,11 @@ export function TableRow({ saveHandler }) {
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                     <thead>
                       <tr>
-                        <th style={{ width: "30px" }}>SL</th>
+                        <th style={{ width: '30px' }}>SL</th>
                         <th>Employee Name</th>
                         <th>Distribution Channel</th>
                         <th>Approve Status</th>
-                        <th style={{ width: "90px" }}>Actions</th>
+                        <th style={{ width: '90px' }}>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -171,7 +171,7 @@ export function TableRow({ saveHandler }) {
                                     `/rtm-management/salesforceManagement/salesforceRouteSetup/edit/${td?.employeeId}/${td?.tourId}`
                                   );
                                 }}
-                                disabled={td?.status === "Approved"}
+                                disabled={td?.status === 'Approved'}
                               >
                                 <span className="edit">
                                   <IEdit />
@@ -193,7 +193,7 @@ export function TableRow({ saveHandler }) {
                               <button type="button" className="btn">
                                 <span
                                   className="view"
-                                  style={{ cursor: "pointer" }}
+                                  style={{ cursor: 'pointer' }}
                                 >
                                   <ICheckout
                                     title="Approve"

@@ -1,7 +1,6 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   getBankDDLAction,
   getBankAccountTypeDDLAction,
@@ -9,18 +8,18 @@ import {
   saveEditedBankAccount,
   getSingleById,
   setBankAccountSingleEmpty,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
-import Loading from "./../../../../_helper/_loading";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
+import Loading from './../../../../_helper/_loading';
 
 const initData = {
   id: undefined,
-  bank: "",
-  branch: "",
-  bankAccountType: "",
-  accountName: "",
-  accountNumber: "",
-  generalLedger: "",
+  bank: '',
+  branch: '',
+  bankAccountType: '',
+  accountName: '',
+  accountNumber: '',
+  generalLedger: '',
 };
 
 export default function BankAccountForm({
@@ -51,8 +50,6 @@ export default function BankAccountForm({
     if (selectedBusinessUnit?.value && profileData?.accountId) {
       dispatch(getBankDDLAction());
     }
-
-
   }, []);
 
   // get bankAccountType ddl from store
@@ -65,8 +62,6 @@ export default function BankAccountForm({
     if (selectedBusinessUnit?.value && profileData?.accountId) {
       dispatch(getBankAccountTypeDDLAction());
     }
-
-
   }, []);
 
   // get single vehicleUnit from store
@@ -83,7 +78,6 @@ export default function BankAccountForm({
     } else {
       dispatch(setBankAccountSingleEmpty());
     }
-
   }, [id]);
 
   const saveHandler = async (values, cb) => {
@@ -119,7 +113,6 @@ export default function BankAccountForm({
       }
     } else {
       setDisabled(false);
-
     }
   };
 

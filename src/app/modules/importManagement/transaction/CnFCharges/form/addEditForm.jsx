@@ -1,31 +1,28 @@
-
-
-
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import Loading from "../../../../_helper/_loading";
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import Loading from '../../../../_helper/_loading';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import { useHistory } from "react-router";
-import NewSelect from "../../../../_helper/_select";
+} from '../../../../../../_metronic/_partials/controls';
+import { useHistory } from 'react-router';
+import NewSelect from '../../../../_helper/_select';
 
 const initData = {
-  reason: "",
-  commission: "",
-  charges: "",
-  swift: "",
-  stationary: "",
-  vat: "",
-  LCExpireDate: "",
-  lastShipDate: "",
-  PIAmount: "",
-  paymentDate: "",
+  reason: '',
+  commission: '',
+  charges: '',
+  swift: '',
+  stationary: '',
+  vat: '',
+  LCExpireDate: '',
+  lastShipDate: '',
+  PIAmount: '',
+  paymentDate: '',
 };
 
 export default function CnFChargesForm() {

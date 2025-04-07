@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
-import { ControllingUnitTable } from "./Table/tableHeader";
-import { UiProvider } from "../../../_helper/uiContextHelper";
+import { ControllingUnitTable } from './Table/tableHeader';
+import { UiProvider } from '../../../_helper/uiContextHelper';
 
 export function SalesOffice({ history }) {
   const uIEvents = {

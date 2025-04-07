@@ -1,44 +1,52 @@
-import { Formik, Form } from "formik";
-import React, { useState, useRef } from "react";
-import axios from "axios";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { useSelector } from "react-redux";
+import { Formik, Form } from 'formik';
+import React, { useState, useRef } from 'react';
+import axios from 'axios';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { useSelector } from 'react-redux';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
-} from "../../../../../_metronic/_partials/controls";
-import ICustomTable from "../../../_helper/_customTable";
-import Loading from "../../../_helper/_loading";
-import { getEmployeeSubLedgerData } from "../helper";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import InputField from "../../../_helper/_inputField";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+} from '../../../../../_metronic/_partials/controls';
+import ICustomTable from '../../../_helper/_customTable';
+import Loading from '../../../_helper/_loading';
+import { getEmployeeSubLedgerData } from '../helper';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import InputField from '../../../_helper/_inputField';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  wareHouse: "",
+  wareHouse: '',
 };
 
 export default function EmployeeSubledgerReport() {
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
   const headers = [
-    "SL",
-    "Description",
-    "Code",
-    "Date",
-    "Debit",
-    "Credit",
-    "Balance"
+    'SL',
+    'Description',
+    'Code',
+    'Date',
+    'Debit',
+    'Credit',
+    'Balance',
   ];
   const printRef = useRef();
   const getGridData = (values) => {
-    getEmployeeSubLedgerData(values?.customer?.value, values?.fromDate, values?.toDate, setGridData, setLoading);
+    getEmployeeSubLedgerData(
+      values?.customer?.value,
+      values?.fromDate,
+      values?.toDate,
+      setGridData,
+      setLoading
+    );
   };
-  const { profileData, selectedBusinessUnit } = useSelector(state => state?.authData)
+  const { profileData, selectedBusinessUnit } = useSelector(
+    (state) => state?.authData
+  );
   const loadCustomerList = (v) => {
     if (v?.length < 3) return [];
     return axios
@@ -53,13 +61,13 @@ export default function EmployeeSubledgerReport() {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={() => { }}
+        onSubmit={() => {}}
       >
         {({ setFieldValue, values }) => (
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Employe Sub Ledger Report"}></CardHeader>
+              <CardHeader title={'Employe Sub Ledger Report'}></CardHeader>
               <CardBody>
                 {loading && <Loading />}
                 <Form className="form form-label-right incomestatementTable">
@@ -70,7 +78,7 @@ export default function EmployeeSubledgerReport() {
                         selectedValue={values?.customer}
                         name="customer"
                         handleChange={(valueOption) => {
-                          setFieldValue("customer", valueOption);
+                          setFieldValue('customer', valueOption);
                         }}
                         placeholder="Search..."
                         loadOptions={loadCustomerList}
@@ -114,7 +122,9 @@ export default function EmployeeSubledgerReport() {
                         return (
                           <tr key={index}>
                             <td>
-                              <p className="text-center mb-0">{index + 1}</p>{" "}
+                              <p className="text-center mb-0">
+                                {index + 1}
+                              </p>{' '}
                             </td>
                             <td>{item?.discribtion}</td>
                             <td>{item?.code}</td>

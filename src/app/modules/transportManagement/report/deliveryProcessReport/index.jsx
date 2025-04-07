@@ -1,19 +1,19 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import IButton from "../../../_helper/iButton";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import IButton from '../../../_helper/iButton';
 import {
   groupId,
   initData,
   selectParameters,
   selectReportId,
   validationSchema,
-} from "./helper";
-import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import { shallowEqual, useSelector } from "react-redux";
-import NewSelect from "../../../_helper/_select";
+} from './helper';
+import PowerBIReport from '../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import { shallowEqual, useSelector } from 'react-redux';
+import NewSelect from '../../../_helper/_select';
 
 const DeliveryProcessReportPage = () => {
   // get selected business unit from store
@@ -41,7 +41,7 @@ const DeliveryProcessReportPage = () => {
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
-        //   resetForm(initData);
+          //   resetForm(initData);
         });
       }}
     >
@@ -67,11 +67,11 @@ const DeliveryProcessReportPage = () => {
                 <div className="col-lg-3">
                   <NewSelect
                     name="shipPoint"
-                    options={[{ value: 0, label: "All" }, ...shippointDDL]}
+                    options={[{ value: 0, label: 'All' }, ...shippointDDL]}
                     value={values?.shipPoint}
                     label="Select ShipPoint"
                     onChange={(valueOption) => {
-                      setFieldValue("shipPoint", valueOption);
+                      setFieldValue('shipPoint', valueOption);
                       setShowReport(false);
                     }}
                     placeholder="Ship Point"
@@ -86,7 +86,7 @@ const DeliveryProcessReportPage = () => {
                     name="fromDateTime"
                     type="datetime-local"
                     onChange={(e) => {
-                      setFieldValue("fromDateTime", e.target.value);
+                      setFieldValue('fromDateTime', e.target.value);
                       setShowReport(false);
                     }}
                   />
@@ -98,7 +98,7 @@ const DeliveryProcessReportPage = () => {
                     name="toDateTime"
                     type="datetime-local"
                     onChange={(e) => {
-                      setFieldValue("toDateTime", e.target.value);
+                      setFieldValue('toDateTime', e.target.value);
                       setShowReport(false);
                     }}
                   />
@@ -111,7 +111,7 @@ const DeliveryProcessReportPage = () => {
 
             {showReport && (
               <PowerBIReport
-                reportId={selectReportId["rdl"]}
+                reportId={selectReportId['rdl']}
                 groupId={groupId}
                 parameterValues={selectParameters(values, buUnId)}
                 parameterPanel={false}

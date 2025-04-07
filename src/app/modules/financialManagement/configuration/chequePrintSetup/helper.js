@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getBankDDl = async (setter) => {
   try {
@@ -52,7 +52,7 @@ export const saveBankChequePrint = async (payload, setIsLoading, cb) => {
 
     if (res?.status === 200) {
       cb();
-      toast.success(res?.data?.message || "Submitted Successfully");
+      toast.success(res?.data?.message || 'Submitted Successfully');
       setIsLoading(false);
     }
   } catch (err) {

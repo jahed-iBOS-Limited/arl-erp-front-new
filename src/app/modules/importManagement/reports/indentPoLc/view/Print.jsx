@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import { useSelector, shallowEqual } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import { useSelector, shallowEqual } from 'react-redux';
 import {
   getCostingSummary,
   getReportHeaderInfo,
-} from "../../costSummary/helper";
+} from '../../costSummary/helper';
 const Print = ({ currentRow }) => {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-  const header = ["SL", "Particulars", "Estimated Amount", "Actual Amount"];
+  const header = ['SL', 'Particulars', 'Estimated Amount', 'Actual Amount'];
   const [rowDto, setRowDto] = React.useState([]);
   const [headerInfo, setHeaderInfo] = React.useState([]);
   const [, setLoader] = useState(false);
@@ -81,15 +81,15 @@ const Print = ({ currentRow }) => {
               <b className="ml-5">LC No : {currentRow?.lcnumber}</b>
               <b className="ml-5">
                 LC Date : {_dateFormatter(currentRow?.dteLcdate)}
-              </b>{" "}
+              </b>{' '}
               <b className="ml-5">
-                {" "}
+                {' '}
                 PO Date : {_dateFormatter(currentRow?.poDate)}
-              </b>{" "}
-              <b className="ml-5">Supplier : {currentRow?.beneficiaryName}</b>{" "}
+              </b>{' '}
+              <b className="ml-5">Supplier : {currentRow?.beneficiaryName}</b>{' '}
               <b className="ml-5">
                 Total Value : {_formatMoney(currentRow?.totalBalance)} BDT
-              </b>{" "}
+              </b>{' '}
             </>
           )}
         </div>
@@ -115,12 +115,12 @@ const Print = ({ currentRow }) => {
                         <td className="text-right">
                           {item?.numBookedAmount
                             ? _formatMoney(item?.numBookedAmount, 4)
-                            : ""}
+                            : ''}
                         </td>
                         <td className="text-right">
                           {item?.numActualAmount
                             ? _formatMoney(item?.numActualAmount, 4)
-                            : ""}
+                            : ''}
                         </td>
                       </tr>
                     ) : (
@@ -227,8 +227,8 @@ const Print = ({ currentRow }) => {
                     </td>
                     <td></td>
                     <td className="text-right">
-                      {" "}
-                      {_formatMoney(totalCostIncludingVatAndTax(), 4)}{" "}
+                      {' '}
+                      {_formatMoney(totalCostIncludingVatAndTax(), 4)}{' '}
                     </td>
                   </tr>
                 )}
@@ -243,11 +243,11 @@ const Print = ({ currentRow }) => {
                           {_formatMoney(item?.numBookedAmount, 4)}
                         </td>
                         <td className="text-right">
-                          {" "}
+                          {' '}
                           {
-                            "0"
+                            '0'
                             // _formatMoney(item?.numActualAmount , 4)
-                          }{" "}
+                          }{' '}
                         </td>
                       </tr>
                     ) : (
@@ -256,7 +256,7 @@ const Print = ({ currentRow }) => {
                   })
                 ) : (
                   <>
-                    {" "}
+                    {' '}
                     <tr>
                       <td>14</td>
                       <td>Value Added Tax (VAT)</td>
@@ -274,7 +274,7 @@ const Print = ({ currentRow }) => {
                       <td>Advance Income Tax (AIT)</td>
                       <td></td>
                       <td></td>
-                    </tr>{" "}
+                    </tr>{' '}
                   </>
                 )}
                 <tr className="font-weight-bold text-right">

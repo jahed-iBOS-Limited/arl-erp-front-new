@@ -1,9 +1,9 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import IForm from "../../_helper/_form";
-import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import NewSelect from "../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import IForm from '../../_helper/_form';
+import useAxiosGet from '../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
+import NewSelect from '../../_helper/_select';
 const initData = {};
 export default function ProjectStatus() {
   const saveHandler = (values, cb) => {};
@@ -52,7 +52,7 @@ export default function ProjectStatus() {
                       value={values?.businessUnit}
                       label="Business Unit"
                       onChange={(valueOption) => {
-                        setFieldValue("businessUnit", valueOption);
+                        setFieldValue('businessUnit', valueOption);
                         setRowData([]);
                       }}
                     />
@@ -60,7 +60,7 @@ export default function ProjectStatus() {
                   <div>
                     <button
                       disabled={!values?.businessUnit?.value}
-                      style={{ marginTop: "17px" }}
+                      style={{ marginTop: '17px' }}
                       className="btn btn-primary"
                       type="button"
                       onClick={(e) => {
@@ -74,7 +74,7 @@ export default function ProjectStatus() {
                     </button>
                   </div>
                 </div>
-                {console.log("dssdfdsf")}
+                {console.log('dssdfdsf')}
                 <div className="table-responsive">
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing mr-1">
                     <thead>

@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from 'axios';
 
 export const getEnterpriseDivisionDDL = async (accId, setter) => {
   try {
@@ -19,7 +19,7 @@ export const getBusinessDDLByED = async (
 ) => {
   try {
     const res = await Axios.get(
-      `/hcm/HCMDDL/GetBusinessUnitByBusinessUnitGroupDDL?AccountId=${accId}&BusinessUnitGroup=${enterpriseDivisionLabel}${subDivision ? `&SubGroup=${subDivision?.value}`:""}`
+      `/hcm/HCMDDL/GetBusinessUnitByBusinessUnitGroupDDL?AccountId=${accId}&BusinessUnitGroup=${enterpriseDivisionLabel}${subDivision ? `&SubGroup=${subDivision?.value}` : ''}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -48,8 +48,8 @@ export const getIncomeStatement_api = async (
   setter,
   profitCenter,
   setLoading = () => {},
-  partName = "",
-  edLabel = "",
+  partName = '',
+  edLabel = '',
   conversionRate,
   subDivision,
   reportType
@@ -57,9 +57,11 @@ export const getIncomeStatement_api = async (
   setLoading(true);
   try {
     const res = await Axios.get(
-      `/fino/IncomeStatement/GetIncomeStatement?partName=${partName}&dteFromDate=${fromDate}&dteToDate=${toDate}&dteFromDateL=${fromDateL}&dteToDateL=${toDateL}&BusinessUnitGroup=${edLabel}&BusinessUnitId=${buId}&SBUID=${sbuId ||
-        0}&intProfitCenId=${profitCenter?.value ||
-        0}&ConvertionRate=${conversionRate}&SubGroup=${subDivision?.value || 0}&reportTypeId=${reportType}`
+      `/fino/IncomeStatement/GetIncomeStatement?partName=${partName}&dteFromDate=${fromDate}&dteToDate=${toDate}&dteFromDateL=${fromDateL}&dteToDateL=${toDateL}&BusinessUnitGroup=${edLabel}&BusinessUnitId=${buId}&SBUID=${
+        sbuId || 0
+      }&intProfitCenId=${
+        profitCenter?.value || 0
+      }&ConvertionRate=${conversionRate}&SubGroup=${subDivision?.value || 0}&reportTypeId=${reportType}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
@@ -105,7 +107,7 @@ export const getBankJournalView = async (
     setLoading(true);
     const res = await Axios.get(
       `/fino/CommonFino/${
-        headerData?.fromWhere === "incomeStatement"
+        headerData?.fromWhere === 'incomeStatement'
           ? `GetBankJournalReportForIncomeStatement`
           : `GetBankJournalReport`
       }?JournalId=${bjId}&AccountingJournalTypeId=${hdId}&BusinessUnitId=${buId}`

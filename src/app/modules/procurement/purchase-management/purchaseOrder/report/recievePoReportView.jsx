@@ -1,6 +1,3 @@
-
-
-
 import { Form as FormikForm, Formik } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
@@ -55,7 +52,7 @@ export function ReceivePoReportView({ poId, isHiddenBackBtn, values }) {
       profileData?.accountId,
       selectedBusinessUnit?.value,
       poId,
-      setReceivePurchaseOrder,
+      setReceivePurchaseOrder
     );
     getBillRegisterByPo(poId, setBillSummeryList);
   }, [poId]);
@@ -165,7 +162,7 @@ export function ReceivePoReportView({ poId, isHiddenBackBtn, values }) {
                                       {_dateFormatter(data?.transactionDate)}
                                     </td>
                                   </tr>
-                                ),
+                                )
                               )}
                             </tbody>
                           </table>
@@ -199,7 +196,7 @@ export function ReceivePoReportView({ poId, isHiddenBackBtn, values }) {
                                     <td>{data?.receiveQuanttity || 0}</td>
                                     <td>{data?.orderQuanttity || 0}</td>
                                   </tr>
-                                ),
+                                )
                               )}
                             </tbody>
                           </table>
@@ -237,7 +234,7 @@ export function ReceivePoReportView({ poId, isHiddenBackBtn, values }) {
                                   <td>
                                     {' '}
                                     {_dateFormatter(
-                                      tableData?.billRegisterDate,
+                                      tableData?.billRegisterDate
                                     )}{' '}
                                   </td>
                                   <td> {tableData?.billTypeName} </td>
@@ -254,7 +251,7 @@ export function ReceivePoReportView({ poId, isHiddenBackBtn, values }) {
                                     }
                                   >
                                     {_fixedPoint(
-                                      tableData?.adjustmentAmount || 0,
+                                      tableData?.adjustmentAmount || 0
                                     )}
                                   </td>
                                   <td className="text-right">

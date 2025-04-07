@@ -1,51 +1,51 @@
-import Axios from "axios";
-import { Field, Form, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import Select from "react-select";
-import * as Yup from "yup";
-import { Input } from "../../../../../_metronic/_partials/controls";
-import customStyles from "../../../selectCustomStyle";
-import { createPartnerBasic_api } from "../helper";
-import IViewModal from "./../../../_helper/_viewModal";
+import Axios from 'axios';
+import { Field, Form, Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import Select from 'react-select';
+import * as Yup from 'yup';
+import { Input } from '../../../../../_metronic/_partials/controls';
+import customStyles from '../../../selectCustomStyle';
+import { createPartnerBasic_api } from '../helper';
+import IViewModal from './../../../_helper/_viewModal';
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
   businessPartnerName: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Partner Name is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Partner Name is required'),
   businessPartnerType: Yup.object().shape({
-    label: Yup.string().required("Partner Type is required"),
-    value: Yup.string().required("Partner Type is required"),
+    label: Yup.string().required('Partner Type is required'),
+    value: Yup.string().required('Partner Type is required'),
   }),
   businessPartnerAddress: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Partner Address is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Partner Address is required'),
   contactNumber: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(50, "Maximum 50 symbols")
-    .required("Contact Number is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(50, 'Maximum 50 symbols')
+    .required('Contact Number is required'),
   licenseNo: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(50, "Maximum 50 symbols")
-    .required("License No is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(50, 'Maximum 50 symbols')
+    .required('License No is required'),
 });
 
 const initProduct = {
   id: undefined,
-  businessPartnerName: "",
-  businessPartnerAddress: "",
-  contactNumber: "",
-  bin: "",
-  licenseNo: "",
-  email: "",
-  businessPartnerType: "",
+  businessPartnerName: '',
+  businessPartnerAddress: '',
+  contactNumber: '',
+  bin: '',
+  licenseNo: '',
+  email: '',
+  businessPartnerType: '',
 };
 
 export default function AddCustomerForm({ show, onHide, product }) {
-  const [itemTypeList, setItemTypeList] = useState("");
+  const [itemTypeList, setItemTypeList] = useState('');
   const [itemTypeOption, setItemTypeOption] = useState([]);
 
   const profileData = useSelector((state) => {
@@ -62,7 +62,7 @@ export default function AddCustomerForm({ show, onHide, product }) {
   const getInfoData = async () => {
     try {
       const res = await Axios.get(
-        "/partner/BusinessPartnerBasicInfo/GetBusinessPartnerTypeList"
+        '/partner/BusinessPartnerBasicInfo/GetBusinessPartnerTypeList'
       );
       setItemTypeList(res.data);
     } catch (error) {
@@ -88,7 +88,7 @@ export default function AddCustomerForm({ show, onHide, product }) {
       const warehouseData = {
         accountId: profileData?.accountId,
         businessUnitId: selectedBusinessUnit?.value,
-        businessPartnerCode: "abc",
+        businessPartnerCode: 'abc',
         businessPartnerName: values.businessPartnerName,
         businessPartnerAddress: values.businessPartnerAddress,
         contactNumber: values.contactNumber,
@@ -98,7 +98,7 @@ export default function AddCustomerForm({ show, onHide, product }) {
         businessPartnerTypeId: values.businessPartnerType.value,
         partnerSalesType: values.businessPartnerType.label,
         actionBy: profileData?.userId,
-        attachmentLink: "",
+        attachmentLink: '',
       };
       await createPartnerBasic_api(warehouseData, cb);
       await onHide();
@@ -115,18 +115,18 @@ export default function AddCustomerForm({ show, onHide, product }) {
         onHide={onHide}
         isShow={false}
         title="Create Business Partner Basic Info"
-        style={{ fontSize: "1.2rem !important" }}
+        style={{ fontSize: '1.2rem !important' }}
       >
         <>
           <Formik
             enableReinitialize={true}
             initialValues={initProduct}
             validationSchema={ProductEditSchema}
-          // onSubmit={(values, { setSubmitting, resetForm }) => {
-          //     saveBussinessPartner(values, () => {
-          //        resetForm(product);
-          //     });
-          // }}
+            // onSubmit={(values, { setSubmitting, resetForm }) => {
+            //     saveBussinessPartner(values, () => {
+            //        resetForm(product);
+            //     });
+            // }}
           >
             {({
               handleSubmit,
@@ -144,7 +144,7 @@ export default function AddCustomerForm({ show, onHide, product }) {
                     <div className="form-group row">
                       <div className="col-lg-4">
                         <Field
-                          value={values.businessPartnerName || ""}
+                          value={values.businessPartnerName || ''}
                           name="businessPartnerName"
                           component={Input}
                           placeholder="Business Partner Name"
@@ -162,7 +162,7 @@ export default function AddCustomerForm({ show, onHide, product }) {
                               defaultValue={values.businessPartnerType}
                               onChange={(valueOption) => {
                                 setFieldValue(
-                                  "businessPartnerType",
+                                  'businessPartnerType',
                                   valueOption
                                 );
                               }}
@@ -177,7 +177,7 @@ export default function AddCustomerForm({ show, onHide, product }) {
                       </div>
                       <div className="col-lg-4">
                         <Field
-                          value={values.businessPartnerAddress || ""}
+                          value={values.businessPartnerAddress || ''}
                           name="businessPartnerAddress"
                           component={Input}
                           placeholder="Business Partner Address"
@@ -188,7 +188,7 @@ export default function AddCustomerForm({ show, onHide, product }) {
                     <div className="form-group row">
                       <div className="col-lg-4">
                         <Field
-                          value={values.contactNumber || ""}
+                          value={values.contactNumber || ''}
                           name="contactNumber"
                           component={Input}
                           label="Contact Number"
@@ -198,7 +198,7 @@ export default function AddCustomerForm({ show, onHide, product }) {
                       <div className="col-lg-4">
                         <Field
                           name="email"
-                          value={values.email || ""}
+                          value={values.email || ''}
                           component={Input}
                           placeholder="Email"
                           label="Email (Optional)"
@@ -206,7 +206,7 @@ export default function AddCustomerForm({ show, onHide, product }) {
                       </div>
                       <div className="col-lg-4">
                         <Field
-                          value={values.bin || ""}
+                          value={values.bin || ''}
                           name="bin"
                           component={Input}
                           placeholder="BIN"
@@ -215,7 +215,7 @@ export default function AddCustomerForm({ show, onHide, product }) {
                       </div>
                       <div className="col-lg-4">
                         <Field
-                          value={values.licenseNo || ""}
+                          value={values.licenseNo || ''}
                           name="licenseNo"
                           component={Input}
                           placeholder="Licence Number"
@@ -235,14 +235,14 @@ export default function AddCustomerForm({ show, onHide, product }) {
 
                     <button
                       type="submit"
-                      style={{ display: "none" }}
+                      style={{ display: 'none' }}
                       ref={btnRef}
                       onSubmit={() => handleSubmit()}
                     ></button>
 
                     <button
                       type="reset"
-                      style={{ display: "none" }}
+                      style={{ display: 'none' }}
                       ref={resetBtnRef}
                       onSubmit={() => resetForm(product)}
                     ></button>

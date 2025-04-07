@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from 'axios';
 
 // getBusinessPartnerBasicinfoAction
 export const getBusinessPartnerBasicinfoAction = async (
@@ -14,7 +14,5 @@ export const getBusinessPartnerBasicinfoAction = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };

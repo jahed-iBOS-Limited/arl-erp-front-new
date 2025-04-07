@@ -41,9 +41,8 @@ export default function ItemConversionLanding() {
 
   useEffect(() => {
     getPlantDDL(
-      `/wms/Plant/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`,
+      `/wms/Plant/GetPlantDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
-
   }, [accId, buId]);
 
   const saveHandler = (values, cb) => {
@@ -67,7 +66,7 @@ export default function ItemConversionLanding() {
         parseFloat(row.convertedQuantity) > parseFloat(row.itemAvailableStock)
       ) {
         return toast.warn(
-          'Converted Quantity cannot be greater than Item Stock.',
+          'Converted Quantity cannot be greater than Item Stock.'
         );
       }
     }
@@ -117,14 +116,14 @@ export default function ItemConversionLanding() {
       `/wms/ItemConversion/CreateItemConversion`,
       payload[0],
       cb,
-      true,
+      true
     );
   };
 
   const handleAddItem = async (values, setFieldValue) => {
     if (rowDto.length > 0) {
       return toast.warn(
-        "You can't add more than one item conversion at a time.",
+        "You can't add more than one item conversion at a time."
       );
     }
 
@@ -134,10 +133,10 @@ export default function ItemConversionLanding() {
       // Fetch the item stock and current rate concurrently
       const [stockResponse, rateResponse] = await Promise.all([
         axios.get(
-          `/wms/InventoryTransaction/sprRuningQty?businessUnitId=${buId}&whId=${values?.warehouse?.value}&itemId=${values.item?.value}`,
+          `/wms/InventoryTransaction/sprRuningQty?businessUnitId=${buId}&whId=${values?.warehouse?.value}&itemId=${values.item?.value}`
         ),
         axios.get(
-          `/wms/InventoryLoan/GetItemRate?ItemId=${values.item?.value}&BusinessUnitId=${buId}`,
+          `/wms/InventoryLoan/GetItemRate?ItemId=${values.item?.value}&BusinessUnitId=${buId}`
         ),
       ]);
 
@@ -178,7 +177,8 @@ export default function ItemConversionLanding() {
         convertedItemCategoryId: values?.convertedItem?.itemCategoryId,
         convertedItemCategoryName: values?.convertedItem?.itemCategoryName,
         convertedItemSubCategoryId: values?.convertedItem?.itemSubCategoryId,
-        convertedItemSubCategoryName: values?.convertedItem?.itemSubCategoryName,
+        convertedItemSubCategoryName:
+          values?.convertedItem?.itemSubCategoryName,
         plantName: values?.plant?.label,
         warehouseName: values?.warehouse?.label,
         convertedPlantName: values?.convertedPlant?.label,
@@ -239,7 +239,7 @@ export default function ItemConversionLanding() {
                       setWarehouseDDL([]);
                       if (!valueOption) return;
                       getWarehouseDDL(
-                        `/wms/ConfigPlantWearHouse/GetWareHouseDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${valueOption?.value}`,
+                        `/wms/ConfigPlantWearHouse/GetWareHouseDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${valueOption?.value}`
                       );
                     }}
                     errors={errors}
@@ -260,7 +260,7 @@ export default function ItemConversionLanding() {
                     touched={touched}
                   />
                 </div>
-                {console.log("values", values)}
+                {console.log('values', values)}
                 <div className="col-lg-3">
                   <label>Item Name</label>
                   <SearchAsyncSelect
@@ -272,7 +272,7 @@ export default function ItemConversionLanding() {
                       if (v?.length < 3) return [];
                       return axios
                         .get(
-                          `/wms/ItemPlantWarehouse/GetItemByPlantWarehouseDDL?businessUnitId=${buId}&plantId=${values?.plant?.value}&warehouseId=${values?.warehouse?.value}&search=${v}`,
+                          `/wms/ItemPlantWarehouse/GetItemByPlantWarehouseDDL?businessUnitId=${buId}&plantId=${values?.plant?.value}&warehouseId=${values?.warehouse?.value}&search=${v}`
                         )
                         .then((res) => {
                           const updateList = res?.data.map((item) => ({
@@ -297,7 +297,7 @@ export default function ItemConversionLanding() {
                       setWarehouseDDL([]);
                       if (!valueOption) return;
                       getWarehouseDDL(
-                        `/wms/ConfigPlantWearHouse/GetWareHouseDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${valueOption?.value}`,
+                        `/wms/ConfigPlantWearHouse/GetWareHouseDDL?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${valueOption?.value}`
                       );
                     }}
                     errors={errors}
@@ -329,7 +329,7 @@ export default function ItemConversionLanding() {
                       if (v?.length < 3) return [];
                       return axios
                         .get(
-                          `/wms/ItemPlantWarehouse/GetItemByPlantWarehouseDDL?businessUnitId=${buId}&plantId=${values?.convertedPlant?.value}&warehouseId=${values?.convertedWarehouse?.value}&search=${v}`,
+                          `/wms/ItemPlantWarehouse/GetItemByPlantWarehouseDDL?businessUnitId=${buId}&plantId=${values?.convertedPlant?.value}&warehouseId=${values?.convertedWarehouse?.value}&search=${v}`
                         )
                         .then((res) => {
                           const updateList = res?.data.map((item) => ({
@@ -435,7 +435,7 @@ export default function ItemConversionLanding() {
                           <span
                             onClick={() => {
                               const filterData = rowDto.filter(
-                                (itm, indx) => indx !== index,
+                                (itm, indx) => indx !== index
                               );
                               setRowDto(filterData);
                             }}

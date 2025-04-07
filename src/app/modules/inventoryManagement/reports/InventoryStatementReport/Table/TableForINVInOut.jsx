@@ -1,7 +1,6 @@
-
-import React from "react";
+import React from 'react';
 // import InfoCircle from "../../../../_helper/_helperIcons/_infoCircle";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
 
 const TableForINVInOut = ({
   inventoryStatement,
@@ -12,20 +11,20 @@ const TableForINVInOut = ({
     inventoryStatement?.length > 0 && (
       <div className="react-bootstrap-table table-responsive">
         <div className="loan-scrollable-table inventory-statement-report">
-          <div style={{ maxHeight: "500px" }} className="scroll-table _table">
+          <div style={{ maxHeight: '500px' }} className="scroll-table _table">
             <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm">
               <thead>
                 <tr>
-                  <th style={{ minWidth: "30px" }}>SL</th>
+                  <th style={{ minWidth: '30px' }}>SL</th>
                   <th>Item Name</th>
-                  <th style={{ minWidth: "100px" }}>Item Code</th>
-                  <th style={{ minWidth: "100px" }}>UoM Name</th>
-                  <th style={{ minWidth: "100px" }}>Warehouse</th>
-                  <th style={{ minWidth: "100px" }}>Opening Qty</th>
-                  <th style={{ minWidth: "100px" }}>In Qty</th>
-                  <th style={{ minWidth: "100px" }}>Out Qty</th>
+                  <th style={{ minWidth: '100px' }}>Item Code</th>
+                  <th style={{ minWidth: '100px' }}>UoM Name</th>
+                  <th style={{ minWidth: '100px' }}>Warehouse</th>
+                  <th style={{ minWidth: '100px' }}>Opening Qty</th>
+                  <th style={{ minWidth: '100px' }}>In Qty</th>
+                  <th style={{ minWidth: '100px' }}>Out Qty</th>
                   {/* <th style={{ minWidth: "100px" }}>Transit Qty</th> */}
-                  <th style={{ minWidth: "100px" }}>Closing Qty</th>
+                  <th style={{ minWidth: '100px' }}>Closing Qty</th>
                   {/* <th style={{ minWidth: "100px" }}>Avg Rate</th>
                   <th style={{ minWidth: "100px" }}>Closing Value</th>
                   <th style={{ minWidth: "70px" }}>Action</th> */}
@@ -36,7 +35,7 @@ const TableForINVInOut = ({
                   inventoryStatement?.map((item, index) => {
                     return (
                       <tr key={index}>
-                        <td style={{ width: "30px" }} className="text-center">
+                        <td style={{ width: '30px' }} className="text-center">
                           {index + 1}
                         </td>
                         <td>

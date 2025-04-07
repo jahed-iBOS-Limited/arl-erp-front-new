@@ -1,57 +1,56 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useParams } from "react-router";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useParams } from 'react-router';
+import Form from './form';
 import {
   editBunkerInformation,
   GetBunkerInformationById,
   GetItemInfoFromPurchase,
   getItemRateByVoyageId,
   saveBunkerInformation,
-} from "../helper";
-import { useLocation, useHistory } from "react-router-dom";
-import { getVesselDDL } from "../../../helper";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import { _todayDate } from "../../../_chartinghelper/_todayDate";
-import { savePurchaseBunker } from "../../purchaseBunker/helper";
-import { toast } from "react-toastify";
+} from '../helper';
+import { useLocation, useHistory } from 'react-router-dom';
+import { getVesselDDL } from '../../../helper';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import { _todayDate } from '../../../_chartinghelper/_todayDate';
+import { savePurchaseBunker } from '../../purchaseBunker/helper';
+import { toast } from 'react-toastify';
 
 const initData = {
-  vesselName: "",
-  voyageNo: "",
-  voyageType: "",
-  bodLsmgoQty: "",
-  bodLsfo1Qty: "",
-  bodLsfo2Qty: "",
-  borLsmgoQty: "",
-  borLsfo1Qty: "",
-  borLsfo2Qty: "",
-  adjustmentLsmgoQty: "",
-  adjustmentLsfo1Qty: "",
-  adjustmentLsfo2Qty: "",
-  bunkerSaleLsmgoQty: "",
-  bunkerSaleLsmgoRate: "",
-  bunkerSaleLsmgoValue: "",
-  bunkerSaleLsfo1Qty: "",
-  bunkerSaleLsfo1Rate: "",
-  bunkerSaleLsfo1Value: "",
-  bunkerSaleLsfo2Qty: "",
-  bunkerSaleLsfo2Rate: "",
-  bunkerSaleLsfo2Value: "",
-  consumptionLsmgoQty: "",
-  consumptionLsfo1Qty: "",
-  consumptionLsfo2Qty: "",
-  bunkerPurchaseLsmgoQty: "",
-  bunkerPurchaseLsmgoRate: "",
-  bunkerPurchaseLsmgoValue: "",
-  bunkerPurchaseLsfo1Qty: "",
-  bunkerPurchaseLsfo1Rate: "",
-  bunkerPurchaseLsfo1Value: "",
-  bunkerPurchaseLsfo2Qty: "",
-  bunkerPurchaseLsfo2Rate: "",
-  bunkerPurchaseLsfo2Value: "",
-  hireType: "",
+  vesselName: '',
+  voyageNo: '',
+  voyageType: '',
+  bodLsmgoQty: '',
+  bodLsfo1Qty: '',
+  bodLsfo2Qty: '',
+  borLsmgoQty: '',
+  borLsfo1Qty: '',
+  borLsfo2Qty: '',
+  adjustmentLsmgoQty: '',
+  adjustmentLsfo1Qty: '',
+  adjustmentLsfo2Qty: '',
+  bunkerSaleLsmgoQty: '',
+  bunkerSaleLsmgoRate: '',
+  bunkerSaleLsmgoValue: '',
+  bunkerSaleLsfo1Qty: '',
+  bunkerSaleLsfo1Rate: '',
+  bunkerSaleLsfo1Value: '',
+  bunkerSaleLsfo2Qty: '',
+  bunkerSaleLsfo2Rate: '',
+  bunkerSaleLsfo2Value: '',
+  consumptionLsmgoQty: '',
+  consumptionLsfo1Qty: '',
+  consumptionLsfo2Qty: '',
+  bunkerPurchaseLsmgoQty: '',
+  bunkerPurchaseLsmgoRate: '',
+  bunkerPurchaseLsmgoValue: '',
+  bunkerPurchaseLsfo1Qty: '',
+  bunkerPurchaseLsfo1Rate: '',
+  bunkerPurchaseLsfo1Value: '',
+  bunkerPurchaseLsfo2Qty: '',
+  bunkerPurchaseLsfo2Rate: '',
+  bunkerPurchaseLsfo2Value: '',
+  hireType: '',
   isComplete: false,
 };
 
@@ -60,7 +59,7 @@ export default function BunkerInfoForm() {
   const [loading, setLoading] = useState(false);
   const [vesselDDL, setVesselDDL] = useState([]);
   const [purchaseList, setPurchaseList] = React.useState([]);
-  const [returnID, setReturnID] = useState("");
+  const [returnID, setReturnID] = useState('');
   const [singleData, setSingleData] = useState({});
   const [isCalculated, setIsCalculated] = useState(false);
   const [itemRates, setItemRates] = useState({});
@@ -111,10 +110,10 @@ export default function BunkerInfoForm() {
     if (
       !returnID &&
       (values?.voyageNo?.voyageTypeName || values?.voyageType) ===
-        "Time Charter" &&
+        'Time Charter' &&
       values?.isComplete
     ) {
-      return toast.warn("Please purchase bunker first");
+      return toast.warn('Please purchase bunker first');
     }
 
     if (id) {
@@ -154,7 +153,7 @@ export default function BunkerInfoForm() {
         isComplete: values?.isComplete,
       };
       editBunkerInformation(data, setLoading, () => {
-        history.push("/chartering/bunker/bunkerInformation");
+        history.push('/chartering/bunker/bunkerInformation');
       });
     } else {
       const payload = {
@@ -199,7 +198,7 @@ export default function BunkerInfoForm() {
     const rowArray = [];
     if (values?.bunkerPurchaseLsmgoQty > 0) {
       rowArray.push({
-        itemName: "LSMGO",
+        itemName: 'LSMGO',
         itemId: 1,
         itemQty: +values?.bunkerPurchaseLsmgoQty,
         itemRate: +values?.bunkerPurchaseLsmgoRate,
@@ -214,7 +213,7 @@ export default function BunkerInfoForm() {
     }
     if (values?.bunkerPurchaseLsfo1Qty) {
       rowArray.push({
-        itemName: "LSFO-1",
+        itemName: 'LSFO-1',
         itemId: 2,
         itemQty: +values?.bunkerPurchaseLsfo1Qty,
         itemRate: +values?.bunkerPurchaseLsfo1Rate,
@@ -229,7 +228,7 @@ export default function BunkerInfoForm() {
     }
     if (values?.bunkerPurchaseLsfo2Qty > 0) {
       rowArray.push({
-        itemName: "LSFO-2",
+        itemName: 'LSFO-2',
         itemId: 3,
         itemQty: +values?.bunkerPurchaseLsfo2Qty,
         itemRate: +values?.bunkerPurchaseLsfo2Rate,
@@ -249,16 +248,16 @@ export default function BunkerInfoForm() {
       voyageId: values?.voyageNo?.value,
       voyageNo: values?.voyageNo?.label,
       purchaseFromId: 2,
-      purchaseFromName: "Charterer",
+      purchaseFromName: 'Charterer',
       stakeholderId: values?.voyageNo?.chaterId,
       companyName: values?.voyageNo?.chaterName,
       portId: 0,
-      portName: "",
+      portName: '',
       purchaseDate: _todayDate(),
       currencyId: 0,
-      currencyName: "",
+      currencyName: '',
       itemId: 0,
-      itemName: "",
+      itemName: '',
       accountId: profileData?.accountId,
       businessUnitId: selectedBusinessUnit?.value,
       insertby: profileData?.userId,
@@ -309,9 +308,9 @@ export default function BunkerInfoForm() {
       values?.bodLsfo2Qty +
       values?.adjustmentLsfo2Qty -
       values?.borLsfo2Qty;
-    setFieldValue("consumptionLsmgoQty", Number(lsmgoConsumption.toFixed(2)));
-    setFieldValue("consumptionLsfo1Qty", Number(lsfo1Consumption.toFixed(2)));
-    setFieldValue("consumptionLsfo2Qty", Number(lsfo2Consumption.toFixed(2)));
+    setFieldValue('consumptionLsmgoQty', Number(lsmgoConsumption.toFixed(2)));
+    setFieldValue('consumptionLsfo1Qty', Number(lsfo1Consumption.toFixed(2)));
+    setFieldValue('consumptionLsfo2Qty', Number(lsfo2Consumption.toFixed(2)));
     setIsCalculated(true);
   };
 

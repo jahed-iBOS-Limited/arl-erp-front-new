@@ -1,24 +1,24 @@
-import { Form, Formik } from "formik";
-import React, { useRef, useState, useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import * as Yup from "yup";
-import ICard from "../../../_helper/_card";
-import Loading from "../../../_helper/_loading";
-import { getCastingScheduleAllData_api, getShippointDDL } from "./helper";
-import "./style.css";
-import PaginationTable from "../../../_helper/_tablePagination";
-import NewSelect from "../../../_helper/_select";
-import FormikInput from "../../../chartering/_chartinghelper/common/formikInput";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../_helper/_fixedPoint";
-import { ConvertTime24to12 } from "../../../_helper/timeConverter";
+import { Form, Formik } from 'formik';
+import React, { useRef, useState, useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import ICard from '../../../_helper/_card';
+import Loading from '../../../_helper/_loading';
+import { getCastingScheduleAllData_api, getShippointDDL } from './helper';
+import './style.css';
+import PaginationTable from '../../../_helper/_tablePagination';
+import NewSelect from '../../../_helper/_select';
+import FormikInput from '../../../chartering/_chartinghelper/common/formikInput';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../_helper/_fixedPoint';
+import { ConvertTime24to12 } from '../../../_helper/timeConverter';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
 const initData = {
-  status: { value: -1, label: "All" },
-  shipPoint: { value: 0, label: "All" },
+  status: { value: -1, label: 'All' },
+  shipPoint: { value: 0, label: 'All' },
   formDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -61,7 +61,6 @@ export default function LiftingPlanReport() {
 
   useEffect(() => {
     viewHandler(initData, setGridData, pageNo, pageSize);
-
   }, []);
 
   useEffect(() => {
@@ -108,15 +107,15 @@ export default function LiftingPlanReport() {
                         <NewSelect
                           name="status"
                           options={[
-                            { value: -1, label: "All" },
-                            { value: 0, label: "Pending" },
-                            { value: 1, label: "Complete" },
-                            { value: 2, label: "Reject" },
+                            { value: -1, label: 'All' },
+                            { value: 0, label: 'Pending' },
+                            { value: 1, label: 'Complete' },
+                            { value: 2, label: 'Reject' },
                           ]}
                           value={values?.status}
                           label="Status"
                           onChange={(valueOption) => {
-                            setFieldValue("status", valueOption);
+                            setFieldValue('status', valueOption);
                             setGridData([]);
                           }}
                           placeholder="Status"
@@ -128,13 +127,13 @@ export default function LiftingPlanReport() {
                         <NewSelect
                           name="shipPoint"
                           options={
-                            [{ value: 0, label: "All" }, ...shipPointDDL] || []
+                            [{ value: 0, label: 'All' }, ...shipPointDDL] || []
                           }
                           value={values?.shipPoint}
                           label="Shippoint"
                           placeholder="Shippoint"
                           onChange={(valuesOption) => {
-                            setFieldValue("shipPoint", valuesOption);
+                            setFieldValue('shipPoint', valuesOption);
                             setGridData([]);
                           }}
                           errors={errors}
@@ -149,7 +148,7 @@ export default function LiftingPlanReport() {
                           placeholder="Date"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("formDate", e.target.value);
+                            setFieldValue('formDate', e.target.value);
                             setGridData([]);
                           }}
                           errors={errors}
@@ -164,7 +163,7 @@ export default function LiftingPlanReport() {
                           placeholder="Date"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("toDate", e.target.value);
+                            setFieldValue('toDate', e.target.value);
                             setGridData([]);
                           }}
                           errors={errors}
@@ -280,7 +279,7 @@ function Table({ printRef, gridData }) {
   return (
     <div className="mt-4" ref={printRef}>
       <div className="row">
-        <div style={{ width: "50%" }} className="col-lg-6  table-responsive">
+        <div style={{ width: '50%' }} className="col-lg-6  table-responsive">
           <table className="sm-table table table-striped table-bordered global-table">
             <thead>
               <th>SL</th>
@@ -298,7 +297,7 @@ function Table({ printRef, gridData }) {
                 </tr>
               ))}
 
-              <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+              <tr style={{ fontWeight: 'bold', textAlign: 'right' }}>
                 <td></td>
                 <td className="text-right">Total</td>
                 <td className="text-right">
@@ -314,7 +313,7 @@ function Table({ printRef, gridData }) {
             </tbody>
           </table>
         </div>
-        <div style={{ width: "50%" }} className="col-lg-6 table-responsive">
+        <div style={{ width: '50%' }} className="col-lg-6 table-responsive">
           <div className="table-responsive">
             <table className="sm-table table table-striped table-bordered global-table">
               <thead>
@@ -333,7 +332,7 @@ function Table({ printRef, gridData }) {
                   </tr>
                 ))}
 
-                <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+                <tr style={{ fontWeight: 'bold', textAlign: 'right' }}>
                   <td></td>
                   <td className="text-right">Total</td>
                   <td className="text-right">
@@ -357,38 +356,38 @@ function Table({ printRef, gridData }) {
           <div className="react-bootstrap-table table-responsive pendingDeliveryReport">
             <div className="sta-scrollable-table scroll-table-auto">
               <div
-                style={{ maxHeight: "500px" }}
+                style={{ maxHeight: '500px' }}
                 className="scroll-table _table scroll-table-auto"
               >
                 <table className="table table-striped table-bordered global-table table-font-size-sm">
                   <thead>
                     <th>SL</th>
-                    <th style={{ minWidth: "60px" }}>Casting Date</th>
-                    <th style={{ minWidth: "55px" }}>Casting Time</th>
-                    <th style={{ minWidth: "65px" }}>Client Name</th>
-                    <th style={{ minWidth: "50px" }}>Project Address</th>
-                    <th style={{ minWidth: "50px" }}>
+                    <th style={{ minWidth: '60px' }}>Casting Date</th>
+                    <th style={{ minWidth: '55px' }}>Casting Time</th>
+                    <th style={{ minWidth: '65px' }}>Client Name</th>
+                    <th style={{ minWidth: '50px' }}>Project Address</th>
+                    <th style={{ minWidth: '50px' }}>
                       Contact Person of Project
                     </th>
-                    <th style={{ minWidth: "40px" }}>Type of Work</th>
-                    <th style={{ minWidth: "50px" }}>Shipping Point Name</th>
-                    <th style={{ minWidth: "75px" }}>PSI</th>
+                    <th style={{ minWidth: '40px' }}>Type of Work</th>
+                    <th style={{ minWidth: '50px' }}>Shipping Point Name</th>
+                    <th style={{ minWidth: '75px' }}>PSI</th>
                     {/* <th style={{ minWidth: "35px" }}>Water proof</th>
                   <th style={{ minWidth: "55px" }}>BUET Test(Day)</th> */}
-                    <th style={{ minWidth: "30px" }}>Qty</th>
-                    <th style={{ minWidth: "30px" }}>App. Qty</th>
-                    <th style={{ minWidth: "40px" }}>Shift</th>
-                    <th style={{ minWidth: "40px" }}>No of Pump</th>
-                    <th style={{ minWidth: "40px" }}>Pipe (RFT)</th>
-                    <th style={{ minWidth: "40px" }}>Small Tyre</th>
-                    <th style={{ minWidth: "40px" }}>Large Tyre</th>
-                    <th style={{ minWidth: "40px" }}>Water Proof</th>
-                    <th style={{ minWidth: "40px" }}>Buet Test Report</th>
-                    <th style={{ minWidth: "60px" }}>Information Date</th>
-                    <th style={{ minWidth: "40px" }}>Bag Cement</th>
-                    <th style={{ minWidth: "50px" }}>Marketing concern</th>
-                    <th style={{ minWidth: "50px" }}>Remarks</th>
-                    <th style={{ minWidth: "50px" }}>Status</th>
+                    <th style={{ minWidth: '30px' }}>Qty</th>
+                    <th style={{ minWidth: '30px' }}>App. Qty</th>
+                    <th style={{ minWidth: '40px' }}>Shift</th>
+                    <th style={{ minWidth: '40px' }}>No of Pump</th>
+                    <th style={{ minWidth: '40px' }}>Pipe (RFT)</th>
+                    <th style={{ minWidth: '40px' }}>Small Tyre</th>
+                    <th style={{ minWidth: '40px' }}>Large Tyre</th>
+                    <th style={{ minWidth: '40px' }}>Water Proof</th>
+                    <th style={{ minWidth: '40px' }}>Buet Test Report</th>
+                    <th style={{ minWidth: '60px' }}>Information Date</th>
+                    <th style={{ minWidth: '40px' }}>Bag Cement</th>
+                    <th style={{ minWidth: '50px' }}>Marketing concern</th>
+                    <th style={{ minWidth: '50px' }}>Remarks</th>
+                    <th style={{ minWidth: '50px' }}>Status</th>
                   </thead>
                   <tbody>
                     {gridData?.data?.map((item, i) => {
@@ -410,7 +409,7 @@ function Table({ printRef, gridData }) {
                                 rowSpan={item?.list?.length}
                                 className="text-center"
                               >
-                                {_dateFormatter(item?.dteCastingDate)}{" "}
+                                {_dateFormatter(item?.dteCastingDate)}{' '}
                               </td>
                             )}
                             {index < 1 && (
@@ -420,14 +419,14 @@ function Table({ printRef, gridData }) {
                               >
                                 {index < 1 &&
                                   ConvertTime24to12(
-                                    item?.dteCastingDate.split("T")[1]
+                                    item?.dteCastingDate.split('T')[1]
                                   )}
                               </td>
                             )}
                             {index < 1 && (
                               <td
                                 rowSpan={item?.list?.length}
-                                style={{ wordBreak: "break-all" }}
+                                style={{ wordBreak: 'break-all' }}
                               >
                                 {item?.strCustomerName}
                               </td>
@@ -478,10 +477,10 @@ function Table({ printRef, gridData }) {
                             <td>{element?.intLargeTyre}</td>
                             <td>
                               {element?.isWaterProof
-                                ? "Yes"
+                                ? 'Yes'
                                 : element?.isWaterProof === false
-                                ? "No"
-                                : ""}
+                                  ? 'No'
+                                  : ''}
                             </td>
                             {index < 1 && (
                               <td rowSpan={item?.list?.length}>
@@ -496,7 +495,7 @@ function Table({ printRef, gridData }) {
                                 {`${_dateFormatter(
                                   item?.dteInformationDate
                                 )}, ${ConvertTime24to12(
-                                  item?.dteInformationDate.split("T")[1]
+                                  item?.dteInformationDate.split('T')[1]
                                 )}`}
                               </td>
                             )}
@@ -520,7 +519,7 @@ function Table({ printRef, gridData }) {
                         );
                       });
                     })}
-                    <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+                    <tr style={{ fontWeight: 'bold', textAlign: 'right' }}>
                       <td colSpan="9" className="text-right">
                         <b>Total: </b>
                       </td>

@@ -1,14 +1,14 @@
-import React from "react";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+import React from 'react';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 import {
   allObjSBU,
   chooseTableColumns,
   fetchPCFLandingData,
   importPaymentType,
   landingInitData,
-} from "./helper";
-import { Form, Formik } from "formik";
+} from './helper';
+import { Form, Formik } from 'formik';
 
 const ProjectedCashFlowLanding = ({ obj }) => {
   // destrcuture
@@ -29,7 +29,7 @@ const ProjectedCashFlowLanding = ({ obj }) => {
         options={importPaymentType}
         value={values?.paymentType}
         onChange={(valueOption) => {
-          setFieldValue("paymentType", valueOption);
+          setFieldValue('paymentType', valueOption);
         }}
         errors={errors}
         touched={touched}
@@ -55,7 +55,7 @@ const ProjectedCashFlowLanding = ({ obj }) => {
         setValues,
       }) => (
         <Form className="form form-label-right">
-          <h4 style={{ marginTop: "30px", marginBottom: "-5px" }}>Landing</h4>
+          <h4 style={{ marginTop: '30px', marginBottom: '-5px' }}>Landing</h4>
           <div className="row form-group  global-form">
             {/* SBU Form Field */}
             <div className="col-lg-3">
@@ -65,7 +65,7 @@ const ProjectedCashFlowLanding = ({ obj }) => {
                 options={[allObjSBU, ...sbuDDL] || []}
                 value={values?.sbu}
                 onChange={(valueOption) => {
-                  setFieldValue("sbu", valueOption);
+                  setFieldValue('sbu', valueOption);
                 }}
                 errors={errors}
                 touched={touched}
@@ -73,7 +73,7 @@ const ProjectedCashFlowLanding = ({ obj }) => {
             </div>
 
             {/* Form Field For Import View Type */}
-            {createPageValues?.viewType === "import" &&
+            {createPageValues?.viewType === 'import' &&
               ImportTypeFormField(values, setFieldValue, errors, touched)}
 
             {/* Common Form Field */}
@@ -96,7 +96,7 @@ const ProjectedCashFlowLanding = ({ obj }) => {
             <div>
               <button
                 type="button"
-                style={{ marginTop: "18px" }}
+                style={{ marginTop: '18px' }}
                 className="btn btn-primary ml-5"
                 onClick={() =>
                   fetchPCFLandingData({
@@ -128,7 +128,7 @@ const ProjectedCashFlowLanding = ({ obj }) => {
 
 export default ProjectedCashFlowLanding;
 
-const GenericTable = ({ data, columns, keyField = "index" }) => {
+const GenericTable = ({ data, columns, keyField = 'index' }) => {
   return (
     <table className="table table-striped table-bordered global-table mt-0">
       <thead>
@@ -143,7 +143,7 @@ const GenericTable = ({ data, columns, keyField = "index" }) => {
           data?.map((item, rowIdx) => (
             <tr key={item[keyField] || rowIdx}>
               {columns?.map((col, colIndex) => (
-                <td key={colIndex} className={col?.className || ""}>
+                <td key={colIndex} className={col?.className || ''}>
                   {col?.render ? col.render(item, rowIdx) : item[col.key]}
                 </td>
               ))}

@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
-import IView from "./../../../../_helper/_helperIcons/_view";
-import IViewModal from "./../../../../_helper/_viewModal";
-import document from "./document.svg";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { GetTreasuryDepositLogDetails_api } from "./../helper";
-import moment from "moment";
+import React, { useState } from 'react';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import { _fixedPoint } from './../../../../_helper/_fixedPoint';
+import IView from './../../../../_helper/_helperIcons/_view';
+import IViewModal from './../../../../_helper/_viewModal';
+import document from './document.svg';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { GetTreasuryDepositLogDetails_api } from './../helper';
+import moment from 'moment';
 import MultipleViewTreasuryDeposit from './multipleView/multipleViewTreasuryDeposit';
 import TresuaryDepositViewModal from './../../../transaction/tresuaryDeposit/View/viewForm';
 const TreasuryDepositModel = ({ rowDto, parentRowClickData }) => {
@@ -14,24 +14,24 @@ const TreasuryDepositModel = ({ rowDto, parentRowClickData }) => {
   const [landing, setLoading] = useState(false);
   const [modelShowAll, setModelShowAll] = useState(false);
   // const [viewClick, setViewClick] = useState({});
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   return (
     <>
       <OverlayTrigger
-        overlay={<Tooltip id="cs-icon">{"Details All Log"}</Tooltip>}
+        overlay={<Tooltip id="cs-icon">{'Details All Log'}</Tooltip>}
       >
         <img
           src={document}
-          alt={"document"}
+          alt={'document'}
           onClick={() => {
             setModelShowAll(true);
           }}
           style={{
-            width: "18px",
-            position: "absolute",
-            top: "1px",
-            right: "22px",
-            cursor: "pointer",
+            width: '18px',
+            position: 'absolute',
+            top: '1px',
+            right: '22px',
+            cursor: 'pointer',
           }}
         />
       </OverlayTrigger>
@@ -42,8 +42,8 @@ const TreasuryDepositModel = ({ rowDto, parentRowClickData }) => {
             <table className="table table-striped table-bordered mt-3">
               <thead>
                 <tr>
-                  <th style={{ width: "35px" }}>S/N</th>
-                  <th style={{ width: "150px" }}>Tresuary Code</th>
+                  <th style={{ width: '35px' }}>S/N</th>
+                  <th style={{ width: '150px' }}>Tresuary Code</th>
                   <th>Tresuary Date</th>
                   <th>Depositor Name</th>
                   <th>Deposit Amount</th>
@@ -61,12 +61,12 @@ const TreasuryDepositModel = ({ rowDto, parentRowClickData }) => {
                       <td> {tableData?.treasuryCode} </td>
                       <td> {_dateFormatter(tableData?.depositDate)} </td>
                       <td className="text-right">
-                        {" "}
-                        {tableData?.depositorName}{" "}
+                        {' '}
+                        {tableData?.depositorName}{' '}
                       </td>
                       <td className="text-right">
-                        {" "}
-                        {_fixedPoint(tableData?.depositAmount)}{" "}
+                        {' '}
+                        {_fixedPoint(tableData?.depositAmount)}{' '}
                       </td>
                       <td> {tableData?.createdBy} </td>
                       <td> {tableData?.activity} </td>
@@ -107,11 +107,11 @@ const TreasuryDepositModel = ({ rowDto, parentRowClickData }) => {
           >
             <div className="mt-8">
               <p className="p-0 m-0">
-                <b>Activity</b>: {singleData?.activity}{" "}
+                <b>Activity</b>: {singleData?.activity}{' '}
               </p>
               <p className="p-0 m-0">
-                <b>Action Date/Time</b>:{" "}
-                {moment(singleData?.activityTime).format("DD-MMM-YY, LTS")}
+                <b>Action Date/Time</b>:{' '}
+                {moment(singleData?.activityTime).format('DD-MMM-YY, LTS')}
               </p>
             </div>
             <TresuaryDepositViewModal id={true} singleData={singleData} />
@@ -126,7 +126,9 @@ const TreasuryDepositModel = ({ rowDto, parentRowClickData }) => {
             title={'View "Treasury Deposit Log (Details All)"'}
             btnText="Close"
           >
-            <MultipleViewTreasuryDeposit parentRowClickData={parentRowClickData}/>
+            <MultipleViewTreasuryDeposit
+              parentRowClickData={parentRowClickData}
+            />
           </IViewModal>
         )}
       </div>

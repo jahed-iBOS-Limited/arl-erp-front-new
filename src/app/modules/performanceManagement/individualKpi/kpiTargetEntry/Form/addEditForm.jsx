@@ -1,9 +1,7 @@
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import axios from "axios";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import axios from 'axios';
+import Form from './form';
 import {
   getEmpDDLAction,
   getBSCPerspectiveDDLAction,
@@ -20,38 +18,38 @@ import {
   deleteIndividualKPIByIdAction,
   getKpiEditedSingleDataAction,
   saveCopyKpiTargetAction,
-} from "../../../_redux/Actions";
-import { BrowserRouter, Route, useParams } from "react-router-dom";
-import ViewModal from "./detailsView";
-import IForm from "../../../../_helper/_form";
-import { toArray } from "lodash";
-import { getPMSFrequencyDDLAction } from "../../../../_helper/_redux/Actions";
-import IConfirmModal from "./../../../../_helper/_confirmModal";
+} from '../../../_redux/Actions';
+import { BrowserRouter, Route, useParams } from 'react-router-dom';
+import ViewModal from './detailsView';
+import IForm from '../../../../_helper/_form';
+import { toArray } from 'lodash';
+import { getPMSFrequencyDDLAction } from '../../../../_helper/_redux/Actions';
+import IConfirmModal from './../../../../_helper/_confirmModal';
 import {
   getStrategicParticularsGridAction,
   setParticullersGridEmpty,
-} from "../../../_redux/Actions";
-import { toast } from "react-toastify";
-import { getPmsReportAction } from "../../../_helper/getReportAction";
+} from '../../../_redux/Actions';
+import { toast } from 'react-toastify';
+import { getPmsReportAction } from '../../../_helper/getReportAction';
 
 const initData = {
-  kpiformat: "",
-  objective: "",
-  bscPerspective: "",
-  kpiname: "",
-  weight: "",
-  dataSource: "",
-  maxiMini: "",
-  employee: "",
-  year: "",
-  aggregationType: "",
-  operator: "",
-  url: "",
+  kpiformat: '',
+  objective: '',
+  bscPerspective: '',
+  kpiname: '',
+  weight: '',
+  dataSource: '',
+  maxiMini: '',
+  employee: '',
+  year: '',
+  aggregationType: '',
+  operator: '',
+  url: '',
   isDailyEntry: false,
-  selectedType: "",
-  copyEmployee: "",
-  copyYear: "",
-  benchmark: "",
+  selectedType: '',
+  copyEmployee: '',
+  copyYear: '',
+  benchmark: '',
 };
 
 export default function KpiEntryForm({ isView, data }) {
@@ -157,7 +155,6 @@ export default function KpiEntryForm({ isView, data }) {
         )
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const getBscPerspectiveDefaultValue = (id) => {
@@ -170,7 +167,7 @@ export default function KpiEntryForm({ isView, data }) {
       setDisabled(false);
       if (values && profileData?.accountId && selectedBusinessUnit?.value) {
         const { objValues, objRowTargetAchivment } = values;
-        const employeeName = objValues.employee.label.split("[")[0];
+        const employeeName = objValues.employee.label.split('[')[0];
         const objHeader = {
           accountId: profileData.accountId,
           businessUnitId: selectedBusinessUnit.value,
@@ -179,7 +176,7 @@ export default function KpiEntryForm({ isView, data }) {
           employeeName,
           departmentId: 0,
           kpiforId: 1,
-          kpifor: "Employee",
+          kpifor: 'Employee',
           yearId: objValues.year?.value,
           yearName: objValues.year?.label,
           actionBy: profileData.userId,
@@ -207,7 +204,7 @@ export default function KpiEntryForm({ isView, data }) {
           ...itm,
           target: +itm.target,
         }));
-        if (values?.objValues?.selectedType === "") {
+        if (values?.objValues?.selectedType === '') {
           dispatch(
             saveKpiTargetAction({
               data: {
@@ -220,26 +217,26 @@ export default function KpiEntryForm({ isView, data }) {
           );
         } else {
           if (
-            values?.objValues?.selectedType?.label === "Employee" &&
+            values?.objValues?.selectedType?.label === 'Employee' &&
             !values?.objValues?.copyEmployee
           )
-            return toast.warn("Please add Employee!");
+            return toast.warn('Please add Employee!');
           if (
-            values?.objValues?.selectedType?.label === "Year" &&
+            values?.objValues?.selectedType?.label === 'Year' &&
             !values?.objValues?.copyYear
           )
-            return toast.warn("Please add Year!");
+            return toast.warn('Please add Year!');
 
           dispatch(
             saveCopyKpiTargetAction(
               //copyFrom
-              values?.objValues?.selectedType?.label === "Employee"
-                ? values?.objValues?.copyEmployee?.value || ""
+              values?.objValues?.selectedType?.label === 'Employee'
+                ? values?.objValues?.copyEmployee?.value || ''
                 : 0,
               //copyTo
               values?.objValues?.employee?.value,
               //copyFrom year
-              values?.objValues?.selectedType?.label === "Employee"
+              values?.objValues?.selectedType?.label === 'Employee'
                 ? 0
                 : values?.objValues?.copyYear?.value,
               //copyTo year
@@ -249,7 +246,7 @@ export default function KpiEntryForm({ isView, data }) {
           );
         }
       }
-      console.log(values, "values");
+      console.log(values, 'values');
     } catch (error) {
       setDisabled(false);
     }
@@ -284,7 +281,7 @@ export default function KpiEntryForm({ isView, data }) {
 
   useEffect(() => {
     if (singleData) {
-      console.log("hello");
+      console.log('hello');
       getReport();
     }
   }, [singleData]);
@@ -298,13 +295,13 @@ export default function KpiEntryForm({ isView, data }) {
       0,
       0,
       false,
-      1,
+      1
     );
   };
 
   const deleteIndividualKPIById = (kpiId, values) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to delete`,
       yesAlertFunc: () => {
         dispatch(deleteIndividualKPIByIdAction(kpiId, getReport, values));
@@ -348,7 +345,7 @@ export default function KpiEntryForm({ isView, data }) {
     <>
       <BrowserRouter>
         <IForm
-          title={id ? "KPI TARGET VIEW" : "KPI TARGET ENTRY"}
+          title={id ? 'KPI TARGET VIEW' : 'KPI TARGET ENTRY'}
           getProps={setObjprops}
           isDisabled={isDisabled}
           isHiddenSave={id ? true : false}

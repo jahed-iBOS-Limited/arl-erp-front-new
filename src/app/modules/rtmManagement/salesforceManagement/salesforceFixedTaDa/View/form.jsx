@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
 
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import { getEmployeeDDL, getEmployeeDetails } from '../helper';
 
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import { getEmployeeDDL, getEmployeeDetails } from "../helper";
-
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 // Validation schema
 
@@ -24,7 +23,7 @@ export default function FormCmp({
   const [employeeDDL, setEmployeeDDL] = useState(false);
 
   useEffect(() => {
-    if ((profileData?.accountId && selectedBusinessUnit?.value)) {
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
       getEmployeeDDL(
         profileData.accountId,
         selectedBusinessUnit.value,
@@ -67,7 +66,7 @@ export default function FormCmp({
                       value={values?.employee}
                       label="Employee"
                       onChange={(valueOption) => {
-                        setFieldValue("employee", valueOption);
+                        setFieldValue('employee', valueOption);
                       }}
                       placeholder="select Employee"
                       errors={errors}
@@ -77,7 +76,7 @@ export default function FormCmp({
                   </div>
                   <div className="col-lg-3 pl pr-1 mb-1">
                     <button
-                      style={{ marginTop: "15px" }}
+                      style={{ marginTop: '15px' }}
                       className="btn btn-primary"
                       type="button"
                       disabled={true}
@@ -202,14 +201,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

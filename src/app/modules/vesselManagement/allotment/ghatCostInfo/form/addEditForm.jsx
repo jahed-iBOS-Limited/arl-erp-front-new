@@ -1,53 +1,53 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import useDebounce from "../../../../_helper/useDebounce";
-import { getMonth } from "../../../../salesManagement/report/customerSalesTarget/utils";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import useDebounce from '../../../../_helper/useDebounce';
+import { getMonth } from '../../../../salesManagement/report/customerSalesTarget/utils';
 import {
   GetDomesticPortDDL,
   GetShipPointDDL,
-} from "../../loadingInformation/helper";
+} from '../../loadingInformation/helper';
 import {
   GetLighterDestinationDDL,
   getLightersByVesselNLighterDestination,
-} from "../../unLoadingInformation/helper";
+} from '../../unLoadingInformation/helper';
 import {
   getGhatCostInfoById,
   getMotherVesselDDL,
   getVehicleAllColumnTotal,
   ghatCostInfoEdit,
   ghatCostInfoEntry,
-} from "../helper";
-import Form from "./form";
+} from '../helper';
+import Form from './form';
 
 const initData = {
-  destination: "",
-  port: "",
-  motherVessel: "",
-  lighterVessel: "",
-  shipPoint: "",
-  supplier: "",
-  month: "",
-  year: "",
-  item: "",
-  quantity: "",
-  rate: "",
-  type: "",
-  reportType: "",
+  destination: '',
+  port: '',
+  motherVessel: '',
+  lighterVessel: '',
+  shipPoint: '',
+  supplier: '',
+  month: '',
+  year: '',
+  item: '',
+  quantity: '',
+  rate: '',
+  type: '',
+  reportType: '',
   demandDate: _todayDate(),
 };
 
 const typeList = [
-  { value: 1, label: "Fertilizer Unload Per Ton" },
-  { value: 2, label: "Ruphsa Ghat Dumping" },
-  { value: 3, label: "Ship Sweeping" },
-  { value: 4, label: "Packaging Sewing Dumping" },
-  { value: 5, label: "Others" },
+  { value: 1, label: 'Fertilizer Unload Per Ton' },
+  { value: 2, label: 'Ruphsa Ghat Dumping' },
+  { value: 3, label: 'Ship Sweeping' },
+  { value: 4, label: 'Packaging Sewing Dumping' },
+  { value: 5, label: 'Others' },
 ];
 
 export default function GhatCostInfoForm() {
@@ -79,7 +79,6 @@ export default function GhatCostInfoForm() {
 
   useEffect(() => {
     debounce(() => getVehicleAllColumnTotal(shipPointData, setTotalData));
-
   }, [shipPointData]);
 
   useEffect(() => {
@@ -121,7 +120,7 @@ export default function GhatCostInfoForm() {
           supplier: { value: supplierId, label: supplierName },
           month: { value: monthId, label: getMonth(monthId) },
           year: { value: yearId, label: yearId },
-          reportType: { value: 1, label: "Ghat Cost Information" },
+          reportType: { value: 1, label: 'Ghat Cost Information' },
         });
       });
     }
@@ -213,7 +212,7 @@ export default function GhatCostInfoForm() {
     saveLighterLoad(
       `/tms/LigterLoadUnload/CreateLogisticDemandNReciveInfo`,
       payload,
-      "",
+      '',
       true
     );
   };
@@ -221,7 +220,7 @@ export default function GhatCostInfoForm() {
   const addRow = (values, cb) => {
     const exist = rowDto?.find((item) => item?.typeId === values?.type?.value);
     if (exist) {
-      return toast.warn("Duplicate value not allowed! please change the type");
+      return toast.warn('Duplicate value not allowed! please change the type');
     }
     try {
       const newRow = {
@@ -245,24 +244,24 @@ export default function GhatCostInfoForm() {
 
   const onChangeHandler = (fieldName, values, currentValue, setFieldValue) => {
     switch (fieldName) {
-      case "destination":
-        setFieldValue("destination", currentValue);
-        setFieldValue("lighterVessel", "");
-        setFieldValue("motherVessel", "");
+      case 'destination':
+        setFieldValue('destination', currentValue);
+        setFieldValue('lighterVessel', '');
+        setFieldValue('motherVessel', '');
         break;
 
-      case "port":
-        setFieldValue("port", currentValue);
-        setFieldValue("motherVessel", "");
-        setFieldValue("lighterVessel", "");
+      case 'port':
+        setFieldValue('port', currentValue);
+        setFieldValue('motherVessel', '');
+        setFieldValue('lighterVessel', '');
         if (currentValue) {
           getMotherVesselDDL(accId, buId, setVessels, currentValue?.value);
         }
         break;
 
-      case "motherVessel":
-        setFieldValue("motherVessel", currentValue);
-        setFieldValue("lighterVessel", "");
+      case 'motherVessel':
+        setFieldValue('motherVessel', currentValue);
+        setFieldValue('lighterVessel', '');
 
         if (currentValue) {
           getLightersByVesselNLighterDestination(
@@ -275,16 +274,16 @@ export default function GhatCostInfoForm() {
         }
         break;
 
-      case "lighterVessel":
-        setFieldValue("lighterVessel", currentValue);
+      case 'lighterVessel':
+        setFieldValue('lighterVessel', currentValue);
         break;
 
-      case "shipPoint":
-        setFieldValue("shipPoint", currentValue);
+      case 'shipPoint':
+        setFieldValue('shipPoint', currentValue);
         break;
 
-      case "type":
-        setFieldValue("type", currentValue);
+      case 'type':
+        setFieldValue('type', currentValue);
         break;
 
       default:
@@ -293,7 +292,7 @@ export default function GhatCostInfoForm() {
   };
 
   const title = `${
-    type === "view" ? "View " : type === "edit" ? "Update" : "Enter"
+    type === 'view' ? 'View ' : type === 'edit' ? 'Update' : 'Enter'
   } Ghat Cost Info`;
   return (
     <>

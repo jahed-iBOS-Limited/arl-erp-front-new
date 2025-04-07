@@ -1,6 +1,6 @@
 // For Communication with external API's , for example ... get data, post data etc
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getLandingData = async (
   accId,
@@ -45,7 +45,7 @@ export const editBillProcess = async (payload) => {
       payload
     );
     if (res?.status === 200) {
-      toast.success(res?.data?.message || "Submitted successfully");
+      toast.success(res?.data?.message || 'Submitted successfully');
     }
   } catch (err) {
     console.log(err?.response?.data?.message);

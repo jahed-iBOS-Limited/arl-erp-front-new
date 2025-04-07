@@ -1,19 +1,19 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IButton from "../../../../_helper/iButton";
-import { getVehicleGridData } from "../_redux/Actions";
-import PaginationTable from "./../../../../_helper/_tablePagination";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IButton from '../../../../_helper/iButton';
+import { getVehicleGridData } from '../_redux/Actions';
+import PaginationTable from './../../../../_helper/_tablePagination';
 
 const initData = {
-  shipPoint: { value: 0, label: "All" },
-  ownerType: { value: 0, label: "All" },
+  shipPoint: { value: 0, label: 'All' },
+  ownerType: { value: 0, label: 'All' },
 };
 
 export function TableRow() {
@@ -40,7 +40,7 @@ export function TableRow() {
     return state.vehicleUnit?.gridData;
   }, shallowEqual);
 
-  const getGridData = (values, _pageNo, _pageSize, searchValue = "") => {
+  const getGridData = (values, _pageNo, _pageSize, searchValue = '') => {
     dispatch(
       getVehicleGridData(
         profileData.accountId,
@@ -68,17 +68,16 @@ export function TableRow() {
       //     0
       //   )
       // );
-      getGridData(initData, pageNo, pageSize, "");
+      getGridData(initData, pageNo, pageSize, '');
       getShipPointDDL(
         `/wms/ShipPoint/GetShipPointDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, values) => {
-    getGridData(values, pageNo, pageSize, "");
+    getGridData(values, pageNo, pageSize, '');
   };
 
   const paginationSearchHandler = (searchValue, values) => {
@@ -112,12 +111,12 @@ export function TableRow() {
                   <NewSelect
                     name="shipPoint"
                     options={
-                      [{ value: 0, label: "All" }, ...shipPointDDL] || []
+                      [{ value: 0, label: 'All' }, ...shipPointDDL] || []
                     }
                     value={values?.shipPoint}
                     label="Ship Point"
                     onChange={(valueOption) => {
-                      setFieldValue("shipPoint", valueOption);
+                      setFieldValue('shipPoint', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -127,15 +126,15 @@ export function TableRow() {
                   <NewSelect
                     name="ownerType"
                     options={[
-                      { value: 0, label: "All" },
-                      { value: 1, label: "Company" },
-                      { value: 2, label: "Rental" },
-                      { value: 3, label: "Customer" },
+                      { value: 0, label: 'All' },
+                      { value: 1, label: 'Company' },
+                      { value: 2, label: 'Rental' },
+                      { value: 3, label: 'Customer' },
                     ]}
                     value={values?.ownerType}
                     label="Owner Type"
                     onChange={(valueOption) => {
-                      setFieldValue("ownerType", valueOption);
+                      setFieldValue('ownerType', valueOption);
                     }}
                     placeholder="Owner Type"
                     errors={errors}
@@ -143,9 +142,9 @@ export function TableRow() {
                   />
                 </div>
                 <IButton
-                colSize={"col-lg-3"}
+                  colSize={'col-lg-3'}
                   onClick={() => {
-                    getGridData(values, pageNo, pageSize, "");
+                    getGridData(values, pageNo, pageSize, '');
                   }}
                 />
               </div>
@@ -157,62 +156,62 @@ export function TableRow() {
                   paginationSearchHandler={paginationSearchHandler}
                   values={values}
                 />
-              <div className="table-responsive">
-              <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-                  <thead>
-                    <tr>
-                      <th>SL</th>
-                      <th>Vehicle No</th>
-                      <th>Owner Type</th>
-                      <th>ShipPoint</th>
-                      <th>Weight</th>
-                      <th>Volume</th>
-                      <th>Capacity In Bag</th>
-                      <th style={{ width: "70px" }}>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {gridData?.data?.length > 0 &&
-                      gridData?.data?.map((item, index) => (
-                        <tr>
-                          <td className="text-center">{index + 1}</td>
-                          <td>
-                            <div className="pl-2">{item?.vehicleNo}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.ownerType}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.shipPointName}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.weight}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.volume}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{item?.capacityInBag}</div>
-                          </td>
-                          <td>
-                            <div className="d-flex justify-content-around">
-                              <span
-                                className="edit"
-                                onClick={() => {
-                                  history.push(
-                                    `/transport-management/configuration/vehicle/edit/${item?.vehicleId}`
-                                  );
-                                }}
-                              >
-                                <IEdit />
-                              </span>
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
-              </div>
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th>Vehicle No</th>
+                        <th>Owner Type</th>
+                        <th>ShipPoint</th>
+                        <th>Weight</th>
+                        <th>Volume</th>
+                        <th>Capacity In Bag</th>
+                        <th style={{ width: '70px' }}>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {gridData?.data?.length > 0 &&
+                        gridData?.data?.map((item, index) => (
+                          <tr>
+                            <td className="text-center">{index + 1}</td>
+                            <td>
+                              <div className="pl-2">{item?.vehicleNo}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.ownerType}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.shipPointName}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.weight}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.volume}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{item?.capacityInBag}</div>
+                            </td>
+                            <td>
+                              <div className="d-flex justify-content-around">
+                                <span
+                                  className="edit"
+                                  onClick={() => {
+                                    history.push(
+                                      `/transport-management/configuration/vehicle/edit/${item?.vehicleId}`
+                                    );
+                                  }}
+                                >
+                                  <IEdit />
+                                </span>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
+                </div>
                 {gridData?.data?.length > 0 && (
                   <PaginationTable
                     count={gridData?.totalCount}

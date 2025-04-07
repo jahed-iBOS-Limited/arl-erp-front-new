@@ -1,16 +1,16 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import PaginationTable from "../../../chartering/_chartinghelper/_tablePagination";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { ITable } from "../../../_helper/_table";
-import { _timeFormatter } from "../../../_helper/_timeFormatter";
-import { _todayDate } from "../../../_helper/_todayDate";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import PaginationTable from '../../../chartering/_chartinghelper/_tablePagination';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { ITable } from '../../../_helper/_table';
+import { _timeFormatter } from '../../../_helper/_timeFormatter';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 const initData = {
   fromDate: _todayDate(),
@@ -26,7 +26,7 @@ export default function MeltingProduction() {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getlandingData(
       `/mes/MSIL/GetMeltingProductionLandingPagination?FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BusinessUnitId=${selectedBusinessUnit?.value}&pageNumber=${pageNo}&pageSize=${pageSize}`
     );
@@ -73,7 +73,7 @@ export default function MeltingProduction() {
                       min={values?.fromDate}
                     />
                   </div>
-                  <div style={{ marginTop: "15px" }} className="col-lg-1">
+                  <div style={{ marginTop: '15px' }} className="col-lg-1">
                     <button
                       type="button"
                       onClick={() => {
@@ -90,7 +90,7 @@ export default function MeltingProduction() {
                 </div>
 
                 <div
-                  style={{ marginTop: "15px" }}
+                  style={{ marginTop: '15px' }}
                   className="loan-scrollable-table"
                 >
                   <div className="scroll-table _table">
@@ -98,10 +98,10 @@ export default function MeltingProduction() {
                       <table className="table table-striped table-bordered bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ minWidth: "50px" }}>SL</th>
+                            <th style={{ minWidth: '50px' }}>SL</th>
                             <th>Date</th>
                             <th>Shift</th>
-                            <th style={{ width: "180px" }}>Heat No</th>
+                            <th style={{ width: '180px' }}>Heat No</th>
                             <th>Total ScrapCal</th>
                             <th>Ferro Manganese</th>
                             <th>Silicon Manganese</th>
@@ -123,7 +123,7 @@ export default function MeltingProduction() {
                             <th>M.Panel No</th>
                             <th>Crucible No</th>
                             <th>Crucible Lining Heat No</th>
-                            <th style={{ width: "50px" }}>Action</th>
+                            <th style={{ width: '50px' }}>Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -172,11 +172,11 @@ export default function MeltingProduction() {
                                 </td>
                                 <td className="text-center">
                                   {item?.tmTotalHeatTime &&
-                                    item?.tmTotalHeatTime?.split(":")?.[0] +
-                                      "H"}{" "}
+                                    item?.tmTotalHeatTime?.split(':')?.[0] +
+                                      'H'}{' '}
                                   {item?.tmTotalHeatTime &&
-                                    item?.tmTotalHeatTime?.split(":")?.[1] +
-                                      "M"}
+                                    item?.tmTotalHeatTime?.split(':')?.[1] +
+                                      'M'}
                                 </td>
                                 <td className="text-center">
                                   {item?.numPerBilletWeight}
@@ -195,11 +195,11 @@ export default function MeltingProduction() {
                                 </td>
                                 <td className="text-center">
                                   {item?.tmPowerCutHours &&
-                                    item?.tmPowerCutHours?.split(":")[0]}
+                                    item?.tmPowerCutHours?.split(':')[0]}
                                 </td>
                                 <td className="text-center">
                                   {item?.tmPowerCutMitutes &&
-                                    item?.tmPowerCutMitutes?.split(":")[1]}
+                                    item?.tmPowerCutMitutes?.split(':')[1]}
                                 </td>
                                 <td className="text-center">
                                   {item?.intMpanelNo}

@@ -1,28 +1,27 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { getLandingData } from "../helper";
-import Loading from "./../../../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { getLandingData } from '../helper';
+import Loading from './../../../../_helper/_loading';
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   CardBody,
-} from "./../../../../../../_metronic/_partials/controls";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import ICustomTable from "../../../../_helper/_customTable";
-import NewSelect from "../../../../_helper/_select";
+} from './../../../../../../_metronic/_partials/controls';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import ICustomTable from '../../../../_helper/_customTable';
+import NewSelect from '../../../../_helper/_select';
 
 const header = [
-  "SL",
-  "Agent",
-  "PO No",
-  "Bill Number",
-  "Survey Date",
-  "Short Qty",
-  "Total Pay",
-  "Pay Date",
+  'SL',
+  'Agent',
+  'PO No',
+  'Bill Number',
+  'Survey Date',
+  'Short Qty',
+  'Total Pay',
+  'Pay Date',
 ];
 
 const InspectionAndSurveyLanding = () => {
@@ -70,7 +69,7 @@ const InspectionAndSurveyLanding = () => {
             <button
               onClick={() =>
                 history.push(
-                  "/managementImport/transaction/inspection-and-survey/create"
+                  '/managementImport/transaction/inspection-and-survey/create'
                 )
               }
               className="btn btn-primary"
@@ -104,7 +103,7 @@ const InspectionAndSurveyLanding = () => {
               gridData?.data?.map((item, index) => { */}
             {/* return ( */}
             <tr>
-              <td style={{ width: "30px" }} className="text-center">
+              <td style={{ width: '30px' }} className="text-center">
                 1
               </td>
               <td>

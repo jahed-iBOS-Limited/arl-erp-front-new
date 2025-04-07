@@ -1,5 +1,5 @@
-import React from "react";
-import TargetVsSalesChart from "./tenderVsActualTableChart";
+import React from 'react';
+import TargetVsSalesChart from './tenderVsActualTableChart';
 
 const TenderVsActualTable = ({ gridData }) => {
   return (
@@ -10,7 +10,7 @@ const TenderVsActualTable = ({ gridData }) => {
             <table className="table table-striped table-bordered global-table">
               <thead>
                 <tr>
-                  <th style={{ width: "40px" }}>SL</th>
+                  <th style={{ width: '40px' }}>SL</th>
                   <th>Mother Vessel</th>
                   <th>International</th>
                   <th>Total Revenue Approximate</th>

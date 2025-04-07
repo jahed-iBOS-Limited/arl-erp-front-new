@@ -1,10 +1,10 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Switch, Redirect } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import ApplicationApprove from "./applicationApprove";
-import PaymentPrepare from "./paymentPrepare";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Switch, Redirect } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import ApplicationApprove from './applicationApprove';
+import PaymentPrepare from './paymentPrepare';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
 
 export function AccountsPages() {
   const { userRole } = useSelector((state) => state?.authData, shallowEqual);

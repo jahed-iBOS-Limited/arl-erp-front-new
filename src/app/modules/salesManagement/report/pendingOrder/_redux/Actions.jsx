@@ -1,7 +1,7 @@
-import * as requestFromServer from "./Api";
-import { pendingOrderSlice } from "./Slice";
-import { toast } from "react-toastify";
-import { isArray } from "lodash";
+import * as requestFromServer from './Api';
+import { pendingOrderSlice } from './Slice';
+import { toast } from 'react-toastify';
+import { isArray } from 'lodash';
 const { actions: slice } = pendingOrderSlice;
 
 export const getEmpDDLAction = (accId, buId) => (dispatch) => {
@@ -36,12 +36,11 @@ export const savePendingOrder = (payload) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
     });
 };
@@ -52,7 +51,7 @@ export const saveEditedPendingOrder = (payload) => () => {
     .then((res) => {
       if (res.status === 200) {
         console.log(res.data);
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
       }
     })
     .catch((err) => {
@@ -62,26 +61,20 @@ export const saveEditedPendingOrder = (payload) => () => {
 };
 
 // action for get grid data
-export const getPendingOrderGridDataAction = (
-  accId,
-  buId,
-  shipPointId,
-  setLoading,
-  pageNo,
-  pageSize
-) => (dispatch) => {
-  setLoading(true);
-  return requestFromServer
-    .getPendingOrderGridData(accId, buId, shipPointId, pageNo, pageSize)
-    .then((res) => {
-      setLoading(false);
-      return dispatch(slice.SetPendingOrderGridData(res.data));
-    })
-    .catch((err) => {
-      setLoading(false);
-      //
-    });
-};
+export const getPendingOrderGridDataAction =
+  (accId, buId, shipPointId, setLoading, pageNo, pageSize) => (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .getPendingOrderGridData(accId, buId, shipPointId, pageNo, pageSize)
+      .then((res) => {
+        setLoading(false);
+        return dispatch(slice.SetPendingOrderGridData(res.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+        //
+      });
+  };
 
 // action for get data by id single
 export const getPendingOrderById = (id) => (dispatch) => {
@@ -100,9 +93,7 @@ export const getPendingOrderById = (id) => (dispatch) => {
         return dispatch(slice.SetDataById(data));
       }
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };
 // setPendingOrderGridDataEmptyAction
 export const setPendingOrderGridDataEmptyAction = () => async (dispatch) => {

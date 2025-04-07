@@ -1,5 +1,5 @@
-import React from "react";
-import { TableRow } from "./tableRow";
+import React from 'react';
+import { TableRow } from './tableRow';
 
 export function QuationEntryReport({
   history,
@@ -7,7 +7,5 @@ export function QuationEntryReport({
     params: { prId },
   },
 }) {
-  return (
-      <TableRow prId ={prId}/>
-  );
+  return <TableRow prId={prId} />;
 }

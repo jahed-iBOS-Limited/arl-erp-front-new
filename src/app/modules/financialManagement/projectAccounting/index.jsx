@@ -19,7 +19,7 @@ import ProjectAccountingView from './ProjectAccountingView';
 const ProjectAccountingLanding = () => {
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state.authData,
-    shallowEqual,
+    shallowEqual
   );
   const [
     projectAccountingLanding,
@@ -37,9 +37,8 @@ const ProjectAccountingLanding = () => {
         profileData?.accountId
       }&BuId=${selectedBusinessUnit?.value}&PageNo=${
         pageNo + 1
-      }&PageSize=${pageSize}`,
+      }&PageSize=${pageSize}`
     );
-
   }, [profileData?.accountId, selectedBusinessUnit?.value, pageNo, pageSize]);
   return (
     <>
@@ -98,7 +97,7 @@ const ProjectAccountingLanding = () => {
                             <td className="text-center">
                               {item?.dteStartDate
                                 ? moment(item?.dteStartDate).format(
-                                    'DD-MM-YYYY',
+                                    'DD-MM-YYYY'
                                   )
                                 : 'N/A'}
                             </td>
@@ -114,8 +113,8 @@ const ProjectAccountingLanding = () => {
                               {item?.intStatusId === 1
                                 ? 'in progress'
                                 : item?.intStatusId === 2
-                                ? 'complete'
-                                : 'N/A'}
+                                  ? 'complete'
+                                  : 'N/A'}
                             </td>
                             <td className="d-flex align-items-center justify-content-around">
                               <IView

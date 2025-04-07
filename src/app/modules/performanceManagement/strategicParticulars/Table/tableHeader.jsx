@@ -1,6 +1,6 @@
-import React from "react";
-import { ITable } from "../../../_helper/_table";
-import TableRowTwo from "./tableRowTwo";
+import React from 'react';
+import { ITable } from '../../../_helper/_table';
+import TableRowTwo from './tableRowTwo';
 
 export function StrategicParticularsTable() {
   return (

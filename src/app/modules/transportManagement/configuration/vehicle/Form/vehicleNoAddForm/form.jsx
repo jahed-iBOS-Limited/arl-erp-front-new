@@ -1,28 +1,28 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import Axios from "axios";
-import InputField from "../../../../../_helper/_inputField";
-import NewSelect from "../../../../../_helper/_select";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import Axios from 'axios';
+import InputField from '../../../../../_helper/_inputField';
+import NewSelect from '../../../../../_helper/_select';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   vehicleCity: Yup.object().shape({
-    label: Yup.string().required("Vehicle City is required"),
-    value: Yup.string().required("Vehicle City is required"),
+    label: Yup.string().required('Vehicle City is required'),
+    value: Yup.string().required('Vehicle City is required'),
   }),
   vehicleRegistrationLetter: Yup.object().shape({
-    label: Yup.string().required("Vehicle Registration Letter is required"),
-    value: Yup.string().required("Vehicle Registration Letter is required"),
+    label: Yup.string().required('Vehicle Registration Letter is required'),
+    value: Yup.string().required('Vehicle Registration Letter is required'),
   }),
   vehicleRegistrationNumber: Yup.object().shape({
-    label: Yup.string().required("Vehicle Registration Number is required"),
-    value: Yup.string().required("Vehicle Registration Number is required"),
+    label: Yup.string().required('Vehicle Registration Number is required'),
+    value: Yup.string().required('Vehicle Registration Number is required'),
   }),
   vehicleManualNo: Yup.string()
-    .min(0, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Vehicle Manual No is required"),
+    .min(0, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Vehicle Manual No is required'),
 });
 
 export default function FormCmp({
@@ -35,10 +35,12 @@ export default function FormCmp({
   selectedBusinessUnit,
   id,
 }) {
-  const [vehicleAddress, setVehicleAddress] = useState("");
-  const [vehicheCityDDL,setVehicleCityDDL] = useState([]);
-  const [vehicleRegistrationLetterDDL,setVehicleRegistrationLetterDDL] = useState([]);
-  const [vehicleRegistrationNumberDDL,setVehicleRegistrationNumberDDL] = useState([]);
+  const [vehicleAddress, setVehicleAddress] = useState('');
+  const [vehicheCityDDL, setVehicleCityDDL] = useState([]);
+  const [vehicleRegistrationLetterDDL, setVehicleRegistrationLetterDDL] =
+    useState([]);
+  const [vehicleRegistrationNumberDDL, setVehicleRegistrationNumberDDL] =
+    useState([]);
 
   useEffect(() => {
     getVehicleCityDDL();
@@ -48,13 +50,9 @@ export default function FormCmp({
 
   const getVehicleCityDDL = async () => {
     try {
-      const res = await Axios.get(
-        `/tms/TransportMgtDDL/GetVehicleCityDDL`
-      );
+      const res = await Axios.get(`/tms/TransportMgtDDL/GetVehicleCityDDL`);
       setVehicleCityDDL(res.data);
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
   const getVehicleRegistrationLetterDDL = async () => {
     try {
@@ -62,9 +60,7 @@ export default function FormCmp({
         `/tms/TransportMgtDDL/GetVehicleRegistrationLetterDDL`
       );
       setVehicleRegistrationLetterDDL(res.data);
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
   const getVehicleRegitrationNumberDDL = async () => {
     try {
@@ -72,9 +68,7 @@ export default function FormCmp({
         `/tms/TransportMgtDDL/GetVehicleRegitrationNumberDDL`
       );
       setVehicleRegistrationNumberDDL(res.data);
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   return (
@@ -122,19 +116,19 @@ export default function FormCmp({
                 <div className="col-lg-12">
                   <div
                     className="row bank-journal bank-journal-custom bj-left"
-                    style={{ paddingBottom: "0px" }}
+                    style={{ paddingBottom: '0px' }}
                   >
                     <div className="col-lg-2 mb-2">
                       <NewSelect
                         name="vehicleCity"
                         options={vehicheCityDDL}
-                        value={values?.vehicleCity || ""}
+                        value={values?.vehicleCity || ''}
                         label="Vehicle City"
                         onChange={(valueOption) => {
                           setVehicleAddress(
                             `${valueOption?.label} ${values?.vehicleRegistrationLetter?.label} ${values?.vehicleRegistrationNumber?.label}-${values?.vehicleManualNo}`
                           );
-                          setFieldValue("vehicleCity", valueOption);
+                          setFieldValue('vehicleCity', valueOption);
                         }}
                         placeholder="Vehicle City"
                         errors={errors}
@@ -152,7 +146,7 @@ export default function FormCmp({
                             `${values?.vehicleCity?.label} ${valueOption?.label} ${values?.vehicleRegistrationNumber?.label}-${values?.vehicleManualNo}`
                           );
                           setFieldValue(
-                            "vehicleRegistrationLetter",
+                            'vehicleRegistrationLetter',
                             valueOption
                           );
                         }}
@@ -172,7 +166,7 @@ export default function FormCmp({
                             `${values?.vehicleCity?.label} ${values?.vehicleRegistrationLetter?.label} ${valueOption?.label}-${values?.vehicleManualNo}`
                           );
                           setFieldValue(
-                            "vehicleRegistrationNumber",
+                            'vehicleRegistrationNumber',
                             valueOption
                           );
                         }}
@@ -184,7 +178,7 @@ export default function FormCmp({
                     <div className="col-lg-2 mb-2">
                       <label>Vehicle No</label>
                       <InputField
-                        value={values?.vehicleManualNo || ""}
+                        value={values?.vehicleManualNo || ''}
                         name="vehicleManualNo"
                         placeholder="Vehicle Number"
                         type="text"
@@ -192,7 +186,7 @@ export default function FormCmp({
                           setVehicleAddress(
                             `${values?.vehicleCity?.label} ${values?.vehicleRegistrationLetter?.label} ${values?.vehicleRegistrationNumber?.label}-${e?.target?.value}`
                           );
-                          setFieldValue("vehicleManualNo", e?.target?.value);
+                          setFieldValue('vehicleManualNo', e?.target?.value);
                         }}
                       />
                     </div>
@@ -200,7 +194,7 @@ export default function FormCmp({
                       <label>Vehicle Full No</label>
                       <InputField
                         value={
-                          vehicleAddress || values?.vehicleManualFinalNo || ""
+                          vehicleAddress || values?.vehicleManualFinalNo || ''
                         }
                         name="vehicleManualFinalNo"
                         placeholder="Vehicle Full No"
@@ -214,7 +208,7 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>

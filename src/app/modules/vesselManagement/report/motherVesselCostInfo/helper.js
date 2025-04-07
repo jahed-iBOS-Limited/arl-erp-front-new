@@ -1,5 +1,5 @@
-import Axios from "axios";
-import * as Yup from "yup";
+import Axios from 'axios';
+import * as Yup from 'yup';
 
 export const GetLighterVesselDDL = async (motherVesselId, setter) => {
   try {
@@ -39,15 +39,15 @@ export const GetLandingData = async (pageNo, pageSize, values, setter) => {
 
 export const validationSchema = Yup.object().shape({
   item: Yup.object().shape({
-    label: Yup.string().required("Item is required"),
-    value: Yup.string().required("Item is required"),
+    label: Yup.string().required('Item is required'),
+    value: Yup.string().required('Item is required'),
   }),
   shipPoint: Yup.object().shape({
-    label: Yup.string().required("Shipping Point is required"),
-    value: Yup.string().required("Shipping Point is required"),
+    label: Yup.string().required('Shipping Point is required'),
+    value: Yup.string().required('Shipping Point is required'),
   }),
-  date: Yup.string().required("Date is required"),
-  bustingBagQnt: Yup.number().required("Quantity is required"),
-  othersBagQnt: Yup.number().required("Quantity is required"),
-  cnfbagQnt: Yup.number().required("Quantity is required"),
+  date: Yup.string().required('Date is required'),
+  bustingBagQnt: Yup.number().required('Quantity is required'),
+  othersBagQnt: Yup.number().required('Quantity is required'),
+  cnfbagQnt: Yup.number().required('Quantity is required'),
 });

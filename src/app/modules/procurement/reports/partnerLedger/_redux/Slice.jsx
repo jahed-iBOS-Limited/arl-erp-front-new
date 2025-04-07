@@ -1,20 +1,20 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
-  error: "",
-  msg: "",
+  error: '',
+  msg: '',
   empDDL: [],
   sbuDDL: [],
   soldToPartyDDL: [],
   gridData: [],
   partnerLedgerGridData: [],
   businessPartnerDetails: {},
-  singleData: "",
+  singleData: '',
 };
 
 export const partnerLedgerSlice = createSlice({
-  name: "partnerLedger",
+  name: 'partnerLedger',
   initialState: initState,
   reducers: {
     SetEmpDDL: (state, action) => {
@@ -59,7 +59,7 @@ export const partnerLedgerSlice = createSlice({
       state.singleData = payload;
     },
     SetSingleStoreEmpty: (state) => {
-      state.singleData = "";
+      state.singleData = '';
     },
   },
 });

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 //Call GetShipPointDDL APi
 export function GetShipPointDDL(accId, buId) {
@@ -84,8 +84,8 @@ export function getGridData(
   fromDate,
   toDate
 ) {
-  const searchPath = search ? `searchTerm=${search}&` : "";
-  const isDate = fromDate ? `&fromDate=${fromDate}&toDate=${toDate}` : "";
+  const searchPath = search ? `searchTerm=${search}&` : '';
+  const isDate = fromDate ? `&fromDate=${fromDate}&toDate=${toDate}` : '';
 
   return axios.get(
     `/wms/Delivery/GetDeliverySearchPagination?${searchPath}&AccountId=${accId}&BusinessUnitId=${buId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&sbuId=${sbuId}&shipPointId=${shipPointId}&distributionChannelId=${channelId}&status=${status}${isDate}`

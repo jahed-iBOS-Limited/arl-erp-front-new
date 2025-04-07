@@ -20,7 +20,7 @@ const AdjustmentJournalCreate = ({ objProps }) => {
   // redux
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
-    shallowEqual,
+    shallowEqual
   );
 
   // api action
@@ -38,9 +38,8 @@ const AdjustmentJournalCreate = ({ objProps }) => {
   // inital use effect
   useEffect(() => {
     getNetAndJournalAmount(
-      `${imarineBaseUrl}/domain/Report/GetNetIncomeAndFetchJournalAmount?VesselName=${vesselName}&VoyageNo=${voyageNo}`,
+      `${imarineBaseUrl}/domain/Report/GetNetIncomeAndFetchJournalAmount?VesselName=${vesselName}&VoyageNo=${voyageNo}`
     );
-
   }, []);
 
   // handleCreateVesselWiseAJ
@@ -61,7 +60,7 @@ const AdjustmentJournalCreate = ({ objProps }) => {
           setCreateAJSignleItem({});
           toast.warn(statusMessage);
         }
-      },
+      }
     );
   };
 
@@ -103,7 +102,7 @@ const AdjustmentJournalCreate = ({ objProps }) => {
                           <td className="text-right">
                             {_formatMoney(
                               item?.netIncome - item?.journalAmount,
-                              4,
+                              4
                             )}
                           </td>
                         </tr>

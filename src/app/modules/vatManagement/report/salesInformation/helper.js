@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getVatBranches_api = async (userId, accid, buid, setter) => {
   try {
@@ -10,7 +10,7 @@ export const getVatBranches_api = async (userId, accid, buid, setter) => {
       const modify = res?.data;
       const all = {
         value: 0,
-        label: "All",
+        label: 'All',
       };
       modify.unshift(all);
       setter(modify);
@@ -31,20 +31,20 @@ export const SalesInformation_Report_api = async (
   setter,
   setLoading
 ) => {
-  setLoading && setLoading(true)
+  setLoading && setLoading(true);
   try {
     const res = await axios.get(
       `/vat/SalesInformationReport/SalesInformation?accountId=${accid}&businessUnitId=${buid}&taxBranchId=${branchid}&fromDate=${fromDate}&toDate=${toDate}&ReportType=${typeId}&TaxItemGroupId=${taxItemGroupId}`
     );
-    setLoading && setLoading(false)
+    setLoading && setLoading(false);
     if (res?.data?.length > 0) {
       setter(res?.data);
     } else {
-      toast.warning("Data Not Found", {id: 'data not found'});
+      toast.warning('Data Not Found', { id: 'data not found' });
       setter([]);
     }
   } catch (error) {
-    setLoading && setLoading(false)
+    setLoading && setLoading(false);
     console.log(error);
   }
 };
@@ -68,11 +68,11 @@ export const GetItemNameDDL_api = async (accId, buId, typeId, setter) => {
       const modify = res?.data;
       const all = {
         value: 0,
-        label: "All",
+        label: 'All',
       };
       modify.unshift(all);
       setter(modify);
-      console.log("modify", modify);
+      console.log('modify', modify);
     }
   } catch (error) {}
 };

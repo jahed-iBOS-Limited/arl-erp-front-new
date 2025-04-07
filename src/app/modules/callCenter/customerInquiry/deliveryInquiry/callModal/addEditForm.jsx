@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import Form from "./form";
-import * as Yup from "yup";
+import React, { useState, useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import Form from './form';
+import * as Yup from 'yup';
 import {
   CreateDailyDeliveryStatus_api,
   GetDeliveryStatusReport_api,
-} from "../helper";
-import Loading from "./../../../../_helper/_loading";
+} from '../helper';
+import Loading from './../../../../_helper/_loading';
 
 const DailyDeliveryStatusForm = ({
   clickRowData,
@@ -25,45 +25,45 @@ const DailyDeliveryStatusForm = ({
 
   const initData = {
     agentName: `${profileData?.userId}, ${profileData?.userName}`,
-    unit: clickRowData?.unit || "",
-    customerName: clickRowData?.customerName || "",
-    vehicleNo: clickRowData?.vehicleNo || "",
-    challanNo: clickRowData?.challanNumber || "",
-    challanVerification: "",
-    customerAddress: clickRowData?.customerAddress || "",
-    customerPhone: clickRowData?.customerPhone1 || "",
-    productDescription: clickRowData?.productDescription || "",
-    receivedStatus: { value: false, label: "No" },
-    problemDetails: "",
-    remarks: "",
+    unit: clickRowData?.unit || '',
+    customerName: clickRowData?.customerName || '',
+    vehicleNo: clickRowData?.vehicleNo || '',
+    challanNo: clickRowData?.challanNumber || '',
+    challanVerification: '',
+    customerAddress: clickRowData?.customerAddress || '',
+    customerPhone: clickRowData?.customerPhone1 || '',
+    productDescription: clickRowData?.productDescription || '',
+    receivedStatus: { value: false, label: 'No' },
+    problemDetails: '',
+    remarks: '',
     challanVerify: false,
-    destinationReachTime: "",
+    destinationReachTime: '',
     isRightForm: true,
-    contactName: rowDto[0]?.strContactPerson || "",
-    contactPhone: rowDto[0]?.contactNo || "",
-    issueType: "",
+    contactName: rowDto[0]?.strContactPerson || '',
+    contactPhone: rowDto[0]?.contactNo || '',
+    issueType: '',
   };
 
   const validationSchema = Yup.object().shape({
-    agentName: Yup.string().required("Agent name is required"),
-    unit: Yup.string().required("Unit is required"),
-    customerName: Yup.string().required("Customer aame is required"),
-    vehicleNo: Yup.string().required("Vehicle no is required"),
-    challanNo: Yup.string().required("Challan no is required"),
+    agentName: Yup.string().required('Agent name is required'),
+    unit: Yup.string().required('Unit is required'),
+    customerName: Yup.string().required('Customer aame is required'),
+    vehicleNo: Yup.string().required('Vehicle no is required'),
+    challanNo: Yup.string().required('Challan no is required'),
     challanVerification: Yup.string().when(
-      "receivedStatus",
+      'receivedStatus',
       (receivedStatus, Schema) => {
-        if (receivedStatus?.value === "true")
-          return Schema.required("Challan aerification is required");
+        if (receivedStatus?.value === 'true')
+          return Schema.required('Challan aerification is required');
       }
     ),
 
-    customerAddress: Yup.string().required("Customer address is required"),
-    customerPhone: Yup.string().required("Customer phone is required"),
+    customerAddress: Yup.string().required('Customer address is required'),
+    customerPhone: Yup.string().required('Customer phone is required'),
 
     receivedStatus: Yup.object().shape({
-      label: Yup.string().required("Received status is required"),
-      value: Yup.string().required("Received status is required"),
+      label: Yup.string().required('Received status is required'),
+      value: Yup.string().required('Received status is required'),
     }),
     // problemDetails: Yup.string().required("Problem details is required"),
   });
@@ -94,11 +94,11 @@ const DailyDeliveryStatusForm = ({
         vehicleName: vehicleNo,
         deliveryId: challanId,
         deliveryNo: challanNumber,
-        verifyDeliveryNo: values?.challanVerification || "",
+        verifyDeliveryNo: values?.challanVerification || '',
         productDescription: productDescription,
         isReceived: values?.receivedStatus?.value || false,
-        strProblemDetails: values?.problemDetails || "",
-        strRemarks: values?.remarks || "",
+        strProblemDetails: values?.problemDetails || '',
+        strRemarks: values?.remarks || '',
         intActionBy: profileData?.userId,
         detDestinationReachTime: values?.destinationReachTime,
         strSalesOrderCode: clickRowData?.salesOrderCode,
@@ -120,7 +120,6 @@ const DailyDeliveryStatusForm = ({
         setDisabled
       );
     }
-
   }, [clickRowData]);
   return (
     <div>

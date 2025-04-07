@@ -1,9 +1,9 @@
-import React from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import IClose from "../../../../_helper/_helperIcons/_close";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import React from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import IClose from '../../../../_helper/_helperIcons/_close';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 export default function BankGuaranteeTable({
   rowData,
@@ -37,7 +37,7 @@ export default function BankGuaranteeTable({
               <th>BG Amounts</th>
               <th>Margin Ref.</th>
               <th>Status</th>
-              <th style={{ minWidth: "70px" }}>Action</th>
+              <th style={{ minWidth: '70px' }}>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -61,7 +61,7 @@ export default function BankGuaranteeTable({
                 <td>{item?.strStatus}</td>
                 <td>
                   <div className="d-flex justify-content-between">
-                    <span style={{ cursor: "pointer", padding: "2px" }}>
+                    <span style={{ cursor: 'pointer', padding: '2px' }}>
                       <OverlayTrigger
                         overlay={<Tooltip id="cs-icon">History</Tooltip>}
                       >
@@ -73,14 +73,14 @@ export default function BankGuaranteeTable({
                           className="ml-2"
                         >
                           <i
-                            style={{ fontSize: "12px" }}
+                            style={{ fontSize: '12px' }}
                             className={`fa fa-history`}
                             aria-hidden="true"
                           ></i>
                         </span>
                       </OverlayTrigger>
                     </span>
-                    {["Issue", "Renewed"]?.includes(item?.strStatus) ? (
+                    {['Issue', 'Renewed']?.includes(item?.strStatus) ? (
                       <span
                         onClick={() => {
                           history.push({
@@ -88,25 +88,25 @@ export default function BankGuaranteeTable({
                             state: item,
                           });
                         }}
-                        style={{ cursor: "pointer", padding: "2px" }}
+                        style={{ cursor: 'pointer', padding: '2px' }}
                         className="text-primary"
                       >
                         Renew
                       </span>
                     ) : null}
-                    {item?.strStatus !== "Closed" ? (
+                    {item?.strStatus !== 'Closed' ? (
                       <span
-                        style={{ cursor: "pointer", padding: "2px" }}
+                        style={{ cursor: 'pointer', padding: '2px' }}
                         onClick={() => {
                           IConfirmModal({
-                            title: "Close Action",
+                            title: 'Close Action',
                             closeOnClickOutside: false,
-                            message: "Do you want to Close ?",
+                            message: 'Do you want to Close ?',
                             yesAlertFunc: () => {
                               closeHandler(
                                 `/fino/CommonFino/CreateBankGuaranteeSecurityRegister`,
                                 {
-                                  strPartName: "close",
+                                  strPartName: 'close',
                                   intId: item?.intId,
                                   intActionBy: profileData?.userId,
                                 },

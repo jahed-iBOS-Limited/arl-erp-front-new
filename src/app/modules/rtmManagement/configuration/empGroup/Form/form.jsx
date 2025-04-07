@@ -1,11 +1,11 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import { IInput } from "../../../../_helper/_input";
-import * as Yup from "yup";
-import "./extra.css";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import { IInput } from '../../../../_helper/_input';
+import * as Yup from 'yup';
+import './extra.css';
 
 const validationSchema = Yup.object().shape({
-  employeeGroupName: Yup.string().required("Employee Group Name is required"),
+  employeeGroupName: Yup.string().required('Employee Group Name is required'),
 });
 
 export default function FormCmp({
@@ -56,14 +56,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onClick={() => handleSubmit}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

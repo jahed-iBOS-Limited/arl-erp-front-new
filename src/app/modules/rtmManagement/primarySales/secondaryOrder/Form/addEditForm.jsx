@@ -1,28 +1,27 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { useParams } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { useParams } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
 import {
   getRouteDDL,
   saveEditedSecondaryOrder,
   getSingleData,
-} from "../helper";
-import { savSecondaryOrderAction } from "./../helper";
+} from '../helper';
+import { savSecondaryOrderAction } from './../helper';
 
 const initData = {
-  routeName: "",
-  beatName: "",
-  outlateName: "",
-  item: "",
-  orderQty: "",
-  rate: "",
-  receivedAmount: "",
-  territoryName: "",
-  distributorName: "",
-  distributionChannel: "",
+  routeName: '',
+  beatName: '',
+  outlateName: '',
+  item: '',
+  orderQty: '',
+  rate: '',
+  receivedAmount: '',
+  territoryName: '',
+  distributorName: '',
+  distributionChannel: '',
 };
 
 export default function SecondaryOrderForm({
@@ -36,12 +35,12 @@ export default function SecondaryOrderForm({
   const [routeDDL, setRouteDDL] = useState([]);
   const [beatNameDDL, setBeatNameDDL] = useState([]);
   const [outletNameDDl, setOutletNameDDL] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [itemRowDto, setItemRowDto] = useState([]);
   const [rowData, setRowData] = useState([]);
 
   const params = useParams();
-  console.log(singleData, "singleData");
+  console.log(singleData, 'singleData');
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -53,7 +52,7 @@ export default function SecondaryOrderForm({
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-  console.log(itemRowDto, "itemRowDto");
+  console.log(itemRowDto, 'itemRowDto');
 
   useEffect(() => {
     if (profileData && selectedBusinessUnit) {
@@ -62,7 +61,7 @@ export default function SecondaryOrderForm({
         selectedBusinessUnit?.value,
         setRouteDDL
       );
-     // getItemDDL(setItem);
+      // getItemDDL(setItem);
     }
   }, [profileData, selectedBusinessUnit]);
 
@@ -71,11 +70,10 @@ export default function SecondaryOrderForm({
     if (id) {
       getSingleData(id, setSingleData, setItemRowDto);
     }
-
   }, [id]);
 
-   // Count Sum of Order amount
-   let totalAmount = rowData?.reduce(
+  // Count Sum of Order amount
+  let totalAmount = rowData?.reduce(
     (total, obj) => total + +obj?.orderQty * obj?.rate,
     0
   );
@@ -89,7 +87,6 @@ export default function SecondaryOrderForm({
   };
 
   useEffect(() => {
-
     const newData = singleData?.row?.map((item) => ({
       rowId: item?.rowId,
       itemId: item?.productId,
@@ -107,14 +104,12 @@ export default function SecondaryOrderForm({
     } else {
       setRowData([]);
     }
-
   }, [singleData]);
 
   const saveHandler = async (values, cb) => {
     setDisabled(true);
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (params?.id) {
-
         const payload = {
           editAttribute: {
             orderId: +id,
@@ -178,7 +173,7 @@ export default function SecondaryOrderForm({
 
   return (
     <IForm
-      title={id ? "Edit Retail Order" : "Create Retail Order"}
+      title={id ? 'Edit Retail Order' : 'Create Retail Order'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

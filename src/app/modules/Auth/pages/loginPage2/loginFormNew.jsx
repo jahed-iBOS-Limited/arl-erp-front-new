@@ -1,44 +1,44 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import "../style.css";
-import { Form, Button } from "react-bootstrap";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import * as actions from "../../_redux/Auth_Actions";
-import axios from "axios";
-import { toast } from "react-toastify";
-import OtpPopup from "./OtpPopup";
-import Loading from "../../../_helper/_loading";
-import { setPeopledeskCookie } from "../../../_helper/_cookie";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import '../style.css';
+import { Form, Button } from 'react-bootstrap';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import * as actions from '../../_redux/Auth_Actions';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import OtpPopup from './OtpPopup';
+import Loading from '../../../_helper/_loading';
+import { setPeopledeskCookie } from '../../../_helper/_cookie';
 
 function LoginForm(props) {
   const dispatch = useDispatch();
   const [isOtp, setIsOtp] = useState(false);
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId] = useState('');
   const [loading, setLoading] = useState(false);
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState('');
 
   const formik = useFormik({
     initialValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
     validationSchema: Yup.object({
       email: Yup.string()
         // .email("Invalid email address")
-        .required("email is Required"),
+        .required('email is Required'),
       password: Yup.string()
-        .min(4, "Must be at least 4 characters")
-        .required("password is required"),
+        .min(4, 'Must be at least 4 characters')
+        .required('password is required'),
     }),
     onSubmit: (values) => {
-      loginAction(false,);
+      loginAction(false);
     },
   });
 
   const loginAction = (isSkipOtp) => {
-    const values  = formik.values
+    const values = formik.values;
     axios
       .get(`/domain/Information/Basic?Email=${values?.email}`)
       .then((res) => {
@@ -52,7 +52,7 @@ function LoginForm(props) {
               setLoading,
               () => {
                 setPeopledeskCookie(
-                  "loginInfoPeopleDesk",
+                  'loginInfoPeopleDesk',
                   JSON.stringify({}),
                   100
                 );
@@ -66,7 +66,7 @@ function LoginForm(props) {
         }
       })
       .catch((err) => {
-        toast.warn("Failed, try again");
+        toast.warn('Failed, try again');
       });
   };
 
@@ -117,7 +117,7 @@ function LoginForm(props) {
         <Form.Group controlId="formBasicCheckbox ">
           <Form.Check type="checkbox" label="Remember Me" />
         </Form.Group>
-        <div className="forget" style={{ marginTop: "6px" }}>
+        <div className="forget" style={{ marginTop: '6px' }}>
           <Link to="/reset-password">Forgot Password?</Link>
         </div>
       </div>

@@ -1,12 +1,12 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
 export default function VehicleDemandEditModal({
   vehicleDemandItem,
   setVehicleDemandModal,
@@ -25,15 +25,14 @@ export default function VehicleDemandEditModal({
     getSupplierDDL(
       `/wms/TransportMode/GetTransportMode?intParid=2&intBusinessUnitId=${buId}`
     );
-
   }, [buId]);
   return (
     <Formik
       enableReinitialize={true}
       initialValues={{
         supplier: {
-          value: vehicleDemandItem?.supplierId || "",
-          label: vehicleDemandItem?.supplierName || "",
+          value: vehicleDemandItem?.supplierId || '',
+          label: vehicleDemandItem?.supplierName || '',
         },
         demandVehicle: vehicleDemandItem?.demandVehicle || 0,
         receiveVehicle: vehicleDemandItem?.receiveVehicle || 0,
@@ -73,9 +72,9 @@ export default function VehicleDemandEditModal({
                 <div className="col-lg-12">
                   <div
                     style={{
-                      marginLeft: "auto",
-                      marginRight: "11px",
-                      width: "fit-content",
+                      marginLeft: 'auto',
+                      marginRight: '11px',
+                      width: 'fit-content',
                     }}
                   >
                     <button
@@ -124,7 +123,7 @@ export default function VehicleDemandEditModal({
                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                       <thead>
                         <tr>
-                          <th style={{ width: "200px" }}>Supplier Name</th>
+                          <th style={{ width: '200px' }}>Supplier Name</th>
                           <th>Demand Vehicle</th>
                           <th>Packing MT</th>
                           <th>Dump Qty Ton</th>
@@ -141,9 +140,9 @@ export default function VehicleDemandEditModal({
                             value={values?.supplier}
                             onChange={(valueOption) => {
                               if (valueOption?.value) {
-                                setFieldValue("supplier", valueOption);
+                                setFieldValue('supplier', valueOption);
                               } else {
-                                setFieldValue("supplier", "");
+                                setFieldValue('supplier', '');
                               }
                             }}
                           />
@@ -153,7 +152,7 @@ export default function VehicleDemandEditModal({
                             value={+values?.demandVehicle || 0}
                             min="0"
                             onChange={(e) => {
-                              setFieldValue("demandVehicle", e?.target?.value);
+                              setFieldValue('demandVehicle', e?.target?.value);
                             }}
                           />
                         </td>
@@ -180,7 +179,7 @@ export default function VehicleDemandEditModal({
                             value={+values?.packingMt || 0}
                             min="0"
                             onChange={(e) => {
-                              setFieldValue("packingMt", e?.target?.value);
+                              setFieldValue('packingMt', e?.target?.value);
                             }}
                           />
                         </td>
@@ -189,7 +188,7 @@ export default function VehicleDemandEditModal({
                             value={+values?.bufferQty || 0}
                             min="0"
                             onChange={(e) => {
-                              setFieldValue("bufferQty", e?.target?.value);
+                              setFieldValue('bufferQty', e?.target?.value);
                             }}
                           />
                         </td>
@@ -198,7 +197,7 @@ export default function VehicleDemandEditModal({
                             value={+values?.labourRequired || 0}
                             min="0"
                             onChange={(e) => {
-                              setFieldValue("labourRequired", e?.target?.value);
+                              setFieldValue('labourRequired', e?.target?.value);
                             }}
                           />
                         </td>
@@ -207,7 +206,7 @@ export default function VehicleDemandEditModal({
                             value={+values?.labourPresent || 0}
                             min="0"
                             onChange={(e) => {
-                              setFieldValue("labourPresent", e?.target?.value);
+                              setFieldValue('labourPresent', e?.target?.value);
                             }}
                           />
                         </td>
@@ -216,7 +215,7 @@ export default function VehicleDemandEditModal({
                             value={+values?.lighterWaiting || 0}
                             min="0"
                             onChange={(e) => {
-                              setFieldValue("lighterWaiting", e?.target?.value);
+                              setFieldValue('lighterWaiting', e?.target?.value);
                             }}
                           />
                         </td>

@@ -1,7 +1,7 @@
-import React from "react";
-import InputField from "../../../../_helper/_inputField";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { Button } from "react-bootstrap";
+import React from 'react';
+import InputField from '../../../../_helper/_inputField';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import { Button } from 'react-bootstrap';
 
 const SalesCommissionConfigureFormTable = ({ obj }) => {
   const { rowData, setRowData, values, akijAgroFeedCommissionTypeList } = obj;
@@ -33,14 +33,17 @@ const SalesCommissionConfigureFormTable = ({ obj }) => {
   return (
     <div>
       {[
-        15,
-        19,
+        15, 19,
         // 22
       ].includes(values?.commissionType?.value) && (
-        <TableOne obj={{ selectedAll, allSelect, rowData, rowDataHandler,setRowData }} />
+        <TableOne
+          obj={{ selectedAll, allSelect, rowData, rowDataHandler, setRowData }}
+        />
       )}
       {[14, 16, 20, 23].includes(values?.commissionType?.value) && (
-        <TableTwo obj={{ selectedAll, allSelect, rowData, rowDataHandler ,setRowData}} />
+        <TableTwo
+          obj={{ selectedAll, allSelect, rowData, rowDataHandler, setRowData }}
+        />
       )}
       {[
         17,
@@ -58,7 +61,14 @@ const SalesCommissionConfigureFormTable = ({ obj }) => {
         ...akijAgroFeedCommissionTypeList,
       ].includes(values?.commissionType?.value) && (
         <TableThree
-          obj={{ selectedAll, allSelect, rowData, rowDataHandler, values,setRowData }}
+          obj={{
+            selectedAll,
+            allSelect,
+            rowData,
+            rowDataHandler,
+            values,
+            setRowData,
+          }}
         />
       )}
     </div>
@@ -68,7 +78,7 @@ const SalesCommissionConfigureFormTable = ({ obj }) => {
 export default SalesCommissionConfigureFormTable;
 
 const TableOne = ({ obj }) => {
-  const { selectedAll, allSelect, rowData, rowDataHandler,setRowData } = obj;
+  const { selectedAll, allSelect, rowData, rowDataHandler, setRowData } = obj;
   return (
     <>
       <div className="table-responsive">
@@ -77,7 +87,7 @@ const TableOne = ({ obj }) => {
             <tr>
               <th
                 onClick={() => allSelect(!selectedAll())}
-                style={{ minWidth: "30px" }}
+                style={{ minWidth: '30px' }}
               >
                 <input
                   type="checkbox"
@@ -86,7 +96,7 @@ const TableOne = ({ obj }) => {
                   onChange={() => {}}
                 />
               </th>
-              <th style={{ width: "40px" }}>SL</th>
+              <th style={{ width: '40px' }}>SL</th>
               <th>Area Name</th>
               <th>BP Rate/bag</th>
               <th>BA Rate/bag</th>
@@ -95,7 +105,7 @@ const TableOne = ({ obj }) => {
               {/* <th>Sales Qty</th>
             <th>Rate/bag</th>
             <th>Commission</th> */}
-            <th>Actions</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -104,7 +114,7 @@ const TableOne = ({ obj }) => {
                 <tr key={index}>
                   <td
                     onClick={() => {
-                      rowDataHandler(index, "isSelected", !item.isSelected);
+                      rowDataHandler(index, 'isSelected', !item.isSelected);
                     }}
                     className="text-center"
                   >
@@ -126,7 +136,7 @@ const TableOne = ({ obj }) => {
                       onChange={(e) => {
                         rowDataHandler(
                           index,
-                          "bpcommissionRate",
+                          'bpcommissionRate',
                           e?.target?.value
                         );
                       }}
@@ -141,7 +151,7 @@ const TableOne = ({ obj }) => {
                       onChange={(e) => {
                         rowDataHandler(
                           index,
-                          "bacommissionRate",
+                          'bacommissionRate',
                           e?.target?.value
                         );
                       }}
@@ -156,7 +166,7 @@ const TableOne = ({ obj }) => {
                       onChange={(e) => {
                         rowDataHandler(
                           index,
-                          "cpcommissionRate",
+                          'cpcommissionRate',
                           e?.target?.value
                         );
                       }}
@@ -171,7 +181,7 @@ const TableOne = ({ obj }) => {
                       onChange={(e) => {
                         rowDataHandler(
                           index,
-                          "cacommissionRate",
+                          'cacommissionRate',
                           e?.target?.value
                         );
                       }}
@@ -204,7 +214,7 @@ const TableOne = ({ obj }) => {
 };
 
 const TableTwo = ({ obj }) => {
-  const { selectedAll, allSelect, rowData, rowDataHandler,setRowData } = obj;
+  const { selectedAll, allSelect, rowData, rowDataHandler, setRowData } = obj;
   return (
     <>
       <div className="table-responsive">
@@ -213,7 +223,7 @@ const TableTwo = ({ obj }) => {
             <tr>
               <th
                 onClick={() => allSelect(!selectedAll())}
-                style={{ minWidth: "30px" }}
+                style={{ minWidth: '30px' }}
               >
                 <input
                   type="checkbox"
@@ -222,7 +232,7 @@ const TableTwo = ({ obj }) => {
                   onChange={() => {}}
                 />
               </th>
-              <th style={{ width: "40px" }}>SL</th>
+              <th style={{ width: '40px' }}>SL</th>
               <th>Date</th>
               <th>Area Name</th>
               <th>BP Rate/bag</th>
@@ -238,7 +248,7 @@ const TableTwo = ({ obj }) => {
                 <tr key={index}>
                   <td
                     onClick={() => {
-                      rowDataHandler(index, "isSelected", !item.isSelected);
+                      rowDataHandler(index, 'isSelected', !item.isSelected);
                     }}
                     className="text-center"
                   >
@@ -259,12 +269,12 @@ const TableTwo = ({ obj }) => {
                       onChange={(e) => {
                         rowDataHandler(
                           index,
-                          "commissionDate",
+                          'commissionDate',
                           e?.target?.value
                         );
                       }}
                     />
-                  </td>{" "}
+                  </td>{' '}
                   <td>{item?.areaName}</td>
                   <td>
                     <InputField
@@ -275,7 +285,7 @@ const TableTwo = ({ obj }) => {
                       onChange={(e) => {
                         rowDataHandler(
                           index,
-                          "bpcommissionRate",
+                          'bpcommissionRate',
                           e?.target?.value
                         );
                       }}
@@ -290,7 +300,7 @@ const TableTwo = ({ obj }) => {
                       onChange={(e) => {
                         rowDataHandler(
                           index,
-                          "bacommissionRate",
+                          'bacommissionRate',
                           e?.target?.value
                         );
                       }}
@@ -305,7 +315,7 @@ const TableTwo = ({ obj }) => {
                       onChange={(e) => {
                         rowDataHandler(
                           index,
-                          "cpcommissionRate",
+                          'cpcommissionRate',
                           e?.target?.value
                         );
                       }}
@@ -320,7 +330,7 @@ const TableTwo = ({ obj }) => {
                       onChange={(e) => {
                         rowDataHandler(
                           index,
-                          "cacommissionRate",
+                          'cacommissionRate',
                           e?.target?.value
                         );
                       }}
@@ -353,7 +363,14 @@ const TableTwo = ({ obj }) => {
 };
 
 const TableThree = ({ obj }) => {
-  const { selectedAll, allSelect, rowData, rowDataHandler, values,setRowData } = obj;
+  const {
+    selectedAll,
+    allSelect,
+    rowData,
+    rowDataHandler,
+    values,
+    setRowData,
+  } = obj;
   return (
     <>
       <div className="table-responsive">
@@ -362,7 +379,7 @@ const TableThree = ({ obj }) => {
             <tr>
               <th
                 onClick={() => allSelect(!selectedAll())}
-                style={{ minWidth: "30px" }}
+                style={{ minWidth: '30px' }}
                 rowSpan={2}
               >
                 <input
@@ -372,14 +389,16 @@ const TableThree = ({ obj }) => {
                   onChange={() => {}}
                 />
               </th>
-              <th rowSpan={2} style={{ width: "40px" }}>
+              <th rowSpan={2} style={{ width: '40px' }}>
                 SL
               </th>
-              {[46].includes(values?.commissionType?.value) &&  <th rowSpan={2}>Business Partner</th>}
+              {[46].includes(values?.commissionType?.value) && (
+                <th rowSpan={2}>Business Partner</th>
+              )}
               <th rowSpan={2}>Area Name</th>
               <th colSpan={2}>Achievement</th>
               <th colSpan={2}>Quantity</th>
-              {![35, 36, 37, 38, 39, 40, 46,43].includes(
+              {![35, 36, 37, 38, 39, 40, 46, 43].includes(
                 values?.commissionType?.value
               ) && (
                 <>
@@ -389,10 +408,10 @@ const TableThree = ({ obj }) => {
                   <th rowSpan={2}>CA Rate/Bag</th>
                 </>
               )}
-              {[43].includes(values?.commissionType?.value) && <th rowSpan={2}>
-                Customer Type
-                </th>}
-              {[35, 36, 37, 38, 39, 40, 46,43].includes(
+              {[43].includes(values?.commissionType?.value) && (
+                <th rowSpan={2}>Customer Type</th>
+              )}
+              {[35, 36, 37, 38, 39, 40, 46, 43].includes(
                 values?.commissionType?.value
               ) && <th rowSpan={2}>Common Rate</th>}
 
@@ -414,7 +433,7 @@ const TableThree = ({ obj }) => {
                 <tr key={index}>
                   <td
                     onClick={() => {
-                      rowDataHandler(index, "isSelected", !item.isSelected);
+                      rowDataHandler(index, 'isSelected', !item.isSelected);
                     }}
                     className="text-center"
                   >
@@ -426,13 +445,15 @@ const TableThree = ({ obj }) => {
                     />
                   </td>
                   <td> {index + 1}</td>
-                  {[46].includes(values?.commissionType?.value) &&  <td>{item?.customerName}</td>}
+                  {[46].includes(values?.commissionType?.value) && (
+                    <td>{item?.customerName}</td>
+                  )}
                   <td>{item?.areaName}</td>
                   <td>{item?.achievementFrom}</td>
                   <td>{item?.achievementTo}</td>
                   <td>{item?.offerQntFrom}</td>
                   <td>{item?.offerQntTo}</td>
-                  {![35, 36, 37, 38, 39, 40, 46,43].includes(
+                  {![35, 36, 37, 38, 39, 40, 46, 43].includes(
                     values?.commissionType?.value
                   ) && (
                     <>
@@ -445,7 +466,7 @@ const TableThree = ({ obj }) => {
                           onChange={(e) => {
                             rowDataHandler(
                               index,
-                              "bpcommissionRate",
+                              'bpcommissionRate',
                               e?.target?.value
                             );
                           }}
@@ -460,7 +481,7 @@ const TableThree = ({ obj }) => {
                           onChange={(e) => {
                             rowDataHandler(
                               index,
-                              "bacommissionRate",
+                              'bacommissionRate',
                               e?.target?.value
                             );
                           }}
@@ -475,7 +496,7 @@ const TableThree = ({ obj }) => {
                           onChange={(e) => {
                             rowDataHandler(
                               index,
-                              "cpcommissionRate",
+                              'cpcommissionRate',
                               e?.target?.value
                             );
                           }}
@@ -490,7 +511,7 @@ const TableThree = ({ obj }) => {
                           onChange={(e) => {
                             rowDataHandler(
                               index,
-                              "cacommissionRate",
+                              'cacommissionRate',
                               e?.target?.value
                             );
                           }}
@@ -498,11 +519,11 @@ const TableThree = ({ obj }) => {
                       </td>
                     </>
                   )}
-                   {[43].includes(values?.commissionType?.value) && <td>
-                {item?.customerPartyStatusLabel}
-                </td>}
+                  {[43].includes(values?.commissionType?.value) && (
+                    <td>{item?.customerPartyStatusLabel}</td>
+                  )}
 
-                  {[35, 36, 37, 38, 39, 40, 46,43].includes(
+                  {[35, 36, 37, 38, 39, 40, 46, 43].includes(
                     values?.commissionType?.value
                   ) && (
                     <td>
@@ -514,7 +535,7 @@ const TableThree = ({ obj }) => {
                         onChange={(e) => {
                           rowDataHandler(
                             index,
-                            "commissionRate",
+                            'commissionRate',
                             e?.target?.value
                           );
                         }}
@@ -564,8 +585,8 @@ const TableThree = ({ obj }) => {
                       }}
                     />
                   </td> */}
-                 
-<td>
+
+                  <td>
                     <div className="d-flex justify-content-center">
                       <Button
                         onClick={() => {

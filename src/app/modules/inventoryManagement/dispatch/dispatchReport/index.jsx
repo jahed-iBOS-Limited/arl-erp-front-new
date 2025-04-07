@@ -1,32 +1,32 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import PaginationSearch from "../../../_helper/_search";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import PaginationSearch from '../../../_helper/_search';
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  status: "",
+  status: '',
 };
 export default function DispatchReport() {
-  const saveHandler = (values, cb) => { };
+  const saveHandler = (values, cb) => {};
   const [gridData, getGridData, loader] = useAxiosGet();
   const [statusDDl, getStatus, , setStatusDDL] = useAxiosGet();
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
-  const getLandingData = (values, searchTerm = "") => {
+  const getLandingData = (values, searchTerm = '') => {
     const strStatus = values?.status?.label
       ? `&Status=${values?.status?.label}`
-      : "";
-    const strSearch = searchTerm ? `&Search=${searchTerm}` : "";
+      : '';
+    const strSearch = searchTerm ? `&Search=${searchTerm}` : '';
 
     getGridData(
       `/tms/DocumentDispatch/DispatchReport?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}${strStatus}${strSearch}`
@@ -34,17 +34,17 @@ export default function DispatchReport() {
   };
   useEffect(() => {
     getStatus(
-      `/tms/DocumentDispatch/GetDispatchStatusDDL?businessUnitId=${selectedBusinessUnit?.value}`, (data) => {
+      `/tms/DocumentDispatch/GetDispatchStatusDDL?businessUnitId=${selectedBusinessUnit?.value}`,
+      (data) => {
         const updatedStatus = data?.map((item, index) => {
           return {
             ...item,
-            value: index+1
-          }
-        })
-        setStatusDDL(updatedStatus)
+            value: index + 1,
+          };
+        });
+        setStatusDDL(updatedStatus);
       }
     );
-
   }, []);
 
   return (
@@ -85,7 +85,7 @@ export default function DispatchReport() {
                       name="fromDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                       }}
                     />
                   </div>
@@ -96,7 +96,7 @@ export default function DispatchReport() {
                       name="toDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                     />
                   </div>
@@ -107,7 +107,7 @@ export default function DispatchReport() {
                       value={values?.status}
                       label="Status"
                       onChange={(valueOption) => {
-                        setFieldValue("status", valueOption);
+                        setFieldValue('status', valueOption);
                       }}
                       errors={errors}
                       touched={touched}

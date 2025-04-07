@@ -1,27 +1,25 @@
-
-
-import React, { useState, useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { getProfitCenterList } from "../../../../procurement/purchase-management/purchaseOrder/Form/assetStandardPo/helper";
-import Loading from "../../../_chartinghelper/loading/_loading";
+import React, { useState, useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { getProfitCenterList } from '../../../../procurement/purchase-management/purchaseOrder/Form/assetStandardPo/helper';
+import Loading from '../../../_chartinghelper/loading/_loading';
 import {
   saveLighterVessel,
   saveEditedLighterVessel,
   getSBUList,
   getRevenueCenterList,
   getCostCenterList,
-} from "../helper";
-import Form from "./form";
+} from '../helper';
+import Form from './form';
 
 const initData = {
-  lighterVesselName: "",
-  vesselType:"",
-  capacity: "",
-  costCenter: "",
-  revenueCenter: "",
-  sbu: "",
-  lastTripNo: "",
-  profitCenter: "",
+  lighterVesselName: '',
+  vesselType: '',
+  capacity: '',
+  costCenter: '',
+  revenueCenter: '',
+  sbu: '',
+  lastTripNo: '',
+  profitCenter: '',
 };
 
 export default function LighterVesselForm({
@@ -60,7 +58,6 @@ export default function LighterVesselForm({
     if (singleData?.lighterVesselId) {
       getCostCenter(singleData?.intSbuId);
     }
-
   }, [profileData, selectedBusinessUnit, singleData]);
 
   const saveHandler = (values, cb) => {
@@ -116,8 +113,8 @@ export default function LighterVesselForm({
   };
 
   const title = singleData?.lighterVesselId
-    ? "Edit Lighter Vessel"
-    : "Create New Lighter Vessel";
+    ? 'Edit Lighter Vessel'
+    : 'Create New Lighter Vessel';
 
   return (
     <>

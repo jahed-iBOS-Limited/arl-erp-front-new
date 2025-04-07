@@ -1,11 +1,10 @@
-
-import React, { useEffect } from "react";
-import NewSelect from "./../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
+import React, { useEffect } from 'react';
+import NewSelect from './../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
 
 function CommissionCalculationForm({ obj }) {
   const { setFieldValue, values, setGridData } = obj;
@@ -42,7 +41,7 @@ function CommissionCalculationForm({ obj }) {
           value={values?.shipPoint}
           label="Ship Point"
           onChange={(valueOption) => {
-            setFieldValue("shipPoint", valueOption);
+            setFieldValue('shipPoint', valueOption);
             setGridData([]);
           }}
           placeholder="Select Ship Point"
@@ -55,8 +54,8 @@ function CommissionCalculationForm({ obj }) {
           value={values?.channel}
           label="Distribution Channel"
           onChange={(valueOption) => {
-            setFieldValue("channel", valueOption);
-            setFieldValue("customer", "");
+            setFieldValue('channel', valueOption);
+            setFieldValue('customer', '');
             setGridData([]);
           }}
           placeholder="Select Distribution Channel"
@@ -67,7 +66,7 @@ function CommissionCalculationForm({ obj }) {
         <SearchAsyncSelect
           selectedValue={values?.customer}
           handleChange={(valueOption) => {
-            setFieldValue("customer", valueOption);
+            setFieldValue('customer', valueOption);
             if (valueOption) {
             }
           }}
@@ -93,7 +92,7 @@ function CommissionCalculationForm({ obj }) {
           type="date"
           onChange={(e) => {
             setGridData([]);
-            setFieldValue("fromDate", e.target.value);
+            setFieldValue('fromDate', e.target.value);
           }}
         />
       </div>
@@ -106,7 +105,7 @@ function CommissionCalculationForm({ obj }) {
           type="date"
           onChange={(e) => {
             setGridData([]);
-            setFieldValue("toDate", e.target.value);
+            setFieldValue('toDate', e.target.value);
           }}
         />
       </div>

@@ -1,27 +1,27 @@
-import Axios from "axios";
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
+import Axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
 import {
   EditShipmentStandardCost_api,
   getDistanceKm,
   getShippingInfo,
   getSupplierDDL,
   UpdateZone,
-} from "../helper";
-import { useLocation, useParams } from "react-router-dom";
-import Loading from "./../../../../_helper/_loading";
-import { getZoneDDL } from "../../../configuration/zoneCostRate/helper";
+} from '../helper';
+import { useLocation, useParams } from 'react-router-dom';
+import Loading from './../../../../_helper/_loading';
+import { getZoneDDL } from '../../../configuration/zoneCostRate/helper';
 
 const initData = {
   rentAmount: 0,
   additionalCost: 0,
-  additionalCostReason: "",
+  additionalCostReason: '',
   deductionCost: 0,
-  deductionCostReason: "",
-  supplier: "",
-  zone: "",
+  deductionCostReason: '',
+  supplier: '',
+  zone: '',
 };
 
 export default function RentalVehicleEdit({ history, billId, isBtnHide }) {
@@ -45,7 +45,7 @@ export default function RentalVehicleEdit({ history, billId, isBtnHide }) {
   const [supplierDDL, setSupplierDDL] = useState([]);
   const [distanceKM, setDistanceKM] = useState([]);
   const [shippingInfo, setShippingInfo] = useState([]);
-  const [chalanInfo, setChalanInfo] = useState("");
+  const [chalanInfo, setChalanInfo] = useState('');
   const [zoneDDL, setZoneDDL] = useState([]);
   const [zoneRateInfo, setZoneRateInfo] = useState({});
 
@@ -105,12 +105,12 @@ export default function RentalVehicleEdit({ history, billId, isBtnHide }) {
         {
           tripId: values?.tripId || 0,
           additionalCost: +values?.additionalCost || 0,
-          additionalCostReason: values?.additionalCostReason || "",
+          additionalCostReason: values?.additionalCostReason || '',
           deductionCost: +values?.deductionCost || 0,
-          deductionCostReason: values?.deductionCostReason || "",
+          deductionCostReason: values?.deductionCostReason || '',
           actionBy: profileData?.userId,
           vehicleSupplierId: values?.supplier?.value || 0,
-          vehicleSupplierName: values?.supplier?.label || "",
+          vehicleSupplierName: values?.supplier?.label || '',
         },
       ];
       EditShipmentStandardCost_api(payload, cb, setDisabled);
@@ -137,7 +137,7 @@ export default function RentalVehicleEdit({ history, billId, isBtnHide }) {
     setShippingInfo(data);
   };
 
-  console.log(landingGridData?.data?.supplierId, "ssssId");
+  console.log(landingGridData?.data?.supplierId, 'ssssId');
 
   const zoneUpdateHandler = (values, item) => {
     const payload = [
@@ -145,7 +145,7 @@ export default function RentalVehicleEdit({ history, billId, isBtnHide }) {
         businessUnitId: selectedBusinessUnit?.value,
         deliveryId: item?.deliveryId,
         deliveryCode: item?.deliveryCode,
-        shipmentCode: "",
+        shipmentCode: '',
         supplierId: landingGridData?.data?.supplierId,
         actionBy: profileData?.userId,
         qnt: item?.quantity,
@@ -153,7 +153,7 @@ export default function RentalVehicleEdit({ history, billId, isBtnHide }) {
         updateZoneName: values?.zone?.label,
         zoneRate: zoneRateInfo?.updatetzRate,
         supportTypeId: 0,
-        strProductType: "",
+        strProductType: '',
         netPayable: zoneRateInfo?.updateBillAmount,
         process: true,
       },
@@ -185,7 +185,7 @@ export default function RentalVehicleEdit({ history, billId, isBtnHide }) {
                       landingGridData.data?.vehicleSupplierId,
                     label: landingGridData.data?.supplierName,
                   }
-                : "",
+                : '',
           } || initData
         }
         saveHandler={saveHandler}

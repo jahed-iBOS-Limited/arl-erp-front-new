@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import Loading from '../../../../_helper/_loading';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -76,7 +75,7 @@ export function VoyageChecklistDetails() {
       getVoyageByIdShow(
         location?.state?.voyageNo?.value,
         setRowDto,
-        setLoading,
+        setLoading
       );
     }
   }, [location]);
@@ -149,7 +148,7 @@ export function VoyageChecklistDetails() {
             getVoyageByIdShow(
               location?.state?.voyageNo?.value,
               setRowDto,
-              setLoading,
+              setLoading
             );
           });
         }}
@@ -324,7 +323,7 @@ export function VoyageChecklistDetails() {
                             onDelete={(deleteFileObj) => {
                               const newData = fileObjects?.filter(
                                 (item) =>
-                                  item.file.name !== deleteFileObj.file.name,
+                                  item.file.name !== deleteFileObj.file.name
                               );
                               setFileObjects(newData);
                             }}
@@ -392,7 +391,7 @@ export function VoyageChecklistDetails() {
                                               >
                                                 {calculationTime(
                                                   item?.CheckDate,
-                                                  'days',
+                                                  'days'
                                                 ) + ' days ago'}
                                               </span>
                                             </li>
@@ -410,7 +409,7 @@ export function VoyageChecklistDetails() {
                                               >
                                                 {calculationTime(
                                                   item?.CheckDate,
-                                                  'days',
+                                                  'days'
                                                 ) + ' days ago'}
                                               </span>
                                             </li>
@@ -418,7 +417,7 @@ export function VoyageChecklistDetails() {
                                         </ul>
                                       </div>
                                     </>
-                                  ),
+                                  )
                                 )}
                               </div>
                             </div>

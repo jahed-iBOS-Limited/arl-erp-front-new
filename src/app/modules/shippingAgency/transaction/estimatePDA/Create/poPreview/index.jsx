@@ -1,11 +1,11 @@
-import { Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICustomCard from "../../../../../_helper/_customCard";
-import Loading from "../../../../../_helper/_loading";
-import NewSelect from "../../../../../_helper/_select";
-import { getBusinessUnitDDL_api } from "../../helper";
-import { useHistory } from "react-router-dom";
+import { Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICustomCard from '../../../../../_helper/_customCard';
+import Loading from '../../../../../_helper/_loading';
+import NewSelect from '../../../../../_helper/_select';
+import { getBusinessUnitDDL_api } from '../../helper';
+import { useHistory } from 'react-router-dom';
 const initData = {};
 export default function POPreview({ estimatePDAList }) {
   const {
@@ -24,11 +24,10 @@ export default function POPreview({ estimatePDAList }) {
       const find = resData?.find((itm) => itm?.value === buId);
       if (find) {
         if (formikRef.current) {
-          formikRef.current.setFieldValue("businessUnit", find);
+          formikRef.current.setFieldValue('businessUnit', find);
         }
       }
     });
-
   }, [accId]);
 
   useEffect(() => {
@@ -67,7 +66,7 @@ export default function POPreview({ estimatePDAList }) {
           }) => (
             <>
               <ICustomCard
-                title={"PO Preview"}
+                title={'PO Preview'}
                 renderProps={() => {
                   return (
                     <>
@@ -82,8 +81,8 @@ export default function POPreview({ estimatePDAList }) {
                             state: estimatePDAPOPage,
                           });
                         }}
-                        type='button'
-                        className='btn btn-primary px-3 py-2 ml-2'
+                        type="button"
+                        className="btn btn-primary px-3 py-2 ml-2"
                         disabled={rowDto?.length === 0 || !values?.businessUnit}
                       >
                         Create PO
@@ -92,15 +91,15 @@ export default function POPreview({ estimatePDAList }) {
                   );
                 }}
               >
-                <div className='row global-form my-3'>
-                  <div className='col-lg-3'>
+                <div className="row global-form my-3">
+                  <div className="col-lg-3">
                     <NewSelect
                       options={businessUnitDDL || []}
-                      name='businessUnit'
+                      name="businessUnit"
                       onChange={(valueOption) => {
-                        setFieldValue("businessUnit", valueOption);
+                        setFieldValue('businessUnit', valueOption);
                       }}
-                      placeholder='Business Unit'
+                      placeholder="Business Unit"
                       value={values?.businessUnit}
                       errors={errors}
                       touched={touched}
@@ -108,8 +107,8 @@ export default function POPreview({ estimatePDAList }) {
                   </div>
                 </div>
 
-                <div className='table-responsive'>
-                  <table className='table table-striped table-bordered global-table'>
+                <div className="table-responsive">
+                  <table className="table table-striped table-bordered global-table">
                     <thead>
                       <tr>
                         <th>SL</th>
@@ -117,7 +116,7 @@ export default function POPreview({ estimatePDAList }) {
                         <th>Expense Particulars</th>
                         <th
                           style={{
-                            width: "150px",
+                            width: '150px',
                           }}
                         >
                           Estimated Amount
@@ -129,10 +128,10 @@ export default function POPreview({ estimatePDAList }) {
                       {rowDto?.map((item, index) => {
                         return (
                           <tr key={index}>
-                            <td className='text-center'> {index + 1}</td>
+                            <td className="text-center"> {index + 1}</td>
                             <td>{item?.category}</td>
                             <td>{item?.particularName}</td>
-                            <td className='text-right'>
+                            <td className="text-right">
                               {item?.estimatedAmount}
                             </td>
 
@@ -145,7 +144,7 @@ export default function POPreview({ estimatePDAList }) {
                           <b>Total</b>
                         </td>
 
-                        <td className='text-right'>
+                        <td className="text-right">
                           <b>
                             {rowDto?.reduce(
                               (acc, cv) => acc + (+cv?.estimatedAmount || 0),

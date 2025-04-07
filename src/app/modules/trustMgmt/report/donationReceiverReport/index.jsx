@@ -1,33 +1,40 @@
-import React from "react";
-import { Form, Formik } from "formik";
+import React from 'react';
+import { Form, Formik } from 'formik';
 import {
   Card,
   CardBody,
   CardHeader,
   ModalProgressBar,
-} from "./../../../../../_metronic/_partials/controls";
-import Loading from "../../../_helper/_loading";
-import DonationTable from "./donationTable";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import InputField from "../../../_helper/_inputField";
+} from './../../../../../_metronic/_partials/controls';
+import Loading from '../../../_helper/_loading';
+import DonationTable from './donationTable';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import InputField from '../../../_helper/_inputField';
 
 const initData = {
-  applicantName: "",
-  beneficiaryName: "",
-  accountHolder: "",
-  accountNo: "",
-  registrationNo: "",
-  mobileNo: "",
+  applicantName: '',
+  beneficiaryName: '',
+  accountHolder: '',
+  accountNo: '',
+  registrationNo: '',
+  mobileNo: '',
 };
 
 export default function DonationReceiverReport() {
-  const [rowDto, getData, loading, ] = useAxiosGet();
+  const [rowDto, getData, loading] = useAxiosGet();
 
-
-  const getTrustAllLanding = (partName, paymentStatusId = 2, appName, beneficiaryName, accountHolder, accountNo, regNo, mobileNo) => {
+  const getTrustAllLanding = (
+    partName,
+    paymentStatusId = 2,
+    appName,
+    beneficiaryName,
+    accountHolder,
+    accountNo,
+    regNo,
+    mobileNo
+  ) => {
     return `/hcm/TrustManagement/GetTrustAllLanding?PartName=${partName}&PaymentStatusId=${paymentStatusId}&ApplicantName=${appName}&BeneficiaryName=${beneficiaryName}&AccountHolder=${accountHolder}&AccountNo=${accountNo}&RegistrationNo=${regNo}&MobileNo=${mobileNo}`;
   };
-
 
   return (
     <>
@@ -53,7 +60,7 @@ export default function DonationReceiverReport() {
             <Form className="form form-label-right">
               <Card>
                 {true && <ModalProgressBar />}
-                <CardHeader title={"Donation Receiver Report"}></CardHeader>
+                <CardHeader title={'Donation Receiver Report'}></CardHeader>
                 <CardBody>
                   <div className="mt-0">
                     <div className="form-group row global-form">
@@ -179,31 +186,31 @@ export default function DonationReceiverReport() {
                               <button
                                 type="button"
                                 className="btn btn-primary"
-                                style={{fontSize: "12px"}}
+                                style={{ fontSize: '12px' }}
                                 onClick={() => {
                                   getData(
                                     getTrustAllLanding(
-                                      "GetAllPaymentStatusNDonationReciverList",
+                                      'GetAllPaymentStatusNDonationReciverList',
                                       2,
                                       values?.applicantName,
                                       values?.beneficiaryName,
                                       values?.accountHolder,
                                       values?.accountNo,
                                       values?.registrationNo,
-                                      values?.mobileNo,
+                                      values?.mobileNo
                                     )
                                   );
                                 }}
                                 // disabled={}
                               >
                                 Show Report
-                              </button>  
+                              </button>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <DonationTable rowDto={rowDto}/>
+                    <DonationTable rowDto={rowDto} />
                   </div>
                 </CardBody>
               </Card>

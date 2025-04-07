@@ -1,28 +1,28 @@
-import Axios from "axios";
-import * as Yup from "yup";
+import Axios from 'axios';
+import * as Yup from 'yup';
 
 export const initData = {
-  refType: "",
-  refNo: "",
-  transType: "",
-  busiPartner: "",
-  personnel: "",
-  remarks: "",
-  item: "",
+  refType: '',
+  refNo: '',
+  transType: '',
+  busiPartner: '',
+  personnel: '',
+  remarks: '',
+  item: '',
   isAllItem: false,
-  costCenter: "",
-  projName: "",
+  costCenter: '',
+  projName: '',
 };
 
 // // Validation schema
 export const validationSchema = Yup.object().shape({
   refType: Yup.object().shape({
-    label: Yup.string().required("Refference Type is required"),
-    value: Yup.string().required("Referrence Type is required"),
+    label: Yup.string().required('Refference Type is required'),
+    value: Yup.string().required('Referrence Type is required'),
   }),
   transType: Yup.object().shape({
-    label: Yup.string().required("Transaction Type is required"),
-    value: Yup.string().required("Transaction Type is required"),
+    label: Yup.string().required('Transaction Type is required'),
+    value: Yup.string().required('Transaction Type is required'),
   }),
 });
 

@@ -4,13 +4,9 @@ export const warehouseStockModalInitData = {};
 // fetch warehouse stock details data
 export const fetchWarehouseStockDetailsData = (obj) => {
   // destrcuture
-  const {
-    getWarehouseStockData,
-    singleRowData,
-    setSingleRowData,
-    values,
-  } = obj;
-  
+  const { getWarehouseStockData, singleRowData, setSingleRowData, values } =
+    obj;
+
   const { itemId } = singleRowData;
   const params = `intBusinessUnitId=${values?.businessUnit?.value}&intItemId=${itemId}&toDate=${values?.toDate}`;
   const url = `/mes/ProductionEntry/GetCurrentStockByUnit`;

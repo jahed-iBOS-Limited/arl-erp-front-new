@@ -1,20 +1,13 @@
-import axios from "axios";
-import { useState } from "react";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const useAxiosPut = () => {
   const [res, setRes] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const putData = (
-    url,
-    payload,
-    cb,
-    isToast,
-    successMessage,
-    errorMessage,
-  ) => {
+  const putData = (url, payload, cb, isToast, successMessage, errorMessage) => {
     setLoading && setLoading(true);
     axios
       .put(url, payload)
@@ -24,7 +17,10 @@ const useAxiosPut = () => {
         setLoading(false);
         if (isToast) {
           toast.success(
-            res?.data?.message || successMessage ||  res?.data?.[0]?.message || "Submitted Successfully"
+            res?.data?.message ||
+              successMessage ||
+              res?.data?.[0]?.message ||
+              'Submitted Successfully'
           );
         }
       })
@@ -34,7 +30,10 @@ const useAxiosPut = () => {
         setLoading(false);
         if (isToast) {
           toast.warn(
-            err?.response?.data?.message || errorMessage || err?.response?.data?.[0]?.message || "Failed, try again"
+            err?.response?.data?.message ||
+              errorMessage ||
+              err?.response?.data?.[0]?.message ||
+              'Failed, try again'
           );
         }
       });

@@ -1,15 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import { APIUrl } from "../../../../../../App";
-import { moneyInWord } from "../../../../_helper/_convertMoneyToWord";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { advicePrintCount } from "../helper";
-import FormatOne from "../pdf/format-01";
-import FormatTwo from "../pdf/format-02";
-import FormatThree from "../pdf/format-03";
-import { generateExcel } from "./excelReportGenarate";
-import { FormatEight } from "../pdf/format-08";
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import { APIUrl } from '../../../../../../App';
+import { moneyInWord } from '../../../../_helper/_convertMoneyToWord';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { advicePrintCount } from '../helper';
+import FormatOne from '../pdf/format-01';
+import FormatTwo from '../pdf/format-02';
+import FormatThree from '../pdf/format-03';
+import { generateExcel } from './excelReportGenarate';
+import { FormatEight } from '../pdf/format-08';
 const ViewData = ({ adviceReportData, values }) => {
   const [fontSize, setFontSize] = useState(9);
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -39,12 +39,12 @@ const ViewData = ({ adviceReportData, values }) => {
   }, [total]);
 
   const adviceName =
-    values?.advice?.label === "IBBL"
-      ? "IBBL_ONLINE"
-      : values?.advice?.label === "IBBL-BEFTN"
-      ? "IBBL_BEFTN"
-      : values?.advice?.label;
-  const dateFormat = values?.dateTime?.split("/").join("_");
+    values?.advice?.label === 'IBBL'
+      ? 'IBBL_ONLINE'
+      : values?.advice?.label === 'IBBL-BEFTN'
+        ? 'IBBL_BEFTN'
+        : values?.advice?.label;
+  const dateFormat = values?.dateTime?.split('/').join('_');
   const fileName = `${selectedBusinessUnit?.buShortName}_${
     total ? total : 0
   }_${adviceName}_${dateFormat}`;
@@ -52,7 +52,7 @@ const ViewData = ({ adviceReportData, values }) => {
   return (
     <>
       <div className="d-flex justify-content-end align-items-end">
-        <div className="d-flex flex-column" style={{ width: "60px" }}>
+        <div className="d-flex flex-column" style={{ width: '60px' }}>
           <label>Font Size</label>
           <input
             value={fontSize}
@@ -65,14 +65,14 @@ const ViewData = ({ adviceReportData, values }) => {
           />
         </div>
         <button
-          style={{ height: "30px" }}
+          style={{ height: '30px' }}
           className="btn btn-primary btn-sm m-0 mx-2 py-2 px-2"
           onClick={(e) => {
             generateExcel(
               adviceReportData,
               values,
               0,
-              "",
+              '',
               selectedBusinessUnit,
               false,
               null,
@@ -85,27 +85,27 @@ const ViewData = ({ adviceReportData, values }) => {
         </button>
         <ReactToPrint
           pageStyle={`@media print{body { -webkit-print-color-adjust: exact;}@page {size: ${
-            values?.advice?.label === "IBBL" ||
-            values?.advice?.label === "JAMUNA-BEFTN" ||
-            values?.advice?.label === "RTGS"
-              ? "portrait !important"
-              : values?.advice?.label === "IBBL-BEFTN"
-              ? "landscape !important"
-              : "landscape !important"
+            values?.advice?.label === 'IBBL' ||
+            values?.advice?.label === 'JAMUNA-BEFTN' ||
+            values?.advice?.label === 'RTGS'
+              ? 'portrait !important'
+              : values?.advice?.label === 'IBBL-BEFTN'
+                ? 'landscape !important'
+                : 'landscape !important'
           };margin:${
-            values?.advice?.label === "RTGS"
-              ? "0 !important"
-              : ["IBBL", "JAMUNA-BEFTN"].includes(values?.advice?.label)
-              ? "144px 0 !important"
-              : 0
+            values?.advice?.label === 'RTGS'
+              ? '0 !important'
+              : ['IBBL', 'JAMUNA-BEFTN'].includes(values?.advice?.label)
+                ? '144px 0 !important'
+                : 0
           } }}`}
           trigger={() => (
             <button
               className="btn btn-primary btn-sm d-flex align-items-center "
-              style={{ height: "30px" }}
+              style={{ height: '30px' }}
             >
               <img
-                style={{ width: "25px", paddingRight: "5px", height: "" }}
+                style={{ width: '25px', paddingRight: '5px', height: '' }}
                 src={printIcon}
                 alt="print-icon"
               />
@@ -139,7 +139,7 @@ const ViewData = ({ adviceReportData, values }) => {
                 <div
                   className="advice-table-wrapper"
                   ref={printRef}
-                  style={{ margin: "0 60px" }}
+                  style={{ margin: '0 60px' }}
                 >
                   {/* {getPdfFormatNumber(
                     values?.adviceType?.value,
@@ -239,7 +239,7 @@ const ViewData = ({ adviceReportData, values }) => {
                       totalInWords={totalInWords}
                     />
                   )} */}
-                  {values?.advice?.label === "RTGS" ? (
+                  {values?.advice?.label === 'RTGS' ? (
                     <FormatEight
                       fontSize={fontSize + 3}
                       APIUrl={APIUrl}
@@ -249,7 +249,7 @@ const ViewData = ({ adviceReportData, values }) => {
                       total={total}
                       totalInWords={totalInWords}
                     />
-                  ) : values?.advice?.label === "IBBL" ? (
+                  ) : values?.advice?.label === 'IBBL' ? (
                     <FormatOne
                       fontSize={fontSize}
                       APIUrl={APIUrl}
@@ -259,7 +259,7 @@ const ViewData = ({ adviceReportData, values }) => {
                       total={total}
                       totalInWords={totalInWords}
                     />
-                  ) : values?.advice?.label === "IBBL-BEFTN" ? (
+                  ) : values?.advice?.label === 'IBBL-BEFTN' ? (
                     <FormatTwo
                       fontSize={fontSize}
                       APIUrl={APIUrl}

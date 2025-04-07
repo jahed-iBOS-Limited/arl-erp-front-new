@@ -1,4 +1,4 @@
-import { _dateFormatter } from "./_dateFormate";
+import { _dateFormatter } from './_dateFormate';
 
 export const _monthFirstDate = () => {
   let date = new Date(),

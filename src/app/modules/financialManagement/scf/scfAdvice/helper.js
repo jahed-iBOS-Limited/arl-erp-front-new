@@ -19,7 +19,7 @@ export function fetchSCFLandingData(obj) {
   const { date, bankAccount } = values;
   // get data
   getSCFLandingData(
-    `/fino/Advice/GetAdviceViewSCF?Account=${profileData?.accountId}&Unit=${selectedBusinessUnit?.value}&Date=${date}&BankAsPartnerId=${bankAccount?.bankAsPartnerId}`,
+    `/fino/Advice/GetAdviceViewSCF?Account=${profileData?.accountId}&Unit=${selectedBusinessUnit?.value}&Date=${date}&BankAsPartnerId=${bankAccount?.bankAsPartnerId}`
   );
 }
 
@@ -29,7 +29,7 @@ export function fetchBankAsParterDDL(obj) {
   const { getBankAsPartnerDDL, selectedBusinessUnit } = obj;
 
   getBankAsPartnerDDL(
-    `/fino/CommonFino/GetBankAsSupplierDDL?businessUnitId=${selectedBusinessUnit.value}`,
+    `/fino/CommonFino/GetBankAsSupplierDDL?businessUnitId=${selectedBusinessUnit.value}`
   );
 }
 

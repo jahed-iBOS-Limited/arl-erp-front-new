@@ -181,7 +181,7 @@ export default function FormCmp({
                         ?.filter((item) => item?.isSelected)
                         ?.reduce((total, cur) => total + cur?.approveAmount, 0),
                       true,
-                      0,
+                      0
                     )}
                   </span>
                 </div>
@@ -218,7 +218,7 @@ export default function FormCmp({
                                   rowDataHandler(
                                     'isSelected',
                                     index,
-                                    !item.isSelected,
+                                    !item.isSelected
                                   );
                                 }}
                                 className="text-center"
@@ -305,7 +305,7 @@ export default function FormCmp({
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name,
+                  (item) => item.file.name !== deleteFileObj.file.name
                 );
                 setFileObjects(newData);
               }}

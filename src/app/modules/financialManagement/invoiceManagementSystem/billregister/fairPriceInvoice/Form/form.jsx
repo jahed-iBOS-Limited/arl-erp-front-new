@@ -60,7 +60,6 @@ export default function FormCmp({
   const [PONumberDDL, setPoNumberDDL] = useState([]);
   const [totalGrnAmount, setTotalGrnAmount] = useState(0);
 
-
   const [supplierAmountInfo, setSupplierAmountInfo] = React.useState('');
   const dispatch = useDispatch();
 
@@ -223,7 +222,7 @@ export default function FormCmp({
                             ) {
                               setFieldValue(
                                 'new_Adv_Adjustment',
-                                e?.target?.value,
+                                e?.target?.value
                               );
                             }
                           }}
@@ -262,7 +261,7 @@ export default function FormCmp({
                           classes="purchaseInvoiceAttachIcon"
                           clickHandler={() => {
                             dispatch(
-                              getDownlloadFileView_Action(values?.attachmentId),
+                              getDownlloadFileView_Action(values?.attachmentId)
                             );
                           }}
                         />
@@ -388,7 +387,7 @@ export default function FormCmp({
                           setFieldValue('purchaseOrg', purchaseOrg[0]);
                           setFieldValue(
                             'totalGRNAmount',
-                            valueOption?.totalGRNAmount,
+                            valueOption?.totalGRNAmount
                           );
                         }}
                       />
@@ -442,7 +441,7 @@ export default function FormCmp({
                                       setFieldValue(
                                         'grossInvoiceAmount',
                                         totalGrn -
-                                          grnGridData[index].mrrAmount || 0,
+                                          grnGridData[index].mrrAmount || 0
                                       );
                                     }}
                                   >
@@ -529,7 +528,7 @@ export default function FormCmp({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

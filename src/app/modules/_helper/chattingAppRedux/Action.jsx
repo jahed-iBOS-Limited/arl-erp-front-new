@@ -1,4 +1,4 @@
-import { chattingAppSlice } from "./Slice";
+import { chattingAppSlice } from './Slice';
 const { actions } = chattingAppSlice;
 
 export const setSelectedUserForChatAction = (data) => (dispatch) => {

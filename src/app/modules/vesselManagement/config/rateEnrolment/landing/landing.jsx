@@ -1,26 +1,25 @@
-
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import IApproval from "../../../../_helper/_helperIcons/_approval";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IButton from "../../../../_helper/iButton";
-import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
-import { PortAndMotherVessel } from "../../../common/components";
-import { splitNumber } from "../form/addEditForm";
-import { rateEnrollmentUpdate } from "../helper";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import IApproval from '../../../../_helper/_helperIcons/_approval';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import YearMonthForm from '../../../../_helper/commonInputFieldsGroups/yearMonthForm';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IButton from '../../../../_helper/iButton';
+import ICon from '../../../../chartering/_chartinghelper/icons/_icon';
+import { PortAndMotherVessel } from '../../../common/components';
+import { splitNumber } from '../form/addEditForm';
+import { rateEnrollmentUpdate } from '../helper';
 
 const initData = {
-  port: "",
-  motherVessel: "",
-  year: "",
+  port: '',
+  motherVessel: '',
+  year: '',
 };
 
 const RateEnrolmentLanding = () => {
@@ -36,8 +35,9 @@ const RateEnrolmentLanding = () => {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const getData = (values) => {
-    const url = `/tms/VehicleExpenseRegister/GetMOPCosting?businessUnitId=${buId}&mVesselId=${values
-      ?.motherVessel?.value || 0}&costingYear=${values?.year?.value}`;
+    const url = `/tms/VehicleExpenseRegister/GetMOPCosting?businessUnitId=${buId}&mVesselId=${
+      values?.motherVessel?.value || 0
+    }&costingYear=${values?.year?.value}`;
 
     getRowData(url, (resData) => {
       const modifyData = resData?.map((item) => ({ ...item, isEdit: false }));
@@ -112,9 +112,9 @@ const RateEnrolmentLanding = () => {
   };
 
   const editableUIHandler = ({ index, status, action, values, item }) => {
-    if (action === "cancel") {
+    if (action === 'cancel') {
       setRowData(tempRows);
-    } else if (action === "done") {
+    } else if (action === 'done') {
       updateRates(values, item);
     } else {
       let _data = [...rowData];
@@ -126,13 +126,13 @@ const RateEnrolmentLanding = () => {
   const rowDataHandler = (name, index, value) => {
     let _data = [...rowData];
     _data[index][name] = value;
-    if (name === "distance") {
+    if (name === 'distance') {
       const distanceSlabs = splitNumber(value);
-      _data[index].costDistance1to100 = distanceSlabs[0] * 10 || "";
-      _data[index].costDistance101to200 = distanceSlabs[1] * 3 || "";
-      _data[index].costDistance201to300 = distanceSlabs[2] * 1.5 || "";
-      _data[index].costDistance301to400 = distanceSlabs[3] * 1.5 || "";
-      _data[index].costDistance401to500 = distanceSlabs[4] * 1.3 || "";
+      _data[index].costDistance1to100 = distanceSlabs[0] * 10 || '';
+      _data[index].costDistance101to200 = distanceSlabs[1] * 3 || '';
+      _data[index].costDistance201to300 = distanceSlabs[2] * 1.5 || '';
+      _data[index].costDistance301to400 = distanceSlabs[3] * 1.5 || '';
+      _data[index].costDistance401to500 = distanceSlabs[4] * 1.3 || '';
     }
 
     setRowData(_data);
@@ -148,10 +148,10 @@ const RateEnrolmentLanding = () => {
         {({ values, setFieldValue }) => (
           <>
             <ICustomCard
-              title={"Rate Enrolment"}
+              title={'Rate Enrolment'}
               createHandler={() => {
                 history.push(
-                  "/vessel-management/configuration/rateenrollment/config"
+                  '/vessel-management/configuration/rateenrollment/config'
                 );
               }}
             >
@@ -174,87 +174,87 @@ const RateEnrolmentLanding = () => {
                 {rowData?.length > 0 && (
                   <div className="loan-scrollable-table inventory-statement-report">
                     <div
-                      style={{ maxHeight: "500px" }}
+                      style={{ maxHeight: '500px' }}
                       className="scroll-table _table"
                     >
                       <table
                         className={
-                          "table table-striped table-bordered bj-table bj-table-landing "
+                          'table table-striped table-bordered bj-table bj-table-landing '
                         }
                       >
                         <thead>
                           <tr>
-                            <th style={{ minWidth: "60px" }} rowSpan={2}>
+                            <th style={{ minWidth: '60px' }} rowSpan={2}>
                               Action
                             </th>
-                            <th style={{ minWidth: "30px" }} rowSpan={2}>
+                            <th style={{ minWidth: '30px' }} rowSpan={2}>
                               SL
                             </th>
-                            <th style={{ minWidth: "200px" }} rowSpan={2}>
+                            <th style={{ minWidth: '200px' }} rowSpan={2}>
                               Description of Route
                             </th>
-                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                            <th style={{ minWidth: '100px' }} rowSpan={2}>
                               Distance (km)
                             </th>
-                            <th style={{ minWidth: "500px" }} colSpan={5}>
+                            <th style={{ minWidth: '500px' }} colSpan={5}>
                               Rate per Kilo
                             </th>
-                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                            <th style={{ minWidth: '100px' }} rowSpan={2}>
                               Total Rate <br />
                               17.30
                             </th>
-                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                            <th style={{ minWidth: '100px' }} rowSpan={2}>
                               Tax & Vat <br />
                               17.50%
                             </th>
-                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                            <th style={{ minWidth: '100px' }} rowSpan={2}>
                               Invoice <br />
                               10 tk
                             </th>
-                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                            <th style={{ minWidth: '100px' }} rowSpan={2}>
                               Labour Bill
                             </th>
-                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                            <th style={{ minWidth: '100px' }} rowSpan={2}>
                               Transport Cost
                             </th>
-                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                            <th style={{ minWidth: '100px' }} rowSpan={2}>
                               Additional Cost (ReBag + short)
                             </th>
-                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                            <th style={{ minWidth: '100px' }} rowSpan={2}>
                               Total Cost
                             </th>
-                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                            <th style={{ minWidth: '100px' }} rowSpan={2}>
                               Total Received
                             </th>
-                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                            <th style={{ minWidth: '100px' }} rowSpan={2}>
                               Quantity
                             </th>
-                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                            <th style={{ minWidth: '100px' }} rowSpan={2}>
                               Bill Amount
                             </th>
-                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                            <th style={{ minWidth: '100px' }} rowSpan={2}>
                               Cost Amount
                             </th>
-                            <th style={{ minWidth: "100px" }} rowSpan={2}>
+                            <th style={{ minWidth: '100px' }} rowSpan={2}>
                               Profit Amount
                             </th>
                           </tr>
                           <tr>
-                            <th style={{ minWidth: "100px" }}>
+                            <th style={{ minWidth: '100px' }}>
                               0-100 <br /> (10.00)
                             </th>
-                            <th style={{ minWidth: "100px" }}>
+                            <th style={{ minWidth: '100px' }}>
                               101-200 <br />
                               (3.00)
                             </th>
-                            <th style={{ minWidth: "100px" }}>
+                            <th style={{ minWidth: '100px' }}>
                               201-300 <br />
                               (1.50)
                             </th>
-                            <th style={{ minWidth: "100px" }}>
+                            <th style={{ minWidth: '100px' }}>
                               301-400 <br /> (1.50)
                             </th>
-                            <th style={{ minWidth: "100px" }}>
+                            <th style={{ minWidth: '100px' }}>
                               401-500 <br />
                               (1.30)
                             </th>
@@ -305,7 +305,7 @@ const RateEnrolmentLanding = () => {
                                             editableUIHandler({
                                               index: i,
                                               status: false,
-                                              action: "cancel",
+                                              action: 'cancel',
                                             });
                                           }}
                                         >
@@ -318,7 +318,7 @@ const RateEnrolmentLanding = () => {
                                             editableUIHandler({
                                               index: i,
                                               status: false,
-                                              action: "done",
+                                              action: 'done',
                                               values,
                                               item,
                                             });
@@ -341,7 +341,7 @@ const RateEnrolmentLanding = () => {
                                       value={item?.distance}
                                       onChange={(e) => {
                                         rowDataHandler(
-                                          "distance",
+                                          'distance',
                                           i,
                                           e?.target?.value
                                         );
@@ -378,18 +378,18 @@ const RateEnrolmentLanding = () => {
                                       name="invoice"
                                       placeholder="Invoice"
                                       type="number"
-                                      value={item?.invoice || ""}
+                                      value={item?.invoice || ''}
                                       disabled={false}
                                       onChange={(e) => {
                                         rowDataHandler(
-                                          "invoice",
+                                          'invoice',
                                           i,
                                           e?.target?.value
                                         );
                                       }}
                                     />
                                   ) : (
-                                    item?.invoice || ""
+                                    item?.invoice || ''
                                   )}
                                 </td>
                                 <td className="text-right">
@@ -398,10 +398,10 @@ const RateEnrolmentLanding = () => {
                                       name="labourBill"
                                       placeholder="Labour Bill"
                                       type="number"
-                                      value={item?.labourBill || ""}
+                                      value={item?.labourBill || ''}
                                       onChange={(e) => {
                                         rowDataHandler(
-                                          "labourBill",
+                                          'labourBill',
                                           i,
                                           e?.target?.value
                                         );
@@ -417,10 +417,10 @@ const RateEnrolmentLanding = () => {
                                       name="transportationCost"
                                       placeholder="Transport Cost"
                                       type="number"
-                                      value={item?.transportationCost || ""}
+                                      value={item?.transportationCost || ''}
                                       onChange={(e) => {
                                         rowDataHandler(
-                                          "transportationCost",
+                                          'transportationCost',
                                           i,
                                           e?.target?.value
                                         );
@@ -436,10 +436,10 @@ const RateEnrolmentLanding = () => {
                                       name="additionalCost"
                                       placeholder="Additional Cost"
                                       type="number"
-                                      value={item?.additionalCost || ""}
+                                      value={item?.additionalCost || ''}
                                       onChange={(e) => {
                                         rowDataHandler(
-                                          "additionalCost",
+                                          'additionalCost',
                                           i,
                                           e?.target?.value
                                         );
@@ -461,10 +461,10 @@ const RateEnrolmentLanding = () => {
                                       name="quantity"
                                       placeholder="Quantity"
                                       type="number"
-                                      value={item?.quantity || ""}
+                                      value={item?.quantity || ''}
                                       onChange={(e) => {
                                         rowDataHandler(
-                                          "quantity",
+                                          'quantity',
                                           i,
                                           e?.target?.value
                                         );

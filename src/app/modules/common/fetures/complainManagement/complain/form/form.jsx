@@ -28,7 +28,6 @@ import {
 } from '../helper';
 import RespondentModal from './RespondentModal';
 
-
 function Form({
   initData,
   saveHandler,
@@ -57,7 +56,6 @@ function Form({
       getComplainCategory(buId, setComplainCategory);
       getContactSourceDDL(`/oms/CustomerPoint/ContactSourceDDL`);
     }
-
   }, [accId, buId]);
 
   const dispatch = useDispatch();
@@ -70,7 +68,7 @@ function Form({
         getSupplierDDLApi(
           accId,
           initData?.respondentBusinessUnit?.value,
-          setSupplierDDL,
+          setSupplierDDL
         );
       }
       // if type customer
@@ -79,25 +77,25 @@ function Form({
         customerListDDL(
           accId,
           initData?.respondentBusinessUnit?.value,
-          setCustomerDDL,
+          setCustomerDDL
         );
       }
       getItemCategoryDDL(
         accId,
         initData?.respondentBusinessUnit?.value,
         setLoading,
-        setItemCategoryDDL,
+        setItemCategoryDDL
       );
       getDistributionChannelDDL(
         accId,
         initData?.respondentBusinessUnit?.value,
-        setDistributionChannelDDL,
+        setDistributionChannelDDL
       );
 
       getComplainSubcategoryApi(
         initData?.respondentBusinessUnit?.value,
         initData?.issueType?.value,
-        setComplainSubCategory,
+        setComplainSubCategory
       );
 
       if (
@@ -107,11 +105,10 @@ function Form({
         getComplainSubcategoryApi(
           initData?.respondentBusinessUnit?.value,
           initData?.issueType?.value,
-          setComplainSubCategory,
+          setComplainSubCategory
         );
       }
     }
-
   }, [initData]);
   return (
     <>
@@ -142,15 +139,15 @@ function Form({
               view
                 ? false
                 : () => {
-                  handleSubmit();
-                }
+                    handleSubmit();
+                  }
             }
             resetHandler={
               view
                 ? false
                 : () => {
-                  resetForm(initData);
-                }
+                    resetForm(initData);
+                  }
             }
           >
             <form>
@@ -192,20 +189,20 @@ function Form({
                     onChange={(valueOption) => {
                       setFieldValue(
                         'respondentBusinessUnit',
-                        valueOption || '',
+                        valueOption || ''
                       );
                       setItemCategoryDDL([]);
                       getItemCategoryDDL(
                         accId,
                         valueOption?.value,
                         setLoading,
-                        setItemCategoryDDL,
+                        setItemCategoryDDL
                       );
                       setDistributionChannelDDL([]);
                       getDistributionChannelDDL(
                         accId,
                         valueOption?.value,
-                        setDistributionChannelDDL,
+                        setDistributionChannelDDL
                       );
                       setFieldValue('respondentType', '');
                       setFieldValue('respondentName', '');
@@ -246,7 +243,7 @@ function Form({
                         getSupplierDDLApi(
                           accId,
                           values?.respondentBusinessUnit?.value,
-                          setSupplierDDL,
+                          setSupplierDDL
                         );
                       }
                       // if type customer
@@ -255,7 +252,7 @@ function Form({
                         customerListDDL(
                           accId,
                           values?.respondentBusinessUnit?.value,
-                          setCustomerDDL,
+                          setCustomerDDL
                         );
                       }
                     }}
@@ -278,11 +275,11 @@ function Form({
                         setFieldValue('respondentName', valueOption || '');
                         setFieldValue(
                           'respondentContact',
-                          valueOption?.contactNo || '',
+                          valueOption?.contactNo || ''
                         );
                         setFieldValue(
                           'respondent',
-                          valueOption?.propitor || '',
+                          valueOption?.propitor || ''
                         );
                       }}
                       placeholder={`${values?.respondentType?.label} Name`}
@@ -305,11 +302,11 @@ function Form({
                         setFieldValue('respondentName', valueOption || '');
                         setFieldValue(
                           'respondentContact',
-                          valueOption?.contactNo || '',
+                          valueOption?.contactNo || ''
                         );
                         setFieldValue(
                           'respondent',
-                          valueOption?.propitor || '',
+                          valueOption?.propitor || ''
                         );
                       }}
                       placeholder={`${values?.respondentType?.label} Name`}
@@ -340,11 +337,11 @@ function Form({
                         setFieldValue('respondentName', valueOption || '');
                         setFieldValue(
                           'designationOrRelationship',
-                          valueOption?.employeeDesignatioName || '',
+                          valueOption?.employeeDesignatioName || ''
                         );
                         setFieldValue(
                           'respondentContact',
-                          valueOption?.contactNumber || '',
+                          valueOption?.contactNumber || ''
                         );
                         setFieldValue('respondent', valueOption?.label || '');
                       }}
@@ -352,7 +349,7 @@ function Form({
                         if (v?.length < 2) return [];
                         return axios
                           .get(
-                            `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${accId}&BusinessUnitId=0&searchTearm=${v}`,
+                            `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${accId}&BusinessUnitId=0&searchTearm=${v}`
                           )
                           .then((res) => {
                             return res?.data?.map((itm) => ({
@@ -401,9 +398,9 @@ function Form({
                         setFieldValue('sourceCustomerType', valueOption);
                       }}
                       placeholder="Source Customer Type"
-                    // errors={errors}
-                    // touched={touched}
-                    // isDisabled={!values?.respondentBusinessUnit || view}
+                      // errors={errors}
+                      // touched={touched}
+                      // isDisabled={!values?.respondentBusinessUnit || view}
                     />
                   </div>
                 )}
@@ -529,7 +526,7 @@ function Form({
                     onChange={(e) => {
                       setFieldValue(
                         'designationOrRelationship',
-                        e.target.value,
+                        e.target.value
                       );
                     }}
                   />
@@ -545,7 +542,7 @@ function Form({
                       if (v?.length < 2) return [];
                       return axios
                         .get(
-                          `/oms/CustomerPoint/GetUpazilaForComplain?search=${v}`,
+                          `/oms/CustomerPoint/GetUpazilaForComplain?search=${v}`
                         )
                         .then((res) => {
                           return res?.data?.map((itm) => ({
@@ -597,7 +594,7 @@ function Form({
                         type="button"
                         onClick={() => {
                           dispatch(
-                            getDownlloadFileView_Action(values?.attachment),
+                            getDownlloadFileView_Action(values?.attachment)
                           );
                         }}
                       >
@@ -624,7 +621,7 @@ function Form({
                       getComplainSubcategoryApi(
                         values?.respondentBusinessUnit?.value,
                         valueOption?.value,
-                        setComplainSubCategory,
+                        setComplainSubCategory
                       );
                     }}
                     placeholder="Issue Type"
@@ -775,8 +772,9 @@ function Form({
                 <div className="col-lg-3">
                   <InputField
                     value={values?.deliveryDate}
-                    label={`${values?.respondentType?.value === 2 ? 'PO' : 'Challan'
-                      } Date`}
+                    label={`${
+                      values?.respondentType?.value === 2 ? 'PO' : 'Challan'
+                    } Date`}
                     placeholder="Delivery Date"
                     name="deliveryDate"
                     type="date"
@@ -808,7 +806,7 @@ function Form({
               }}
               onDelete={(delObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== delObj.file.name,
+                  (item) => item.file.name !== delObj.file.name
                 );
                 setFileObjects(newData);
               }}

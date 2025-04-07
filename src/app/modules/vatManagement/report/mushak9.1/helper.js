@@ -1,6 +1,6 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import shortid from "shortid";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
 
 export const getTaxPayerInformationReport = async (
   accid,
@@ -18,7 +18,7 @@ export const getTaxPayerInformationReport = async (
       setLoading(false);
     } else {
       setLoading(false);
-      setter("");
+      setter('');
     }
   } catch (error) {}
 };
@@ -67,7 +67,7 @@ export const getSupplyOutputTax = async (
     setLoading && setLoading(false);
   } catch (error) {
     setLoading && setLoading(false);
-    setter("");
+    setter('');
     // toast.warning(error.response.data.message || "error occured");
   }
 };
@@ -89,7 +89,7 @@ export const getSupplyOutputTaxDetails = async (
       setter(res?.data);
     }
   } catch (error) {
-    setter("");
+    setter('');
     // toast.warning(error.response.data.message || "error occured");
   }
 };
@@ -111,7 +111,7 @@ export const getSupplyInputTaxDetails = async (
       setter(res?.data);
     }
   } catch (error) {
-    setter("");
+    setter('');
     // toast.warning(error.response.data.message || "error occured");
   }
 };
@@ -156,7 +156,7 @@ export const getSupplyinputTax = async (
       setter(res?.data);
     }
   } catch (error) {
-    setter("");
+    setter('');
     // toast.warning(error.response.data.message || "error occured");
   }
 };
@@ -176,7 +176,7 @@ export const getOutputTaxDetailsFor4_api = async (
       setter(res?.data);
     }
   } catch (error) {
-    setter("");
+    setter('');
     // toast.warning(error.response.data.message || "error occured");
   }
 };
@@ -194,7 +194,7 @@ export const getGoodsOrServiceNotAdmissible_api = async (
       setter(res?.data);
     }
   } catch (error) {
-    setter("");
+    setter('');
     // toast.warning(error.response.data.message || "error occured");
   }
 };
@@ -263,14 +263,13 @@ export const getAdvanceTaxPaidDetails = async (
         setter(res?.data);
       } else {
         // toast.warning("Data Not Found");
-        setter("");
+        setter('');
       }
     }
   } catch (error) {
-    setter("");
+    setter('');
   }
 };
-
 
 export const GetDetailsForNote24AndNote29_api = async (
   accId,
@@ -287,21 +286,16 @@ export const GetDetailsForNote24AndNote29_api = async (
       if (res?.data?.length > 0) {
         setter(res?.data);
       } else {
-        toast.warning("Data Not Found")
-        setter("");
+        toast.warning('Data Not Found');
+        setter('');
       }
     }
   } catch (error) {
-    setter("");
+    setter('');
   }
 };
 
-export const GetDetailsForNote30_api = async (
-  accId,
-  buId,
-  date,
-  setter
-) => {
+export const GetDetailsForNote30_api = async (accId, buId, date, setter) => {
   try {
     const res = await axios.get(
       `/vat/Mushak91/GetDetailsForNote30?AccountId=${accId}&BusinessUnitId=${buId}&ReportDate=${date}`
@@ -310,15 +304,14 @@ export const GetDetailsForNote30_api = async (
       if (res?.data?.length > 0) {
         setter(res?.data);
       } else {
-        toast.warning("Data Not Found")
-        setter("");
+        toast.warning('Data Not Found');
+        setter('');
       }
     }
   } catch (error) {
-    setter("");
+    setter('');
   }
 };
-
 
 export const getNoteInfoReport = async (
   accid,
@@ -353,7 +346,7 @@ export const getEmployeeBasicInfoById_Api = async (empId, setter) => {
       setter(res?.data[0]);
     }
   } catch (error) {
-    setter("");
+    setter('');
   }
 };
 
@@ -366,7 +359,7 @@ export const getTreasuryDepositInfo_api = async (accId, buId, date, setter) => {
       setter(res?.data);
     }
   } catch (error) {
-    setter("");
+    setter('');
   }
 };
 
@@ -378,13 +371,13 @@ export const createTaxLedgerDeduction = async (payload, cb) => {
     );
     if (res.status === 200 && res?.data) {
       cb();
-      toast.success("Submitted Successfully", {
+      toast.success('Submitted Successfully', {
         toastId: shortid(),
       });
       // setter(res?.data);
     }
   } catch (error) {
-    toast.error(error.response.data.message || "error occured");
+    toast.error(error.response.data.message || 'error occured');
   }
 };
 
@@ -410,15 +403,16 @@ export const getTaxLedgerSdVat = async (
   try {
     setLoading(true);
     const res = await axios.get(
-      `/vat/TaxLedgerOpenning/GetTaxLedgerSdVat?accountId=${accId}&businessUnitId=${buId}&taxBranchId=${taxBranchId ||
-        0}&monthId=${monthId}`
+      `/vat/TaxLedgerOpenning/GetTaxLedgerSdVat?accountId=${accId}&businessUnitId=${buId}&taxBranchId=${
+        taxBranchId || 0
+      }&monthId=${monthId}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
       setLoading(false);
     }
   } catch (error) {
-    setter("");
+    setter('');
   }
 };
 
@@ -431,7 +425,7 @@ export const getEmployeeBasicInfoById = async (userId, setter) => {
       setter(res?.data[0]);
     }
   } catch (error) {
-    setter("");
+    setter('');
   }
 };
 
@@ -444,7 +438,7 @@ export const getPayableSurcharge = async (accId, buId, date, setter) => {
       setter(res?.data);
     }
   } catch (error) {
-    setter("");
+    setter('');
   }
 };
 
@@ -464,11 +458,11 @@ export const getTreasuryDepositDetailsById = async (
         setter(res?.data);
       } else {
         // toast.warning("Data Not Found");
-        setter("");
+        setter('');
       }
     }
   } catch (error) {
-    setter("");
+    setter('');
   }
 };
 
@@ -481,14 +475,15 @@ export const getTaxLedgerSdVatForNote54 = async (
 ) => {
   try {
     const res = await axios.get(
-      `/vat/TaxLedgerOpenning/GetTaxLedgerSdVatForNote54?accountId=${accId}&businessUnitId=${buId}&taxbranchId=${taxBrachId ||
-        0}&date=${date}`
+      `/vat/TaxLedgerOpenning/GetTaxLedgerSdVatForNote54?accountId=${accId}&businessUnitId=${buId}&taxbranchId=${
+        taxBrachId || 0
+      }&date=${date}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
   } catch (error) {
-    setter("");
+    setter('');
   }
 };
 
@@ -502,14 +497,15 @@ export const getTaxLedgerSdVatForNote52 = async (
 ) => {
   try {
     const res = await axios.get(
-      `/vat/TaxLedgerOpenning/GetTaxLedgerSdVatForNote52?accountId=${accId}&businessUnitId=${buId}&taxbranchId=${taxBrachId ||
-        0}&monthId=${monthId}&yearId=${yearId}`
+      `/vat/TaxLedgerOpenning/GetTaxLedgerSdVatForNote52?accountId=${accId}&businessUnitId=${buId}&taxbranchId=${
+        taxBrachId || 0
+      }&monthId=${monthId}&yearId=${yearId}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
   } catch (error) {
-    setter("");
+    setter('');
   }
 };
 export const getPenaltyMonth_api = async (date, setter) => {
@@ -519,7 +515,7 @@ export const getPenaltyMonth_api = async (date, setter) => {
     );
     setter(res?.data);
   } catch (error) {
-    setter("");
+    setter('');
   }
 };
 
@@ -527,17 +523,21 @@ export const CreateMonthlyReturn_api = async (payload, setDisabled, cb) => {
   setDisabled && setDisabled(true);
   try {
     await axios.post(`/vat/Mushak91/CreateMonthlyReturn`, payload);
-    toast.success("Submitted Successfully", {
+    toast.success('Submitted Successfully', {
       toastId: shortid(),
     });
     cb();
     setDisabled && setDisabled(false);
   } catch (error) {
     setDisabled && setDisabled(false);
-    toast.error(error.response.data.message || "error occured");
+    toast.error(error.response.data.message || 'error occured');
   }
 };
-export const savePostTaxMonthEndNineNineJvApi = async (payload, setDisabled, cb) => {
+export const savePostTaxMonthEndNineNineJvApi = async (
+  payload,
+  setDisabled,
+  cb
+) => {
   setDisabled && setDisabled(true);
   try {
     await axios.post(`/vat/VATSP/PostTaxMonthEndNineNineJv`, payload);
@@ -548,7 +548,7 @@ export const savePostTaxMonthEndNineNineJvApi = async (payload, setDisabled, cb)
     setDisabled && setDisabled(false);
   } catch (error) {
     setDisabled && setDisabled(false);
-    toast.error(error.response.data.message || "error occured");
+    toast.error(error.response.data.message || 'error occured');
   }
 };
 
@@ -565,6 +565,6 @@ export const GetMonthlyReturn_api = async (
     );
     setter(res?.data);
   } catch (error) {
-    setter("");
+    setter('');
   }
 };

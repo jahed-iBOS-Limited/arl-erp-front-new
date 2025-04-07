@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 // import FormikInput from "../../../_chartinghelper/common/formikInput";
 // import FormikSelect from "../../../_chartinghelper/common/formikSelect";
 // import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
@@ -7,14 +7,14 @@ import React from "react";
 // import IDelete from "../../../_chartinghelper/_delete";
 // import { _formatMoney } from "../../../../_helper/_formatMoney";
 
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../../_helper/_formatMoney";
-import IDelete from "../../../../../chartering/_chartinghelper/_delete";
-import FormikInput from "../../../../../chartering/_chartinghelper/common/formikInput";
-import FormikSelect from "../../../../../chartering/_chartinghelper/common/formikSelect";
-import customStyles from "../../../../../chartering/_chartinghelper/common/selectCustomStyle";
-import IEdit from "../../../../../chartering/_chartinghelper/icons/_edit";
-import { LayTimeTableHeader } from "../../../../../chartering/layTime/Form/components/layTimeTableHeader";
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../../_helper/_formatMoney';
+import IDelete from '../../../../../chartering/_chartinghelper/_delete';
+import FormikInput from '../../../../../chartering/_chartinghelper/common/formikInput';
+import FormikSelect from '../../../../../chartering/_chartinghelper/common/formikSelect';
+import customStyles from '../../../../../chartering/_chartinghelper/common/selectCustomStyle';
+import IEdit from '../../../../../chartering/_chartinghelper/icons/_edit';
+import { LayTimeTableHeader } from '../../../../../chartering/layTime/Form/components/layTimeTableHeader';
 import {
   daysToSeconds,
   DDHHMMToDays,
@@ -26,7 +26,7 @@ import {
   saveEditRowDataHandler,
   toDDHHMM,
   totalSecondCalculate,
-} from "../utils";
+} from '../../../../../chartering/layTime/Form/utils';
 
 export default function LayTimeTableBody({
   rowData,
@@ -87,8 +87,8 @@ export default function LayTimeTableBody({
 
   /* HH:MM format to HH/MM {value, label} */
   const valueLabelMakerForRowTimeInputDDL = (time, mm) => {
-    if (!time) return "";
-    let splitedTime = time?.split(":");
+    if (!time) return '';
+    let splitedTime = time?.split(':');
     return {
       value: !mm ? splitedTime[0] : splitedTime[1],
       label: !mm ? splitedTime[0] : splitedTime[1],
@@ -110,14 +110,14 @@ export default function LayTimeTableBody({
 
     switch (type) {
       /* From Time Condition Goes Here!! */
-      case "from":
+      case 'from':
         switch (format) {
-          case "HH":
+          case 'HH':
             valueOption?.value &&
               rowDataUpdateHandler(
                 index,
                 nestedIndex,
-                "workingTimeFrom",
+                'workingTimeFrom',
                 `${valueOption?.value}:00`,
                 rowData,
                 setRowData
@@ -129,9 +129,10 @@ export default function LayTimeTableBody({
               rowDataUpdateHandler(
                 index,
                 nestedIndex,
-                "workingTimeFrom",
-                `${valueLabelMakerForRowTimeInputDDL(currentObj?.workingTimeFrom)
-                  ?.value
+                'workingTimeFrom',
+                `${
+                  valueLabelMakerForRowTimeInputDDL(currentObj?.workingTimeFrom)
+                    ?.value
                 }:${valueOption?.value}`,
                 rowData,
                 setRowData
@@ -143,12 +144,12 @@ export default function LayTimeTableBody({
       /* To Time Condition Goes Here */
       default:
         switch (format) {
-          case "HH":
+          case 'HH':
             valueOption?.value &&
               rowDataUpdateHandler(
                 index,
                 nestedIndex,
-                "workingTime",
+                'workingTime',
                 `${valueOption?.value}:00`,
                 rowData,
                 setRowData
@@ -160,9 +161,10 @@ export default function LayTimeTableBody({
               rowDataUpdateHandler(
                 index,
                 nestedIndex,
-                "workingTime",
-                `${valueLabelMakerForRowTimeInputDDL(currentObj?.workingTime)
-                  ?.value
+                'workingTime',
+                `${
+                  valueLabelMakerForRowTimeInputDDL(currentObj?.workingTime)
+                    ?.value
                 }:${valueOption?.value}`,
                 rowData,
                 setRowData
@@ -178,21 +180,24 @@ export default function LayTimeTableBody({
       <div className="table-responsive">
         <table className="table mt-3 bj-table bj-table-landing">
           <LayTimeTableHeader hideDeleteBtn={hideDeleteBtn} />
-          <tbody style={{ fontSize: "15px" }}>
+          <tbody style={{ fontSize: '15px' }}>
             {rowData?.map((item, index) => {
               return (
                 <>
-                  <tr style={{ borderTop: "1px solid #d6d6d6" }} key={index + 1}>
+                  <tr
+                    style={{ borderTop: '1px solid #d6d6d6' }}
+                    key={index + 1}
+                  >
                     <td
                       className="text-center text-middle"
                       rowSpan={item?.rowlist?.length + 1}
                       colSpan={1}
-                      style={{ width: "100px", verticalAlign: "middle" }}
+                      style={{ width: '100px', verticalAlign: 'middle' }}
                     >
                       {_dateFormatter(item?.layTimeDate)}
                     </td>
                     <td
-                      style={{ width: "60px", verticalAlign: "middle" }}
+                      style={{ width: '60px', verticalAlign: 'middle' }}
                       className="text-center text-middle"
                       rowSpan={item?.rowlist?.length + 1}
                       colSpan={1}
@@ -214,14 +219,14 @@ export default function LayTimeTableBody({
                       <td
                         className="text-center"
                         style={{
-                          width: nesItem?.isEdit ? "140px" : "80px",
-                          verticalAlign: "middle",
+                          width: nesItem?.isEdit ? '140px' : '80px',
+                          verticalAlign: 'middle',
                         }}
                       >
                         {nesItem?.isEdit ? (
                           <div className="w-100">
                             <div className="d-flex">
-                              <div style={{ width: "50%" }}>
+                              <div style={{ width: '50%' }}>
                                 <FormikSelect
                                   value={valueLabelMakerForRowTimeInputDDL(
                                     nesItem?.workingTimeFrom
@@ -233,8 +238,8 @@ export default function LayTimeTableBody({
                                   onChange={(valueOption) => {
                                     timeSetterForRowEditHandler(
                                       valueOption,
-                                      "from",
-                                      "HH",
+                                      'from',
+                                      'HH',
                                       /*  */
                                       index,
                                       nestedIndex,
@@ -248,11 +253,11 @@ export default function LayTimeTableBody({
                                   isClearable={false}
                                 />
                               </div>
-                              <div style={{ width: "50%" }}>
+                              <div style={{ width: '50%' }}>
                                 <FormikSelect
                                   value={valueLabelMakerForRowTimeInputDDL(
                                     nesItem?.workingTimeFrom,
-                                    "mm"
+                                    'mm'
                                   )}
                                   name={`workingTimeFromMM ${nestedIndex}`}
                                   isSearchable={true}
@@ -261,8 +266,8 @@ export default function LayTimeTableBody({
                                   onChange={(valueOption) => {
                                     timeSetterForRowEditHandler(
                                       valueOption,
-                                      "from",
-                                      "MM",
+                                      'from',
+                                      'MM',
                                       /*  */
                                       index,
                                       nestedIndex,
@@ -273,7 +278,7 @@ export default function LayTimeTableBody({
                                   placeholder="MM"
                                   errors={errors}
                                   isDisabled={
-                                    nesItem?.workingTimeFrom === "24:00"
+                                    nesItem?.workingTimeFrom === '24:00'
                                   }
                                   touched={touched}
                                   isClearable={false}
@@ -288,14 +293,14 @@ export default function LayTimeTableBody({
                       <td
                         className="text-center"
                         style={{
-                          width: nesItem?.isEdit ? "140px" : "80px",
-                          verticalAlign: "middle",
+                          width: nesItem?.isEdit ? '140px' : '80px',
+                          verticalAlign: 'middle',
                         }}
                       >
                         {nesItem?.isEdit ? (
                           <div className="w-100">
                             <div className="d-flex">
-                              <div style={{ width: "50%" }}>
+                              <div style={{ width: '50%' }}>
                                 <FormikSelect
                                   value={valueLabelMakerForRowTimeInputDDL(
                                     nesItem?.workingTime
@@ -307,8 +312,8 @@ export default function LayTimeTableBody({
                                   onChange={(valueOption) => {
                                     timeSetterForRowEditHandler(
                                       valueOption,
-                                      "to",
-                                      "HH",
+                                      'to',
+                                      'HH',
                                       /*  */
                                       index,
                                       nestedIndex,
@@ -322,11 +327,11 @@ export default function LayTimeTableBody({
                                   isClearable={false}
                                 />
                               </div>
-                              <div style={{ width: "50%" }}>
+                              <div style={{ width: '50%' }}>
                                 <FormikSelect
                                   value={valueLabelMakerForRowTimeInputDDL(
                                     nesItem?.workingTime,
-                                    "mm"
+                                    'mm'
                                   )}
                                   name={`workingToHH ${nestedIndex}`}
                                   isSearchable={true}
@@ -335,8 +340,8 @@ export default function LayTimeTableBody({
                                   onChange={(valueOption) => {
                                     timeSetterForRowEditHandler(
                                       valueOption,
-                                      "to",
-                                      "MM",
+                                      'to',
+                                      'MM',
                                       /*  */
                                       index,
                                       nestedIndex,
@@ -345,7 +350,7 @@ export default function LayTimeTableBody({
                                     );
                                   }}
                                   placeholder="MM"
-                                  isDisabled={nesItem?.workingTime === "24:00"}
+                                  isDisabled={nesItem?.workingTime === '24:00'}
                                   errors={errors}
                                   touched={touched}
                                   isClearable={false}
@@ -353,15 +358,15 @@ export default function LayTimeTableBody({
                               </div>
                             </div>
                           </div>
-                        ) : nesItem?.workingTime === "00:00" ? (
-                          "24:00"
+                        ) : nesItem?.workingTime === '00:00' ? (
+                          '24:00'
                         ) : (
                           nesItem?.workingTime
                         )}
                       </td>
                       <td
                         className="text-center"
-                        style={{ width: "80px", verticalAlign: "middle" }}
+                        style={{ width: '80px', verticalAlign: 'middle' }}
                       >
                         {nesItem?.isEdit ? (
                           <FormikInput
@@ -374,7 +379,7 @@ export default function LayTimeTableBody({
                                 rowDataUpdateHandler(
                                   index,
                                   nestedIndex,
-                                  "ratio",
+                                  'ratio',
                                   e.target.value,
                                   rowData,
                                   setRowData
@@ -386,31 +391,31 @@ export default function LayTimeTableBody({
                         ) : (
                           <>
                             {nesItem?.ratio}
-                            {"%"}
+                            {'%'}
                           </>
                         )}
                       </td>
                       <td
                         className="text-center"
-                        style={{ width: "100px", verticalAlign: "middle" }}
+                        style={{ width: '100px', verticalAlign: 'middle' }}
                       >
-                        {nesItem?.isEdit ? "-" : nesItem?.usedTime}
+                        {nesItem?.isEdit ? '-' : nesItem?.usedTime}
                       </td>
                       <td
                         className="text-center"
-                        style={{ width: "100px", verticalAlign: "middle" }}
+                        style={{ width: '100px', verticalAlign: 'middle' }}
                       >
-                        {nesItem?.isEdit ? "-" : nesItem?.totalTime}
+                        {nesItem?.isEdit ? '-' : nesItem?.totalTime}
                       </td>
                       <td
                         className="text-center"
-                        style={{ width: "110px", verticalAlign: "middle" }}
+                        style={{ width: '110px', verticalAlign: 'middle' }}
                       >
-                        {nesItem?.isEdit ? "-" : nesItem?.remainingTime}
+                        {nesItem?.isEdit ? '-' : nesItem?.remainingTime}
                       </td>
                       <td
                         className="text-left"
-                        style={{ verticalAlign: "middle" }}
+                        style={{ verticalAlign: 'middle' }}
                       >
                         {nesItem?.isEdit ? (
                           <FormikInput
@@ -423,7 +428,7 @@ export default function LayTimeTableBody({
                               rowDataUpdateHandler(
                                 index,
                                 nestedIndex,
-                                "remark",
+                                'remark',
                                 e.target.value,
                                 rowData,
                                 setRowData
@@ -435,12 +440,12 @@ export default function LayTimeTableBody({
                         )}
                       </td>
                       {!hideDeleteBtn && (
-                        <td style={{ width: "80px" }}>
+                        <td style={{ width: '80px' }}>
                           <div className="d-flex justify-content-center">
                             {nesItem?.isEdit ? (
                               <span
                                 className="mr-2 animate-pulse"
-                                style={{ cursor: "pointer", color: "green" }}
+                                style={{ cursor: 'pointer', color: 'green' }}
                                 onClick={() => {
                                   saveEditRowDataHandler(
                                     index,
@@ -454,14 +459,14 @@ export default function LayTimeTableBody({
                                 }}
                               >
                                 <i
-                                  style={{ color: "green" }}
+                                  style={{ color: 'green' }}
                                   className={`fas fa-check-circle pointer`}
                                 ></i>
                               </span>
                             ) : (
                               <span
                                 className="mr-2"
-                                style={{ cursor: "pointer", color: "blue" }}
+                                style={{ cursor: 'pointer', color: 'blue' }}
                                 onClick={() => {
                                   editRowDataHandler(
                                     index,
@@ -477,7 +482,7 @@ export default function LayTimeTableBody({
                             )}
 
                             <span
-                              style={{ cursor: "pointer" }}
+                              style={{ cursor: 'pointer' }}
                               onClick={() => {
                                 removeRowData(
                                   index,
@@ -523,8 +528,10 @@ export default function LayTimeTableBody({
                     colSpan={3}
                     rowSpan={1}
                   >
-                    Time allowed for{" "}
-                    {values?.layTimeType?.value === 1 ? "Loading" : "Discharging"}
+                    Time allowed for{' '}
+                    {values?.layTimeType?.value === 1
+                      ? 'Loading'
+                      : 'Discharging'}
                   </td>
                   <td
                     className="text-right font-weight-bold"
@@ -557,11 +564,11 @@ export default function LayTimeTableBody({
                       : timeDemurage === +calculateTimeDespatch()
                         ? +values?.timeAllowedForLoading
                         : DDHHMMToDays(
-                          toDDHHMM(
-                            +daysToSeconds(+values?.timeAllowedForLoading) -
-                            calculateTimeDespatch()
-                          )
-                        )}
+                            toDDHHMM(
+                              +daysToSeconds(+values?.timeAllowedForLoading) -
+                                calculateTimeDespatch()
+                            )
+                          )}
                   </td>
                   <td className="font-weight-bold" colSpan={1} rowSpan={1}>
                     DAYS
@@ -578,7 +585,7 @@ export default function LayTimeTableBody({
                         colSpan={3}
                         rowSpan={1}
                       >
-                        {"Time Despatch"}
+                        {'Time Despatch'}
                       </td>
                       <td
                         className="text-right font-weight-bold"
@@ -598,7 +605,7 @@ export default function LayTimeTableBody({
                         colSpan={3}
                         rowSpan={1}
                       >
-                        {"Despatch dues"}
+                        {'Despatch dues'}
                       </td>
                       <td
                         className="text-right font-weight-bold"
@@ -631,7 +638,7 @@ export default function LayTimeTableBody({
                         colSpan={3}
                         rowSpan={1}
                       >
-                        {"Time Demurrage"}
+                        {'Time Demurrage'}
                       </td>
                       <td
                         className="text-right font-weight-bold"
@@ -651,7 +658,7 @@ export default function LayTimeTableBody({
                         colSpan={3}
                         rowSpan={1}
                       >
-                        {"Demurrage dues"}
+                        {'Demurrage dues'}
                       </td>
                       <td
                         className="text-right font-weight-bold"

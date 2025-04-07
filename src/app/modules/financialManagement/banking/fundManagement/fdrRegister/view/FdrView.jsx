@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IForm from "../../../../../_helper/_form";
-import Loading from "../../../../../_helper/_loading";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import { createAndUpdateFDR, getFdrById, renewFDR } from "../../helper";
-import FdrViewForm from "./FdrViewFrom";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IForm from '../../../../../_helper/_form';
+import Loading from '../../../../../_helper/_loading';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import { createAndUpdateFDR, getFdrById, renewFDR } from '../../helper';
+import FdrViewForm from './FdrViewFrom';
 
 const initData = {
-  bank: "",
-  fdrNo: "",
-  leanTo: "",
+  bank: '',
+  fdrNo: '',
+  leanTo: '',
   openingDate: _todayDate(),
-  termDays: "",
-  principle: "",
-  interestRate: "",
+  termDays: '',
+  principle: '',
+  interestRate: '',
 };
 
 export default function FdrView({
@@ -47,7 +47,7 @@ export default function FdrView({
       isActive: true,
       intActionBy: profileData?.userId,
       dteLastActionDate: _todayDate(),
-      strLienTo: values?.leanTo || "",
+      strLienTo: values?.leanTo || '',
     };
     if (id) {
       renewFDR(payload, cb);

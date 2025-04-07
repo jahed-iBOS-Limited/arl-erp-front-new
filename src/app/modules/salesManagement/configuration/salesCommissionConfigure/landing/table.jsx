@@ -4,14 +4,8 @@ import { shallowEqual, useSelector } from 'react-redux';
 import IEdit from '../../../../_helper/_helperIcons/_edit';
 
 const SalesCommissionConfigureLandingTable = ({ obj }) => {
-  const {
-    gridData,
-    values,
-    setOpen,
-    setSingleData,
-    getData,
-    dataSelection,
-  } = obj;
+  const { gridData, values, setOpen, setSingleData, getData, dataSelection } =
+    obj;
 
   return (
     <div>
@@ -62,7 +56,7 @@ const TableOne = ({ obj }) => {
       selectedRows?.map((row) => ({
         autoId: row?.autoId,
         actionBy: profileData?.userId,
-      })),
+      }))
     );
     setSelectedRows([]);
     getData(0, 15, values);
@@ -96,10 +90,12 @@ const TableOne = ({ obj }) => {
                 />
               </th>
               <th style={{ width: '40px' }}>SL</th>
-              {[46].includes( values?.commissionType?.value) && (<th>Customer Name</th>)}
+              {[46].includes(values?.commissionType?.value) && (
+                <th>Customer Name</th>
+              )}
               <th>Area Name</th>
               {![35, 36, 37, 38, 39, 40, 46].includes(
-                values?.commissionType?.value,
+                values?.commissionType?.value
               ) && (
                 <>
                   <th>BP Rate/bag</th>
@@ -113,7 +109,7 @@ const TableOne = ({ obj }) => {
               <th>Achievement From</th>
               <th>Achievement To</th>
               {[35, 36, 37, 38, 39, 40, 46].includes(
-                values?.commissionType?.value,
+                values?.commissionType?.value
               ) && (
                 <>
                   <th>Commission Rate</th>
@@ -145,16 +141,18 @@ const TableOne = ({ obj }) => {
                     <input
                       type="checkbox"
                       checked={selectedRows.some(
-                        (row) => row.autoId === item.autoId,
+                        (row) => row.autoId === item.autoId
                       )}
                       onChange={() => handleSelectRow(item)}
                     />
                   </td>
                   <td> {index + 1}</td>
-                  {[46].includes( values?.commissionType?.value) && (<td>{item?.customerName}</td>)}
+                  {[46].includes(values?.commissionType?.value) && (
+                    <td>{item?.customerName}</td>
+                  )}
                   <td>{item?.areaName}</td>
                   {![35, 36, 37, 38, 39, 40, 46].includes(
-                    values?.commissionType?.value,
+                    values?.commissionType?.value
                   ) && (
                     <>
                       <td className="text-right">{item?.bpcommissionRate}</td>
@@ -168,7 +166,7 @@ const TableOne = ({ obj }) => {
                   <td className="text-right">{item?.achievementFrom}</td>
                   <td className="text-right">{item?.achievementTo}</td>
                   {[35, 36, 37, 38, 39, 40, 46].includes(
-                    values?.commissionType?.value,
+                    values?.commissionType?.value
                   ) && (
                     <>
                       <td className="text-right">{item?.commissionRate}</td>

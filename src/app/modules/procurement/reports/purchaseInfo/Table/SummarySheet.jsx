@@ -1,6 +1,6 @@
-import React from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
+import React from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
 
 function SummarySheet({ gridData }) {
   return (
@@ -12,7 +12,7 @@ function SummarySheet({ gridData }) {
               <table className="table table-striped table-bordered global-table table-font-size-sm">
                 <thead>
                   <tr>
-                    <th style={{ width: "30px" }}>SL</th>
+                    <th style={{ width: '30px' }}>SL</th>
                     <th>Plant</th>
                     <th>Warehouse</th>
                     <th>Purchase Order Date</th>

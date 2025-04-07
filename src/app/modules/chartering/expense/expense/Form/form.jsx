@@ -1,24 +1,21 @@
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import { vslAndVoyNoValidationSchema } from "../../../../_helper/_validationSchema";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
-import IViewModal from "../../../_chartinghelper/_viewModal";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import IDelete from "../../../_chartinghelper/icons/_delete";
-import { getVoyageDDLNew } from "../../../helper";
-import {
-  getBusinessPartnerDDL,
-  getCostTypeDDL,
-} from "../helper";
-import CashReceiveForm from "./cashReceive";
-import ServicePO from "./servicePo";
-import AddCostTypeForm from "../../../next/shared/expense/Form/addCostType";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import { vslAndVoyNoValidationSchema } from '../../../../_helper/_validationSchema';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import { _dateFormatter } from '../../../_chartinghelper/_dateFormatter';
+import IViewModal from '../../../_chartinghelper/_viewModal';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import IDelete from '../../../_chartinghelper/icons/_delete';
+import { getVoyageDDLNew } from '../../../helper';
+import { getBusinessPartnerDDL, getCostTypeDDL } from '../helper';
+import CashReceiveForm from './cashReceive';
+import ServicePO from './servicePo';
+import AddCostTypeForm from '../../../next/shared/expense/Form/addCostType';
 
 export default function FormCmp({
   title,
@@ -41,29 +38,29 @@ export default function FormCmp({
   const history = useHistory();
   const [voyageNoDDL, setVoyageNoDDL] = useState([]);
   const [open, setOpen] = useState(false);
-  const [businessPartnerLabel, setBusinessPartnerLabel] = useState("");
+  const [businessPartnerLabel, setBusinessPartnerLabel] = useState('');
   const [show, setShow] = useState(false);
   // const [singleRow, setSingleRow] = useState({});
   const [isShowPoModal, setIsShowPoModal] = useState(false);
   const [singleData, setSingleData] = useState({});
 
   const setBPLabel = (businessPartnerTypeId) => {
-    let label = "";
+    let label = '';
     switch (businessPartnerTypeId) {
       case 4:
-        label = "Agency";
+        label = 'Agency';
         break;
       case 9:
-        label = "Surveyor";
+        label = 'Surveyor';
         break;
       case 10:
-        label = "Weather Routing";
+        label = 'Weather Routing';
         break;
       case 12:
-        label = "Security Guard";
+        label = 'Security Guard';
         break;
       case 11:
-        label = "Lighterage";
+        label = 'Lighterage';
         break;
       default:
         break;
@@ -102,24 +99,24 @@ export default function FormCmp({
                     onClick={() => {
                       history.goBack();
                     }}
-                    className={"btn btn-secondary px-3 py-2"}
+                    className={'btn btn-secondary px-3 py-2'}
                   >
                     <i className="fa fa-arrow-left pr-1"></i>
                     Back
                   </button>
-                  {viewType !== "view" && viewType !== "cash" && (
+                  {viewType !== 'view' && viewType !== 'cash' && (
                     <button
                       type="button"
                       onClick={() => resetForm(initData)}
-                      className={"btn btn-info reset-btn ml-2 px-3 py-2"}
+                      className={'btn btn-info reset-btn ml-2 px-3 py-2'}
                     >
                       Reset
                     </button>
                   )}
-                  {viewType !== "view" && viewType !== "cash" && (
+                  {viewType !== 'view' && viewType !== 'cash' && (
                     <button
                       type="submit"
-                      className={"btn btn-primary ml-2 px-3 py-2"}
+                      className={'btn btn-primary ml-2 px-3 py-2'}
                       onClick={handleSubmit}
                       disabled={!rowData?.length}
                     >
@@ -132,7 +129,7 @@ export default function FormCmp({
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vesselName || ""}
+                      value={values?.vesselName || ''}
                       isSearchable={true}
                       options={vesselDDL || []}
                       styles={customStyles}
@@ -140,9 +137,9 @@ export default function FormCmp({
                       placeholder="Vessel Name"
                       label="Vessel Name"
                       onChange={(valueOption) => {
-                        setFieldValue("vesselName", valueOption);
+                        setFieldValue('vesselName', valueOption);
                         setValues({ ...initData, vesselName: valueOption });
-                        setFieldValue("voyageNo", "");
+                        setFieldValue('voyageNo', '');
                         setVoyageNoDDL([]);
                         if (valueOption) {
                           getVoyageDDLNew({
@@ -164,7 +161,7 @@ export default function FormCmp({
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.voyageNo || ""}
+                      value={values?.voyageNo || ''}
                       isSearchable={true}
                       options={voyageNoDDL || []}
                       styles={customStyles}
@@ -172,7 +169,7 @@ export default function FormCmp({
                       placeholder="Voyage No"
                       label="Voyage No"
                       onChange={(valueOption) => {
-                        setFieldValue("voyageNo", valueOption);
+                        setFieldValue('voyageNo', valueOption);
 
                         if (valueOption) {
                           getCostTypeDDL(
@@ -185,7 +182,7 @@ export default function FormCmp({
                           ...initData,
                           vesselName: values?.vesselName,
                           voyageNo: valueOption,
-                          voyageType: valueOption?.voyageTypeName || "",
+                          voyageType: valueOption?.voyageTypeName || '',
                         });
                       }}
                       isDisabled={
@@ -207,11 +204,11 @@ export default function FormCmp({
                       disabled={true}
                     />
                   </div>
-                  {viewType !== "view" && viewType !== "cash" && (
+                  {viewType !== 'view' && viewType !== 'cash' && (
                     <>
                       <div className="col-lg-2">
                         <FormikSelect
-                          value={values?.costType || ""}
+                          value={values?.costType || ''}
                           isSearchable={true}
                           options={costTypeDDL || []}
                           styles={customStyles}
@@ -219,8 +216,8 @@ export default function FormCmp({
                           placeholder="Cost Type"
                           label="Cost Type"
                           onChange={(valueOption) => {
-                            setFieldValue("costType", valueOption);
-                            setFieldValue("businessPartner", "");
+                            setFieldValue('costType', valueOption);
+                            setFieldValue('businessPartner', '');
                             setBusinessPartnerDDL([]);
                             setBPLabel(valueOption?.stackHolderTypeId);
                             getBusinessPartnerDDL(
@@ -249,7 +246,7 @@ export default function FormCmp({
                               setOpen(true);
                             }}
                             className="fas fa-plus-circle fa-2x"
-                            style={{ color: "#007bff", cursor: "pointer" }}
+                            style={{ color: '#007bff', cursor: 'pointer' }}
                           ></i>
                         </OverlayTrigger>
                       </div>
@@ -257,7 +254,7 @@ export default function FormCmp({
                       {values?.costType && businessPartnerLabel && (
                         <div className="col-lg-3">
                           <FormikSelect
-                            value={values?.businessPartner || ""}
+                            value={values?.businessPartner || ''}
                             isSearchable={true}
                             options={businessPartnerDDL || []}
                             styles={customStyles}
@@ -265,7 +262,7 @@ export default function FormCmp({
                             placeholder={businessPartnerLabel}
                             label={businessPartnerLabel}
                             onChange={(valueOption) => {
-                              setFieldValue("businessPartner", valueOption);
+                              setFieldValue('businessPartner', valueOption);
                             }}
                             isDisabled={!values?.voyageNo}
                             errors={errors}
@@ -282,82 +279,8 @@ export default function FormCmp({
                           type="text"
                           errors={errors}
                           touched={touched}
-                        // onChange={(e) => {
-                        //   setFieldValue("advanceAmount", e?.target?.value);
-                        //   setFieldValue(
-                        //     "dueAmount",
-                        //     Number(values?.totalAmount) -
-                        //       Number(e?.target?.value)
-                        //   );
-                        // }}
-                        // onBlur={(e) => {
-                        //   if (
-                        //     Number(e?.target?.value) >
-                        //     Number(values?.totalAmount)
-                        //   ) {
-                        //     toast.warn(
-                        //       "Advance amount cannot be greater than final amount"
-                        //     );
-                        //   }
-                        // }}
                         />
                       </div>
-                      {/* {(values?.costType?.value === 15 ||
-                        values?.costType?.value === 16) && (
-                        <div className="col-lg-3">
-                          <label>Advance Amount</label>
-                          <FormikInput
-                            value={values?.advanceAmount}
-                            name="advanceAmount"
-                            placeholder="Advance Amount"
-                            type="text"
-                            errors={errors}
-                            touched={touched}
-                            // onChange={(e) => {
-                            //   setFieldValue("advanceAmount", e?.target?.value);
-                            //   setFieldValue(
-                            //     "dueAmount",
-                            //     Number(values?.totalAmount) -
-                            //       Number(e?.target?.value)
-                            //   );
-                            // }}
-                            // onBlur={(e) => {
-                            //   if (
-                            //     Number(e?.target?.value) >
-                            //     Number(values?.totalAmount)
-                            //   ) {
-                            //     toast.warn(
-                            //       "Advance amount cannot be greater than final amount"
-                            //     );
-                            //   }
-                            // }}
-                          />
-                        </div>
-                      )} */}
-                      {/* {values?.costType &&
-                        values?.costType?.value !== 15 &&
-                        values?.costType?.value !== 16 && (
-                          <div className="col-lg-3">
-                            <label>Final Amount</label>
-                            <FormikInput
-                              value={values?.totalAmount}
-                              name="totalAmount"
-                              placeholder="Final Amount"
-                              type="text"
-                              errors={errors}
-                              touched={touched}
-                              // onChange={(e) => {
-                              //   setFieldValue("totalAmount", e?.target?.value);
-                              //   setFieldValue(
-                              //     "dueAmount",
-                              //     Number(e?.target?.value) -
-                              //       Number(values?.advanceAmount)
-                              //   );
-                              // }}
-                            />
-                          </div>
-                        )} */}
-
                       <div className="col-lg-3">
                         <label>Transaction Date</label>
                         <FormikInput
@@ -367,22 +290,8 @@ export default function FormCmp({
                           type="date"
                           errors={errors}
                           touched={touched}
-                        // disabled={true}
                         />
                       </div>
-
-                      {/* <div className="col-lg-3">
-                        <label>Due Amount</label>
-                        <FormikInput
-                          value={values?.dueAmount}
-                          name="dueAmount"
-                          placeholder="Due Amount"
-                          type="text"
-                          errors={errors}
-                          touched={touched}
-                          disabled={true}
-                        />
-                      </div> */}
 
                       <div className="col-lg-3 mt-5">
                         <button
@@ -409,17 +318,12 @@ export default function FormCmp({
                 <>
                   <ICustomTable
                     ths={[
-                      { name: "SL" },
-                      { name: "Cost Type Name" },
-                      { name: "Transaction Date" },
-                      { name: "Cost Amount" },
-                      { name: "PO Code" },
-                      // { name: "Advance Amount" },
-                      // { name: "Final Amount" },
-                      // { name: "Paid Amount" },
-                      // { name: "Due Amount" },
-                      // viewType !== "view" && { name: "Action" },
-                      { name: "Action" },
+                      { name: 'SL' },
+                      { name: 'Cost Type Name' },
+                      { name: 'Transaction Date' },
+                      { name: 'Cost Amount' },
+                      { name: 'PO Code' },
+                      { name: 'Action' },
                     ]}
                   >
                     {rowData?.map((item, index) => (
@@ -432,7 +336,7 @@ export default function FormCmp({
                           {_formatMoney(item?.costAmount)}
                         </td>
                         <td className="text-right">{item?.purchaseOrderNo}</td>
-                        {viewType === "view" && (
+                        {viewType === 'view' && (
                           <td className="text-center">
                             {!item?.purchaseOrderNo && (
                               <div className="btn-container">
@@ -450,56 +354,16 @@ export default function FormCmp({
                             )}
                           </td>
                         )}
-                        {/* <td className="text-right">
-                          {_formatMoney(item?.totalAmount)}
-                        </td> */}
-                        {/* <td className="text-right">
-                          {_formatMoney(item?.paidAmount)}
-                        </td>
-                        <td className="text-right">
-                          {_formatMoney(item?.dueAmount)}
-                        </td> */}
-                        {viewType !== "view" && (
-                          <td
-                            className="text-center d-flex justify-content-center"
-                          // style={{ maxWidth: "120px" }}
-                          >
-                            {(viewType === "edit" || !viewType) &&
-                              !item?.purchaseOrderNo ? (
+                        {viewType !== 'view' && (
+                          <td className="text-center d-flex justify-content-center">
+                            {(viewType === 'edit' || !viewType) &&
+                            !item?.purchaseOrderNo ? (
                               <div>
                                 <IDelete remover={removeRow} id={index} />
                               </div>
                             ) : (
                               <div>&nbsp;</div>
                             )}
-                            {/* {(viewType === "edit" || viewType === "cash") && (
-                              <div className="d-flex justify-content-center">
-                                <span style={{ opacity: "0%" }}>
-                                  <i className="fas fa-lg fa-hand-holding-usd ml-3"></i>{" "}
-                                </span>
-
-                                {(item?.costId === 15 || item?.costId === 16) &&
-                                  !item?.totalAmount && (
-                                    <OverlayTrigger
-                                      overlay={
-                                        <Tooltip id="cs-icon">
-                                          Pay/Receive
-                                        </Tooltip>
-                                      }
-                                    >
-                                      <div
-                                        style={{ cursor: "pointer" }}
-                                        onClick={() => {
-                                          setSingleRow(item);
-                                          setShow(true);
-                                        }}
-                                      >
-                                        <i className="fas fa-lg fa-hand-holding-usd ml-3"></i>{" "}
-                                      </div>
-                                    </OverlayTrigger>
-                                  )}
-                              </div>
-                            )} */}
                           </td>
                         )}
                       </tr>
@@ -522,7 +386,6 @@ export default function FormCmp({
                 title="Cash Payment/Receive"
                 setShow={setShow}
                 setLoading={setLoading}
-                // singleRow={singleRow}
                 setRowData={setRowData}
               />
             </IViewModal>

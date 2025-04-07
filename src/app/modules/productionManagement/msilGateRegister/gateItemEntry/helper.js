@@ -2,21 +2,21 @@
 const formatTime = (strTime) => {
   if (!strTime) return null;
 
-  const [hours, minutes, second] = strTime?.split(":")?.map(Number);
+  const [hours, minutes, second] = strTime?.split(':')?.map(Number);
   const date = new Date();
   date.setHours(hours, minutes, second, 0);
   return date;
 };
 
 // calculate time difference
-export const calculateTimeDifference = (currentTime = "", tmInTime = "") => {
+export const calculateTimeDifference = (currentTime = '', tmInTime = '') => {
   // Get Date objects for current time and out-time
   const tmCurrent = formatTime(currentTime);
   const tmIn = formatTime(tmInTime);
 
   // If either time is null, return 0:00:00
   if (!tmCurrent || !tmIn) {
-    return { formattedTimeDiff: "0:00:00", diffInMinutes: 0 };
+    return { formattedTimeDiff: '0:00:00', diffInMinutes: 0 };
   }
 
   // Calculate difference in milliseconds

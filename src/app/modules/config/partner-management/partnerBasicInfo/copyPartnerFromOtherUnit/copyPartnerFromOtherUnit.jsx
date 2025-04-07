@@ -1,22 +1,29 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import NewSelect from "../../../../_helper/_select";
-import { getAssetSBUDDL, getPartnerData, savepartnerInformation } from "../helper";
-import InputField from "./../../../../_helper/_inputField";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import IViewModal from "./../../../../_helper/_viewModal";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import NewSelect from '../../../../_helper/_select';
+import {
+  getAssetSBUDDL,
+  getPartnerData,
+  savepartnerInformation,
+} from '../helper';
+import InputField from './../../../../_helper/_inputField';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import IViewModal from './../../../../_helper/_viewModal';
 
 const initData = {
-  sbu: "",
-  search: ""
+  sbu: '',
+  search: '',
 };
 
-export default function CopyPartnerFromOtherUnit({ show, onHide, landingValues }) {
+export default function CopyPartnerFromOtherUnit({
+  show,
+  onHide,
+  landingValues,
+}) {
   const history = useHistory();
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
@@ -33,48 +40,53 @@ export default function CopyPartnerFromOtherUnit({ show, onHide, landingValues }
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-  useEffect(() =>{
+  useEffect(() => {
     getAssetSBUDDL(profileData?.accountId, selectedBusinessUnit?.value, setSbu);
-  }, [])
+  }, []);
 
-  let partnerTypeId = landingValues?.partnerType?.value
+  let partnerTypeId = landingValues?.partnerType?.value;
 
   //setPositionHandler
   const setPositionHandler = (values) => {
-    if(values?.search){
-      getPartnerData(partnerTypeId, values?.search, setGridData, );
+    if (values?.search) {
+      getPartnerData(partnerTypeId, values?.search, setGridData);
     }
   };
 
   const savePartnerInfo = (partnerId) => {
-    if(sbuName?.value){
+    if (sbuName?.value) {
       let confirmObject = {
-        title: "Are you sure?",
+        title: 'Are you sure?',
         message: `Do you want to Save?`,
         yesAlertFunc: async () => {
-          await savepartnerInformation(sbuName?.value, partnerId, selectedBusinessUnit?.value, partnerTypeId)
-          setGridData([])
+          await savepartnerInformation(
+            sbuName?.value,
+            partnerId,
+            selectedBusinessUnit?.value,
+            partnerTypeId
+          );
+          setGridData([]);
         },
         noAlertFunc: () => {
-          history.push("/config/partner-management/partner-basic-info");
+          history.push('/config/partner-management/partner-basic-info');
         },
       };
       IConfirmModal(confirmObject);
-    }else{
-      toast.warning("Please Select SBU")
+    } else {
+      toast.warning('Please Select SBU');
     }
   };
 
   return (
     <IViewModal
       show={show}
-      onHide={()=>{
-        onHide()
-        setGridData([])
+      onHide={() => {
+        onHide();
+        setGridData([]);
       }}
       isShow={false}
       title="Business Partner List"
-      style={{ fontSize: "1.2rem !important" }}
+      style={{ fontSize: '1.2rem !important' }}
     >
       {/* Table Start */}
       <Formik
@@ -96,16 +108,16 @@ export default function CopyPartnerFromOtherUnit({ show, onHide, landingValues }
               <div className="row global-form">
                 <div className="col-lg-3">
                   <NewSelect
-                      name="plant"
-                      options={sbu || []}
-                      value={values?.plant}
-                      label="Select SBU"
-                      onChange={(valueOption) => {
-                        setSbuName(valueOption);
-                      }}
-                      placeholder="Select SBU"
-                      errors={errors}
-                      touched={touched}
+                    name="plant"
+                    options={sbu || []}
+                    value={values?.plant}
+                    label="Select SBU"
+                    onChange={(valueOption) => {
+                      setSbuName(valueOption);
+                    }}
+                    placeholder="Select SBU"
+                    errors={errors}
+                    touched={touched}
                   />
                 </div>
                 <div className="col-lg-3">
@@ -134,65 +146,73 @@ export default function CopyPartnerFromOtherUnit({ show, onHide, landingValues }
                   {gridData?.length ? (
                     <div className="table-responsive">
                       <table className="table table-striped table-bordered global-table sales_order_landing_table">
-                      <thead>
-                      <tr>
-                          <th>SL</th>
-                          <th>Business Unit</th>
-                          <th>Code</th>
-                          <th>Name</th>
-                          <th>Address</th>
-                          <th>Bank Account Name</th>
-                          <th>Bank Account Number</th>
-                          <th>Bank Name</th>
-                          <th>Branch Name</th>
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Business Unit</th>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Address</th>
+                            <th>Bank Account Name</th>
+                            <th>Bank Account Number</th>
+                            <th>Bank Name</th>
+                            <th>Branch Name</th>
 
-                          <th style={{ width: "60px" }}>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {gridData?.map((td, index) => (
-                          <tr key={index}>
-                          <td className="text-center"> {index+1} </td>
-                          <td>
-                            <div className="pl-2">{td?.businessUnitName} </div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{td?.businessPartnerCode} </div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{td?.businessPartnerName} </div>
-                          </td>
-                          <td> {td?.adress} </td>
-                          <td>
-                            <div className="pl-2">{td?.bankAccountName} </div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{td?.bankAccountNo} </div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{td?.bankName} </div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{td?.branchName} </div>
-                          </td>
+                            <th style={{ width: '60px' }}>Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {gridData?.map((td, index) => (
+                            <tr key={index}>
+                              <td className="text-center"> {index + 1} </td>
+                              <td>
+                                <div className="pl-2">
+                                  {td?.businessUnitName}{' '}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {td?.businessPartnerCode}{' '}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">
+                                  {td?.businessPartnerName}{' '}
+                                </div>
+                              </td>
+                              <td> {td?.adress} </td>
+                              <td>
+                                <div className="pl-2">
+                                  {td?.bankAccountName}{' '}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">{td?.bankAccountNo} </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">{td?.bankName} </div>
+                              </td>
+                              <td>
+                                <div className="pl-2">{td?.branchName} </div>
+                              </td>
 
-                          <td>
-                            <div className="d-flex justify-content-around">
-                              <span
-                                className="btn btn-outline-dark pointer"
-                                style={{padding:"3px 10px 3px 10px"}}
-                                onClick={() => {
-                                  savePartnerInfo(td?.businessPartnerId)
-                                }}
-                              >
-                                Add
-                              </span>
-                            </div>
-                          </td>
-                        </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                              <td>
+                                <div className="d-flex justify-content-around">
+                                  <span
+                                    className="btn btn-outline-dark pointer"
+                                    style={{ padding: '3px 10px 3px 10px' }}
+                                    onClick={() => {
+                                      savePartnerInfo(td?.businessPartnerId);
+                                    }}
+                                  >
+                                    Add
+                                  </span>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
                   ) : null}
                 </div>

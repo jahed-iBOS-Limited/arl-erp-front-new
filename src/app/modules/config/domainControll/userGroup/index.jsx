@@ -1,15 +1,15 @@
-import React from "react";
-import { UiProvider } from "../../../_helper/uiContextHelper";
-import { UserGroupLandingCard } from "./userGroup/userGroupLandingCard";
+import React from 'react';
+import { UiProvider } from '../../../_helper/uiContextHelper';
+import { UserGroupLandingCard } from './userGroup/userGroupLandingCard';
 
 export function UserGroup({ history }) {
   const uIEvents = {
     openEditPage: (id) => {
       history.push(`/config/domain-controll/user-group/edit/${id}`);
-    }, 
-    openViewDialog: (id) =>{
+    },
+    openViewDialog: (id) => {
       history.push(`/config/domain-controll/user-group/view/${id}`);
-    }
+    },
   };
 
   return (

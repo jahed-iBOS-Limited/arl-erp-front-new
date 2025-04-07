@@ -1,9 +1,8 @@
-import React from "react";
-import { BankAccountTable } from "./Table/tableHeader";
-import { UiProvider } from "../../../_helper/uiContextHelper";
-import { Route } from "react-router-dom";
-import { ViewModal } from "./bankAccountView/ViewModal";
-
+import React from 'react';
+import { BankAccountTable } from './Table/tableHeader';
+import { UiProvider } from '../../../_helper/uiContextHelper';
+import { Route } from 'react-router-dom';
+import { ViewModal } from './bankAccountView/ViewModal';
 
 export function BankAccount({ history }) {
   const uIEvents = {
@@ -28,7 +27,7 @@ export function BankAccount({ history }) {
             id={match && match.params.id}
             history={history}
             onHide={() => {
-              history.push("/financial-management/configuration/bank-account");
+              history.push('/financial-management/configuration/bank-account');
             }}
           />
         )}

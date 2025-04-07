@@ -1,22 +1,22 @@
-import { Field, Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import InputField from "../../../_helper/_inputField";
-import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import { dryDockSaveHandler } from "./helper";
+import { Field, Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import IConfirmModal from '../../../_helper/_confirmModal';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import InputField from '../../../_helper/_inputField';
+import { _monthFirstDate } from '../../../_helper/_monthFirstDate';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import { dryDockSaveHandler } from './helper';
 
 const initData = {
-  vessel: "",
+  vessel: '',
   fromDate: _monthFirstDate(),
   toDate: _todayDate(),
   allSelect: false,
@@ -83,7 +83,6 @@ export default function BareboatAndInsurancelanding() {
     getVesselAssetDDL(
       `/asset/Asset/GetAssetVesselDdl?IntBussinessUintId=${selectedBusinessUnit?.value}`
     );
-
   }, []);
   const itemSlectedHandler = (value, index) => {
     const mainData = gridData;
@@ -151,14 +150,14 @@ export default function BareboatAndInsurancelanding() {
 
   const confirmToCancel = (values) => {
     let confirmObject = {
-      title: "Are you sure?",
-      message: "If you create journal, it can not be undone",
+      title: 'Are you sure?',
+      message: 'If you create journal, it can not be undone',
       yesAlertFunc: async () => {
         if (viewType === 3 && totalAmount > actualCheckedItemsRate()) {
-          return toast.warn("Total Amount can not be more than Budget Amount");
+          return toast.warn('Total Amount can not be more than Budget Amount');
         } else {
           if (viewType === 3 && !checkIfToDateIsSame(values)) {
-            return toast.warn("Not in date range");
+            return toast.warn('Not in date range');
           } else {
             const payload = {
               intBusinessUnitId: selectedBusinessUnit?.value || 0,
@@ -185,7 +184,7 @@ export default function BareboatAndInsurancelanding() {
         }
       },
       noAlertFunc: () => {
-        "";
+        '';
       },
     };
     IConfirmModal(confirmObject);
@@ -229,7 +228,7 @@ export default function BareboatAndInsurancelanding() {
                     name="viewType"
                     checked={viewType === 1}
                     className="mr-1 pointer"
-                    style={{ position: "relative", top: "2px" }}
+                    style={{ position: 'relative', top: '2px' }}
                     onChange={(valueOption) => {
                       setViewType(1);
                       setGridData([]);
@@ -243,7 +242,7 @@ export default function BareboatAndInsurancelanding() {
                     name="viewType"
                     checked={viewType === 2}
                     className="mr-1 pointer"
-                    style={{ position: "relative", top: "2px" }}
+                    style={{ position: 'relative', top: '2px' }}
                     onChange={(e) => {
                       setViewType(2);
                       setGridData([]);
@@ -257,7 +256,7 @@ export default function BareboatAndInsurancelanding() {
                     name="viewType"
                     checked={viewType === 3}
                     className="mr-1 pointer"
-                    style={{ position: "relative", top: "2px" }}
+                    style={{ position: 'relative', top: '2px' }}
                     onChange={(e) => {
                       setViewType(3);
                       setGridData([]);
@@ -275,10 +274,10 @@ export default function BareboatAndInsurancelanding() {
                     label="Vessel"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("vessel", valueOption);
+                        setFieldValue('vessel', valueOption);
                         setGridData([]);
                       } else {
-                        setFieldValue("vessel", "");
+                        setFieldValue('vessel', '');
                         setGridData([]);
                       }
                     }}
@@ -294,7 +293,7 @@ export default function BareboatAndInsurancelanding() {
                     placeholder="From Date"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("fromDate", e?.target?.value);
+                      setFieldValue('fromDate', e?.target?.value);
                     }}
                   />
                 </div>
@@ -306,14 +305,14 @@ export default function BareboatAndInsurancelanding() {
                     placeholder="To Date"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("toDate", e?.target?.value);
+                      setFieldValue('toDate', e?.target?.value);
                     }}
                   />
                 </div>
 
                 <div className="col-lg-3 d-flex mr-1">
                   <button
-                    style={{ marginTop: "20px" }}
+                    style={{ marginTop: '20px' }}
                     onClick={() => {
                       landingData(values);
                     }}
@@ -324,7 +323,7 @@ export default function BareboatAndInsurancelanding() {
                     Show
                   </button>
                   <button
-                    style={{ marginTop: "20px", marginLeft: "10px" }}
+                    style={{ marginTop: '20px', marginLeft: '10px' }}
                     onClick={() => {
                       confirmToCancel(values);
                     }}
@@ -342,94 +341,98 @@ export default function BareboatAndInsurancelanding() {
                 </div>
               </div>
 
-            <div className="table-responsive">
-            <table className="table table-striped table-bordered bj-table bj-table-landing mt-3">
-                <thead>
-                  <tr>
-                    <th style={{ width: "90px" }}>
-                      <input
-                        type="checkbox"
-                        id="parent"
-                        onChange={(event) => {
-                          allGridCheck(event.target.checked);
-                        }}
-                      />
-                    </th>
-                    <th>SL</th>
-                    <th>Vessel Name</th>
-                    <th>Particulars </th>
-                    <th>Fee Per Day/Month </th>
-                    <th>Dif Days</th>
-                    <th>Amount</th>
-                    <th>Base Type </th>
-                    <th>Duration </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {gridData?.data?.map((item, index) => (
-                    <tr key={index}>
-                      <td>
-                        <Field
-                          name={values.itemCheck}
-                          component={() => (
-                            <input
-                              id="itemCheck"
-                              type="checkbox"
-                              className="ml-2"
-                              value={item.itemCheck}
-                              checked={item.itemCheck}
-                              name={item.itemCheck}
-                              onChange={(e) => {
-                                itemSlectedHandler(e.target.checked, index);
-                              }}
-                            />
-                          )}
-                          label="Transshipment"
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered bj-table bj-table-landing mt-3">
+                  <thead>
+                    <tr>
+                      <th style={{ width: '90px' }}>
+                        <input
+                          type="checkbox"
+                          id="parent"
+                          onChange={(event) => {
+                            allGridCheck(event.target.checked);
+                          }}
                         />
-                      </td>
-                      <td>
-                        <div className="text-left">{index + 1}</div>
-                      </td>
-                      <td>
-                        <div className="text-left">{item?.strVesselName}</div>
-                      </td>
-                      <td>
-                        <div className="text-left">
-                          {viewType === 1 || viewType === 3
-                            ? item?.strBusinessTransactionName
-                            : item?.strSupplierName}
-                        </div>
-                      </td>
-                      <td>
-                        <div className="text-right">
-                          {item?.numRate ? _formatMoney(item?.numRate) : 0}
-                        </div>
-                      </td>
-                      <td>
-                        <div className="text-right">{item?.daysDifference}</div>
-                      </td>
-                      <td>
-                        <div className="text-right">
-                          {item?.numAmount ? _formatMoney(item?.numAmount) : 0}
-                        </div>
-                      </td>
-                      <td>
-                        <div className="text-center">{item?.strBaseName}</div>
-                      </td>
-                      <td>
-                        <div className="text-center">
-                          {viewType === 2 || viewType === 3
-                            ? `${_dateFormatter(
-                                item?.dteFromDate
-                              )} - ${_dateFormatter(item?.dteToDate)}`
-                            : ""}
-                        </div>
-                      </td>
+                      </th>
+                      <th>SL</th>
+                      <th>Vessel Name</th>
+                      <th>Particulars </th>
+                      <th>Fee Per Day/Month </th>
+                      <th>Dif Days</th>
+                      <th>Amount</th>
+                      <th>Base Type </th>
+                      <th>Duration </th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                  </thead>
+                  <tbody>
+                    {gridData?.data?.map((item, index) => (
+                      <tr key={index}>
+                        <td>
+                          <Field
+                            name={values.itemCheck}
+                            component={() => (
+                              <input
+                                id="itemCheck"
+                                type="checkbox"
+                                className="ml-2"
+                                value={item.itemCheck}
+                                checked={item.itemCheck}
+                                name={item.itemCheck}
+                                onChange={(e) => {
+                                  itemSlectedHandler(e.target.checked, index);
+                                }}
+                              />
+                            )}
+                            label="Transshipment"
+                          />
+                        </td>
+                        <td>
+                          <div className="text-left">{index + 1}</div>
+                        </td>
+                        <td>
+                          <div className="text-left">{item?.strVesselName}</div>
+                        </td>
+                        <td>
+                          <div className="text-left">
+                            {viewType === 1 || viewType === 3
+                              ? item?.strBusinessTransactionName
+                              : item?.strSupplierName}
+                          </div>
+                        </td>
+                        <td>
+                          <div className="text-right">
+                            {item?.numRate ? _formatMoney(item?.numRate) : 0}
+                          </div>
+                        </td>
+                        <td>
+                          <div className="text-right">
+                            {item?.daysDifference}
+                          </div>
+                        </td>
+                        <td>
+                          <div className="text-right">
+                            {item?.numAmount
+                              ? _formatMoney(item?.numAmount)
+                              : 0}
+                          </div>
+                        </td>
+                        <td>
+                          <div className="text-center">{item?.strBaseName}</div>
+                        </td>
+                        <td>
+                          <div className="text-center">
+                            {viewType === 2 || viewType === 3
+                              ? `${_dateFormatter(
+                                  item?.dteFromDate
+                                )} - ${_dateFormatter(item?.dteToDate)}`
+                              : ''}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
 
               {/* Pagination Code */}
               {gridData?.data?.length > 0 && (

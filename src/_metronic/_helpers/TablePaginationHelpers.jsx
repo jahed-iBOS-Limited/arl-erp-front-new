@@ -1,5 +1,5 @@
 /* Pagination Helprs */
-import React from "react";
+import React from 'react';
 
 export const getPagesCount = (totalSize, sizePerPage) => {
   return Math.ceil(totalSize / sizePerPage);
@@ -85,11 +85,11 @@ export function getHandlerTableChange(setQueryParams) {
   return (type, { page, sizePerPage, sortField, sortOrder, data }) => {
     const pageNumber = page || 1;
     setQueryParams((prev) =>
-      type === "sort"
+      type === 'sort'
         ? { ...prev, sortOrder, sortField }
-        : type === "pagination"
-        ? { ...prev, pageNumber, pageSize: sizePerPage }
-        : prev
+        : type === 'pagination'
+          ? { ...prev, pageNumber, pageSize: sizePerPage }
+          : prev
     );
   };
 }

@@ -1,36 +1,36 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import Axios from "axios";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import { IInput } from "../../../../_helper/_input";
-import customStyles from "../../../../selectCustomStyle";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import Axios from 'axios';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import { IInput } from '../../../../_helper/_input';
+import customStyles from '../../../../selectCustomStyle';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   bank: Yup.object().shape({
-    label: Yup.string().required("Bank is required"),
-    value: Yup.string().required("Bank is required"),
+    label: Yup.string().required('Bank is required'),
+    value: Yup.string().required('Bank is required'),
   }),
   branch: Yup.object().shape({
-    label: Yup.string().required("Branch is required"),
-    value: Yup.string().required("Branch is required"),
+    label: Yup.string().required('Branch is required'),
+    value: Yup.string().required('Branch is required'),
   }),
   bankAccountType: Yup.object().shape({
-    label: Yup.string().required("Bank Account Type is required"),
-    value: Yup.string().required("Bank Account Type is required"),
+    label: Yup.string().required('Bank Account Type is required'),
+    value: Yup.string().required('Bank Account Type is required'),
   }),
   accountName: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Account Name is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Account Name is required'),
   accountNumber: Yup.string()
-    .min(8, "Minimum 8 symbols")
-    .max(1000, "Maximum 1000 symbols")
-    .required("Account Number is required"),
+    .min(8, 'Minimum 8 symbols')
+    .max(1000, 'Maximum 1000 symbols')
+    .required('Account Number is required'),
   generalLedger: Yup.object().shape({
-    label: Yup.string().required("General Ledger is required"),
-    value: Yup.string().required("General Ledger is required"),
+    label: Yup.string().required('General Ledger is required'),
+    value: Yup.string().required('General Ledger is required'),
   }),
 });
 
@@ -48,7 +48,7 @@ export default function FormCmp({
   ty,
 }) {
   const [branchList, setBranchList] = useState([]);
-  const [generalLedgerList, setGeneralLedgerList] = useState("");
+  const [generalLedgerList, setGeneralLedgerList] = useState('');
   const [gneralLedgerListOption, setgneralLedgerOption] = useState([]);
   // Get branchList by bankId and countryId
   const branchListAPiCaller = async (bankId) => {
@@ -83,9 +83,7 @@ export default function FormCmp({
         `/domain/BusinessUnitGeneralLedger/GetGeneralLedgerDDL?AccountId=${accId}&BusinessUnitId=${buId}`
       );
       setGeneralLedgerList(res.data);
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
   useEffect(() => {
     const glTypes = [];
@@ -133,9 +131,9 @@ export default function FormCmp({
                     errors={errors}
                     touched={touched}
                     onChange={(valueOption) => {
-                      setFieldValue("bank", valueOption);
+                      setFieldValue('bank', valueOption);
                       branchListAPiCaller(valueOption?.value);
-                      setFieldValue("branch", "");
+                      setFieldValue('branch', '');
                     }}
                     isSearchable={true}
                     // isDisabled={isEdit}
@@ -152,7 +150,7 @@ export default function FormCmp({
                     errors={errors}
                     touched={touched}
                     onChange={(valueOption) => {
-                      setFieldValue("branch", valueOption);
+                      setFieldValue('branch', valueOption);
                     }}
                     isSearchable={true}
                     isDisabled={!bankDDL.length}
@@ -206,14 +204,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

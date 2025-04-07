@@ -1,26 +1,26 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { _dateFormatterTwo } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import IView from "../../../_helper/_helperIcons/_view";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IncentiveModal from "./IncentiveModal";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { _dateFormatterTwo } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import IView from '../../../_helper/_helperIcons/_view';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IncentiveModal from './IncentiveModal';
 const initData = {
-  salesOrganization: "",
-  distributionChannel: "",
-  incentiveOn: "",
-  effectiveFormDate: "",
-  effectiveToDate: "",
+  salesOrganization: '',
+  distributionChannel: '',
+  incentiveOn: '',
+  effectiveFormDate: '',
+  effectiveToDate: '',
 };
 export default function CommonLanding() {
   const [isShowModal, setisShowModal] = useState(false);
-  const [incentiveConfigId, setIncentiveConfigId] = useState("");
+  const [incentiveConfigId, setIncentiveConfigId] = useState('');
   const {
     profileData: { accountId: accId },
     selectedBusinessUnit: { value: buId },
@@ -39,7 +39,6 @@ export default function CommonLanding() {
     getDistributionChannelDDL(
       `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`
     );
-
   }, [accId, buId]);
   return (
     <Formik
@@ -76,7 +75,7 @@ export default function CommonLanding() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        "/sales-management/configuration/EmployeeIncentiveConfig/create"
+                        '/sales-management/configuration/EmployeeIncentiveConfig/create'
                       );
                     }}
                   >
@@ -92,7 +91,7 @@ export default function CommonLanding() {
                   <NewSelect
                     name="salesOrganization"
                     options={
-                      [{ label: "All", value: 0 }, ...salesOrganizationDDL] ||
+                      [{ label: 'All', value: 0 }, ...salesOrganizationDDL] ||
                       []
                     }
                     value={values?.salesOrganization}
@@ -103,7 +102,7 @@ export default function CommonLanding() {
                           `/oms/IncentiveConfig/GetIncentiveLanding?AccountId=${accId}&BusinessUnitId=${buId}&IntSalesOrganizationId=${0}&IntDistributionChannelId=${0}&IntIncentiveOnId=${0}`
                         );
                       }
-                      setFieldValue("salesOrganization", valueOption);
+                      setFieldValue('salesOrganization', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -116,7 +115,7 @@ export default function CommonLanding() {
                     value={values?.distributionChannel}
                     label="Distribution Channel"
                     onChange={(valueOption) => {
-                      setFieldValue("distributionChannel", valueOption);
+                      setFieldValue('distributionChannel', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -126,13 +125,13 @@ export default function CommonLanding() {
                   <NewSelect
                     name="incentiveOn"
                     options={[
-                      { label: "Basic", value: 1 },
-                      { label: "Fixed Amount", value: 2 },
+                      { label: 'Basic', value: 1 },
+                      { label: 'Fixed Amount', value: 2 },
                     ]}
                     value={values?.incentiveOn}
                     label="IncentiveOn On"
                     onChange={(valueOption) => {
-                      setFieldValue("incentiveOn", valueOption);
+                      setFieldValue('incentiveOn', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -145,7 +144,7 @@ export default function CommonLanding() {
                     name="effectiveFormDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("effectiveFormDate", e.target.value);
+                      setFieldValue('effectiveFormDate', e.target.value);
                     }}
                   />
                 </div>
@@ -156,7 +155,7 @@ export default function CommonLanding() {
                     name="effectiveToDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("effectiveToDate", e.target.value);
+                      setFieldValue('effectiveToDate', e.target.value);
                     }}
                   />
                 </div>
@@ -243,7 +242,7 @@ export default function CommonLanding() {
             show={isShowModal}
             onHide={() => {
               setisShowModal(false);
-              setIncentiveConfigId("");
+              setIncentiveConfigId('');
             }}
           >
             <IncentiveModal incentiveConfigId={incentiveConfigId} />

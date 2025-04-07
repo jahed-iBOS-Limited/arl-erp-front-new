@@ -1,27 +1,26 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import Loading from "../../../../_helper/_loading";
-import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import { deleteCarrierAgent } from "../helper";
-import GudamAllotmentForm from "../_form/_form";
+} from '../../../../../../_metronic/_partials/controls';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import Loading from '../../../../_helper/_loading';
+import { _monthFirstDate } from '../../../../_helper/_monthFirstDate';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import { deleteCarrierAgent } from '../helper';
+import GudamAllotmentForm from '../_form/_form';
 
-const headers = ["SL", "Port", "Carrier Agent", "Number", "Action"];
+const headers = ['SL', 'Port', 'Carrier Agent', 'Number', 'Action'];
 
 const initData = {
   fromDate: _monthFirstDate(),
@@ -34,7 +33,7 @@ const CarrierAgentBridge = () => {
   const [rowData, getRowData, isLoading] = useAxiosGet();
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [formType, setFormType] = useState("");
+  const [formType, setFormType] = useState('');
   // const [singleItem, setSingleItem] = useState({});
 
   // get user data from store
@@ -59,8 +58,8 @@ const CarrierAgentBridge = () => {
 
   const deleteHandler = (id, values) => {
     const objProps = {
-      title: "Are You Sure?",
-      message: "Are you sure you want to delete this information?",
+      title: 'Are You Sure?',
+      message: 'Are you sure you want to delete this information?',
       yesAlertFunc: () => {
         deleteCarrierAgent(id, uId, setLoading, () => {
           getData(values, pageNo, pageSize);
@@ -87,7 +86,7 @@ const CarrierAgentBridge = () => {
                   <div className="d-flex justify-content-end">
                     <button
                       onClick={() => {
-                        setFormType("create");
+                        setFormType('create');
                         setShow(true);
                       }}
                       className="btn btn-primary ml-2"
@@ -119,7 +118,7 @@ const CarrierAgentBridge = () => {
                     <table
                       id="table-to-xlsx"
                       className={
-                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                        'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                       }
                     >
                       <thead>
@@ -134,7 +133,7 @@ const CarrierAgentBridge = () => {
                           return (
                             <tr key={index}>
                               <td
-                                style={{ width: "40px" }}
+                                style={{ width: '40px' }}
                                 className="text-center"
                               >
                                 {index + 1}
@@ -143,7 +142,7 @@ const CarrierAgentBridge = () => {
                               <td>{item?.carrierName}</td>
                               <td>{item?.phone}</td>
                               <td
-                                style={{ width: "80px" }}
+                                style={{ width: '80px' }}
                                 className="text-center"
                               >
                                 <div className="d-flex justify-content-around">

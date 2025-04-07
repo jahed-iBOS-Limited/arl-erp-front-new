@@ -1,10 +1,10 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import ActionPlanGrowModel from "./actionPlanGrowModel/landing";
-import ActionPlanJohariWindow from "./actionPlanJohariWindow/landing";
-import GrowModel from "./growModel/landing/table";
-import JohariWindowLanding from "./johariWindow/landing";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import ActionPlanGrowModel from './actionPlanGrowModel/landing';
+import ActionPlanJohariWindow from './actionPlanJohariWindow/landing';
+import GrowModel from './growModel/landing/table';
+import JohariWindowLanding from './johariWindow/landing';
 
 export function PerformanceCoachingPages() {
   return (

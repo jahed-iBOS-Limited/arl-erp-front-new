@@ -1,6 +1,6 @@
 // For Communication with external API's , for example ... get data, post data etc
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getTerritoryDDL = async (accId, buId, setter) => {
   try {
@@ -78,12 +78,12 @@ export const createBeat = async (payload, setDisabled, cb) => {
     let res = await axios.post(`/rtm/Beat/CreateBeat`, payload);
     if (res?.status === 200) {
       cb();
-      toast.success(res?.data?.message, { toastId: "createBeat" });
+      toast.success(res?.data?.message, { toastId: 'createBeat' });
       setDisabled(false);
     }
   } catch (err) {
     toast.warning(err?.response?.data?.message, {
-      toastId: "createBeatError",
+      toastId: 'createBeatError',
     });
     setDisabled(false);
   }
@@ -95,12 +95,12 @@ export const editBeat = async (payload, setDisabled, cb) => {
     let res = await axios.put(`/rtm/Beat/EditBeat`, payload);
     if (res?.status === 200) {
       cb();
-      toast.success(res?.data?.message, { toastId: "editBeat" });
+      toast.success(res?.data?.message, { toastId: 'editBeat' });
       setDisabled(false);
     }
   } catch (err) {
     toast.warning(err?.response?.data?.message, {
-      toastId: "editBeatError",
+      toastId: 'editBeatError',
     });
     setDisabled(false);
   }

@@ -54,7 +54,6 @@ const AutoJournalLog = () => {
 
   useEffect(() => {
     getBusinessUnitDDL(profileData?.accountId, setBusinessUnitDDL);
-
   }, []);
 
   useEffect(() => {
@@ -65,9 +64,8 @@ const AutoJournalLog = () => {
       setLoanRegisterLogData,
       setLoading,
       initData.fromDate,
-      initData.toDate,
+      initData.toDate
     );
-
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -76,7 +74,7 @@ const AutoJournalLog = () => {
       pageNo,
       pageSize,
       setLoanRegisterLogData,
-      setLoading,
+      setLoading
     );
   };
 
@@ -176,7 +174,7 @@ const AutoJournalLog = () => {
                             setLoanRegisterLogData,
                             setLoading,
                             values?.fromDate,
-                            values?.toDate,
+                            values?.toDate
                           );
                         }}
                       >

@@ -1,21 +1,20 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
   error: '',
-  msg: "",
+  msg: '',
   bankDDL: [],
   bankAccountTypeDDL: [],
-  viewModalData: "",
+  viewModalData: '',
   gridData: [],
-  singleData: "",
+  singleData: '',
 };
 
 export const bankAccountSlice = createSlice({
-  name: "bankAccount",
+  name: 'bankAccount',
   initialState: initState,
   reducers: {
-
     SetBankDDL: (state, action) => {
       const { payload } = action;
       state.bankDDL = payload;
@@ -40,11 +39,9 @@ export const bankAccountSlice = createSlice({
       const { payload } = action;
       state.singleData = payload;
     },
-    
-    SetSingleStoreEmpty: state => {
-      state.singleData = "";
+
+    SetSingleStoreEmpty: (state) => {
+      state.singleData = '';
     },
-
-  }
+  },
 });
-

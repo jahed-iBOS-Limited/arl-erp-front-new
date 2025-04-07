@@ -138,7 +138,7 @@ export default function PartialChallanTable({ obj }) {
                           </td>
                           <td className="text-right">
                             {_fixedPoint(
-                              element?.quantity - element?.returnQty,
+                              element?.quantity - element?.returnQty
                             )}
                           </td>
                         </>
@@ -151,7 +151,7 @@ export default function PartialChallanTable({ obj }) {
                             onClick={(e) => {
                               e.stopPropagation();
                               dispatch(
-                                getDownlloadFileView_Action(item?.attatchment),
+                                getDownlloadFileView_Action(item?.attatchment)
                               );
                             }}
                           >
@@ -223,7 +223,7 @@ export default function PartialChallanTable({ obj }) {
           }}
           onDelete={(deleteFileObj) => {
             const newData = fileObjects.filter(
-              (item) => item.file.name !== deleteFileObj.file.name,
+              (item) => item.file.name !== deleteFileObj.file.name
             );
             setFileObjects(newData);
           }}

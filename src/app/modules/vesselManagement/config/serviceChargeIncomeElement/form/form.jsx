@@ -1,16 +1,15 @@
-
-import axios from "axios";
-import { Formik } from "formik";
-import React from "react";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { PortAndMotherVessel } from "../../../common/components";
-import Table from "./table";
+import axios from 'axios';
+import { Formik } from 'formik';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { PortAndMotherVessel } from '../../../common/components';
+import Table from './table';
 
 const Form = ({ obj }) => {
   const {
@@ -41,7 +40,7 @@ const Form = ({ obj }) => {
         {({ values, setFieldValue, errors, touched, resetForm }) => (
           <>
             <ICustomCard
-              title={"Service Charge and Income Element Configuration"}
+              title={'Service Charge and Income Element Configuration'}
               backHandler={() => history.goBack()}
               resetHandler={() => resetForm()}
               saveHandler={() => saveHandler(values)}
@@ -58,18 +57,18 @@ const Form = ({ obj }) => {
                         values,
                         setFieldValue,
                         onChange: (fieldName, allValues) => {
-                          if (fieldName === "motherVessel") {
+                          if (fieldName === 'motherVessel') {
                             if (allValues?.motherVessel?.value === 0) {
                               toast.warn(
-                                "Please select a specific mother Vessel"
+                                'Please select a specific mother Vessel'
                               );
-                              setFieldValue("motherVessel", "");
+                              setFieldValue('motherVessel', '');
                             } else {
                               setFieldValue(
-                                "programNo",
+                                'programNo',
                                 allValues?.motherVessel?.programNo
                               );
-                              setFieldValue("item", {
+                              setFieldValue('item', {
                                 value: allValues?.motherVessel?.itemId,
                                 label: allValues?.motherVessel?.itemName,
                               });
@@ -92,12 +91,12 @@ const Form = ({ obj }) => {
                       <NewSelect
                         name="warehouse"
                         options={
-                          [{ value: 0, label: "All" }, ...shipPointDDL] || []
+                          [{ value: 0, label: 'All' }, ...shipPointDDL] || []
                         }
                         value={values?.warehouse}
                         label="ShipPoint"
                         onChange={(e) => {
-                          setFieldValue("warehouse", e);
+                          setFieldValue('warehouse', e);
                         }}
                         placeholder="ShipPoint"
                       />
@@ -106,13 +105,13 @@ const Form = ({ obj }) => {
                       <NewSelect
                         name="businessPartner"
                         options={[
-                          { value: 73244, label: "G2G BADC" },
-                          { value: 73245, label: "G2G BCIC" },
+                          { value: 73244, label: 'G2G BADC' },
+                          { value: 73245, label: 'G2G BCIC' },
                         ]}
                         value={values?.businessPartner}
                         label="Business Partner"
                         onChange={(e) => {
-                          setFieldValue("businessPartner", e);
+                          setFieldValue('businessPartner', e);
                         }}
                         placeholder="Business Partner"
                         errors={errors}
@@ -124,7 +123,7 @@ const Form = ({ obj }) => {
                       <SearchAsyncSelect
                         selectedValue={values?.item}
                         handleChange={(valueOption) => {
-                          setFieldValue("item", valueOption);
+                          setFieldValue('item', valueOption);
                         }}
                         placeholder="Search Item"
                         loadOptions={(v) => {

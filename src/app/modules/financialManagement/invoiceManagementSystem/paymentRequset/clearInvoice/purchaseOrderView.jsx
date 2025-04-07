@@ -1,6 +1,6 @@
-import React from "react";
-import IViewModal from "../../../../_helper/_viewModal";
-import { Formik, Form } from "formik";
+import React from 'react';
+import IViewModal from '../../../../_helper/_viewModal';
+import { Formik, Form } from 'formik';
 import { PurchaseOrderReport } from './../../../../procurement/purchase-management/purchaseOrder/report/tableHeader';
 const initData = {};
 
@@ -15,10 +15,9 @@ export default function PurchaseOrderView({
       <IViewModal
         show={show}
         onHide={onHide}
-        title={""}
-        style={{ fontSize: "1.2rem !important" }}
+        title={''}
+        style={{ fontSize: '1.2rem !important' }}
         btnText="Close"
-
       >
         <div>
           <Formik enableReinitialize={true} initialValues={initData}>
@@ -33,7 +32,7 @@ export default function PurchaseOrderView({
             }) => (
               <>
                 <Form className="form form-label-right paymentRequestPurOrder">
-                  <PurchaseOrderReport/>
+                  <PurchaseOrderReport />
                 </Form>
               </>
             )}

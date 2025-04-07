@@ -1,34 +1,33 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
 import {
   CardHeader,
   CardHeaderToolbar,
   CardBody,
   ModalProgressBar,
   Card,
-} from "../../../../../../_metronic/_partials/controls";
-import { Formik } from "formik";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
+} from '../../../../../../_metronic/_partials/controls';
+import { Formik } from 'formik';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
 import {
   createLocalAndForeignItemBridge,
   getItemVSForeignSaleOffice,
-} from "../helper";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+} from '../helper';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import {
   getPlantDDL,
   getWarehouseDDL,
-} from "../../../../inventoryManagement/reports/itemTransferTransit/helper";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
+} from '../../../../inventoryManagement/reports/itemTransferTransit/helper';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
-const header = ["SL", "Item Type", "Item Name"];
+const header = ['SL', 'Item Type', 'Item Name'];
 
 const initData = {
-  channel: "",
-  plant: "",
-  salesOrg: "",
+  channel: '',
+  plant: '',
+  salesOrg: '',
 };
 
 const LocalAndForeignItemBridgeForm = () => {
@@ -65,7 +64,7 @@ const LocalAndForeignItemBridgeForm = () => {
   const createItemVsForeignSalesOffice = (values) => {
     const selectedRows = rowData?.filter((itm) => itm?.isSelected);
     if (selectedRows?.length === 0) {
-      return toast.warn("Please select at least one row");
+      return toast.warn('Please select at least one row');
     }
     const payload = selectedRows?.map((item) => ({
       accountId: accId,
@@ -75,7 +74,7 @@ const LocalAndForeignItemBridgeForm = () => {
       profitCenterId: item?.intProfitCenterId,
       productDivisionId: item?.intProductdivisionid,
       itemId: item?.intitemid,
-      salesDescription: "",
+      salesDescription: '',
       minOrderQuantity: item?.minOrderQuantity,
       lotSize: item?.declotSize,
       cogsglid: item?.intCogsglid,
@@ -171,7 +170,7 @@ const LocalAndForeignItemBridgeForm = () => {
                           value={values?.channel}
                           label="Distribution Channel"
                           onChange={(valueOption) => {
-                            setFieldValue("channel", valueOption);
+                            setFieldValue('channel', valueOption);
                           }}
                           placeholder="Select Distribution Channel"
                         />
@@ -184,8 +183,8 @@ const LocalAndForeignItemBridgeForm = () => {
                           value={values?.plant}
                           options={plantList || []}
                           onChange={(v) => {
-                            setFieldValue("plant", v);
-                            setFieldValue("salesOrg", "");
+                            setFieldValue('plant', v);
+                            setFieldValue('salesOrg', '');
                             if (v?.value) {
                               getWarehouseDDL(
                                 accId,
@@ -206,7 +205,7 @@ const LocalAndForeignItemBridgeForm = () => {
                           value={values?.salesOrg}
                           label="Sales Organization"
                           onChange={(valueOption) => {
-                            setFieldValue("salesOrg", valueOption);
+                            setFieldValue('salesOrg', valueOption);
                           }}
                           placeholder="Select Sales Organization"
                           isDisabled={!values?.plant}
@@ -230,77 +229,79 @@ const LocalAndForeignItemBridgeForm = () => {
                     </div>
                   </div>
                   {rowData?.length > 0 && (
-                   <div className="table-responsive">
-                     <table
-                      className={
-                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                      }
-                    >
-                      <thead>
-                        <tr
-                          style={
-                            selectedAll() ? { backgroundColor: "#62a4d8" } : {}
-                          }
-                          onClick={() => allSelect(!selectedAll())}
-                          className="cursor-pointer"
-                        >
-                          <th style={{ width: "40px" }}>
-                            <input
-                              type="checkbox"
-                              value={selectedAll()}
-                              checked={selectedAll()}
-                              onChange={() => {}}
-                            />
-                          </th>
-                          {header.map((th, index) => {
-                            return <th key={index}> {th} </th>;
+                    <div className="table-responsive">
+                      <table
+                        className={
+                          'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
+                        }
+                      >
+                        <thead>
+                          <tr
+                            style={
+                              selectedAll()
+                                ? { backgroundColor: '#62a4d8' }
+                                : {}
+                            }
+                            onClick={() => allSelect(!selectedAll())}
+                            className="cursor-pointer"
+                          >
+                            <th style={{ width: '40px' }}>
+                              <input
+                                type="checkbox"
+                                value={selectedAll()}
+                                checked={selectedAll()}
+                                onChange={() => {}}
+                              />
+                            </th>
+                            {header.map((th, index) => {
+                              return <th key={index}> {th} </th>;
+                            })}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.map((item, index) => {
+                            return (
+                              <tr
+                                className="cursor-pointer"
+                                key={index}
+                                onClick={() => {
+                                  rowDataHandler(
+                                    index,
+                                    'isSelected',
+                                    !item.isSelected
+                                  );
+                                }}
+                                style={
+                                  item?.isSelected
+                                    ? { backgroundColor: '#aacae3' }
+                                    : {}
+                                }
+                              >
+                                <td
+                                  className="text-center"
+                                  style={{ width: '40px' }}
+                                >
+                                  <input
+                                    type="checkbox"
+                                    value={item?.isSelected}
+                                    checked={item?.isSelected}
+                                    onChange={() => {}}
+                                  />
+                                </td>
+                                <td
+                                  style={{ width: '40px' }}
+                                  className="text-center"
+                                >
+                                  {index + 1}
+                                </td>
+                                <td>{item?.strItemType}</td>
+                                <td>{item?.stritemname}</td>
+                              </tr>
+                            );
                           })}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.map((item, index) => {
-                          return (
-                            <tr
-                              className="cursor-pointer"
-                              key={index}
-                              onClick={() => {
-                                rowDataHandler(
-                                  index,
-                                  "isSelected",
-                                  !item.isSelected
-                                );
-                              }}
-                              style={
-                                item?.isSelected
-                                  ? { backgroundColor: "#aacae3" }
-                                  : {}
-                              }
-                            >
-                              <td
-                                className="text-center"
-                                style={{ width: "40px" }}
-                              >
-                                <input
-                                  type="checkbox"
-                                  value={item?.isSelected}
-                                  checked={item?.isSelected}
-                                  onChange={() => {}}
-                                />
-                              </td>
-                              <td
-                                style={{ width: "40px" }}
-                                className="text-center"
-                              >
-                                {index + 1}
-                              </td>
-                              <td>{item?.strItemType}</td>
-                              <td>{item?.stritemname}</td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                   </div>
+                        </tbody>
+                      </table>
+                    </div>
                   )}
                 </form>
               </CardBody>

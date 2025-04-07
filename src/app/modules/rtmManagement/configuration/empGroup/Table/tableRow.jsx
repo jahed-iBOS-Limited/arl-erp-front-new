@@ -1,12 +1,10 @@
-
-
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { getEmployeeGroupNameLanding } from "../helper";
-import IExtend from "../../../../_helper/_helperIcons/_extend";
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { getEmployeeGroupNameLanding } from '../helper';
+import IExtend from '../../../../_helper/_helperIcons/_extend';
 
 export function TableRow() {
   const [gridData, setGridData] = useState([]);
@@ -33,7 +31,7 @@ export function TableRow() {
           <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
             <thead>
               <tr>
-                <th style={{ width: "30px" }}>SL</th>
+                <th style={{ width: '30px' }}>SL</th>
                 <th>Group Name</th>
                 <th>Created By</th>
                 <th>Action</th>
@@ -75,7 +73,7 @@ export function TableRow() {
                           <OverlayTrigger
                             overlay={
                               <Tooltip id="cs-icon">
-                                {"Extend Employee Group"}
+                                {'Extend Employee Group'}
                               </Tooltip>
                             }
                           >

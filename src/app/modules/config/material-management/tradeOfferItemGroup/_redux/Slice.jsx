@@ -1,36 +1,29 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
   error: '',
-  msg: "",
+  msg: '',
   gridData: [],
-  singleData: "",
+  singleData: '',
 };
 
 export const tradeOfferItemGroupSlice = createSlice({
-  name: "tradeOfferItemGroup",
+  name: 'tradeOfferItemGroup',
   initialState: initState,
   reducers: {
-
-    
-
-    
     SetGridData: (state, action) => {
       const { payload } = action;
       state.gridData = payload;
     },
-    
+
     SetSingleData: (state, action) => {
       const { payload } = action;
       state.singleData = payload;
     },
-    
+
     SetSingleStoreEmpty: (state, action) => {
-      
-      state.singleData = "";
+      state.singleData = '';
     },
-
-  }
+  },
 });
-

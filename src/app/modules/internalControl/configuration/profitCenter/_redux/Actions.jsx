@@ -1,7 +1,7 @@
-import * as requestFromServer from "./Api";
-import { profitCenterSlice } from "./Slice";
-import { toast } from "react-toastify";
-import { isArray } from "lodash";
+import * as requestFromServer from './Api';
+import { profitCenterSlice } from './Slice';
+import { toast } from 'react-toastify';
+import { isArray } from 'lodash';
 const { actions: slice } = profitCenterSlice;
 
 export const getEmpDDLAction = (accId, buId) => (dispatch) => {
@@ -27,13 +27,12 @@ export const saveProfitCenter = (payload) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
         payload.setDisabled(false);
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
       payload.setDisabled(false);
     });
@@ -45,7 +44,7 @@ export const saveEditedProfitCenter = (payload, setDisabled) => () => {
     .then((res) => {
       if (res.status === 200) {
         console.log(res.data);
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         setDisabled(false);
       }
     })
@@ -56,18 +55,15 @@ export const saveEditedProfitCenter = (payload, setDisabled) => () => {
     });
 };
 // ProfitCenter action for get data of table
-export const getProfitCenterGridData = (accId, buId, pageNo, pageSize) => (
-  dispatch
-) => {
-  return requestFromServer
-    .getGridData(accId, buId, pageNo, pageSize)
-    .then((res) => {
-      return dispatch(slice.SetGridData(res.data));
-    })
-    .catch((err) => {
-     
-    });
-};
+export const getProfitCenterGridData =
+  (accId, buId, pageNo, pageSize) => (dispatch) => {
+    return requestFromServer
+      .getGridData(accId, buId, pageNo, pageSize)
+      .then((res) => {
+        return dispatch(slice.SetGridData(res.data));
+      })
+      .catch((err) => {});
+  };
 // ProfitCenter action for get single data by id
 export const getProfitCenterById = (id) => (dispatch) => {
   return requestFromServer
@@ -93,9 +89,7 @@ export const getProfitCenterById = (id) => (dispatch) => {
         return dispatch(slice.SetDataById(data));
       }
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };
 // ProfitCenter single to empty
 export const setProfitCenterSingleEmpty = () => async (dispatch) => {

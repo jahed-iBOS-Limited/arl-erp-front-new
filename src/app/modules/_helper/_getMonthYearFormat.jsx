@@ -1,7 +1,7 @@
 export function formatMonthYear(dateStr) {
   // Check if the date string is null or undefined
   if (!dateStr) {
-    return "";
+    return '';
   }
 
   // Parse the input date string
@@ -9,23 +9,23 @@ export function formatMonthYear(dateStr) {
 
   // Check if the date is valid
   if (isNaN(date.getTime())) {
-    return "";
+    return '';
   }
 
   // Define an array of month names
   const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
   ];
 
   // Get the month and year from the date object

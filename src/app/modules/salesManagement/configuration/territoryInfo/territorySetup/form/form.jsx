@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import * as Yup from 'yup';
 import { Formik, Form as FormikForm } from 'formik';
@@ -38,7 +37,7 @@ function Form(props) {
     getDistributionChannelDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setChannelDDL,
+      setChannelDDL
     );
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
   return (

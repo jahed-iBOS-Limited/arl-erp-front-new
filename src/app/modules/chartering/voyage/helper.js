@@ -43,10 +43,10 @@ export const validationSchema = Yup.object().shape({
 
   /* Validation For Time Charterer */
   brokerCommission: Yup.object().when('voyageType', (voyageType) =>
-    validateTimeCharterer(voyageType, 'Broker Commission'),
+    validateTimeCharterer(voyageType, 'Broker Commission')
   ),
   addressCommission: Yup.object().when('voyageType', (voyageType) =>
-    validateTimeCharterer(voyageType, 'Address Commission'),
+    validateTimeCharterer(voyageType, 'Address Commission')
   ),
   charterName: Yup.object().when('voyageType', (voyageType) => {
     if (+voyageType?.value === 1) {
@@ -79,19 +79,19 @@ export const validationSchema = Yup.object().shape({
     }
   }),
   lsmgoPrice: Yup.object().when('voyageType', (voyageType) =>
-    validateTimeCharterer(voyageType, 'LSMGO'),
+    validateTimeCharterer(voyageType, 'LSMGO')
   ),
   lsifoPrice: Yup.object().when('voyageType', (voyageType) =>
-    validateTimeCharterer(voyageType, 'LSFO'),
+    validateTimeCharterer(voyageType, 'LSFO')
   ),
   iloch: Yup.object().when('voyageType', (voyageType) =>
-    validateTimeCharterer(voyageType, 'iloch'),
+    validateTimeCharterer(voyageType, 'iloch')
   ),
   cve30Days: Yup.object().when('voyageType', (voyageType) =>
-    validateTimeCharterer(voyageType, 'C/V/E 30 Days'),
+    validateTimeCharterer(voyageType, 'C/V/E 30 Days')
   ),
   dailyHire: Yup.object().when('voyageType', (voyageType) =>
-    validateTimeCharterer(voyageType, 'Daily Hire'),
+    validateTimeCharterer(voyageType, 'Daily Hire')
   ),
 });
 
@@ -105,7 +105,7 @@ export const getVoyageLandingData = async (
   /* Optinal */
   voyageNo,
   vesselName,
-  status,
+  status
 ) => {
   setLoading(true);
 
@@ -115,7 +115,7 @@ export const getVoyageLandingData = async (
 
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Voyage/GetVoyageLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}${voyageNoStr}${statusStr}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${vesselNameStr}`,
+      `${imarineBaseUrl}/domain/Voyage/GetVoyageLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}${voyageNoStr}${statusStr}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${vesselNameStr}`
     );
 
     setter(res?.data);
@@ -132,7 +132,7 @@ export const createVoyage = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/Voyage/CreateVoyage`,
-      data,
+      data
     );
     cb(res?.data);
     setLoading(false);
@@ -147,7 +147,7 @@ export const editVoyage = async (data, setLoading) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/Voyage/EditVoyage`,
-      data,
+      data
     );
     toast.success(res?.data?.message, { toastId: 456789 });
     setLoading(false);
@@ -161,7 +161,7 @@ export const editVoyageRow = async (data, getByIdCalled, cb) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/Voyage/EditVoyageRow`,
-      data,
+      data
     );
     toast.success(res?.data?.message, { toastId: 456 });
     getByIdCalled();
@@ -178,7 +178,7 @@ export const editVoyageTimeCharterer = async (data, setLoading) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/Voyage/EditVoyageForTimeChtr`,
-      data,
+      data
     );
     setLoading(false);
     toast.success(res?.data?.message, { toastId: 456 });
@@ -194,7 +194,7 @@ export const DeleteVoyage = async (id, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.delete(
-      `${imarineBaseUrl}/domain/Voyage/DeleteVoyage?voyageId=${id}`,
+      `${imarineBaseUrl}/domain/Voyage/DeleteVoyage?voyageId=${id}`
     );
     if (res?.status === 200) {
       cb();
@@ -209,7 +209,7 @@ export const activeInactiveVoyage = async (id, status, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `${imarineBaseUrl}/domain/Voyage/ActiveOrInActive?voyageId=${id}&activeOrInActive=${status}`,
+      `${imarineBaseUrl}/domain/Voyage/ActiveOrInActive?voyageId=${id}&activeOrInActive=${status}`
     );
     toast.success(res?.data?.message);
     cb();
@@ -223,12 +223,12 @@ export const activeInactiveVoyage = async (id, status, setLoading, cb) => {
 export const GetOwnerVesselCharterVoyageID = async (
   vesselId,
   setFieldValue,
-  setLoading,
+  setLoading
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/PortPDA/GetOwnerVesselCharterVoyageID?vesselId=${vesselId}`,
+      `${imarineBaseUrl}/domain/PortPDA/GetOwnerVesselCharterVoyageID?vesselId=${vesselId}`
     );
     setFieldValue('chartererVoyageCode', res?.data);
     setLoading(false);
@@ -243,12 +243,12 @@ export const getVoyageById = async (
   setSingleData,
   setChartererRowData,
   setBusinessPartnerGrid,
-  setLoading,
+  setLoading
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Voyage/GetVoyageByIdNew?VoyageId=${id}`,
+      `${imarineBaseUrl}/domain/Voyage/GetVoyageByIdNew?VoyageId=${id}`
     );
 
     const headerData = res?.data?.objVoyage;
@@ -382,12 +382,12 @@ export const getVoyageCompletionChecklist = async (
   voyageTypeId,
   setter,
   setLoading,
-  setShow,
+  setShow
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Voyage/GetVoyageListIsComplete?VoyageId=${voyageId}&VesselId=${vesselId}&VoyageTypeId=${voyageTypeId}`,
+      `${imarineBaseUrl}/domain/Voyage/GetVoyageListIsComplete?VoyageId=${voyageId}&VesselId=${vesselId}&VoyageTypeId=${voyageTypeId}`
     );
     setter(res?.data);
     setLoading(false);
@@ -401,7 +401,7 @@ export const getVoyageCompletionChecklist = async (
 export const getBusinessPartnerType = async (setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Stakeholder/GetStakeholderTypeForVoyageDDL`,
+      `${imarineBaseUrl}/domain/Stakeholder/GetStakeholderTypeForVoyageDDL`
     );
     setter(res?.data);
   } catch (error) {

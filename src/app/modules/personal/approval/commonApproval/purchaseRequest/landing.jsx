@@ -48,7 +48,6 @@ const PurchaseRequestApprovalGrid = ({
 
   useEffect(() => {
     cb();
-
   }, [activityChange]);
 
   let cb = () => {
@@ -62,7 +61,7 @@ const PurchaseRequestApprovalGrid = ({
       pageNo,
       pageSize,
       '',
-      selectedPlant?.value,
+      selectedPlant?.value
     );
   };
 
@@ -78,7 +77,7 @@ const PurchaseRequestApprovalGrid = ({
       pageNo,
       pageSize,
       '',
-      selectedPlant.value,
+      selectedPlant.value
     );
   };
 
@@ -129,7 +128,7 @@ const PurchaseRequestApprovalGrid = ({
       message: `Do you want to post the selected approve submit`,
       yesAlertFunc: () => {
         const filterSelectedData = rowDto?.data?.filter(
-          (item) => item?.isSelect,
+          (item) => item?.isSelect
         );
         const payload = filterSelectedData?.map((item) => {
           return {
@@ -149,11 +148,10 @@ const PurchaseRequestApprovalGrid = ({
         approvalApi(parameter, payload, activityName, cb, setBillSubmitBtn);
         //setBillSubmitBtn(true);
       },
-      noAlertFunc: () => { },
+      noAlertFunc: () => {},
     };
     IConfirmModal(confirmObject);
   };
-
 
   //reject handler
   const rejectSubmitlHandler = () => {
@@ -162,7 +160,7 @@ const PurchaseRequestApprovalGrid = ({
       message: `Do you want to reject the selected PR?`,
       yesAlertFunc: () => {
         const filterSelectedData = rowDto?.data?.filter(
-          (item) => item?.isSelect,
+          (item) => item?.isSelect
         );
         const payload = filterSelectedData.map((item) => {
           return {
@@ -170,16 +168,20 @@ const PurchaseRequestApprovalGrid = ({
             actionBy: profileData?.userId,
           };
         });
-        rejectPuchase(`/procurement/PurchaseRequest/RejectPurchaseRequest`, payload, (data) => {
-          setBillSubmitBtn(true);
-          cb();
-        }, true);
+        rejectPuchase(
+          `/procurement/PurchaseRequest/RejectPurchaseRequest`,
+          payload,
+          (data) => {
+            setBillSubmitBtn(true);
+            cb();
+          },
+          true
+        );
         // setBillSubmitBtn(true);
       },
-      noAlertFunc: () => { },
+      noAlertFunc: () => {},
     };
     IConfirmModal(confirmObject);
-
   };
 
   const paginationSearchHandler = (value) => {
@@ -193,7 +195,7 @@ const PurchaseRequestApprovalGrid = ({
       0,
       pageSize,
       value,
-      selectedPlant.value,
+      selectedPlant.value
     );
     setPageNo(0);
   };
@@ -336,10 +338,11 @@ const PurchaseRequestApprovalGrid = ({
                             >
                               <span style={{ cursor: 'pointer' }}>
                                 <i
-                                  className={`fas fa-eye ${LastPrApprovalId === item?.transectionId
-                                    ? 'text-primary'
-                                    : ''
-                                    }`}
+                                  className={`fas fa-eye ${
+                                    LastPrApprovalId === item?.transectionId
+                                      ? 'text-primary'
+                                      : ''
+                                  }`}
                                   aria-hidden="true"
                                 ></i>
                               </span>

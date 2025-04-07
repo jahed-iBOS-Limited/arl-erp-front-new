@@ -1,21 +1,20 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { useHistory } from "react-router";
-import { toast } from "react-toastify";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router';
+import { toast } from 'react-toastify';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { validationSchema } from "../helper";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
+} from '../../../../../../_metronic/_partials/controls';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { validationSchema } from '../helper';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
 
 export default function FormCmp({
   portDDL,
@@ -46,9 +45,9 @@ export default function FormCmp({
   }, [initData?.voyageNo, initData?.lighterVesselId]);
   const history = useHistory();
   const disableHandler = () => {
-    if (viewType === "modify") {
+    if (viewType === 'modify') {
       return false;
-    } else if (viewType === "edit") {
+    } else if (viewType === 'edit') {
       return false;
     } else if (viewType) {
       return true;
@@ -60,11 +59,11 @@ export default function FormCmp({
   const rowDtoHandler = (name, value, index, i) => {
     const data = { ...dateWiseQuantity };
     if (!value) {
-      data["rowDataList"][index]["unLoadDetails"][i][name] = "";
+      data['rowDataList'][index]['unLoadDetails'][i][name] = '';
       setDateWiseQuantity(data);
       return;
     }
-    data["rowDataList"][index]["unLoadDetails"][i][name] = value;
+    data['rowDataList'][index]['unLoadDetails'][i][name] = value;
     setDateWiseQuantity(data);
   };
 
@@ -78,15 +77,17 @@ export default function FormCmp({
   };
 
   const handleDelete = (index, subIndex) => {
-    const newData = dateWiseQuantity.rowDataList.map((item, i) => {
-      if (i === index) {
-        return {
-          ...item,
-          unLoadDetails: item.unLoadDetails.filter((_, j) => j !== subIndex)
-        };
-      }
-      return item;
-    }).filter(item => item.unLoadDetails.length > 0);
+    const newData = dateWiseQuantity.rowDataList
+      .map((item, i) => {
+        if (i === index) {
+          return {
+            ...item,
+            unLoadDetails: item.unLoadDetails.filter((_, j) => j !== subIndex),
+          };
+        }
+        return item;
+      })
+      .filter((item) => item.unLoadDetails.length > 0);
 
     setDateWiseQuantity((prevState) => ({
       ...prevState,
@@ -99,12 +100,12 @@ export default function FormCmp({
       <Formik
         enableReinitialize={true}
         validationSchema={validationSchema}
-        initialValues={viewType === "modify" ? { ...initData } : initData}
+        initialValues={viewType === 'modify' ? { ...initData } : initData}
         onSubmit={(values, { resetForm }) => {
           if (!values?.unloadingDate)
-            return toast.warn("Unloading Date is required");
+            return toast.warn('Unloading Date is required');
           saveHandler(values, () => {
-            if (viewType !== "modify") {
+            if (viewType !== 'modify') {
               resetForm(initData);
             }
           });
@@ -134,7 +135,7 @@ export default function FormCmp({
                       <i className="fa fa-arrow-left"></i>
                       Back
                     </button>
-                    {viewType !== "view" && (
+                    {viewType !== 'view' && (
                       <>
                         <button
                           type="reset"
@@ -142,7 +143,7 @@ export default function FormCmp({
                             resetForm(initData);
                           }}
                           className="btn btn-light ml-2"
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         >
                           <i className="fa fa-redo"></i>
                           Reset
@@ -154,7 +155,7 @@ export default function FormCmp({
                           disabled={false}
                         >
                           Save
-                        </button>{" "}
+                        </button>{' '}
                       </>
                     )}
                   </>
@@ -177,7 +178,7 @@ export default function FormCmp({
                               value={values?.organization}
                               label="Organization"
                               onChange={(valueOption) => {
-                                setFieldValue("organization", valueOption);
+                                setFieldValue('organization', valueOption);
                               }}
                               placeholder="Organization"
                               errors={errors}
@@ -192,7 +193,7 @@ export default function FormCmp({
                               label="Port"
                               placeholder="Port"
                               onChange={(valueOption) => {
-                                setFieldValue("port", valueOption);
+                                setFieldValue('port', valueOption);
                                 getVessels({
                                   ...values,
                                   port: valueOption,
@@ -211,7 +212,7 @@ export default function FormCmp({
                           label="Lighter Destination"
                           onChange={(e) => {
                             onChangeHandler(
-                              "lighterDestination",
+                              'lighterDestination',
                               values,
                               e,
                               setFieldValue
@@ -221,7 +222,7 @@ export default function FormCmp({
                           errors={errors}
                           touched={touched}
                           isDisabled={
-                            viewType === "modify" ? true : disableHandler()
+                            viewType === 'modify' ? true : disableHandler()
                           }
                         />
                       </div>
@@ -233,7 +234,7 @@ export default function FormCmp({
                           label="Mother Vessel"
                           onChange={(e) => {
                             onChangeHandler(
-                              "motherVessel",
+                              'motherVessel',
                               values,
                               e,
                               setFieldValue
@@ -243,7 +244,7 @@ export default function FormCmp({
                           errors={errors}
                           touched={touched}
                           isDisabled={
-                            viewType === "modify" ? true : disableHandler()
+                            viewType === 'modify' ? true : disableHandler()
                           }
                         />
                       </div>
@@ -277,7 +278,7 @@ export default function FormCmp({
                           label="Lighter Vessel"
                           onChange={(e) => {
                             onChangeHandler(
-                              "lighterVessel",
+                              'lighterVessel',
                               values,
                               e,
                               setFieldValue
@@ -287,7 +288,7 @@ export default function FormCmp({
                           errors={errors}
                           touched={touched}
                           isDisabled={
-                            viewType === "modify" ? true : disableHandler()
+                            viewType === 'modify' ? true : disableHandler()
                           }
                         />
                       </div>
@@ -299,17 +300,19 @@ export default function FormCmp({
                           label="ShipPoint"
                           onChange={(e) => {
                             onChangeHandler(
-                              "shipPoint",
+                              'shipPoint',
                               values,
                               e,
                               setFieldValue
                             );
                             getDateWiseQuantity(
-                              `/tms/LigterLoadUnload/ViewLighterUnloadingInfoByVoyageNo?VoyageNo=${values?.voyageNo ||
-                                0}&LighterVesselId=${
+                              `/tms/LigterLoadUnload/ViewLighterUnloadingInfoByVoyageNo?VoyageNo=${
+                                values?.voyageNo || 0
+                              }&LighterVesselId=${
                                 values?.lighterVessel?.value
-                              }&shipPointId=${e?.value}&RowId=${state?.rowId ||
-                                0}`
+                              }&shipPointId=${e?.value}&RowId=${
+                                state?.rowId || 0
+                              }`
                             );
                           }}
                           placeholder="ShipPoint"
@@ -346,19 +349,19 @@ export default function FormCmp({
                           disabled={disableHandler()}
                         />
                       </div>
-                      {viewType === "view" && values?.unloadingComplete && (
+                      {viewType === 'view' && values?.unloadingComplete && (
                         <div className="col-lg-3">
                           <InputField
                             label="Unloading Completion Date"
                             value={values?.unloadingComplete}
                             name="unloadingComplete"
                             type="datetime-local"
-                            disabled={viewType === "view"}
+                            disabled={viewType === 'view'}
                           />
                         </div>
                       )}
                       <div className="col-12"></div>
-                      {viewType !== "view" && (
+                      {viewType !== 'view' && (
                         <>
                           <div className="col-lg-3">
                             <InputField
@@ -366,7 +369,7 @@ export default function FormCmp({
                               value={values?.unloadingDate}
                               name="unloadingDate"
                               type="date"
-                              disabled={viewType === "view"}
+                              disabled={viewType === 'view'}
                             />
                           </div>
                           <div className="col-lg-3">
@@ -378,7 +381,7 @@ export default function FormCmp({
                               type="number"
                               min={0}
                               disabled={
-                                viewType === "view" || viewType === "modify"
+                                viewType === 'view' || viewType === 'modify'
                               }
                             />
                           </div>
@@ -390,9 +393,9 @@ export default function FormCmp({
                               value={values?.isComplete}
                               checked={values?.isComplete}
                               onChange={(e) => {
-                                setFieldValue("isComplete", e.target.checked);
+                                setFieldValue('isComplete', e.target.checked);
                               }}
-                              disabled={viewType === "view"}
+                              disabled={viewType === 'view'}
                             />
                             <label htmlFor="isComplete" className="pl-1">
                               Unloading Complete
@@ -405,7 +408,7 @@ export default function FormCmp({
                                 value={values?.unloadingComplete}
                                 name="unloadingComplete"
                                 type="datetime-local"
-                                disabled={viewType === "view"}
+                                disabled={viewType === 'view'}
                                 min={minDate()}
                               />
                             </div>
@@ -415,7 +418,7 @@ export default function FormCmp({
                             <h5>
                               <b>Loaded Qty: </b>
                               {pendingQty?.loadQty}, <b>Unloaded Qty: </b>
-                              {pendingQty?.unLoadQty},{" "}
+                              {pendingQty?.unLoadQty},{' '}
                               <b>Pending for Unload Qty: </b>
                               {pendingQty?.pendingQty}
                             </h5>
@@ -427,23 +430,23 @@ export default function FormCmp({
                   </div>
                 </Form>
                 <div className="row">
-                  {viewType === "view" ? (
+                  {viewType === 'view' ? (
                     <div className="col-md-6">
                       {rowData?.length > 0 && (
                         <div className="table-responsive">
                           <table
                             id="table-to-xlsx"
                             className={
-                              "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                              'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                             }
                           >
                             <thead>
                               <tr className="cursor-pointer">
                                 {[
-                                  "SL",
+                                  'SL',
                                   // "Unloading Date",
-                                  "Item Name",
-                                  "Quantity",
+                                  'Item Name',
+                                  'Quantity',
                                 ]?.map((th, index) => {
                                   return <th key={index}> {th} </th>;
                                 })}
@@ -454,7 +457,7 @@ export default function FormCmp({
                                 return (
                                   <tr key={index}>
                                     <td
-                                      style={{ width: "40px" }}
+                                      style={{ width: '40px' }}
                                       className="text-center"
                                     >
                                       {index + 1}
@@ -491,26 +494,26 @@ export default function FormCmp({
                       )}
                     </div>
                   ) : null}
-                  {viewType === "view" ||
-                  viewType === "modify" ||
-                  viewType === "edit" ? (
+                  {viewType === 'view' ||
+                  viewType === 'modify' ||
+                  viewType === 'edit' ? (
                     <div className="col-md-6">
                       <h5>Previous Unload Info</h5>
                       <div className="table-responsive">
                         <table
                           id="table-to-xlsx"
                           className={
-                            "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                            'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                           }
                         >
                           <thead>
                             <tr className="cursor-pointer">
                               {[
-                                "SL",
-                                "Date",
-                                "Unloaded Quantity",
-                                "ShipPoint",
-                                "Action"
+                                'SL',
+                                'Date',
+                                'Unloaded Quantity',
+                                'ShipPoint',
+                                'Action',
                               ]?.map((th, index) => {
                                 return <th key={index}> {th} </th>;
                               })}
@@ -524,7 +527,7 @@ export default function FormCmp({
                                   item?.unLoadDetails?.map((data, i) => (
                                     <tr key={i}>
                                       <td
-                                        style={{ width: "40px" }}
+                                        style={{ width: '40px' }}
                                         className="text-center"
                                       >
                                         {i + 1}
@@ -536,10 +539,10 @@ export default function FormCmp({
                                           )}
                                           name="unloadDateDetails"
                                           type="date"
-                                          disabled={viewType !== "modify"}
+                                          disabled={viewType !== 'modify'}
                                           onChange={(e) => {
                                             rowDtoHandler(
-                                              "unloadDateDetails",
+                                              'unloadDateDetails',
                                               e.target.value,
                                               index,
                                               i
@@ -553,11 +556,11 @@ export default function FormCmp({
                                           value={data?.receiveQuantityDeatails}
                                           name="receiveQuantityDeatails"
                                           type="number"
-                                          disabled={viewType !== "modify"}
+                                          disabled={viewType !== 'modify'}
                                           onChange={(e) => {
                                             if (+e.target.value < 0) return;
                                             rowDtoHandler(
-                                              "receiveQuantityDeatails",
+                                              'receiveQuantityDeatails',
                                               +e.target.value,
                                               index,
                                               i
@@ -568,9 +571,17 @@ export default function FormCmp({
                                       <td className="text-center">
                                         {data?.shipPointName}
                                       </td>
-                                      <td className="text-center">{viewType === "modify" ? <span onClick={()=>{
-                                        handleDelete(index, i)
-                                      }}><IDelete/></span> : null}</td>
+                                      <td className="text-center">
+                                        {viewType === 'modify' ? (
+                                          <span
+                                            onClick={() => {
+                                              handleDelete(index, i);
+                                            }}
+                                          >
+                                            <IDelete />
+                                          </span>
+                                        ) : null}
+                                      </td>
                                     </tr>
                                   ))
                               )}

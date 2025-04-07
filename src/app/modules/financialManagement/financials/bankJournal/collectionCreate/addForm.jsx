@@ -1,18 +1,16 @@
-
-
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { confirmAlert } from "react-confirm-alert";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory, useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import { saveBankJournal } from "../../../../_helper/_commonApi";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { setBankJournalCreateAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import Form from "./form";
-import "./style.css";
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { saveBankJournal } from '../../../../_helper/_commonApi';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { setBankJournalCreateAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import Form from './form';
+import './style.css';
 
 // const initData = {
 
@@ -21,12 +19,12 @@ import "./style.css";
 export default function BankJournalCreateFormCollection() {
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
-  const [instrumentNoByResponse, setInstrumentNoByResponse] = useState("");
+  const [singleData, setSingleData] = useState('');
+  const [instrumentNoByResponse, setInstrumentNoByResponse] = useState('');
   const history = useHistory();
   const location = useLocation();
   const params = useParams();
-  const [attachmentFile, setAttachmentFile] = useState("");
+  const [attachmentFile, setAttachmentFile] = useState('');
   const [, onCollectionHandler] = useAxiosPost();
 
   const storeData = useSelector((state) => {
@@ -52,7 +50,7 @@ export default function BankJournalCreateFormCollection() {
       message: message,
       buttons: [
         {
-          label: "Ok",
+          label: 'Ok',
           onClick: () => noAlertFunc(),
         },
       ],
@@ -65,7 +63,8 @@ export default function BankJournalCreateFormCollection() {
   const onVdsAction = () => {
     const apiUrl = `/oms/ServiceSales/VDSalesVoucherPosting?customerId=${location?.state?.customerDetails?.value}&numVDSAmount=${location?.state?.numVDSAmount || 0}`;
 
-    return axios.post(apiUrl)
+    return axios
+      .post(apiUrl)
       .then(() => {
         toast.success('VDS created successfully');
       })
@@ -77,20 +76,28 @@ export default function BankJournalCreateFormCollection() {
   const collectionSave = (journalCode) => {
     const handleCollection = () => {
       const payload = location?.state?.collectionRow?.map((item) => ({
-        intServiceSalesInvoiceRowId: item?.invocieRow?.[0]?.intServiceSalesInvoiceRowId,
-        intServiceSalesInvoiceId: item?.invocieRow?.[0]?.intServiceSalesInvoiceId,
-        intServiceSalesScheduleId: item?.invocieRow?.[0]?.intServiceSalesScheduleId,
-        dteScheduleCreateDateTime: item?.invocieRow?.[0]?.dteScheduleCreateDateTime,
+        intServiceSalesInvoiceRowId:
+          item?.invocieRow?.[0]?.intServiceSalesInvoiceRowId,
+        intServiceSalesInvoiceId:
+          item?.invocieRow?.[0]?.intServiceSalesInvoiceId,
+        intServiceSalesScheduleId:
+          item?.invocieRow?.[0]?.intServiceSalesScheduleId,
+        dteScheduleCreateDateTime:
+          item?.invocieRow?.[0]?.dteScheduleCreateDateTime,
         dteDueDateTime: item?.invocieRow?.[0]?.dteDueDateTime,
         strReceiveAbleJournalCode: journalCode,
         numScheduleAmount: item?.invocieRow?.[0]?.numScheduleAmount,
         numScheduleVatAmount: item?.invocieRow?.[0]?.numScheduleVatAmount,
-        numCollectionAmount: item?.invocieRow?.[0]?.alreadyCollectedAmount +
+        numCollectionAmount:
+          item?.invocieRow?.[0]?.alreadyCollectedAmount +
           item?.invocieRow?.[0]?.numCollectionAmount,
         numPendingAmount: item?.invocieRow?.[0]?.numPendingAmount,
         numAdjustPreviousAmount: item?.invocieRow?.[0]?.numAdjustPreviousAmount,
-        isCollectionComplete: item?.invocieRow?.[0]?.numPendingAmount ? false : true,
-        numReceivePendingAmount: item?.invocieRow?.[0]?.peviousPendingAmount || 0,
+        isCollectionComplete: item?.invocieRow?.[0]?.numPendingAmount
+          ? false
+          : true,
+        numReceivePendingAmount:
+          item?.invocieRow?.[0]?.peviousPendingAmount || 0,
       }));
 
       onCollectionHandler(
@@ -98,7 +105,7 @@ export default function BankJournalCreateFormCollection() {
         payload,
         () => {
           const obj = {
-            title: "Bank Journal Code",
+            title: 'Bank Journal Code',
             message: journalCode,
             yesAlertFunc: () => {
               history.goBack();
@@ -129,16 +136,16 @@ export default function BankJournalCreateFormCollection() {
       !params?.id &&
       !attachmentFile
     ) {
-      return toast.warn("Attachment Required");
+      return toast.warn('Attachment Required');
     }
     if (values?.profitCenter?.value) {
       if (location?.state?.selectedJournal?.value === 4) {
         if (!values?.revenueCenter || !values?.revenueElement) {
-          return toast.warn("Please add Revenue center or Revenue element");
+          return toast.warn('Please add Revenue center or Revenue element');
         }
       } else {
         if (!values?.costCenter || !values?.costElement) {
-          return toast.warn("Please add Cost center or Cost element");
+          return toast.warn('Please add Cost center or Cost element');
         }
       }
     }
@@ -195,48 +202,48 @@ export default function BankJournalCreateFormCollection() {
           narration: item?.narration,
           bankAcId: +values?.bankAcc?.value,
           bankAcNo: values?.bankAcc?.bankAccNo,
-          partnerTypeName: item?.partnerType?.label || "",
+          partnerTypeName: item?.partnerType?.label || '',
           partnerTypeId: item?.partnerType?.reffPrtTypeId || 0,
           businessPartnerId:
-            item?.partnerType?.label === "Others"
+            item?.partnerType?.label === 'Others'
               ? 0
               : item?.transaction?.value,
           businessPartnerCode:
-            item?.partnerType?.label === "Others"
-              ? ""
+            item?.partnerType?.label === 'Others'
+              ? ''
               : item?.transaction?.code,
           businessPartnerName:
-            item?.partnerType?.label === "Others"
-              ? ""
+            item?.partnerType?.label === 'Others'
+              ? ''
               : item?.transaction?.label,
           subGLId: item?.transaction?.value,
           subGlCode: item?.transaction?.code,
           subGLName: item?.transaction?.label,
           subGLTypeId: item?.partnerType?.reffPrtTypeId,
           subGLTypeName: item?.partnerType?.label,
-          controlType: type === 4 ? "Revenue" : type === 5 ? "Cost" : "",
+          controlType: type === 4 ? 'Revenue' : type === 5 ? 'Cost' : '',
           profitCenterId: item?.profitCenter?.value || 0,
           costRevenueName:
-            item?.revenueCenter?.label || item?.costCenter?.label || "",
+            item?.revenueCenter?.label || item?.costCenter?.label || '',
           costRevenueId:
             item?.revenueCenter?.value || item?.costCenter?.value || 0,
           elementName:
-            item?.revenueElement?.label || item?.costElement?.label || "",
+            item?.revenueElement?.label || item?.costElement?.label || '',
           elementId:
             item?.revenueElement?.value || item?.costElement?.value || 0,
           partnerBankId: item?.partnerBankAccount?.bankId || 0,
           partnerBankBranchId: item?.partnerBankAccount?.bankBranchId || 0,
-          partnerBankAccountNo: item?.partnerBankAccount?.bankAccountNo || "",
-          partnerBankAccountName: item?.partnerBankAccount?.bankName || "",
-          partnerBankRoutingNumber: item?.partnerBankAccount?.routingNo || "",
+          partnerBankAccountNo: item?.partnerBankAccount?.bankAccountNo || '',
+          partnerBankAccountName: item?.partnerBankAccount?.bankName || '',
+          partnerBankRoutingNumber: item?.partnerBankAccount?.routingNo || '',
         }));
 
         let transferRow = [
           {
             rowId: 0,
             businessTransactionId: 0,
-            businessTransactionCode: "",
-            businessTransactionName: "",
+            businessTransactionCode: '',
+            businessTransactionName: '',
             generalLedgerId:
               values?.transferTo?.value === 1
                 ? +values?.sendToGLBank?.value
@@ -256,7 +263,7 @@ export default function BankJournalCreateFormCollection() {
             bankAcNo:
               values?.transferTo?.value === 2
                 ? values?.sendToGLBank?.bankAccNo
-                : "",
+                : '',
             subGLId:
               values?.transferTo?.value === 2
                 ? +values?.sendToGLBank?.value
@@ -265,9 +272,9 @@ export default function BankJournalCreateFormCollection() {
             subGLName:
               values?.transferTo?.value === 2
                 ? values?.sendToGLBank?.label
-                : "",
+                : '',
             subGLTypeId: 6, // 6
-            subGLTypeName: "Bank Account", // "Bank Account"
+            subGLTypeName: 'Bank Account', // "Bank Account"
           },
         ];
         const isRevenue =
@@ -287,51 +294,51 @@ export default function BankJournalCreateFormCollection() {
             bankBranchName: values?.bankAcc?.bankBranchName,
             bankAccountId: +values?.bankAcc?.value,
             bankAccountNumber: values?.bankAcc?.bankAccNo,
-            receiveFrom: values?.receiveFrom || "",
-            paidTo: values?.paidTo || "",
-            transferTo: values?.transferTo?.label || "",
+            receiveFrom: values?.receiveFrom || '',
+            paidTo: values?.paidTo || '',
+            transferTo: values?.transferTo?.label || '',
             placedInBank: values?.placedInBank,
-            placingDate: values?.placingDate || "",
+            placingDate: values?.placingDate || '',
             //values?.placedInBank ? values?.placingDate : ""
             generalLedgerId: +values?.bankAcc?.generalLedgerId,
             generalLedgerCode: values?.bankAcc?.generalLedgerCode,
             generalLedgerName: values?.bankAcc?.generalLedgerName,
             amount: type === 6 ? +values?.transferAmount : +netAmount,
-            narration: values?.headerNarration || "",
+            narration: values?.headerNarration || '',
             posted: false,
-            partnerTypeName: values?.partnerType?.label || "",
+            partnerTypeName: values?.partnerType?.label || '',
             partnerTypeId: values?.partnerType?.value || 0,
             businessPartnerId:
-              values?.partnerType?.label === "Others"
+              values?.partnerType?.label === 'Others'
                 ? 0
                 : values?.transaction?.value,
             businessPartnerCode:
-              values?.partnerType?.label === "Others"
-                ? ""
+              values?.partnerType?.label === 'Others'
+                ? ''
                 : values?.transaction?.code,
             businessPartnerName:
-              values?.partnerType?.label === "Others"
-                ? ""
+              values?.partnerType?.label === 'Others'
+                ? ''
                 : values?.transaction?.label,
             instrumentId: +values?.instrumentType?.value || 0,
-            instrumentName: values?.instrumentType?.label || "",
-            instrumentNo: values?.instrumentNo || "",
-            instrumentDate: values?.instrumentDate || "",
+            instrumentName: values?.instrumentType?.label || '',
+            instrumentNo: values?.instrumentNo || '',
+            instrumentDate: values?.instrumentDate || '',
             accountingJournalTypeId: type,
             directPosting: true,
             actionBy: +profileData?.userId,
             // Last Added
-            chequeNo: values?.instrumentNo || "",
+            chequeNo: values?.instrumentNo || '',
             controlType: isRevenue
-              ? "revenue"
+              ? 'revenue'
               : isCostCenter
-                ? "cost"
-                : "" || "",
+                ? 'cost'
+                : '' || '',
             costRevenueName: isRevenue
               ? values?.revenueCenter?.label
               : isCostCenter
                 ? values?.costCenter?.label
-                : "",
+                : '',
             costRevenueId: isRevenue
               ? values?.revenueCenter?.value
               : isCostCenter
@@ -341,14 +348,14 @@ export default function BankJournalCreateFormCollection() {
               ? values?.revenueElement?.label
               : isCostCenter
                 ? values?.costElement?.label
-                : "",
+                : '',
             elementId: isRevenue
               ? values?.revenueElement?.value
               : isCostCenter
                 ? values?.costElement?.value
                 : 0,
             ProfitCenterId: values?.profitCenter?.value,
-            attachment: attachmentFile || "",
+            attachment: attachmentFile || '',
           },
           objRowList: type === 6 ? transferRow : objRow,
         };
@@ -366,7 +373,7 @@ export default function BankJournalCreateFormCollection() {
           );
         } else {
           if (rowDto?.length === 0) {
-            toast.warn("Please add transaction");
+            toast.warn('Please add transaction');
           } else {
             saveBankJournal(
               payload,
@@ -397,7 +404,7 @@ export default function BankJournalCreateFormCollection() {
       if (count === 0) {
         setRowDto([...rowDto, values]);
       } else {
-        toast.warn("Not allowed to duplicate transaction");
+        toast.warn('Not allowed to duplicate transaction');
       }
     }
   };
@@ -409,9 +416,8 @@ export default function BankJournalCreateFormCollection() {
   useEffect(() => {
     // if not id, that means this is for create form, then we will check this..
     if (!location?.state && !params?.id) {
-      history.push("/financial-management/financials/bank");
+      history.push('/financial-management/financials/bank');
     }
-
   }, []);
 
   const [objProps, setObjprops] = useState({});
@@ -422,16 +428,16 @@ export default function BankJournalCreateFormCollection() {
     setRowDto(data);
   };
 
-  console.log("rowDto", rowDto);
+  console.log('rowDto', rowDto);
 
   return (
     <IForm
       title={
         location?.state?.selectedJournal?.value === 4
-          ? "Create Bank Receipt"
+          ? 'Create Bank Receipt'
           : location?.state?.selectedJournal?.value === 5
-            ? "Create Bank Payments"
-            : "Create Bank Transfer"
+            ? 'Create Bank Payments'
+            : 'Create Bank Transfer'
       }
       getProps={setObjprops}
       isDisabled={isDisabled}

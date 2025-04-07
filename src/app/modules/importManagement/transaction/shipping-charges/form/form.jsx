@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
   Card,
@@ -288,12 +287,12 @@ export default function FormCmp({
                                   onClick={() => {
                                     console.log(
                                       values?.attachment,
-                                      'attachment',
+                                      'attachment'
                                     );
                                     dispatch(
                                       getDownlloadFileView_Action(
-                                        values?.attachment,
-                                      ),
+                                        values?.attachment
+                                      )
                                     );
                                   }}
                                 >
@@ -318,7 +317,7 @@ export default function FormCmp({
                                     const newData = fileObjects.filter(
                                       (item) =>
                                         item.file.name !==
-                                        deleteFileObj.file.name,
+                                        deleteFileObj.file.name
                                     );
                                     setFileObjects(newData);
                                   }}
@@ -328,7 +327,7 @@ export default function FormCmp({
                                     empAttachment_action(fileObjects).then(
                                       (data) => {
                                         setUploadImage(data);
-                                      },
+                                      }
                                     );
                                   }}
                                   showPreviews={true}

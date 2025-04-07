@@ -1,23 +1,23 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import PaginationTable from "../../../chartering/_chartinghelper/_tablePagination";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { ITable } from "../../../_helper/_table";
-import { _todayDate } from "../../../_helper/_todayDate";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import PaginationTable from '../../../chartering/_chartinghelper/_tablePagination';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import IConfirmModal from '../../../_helper/_confirmModal';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { ITable } from '../../../_helper/_table';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  shift: { value: "", label: "All" },
+  shift: { value: '', label: 'All' },
 };
 export default function WastageProduction() {
   const [pageNo, setPageNo] = useState(0);
@@ -26,10 +26,11 @@ export default function WastageProduction() {
   const [, deleteHandler] = useAxiosPost();
   const history = useHistory();
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getlandingData(
-      `mes/MSIL/GetRollingWastageAndProductionHourLanding?FromDate=${values?.fromDate ||
-        _todayDate()}&ToDate=${values?.toDate || _todayDate()}&Shift=${
+      `mes/MSIL/GetRollingWastageAndProductionHourLanding?FromDate=${
+        values?.fromDate || _todayDate()
+      }&ToDate=${values?.toDate || _todayDate()}&Shift=${
         values?.shift?.value
       }&pageNumber=${pageNo}&pageSize=${pageSize}`
     );
@@ -44,8 +45,9 @@ export default function WastageProduction() {
           null,
           () => {
             getlandingData(
-              `mes/MSIL/GetRollingWastageAndProductionHourLanding?FromDate=${values?.fromDate ||
-                _todayDate()}&ToDate=${values?.toDate || _todayDate()}&Shift=${
+              `mes/MSIL/GetRollingWastageAndProductionHourLanding?FromDate=${
+                values?.fromDate || _todayDate()
+              }&ToDate=${values?.toDate || _todayDate()}&Shift=${
                 values?.shift?.value
               }&pageNumber=${pageNo}&pageSize=${pageSize}`
             );
@@ -101,19 +103,19 @@ export default function WastageProduction() {
                     <NewSelect
                       name="shift"
                       options={[
-                        { value: "", label: "All" },
-                        { value: "A", label: "A" },
-                        { value: "B", label: "B" },
-                        { value: "C", label: "C" },
-                        { value: "General", label: "General" },
+                        { value: '', label: 'All' },
+                        { value: 'A', label: 'A' },
+                        { value: 'B', label: 'B' },
+                        { value: 'C', label: 'C' },
+                        { value: 'General', label: 'General' },
                       ]}
                       value={values?.shift}
                       label="Shift"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("shift", valueOption);
+                          setFieldValue('shift', valueOption);
                         } else {
-                          setFieldValue("shift", { value: "", label: "All" });
+                          setFieldValue('shift', { value: '', label: 'All' });
                         }
                       }}
                       isDisabled={false}
@@ -122,14 +124,14 @@ export default function WastageProduction() {
                     />
                   </div>
 
-                  <div style={{ marginTop: "15px" }} className="col-lg-1">
+                  <div style={{ marginTop: '15px' }} className="col-lg-1">
                     <button
                       type="button"
                       onClick={() => {
                         getlandingData(
-                          `mes/MSIL/GetRollingWastageAndProductionHourLanding?FromDate=${values?.fromDate ||
-                            _todayDate()}&ToDate=${values?.toDate ||
-                            _todayDate()}&Shift=${
+                          `mes/MSIL/GetRollingWastageAndProductionHourLanding?FromDate=${
+                            values?.fromDate || _todayDate()
+                          }&ToDate=${values?.toDate || _todayDate()}&Shift=${
                             values?.shift?.value
                           }&pageNumber=${pageNo}&pageSize=${pageSize}`
                         );
@@ -147,13 +149,13 @@ export default function WastageProduction() {
                     <table className="table table-striped table-bordered global-table">
                       <thead>
                         <tr>
-                          <th style={{ width: "50px" }}>SL</th>
+                          <th style={{ width: '50px' }}>SL</th>
                           <th>Date</th>
                           <th>Shift</th>
                           <th>Product Name</th>
                           <th>Mill Running Hour</th>
                           <th>Actual Production Hour</th>
-                          <th style={{ width: "60px" }}>Action</th>
+                          <th style={{ width: '60px' }}>Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -168,21 +170,21 @@ export default function WastageProduction() {
                               <td>{item?.strMainItemName}</td>
                               <td className="text-center">
                                 {item?.tmMillRunningHour &&
-                                  item?.tmMillRunningHour?.split(":")?.[0] +
-                                    "H"}{" "}
+                                  item?.tmMillRunningHour?.split(':')?.[0] +
+                                    'H'}{' '}
                                 {item?.tmMillRunningHour &&
-                                  item?.tmMillRunningHour?.split(":")?.[1] +
-                                    "M"}
+                                  item?.tmMillRunningHour?.split(':')?.[1] +
+                                    'M'}
                               </td>
                               <td className="text-center">
                                 {item?.tmActualProductionHour &&
                                   item?.tmActualProductionHour?.split(
-                                    ":"
-                                  )?.[0] + "H"}{" "}
+                                    ':'
+                                  )?.[0] + 'H'}{' '}
                                 {item?.tmActualProductionHour &&
                                   item?.tmActualProductionHour?.split(
-                                    ":"
-                                  )?.[1] + "M"}
+                                    ':'
+                                  )?.[1] + 'M'}
                               </td>
                               <td className="text-center">
                                 <div className="d-flex justify-content-between">

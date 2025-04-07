@@ -1,17 +1,17 @@
-import React, { useEffect, useRef } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import { convertNumberToWords } from "../../../_helper/_convertMoneyToWord";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import { formatMonthYear } from "../../../_helper/_getMonthYearFormat";
-import Loading from "../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import printIcon from "../../../_helper/images/print-icon.png";
-import "./style.css";
-import nesarulSignatureIbos from "../images/nesarul-ibos-signature.png";
-import ibosSeal from "../images/ibos-seal.png";
-import { commonGetLetterHead } from "../../../_helper/letterHead/commonGetLetterHead";
+import React, { useEffect, useRef } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import { convertNumberToWords } from '../../../_helper/_convertMoneyToWord';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import { formatMonthYear } from '../../../_helper/_getMonthYearFormat';
+import Loading from '../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import printIcon from '../../../_helper/images/print-icon.png';
+import './style.css';
+import nesarulSignatureIbos from '../images/nesarul-ibos-signature.png';
+import ibosSeal from '../images/ibos-seal.png';
+import { commonGetLetterHead } from '../../../_helper/letterHead/commonGetLetterHead';
 
 const PrintInvoiceModal = ({ singleItem }) => {
   const printRef = useRef();
@@ -25,7 +25,6 @@ const PrintInvoiceModal = ({ singleItem }) => {
     getPrintData(
       `/oms/ServiceSales/GetServiceSalesInvocieById?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&serviceSalesInvoiceId=${singleItem?.invocieHeader?.intServiceSalesInvoiceId}`
     );
-
   }, [singleItem]);
 
   const calculateTotal = (items) => {
@@ -44,18 +43,18 @@ const PrintInvoiceModal = ({ singleItem }) => {
       <div className="text-right mt-4 mb-8">
         <ReactToPrint
           pageStyle={
-            "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+            '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
           }
           trigger={() => (
             <button
               type="button"
               className="btn btn-primary"
-              style={{ padding: "2px 5px" }}
+              style={{ padding: '2px 5px' }}
             >
               <img
                 style={{
-                  width: "25px",
-                  paddingRight: "5px",
+                  width: '25px',
+                  paddingRight: '5px',
                 }}
                 src={printIcon}
                 alt="print-icon"
@@ -72,7 +71,7 @@ const PrintInvoiceModal = ({ singleItem }) => {
         componentRef={printRef}
         ref={printRef}
         className="sales-collection-table"
-        style={{ margin: "-13px 0 51px 0" }}
+        style={{ margin: '-13px 0 51px 0' }}
       >
         <table>
           <thead className="sales-collection-hide">
@@ -82,13 +81,13 @@ const PrintInvoiceModal = ({ singleItem }) => {
                 backgroundImage: `url(${commonGetLetterHead({
                   buId: selectedBusinessUnit?.value,
                 })})`,
-                backgroundRepeat: "no-repeat",
-                height: "150px",
-                backgroundPosition: "left 10px",
-                backgroundSize: "cover",
+                backgroundRepeat: 'no-repeat',
+                height: '150px',
+                backgroundPosition: 'left 10px',
+                backgroundSize: 'cover',
                 // position: "fixed",
-                width: "100%",
-                top: "-60px",
+                width: '100%',
+                top: '-60px',
               }}
             ></div>
           </thead>
@@ -113,8 +112,8 @@ const PrintInvoiceModal = ({ singleItem }) => {
                     {printData[0]?.invocieHeader?.strServiceSalesInvoiceCode}
                   </p>
                   <p>
-                    {" "}
-                    <strong>Order No :</strong> ORD202309018{" "}
+                    {' '}
+                    <strong>Order No :</strong> ORD202309018{' '}
                   </p>
                   <p></p>
                 </div>
@@ -142,19 +141,19 @@ const PrintInvoiceModal = ({ singleItem }) => {
                 <div className="address_billing">
                   <p className="address_title">BILLING ADDRESS</p>
                   <p className="address_buyer">
-                    <strong>Customer Name: </strong>{" "}
+                    <strong>Customer Name: </strong>{' '}
                     {printData[0]?.invocieHeader?.strCustomerName}
                   </p>
                   <p className="address_text">
-                    <strong>Address: </strong>{" "}
+                    <strong>Address: </strong>{' '}
                     {printData[0]?.invocieHeader?.strCustomerAddress}
                   </p>
                   <p className="address_text">
-                    <strong>Contact Person: </strong>{" "}
+                    <strong>Contact Person: </strong>{' '}
                     {printData[0]?.customerContactPerson}
                   </p>
                   <p className="address_text">
-                    <strong>Contact Number: </strong>{" "}
+                    <strong>Contact Number: </strong>{' '}
                     {printData[0]?.customerContactPersonNumber}
                   </p>
                 </div>
@@ -166,52 +165,52 @@ const PrintInvoiceModal = ({ singleItem }) => {
               </p>
             </div> */}
               </div>
-              <div style={{ marginBottom: "15px" }}>
+              <div style={{ marginBottom: '15px' }}>
                 <table>
                   <thead>
-                    <tr style={{ height: "30px", fontSize: "14px" }}>
-                      <th style={{ width: "30px" }}>SL</th>
+                    <tr style={{ height: '30px', fontSize: '14px' }}>
+                      <th style={{ width: '30px' }}>SL</th>
                       <th>Item Name</th>
-                      <th style={{ width: "80px" }}>UoM</th>
-                      <th style={{ width: "80px" }}>Qty</th>
-                      <th style={{ width: "80px" }}>Rate</th>
-                      <th style={{ width: "80px" }}>Sub Total</th>
-                      <th style={{ width: "80px" }}>Vat</th>
-                      <th style={{ width: "80px" }}>Total</th>
+                      <th style={{ width: '80px' }}>UoM</th>
+                      <th style={{ width: '80px' }}>Qty</th>
+                      <th style={{ width: '80px' }}>Rate</th>
+                      <th style={{ width: '80px' }}>Sub Total</th>
+                      <th style={{ width: '80px' }}>Vat</th>
+                      <th style={{ width: '80px' }}>Total</th>
                     </tr>
                   </thead>
                   <tbody>
                     <>
                       {printData[0]?.items?.length > 0 &&
                         printData[0]?.items?.map((item, index) => (
-                          <tr key={index} style={{ height: "30px" }}>
+                          <tr key={index} style={{ height: '30px' }}>
                             <td>{index + 1}</td>
                             <td
-                              style={{ textAlign: "left", paddingLeft: "5px" }}
+                              style={{ textAlign: 'left', paddingLeft: '5px' }}
                             >
                               {item?.strItemName}
                             </td>
-                            <td>{item?.strUom || "EA"}</td>
+                            <td>{item?.strUom || 'EA'}</td>
                             <td
                               style={{
-                                textAlign: "right",
-                                paddingRight: "5px",
+                                textAlign: 'right',
+                                paddingRight: '5px',
                               }}
                             >
                               {item?.numSalesQty}
                             </td>
                             <td
                               style={{
-                                textAlign: "right",
-                                paddingRight: "5px",
+                                textAlign: 'right',
+                                paddingRight: '5px',
                               }}
                             >
                               {_formatMoney(item?.numRate || 0)}
                             </td>
                             <td
                               style={{
-                                textAlign: "right",
-                                paddingRight: "5px",
+                                textAlign: 'right',
+                                paddingRight: '5px',
                               }}
                             >
                               {_formatMoney(
@@ -220,16 +219,16 @@ const PrintInvoiceModal = ({ singleItem }) => {
                             </td>
                             <td
                               style={{
-                                textAlign: "right",
-                                paddingRight: "5px",
+                                textAlign: 'right',
+                                paddingRight: '5px',
                               }}
                             >
                               {_formatMoney(item?.numSalesVatAmount)}
                             </td>
                             <td
                               style={{
-                                textAlign: "right",
-                                paddingRight: "5px",
+                                textAlign: 'right',
+                                paddingRight: '5px',
                               }}
                             >
                               {_formatMoney(
@@ -241,18 +240,18 @@ const PrintInvoiceModal = ({ singleItem }) => {
                             </td>
                           </tr>
                         ))}
-                      <tr style={{ height: "25px", fontSize: "13px" }}>
+                      <tr style={{ height: '25px', fontSize: '13px' }}>
                         <td
                           colspan="7"
                           style={{
-                            textAlign: "right",
-                            fontWeight: "bold",
-                            paddingRight: "5px",
+                            textAlign: 'right',
+                            fontWeight: 'bold',
+                            paddingRight: '5px',
                           }}
                         >
                           Total Order Value
                         </td>
-                        <td style={{ textAlign: "right", paddingRight: "3px" }}>
+                        <td style={{ textAlign: 'right', paddingRight: '3px' }}>
                           <strong>
                             {_formatMoney(
                               Math.floor(
@@ -266,20 +265,20 @@ const PrintInvoiceModal = ({ singleItem }) => {
                           </strong>
                         </td>
                       </tr>
-                      <tr style={{ height: "25px", fontSize: "13px" }}>
+                      <tr style={{ height: '25px', fontSize: '13px' }}>
                         <td
                           colspan="7"
                           style={{
-                            textAlign: "right",
-                            fontWeight: "bold",
-                            paddingRight: "5px",
+                            textAlign: 'right',
+                            fontWeight: 'bold',
+                            paddingRight: '5px',
                           }}
                         >
                           {printData[0]?.intPaymentTypeId === 1
                             ? `100% of Total Amount`
                             : `Billing Amount: ${printData[0]?.invocieRow[0]?.intPaymentByPercent}% of Total Amount`}
                         </td>
-                        <td style={{ textAlign: "right", paddingRight: "3px" }}>
+                        <td style={{ textAlign: 'right', paddingRight: '3px' }}>
                           <strong>
                             {_formatMoney(
                               Math.floor(
@@ -296,11 +295,11 @@ const PrintInvoiceModal = ({ singleItem }) => {
                 </table>
               </div>
               <div className="taka-in-words">
-                <strong>In Words: </strong>{" "}
+                <strong>In Words: </strong>{' '}
                 <p
                   style={{
-                    borderBottom: "1px dashed",
-                    marginLeft: "3px",
+                    borderBottom: '1px dashed',
+                    marginLeft: '3px',
                   }}
                 >
                   {(() => {
@@ -314,20 +313,19 @@ const PrintInvoiceModal = ({ singleItem }) => {
                     );
 
                     if (isNaN(totalNetAmount)) {
-                      console.error("Invalid totalNetAmount. Check your data.");
+                      console.error('Invalid totalNetAmount. Check your data.');
                       return null; // or return an appropriate value for the error case
                     }
 
-                    const totalNetAmountInWord = convertNumberToWords(
-                      totalNetAmount
-                    );
+                    const totalNetAmountInWord =
+                      convertNumberToWords(totalNetAmount);
                     const capitalizeFirstLetter = totalNetAmountInWord
                       ? totalNetAmountInWord.charAt(0).toUpperCase() +
                         totalNetAmountInWord.slice(1)
-                      : "";
+                      : '';
 
                     return capitalizeFirstLetter;
-                  })()}{" "}
+                  })()}{' '}
                   only
                 </p>
               </div>
@@ -335,24 +333,24 @@ const PrintInvoiceModal = ({ singleItem }) => {
                 <div className="bd_item">
                   <h5 className="bd_title">Bank Details:</h5>
                   <p>
-                    {" "}
+                    {' '}
                     <strong>A/C Name: </strong>iBOS Limited
                   </p>
                   <p>
-                    {" "}
+                    {' '}
                     <strong>A/C Number: </strong> 20502130100249715
                   </p>
                   <p>
-                    {" "}
+                    {' '}
                     <strong>Bank Name: </strong> Islami Bank Bangladesh Ltd
                   </p>
                   <p>
-                    {" "}
+                    {' '}
                     <strong>Bank Branch: </strong> Head Office Complex Corporate
                     Branch
                   </p>
                   <p>
-                    {" "}
+                    {' '}
                     <strong>Routing Number:</strong> 125272689
                   </p>
                 </div>
@@ -360,7 +358,7 @@ const PrintInvoiceModal = ({ singleItem }) => {
                   <h5 className="bd_title">Note:</h5>
                   <ul>
                     <li>
-                      Month of{" "}
+                      Month of{' '}
                       {formatMonthYear(
                         printData[0]?.invocieRow[0]?.dteDueDateTime
                       )}
@@ -372,18 +370,18 @@ const PrintInvoiceModal = ({ singleItem }) => {
               </div>
               <div
                 style={{
-                  position: "absolute",
-                  left: "0",
-                  bottom: "0",
-                  width: "100%",
-                  padding: "20px",
+                  position: 'absolute',
+                  left: '0',
+                  bottom: '0',
+                  width: '100%',
+                  padding: '20px',
                 }}
               >
                 <div className="signature">
                   <div className="text-center d-flex flex-row">
                     <div>
                       <img
-                        style={{ width: "120px" }}
+                        style={{ width: '120px' }}
                         src={nesarulSignatureIbos}
                         alt="nesarul-signature-ibo"
                       />
@@ -391,7 +389,7 @@ const PrintInvoiceModal = ({ singleItem }) => {
                     </div>
                     <div>
                       <img
-                        style={{ width: "120px", marginLeft: "20px" }}
+                        style={{ width: '120px', marginLeft: '20px' }}
                         src={ibosSeal}
                         alt="ibos-seal"
                       />
@@ -411,13 +409,13 @@ const PrintInvoiceModal = ({ singleItem }) => {
                 backgroundImage: `url(${commonGetLetterHead({
                   buId: selectedBusinessUnit?.value,
                 })})`,
-                backgroundRepeat: "no-repeat",
-                height: "100px",
-                backgroundPosition: "center bottom",
-                backgroundSize: "cover",
-                bottom: "-25px",
-                position: "fixed",
-                width: "100%",
+                backgroundRepeat: 'no-repeat',
+                height: '100px',
+                backgroundPosition: 'center bottom',
+                backgroundSize: 'cover',
+                bottom: '-25px',
+                position: 'fixed',
+                width: '100%',
               }}
             ></div>
           </tfoot>
@@ -428,7 +426,6 @@ const PrintInvoiceModal = ({ singleItem }) => {
 };
 
 export default PrintInvoiceModal;
-
 
 {
   /* <div className="container">

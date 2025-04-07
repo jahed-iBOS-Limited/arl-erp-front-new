@@ -1,27 +1,27 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import * as Yup from "yup";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { setInvAdjustmentAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import { getGridDataAction } from "../_redux/Actions";
-import { getPlantDDL, getSBUDDL, getWareDDL } from "../helper";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import GridData from "./grid";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { setInvAdjustmentAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import { getGridDataAction } from '../_redux/Actions';
+import { getPlantDDL, getSBUDDL, getWareDDL } from '../helper';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import GridData from './grid';
 // import { values } from "lodash";
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
 const initData = {
-  sbu: "",
-  plant: "",
-  warehouse: "",
-  transGrup: { value: 7, label: "Adjust Inventory" },
+  sbu: '',
+  plant: '',
+  warehouse: '',
+  transGrup: { value: 7, label: 'Adjust Inventory' },
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -97,7 +97,6 @@ export default function HeaderForm() {
         getWarehouseDDL(invAdjustment?.plant?.value);
       }
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   // Get warehouse ddl on plant ddl onChange
@@ -154,32 +153,31 @@ export default function HeaderForm() {
   useEffect(() => {
     setControlls([
       {
-        label: "SBU",
-        name: "sbu",
+        label: 'SBU',
+        name: 'sbu',
         options: sbuDDL,
       },
       {
-        label: "Plant",
-        name: "plant",
-        options: [{ label: "All", value: 0 }, ...plantDDL],
+        label: 'Plant',
+        name: 'plant',
+        options: [{ label: 'All', value: 0 }, ...plantDDL],
         dependencyFunc: (payload, allvalues, setter) => {
           getWarehouseDDL(payload);
-          setter("warehouse", "");
+          setter('warehouse', '');
         },
       },
       {
-        label: "Warehouse",
-        name: "warehouse",
-        options: [{ label: "All", value: 0 }, ...wareHouseDDL],
-        isDisabled: ["plant"],
+        label: 'Warehouse',
+        name: 'warehouse',
+        options: [{ label: 'All', value: 0 }, ...wareHouseDDL],
+        isDisabled: ['plant'],
       },
       {
-        label: "Transaction Group",
-        name: "transGrup",
-        options: [{ value: 7, label: "Adjust Inventory" }],
+        label: 'Transaction Group',
+        name: 'transGrup',
+        options: [{ value: 7, label: 'Adjust Inventory' }],
       },
     ]);
-
   }, [sbuDDL, plantDDL, wareHouseDDL]);
 
   const paginationSearchHandler = (searchValue, values) => {
@@ -199,19 +197,20 @@ export default function HeaderForm() {
           <>
             <Form className="form form-label-right">
               <div
-                style={{ marginTop: "-65px", paddingBottom: "38px" }}
+                style={{ marginTop: '-65px', paddingBottom: '38px' }}
                 className="text-right"
               >
                 <button
                   disabled={
                     !values?.warehouse ||
                     values?.warehouse?.value === 0 ||
-                    !values?.plant || values?.plant?.value === 0 ||
+                    !values?.plant ||
+                    values?.plant?.value === 0 ||
                     !values?.sbu ||
                     !values?.transGrup
                   }
                   type="button"
-                  style={{ transform: "translateY(24px)" }}
+                  style={{ transform: 'translateY(24px)' }}
                   className="btn btn-primary ml-3"
                   onClick={() => {
                     history.push({

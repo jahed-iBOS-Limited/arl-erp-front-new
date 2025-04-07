@@ -1,10 +1,10 @@
-import axios from "axios";
-import React, { useRef } from "react";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { attachmentUpload } from "../../../../_helper/attachmentUpload";
-import placeholderImg from "../../../../_helper/images/placeholderImg.png";
+import axios from 'axios';
+import React, { useRef } from 'react';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { attachmentUpload } from '../../../../_helper/attachmentUpload';
+import placeholderImg from '../../../../_helper/images/placeholderImg.png';
 export default function DepositRegister({
   values,
   setFieldValue,
@@ -35,7 +35,7 @@ export default function DepositRegister({
           value={values?.sbu}
           label="SBU"
           onChange={(valueOption) => {
-            setFieldValue("sbu", valueOption);
+            setFieldValue('sbu', valueOption);
           }}
           errors={errors}
           touched={touched}
@@ -49,14 +49,14 @@ export default function DepositRegister({
           label="Bank"
           onChange={(valueOption) => {
             if (valueOption) {
-              setFieldValue("bank", valueOption);
-              setFieldValue("beneficiary", "");
+              setFieldValue('bank', valueOption);
+              setFieldValue('beneficiary', '');
               getBankAccDDL(
                 `/costmgmt/BankAccount/GetBankAccountDDLByBankId?AccountId=${profileData?.accountId}&BusinssUnitId=${selectedBusinessUnit?.value}&BankId=${valueOption?.value}`
               );
             } else {
-              setFieldValue("bank", "");
-              setFieldValue("beneficiary", "");
+              setFieldValue('bank', '');
+              setFieldValue('beneficiary', '');
               setBankAccDDL([]);
             }
           }}
@@ -71,7 +71,7 @@ export default function DepositRegister({
           value={values?.beneficiary}
           label="Beneficiary"
           onChange={(valueOption) => {
-            setFieldValue("beneficiary", valueOption);
+            setFieldValue('beneficiary', valueOption);
           }}
           errors={errors}
           touched={touched}
@@ -84,18 +84,18 @@ export default function DepositRegister({
           name="beneficiaryTitle"
           type="text"
           onChange={(e) => {
-            setFieldValue("beneficiaryTitle", e.target.value);
+            setFieldValue('beneficiaryTitle', e.target.value);
           }}
         />
       </div>
       <div className="col-lg-3">
         <NewSelect
           name="securityType"
-          options={[{ value: "Pay Order", label: "Pay Order" }]}
+          options={[{ value: 'Pay Order', label: 'Pay Order' }]}
           value={values?.securityType}
           label="Security Type"
           onChange={(valueOption) => {
-            setFieldValue("securityType", valueOption);
+            setFieldValue('securityType', valueOption);
           }}
           errors={errors}
           touched={touched}
@@ -108,7 +108,7 @@ export default function DepositRegister({
           name="issuingDate"
           type="date"
           onChange={(e) => {
-            setFieldValue("issuingDate", e.target.value);
+            setFieldValue('issuingDate', e.target.value);
           }}
         />
       </div>
@@ -119,7 +119,7 @@ export default function DepositRegister({
           name="retirementDate"
           type="date"
           onChange={(e) => {
-            setFieldValue("retirementDate", e.target.value);
+            setFieldValue('retirementDate', e.target.value);
           }}
         />
       </div>
@@ -130,7 +130,7 @@ export default function DepositRegister({
           name="amount"
           type="number"
           onChange={(e) => {
-            setFieldValue("amount", e.target.value);
+            setFieldValue('amount', e.target.value);
           }}
         />
       </div>
@@ -141,7 +141,7 @@ export default function DepositRegister({
           name="inFavOf"
           type="text"
           onChange={(e) => {
-            setFieldValue("inFavOf", e.target.value);
+            setFieldValue('inFavOf', e.target.value);
           }}
         />
       </div>
@@ -152,7 +152,7 @@ export default function DepositRegister({
           name="purpose"
           type="text"
           onChange={(e) => {
-            setFieldValue("purpose", e.target.value);
+            setFieldValue('purpose', e.target.value);
           }}
         />
       </div>
@@ -161,7 +161,7 @@ export default function DepositRegister({
         <SearchAsyncSelect
           selectedValue={values?.responsiblePerson}
           handleChange={(valueOption) => {
-            setFieldValue("responsiblePerson", valueOption);
+            setFieldValue('responsiblePerson', valueOption);
           }}
           isDisabled={false}
           loadOptions={(v) => {
@@ -182,7 +182,7 @@ export default function DepositRegister({
           name="note"
           type="text"
           onChange={(e) => {
-            setFieldValue("note", e.target.value);
+            setFieldValue('note', e.target.value);
           }}
         />
       </div>
@@ -190,13 +190,13 @@ export default function DepositRegister({
         <label>Attachment </label>
         <div
           className={
-            attachmentFile ? "image-upload-box with-img" : "image-upload-box"
+            attachmentFile ? 'image-upload-box with-img' : 'image-upload-box'
           }
           onClick={onButtonAttachmentClick}
           style={{
-            cursor: "pointer",
-            position: "relative",
-            height: "35px",
+            cursor: 'pointer',
+            position: 'relative',
+            height: '35px',
           }}
         >
           <input
@@ -207,19 +207,19 @@ export default function DepositRegister({
                     setAttachmentFile(data?.[0]?.id);
                   })
                   .catch((error) => {
-                    setAttachmentFile("");
+                    setAttachmentFile('');
                   });
               }
             }}
             type="file"
             ref={inputAttachFile}
             id="file"
-            style={{ display: "none" }}
+            style={{ display: 'none' }}
           />
           <div>
             {!attachmentFile && (
               <img
-                style={{ maxWidth: "50px" }}
+                style={{ maxWidth: '50px' }}
                 src={placeholderImg}
                 className="img-fluid"
                 alt="Upload or drag documents"
@@ -230,11 +230,11 @@ export default function DepositRegister({
             <div className="d-flex align-items-center">
               <p
                 style={{
-                  fontSize: "12px",
-                  fontWeight: "500",
-                  color: "#0072E5",
-                  cursor: "pointer",
-                  margin: "0px",
+                  fontSize: '12px',
+                  fontWeight: '500',
+                  color: '#0072E5',
+                  cursor: 'pointer',
+                  margin: '0px',
                 }}
               >
                 {attachmentFile}

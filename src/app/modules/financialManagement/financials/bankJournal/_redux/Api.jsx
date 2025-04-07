@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 //Call get grid data api
 export function getGridData(
@@ -12,14 +12,14 @@ export function getGridData(
   pageNo,
   pageSize
 ) {
-  let newPageNo = pageNo === 0 ? 1 : pageNo
+  let newPageNo = pageNo === 0 ? 1 : pageNo;
   return axios.get(
     `/fino/BankJournal/JournalLanding?BusinessUnitId=${buId}&SbuId=${sbuId}&AccountingJournalTypeId=${accJournalTypeId}&IsPosted=${isPosted}&IsActive=${isActive}&fromdate=${fromdate}&Todate=${todate}&PageNo=${newPageNo}&PageSize=${pageSize}`
   );
 }
 
 //Call get grid data api
-export function getGridDatabyCode(buId, sbuId, voucherCode,accJournalTypeId) {
+export function getGridDatabyCode(buId, sbuId, voucherCode, accJournalTypeId) {
   return axios.get(
     `/fino/BankJournal/JournalLanding?BusinessUnitId=${buId}&SbuId=${sbuId}&VoucherCode=${voucherCode}&PageNo=1&PageSize=100&AccountingJournalTypeId=${accJournalTypeId}`
   );

@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import { IInput } from "../../../../_helper/_input";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import { IInput } from '../../../../_helper/_input';
 import {
   getWorkCenterNameDDL,
   getItemNameDDL,
   getCreatePageData,
-} from "../helper";
-import NewSelect from "../../../../_helper/_select";
+} from '../helper';
+import NewSelect from '../../../../_helper/_select';
 
 export default function FormCmp({
   initData,
@@ -60,7 +60,7 @@ export default function FormCmp({
                     label="Plant Name"
                     options={plantNameDDL}
                     onChange={(valueOption) => {
-                      setFieldValue("plantName", valueOption);
+                      setFieldValue('plantName', valueOption);
                       getWorkCenterNameDDL(
                         profileData.accountId,
                         profileData.defaultBusinessUnit,
@@ -88,7 +88,7 @@ export default function FormCmp({
                     value={values?.shopFloorName}
                     label="Shop Floor Name"
                     onChange={(valueOption) => {
-                      setFieldValue("shopFloorName", valueOption);
+                      setFieldValue('shopFloorName', valueOption);
                     }}
                     placeholder="Shop Floor Name"
                     errors={errors}
@@ -101,7 +101,7 @@ export default function FormCmp({
                     label="Work Center Name"
                     options={workCenterNameDDL}
                     onChange={(valueOption) => {
-                      setFieldValue("workCenterName", valueOption);
+                      setFieldValue('workCenterName', valueOption);
                       getCreatePageData(
                         profileData.accountId,
                         profileData.defaultBusinessUnit,
@@ -121,7 +121,7 @@ export default function FormCmp({
                     label="Item Name"
                     options={itemNameDDL}
                     onChange={(valueOption) => {
-                      setFieldValue("itemName", valueOption);
+                      setFieldValue('itemName', valueOption);
                     }}
                     value={values.itemName}
                     name="itemName"
@@ -136,7 +136,7 @@ export default function FormCmp({
                     label="BoM Name"
                     options={billOfMaterialName}
                     onChange={(valueOption) => {
-                      setFieldValue("billOfMaterialName", valueOption);
+                      setFieldValue('billOfMaterialName', valueOption);
                     }}
                     value={values.billOfMaterialName}
                     name="billOfMaterialName"
@@ -150,7 +150,7 @@ export default function FormCmp({
                     value={
                       values.capacity
                         ? values.capacity
-                        : createPageData.workCenterCapacity || ""
+                        : createPageData.workCenterCapacity || ''
                     }
                     label="Work Center Capacity"
                     name="capacity"
@@ -162,7 +162,7 @@ export default function FormCmp({
                     value={
                       values.setUpTime
                         ? values.setUpTime
-                        : createPageData.setupTime || ""
+                        : createPageData.setupTime || ''
                     }
                     label="Setup Time"
                     name="setUpTime"
@@ -175,7 +175,7 @@ export default function FormCmp({
                     value={
                       values.laborQty
                         ? values.laborQty
-                        : createPageData.laborQty || ""
+                        : createPageData.laborQty || ''
                     }
                     label="Labor Qty"
                     name="laborQty"
@@ -188,7 +188,7 @@ export default function FormCmp({
                     value={
                       values.laborTime
                         ? values.laborTime
-                        : createPageData.laborTime || ""
+                        : createPageData.laborTime || ''
                     }
                     label="Labor Time"
                     name="laborTime"
@@ -201,7 +201,7 @@ export default function FormCmp({
                     value={
                       values.laborCost
                         ? values.laborCost
-                        : createPageData.laborCost || ""
+                        : createPageData.laborCost || ''
                     }
                     label="Labor Cost"
                     name="laborCost"
@@ -214,7 +214,7 @@ export default function FormCmp({
                     value={
                       values.machineTime
                         ? values.machineTime
-                        : createPageData.machineTime || ""
+                        : createPageData.machineTime || ''
                     }
                     label="Machine Time"
                     name="machineTime"
@@ -225,14 +225,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

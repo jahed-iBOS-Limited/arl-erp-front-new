@@ -55,7 +55,7 @@ export default function FormCmp({
       .get(
         `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${accId}&BusinessUnitId=${buId}&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${
           partnerType?.reffPrtTypeId
-        }`,
+        }`
       )
       .then((res) => {
         return res?.data;
@@ -365,7 +365,7 @@ export default function FormCmp({
                                       buId,
                                       accId,
                                       valueOption?.value,
-                                      setCostElementDDL,
+                                      setCostElementDDL
                                     );
                                     setFieldValue('costElement', '');
                                   } else {
@@ -427,12 +427,12 @@ export default function FormCmp({
                                   const attachmentResponse =
                                     await attachmentUpload(
                                       e.target.files,
-                                      setLoading,
+                                      setLoading
                                     );
 
                                   setFieldValue(
                                     'attachment',
-                                    attachmentResponse,
+                                    attachmentResponse
                                   );
                                 }
                               }}
@@ -478,8 +478,8 @@ export default function FormCmp({
                                     e.stopPropagation();
                                     dispatch(
                                       getDownlloadFileView_Action(
-                                        values?.attachment?.[0]?.id,
-                                      ),
+                                        values?.attachment?.[0]?.id
+                                      )
                                     );
                                   }}
                                   className="ml-2"
@@ -507,7 +507,7 @@ export default function FormCmp({
 
                           if (values?.amount < 1)
                             return toast.error(
-                              'Amount Field must be positive !',
+                              'Amount Field must be positive !'
                             );
                           setter(values);
                         }}
@@ -599,7 +599,7 @@ export default function FormCmp({
                                                 rowDtoHandler(
                                                   idx,
                                                   'amount',
-                                                  e.target.value,
+                                                  e.target.value
                                                 );
                                               }}
                                             />
@@ -622,7 +622,7 @@ export default function FormCmp({
                                                 rowDtoHandler(
                                                   idx,
                                                   'amount',
-                                                  e.target.value,
+                                                  e.target.value
                                                 );
                                               }}
                                             />

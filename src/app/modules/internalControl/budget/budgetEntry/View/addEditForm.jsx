@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
-import { getMonthName } from "../../../../_helper/monthIdToMonthName";
+import React, { useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import { getMonthName } from '../../../../_helper/monthIdToMonthName';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "./../../../../../../_metronic/_partials/controls";
-import Form from "./form";
+} from './../../../../../../_metronic/_partials/controls';
+import Form from './form';
 
 let initData = {
-  month: "",
+  month: '',
 };
 
 export function BudgetEntryView() {
@@ -19,7 +19,7 @@ export function BudgetEntryView() {
   const history = useHistory();
 
   const saveHandler = async (values, cb) => {
-    console.log("values");
+    console.log('values');
   };
 
   const [objProps] = useState({});
@@ -39,7 +39,7 @@ export function BudgetEntryView() {
               onClick={() => {
                 history.goBack();
               }}
-              className={"btn btn-light"}
+              className={'btn btn-light'}
             >
               <i className="fa fa-arrow-left"></i>
               Back

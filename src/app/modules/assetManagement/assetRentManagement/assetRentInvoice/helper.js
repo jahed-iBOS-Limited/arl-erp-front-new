@@ -1,17 +1,17 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 // Validation schema
 export const ValidationSchema = Yup.object().shape({
   partner: Yup.object().shape({
-    label: Yup.string().required("Partner is required"),
-    value: Yup.string().required("Partner is required"),
+    label: Yup.string().required('Partner is required'),
+    value: Yup.string().required('Partner is required'),
   }),
   sbu: Yup.object().shape({
-    label: Yup.string().required("SBU is required"),
-    value: Yup.string().required("SBU is required"),
+    label: Yup.string().required('SBU is required'),
+    value: Yup.string().required('SBU is required'),
   }),
 });
 
@@ -26,7 +26,7 @@ export const getLandingPaginationData = async (
   pageSize,
   setter
 ) => {
-  const searchQuery = searchValue ? `&search=${searchValue}` : "";
+  const searchQuery = searchValue ? `&search=${searchValue}` : '';
   try {
     const res = await Axios.get(
       `/asset/AssetRentInvoice/GetAssetRentInvoiceLandingPagination?AccountId=${accId}&BusinessUnitId=${buId}&fromDate=${fromDate}&toDate=${toDate}&BusinessPartnerId=${partnerId}${searchQuery}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`

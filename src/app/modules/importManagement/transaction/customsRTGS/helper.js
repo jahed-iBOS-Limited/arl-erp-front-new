@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 // Get landing data for customs duty
 export const getLandingData = async (
@@ -99,7 +99,7 @@ export const CreateCustomeRTGS = async (paylaod, setDisabled, cb) => {
     setDisabled(true);
     const res = await axios.post(`/imp/CustomDuty/CreateCustomeRTGS`, paylaod);
     setDisabled(false);
-    toast.success(res?.data?.message || "Create successfully");
+    toast.success(res?.data?.message || 'Create successfully');
     cb();
   } catch (error) {
     setDisabled(false);
@@ -129,7 +129,7 @@ export const EditCustomerRTGSApi = async (paylaod, setDisabled, cb) => {
     setDisabled(true);
     const res = await axios.post(`/imp/CustomDuty/EditCustomerRTGS`, paylaod);
     setDisabled(false);
-    toast.success(res?.data?.message || "Update successfully");
+    toast.success(res?.data?.message || 'Update successfully');
     cb();
   } catch (error) {
     setDisabled(false);

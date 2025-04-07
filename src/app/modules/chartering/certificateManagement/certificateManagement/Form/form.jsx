@@ -1,18 +1,15 @@
-import { Formik } from "formik";
-import React, { useRef, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { empAttachment_action } from "../../../../_helper/attachmentUpload";
-import placeholderImg from "../../../../_helper/images/placeholderImg.png";
-import TextArea from "../../../../_helper/TextArea";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import { CreateIcon } from "../../../lighterVessel/trip/Form/components/header";
-import {
-  getCertificateDDL,
-  validationSchema
-} from "../helper";
+import { Formik } from 'formik';
+import React, { useRef, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
+import placeholderImg from '../../../../_helper/images/placeholderImg.png';
+import TextArea from '../../../../_helper/TextArea';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import { CreateIcon } from '../../../lighterVessel/trip/Form/components/header';
+import { getCertificateDDL, validationSchema } from '../helper';
 
 export default function FormCmp({
   title,
@@ -38,13 +35,13 @@ export default function FormCmp({
   }, shallowEqual);
 
   const [certificateNameDDL, setCertificateNameDDL] = useState([]);
-  console.log("certificateNameDDL", certificateNameDDL);
+  console.log('certificateNameDDL', certificateNameDDL);
 
   const onButtonAttachmentClick = () => {
     inputAttachFile.current.click();
   };
 
-  console.log("InitData", initData);
+  console.log('InitData', initData);
 
   return (
     <>
@@ -79,28 +76,28 @@ export default function FormCmp({
                     onClick={() => {
                       history.goBack();
                     }}
-                    className={"btn btn-secondary px-3 py-2"}
+                    className={'btn btn-secondary px-3 py-2'}
                   >
                     <i className="fa fa-arrow-left pr-1"></i>
                     Back
                   </button>
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="button"
                       onClick={() => resetForm(initData)}
-                      className={"btn btn-info reset-btn ml-2 px-3 py-2"}
+                      className={'btn btn-info reset-btn ml-2 px-3 py-2'}
                     >
                       Reset
                     </button>
                   )}
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="submit"
-                      className={"btn btn-primary ml-2 px-3 py-2"}
+                      className={'btn btn-primary ml-2 px-3 py-2'}
                       onClick={handleSubmit}
-                    //disabled={!rowData?.length}
+                      //disabled={!rowData?.length}
                     >
-                      {console.log("errors", errors)}
+                      {console.log('errors', errors)}
                       Save
                     </button>
                   )}
@@ -110,7 +107,7 @@ export default function FormCmp({
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vesselName || ""}
+                      value={values?.vesselName || ''}
                       isSearchable={true}
                       options={vesselDDL || []}
                       styles={customStyles}
@@ -118,7 +115,7 @@ export default function FormCmp({
                       placeholder="Vessel Name"
                       label="Vessel Name"
                       onChange={(valueOption) => {
-                        setFieldValue("vesselName", valueOption);
+                        setFieldValue('vesselName', valueOption);
                       }}
                       isDisabled={viewType || rowData?.length}
                       errors={errors}
@@ -127,7 +124,7 @@ export default function FormCmp({
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.strCertificateTypeName || ""}
+                      value={values?.strCertificateTypeName || ''}
                       isSearchable={true}
                       options={certificateTypeDDL}
                       styles={customStyles}
@@ -135,10 +132,10 @@ export default function FormCmp({
                       placeholder="Certificate Type"
                       label="Certificate Type"
                       onChange={(valueOption) => {
-                        setFieldValue("strCertificateTypeName", valueOption);
+                        setFieldValue('strCertificateTypeName', valueOption);
                         getCertificateDDL(
                           setCertificateNameDDL,
-                          "CertificateDDL",
+                          'CertificateDDL',
                           {
                             intAccountId: profileData?.accountId,
                             intBusinessUnitId: selectedBusinessUnit?.value,
@@ -153,7 +150,7 @@ export default function FormCmp({
                   </div>
                   <div className="col-lg-3 relative">
                     <FormikSelect
-                      value={values?.strCertificateName || ""}
+                      value={values?.strCertificateName || ''}
                       isSearchable={true}
                       options={certificateNameDDL}
                       styles={customStyles}
@@ -161,17 +158,17 @@ export default function FormCmp({
                       placeholder="Name of Certificate "
                       label="Name of Certificate"
                       onChange={(valueOption) => {
-                        setFieldValue("strCertificateName", valueOption);
+                        setFieldValue('strCertificateName', valueOption);
                       }}
                       isDisabled={viewType}
                       errors={errors}
                       touched={touched}
                     />
-                    {viewType === "create" ? (
+                    {viewType === 'create' ? (
                       <CreateIcon
                         onClick={() => {
                           history.push(
-                            "/chartering/configuration/certificate/create"
+                            '/chartering/configuration/certificate/create'
                           );
                         }}
                       />
@@ -186,11 +183,11 @@ export default function FormCmp({
                       type="date"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   {values?.strCertificateName?.dateRangeTypeId === 1 ||
-                    singleData?.intDateRangeTypeId === 1 ? (
+                  singleData?.intDateRangeTypeId === 1 ? (
                     <div className="col-lg-3">
                       <label>To Date</label>
                       <FormikInput
@@ -201,7 +198,7 @@ export default function FormCmp({
                         min={values?.dteFromDate}
                         errors={errors}
                         touched={touched}
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       />
                     </div>
                   ) : values?.strCertificateName?.dateRangeTypeId === 2 ||
@@ -217,7 +214,7 @@ export default function FormCmp({
                           //min={values?.dteFromDate}
                           errors={errors}
                           touched={touched}
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -230,7 +227,7 @@ export default function FormCmp({
                           min={values?.dteFromDate}
                           errors={errors}
                           touched={touched}
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
                     </>
@@ -246,7 +243,7 @@ export default function FormCmp({
                       type="text"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -258,7 +255,7 @@ export default function FormCmp({
                       type="text"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -270,7 +267,7 @@ export default function FormCmp({
                       type="date"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -281,7 +278,7 @@ export default function FormCmp({
                       placeholder="Remarks"
                       rows="1"
                       max={1000}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                       errors={errors}
                       touched={touched}
                     />
@@ -291,14 +288,14 @@ export default function FormCmp({
                     <div
                       className={
                         attachmentFile
-                          ? "image-upload-box with-img"
-                          : "image-upload-box"
+                          ? 'image-upload-box with-img'
+                          : 'image-upload-box'
                       }
                       onClick={onButtonAttachmentClick}
                       style={{
-                        cursor: "pointer",
-                        position: "relative",
-                        height: "35px",
+                        cursor: 'pointer',
+                        position: 'relative',
+                        height: '35px',
                       }}
                     >
                       <input
@@ -309,19 +306,19 @@ export default function FormCmp({
                                 setAttachmentFile(data?.[0]?.id);
                               })
                               .catch((error) => {
-                                setAttachmentFile("");
+                                setAttachmentFile('');
                               });
                           }
                         }}
                         type="file"
                         ref={inputAttachFile}
                         id="file"
-                        style={{ display: "none" }}
+                        style={{ display: 'none' }}
                       />
                       <div>
                         {!attachmentFile && (
                           <img
-                            style={{ maxWidth: "50px" }}
+                            style={{ maxWidth: '50px' }}
                             src={placeholderImg}
                             className="img-fluid"
                             alt="Upload or drag documents"
@@ -332,11 +329,11 @@ export default function FormCmp({
                         <div className="d-flex align-items-center">
                           <p
                             style={{
-                              fontSize: "12px",
-                              fontWeight: "500",
-                              color: "#0072E5",
-                              cursor: "pointer",
-                              margin: "0px",
+                              fontSize: '12px',
+                              fontWeight: '500',
+                              color: '#0072E5',
+                              cursor: 'pointer',
+                              margin: '0px',
                             }}
                           >
                             {attachmentFile}

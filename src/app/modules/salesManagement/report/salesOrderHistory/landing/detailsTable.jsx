@@ -1,8 +1,8 @@
-import React from "react";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React from 'react';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../../_helper/_loading';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 export default function CommonTable({
   salesOrderData,
@@ -16,8 +16,9 @@ export default function CommonTable({
     updateSalesOrder(
       `/oms/SalesInformation/GetSalesOrderPendingInformation?intsoldtopartnerid=${
         item?.intsoldtopartner
-      }&intbusinessunitid=${buId}&SalesOrderCode=${item?.strsalesordercode ||
-        "'"}&intpartid=${7}`
+      }&intbusinessunitid=${buId}&SalesOrderCode=${
+        item?.strsalesordercode || "'"
+      }&intpartid=${7}`
     );
   };
 
@@ -38,24 +39,24 @@ export default function CommonTable({
         >
           <thead>
             <tr>
-              <th style={{ width: "30px" }}>SL</th>
-              <th style={{ width: "100px" }}>Sold to Partner</th>
-              <th style={{ width: "100px" }}>Channel Name</th>
-              <th style={{ width: "100px" }}>Shippoint Name</th>
-              <th style={{ width: "100px" }}>Item Name</th>
-              <th style={{ width: "120px" }}>Sales Order Code</th>
-              <th style={{ width: "120px" }}>Sales Order Create Date</th>
-              <th style={{ width: "120px" }}>Request Quantity</th>
-              <th style={{ width: "120px" }}>Order Quantity</th>
-              <th style={{ width: "120px" }}>Delivery Quantity</th>
-              <th style={{ width: "120px" }}>Last Delivery Date</th>
-              <th style={{ width: "120px" }}>Un Delivery Quantity</th>
-              <th style={{ width: "120px" }}>Actual Delivery Quantity</th>
-              <th style={{ width: "120px" }}>Actual Un Delivery Quantity</th>
-              <th style={{ width: "120px" }}>Actual Un Delivery Amount</th>
-              <th style={{ width: "120px" }}>Gap Days</th>
+              <th style={{ width: '30px' }}>SL</th>
+              <th style={{ width: '100px' }}>Sold to Partner</th>
+              <th style={{ width: '100px' }}>Channel Name</th>
+              <th style={{ width: '100px' }}>Shippoint Name</th>
+              <th style={{ width: '100px' }}>Item Name</th>
+              <th style={{ width: '120px' }}>Sales Order Code</th>
+              <th style={{ width: '120px' }}>Sales Order Create Date</th>
+              <th style={{ width: '120px' }}>Request Quantity</th>
+              <th style={{ width: '120px' }}>Order Quantity</th>
+              <th style={{ width: '120px' }}>Delivery Quantity</th>
+              <th style={{ width: '120px' }}>Last Delivery Date</th>
+              <th style={{ width: '120px' }}>Un Delivery Quantity</th>
+              <th style={{ width: '120px' }}>Actual Delivery Quantity</th>
+              <th style={{ width: '120px' }}>Actual Un Delivery Quantity</th>
+              <th style={{ width: '120px' }}>Actual Un Delivery Amount</th>
+              <th style={{ width: '120px' }}>Gap Days</th>
               {[3].includes(values?.reportName?.value) && buId === 184 && (
-                <th style={{ width: "50px" }}>Action</th>
+                <th style={{ width: '50px' }}>Action</th>
               )}
             </tr>
           </thead>
@@ -81,10 +82,10 @@ export default function CommonTable({
                   key={index}
                   style={
                     lessDelivery
-                      ? { backgroundColor: "#ff00007d" }
+                      ? { backgroundColor: '#ff00007d' }
                       : minusValue
-                      ? { backgroundColor: "#ffff0085" }
-                      : {}
+                        ? { backgroundColor: '#ffff0085' }
+                        : {}
                   }
                 >
                   <td className="text-center">{index + 1}</td>
@@ -93,11 +94,15 @@ export default function CommonTable({
                   <td className="text-center">{item?.strshippointname}</td>
                   <td className="text-center">{item?.itemname}</td>
                   <td>{item?.strsalesordercode}</td>
-                  <td className="text-center">{_dateFormatter(item?.dteSalesOrderCreationDate)}</td>
+                  <td className="text-center">
+                    {_dateFormatter(item?.dteSalesOrderCreationDate)}
+                  </td>
                   <td className="text-right">{item?.numrequestquantity}</td>
                   <td className="text-right">{item?.numorderquantity}</td>
                   <td className="text-right">{item?.numDeliveredQuantity}</td>
-                  <td className="text-center">{_dateFormatter(item?.dteLastDeliveryDate)}</td>
+                  <td className="text-center">
+                    {_dateFormatter(item?.dteLastDeliveryDate)}
+                  </td>
                   <td className="text-right">{item?.numUndeliveryQuantity}</td>
                   <td className="text-right">
                     {item?.numActualDeliveredQuantity}
@@ -105,9 +110,7 @@ export default function CommonTable({
                   <td className="text-right">
                     {item?.numActualUndeliveryQuantity}
                   </td>
-                  <td className="text-center">
-                    {item?.intGapDay}
-                  </td>
+                  <td className="text-center">{item?.intGapDay}</td>
                   <td className="text-right">{item?.actualUndelvAmount}</td>
                   {[3].includes(values?.reportName?.value) && buId === 184 && (
                     <td className="text-center">
@@ -125,7 +128,7 @@ export default function CommonTable({
                 </tr>
               );
             })}
-            <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+            <tr style={{ textAlign: 'right', fontWeight: 'bold' }}>
               <td className="text-right" colSpan={6}>
                 <b>Total</b>
               </td>

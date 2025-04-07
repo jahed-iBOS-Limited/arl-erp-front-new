@@ -30,11 +30,10 @@ import {
   getForeignPurchaseDDL,
   getSupplierDDL,
   initData,
-  validationSchemaForMRR
+  validationSchemaForMRR,
 } from './helper';
 const { actions: slice } = invTransactionSlice;
 export default function CreateMRR() {
-
   const [isDisabled, setDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
   const dispatch = useDispatch();
@@ -55,7 +54,7 @@ export default function CreateMRR() {
   const [transactionTypeDDL, getTransactionTypeDDL] = useAxiosGet();
   // redux store data
   const { stockDDL, locationTypeDDL } = useSelector(
-    (state) => state?.invTransa,
+    (state) => state?.invTransa
   );
 
   let vatAmount = rowDto?.reduce((sum, data) => sum + data?.vatValue, 0);
@@ -73,10 +72,10 @@ export default function CreateMRR() {
       profileData.accountId,
       selectedBusinessUnit.value,
       qcInformationForMRR?.businessUnitId,
-      setSupplierDDL,
+      setSupplierDDL
     );
     dispatch(
-      getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value),
+      getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value)
     );
     dispatch(getStockDDLAction());
     return () => {
@@ -85,7 +84,6 @@ export default function CreateMRR() {
       dispatch(slice.setreferenceNoDDL([]));
       // dispatch(slice.setTransactionTypeDDL([]));
     };
-
   }, [profileData.accountId, selectedBusinessUnit.value, state]);
 
   useEffect(() => {
@@ -132,13 +130,13 @@ export default function CreateMRR() {
                   ...prev,
                   transType: { ...data[0] },
                 }));
-              },
+              }
             );
             setModifiedInitData((prev) => ({
               ...prev,
               refType: { ...data[0] },
             }));
-          },
+          }
         );
 
         const updatedItems = data?.itemData?.map((item) => ({
@@ -169,14 +167,13 @@ export default function CreateMRR() {
           totalValue: item.basePrice.toFixed(2) * item.qcActualQuantity || 0,
           netValue:
             (item.vatAmount / item?.refQty) * item?.qcActualQuantity +
-            item?.basePrice.toFixed(2) * item?.qcActualQuantity || 0,
+              item?.basePrice.toFixed(2) * item?.qcActualQuantity || 0,
         }));
         console.log('updatedItems', updatedItems);
         setModifiedInitData(makeInitData);
         setRowDto(updatedItems);
-      },
+      }
     );
-
   }, [state]);
 
   //add row Dto Data
@@ -270,7 +267,7 @@ export default function CreateMRR() {
       _sl['totalValue'] = _sl?.baseValue.toFixed(2) * +value;
       _sl['netValue'] =
         (_sl?.vatValue / _sl?.refQty) * +value +
-        _sl?.baseValue.toFixed(2) * +value || 0;
+          _sl?.baseValue.toFixed(2) * +value || 0;
     } else if (name === 'baseValue') {
       _sl[name] = value ? +value : value;
     } else {
@@ -405,7 +402,7 @@ export default function CreateMRR() {
             let compressedFile = [];
             if (fileObjects?.length > 0) {
               compressedFile = await compressfile(
-                fileObjects?.map((f) => f?.file),
+                fileObjects?.map((f) => f?.file)
               );
             }
 
@@ -423,7 +420,7 @@ export default function CreateMRR() {
                 return toast.warn('Attachment required');
               } else {
                 uploadAttachment(
-                  compressedFile?.map((item) => ({ file: item })),
+                  compressedFile?.map((item) => ({ file: item }))
                 )
                   .then((res) => {
                     if (res?.data?.length) {
@@ -439,8 +436,8 @@ export default function CreateMRR() {
                           setRowDto,
                           setDisabled,
                           setFileObjects,
-                          IConfirmModal,
-                        ),
+                          IConfirmModal
+                        )
                       );
                     }
                   })
@@ -451,7 +448,7 @@ export default function CreateMRR() {
             } else {
               if (compressedFile.length > 0) {
                 uploadAttachment(
-                  compressedFile?.map((item) => ({ file: item })),
+                  compressedFile?.map((item) => ({ file: item }))
                 )
                   .then((res) => {
                     if (res?.data?.length) {
@@ -467,8 +464,8 @@ export default function CreateMRR() {
                           setRowDto,
                           setDisabled,
                           setFileObjects,
-                          IConfirmModal,
-                        ),
+                          IConfirmModal
+                        )
                       );
                     }
                   })
@@ -482,8 +479,8 @@ export default function CreateMRR() {
                     setRowDto,
                     setDisabled,
                     setFileObjects,
-                    IConfirmModal,
-                  ),
+                    IConfirmModal
+                  )
                 );
               }
             }
@@ -557,7 +554,7 @@ export default function CreateMRR() {
                         getForeignPurchaseDDL(
                           data?.value,
                           qcInformationForMRR?.plantId,
-                          setForeginPurchase,
+                          setForeginPurchase
                         );
                       } else {
                         dispatch(
@@ -565,8 +562,8 @@ export default function CreateMRR() {
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
                             data?.value,
-                            0,
-                          ),
+                            0
+                          )
                         );
                       }
 
@@ -583,10 +580,10 @@ export default function CreateMRR() {
                         'busiPartner',
                         data?.supplierId
                           ? {
-                            value: data?.supplierId || 0,
-                            label: data?.supplierName || '',
-                          }
-                          : '',
+                              value: data?.supplierId || 0,
+                              label: data?.supplierName || '',
+                            }
+                          : ''
                       );
                       setFieldValue('freight', data?.freight);
                       setFieldValue('grossDiscount', data?.grossDiscount);
@@ -599,7 +596,7 @@ export default function CreateMRR() {
                       if (v?.length < 3) return [];
                       return axios
                         .get(
-                          `/wms/InventoryTransaction/GetPoNoForInventory?PoTypeId=1&businessUnitId=${selectedBusinessUnit?.value}&SbuId=${qcInformationForMRR?.businessUnitId}&PlantId=${qcInformationForMRR?.plantId}&WearhouseId=${qcInformationForMRR?.warehouseId}&Search=${v}`,
+                          `/wms/InventoryTransaction/GetPoNoForInventory?PoTypeId=1&businessUnitId=${selectedBusinessUnit?.value}&SbuId=${qcInformationForMRR?.businessUnitId}&PlantId=${qcInformationForMRR?.plantId}&WearhouseId=${qcInformationForMRR?.warehouseId}&Search=${v}`
                         )
                         .then((res) => {
                           // const updateList = res?.data.map((item) => ({
@@ -871,7 +868,7 @@ export default function CreateMRR() {
                 {values.refType.value === 1 && (
                   <div
                     className="col-lg-6 d-flex align-items-end justify-content-end"
-                  // style={{ marginTop: "45px" }}
+                    // style={{ marginTop: "45px" }}
                   >
                     <span className="mr-2 mt-auto font-weight-bold">
                       Vat: {totalVat.toFixed(4)}
@@ -895,7 +892,7 @@ export default function CreateMRR() {
                 stockDDL={stockDDL}
                 locationTypeDDL={locationTypeDDL}
                 values={values}
-              //   landingData={landingData}
+                //   landingData={landingData}
               />
 
               <DropzoneDialogBase
@@ -912,7 +909,7 @@ export default function CreateMRR() {
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

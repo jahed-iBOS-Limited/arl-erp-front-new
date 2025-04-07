@@ -1,25 +1,25 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
-import BasicModal from "./../../../_helper/_BasicModal";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
+import BasicModal from './../../../_helper/_BasicModal';
 
 const initData = {
   date: _todayDate(),
-  driverName: "",
-  driverMobileNo: "",
-  vehicleNo: "",
-  inTimeBL: "",
-  outTimeBL: "",
-  inTimeAL: "",
-  outTimeAL: "",
-  comment: "",
+  driverName: '',
+  driverMobileNo: '',
+  vehicleNo: '',
+  inTimeBL: '',
+  outTimeBL: '',
+  inTimeAL: '',
+  outTimeAL: '',
+  comment: '',
 };
 export default function RentalVehicleInOutCreateEdit() {
   const [objProps, setObjprops] = useState({});
@@ -27,7 +27,7 @@ export default function RentalVehicleInOutCreateEdit() {
   const [modifyData, setModifyData] = useState(initData);
   const { id } = useParams();
   const location = useLocation();
-  const [entryCode, setEntryCode] = useState("");
+  const [entryCode, setEntryCode] = useState('');
   const [isShowModel, setIsShowModel] = useState(false);
 
   const { profileData } = useSelector((state) => {
@@ -74,7 +74,7 @@ export default function RentalVehicleInOutCreateEdit() {
         isActive: true,
       },
       id
-        ? ""
+        ? ''
         : (data) => {
             setEntryCode(data?.code);
             cb();
@@ -190,14 +190,14 @@ export default function RentalVehicleInOutCreateEdit() {
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

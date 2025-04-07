@@ -1,11 +1,11 @@
-import React, { useCallback, useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import NewSelect from "../../../../_helper/_select";
-import { processHandler, getGridData } from "../helper";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "../../../../_helper/_loading";
-import { shallowEqual, useSelector } from "react-redux";
+import React, { useCallback, useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import NewSelect from '../../../../_helper/_select';
+import { processHandler, getGridData } from '../helper';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import Loading from '../../../../_helper/_loading';
+import { shallowEqual, useSelector } from 'react-redux';
 
 const validationSchema = Yup.object().shape({});
 
@@ -28,7 +28,6 @@ export default function FormCmp({
     return state?.authData;
   }, shallowEqual);
 
-
   const singleCheckBoxHandler = (value, index) => {
     let newRowDto = [...gridData];
     newRowDto[index].isSelect = value;
@@ -45,10 +44,10 @@ export default function FormCmp({
   const shiftNameRowHandler = (data) => {
     tempOtShiftName = data.strRequestedOtShiftName;
     return (
-      <tr style={{ background: "#61AFFE" }}>
+      <tr style={{ background: '#61AFFE' }}>
         <td></td>
-        <td colspan="11" style={{ color: "#fff" }}>
-          <div style={{ fontWeight: "bold" }} className="pl-2">
+        <td colspan="11" style={{ color: '#fff' }}>
+          <div style={{ fontWeight: 'bold' }} className="pl-2">
             {data?.strRequestedOtShiftName}
           </div>
         </td>
@@ -94,7 +93,7 @@ export default function FormCmp({
                     options={workPlaceDDL}
                     value={values?.workPlace}
                     onChange={(valueOption) => {
-                      setFieldValue("workPlace", valueOption);
+                      setFieldValue('workPlace', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -108,7 +107,7 @@ export default function FormCmp({
                     options={monthDDL}
                     value={values?.month}
                     onChange={(valueOption) => {
-                      setFieldValue("month", valueOption);
+                      setFieldValue('month', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -122,7 +121,7 @@ export default function FormCmp({
                     options={yearDDL}
                     value={values?.year}
                     onChange={(valueOption) => {
-                      setFieldValue("year", valueOption);
+                      setFieldValue('year', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -136,7 +135,7 @@ export default function FormCmp({
                     options={statusDDL}
                     value={values?.status}
                     onChange={(valueOption) => {
-                      setFieldValue("status", valueOption);
+                      setFieldValue('status', valueOption);
                       setGridData([]);
                     }}
                     errors={errors}
@@ -144,7 +143,7 @@ export default function FormCmp({
                   />
                 </div>
 
-                <div style={{ marginTop: "14px" }} className="col-lg d-flex">
+                <div style={{ marginTop: '14px' }} className="col-lg d-flex">
                   <button
                     className="btn btn-primary mr-5"
                     onClick={() => {
@@ -175,18 +174,18 @@ export default function FormCmp({
               </div>
 
               <div
-                style={{ marginTop: "20px" }}
+                style={{ marginTop: '20px' }}
                 className="loan-scrollable-table employee-overall-status"
               >
                 <div
-                  style={{ maxHeight: "500px" }}
+                  style={{ maxHeight: '500px' }}
                   className="scroll-table _table"
                 >
                   <table className="table table-striped table-bordered bj-table bj-table-landing">
                     <thead>
                       <tr>
                         {gridData.length > 0 && (
-                          <th style={{ minWidth: "20px" }}>
+                          <th style={{ minWidth: '20px' }}>
                             <input
                               type="checkbox"
                               id="parent"
@@ -198,21 +197,21 @@ export default function FormCmp({
                             />
                           </th>
                         )}
-                        <th style={{ minWidth: "70px" }}>SL</th>
-                        <th style={{ minWidth: "70px" }}>Shift</th>
-                        <th style={{ minWidth: "70px" }}>Employee Id</th>
-                        <th style={{ minWidth: "70px" }}>ERP Emp. Id</th>
-                        <th style={{ minWidth: "100px" }}>Employee Code</th>
-                        <th style={{ minWidth: "100px" }}>Employee Name</th>
-                        <th style={{ minWidth: "130px" }}>Department</th>
-                        <th style={{ minWidth: "150px" }}>Designation</th>
-                        <th style={{ minWidth: "90px" }}>Date</th>
-                        <th style={{ minWidth: "80px" }}>In Time</th>
-                        <th style={{ minWidth: "80px" }}>Out Time</th>
-                        <th style={{ minWidth: "130px" }}>
+                        <th style={{ minWidth: '70px' }}>SL</th>
+                        <th style={{ minWidth: '70px' }}>Shift</th>
+                        <th style={{ minWidth: '70px' }}>Employee Id</th>
+                        <th style={{ minWidth: '70px' }}>ERP Emp. Id</th>
+                        <th style={{ minWidth: '100px' }}>Employee Code</th>
+                        <th style={{ minWidth: '100px' }}>Employee Name</th>
+                        <th style={{ minWidth: '130px' }}>Department</th>
+                        <th style={{ minWidth: '150px' }}>Designation</th>
+                        <th style={{ minWidth: '90px' }}>Date</th>
+                        <th style={{ minWidth: '80px' }}>In Time</th>
+                        <th style={{ minWidth: '80px' }}>Out Time</th>
+                        <th style={{ minWidth: '130px' }}>
                           Target Working Hour
                         </th>
-                        <th style={{ minWidth: "130px" }}>
+                        <th style={{ minWidth: '130px' }}>
                           Actual Working Hour
                         </th>
                       </tr>
@@ -221,10 +220,11 @@ export default function FormCmp({
                       {gridData?.map((data, index) => {
                         return (
                           <>
-                            {tempOtShiftName !== data?.strRequestedOtShiftName &&
+                            {tempOtShiftName !==
+                              data?.strRequestedOtShiftName &&
                               shiftNameRowHandler(data)}
                             <tr key={index}>
-                              <td style={{ marginTop: "2px" }}>
+                              <td style={{ marginTop: '2px' }}>
                                 <input
                                   id="isSelect"
                                   type="checkbox"
@@ -237,34 +237,38 @@ export default function FormCmp({
                                   }}
                                 />
                               </td>
-                              <td style={{ textAlign: "center" }}>
+                              <td style={{ textAlign: 'center' }}>
                                 {index + 1}
                               </td>
-                              <td style={{ textAlign: "center" }}>{data?.strCurrentShiftName}</td>
-                              <td style={{ textAlign: "center" }}>
+                              <td style={{ textAlign: 'center' }}>
+                                {data?.strCurrentShiftName}
+                              </td>
+                              <td style={{ textAlign: 'center' }}>
                                 {data?.intEmployeeId}
                               </td>
-                              <td  style={{textAlign:"center"}}>{data?.erpemployeeId}</td>
-                              <td style={{ textAlign: "center" }}>
+                              <td style={{ textAlign: 'center' }}>
+                                {data?.erpemployeeId}
+                              </td>
+                              <td style={{ textAlign: 'center' }}>
                                 {data?.strEmployeeCode}
                               </td>
                               <td>{data?.strEmployeeName}</td>
 
                               <td>{data?.strCurrentDepartmentName}</td>
                               <td>{data?.strCurrentDesignationName}</td>
-                              <td style={{ textAlign: "center" }}>
+                              <td style={{ textAlign: 'center' }}>
                                 {_dateFormatter(data?.dteRequestedDate)}
                               </td>
-                              <td style={{ textAlign: "center" }}>
+                              <td style={{ textAlign: 'center' }}>
                                 {data?.strInTime}
                               </td>
-                              <td style={{ textAlign: "center" }}>
+                              <td style={{ textAlign: 'center' }}>
                                 {data?.strOutTime}
                               </td>
-                              <td style={{ textAlign: "center" }}>
+                              <td style={{ textAlign: 'center' }}>
                                 {data?.strHoursMinute}
                               </td>
-                              <td style={{ textAlign: "center" }}>
+                              <td style={{ textAlign: 'center' }}>
                                 {data?.workingHour}
                               </td>
                             </tr>
@@ -278,14 +282,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

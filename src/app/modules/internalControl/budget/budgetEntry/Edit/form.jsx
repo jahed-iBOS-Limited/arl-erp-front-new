@@ -1,7 +1,7 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import * as Yup from "yup";
-import ICustomTable from "../../../../_helper/_customTable";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import * as Yup from 'yup';
+import ICustomTable from '../../../../_helper/_customTable';
 
 const validationSchema = Yup.object().shape({});
 
@@ -18,32 +18,32 @@ export default function FormCmp({
     switch (id) {
       case 4:
         return [
-          "SL",
-          "Budget Type Name",
-          "Code",
-          "Description",
-          "Plan/Target Qty",
-          "Plan/Target Amount",
+          'SL',
+          'Budget Type Name',
+          'Code',
+          'Description',
+          'Plan/Target Qty',
+          'Plan/Target Amount',
         ];
 
       case 2:
       case 3:
         return [
-          "SL",
-          "Budget Type Name",
-          "Code",
-          "Cost Revenue Center Name",
-          "Description",
-          "Plan/Target Amount",
+          'SL',
+          'Budget Type Name',
+          'Code',
+          'Cost Revenue Center Name',
+          'Description',
+          'Plan/Target Amount',
         ];
 
       default:
         return [
-          "SL",
-          "Budget Type Name",
-          "Code",
-          "Description",
-          "Plan/Target Amount",
+          'SL',
+          'Budget Type Name',
+          'Code',
+          'Description',
+          'Plan/Target Amount',
         ];
     }
   };
@@ -85,7 +85,7 @@ export default function FormCmp({
                       <td className="pl-2">{item?.strElementName}</td>
                       {state?.intBudgetTypeId === 4 ? (
                         <>
-                          <td style={{ width: "100px" }}>
+                          <td style={{ width: '100px' }}>
                             <input
                               placeholder=" "
                               type="number"
@@ -102,7 +102,7 @@ export default function FormCmp({
                             />
                           </td>
 
-                          <td style={{ width: "100px" }}>
+                          <td style={{ width: '100px' }}>
                             <input
                               placeholder=" "
                               type="number"
@@ -122,7 +122,7 @@ export default function FormCmp({
                         </>
                       ) : (
                         <>
-                          <td style={{ width: "100px" }}>
+                          <td style={{ width: '100px' }}>
                             <input
                               placeholder=" "
                               type="number"
@@ -148,14 +148,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

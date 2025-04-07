@@ -1,12 +1,12 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import PdfHeader from "./PdfHeader";
-import EBLPdf from "./EBLPdf";
-import WorkingCapitalPdf from "./WorkingCapitalPdf";
-import OthersPdf from "./OthersPdf";
-import "./pdf.css";
-import G2GPdf from "./G2GPdf";
-import SanctionedWorkingCapitalPdf from "./SanctionedWorkingCapitalPdf";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import PdfHeader from './PdfHeader';
+import EBLPdf from './EBLPdf';
+import WorkingCapitalPdf from './WorkingCapitalPdf';
+import OthersPdf from './OthersPdf';
+import './pdf.css';
+import G2GPdf from './G2GPdf';
+import SanctionedWorkingCapitalPdf from './SanctionedWorkingCapitalPdf';
 const EBLBankId = 17;
 const NRBCBankId = 61;
 const PdfRender = ({ singleItem, printRef }) => {
@@ -20,7 +20,7 @@ const PdfRender = ({ singleItem, printRef }) => {
       </div>
       <div
         style={{
-          height: "110px",
+          height: '110px',
         }}
       ></div>
       <ConditionallyRenderPdf
@@ -32,7 +32,7 @@ const PdfRender = ({ singleItem, printRef }) => {
 };
 
 const ConditionallyRenderPdf = ({ singleItem, selectedBusinessUnit }) => {
-  if (singleItem?.disbursementPurposeName === "Working Capital") {
+  if (singleItem?.disbursementPurposeName === 'Working Capital') {
     return (
       <WorkingCapitalPdf
         singleItem={singleItem}
@@ -40,7 +40,7 @@ const ConditionallyRenderPdf = ({ singleItem, selectedBusinessUnit }) => {
       />
     );
   }
-  if (singleItem?.disbursementPurposeName === "Sanctioned Working Capital") {
+  if (singleItem?.disbursementPurposeName === 'Sanctioned Working Capital') {
     return (
       <SanctionedWorkingCapitalPdf
         singleItem={singleItem}
@@ -50,7 +50,7 @@ const ConditionallyRenderPdf = ({ singleItem, selectedBusinessUnit }) => {
   }
   if (
     singleItem?.intBankId === EBLBankId &&
-    singleItem?.disbursementPurposeName === "Bill Payment"
+    singleItem?.disbursementPurposeName === 'Bill Payment'
   ) {
     return (
       <EBLPdf

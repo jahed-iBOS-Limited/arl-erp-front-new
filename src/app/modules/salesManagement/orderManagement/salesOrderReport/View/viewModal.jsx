@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import IViewModal from "../../../../_helper/_viewModal";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import IViewModal from '../../../../_helper/_viewModal';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import {
   getAvailableBalance_Action,
   getDataBySalesOrderId_Action,
@@ -10,45 +10,44 @@ import {
   SetPartnerBalanceEmpty_Action,
   SetUndeliveryValuesEmpty_Action,
   getCreditLimitForInternalUser_action,
-} from "../_redux/Actions";
-import { setSalesOrderSingleEmpty } from "./../_redux/Actions";
-import { ISelect } from "./../../../../_helper/_inputDropDown";
-import { Field, Formik } from "formik";
-import { Form } from "react-bootstrap";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import { IInput } from "../../../../_helper/_input";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import ICalendar from "../../../../_helper/_inputCalender";
-import Loading from "./../../../../_helper/_loading";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import InputField from "./../../../../_helper/_inputField";
-
+} from '../_redux/Actions';
+import { setSalesOrderSingleEmpty } from './../_redux/Actions';
+import { ISelect } from './../../../../_helper/_inputDropDown';
+import { Field, Formik } from 'formik';
+import { Form } from 'react-bootstrap';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import { IInput } from '../../../../_helper/_input';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import ICalendar from '../../../../_helper/_inputCalender';
+import Loading from './../../../../_helper/_loading';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import InputField from './../../../../_helper/_inputField';
 
 const initData = {
   id: undefined,
-  soldtoParty: "",
-  partnerReffNo: "",
-  currency: "",
+  soldtoParty: '',
+  partnerReffNo: '',
+  currency: '',
   pricingDate: _todayDate(),
   dueShippingDate: _todayDate(),
   isTransshipment: false,
   isPartialShipment: false,
-  refType: "",
-  incoterm: "",
-  paymentTerms: "",
-  validity: "",
-  numItemPrice: "",
-  referenceNo: "",
-  shipToParty: "",
-  item: "",
-  customerItemName: "",
+  refType: '',
+  incoterm: '',
+  paymentTerms: '',
+  validity: '',
+  numItemPrice: '',
+  referenceNo: '',
+  shipToParty: '',
+  item: '',
+  customerItemName: '',
   allCheckbox: false,
-  numDiscountValue: "",
-  narration: "",
-  numRequestQuantity: "",
-  uom: "",
-  shipToPartnerContactNo: "",
-  shiptoPartnerAddress: "",
+  numDiscountValue: '',
+  narration: '',
+  numRequestQuantity: '',
+  uom: '',
+  shipToPartnerContactNo: '',
+  shiptoPartnerAddress: '',
 };
 
 export default function ViewForm({ id, show, onHide }) {
@@ -64,7 +63,6 @@ export default function ViewForm({ id, show, onHide }) {
       dispatch(SetAvailableBalanceEmpty_Action());
       dispatch(SetUndeliveryValuesEmpty_Action());
     };
-
   }, []);
 
   let salesOrderData = useSelector(
@@ -103,7 +101,6 @@ export default function ViewForm({ id, show, onHide }) {
       );
     } else {
     }
-
   }, [id]);
 
   // get single sales order  unit from store
@@ -117,7 +114,7 @@ export default function ViewForm({ id, show, onHide }) {
         ...itm,
         netValue:
           itm.numOrderValue - (itm.numOrderValue * itm.numDiscountValue) / 100,
-        isFree: itm.isFreeItem ? "Yes" : "No",
+        isFree: itm.isFreeItem ? 'Yes' : 'No',
       }));
       setRowDto(newRowDto);
     } else {
@@ -134,7 +131,11 @@ export default function ViewForm({ id, show, onHide }) {
         getUndeliveryValues_action(singleData?.objHeader?.soldToPartnerId)
       );
       dispatch(
-        getAvailableBalance_Action(singleData?.objHeader?.soldToPartnerId, [+id], 1)
+        getAvailableBalance_Action(
+          singleData?.objHeader?.soldToPartnerId,
+          [+id],
+          1
+        )
       );
       dispatch(
         getCreditLimitForInternalUser_action(
@@ -142,7 +143,6 @@ export default function ViewForm({ id, show, onHide }) {
         )
       );
     }
-
   }, [id, singleData]);
 
   //total amount calculation
@@ -164,7 +164,7 @@ export default function ViewForm({ id, show, onHide }) {
       <IViewModal
         show={show}
         onHide={onHide}
-        title={"Sales Order"}
+        title={'Sales Order'}
         isShow={singleData?.objHeader && false}
       >
         <Formik
@@ -187,7 +187,7 @@ export default function ViewForm({ id, show, onHide }) {
                   <div className="col-lg-3">
                     <ISelect
                       label="Select Sold to Party"
-                      options={""}
+                      options={''}
                       value={values.soldtoParty}
                       name="soldtoParty"
                       setFieldValue={setFieldValue}
@@ -199,7 +199,7 @@ export default function ViewForm({ id, show, onHide }) {
                   <div className="col-lg-3">
                     <ISelect
                       label="Ship To Party"
-                      options={""}
+                      options={''}
                       value={values.shipToParty}
                       name="shipToParty"
                       setFieldValue={setFieldValue}
@@ -223,7 +223,7 @@ export default function ViewForm({ id, show, onHide }) {
                       type="date"
                       errors={errors}
                       touched={touched}
-                      value={_dateFormatter(values.pricingDate || "")}
+                      value={_dateFormatter(values.pricingDate || '')}
                       disabled={true}
                     />
                   </div>
@@ -241,7 +241,7 @@ export default function ViewForm({ id, show, onHide }) {
                   <div className="col-lg-3">
                     <ISelect
                       label="Incoterm"
-                      options={""}
+                      options={''}
                       value={values.incoterm}
                       name="incoterm"
                       setFieldValue={setFieldValue}
@@ -253,7 +253,7 @@ export default function ViewForm({ id, show, onHide }) {
                   <div className="col-lg-3">
                     <ISelect
                       label="Payment Terms"
-                      options={""}
+                      options={''}
                       value={values.paymentTerms}
                       name="paymentTerms"
                       setFieldValue={setFieldValue}
@@ -265,7 +265,7 @@ export default function ViewForm({ id, show, onHide }) {
                   <div className="col-lg-3">
                     <ISelect
                       label="Select Currency"
-                      options={""}
+                      options={''}
                       value={values.currency}
                       name="currency"
                       setFieldValue={setFieldValue}
@@ -277,7 +277,7 @@ export default function ViewForm({ id, show, onHide }) {
                   <div className="col-lg-3">
                     <ISelect
                       label="Reference Type"
-                      options={""}
+                      options={''}
                       value={values.refType}
                       name="refType"
                       setFieldValue={setFieldValue}
@@ -326,12 +326,12 @@ export default function ViewForm({ id, show, onHide }) {
                             id="isTransshipment"
                             type="checkbox"
                             className="ml-2"
-                            value={values.isTransshipment || ""}
+                            value={values.isTransshipment || ''}
                             checked={values.isTransshipment}
                             name={values.isTransshipment}
                             onChange={(e) => {
                               setFieldValue(
-                                "isTransshipment",
+                                'isTransshipment',
                                 e.target.checked
                               );
                             }}
@@ -352,12 +352,12 @@ export default function ViewForm({ id, show, onHide }) {
                             id="isPartialShipment"
                             type="checkbox"
                             className="ml-2"
-                            value={values.isPartialShipment || ""}
+                            value={values.isPartialShipment || ''}
                             checked={values.isPartialShipment}
                             name={values.isPartialShipment}
                             onChange={(e) => {
                               setFieldValue(
-                                "isPartialShipment",
+                                'isPartialShipment',
                                 e.target.checked
                               );
                             }}
@@ -381,11 +381,11 @@ export default function ViewForm({ id, show, onHide }) {
                       <p className="m-0 my-2">
                         <b>Ledger Balance: </b>
                         {partnerBalance.ledgerBalance},
-                        <b className="ml-2">Credit Limit: </b>{" "}
+                        <b className="ml-2">Credit Limit: </b>{' '}
                         {creditLimitForInternalUser},
                         <b className="ml-2">Unbilled Amount: </b>
                         {partnerBalance.unbilledAmount},
-                        <b className="ml-2">Available Balance: </b>{" "}
+                        <b className="ml-2">Available Balance: </b>{' '}
                         {availableBalance},
                         <b className="ml-2">Undelivered Amount: </b>
                         {undeliveryValues?.unlideliveredValues}
@@ -408,7 +408,7 @@ export default function ViewForm({ id, show, onHide }) {
         {/* Modal Grid */}
 
         <div className="react-bootstrap-table table-responsive">
-          <table className={"table table-striped table-bordered global-table "}>
+          <table className={'table table-striped table-bordered global-table '}>
             <thead>
               <tr>
                 <th>SL</th>
@@ -459,7 +459,7 @@ export default function ViewForm({ id, show, onHide }) {
                       {_formatMoney(
                         itm.numOrderValue -
                           (itm.numOrderValue * itm.numDiscountValue) / 100
-                      )}{" "}
+                      )}{' '}
                     </td>
                   </tr>
                 );

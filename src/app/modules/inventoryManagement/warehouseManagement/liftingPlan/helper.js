@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from 'axios';
 
 export const getCastingScheduleAllData_api = async ({
   formDate,
@@ -11,7 +11,7 @@ export const getCastingScheduleAllData_api = async ({
   setLoading,
   setter,
 }) => {
-  console.log("from helper", pageNo, pageSize);
+  console.log('from helper', pageNo, pageSize);
   try {
     setLoading(true);
     const res = await Axios.get(

@@ -1,6 +1,6 @@
-import React from "react";
-import { UiProvider } from "../../../_helper/uiContextHelper";
-import { ProfileSetupTable } from "./Table/tableHeader";
+import React from 'react';
+import { UiProvider } from '../../../_helper/uiContextHelper';
+import { ProfileSetupTable } from './Table/tableHeader';
 
 export default function InformationSetupLanding() {
   const uIEvents = {};

@@ -1,11 +1,10 @@
-
-import React from "react";
-import { useHistory } from "react-router-dom";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import IView from "../../../../_helper/_helperIcons/_view";
-import PaginationSearch from "../../../../_helper/_search";
-import PaginationTable from "../../../../_helper/_tablePagination";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import IView from '../../../../_helper/_helperIcons/_view';
+import PaginationSearch from '../../../../_helper/_search';
+import PaginationTable from '../../../../_helper/_tablePagination';
 
 const Table = ({ obj }) => {
   const {
@@ -25,7 +24,7 @@ const Table = ({ obj }) => {
   };
 
   const setPositionHandler = (pageNo, pageSize, values) => {
-    getData(values, pageNo, pageSize, "");
+    getData(values, pageNo, pageSize, '');
   };
 
   let grandTotal = 0;
@@ -43,10 +42,10 @@ const Table = ({ obj }) => {
             <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table table-font-size-sm">
               <thead>
                 <tr>
-                  <th style={{ width: "35px" }}>SL</th>
+                  <th style={{ width: '35px' }}>SL</th>
                   <th>Delivery Order</th>
 
-                  <th style={{ width: "90px" }}>Delivery Date</th>
+                  <th style={{ width: '90px' }}>Delivery Date</th>
 
                   <th>Sales Organization</th>
                   <th>Channel</th>
@@ -56,8 +55,8 @@ const Table = ({ obj }) => {
                   <th>Supplier Type</th>
                   <th>Delivery Time</th>
 
-                  <th style={{ width: "90px" }}>Total Quantity</th>
-                  <th style={{ width: "75px" }}>Actions</th>
+                  <th style={{ width: '90px' }}>Total Quantity</th>
+                  <th style={{ width: '75px' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -186,8 +185,8 @@ const Table = ({ obj }) => {
                 })}
                 <tr className="text-right font-weight-bold">
                   <td className="text-right" colSpan="10">
-                    {" "}
-                    Grand Total{" "}
+                    {' '}
+                    Grand Total{' '}
                   </td>
                   <td> {_fixedPoint(grandTotal || 0)} </td>
                   <td></td>

@@ -1,42 +1,39 @@
-
-
-import React, { useEffect, useState } from "react";
-import { confirmAlert } from "react-confirm-alert";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { empAttachment_action } from "../../../../_helper/attachmentUpload";
+import React, { useEffect, useState } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 import {
   getPoNumberDDL,
   getSingleDataForEdit,
   saveAssetReceive,
-  saveCreateServiceEdit
-} from "../helper/Actions";
-import Form from "./form";
-
+  saveCreateServiceEdit,
+} from '../helper/Actions';
+import Form from './form';
 
 let initData = {
-  poNumber: "",
-  poAmount: "",
-  adjustedAmount: "",
-  supplier: "",
-  comment: "",
-  attachment: "",
-  file: "",
-  challanNO: "",
-  challanDate: "",
-  vatChallan: "",
-  vatAmmount: "",
-  getEntry: "",
-  freight: "",
-  grossDiscount: "",
-  commission: "",
-  prodCost: "",
-  foreignPurchase: "",
-  othersCharge: ""
+  poNumber: '',
+  poAmount: '',
+  adjustedAmount: '',
+  supplier: '',
+  comment: '',
+  attachment: '',
+  file: '',
+  challanNO: '',
+  challanDate: '',
+  vatChallan: '',
+  vatAmmount: '',
+  getEntry: '',
+  freight: '',
+  grossDiscount: '',
+  commission: '',
+  prodCost: '',
+  foreignPurchase: '',
+  othersCharge: '',
 };
 
 export default function AssetsReceiveForm({
@@ -52,9 +49,9 @@ export default function AssetsReceiveForm({
   const [rowDto, setRowDto] = useState([]);
   const [PoNumber, setPoNumber] = useState([]);
   const [attachError, setAttachError] = useState(false);
-  const [attachment, setAttachment] = useState("");
+  const [attachment, setAttachment] = useState('');
   const [fileObjects, setFileObjects] = useState([]);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -96,17 +93,19 @@ export default function AssetsReceiveForm({
   //   getRowDtoData(poId, setRowDto);
   // };
 
-  let vatAmount = rowDto?.reduce((sum, data) => sum + data?.vatValue, 0)
+  let vatAmount = rowDto?.reduce((sum, data) => sum + data?.vatValue, 0);
 
   // rowdto handler for catch data from row's input field in rowTable
   const rowDtoHandler = (name, value, sl) => {
     let data = [...rowDto];
     let _sl = data[sl];
-    if (name === "quantity") {
+    if (name === 'quantity') {
       _sl[name] = +value;
-      _sl["receiveAmount"] = (_sl?.netValue / _sl?.poQuantity) * +value;
-      _sl["totalVat"] = (_sl?.vatValue / _sl?.poQuantity) * +value
-      _sl["netTotalValue"] = ((_sl?.vatValue / _sl?.poQuantity) * +value) + ((_sl?.netValue / _sl?.poQuantity) * +value);
+      _sl['receiveAmount'] = (_sl?.netValue / _sl?.poQuantity) * +value;
+      _sl['totalVat'] = (_sl?.vatValue / _sl?.poQuantity) * +value;
+      _sl['netTotalValue'] =
+        (_sl?.vatValue / _sl?.poQuantity) * +value +
+        (_sl?.netValue / _sl?.poQuantity) * +value;
     } else {
       _sl[name] = value;
     }
@@ -117,10 +116,10 @@ export default function AssetsReceiveForm({
     // file extention chack
     const condition = Array.from(files).every((itm) => {
       return (
-        itm?.type === "image/jpeg" ||
-        itm?.type === "image/png" ||
-        itm?.type === "image/jpg" ||
-        itm?.type === "application/pdf"
+        itm?.type === 'image/jpeg' ||
+        itm?.type === 'image/png' ||
+        itm?.type === 'image/jpg' ||
+        itm?.type === 'application/pdf'
       );
     });
     if (condition && files?.length > 0) {
@@ -130,12 +129,9 @@ export default function AssetsReceiveForm({
     }
   };
 
-  const lastInvData = useSelector(
-    (state) => state?.localStorage?.lastInvData
-  )
+  const lastInvData = useSelector((state) => state?.localStorage?.lastInvData);
 
-  console.log("Rowdto", rowDto)
-
+  console.log('Rowdto', rowDto);
 
   const IConfirmModal = (props) => {
     const { title, message, noAlertFunc } = props;
@@ -144,18 +140,16 @@ export default function AssetsReceiveForm({
       message: message,
       buttons: [
         {
-          label: "Ok",
+          label: 'Ok',
           onClick: () => noAlertFunc(),
         },
       ],
     });
-
   };
 
   const saveHandler = async (values, cb) => {
-
-
-    if (totalVat.toFixed(4) > 0 && values?.vatAmmount < 1) return toast.warn("Vat amount should be greater than zero")
+    if (totalVat.toFixed(4) > 0 && values?.vatAmmount < 1)
+      return toast.warn('Vat amount should be greater than zero');
 
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (id) {
@@ -167,7 +161,7 @@ export default function AssetsReceiveForm({
             transactionQuantity: data.quantity,
             poQuantity: data?.poQuantity,
             previousQuantity: data?.receiveQuantity,
-            referenceId: data?.referenceId || 0
+            referenceId: data?.referenceId || 0,
           };
         });
         // filter items quantity greater than 0
@@ -176,7 +170,7 @@ export default function AssetsReceiveForm({
         );
 
         if (filterRowDto?.length === 0) {
-          return toast.error("Not inputting valid data");
+          return toast.error('Not inputting valid data');
         }
 
         const payload = {
@@ -184,7 +178,7 @@ export default function AssetsReceiveForm({
             serviceId: singleDataState?.objHeader.serviceId,
             referenceId: values.poNumber.value,
             strComments: values.comment,
-            strDocumentId: "",
+            strDocumentId: '',
           },
           objRow: filterRowDto,
         };
@@ -194,7 +188,7 @@ export default function AssetsReceiveForm({
             const modifyPlyload = {
               objHeader: {
                 ...payload?.objHeader,
-                strDocumentId: data?.length ? data[0]?.id : "",
+                strDocumentId: data?.length ? data[0]?.id : '',
               },
               objRow: rowFormet,
             };
@@ -205,7 +199,7 @@ export default function AssetsReceiveForm({
         }
       } else {
         if (rowDto.length === 0) {
-          toast.error("Please Add Item");
+          toast.error('Please Add Item');
         } else {
           const rowDtoFormet = rowDto.map((data) => {
             return {
@@ -221,7 +215,7 @@ export default function AssetsReceiveForm({
               transactionValue: data?.quantity * data?.baseBalue,
               vatAmount: data?.vatValue || 0,
               discount: data?.discount || 0,
-              referenceId: data?.referenceId || 0
+              referenceId: data?.referenceId || 0,
             };
           });
 
@@ -231,12 +225,12 @@ export default function AssetsReceiveForm({
           );
 
           if (filterRowDto?.length === 0) {
-            return toast.error("Not inputting valid data");
+            return toast.error('Not inputting valid data');
           }
 
           const payload = {
             objHeader: {
-              serviceCode: "string",
+              serviceCode: 'string',
               othersCharge: +values?.othersCharge || 0,
               transactionDate: _todayDate(),
               referenceId: values.poNumber.value,
@@ -255,7 +249,7 @@ export default function AssetsReceiveForm({
               businessPartnerName: values.supplier.label,
               strComments: values.comment,
               intActionBy: profileData.userId,
-              strDocumentId: "",
+              strDocumentId: '',
               gateEntryNo: values?.getEntry,
               challan: values?.challanNO,
               challanDateTime: values?.challanDate,
@@ -264,7 +258,7 @@ export default function AssetsReceiveForm({
               grossDiscount: +values?.grossDiscount || 0,
               freight: +values?.freight || 0,
               commission: +values?.commission || 0,
-              shipmentId: values?.foreignPurchase?.value || 0
+              shipmentId: values?.foreignPurchase?.value || 0,
             },
             objRow: filterRowDto,
           };
@@ -288,40 +282,51 @@ export default function AssetsReceiveForm({
           //   saveAssetReceive(payload, cb, setRowDto, setDisabled);
           // }
 
-          if (fileObjects.length < 1) return toast.warn("Attachment is required");
+          if (fileObjects.length < 1)
+            return toast.warn('Attachment is required');
 
           if (fileObjects.length > 0) {
             empAttachment_action(fileObjects).then((data) => {
               const modifyPlyload = {
                 objHeader: {
-                  ...payload?.objHeader
+                  ...payload?.objHeader,
                 },
-                images: data?.map(data => {
+                images: data?.map((data) => {
                   return {
-                    imageId: data?.id
-                  }
+                    imageId: data?.id,
+                  };
                 }),
                 objRow: payload.objRow,
               };
-              saveAssetReceive(modifyPlyload, cb, setRowDto, setDisabled, IConfirmModal, dispatch).then(
-                (data) => {
-                  setFileObjects([]);
-                }
-              );
+              saveAssetReceive(
+                modifyPlyload,
+                cb,
+                setRowDto,
+                setDisabled,
+                IConfirmModal,
+                dispatch
+              ).then((data) => {
+                setFileObjects([]);
+              });
             });
           } else {
             const modifyPlyload = {
               objHeader: {
-                ...payload?.objHeader
+                ...payload?.objHeader,
               },
               images: [],
               objRow: payload.objRow,
             };
-            saveAssetReceive(modifyPlyload, cb, setRowDto, setDisabled, IConfirmModal, dispatch).then(
-              (data) => {
-                setFileObjects([]);
-              }
-            );
+            saveAssetReceive(
+              modifyPlyload,
+              cb,
+              setRowDto,
+              setDisabled,
+              IConfirmModal,
+              dispatch
+            ).then((data) => {
+              setFileObjects([]);
+            });
           }
         }
       }
@@ -329,13 +334,14 @@ export default function AssetsReceiveForm({
     }
   };
 
-
-  let totalAmount = rowDto?.reduce((sum, data) => sum + data?.receiveAmount, 0)
-  let totalVat = rowDto?.reduce((sum, data) => sum + data?.totalVat, 0)
-  let netTotalValue = rowDto?.reduce((sum, data) => sum + data?.netTotalValue, 0)
+  let totalAmount = rowDto?.reduce((sum, data) => sum + data?.receiveAmount, 0);
+  let totalVat = rowDto?.reduce((sum, data) => sum + data?.totalVat, 0);
+  let netTotalValue = rowDto?.reduce(
+    (sum, data) => sum + data?.netTotalValue,
+    0
+  );
 
   const [objProps, setObjprops] = useState({});
-
 
   // remove single data from rowDto
   const remover = (payload) => {
@@ -345,7 +351,11 @@ export default function AssetsReceiveForm({
 
   return (
     <IForm
-      title={id ? "Edit Asset Receive" : `Create Asset Receive ${lastInvData ? lastInvData : ''} `}
+      title={
+        id
+          ? 'Edit Asset Receive'
+          : `Create Asset Receive ${lastInvData ? lastInvData : ''} `
+      }
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenReset={id ? true : false}

@@ -1,14 +1,14 @@
-import { Formik } from "formik";
-import React, { useEffect } from "react";
+import { Formik } from 'formik';
+import React, { useEffect } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../_helper/_loading";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../_helper/_loading';
 
 function QcViewModal({ weightmentId }) {
   const [qcInfo, getQcInfo] = useAxiosGet();
@@ -17,22 +17,16 @@ function QcViewModal({ weightmentId }) {
     getQcInfo(
       `/mes/WeightBridge/GetWeightBridgeQCView?WeightmentId=${weightmentId}`
     );
-
   }, [weightmentId]);
   return (
     <>
-      <Formik
-        enableReinitialize={true}
-        initialValues={{}}
-        onSubmit={() => { }}
-      >
+      <Formik enableReinitialize={true} initialValues={{}} onSubmit={() => {}}>
         {({ values }) => (
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"QC View"}>
-                <CardHeaderToolbar>
-                </CardHeaderToolbar>
+              <CardHeader title={'QC View'}>
+                <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
                 {false && <Loading />}

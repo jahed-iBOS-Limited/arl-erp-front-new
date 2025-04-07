@@ -1,11 +1,11 @@
-import { Formik } from "formik";
-import React from "react";
+import { Formik } from 'formik';
+import React from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
+} from '../../../../../_metronic/_partials/controls';
 
 function MedicalRegisterDetailsView({ medicineList }) {
   return (
@@ -20,7 +20,7 @@ function MedicalRegisterDetailsView({ medicineList }) {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Medicine Details"}></CardHeader>
+              <CardHeader title={'Medicine Details'}></CardHeader>
               <CardBody>
                 <div className="row">
                   <div className="col-lg-12">
@@ -28,7 +28,7 @@ function MedicalRegisterDetailsView({ medicineList }) {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>Medicine Name</th>
                             <th>Medicine Quantity</th>
                             <th>Uom</th>

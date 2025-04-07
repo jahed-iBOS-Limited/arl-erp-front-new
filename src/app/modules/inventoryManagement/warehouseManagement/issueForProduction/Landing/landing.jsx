@@ -1,12 +1,12 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { useSelector, shallowEqual } from "react-redux";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import PaginationSearch from "../../../../_helper/_search";
-import ICustomTable from "../../../../_helper/_customTable";
-import { getShopfloorDDL, getWareDDL } from "../helper";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { useSelector, shallowEqual } from 'react-redux';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import PaginationSearch from '../../../../_helper/_search';
+import ICustomTable from '../../../../_helper/_customTable';
+import { getShopfloorDDL, getWareDDL } from '../helper';
 
 const validationSchema = Yup.object().shape({});
 
@@ -28,12 +28,12 @@ export default function FormCmp({
   );
 
   let ths = [
-    "SL",
-    "Transaction Code",
-    "Reference Type",
-    "Reference No.",
-    "Transaction Type",
-    "Action",
+    'SL',
+    'Transaction Code',
+    'Reference Type',
+    'Reference No.',
+    'Transaction Type',
+    'Action',
   ];
   return (
     <>
@@ -63,7 +63,7 @@ export default function FormCmp({
                     options={SBUDDL}
                     value={values?.sbu}
                     onChange={(valueOption) => {
-                      setFieldValue("sbu", valueOption);
+                      setFieldValue('sbu', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -78,9 +78,9 @@ export default function FormCmp({
                     options={plantDDL}
                     value={values?.plant}
                     onChange={(valueOption) => {
-                      setFieldValue("wereHouse", "");
-                      setFieldValue("shopFloor", "");
-                      setFieldValue("plant", valueOption);
+                      setFieldValue('wereHouse', '');
+                      setFieldValue('shopFloor', '');
+                      setFieldValue('plant', valueOption);
                       getWareDDL(
                         profileData?.userId,
                         profileData?.accountId,
@@ -109,7 +109,7 @@ export default function FormCmp({
                     options={wereDDL}
                     value={values?.wereHouse}
                     onChange={(valueOption) => {
-                      setFieldValue("wereHouse", valueOption);
+                      setFieldValue('wereHouse', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -124,7 +124,7 @@ export default function FormCmp({
                     options={shopFloorDDL}
                     value={values?.shopFloor}
                     onChange={(valueOption) => {
-                      setFieldValue("shopFloor", valueOption);
+                      setFieldValue('shopFloor', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -138,7 +138,7 @@ export default function FormCmp({
                     name="fromDate"
                     value={values?.fromDate}
                     onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
+                      setFieldValue('fromDate', e.target.value);
                     }}
                   />
                 </div>
@@ -150,11 +150,11 @@ export default function FormCmp({
                     name="toDate"
                     value={values?.toDate}
                     onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
+                      setFieldValue('toDate', e.target.value);
                     }}
                   />
                 </div>
-                <div style={{ marginTop: "18px" }} className="col-lg-3">
+                <div style={{ marginTop: '18px' }} className="col-lg-3">
                   <button className="btn btn-primary">View</button>
                 </div>
               </div>
@@ -169,14 +169,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

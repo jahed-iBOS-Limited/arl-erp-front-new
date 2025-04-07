@@ -1,12 +1,12 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { BusinessUnitTable } from "./businessUnitTableCard";
+} from '../../../../../../_metronic/_partials/controls';
+import { BusinessUnitTable } from './businessUnitTableCard';
 
 export function BusinessUnitLandingCard() {
   let history = useHistory();
@@ -18,7 +18,7 @@ export function BusinessUnitLandingCard() {
             type="button"
             className="btn btn-primary"
             onClick={() =>
-              history.push("/config/domain-controll/business-unit/add")
+              history.push('/config/domain-controll/business-unit/add')
             }
           >
             Create New

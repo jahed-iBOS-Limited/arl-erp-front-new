@@ -1,12 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Formik, Form as FormikForm } from "formik";
-import ReactToPrint from "react-to-print";
-import Loading from "./../../../../_helper/loader/_loader";
-import { getBankJournalView } from "./helper";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import { useSelector } from "react-redux";
+import React, { useState, useRef, useEffect } from 'react';
+import { Formik, Form as FormikForm } from 'formik';
+import ReactToPrint from 'react-to-print';
+import Loading from './../../../../_helper/loader/_loader';
+import { getBankJournalView } from './helper';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import { useSelector } from 'react-redux';
 
 export function BankJournalViewTableRow({ currentRowData }) {
   const [loading, setLoading] = useState(false);
@@ -62,9 +62,9 @@ export function BankJournalViewTableRow({ currentRowData }) {
                             {bankJournalReport?.objHeader?.businessUnitAddress}
                           </span>
                           <span className="my-2">Bank Journal</span>
-                          <span style={{ fontSize: "11px" }}>
-                            Bank Name And A/C NO.{" "}
-                            {bankJournalReport?.objHeader?.bankName}{" "}
+                          <span style={{ fontSize: '11px' }}>
+                            Bank Name And A/C NO.{' '}
+                            {bankJournalReport?.objHeader?.bankName}{' '}
                             {bankJournalReport?.objHeader?.bankAccountNo}
                           </span>
                         </div>
@@ -76,9 +76,10 @@ export function BankJournalViewTableRow({ currentRowData }) {
                           <div>
                             Cheque No.
                             <sapn className="font-weight-bold ml-1">
-                              {bankJournalReport?.objHeader?.chequeNo}{" , "}
+                              {bankJournalReport?.objHeader?.chequeNo}
+                              {' , '}
                             </sapn>
-                              Instrument :
+                            Instrument :
                             <sapn className="font-weight-bold ml-1">
                               {bankJournalReport?.objHeader?.instrumentName}
                             </sapn>
@@ -92,7 +93,7 @@ export function BankJournalViewTableRow({ currentRowData }) {
                             </sapn>
                           </div>
                         </div>
-                        
+
                         <div>
                           <div>
                             Voucher No.
@@ -111,72 +112,72 @@ export function BankJournalViewTableRow({ currentRowData }) {
                         </div>
                       </div>
                       <div className="table-responsive">
-               <table className="journalTable" id="table-to-xlsx">
-                        <thead>
-                          <tr>
-                            <th>SL</th>
-                            {/* <th>Account Code No</th> */}
-                            <th>Head Of Accounts</th>
-                            <th>Debit</th>
-                            <th>Credit</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {bankJournalReport?.objRow?.map((data, i) => (
+                        <table className="journalTable" id="table-to-xlsx">
+                          <thead>
                             <tr>
-                              <td className="text-center">{i + 1}</td>
-                              {/* <td className='text-right'>{data?.itemCode}</td> */}
-                              <td>{data?.generalLedgerName}</td>
-                              <td>
-                                <div className="text-right pr-2">
-                                  {data.debit
-                                    ? _formatMoney(Math.abs(data?.debit))
-                                    : ""}
-                                </div>
+                              <th>SL</th>
+                              {/* <th>Account Code No</th> */}
+                              <th>Head Of Accounts</th>
+                              <th>Debit</th>
+                              <th>Credit</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {bankJournalReport?.objRow?.map((data, i) => (
+                              <tr>
+                                <td className="text-center">{i + 1}</td>
+                                {/* <td className='text-right'>{data?.itemCode}</td> */}
+                                <td>{data?.generalLedgerName}</td>
+                                <td>
+                                  <div className="text-right pr-2">
+                                    {data.debit
+                                      ? _formatMoney(Math.abs(data?.debit))
+                                      : ''}
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="text-right pr-2">
+                                    {data.credit
+                                      ? _formatMoney(Math.abs(data?.credit))
+                                      : ''}
+                                  </div>
+                                </td>
+                              </tr>
+                            ))}
+                            <tr>
+                              <td className="text-center"></td>
+                              <td className="font-weight-bold text-center ml-1">
+                                Total
                               </td>
-                              <td>
-                                <div className="text-right pr-2">
-                                  {data.credit
-                                    ? _formatMoney(Math.abs(data?.credit))
-                                    : ""}
-                                </div>
+                              <td className="text-right pr-2">
+                                {_formatMoney(
+                                  Math.abs(
+                                    bankJournalReport?.objHeader?.numAmount
+                                  )
+                                )}
+                              </td>
+                              <td className="text-right pr-2">
+                                {_formatMoney(
+                                  Math.abs(
+                                    bankJournalReport?.objHeader?.numAmount
+                                  )
+                                )}
                               </td>
                             </tr>
-                          ))}
-                          <tr>
-                            <td className="text-center"></td>
-                            <td className="font-weight-bold text-center ml-1">
-                              Total
-                            </td>
-                            <td className="text-right pr-2">
-                              {_formatMoney(
-                                Math.abs(
-                                  bankJournalReport?.objHeader?.numAmount
-                                )
-                              )}
-                            </td>
-                            <td className="text-right pr-2">
-                              {_formatMoney(
-                                Math.abs(
-                                  bankJournalReport?.objHeader?.numAmount
-                                )
-                              )}
-                            </td>
-                          </tr>
-                        </tbody>
-                      </table>
-            </div>
-                   
+                          </tbody>
+                        </table>
+                      </div>
+
                       <div className="mt-5">
                         <div className="d-flex">
                           <p className="font-weight-bold mr-2">
-                            Sum Of Taka :{" "}
+                            Sum Of Taka :{' '}
                           </p>
                           <p>{bankJournalReport?.objHeader?.amount}</p>
                         </div>
                         <div className="d-flex">
                           <p className="font-weight-bold mr-2">
-                            Description :{" "}
+                            Description :{' '}
                           </p>
                           <p>{bankJournalReport?.objHeader?.narration}</p>
                         </div>

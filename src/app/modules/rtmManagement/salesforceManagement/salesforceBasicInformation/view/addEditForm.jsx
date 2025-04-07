@@ -1,10 +1,9 @@
-
-import React, { useEffect, useState } from "react";
-import Form from "./form";
-import { useSelector, shallowEqual } from "react-redux";
-import { useParams } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
-import IForm from "../../../../_helper/_form";
+import React, { useEffect, useState } from 'react';
+import Form from './form';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
+import IForm from '../../../../_helper/_form';
 import {
   getSalesForceInfoById,
   createSalesForceInfo,
@@ -19,52 +18,52 @@ import {
   getEmpTypeDDL,
   getLineManagerDDL,
   getBloodGroupDDL,
-} from "../helper";
+} from '../helper';
 
 const initData = {
   // DDL
-  designation: "",
-  sbu: "",
-  department: "",
-  workplaceGroup: "",
-  hrPostion: "",
-  empGrade: "",
-  empType: "",
-  lineManager: "",
-  empLavel: "",
-  bloodGroup: "",
+  designation: '',
+  sbu: '',
+  department: '',
+  workplaceGroup: '',
+  hrPostion: '',
+  empGrade: '',
+  empType: '',
+  lineManager: '',
+  empLavel: '',
+  bloodGroup: '',
 
   // Basic Info
-  employeeFirstName: "",
-  middleName: "",
-  lastName: "",
-  joiningDate: "",
-  presentAddress: "",
-  permanentAddress: "",
-  dateOfBirth: "",
-  fatherName: "",
-  motherName: "",
-  email: "",
-  contactNumber: "",
-  alternativeContactNumber: "",
+  employeeFirstName: '',
+  middleName: '',
+  lastName: '',
+  joiningDate: '',
+  presentAddress: '',
+  permanentAddress: '',
+  dateOfBirth: '',
+  fatherName: '',
+  motherName: '',
+  email: '',
+  contactNumber: '',
+  alternativeContactNumber: '',
 };
 
 const SalesForceInfoViewForm = () => {
   const { id } = useParams();
   const [isDisabled, setDisabled] = useState(false);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   // All DDL
-  const [desinationDDL, setDesinationDDL] = useState("");
-  const [sbuDDL, setSbuDDL] = useState("");
-  const [departmentDDL, setDepartmentDDL] = useState("");
-  const [workplaceGroupDDL, setWorkplaceGroupDDL] = useState("");
-  const [hrPostionDDL, setHrPostionDDL] = useState("");
-  const [empGradeDDL, setEmpGradeDDL] = useState("");
-  const [empTypeDDL, setEmpTypeDDL] = useState("");
-  const [lineManagerDDL, setLineManagerDDL] = useState("");
-  const [empLavelDDL, setEmpLavelDDL] = useState("");
-  const [bloodGroupDDL, setBloodGroupDDL] = useState("");
+  const [desinationDDL, setDesinationDDL] = useState('');
+  const [sbuDDL, setSbuDDL] = useState('');
+  const [departmentDDL, setDepartmentDDL] = useState('');
+  const [workplaceGroupDDL, setWorkplaceGroupDDL] = useState('');
+  const [hrPostionDDL, setHrPostionDDL] = useState('');
+  const [empGradeDDL, setEmpGradeDDL] = useState('');
+  const [empTypeDDL, setEmpTypeDDL] = useState('');
+  const [lineManagerDDL, setLineManagerDDL] = useState('');
+  const [empLavelDDL, setEmpLavelDDL] = useState('');
+  const [bloodGroupDDL, setBloodGroupDDL] = useState('');
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -91,16 +90,16 @@ const SalesForceInfoViewForm = () => {
       // Employee Lavel DDL is static
       setEmpLavelDDL([
         {
-          value: "Lavel 1",
-          label: "Lavel 1",
+          value: 'Lavel 1',
+          label: 'Lavel 1',
         },
         {
-          value: "Lavel 2",
-          label: "Lavel 2",
+          value: 'Lavel 2',
+          label: 'Lavel 2',
         },
         {
-          value: "Lavel 3",
-          label: "Lavel 3",
+          value: 'Lavel 3',
+          label: 'Lavel 3',
         },
       ]);
     }
@@ -124,9 +123,9 @@ const SalesForceInfoViewForm = () => {
           lastName: values?.lastName,
           employeeFullName:
             values?.employeeFirstName +
-            " " +
+            ' ' +
             values?.middleName +
-            " " +
+            ' ' +
             values?.lastName,
           accountId: profileData?.accountId,
           businessunitId: selectedBusinessUnit?.value,
@@ -163,9 +162,9 @@ const SalesForceInfoViewForm = () => {
           lastName: values?.lastName,
           employeeFullName:
             values?.employeeFirstName +
-            " " +
+            ' ' +
             values?.middleName +
-            " " +
+            ' ' +
             values?.lastName,
           departmentId: +values?.department?.value,
           designationId: +values?.designation?.value,
@@ -199,7 +198,7 @@ const SalesForceInfoViewForm = () => {
     <>
       <IForm
         title={
-          !id ? "Add Salesforce Information" : "View Salesforce Information"
+          !id ? 'Add Salesforce Information' : 'View Salesforce Information'
         }
         getProps={setObjprops}
         isDisabled={isDisabled}

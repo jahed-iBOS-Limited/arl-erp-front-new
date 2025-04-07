@@ -1,22 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { useParams } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { useParams } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
 import {
   getRouteDDL,
-
   saveEditedSecondaryOrder,
   getSingleData,
-} from "../helper";
-import { isUniq } from "../../../../_helper/uniqChecker";
-import { savSecondaryOrderAction } from "./../helper";
-import { _todayDate } from "../../../../_helper/_todayDate";
+} from '../helper';
+import { isUniq } from '../../../../_helper/uniqChecker';
+import { savSecondaryOrderAction } from './../helper';
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 const initData = {
-  partnerName: "",
-  amount: "",
+  partnerName: '',
+  amount: '',
 };
 
 export default function PrimaryCollectionForm({
@@ -30,11 +29,11 @@ export default function PrimaryCollectionForm({
   const [routeDDL, setRouteDDL] = useState([]);
   const [beatNameDDL, setBeatNameDDL] = useState([]);
   const [outletNameDDl, setOutletNameDDL] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [itemRowDto, setItemRowDto] = useState([]);
 
   const params = useParams();
-  console.log(singleData, "singleData");
+  console.log(singleData, 'singleData');
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -46,7 +45,7 @@ export default function PrimaryCollectionForm({
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-  console.log(itemRowDto, "itemRowDto");
+  console.log(itemRowDto, 'itemRowDto');
 
   useEffect(() => {
     if (profileData && selectedBusinessUnit) {
@@ -63,11 +62,9 @@ export default function PrimaryCollectionForm({
     if (id) {
       getSingleData(id, setSingleData, setItemRowDto);
     }
-
   }, [id]);
 
   useEffect(() => {
-
     const newData = singleData?.row?.map((item) => ({
       rowId: item?.rowId,
       itemId: item?.productId,
@@ -85,14 +82,12 @@ export default function PrimaryCollectionForm({
     } else {
       setItemRowDto([]);
     }
-
   }, [singleData]);
 
   const saveHandler = async (values, cb) => {
     setDisabled(true);
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       if (params?.id) {
-
         const payload = {
           id: +id,
           businessPartnerId: values?.partnerName?.value,
@@ -122,7 +117,7 @@ export default function PrimaryCollectionForm({
   };
 
   const setter = (payload) => {
-    if (isUniq("itemId", payload.itemId, itemRowDto)) {
+    if (isUniq('itemId', payload.itemId, itemRowDto)) {
       setItemRowDto([payload, ...itemRowDto]);
     }
   };
@@ -134,7 +129,7 @@ export default function PrimaryCollectionForm({
 
   return (
     <IForm
-      title={id ? "Edit Primary Collection" : "Create Primary Collection"}
+      title={id ? 'Edit Primary Collection' : 'Create Primary Collection'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

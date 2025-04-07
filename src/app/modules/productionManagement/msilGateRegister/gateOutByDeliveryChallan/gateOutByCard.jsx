@@ -1,28 +1,28 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { _currentTime } from "../../../_helper/_currentTime";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import QRCodeScanner from "../../../_helper/qrCodeScanner";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { _currentTime } from '../../../_helper/_currentTime';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import QRCodeScanner from '../../../_helper/qrCodeScanner';
 const initData = {
-  strCardNumber: "",
-  vehicleOutTime: "",
-  vehicleOutTimeAfterLunch: "",
-  intActionBy: "",
-  dteActionDate: "",
-  intStatus: "",
-  intAutoId: "",
-  intReferenceId: "",
-  businessUnit: "",
+  strCardNumber: '',
+  vehicleOutTime: '',
+  vehicleOutTimeAfterLunch: '',
+  intActionBy: '',
+  dteActionDate: '',
+  intStatus: '',
+  intAutoId: '',
+  intReferenceId: '',
+  businessUnit: '',
 };
 const GetOutByCard = () => {
   const [objProps, setObjprops] = useState({});
@@ -50,10 +50,10 @@ const GetOutByCard = () => {
 
   const saveHandler = (values, cb) => {
     if (!values?.businessUnit) {
-      return toast.warn("Please Select Business Unit");
+      return toast.warn('Please Select Business Unit');
     }
-    if (values?.vehicleOutTime === "") {
-      return toast.warn("Please Select Vehicle Out Time");
+    if (values?.vehicleOutTime === '') {
+      return toast.warn('Please Select Vehicle Out Time');
     }
     saveData(
       `/mes/MSIL/VehicleGateOutCreate`,
@@ -79,16 +79,16 @@ const GetOutByCard = () => {
   };
 
   const qurScanHandler = ({ setFieldValue, values }) => {
-    setFieldValue("vehicleOutTime", _currentTime());
-    document.getElementById("cardNoInput").disabled = true;
+    setFieldValue('vehicleOutTime', _currentTime());
+    document.getElementById('cardNoInput').disabled = true;
     getData(
       `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumberForGateOut&BusinessUnitId=${values?.businessUnit?.value}&search=${values?.strCardNumber}`,
       (data) => {
         if (data?.length <= 0) {
-          setFieldValue("strCardNumber", "");
-          toast.warn("Vehicle entry not found");
-          document.getElementById("cardNoInput").disabled = false;
-          document.getElementById("cardNoInput").focus();
+          setFieldValue('strCardNumber', '');
+          toast.warn('Vehicle entry not found');
+          document.getElementById('cardNoInput').disabled = false;
+          document.getElementById('cardNoInput').focus();
         }
       }
     );
@@ -123,21 +123,19 @@ const GetOutByCard = () => {
                         label="Business Unit"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("businessUnit", valueOption);
-                            setFieldValue("strCardNumber", "");
-                            setFieldValue("vehicleOutTime", "");
-                            document.getElementById(
-                              "cardNoInput"
-                            ).disabled = false;
-                            document.getElementById("cardNoInput").focus();
+                            setFieldValue('businessUnit', valueOption);
+                            setFieldValue('strCardNumber', '');
+                            setFieldValue('vehicleOutTime', '');
+                            document.getElementById('cardNoInput').disabled =
+                              false;
+                            document.getElementById('cardNoInput').focus();
                           } else {
-                            setFieldValue("businessUnit", "");
-                            setFieldValue("strCardNumber", "");
-                            setFieldValue("vehicleOutTime", "");
-                            document.getElementById(
-                              "cardNoInput"
-                            ).disabled = false;
-                            document.getElementById("cardNoInput").focus();
+                            setFieldValue('businessUnit', '');
+                            setFieldValue('strCardNumber', '');
+                            setFieldValue('vehicleOutTime', '');
+                            document.getElementById('cardNoInput').disabled =
+                              false;
+                            document.getElementById('cardNoInput').focus();
                           }
                         }}
                       />
@@ -145,17 +143,17 @@ const GetOutByCard = () => {
                     <div
                       className="col-lg-3 d-flex"
                       style={{
-                        position: "relative",
+                        position: 'relative',
                       }}
                     >
                       <div
                         style={{
-                          position: "absolute",
+                          position: 'absolute',
                           right: 0,
                           top: 0,
-                          cursor: "pointer",
-                          color: "blue",
-                          zIndex: "1",
+                          cursor: 'pointer',
+                          color: 'blue',
+                          zIndex: '1',
                         }}
                         onClick={() => {
                           setQRCodeScannerModal(true);
@@ -163,7 +161,7 @@ const GetOutByCard = () => {
                       >
                         QR Code <i class="fa fa-qrcode" aria-hidden="true"></i>
                       </div>
-                      <div style={{ width: "inherit" }}>
+                      <div style={{ width: 'inherit' }}>
                         <InputField
                           id="cardNoInput"
                           autoFocus
@@ -172,59 +170,56 @@ const GetOutByCard = () => {
                           name="strCardNumber"
                           type="text"
                           onKeyPress={(e) => {
-                            if (e.key === "Enter") {
-                              setFieldValue("vehicleOutTime", _currentTime());
-                              document.getElementById(
-                                "cardNoInput"
-                              ).disabled = true;
+                            if (e.key === 'Enter') {
+                              setFieldValue('vehicleOutTime', _currentTime());
+                              document.getElementById('cardNoInput').disabled =
+                                true;
                               getData(
                                 `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumberForGateOut&BusinessUnitId=${values?.businessUnit?.value}&search=${values?.strCardNumber}`,
                                 (data) => {
                                   if (data?.length <= 0) {
-                                    setFieldValue("strCardNumber", "");
-                                    toast.warn("Vehicle entry not found");
+                                    setFieldValue('strCardNumber', '');
+                                    toast.warn('Vehicle entry not found');
                                     document.getElementById(
-                                      "cardNoInput"
+                                      'cardNoInput'
                                     ).disabled = false;
                                     document
-                                      .getElementById("cardNoInput")
+                                      .getElementById('cardNoInput')
                                       .focus();
                                   }
                                 }
                               );
                             } else {
-                              document.getElementById(
-                                "cardNoInput"
-                              ).disabled = false;
+                              document.getElementById('cardNoInput').disabled =
+                                false;
                             }
                           }}
                           onChange={(e) => {
-                            setFieldValue("strCardNumber", e.target.value);
+                            setFieldValue('strCardNumber', e.target.value);
                           }}
                         />
                       </div>
                       <span
                         style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          marginLeft: "5px",
-                          cursor: "pointer",
-                          marginTop: "20px",
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          marginLeft: '5px',
+                          cursor: 'pointer',
+                          marginTop: '20px',
                         }}
                         onClick={() => {
                           setData([]);
-                          setFieldValue("strCardNumber", "");
-                          setFieldValue("vehicleOutTime", "");
-                          document.getElementById(
-                            "cardNoInput"
-                          ).disabled = false;
-                          document.getElementById("cardNoInput").focus();
+                          setFieldValue('strCardNumber', '');
+                          setFieldValue('vehicleOutTime', '');
+                          document.getElementById('cardNoInput').disabled =
+                            false;
+                          document.getElementById('cardNoInput').focus();
                         }}
                       >
                         <i
                           style={{
-                            color: "blue",
+                            color: 'blue',
                           }}
                           className="fa fa-refresh"
                           aria-hidden="true"
@@ -238,7 +233,7 @@ const GetOutByCard = () => {
                         name="vehicleOutTime"
                         type="time"
                         onChange={(e) => {
-                          setFieldValue("vehicleOutTime", e.target.value);
+                          setFieldValue('vehicleOutTime', e.target.value);
                         }}
                       />
                     </div>
@@ -264,8 +259,8 @@ const GetOutByCard = () => {
                 </div>
                 <div
                   style={{
-                    width: "80%",
-                    margin: "0 auto",
+                    width: '80%',
+                    margin: '0 auto',
                   }}
                   className="row mt-5"
                 >
@@ -396,21 +391,21 @@ const GetOutByCard = () => {
                 </div>
                 <button
                   type="button"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   onClick={() =>
                     saveHandler(values, () => {
                       resetForm();
                       setData([]);
-                      document.getElementById("cardNoInput").disabled = false;
-                      document.getElementById("cardNoInput").focus();
+                      document.getElementById('cardNoInput').disabled = false;
+                      document.getElementById('cardNoInput').focus();
                     })
                   }
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>
@@ -425,7 +420,7 @@ const GetOutByCard = () => {
                   >
                     <QRCodeScanner
                       QrCodeScannerCB={(result) => {
-                        setFieldValue("strCardNumber", result);
+                        setFieldValue('strCardNumber', result);
                         setQRCodeScannerModal(false);
                         qurScanHandler({
                           setFieldValue,

@@ -1,19 +1,19 @@
-import axios from "axios";
-import { useFormik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICustomCard from "../../../_helper/_customCard";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
-import NewSelect from "../../../_helper/_select";
-import { getProductDDL } from "../../manufacturingExecutionSystem/billOfMaterial/helper";
-import SearchAsyncSelect from "../../../../modules/_helper/SearchAsyncSelect";
-import useAxiosGet from "../../../../modules/_helper/customHooks/useAxiosGet";
-import { onGetProductWiseRMConjunctionReport } from "./helper";
-import printIcon from "../../../_helper/images/print-icon.png";
-import ReactToPrint from "react-to-print";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { getPlantNameDDL_api } from "../../../_helper/_commonApi";
+import axios from 'axios';
+import { useFormik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICustomCard from '../../../_helper/_customCard';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
+import NewSelect from '../../../_helper/_select';
+import { getProductDDL } from '../../manufacturingExecutionSystem/billOfMaterial/helper';
+import SearchAsyncSelect from '../../../../modules/_helper/SearchAsyncSelect';
+import useAxiosGet from '../../../../modules/_helper/customHooks/useAxiosGet';
+import { onGetProductWiseRMConjunctionReport } from './helper';
+import printIcon from '../../../_helper/images/print-icon.png';
+import ReactToPrint from 'react-to-print';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { getPlantNameDDL_api } from '../../../_helper/_commonApi';
 const initialValues = {
   plant: null,
   item: null,
@@ -81,11 +81,11 @@ const ProductionWiseRMConjunctionReport = () => {
                   );
                 }
                 if (values?.plant?.value !== valueOption?.value) {
-                  setFieldValue("item", null);
-                  setFieldValue("rawItem", null);
-                  setFieldValue("productionCode", null);
+                  setFieldValue('item', null);
+                  setFieldValue('rawItem', null);
+                  setFieldValue('productionCode', null);
                 }
-                setFieldValue("plant", valueOption);
+                setFieldValue('plant', valueOption);
               }}
               placeholder="Plant Name"
             />
@@ -98,9 +98,9 @@ const ProductionWiseRMConjunctionReport = () => {
               value={values?.item}
               label="Item Name"
               onChange={(valueOption) => {
-                setFieldValue("item", valueOption);
+                setFieldValue('item', valueOption);
                 if (valueOption) {
-                  setFieldValue("rawItem", null);
+                  setFieldValue('rawItem', null);
                 }
               }}
               placeholder="Select Item"
@@ -112,9 +112,9 @@ const ProductionWiseRMConjunctionReport = () => {
               isDisabled={values?.item}
               selectedValue={values?.rawItem}
               handleChange={(valueOption) => {
-                setFieldValue("rawItem", valueOption);
+                setFieldValue('rawItem', valueOption);
                 if (valueOption) {
-                  setFieldValue("item", null);
+                  setFieldValue('item', null);
                 }
               }}
               loadOptions={(v) => {
@@ -134,7 +134,7 @@ const ProductionWiseRMConjunctionReport = () => {
             <SearchAsyncSelect
               selectedValue={values?.productionCode}
               handleChange={(valueOption) => {
-                setFieldValue("productionCode", valueOption);
+                setFieldValue('productionCode', valueOption);
               }}
               loadOptions={(v) => {
                 if (v?.length < 3 || !values?.plant?.value) return [];
@@ -156,7 +156,7 @@ const ProductionWiseRMConjunctionReport = () => {
               value={values?.fromDate}
               name="fromDate"
               onChange={(e) => {
-                setFieldValue("fromDate", e.target.value);
+                setFieldValue('fromDate', e.target.value);
               }}
               type="date"
             />
@@ -168,12 +168,12 @@ const ProductionWiseRMConjunctionReport = () => {
               value={values?.toDate}
               name="toDate"
               onChange={(e) => {
-                setFieldValue("toDate", e.target.value);
+                setFieldValue('toDate', e.target.value);
               }}
               type="date"
             />
           </div>
-          <div style={{ marginTop: "14px" }} className="col-lg-3">
+          <div style={{ marginTop: '14px' }} className="col-lg-3">
             <button
               type="button"
               className="btn btn-primary"
@@ -185,7 +185,7 @@ const ProductionWiseRMConjunctionReport = () => {
           </div>
           {productionWiseRMConjunctionReportData?.length > 0 && (
             <div
-              style={{ marginTop: "14px" }}
+              style={{ marginTop: '14px' }}
               className="col-lg-3 d-flex align-items-center"
             >
               <div>
@@ -193,7 +193,7 @@ const ProductionWiseRMConjunctionReport = () => {
                   trigger={() => (
                     <button type="button" className="btn btn-primary px-4">
                       <img
-                        style={{ width: "20px", paddingRight: "5px" }}
+                        style={{ width: '20px', paddingRight: '5px' }}
                         src={printIcon}
                         alt="print-icon"
                       />
@@ -227,7 +227,7 @@ const ProductionWiseRMConjunctionReport = () => {
                   <br />
                   <b
                     className="display-5"
-                    style={{ textDecoration: "underline" }}
+                    style={{ textDecoration: 'underline' }}
                   >
                     Production Wise RM Consumption Report
                   </b>
@@ -272,22 +272,22 @@ const ProductionWiseRMConjunctionReport = () => {
                           {item?.isShow ? (
                             <>
                               <td rowSpan={item?.intSectionCount}>
-                                {" "}
+                                {' '}
                                 {item?.productionCode}
                               </td>
                               <td
                                 className="text-center"
                                 rowSpan={item?.intSectionCount}
                               >
-                                {" "}
-                                {item?.itemName}{" "}
+                                {' '}
+                                {item?.itemName}{' '}
                               </td>
                               <td
                                 className="text-center"
                                 rowSpan={item?.intSectionCount}
                               >
-                                {" "}
-                                {item?.UoMRawName}{" "}
+                                {' '}
+                                {item?.UoMRawName}{' '}
                               </td>
                               <td
                                 className="text-center"
@@ -305,31 +305,31 @@ const ProductionWiseRMConjunctionReport = () => {
                           ) : null}
                           <td
                             className={
-                              item?.isTotal ? "text-left" : "text-left"
+                              item?.isTotal ? 'text-left' : 'text-left'
                             }
                           >
                             {item?.ItemRawName}
                           </td>
                           <td className="text-center">
-                            {item?.ItemRawName ? item.UoMRawName : ""}
+                            {item?.ItemRawName ? item.UoMRawName : ''}
                           </td>
                           <td
                             className={
-                              item?.isTotal ? "text-right" : "text-right"
+                              item?.isTotal ? 'text-right' : 'text-right'
                             }
                           >
                             {item?.RequestQuantityRaw}
                           </td>
                           <td
                             className={
-                              item?.isTotal ? "text-right" : "text-right"
+                              item?.isTotal ? 'text-right' : 'text-right'
                             }
                           >
                             {item?.IssueQuantityRaw}
                           </td>
                           <td
                             className={
-                              item?.isTotal ? "text-right" : "text-right"
+                              item?.isTotal ? 'text-right' : 'text-right'
                             }
                           >
                             {item?.wip}

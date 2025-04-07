@@ -1,37 +1,35 @@
-
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { getBankDDL } from "../../../../helper";
-import Loading from "../../../../_chartinghelper/loading/_loading";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { getBankDDL } from '../../../../helper';
+import Loading from '../../../../_chartinghelper/loading/_loading';
 import {
   changeBankInfoStatus,
   getMasterBankInformation,
   // saveEditedMasterBankInformation,
   saveMasterBankInformation,
-} from "../helper";
-import Form from "./form";
+} from '../helper';
+import Form from './form';
 
 const initData = {
-  strAccountHolderName: "",
-  strAccountHolderNumber: "",
-  strBankName: "",
-  strBankBranchName: "",
-  strBankAddress: "",
-  strRoutingNumber: "",
+  strAccountHolderName: '',
+  strAccountHolderNumber: '',
+  strBankName: '',
+  strBankBranchName: '',
+  strBankAddress: '',
+  strRoutingNumber: '',
 };
 
 const headers = [
-  { name: "SL" },
-  { name: "A/C Holder Name" },
-  { name: "A/C Holder Number" },
-  { name: "Bank Name" },
-  { name: "Branch Name" },
-  { name: "Bank Address" },
-  { name: "Routing Number" },
-  { name: "Status" },
-  { name: "Action" },
+  { name: 'SL' },
+  { name: 'A/C Holder Name' },
+  { name: 'A/C Holder Number' },
+  { name: 'Bank Name' },
+  { name: 'Branch Name' },
+  { name: 'Bank Address' },
+  { name: 'Routing Number' },
+  { name: 'Status' },
+  { name: 'Action' },
 ];
 
 export default function LighterVesselMasterInformation({
@@ -85,11 +83,11 @@ export default function LighterVesselMasterInformation({
     resetForm(initData);
   };
 
-  console.log("rowData", rowData);
+  console.log('rowData', rowData);
 
   const saveHandler = (values, cb) => {
     if (rowData?.filter((item) => item?.isActive)?.length > 1) {
-      return toast.error("You can only keep one account active.");
+      return toast.error('You can only keep one account active.');
     }
     saveMasterBankInformation(rowData, setLoading, () => {
       cb();
@@ -102,12 +100,12 @@ export default function LighterVesselMasterInformation({
     if (item?.intAutoId) {
       changeBankInfoStatus(item?.intAutoId, value, setLoading, () => {
         let _data = [...rowData];
-        _data[index]["isActive"] = value;
+        _data[index]['isActive'] = value;
         setRowData(_data);
       });
     } else {
       let _data = [...rowData];
-      _data[index]["isActive"] = value;
+      _data[index]['isActive'] = value;
       setRowData(_data);
     }
   };

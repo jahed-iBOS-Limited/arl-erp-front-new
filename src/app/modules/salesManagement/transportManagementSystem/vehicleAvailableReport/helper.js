@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 //get vehicle status ddl
 export const getVehicleStatusDDL = async (setter) => {
@@ -8,9 +8,7 @@ export const getVehicleStatusDDL = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 // get checkpost
 export const getCheckpostListPermissionByUser = async (
@@ -33,9 +31,7 @@ export const getCheckpostListPermissionByUser = async (
       setter(ddlWithNameID);
       // setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 // Get landing data
 export const getItemRequestGridData = async (
@@ -70,7 +66,7 @@ export const getItemRequestGridData = async (
     }
   } catch (error) {
     setLoading(false);
-    // 
+    //
   }
 };
 /** 
@@ -112,9 +108,7 @@ export const getRequestType = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const saveItemRequest = async (data, cb, setGridData) => {
@@ -122,12 +116,10 @@ export const saveItemRequest = async (data, cb, setGridData) => {
     const res = await Axios.post(`/wms/ItemRequest/CreateItemRequest`, data);
     if (res.status === 200) {
       setGridData([]);
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getReferenceTypeDDL = async (setter) => {
@@ -138,9 +130,7 @@ export const getReferenceTypeDDL = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getPlantDDL = async (userId, ccId, buId, setter) => {
@@ -151,9 +141,7 @@ export const getPlantDDL = async (userId, ccId, buId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getSingleDataForEdit = async (id, setter) => {
@@ -169,18 +157,16 @@ export const getSingleDataForEdit = async (id, setter) => {
           requestDate: setDtoValue.objHeader.dteRequestDate,
           validTill: setDtoValue.objHeader.validTill,
           dueDate: setDtoValue.objHeader.dteDueDate,
-          referenceId: "",
-          quantity: "",
-          remarks: "",
-          item: "",
+          referenceId: '',
+          quantity: '',
+          remarks: '',
+          item: '',
         },
         objRow: [...setDtoValue?.objRow],
       };
       setter(newData);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getSingleData = async (id, setter) => {
@@ -191,21 +177,17 @@ export const getSingleData = async (id, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const saveItemReqEdit = async (data, cb) => {
   try {
     const res = await Axios.put(`/wms/ItemRequest/EditItemRequest`, data);
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       //cb()
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getItemDDL = async (accId, buId, plnId, whId, setter) => {
@@ -216,7 +198,5 @@ export const getItemDDL = async (accId, buId, plnId, whId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };

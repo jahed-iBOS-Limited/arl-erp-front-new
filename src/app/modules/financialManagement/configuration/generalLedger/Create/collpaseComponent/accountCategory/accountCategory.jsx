@@ -1,27 +1,25 @@
-
-
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from 'react';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../../../_metronic/_partials/controls";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-import Axios from "axios";
-import { toast } from "react-toastify";
-import shortid from "shortid";
-import Loading from "./../../../../../../_helper/_loading";
+} from '../../../../../../../../_metronic/_partials/controls';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
+import Loading from './../../../../../../_helper/_loading';
 import {
   getAccountCategoryPasignation_action,
   getClassDDLAction,
-} from "../../../_redux/Actions";
+} from '../../../_redux/Actions';
 const initData = {
-  accountCategoryName: "",
-  accountCategoryCode: "",
-  accountClassName: "",
+  accountCategoryName: '',
+  accountCategoryCode: '',
+  accountClassName: '',
 };
 
 export default function AccountCategory() {
@@ -55,7 +53,6 @@ export default function AccountCategory() {
       dispatch(getClassDDLAction(profileData.accountId));
       dispatch(getAccountCategoryPasignation_action(profileData.accountId));
     }
-
   }, [profileData]);
 
   // delete singleData from row
@@ -66,10 +63,10 @@ export default function AccountCategory() {
       );
       if (res.status === 200) {
         dispatch(getAccountCategoryPasignation_action(profileData?.accountId));
-        toast.success("Successfully deleted");
+        toast.success('Successfully deleted');
       }
     } catch (error) {
-      toast.error("Something went wrong");
+      toast.error('Something went wrong');
     }
   };
 
@@ -89,12 +86,12 @@ export default function AccountCategory() {
 
       try {
         const res = await Axios.post(
-          "/costmgmt/GeneralLedger/CreateAccountCategory",
+          '/costmgmt/GeneralLedger/CreateAccountCategory',
           obj
         );
 
         cb(initData);
-        toast.success(res.data?.message || "Submitted successfully", {
+        toast.success(res.data?.message || 'Submitted successfully', {
           toastId: shortid(),
         });
         dispatch(getAccountCategoryPasignation_action(profileData.accountId));

@@ -1,14 +1,13 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import { getChartererCPData, saveCPClause } from "../helper";
-import Form from "./form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import { getChartererCPData, saveCPClause } from '../helper';
+import Form from './form';
 
 const initData = {
-  fileName: "",
-  cpData: "",
+  fileName: '',
+  cpData: '',
 };
 
 export default function CharterPartyClauseForm() {
@@ -51,7 +50,7 @@ export default function CharterPartyClauseForm() {
         accountId: profileData?.accountId,
         businessUnitId: selectedBusinessUnit?.value,
         docName: values?.fileName,
-        docType: "html",
+        docType: 'html',
         varDataFile: values?.cpData,
         isReadOnly: false,
         actionBy: profileData?.userId,
@@ -66,7 +65,7 @@ export default function CharterPartyClauseForm() {
     <>
       {loading && <Loading />}
       <Form
-        title={"CP Clause"}
+        title={'CP Clause'}
         initData={initData}
         saveHandler={saveHandler}
         viewType={type}

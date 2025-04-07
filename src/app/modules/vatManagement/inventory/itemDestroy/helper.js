@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 export const GetItemDestroyPagination = async (
   accountId,
   buId,
@@ -21,7 +21,6 @@ export const GetItemDestroyPagination = async (
       setLoading(false);
     }
   } catch (error) {
-    
     setLoading(false);
   }
 };
@@ -79,9 +78,7 @@ export const GetItemDestroyView = async (
     }));
 
     setRowDto(row);
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const saveItemDestroy = async (data, cb, setDisabled) => {
@@ -89,12 +86,11 @@ export const saveItemDestroy = async (data, cb, setDisabled) => {
   try {
     const res = await Axios.post(`/vat/ItemDestroy/CreateItemDestroy`, data);
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
   } catch (error) {
-    
     toast.error(error?.response?.data?.message);
     setDisabled(false);
   }
@@ -105,11 +101,10 @@ export const saveEditedProduction = async (data, setDisabled) => {
   try {
     const res = await Axios.put(`/vat/TaxItemGroup/EditTaxItemGroup`, data);
     if (res.status === 200) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       setDisabled(false);
     }
   } catch (error) {
-    
     toast.error(error?.response?.data?.message);
     setDisabled(false);
   }
@@ -123,9 +118,7 @@ export const getTaxBranchDDL_api = async (userId, accid, buid, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getItemTypeDDL_api = async (setter) => {
@@ -134,9 +127,7 @@ export const getItemTypeDDL_api = async (setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getItemNamelistDDL_api = async (
@@ -152,9 +143,7 @@ export const getItemNamelistDDL_api = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getFourData_api = async (
@@ -186,9 +175,7 @@ export const getFourData_api = async (
       setRowDto([...rowDtoModified]);
       // console.log(res?.data, "data");
     } else {
-      toast.warning("No data found");
+      toast.warning('No data found');
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };

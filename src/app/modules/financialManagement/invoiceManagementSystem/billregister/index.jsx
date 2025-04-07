@@ -1,37 +1,37 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import * as Yup from "yup";
-import PaginationSearch from "../../../_helper/_search";
-import IViewModal from "../../../_helper/_viewModal";
-import { setBillregisterLandingAtion } from "../../../_helper/reduxForLocalStorage/Actions";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import * as Yup from 'yup';
+import PaginationSearch from '../../../_helper/_search';
+import IViewModal from '../../../_helper/_viewModal';
+import { setBillregisterLandingAtion } from '../../../_helper/reduxForLocalStorage/Actions';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "./../../../../../_metronic/_partials/controls";
-import InputField from "./../../../_helper/_inputField";
-import Loading from "./../../../_helper/_loading";
-import NewSelect from "./../../../_helper/_select";
-import PaginationTable from "./../../../_helper/_tablePagination";
-import { _todayDate } from "./../../../_helper/_todayDate";
-import GridData from "./grid";
+} from './../../../../../_metronic/_partials/controls';
+import InputField from './../../../_helper/_inputField';
+import Loading from './../../../_helper/_loading';
+import NewSelect from './../../../_helper/_select';
+import PaginationTable from './../../../_helper/_tablePagination';
+import { _todayDate } from './../../../_helper/_todayDate';
+import GridData from './grid';
 import {
   GetBillTypeDDL,
   getBillRegisterPagination_api,
   getCostCenterDDL,
   getPlantDDL,
   getSbuDDL,
-} from "./helper";
-import OthersBillForm from "./othersBill/Form/addEditForm";
+} from './helper';
+import OthersBillForm from './othersBill/Form/addEditForm';
 const initData = {
-  sbu: "",
-  billType: "",
-  plant: "",
-  costCenter: "",
+  sbu: '',
+  billType: '',
+  plant: '',
+  costCenter: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -76,7 +76,7 @@ function BillregisterLanding() {
     }
   }, [profileData, selectedBusinessUnit]);
 
-  const girdDataFunc = (pageNo, pageSize, values, searchValue = "") => {
+  const girdDataFunc = (pageNo, pageSize, values, searchValue = '') => {
     getBillRegisterPagination_api(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -108,7 +108,6 @@ function BillregisterLanding() {
         setCostCenterDDL
       );
     }
-
   }, []);
 
   const cb = () => {
@@ -151,7 +150,7 @@ function BillregisterLanding() {
           <div className="">
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Bill Register"}>
+              <CardHeader title={'Bill Register'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
@@ -186,8 +185,8 @@ function BillregisterLanding() {
                         value={values?.sbu}
                         label="Select SBU"
                         onChange={(valueOption) => {
-                          setFieldValue("sbu", valueOption);
-                          setFieldValue("costCenter", "");
+                          setFieldValue('sbu', valueOption);
+                          setFieldValue('costCenter', '');
                           setRowDto([]);
                           getCostCenterDDL(
                             profileData.accountId,
@@ -205,12 +204,12 @@ function BillregisterLanding() {
                       <NewSelect
                         name="plant"
                         options={
-                          [{ value: 0, label: "All" }, ...plantDDL] || []
+                          [{ value: 0, label: 'All' }, ...plantDDL] || []
                         }
                         value={values?.plant}
                         label="Select Plant"
                         onChange={(valueOption) => {
-                          setFieldValue("plant", valueOption);
+                          setFieldValue('plant', valueOption);
                           setRowDto([]);
                         }}
                         placeholder="Select Plant"
@@ -225,7 +224,7 @@ function BillregisterLanding() {
                         value={values?.billType}
                         label="Bill Type"
                         onChange={(valueOption) => {
-                          setFieldValue("billType", valueOption);
+                          setFieldValue('billType', valueOption);
                           setRowDto([]);
                         }}
                         placeholder="Bill Type"
@@ -256,10 +255,10 @@ function BillregisterLanding() {
                         <NewSelect
                           name="costCenter"
                           options={costCenterDDL || []}
-                          value={values?.costCenter || ""}
+                          value={values?.costCenter || ''}
                           label="Cost Center"
                           onChange={(valueOption) => {
-                            setFieldValue("costCenter", valueOption);
+                            setFieldValue('costCenter', valueOption);
                             setRowDto([]);
                           }}
                           placeholder="Cost Center"
@@ -274,7 +273,7 @@ function BillregisterLanding() {
                           dispatch(setBillregisterLandingAtion(values));
                           ViewOnChangeHandler(values);
                         }}
-                        style={{ marginTop: "19px" }}
+                        style={{ marginTop: '19px' }}
                         className="btn btn-primary ml-2 mr-2"
                         type="button"
                         disabled={!values?.plant || !values?.billType}

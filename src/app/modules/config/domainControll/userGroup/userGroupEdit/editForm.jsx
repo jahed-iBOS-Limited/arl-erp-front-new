@@ -1,26 +1,25 @@
-
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import Form from "../common/form";
-import Axios from "axios";
-import shortid from "shortid";
+} from '../../../../../../_metronic/_partials/controls';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import Form from '../common/form';
+import Axios from 'axios';
+import shortid from 'shortid';
 
-import { toast } from "react-toastify";
-import { useSelector, shallowEqual } from "react-redux";
-import { uniqBy } from "lodash";
-import Loading from "../../../../_helper/_loading";
+import { toast } from 'react-toastify';
+import { useSelector, shallowEqual } from 'react-redux';
+import { uniqBy } from 'lodash';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
-  userId: "",
-  userGroupName: "",
-  userGroupCode: "",
-  warehouseName: "",
+  userId: '',
+  userGroupName: '',
+  userGroupCode: '',
+  warehouseName: '',
 };
 
 export default function UserGroupEditForm({
@@ -31,16 +30,16 @@ export default function UserGroupEditForm({
 }) {
   const [isDisabled, setDisabled] = useState(false);
 
-  const [data, setData] = useState("");
-  const [headerDto, setHeaderDto] = useState("");
+  const [data, setData] = useState('');
+  const [headerDto, setHeaderDto] = useState('');
 
   useEffect(() => {
     getBusinessUnitById(id);
-
   }, [id]);
 
   const getBusinessUnitById = async (id, accountId) => {
-    const res = await Axios.get(`/domain/CreateUserGroup/GetUserGroupInformationByGroupId?UserGroupId=${id}
+    const res =
+      await Axios.get(`/domain/CreateUserGroup/GetUserGroupInformationByGroupId?UserGroupId=${id}
         `);
     const { data, status } = res;
     if (status === 200 && data) {
@@ -53,7 +52,7 @@ export default function UserGroupEditForm({
   // Check duplicate for show warning
   function hasDuplicates(a) {
     return (
-      uniqBy(a, function(itm) {
+      uniqBy(a, function (itm) {
         return itm.userId;
       }).length !== a.length
     );
@@ -63,11 +62,11 @@ export default function UserGroupEditForm({
   const setDataToState = (payload) => {
     const duplicate = hasDuplicates([...data, payload]);
     if (duplicate) {
-      toast.warn("Not allow duplicate attribute", {
-        toastId: "attribute_duplicate",
+      toast.warn('Not allow duplicate attribute', {
+        toastId: 'attribute_duplicate',
       });
     } else {
-      var uniq = uniqBy([...data, payload], function(itm) {
+      var uniq = uniqBy([...data, payload], function (itm) {
         return itm.userId;
       });
       setData(uniq);
@@ -96,7 +95,7 @@ export default function UserGroupEditForm({
           accountId: profileData.accountId,
           actionBy: profileData.userId,
           businessUnitId: selectedBusinessUnit.value,
-          lastActionDateTime: "2020-08-09T11:16:57.939Z",
+          lastActionDateTime: '2020-08-09T11:16:57.939Z',
           isActive: true,
           userGroupId: +id,
         },
@@ -107,7 +106,7 @@ export default function UserGroupEditForm({
             actionBy: profileData.userId,
             userGroupId: itm.userGroupId || +id,
             lastActionDateTime:
-              itm.lastActionDateTime || "2020-08-09T11:16:57.939Z",
+              itm.lastActionDateTime || '2020-08-09T11:16:57.939Z',
             isActive: itm.isActive || true,
           };
         }),
@@ -116,12 +115,12 @@ export default function UserGroupEditForm({
       try {
         setDisabled(true);
         const res = await Axios.put(
-          "/domain/CreateUserGroup/EditUserGroup",
+          '/domain/CreateUserGroup/EditUserGroup',
           formData
         );
         cb(initData);
         setDisabled(false);
-        toast.success(res.data?.message || "Submitted successfully", {
+        toast.success(res.data?.message || 'Submitted successfully', {
           toastId: shortid(),
         });
         backHandler();

@@ -1,10 +1,10 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import IForm from '../../../_helper/_form';
+import Loading from '../../../_helper/_loading';
 
 const initData = {};
 export default function RMPRItemList() {
@@ -37,7 +37,6 @@ export default function RMPRItemList() {
 
   useEffect(() => {
     getRowData(`/mes/WeightBridge/GetAllQCRawMaterialListForPR`, modifyItem);
-
   }, []);
 
   const saveHandler = async (values, cb) => {
@@ -67,7 +66,7 @@ export default function RMPRItemList() {
           enableReinitialize={true}
           initialValues={initData}
           onSubmit={(values, { setSubmitting, resetForm }) => {
-            saveHandler(values, () => { });
+            saveHandler(values, () => {});
           }}
         >
           {({
@@ -112,14 +111,14 @@ export default function RMPRItemList() {
 
                 <div className="row mt-4">
                   <div className="col-lg-4">
-                    <b style={{ fontSize: "16px" }}>Item List</b>
+                    <b style={{ fontSize: '16px' }}>Item List</b>
                   </div>
                   <div className="col-lg-8">
-                    <strong style={{ marginRight: "30px" }}>
+                    <strong style={{ marginRight: '30px' }}>
                       Less Quantity : {rowData?.numTotalLessQuantity} MT
                     </strong>
                     <strong>
-                      Over Size Quantity : {rowData?.numTotalOverSizeQuantity}{" "}
+                      Over Size Quantity : {rowData?.numTotalOverSizeQuantity}{' '}
                       MT
                     </strong>
                   </div>
@@ -144,7 +143,7 @@ export default function RMPRItemList() {
                               <td>{index + 1}</td>
                               <td>{item?.strItemCode}</td>
                               <td>{item?.strItemName}</td>
-                              <td>{"Metric Tons"}</td>
+                              <td>{'Metric Tons'}</td>
                               <td>{item?.numQuantity}</td>
                             </tr>
                           ))}
@@ -155,14 +154,14 @@ export default function RMPRItemList() {
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

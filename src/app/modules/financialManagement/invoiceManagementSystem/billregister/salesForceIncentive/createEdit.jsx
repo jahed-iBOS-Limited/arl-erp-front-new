@@ -1,21 +1,21 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import IForm from "../../../../_helper/_form";
-import IView from "../../../../_helper/_helperIcons/_view";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import IForm from '../../../../_helper/_form';
+import IView from '../../../../_helper/_helperIcons/_view';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import AttachmentUploaderNew from '../../../../_helper/attachmentUploaderNew';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 
 const initData = {
-  channel: "",
-  fromDate: "",
-  toDate: "",
-  salesOrganization: "",
+  channel: '',
+  fromDate: '',
+  toDate: '',
+  salesOrganization: '',
 };
 
 export default function SalesForceIncentiveCreate({ headerData }) {
@@ -27,39 +27,44 @@ export default function SalesForceIncentiveCreate({ headerData }) {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const [
-    incentiveData,
-    getIncentiveData,
-    loadIncentiveData,
-    setIncentiveData,
-  ] = useAxiosGet();
+  const [incentiveData, getIncentiveData, loadIncentiveData, setIncentiveData] =
+    useAxiosGet();
   const [, incentiveSave, loadIncentiveSave] = useAxiosPost();
   const [salesOrganizationList, getSalesOrganizationList] = useAxiosGet();
-  const [reportType, setReportType] = useState({ value: 1, label: "Top Sheet" });
+  const [reportType, setReportType] = useState({
+    value: 1,
+    label: 'Top Sheet',
+  });
 
-  const incentiveReportData = reportType?.label === "Top Sheet" ? incentiveData?.filter((item) => item?.numIncentiveAmount > 0) : incentiveData;
-  const selectedIncentiveReportData = incentiveReportData?.filter((item) => item?.isSelected);
-
+  const incentiveReportData =
+    reportType?.label === 'Top Sheet'
+      ? incentiveData?.filter((item) => item?.numIncentiveAmount > 0)
+      : incentiveData;
+  const selectedIncentiveReportData = incentiveReportData?.filter(
+    (item) => item?.isSelected
+  );
 
   const saveHandler = (values, cb) => {
     const newData = incentiveReportData?.filter((item) => item?.isSelected);
     if (!newData?.length) {
-      return toast.warn("Select at least one row");
+      return toast.warn('Select at least one row');
     }
 
-    const hasMissingIncentiveAmount = newData?.some((item) => !(+item?.numIncentiveAmount > 0));
+    const hasMissingIncentiveAmount = newData?.some(
+      (item) => !(+item?.numIncentiveAmount > 0)
+    );
 
-    if(hasMissingIncentiveAmount){
-      return toast.warn("Incentive amont missing in save data")
+    if (hasMissingIncentiveAmount) {
+      return toast.warn('Incentive amont missing in save data');
     }
 
     const rowPayloadData = newData?.map((item) => ({
       businessId: buId,
-      region: item?.strRegoin || "",
-      area: item?.strArea || "",
-      territory: item?.strTeritory || "",
+      region: item?.strRegoin || '',
+      area: item?.strArea || '',
+      territory: item?.strTeritory || '',
       employeeId: item?.intEmployeeBasicInfoId || 0,
-      employeeName: item?.strEmployeeName || "",
+      employeeName: item?.strEmployeeName || '',
       monthId: item?.monthid,
       yearId: item?.yearid,
       salesAmount: item?.numSalesAmount,
@@ -73,7 +78,7 @@ export default function SalesForceIncentiveCreate({ headerData }) {
       channelId: item?.intChannelid || 0,
       salesQnt: item?.numSalesQnt || 0,
       targetQnt: item?.numTargetQuantity || 0,
-      naration: values?.narration || "",
+      naration: values?.narration || '',
       billRef: values?.billNo || 0,
       billTypeId: +headerData?.billType?.value || 0,
     }));
@@ -81,7 +86,7 @@ export default function SalesForceIncentiveCreate({ headerData }) {
     const payload = {
       headerObj: rowPayloadData,
       imgObj: {
-        imageId: values?.attachment || "",
+        imageId: values?.attachment || '',
       },
     };
     incentiveSave(
@@ -109,7 +114,6 @@ export default function SalesForceIncentiveCreate({ headerData }) {
     getSalesOrganizationList(
       `/oms/BusinessUnitSalesOrganization/GetPartnerGroupFromSalesOrgDDL?AccountId=${accId}&BUnitId=${buId}`
     );
-
   }, [accId, buId]);
   return (
     <Formik
@@ -119,7 +123,7 @@ export default function SalesForceIncentiveCreate({ headerData }) {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
-          setIncentiveData([])
+          setIncentiveData([]);
         });
       }}
     >
@@ -158,7 +162,7 @@ export default function SalesForceIncentiveCreate({ headerData }) {
                       value={values?.salesOrganization}
                       label="Sales Organization"
                       onChange={(valueOption) => {
-                        setFieldValue("salesOrganization", valueOption);
+                        setFieldValue('salesOrganization', valueOption);
                         setIncentiveData([]);
                       }}
                       errors={errors}
@@ -173,7 +177,7 @@ export default function SalesForceIncentiveCreate({ headerData }) {
                     value={values?.channel}
                     label="Channel"
                     onChange={(valueOption) => {
-                      setFieldValue("channel", valueOption);
+                      setFieldValue('channel', valueOption);
                       setIncentiveData([]);
                     }}
                     errors={errors}
@@ -187,7 +191,7 @@ export default function SalesForceIncentiveCreate({ headerData }) {
                     label="From Date"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
+                      setFieldValue('fromDate', e.target.value);
                       setIncentiveData([]);
                     }}
                   />
@@ -201,7 +205,7 @@ export default function SalesForceIncentiveCreate({ headerData }) {
                     type="date"
                     min={values?.fromDate}
                     onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
+                      setFieldValue('toDate', e.target.value);
                       setIncentiveData([]);
                     }}
                   />
@@ -217,9 +221,11 @@ export default function SalesForceIncentiveCreate({ headerData }) {
                       // const api = `/oms/IncentiveConfig/GetIncenttiveView?businessUnitId=${buId}&certainDate=${values?.toDate}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`;
                       const api = `/oms/IncentiveConfig/GetIncenttiveViewByDesignation?intunitid=4&fromdate=${values?.fromDate}&todate=${values?.toDate}&intSalesOrganizationId=${values?.salesOrganization?.value}&intChannelId=${values?.channel?.value}&intRATId=0&intLevelid=0`;
 
-                      const essentialRowDataApi = `/oms/OMSPivotReport/GetEmployeeTargetVsAchForCommission?PartId=${1}&BusinessUnitId=${buId}&ChannelId=${values.channel.value
-                        }&RegionId=0&AreaId=0&FromDate=${values.fromDate
-                        }&ToDate=${values.toDate}`;
+                      const essentialRowDataApi = `/oms/OMSPivotReport/GetEmployeeTargetVsAchForCommission?PartId=${1}&BusinessUnitId=${buId}&ChannelId=${
+                        values.channel.value
+                      }&RegionId=0&AreaId=0&FromDate=${
+                        values.fromDate
+                      }&ToDate=${values.toDate}`;
 
                       if (buId === 144) {
                         // console.log("scope");
@@ -228,7 +234,7 @@ export default function SalesForceIncentiveCreate({ headerData }) {
                         getIncentiveData(api);
                       }
                     }}
-                    style={{ marginTop: "17px" }}
+                    style={{ marginTop: '17px' }}
                     className="btn btn-primary"
                     type="button"
                   >
@@ -259,13 +265,13 @@ export default function SalesForceIncentiveCreate({ headerData }) {
                 <div className="col-lg-3 mt-3">
                   <AttachmentUploaderNew
                     style={{
-                      backgroundColor: "transparent",
-                      color: "black",
+                      backgroundColor: 'transparent',
+                      color: 'black',
                     }}
                     CBAttachmentRes={(attachmentData) => {
                       if (Array.isArray(attachmentData)) {
                         // console.log({ attachment: attachmentData });
-                        setFieldValue("attachment", attachmentData?.[0]?.id);
+                        setFieldValue('attachment', attachmentData?.[0]?.id);
                       }
                     }}
                   />
@@ -280,28 +286,31 @@ export default function SalesForceIncentiveCreate({ headerData }) {
                 ) : (
                   <>
                     <div className="row mt-3">
-
                       <div className="col-lg-9 text-center">
                         <strong>
-                          Grand Total of Incentive Amount : {selectedIncentiveReportData?.reduce(
-                            (total, item) => total + (item.numIncentiveAmount || 0),
+                          Grand Total of Incentive Amount :{' '}
+                          {selectedIncentiveReportData?.reduce(
+                            (total, item) =>
+                              total + (item.numIncentiveAmount || 0),
                             0
                           )}
                         </strong>
                       </div>
                       <div className="col-lg-3">
                         <NewSelect
-                          options={[{ value: 1, label: "Top Sheet" }, { value: 2, label: "Details" }]}
+                          options={[
+                            { value: 1, label: 'Top Sheet' },
+                            { value: 2, label: 'Details' },
+                          ]}
                           value={reportType}
                           onChange={(valueOption) => {
                             if (valueOption) {
-                              setReportType(valueOption)
+                              setReportType(valueOption);
                             } else {
-                              setReportType({ value: 1, label: "Top Sheet" })
+                              setReportType({ value: 1, label: 'Top Sheet' });
                             }
                           }}
                         />
-
                       </div>
                     </div>
                     <div className="table-responsive">
@@ -313,13 +322,17 @@ export default function SalesForceIncentiveCreate({ headerData }) {
                                 type="checkbox"
                                 checked={
                                   incentiveReportData?.length > 0 &&
-                                  incentiveReportData.every((item) => item?.isSelected)
+                                  incentiveReportData.every(
+                                    (item) => item?.isSelected
+                                  )
                                 }
                                 onChange={(e) => {
-                                  const data = incentiveReportData.map((item) => ({
-                                    ...item,
-                                    isSelected: e.target.checked,
-                                  }));
+                                  const data = incentiveReportData.map(
+                                    (item) => ({
+                                      ...item,
+                                      isSelected: e.target.checked,
+                                    })
+                                  );
                                   setIncentiveData(data);
                                 }}
                               />
@@ -353,7 +366,7 @@ export default function SalesForceIncentiveCreate({ headerData }) {
                                     checked={item?.isSelected}
                                     onChange={(e) => {
                                       const data = [...incentiveReportData];
-                                      data[index]["isSelected"] =
+                                      data[index]['isSelected'] =
                                         e.target.checked;
                                       setIncentiveData(data);
                                     }}
@@ -373,7 +386,9 @@ export default function SalesForceIncentiveCreate({ headerData }) {
                                 <td>{item?.strBankWalletName}</td>
                                 <td>{item?.strBranchName}</td>
                                 <td>{item?.strAccountNo}</td>
-                                <td className="text-center">{item?.strRegoin}</td>
+                                <td className="text-center">
+                                  {item?.strRegoin}
+                                </td>
                                 <td className="text-center">{item?.strArea}</td>
                                 <td className="text-center">
                                   {item?.strTeritory}
@@ -391,25 +406,27 @@ export default function SalesForceIncentiveCreate({ headerData }) {
                                   {item?.numAchievement}
                                 </td>
                                 <td className="text-center">
-                                  {reportType?.label === "Top Sheet" ?
-                                  <InputField
-                                    value={item?.numIncentiveAmount || ""}
-                                    type="number"
-                                    onChange={(e) => {
-                                      if (+e.target.value < 0) return;
-                                      const data = [...incentiveReportData];
-                                      data[index]["numIncentiveAmount"] = +e
-                                        .target.value;
-                                      setIncentiveData(data);
-                                    }}
-                                  /> :
-                                   <span>{item?.numIncentiveAmount}</span> }
+                                  {reportType?.label === 'Top Sheet' ? (
+                                    <InputField
+                                      value={item?.numIncentiveAmount || ''}
+                                      type="number"
+                                      onChange={(e) => {
+                                        if (+e.target.value < 0) return;
+                                        const data = [...incentiveReportData];
+                                        data[index]['numIncentiveAmount'] =
+                                          +e.target.value;
+                                        setIncentiveData(data);
+                                      }}
+                                    />
+                                  ) : (
+                                    <span>{item?.numIncentiveAmount}</span>
+                                  )}
                                 </td>
                                 <td className="text-center">
-                                  {" "}
+                                  {' '}
                                   <IView
                                     title="View"
-                                    clickHandler={() => alert("hello")}
+                                    clickHandler={() => alert('hello')}
                                   />
                                 </td>
                               </tr>
@@ -423,14 +440,14 @@ export default function SalesForceIncentiveCreate({ headerData }) {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

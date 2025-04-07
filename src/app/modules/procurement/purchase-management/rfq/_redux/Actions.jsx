@@ -1,8 +1,8 @@
-import * as requestFromServer from "./Api";
-import { rfqSlice } from "./Slice";
-import { toast } from "react-toastify";
-import axios from "axios";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import * as requestFromServer from './Api';
+import { rfqSlice } from './Slice';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 const { actions: slice } = rfqSlice;
 
 // save rfq
@@ -11,7 +11,7 @@ export const saveRfq = (payload) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         // payload.cb();
       }
     })
@@ -26,7 +26,7 @@ export const saveQuotationEntry = (payload) => () => {
     .saveQuotationEntryData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         // payload.cb();
       }
     })
@@ -39,7 +39,7 @@ export const updateQuotationEntry = (payload) => () => {
     .updateQuotationEntryData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         // payload.cb();
       }
     })
@@ -54,7 +54,7 @@ export const saveCSDataAction = (payload) => () => {
     .saveCSData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         // payload.cb();
       }
     })
@@ -64,25 +64,18 @@ export const saveCSDataAction = (payload) => () => {
 };
 
 // grid data
-export const getRfqGridData = (
-  accId,
-  buId,
-  plantId,
-  warehouseId,
-  sbuId,
-  POId,
-  reqId
-) => (dispatch) => {
-  return requestFromServer
-    .getGridData(accId, buId, plantId, warehouseId, sbuId, POId, reqId)
-    .then((res) => {
-      if (!res?.data?.data?.length) {
-        toast.warning("No data found");
-      }
-      return dispatch(slice.SetGridData(res.data));
-    })
-    .catch((err) => {});
-};
+export const getRfqGridData =
+  (accId, buId, plantId, warehouseId, sbuId, POId, reqId) => (dispatch) => {
+    return requestFromServer
+      .getGridData(accId, buId, plantId, warehouseId, sbuId, POId, reqId)
+      .then((res) => {
+        if (!res?.data?.data?.length) {
+          toast.warning('No data found');
+        }
+        return dispatch(slice.SetGridData(res.data));
+      })
+      .catch((err) => {});
+  };
 
 // quotation data
 export const getQuotationData = (accId, buId, rfqId) => (dispatch) => {
@@ -90,7 +83,7 @@ export const getQuotationData = (accId, buId, rfqId) => (dispatch) => {
     .getQuotationData(accId, buId, rfqId)
     .then((res) => {
       if (!res?.data?.data?.length) {
-        toast.warning("No data found");
+        toast.warning('No data found');
       }
       return dispatch(slice.SetQuotationData(res.data?.data));
     })
@@ -103,7 +96,7 @@ export const getCsDataAction = (accId, buId, rfqId) => (dispatch) => {
     .getCsData(accId, buId, rfqId)
     .then((res) => {
       if (!res?.data?.length) {
-        toast.warning("No data found");
+        toast.warning('No data found');
       }
       return dispatch(slice.SetCsData(res.data));
     })
@@ -116,7 +109,7 @@ export const saveEditedRFQ = (payload) => () => {
     .saveEditedData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
       }
     })
@@ -160,23 +153,17 @@ export const getUomDDLAction = (accId, buId, itemId) => (dispatch) => {
 };
 
 // getRefNoDDL ddl
-export const getRefNoDDLAction = (
-  accId,
-  buId,
-  sbuId,
-  POId,
-  plantId,
-  wareHouseId
-) => (dispatch) => {
-  requestFromServer
-    .getRefNoDDL(accId, buId, sbuId, POId, plantId, wareHouseId)
-    .then((res) => {
-      if (res.status === 200) {
-        dispatch(slice.SetRefNoDDL(res.data));
-      }
-    })
-    .catch((err) => {});
-};
+export const getRefNoDDLAction =
+  (accId, buId, sbuId, POId, plantId, wareHouseId) => (dispatch) => {
+    requestFromServer
+      .getRefNoDDL(accId, buId, sbuId, POId, plantId, wareHouseId)
+      .then((res) => {
+        if (res.status === 200) {
+          dispatch(slice.SetRefNoDDL(res.data));
+        }
+      })
+      .catch((err) => {});
+  };
 
 // item ddl
 export const getItemDDLAction = (accId, buId, plantId, whId) => (dispatch) => {
@@ -191,25 +178,17 @@ export const getItemDDLAction = (accId, buId, plantId, whId) => (dispatch) => {
 };
 
 // item ddl when reference type === with reference
-export const getItemDDLWithRefAction = (
-  accId,
-  buId,
-  sbu,
-  poId,
-  plantId,
-  whId,
-  prId,
-  ref
-) => (dispatch) => {
-  requestFromServer
-    .getItemDDLWithRef(accId, buId, sbu, poId, plantId, whId, prId, ref)
-    .then((res) => {
-      if (res.status === 200) {
-        dispatch(slice.SetItemDDL(res.data));
-      }
-    })
-    .catch((err) => {});
-};
+export const getItemDDLWithRefAction =
+  (accId, buId, sbu, poId, plantId, whId, prId, ref) => (dispatch) => {
+    requestFromServer
+      .getItemDDLWithRef(accId, buId, sbu, poId, plantId, whId, prId, ref)
+      .then((res) => {
+        if (res.status === 200) {
+          dispatch(slice.SetItemDDL(res.data));
+        }
+      })
+      .catch((err) => {});
+  };
 
 export const getSupplierNameDDLAction = async (accId, buId, sbuId, setter) => {
   try {
@@ -233,18 +212,18 @@ export const getSupplierItemRowNameDDLAction = async (
     );
     if (res.status === 200 && res?.data) {
       res.data.itemList.forEach((item) => {
-        item["rfqQty"] = item["requestQuantity"];
-        item["purchaseDescription"] = item["narration"];
-        item["comments"] = item["remarks"] || "";
-        item["rowid"] = item["rowId"];
+        item['rfqQty'] = item['requestQuantity'];
+        item['purchaseDescription'] = item['narration'];
+        item['comments'] = item['remarks'] || '';
+        item['rowid'] = item['rowId'];
       });
       setter(res.data.itemList);
-      setFieldValue("supplierRef", res.data.headerData.supplierRefNo || "");
+      setFieldValue('supplierRef', res.data.headerData.supplierRefNo || '');
       setFieldValue(
-        "supplierDate",
+        'supplierDate',
         res.data.headerData.supplierRefDate
           ? _dateFormatter(res.data.headerData.supplierRefDate)
-          : ""
+          : ''
       );
     }
   } catch (error) {}
@@ -266,7 +245,7 @@ export const getRFQSupplierNameDDLAction = async (
       `/procurement/RequestForQuotation/GetRFQSupplierDDL?AccountId=${accId}&BusinessUnitId=${buId}&RequestForQuotationId=${rfqId}`
     );
     if (res.status === 200 && res?.data) {
-      console.log(res.data, "data");
+      console.log(res.data, 'data');
       setter(res?.data);
     }
   } catch (error) {}

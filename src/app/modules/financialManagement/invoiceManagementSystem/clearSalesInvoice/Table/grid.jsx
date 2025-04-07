@@ -1,19 +1,19 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useHistory } from "react-router-dom";
-import { withRouter } from "react-router-dom";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React, { useEffect, useState, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import CashViewForm from "./../view/cash/viewModal";
-import BankViewForm from "./../view/bank/viewModal";
-import AdjustmentViewForm from "./../view/adjustment/viewModal";
-import { useSelector, shallowEqual } from "react-redux";
-import { GetGeneralLedgerDDLType_api } from "../helper";
-import Loading from "./../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import InvoiceReportTable from "../view/invoiceReport/viewModal";
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import CashViewForm from './../view/cash/viewModal';
+import BankViewForm from './../view/bank/viewModal';
+import AdjustmentViewForm from './../view/adjustment/viewModal';
+import { useSelector, shallowEqual } from 'react-redux';
+import { GetGeneralLedgerDDLType_api } from '../helper';
+import Loading from './../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import InvoiceReportTable from '../view/invoiceReport/viewModal';
 
 const GridData = ({
   rowDto,
@@ -24,7 +24,6 @@ const GridData = ({
   values,
   gridDataFunc,
 }) => {
-
   let history = useHistory();
   const printRef = useRef();
   const [modalShow1, setModalShow1] = useState(false);
@@ -78,12 +77,12 @@ const GridData = ({
                   <button
                     type="button"
                     className="btn btn-primary"
-                    style={{ padding: "2px 5px" }}
+                    style={{ padding: '2px 5px' }}
                   >
                     <img
                       style={{
-                        width: "25px",
-                        paddingRight: "5px",
+                        width: '25px',
+                        paddingRight: '5px',
                       }}
                       src={printIcon}
                       alt="print-icon"
@@ -99,16 +98,16 @@ const GridData = ({
                 <table className="table table-striped table-bordered global-table table-font-size-sm">
                   <thead>
                     <tr>
-                      <th style={{ width: "30px" }}>SL</th>
-                      <th style={{ width: "100px" }}>Invocie Date</th>
-                      <th style={{ width: "100px" }}>Invoice No</th>
-                      <th style={{ width: "100px" }}>Partner Code</th>
-                      <th style={{ width: "100px" }}>Partner Name</th>
-                      <th style={{ width: "100px" }}>Partner Address</th>
-                      <th style={{ width: "100px" }}>Invoice Amount</th>
-                      <th style={{ width: "100px" }}>Pending Amount</th>
+                      <th style={{ width: '30px' }}>SL</th>
+                      <th style={{ width: '100px' }}>Invocie Date</th>
+                      <th style={{ width: '100px' }}>Invoice No</th>
+                      <th style={{ width: '100px' }}>Partner Code</th>
+                      <th style={{ width: '100px' }}>Partner Name</th>
+                      <th style={{ width: '100px' }}>Partner Address</th>
+                      <th style={{ width: '100px' }}>Invoice Amount</th>
+                      <th style={{ width: '100px' }}>Pending Amount</th>
                       <th
-                        style={{ width: "300px" }}
+                        style={{ width: '300px' }}
                         className="printSectionNone"
                       >
                         Action
@@ -121,7 +120,7 @@ const GridData = ({
                         <tr>
                           <td className="text-center"> {index + 1}</td>
                           <td className="text-center">
-                            {" "}
+                            {' '}
                             {_dateFormatter(item.transactionDate)}
                           </td>
                           <td className="text-center"> {item?.invoiceCode}</td>
@@ -151,7 +150,7 @@ const GridData = ({
                               <button
                                 type="button"
                                 className="btn btn-primary"
-                                style={{ padding: "5px" }}
+                                style={{ padding: '5px' }}
                                 onClick={() => {
                                   setModalShow1(true);
                                   setCurrentItem(item);
@@ -168,7 +167,7 @@ const GridData = ({
                                   setModalShow2(true);
                                   setCurrentItem(item);
                                 }}
-                                style={{ padding: "5px" }}
+                                style={{ padding: '5px' }}
                               >
                                 Bank
                               </button>
@@ -181,7 +180,7 @@ const GridData = ({
                                   setModalShow3(true);
                                   setCurrentItem(item);
                                 }}
-                                style={{ padding: "5px 5px", width: "86px" }}
+                                style={{ padding: '5px 5px', width: '86px' }}
                               >
                                 Adjustment
                               </button>
@@ -193,7 +192,7 @@ const GridData = ({
                                 setModalShow4(true);
                                 setCurrentItem(item);
                               }}
-                              style={{ padding: "5px 5px", width: "50px" }}
+                              style={{ padding: '5px 5px', width: '50px' }}
                             >
                               View
                             </button>

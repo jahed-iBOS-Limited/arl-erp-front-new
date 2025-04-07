@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { cancelJournal } from "../../../../_helper/_commonApi";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { cancelJournal } from '../../../../_helper/_commonApi';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import {
   getBankJournalGridData,
   // saveCancel_action,
   saveCompleted_action,
-} from "../_redux/Actions";
-import "../style.css";
-import IConfirmModal from "./../../../../_helper/_confirmModal";
-import HeaderForm from "./form";
+} from '../_redux/Actions';
+import '../style.css';
+import IConfirmModal from './../../../../_helper/_confirmModal';
+import HeaderForm from './form';
 
 export default function BankJournalLanding() {
   const [rowDto, setRowDto] = useState([]);
@@ -20,7 +20,7 @@ export default function BankJournalLanding() {
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(500);
   const [totalCountRowDto, setTotalCountRowDto] = React.useState(0);
-  const [typeStatus, setTypeStatus] = React.useState("");
+  const [typeStatus, setTypeStatus] = React.useState('');
   const dispatch = useDispatch();
   // get salesOrder list  from store
   const gridData = useSelector((state) => {
@@ -92,7 +92,7 @@ export default function BankJournalLanding() {
     pageNo,
     pageSize
   ) => {
-    if (type === "notComplated") {
+    if (type === 'notComplated') {
       dispatch(
         getBankJournalGridData(
           selectedBusinessUnit.value,
@@ -109,7 +109,7 @@ export default function BankJournalLanding() {
         //isPosted, isActive, fromdate, todate, voucherCode
       );
     }
-    if (type === "complated") {
+    if (type === 'complated') {
       dispatch(
         getBankJournalGridData(
           selectedBusinessUnit.value,
@@ -126,7 +126,7 @@ export default function BankJournalLanding() {
         //isPosted, isActive, fromdate, todate, voucherCode
       );
     }
-    if (type === "canceled") {
+    if (type === 'canceled') {
       dispatch(
         getBankJournalGridData(
           selectedBusinessUnit.value,
@@ -157,12 +157,9 @@ export default function BankJournalLanding() {
         pageSize
       );
     }
-
   }, []);
 
-  const onChangeCheckHandler = (type) => {
-
-  };
+  const onChangeCheckHandler = (type) => {};
   // complete btn submit handler
   const approvalHandler = (date, journalType) => {
     const modifyFilterRowDto = rowDto.filter((itm) => itm.itemCheck === true);
@@ -173,13 +170,13 @@ export default function BankJournalLanding() {
       (item) => date < _dateFormatter(item?.journalDate)
     );
 
-    if (isInvalid.length > 0 && journalType?.label?.trim() !== "Bank Receipts")
+    if (isInvalid.length > 0 && journalType?.label?.trim() !== 'Bank Receipts')
       return toast.warn(
         `Complete date should be greather than or equal to journal date for ${isInvalid[0]?.code}`
       );
 
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to post the selected journals on ${date}?`,
       yesAlertFunc: () => {
         const payload = modifyFilterRowDto.map((itm) => ({
@@ -204,7 +201,7 @@ export default function BankJournalLanding() {
     const singleData = [gridData?.[index]];
     const updateRowDto = rowDto.filter((itm, idx) => idx !== index);
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to post the selected journals on ${date}?`,
       yesAlertFunc: () => {
         const payload = singleData.map((itm) => ({
@@ -227,7 +224,7 @@ export default function BankJournalLanding() {
     const singleData = rowDto?.[id];
     const updateRowDto = rowDto.filter((itm, idx) => idx !== id);
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to cancel the journal?`,
       yesAlertFunc: () => {
         cancelJournal(
@@ -235,7 +232,7 @@ export default function BankJournalLanding() {
           journalTypeValue,
           selectedBusinessUnit?.value,
           profileData?.userId,
-          typeStatus.toLowerCase() === "complated" ? 1 : 2,
+          typeStatus.toLowerCase() === 'complated' ? 1 : 2,
           () => {
             setRowDto(updateRowDto);
           }

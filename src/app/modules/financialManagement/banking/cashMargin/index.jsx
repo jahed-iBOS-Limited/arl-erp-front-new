@@ -27,7 +27,6 @@ export default function CashMarginLanding() {
 
   useEffect(() => {
     commonGridData(pageNo, pageSize, initData);
-
   }, []);
 
   //setPositionHandler
@@ -37,7 +36,7 @@ export default function CashMarginLanding() {
 
   const commonGridData = (pageNo, pageSize, values) => {
     getRowData(
-      `/fino/FundManagement/GetFundCashMarginPagination?businessUnitId=${selectedBusinessUnit?.value}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}&CashMarginType=${values?.cashMarginType?.label}`,
+      `/fino/FundManagement/GetFundCashMarginPagination?businessUnitId=${selectedBusinessUnit?.value}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}&CashMarginType=${values?.cashMarginType?.label}`
     );
   };
 

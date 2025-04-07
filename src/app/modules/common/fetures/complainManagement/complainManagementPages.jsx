@@ -1,28 +1,23 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import ComplainForm from "./complain/form/addEditForm";
-import ComplainLanding from "./complain/landing";
-import ComplainAssignConfigLanding from "./complaintAssignConfig";
-import ComplainAssignConfigCreateEdit from "./complaintAssignConfig/addEditForm";
-import ResolutionLanding from "./resolution/landing";
-import { ContentRoute } from "../../../../../_metronic/layout";
-
-
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import ComplainForm from './complain/form/addEditForm';
+import ComplainLanding from './complain/landing';
+import ComplainAssignConfigLanding from './complaintAssignConfig';
+import ComplainAssignConfigCreateEdit from './complaintAssignConfig/addEditForm';
+import ResolutionLanding from './resolution/landing';
+import { ContentRoute } from '../../../../../_metronic/layout';
 
 export default function ComplainManagementPages(moduleName) {
   switch (moduleName) {
-    case "self-service":
+    case 'self-service':
       return getSelfServiceRoutes();
-    case "sales-management":
+    case 'sales-management':
       return getSalesManagementRoutes();
 
     default:
       break;
   }
-
 }
-
-
 
 const getSelfServiceRoutes = () => {
   return (
@@ -46,8 +41,8 @@ const getSelfServiceRoutes = () => {
       />
       <ContentRoute
         from="/self-service/complainmanagement/complain"
-        component={()=> ComplainLanding("self-service")}
-      />{" "}
+        component={() => ComplainLanding('self-service')}
+      />{' '}
       <ContentRoute
         from="/self-service/complainmanagement/Delegate"
         component={ResolutionLanding}
@@ -56,9 +51,9 @@ const getSelfServiceRoutes = () => {
         from="/self-service/complainmanagement/investigate"
         component={ResolutionLanding}
       />
-    </Switch>)
-}
-
+    </Switch>
+  );
+};
 
 const getSalesManagementRoutes = () => {
   return (
@@ -82,8 +77,8 @@ const getSalesManagementRoutes = () => {
       />
       <ContentRoute
         from="/sales-management/complainmanagement/complain"
-        component={()=> ComplainLanding("sales-management")}
-      />{" "}
+        component={() => ComplainLanding('sales-management')}
+      />{' '}
       <ContentRoute
         from="/sales-management/complainmanagement/Delegate"
         component={ResolutionLanding}
@@ -105,7 +100,5 @@ const getSalesManagementRoutes = () => {
         component={ComplainAssignConfigLanding}
       />
     </Switch>
-  )
-}
-
-
+  );
+};

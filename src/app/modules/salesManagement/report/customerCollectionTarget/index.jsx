@@ -1,20 +1,20 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { Form } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import FromDateToDateForm from "../../../_helper/commonInputFieldsGroups/dateForm";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import ICustomCard from "../../../_helper/_customCard";
-import { _fixedPoint } from "../../../_helper/_fixedPoint";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { deleteCollectionTarget, getBusinessUnitDDL } from "./helper";
-import { getMonth } from "./utils";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { Form } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import FromDateToDateForm from '../../../_helper/commonInputFieldsGroups/dateForm';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IConfirmModal from '../../../_helper/_confirmModal';
+import ICustomCard from '../../../_helper/_customCard';
+import { _fixedPoint } from '../../../_helper/_fixedPoint';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { deleteCollectionTarget, getBusinessUnitDDL } from './helper';
+import { getMonth } from './utils';
 
 const initData = {
   fromDate: _todayDate(),
@@ -22,15 +22,15 @@ const initData = {
 };
 
 const headers = [
-  "SL",
-  "Customer",
-  "Region",
-  "Area",
-  "Territory",
-  "Month",
-  "Year",
-  "Target Amount",
-  "Action",
+  'SL',
+  'Customer',
+  'Region',
+  'Area',
+  'Territory',
+  'Month',
+  'Year',
+  'Target Amount',
+  'Action',
 ];
 
 const CustomerCollectionTarget = () => {
@@ -58,7 +58,6 @@ const CustomerCollectionTarget = () => {
       getBusinessUnitDDL(setSbuDDL, accId, buId);
       getData(initData, pageNo, pageSize);
     }
-
   }, [buId, accId]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -67,8 +66,8 @@ const CustomerCollectionTarget = () => {
 
   const deleteHandler = (id, values) => {
     const objProps = {
-      title: "Are You Sure?",
-      message: "Are you sure you want to delete this collection target?",
+      title: 'Are You Sure?',
+      message: 'Are you sure you want to delete this collection target?',
       yesAlertFunc: () => {
         deleteCollectionTarget(id, setIsLoading, () => {
           getData(values, pageNo, pageSize);
@@ -101,7 +100,7 @@ const CustomerCollectionTarget = () => {
                           value={values?.sbu}
                           label="SBU"
                           onChange={(valueOption) => {
-                            setFieldValue("sbu", valueOption);
+                            setFieldValue('sbu', valueOption);
                           }}
                           placeholder="Select SBU"
                           errors={errors}
@@ -165,7 +164,7 @@ const CustomerCollectionTarget = () => {
                               <td className="text-right">
                                 {_fixedPoint(td?.amount, true)}
                               </td>
-                              <td style={{ width: "70px" }}>
+                              <td style={{ width: '70px' }}>
                                 <div className="d-flex justify-content-around">
                                   {
                                     <>
@@ -206,7 +205,7 @@ const CustomerCollectionTarget = () => {
                             <td></td>
                           </tr>
                         </tbody>
-                      </table>{" "}
+                      </table>{' '}
                     </div>
                   )}
                 </div>

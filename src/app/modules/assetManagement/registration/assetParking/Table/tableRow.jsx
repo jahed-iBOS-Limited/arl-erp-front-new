@@ -1,24 +1,22 @@
-
-
-import React, { useEffect, useMemo, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import ICustomCard from "../../../../_helper/_customCard";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useMemo, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import ICustomCard from '../../../../_helper/_customCard';
+import { useHistory } from 'react-router-dom';
 import {
   getAssetPlantDDL,
   getassetWarehouseData,
   getGridData,
   getAssetSBUDDL,
-} from "../helper";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import IViewModal from "../../../../_helper/_viewModal";
-import AssetParkingForm from "../Form/addEditForm";
-import AssetParkingCreateForm from "../newForm/addEditForm";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
+} from '../helper';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import IViewModal from '../../../../_helper/_viewModal';
+import AssetParkingForm from '../Form/addEditForm';
+import AssetParkingCreateForm from '../newForm/addEditForm';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import PaginationSearch from '../../../../_helper/_search';
 
 export function TableRow(props) {
   //const dispatch = useDispatch();
@@ -34,14 +32,14 @@ export function TableRow(props) {
   }, shallowEqual);
 
   const [gridData, setGridData] = useState([]);
-  const [plantName, setPlantName] = useState("");
-  const [warehouseName, setWarehouseName] = useState("");
+  const [plantName, setPlantName] = useState('');
+  const [warehouseName, setWarehouseName] = useState('');
   const [plant, setPlant] = useState([]);
   const [warehouse, setWarehouse] = useState([]);
   const [isShowModal, setIsShowModal] = useState(false);
-  const [currentRowData, setCurrentRowData] = useState("");
+  const [currentRowData, setCurrentRowData] = useState('');
   const [isShowModalforCreate, setisShowModalforCreate] = useState(false);
-  const [sbuName, setSbuName] = useState("");
+  const [sbuName, setSbuName] = useState('');
   const [sbu, setSbu] = useState([]);
   const [loading, setLoading] = useState(false);
   const [pageNo, setPageNo] = React.useState(0);
@@ -209,7 +207,7 @@ export function TableRow(props) {
                       }}
                     >
                       <OverlayTrigger
-                        overlay={<Tooltip id="cs-icon">{"Create"}</Tooltip>}
+                        overlay={<Tooltip id="cs-icon">{'Create'}</Tooltip>}
                       >
                         <span>
                           <i className="fas fa-plus-square"></i>

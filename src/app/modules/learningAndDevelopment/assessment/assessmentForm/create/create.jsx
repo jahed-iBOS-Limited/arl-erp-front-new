@@ -1,18 +1,16 @@
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-
-const initData = {
-};
+const initData = {};
 
 export default function AssessmentSubmissionForm() {
   const location = useLocation();
@@ -29,16 +27,13 @@ export default function AssessmentSubmissionForm() {
     getQuestionsList(
       `/hcm/Training/GetTrainingAssesmentQuestionByScheduleId?intScheduleId=${viewId}&isPreAssessment=${location.state?.isPreAssesment}`
     );
-
   }, []);
-
-
 
   const rowDtoHandler = (index, i) => {
     const data = [...questionsList];
-    data[index]["answer"] = {
-      selectedOptionId: data[index]["options"][i]["intOptionId"],
-      selectedOptionName: data[index]["options"][i]["strOption"],
+    data[index]['answer'] = {
+      selectedOptionId: data[index]['options'][i]['intOptionId'],
+      selectedOptionName: data[index]['options'][i]['strOption'],
     };
     setQuestionsList(data);
   };
@@ -56,7 +51,7 @@ export default function AssessmentSubmissionForm() {
         intActionBy: profileData?.userId,
         requisitionId: location.state?.requisitionId,
       })),
-      "",
+      '',
       true
     );
   };
@@ -64,7 +59,9 @@ export default function AssessmentSubmissionForm() {
   return (
     <IForm
       title={
-        location.state?.isPreAssesment ? "Pre-Assessment Form" : "Post-Assessment Form"
+        location.state?.isPreAssesment
+          ? 'Pre-Assessment Form'
+          : 'Post-Assessment Form'
       }
       getProps={setObjprops}
       isDisabled={isDisabled}
@@ -77,21 +74,20 @@ export default function AssessmentSubmissionForm() {
           enableReinitialize={true}
           initialValues={initData}
           onSubmit={(values, { setSubmitting, resetForm }) => {
-            saveHandler(values, () => {
-            });
+            saveHandler(values, () => {});
           }}
         >
-          {({
-            handleSubmit,
-            resetForm,
-          }) => (
+          {({ handleSubmit, resetForm }) => (
             <>
               <Form className="form form-label-right">
                 {false && <Loading />}
                 <div className="">
-                  <div style={{ width: "800px", margin: "0 auto" }}>
-                    <h1 className='text-center'>{location?.state?.name}</h1>
-                    <h3 className='text-center'>From: {_dateFormatter(location?.state?.fromDate)} To: {_dateFormatter(location?.state?.toDate)}</h3>
+                  <div style={{ width: '800px', margin: '0 auto' }}>
+                    <h1 className="text-center">{location?.state?.name}</h1>
+                    <h3 className="text-center">
+                      From: {_dateFormatter(location?.state?.fromDate)} To:{' '}
+                      {_dateFormatter(location?.state?.toDate)}
+                    </h3>
                     {questionsList?.length > 0 &&
                       questionsList?.map((questionItem, index) => (
                         <div
@@ -100,9 +96,7 @@ export default function AssessmentSubmissionForm() {
                         >
                           <p>
                             {index + 1}: {questionItem?.strQuestion}
-                            {
-                              questionItem?.isRequired ? " *" : null
-                            }
+                            {questionItem?.isRequired ? ' *' : null}
                           </p>
                           <div
                             role="group"
@@ -118,10 +112,10 @@ export default function AssessmentSubmissionForm() {
                                     name={`name${questionItem?.intQuestionId}`}
                                     className="mr-1 pointer"
                                     disabled={true}
-                                    onChange={(e) => {
-                                    }}
+                                    onChange={(e) => {}}
                                   />
-                                  {optionItem?.strOption} ({optionItem?.numPoints})
+                                  {optionItem?.strOption} (
+                                  {optionItem?.numPoints})
                                 </label>
                               </div>
                             ))}
@@ -133,14 +127,14 @@ export default function AssessmentSubmissionForm() {
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

@@ -1,19 +1,17 @@
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import moment from "moment";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { toast } from "react-toastify";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { createOrUpdateSalesCalender } from "../helper";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import moment from 'moment';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { toast } from 'react-toastify';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { createOrUpdateSalesCalender } from '../helper';
 
 const initData = {
-  month: "",
-  year: "",
-  calendarStatus: "",
+  month: '',
+  year: '',
+  calendarStatus: '',
 };
 
 export default function SalescalendarSetupForm() {
@@ -34,8 +32,8 @@ export default function SalescalendarSetupForm() {
   }, shallowEqual);
 
   // year DDL
-  const prevFiveYears = +moment(_todayDate()).format("YYYY") - 5;
-  const nextFiveYears = +moment(_todayDate()).format("YYYY") + 5;
+  const prevFiveYears = +moment(_todayDate()).format('YYYY') - 5;
+  const nextFiveYears = +moment(_todayDate()).format('YYYY') + 5;
   let yearDDLList = [];
   for (let i = prevFiveYears; i <= nextFiveYears; i++) {
     const element = i;
@@ -48,14 +46,13 @@ export default function SalescalendarSetupForm() {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       setYearDDL(yearDDLList);
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = async (values, cb) => {
     setDisabled(true);
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       if (values?.itemLists?.length <= 0) {
-        toast.warning("Please add atleast one item");
+        toast.warning('Please add atleast one item');
         setDisabled(false);
       } else {
         // Create Sales calender setup
@@ -65,8 +62,8 @@ export default function SalescalendarSetupForm() {
           salesDate: itm?.salesDate,
           dayCount: itm?.dayCount,
           dayName: itm?.dayName,
-          satusId: itm?.calendarStatus?.value || "",
-          statusName: itm?.calendarStatus?.label || "",
+          satusId: itm?.calendarStatus?.value || '',
+          statusName: itm?.calendarStatus?.label || '',
           lastActionDateTime: _todayDate(),
           actionBy: profileData?.userId,
         }));
@@ -91,7 +88,7 @@ export default function SalescalendarSetupForm() {
 
   return (
     <IForm
-      title={"Sales Calendar Setup"}
+      title={'Sales Calendar Setup'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

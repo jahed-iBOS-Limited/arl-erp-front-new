@@ -1,31 +1,31 @@
-import React, { useState } from "react";
-import IViewModal from "../../../../_helper/_viewModal";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import InputField from "./../../../../_helper/_inputField";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import { useSelector, shallowEqual } from "react-redux";
-import Loading from "./../../../../_helper/_loading";
+import React, { useState } from 'react';
+import IViewModal from '../../../../_helper/_viewModal';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import InputField from './../../../../_helper/_inputField';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import { useSelector, shallowEqual } from 'react-redux';
+import Loading from './../../../../_helper/_loading';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
-import { CreateAdvanceForSupplier } from "../helper";
+} from './../../../../../../_metronic/_partials/controls';
+import { CreateAdvanceForSupplier } from '../helper';
 // Validation schema
 const validationSchema = Yup.object().shape({
   amount: Yup.number()
-    .min(1, "Minimum 1 symbol")
-    .required("Amouont is required")
-    .typeError("Maximum 100 symbols"),
+    .min(1, 'Minimum 1 symbol')
+    .required('Amouont is required')
+    .typeError('Maximum 100 symbols'),
 });
 
 const initData = {
   id: undefined,
-  amount: "",
-  narration: "",
+  amount: '',
+  narration: '',
 };
 
 export default function AdvanceCreateModel({
@@ -66,7 +66,7 @@ export default function AdvanceCreateModel({
         show={show}
         onHide={onHide}
         // title={"Crete Advance"}
-        style={{ fontSize: "1.2rem !important" }}
+        style={{ fontSize: '1.2rem !important' }}
         btnText="Close"
       >
         <>
@@ -92,10 +92,10 @@ export default function AdvanceCreateModel({
               setFieldValue,
               isValid,
             }) => (
-              <div className={""}>
+              <div className={''}>
                 <Card>
                   {true && <ModalProgressBar />}
-                  <CardHeader title={"Crete Advance"}>
+                  <CardHeader title={'Crete Advance'}>
                     <CardHeaderToolbar>
                       <button
                         onClick={handleSubmit}
@@ -135,10 +135,10 @@ export default function AdvanceCreateModel({
                         <table className="table table-striped table-bordered mt-3 global-table">
                           <thead>
                             <tr>
-                              <th style={{ width: "25px" }}>Sl</th>
-                              <th style={{ width: "25px" }}>Date</th>
-                              <th style={{ width: "25px" }}>Amount</th>
-                              <th style={{ width: "25px" }}>
+                              <th style={{ width: '25px' }}>Sl</th>
+                              <th style={{ width: '25px' }}>Date</th>
+                              <th style={{ width: '25px' }}>Amount</th>
+                              <th style={{ width: '25px' }}>
                                 Is Bill Register
                               </th>
                             </tr>

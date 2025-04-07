@@ -1,16 +1,16 @@
-import React, { useEffect } from "react";
-import { Formik, Form, Field } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import React, { useEffect } from 'react';
+import { Formik, Form, Field } from 'formik';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   getOrderQuantityDDL,
   getOtherOutputItemDDL,
   getShopFloorDDL,
-} from "../helper";
-import { toast } from "react-toastify";
-import CreateTableRow from "../Table/CreateTableRow";
+} from '../helper';
+import { toast } from 'react-toastify';
+import CreateTableRow from '../Table/CreateTableRow';
 // import { getItemListForBackCalculation } from "../helper";
 
 export default function FormCmp({
@@ -34,10 +34,10 @@ export default function FormCmp({
   setRowData,
   dataHandler,
 }) {
-  console.log("singleData: ", singleData);
+  console.log('singleData: ', singleData);
   const [othersOutputItemDDL, setOthersOutputItemDDL] = useState([]);
 
-  const [setGetOrderQuantity] = useState("");
+  const [setGetOrderQuantity] = useState('');
   // console.log("orderQuantity", orderQuantity);
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -77,7 +77,7 @@ export default function FormCmp({
     );
 
     if (isExist) {
-      toast.warn("Item already added!");
+      toast.warn('Item already added!');
     } else {
       // console.log("aadd handler Values", values);
       setRowData([
@@ -96,8 +96,8 @@ export default function FormCmp({
           uomId: values?.othersOutputItem?.baseUomid,
         },
       ]);
-      setFieldValue("othersOutputQty", "");
-      setFieldValue("othersOutputItem", "");
+      setFieldValue('othersOutputQty', '');
+      setFieldValue('othersOutputItem', '');
     }
   };
 
@@ -134,7 +134,7 @@ export default function FormCmp({
           isValid,
         }) => (
           <>
-            {console.log("values: ", values)}
+            {console.log('values: ', values)}
 
             {/* {disableHandler(!isValid)} */}
             <Form>
@@ -175,11 +175,11 @@ export default function FormCmp({
                               values?.productionOrder?.value,
                               setGetOrderQuantity
                             );
-                            setFieldValue("plantName", valueOption);
-                            setFieldValue("shopFloor", "");
+                            setFieldValue('plantName', valueOption);
+                            setFieldValue('shopFloor', '');
                             // setFieldValue("itemName", "");
-                            setFieldValue("productionOrder", "");
-                            setFieldValue("othersOutputItem", "");
+                            setFieldValue('productionOrder', '');
+                            setFieldValue('othersOutputItem', '');
                           }}
                           placeholder="Plant Name"
                           errors={errors}
@@ -198,7 +198,6 @@ export default function FormCmp({
                           disabled
                           // disabled={isEdit}
                         />
-
                       </div>
                       <div className="col-lg-3">
                         <InputField
@@ -243,7 +242,7 @@ export default function FormCmp({
                           options={bomDDL}
                           value={values?.bomName}
                           onChange={(valueOption) => {
-                            setFieldValue("bomName", valueOption);
+                            setFieldValue('bomName', valueOption);
                           }}
                           placeholder="BOM Name"
                           label="BOM Name"
@@ -266,26 +265,25 @@ export default function FormCmp({
                         <NewSelect
                           name="shift"
                           options={shiftDDL}
-                          value={values?.shift ? values.shift : ""}
+                          value={values?.shift ? values.shift : ''}
                           onChange={(valueOption) => {
-                            setFieldValue("shift", valueOption);
+                            setFieldValue('shift', valueOption);
                           }}
                           placeholder="Shift"
                           errors={errors}
                           touched={touched}
                           isDisabled={isEdit}
                         />
-
                       </div>
                       <div className="col-lg-3">
                         <InputField
                           name="goodQty"
-                          value={values?.goodQty >= 0 ? values?.goodQty : ""}
+                          value={values?.goodQty >= 0 ? values?.goodQty : ''}
                           label="Good Qty"
                           step="any"
                           min="1"
                           onChange={(e) => {
-                            setFieldValue("goodQty", e.target.value);
+                            setFieldValue('goodQty', e.target.value);
                           }}
                           placeholder="Good Qty"
                           type="number"
@@ -293,7 +291,6 @@ export default function FormCmp({
                           touched={touched}
                           // disabled={isEdit}
                         />
-
                       </div>
                       <div className="col-lg-12 pl-2 d-flex align-items-end">
                         <div>
@@ -305,16 +302,16 @@ export default function FormCmp({
                             checked={
                               values?.checkOutputItem >= 0
                                 ? values?.checkOutputItem
-                                : ""
+                                : ''
                             }
                             value={
                               values?.checkOutputItem
                                 ? values?.checkOutputItem
-                                : ""
+                                : ''
                             }
                             onChange={(e) => {
                               setFieldValue(
-                                "checkOutputItem",
+                                'checkOutputItem',
                                 e.target.checked
                               );
                             }}
@@ -337,7 +334,7 @@ export default function FormCmp({
                                 value={values?.othersOutputItem}
                                 onChange={(valueOption) => {
                                   setFieldValue(
-                                    "othersOutputItem",
+                                    'othersOutputItem',
                                     valueOption
                                   );
                                 }}
@@ -345,7 +342,6 @@ export default function FormCmp({
                                 errors={errors}
                                 touched={touched}
                               />
-
                             </div>
                             <div className="col-lg-4">
                               <InputField
@@ -353,14 +349,13 @@ export default function FormCmp({
                                 value={
                                   values?.othersOutputQty >= 0
                                     ? values?.othersOutputQty
-                                    : ""
+                                    : ''
                                 }
                                 min="1"
                                 label="Others Output Quantity"
                                 placeholder="Others Output Quantity"
                                 type="number"
                               />
-
                             </div>
                             <div className="col-lg-4 pt-5 mt-2">
                               <button
@@ -398,13 +393,13 @@ export default function FormCmp({
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onClick={() => handleSubmit}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

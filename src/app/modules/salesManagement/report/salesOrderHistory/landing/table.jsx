@@ -1,19 +1,19 @@
-import React from "react";
-import ICustomTable from "../../../../_helper/_customTable";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import React from 'react';
+import ICustomTable from '../../../../_helper/_customTable';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
 
 export default function Table({ rowDto, printRef, values }) {
   const ths = [
-    "SL",
-    "SO Number",
-    "Owner Type",
-    "ShipPoint",
-    "Customer Name",
-    "Labour Supplier Name",
-    "Transport Zone",
-    "Zone Rate",
-    "Quantity",
-    "Vehicle No",
+    'SL',
+    'SO Number',
+    'Owner Type',
+    'ShipPoint',
+    'Customer Name',
+    'Labour Supplier Name',
+    'Transport Zone',
+    'Zone Rate',
+    'Quantity',
+    'Vehicle No',
   ];
   let totalQty = 0;
   return (
@@ -28,25 +28,25 @@ export default function Table({ rowDto, printRef, values }) {
               >
                 <thead>
                   <tr>
-                    <th style={{ width: "30px" }} rowSpan="2">
+                    <th style={{ width: '30px' }} rowSpan="2">
                       SL
                     </th>
-                    <th style={{ width: "100px" }} rowSpan="2">
+                    <th style={{ width: '100px' }} rowSpan="2">
                       Sales Code
                     </th>
-                    <th style={{ width: "100px" }} rowSpan="2">
+                    <th style={{ width: '100px' }} rowSpan="2">
                       Order Qty
                     </th>
-                    <th style={{ width: "100px" }} rowSpan="2">
+                    <th style={{ width: '100px' }} rowSpan="2">
                       Pending Qty
                     </th>
-                    <th style={{ width: "120px" }} colSpan="2" rowSpan="1">
+                    <th style={{ width: '120px' }} colSpan="2" rowSpan="1">
                       Delivery
                     </th>
-                    <th style={{ width: "120px" }} colSpan="2" rowSpan="1">
+                    <th style={{ width: '120px' }} colSpan="2" rowSpan="1">
                       Shipment
                     </th>
-                    <th style={{ width: "120px" }} colSpan="2" rowSpan="1">
+                    <th style={{ width: '120px' }} colSpan="2" rowSpan="1">
                       Complete Shipment
                     </th>
                   </tr>
@@ -92,7 +92,7 @@ export default function Table({ rowDto, printRef, values }) {
                 </tbody>
               </table>
             </div>
-          ) :  (
+          ) : (
             <>
               <ICustomTable ths={ths}>
                 {rowDto?.map((item, index) => {

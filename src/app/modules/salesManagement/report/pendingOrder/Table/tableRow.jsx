@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import {
   getPendingOrderGridDataAction,
   getShippointDDL_Action,
-} from "../_redux/Actions";
-import { Formik } from "formik";
-import { Form } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
-import NewSelect from "../../../../_helper/_select";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { setPendingOrderGridDataEmptyAction } from "./../_redux/Actions";
+} from '../_redux/Actions';
+import { Formik } from 'formik';
+import { Form } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
+import NewSelect from '../../../../_helper/_select';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { setPendingOrderGridDataEmptyAction } from './../_redux/Actions';
 
-import { setPendingOrderShippointLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import { setPendingOrderShippointLandingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 export function TableRow({ initData, initialData, saveHandler }) {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -49,7 +49,6 @@ export function TableRow({ initData, initialData, saveHandler }) {
         )
       );
     }
-
   }, [actionBy, profileData]);
 
   // get controlling unit list  from store
@@ -90,8 +89,6 @@ export function TableRow({ initData, initialData, saveHandler }) {
     return () => {
       dispatch(setPendingOrderGridDataEmptyAction());
     };
-
-
   }, []);
 
   return (
@@ -136,7 +133,7 @@ export function TableRow({ initData, initialData, saveHandler }) {
                           value={values?.shipPoint}
                           label="Select Ship Point"
                           onChange={(valueOption) => {
-                            setFieldValue("shipPoint", valueOption);
+                            setFieldValue('shipPoint', valueOption);
                             dispatch(setPendingOrderGridDataEmptyAction());
                           }}
                           placeholder="Select Ship Point"
@@ -181,13 +178,13 @@ export function TableRow({ initData, initialData, saveHandler }) {
                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                       <thead>
                         <tr>
-                          <th style={{ width: "30px" }}>SL</th>
-                          <th style={{ width: "90px" }}>Customer Id</th>
+                          <th style={{ width: '30px' }}>SL</th>
+                          <th style={{ width: '90px' }}>Customer Id</th>
                           <th>Customer Name</th>
                           <th>Address</th>
-                          <th style={{ width: "90px" }}>Quantity</th>
-                          <th style={{ width: "90px" }}>Amount</th>
-                          <th style={{ width: "190px" }}>Actions</th>
+                          <th style={{ width: '90px' }}>Quantity</th>
+                          <th style={{ width: '90px' }}>Amount</th>
+                          <th style={{ width: '190px' }}>Actions</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -244,8 +241,8 @@ export function TableRow({ initData, initialData, saveHandler }) {
                                     });
                                   }}
                                   style={{
-                                    padding: "3px 15px",
-                                    marginBottom: "1px",
+                                    padding: '3px 15px',
+                                    marginBottom: '1px',
                                   }}
                                   type="button"
                                   className="btn btn-primary"

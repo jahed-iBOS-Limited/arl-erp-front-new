@@ -1,7 +1,7 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import ICalendar from "../../../_helper/_inputCalender";
-import { _dateFormatter } from "./../../../_helper/_dateFormate";
+import React from 'react';
+import { useParams } from 'react-router-dom';
+import ICalendar from '../../../_helper/_inputCalender';
+import { _dateFormatter } from './../../../_helper/_dateFormate';
 
 function KpiEntryGrid({
   strategicParticularsGrid,
@@ -63,7 +63,7 @@ function KpiEntryGrid({
                         : kpiTargetEntry?.[idx]?.target
                     }
                     onChange={(e) =>
-                      rowDtoHandler("target", e.target.value, idx)
+                      rowDtoHandler('target', e.target.value, idx)
                     }
                     step="any"
                     key={itm.id}
@@ -75,10 +75,10 @@ function KpiEntryGrid({
                 </td>
                 <td className="text-center">
                   <input
-                    style={{ border: "1px solid gray" }}
+                    style={{ border: '1px solid gray' }}
                     value={kpiTargetEntry?.[idx]?.remarks}
                     onChange={(e) =>
-                      rowDtoHandler("remarks", e.target.value, idx)
+                      rowDtoHandler('remarks', e.target.value, idx)
                     }
                     type="text"
                     placeholder="remarks"

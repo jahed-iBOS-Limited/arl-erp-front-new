@@ -1,25 +1,25 @@
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { Formik } from "formik";
-import { Form } from "react-bootstrap";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import { useEffect } from "react";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { Formik } from 'formik';
+import { Form } from 'react-bootstrap';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { useEffect } from 'react';
 import {
   getCnfDDLForCnFReport,
   getCnFDetailsReport,
   GetCustomsNameDDLForCnfReport,
-} from "../helper";
-import NewSelect from "../../../../_helper/_select";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { useRef } from "react";
-import { getReportHeaderInfo } from "../../costSummary/helper";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import { _firstDateofMonth } from "./../../../../_helper/_firstDateOfCurrentMonth";
+} from '../helper';
+import NewSelect from '../../../../_helper/_select';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { useRef } from 'react';
+import { getReportHeaderInfo } from '../../costSummary/helper';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import { _firstDateofMonth } from './../../../../_helper/_firstDateOfCurrentMonth';
 
 const TableRow = () => {
   const [rowDto, setRowDto] = useState([]);
@@ -33,7 +33,7 @@ const TableRow = () => {
     return state.authData;
   }, shallowEqual);
 
-  console.log("rowDto: ", rowDto);
+  console.log('rowDto: ', rowDto);
 
   useEffect(() => {
     getCnfDDLForCnFReport(
@@ -69,8 +69,8 @@ const TableRow = () => {
   const printRef = useRef();
 
   const initData = {
-    provider: "",
-    customs: "",
+    provider: '',
+    customs: '',
     fromDate: _firstDateofMonth(),
     toDate: _todayDate(),
   };
@@ -83,8 +83,8 @@ const TableRow = () => {
       getCnFDetailsReport(
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        "",
-        "",
+        '',
+        '',
         initialFromDate,
         initialToDate,
         setRowDto,
@@ -94,64 +94,64 @@ const TableRow = () => {
 
   const header = [
     {
-      name: "SL",
+      name: 'SL',
       style: {
-        minWidth: "50px",
+        minWidth: '50px',
       },
     },
     {
-      name: "LC No",
+      name: 'LC No',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Shipment No",
+      name: 'Shipment No',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Business Partner",
+      name: 'Business Partner',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Doc F Date",
+      name: 'Doc F Date',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Payment Date",
+      name: 'Payment Date',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Service Rec Date",
+      name: 'Service Rec Date',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Inv Amount (BDT)",
+      name: 'Inv Amount (BDT)',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Currency",
+      name: 'Currency',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
 
     {
-      name: "Item Description",
+      name: 'Item Description',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
   ];
@@ -171,7 +171,7 @@ const TableRow = () => {
               trigger={() => (
                 <button className="btn btn-primary">
                   <img
-                    style={{ width: "25px", paddingRight: "5px" }}
+                    style={{ width: '25px', paddingRight: '5px' }}
                     src={printIcon}
                     alt="print-icon"
                   />
@@ -205,7 +205,7 @@ const TableRow = () => {
                       label="Provider"
                       options={cnfDDL || []}
                       onChange={(valueOption) => {
-                        setFieldValue("provider", valueOption);
+                        setFieldValue('provider', valueOption);
                         if (!valueOption) {
                           setRowDto([]);
                         }
@@ -220,7 +220,7 @@ const TableRow = () => {
                       label="Customs"
                       options={customsDDL || []}
                       onChange={(valueOption) => {
-                        setFieldValue("customs", valueOption);
+                        setFieldValue('customs', valueOption);
                         if (!valueOption) {
                           setRowDto([]);
                         }

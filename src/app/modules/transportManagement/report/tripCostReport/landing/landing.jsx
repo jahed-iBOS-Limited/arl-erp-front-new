@@ -1,44 +1,42 @@
-
-
-import { Form, Formik } from "formik";
-import React, { useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
+import { Form, Formik } from 'formik';
+import React, { useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls/Card";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import IButton from "../../../../_helper/iButton";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { GetTripCostReport_api } from "../helper";
-import NewSelect from "./../../../../_helper/_select";
-import "./style.css";
-import Table from "./table";
+} from '../../../../../../_metronic/_partials/controls/Card';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import PowerBIReport from '../../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import IButton from '../../../../_helper/iButton';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { GetTripCostReport_api } from '../helper';
+import NewSelect from './../../../../_helper/_select';
+import './style.css';
+import Table from './table';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  shipPoint: { value: 0, label: "All" },
-  channel: "",
-  region: "",
-  area: "",
-  territory: "",
+  shipPoint: { value: 0, label: 'All' },
+  channel: '',
+  region: '',
+  area: '',
+  territory: '',
 };
 
 const reportTypes = [
-  { value: 1, label: "Trip Cost Report" },
-  { value: 2, label: "Per Bag Cost Details" },
-  { value: 3, label: "Vehicle Efficiency Details" },
-  { value: 4, label: "Bridge Toll Report" },
-  { value: 5, label: "Vehicle Status" },
+  { value: 1, label: 'Trip Cost Report' },
+  { value: 2, label: 'Per Bag Cost Details' },
+  { value: 3, label: 'Vehicle Efficiency Details' },
+  { value: 4, label: 'Bridge Toll Report' },
+  { value: 5, label: 'Vehicle Status' },
 ];
 
 function TripCostReportReport() {
@@ -66,12 +64,12 @@ function TripCostReportReport() {
       typeId === 2
         ? perBagCostDetails
         : typeId === 3
-        ? vehicleEfficiencyDetails
-        : typeId === 4
-        ? bridgeTollReport
-        : typeId === 5
-        ? vehicleStatusReport
-        : "";
+          ? vehicleEfficiencyDetails
+          : typeId === 4
+            ? bridgeTollReport
+            : typeId === 5
+              ? vehicleStatusReport
+              : '';
     return report_id;
   };
 
@@ -80,46 +78,46 @@ function TripCostReportReport() {
   const parameterValues = (values) => {
     const typeId = values?.reportType?.value;
     const perBagCostDetails = [
-      { name: "ShipPointId", value: `${+values?.shipPoint?.value}` },
-      { name: "BusinessUnitId", value: `${+buId}` },
-      { name: "FromDate", value: `${values?.fromDate}` },
-      { name: "ToDate", value: `${values?.toDate}` },
+      { name: 'ShipPointId', value: `${+values?.shipPoint?.value}` },
+      { name: 'BusinessUnitId', value: `${+buId}` },
+      { name: 'FromDate', value: `${values?.fromDate}` },
+      { name: 'ToDate', value: `${values?.toDate}` },
       {
-        name: "intDistributionChannel",
+        name: 'intDistributionChannel',
         value: `${+values?.channel?.value}`,
       },
-      { name: "Regionid", value: `${+values?.region?.value}` },
-      { name: "areaid", value: `${+values?.area?.value}` },
-      { name: "territoryid", value: `${+values?.territory?.value}` },
-      { name: "ReportType", value: `${+values?.reportType?.value}` },
-      { name: "intPartid", value: `${+values?.viewType?.value}` },
+      { name: 'Regionid', value: `${+values?.region?.value}` },
+      { name: 'areaid', value: `${+values?.area?.value}` },
+      { name: 'territoryid', value: `${+values?.territory?.value}` },
+      { name: 'ReportType', value: `${+values?.reportType?.value}` },
+      { name: 'intPartid', value: `${+values?.viewType?.value}` },
     ];
 
     const vehicleEfficiencyDetails = [
-      { name: "Shippointid", value: `${+values?.shipPoint?.value}` },
-      { name: "FromDate", value: `${values?.fromDate}` },
-      { name: "ToDate", value: `${values?.toDate}` },
+      { name: 'Shippointid', value: `${+values?.shipPoint?.value}` },
+      { name: 'FromDate', value: `${values?.fromDate}` },
+      { name: 'ToDate', value: `${values?.toDate}` },
     ];
 
     const vehicleStatusDetails = [
-      { name: "intunitid", value: `${+buId}` },
-      { name: "intShipPointId", value: `${+values?.shipPoint?.value}` },
-      { name: "dteFromDate", value: `${values?.fromDate}` },
-      { name: "dteToDate", value: `${values?.toDate}` },
+      { name: 'intunitid', value: `${+buId}` },
+      { name: 'intShipPointId', value: `${+values?.shipPoint?.value}` },
+      { name: 'dteFromDate', value: `${values?.fromDate}` },
+      { name: 'dteToDate', value: `${values?.toDate}` },
     ];
 
     const bridgeTollReport = [
-      { name: "intShipPointId", value: `${+values?.shipPoint?.value}` },
-      { name: "intBusinessUnitId", value: `${+buId}` },
+      { name: 'intShipPointId', value: `${+values?.shipPoint?.value}` },
+      { name: 'intBusinessUnitId', value: `${+buId}` },
     ];
 
-    const params =  {
-        2:perBagCostDetails,
-        3:vehicleEfficiencyDetails,
-        4: bridgeTollReport,
-        5:vehicleStatusDetails,
-        0: []
-    }
+    const params = {
+      2: perBagCostDetails,
+      3: vehicleEfficiencyDetails,
+      4: bridgeTollReport,
+      5: vehicleStatusDetails,
+      0: [],
+    };
 
     return params[typeId ?? 0];
   };
@@ -161,7 +159,7 @@ function TripCostReportReport() {
         {({ values, setFieldValue, touched, errors }) => (
           <Card>
             <ModalProgressBar />
-            <CardHeader title={"Trip Cost Report"}>
+            <CardHeader title={'Trip Cost Report'}>
               <CardHeaderToolbar>
                 {gridData?.length > 0 && (
                   <ReactToPrint
@@ -172,8 +170,8 @@ function TripCostReportReport() {
                       >
                         <img
                           style={{
-                            width: "25px",
-                            paddingRight: "5px",
+                            width: '25px',
+                            paddingRight: '5px',
                           }}
                           src={printIcon}
                           alt="print-icon"
@@ -198,7 +196,7 @@ function TripCostReportReport() {
                           value={values?.reportType}
                           label="Report Type"
                           onChange={(valueOption) => {
-                            setFieldValue("reportType", valueOption);
+                            setFieldValue('reportType', valueOption);
                             setGridData([]);
                             setBIReport(false);
                           }}
@@ -210,13 +208,13 @@ function TripCostReportReport() {
                         <NewSelect
                           name="shipPoint"
                           options={[
-                            { value: 0, label: "All" },
+                            { value: 0, label: 'All' },
                             ...shipPointDDL,
                           ]}
                           value={values?.shipPoint}
                           label="Shippoint"
                           onChange={(valueOption) => {
-                            setFieldValue("shipPoint", valueOption);
+                            setFieldValue('shipPoint', valueOption);
                             setGridData([]);
                             setBIReport(false);
                           }}
@@ -240,13 +238,13 @@ function TripCostReportReport() {
                             <NewSelect
                               name="viewType"
                               options={[
-                                { value: 1, label: "Customer Base" },
-                                { value: 2, label: "Territory Base" },
+                                { value: 1, label: 'Customer Base' },
+                                { value: 2, label: 'Territory Base' },
                               ]}
                               value={values?.viewType}
                               label="View Type"
                               onChange={(valueOption) => {
-                                setFieldValue("viewType", valueOption);
+                                setFieldValue('viewType', valueOption);
                                 setGridData([]);
                                 setBIReport(false);
                               }}

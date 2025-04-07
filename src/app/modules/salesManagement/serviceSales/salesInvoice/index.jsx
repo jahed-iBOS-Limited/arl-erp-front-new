@@ -1,24 +1,24 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { formatMonthYear } from "../../../_helper/_getMonthYearFormat";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IForm from "./../../../_helper/_form";
-import PrintInvoiceModal from "./printInvoice";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { formatMonthYear } from '../../../_helper/_getMonthYearFormat';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import IForm from './../../../_helper/_form';
+import PrintInvoiceModal from './printInvoice';
 const initData = {
-  customer: "",
-  type: { value: 1, label: "Pending for Invoice" },
-  paymentType: "",
-  fromDate: "",
-  toDate: "",
+  customer: '',
+  type: { value: 1, label: 'Pending for Invoice' },
+  paymentType: '',
+  fromDate: '',
+  toDate: '',
   date: _todayDate(),
 };
 export default function SalesInvoiceLanding() {
@@ -39,15 +39,13 @@ export default function SalesInvoiceLanding() {
       `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
     );
     getData({ typeId: 1, values: {} });
-
-
   }, [profileData, selectedBusinessUnit]);
 
   const getData = ({ typeId, values }) => {
     const strFromAndToDate =
       values?.fromDate && values?.toDate
         ? `&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
-        : "";
+        : '';
     let apiUrl = [2]?.includes(typeId)
       ? `/oms/ServiceSales/GetServiceSalesInvocieList?accountId=${
           profileData?.accountId
@@ -58,8 +56,9 @@ export default function SalesInvoiceLanding() {
           profileData?.accountId
         }&businessUnitId=${
           selectedBusinessUnit?.value
-        }&serviceSalesOrderId=${0}&dteTodate=${values?.date ||
-          _todayDate()}&paymentTypeId=${values?.paymentType?.value || 0}`;
+        }&serviceSalesOrderId=${0}&dteTodate=${
+          values?.date || _todayDate()
+        }&paymentTypeId=${values?.paymentType?.value || 0}`;
 
     getRowData(apiUrl, (data) => {
       const result = data?.map((item) => ({ ...item, isChecked: false }));
@@ -118,14 +117,14 @@ export default function SalesInvoiceLanding() {
                           intSalesTypeId: item?.intSalesTypeId,
                           strSalesTypeName: item?.strSalesTypeName,
                           intCustomerId: item?.intCustomerId,
-                          strCustomerCode: item?.strCustomerCode || "",
+                          strCustomerCode: item?.strCustomerCode || '',
                           strCustomerName: item?.strCustomerName,
                           strCustomerAddress: item?.strCustomerAddress,
-                          strCustomerAddress2: "",
+                          strCustomerAddress2: '',
                           intScheduleTypeId: item?.intScheduleTypeId,
                           strScheduleTypeName: item?.strScheduleTypeName,
                           intActionBy: profileData?.userId,
-                          strRemarks: item?.remarks || "",
+                          strRemarks: item?.remarks || '',
                         },
                         // row: data?.map((item) => ({
                         //   //   intServiceSalesInvoiceRowId: 0,
@@ -184,13 +183,13 @@ export default function SalesInvoiceLanding() {
                     <NewSelect
                       name="type"
                       options={[
-                        { value: 1, label: "Pending for Invoice" },
-                        { value: 2, label: "Created Invoice" },
+                        { value: 1, label: 'Pending for Invoice' },
+                        { value: 2, label: 'Created Invoice' },
                       ]}
                       value={values?.type}
                       label="Type"
                       onChange={(valueOption) => {
-                        setFieldValue("type", valueOption);
+                        setFieldValue('type', valueOption);
                         setRowData([]);
                       }}
                       errors={errors}
@@ -204,7 +203,7 @@ export default function SalesInvoiceLanding() {
                       value={values?.customer}
                       label="Customer"
                       onChange={(valueOption) => {
-                        setFieldValue("customer", valueOption);
+                        setFieldValue('customer', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -214,13 +213,13 @@ export default function SalesInvoiceLanding() {
                     <NewSelect
                       name="paymentType"
                       options={[
-                        { value: 1, label: "Re-Curring" },
-                        { value: 2, label: "One Time" },
+                        { value: 1, label: 'Re-Curring' },
+                        { value: 2, label: 'One Time' },
                       ]}
                       value={values?.paymentType}
                       label="Bill Type"
                       onChange={(valueOption) => {
-                        setFieldValue("paymentType", valueOption);
+                        setFieldValue('paymentType', valueOption);
                         setRowData([]);
                       }}
                       errors={errors}
@@ -236,7 +235,7 @@ export default function SalesInvoiceLanding() {
                           name="fromDate"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("fromDate", e.target.value);
+                            setFieldValue('fromDate', e.target.value);
                           }}
                         />
                       </div>
@@ -247,7 +246,7 @@ export default function SalesInvoiceLanding() {
                           name="toDate"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("toDate", e.target.value);
+                            setFieldValue('toDate', e.target.value);
                           }}
                         />
                       </div>
@@ -261,7 +260,7 @@ export default function SalesInvoiceLanding() {
                         name="date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("date", e.target.value);
+                          setFieldValue('date', e.target.value);
                         }}
                       />
                     </div>
@@ -270,7 +269,7 @@ export default function SalesInvoiceLanding() {
                     <button
                       className="btn btn-primary ml-5"
                       type="button"
-                      style={{ marginTop: "17px" }}
+                      style={{ marginTop: '17px' }}
                       onClick={() => {
                         getData({ typeId: values?.type?.value, values });
                       }}
@@ -325,8 +324,8 @@ export default function SalesInvoiceLanding() {
                                   checked={item?.isChecked}
                                   onChange={(e) => {
                                     const data = [...rowData];
-                                    data[index]["isChecked"] = e.target.checked;
-                                    console.log("data", data);
+                                    data[index]['isChecked'] = e.target.checked;
+                                    console.log('data', data);
                                     setRowData(data);
                                   }}
                                 />
@@ -338,22 +337,22 @@ export default function SalesInvoiceLanding() {
                                   const itemStrings = item?.items?.map(
                                     (singleItem) => {
                                       const itemName =
-                                        singleItem.strItemName || "N/A";
+                                        singleItem.strItemName || 'N/A';
                                       const qty =
                                         typeof singleItem.numSalesQty ===
-                                        "number"
+                                        'number'
                                           ? singleItem.numSalesQty
-                                          : "N/A";
+                                          : 'N/A';
                                       const rate =
-                                        typeof singleItem.numRate === "number"
+                                        typeof singleItem.numRate === 'number'
                                           ? singleItem.numRate
-                                          : "N/A";
+                                          : 'N/A';
 
                                       return `${itemName} - Qty: ${qty}, Rate: ${rate}`;
                                     }
                                   );
 
-                                  return itemStrings?.join(" / ");
+                                  return itemStrings?.join(' / ');
                                 })()}
                               </td>
                               <td>{item?.strPaymentType}</td>
@@ -371,8 +370,8 @@ export default function SalesInvoiceLanding() {
                                   type="text"
                                   onChange={(e) => {
                                     const data = [...rowData];
-                                    data[index]["remarks"] =
-                                      e.target.value || "";
+                                    data[index]['remarks'] =
+                                      e.target.value || '';
                                     setRowData(data);
                                   }}
                                 />
@@ -406,11 +405,11 @@ export default function SalesInvoiceLanding() {
                       <table className="table table-striped table-bordered bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ maxWidth: "20px" }}>SL</th>
+                            <th style={{ maxWidth: '20px' }}>SL</th>
                             <th>Customer</th>
                             <th>Item Name</th>
                             <th>Address</th>
-                            <th style={{ minWidth: "70px" }}>Month-Year</th>
+                            <th style={{ minWidth: '70px' }}>Month-Year</th>
                             <th>Schedule Type</th>
                             <th>Sales Type</th>
                             <th>Sales Order Code</th>
@@ -427,22 +426,22 @@ export default function SalesInvoiceLanding() {
                                   const itemStrings = item?.items?.map(
                                     (singleItem) => {
                                       const itemName =
-                                        singleItem.strItemName || "N/A";
+                                        singleItem.strItemName || 'N/A';
                                       const qty =
                                         typeof singleItem.numSalesQty ===
-                                        "number"
+                                        'number'
                                           ? singleItem.numSalesQty
-                                          : "N/A";
+                                          : 'N/A';
                                       const rate =
-                                        typeof singleItem.numRate === "number"
+                                        typeof singleItem.numRate === 'number'
                                           ? singleItem.numRate
-                                          : "N/A";
+                                          : 'N/A';
 
                                       return `${itemName} - Qty: ${qty}, Rate: ${rate}`;
                                     }
                                   );
 
-                                  return itemStrings?.join(" / ");
+                                  return itemStrings?.join(' / ');
                                 })()}
                               </td>
                               <td>{item?.invocieHeader?.strCustomerAddress}</td>
@@ -490,7 +489,7 @@ export default function SalesInvoiceLanding() {
                                   <OverlayTrigger
                                     overlay={
                                       <Tooltip id="cs-icon">
-                                        {"Print Invoice"}
+                                        {'Print Invoice'}
                                       </Tooltip>
                                     }
                                   >
@@ -501,8 +500,8 @@ export default function SalesInvoiceLanding() {
                                           setShowModal(true);
                                         }}
                                         style={{
-                                          fontSize: "16px",
-                                          cursor: "pointer",
+                                          fontSize: '16px',
+                                          cursor: 'pointer',
                                         }}
                                         class="fa fa-print"
                                         aria-hidden="true"

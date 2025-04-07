@@ -1,29 +1,28 @@
-
-import React, { useEffect, useState } from "react";
-import Form from "./form";
-import { useSelector, shallowEqual } from "react-redux";
-import { useParams } from "react-router-dom";
-import Loading from "./../../../../_helper/_loading";
-import IForm from "./../../../../_helper/_form";
+import React, { useEffect, useState } from 'react';
+import Form from './form';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import Loading from './../../../../_helper/_loading';
+import IForm from './../../../../_helper/_form';
 import {
   createBeat,
   editBeat,
   getBeatById,
   getTerritoryDDL,
   getRouteDDL,
-} from "../helper";
+} from '../helper';
 
 const initData = {
-  beatCode: "", // (Manage from Backend) | Assign by Iftakhar Alam
-  beatName: "",
-  territory: "",
-  route: "",
+  beatCode: '', // (Manage from Backend) | Assign by Iftakhar Alam
+  beatName: '',
+  territory: '',
+  route: '',
 };
 
 const BeatForm = () => {
   const { id } = useParams();
   const [isDisabled, setDisabled] = useState(false);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   // All DDL
   const [territoryNameDDL, setTerritoryNameDDL] = useState([]);
@@ -96,7 +95,7 @@ const BeatForm = () => {
   return (
     <>
       <IForm
-        title={!id ? "Create Market" : "Edit Market Type"}
+        title={!id ? 'Create Market' : 'Edit Market Type'}
         getProps={setObjprops}
         isDisabled={isDisabled}
       >

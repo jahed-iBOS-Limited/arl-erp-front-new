@@ -127,7 +127,6 @@ function ComplainForm() {
       const id = edit || view;
       getComplainById(id, accId, buId, setLoading, setSingleData);
     }
-
   }, [edit, view]);
   const isLoader = loading;
 

@@ -141,7 +141,7 @@ export default function RFQCreateEdit() {
 
     const totalRowQuantity = itemList?.reduce(
       (acc, itm) => acc + +itm?.rfqquantity,
-      0,
+      0
     );
 
     const fileList = fileObjects?.map((itm) => {
@@ -265,7 +265,7 @@ export default function RFQCreateEdit() {
         : `${eProcurementBaseURL}/RequestForQuotation/CreateRequestForQuotation`,
       payload,
       cb,
-      true,
+      true
     );
   };
   // console.log("itemList", JSON.stringify(itemList, null, 2));
@@ -354,17 +354,17 @@ export default function RFQCreateEdit() {
               data?.plantId
             }&warehouseId=${data?.warehouseId}&transactiontType=${
               data?.rfqType
-            }&search=${''}`,
+            }&search=${''}`
           );
           // getReferenceNoDDL(
           //   `/procurement/RequestForQuotation/GetPRReferrenceNoDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${data?.sbuid}&PurchaseOrganizationId=${data?.purchaseOrganizationId}&PlantId=${data?.plantId}&WearHouseId=${data?.warehouseId}`
           // );
           // }
           getPlantListDDL(
-            `${eProcurementBaseURL}/EProcurement/GetPermissionWisePlantDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&orgUnitTypeId=7`,
+            `${eProcurementBaseURL}/EProcurement/GetPermissionWisePlantDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&orgUnitTypeId=7`
           );
           getWarehouseListDDL(
-            `${eProcurementBaseURL}/EProcurement/GetPermissionWiseWarehouseDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${data?.plantId}&orgUnitTypeId=8`,
+            `${eProcurementBaseURL}/EProcurement/GetPermissionWiseWarehouseDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${data?.plantId}&orgUnitTypeId=8`
           );
           // getWarehouseListDDL(
           //   `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${data?.plantId}`
@@ -375,16 +375,15 @@ export default function RFQCreateEdit() {
           getSupplierListDDL(
             `${eProcurementBaseURL}/EProcurement/GetSupplierListDDL?businessUnitId=${
               selectedBusinessUnit?.value
-            }&search=${''}`,
+            }&search=${''}`
           );
           getPurchaseOrgListDDL(
-            `${eProcurementBaseURL}/EProcurement/GetPurchaseOrganizationDDL?businessUnitId=${selectedBusinessUnit?.value}`,
+            `${eProcurementBaseURL}/EProcurement/GetPurchaseOrganizationDDL?businessUnitId=${selectedBusinessUnit?.value}`
           );
           setModifiedData(viewData);
-        },
+        }
       );
     }
-
   }, []);
   useEffect(() => {
     if (!id) {
@@ -392,27 +391,26 @@ export default function RFQCreateEdit() {
       //   `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
       // );
       getPlantListDDL(
-        `${eProcurementBaseURL}/EProcurement/GetPermissionWisePlantDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&orgUnitTypeId=7`,
+        `${eProcurementBaseURL}/EProcurement/GetPermissionWisePlantDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&orgUnitTypeId=7`
       );
       getSbuListDDL(
-        `/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Status=true`,
+        `/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Status=true`
       );
       getCurrencyDDL(
-        `${eProcurementBaseURL}/EProcurement/GetBaseCurrencyListDDL`,
+        `${eProcurementBaseURL}/EProcurement/GetBaseCurrencyListDDL`
       );
       getSupplierListDDL(
         `${eProcurementBaseURL}/EProcurement/GetSupplierListDDL?businessUnitId=${
           selectedBusinessUnit?.value
-        }&search=${''}`,
+        }&search=${''}`
       );
       getPaymentTermsDDL(
-        `${eProcurementBaseURL}/EProcurement/GetPaymentTermsListDDL`,
+        `${eProcurementBaseURL}/EProcurement/GetPaymentTermsListDDL`
       );
       getPurchaseOrgListDDL(
-        `${eProcurementBaseURL}/EProcurement/GetPurchaseOrganizationDDL?businessUnitId=${selectedBusinessUnit?.value}`,
+        `${eProcurementBaseURL}/EProcurement/GetPurchaseOrganizationDDL?businessUnitId=${selectedBusinessUnit?.value}`
       );
     }
-
   }, []);
   const handleAddSupplier = (values, setFieldValue) => {
     if (!values?.supplier) {
@@ -425,7 +423,7 @@ export default function RFQCreateEdit() {
       return toast.warn('Please Enter Supplier Email');
     }
     const isDuplicate = supplierList.some(
-      (supplier) => supplier?.businessPartnerName === values?.supplier?.label,
+      (supplier) => supplier?.businessPartnerName === values?.supplier?.label
     );
     if (isDuplicate) {
       toast.warn(`${values?.supplier?.label} already added`);
@@ -500,7 +498,7 @@ export default function RFQCreateEdit() {
           const isDuplicate = itemList?.some(
             (itemList) =>
               itemList?.itemId === item?.value &&
-              itemList?.referenceCode === values?.referenceNo?.label,
+              itemList?.referenceCode === values?.referenceNo?.label
           );
           if (!isDuplicate) {
             rowList.push({
@@ -532,11 +530,11 @@ export default function RFQCreateEdit() {
       const isDuplicate = itemList.some(
         (item) =>
           item?.itemId === values?.item?.value &&
-          item?.referenceCode === values?.referenceNo?.label,
+          item?.referenceCode === values?.referenceNo?.label
       );
       if (isDuplicate) {
         toast.warn(
-          `${values?.item?.label} already added for ${values?.referenceNo?.label}`,
+          `${values?.item?.label} already added for ${values?.referenceNo?.label}`
         );
       } else {
         setItemList([
@@ -712,7 +710,7 @@ export default function RFQCreateEdit() {
                         setFieldValue('warehouse', '');
                         setFieldValue('referenceType', '');
                         getWarehouseListDDL(
-                          `${eProcurementBaseURL}/EProcurement/GetPermissionWiseWarehouseDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${v?.value}&orgUnitTypeId=8`,
+                          `${eProcurementBaseURL}/EProcurement/GetPermissionWiseWarehouseDDL?userId=${profileData?.userId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${v?.value}&orgUnitTypeId=8`
                         );
                       } else {
                         setFieldValue('referenceNo', '');
@@ -786,7 +784,7 @@ export default function RFQCreateEdit() {
                             values?.warehouse?.value
                           }&transactiontType=${
                             values?.rfqType?.label
-                          }&search=${''}`,
+                          }&search=${''}`
                         );
                         setReferenceNoDDL([]);
                         setFieldValue('referenceNo', '');
@@ -941,7 +939,7 @@ export default function RFQCreateEdit() {
                         setFieldValue('validTillDate', e.target.value);
                         setFieldValue(
                           'deliveryDate',
-                          _oneMonthLater(e.target.value.split('T')[0]),
+                          _oneMonthLater(e.target.value.split('T')[0])
                         );
                       } else {
                         setFieldValue('validTillDate', '');
@@ -1221,7 +1219,7 @@ export default function RFQCreateEdit() {
                         setItemListDDL([]);
                         setItemList([]);
                         getItemListDDL(
-                          `${eProcurementBaseURL}/EProcurement/GetItemsForPRReference?businessUnitId=${selectedBusinessUnit?.value}&purchaseOrganizationId=${values?.purchaseOrganization?.value}&plantId=${values?.plant?.value}&wearHouseId=${values?.warehouse?.value}&purchaseRequestId=${v?.value}&transactiontType=${values?.rfqType?.label}`,
+                          `${eProcurementBaseURL}/EProcurement/GetItemsForPRReference?businessUnitId=${selectedBusinessUnit?.value}&purchaseOrganizationId=${values?.purchaseOrganization?.value}&plantId=${values?.plant?.value}&wearHouseId=${values?.warehouse?.value}&purchaseRequestId=${v?.value}&transactiontType=${values?.rfqType?.label}`
                         );
                         // getItemListDDL(`/procurement/RequestForQuotation/GetRFQItemDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${values?.sbu?.value}&PurchaseOrganizationId=${values?.purchaseOrganization?.value}&PlantId=${values?.plant?.value}&WearHouseId=${values?.warehouse?.value}&PurchaseRequestId=${v?.value}
                         //                     `);
@@ -1465,7 +1463,7 @@ export default function RFQCreateEdit() {
                                 onClick={() => {
                                   if (id && values?.isSentToSupplier) {
                                     return toast.warn(
-                                      "You can't delete item after sending RFQ",
+                                      "You can't delete item after sending RFQ"
                                     );
                                   }
                                   const temp = [...itemList];
@@ -1599,7 +1597,7 @@ export default function RFQCreateEdit() {
                                 onClick={() => {
                                   if (id && values?.isSentToSupplier) {
                                     return toast.warn(
-                                      "You can't delete supplier after sending RFQ",
+                                      "You can't delete supplier after sending RFQ"
                                     );
                                   }
                                   const temp = [...supplierList];

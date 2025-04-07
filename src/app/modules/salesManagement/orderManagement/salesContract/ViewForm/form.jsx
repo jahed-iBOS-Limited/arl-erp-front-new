@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import { IInput } from "../../../../_helper/_input";
-import ICalendar from "../../../../_helper/_inputCalender";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import InputField from "./../../../../_helper/_inputField";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import { IInput } from '../../../../_helper/_input';
+import ICalendar from '../../../../_helper/_inputCalender';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import InputField from './../../../../_helper/_inputField';
 
 // createSchema
 const createSchema = Yup.object().shape({});
@@ -36,51 +36,50 @@ export default function FormCmp({
   useEffect(() => {
     setControls([
       {
-        label: "Select Plant",
-        placeholder: "Plant",
-        name: "plant",
+        label: 'Select Plant',
+        placeholder: 'Plant',
+        name: 'plant',
         options: plantDDL,
         value: initData.plant,
       },
       {
-        label: "Select Sales Organization",
-        placeholder: "Sales Organization",
-        name: "salesOrg",
+        label: 'Select Sales Organization',
+        placeholder: 'Sales Organization',
+        name: 'salesOrg',
         options: salesOrgDDL || [],
         value: initData.salesOrg,
         isDisabled: true,
         dependencyFunc: (currentValue, values, setter) => {
           salesOfficeDDLDispatcher(currentValue);
-          setter("salesOffice", "");
-          setter("BUsalesOrgIncoterm", "");
+          setter('salesOffice', '');
+          setter('BUsalesOrgIncoterm', '');
         },
       },
       {
-        label: "Select Distribution Channel",
-        placeholder: "Distribution Channel",
-        name: "distributionChannel",
+        label: 'Select Distribution Channel',
+        placeholder: 'Distribution Channel',
+        name: 'distributionChannel',
         options: distributionChannelDDL,
         value: initData.distributionChannel,
         isDisabled: true,
       },
       {
-        label: "Select Sales Office",
-        placeholder: "Sales Office",
-        name: "salesOffice",
+        label: 'Select Sales Office',
+        placeholder: 'Sales Office',
+        name: 'salesOffice',
         options: salesOfficeDDL,
         value: initData.salesOffice,
         isDisabled: true,
       },
       {
-        label: "Select Sold to Party",
-        placeholder: "Sold to Party",
-        name: "soldToParty",
+        label: 'Select Sold to Party',
+        placeholder: 'Sold to Party',
+        name: 'soldToParty',
         options: soldToPartyDDL,
         value: initData.soldToParty,
         isDisabled: true,
       },
     ]);
-
   }, [
     plantDDL,
     salesOrgDDL,
@@ -129,7 +128,7 @@ export default function FormCmp({
                       })}
                       <div className="col-lg-2">
                         <IInput
-                          value={values.partnerReffNo || ""}
+                          value={values.partnerReffNo || ''}
                           label="Reference No"
                           name="partnerReffNo"
                           disabled={true}
@@ -137,7 +136,7 @@ export default function FormCmp({
                       </div>
                       <div className="col-lg-2">
                         <ICalendar
-                          value={_dateFormatter(values.pricingDate || "")}
+                          value={_dateFormatter(values.pricingDate || '')}
                           label="Pricing Date"
                           name="pricingDate"
                           disabled={true}
@@ -169,12 +168,12 @@ export default function FormCmp({
                                 type="checkbox"
                                 className="ml-2"
                                 disabled={true}
-                                value={values.partialShipment || ""}
+                                value={values.partialShipment || ''}
                                 checked={values.partialShipment}
                                 name={values.partialShipment}
                                 onChange={(e) => {
                                   setFieldValue(
-                                    "partialShipment",
+                                    'partialShipment',
                                     e.target.checked
                                   );
                                 }}
@@ -195,11 +194,11 @@ export default function FormCmp({
                                 type="checkbox"
                                 className="ml-2"
                                 disabled={true}
-                                value={values.unlimited || ""}
+                                value={values.unlimited || ''}
                                 checked={values.unlimited}
                                 name={values.unlimited}
                                 onChange={(e) => {
-                                  setFieldValue("unlimited", e.target.checked);
+                                  setFieldValue('unlimited', e.target.checked);
                                 }}
                               />
                             )}
@@ -209,7 +208,7 @@ export default function FormCmp({
                       </div>
                       <div className="col-lg-2">
                         <ICalendar
-                          value={_dateFormatter(values.startDate || "")}
+                          value={_dateFormatter(values.startDate || '')}
                           label="Start Date"
                           name="startDate"
                           disabled={true}
@@ -217,7 +216,7 @@ export default function FormCmp({
                       </div>
                       <div className="col-lg-2">
                         <ICalendar
-                          value={_dateFormatter(values.endDate || "")}
+                          value={_dateFormatter(values.endDate || '')}
                           label="End Date"
                           name="endDate"
                           disabled={true}
@@ -227,8 +226,8 @@ export default function FormCmp({
                         <ISelect
                           label="Select Vehicle By"
                           options={[
-                            { value: 1, label: "Company" },
-                            { value: 2, label: "Customer" },
+                            { value: 1, label: 'Company' },
+                            { value: 2, label: 'Customer' },
                           ]}
                           value={values.vehicleBy}
                           name="vehicleBy"
@@ -250,7 +249,7 @@ export default function FormCmp({
                       <div className="col-lg-2">
                         <label>Remarks</label>
                         <InputField
-                          value={values?.remark || ""}
+                          value={values?.remark || ''}
                           name="remark"
                           placeholder="Remarks"
                           type="text"
@@ -267,11 +266,11 @@ export default function FormCmp({
                               type="checkbox"
                               className="ml-2"
                               disabled={true}
-                              value={values.offerInclude || ""}
+                              value={values.offerInclude || ''}
                               checked={values.offerInclude}
                               name={values.offerInclude}
                               onChange={(e) => {
-                                setFieldValue("offerInclude", e.target.checked);
+                                setFieldValue('offerInclude', e.target.checked);
                               }}
                             />
                           )}
@@ -293,8 +292,8 @@ export default function FormCmp({
                           <div className="left">
                             <div className="d-flex justify-content-start">
                               <b className="mx-2">
-                                Total Qty : {total.totalQty}{" "}
-                              </b>{" "}
+                                Total Qty : {total.totalQty}{' '}
+                              </b>{' '}
                               <b>Total Amount : {total.totalAmount}</b>
                             </div>
                           </div>
@@ -312,7 +311,7 @@ export default function FormCmp({
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                         <thead>
                           <tr>
-                            <th style={{ width: "35px" }}>SL</th>
+                            <th style={{ width: '35px' }}>SL</th>
                             <th>Item Name</th>
                             <th>Item Code</th>
                             <th>UoM Name</th>
@@ -344,7 +343,7 @@ export default function FormCmp({
                             </tr>
                           ))}
                         </tbody>
-                      </table>{" "}
+                      </table>{' '}
                     </div>
                   )}
                 </div>

@@ -1,5 +1,5 @@
-import React from "react";
-import { _formatMoney } from "./../../../../_helper/_formatMoney";
+import React from 'react';
+import { _formatMoney } from './../../../../_helper/_formatMoney';
 
 function TableGird({ rowDto, values, selectedBusinessUnit }) {
   return (
@@ -130,23 +130,23 @@ function tableForAkijCement(rowDto) {
 
 // header for all unit
 const tableHeaderForAllUnitExceptAkij = [
-  "SL",
-  "Item Name",
-  "UOM Name",
-  "Qty",
-  "Rate",
-  "Total Amount",
+  'SL',
+  'Item Name',
+  'UOM Name',
+  'Qty',
+  'Rate',
+  'Total Amount',
 ];
 
 // header for akij cement
 const tableHeaderForAkijCement = [
-  "SL",
-  "Item Name",
-  "UOM Name",
-  "Qty (Bag)",
-  "Qty (Ton)",
-  "Rate",
-  "Total Amount",
+  'SL',
+  'Item Name',
+  'UOM Name',
+  'Qty (Bag)',
+  'Qty (Ton)',
+  'Rate',
+  'Total Amount',
 ];
 
 export default TableGird;

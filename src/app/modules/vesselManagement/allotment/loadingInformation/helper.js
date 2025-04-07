@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 
 // ddl
 export const GetShipPointDDL = async (accId, buId, setter) => {
@@ -51,8 +51,6 @@ export const GetLighterVesselDDL = async (accId, buId, setter) => {
   }
 };
 
-
-
 export const CreateLighterLoadUnloadInfo = async (payload, setLoading, cb) => {
   setLoading && setLoading(true);
   try {
@@ -62,7 +60,7 @@ export const CreateLighterLoadUnloadInfo = async (payload, setLoading, cb) => {
     );
     if (res.status === 200) {
       cb && cb();
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       setLoading && setLoading(false);
     }
   } catch (error) {
@@ -80,7 +78,7 @@ export const EditLighterLoadingInfo = async (payload, setLoading, cb) => {
     );
     if (res.status === 200) {
       cb && cb();
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       setLoading && setLoading(false);
     }
   } catch (error) {
@@ -124,7 +122,7 @@ export const DeleteLoadingInformation = async (id, setLoading, cb) => {
       `/tms/LigterLoadUnload/DeleteLighterLoadingInfo?VoyageNo=${id}`
     );
 
-    toast.success(res?.data?.message || "Deleted Loading Information");
+    toast.success(res?.data?.message || 'Deleted Loading Information');
     cb();
     setLoading(false);
   } catch (error) {
@@ -188,12 +186,12 @@ export const getLoadingInfoById = async (
       },
       sideAt: d?.sideAt,
       loadingStart: d?.loadingStartDate,
-      loadingComplete: d?.loadingCompleteDate || "",
+      loadingComplete: d?.loadingCompleteDate || '',
       // customerPassNo: "",
       // boatNote: "",
       // customRotationNumber: "",
-      loadingDate: "",
-      loadedQty: "",
+      loadingDate: '',
+      loadedQty: '',
       // loadedQty: d?.surveyQnt,
     };
 
@@ -240,7 +238,7 @@ export const getLoadingInfoByVoyageNo = async (
       },
       sideAt: d?.sideAt,
       loadingStart: d?.loadingStartDate,
-      loadingComplete: d?.loadingCompleteDate || "",
+      loadingComplete: d?.loadingCompleteDate || '',
       programNo: d?.progarm,
     };
 
@@ -338,7 +336,7 @@ export const getAllotmentDataForLoading = async (
     );
     if (res?.data?.length < 1) {
       toast.warn(
-        "Loading information for this program is already entered OR You have to insert Allotment information first!"
+        'Loading information for this program is already entered OR You have to insert Allotment information first!'
       );
     } else {
       setter(
@@ -346,12 +344,12 @@ export const getAllotmentDataForLoading = async (
           ...item,
           surveyQty: item?.allottedQnt,
           lighterVessel: item?.lighterVesselName,
-          sideAt: "",
-          loadingStart: "",
-          loadingComplete: "",
+          sideAt: '',
+          loadingStart: '',
+          loadingComplete: '',
           isSelected: false,
-          boatNote: "",
-          sailingDate: "",
+          boatNote: '',
+          sailingDate: '',
         }))
       );
     }
@@ -367,8 +365,8 @@ export const getAllotmentDataForLoading = async (
 // Validation schema
 export const validationSchema = Yup.object().shape({
   motherVessel: Yup.object().shape({
-    label: Yup.string().required("Mother Vessel is required"),
-    value: Yup.string().required("Mother Vessel is required"),
+    label: Yup.string().required('Mother Vessel is required'),
+    value: Yup.string().required('Mother Vessel is required'),
   }),
   // customerPassNo: Yup.string().required("Customer Pass No is required"),
 });

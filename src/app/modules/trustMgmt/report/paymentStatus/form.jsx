@@ -1,9 +1,9 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 
 export default function FormCmp({ initData, rowDto, getData }) {
   const [unitNameDDL, getUnitNameDDL] = useAxiosGet();
@@ -18,17 +18,16 @@ export default function FormCmp({ initData, rowDto, getData }) {
     fromDate,
     toDate,
     paymentStatusId,
-    paymentTypeId,
+    paymentTypeId
   ) => {
     return `/hcm/TrustManagement/GetTrustAllLanding?PartName=${partName}&UnitId=${unitId}&FromDate=${fromDate}&ToDate=${toDate}&PaymentStatusId=${paymentStatusId}&paymentTypeId=${paymentTypeId || 0}`;
   };
 
   useEffect(() => {
-    getUnitNameDDL(generateAPI("UnitDDL"));
-
+    getUnitNameDDL(generateAPI('UnitDDL'));
   }, []);
 
-  const saveHandler = (values, cb) => { };
+  const saveHandler = (values, cb) => {};
 
   return (
     <>
@@ -69,7 +68,7 @@ export default function FormCmp({ initData, rowDto, getData }) {
                           options={unitNameDDL || []}
                           value={values?.unitName}
                           onChange={(valueOption) => {
-                            setFieldValue("unitName", valueOption);
+                            setFieldValue('unitName', valueOption);
                           }}
                           placeholder="Select"
                           errors={errors}
@@ -89,13 +88,13 @@ export default function FormCmp({ initData, rowDto, getData }) {
                           isHiddenToolTip={true}
                           name="paymentType"
                           options={[
-                            { value: 0, label: "All" },
-                            { value: 1, label: "Zakat" },
-                            { value: 2, label: "Donation/Sadaka" },
+                            { value: 0, label: 'All' },
+                            { value: 1, label: 'Zakat' },
+                            { value: 2, label: 'Donation/Sadaka' },
                           ]}
                           value={values?.paymentType}
                           onChange={(valueOption) => {
-                            setFieldValue("paymentType", valueOption);
+                            setFieldValue('paymentType', valueOption);
                           }}
                           errors={errors}
                           touched={touched}
@@ -115,12 +114,12 @@ export default function FormCmp({ initData, rowDto, getData }) {
                           name="paymentStatus"
                           isHiddenLabel={true}
                           options={[
-                            { value: 1, label: "Paid" },
-                            { value: 2, label: "Unpaid" },
+                            { value: 1, label: 'Paid' },
+                            { value: 2, label: 'Unpaid' },
                           ]}
                           value={values?.paymentStatus}
                           onChange={(valueOption) => {
-                            setFieldValue("paymentStatus", valueOption);
+                            setFieldValue('paymentStatus', valueOption);
                           }}
                           placeholder="Select"
                           errors={errors}
@@ -158,7 +157,7 @@ export default function FormCmp({ initData, rowDto, getData }) {
                           <InputField
                             value={values?.toDate}
                             name="toDate"
-                            placeholder={" "}
+                            placeholder={' '}
                             type="date"
                             min={values?.fromDate}
                             disabled={!values?.fromDate}
@@ -183,12 +182,12 @@ export default function FormCmp({ initData, rowDto, getData }) {
                       <div className="text-right">
                         <button
                           type="button"
-                          style={{ fontSize: "12px" }}
+                          style={{ fontSize: '12px' }}
                           className="btn btn-primary mt-1"
                           onClick={() => {
                             getData(
                               getTrustAllLanding(
-                                "GetAllPaymentStatusNDonationReciverList",
+                                'GetAllPaymentStatusNDonationReciverList',
                                 values?.unitName?.value || 4,
                                 values?.fromDate,
                                 values?.toDate,
@@ -197,7 +196,7 @@ export default function FormCmp({ initData, rowDto, getData }) {
                               )
                             );
                           }}
-                        // disabled={!values?.fromDate || !values?.toDate}
+                          // disabled={!values?.fromDate || !values?.toDate}
                         >
                           Show Report
                         </button>
@@ -207,7 +206,7 @@ export default function FormCmp({ initData, rowDto, getData }) {
                 </div>
               </div>
             </Form>
-            <div className="text-center" style={{ marginTop: "30px" }}>
+            <div className="text-center" style={{ marginTop: '30px' }}>
               {rowDto?.length > 0 && values?.paymentStatus && (
                 <>
                   <h6 className="mb-0">

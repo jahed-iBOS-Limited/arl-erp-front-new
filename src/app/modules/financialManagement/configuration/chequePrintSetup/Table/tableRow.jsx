@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import Loading from "../../../../_helper/_loading";
-import { getBankChequePrintPagination } from "./../helper";
+import React, { useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import Loading from '../../../../_helper/_loading';
+import { getBankChequePrintPagination } from './../helper';
 
 export function TableRow() {
   //paginationState
@@ -39,7 +39,6 @@ export function TableRow() {
         pageSize
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   //setPositionHandler

@@ -1,25 +1,25 @@
-import React from "react";
-import ICustomTable from "../../../../../_helper/_customTable";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../../_helper/_formatMoney";
+import React from 'react';
+import ICustomTable from '../../../../../_helper/_customTable';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../../_helper/_formatMoney';
 
 const AccountPayableAnalysisTable = ({ rowDto, values, printRef }) => {
   const headers = [
-    "SL",
-    "Code",
-    "Supplier Name",
-    "Debit",
-    "Credit",
-    "Outstanding",
-    "Last Purchase Date",
-    "Last Payment Date",
+    'SL',
+    'Code',
+    'Supplier Name',
+    'Debit',
+    'Credit',
+    'Outstanding',
+    'Last Purchase Date',
+    'Last Payment Date',
   ];
 
   return (
     <div ref={printRef}>
       {rowDto?.length > 0 && (
         <ICustomTable
-          id={"table-to-xlsx"}
+          id={'table-to-xlsx'}
           ths={headers}
           className="table-font-size-sm"
         >
@@ -28,18 +28,18 @@ const AccountPayableAnalysisTable = ({ rowDto, values, printRef }) => {
               <tr key={index}>
                 <td className="text-center">{index + 1}</td>
                 <>
-                  <td className="text-center" style={{ width: "80px" }}>
+                  <td className="text-center" style={{ width: '80px' }}>
                     {item?.PartnerCode}
                   </td>
                   <td>{item?.PartnerName}</td>
-                  <td className="text-right" style={{ width: "120px" }}>
+                  <td className="text-right" style={{ width: '120px' }}>
                     {_formatMoney(item?.DebitBalance)}
                   </td>
-                  <td className="text-right" style={{ width: "120px" }}>
+                  <td className="text-right" style={{ width: '120px' }}>
                     {_formatMoney(item?.CreditAmount)}
                   </td>
-                  <td className="text-right" style={{ width: "120px" }}>
-                    {_formatMoney(item?.CurrentBalance) || ""}
+                  <td className="text-right" style={{ width: '120px' }}>
+                    {_formatMoney(item?.CurrentBalance) || ''}
                   </td>
                   <td>{_dateFormatter(item?.LastPurchaseDare)}</td>
                   <td>{_dateFormatter(item?.dteLastPayDate)}</td>

@@ -1,5 +1,5 @@
-import React from "react";
-import IViewModal from "../../../../../_helper/_viewModal";
+import React from 'react';
+import IViewModal from '../../../../../_helper/_viewModal';
 
 const TradeLicenceModal = ({ show, onHide, tradeLicenceImg }) => {
   return (
@@ -7,10 +7,10 @@ const TradeLicenceModal = ({ show, onHide, tradeLicenceImg }) => {
       <IViewModal
         show={show}
         onHide={onHide}
-        title={"Trade Licence"}
+        title={'Trade Licence'}
         btnText="Close"
       >
-        <img src={tradeLicenceImg ?? ""} alt="Trade Licence" />
+        <img src={tradeLicenceImg ?? ''} alt="Trade Licence" />
       </IViewModal>
     </div>
   );

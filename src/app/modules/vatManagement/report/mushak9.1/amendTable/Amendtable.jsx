@@ -1,34 +1,34 @@
-import React, { useRef } from "react";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import govLogo from "../images/govLogo.png";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { _dateFormatterTwo } from "../../../../_helper/_dateFormate";
-import ReactToPrint from "react-to-print";
+import React, { useRef } from 'react';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import govLogo from '../images/govLogo.png';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { _dateFormatterTwo } from '../../../../_helper/_dateFormate';
+import ReactToPrint from 'react-to-print';
 const Amendtable = ({ taxPayerInfo, employeeBasicDetails }) => {
   let boxStyle = {
-    borderRight: "1px solid #000000",
-    height: "29px",
-    width: "35px",
+    borderRight: '1px solid #000000',
+    height: '29px',
+    width: '35px',
   };
 
   let inputStyle = {
-    border: "1px solid gray",
-    borderRadius: "4px",
+    border: '1px solid gray',
+    borderRadius: '4px',
   };
 
   let month = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ];
 
   let date = new Date();
@@ -36,19 +36,19 @@ const Amendtable = ({ taxPayerInfo, employeeBasicDetails }) => {
   let cMonth = month[_month];
 
   let today = _todayDate();
-  let splittedToday = today.split("-").join("");
-  let splittedTodayNew = splittedToday.split("");
+  let splittedToday = today.split('-').join('');
+  let splittedTodayNew = splittedToday.split('');
   const pageStyle = `
   @page {
     margin: 1mm  1mm  1mm 1mm !important;
   }
 `;
   const printRef = useRef();
-  const binNumber = taxPayerInfo?.bin?.split("") || [];
+  const binNumber = taxPayerInfo?.bin?.split('') || [];
   return (
     <div
       className="bg-white"
-      style={{ padding: "30px 40px" }}
+      style={{ padding: '30px 40px' }}
       componentRef={printRef}
       ref={printRef}
     >
@@ -59,12 +59,12 @@ const Amendtable = ({ taxPayerInfo, employeeBasicDetails }) => {
             <button
               type="button"
               className="btn btn-primary"
-              style={{ padding: "2px 5px" }}
+              style={{ padding: '2px 5px' }}
             >
               <img
                 style={{
-                  width: "25px",
-                  paddingRight: "5px",
+                  width: '25px',
+                  paddingRight: '5px',
                 }}
                 src={printIcon}
                 alt="print-icon"
@@ -77,9 +77,9 @@ const Amendtable = ({ taxPayerInfo, employeeBasicDetails }) => {
       </div>
       <div className="amend-header">
         <img
-          style={{ position: "absolute", top: "60px", left: "60px" }}
+          style={{ position: 'absolute', top: '60px', left: '60px' }}
           src={govLogo}
-          alt={"Ibos"}
+          alt={'Ibos'}
         />
         <div className="text-center">
           <div>গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</div>
@@ -90,9 +90,9 @@ const Amendtable = ({ taxPayerInfo, employeeBasicDetails }) => {
         <div className="text-right">
           <b
             style={{
-              border: "1px solid #000000",
-              width: "70px",
-              padding: "4px",
+              border: '1px solid #000000',
+              width: '70px',
+              padding: '4px',
             }}
           >
             মূসক-৯.৪
@@ -104,7 +104,7 @@ const Amendtable = ({ taxPayerInfo, employeeBasicDetails }) => {
           </div>
           <div>[বিধি ৪৯ এর উপ-বিধি (২) দ্রষ্টব্য]</div>
         </div>
-        <div style={{ background: "#80808026" }} className="text-center mt-5">
+        <div style={{ background: '#80808026' }} className="text-center mt-5">
           <div>
             <b>অংশ-১ : করাদাতার তথ্য</b>
           </div>
@@ -113,10 +113,10 @@ const Amendtable = ({ taxPayerInfo, employeeBasicDetails }) => {
         <table className="table amend-table">
           <tbody>
             <tr>
-              <td style={{ width: "340px" }}>
+              <td style={{ width: '340px' }}>
                 <b>(১) করাদাতার নাম</b>
               </td>
-              <td style={{ width: "30px" }} className="text-center">
+              <td style={{ width: '30px' }} className="text-center">
                 :
               </td>
               <td>
@@ -130,22 +130,22 @@ const Amendtable = ({ taxPayerInfo, employeeBasicDetails }) => {
               </td>
             </tr>
             <tr>
-              <td style={{ width: "340px" }}>
-                <b>(২) ব্যবসায় সনাক্তকরণ সংখ্যা (বিআইএন)</b>{" "}
+              <td style={{ width: '340px' }}>
+                <b>(২) ব্যবসায় সনাক্তকরণ সংখ্যা (বিআইএন)</b>{' '}
               </td>
-              <td style={{ width: "30px" }} className="text-center">
+              <td style={{ width: '30px' }} className="text-center">
                 :
               </td>
-              <td style={{ height: "43px" }}>
+              <td style={{ height: '43px' }}>
                 <div className="d-flex justify-content-center">
                   <div
                     style={{
-                      border: "1px solid #000000",
-                      borderRight: "0px solid transparent",
-                      marginTop: "30px",
-                      height: "30px",
-                      width: "300px",
-                      display: "flex",
+                      border: '1px solid #000000',
+                      borderRight: '0px solid transparent',
+                      marginTop: '30px',
+                      height: '30px',
+                      width: '300px',
+                      display: 'flex',
                     }}
                   >
                     {binNumber?.map((itm) => (
@@ -268,7 +268,7 @@ const Amendtable = ({ taxPayerInfo, employeeBasicDetails }) => {
         </table>
 
         {/* Second section with table start */}
-        <div style={{ background: "#80808026" }} className="text-center mt-5">
+        <div style={{ background: '#80808026' }} className="text-center mt-5">
           <div>
             <b>অংশ-২ : দাখিলপত্র পেশের তথ্য </b>
           </div>
@@ -277,10 +277,10 @@ const Amendtable = ({ taxPayerInfo, employeeBasicDetails }) => {
         <table className="table amend-table">
           <tbody>
             <tr>
-              <td style={{ width: "340px" }}>
+              <td style={{ width: '340px' }}>
                 <b>(১) কর মেয়াদ</b>
               </td>
-              <td style={{ width: "30px" }} className="text-center">
+              <td style={{ width: '30px' }} className="text-center">
                 :
               </td>
               <td className="text-center">
@@ -289,22 +289,22 @@ const Amendtable = ({ taxPayerInfo, employeeBasicDetails }) => {
               </td>
             </tr>
             <tr>
-              <td style={{ width: "340px" }}>
-                <b>(২) দাখিলের তারিখ</b>{" "}
+              <td style={{ width: '340px' }}>
+                <b>(২) দাখিলের তারিখ</b>{' '}
               </td>
-              <td style={{ width: "30px" }} className="text-center">
+              <td style={{ width: '30px' }} className="text-center">
                 :
               </td>
-              <td style={{ height: "70px" }}>
+              <td style={{ height: '70px' }}>
                 <div className="d-flex justify-content-center">
                   <div
                     style={{
-                      border: "1px solid #000000",
-                      borderRight: "0px solid transparent",
-                      marginTop: "30px",
-                      height: "30px",
-                      width: "300px",
-                      display: "flex",
+                      border: '1px solid #000000',
+                      borderRight: '0px solid transparent',
+                      marginTop: '30px',
+                      height: '30px',
+                      width: '300px',
+                      display: 'flex',
                     }}
                   >
                     <div className="text-center" style={boxStyle}>
@@ -346,7 +346,7 @@ const Amendtable = ({ taxPayerInfo, employeeBasicDetails }) => {
         {/* Second section with table end */}
 
         {/* Third section with table start */}
-        <div style={{ background: "#80808026" }} className="text-center mt-5">
+        <div style={{ background: '#80808026' }} className="text-center mt-5">
           <div>
             <b>অংশ-৩ : সংশোধিত দাখিলপত্র পেশের তথ্য </b>
           </div>
@@ -493,7 +493,7 @@ const Amendtable = ({ taxPayerInfo, employeeBasicDetails }) => {
         {/* Third section with table end */}
 
         {/* Four section with table start */}
-        <div style={{ background: "#80808026" }} className="text-center mt-5">
+        <div style={{ background: '#80808026' }} className="text-center mt-5">
           <div>
             <b>অংশ-৪ : ঘোষণা </b>
           </div>
@@ -510,10 +510,10 @@ const Amendtable = ({ taxPayerInfo, employeeBasicDetails }) => {
               </td>
             </tr>
             <tr>
-              <td style={{ width: "200px" }}>
+              <td style={{ width: '200px' }}>
                 <div className="ml-1">নাম</div>
               </td>
-              <td colspan="2" style={{ width: "600px" }}>
+              <td colspan="2" style={{ width: '600px' }}>
                 {employeeBasicDetails?.userName}
                 {/* <input
                   className="m-1"
@@ -527,7 +527,7 @@ const Amendtable = ({ taxPayerInfo, employeeBasicDetails }) => {
               <td>
                 <div className="ml-1">পদবি</div>
               </td>
-              <td style={{ width: "600px" }}>
+              <td style={{ width: '600px' }}>
                 {employeeBasicDetails?.designationName}
                 {/* <input
                   className="m-1"
@@ -581,8 +581,8 @@ const Amendtable = ({ taxPayerInfo, employeeBasicDetails }) => {
               </td>
             </tr>
             <tr>
-              <td style={{ visibility: "hidden" }}></td>
-              <td style={{ visibility: "hidden" }}></td>
+              <td style={{ visibility: 'hidden' }}></td>
+              <td style={{ visibility: 'hidden' }}></td>
               <td>
                 <div className="ml-1">স্বাক্ষর</div>
               </td>

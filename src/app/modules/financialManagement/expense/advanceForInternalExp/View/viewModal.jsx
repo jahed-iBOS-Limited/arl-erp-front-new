@@ -1,27 +1,25 @@
-import React, { useEffect, useState } from "react";
-import IViewModal from "../../../../_helper/_viewModal";
-import { Form, Formik } from "formik";
-import Select from "react-select";
-import { IInput } from "../../../../_helper/_input";
-import customStyles from "../../../../selectCustomStyle";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { singleDataById } from "../helper";
+import React, { useEffect, useState } from 'react';
+import IViewModal from '../../../../_helper/_viewModal';
+import { Form, Formik } from 'formik';
+import Select from 'react-select';
+import { IInput } from '../../../../_helper/_input';
+import customStyles from '../../../../selectCustomStyle';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { singleDataById } from '../helper';
 
 const initData = {
-  comments: "",
-  numRequestedAmount: "",
+  comments: '',
+  numRequestedAmount: '',
   dueDate: _todayDate(),
-  requestedEmp: "",
-  paymentType: "",
-  advExpCategoryName: "",
-  disbursementCenterName: "",
-  SBU: "",
+  requestedEmp: '',
+  paymentType: '',
+  advExpCategoryName: '',
+  disbursementCenterName: '',
+  SBU: '',
 };
 
 export default function ViewForm({ id, show, onHide }) {
-
- 
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   useEffect(() => {
     if (id) {
@@ -33,17 +31,14 @@ export default function ViewForm({ id, show, onHide }) {
     }
   }, [id]);
 
-  
   return (
     <div className="adjustment-journal-modal">
       <IViewModal
         show={show}
         onHide={onHide}
         isShow={false}
-        title={
-          "Advance Internal Expense"
-        }
-        style={{ fontSize: "1.2rem !important" }}
+        title={'Advance Internal Expense'}
+        style={{ fontSize: '1.2rem !important' }}
       >
         <>
           <Formik
@@ -69,25 +64,25 @@ export default function ViewForm({ id, show, onHide }) {
 
                         <div className="col-lg-6 pl pr-1 mb-2">
                           <label>Request For Employee</label>
-                          <Select 
+                          <Select
                             value={values?.requestedEmp}
                             isSearchable={true}
                             name="requestedEmp"
                             styles={customStyles}
                             placeholder="EMP"
-                            isDisabled = {true}
+                            isDisabled={true}
                           />
                         </div>
 
                         <div className="col-lg-6 pl pr-1 mb-2">
                           <label>Select SBU</label>
-                          <Select 
+                          <Select
                             value={values?.SBU}
                             isSearchable={true}
                             name="SBU"
                             styles={customStyles}
                             placeholder="SBU"
-                            isDisabled = {true}
+                            isDisabled={true}
                           />
                         </div>
 
@@ -100,7 +95,7 @@ export default function ViewForm({ id, show, onHide }) {
                             isSearchable={true}
                             name="advExpCategoryName"
                             styles={customStyles}
-                            isDisabled = {true}
+                            isDisabled={true}
                           />
                         </div>
 
@@ -113,7 +108,7 @@ export default function ViewForm({ id, show, onHide }) {
                             name="numRequestedAmount"
                             min="0"
                             type="number"
-                            disabled = {true}
+                            disabled={true}
                           />
                         </div>
 
@@ -125,7 +120,7 @@ export default function ViewForm({ id, show, onHide }) {
                             label="Due Date"
                             name="dueDate"
                             type="date"
-                            disabled = {true}
+                            disabled={true}
                           />
                         </div>
 
@@ -138,7 +133,7 @@ export default function ViewForm({ id, show, onHide }) {
                             isSearchable={true}
                             name="paymentType"
                             styles={customStyles}
-                            isDisabled = {true}
+                            isDisabled={true}
                           />
                         </div>
 
@@ -151,7 +146,7 @@ export default function ViewForm({ id, show, onHide }) {
                             isSearchable={true}
                             name="disbursementCenterName"
                             styles={customStyles}
-                            isDisabled = {true}
+                            isDisabled={true}
                           />
                         </div>
                         <div className="col-lg-6 pl pr-1 mb-2">
@@ -161,7 +156,7 @@ export default function ViewForm({ id, show, onHide }) {
                             isSearchable={true}
                             name="expenseGroup"
                             styles={customStyles}
-                            isDisabled = {true}
+                            isDisabled={true}
                           />
                         </div>
 
@@ -172,7 +167,7 @@ export default function ViewForm({ id, show, onHide }) {
                             value={values.comments}
                             label="Comments"
                             name="comments"
-                            disabled = {true}
+                            disabled={true}
                           />
                         </div>
                       </div>

@@ -1,6 +1,6 @@
-import axios from "axios";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _todayDate } from "../../../_helper/_todayDate";
+import axios from 'axios';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _todayDate } from '../../../_helper/_todayDate';
 // import { toast } from "react-toastify";
 
 export const getTrailBalanceReport = async (
@@ -73,10 +73,10 @@ export const getBusinessUnitYearConfigData = async (
       `/fino/FinanceCommonDDL/GetBusinessUnitYearConfigData?accountId=${accountId}&businessUnitId=${businessUnitId}`
     );
     setter({
-      balanceType: "3",
-    toDate: _todayDate(),
-      fromDate: res?.data?.[0]["startDate"]
-        ? _dateFormatter(res?.data?.[0]["startDate"])
+      balanceType: '3',
+      toDate: _todayDate(),
+      fromDate: res?.data?.[0]['startDate']
+        ? _dateFormatter(res?.data?.[0]['startDate'])
         : _dateFormatter(new Date()),
     });
     setter(res?.data);

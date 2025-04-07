@@ -1,14 +1,15 @@
-import React from "react";
-import { Route } from "react-router";
-import { UiProvider } from "../../../_helper/uiContextHelper";
-import { CostComponentTable } from "./Table/tableHeader";
-import CostComponentViewForm from "./view/addForm";
+import React from 'react';
+import { Route } from 'react-router';
+import { UiProvider } from '../../../_helper/uiContextHelper';
+import { CostComponentTable } from './Table/tableHeader';
+import CostComponentViewForm from './view/addForm';
 
-function CostComponentLanding({history}) {
+function CostComponentLanding({ history }) {
   const uIEvents = {
-
     openViewDialog: (id) => {
-      history.push(`/transport-management/configuration/costcomponent/view/${id}`);
+      history.push(
+        `/transport-management/configuration/costcomponent/view/${id}`
+      );
     },
   };
   return (
@@ -21,7 +22,9 @@ function CostComponentLanding({history}) {
               id={match && match.params.id}
               history={history}
               onHide={() => {
-                history.push("/transport-management/configuration/costcomponent");
+                history.push(
+                  '/transport-management/configuration/costcomponent'
+                );
               }}
             />
           )}

@@ -1,21 +1,21 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import * as Yup from "yup";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import IViewModal from "../../../../_helper/_viewModal";
-import SubmittedRow from "../../renewalRegistration/view/viewModal";
-import { renewalRegistrationApproval } from "../helper";
-import useAxiosGet from "./../../../../_helper/customHooks/useAxiosGet";
-import RenewalApprovalTable from "./renewalApprovalTable";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import IViewModal from '../../../../_helper/_viewModal';
+import SubmittedRow from '../../renewalRegistration/view/viewModal';
+import { renewalRegistrationApproval } from '../helper';
+import useAxiosGet from './../../../../_helper/customHooks/useAxiosGet';
+import RenewalApprovalTable from './renewalApprovalTable';
 
 const validationSchema = Yup.object().shape({});
 
 const initData = {
-  code: "",
+  code: '',
 };
 export default function RenewalBillForm() {
   const [loading, setLoading] = useState(false);
@@ -33,13 +33,12 @@ export default function RenewalBillForm() {
     getCodeDDL(
       `/asset/LandingView/GetRenewalRegistrationList?typeId=3&UnitId=${selectedBusinessUnit?.value}&PlantId=0&RenewalServiceId=0&AssetId=0&statusId=4&PageNo=${pageNo}&PageSize=${pageSize}`
     );
-
   }, []);
 
   const confirmToApprove = (values) => {
     let confirmObject = {
-      title: "Are you sure?",
-      message: "",
+      title: 'Are you sure?',
+      message: '',
       yesAlertFunc: async () => {
         const rowList = gridData
           ?.filter((item) => item?.checked)
@@ -52,7 +51,7 @@ export default function RenewalBillForm() {
         renewalRegistrationApproval(rowList, setLoading, () => {
           const renewalCode = values?.code?.value
             ? `&renewalCode=${values?.code?.value || null}`
-            : "";
+            : '';
           getGridData(
             `/asset/LandingView/GetRenewalRegistrationList?typeId=2&AccountId=${
               profileData?.accountId
@@ -70,7 +69,7 @@ export default function RenewalBillForm() {
         });
       },
       noAlertFunc: () => {
-        "";
+        '';
       },
     };
     IConfirmModal(confirmObject);
@@ -102,11 +101,11 @@ export default function RenewalBillForm() {
                     <div className="col-lg-3">
                       <NewSelect
                         name="code"
-                        options={[{ value: null, label: "All" }, ...codeDDL]}
+                        options={[{ value: null, label: 'All' }, ...codeDDL]}
                         value={values?.code}
                         label="Code"
                         onChange={(valueOption) => {
-                          setFieldValue("code", valueOption);
+                          setFieldValue('code', valueOption);
                           setGridData([]);
                         }}
                         errors={errors}
@@ -114,7 +113,7 @@ export default function RenewalBillForm() {
                       />
                     </div>
                     <div
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                       className="col-lg-4 col-md-4"
                     >
                       <button
@@ -124,7 +123,7 @@ export default function RenewalBillForm() {
                         onClick={() => {
                           const renewalCode = values?.code?.value
                             ? `&renewalCode=${values?.code?.value || null}`
-                            : "";
+                            : '';
                           getGridData(
                             `/asset/LandingView/GetRenewalRegistrationList?typeId=2&AccountId=${
                               profileData?.accountId

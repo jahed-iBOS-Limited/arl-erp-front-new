@@ -1,11 +1,10 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import SearchAsyncSelect from "../../../../../_helper/SearchAsyncSelect";
-import IDelete from "../../../../../_helper/_helperIcons/_delete";
-import NewSelect from "../../../../../_helper/_select";
-import IButton from "../../../../../_helper/iButton";
-import { loadUserList } from "../../helper";
-
+import { Form, Formik } from 'formik';
+import React from 'react';
+import SearchAsyncSelect from '../../../../../_helper/SearchAsyncSelect';
+import IDelete from '../../../../../_helper/_helperIcons/_delete';
+import NewSelect from '../../../../../_helper/_select';
+import IButton from '../../../../../_helper/iButton';
+import { loadUserList } from '../../helper';
 
 export default function FormCmp({
   accId,
@@ -46,7 +45,7 @@ export default function FormCmp({
                   <SearchAsyncSelect
                     selectedValue={values?.user}
                     handleChange={(valueOption) => {
-                      setFieldValue("user", valueOption);
+                      setFieldValue('user', valueOption);
                     }}
                     loadOptions={(v) => loadUserList(v, accId, buId)}
                     disabled={true}
@@ -59,7 +58,7 @@ export default function FormCmp({
                     value={values?.shipPoint}
                     label="Select ShipPoint"
                     onChange={(valueOption) => {
-                      setFieldValue("shipPoint", valueOption);
+                      setFieldValue('shipPoint', valueOption);
                     }}
                     placeholder="Ship Point"
                     errors={errors}
@@ -67,23 +66,23 @@ export default function FormCmp({
                   />
                 </div>
                 <IButton
-                  colSize={"col=lg-1"}
+                  colSize={'col=lg-1'}
                   onClick={() => {
                     addRow(values, () => {
-                      setFieldValue("shipPoint", "");
+                      setFieldValue('shipPoint', '');
                     });
                   }}
                   disabled={!values?.user || !values?.shipPoint}
                 >
-                  {" "}
-                  +Add{" "}
+                  {' '}
+                  +Add{' '}
                 </IButton>
               </div>
               {rowData?.length > 0 && (
                 <table className="table table-striped table-bordered global-table">
                   <thead>
                     <tr>
-                      <th style={{ width: "35px" }}>SL</th>
+                      <th style={{ width: '35px' }}>SL</th>
                       <th>User Name</th>
                       <th>ShipPoint</th>
                       <th>Action </th>
@@ -105,14 +104,14 @@ export default function FormCmp({
               )}
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

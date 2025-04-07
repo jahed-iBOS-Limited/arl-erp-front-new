@@ -1,33 +1,33 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
-import BasicModal from "./../../../_helper/_BasicModal";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
+import BasicModal from './../../../_helper/_BasicModal';
 
 const initData = {
   date: _todayDate(),
-  enroll: "",
-  visitorName: "",
-  visitorCompanyName: "",
-  visitorMobileNo: "",
-  companyAddress: "",
-  vehicleNo: "",
-  driverName: "",
-  driverMobileNo: "",
-  visitorReason: "",
-  officePersonName: "",
-  officePersonDesignation: "",
-  inTime: "",
-  outTime: "",
-  comment: "",
+  enroll: '',
+  visitorName: '',
+  visitorCompanyName: '',
+  visitorMobileNo: '',
+  companyAddress: '',
+  vehicleNo: '',
+  driverName: '',
+  driverMobileNo: '',
+  visitorReason: '',
+  officePersonName: '',
+  officePersonDesignation: '',
+  inTime: '',
+  outTime: '',
+  comment: '',
 };
 export default function VisitorRegisterCreateEdit() {
   const [objProps, setObjprops] = useState({});
@@ -36,7 +36,7 @@ export default function VisitorRegisterCreateEdit() {
   const { id } = useParams();
   const location = useLocation();
   const [viewType, setViewType] = useState(1);
-  const [entryCode, setEntryCode] = useState("");
+  const [entryCode, setEntryCode] = useState('');
   const [isShowModel, setIsShowModel] = useState(false);
 
   const { profileData } = useSelector((state) => {
@@ -81,16 +81,16 @@ export default function VisitorRegisterCreateEdit() {
         dteDate: values?.date,
         intBusinessUnitId: selectedBusinessUnit?.value,
         intEmployeeId: values?.enroll?.value || 0,
-        strVisitorName: values?.visitorName || "",
-        strVisitorCompany: values?.visitorCompanyName || "",
-        strVisitorMobileNo: values?.visitorMobileNo || "",
-        strAddress: values?.companyAddress || "",
-        strCarNo: values?.vehicleNo || "",
-        strDriverName: values?.driverName || "",
-        strDriverMobileNo: values?.driverMobileNo || "",
-        strVisitingReason: values?.visitorReason || "",
-        strOfficePersonName: values?.officePersonName || "",
-        strOfficePersonDesignation: values?.officePersonDesignation || "",
+        strVisitorName: values?.visitorName || '',
+        strVisitorCompany: values?.visitorCompanyName || '',
+        strVisitorMobileNo: values?.visitorMobileNo || '',
+        strAddress: values?.companyAddress || '',
+        strCarNo: values?.vehicleNo || '',
+        strDriverName: values?.driverName || '',
+        strDriverMobileNo: values?.driverMobileNo || '',
+        strVisitingReason: values?.visitorReason || '',
+        strOfficePersonName: values?.officePersonName || '',
+        strOfficePersonDesignation: values?.officePersonDesignation || '',
         tmInTime: values?.inTime,
         tmOutTime: values?.outTime,
         intActionBy: profileData?.userId,
@@ -99,7 +99,7 @@ export default function VisitorRegisterCreateEdit() {
         strRemarks: values?.comment,
       },
       id
-        ? ""
+        ? ''
         : (data) => {
             setEntryCode(data?.code);
             cb();
@@ -152,14 +152,14 @@ export default function VisitorRegisterCreateEdit() {
                         name="viewType"
                         checked={viewType === 1}
                         className="mr-1 pointer"
-                        style={{ position: "relative", top: "2px" }}
+                        style={{ position: 'relative', top: '2px' }}
                         onChange={(valueOption) => {
                           setViewType(1);
-                          setFieldValue("enroll", "");
-                          setFieldValue("visitorName", "");
-                          setFieldValue("visitorCompanyName", "");
-                          setFieldValue("visitorMobileNo", "");
-                          setFieldValue("companyAddress", "");
+                          setFieldValue('enroll', '');
+                          setFieldValue('visitorName', '');
+                          setFieldValue('visitorCompanyName', '');
+                          setFieldValue('visitorMobileNo', '');
+                          setFieldValue('companyAddress', '');
                         }}
                         disabled={id && viewType !== 1}
                       />
@@ -171,14 +171,14 @@ export default function VisitorRegisterCreateEdit() {
                         name="viewType"
                         checked={viewType === 2}
                         className="mr-1 pointer"
-                        style={{ position: "relative", top: "2px" }}
+                        style={{ position: 'relative', top: '2px' }}
                         onChange={(e) => {
                           setViewType(2);
-                          setFieldValue("enroll", "");
-                          setFieldValue("visitorName", "");
-                          setFieldValue("visitorCompanyName", "");
-                          setFieldValue("visitorMobileNo", "");
-                          setFieldValue("companyAddress", "");
+                          setFieldValue('enroll', '');
+                          setFieldValue('visitorName', '');
+                          setFieldValue('visitorCompanyName', '');
+                          setFieldValue('visitorMobileNo', '');
+                          setFieldValue('companyAddress', '');
                         }}
                         disabled={id && viewType !== 2}
                       />
@@ -206,29 +206,29 @@ export default function VisitorRegisterCreateEdit() {
                           isSearchIcon={true}
                           handleChange={(valueOption) => {
                             if (valueOption) {
-                              setFieldValue("enroll", valueOption);
+                              setFieldValue('enroll', valueOption);
                               setFieldValue(
-                                "visitorName",
+                                'visitorName',
                                 valueOption?.strEmployeeFullName
                               );
                               setFieldValue(
-                                "visitorCompanyName",
+                                'visitorCompanyName',
                                 valueOption?.strBusinessUnitName
                               );
                               setFieldValue(
-                                "visitorMobileNo",
+                                'visitorMobileNo',
                                 valueOption?.personalContactNo
                               );
                               setFieldValue(
-                                "companyAddress",
+                                'companyAddress',
                                 valueOption?.strWorkplaceName
                               );
                             } else {
-                              setFieldValue("enroll", "");
-                              setFieldValue("visitorName", "");
-                              setFieldValue("visitorCompanyName", "");
-                              setFieldValue("visitorMobileNo", "");
-                              setFieldValue("companyAddress", "");
+                              setFieldValue('enroll', '');
+                              setFieldValue('visitorName', '');
+                              setFieldValue('visitorCompanyName', '');
+                              setFieldValue('visitorMobileNo', '');
+                              setFieldValue('companyAddress', '');
                             }
                           }}
                           loadOptions={loadEnrollList}
@@ -344,14 +344,14 @@ export default function VisitorRegisterCreateEdit() {
 
                 <button
                   type="button"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   onClick={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

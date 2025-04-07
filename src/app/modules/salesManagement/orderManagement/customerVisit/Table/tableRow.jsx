@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { Form, Formik } from "formik";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import IButton from "../../../../_helper/iButton";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
+import React, { useEffect, useState } from 'react';
+import { Form, Formik } from 'formik';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import IButton from '../../../../_helper/iButton';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
 import {
   GetBusinessPartnerProfilePagination,
   getCategoryDDL_api,
-} from "../helper";
+} from '../helper';
 
 const initData = {
-  channel: { value: 0, label: "All" },
-  region: { value: 0, label: "All" },
-  area: { value: 0, label: "All" },
-  territory: { value: 0, label: "All" },
-  visitType: "",
+  channel: { value: 0, label: 'All' },
+  region: { value: 0, label: 'All' },
+  area: { value: 0, label: 'All' },
+  territory: { value: 0, label: 'All' },
+  visitType: '',
 };
 
 export function TableRow() {
@@ -51,7 +51,6 @@ export function TableRow() {
       gridDataFunc();
     }
     getCategoryDDL_api(accId, buId, setVisitTypes);
-
   }, [accId, buId]);
 
   const getDifferenceDate = (date1, date2) => {
@@ -70,7 +69,7 @@ export function TableRow() {
           <Form className="p-0 m-0">
             <div className="row global-form">
               <RATForm
-                obj={{ values, setFieldValue, columnSize: "col-lg-2" }}
+                obj={{ values, setFieldValue, columnSize: 'col-lg-2' }}
               />
 
               <div className="col-lg-2">
@@ -80,7 +79,7 @@ export function TableRow() {
                   value={values?.visitType}
                   label="Customer Visit Type"
                   onChange={(valueOption) => {
-                    setFieldValue("visitType", valueOption);
+                    setFieldValue('visitType', valueOption);
                   }}
                   placeholder="Customer Visit Type"
                 />
@@ -102,8 +101,8 @@ export function TableRow() {
                     <table className="table table-striped table-bordered global-table ">
                       <thead>
                         <tr>
-                          <th style={{ width: "25px" }}>SL</th>
-                          <th style={{ width: "90px" }}>Date</th>
+                          <th style={{ width: '25px' }}>SL</th>
+                          <th style={{ width: '90px' }}>Date</th>
                           <th>Potential Customer Name</th>
                           <th>Address</th>
                           <th>Contact Person Name & Designation</th>
@@ -134,10 +133,10 @@ export function TableRow() {
 
                             <td>
                               <div className="pl-2">
-                                {td?.contractPersonName}{" "}
+                                {td?.contractPersonName}{' '}
                                 {td?.contractPersonDesignation
                                   ? `[${td?.contractPersonDesignation}]`
-                                  : ""}
+                                  : ''}
                               </div>
                             </td>
 
@@ -153,8 +152,8 @@ export function TableRow() {
 
                             <td className="text-center">
                               {td?.isConversionStatus
-                                ? "On Boarding"
-                                : "Pending"}{" "}
+                                ? 'On Boarding'
+                                : 'Pending'}{' '}
                             </td>
 
                             <td className="text-center">
@@ -165,7 +164,7 @@ export function TableRow() {
                               {getDifferenceDate(
                                 _dateFormatter(td?.conversionDate),
                                 _dateFormatter(td?.conversionDeadline)
-                              )}{" "}
+                              )}{' '}
                               days
                             </td>
 

@@ -1,5 +1,5 @@
-import React from "react";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
+import React from 'react';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
 
 export default function PumpFoodingBillReportTbl({ rowData, values }) {
   let totalBillAmount = 0;

@@ -1,11 +1,10 @@
-
-import { Formik } from "formik";
-import React from "react";
-import { useHistory } from "react-router";
-import ICustomCard from "../../../../_helper/_customCard";
-import NewSelect from "../../../../_helper/_select";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import IButton from "../../../../_helper/iButton";
+import { Formik } from 'formik';
+import React from 'react';
+import { useHistory } from 'react-router';
+import ICustomCard from '../../../../_helper/_customCard';
+import NewSelect from '../../../../_helper/_select';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import IButton from '../../../../_helper/iButton';
 
 export default function FormCmp({
   viewType,
@@ -40,11 +39,11 @@ export default function FormCmp({
               title={`Ship To Party Target Entry`}
               backHandler={() => history.goBack()}
               resetHandler={
-                viewType !== "view"
+                viewType !== 'view'
                   ? () => {
                       resetForm(initData);
                     }
-                  : ""
+                  : ''
               }
               saveHandler={() => {
                 handleSubmit();
@@ -59,13 +58,13 @@ export default function FormCmp({
                         options={[
                           {
                             value: 2,
-                            label: "Distribution Channel",
+                            label: 'Distribution Channel',
                           },
                         ]}
                         value={values?.conditionType}
                         label="Condition Type"
                         onChange={(valueOption) => {
-                          setFieldValue("conditionType", valueOption);
+                          setFieldValue('conditionType', valueOption);
                         }}
                         placeholder="Select Condition Type"
                         errors={errors}
@@ -80,7 +79,7 @@ export default function FormCmp({
                         value={values?.conditionTypeRef}
                         label="Condition Type Ref"
                         onChange={(valueOption) => {
-                          setFieldValue("conditionTypeRef", valueOption);
+                          setFieldValue('conditionTypeRef', valueOption);
                         }}
                         placeholder="Select Condition Type Ref"
                         errors={errors}

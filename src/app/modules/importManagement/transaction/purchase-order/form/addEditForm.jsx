@@ -1,17 +1,14 @@
-
-
-
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import Form from "./form";
-import { getSingleData, createPurchaseOrder } from "../helper";
-import { useParams } from "react-router";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { toast } from "react-toastify";
-import { initData, setRowAmount, setter, Warning } from "../utils";
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import Form from './form';
+import { getSingleData, createPurchaseOrder } from '../helper';
+import { useParams } from 'react-router';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { toast } from 'react-toastify';
+import { initData, setRowAmount, setter, Warning } from '../utils';
 
 export default function AddEditForm({
   proformaInvoiceValue,
@@ -32,7 +29,7 @@ export default function AddEditForm({
     return state.authData;
   }, shallowEqual);
   // get singleData
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const remover = (id) => {
     let data = rowDto.filter((itm, index) => index !== id);
     setRowDto(data);
@@ -47,7 +44,7 @@ export default function AddEditForm({
   }, []);
 
   const saveHandler = async (values) => {
-    console.log("saveHandler", values);
+    console.log('saveHandler', values);
     if (rowDto.length > 0) {
       // data save from modal
       return createPurchaseOrder(
@@ -64,7 +61,7 @@ export default function AddEditForm({
         Warning(message?.data?.message);
       });
     }
-    return toast.warn("Please add a row");
+    return toast.warn('Please add a row');
   };
   return (
     <IForm
@@ -72,8 +69,8 @@ export default function AddEditForm({
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenBack={true}
-      isHiddenSave={viewStateOfModal?.view === "view"}
-      isHiddenReset={viewStateOfModal?.view === "view"}
+      isHiddenSave={viewStateOfModal?.view === 'view'}
+      isHiddenReset={viewStateOfModal?.view === 'view'}
     >
       {isDisabled && <Loading />}
       <Form

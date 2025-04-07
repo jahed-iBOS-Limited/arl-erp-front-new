@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import Loading from "../../../_helper/_loading";
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import Loading from '../../../_helper/_loading';
 // import IView from "../../../../_helper/_helperIcons/_view";
 // import PaginationTable from "../../../../_helper/_tablePagination";
 // import IViewModal from "../../../../_helper/_viewModal";
@@ -47,15 +47,15 @@ export function LandingTableRow() {
             <table className="table table-striped table-bordered global-table">
               <thead>
                 <tr>
-                  <th style={{ minWidth: "40px" }}>SL</th>
-                  <th style={{ minWidth: "70px" }}>Bill NO</th>
-                  <th style={{ minWidth: "70px" }}>PO NO</th>
-                  <th style={{ minWidth: "70px" }}>Pay Amount</th>
-                  <th style={{ minWidth: "70px" }}>Deducted AIT</th>
-                  <th style={{ minWidth: "70px" }}>Received AIT</th>
-                  <th style={{ minWidth: "70px" }}>AIT Challan No</th>
-                  <th style={{ minWidth: "70px" }}>Remarks</th>
-                  <th style={{ minWidth: "70px" }}>Action</th>
+                  <th style={{ minWidth: '40px' }}>SL</th>
+                  <th style={{ minWidth: '70px' }}>Bill NO</th>
+                  <th style={{ minWidth: '70px' }}>PO NO</th>
+                  <th style={{ minWidth: '70px' }}>Pay Amount</th>
+                  <th style={{ minWidth: '70px' }}>Deducted AIT</th>
+                  <th style={{ minWidth: '70px' }}>Received AIT</th>
+                  <th style={{ minWidth: '70px' }}>AIT Challan No</th>
+                  <th style={{ minWidth: '70px' }}>Remarks</th>
+                  <th style={{ minWidth: '70px' }}>Action</th>
                 </tr>
               </thead>
               <tbody>

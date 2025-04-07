@@ -1,10 +1,9 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import ChangePassword from "./changePassword";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import ChangePassword from './changePassword';
 
 export function ProfilePages() {
-
   return (
     <Switch>
       <Redirect

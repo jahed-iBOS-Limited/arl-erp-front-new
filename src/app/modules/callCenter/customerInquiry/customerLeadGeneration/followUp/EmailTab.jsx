@@ -70,14 +70,13 @@ export default function EmailTab({ data }) {
           cb();
         }
       },
-      'save',
+      'save'
     );
   };
 
   // get all ddl
   React.useEffect(() => {
     getScheduleTypeDDL(`/oms/SalesQuotation/GetFollowUpActivityTypeDDL`);
-
   }, []);
   return (
     <ICustomCard
@@ -237,7 +236,7 @@ export default function EmailTab({ data }) {
                         type="button"
                         onClick={() => {
                           dispatch(
-                            getDownlloadFileView_Action(values?.documentFileId),
+                            getDownlloadFileView_Action(values?.documentFileId)
                           );
                         }}
                       >
@@ -261,7 +260,7 @@ export default function EmailTab({ data }) {
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name,
+                  (item) => item.file.name !== deleteFileObj.file.name
                 );
                 setFileObjects(newData);
               }}

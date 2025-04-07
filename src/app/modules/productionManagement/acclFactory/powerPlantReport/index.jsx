@@ -1,17 +1,17 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { downloadFile } from "../../../_helper/downloadFile";
-import InputField from "../../../_helper/_inputField";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import { _todayDate } from "./../../../_helper/_todayDate";
-import { filterHandler } from "./helper";
-import "./style.css";
-import IView from "../../../_helper/_helperIcons/_view";
-import IViewModal from "../../../_helper/_viewModal";
-import ViewStopageDetails from "./viewStopageDetails";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { downloadFile } from '../../../_helper/downloadFile';
+import InputField from '../../../_helper/_inputField';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import { _todayDate } from './../../../_helper/_todayDate';
+import { filterHandler } from './helper';
+import './style.css';
+import IView from '../../../_helper/_helperIcons/_view';
+import IViewModal from '../../../_helper/_viewModal';
+import ViewStopageDetails from './viewStopageDetails';
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
@@ -23,7 +23,9 @@ export default function PowerPlantReport() {
   const [isShowModal, setIsShowModal] = useState(false);
   const [modalInfo, setModalInfo] = useState(null);
   const [powerGeneration, setPowerGeneration] = useState({});
-  const [individualPowerConsumption, setIndividualPowerConsumption] = useState({});
+  const [individualPowerConsumption, setIndividualPowerConsumption] = useState(
+    {}
+  );
 
   // redux store
   const { selectedBusinessUnit } = useSelector((state) => {
@@ -32,9 +34,9 @@ export default function PowerPlantReport() {
 
   // remove nullish data
   const removeNullishData = (res) => {
-    const filteredData = res?.filter((item)=> item?.particularsName);
+    const filteredData = res?.filter((item) => item?.particularsName);
     setReportData(filteredData || []);
-  }
+  };
 
   // separate data section wise
   useEffect(() => {
@@ -101,7 +103,7 @@ export default function PowerPlantReport() {
                   <button
                     type="button"
                     disabled={!values?.fromDate || !values?.toDate}
-                    style={{ marginTop: "17px" }}
+                    style={{ marginTop: '17px' }}
                     className="btn btn-primary"
                     onClick={() => {
                       getReportData(
@@ -121,13 +123,13 @@ export default function PowerPlantReport() {
                       !values?.toDate ||
                       !reportData?.length
                     }
-                    style={{ marginTop: "17px" }}
+                    style={{ marginTop: '17px' }}
                     className="btn btn-primary"
                     onClick={() => {
                       downloadFile(
                         `/mes/ShopFloor/PowerPlantReport?FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BuId=${selectedBusinessUnit?.value}&isDownLoad=true`,
-                        "Power Plant Report",
-                        "xlsx",
+                        'Power Plant Report',
+                        'xlsx',
                         setLoading
                       );
                     }}
@@ -145,10 +147,10 @@ export default function PowerPlantReport() {
                   Daily report-Power Generation and Consumption
                 </h4>
                 <h6 className="text-center border border-dark p-1">
-                  <strong style={{ marginRight: "20px" }}>
-                    {" "}
+                  <strong style={{ marginRight: '20px' }}>
+                    {' '}
                     From Date: {values?.fromDate}
-                  </strong>{" "}
+                  </strong>{' '}
                   <strong>To Date: {values?.toDate}</strong>
                 </h6>
               </div>
@@ -224,8 +226,8 @@ export default function PowerPlantReport() {
                                 (item, i) => (
                                   <tr key={i}>
                                     <td>
-                                      {item?.particularsName === "A--total--"
-                                        ? ""
+                                      {item?.particularsName === 'A--total--'
+                                        ? ''
                                         : item?.particularsName}
                                     </td>
                                     <td className="text-center">
@@ -356,31 +358,31 @@ export default function PowerPlantReport() {
                         </tr>
                       </thead>
                       <tbody>
-                        {stoppageDetails?.length ? (
-                          stoppageDetails?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{item?.particularsName}</td>
-                              <td className="text-center">
-                                {item?.particualarsAlpha}
-                              </td>
-                              <td className="text-center">
-                                {item?.particualarsGamma}
-                              </td>
-                              <td className="text-center">
-                                <IView
-                                  clickHandler={()=> {
-                                    setIsShowModal(true);
-                                    setModalInfo({
-                                      engineName: item?.particularsName,
-                                      fromDate: values?.fromDate,
-                                      toDate: values?.toDate
-                                    })
-                                  }}
-                                />
-                              </td>
-                            </tr>
-                          ))
-                        ) : null }
+                        {stoppageDetails?.length
+                          ? stoppageDetails?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{item?.particularsName}</td>
+                                <td className="text-center">
+                                  {item?.particualarsAlpha}
+                                </td>
+                                <td className="text-center">
+                                  {item?.particualarsGamma}
+                                </td>
+                                <td className="text-center">
+                                  <IView
+                                    clickHandler={() => {
+                                      setIsShowModal(true);
+                                      setModalInfo({
+                                        engineName: item?.particularsName,
+                                        fromDate: values?.fromDate,
+                                        toDate: values?.toDate,
+                                      });
+                                    }}
+                                  />
+                                </td>
+                              </tr>
+                            ))
+                          : null}
                       </tbody>
                     </table>
                   </div>
@@ -389,7 +391,7 @@ export default function PowerPlantReport() {
             </>
           </IForm>
           <IViewModal show={isShowModal} onHide={() => setIsShowModal(false)}>
-            <ViewStopageDetails modalInfo={modalInfo}/>
+            <ViewStopageDetails modalInfo={modalInfo} />
           </IViewModal>
         </>
       )}

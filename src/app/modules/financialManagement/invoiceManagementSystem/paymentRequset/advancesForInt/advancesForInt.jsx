@@ -1,5 +1,5 @@
-import React from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 function AdvancesForIntGrid({
   gridData,
@@ -14,7 +14,7 @@ function AdvancesForIntGrid({
           <table className="table table-striped table-bordered mt-3 global-table">
             <thead>
               <tr>
-                <th style={{ width: "25px" }}>
+                <th style={{ width: '25px' }}>
                   <input
                     type="checkbox"
                     id="parent"
@@ -25,13 +25,13 @@ function AdvancesForIntGrid({
                     }}
                   />
                 </th>
-                <th style={{ width: "35px" }}>SL</th>
-                <th style={{ width: "150px" }}>Submit Date</th>
-                <th style={{ width: "150px" }}>Advance Code</th>
-                <th style={{ width: "150px" }}>Advance For Name</th>
-                <th style={{ width: "150px" }}>Disbursement Center Name</th>
-                <th style={{ width: "150px" }}>Total Amount</th>
-                <th style={{ width: "150px" }}>Comments</th>
+                <th style={{ width: '35px' }}>SL</th>
+                <th style={{ width: '150px' }}>Submit Date</th>
+                <th style={{ width: '150px' }}>Advance Code</th>
+                <th style={{ width: '150px' }}>Advance For Name</th>
+                <th style={{ width: '150px' }}>Disbursement Center Name</th>
+                <th style={{ width: '150px' }}>Total Amount</th>
+                <th style={{ width: '150px' }}>Comments</th>
               </tr>
             </thead>
             <tbody>

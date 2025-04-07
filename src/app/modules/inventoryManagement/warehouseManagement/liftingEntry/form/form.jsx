@@ -1,12 +1,12 @@
-import { Form, Formik } from "formik";
-import moment from "moment";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import TextArea from "../../../../_helper/TextArea";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { getAreaList, getItemList, getRegionList } from "../helper";
+import { Form, Formik } from 'formik';
+import moment from 'moment';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import TextArea from '../../../../_helper/TextArea';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { getAreaList, getItemList, getRegionList } from '../helper';
 
 export default function FormCmp({
   initData,
@@ -56,13 +56,13 @@ export default function FormCmp({
                       <NewSelect
                         name="liftingPlanType"
                         options={[
-                          { value: 1, label: "Lifting Entry" },
-                          { value: 2, label: "Bag Production" },
+                          { value: 1, label: 'Lifting Entry' },
+                          { value: 2, label: 'Bag Production' },
                         ]}
                         value={values?.liftingPlanType}
                         label="Lifting Plan Type"
                         onChange={(valueOption) => {
-                          setFieldValue("liftingPlanType", valueOption);
+                          setFieldValue('liftingPlanType', valueOption);
                         }}
                         placeholder="Lifting Plan Type"
                         errors={errors}
@@ -77,7 +77,7 @@ export default function FormCmp({
                         value={values?.month}
                         label="Month"
                         onChange={(valueOption) => {
-                          setFieldValue("month", valueOption);
+                          setFieldValue('month', valueOption);
                         }}
                         placeholder="Month"
                         errors={errors}
@@ -91,7 +91,7 @@ export default function FormCmp({
                         value={values?.year}
                         label="Year"
                         onChange={(valueOption) => {
-                          setFieldValue("year", valueOption);
+                          setFieldValue('year', valueOption);
                         }}
                         placeholder="Year"
                         errors={errors}
@@ -105,7 +105,7 @@ export default function FormCmp({
                         value={values?.salesOrg}
                         label="Sales Organization"
                         onChange={(valueOption) => {
-                          setFieldValue("salesOrg", valueOption);
+                          setFieldValue('salesOrg', valueOption);
                         }}
                         placeholder="Sales Organization"
                         errors={errors}
@@ -119,7 +119,7 @@ export default function FormCmp({
                         value={values?.channel}
                         label="Distribution Channel"
                         onChange={(valueOption) => {
-                          setFieldValue("channel", valueOption);
+                          setFieldValue('channel', valueOption);
                           getItemList(
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
@@ -149,7 +149,7 @@ export default function FormCmp({
                         value={values?.item}
                         label="Item"
                         onChange={(valueOption) => {
-                          setFieldValue("item", valueOption);
+                          setFieldValue('item', valueOption);
                         }}
                         placeholder="Item"
                         errors={errors}
@@ -164,7 +164,7 @@ export default function FormCmp({
                         value={values?.region}
                         label="Region"
                         onChange={(valueOption) => {
-                          setFieldValue("region", valueOption);
+                          setFieldValue('region', valueOption);
                           getAreaList(
                             buId,
                             userId,
@@ -187,7 +187,7 @@ export default function FormCmp({
                         value={values?.area}
                         label="Area"
                         onChange={(valueOption) => {
-                          setFieldValue("area", valueOption);
+                          setFieldValue('area', valueOption);
                         }}
                         placeholder="Area"
                         errors={errors}
@@ -215,7 +215,7 @@ export default function FormCmp({
                       </button>
                     </div>
                     <div className="col d-flex justify-content-between mt-5">
-                      <h3 style={{ color: "green" }}>
+                      <h3 style={{ color: 'green' }}>
                         Total Lifting Qty: {totalLiftingQty}
                       </h3>
                     </div>
@@ -232,7 +232,7 @@ export default function FormCmp({
                         <th
                           onClick={() => allSelect(!selectedAll())}
                           className="text-center cursor-pointer"
-                          style={{ width: "40px" }}
+                          style={{ width: '40px' }}
                         >
                           <input
                             type="checkbox"
@@ -241,11 +241,11 @@ export default function FormCmp({
                             onChange={() => {}}
                           />
                         </th>
-                        <th style={{ width: "30px" }}>SL</th>
+                        <th style={{ width: '30px' }}>SL</th>
                         <th>Date</th>
                         <th>Average Target</th>
-                        <th style={{ width: "150px" }}>Lifting Qty</th>
-                        <th style={{ width: "600px" }}>Remarks</th>
+                        <th style={{ width: '150px' }}>Lifting Qty</th>
+                        <th style={{ width: '600px' }}>Remarks</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -256,7 +256,7 @@ export default function FormCmp({
                               onClick={() => {
                                 dataChangeHandler(
                                   index,
-                                  "isSelected",
+                                  'isSelected',
                                   !td.isSelected
                                 );
                               }}
@@ -270,7 +270,7 @@ export default function FormCmp({
                           <td className="text-center">{index + 1}</td>
                           <td>
                             <div className="pl-2">
-                              {moment(td?.date).format("LL")}
+                              {moment(td?.date).format('LL')}
                             </div>
                           </td>
                           <td className="text-right">
@@ -288,17 +288,17 @@ export default function FormCmp({
                               onChange={(e) => {
                                 dataChangeHandler(
                                   index,
-                                  "liftingQty",
+                                  'liftingQty',
                                   e?.target?.value
                                 );
 
                                 if (e?.target?.value > 0 && !td?.isSelected) {
-                                  dataChangeHandler(index, "isSelected", true);
+                                  dataChangeHandler(index, 'isSelected', true);
                                 } else if (
                                   td?.isSelected &&
                                   e?.target?.value <= 0
                                 ) {
-                                  dataChangeHandler(index, "isSelected", false);
+                                  dataChangeHandler(index, 'isSelected', false);
                                 }
                               }}
                             />
@@ -313,7 +313,7 @@ export default function FormCmp({
                               onChange={(e) => {
                                 dataChangeHandler(
                                   index,
-                                  "remarks",
+                                  'remarks',
                                   e?.target?.value
                                 );
                               }}
@@ -328,7 +328,7 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>

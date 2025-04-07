@@ -90,7 +90,7 @@ export default function GrowModelActionPlan() {
       `/pms/PerformanceMgmt/PMSActionPlanCreateAndEdit`,
       payload,
       null,
-      true,
+      true
     );
   };
 
@@ -152,15 +152,14 @@ export default function GrowModelActionPlan() {
           value: data?.typeReferenceId,
           label: data?.typeReference,
         });
-      },
+      }
     );
   };
 
   useEffect(() => {
     getYearData(
-      `/pms/CommonDDL/YearDDL?AccountId=${accountId}&BusinessUnitId=4`,
+      `/pms/CommonDDL/YearDDL?AccountId=${accountId}&BusinessUnitId=4`
     );
-
   }, [accountId, selectedBusinessUnit]);
 
   const pdfExport = (fileName) => {
@@ -245,7 +244,7 @@ export default function GrowModelActionPlan() {
                     </div>
                     <div>
                       <strong>Location</strong>:
-                      <span>{' '}{rowData?.workplaceGroup || ''}</span>
+                      <span> {rowData?.workplaceGroup || ''}</span>
                     </div>
                   </div>
                 </div>
@@ -286,11 +285,11 @@ export default function GrowModelActionPlan() {
                               employeeId,
                               values.year.value,
                               valueOption?.value,
-                              setFieldValue,
+                              setFieldValue
                             );
                             setFieldValue('quater', valueOption);
                             getReferenceData(
-                              `/pms/PerformanceMgmt/GetJohariWindowActionPlanDDL?EmployeeId=${employeeId}&YearId=${values.year.value}&QuarterId=${valueOption?.value}&DDLTypeId=2`,
+                              `/pms/PerformanceMgmt/GetJohariWindowActionPlanDDL?EmployeeId=${employeeId}&YearId=${values.year.value}&QuarterId=${valueOption?.value}&DDLTypeId=2`
                             );
                           } else {
                           }
@@ -329,7 +328,7 @@ export default function GrowModelActionPlan() {
                       options={[]}
                       value={values?.type}
                       label="Type"
-                      onChange={(valueOption) => { }}
+                      onChange={(valueOption) => {}}
                       placeholder="type"
                       errors={errors}
                       isDisabled={true}
@@ -442,7 +441,7 @@ export default function GrowModelActionPlan() {
                                 {_dateFormatter(item.stardDate)}
                               </td>
                               <td className="text-center">
-                                {_dateFormatter(item.endDate)} {" "}
+                                {_dateFormatter(item.endDate)}{' '}
                               </td>
                               <td className="text-center">
                                 {rowData?.row?.length > 1 ? (

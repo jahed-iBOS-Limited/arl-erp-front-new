@@ -26,7 +26,7 @@ export function AsideMenuList({ layoutProps }) {
 
   const { profileData, menu, isAuth, email, tokenData } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
 
   const [connection, setConnection] = useState(null);
@@ -77,7 +77,7 @@ export function AsideMenuList({ layoutProps }) {
       } else {
         return Promise.reject(error);
       }
-    },
+    }
   );
 
   // Add a response interceptor
@@ -95,7 +95,7 @@ export function AsideMenuList({ layoutProps }) {
       } else {
         return Promise.reject(error);
       }
-    },
+    }
   );
 
   let history = useHistory();
@@ -115,7 +115,7 @@ export function AsideMenuList({ layoutProps }) {
               <li
                 key={index}
                 className={`menu-item menu-item-submenu ${getMenuItemActive(
-                  menuOne?.to,
+                  menuOne?.to
                 )}`}
                 aria-haspopup="true"
                 data-menu-toggle="hover"
@@ -135,7 +135,7 @@ export function AsideMenuList({ layoutProps }) {
                             tokenData,
                             buId: selectedBusinessUnit?.value,
                           }),
-                          100,
+                          100
                         );
 
                         setTimeout(() => {
@@ -168,7 +168,7 @@ export function AsideMenuList({ layoutProps }) {
                       <li
                         key={index}
                         className={`menu-item menu-item-submenu ${getMenuItemActive(
-                          menuTwo?.to,
+                          menuTwo?.to
                         )}`}
                         aria-haspopup="true"
                         data-menu-toggle="hover"
@@ -207,7 +207,7 @@ export function AsideMenuList({ layoutProps }) {
                               <li
                                 key={index}
                                 className={`menu-item  ${getMenuItemActive(
-                                  menuThree?.to,
+                                  menuThree?.to
                                 )}`}
                                 aria-haspopup="true"
                               >

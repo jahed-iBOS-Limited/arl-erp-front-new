@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 //Call Empddl APi
 export function getEmpDDL(accId, buId) {
@@ -17,10 +17,7 @@ export function saveCreateData(data) {
 
 // Save Edit data
 export function saveEditData(data) {
-  return axios.put(
-    `/pms/AssignFunctionalCompetency/EditCompetencyData`,
-    data
-  );
+  return axios.put(`/pms/AssignFunctionalCompetency/EditCompetencyData`, data);
 }
 
 //Call get grid data api
@@ -32,9 +29,7 @@ export function getGridData(accId, buId) {
 
 //Call get grid data api
 export function getEmployeeClusterList() {
-  return axios.get(
-    `/pms/PmsDimension/GetEmployeeClusterList`
-  );
+  return axios.get(`/pms/PmsDimension/GetEmployeeClusterList`);
 }
 
 //Call single data api

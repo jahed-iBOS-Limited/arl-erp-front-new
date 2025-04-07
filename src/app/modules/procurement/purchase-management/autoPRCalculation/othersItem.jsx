@@ -15,12 +15,8 @@ export default function OthersItem() {
   const saveHandler = (values, cb) => {};
   const [autoPRData, getAutoPRData, loading, setAutoPRData] = useAxiosGet();
   const [, onCreatePRHandler, loader] = useAxiosPost();
-  const [
-    itemTypeList,
-    getItemTypeList,
-    itemTypeListLoader,
-    setItemTypeList,
-  ] = useAxiosGet();
+  const [itemTypeList, getItemTypeList, itemTypeListLoader, setItemTypeList] =
+    useAxiosGet();
   const [
     itemCategoryList,
     getItemCategoryList,
@@ -45,7 +41,7 @@ export default function OthersItem() {
     //     : `/procurement/AutoPurchase/sprGetReorderStockSummaryForeign`;
     // getAutoPRData(apiUrl);
     getAutoPRData(
-      `/procurement/AutoPurchase/GetPurchaseRequestCalculation?BusinessUnitId=${values?.businessUnit?.value}&ItemMasterCategoryId=${values?.itemCategory?.value}&ItemMasterSubCategoryId=${values?.itemSubCategory?.value}&PurchaseOrganizationId=${values?.purchaseOrganization?.value}`,
+      `/procurement/AutoPurchase/GetPurchaseRequestCalculation?BusinessUnitId=${values?.businessUnit?.value}&ItemMasterCategoryId=${values?.itemCategory?.value}&ItemMasterSubCategoryId=${values?.itemSubCategory?.value}&PurchaseOrganizationId=${values?.purchaseOrganization?.value}`
     );
   };
 
@@ -60,7 +56,6 @@ export default function OthersItem() {
       });
       setItemTypeList(modData);
     });
-
   }, []);
 
   return (
@@ -148,7 +143,7 @@ export default function OthersItem() {
                             () => {
                               getData(values);
                             },
-                            true,
+                            true
                           );
                         },
                         noAlertFunc: () => {},
@@ -190,7 +185,7 @@ export default function OthersItem() {
                       onChange={(valueOption) => {
                         setFieldValue(
                           'purchaseOrganization',
-                          valueOption || '',
+                          valueOption || ''
                         );
                         setAutoPRData([]);
                       }}
@@ -209,7 +204,7 @@ export default function OthersItem() {
                           setFieldValue('itemType', valueOption || '');
                           setAutoPRData([]);
                           getItemCategoryList(
-                            `/item/MasterCategory/GetItemMasterCategoryDDL?AccountId=${profileData?.accountId}&ItemTypeId=${valueOption?.value}`,
+                            `/item/MasterCategory/GetItemMasterCategoryDDL?AccountId=${profileData?.accountId}&ItemTypeId=${valueOption?.value}`
                           );
                         } else {
                           setFieldValue('itemType', '');
@@ -235,7 +230,7 @@ export default function OthersItem() {
                           setFieldValue('itemSubCategory', '');
                           setFieldValue('itemCategory', valueOption);
                           getItemSubCategoryList(
-                            `/item/MasterCategory/GetItemMasterSubCategoryDDL?AccountId=${profileData?.accountId}&ItemMasterCategoryId=${valueOption?.value}&ItemMasterTypeId=${values?.itemType?.value}`,
+                            `/item/MasterCategory/GetItemMasterSubCategoryDDL?AccountId=${profileData?.accountId}&ItemMasterCategoryId=${valueOption?.value}&ItemMasterTypeId=${values?.itemType?.value}`
                           );
                           setAutoPRData([]);
                         } else {

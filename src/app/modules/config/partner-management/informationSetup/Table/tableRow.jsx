@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
 // import IView from "../../../../../_helper/_helperIcons/_view";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { getInformationSetupLanding } from "../helper";
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { getInformationSetupLanding } from '../helper';
 
 export function TableRow() {
-
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const history = useHistory();
@@ -39,7 +38,6 @@ export function TableRow() {
         setGridData
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   //setPositionHandler
@@ -61,35 +59,35 @@ export function TableRow() {
         {loading && <Loading />}
         <div className="col-lg-12 pr-0 pl-0">
           {gridData?.landingData?.length > 0 && (
-           <div className="table-responsive">
-             <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
-              <thead>
-                <tr>
-                  <th>SL</th>
-                  <th>Section Name</th>
-                  <th>Attribute Name</th>
-                  <th>Control Name</th>
-                  <th>Is Mandatory</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {gridData?.landingData?.map((item, index) => (
-                  <tr key={index}>
-                    <td> {index+1}</td>
-                    <td>
-                      <div className="pl-2">{item?.sectionName}</div>
-                    </td>
-                    <td>
-                      <div className="pl-2">{item?.attributeName}</div>
-                    </td>
-                    <td>
-                      <div className="pl-2">{item?.controlName}</div>
-                    </td>
-                    <td>
-                      <div className="text-center">
-                        {item?.isMandatory === true ? 'Yes' : 'No'}
-                        {/* <input
+            <div className="table-responsive">
+              <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
+                <thead>
+                  <tr>
+                    <th>SL</th>
+                    <th>Section Name</th>
+                    <th>Attribute Name</th>
+                    <th>Control Name</th>
+                    <th>Is Mandatory</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {gridData?.landingData?.map((item, index) => (
+                    <tr key={index}>
+                      <td> {index + 1}</td>
+                      <td>
+                        <div className="pl-2">{item?.sectionName}</div>
+                      </td>
+                      <td>
+                        <div className="pl-2">{item?.attributeName}</div>
+                      </td>
+                      <td>
+                        <div className="pl-2">{item?.controlName}</div>
+                      </td>
+                      <td>
+                        <div className="text-center">
+                          {item?.isMandatory === true ? 'Yes' : 'No'}
+                          {/* <input
                           type="checkbox"
                           value={item?.isMandatory}
                           checked={item?.isMandatory}
@@ -98,21 +96,21 @@ export function TableRow() {
                             return false;
                           }}
                         /> */}
-                      </div>
-                    </td>
-                    <td>
-                      <div className="d-flex justify-content-around">
-                        <span
-                          className="edit"
-                          onClick={() => {
-                            history.push(
-                              `/config/partner-management/partner-info-setup/edit/${item?.attributeId}`
-                            );
-                          }}
-                        >
-                          <IEdit />
-                        </span>
-                        {/* <span
+                        </div>
+                      </td>
+                      <td>
+                        <div className="d-flex justify-content-around">
+                          <span
+                            className="edit"
+                            onClick={() => {
+                              history.push(
+                                `/config/partner-management/partner-info-setup/edit/${item?.attributeId}`
+                              );
+                            }}
+                          >
+                            <IEdit />
+                          </span>
+                          {/* <span
                           className="view"
                           onClick={() => {
                             history.push(
@@ -122,13 +120,13 @@ export function TableRow() {
                         >
                           <IView />
                         </span> */}
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-           </div>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </div>
         {gridData?.data?.length > 0 && (

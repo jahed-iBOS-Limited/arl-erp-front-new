@@ -1,7 +1,7 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import NewSelect from "./../../../../_helper/_select";
-import InputField from "./../../../../_helper/_inputField";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import NewSelect from './../../../../_helper/_select';
+import InputField from './../../../../_helper/_inputField';
 
 export default function FormCmp({ rowDto }) {
   return (
@@ -27,10 +27,10 @@ export default function FormCmp({ rowDto }) {
                   <NewSelect
                     name="outletName"
                     options={[]}
-                    value={values?.outletName || ""}
+                    value={values?.outletName || ''}
                     label="Outlet Name"
                     onChange={(valueOption) => {
-                      setFieldValue("outletName", valueOption || "");
+                      setFieldValue('outletName', valueOption || '');
                     }}
                     placeholder="Outlet Name"
                     errors={errors}
@@ -42,7 +42,7 @@ export default function FormCmp({ rowDto }) {
                 <div className="col-lg-3">
                   <label>Name Of Scheme</label>
                   <InputField
-                    value={values?.nameOfScheme || ""}
+                    value={values?.nameOfScheme || ''}
                     name="nameOfScheme"
                     placeholder="Name Of Scheme"
                     type="text"
@@ -53,7 +53,7 @@ export default function FormCmp({ rowDto }) {
                   <NewSelect
                     name="conditionType"
                     options={[]}
-                    value={values?.conditionType || ""}
+                    value={values?.conditionType || ''}
                     label="Condition Type"
                     onChange={(valueOption) => {}}
                     placeholder="Condition Type"
@@ -66,10 +66,10 @@ export default function FormCmp({ rowDto }) {
                   <NewSelect
                     name="itemGroup"
                     options={[]}
-                    value={values?.itemGroup || ""}
+                    value={values?.itemGroup || ''}
                     label="Item / Item Group"
                     onChange={(valueOption) => {
-                      setFieldValue("itemGroup", valueOption || "");
+                      setFieldValue('itemGroup', valueOption || '');
                     }}
                     placeholder="Item / Item Group"
                     errors={errors}
@@ -81,10 +81,10 @@ export default function FormCmp({ rowDto }) {
                   <NewSelect
                     name="customerGroup"
                     options={[]}
-                    value={values?.customerGroup || ""}
+                    value={values?.customerGroup || ''}
                     label="Customer / Customer Group"
                     onChange={(valueOption) => {
-                      setFieldValue("customerGroup", valueOption || "");
+                      setFieldValue('customerGroup', valueOption || '');
                     }}
                     placeholder="Customer / Customer Group"
                     errors={errors}
@@ -95,7 +95,7 @@ export default function FormCmp({ rowDto }) {
                 <div className="col-lg-3">
                   <label>Scheme Start Date</label>
                   <InputField
-                    value={values?.schemeStartDate || ""}
+                    value={values?.schemeStartDate || ''}
                     name="schemeStartDate"
                     placeholder="Scheme Start Date"
                     type="text"
@@ -105,7 +105,7 @@ export default function FormCmp({ rowDto }) {
                 <div className="col-lg-3">
                   <label>Scheme End Date</label>
                   <InputField
-                    value={values?.schemeEndDate || ""}
+                    value={values?.schemeEndDate || ''}
                     name="schemeEndDate"
                     placeholder="Scheme End Date"
                     type="text"
@@ -116,7 +116,7 @@ export default function FormCmp({ rowDto }) {
                   <NewSelect
                     name="offerBasedOn"
                     options={[]}
-                    value={values?.offerBasedOn || ""}
+                    value={values?.offerBasedOn || ''}
                     label="Offer Based On"
                     onChange={(valueOption) => {}}
                     placeholder="Offer Based On"
@@ -129,10 +129,10 @@ export default function FormCmp({ rowDto }) {
                   <NewSelect
                     name="customersPurchaseType"
                     options={[]}
-                    value={values?.customersPurchaseType || ""}
+                    value={values?.customersPurchaseType || ''}
                     label="Customers Purchase Type"
                     onChange={(valueOption) => {
-                      setFieldValue("customersPurchaseType", valueOption || "");
+                      setFieldValue('customersPurchaseType', valueOption || '');
                     }}
                     placeholder="Customers Purchase Type"
                     errors={errors}
@@ -144,7 +144,7 @@ export default function FormCmp({ rowDto }) {
                   <NewSelect
                     name="schemeType"
                     options={[]}
-                    value={values?.schemeType || ""}
+                    value={values?.schemeType || ''}
                     label="Scheme Type"
                     onChange={(valueOption) => {}}
                     placeholder="Scheme Type"

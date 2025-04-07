@@ -1,36 +1,34 @@
-
-
-import { Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import * as Yup from "yup";
+import { Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import * as Yup from 'yup';
 import {
   _dateFormatter,
   _dateFormatterTwo,
-} from "../../../../_helper/_dateFormate";
-import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import { _todayDate } from "../../../_chartinghelper/_todayDate";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import { CreateJournalVoucher, getDieselStatementTwo, months } from "../helper";
+} from '../../../../_helper/_dateFormate';
+import { _firstDateofMonth } from '../../../../_helper/_firstDateOfCurrentMonth';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import { _todayDate } from '../../../_chartinghelper/_todayDate';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import { CreateJournalVoucher, getDieselStatementTwo, months } from '../helper';
 
 const headers = [
-  { name: "Date" },
-  { name: "Lighter Vessel Name" },
-  { name: "JV Code" },
-  { name: "Voyage No" },
-  { name: "Unit" },
-  { name: "Qty" },
-  { name: "Rate" },
-  { name: "Amount(Tk.)" },
+  { name: 'Date' },
+  { name: 'Lighter Vessel Name' },
+  { name: 'JV Code' },
+  { name: 'Voyage No' },
+  { name: 'Unit' },
+  { name: 'Qty' },
+  { name: 'Rate' },
+  { name: 'Amount(Tk.)' },
 ];
 
 const validationSchema = Yup.object().shape({
-  narration: Yup.string().required("Narration is required"),
+  narration: Yup.string().required('Narration is required'),
 });
 
 const initData = {
@@ -77,7 +75,7 @@ export default function DieselStatementTwo() {
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           CreateJournalVoucher(
-            "diesel",
+            'diesel',
             profileData?.accountId,
             selectedBusinessUnit?.value,
             new Date(values?.date).getMonth(),
@@ -104,7 +102,7 @@ export default function DieselStatementTwo() {
                       placeholder="Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                         getGridData({ ...values, fromDate: e?.target?.value });
                       }}
                       max={values?.toDate}
@@ -120,7 +118,7 @@ export default function DieselStatementTwo() {
                       placeholder="Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                         getGridData({ ...values, toDate: e?.target?.value });
                       }}
                       min={values?.fromDate}
@@ -139,7 +137,7 @@ export default function DieselStatementTwo() {
                     />
                     <ReactToPrint
                       pageStyle={
-                        "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                        '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
                       }
                       trigger={() => (
                         <button
@@ -159,11 +157,11 @@ export default function DieselStatementTwo() {
                 </div>
               </div>
               <div ref={printRef}>
-                <div className="text-center" style={{ margin: "15px 0" }}>
+                <div className="text-center" style={{ margin: '15px 0' }}>
                   <h4>
                     Diesel Received Statement from Akij Cement Company Ltd
                     <br />
-                    From {_dateFormatterTwo(values?.fromDate)} To{" "}
+                    From {_dateFormatterTwo(values?.fromDate)} To{' '}
                     {_dateFormatterTwo(values?.toDate)}
                     {/* For the month of{" "}
                     {months[new Date(values?.date).getMonth()] +
@@ -171,21 +169,21 @@ export default function DieselStatementTwo() {
                       new Date(values?.date)?.getFullYear()} */}
                     <br />
                     Akij Shipping Line Ltd <br />
-                    198,Gulshan Link Road, Tejgaon-1208{" "}
+                    198,Gulshan Link Road, Tejgaon-1208{' '}
                   </h4>
                 </div>
                 <ICustomTable id="table-to-xlsx" ths={headers}>
-                  <div className="d-none" style={{ textAlign: "center" }}>
+                  <div className="d-none" style={{ textAlign: 'center' }}>
                     <h4>
                       Diesel Received Statement from Akij Cement Company Ltd
                       <br />
-                      For the month of{" "}
+                      For the month of{' '}
                       {months[new Date(values?.date).getMonth()] +
-                        "-" +
+                        '-' +
                         new Date(values?.date)?.getFullYear()}
                       <br />
                       Akij Shipping Line Ltd <br />
-                      198,Gulshan Link Road, Tejgaon-1208{" "}
+                      198,Gulshan Link Road, Tejgaon-1208{' '}
                     </h4>
                   </div>
                   {gridData?.map((item, index) => {
@@ -199,7 +197,7 @@ export default function DieselStatementTwo() {
                             </td>
                             <td>{e?.dieselExpJvCode}</td>
                             <td>{e?.tripNo}</td>
-                            <td>{"Ltr"}</td>
+                            <td>{'Ltr'}</td>
                             <td className="text-right">
                               {_formatMoney(e?.qty, 0)}
                             </td>
@@ -211,7 +209,7 @@ export default function DieselStatementTwo() {
                           {item?.length - 1 === i && (
                             <tr
                               style={{
-                                fontWeight: "bold",
+                                fontWeight: 'bold',
                                 // background: "#eff6ff",
                               }}
                             >
@@ -219,22 +217,22 @@ export default function DieselStatementTwo() {
                                 Total
                               </td>
                               <td className="text-right">
-                                {" "}
+                                {' '}
                                 {_formatMoney(
                                   item?.reduce((a, b) => {
                                     return a + b.qty;
                                   }, 0),
                                   0
-                                )}{" "}
+                                )}{' '}
                               </td>
                               <td></td>
                               <td className="text-right">
-                                {" "}
+                                {' '}
                                 {_formatMoney(
                                   item?.reduce((a, b) => {
                                     return a + b.amount;
                                   }, 0)
-                                )}{" "}
+                                )}{' '}
                               </td>
                             </tr>
                           )}
@@ -243,7 +241,7 @@ export default function DieselStatementTwo() {
                     });
                   })}
                   {gridData?.length > 0 && (
-                    <tr style={{ fontWeight: "bold" }}>
+                    <tr style={{ fontWeight: 'bold' }}>
                       <td className="text-right" colSpan="5">
                         Grand Total
                       </td>

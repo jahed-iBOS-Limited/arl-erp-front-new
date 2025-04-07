@@ -1,23 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
   error: '',
-  msg: "",
+  msg: '',
   empDDL: [],
   gridData: [],
-  singleData: "",
+  singleData: '',
   costCenterTypeDDL: [],
   costCenterGroupDDL: [],
   profitCenterDDL: [],
- 
 };
 
 export const costCenterSlice = createSlice({
-  name: "costCenter",
+  name: 'costCenter',
   initialState: initState,
   reducers: {
-
     SetEmpDDL: (state, action) => {
       const { payload } = action;
       state.empDDL = payload;
@@ -32,10 +30,9 @@ export const costCenterSlice = createSlice({
       const { payload } = action;
       state.singleData = payload;
     },
-    SetSingleStoreEmpty: state => {
-      state.singleData = "";
-    }
-    ,
+    SetSingleStoreEmpty: (state) => {
+      state.singleData = '';
+    },
     SetCostCenterTypeDDL: (state, action) => {
       const { payload } = action;
       state.costCenterTypeDDL = payload;
@@ -48,8 +45,5 @@ export const costCenterSlice = createSlice({
       const { payload } = action;
       state.profitCenterDDL = payload;
     },
-
-    
-  }
+  },
 });
-

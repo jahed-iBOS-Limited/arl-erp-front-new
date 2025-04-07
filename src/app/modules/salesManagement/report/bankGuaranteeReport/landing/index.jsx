@@ -1,51 +1,51 @@
-import { Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { ExcelRenderer } from "react-excel-renderer";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import ICard from "../../../../_helper/_card";
-import { excelDateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { ExcelRenderer } from 'react-excel-renderer';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import ICard from '../../../../_helper/_card';
+import { excelDateFormatter } from '../../../../_helper/_dateFormate';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import PowerBIReport from '../../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 import {
   getCustomerBankGuaranteeReport,
   getDistributionChannelDDL,
   getSubmittedBankGuarantee,
-} from "../helper";
-import BankGuaranteeReportLandingForm from "./form";
-import TableOne from "./tableOne";
-import TableTwo from "./tableTwo";
-import TableThree from "./tableThree";
-import PaginationTable from "../../../../_helper/_tablePagination";
+} from '../helper';
+import BankGuaranteeReportLandingForm from './form';
+import TableOne from './tableOne';
+import TableTwo from './tableTwo';
+import TableThree from './tableThree';
+import PaginationTable from '../../../../_helper/_tablePagination';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  date: Yup.date().required("From Date is required"),
+  date: Yup.date().required('From Date is required'),
   distributionChannel: Yup.object().shape({
-    label: Yup.string().required("Distribution Channel is required"),
-    value: Yup.string().required("Distribution Channel is required"),
+    label: Yup.string().required('Distribution Channel is required'),
+    value: Yup.string().required('Distribution Channel is required'),
   }),
 });
 
 const initData = {
   date: _todayDate(),
-  distributionChannel: "",
-  expireWithin: { value: 0, label: "All" },
-  type: "",
-  customer: "",
-  month: "",
-  year: "",
-  status: "",
+  distributionChannel: '',
+  expireWithin: { value: 0, label: 'All' },
+  type: '',
+  customer: '',
+  month: '',
+  year: '',
+  status: '',
 };
 
 export default function BankGuaranteeReport() {
   const printRef = useRef();
   const hiddenFileInput = useRef(null);
 
-  const [fileObject, setFileObject] = useState("");
+  const [fileObject, setFileObject] = useState('');
   const [rowDto, setRowDto] = useState([]);
   const [distributionChannelDDL, setDistributionChannelDDL] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -64,7 +64,6 @@ export default function BankGuaranteeReport() {
     if (accId && buId) {
       getDistributionChannelDDL(accId, buId, setDistributionChannelDDL);
     }
-
   }, [accId, buId]);
 
   const handleClick = (event) => {
@@ -75,10 +74,10 @@ export default function BankGuaranteeReport() {
     if (fileObject) {
       ExcelRenderer(fileObject, (err, resp) => {
         if (err) {
-          toast.warning("An unexpected error occurred");
+          toast.warning('An unexpected error occurred');
         } else {
           const modify = resp.rows?.slice(1)?.map((itm, index) => {
-            console.log(itm, "itm");
+            console.log(itm, 'itm');
             return {
               intAccountId: accId,
               intBusinessUnitId: buId,
@@ -95,9 +94,9 @@ export default function BankGuaranteeReport() {
               // intBranchId: itm[7],
               // strBranchName: itm[8],
               intBankId: itm[8],
-              dteIssueDate: itm[6] ? excelDateFormatter(itm[6]) : "",
+              dteIssueDate: itm[6] ? excelDateFormatter(itm[6]) : '',
               intActionBy: userId,
-              dteExpireDate: itm[7] ? excelDateFormatter(itm[7]) : "",
+              dteExpireDate: itm[7] ? excelDateFormatter(itm[7]) : '',
             };
           });
 
@@ -105,7 +104,6 @@ export default function BankGuaranteeReport() {
         }
       });
     }
-
   }, [fileObject]);
 
   const viewHandler = async (values, _pageNo = 0, _pageSize = 15) => {
@@ -140,7 +138,7 @@ export default function BankGuaranteeReport() {
     const date = new Date(values?.date);
     const selectedItems = rowDto?.filter((item) => item?.isSelected);
     if (typeId === 1 && selectedItems?.length < 1) {
-      return toast.warn("Please select at least one row!");
+      return toast.warn('Please select at least one row!');
     }
 
     // Payload for Bank Guarantee Excel Upload
@@ -151,7 +149,7 @@ export default function BankGuaranteeReport() {
           element?.numMortgageAmount || element?.existingMortgageAmount,
         strBankName: element?.strBankName || element?.preBankName,
         intBranchId: 0,
-        strBranchName: "string",
+        strBranchName: 'string',
       };
     });
 
@@ -174,7 +172,7 @@ export default function BankGuaranteeReport() {
         sales: item?.SalesBag || 0,
         bgCommissionPerBag: item?.BGCommissionBag || 0,
         totalBgCommission: item?.TotalCommission || 0,
-        remarks: item?.Remarks || "",
+        remarks: item?.Remarks || '',
         actionBy: userId,
       };
     });
@@ -188,8 +186,8 @@ export default function BankGuaranteeReport() {
       typeId === 3
         ? `/partner/BusinessPartnerSales/CreateBulkSalesMortgage`
         : typeId === 1
-        ? `/partner/BusinessPartnerBankInfo/CreatePartnerBankGuaranteeInfo`
-        : [];
+          ? `/partner/BusinessPartnerBankInfo/CreatePartnerBankGuaranteeInfo`
+          : [];
 
     postData(URL, payload, () => cb(), true);
   };
@@ -199,9 +197,9 @@ export default function BankGuaranteeReport() {
 
   const parameterValues = (values) => {
     return [
-      { name: "Bunit", value: `${buId}` },
-      { name: "ChannelID", value: `${values?.distributionChannel?.value}` },
-      { name: "ViewType", value: `${2}` },
+      { name: 'Bunit', value: `${buId}` },
+      { name: 'ChannelID', value: `${values?.distributionChannel?.value}` },
+      { name: 'ViewType', value: `${2}` },
     ];
   };
 

@@ -1,12 +1,12 @@
-import React from 'react'
-import CreateInventoryLoanForm from '../../inventoryLoan/form/addEditForm'
+import React from 'react';
+import CreateInventoryLoanForm from '../../inventoryLoan/form/addEditForm';
 
 const ExternalLoan = ({ loanType }) => {
   return (
     <>
-      <CreateInventoryLoanForm loanType={ loanType }/>
+      <CreateInventoryLoanForm loanType={loanType} />
     </>
-  )
-}
+  );
+};
 
-export default ExternalLoan
+export default ExternalLoan;

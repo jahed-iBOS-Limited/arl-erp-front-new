@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 //Call Empddl APi
 export function GetSBUListDDL(accId, buId) {
@@ -19,7 +19,7 @@ export function saveEditData(data) {
 
 //Call get grid data api
 export function getGridData(accId, buId, pageNo, pageSize, search) {
-  const searchPath = search ? `searchTerm=${search}&` : "";
+  const searchPath = search ? `searchTerm=${search}&` : '';
   return axios.get(
     `/oms/DistributionChannel/GetDistributionChannelByAIdBIdSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
   );

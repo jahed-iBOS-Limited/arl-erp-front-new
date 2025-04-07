@@ -1,26 +1,21 @@
-
-
 import { Formik } from 'formik';
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import * as Yup from 'yup';
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import IViewModal from "../../../../_helper/_viewModal";
-import {
-  getAssetAssignReportData,
-} from "../helper";
-import PaginationTable from "./../../../../_helper/_tablePagination";
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import IViewModal from '../../../../_helper/_viewModal';
+import { getAssetAssignReportData } from '../helper';
+import PaginationTable from './../../../../_helper/_tablePagination';
 
-
-const validationSchema = Yup.object().shape({})
+const validationSchema = Yup.object().shape({});
 
 export function TableRow(props) {
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
-  const [showMailModal, setShowMailModal] = useState(false)
+  const [showMailModal, setShowMailModal] = useState(false);
   const [singleItem, setSingleItem] = useState(null);
 
   const [loading, setLoading] = useState(false);
@@ -38,15 +33,15 @@ export function TableRow(props) {
 
   //Get Api Data
   useEffect(() => {
-    getAssetAssignReportData(profileData?.accountId,
+    getAssetAssignReportData(
+      profileData?.accountId,
       selectedBusinessUnit?.value,
       setGridData,
       setLoading,
       pageNo,
-      pageSize)
+      pageSize
+    );
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
-
-
 
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, searchValue) => {
@@ -61,11 +56,9 @@ export function TableRow(props) {
     );
   };
 
-
   const paginationSearchHandler = (searchValue) => {
     setPositionHandler(pageNo, pageSize, searchValue);
   };
-
 
   return (
     <>
@@ -75,7 +68,7 @@ export function TableRow(props) {
             enableReinitialize={true}
             initialValues={{}}
             validationSchema={validationSchema}
-            onSubmit={(values, { setSubmitting, resetForm }) => { }}
+            onSubmit={(values, { setSubmitting, resetForm }) => {}}
           >
             {({ errors, touched, setFieldValue, isValid, values }) => (
               <>
@@ -109,24 +102,33 @@ export function TableRow(props) {
                             gridData?.data.map((item, index) => {
                               return (
                                 <tr key={index}>
-                                  <td style={{ width: "30px" }} className="text-center">
+                                  <td
+                                    style={{ width: '30px' }}
+                                    className="text-center"
+                                  >
                                     {index + 1}
                                   </td>
                                   <td>
-                                    <span className="pl-2">{item?.assetCode}</span>
+                                    <span className="pl-2">
+                                      {item?.assetCode}
+                                    </span>
                                   </td>
                                   <td>
-                                    <span className="pl-2">{item?.assetName}</span>
+                                    <span className="pl-2">
+                                      {item?.assetName}
+                                    </span>
                                   </td>
                                   <td>
-                                    <span className="pl-2">{item?.assetDescription}</span>
+                                    <span className="pl-2">
+                                      {item?.assetDescription}
+                                    </span>
                                   </td>
                                   <td>
-                                    <span className="pl-2">{item?.employeeCode}</span>
+                                    <span className="pl-2">
+                                      {item?.employeeCode}
+                                    </span>
                                   </td>
-                                  <td
-                                    style={{ width: "200px" }}
-                                  >
+                                  <td style={{ width: '200px' }}>
                                     <span className="pl-2">
                                       {item?.employeeFirstName}
                                     </span>
@@ -174,7 +176,12 @@ export function TableRow(props) {
                   <PaginationTable
                     count={gridData?.totalCount}
                     setPositionHandler={setPositionHandler}
-                    paginationState={{ pageNo, setPageNo, pageSize, setPageSize }}
+                    paginationState={{
+                      pageNo,
+                      setPageNo,
+                      pageSize,
+                      setPageSize,
+                    }}
                   />
                 )}
               </>

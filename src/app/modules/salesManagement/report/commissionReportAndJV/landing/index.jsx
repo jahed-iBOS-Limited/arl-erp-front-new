@@ -75,12 +75,11 @@ const CommissionReportAndJV = () => {
   useEffect(() => {
     getSBUDDL(accId, buId, setSbuDDL);
     getReportTypes(
-      `/wms/WmsReport/GetCommissionTypeDDL?businessUnitId=${buId}`,
+      `/wms/WmsReport/GetCommissionTypeDDL?businessUnitId=${buId}`
     );
     getTransactionHeads(
-      `/wms/WmsReport/GetBusinessTransactionDDL?businessUnitId=${buId}`,
+      `/wms/WmsReport/GetBusinessTransactionDDL?businessUnitId=${buId}`
     );
-
   }, [accId, buId]);
 
   const getData = (values) => {
@@ -92,8 +91,8 @@ const CommissionReportAndJV = () => {
           values?.reportType?.value === 1
             ? `/oms/SalesReturnAndCancelProcess/GetDamageReturnForJv?SalesReturnType=2&accId=${accId}&status=${values?.status?.value}&BusuinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&CustomerId=${values?.customer?.value}&ChannelId=${values?.channel?.value}`
             : values?.reportType?.value === 3
-            ? `/oms/SalesReturnAndCancelProcess/GetJVCompletedDamageReturn?SalesReturnType=2&accId=${accId}&BusuinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&CustomerId=${values?.customer?.value}&ChannelId=${values?.channel?.value}`
-            : '';
+              ? `/oms/SalesReturnAndCancelProcess/GetJVCompletedDamageReturn?SalesReturnType=2&accId=${accId}&BusuinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&CustomerId=${values?.customer?.value}&ChannelId=${values?.channel?.value}`
+              : '';
 
         getDamageData(apiUrl, (data) => {
           setRowData(data);
@@ -115,7 +114,7 @@ const CommissionReportAndJV = () => {
           userId,
           values?.commissionRate || 0,
           setRowData,
-          setLoading,
+          setLoading
         );
       } else {
         getCommissionReport(
@@ -126,7 +125,7 @@ const CommissionReportAndJV = () => {
           values?.type?.value,
           userId,
           setRowData,
-          setLoading,
+          setLoading
         );
       }
     } else if (values?.reportType?.value === 2) {
@@ -137,7 +136,7 @@ const CommissionReportAndJV = () => {
         typeId,
         values?.status?.value,
         setRowData,
-        setLoading,
+        setLoading
       );
     }
   };
@@ -178,7 +177,7 @@ const CommissionReportAndJV = () => {
       const selectedItems = rowData?.filter((item) => item?.isSelected);
       const totalAmountForDamange = selectedItems?.reduce(
         (a, b) => a + +b?.totalReturnAmount,
-        0,
+        0
       );
       const ids = [8, 9, 10, 11, 12, 13];
       const commissionTypeId = ids.includes(values?.type?.value)
@@ -228,7 +227,7 @@ const CommissionReportAndJV = () => {
         toast.dismiss(20);
         toast.warning(
           'Please provide the SBU, Transaction Head, and Narration.',
-          { toastId: 20 },
+          { toastId: 20 }
         );
 
         return;
@@ -236,7 +235,7 @@ const CommissionReportAndJV = () => {
       const selectedItems = rowData?.filter((item) => item?.isSelected);
       const totalAmount = selectedItems?.reduce(
         (a, b) => a + +b?.commissiontaka,
-        0,
+        0
       );
 
       const ids = [8, 9, 10, 11, 12, 13];
@@ -297,7 +296,7 @@ const CommissionReportAndJV = () => {
         values?.type?.value === 1 ? 2 : 4,
         userId,
         setLoading,
-        () => {},
+        () => {}
       );
     }
   };
@@ -315,13 +314,11 @@ const CommissionReportAndJV = () => {
   const dateSetter = (values, setFieldValue) => {
     setFieldValue(
       'fromDate',
-      _dateFormatter(
-        new Date(values?.year?.value, values?.month?.value - 1, 1),
-      ),
+      _dateFormatter(new Date(values?.year?.value, values?.month?.value - 1, 1))
     );
     setFieldValue(
       'toDate',
-      _dateFormatter(new Date(values?.year?.value, values?.month?.value, 0)),
+      _dateFormatter(new Date(values?.year?.value, values?.month?.value, 0))
     );
   };
 

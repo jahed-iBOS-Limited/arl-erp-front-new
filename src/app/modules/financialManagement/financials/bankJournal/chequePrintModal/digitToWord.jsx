@@ -1,8 +1,8 @@
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 export const dateToDigit = (d) => {
   let date = _dateFormatter(d);
-  const stringDate = date.split("-").reverse();
+  const stringDate = date.split('-').reverse();
   let mon = stringDate[1];
   let day = stringDate[0];
   let year = stringDate[2];

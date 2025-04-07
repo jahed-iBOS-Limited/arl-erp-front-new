@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import ValuesTable from "../Table/_valuesTable";
-import CompetencyTable from "../Table/_competencyTable";
-import MeasuringScale from "../../../../_helper/_measuringScale";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { getMeasuringScaleAction } from "../../../../_redux/Actions";
-import { getMeasuringScaleBottomAction } from "./../../../../_redux/Actions";
-import { toast } from "react-toastify";
+import React, { useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import ValuesTable from '../Table/_valuesTable';
+import CompetencyTable from '../Table/_competencyTable';
+import MeasuringScale from '../../../../_helper/_measuringScale';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { getMeasuringScaleAction } from '../../../../_redux/Actions';
+import { getMeasuringScaleBottomAction } from './../../../../_redux/Actions';
+import { toast } from 'react-toastify';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -50,7 +50,6 @@ export default function FormCmp({
         )
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
   const getApiTotalMeasureValueEmp = vcData
     ?.filter((itm) => itm?.typeId === 2)
@@ -129,11 +128,11 @@ export default function FormCmp({
                 <div className="col-lg-12">
                   {employeeBasicInfo && (
                     <p className="mt-3 employee_info">
-                      <b>Designation</b>: {employeeBasicInfo?.designationName},{" "}
-                      <b>Department</b>: {employeeBasicInfo?.departmentName},{" "}
-                      <b>Supervisor</b>: {employeeBasicInfo?.supervisorName},{" "}
-                      <b>Sbu</b>: {employeeBasicInfo?.sbuName},{" "}
-                      <b>Business Unit</b>:{" "}
+                      <b>Designation</b>: {employeeBasicInfo?.designationName},{' '}
+                      <b>Department</b>: {employeeBasicInfo?.departmentName},{' '}
+                      <b>Supervisor</b>: {employeeBasicInfo?.supervisorName},{' '}
+                      <b>Sbu</b>: {employeeBasicInfo?.sbuName},{' '}
+                      <b>Business Unit</b>:{' '}
                       {employeeBasicInfo?.businessUnitName}
                     </p>
                   )}
@@ -144,7 +143,7 @@ export default function FormCmp({
                 <h5 className="mb-1">VALUES</h5>
                 <hr className="mt-0 p-0" />
                 <div className="d-flex justify-content-between">
-                  <div style={{ width: "50%" }}>
+                  <div style={{ width: '50%' }}>
                     <ValuesTable
                       headerName="Values Name"
                       isEmployee={true}
@@ -167,7 +166,7 @@ export default function FormCmp({
                 <h5 className="mb-1">COMPETENCIES</h5>
                 <hr className="mt-0 p-0" />
                 <div className="d-flex justify-content-between">
-                  <div style={{ width: "50%" }}>
+                  <div style={{ width: '50%' }}>
                     <CompetencyTable
                       headerName="Competency Name"
                       isEmployee={true}
@@ -189,14 +188,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

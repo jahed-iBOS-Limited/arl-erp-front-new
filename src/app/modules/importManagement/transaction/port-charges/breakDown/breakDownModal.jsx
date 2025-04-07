@@ -1,22 +1,19 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { Modal, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { isUniq } from "../../../../_helper/uniqChecker";
-import {
-  saveServicezbreakdown,
-} from "../helper";
-import Loading from "./../../../../_helper/_loading";
-import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import { getCommercialCostingServiceBreakdown } from "../../../../_helper/_commonApi";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { Modal, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { isUniq } from '../../../../_helper/uniqChecker';
+import { saveServicezbreakdown } from '../helper';
+import Loading from './../../../../_helper/_loading';
+import AttachmentUploaderNew from '../../../../_helper/attachmentUploaderNew';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import { getCommercialCostingServiceBreakdown } from '../../../../_helper/_commonApi';
 
 const validationSchema = Yup.object().shape({});
 const initData = {};
@@ -35,7 +32,7 @@ const BreakDownModal = ({
   const [isloading, setIsLoading] = useState(false);
   const [, getSubChargeTypeDDL] = useAxiosGet();
   const [subChargeTypeDDL, setSubChargeTypeDDL] = useState([]);
-  const [showSubChargeCol, setShowSubChargeCol] = useState("");
+  const [showSubChargeCol, setShowSubChargeCol] = useState('');
 
   // get selected business unit from store
   const selectedBusinessUnit = useSelector((state) => {
@@ -78,12 +75,12 @@ const BreakDownModal = ({
           item.subChargeTypeId === payload.subChargeTypeId
       );
       if (isExist) {
-        return toast.warn("Already Exists!");
+        return toast.warn('Already Exists!');
       } else {
         setRowDto([payload, ...rowDto]);
       }
     } else {
-      if (isUniq("supplierName", payload.supplierName, rowDto)) {
+      if (isUniq('supplierName', payload.supplierName, rowDto)) {
         setRowDto([payload, ...rowDto]);
       }
 
@@ -103,7 +100,7 @@ const BreakDownModal = ({
     if (rowDto.length > 0) {
       saveServicezbreakdown(rowDto, setIsLoading, onHide, setReferenceId);
     } else {
-      toast.warning("Please add at least one row");
+      toast.warning('Please add at least one row');
     }
   };
 
@@ -116,7 +113,7 @@ const BreakDownModal = ({
         aria-labelledby="example-modal-sizes-title-xl"
       >
         <>
-          {" "}
+          {' '}
           <Modal.Header className="bg-custom ">
             <Modal.Title className="text-center">
               Service Break Down
@@ -157,7 +154,7 @@ const BreakDownModal = ({
                             placeholder="Select Sub Charge Type"
                             name="subChargeType"
                             onChange={(valueOption) => {
-                              setFieldValue("subChargeType", valueOption);
+                              setFieldValue('subChargeType', valueOption);
                             }}
                             errors={errors}
                             touched={touched}
@@ -172,7 +169,7 @@ const BreakDownModal = ({
                           placeholder="Select Supplier"
                           name="costElement"
                           onChange={(valueOption) => {
-                            setFieldValue("supplier", valueOption);
+                            setFieldValue('supplier', valueOption);
                           }}
                           errors={errors}
                           touched={touched}
@@ -185,9 +182,9 @@ const BreakDownModal = ({
                           placeholder="Amount"
                           onChange={(e) => {
                             if (e.target.value < 0) {
-                              setFieldValue("amount", "");
+                              setFieldValue('amount', '');
                             } else {
-                              setFieldValue("amount", parseInt(e.target.value));
+                              setFieldValue('amount', parseInt(e.target.value));
                             }
                           }}
                           type="number"
@@ -205,7 +202,7 @@ const BreakDownModal = ({
                         />
                       </div>
 
-                      <div className="col-lg-1" style={{ marginTop: "20px" }}>
+                      <div className="col-lg-1" style={{ marginTop: '20px' }}>
                         <button
                           type="button"
                           disabled={!values.supplier || !values.amount}
@@ -225,10 +222,10 @@ const BreakDownModal = ({
                               subChargeTypeId: values?.subChargeType?.value,
                               subChargeTypeName: values?.subChargeType?.label,
                             });
-                            setFieldValue("supplier", "");
-                            setFieldValue("amount", "");
-                            setFieldValue("description", "");
-                            setFieldValue("subChargeType", "");
+                            setFieldValue('supplier', '');
+                            setFieldValue('amount', '');
+                            setFieldValue('description', '');
+                            setFieldValue('subChargeType', '');
                             // setFieldValue("attatchmentId", "");
                           }}
                           className="btn btn-primary"
@@ -257,7 +254,7 @@ const BreakDownModal = ({
                             return (
                               <tr key={index}>
                                 <td
-                                  style={{ width: "30px" }}
+                                  style={{ width: '30px' }}
                                   className="text-center"
                                 >
                                   {index + 1}
@@ -310,7 +307,7 @@ const BreakDownModal = ({
                                           className="mt-2 "
                                         >
                                           <i
-                                            style={{ fontSize: "16px" }}
+                                            style={{ fontSize: '16px' }}
                                             className={`fa pointer fa-eye`}
                                             aria-hidden="true"
                                           ></i>
@@ -321,8 +318,8 @@ const BreakDownModal = ({
                                   <div className="">
                                     <AttachmentUploaderNew
                                       style={{
-                                        backgroundColor: "transparent",
-                                        color: "black",
+                                        backgroundColor: 'transparent',
+                                        color: 'black',
                                       }}
                                       CBAttachmentRes={(attachmentData) => {
                                         if (Array.isArray(attachmentData)) {

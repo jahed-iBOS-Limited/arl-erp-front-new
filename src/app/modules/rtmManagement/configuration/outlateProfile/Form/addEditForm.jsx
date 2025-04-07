@@ -1,14 +1,11 @@
-
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
 // import { createPurchase, getSinglePurchase, editPurchase } from "../helper";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation } from 'react-router-dom';
 
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 import {
   createOutlateProfile,
@@ -16,27 +13,27 @@ import {
   editOutlateProfile,
   getBeatApiDDL,
   commonCollerCompanyDDL,
-} from "../helper";
-import Loading from "../../../../_helper/_loading";
-import { operation } from "../../../../_helper/_commonApi";
+} from '../helper';
+import Loading from '../../../../_helper/_loading';
+import { operation } from '../../../../_helper/_commonApi';
 
 const initData = {
-  businessType: "",
-  routeName: "",
-  outletName: "",
-  outletAddress: "",
-  ownerName: "",
-  contactType: "",
-  mobileNumber: "",
-  emailAddress: "",
+  businessType: '',
+  routeName: '',
+  outletName: '',
+  outletAddress: '',
+  ownerName: '',
+  contactType: '',
+  mobileNumber: '',
+  emailAddress: '',
   dateOfBirth: _todayDate(),
   marriageDate: _todayDate(),
-  lattitude: "",
-  longitude: "",
-  beatName: "",
-  marriageSatus: "",
+  lattitude: '',
+  longitude: '',
+  beatName: '',
+  marriageSatus: '',
   isColler: false,
-  collerCompany: "",
+  collerCompany: '',
 };
 
 export default function OutlateProfileFrom() {
@@ -47,12 +44,12 @@ export default function OutlateProfileFrom() {
 
   const [outletData, setOutlet] = useState([]);
   const params = useParams();
-  const [singleData, setSingleData] = useState("");
-  const [beatNameDDL, setBeatNameDDL] = useState("");
+  const [singleData, setSingleData] = useState('');
+  const [beatNameDDL, setBeatNameDDL] = useState('');
 
   const [attributes, setAttributes] = useState([]);
-  const [latutude, setLatitude] = useState("");
-  const [longitude, setlongitude] = useState("");
+  const [latutude, setLatitude] = useState('');
+  const [longitude, setlongitude] = useState('');
   const [collerCompanyDDL, isCollerCompany] = useState([]);
 
   // get user profile data from store
@@ -116,7 +113,7 @@ export default function OutlateProfileFrom() {
             : 0,
           coolerCompanyName: values?.collerCompany
             ? values?.collerCompany?.label
-            : " ",
+            : ' ',
         };
         createOutlateProfile(payload, cb, setDisabled);
       }

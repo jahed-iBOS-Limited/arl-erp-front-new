@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getActivityDDL = async (mId, setter) => {
   try {
@@ -7,7 +7,7 @@ export const getActivityDDL = async (mId, setter) => {
       `/domain/Activity/GetActivityFeaturesList?moduleId=${mId}`
     );
     let newData = res?.data?.filter(
-      (item) => item?.label?.toLowerCase() === "item request"
+      (item) => item?.label?.toLowerCase() === 'item request'
     );
     setter(newData);
   } catch (error) {}
@@ -86,7 +86,7 @@ export const approvalApi = async (
 ) => {
   try {
     await Axios.put(`/procurement/Approval/DynamicApproval`, poayload);
-    toast.success("Approved successfully");
+    toast.success('Approved successfully');
     onChangeForActivity();
   } catch (error) {}
 };
@@ -115,7 +115,7 @@ export const BOMApprovalLanding = async (
 ) => {
   setLoading(true);
   try {
-    let searchTerm = search ? `searchTerm=${search}&` : "";
+    let searchTerm = search ? `searchTerm=${search}&` : '';
     let url = `/mes/BOM/BOMApprovalLanding?${searchTerm}accountId=${accId}&businessUnitId=${buId}&plantId=${plantId}&userId=${userId}&viewOrder=desc&pageNo=${pageNo}&pageSize=${pageSize}`;
     const res = await Axios.get(url);
     setLoading(false);
@@ -163,7 +163,7 @@ export const saveBOMApproval_api = async (
 ) => {
   try {
     await Axios.put(`/mes/BOM/BOMApproval`, poayload);
-    toast.success("Approved successfully");
+    toast.success('Approved successfully');
     commonBillOfMaterialGridFunc();
   } catch (error) {
     toast.error(error?.response?.data?.message);

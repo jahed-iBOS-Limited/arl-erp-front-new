@@ -1,43 +1,43 @@
-import React from "react";
-import ICustomTable from "../../../../_helper/_customTable";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import React from 'react';
+import ICustomTable from '../../../../_helper/_customTable';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
 
 const ths = [
-  "Sl",
-  "Date",
-  "SO Number",
-  "Challan No",
-  "Product Name",
-  "UoM",
-  "Trs. Zone Rate",
-  "Trs. Zone Quantity",
-  "Amount",
-  "Handling Rate",
-  "Handling Cost",
-  "Loading Labour Rate",
-  "Loading Labour Cost",
-  "Grand Amount",
+  'Sl',
+  'Date',
+  'SO Number',
+  'Challan No',
+  'Product Name',
+  'UoM',
+  'Trs. Zone Rate',
+  'Trs. Zone Quantity',
+  'Amount',
+  'Handling Rate',
+  'Handling Cost',
+  'Loading Labour Rate',
+  'Loading Labour Cost',
+  'Grand Amount',
 ];
 
 const thsWithShipPointAll = [
-  "Sl",
-  "Date",
-  "SO Number",
-  "Challan No",
-  "Product Name",
-  "Shippoint",
-  "UoM",
-  "Trs. Zone Rate",
-  "Trs. Zone Quantity",
-  "Amount",
-  "Handling Rate",
-  "Handling Cost",
-  "Loading Labour Rate",
-  "Loading Labour Cost",
-  "Grand Amount",
+  'Sl',
+  'Date',
+  'SO Number',
+  'Challan No',
+  'Product Name',
+  'Shippoint',
+  'UoM',
+  'Trs. Zone Rate',
+  'Trs. Zone Quantity',
+  'Amount',
+  'Handling Rate',
+  'Handling Cost',
+  'Loading Labour Rate',
+  'Loading Labour Cost',
+  'Grand Amount',
 ];
 
 function TableGirdSeven({ rowDto, values }) {
@@ -46,7 +46,7 @@ function TableGirdSeven({ rowDto, values }) {
 
   return (
     <ICustomTable
-      ths={values?.shippointDDL?.label === "All" ? thsWithShipPointAll : ths}
+      ths={values?.shippointDDL?.label === 'All' ? thsWithShipPointAll : ths}
     >
       <>
         {rowDto.map((itmOne) => {
@@ -61,10 +61,10 @@ function TableGirdSeven({ rowDto, values }) {
 
           return (
             <>
-              <tr style={{ background: "#f1dbdb" }}>
+              <tr style={{ background: '#f1dbdb' }}>
                 <td
                   colSpan={
-                    values?.shippointDDL?.label === "All"
+                    values?.shippointDDL?.label === 'All'
                       ? thsWithShipPointAll.length
                       : ths.length
                   }
@@ -86,7 +86,7 @@ function TableGirdSeven({ rowDto, values }) {
                     <td>{itm?.so}</td>
                     <td>{itm?.deliveryCode}</td>
                     <td> {itm?.itemName}</td>
-                    {values?.shippointDDL?.label === "All" && (
+                    {values?.shippointDDL?.label === 'All' && (
                       <td>{itm?.shipPointName}</td>
                     )}
                     <td className="text-center">{itm?.uomName}</td>
@@ -123,7 +123,7 @@ function TableGirdSeven({ rowDto, values }) {
 
               <tr className="text-right font-weight-bold">
                 <td
-                  colSpan={values?.shippointDDL?.label === "All" ? "7" : "6"}
+                  colSpan={values?.shippointDDL?.label === 'All' ? '7' : '6'}
                   className="text-right"
                 >
                   Total
@@ -168,23 +168,23 @@ function TableGirdSeven({ rowDto, values }) {
                 </td>
                 <td></td>
                 <td>
-                  {" "}
+                  {' '}
                   {_formatMoney(
                     itmOne?.objList?.reduce(
                       (acc, cur) => (acc += cur?.handlingCost),
                       0
                     )
-                  )}{" "}
+                  )}{' '}
                 </td>
                 <td></td>
                 <td>
-                  {" "}
+                  {' '}
                   {_formatMoney(
                     itmOne?.objList?.reduce(
                       (acc, cur) => (acc += cur?.loadingLabourCostAmaount),
                       0
                     )
-                  )}{" "}
+                  )}{' '}
                 </td>
 
                 <td></td>
@@ -194,7 +194,7 @@ function TableGirdSeven({ rowDto, values }) {
         })}
         <tr>
           <td
-            colSpan={values?.shippointDDL?.label === "All" ? "8" : "7"}
+            colSpan={values?.shippointDDL?.label === 'All' ? '8' : '7'}
             className="text-right"
           >
             <b>Grand Total </b>

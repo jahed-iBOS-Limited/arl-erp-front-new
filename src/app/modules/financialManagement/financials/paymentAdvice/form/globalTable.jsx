@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import IViewModal from "../../../../_helper/_viewModal";
-import LoanCreate from "./loan/create";
+import React, { useState } from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import IViewModal from '../../../../_helper/_viewModal';
+import LoanCreate from './loan/create';
 
 export default function GlobalTableForBillType({
   values,
@@ -22,21 +22,21 @@ export default function GlobalTableForBillType({
 }) {
   let monAmountTotal = 0;
   const [isOpenLoanCreateModal, setIsOpenLoanCreateModal] = useState(false);
-  const [singleData, setSingleData] = useState(null)
+  const [singleData, setSingleData] = useState(null);
   return (
     <>
       <div className="loan-scrollable-table employee-overall-status">
-        <div style={{ maxHeight: "450px" }} className="scroll-table _table">
+        <div style={{ maxHeight: '450px' }} className="scroll-table _table">
           <table className="global-table table table-font-size-sm">
             <thead>
               <tr>
-                <th style={{ minWidth: "40px" }}>SL</th>
+                <th style={{ minWidth: '40px' }}>SL</th>
                 {values.type.value !== 2 && (
-                  <th style={{ minWidth: "70px", textAlign: "center" }}>
+                  <th style={{ minWidth: '70px', textAlign: 'center' }}>
                     <span className="d-flex flex-column justify-content-center align-items-center text-center">
                       <label>Select</label>
                       <input
-                        style={{ width: "15px", height: "15px" }}
+                        style={{ width: '15px', height: '15px' }}
                         name="isSelect"
                         checked={allSelect}
                         className="form-control ml-2"
@@ -47,40 +47,42 @@ export default function GlobalTableForBillType({
                     </span>
                   </th>
                 )}
-                <th style={{ minWidth: "70px" }}>Pay Date</th>
+                <th style={{ minWidth: '70px' }}>Pay Date</th>
                 {values?.billType?.value === 1 && (
-                  <th style={{ minWidth: "70px" }}>Maturity Date</th>
+                  <th style={{ minWidth: '70px' }}>Maturity Date</th>
                 )}
-                <th style={{ minWidth: "70px" }}>Bill NO</th>
-                <th style={{ minWidth: "70px" }}>Bill Date</th>
-                <th style={{ minWidth: "70px" }}>Description</th>
-                <th style={{ minWidth: "70px" }}>Audit Date</th>
-                <th style={{ minWidth: "70px" }}>Payee</th>
-                <th style={{ minWidth: "70px" }}>Payee Bank Name</th>
-                <th style={{ minWidth: "70px" }}>Amount</th>
-                {[6].includes(values?.billType?.value) && <th style={{ minWidth: "70px" }}>TDS</th>}
-                <th style={{ minWidth: "70px" }}>Action</th>
+                <th style={{ minWidth: '70px' }}>Bill NO</th>
+                <th style={{ minWidth: '70px' }}>Bill Date</th>
+                <th style={{ minWidth: '70px' }}>Description</th>
+                <th style={{ minWidth: '70px' }}>Audit Date</th>
+                <th style={{ minWidth: '70px' }}>Payee</th>
+                <th style={{ minWidth: '70px' }}>Payee Bank Name</th>
+                <th style={{ minWidth: '70px' }}>Amount</th>
+                {[6].includes(values?.billType?.value) && (
+                  <th style={{ minWidth: '70px' }}>TDS</th>
+                )}
+                <th style={{ minWidth: '70px' }}>Action</th>
               </tr>
             </thead>
-            <tbody style={{ overflow: "scroll" }}>
+            <tbody style={{ overflow: 'scroll' }}>
               {rowDto?.map((item, index) => {
                 monAmountTotal += item?.monAmount || 0;
                 return (
                   <tr key={item?.sl}>
                     <td
                       className="text-center"
-                      style={{ fontSize: 11, width: "15px" }}
+                      style={{ fontSize: 11, width: '15px' }}
                     >
                       {index + 1}
                     </td>
                     {values.type.value !== 2 && (
                       <td
-                        style={{ width: "40px", fontSize: 11 }}
+                        style={{ width: '40px', fontSize: 11 }}
                         className="text-center pl-2"
                       >
                         <span className="d-flex flex-column justify-content-center align-items-center text-center">
                           <input
-                            style={{ width: "15px", height: "15px" }}
+                            style={{ width: '15px', height: '15px' }}
                             name="isSelect"
                             checked={item?.isSelect}
                             className="form-control ml-2"
@@ -124,17 +126,19 @@ export default function GlobalTableForBillType({
                     <td className="text-right" style={{ fontSize: 11 }}>
                       {item?.monAmount}
                     </td>
-                    {[6].includes(values?.billType?.value) && <td className="text-right" style={{ fontSize: 11 }}>
-                      {item?.numTds}
-                    </td>}
+                    {[6].includes(values?.billType?.value) && (
+                      <td className="text-right" style={{ fontSize: 11 }}>
+                        {item?.numTds}
+                      </td>
+                    )}
                     <td className="text-center">
                       {/* <span > */}
                       <div className="d-flex justify-content-around align-items-center">
                         <IView
                           classes={
                             preparepaymentIndex === item?.intBillId
-                              ? "text-primary"
-                              : ""
+                              ? 'text-primary'
+                              : ''
                           }
                           clickHandler={() => {
                             setGridItem({
@@ -149,33 +153,38 @@ export default function GlobalTableForBillType({
                             );
                           }}
                         />
-                        {(item?.isLTR) && (<span>
-                          <OverlayTrigger
-                            overlay={<Tooltip id="cs-icon">{"Create Loan"}</Tooltip>}
-                          >
-                            <span>
-                              <i
-                                className={`fas fa-plus-square pointer`}
-                                onClick={() => { 
-                                  setIsOpenLoanCreateModal(true);
-                                  setSingleData(item)
-                                }}
-                              ></i>
-                            </span>
-                          </OverlayTrigger>
-                        </span>)}
-                        {values.type.value === 2 && values?.status?.value === 1 && (
-                          <button
-                            className="btn btn-primary"
-                            type="button"
-                            onClick={() => {
-                              setBankModelShow(true);
-                              setGridData(item);
-                            }}
-                          >
-                            Bank
-                          </button>
+                        {item?.isLTR && (
+                          <span>
+                            <OverlayTrigger
+                              overlay={
+                                <Tooltip id="cs-icon">{'Create Loan'}</Tooltip>
+                              }
+                            >
+                              <span>
+                                <i
+                                  className={`fas fa-plus-square pointer`}
+                                  onClick={() => {
+                                    setIsOpenLoanCreateModal(true);
+                                    setSingleData(item);
+                                  }}
+                                ></i>
+                              </span>
+                            </OverlayTrigger>
+                          </span>
                         )}
+                        {values.type.value === 2 &&
+                          values?.status?.value === 1 && (
+                            <button
+                              className="btn btn-primary"
+                              type="button"
+                              onClick={() => {
+                                setBankModelShow(true);
+                                setGridData(item);
+                              }}
+                            >
+                              Bank
+                            </button>
+                          )}
                         {/* {values.type.value === 2 &&
                       (
                         <button
@@ -225,7 +234,7 @@ export default function GlobalTableForBillType({
               )}
             </tbody>
           </table>
-        </div>{" "}
+        </div>{' '}
       </div>
       {isOpenLoanCreateModal && (
         <IViewModal

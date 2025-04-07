@@ -1,7 +1,7 @@
-import React from "react";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _timeFormatter } from "../../../_helper/_timeFormatter";
-import IView from "./../../../_helper/_helperIcons/_view";
+import React from 'react';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _timeFormatter } from '../../../_helper/_timeFormatter';
+import IView from './../../../_helper/_helperIcons/_view';
 
 export default function PendingTable({
   rowData,
@@ -17,7 +17,7 @@ export default function PendingTable({
           <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
             <thead>
               <tr>
-                <th style={{ width: "30px" }}>SL</th>
+                <th style={{ width: '30px' }}>SL</th>
                 <th>Entry Date</th>
                 <th>In Time</th>
                 <th>Reg. No</th>
@@ -39,7 +39,7 @@ export default function PendingTable({
                       {_dateFormatter(item?.dteEntryDate)}
                     </td>
                     <td className="text-center">
-                      {_timeFormatter(item?.tmInTime || "")}
+                      {_timeFormatter(item?.tmInTime || '')}
                     </td>
                     <td className="text-center">{item?.strEntryCode}</td>
                     <td>{item?.strVisitorName}</td>
@@ -70,7 +70,7 @@ export default function PendingTable({
           <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
             <thead>
               <tr>
-                <th style={{ width: "30px" }}>SL</th>
+                <th style={{ width: '30px' }}>SL</th>
                 <th>Entry Date</th>
                 <th>Reg. No</th>
                 <th>Driver Name</th>
@@ -95,13 +95,13 @@ export default function PendingTable({
                     <td className="text-center">{item?.strDriverMobileNo}</td>
                     <td>{item?.strVehicleNo}</td>
                     <td className="text-center">
-                      {_timeFormatter(item?.tmInTime || "")}
+                      {_timeFormatter(item?.tmInTime || '')}
                     </td>
                     <td className="text-center">
-                      {_timeFormatter(item?.tmOutTime || "")}
+                      {_timeFormatter(item?.tmOutTime || '')}
                     </td>
                     <td className="text-center">
-                      {_timeFormatter(item?.tmInTimeAfterLunch || "")}
+                      {_timeFormatter(item?.tmInTimeAfterLunch || '')}
                     </td>
                     <td className="text-center">
                       <span
@@ -124,7 +124,7 @@ export default function PendingTable({
           <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
             <thead>
               <tr>
-                <th style={{ width: "30px" }}>SL</th>
+                <th style={{ width: '30px' }}>SL</th>
                 <th>Entry Date</th>
                 <th>Reg. No</th>
                 <th>Client Type</th>
@@ -156,7 +156,7 @@ export default function PendingTable({
                     <td className="text-center">{item?.strInvoiceNo}</td>
                     <td className="text-center">{item?.numNetWeight}</td>
                     <td className="text-center">
-                      {_timeFormatter(item?.tmInTime || "")}
+                      {_timeFormatter(item?.tmInTime || '')}
                     </td>
                     <td>{item?.strShiftInCharge}</td>
                     <td className="text-center">

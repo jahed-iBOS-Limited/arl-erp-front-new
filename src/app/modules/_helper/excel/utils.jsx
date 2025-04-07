@@ -7,7 +7,6 @@ export const getWorkBook = ({ creator = '', createTime = new Date() }) => {
   return workbook;
 };
 
-
-export const getIndex = char => {
+export const getIndex = (char) => {
   return char?.toUpperCase()?.charCodeAt() - 64;
 };

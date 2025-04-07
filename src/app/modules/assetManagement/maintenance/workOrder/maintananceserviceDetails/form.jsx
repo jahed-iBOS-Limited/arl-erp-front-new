@@ -1,24 +1,24 @@
-import React, { useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import InputField from "../../../../_helper/_inputField";
-import { IInput } from "../../../../_helper/_input";
-import Axios from "axios";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import FormikError from "../../../../_helper/_formikError";
-import NewSelect from "../../../../_helper/_select";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
+import React, { useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import InputField from '../../../../_helper/_inputField';
+import { IInput } from '../../../../_helper/_input';
+import Axios from 'axios';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import FormikError from '../../../../_helper/_formikError';
+import NewSelect from '../../../../_helper/_select';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
 // import { getCostElement } from "../../../../inventoryManagement/warehouseManagement/itemRequest/helper";
 // import { getInventoryCurrentBalance } from "./helper";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../../_helper/_loading";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import Loading from '../../../../_helper/_loading';
+import { toast } from 'react-toastify';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  manuName: Yup.string().required("Request Date is required"),
+  manuName: Yup.string().required('Request Date is required'),
 });
 export default function FormCmp({
   initData,
@@ -47,11 +47,13 @@ export default function FormCmp({
 }) {
   const [, getStockAndRate, stockAndRateLoader] = useAxiosPost();
   const [costCenterDDL, getCostCenterDDL, costCenterDDLLoader] = useAxiosGet();
-  const [costElementDDL, getCostElementDDL, costElementDDLLoader] = useAxiosGet();
+  const [costElementDDL, getCostElementDDL, costElementDDLLoader] =
+    useAxiosGet();
 
   useEffect(() => {
-    getCostCenterDDL(`/procurement/PurchaseOrder/CostCenter?AccountId=${accountId}&UnitId=${selectedBusinessUnit?.value}`)
-
+    getCostCenterDDL(
+      `/procurement/PurchaseOrder/CostCenter?AccountId=${accountId}&UnitId=${selectedBusinessUnit?.value}`
+    );
   }, [accountId, selectedBusinessUnit]);
 
   return (
@@ -76,7 +78,9 @@ export default function FormCmp({
           isValid,
         }) => (
           <>
-            {(stockAndRateLoader || costCenterDDLLoader || costElementDDLLoader) && <Loading />}
+            {(stockAndRateLoader ||
+              costCenterDDLLoader ||
+              costElementDDLLoader) && <Loading />}
             {disableHandler(!isValid)}
             <Form className="form form-label-right">
               <div className="form-group row global-form">
@@ -93,8 +97,8 @@ export default function FormCmp({
                     errors={errors}
                     touched={touched}
                     onChange={(valueOption) => {
-                      setFieldValue("parts", "");
-                      setFieldValue("warehouse", valueOption);
+                      setFieldValue('parts', '');
+                      setFieldValue('warehouse', valueOption);
                     }}
                   />
                 </div>
@@ -108,17 +112,22 @@ export default function FormCmp({
                           {
                             businessUnitId: selectedBusinessUnit?.value,
                             wareHouseId: values?.warehouse?.value,
-                            itemId: valueOption?.value
+                            itemId: valueOption?.value,
+                          },
+                        ];
+                        getStockAndRate(
+                          `/mes/ProductionEntry/GetRuningStockAndQuantityList`,
+                          payload,
+                          (res) => {
+                            const { numStockByDate, numStockRateByDate } =
+                              res?.[0] || {};
+                            setFieldValue('stockQuantity', numStockByDate || 0);
+                            setFieldValue('value', numStockRateByDate || 0);
                           }
-                        ]
-                        getStockAndRate(`/mes/ProductionEntry/GetRuningStockAndQuantityList`, payload, (res)=> {
-                          const {numStockByDate, numStockRateByDate} = res?.[0] || {};
-                          setFieldValue("stockQuantity", numStockByDate || 0);
-                          setFieldValue("value", numStockRateByDate || 0);
-                        });
+                        );
                         // getInventoryCurrentBalance({ whId: values?.warehouse?.value, buId: selectedBusinessUnit?.value, itemId: valueOption?.value, setFieldValue, name: "value" });
                       }
-                      setFieldValue("parts", valueOption);
+                      setFieldValue('parts', valueOption);
                     }}
                     loadOptions={(v) => {
                       if (v?.length < 3) return [];
@@ -151,10 +160,12 @@ export default function FormCmp({
                     placeholder="Select Cost Center"
                     name="costCenter"
                     onChange={(valueOption) => {
-                      setFieldValue("costElement", "");
-                      setFieldValue("costCenter", valueOption);
-                      if(valueOption) {
-                        getCostElementDDL(`/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${accountId}&UnitId=${selectedBusinessUnit?.value}&CostCenterId=${valueOption?.value}`);
+                      setFieldValue('costElement', '');
+                      setFieldValue('costCenter', valueOption);
+                      if (valueOption) {
+                        getCostElementDDL(
+                          `/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${accountId}&UnitId=${selectedBusinessUnit?.value}&CostCenterId=${valueOption?.value}`
+                        );
                       }
                     }}
                     errors={errors}
@@ -169,7 +180,7 @@ export default function FormCmp({
                     placeholder="Select Cost Element"
                     name="costElement"
                     onChange={(valueOption) => {
-                      setFieldValue("costElement", valueOption);
+                      setFieldValue('costElement', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -183,10 +194,10 @@ export default function FormCmp({
                     type="number"
                     placeholder=""
                     value={values?.quantity}
-                    onChange={(e)=> {
+                    onChange={(e) => {
                       let newValue = e?.target?.value;
                       newValue = newValue < 0 ? Math?.abs(newValue) : newValue;
-                      setFieldValue("quantity", newValue);
+                      setFieldValue('quantity', newValue);
                     }}
                     min="0"
                   />
@@ -228,7 +239,7 @@ export default function FormCmp({
                     name="narration"
                   />
                 </div>
-                <div className="col-lg-1" style={{ marginTop: "20px" }}>
+                <div className="col-lg-1" style={{ marginTop: '20px' }}>
                   <button
                     type="button"
                     disabled={
@@ -239,20 +250,24 @@ export default function FormCmp({
                       !values?.stockQuantity
                     }
                     onClick={() => {
-                      const isItemExist = spareParts?.some(item => item?.itemId === values?.parts?.value);
+                      const isItemExist = spareParts?.some(
+                        (item) => item?.itemId === values?.parts?.value
+                      );
 
-                      if(isItemExist) {
-                        return toast.warn("Item already exist!");
+                      if (isItemExist) {
+                        return toast.warn('Item already exist!');
                       }
-                      if(values?.quantity > values?.stockQuantity) {
-                        return toast.warn("Quantity must be less than or equal to stock quantity!");
+                      if (values?.quantity > values?.stockQuantity) {
+                        return toast.warn(
+                          'Quantity must be less than or equal to stock quantity!'
+                        );
                       }
                       onClickForSparePArts(values);
-                      setFieldValue("parts", "");
-                      setFieldValue("quantity", "");
-                      setFieldValue("stockQuantity", "");
-                      setFieldValue("value", "");
-                      setFieldValue("narration", "");
+                      setFieldValue('parts', '');
+                      setFieldValue('quantity', '');
+                      setFieldValue('stockQuantity', '');
+                      setFieldValue('value', '');
+                      setFieldValue('narration', '');
                     }}
                     className="btn btn-primary"
                   >
@@ -286,7 +301,7 @@ export default function FormCmp({
                               {/* <td className="text-center">{item.numQuantity}</td> */}
                               <td
                                 className="text-center"
-                                style={{ width: "150px" }}
+                                style={{ width: '150px' }}
                               >
                                 <IInput
                                   value={spareParts[i]?.numQuantity}
@@ -296,7 +311,7 @@ export default function FormCmp({
                                   required
                                   onChange={(e) => {
                                     rowDtoHandlerforSpareParts(
-                                      "numQuantity",
+                                      'numQuantity',
                                       e.target.value,
                                       i
                                     );
@@ -306,7 +321,7 @@ export default function FormCmp({
                               </td>
                               <td
                                 className="text-center"
-                                style={{ width: "150px" }}
+                                style={{ width: '150px' }}
                               >
                                 <IInput
                                   value={spareParts[i]?.numPrice}
@@ -316,7 +331,7 @@ export default function FormCmp({
                                   required
                                   onChange={(e) => {
                                     rowDtoHandlerforSpareParts(
-                                      "numPrice",
+                                      'numPrice',
                                       e.target.value,
                                       i
                                     );
@@ -335,7 +350,7 @@ export default function FormCmp({
 
                               <td
                                 className="text-center"
-                                style={{ width: "70px" }}
+                                style={{ width: '70px' }}
                               >
                                 <div className="d-flex justify-content-around">
                                   <span onClick={() => onClickforspareParts(i)}>
@@ -368,7 +383,7 @@ export default function FormCmp({
                   <SearchAsyncSelect
                     selectedValue={values?.serviceName}
                     handleChange={(valueOption) => {
-                      setFieldValue("serviceName", valueOption);
+                      setFieldValue('serviceName', valueOption);
                     }}
                     loadOptions={(v) => {
                       if (v?.length < 3) return [];
@@ -417,15 +432,15 @@ export default function FormCmp({
                   <button
                     type="button"
                     disabled={
-                      values.serviceName === "" ||
-                      values.serviceCost === "" ||
-                      values.descriptionSub === ""
+                      values.serviceName === '' ||
+                      values.serviceCost === '' ||
+                      values.descriptionSub === ''
                     }
                     onClick={() => {
                       onClickForsubMntTask(values);
-                      setFieldValue("serviceName", "");
-                      setFieldValue("serviceCost", "");
-                      setFieldValue("descriptionSub", "");
+                      setFieldValue('serviceName', '');
+                      setFieldValue('serviceCost', '');
+                      setFieldValue('descriptionSub', '');
                     }}
                     className="btn btn-primary"
                   >
@@ -456,7 +471,7 @@ export default function FormCmp({
                               </td>
                               <td
                                 className="text-center"
-                                style={{ width: "200px" }}
+                                style={{ width: '200px' }}
                               >
                                 <IInput
                                   value={subTask[i]?.numAmount}
@@ -466,7 +481,7 @@ export default function FormCmp({
                                   required
                                   onChange={(e) => {
                                     rowDtoHandlerforSubTask(
-                                      "numAmount",
+                                      'numAmount',
                                       e.target.value,
                                       i
                                     );
@@ -480,7 +495,7 @@ export default function FormCmp({
                               {/* <td className="text-center">{item.numAmount}</td> */}
                               <td
                                 className="text-center"
-                                style={{ width: "200px" }}
+                                style={{ width: '200px' }}
                               >
                                 <button
                                   type="button"
@@ -509,14 +524,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

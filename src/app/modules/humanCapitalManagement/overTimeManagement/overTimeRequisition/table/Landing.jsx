@@ -1,40 +1,39 @@
-
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   getOvertimeReqLandingAction,
   removeOvertimeReqByIdAction,
-} from "../helper";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { downloadFile } from "../../../../_helper/downloadFile";
+} from '../helper';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import { downloadFile } from '../../../../_helper/downloadFile';
 
 const Table = ({ gridData, removeById }) => (
   <div className="loan-scrollable-table employee-overall-status">
-    <div style={{ maxHeight: "500px" }} className="scroll-table _table">
+    <div style={{ maxHeight: '500px' }} className="scroll-table _table">
       <table className="table table-striped table-bordered bj-table bj-table-landing">
         <thead>
           <tr>
-            <th style={{ minWidth: "70px" }}>Enroll</th>
+            <th style={{ minWidth: '70px' }}>Enroll</th>
             <th>Employee Name</th>
             <th>Requested Department</th>
-            <th style={{ minWidth: "80px" }}>Requested Date</th>
+            <th style={{ minWidth: '80px' }}>Requested Date</th>
             <th>Cost Center</th>
             <th>Requested Workplace</th>
             <th>Reason for Overtime</th>
             <th>Current Shift</th>
             <th>Requested OT Shift</th>
-            <th style={{ minWidth: "50px" }}>OT Hours</th>
-            <th style={{ minWidth: "60px" }}>Supervisor Approve</th>
-            <th style={{ minWidth: "80px" }}>Line Manager Approve</th>
-            <th style={{ minWidth: "30px" }}>Action</th>
+            <th style={{ minWidth: '50px' }}>OT Hours</th>
+            <th style={{ minWidth: '60px' }}>Supervisor Approve</th>
+            <th style={{ minWidth: '80px' }}>Line Manager Approve</th>
+            <th style={{ minWidth: '30px' }}>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -113,7 +112,7 @@ const OvertimeRequisitionLanding = () => {
             title="Overtime Requisition"
             createHandler={() =>
               history.push(
-                "/human-capital-management/overtime-management/overtimerequisition/create"
+                '/human-capital-management/overtime-management/overtimerequisition/create'
               )
             }
           >
@@ -134,14 +133,14 @@ const OvertimeRequisitionLanding = () => {
                 {gridData?.length > 0 && (
                   <div className="col-lg-10 text-right">
                     <button
-                      style={{ marginTop: "19px", paddingTop: "3px" }}
+                      style={{ marginTop: '19px', paddingTop: '3px' }}
                       className="btn btn-primary"
                       type="button"
                       onClick={(e) =>
                         downloadFile(
                           `/hcm/HCMOvertimeRequisition/GetOvertimeRequisitionLandingDownload?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Date=${date}`,
-                          "Overtime Requisition",
-                          "xlsx"
+                          'Overtime Requisition',
+                          'xlsx'
                         )
                       }
                     >

@@ -1,7 +1,7 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _todayDate } from "../../../_helper/_todayDate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 export const getAccountNoDDL = async (accId, buId, setter) => {
   try {
@@ -84,7 +84,7 @@ export const getPaymentAdviceIndoPagination = async (
 ) => {
   setLoading(true);
 
-  const searchPath = search ? `&BillNo=${search}` : "";
+  const searchPath = search ? `&BillNo=${search}` : '';
   try {
     const res = await Axios.get(
       `/fino/PaymentRequest/PrepareAllVoucher?AccountId=${accId}&BusinessUnitId=${buId}&SbuId=${sbuId}&BillType=${billType}&status=${status}${searchPath}`
@@ -105,7 +105,7 @@ export const getPaymentAdviceIndoPagination = async (
         paymentDate: _todayDate(),
         numTds: numTds,
         numVds: numVds,
-        approvedAmount : [1]?.includes(+billType)?monAmount : null
+        approvedAmount: [1]?.includes(+billType) ? monAmount : null,
       };
     });
     setter(newdata);
@@ -182,7 +182,7 @@ export const createPaymentVoucher = async (
     getLanding && getLanding(values);
     setDisabled(false);
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted successfully");
+      toast.success(res?.data?.message || 'Submitted successfully');
       cb();
       if (setBankModelShow) {
         setBankModelShow(false);
@@ -231,12 +231,12 @@ export const getProductionPlanning = async (
   }
 };
 
-export const sumSelectedValue = (arr)=>{
-  return  arr.reduce((prev, item) => {
+export const sumSelectedValue = (arr) => {
+  return arr.reduce((prev, item) => {
     if (item.isSelect) {
-        return prev + item.monAmount;
+      return prev + item.monAmount;
     } else {
-        return prev;
+      return prev;
     }
-}, 0);
-}
+  }, 0);
+};

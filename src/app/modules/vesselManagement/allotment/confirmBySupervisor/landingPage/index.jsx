@@ -1,40 +1,39 @@
-
-import axios from "axios";
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import ICard from "../../../../_helper/_card";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { getGodownDDL, getTotal } from "../../../common/helper";
-import { GetShipPointDDL } from "../../loadingInformation/helper";
+import axios from 'axios';
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import ICard from '../../../../_helper/_card';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { getGodownDDL, getTotal } from '../../../common/helper';
+import { GetShipPointDDL } from '../../loadingInformation/helper';
 import {
   challanConfirm,
   deleteG2GChallanInfo,
   getLandingDataForConfirmation,
-} from "../helper";
-import Form from "./form";
-import Table from "./table";
-import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+} from '../helper';
+import Form from './form';
+import Table from './table';
+import AttachFile from '../../../../_helper/commonInputFieldsGroups/attachemntUpload';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
-const ALL = { value: 0, label: "All" };
+const ALL = { value: 0, label: 'All' };
 
 const initData = {
-  confirmationType: { value: 2, label: "Supervisor Confirmation" },
-  type: "badc",
+  confirmationType: { value: 2, label: 'Supervisor Confirmation' },
+  type: 'badc',
   shipPoint: ALL,
   shipToPartner: ALL,
   port: ALL,
   motherVessel: ALL,
-  confirmationStatus: { value: 1, label: "Pending" },
+  confirmationStatus: { value: 1, label: 'Pending' },
   jvDate: _todayDate(),
-  remarks: "",
-  billRef: "",
-  organization: "",
+  remarks: '',
+  billRef: '',
+  organization: '',
 };
 
 const ConfirmBySupervisor = () => {
@@ -56,7 +55,7 @@ const ConfirmBySupervisor = () => {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   // ______ landing data fetching functions __________
-  const getData = (values, pageNo, pageSize, searchTerm = "") => {
+  const getData = (values, pageNo, pageSize, searchTerm = '') => {
     getLandingDataForConfirmation(
       accId,
       buId,
@@ -95,7 +94,7 @@ const ConfirmBySupervisor = () => {
   // _________ confirmation popup opening function __________
   const approveConfirmationHandler = (payload, values) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to Approve`,
       yesAlertFunc: () => {
         challanConfirm(payload, setLoading, () => {
@@ -114,8 +113,8 @@ const ConfirmBySupervisor = () => {
       (item) => item?.quantity <= 0
     );
     if (checkBeforeSubmitData) {
-      toast("Please ensure Quantity value is greater than 0 on Selected Row", {
-        type: "warning",
+      toast('Please ensure Quantity value is greater than 0 on Selected Row', {
+        type: 'warning',
       });
     } else {
       const typeId = values?.confirmationType?.value;
@@ -162,9 +161,9 @@ const ConfirmBySupervisor = () => {
           headerObject: {
             deliveryId: item?.deliveryId || 0,
             shipToPartnerId: item?.shipToPartner?.value || 0,
-            shipToPartnerName: item?.shipToPartner?.label || "",
+            shipToPartnerName: item?.shipToPartner?.label || '',
             supplierId: item?.supplierId || 0,
-            supplierName: item?.supplierName || "",
+            supplierName: item?.supplierName || '',
             lighterVesselId: 0,
             motherVesselId: item?.motherVesselId,
             totalLogsticFare: +item?.totalLogsticFare || 0,
@@ -179,26 +178,27 @@ const ConfirmBySupervisor = () => {
             isConfirmBySupervisor: [2, 3].includes(typeId),
             confirmBy: userId,
             updateBy: userId,
-            salesOrder: item?.salesOrder || "",
-            remarks: values?.remarks || "",
+            salesOrder: item?.salesOrder || '',
+            remarks: values?.remarks || '',
 
             unloadingSupplierId: item?.godownLabourSupplier?.value || 0,
-            unloadingSupplier: item?.godownLabourSupplier?.label || "",
+            unloadingSupplier: item?.godownLabourSupplier?.label || '',
             unloadingRate: item?.unloadingRate,
             sbuId: item?.sbuId || 0,
             salesRevenueNarration: `Challan No: ${
               item?.deliveryCode
-            }, Partner: ${item?.shipToPartner?.label ||
-              ""}, Quantity: ${+item?.quantity} bag.`,
+            }, Partner: ${
+              item?.shipToPartner?.label || ''
+            }, Quantity: ${+item?.quantity} bag.`,
 
             accountId: accId,
             businessUnitId: buId,
-            godownLabourSupplier: item?.godownLabourSupplier?.label || "",
+            godownLabourSupplier: item?.godownLabourSupplier?.label || '',
             godownLabourSupplierId: item?.godownLabourSupplier?.value || 0,
             dteDate: values?.jvDate || _todayDate(),
 
-            imageId: uploadedImages[0]?.id || "",
-            billRef: values?.billRef || "",
+            imageId: uploadedImages[0]?.id || '',
+            billRef: values?.billRef || '',
             billTypeId: billTypeId,
           },
           rowObject: {
@@ -245,35 +245,35 @@ const ConfirmBySupervisor = () => {
   // _______ form data changing handler function _________
   const onChangeHandler = (fieldName, values, currentValue, setFieldValue) => {
     switch (fieldName) {
-      case "type":
-        setFieldValue("type", currentValue);
-        setFieldValue("shipToPartner", {
+      case 'type':
+        setFieldValue('type', currentValue);
+        setFieldValue('shipToPartner', {
           value: 0,
-          label: "All",
+          label: 'All',
         });
         setRowData([]);
         if (currentValue) {
           getGodownDDL(
             buId,
-            currentValue === "badc" ? 73244 : 73245,
+            currentValue === 'badc' ? 73244 : 73245,
             setGodownDDL,
             setLoading
           );
         }
-        getData(values, pageNo, pageSize, "");
+        getData(values, pageNo, pageSize, '');
         break;
 
-      case "organization":
-        setFieldValue("organization", currentValue);
-        setFieldValue("shipToPartner", {
+      case 'organization':
+        setFieldValue('organization', currentValue);
+        setFieldValue('shipToPartner', {
           value: 0,
-          label: "All",
+          label: 'All',
         });
         setRowData([]);
         if (currentValue) {
           getGodownDDL(buId, currentValue?.value, setGodownDDL, setLoading);
         }
-        getData(values, pageNo, pageSize, "");
+        getData(values, pageNo, pageSize, '');
         break;
 
       default:
@@ -353,7 +353,7 @@ const ConfirmBySupervisor = () => {
   };
 
   //  ________ calculations of totals that showing on top the table __________
-  const totalQty = getTotal(rowData?.data, "quantity", "isSelected");
+  const totalQty = getTotal(rowData?.data, 'quantity', 'isSelected');
 
   const totalBill = (values) => {
     return _fixedPoint(
@@ -365,8 +365,8 @@ const ConfirmBySupervisor = () => {
               (values?.confirmationType?.value === 2
                 ? +y?.transportRate
                 : values?.confirmationType?.value === 3
-                ? +y?.godownUnloadingRate
-                : 0) * +y?.quantity),
+                  ? +y?.godownUnloadingRate
+                  : 0) * +y?.quantity),
           0
         ),
       true
@@ -401,7 +401,7 @@ const ConfirmBySupervisor = () => {
               createHandler={() => {
                 saveHandler(values);
               }}
-              createBtnText={"Approve"}
+              createBtnText={'Approve'}
               createBtnClass="btn-info"
               disableCreateBtn={disabled(values)}
             >

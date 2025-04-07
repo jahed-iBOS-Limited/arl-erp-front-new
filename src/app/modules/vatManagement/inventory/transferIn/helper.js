@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 // Item Type-in Create api's
 // get tax branch ddl
@@ -53,7 +53,7 @@ export const createItemTransferIn = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -78,7 +78,7 @@ export const getItemTransferInPagination = async (
 ) => {
   try {
     setLoading(true);
-    const searchPath = search ? `Search=${search}&` : "";
+    const searchPath = search ? `Search=${search}&` : '';
     const res = await Axios.get(
       `/vat/ItemTransferIn/GetItemTransferInSearchPagination?${searchPath}ItemType=${itemTypeId}&accountId=${accId}&businessUnitId=${buId}&status=true&taxBranchId=${taxBranchId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&fromDate=${fromDate}&toDate=${toDate}`
     );
@@ -95,7 +95,7 @@ export const editItemTransferIn = async (data, cb) => {
   try {
     const res = await Axios.put(`/vat/ItemTransferIn/EditItemTransferIn`, data);
     if (res.status === 200) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       cb();
     }
   } catch (error) {
@@ -122,18 +122,18 @@ export const salesInvoiceByBranchIdDDL = async (
   setter,
   setDisabled
 ) => {
-  setDisabled && setDisabled(true)
+  setDisabled && setDisabled(true);
   try {
     const res = await Axios.get(
       `/vat/TaxDDL/TransferInvoiceByBranchIdDDL?AccountId=${accId}&BusinessUnitId=${buId}&TaxBranchId=${taxBranchId}&ItemType=${itemTypeId}`
     );
-    setDisabled && setDisabled(false)
+    setDisabled && setDisabled(false);
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
   } catch (error) {
-    setter([])
-    setDisabled && setDisabled(false)
+    setter([]);
+    setDisabled && setDisabled(false);
   }
 };
 
@@ -145,18 +145,18 @@ export const getDeliveryDetailsById = async (
   setFieldValue
 ) => {
   // taxSalesId,
-  try { 
+  try {
     const res = await Axios.get(
       `/vat/ItemTransferIn/GetItemTransferInById?ItemTypeId=${itemTypeId}&Id=${taxSalesId}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
-      setFieldValue("otherBranchName", {
+      setFieldValue('otherBranchName', {
         value: res.data?.getByIdHeader?.taxBranchId,
         label: res.data?.getByIdHeader?.taxBranchName,
       });
       setFieldValue(
-        "otherBranchAddress",
+        'otherBranchAddress',
         res.data?.getByIdHeader?.taxBranchAddress
       );
     }
@@ -177,7 +177,7 @@ export const getTaxSalesById = async (taxSalesId, setter, setDisabled) => {
       uomname: item?.uomname,
       quantity: item?.quantity,
       basePrice: Math.abs(item?.basePrice),
-      purchaseDateTime:  res?.data?.getByIdHeader?.deliveryDateTime 
+      purchaseDateTime: res?.data?.getByIdHeader?.deliveryDateTime,
     }));
     setter(newRowData);
     setDisabled && setDisabled(false);
@@ -193,18 +193,20 @@ export const getPurchaseSalesById = async (taxSalesId, setter, setDisabled) => {
     const res = await Axios.get(
       `/vat/TaxPurchase/GetTaxPurchaseById?TaxPurchaseId=${taxSalesId}`
     );
-      const newRow = res?.data?.objListRowDTO;
-      const newRowData = newRow?.map((item) => ({
-        taxItemGroupId: item?.taxItemGroupId,
-        taxItemGroupName: item?.taxItemGroupName,
-        uomid: item?.uomid,
-        uomname: item?.uomname,
-        quantity: item?.quantity,
-        basePrice: Math.abs(item?.invoicePrice),
-        purchaseDateTime:  res?.data?.objHeaderDTO?.PurchaseDateTime || res?.data?.objHeaderDTO?.purchaseDateTime
-      }));
-      setter(newRowData);
-      setDisabled && setDisabled(false);
+    const newRow = res?.data?.objListRowDTO;
+    const newRowData = newRow?.map((item) => ({
+      taxItemGroupId: item?.taxItemGroupId,
+      taxItemGroupName: item?.taxItemGroupName,
+      uomid: item?.uomid,
+      uomname: item?.uomname,
+      quantity: item?.quantity,
+      basePrice: Math.abs(item?.invoicePrice),
+      purchaseDateTime:
+        res?.data?.objHeaderDTO?.PurchaseDateTime ||
+        res?.data?.objHeaderDTO?.purchaseDateTime,
+    }));
+    setter(newRowData);
+    setDisabled && setDisabled(false);
   } catch (error) {
     setDisabled && setDisabled(false);
   }

@@ -1,19 +1,19 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import ICard from "../../../../_helper/_card";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import Loading from "../../../../_helper/_loading";
-import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { deleteG2GInfo } from "../helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import ICard from '../../../../_helper/_card';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import Loading from '../../../../_helper/_loading';
+import { _monthFirstDate } from '../../../../_helper/_monthFirstDate';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { deleteG2GInfo } from '../helper';
 
 const initData = {
   fromDate: _monthFirstDate(),
@@ -45,13 +45,12 @@ export default function G2GItemInfo() {
 
   useEffect(() => {
     setLandingData();
-
   }, [accId, buId]);
 
   const deleteHandler = (id, values) => {
     const objProps = {
-      title: "Are You Sure?",
-      message: "Are you sure you want to delete this Empty Bag information?",
+      title: 'Are You Sure?',
+      message: 'Are you sure you want to delete this Empty Bag information?',
       yesAlertFunc: () => {
         deleteG2GInfo(id, setIsLoading, () => {
           setLandingData(pageNo, pageSize, values);
@@ -95,7 +94,7 @@ export default function G2GItemInfo() {
                     <table className="table table-striped table-bordered global-table">
                       <thead>
                         <tr>
-                          <th style={{ width: "40px" }}>SL</th>
+                          <th style={{ width: '40px' }}>SL</th>
                           <th>Item Name</th>
                           <th>Ship Point Name</th>
                           <th>Busting Bag Qty</th>

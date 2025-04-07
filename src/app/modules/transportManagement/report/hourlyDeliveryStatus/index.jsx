@@ -1,5 +1,3 @@
-
-
 import { CardHeader } from '@mui/material';
 import { Form, Formik } from 'formik';
 import React, { useEffect, useRef } from 'react';
@@ -122,7 +120,7 @@ function HourlyDeliveryStatusReport() {
                                 values?.fromDate
                               }&toDate=${values?.dteDate}&statusType=${
                                 values?.status?.value || ''
-                              }&channelId=${values?.channel?.value || 0}`,
+                              }&channelId=${values?.channel?.value || 0}`
                             );
                           }}
                           className="btn btn-primary"

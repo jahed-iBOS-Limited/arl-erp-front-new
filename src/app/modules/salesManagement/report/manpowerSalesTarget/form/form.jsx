@@ -1,22 +1,21 @@
-
-import { Form, Formik } from "formik";
-import React from "react";
-import { useHistory } from "react-router";
-import ICustomCard from "../../../../_helper/_customCard";
-import NewSelect from "../../../../_helper/_select";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
-import IButton from "../../../../_helper/iButton";
-import SubsidyRateTable from "./subsidyRateTable";
-import ManpowerSalesTargetFormTable from "./table";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { useHistory } from 'react-router';
+import ICustomCard from '../../../../_helper/_customCard';
+import NewSelect from '../../../../_helper/_select';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import YearMonthForm from '../../../../_helper/commonInputFieldsGroups/yearMonthForm';
+import IButton from '../../../../_helper/iButton';
+import SubsidyRateTable from './subsidyRateTable';
+import ManpowerSalesTargetFormTable from './table';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
 
 const types = [
-  { value: 1, label: "Sales Target" },
-  { value: 2, label: "Customer Open Target" },
-  { value: 3, label: "Retailer Open Target" },
-  { value: 4, label: "ShipPoint Target" },
-  { value: 5, label: "Government Subsidy Rate" },
+  { value: 1, label: 'Sales Target' },
+  { value: 2, label: 'Customer Open Target' },
+  { value: 3, label: 'Retailer Open Target' },
+  { value: 4, label: 'ShipPoint Target' },
+  { value: 5, label: 'Government Subsidy Rate' },
 ];
 
 export default function FormCmp({
@@ -77,12 +76,12 @@ export default function FormCmp({
               title={`Enter Manpower Sales Target`}
               backHandler={() => history.goBack()}
               resetHandler={
-                viewType !== "view"
+                viewType !== 'view'
                   ? () => {
                       setRowData([]);
                       resetForm(initData);
                     }
-                  : ""
+                  : ''
               }
               saveHandler={() => {
                 handleSubmit();
@@ -99,7 +98,7 @@ export default function FormCmp({
                         value={values?.type}
                         label="Type"
                         onChange={(valueOption) => {
-                          setFieldValue("type", valueOption);
+                          setFieldValue('type', valueOption);
                         }}
                         placeholder="Select Type"
                         errors={errors}
@@ -130,13 +129,13 @@ export default function FormCmp({
                           [3]?.includes(values?.type?.value) ||
                           ([1]?.includes(values?.type?.value) && buId !== 144),
                         onChange: (allValues, fieldName) => {
-                          if (fieldName === "area") {
+                          if (fieldName === 'area') {
                             getTSOList(
                               `/oms/Complains/GetTerritoryOfficerDDL?accountId=${accId}&businessUnitId=${buId}&distributionChannelId=${
                                 allValues?.channel?.value
-                              }&territoryId=${0}&regionId=${allValues?.region
-                                ?.value || 0}&areaId=${allValues?.area?.value ||
-                                0}`
+                              }&territoryId=${0}&regionId=${
+                                allValues?.region?.value || 0
+                              }&areaId=${allValues?.area?.value || 0}`
                             );
                           }
                         },
@@ -170,7 +169,7 @@ export default function FormCmp({
                             value={values?.salesOrg}
                             label="Sales Organization"
                             onChange={(valueOption) => {
-                              setFieldValue("salesOrg", valueOption);
+                              setFieldValue('salesOrg', valueOption);
                               getItems({
                                 ...values,
                                 salesOrg: valueOption,
@@ -189,7 +188,7 @@ export default function FormCmp({
                             value={values?.item}
                             label="Item"
                             onChange={(valueOption) => {
-                              setFieldValue("item", valueOption);
+                              setFieldValue('item', valueOption);
                             }}
                             placeholder="Select Item"
                             errors={errors}
@@ -212,15 +211,15 @@ export default function FormCmp({
                 </div>
               </Form>
               {rowData?.filter((item) => item?.isSelected)?.length > 0 ? (
-                <p className="text-right" style={{ marginLeft: "-20px" }}>
+                <p className="text-right" style={{ marginLeft: '-20px' }}>
                   <b>
-                    Total Qnt:{" "}
+                    Total Qnt:{' '}
                     {_formatMoney(
                       rowData
                         ?.filter((item) => item?.isSelected)
                         ?.reduce((acc, i) => acc + +i?.targetQty || 0, 0)
                     )}
-                  </b>{" "}
+                  </b>{' '}
                 </p>
               ) : null}
               <ManpowerSalesTargetFormTable

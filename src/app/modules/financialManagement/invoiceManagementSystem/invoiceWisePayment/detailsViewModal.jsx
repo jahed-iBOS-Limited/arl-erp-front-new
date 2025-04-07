@@ -1,14 +1,14 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { hasPaymentDetailsEditPermission } from "./util/paymentDetailsEditPermission";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { hasPaymentDetailsEditPermission } from './util/paymentDetailsEditPermission';
 const initData = {};
 export default function DetailsViewModal({ clickedItem, landingValues }) {
   const [detailsData, setDetailsData] = useState([]);
@@ -33,7 +33,6 @@ export default function DetailsViewModal({ clickedItem, landingValues }) {
     if (clickedItem) {
       handleGetPaymentDetailsData();
     }
-
   }, [clickedItem]);
 
   const handleChangeAmountById = (autoId, amount) => {
@@ -70,7 +69,7 @@ export default function DetailsViewModal({ clickedItem, landingValues }) {
         };
       });
 
-    if (window.confirm("Are you sure about updating the data?")) {
+    if (window.confirm('Are you sure about updating the data?')) {
       savePymentDetails(
         url,
         payload,
@@ -79,8 +78,8 @@ export default function DetailsViewModal({ clickedItem, landingValues }) {
           handleGetPaymentDetailsData();
         },
         true,
-        "Updated Successfully",
-        "Sorry, Could not Update Data!"
+        'Updated Successfully',
+        'Sorry, Could not Update Data!'
       );
     }
 
@@ -196,7 +195,7 @@ export default function DetailsViewModal({ clickedItem, landingValues }) {
           <div className="d-flex justify-content-end ">
             {hasPaymentDetailsEditPermission(employeeId) && (
               <button
-                style={{ marginTop: "18px", marginBottom: "20px" }}
+                style={{ marginTop: '18px', marginBottom: '20px' }}
                 type="button"
                 className="btn btn-primary"
                 onClick={handleSave}

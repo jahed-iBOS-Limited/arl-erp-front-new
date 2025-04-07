@@ -1,38 +1,38 @@
-import { Formik } from "formik";
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import IButton from "../../../../_helper/iButton";
-import { monthDDL } from "../form/addEditForm";
+import { Formik } from 'formik';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _firstDateofMonth } from '../../../../_helper/_firstDateOfCurrentMonth';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import PowerBIReport from '../../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import IButton from '../../../../_helper/iButton';
+import { monthDDL } from '../form/addEditForm';
 import {
   getAllDates,
   GetEmployeeLoginInfo_api,
   getItemList,
   getLiftingEntryLists,
   getSalesOrgList,
-} from "../helper";
-import "./style.css";
+} from '../helper';
+import './style.css';
 const initData = {
-  liftingPlanType: { value: 1, label: "Lifting Entry" },
+  liftingPlanType: { value: 1, label: 'Lifting Entry' },
   date: _todayDate(),
-  salesOrg: "",
-  channel: "",
-  region: "",
-  area: "",
-  territory: "",
-  item: "",
+  salesOrg: '',
+  channel: '',
+  region: '',
+  area: '',
+  territory: '',
+  item: '',
   fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
 };
@@ -59,14 +59,14 @@ function LiftingEntry({ title, viewType }) {
 
   const parameterValues = (values) => {
     const params = [
-      { name: "BusinessUnitId", value: `${selectedBusinessUnit?.value}` },
-      { name: "EmployeeId", value: `${profileData?.employeeId}` },
-      { name: "intLevelId", value: `${employeeInfo?.empLevelId}` },
-      { name: "channelid", value: `${values?.channel?.value}` },
-      { name: "FromDate", value: `${values?.fromDate}` },
-      { name: "ToDate", value: `${values?.toDate}` },
-      { name: "intPartid", value: `${values?.reportType?.value}` },
-      { name: "intTerritoryid", value: `${values?.territory?.value}` },
+      { name: 'BusinessUnitId', value: `${selectedBusinessUnit?.value}` },
+      { name: 'EmployeeId', value: `${profileData?.employeeId}` },
+      { name: 'intLevelId', value: `${employeeInfo?.empLevelId}` },
+      { name: 'channelid', value: `${values?.channel?.value}` },
+      { name: 'FromDate', value: `${values?.fromDate}` },
+      { name: 'ToDate', value: `${values?.toDate}` },
+      { name: 'intPartid', value: `${values?.reportType?.value}` },
+      { name: 'intTerritoryid', value: `${values?.territory?.value}` },
     ];
 
     return params || [];
@@ -111,10 +111,10 @@ function LiftingEntry({ title, viewType }) {
       employeeInfo?.empLevelId === 7
         ? +employeeInfo?.empTerritoryId || 0
         : +employeeInfo?.levelId === 6
-        ? +employeeInfo?.areaId || 0
-        : +employeeInfo?.levelId === 5
-        ? +employeeInfo?.regionId || 0
-        : +employeeInfo?.empTerritoryId || 0;
+          ? +employeeInfo?.areaId || 0
+          : +employeeInfo?.levelId === 5
+            ? +employeeInfo?.regionId || 0
+            : +employeeInfo?.empTerritoryId || 0;
 
     getLiftingEntryLists(
       values?.date,
@@ -143,7 +143,6 @@ function LiftingEntry({ title, viewType }) {
       }
     });
     setRowDto([...gridData]);
-
   }, [gridData]);
 
   const disableHandler = (values) => {
@@ -160,7 +159,7 @@ function LiftingEntry({ title, viewType }) {
     <>
       {loading && <Loading />}
       <ICustomCard
-        title={title ? title : "Lifting Entry"}
+        title={title ? title : 'Lifting Entry'}
         createHandler={
           viewType
             ? false
@@ -192,15 +191,15 @@ function LiftingEntry({ title, viewType }) {
                     <NewSelect
                       name="reportType"
                       options={[
-                        { value: 1, label: "Manual Entry" },
-                        { value: 2, label: "Auto Entry" },
+                        { value: 1, label: 'Manual Entry' },
+                        { value: 2, label: 'Auto Entry' },
                       ]}
                       value={values?.reportType}
                       label="Report Type"
                       onChange={(valueOption) => {
                         setShowReport(false);
                         setGridData([]);
-                        setFieldValue("reportType", valueOption);
+                        setFieldValue('reportType', valueOption);
                       }}
                       placeholder="Report Type"
                       errors={errors}
@@ -218,7 +217,7 @@ function LiftingEntry({ title, viewType }) {
                           type="date"
                           onChange={(e) => {
                             setGridData([]);
-                            setFieldValue("date", e.target.value);
+                            setFieldValue('date', e.target.value);
                           }}
                         />
                       </div>
@@ -226,14 +225,14 @@ function LiftingEntry({ title, viewType }) {
                         <NewSelect
                           name="liftingPlanType"
                           options={[
-                            { value: 1, label: "Lifting Entry" },
-                            { value: 2, label: "Bag Production" },
+                            { value: 1, label: 'Lifting Entry' },
+                            { value: 2, label: 'Bag Production' },
                           ]}
                           value={values?.liftingPlanType}
                           label="Lifting Plan Type"
                           onChange={(valueOption) => {
                             setGridData([]);
-                            setFieldValue("liftingPlanType", valueOption);
+                            setFieldValue('liftingPlanType', valueOption);
                           }}
                           placeholder="Lifting Plan Type"
                           errors={errors}
@@ -248,7 +247,7 @@ function LiftingEntry({ title, viewType }) {
                           label="Sales Organization"
                           onChange={(valueOption) => {
                             setGridData([]);
-                            setFieldValue("salesOrg", valueOption);
+                            setFieldValue('salesOrg', valueOption);
                           }}
                           placeholder="Sales Organization"
                           errors={errors}
@@ -268,7 +267,7 @@ function LiftingEntry({ title, viewType }) {
                       onChange: (allValues, fieldName) => {
                         setShowReport(false);
                         setGridData([]);
-                        if (fieldName === "channel") {
+                        if (fieldName === 'channel') {
                           getItemList(
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
@@ -287,13 +286,13 @@ function LiftingEntry({ title, viewType }) {
                       <NewSelect
                         name="item"
                         options={
-                          [{ label: "All", value: 0 }, ...itemList] || []
+                          [{ label: 'All', value: 0 }, ...itemList] || []
                         }
                         value={values?.item}
                         label="Item"
                         onChange={(valueOption) => {
                           setGridData([]);
-                          setFieldValue("item", valueOption);
+                          setFieldValue('item', valueOption);
                         }}
                         placeholder="Item"
                         errors={errors}
@@ -344,14 +343,14 @@ function LiftingEntry({ title, viewType }) {
                             <th
                               rowSpan={3}
                               className="sl"
-                              style={{ width: "50px" }}
+                              style={{ width: '50px' }}
                             >
                               SL
                             </th>
                             <th rowSpan={3}>Area</th>
                             <th rowSpan={3}>Item Name</th>
                             <th rowSpan={3}>
-                              Target For{" "}
+                              Target For{' '}
                               {
                                 monthDDL[new Date(values?.date).getMonth()]
                                   ?.label
@@ -361,7 +360,7 @@ function LiftingEntry({ title, viewType }) {
                             <th rowSpan={3}>Target ADS</th>
                             {dateList?.map((item) => {
                               return (
-                                <th colSpan={1}>{moment(item).format("ll")}</th>
+                                <th colSpan={1}>{moment(item).format('ll')}</th>
                               );
                             })}
                             <th colSpan={1} rowSpan={2}>
@@ -372,7 +371,7 @@ function LiftingEntry({ title, viewType }) {
                             {dateList?.map((item) => {
                               return (
                                 <th style={{}} colSpan={1} rowSpan={2}>
-                                  {moment(item).format("dddd")}
+                                  {moment(item).format('dddd')}
                                 </th>
                               );
                             })}
@@ -403,7 +402,7 @@ function LiftingEntry({ title, viewType }) {
                                     <div className="pl-1">{td?.stnl6}</div>
                                   </td>
                                 ) : (
-                                  ""
+                                  ''
                                 )}
                                 <td>
                                   <div className="pl-1">{td?.strItemname}</div>
@@ -439,9 +438,9 @@ function LiftingEntry({ title, viewType }) {
                                           ? td[`d${index + 1}pcc`]
                                           : ""
                                       }`}</td> */}
-                                      <td className="text-right">{`${td[
-                                        `d${index + 1}`
-                                      ] || 0}`}</td>
+                                      <td className="text-right">{`${
+                                        td[`d${index + 1}`] || 0
+                                      }`}</td>
                                     </>
                                   );
                                 })}

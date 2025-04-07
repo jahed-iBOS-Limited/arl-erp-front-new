@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from 'axios';
 
 export const getSalesTrendAnalysisApi = async (
   topSheetId,
@@ -17,8 +17,9 @@ export const getSalesTrendAnalysisApi = async (
   try {
     setLoading(true);
     const res = await Axios.get(
-      `/oms/SalesInformation/GetSalesTrendAnalysis?Partid=${topSheetId}&UnitID=${buId}&FromDateDaySales=${fromDate}&ToDateDaySales=${toDate}&TotalDay=${totalDay}&RunningThDay=${runningDay}&Channelid=${chId}&Employeeid=${empId ||
-        0}&RATId=${RATId || 0}&LevelId=${levelId || 0}`
+      `/oms/SalesInformation/GetSalesTrendAnalysis?Partid=${topSheetId}&UnitID=${buId}&FromDateDaySales=${fromDate}&ToDateDaySales=${toDate}&TotalDay=${totalDay}&RunningThDay=${runningDay}&Channelid=${chId}&Employeeid=${
+        empId || 0
+      }&RATId=${RATId || 0}&LevelId=${levelId || 0}`
     );
     if (res?.status === 200) {
       setter(res?.data);

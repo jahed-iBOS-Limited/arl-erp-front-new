@@ -1,28 +1,27 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Form from "./form";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { toast } from "react-toastify";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { useParams } from "react-router-dom";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import Form from './form';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { toast } from 'react-toastify';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { useParams } from 'react-router-dom';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 const initData = {
-  programType: "",
-  channel: "",
-  region: "",
-  area: "",
-  territory: "",
-  itemCategory: "",
-  item: "",
-  uom: "",
-  requiredDate: "",
-  quantity: "",
-  description: "",
-  purpose: "",
+  programType: '',
+  channel: '',
+  region: '',
+  area: '',
+  territory: '',
+  itemCategory: '',
+  item: '',
+  uom: '',
+  requiredDate: '',
+  quantity: '',
+  description: '',
+  purpose: '',
 };
 
 export default function BrandItemRequisitionForm() {
@@ -80,12 +79,12 @@ export default function BrandItemRequisitionForm() {
 
   const saveHandler = async (values, cb) => {
     if (rowData?.length < 1) {
-      return toast.warn("Pleas add least one row!");
+      return toast.warn('Pleas add least one row!');
     }
     const payload = {
-      brandRequestId: type === "edit" ? +id : 0,
-      brandRequestCode: singleData?.brandRequestCode || "",
-      reffNo: "",
+      brandRequestId: type === 'edit' ? +id : 0,
+      brandRequestCode: singleData?.brandRequestCode || '',
+      reffNo: '',
       brandRequestTypeId: values?.programType?.value,
       brandRequestTypeName: values?.programType?.label,
       accountId: accId,
@@ -93,22 +92,22 @@ export default function BrandItemRequisitionForm() {
       businessUnitId: buId,
       businessUnitName: buName,
       sbuid: 0,
-      sbuname: "",
+      sbuname: '',
       areaId: values?.area?.value,
       areaName: values?.area?.label,
       brandWarehouseId: 0,
-      brandWarehouseName: "",
-      deliveryAddress: "",
-      supplyingWarehouseName: "",
+      brandWarehouseName: '',
+      deliveryAddress: '',
+      supplyingWarehouseName: '',
       supplyingWarehouseId: 0,
       requestDate: _todayDate(),
       actionBy: userId,
       costControlingUnitId: 0,
-      costControlingUnit: "",
+      costControlingUnit: '',
       costCenterId: 0,
-      costCenter: "",
+      costCenter: '',
       costElementId: 0,
-      costElement: "",
+      costElement: '',
       purpose: values?.purpose,
       requiredDate: values?.requiredDate,
       itemCategoryId: values?.itemCategory?.value,
@@ -128,7 +127,7 @@ export default function BrandItemRequisitionForm() {
   const addRow = (values) => {
     const exist = rowData?.find((item) => item?.itemId === values?.item?.value);
     if (exist) {
-      return toast.warn("Duplicate item not allowed!");
+      return toast.warn('Duplicate item not allowed!');
     }
     const newRow = {
       rowId: 0,
@@ -156,11 +155,11 @@ export default function BrandItemRequisitionForm() {
   const isLoading = loader || loading;
 
   const title =
-    type === "edit"
-      ? "Edit Brand Item Requisition"
-      : type === "view"
-      ? "View Brand Item Requisition"
-      : "Brand Item Requisition Entry";
+    type === 'edit'
+      ? 'Edit Brand Item Requisition'
+      : type === 'view'
+        ? 'View Brand Item Requisition'
+        : 'Brand Item Requisition Entry';
 
   return (
     <>

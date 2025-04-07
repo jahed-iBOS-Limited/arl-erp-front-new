@@ -1,39 +1,39 @@
-import Axios from "axios";
-import * as Yup from "yup";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import { _todayDate } from "../../../../../_helper/_todayDate";
+import Axios from 'axios';
+import * as Yup from 'yup';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import { _todayDate } from '../../../../../_helper/_todayDate';
 
 export const initData = {
   //header
-  supplierName: "",
-  deliveryAddress: "",
-  orderDate: "",
-  lastShipmentDate: "",
-  currency: "",
-  paymentTerms: { value: 2, label: "Credit" },
-  cash: "",
-  payDays: "",
-  incoterms: { value: 1, label: "CFR (Cost And Freight)" },
-  supplierReference: "",
-  referenceDate: "",
-  validity: "",
+  supplierName: '',
+  deliveryAddress: '',
+  orderDate: '',
+  lastShipmentDate: '',
+  currency: '',
+  paymentTerms: { value: 2, label: 'Credit' },
+  cash: '',
+  payDays: '',
+  incoterms: { value: 1, label: 'CFR (Cost And Freight)' },
+  supplierReference: '',
+  referenceDate: '',
+  validity: '',
   returnDate: _todayDate(),
-  otherTerms: "",
+  otherTerms: '',
 
   // row
-  referenceNo: "",
-  item: "",
+  referenceNo: '',
+  item: '',
   isAllItem: false,
-  freight:"",
-  discount:"",
-  commision:""
+  freight: '',
+  discount: '',
+  commision: '',
 };
 
 //  Validation schema
 export const validationSchema = Yup.object().shape({
   supplierName: Yup.object().shape({
-    label: Yup.string().required("Supplier name is required"),
-    value: Yup.string().required("Supplier name is required"),
+    label: Yup.string().required('Supplier name is required'),
+    value: Yup.string().required('Supplier name is required'),
   }),
   // deliveryAddress: Yup.string().required("Delivery address is required"),
   // orderDate: Yup.date().required("Order date is required"),
@@ -64,32 +64,32 @@ export const getReturnPOInfoById = async (poIdRefId, setFieldValue) => {
     );
     if (res.status === 200 && res?.data) {
       const { objHeaderDTO } = res?.data[0];
-      setFieldValue("deliveryAddress", objHeaderDTO?.deliveryAddress);
-      setFieldValue("payDays", objHeaderDTO?.paymentDaysAfterDelivery);
-      setFieldValue("cash", objHeaderDTO?.cashOrAdvancePercent);
-      setFieldValue("supplierReference", objHeaderDTO?.supplierReference);
+      setFieldValue('deliveryAddress', objHeaderDTO?.deliveryAddress);
+      setFieldValue('payDays', objHeaderDTO?.paymentDaysAfterDelivery);
+      setFieldValue('cash', objHeaderDTO?.cashOrAdvancePercent);
+      setFieldValue('supplierReference', objHeaderDTO?.supplierReference);
       setFieldValue(
-        "referenceDate",
+        'referenceDate',
         _dateFormatter(objHeaderDTO?.referenceDate)
       );
-      setFieldValue("validity", _dateFormatter(objHeaderDTO?.validityDate));
+      setFieldValue('validity', _dateFormatter(objHeaderDTO?.validityDate));
       setFieldValue(
-        "orderDate",
+        'orderDate',
         _dateFormatter(objHeaderDTO?.purchaseOrderDate)
       );
       setFieldValue(
-        "lastShipmentDate",
+        'lastShipmentDate',
         _dateFormatter(objHeaderDTO?.lastShipmentDate)
       );
-      setFieldValue("currency", {
+      setFieldValue('currency', {
         value: objHeaderDTO?.currencyId,
         label: objHeaderDTO?.currencyCode,
       });
-      setFieldValue("paymentTerms", {
+      setFieldValue('paymentTerms', {
         value: objHeaderDTO?.paymentTerms,
         label: objHeaderDTO?.paymentTermsName,
       });
-      setFieldValue("incoterms", {
+      setFieldValue('incoterms', {
         value: objHeaderDTO?.incotermsId,
         label: objHeaderDTO?.incotermsName,
       });
@@ -115,21 +115,19 @@ export const getRefNoDDL = (
     .catch((err) => console.log(err));
 };
 
-
-
 export const getItemDdlBySupplierForReturn = async (
   orderTypeId,
-      accId,
-      buId,
-      sbuId,
-      orgId,
-      plantId,
-      whId,
-      partnerId,
-      refTypeId,
-      refNoId, 
-      setter
-  ) => {
+  accId,
+  buId,
+  sbuId,
+  orgId,
+  plantId,
+  whId,
+  partnerId,
+  refTypeId,
+  refNoId,
+  setter
+) => {
   try {
     const res = await Axios.get(
       //`/procurement/PurchaseOrder/GetPOReferenceNoWiseItemDDL?OrderTypeId=${orderTypeId}&AccountId=${accId}&BusinessUnitId=${buId}&SbuId=${sbuId}&PurchaseOrgId=${orgId}&PlantId=${plantId}&WearhouseId=${whId}&PartnerId=${partnerId}&RefTypeId=${refTypeId}&RefNoId=${refNoId}`
@@ -142,7 +140,6 @@ export const getItemDdlBySupplierForReturn = async (
   } catch (error) {}
 };
 
-
 export const getRefNoDdlForReturnPo = async (
   accId,
   buId,
@@ -150,10 +147,10 @@ export const getRefNoDdlForReturnPo = async (
   orgId,
   plantId,
   whId,
-  refTyp, 
+  refTyp,
   supplierId,
   setter
-  ) => {
+) => {
   try {
     const res = await Axios.get(
       //`/procurement/PurchaseOrderReferenceNo/GetReturnPOreferenceNoDDL?accountId=${accId}&businessUnitId=${buId}&sbuId=${sbuId}&purchaseOrgId=${orgId}&plantId=${plantId}&warehouseId=${whId}&refType=${refTyp}`

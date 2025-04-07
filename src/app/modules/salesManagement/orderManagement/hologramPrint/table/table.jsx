@@ -1,49 +1,48 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IButton from "../../../../_helper/iButton";
-import ICard from "../../../../_helper/_card";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import IViewModal from "../../../../_helper/_viewModal";
-import { inactivePrintedInfo } from "../helper";
-import HologramPrint from "../print/hologram";
-import HologramPrintForAkijCommodities from "../print/hologramForCommodities";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IApproval from "../../../../_helper/_helperIcons/_approval";
-import useAxiosPut from "../../../../_helper/customHooks/useAxiosPut";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICon from '../../../../chartering/_chartinghelper/icons/_icon';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IButton from '../../../../_helper/iButton';
+import ICard from '../../../../_helper/_card';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import IViewModal from '../../../../_helper/_viewModal';
+import { inactivePrintedInfo } from '../helper';
+import HologramPrint from '../print/hologram';
+import HologramPrintForAkijCommodities from '../print/hologramForCommodities';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IApproval from '../../../../_helper/_helperIcons/_approval';
+import useAxiosPut from '../../../../_helper/customHooks/useAxiosPut';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
 
 const initData = {
-  search: "",
-  channel: "",
-  shipPoint: "",
-  type: { value: 1, label: "Unprinted" },
+  search: '',
+  channel: '',
+  shipPoint: '',
+  type: { value: 1, label: 'Unprinted' },
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
 
 const headers = [
-  "SL",
-  "Partner Name",
-  "ShipPoint Name",
-  "Sales Order Code",
-  "Order Amount",
-  "Sales Order Date",
-  "Reference Type",
-  "Payment Term",
-  "Approvement Status",
-  "Delivery Status",
-  "Action",
+  'SL',
+  'Partner Name',
+  'ShipPoint Name',
+  'Sales Order Code',
+  'Order Amount',
+  'Sales Order Date',
+  'Reference Type',
+  'Payment Term',
+  'Approvement Status',
+  'Delivery Status',
+  'Action',
 ];
 
 const permittedPersonsForAccountsApprove = [
@@ -75,7 +74,7 @@ const HologramPrintLanding = () => {
   }, shallowEqual);
 
   const getData = (values, pageNo, pageSize, search) => {
-    const SearchTerm = search ? `searchTerm=${search}&` : "";
+    const SearchTerm = search ? `searchTerm=${search}&` : '';
     const url = `/oms/OManagementReport/GetSalesOrderPaginationForPrint?${SearchTerm}AccountId=${accId}&BUnitId=${buId}&ShipPointId=${values?.shipPoint?.value}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&ReportTypeId=${values?.type?.value}&channelid=${values?.channel?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`;
 
     getRowData(url, (resData) => {
@@ -101,7 +100,7 @@ const HologramPrintLanding = () => {
 
   // set PositionHandler
   const setPositionHandler = (pageNo, pageSize, values) => {
-    getData(values, pageNo, pageSize, "");
+    getData(values, pageNo, pageSize, '');
   };
 
   const paginationSearchHandler = (search, values) => {
@@ -110,11 +109,11 @@ const HologramPrintLanding = () => {
 
   const inactiveHandler = (id, values) => {
     const obj = {
-      title: "Are you Sure?",
-      message: "Are you sure you want to make this unprinted?",
+      title: 'Are you Sure?',
+      message: 'Are you sure you want to make this unprinted?',
       yesAlertFunc: () => {
         inactivePrintedInfo(id, userId, setLoading, () => {
-          getData(values, pageNo, pageSize, "");
+          getData(values, pageNo, pageSize, '');
         });
       },
       noAlertFunc: () => {},
@@ -124,21 +123,21 @@ const HologramPrintLanding = () => {
 
   const approveHandler = (values, item, type) => {
     const payload =
-      type === "bulk"
+      type === 'bulk'
         ? rowData?.data
             ?.filter((element) => element?.isSelected)
             ?.map((item) => item?.salesOrderId)
         : [item?.salesOrderId];
 
     const obj = {
-      title: "Are you Sure?",
-      message: "Are you sure you want to approve for print?",
+      title: 'Are you Sure?',
+      message: 'Are you sure you want to approve for print?',
       yesAlertFunc: () => {
         approveSalesOrder(
           `/oms/OManagementReport/ApproveUnprintedPaperDO?userId=${userId}&isApprove=true`,
           payload,
           () => {
-            getData(values, pageNo, pageSize, "");
+            getData(values, pageNo, pageSize, '');
           },
           true
         );
@@ -197,13 +196,13 @@ const HologramPrintLanding = () => {
                       <NewSelect
                         name="type"
                         options={[
-                          { value: 1, label: "Unprinted" },
-                          { value: 2, label: "Printed" },
+                          { value: 1, label: 'Unprinted' },
+                          { value: 2, label: 'Printed' },
                         ]}
                         value={values?.type}
                         label="Type"
                         onChange={(e) => {
-                          setFieldValue("type", e);
+                          setFieldValue('type', e);
                           setRowData([]);
                         }}
                         placeholder="Type"
@@ -216,7 +215,7 @@ const HologramPrintLanding = () => {
                         value={values?.shipPoint}
                         label="Shippoint"
                         onChange={(valueOption) => {
-                          setFieldValue("shipPoint", valueOption);
+                          setFieldValue('shipPoint', valueOption);
                         }}
                         placeholder="Shippoint"
                       />
@@ -234,7 +233,7 @@ const HologramPrintLanding = () => {
                     <FromDateToDateForm obj={{ values, setFieldValue }} />
                     <IButton
                       onClick={() => {
-                        getData(values, pageNo, pageSize, "");
+                        getData(values, pageNo, pageSize, '');
                       }}
                       disabled={!(values?.type && values?.shipPoint)}
                     />
@@ -254,49 +253,51 @@ const HologramPrintLanding = () => {
                       rowData?.data?.length > 0 && (
                         <button
                           type="button"
-                          className={"btn btn-info  "}
+                          className={'btn btn-info  '}
                           disabled={
                             rowData?.data?.filter((e) => e?.isSelected)
                               ?.length < 1
                           }
                           onClick={() => {
-                            approveHandler(values, {}, "bulk");
+                            approveHandler(values, {}, 'bulk');
                           }}
                         >
                           Approve
                         </button>
                       )}
-                    {// check isSelectedPrint than show print button
-                    rowData?.data?.filter((e) => e?.isSelectedPrint)?.length >
-                      0 && (
-                      <button
-                        type="button"
-                        className={"btn btn-primary ml-2"}
-                        onClick={() => {
-                          const payload = rowData?.data
-                            ?.filter((element) => element?.isSelectedPrint)
-                            ?.map((item) => item?.salesOrderId);
-                          setShowMultipleModal(true);
-                          getPrintData(
-                            `/oms/OManagementReport/GetMultipleSalesOrderPrintCopy?UserId=${userId}&BusinessUnitId=${buId}`,
-                            payload,
-                            () => {
-                              setShowMultipleModal(true);
-                            },
-                            true
-                          );
-                        }}
-                      >
-                        Print
-                      </button>
-                    )}
+                    {
+                      // check isSelectedPrint than show print button
+                      rowData?.data?.filter((e) => e?.isSelectedPrint)?.length >
+                        0 && (
+                        <button
+                          type="button"
+                          className={'btn btn-primary ml-2'}
+                          onClick={() => {
+                            const payload = rowData?.data
+                              ?.filter((element) => element?.isSelectedPrint)
+                              ?.map((item) => item?.salesOrderId);
+                            setShowMultipleModal(true);
+                            getPrintData(
+                              `/oms/OManagementReport/GetMultipleSalesOrderPrintCopy?UserId=${userId}&BusinessUnitId=${buId}`,
+                              payload,
+                              () => {
+                                setShowMultipleModal(true);
+                              },
+                              true
+                            );
+                          }}
+                        >
+                          Print
+                        </button>
+                      )
+                    }
                   </div>
                 </div>
                 {rowData?.data?.length > 0 && (
                   <table
                     id="table-to-xlsx"
                     className={
-                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                      'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                     }
                   >
                     <thead>
@@ -307,7 +308,7 @@ const HologramPrintLanding = () => {
                             ?.length > 0 && (
                             <th
                               onClick={() => allSelect(!selectedAll(), values)}
-                              style={{ minWidth: "30px" }}
+                              style={{ minWidth: '30px' }}
                             >
                               {
                                 <input
@@ -338,7 +339,7 @@ const HologramPrintLanding = () => {
                                 <td
                                   onClick={() => {
                                     rowDataHandler(
-                                      "isSelected",
+                                      'isSelected',
                                       index,
                                       !item.isSelected
                                     );
@@ -356,7 +357,7 @@ const HologramPrintLanding = () => {
                                 </td>
                               )}
                             <td
-                              style={{ width: "40px" }}
+                              style={{ width: '40px' }}
                               className="text-center"
                             >
                               {index + 1}
@@ -371,13 +372,13 @@ const HologramPrintLanding = () => {
                             <td>{item?.refferenceTypeName}</td>
                             <td>{item?.paymentTermsName}</td>
                             <td>
-                              {item?.approved ? "Approved" : "Not approved"}
+                              {item?.approved ? 'Approved' : 'Not approved'}
                             </td>
                             <td>
-                              {item?.isDeliver ? "Delivered" : "Not delivered"}
+                              {item?.isDeliver ? 'Delivered' : 'Not delivered'}
                             </td>
                             <td
-                              style={{ width: "80px" }}
+                              style={{ width: '80px' }}
                               className="text-center"
                             >
                               <div className="d-flex justify-content-around">
@@ -386,10 +387,10 @@ const HologramPrintLanding = () => {
                                     item?.isPaperDOApproved ? (
                                       <span
                                         style={{
-                                          display: "flex",
-                                          justifyContent: "center",
-                                          alignItems: "center",
-                                          gap: "5px",
+                                          display: 'flex',
+                                          justifyContent: 'center',
+                                          alignItems: 'center',
+                                          gap: '5px',
                                         }}
                                       >
                                         <ICon
@@ -422,7 +423,7 @@ const HologramPrintLanding = () => {
                                           checked={item?.isSelectedPrint}
                                           onChange={() => {
                                             rowDataHandler(
-                                              "isSelectedPrint",
+                                              'isSelectedPrint',
                                               index,
                                               !item.isSelectedPrint
                                             );
@@ -439,13 +440,13 @@ const HologramPrintLanding = () => {
                                         <span>
                                           <IApproval
                                             title={
-                                              "Approve Sales Order for Print"
+                                              'Approve Sales Order for Print'
                                             }
                                             onClick={() => {
                                               approveHandler(
                                                 values,
                                                 item,
-                                                "single"
+                                                'single'
                                               );
                                             }}
                                           />
@@ -457,7 +458,7 @@ const HologramPrintLanding = () => {
                                       userId
                                     ) && (
                                       <ICon
-                                        title={"Make Unprinted"}
+                                        title={'Make Unprinted'}
                                         onClick={() => {
                                           inactiveHandler(
                                             item?.salesOrderId,
@@ -470,7 +471,7 @@ const HologramPrintLanding = () => {
                                     )
                                   )
                                 ) : (
-                                  ""
+                                  ''
                                 )}
                               </div>
                             </td>
@@ -501,7 +502,7 @@ const HologramPrintLanding = () => {
                 show={show}
                 onHide={() => {
                   setShow(false);
-                  getData(values, pageNo, pageSize, "");
+                  getData(values, pageNo, pageSize, '');
                 }}
               >
                 <CommonPrintComp
@@ -515,7 +516,7 @@ const HologramPrintLanding = () => {
                 show={showMutipleModal}
                 onHide={() => {
                   setShowMultipleModal(false);
-                  getData(values, pageNo, pageSize, "");
+                  getData(values, pageNo, pageSize, '');
                 }}
               >
                 <CommonPrintComp buId={buId} printDataList={printData} />

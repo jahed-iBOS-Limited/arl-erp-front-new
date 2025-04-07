@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 import { Field, Form, Formik } from 'formik';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -76,7 +75,6 @@ export default function AssetStandardPOCreateForm({
   useEffect(() => {
     // all input fields : this function will set our all input fields  , then we will use loop to generate input fields in UI
     setInputFieldsFunc(setInputFields, storeData);
-
   }, [supplierNameDDL, currencyDDL, paymentTermsDDL, incoTermsDDL]);
 
   // add single item to row or add all item to row
@@ -130,11 +128,11 @@ export default function AssetStandardPOCreateForm({
         arr = rowDto?.filter(
           (item) =>
             item.referenceNo?.value === values?.referenceNo?.value &&
-            item?.item?.value === values?.item?.value,
+            item?.item?.value === values?.item?.value
         );
       } else {
         arr = rowDto?.filter(
-          (item) => item?.item?.value === values?.item?.value,
+          (item) => item?.item?.value === values?.item?.value
         );
       }
 
@@ -209,8 +207,8 @@ export default function AssetStandardPOCreateForm({
         location?.state?.warehouse?.value,
         supplierId,
         refType,
-        referenceNo,
-      ),
+        referenceNo
+      )
     );
   };
 
@@ -230,7 +228,7 @@ export default function AssetStandardPOCreateForm({
       location?.state?.plant?.value,
       location?.state?.warehouse?.value,
       location?.state?.refType?.label,
-      setRefNoDDL,
+      setRefNoDDL
     );
   };
 
@@ -261,10 +259,10 @@ export default function AssetStandardPOCreateForm({
 
   useEffect(() => {
     getTransferBu(
-      `/procurement/PurchaseOrder/TransferPoBusinessUnit?UnitId=${selectedBusinessUnit?.value}`,
+      `/procurement/PurchaseOrder/TransferPoBusinessUnit?UnitId=${selectedBusinessUnit?.value}`
     );
     getBuTransaction(
-      `/fino/BusinessTransaction/BusinessTransactionList?GroupId=1&BusinessUnitId=${selectedBusinessUnit?.value}`,
+      `/fino/BusinessTransaction/BusinessTransactionList?GroupId=1&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
   }, [selectedBusinessUnit]);
 
@@ -322,7 +320,7 @@ export default function AssetStandardPOCreateForm({
                         if (v.length < 3) return [];
                         return axios
                           .get(
-                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${location?.state?.sbu?.value}`,
+                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${location?.state?.sbu?.value}`
                           )
                           .then((res) => {
                             const updateList = res?.data.map((item) => ({
@@ -418,7 +416,7 @@ export default function AssetStandardPOCreateForm({
                           />
                         </div>
                       )
-                    ),
+                    )
                   )}
                   <div className="col-lg-2">
                     <IInput
@@ -523,18 +521,18 @@ export default function AssetStandardPOCreateForm({
                                 profileData?.accountId,
                                 valueOption?.value,
                                 values?.isTransfer,
-                                setCostCenterList,
+                                setCostCenterList
                               );
                               getCostElementDDL(
                                 profileData?.accountId,
                                 valueOption?.value,
                                 values?.isTransfer,
-                                setCostElementList,
+                                setCostElementList
                               );
                               getProfitCenterList(
                                 valueOption?.value,
                                 setProfitCenterList,
-                                setLoading,
+                                setLoading
                               );
                             }
                           }}
@@ -627,7 +625,7 @@ export default function AssetStandardPOCreateForm({
                           getItemDDL(
                             values?.supplierName?.value,
                             location?.state?.refType?.value,
-                            value,
+                            value
                           );
                         }
                       }}
@@ -665,7 +663,7 @@ export default function AssetStandardPOCreateForm({
                                 location?.state?.warehouse?.value
                               }&RefTypeId=${
                                 location?.state?.refType?.value
-                              }&RefNoId=${0}&searchTerm=${v}`,
+                              }&RefNoId=${0}&searchTerm=${v}`
                             )
                             .then((res) => {
                               const updateList = res?.data.map((item) => ({
@@ -745,8 +743,8 @@ export default function AssetStandardPOCreateForm({
                             ? !values.item
                             : false
                           : !values.isAllItem
-                          ? !values.referenceNo || !values.item
-                          : !values.referenceNo
+                            ? !values.referenceNo || !values.item
+                            : !values.referenceNo
                       }
                       style={{
                         marginTop: '20px',

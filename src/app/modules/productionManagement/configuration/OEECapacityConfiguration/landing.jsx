@@ -1,22 +1,22 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import IForm from "../../../_helper/_form";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { setOEECapacityConfigurationAction } from "../../../_helper/reduxForLocalStorage/Actions";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import IForm from '../../../_helper/_form';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { setOEECapacityConfigurationAction } from '../../../_helper/reduxForLocalStorage/Actions';
 import {
   getLandingData,
   machineNameDDLApi,
   plantNameDDLApi,
   shopFloorNameDDLApi,
-} from "./util/api";
+} from './util/api';
 
 export default function OEECapacityConfigurationLanding() {
   const initData = useSelector((state) => {
@@ -55,7 +55,7 @@ export default function OEECapacityConfigurationLanding() {
   };
 
   const handleDeleteCapacityConfig = (nptConfigId, values) => {
-    if (window.confirm("Are you sure to delete the configuration?"))
+    if (window.confirm('Are you sure to delete the configuration?'))
       deleteCapacityConfiguration(
         `/mes/OeeProductWaste/DeleteCapacityConfiguration?id=${nptConfigId}`,
         null,
@@ -70,11 +70,9 @@ export default function OEECapacityConfigurationLanding() {
 
   useEffect(() => {
     getPlantNameDDL(plantNameDDLApi(buId, accId, userId));
-
   }, [buId, userId, accId]);
   useEffect(() => {
     setPositionHandler(pageNo, pageSize, initData);
-
   }, [initData]);
 
   return (
@@ -113,7 +111,7 @@ export default function OEECapacityConfigurationLanding() {
                     onClick={() => {
                       history.push({
                         pathname:
-                          "/production-management/configuration/OEECapacityConfiguration/create",
+                          '/production-management/configuration/OEECapacityConfiguration/create',
                         state: {
                           isEditPage: false,
                           rowData: null,
@@ -136,13 +134,13 @@ export default function OEECapacityConfigurationLanding() {
                     value={values?.plant}
                     label="Plant Name"
                     onChange={(valueOption) => {
-                      setFieldValue("plant", valueOption);
+                      setFieldValue('plant', valueOption);
                       if (valueOption) {
                         getShopFloorDDL(
                           shopFloorNameDDLApi(accId, buId, valueOption.value)
                         );
                       }
-                      setFieldValue("shopFloor", "");
+                      setFieldValue('shopFloor', '');
                     }}
                     errors={errors}
                     touched={touched}
@@ -155,7 +153,7 @@ export default function OEECapacityConfigurationLanding() {
                     value={values?.shopFloor}
                     label="Shop Floor/Section"
                     onChange={(valueOption) => {
-                      setFieldValue("shopFloor", valueOption);
+                      setFieldValue('shopFloor', valueOption);
                       if (valueOption) {
                         // setPositionHandler(pageNo, pageSize, {
                         //   ...values,
@@ -168,7 +166,7 @@ export default function OEECapacityConfigurationLanding() {
                           machineNameDDLApi(buId, valueOption?.value)
                         );
                       }
-                      setFieldValue("machine", "");
+                      setFieldValue('machine', '');
                     }}
                     isDisabled={!values?.plant}
                     errors={errors}
@@ -183,7 +181,7 @@ export default function OEECapacityConfigurationLanding() {
                     value={values?.machine}
                     label="Work Center/Machine"
                     onChange={(valueOption) => {
-                      setFieldValue("machine", valueOption);
+                      setFieldValue('machine', valueOption);
                       if (valueOption) {
                         setRowData([]);
                       } else {
@@ -259,13 +257,13 @@ export default function OEECapacityConfigurationLanding() {
                           <td>
                             <div
                               className="d-flex"
-                              style={{ gap: "10px", justifyContent: "center" }}
+                              style={{ gap: '10px', justifyContent: 'center' }}
                             >
                               <span
                                 onClick={() =>
                                   history.push({
                                     pathname:
-                                      "/production-management/configuration/OEECapacityConfiguration/edit",
+                                      '/production-management/configuration/OEECapacityConfiguration/edit',
                                     state: {
                                       isEditPage: true,
                                       rowData: item,

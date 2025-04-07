@@ -1,26 +1,25 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import Select from "react-select";
-import ICustomCard from "../../../../_helper/_customCard";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import IViewModal from "../../../../_helper/_viewModal";
-import { SetManufactureBOMTableLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import customStyles from "../../../../selectCustomStyle";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import Select from 'react-select';
+import ICustomCard from '../../../../_helper/_customCard';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
+import IViewModal from '../../../../_helper/_viewModal';
+import { SetManufactureBOMTableLandingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import customStyles from '../../../../selectCustomStyle';
 import {
   GetBillofMaterialPagination,
   getPlantDDL,
   getShopFloorDDL,
-} from "../helper";
-import Loading from "./../../../../_helper/_loading";
-import PaginationSearch from "./../../../../_helper/_search";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import CostViewTable from "./../../../../personal/approval/commonApproval/Table/CostView/CostView";
-import CostView from "./../../../../personal/approval/commonApproval/Table/_costView";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+} from '../helper';
+import Loading from './../../../../_helper/_loading';
+import PaginationSearch from './../../../../_helper/_search';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import CostViewTable from './../../../../personal/approval/commonApproval/Table/CostView/CostView';
+import CostView from './../../../../personal/approval/commonApproval/Table/_costView';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 export function TableRow() {
   const [loading, setLoading] = useState(false);
@@ -28,19 +27,15 @@ export function TableRow() {
   const [plantDDL, setPlantDDL] = useState([]);
   const [shopFloorDDL, setShopFloorDDL] = useState([]);
   const [isShowModalForCostView, setisShowModalForCostView] = useState(false);
-  const [item, setItem] = useState("");
-  const [
-    IsBackCalcualtion,
-    getIsBackCalcualtion,
-    ,
-    setIsBackCalcualtion,
-  ] = useAxiosGet();
+  const [item, setItem] = useState('');
+  const [IsBackCalcualtion, getIsBackCalcualtion, , setIsBackCalcualtion] =
+    useAxiosGet();
 
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
-  const [selectedDDLItem, setSelectedDDLItem] = React.useState("");
-  const [selectedDDLShop, setselectedDDLShop] = React.useState("");
+  const [selectedDDLItem, setSelectedDDLItem] = React.useState('');
+  const [selectedDDLShop, setselectedDDLShop] = React.useState('');
 
   const { manufactureBOMTableLanding } = useSelector(
     (state) => state.localStorage
@@ -128,7 +123,7 @@ export function TableRow() {
           className="btn btn-primary"
           onClick={() => {
             history.push({
-              pathname: "/production-management/mes/bill-of-material/create",
+              pathname: '/production-management/mes/bill-of-material/create',
             });
           }}
         >
@@ -146,10 +141,10 @@ export function TableRow() {
                 <Select
                   onChange={(valueOption) => {
                     setSelectedDDLItem(valueOption);
-                    setselectedDDLShop("");
+                    setselectedDDLShop('');
                     dispatch(
                       SetManufactureBOMTableLandingAction({
-                        shopfloor: "",
+                        shopfloor: '',
                         plant: valueOption,
                       })
                     );
@@ -203,18 +198,18 @@ export function TableRow() {
                 <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                   <thead>
                     <tr>
-                      <th style={{ width: "30px" }}>SL</th>
-                      <th style={{ width: "90px" }}>Item Code</th>
+                      <th style={{ width: '30px' }}>SL</th>
+                      <th style={{ width: '90px' }}>Item Code</th>
                       <th>BOM Name</th>
                       <th>BOM Version Name</th>
                       {[144, 189, 188].includes(
                         selectedBusinessUnit?.value
                       ) && <th>BOM Type</th>}
-                      <th style={{ width: "60px" }}>Lot Size</th>
-                      <th style={{ width: "90px" }}>UoM</th>
-                      <th style={{ width: "90px" }}>Status</th>
-                      <th style={{ width: "90px" }}>Standard</th>
-                      <th style={{ width: "90px" }}>Action</th>
+                      <th style={{ width: '60px' }}>Lot Size</th>
+                      <th style={{ width: '90px' }}>UoM</th>
+                      <th style={{ width: '90px' }}>Status</th>
+                      <th style={{ width: '90px' }}>Standard</th>
+                      <th style={{ width: '90px' }}>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -241,12 +236,12 @@ export function TableRow() {
                           <td>
                             <div
                               style={{
-                                color: item?.isApproved ? "green" : "#ff9f1a",
+                                color: item?.isApproved ? 'green' : '#ff9f1a',
                                 fontWeight: 800,
                               }}
                               className="text-center pl-2"
                             >
-                              {item?.isApproved ? "Approved" : "Pending"}
+                              {item?.isApproved ? 'Approved' : 'Pending'}
                             </div>
                           </td>
                           <td>
@@ -289,7 +284,7 @@ export function TableRow() {
                               </span>
                               <span className="view">
                                 <CostView
-                                  title={"Cost View"}
+                                  title={'Cost View'}
                                   clickHandler={() => {
                                     setisShowModalForCostView(true);
                                     setItem(item);

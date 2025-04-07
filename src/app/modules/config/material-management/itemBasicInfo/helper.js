@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 export const getItemTypeListDDL_api = async (setter) => {
   try {
     const res = await Axios.get(`/item/ItemCategory/GetItemTypeListDDL`);
@@ -8,7 +8,7 @@ export const getItemTypeListDDL_api = async (setter) => {
         value: item.itemTypeId,
         label: item.itemTypeName,
       }));
-      const DDLData = [{ value: 0, label: "All" }, ...modifiedData];
+      const DDLData = [{ value: 0, label: 'All' }, ...modifiedData];
 
       setter(DDLData);
     }
@@ -56,7 +56,7 @@ export const getItemCategoryDDLByTypeId_api = async (
         value: item.itemCategoryId,
         label: item.itemCategoryName,
       }));
-      const DDLData = [{ value: 0, label: "All" }, ...modifiedData];
+      const DDLData = [{ value: 0, label: 'All' }, ...modifiedData];
 
       setter(DDLData);
     }
@@ -78,7 +78,7 @@ export const getItemSubCategoryDDLByCategoryId_api = async (
         value: item.id,
         label: item.itemSubCategoryName,
       }));
-      const DDLData = [{ value: 0, label: "All" }, ...modifiedData];
+      const DDLData = [{ value: 0, label: 'All' }, ...modifiedData];
 
       setter(DDLData);
     }
@@ -119,7 +119,7 @@ export const CreateItemProfile_api = async (
       payload
     );
     if (res.status === 200) {
-      toast.success("Submitted successfully");
+      toast.success('Submitted successfully');
       cb();
       setDisabled(false);
       ItemProfileInfoByItemIDFunc(itemProfileId);
@@ -137,7 +137,7 @@ export const DeleteTradeOfferConfigurationApi = async (
   try {
     setDisabled(true);
     await Axios.post(`/oms/TradeOffer/DeleteTradeOfferConfiguration`, payload);
-    toast.success("Submitted successfully");
+    toast.success('Submitted successfully');
     cb();
     setDisabled(false);
   } catch (error) {
@@ -158,7 +158,7 @@ export const CreateTradeOfferConfiguration = async (
       payload
     );
     if (res.status === 200) {
-      toast.success("Submitted successfully");
+      toast.success('Submitted successfully');
       cb();
       setDisabled(false);
     }

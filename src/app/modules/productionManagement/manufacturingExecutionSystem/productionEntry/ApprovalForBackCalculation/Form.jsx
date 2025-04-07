@@ -1,15 +1,14 @@
-
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
 // import CreateTableRow from "../Table/CreateTableRow";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { IInput } from "../../../../_helper/_input";
-import { getWarehouseDDL } from "../helper";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import { IInput } from '../../../../_helper/_input';
+import { getWarehouseDDL } from '../helper';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../../_helper/_loading';
 
 export default function FormCmp({
   initData,
@@ -33,12 +32,8 @@ export default function FormCmp({
 }) {
   const [wareHouseDDL, setWareHouseDDL] = useState([]);
   const [costCenterDDL, getCostCenterDDL, , setCostCenterDDL] = useAxiosGet();
-  const [
-    profitCenterDDL,
-    getProfitCenterDDL,
-    ,
-    setProfitCenterDDL,
-  ] = useAxiosGet();
+  const [profitCenterDDL, getProfitCenterDDL, , setProfitCenterDDL] =
+    useAxiosGet();
 
   const deleteHandler = (id) => {
     const deleteData = rowData.filter((data, index) => id !== index);
@@ -74,9 +69,9 @@ export default function FormCmp({
                   <NewSelect
                     name="plantName"
                     options={plantNameDDL}
-                    value={values?.plantName ? values?.plantName : ""}
+                    value={values?.plantName ? values?.plantName : ''}
                     onChange={(valueOption) => {
-                      setFieldValue("plantName", valueOption);
+                      setFieldValue('plantName', valueOption);
                     }}
                     placeholder="Plant Name"
                     errors={errors}
@@ -101,29 +96,27 @@ export default function FormCmp({
                     value={
                       values?.dteProductionDate
                         ? _dateFormatter(values?.dteProductionDate)
-                        : ""
+                        : ''
                     }
                     label="Receive Date"
                     placeholder=""
                     type="date"
                     disabled={isEdit}
                   />
-
                 </div>
                 <div className="col-lg-3">
                   <NewSelect
                     name="Shift"
                     options={shiftDDL}
-                    value={values?.shift ? values.shift : ""}
+                    value={values?.shift ? values.shift : ''}
                     onChange={(valueOption) => {
-                      setFieldValue("shift", valueOption);
+                      setFieldValue('shift', valueOption);
                     }}
                     placeholder="Shift"
                     errors={errors}
                     touched={touched}
                     isDisabled={isEdit}
                   />
-
                 </div>
                 <div className="col-lg-3">
                   <InputField
@@ -134,7 +127,6 @@ export default function FormCmp({
                     type="text"
                     disabled={true}
                   />
-
                 </div>
 
                 <div className="col-lg-3">
@@ -144,7 +136,7 @@ export default function FormCmp({
                     value={values?.sbu}
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("sbu", valueOption);
+                        setFieldValue('sbu', valueOption);
                         // setFieldValue('costCenter', '');
                         getWarehouseDDL(
                           profileData?.userId,
@@ -158,7 +150,7 @@ export default function FormCmp({
                           `/costmgmt/CostCenter/GetCostCenterDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&SBUId=${valueOption?.value}`
                         );
                       } else {
-                        setFieldValue("sbu", "");
+                        setFieldValue('sbu', '');
                         // setFieldValue('costCenter', '');
                         setCostCenterDDL([]);
                       }
@@ -168,7 +160,6 @@ export default function FormCmp({
                     errors={errors}
                     touched={touched}
                   />
-
                 </div>
                 <div className="col-lg-3">
                   <NewSelect
@@ -177,12 +168,12 @@ export default function FormCmp({
                     value={values?.wareHouse}
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("wareHouse", valueOption);
+                        setFieldValue('wareHouse', valueOption);
                         getSingleDataForLocation(
                           `/mes/BackCalculation/GetProductionEntryByIdForApprove?productionId=${productionId}&plantId=${values?.plantName?.value}&warehouseId=${valueOption?.value}`
                         );
                       } else {
-                        setFieldValue("wareHouse", "");
+                        setFieldValue('wareHouse', '');
                       }
                     }}
                     label="Select Warehouse"
@@ -190,7 +181,6 @@ export default function FormCmp({
                     errors={errors}
                     touched={touched}
                   />
-
                 </div>
                 {/* <div className="col-lg-3">
                            <NewSelect
@@ -242,17 +232,17 @@ export default function FormCmp({
               <div className="row">
                 <div className="col-lg-12 pr-3 mt-3">
                   <div className="table-responsive">
-                    <table className={"table mt-1 bj-table"}>
+                    <table className={'table mt-1 bj-table'}>
                       <thead
                       // className={rowDto?.length < 1 && "d-none"}
                       >
                         <tr>
-                          <th style={{ width: "20px" }}>SL</th>
-                          <th style={{ width: "120px" }}>Output Item</th>
-                          <th style={{ width: "80px" }}>Output UoM</th>
-                          <th style={{ width: "70px" }}>Output Quantity</th>
-                          <th style={{ width: "100px" }}>QC Quantity</th>
-                          <th style={{ width: "50px" }}>Action</th>
+                          <th style={{ width: '20px' }}>SL</th>
+                          <th style={{ width: '120px' }}>Output Item</th>
+                          <th style={{ width: '80px' }}>Output UoM</th>
+                          <th style={{ width: '70px' }}>Output Quantity</th>
+                          <th style={{ width: '100px' }}>QC Quantity</th>
+                          <th style={{ width: '50px' }}>Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -261,7 +251,7 @@ export default function FormCmp({
                             <td className="text-center">{index + 1}</td>
                             <td className="pl-5">{item?.itemName}</td>
                             <td className="pl-5">{item?.uomname}</td>
-                            <td style={{ textAlign: "center" }}>
+                            <td style={{ textAlign: 'center' }}>
                               <input
                                 // onChange={(e) => {
                                 //   dataHandler(
@@ -278,16 +268,16 @@ export default function FormCmp({
                                 disabled={true}
                               />
                             </td>
-                            <td style={{ textAlign: "center" }}>
+                            <td style={{ textAlign: 'center' }}>
                               <input
                                 onChange={(e) => {
                                   dataHandler(
-                                    "approvedQuantity",
+                                    'approvedQuantity',
                                     Math.abs(e.target.value),
                                     index
                                   );
                                 }}
-                                step={"any"}
+                                step={'any'}
                                 min="0"
                                 className="form-control"
                                 type="number"
@@ -310,13 +300,13 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onClick={() => handleSubmit}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

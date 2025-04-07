@@ -1,31 +1,29 @@
-
-
-import React, { useEffect, useState, useRef } from "react";
-import { toast } from "react-toastify";
-import CreateUserForm from "./createUserForm";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import * as actions from "../_redux/createUserActions";
-import shortid from "shortid";
+import React, { useEffect, useState, useRef } from 'react';
+import { toast } from 'react-toastify';
+import CreateUserForm from './createUserForm';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import * as actions from '../_redux/createUserActions';
+import shortid from 'shortid';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
+} from '../../../../../../_metronic/_partials/controls';
 
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
 
 var userValues = {
-  businessunit: "",
-  name: "",
-  email: "",
+  businessunit: '',
+  name: '',
+  email: '',
   country: {
     value: 18,
-    label: "Bangladesh",
+    label: 'Bangladesh',
   },
-  contactnumber: "",
-  type: "",
-  reference: "",
+  contactnumber: '',
+  type: '',
+  reference: '',
 };
 export default function CreateUserEdit({
   history,
@@ -33,7 +31,7 @@ export default function CreateUserEdit({
     params: { id, e, v },
   },
 }) {
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState('');
   const [showMsg, setShowMsg] = useState(true);
   const [loading, setLoading] = useState(false);
 
@@ -74,14 +72,11 @@ export default function CreateUserEdit({
         selectedBusinessUnit?.value
       )
     );
-
-
   }, [id, dispatch]);
 
   useEffect(() => {
-    let _title = e ? "Edit User" : v ? "View User" : "Create New User";
+    let _title = e ? 'Edit User' : v ? 'View User' : 'Create New User';
     setTitle(_title);
-
   }, [userForEdit, id]);
 
   const saveUser = (values, cb) => {
@@ -90,19 +85,19 @@ export default function CreateUserEdit({
       accountId: profileData.accountId,
       defaultBusinessUnit: selectedBusinessUnit.value,
       loginId: values.email,
-      password: "ibos@123",
+      password: 'ibos@123',
       emailAddress: values.email,
       defaultPassword: true,
       contact: values.contactnumber,
       countryId: values.country.value,
       countryName: values.country.label,
-      passwordExpDate: "2050-07-04",
+      passwordExpDate: '2050-07-04',
       userType: values.type.value,
       userReferenceId: values.reference.value,
       userReferenceNo: values.reference.code,
       superUser: false,
       actionBy: profileData?.userId,
-      lastActionDateTime: "2020-07-04",
+      lastActionDateTime: '2020-07-04',
     };
 
     if (id) {

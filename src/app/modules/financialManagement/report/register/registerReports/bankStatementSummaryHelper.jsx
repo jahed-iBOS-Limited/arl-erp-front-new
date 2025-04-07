@@ -118,7 +118,7 @@ export const BankStatementSummaryExcel = async (excelData) => {
         currentBalance: (+sum.currentBalance || 0) + (+row.currentBalance || 0),
       };
     },
-    { debitAmount: 0, creditAmount: 0, currentBalance: 0 },
+    { debitAmount: 0, creditAmount: 0, currentBalance: 0 }
   );
 
   const totalRow = worksheet.addRow([

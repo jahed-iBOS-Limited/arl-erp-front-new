@@ -1,32 +1,30 @@
-
-
-import React, { useState, useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import { useHistory } from "react-router-dom";
-import { getInvoiceById, getInvoiceList } from "../helper";
-import PaginationTable from "../../../_chartinghelper/_tablePagination";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import { Formik } from "formik";
-import PaginationSearch from "../../../_chartinghelper/_search";
-import IView from "../../../_chartinghelper/icons/_view";
-import IViewModal from "../../../_chartinghelper/_viewModal";
-import InvoicePrintView from "../Form/printView";
+import React, { useState, useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import { useHistory } from 'react-router-dom';
+import { getInvoiceById, getInvoiceList } from '../helper';
+import PaginationTable from '../../../_chartinghelper/_tablePagination';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import { Formik } from 'formik';
+import PaginationSearch from '../../../_chartinghelper/_search';
+import IView from '../../../_chartinghelper/icons/_view';
+import IViewModal from '../../../_chartinghelper/_viewModal';
+import InvoicePrintView from '../Form/printView';
 
 const headers = [
-  { name: "SL" },
-  { name: "Bill No" },
-  { name: "Survey No" },
-  { name: "LC Number" },
-  { name: "Total Amount" },
-  { name: "JV Code" },
-  { name: "Actions" },
+  { name: 'SL' },
+  { name: 'Bill No' },
+  { name: 'Survey No' },
+  { name: 'LC Number' },
+  { name: 'Total Amount' },
+  { name: 'JV Code' },
+  { name: 'Actions' },
 ];
 
 const initData = {
-  fromDate: "",
-  toDate: "",
+  fromDate: '',
+  toDate: '',
 };
 
 export default function InvoiceTable() {
@@ -49,18 +47,18 @@ export default function InvoiceTable() {
       search,
       pageNo,
       pageSize,
-      values?.fromDate || "",
-      values?.toDate || "",
+      values?.fromDate || '',
+      values?.toDate || '',
       setGridData,
       setLoading
     );
   };
 
   useEffect(() => {
-    viewHandler(pageNo, pageSize, initData, "");
+    viewHandler(pageNo, pageSize, initData, '');
   }, [profileData, selectedBusinessUnit]);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchTerm = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchTerm = '') => {
     viewHandler(pageNo, pageSize, values, searchTerm);
   };
 
@@ -70,7 +68,7 @@ export default function InvoiceTable() {
 
   return (
     <>
-      {" "}
+      {' '}
       <Formik
         enableReinitialize={true}
         initialValues={initData}
@@ -86,10 +84,10 @@ export default function InvoiceTable() {
                 <div>
                   <button
                     type="button"
-                    className={"btn btn-primary px-3 py-2"}
+                    className={'btn btn-primary px-3 py-2'}
                     onClick={() => {
                       history.push(
-                        "/chartering/lighterVessel/lighterInvoice/create"
+                        '/chartering/lighterVessel/lighterInvoice/create'
                       );
                     }}
                     disabled={false}
@@ -108,7 +106,7 @@ export default function InvoiceTable() {
                       placeholder="Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                       }}
                       errors={errors}
                       touched={touched}
@@ -122,7 +120,7 @@ export default function InvoiceTable() {
                       placeholder="Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                       errors={errors}
                       touched={touched}
@@ -151,7 +149,7 @@ export default function InvoiceTable() {
               <ICustomTable ths={headers}>
                 {gridData?.data?.map((item, index) => (
                   <tr key={index}>
-                    <td className="text-center" style={{ width: "40px" }}>
+                    <td className="text-center" style={{ width: '40px' }}>
                       {index + 1}
                     </td>
                     <td>{item?.billNo}</td>

@@ -1,17 +1,16 @@
-
-import React from "react";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../../../_helper/_select";
-import InputField from "../../../../../../_helper/_inputField";
-import IDelete from "../../../../../../_helper/_helperIcons/_delete";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import NewSelect from '../../../../../../_helper/_select';
+import InputField from '../../../../../../_helper/_inputField';
+import IDelete from '../../../../../../_helper/_helperIcons/_delete';
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../../../_metronic/_partials/controls";
-import numberWithCommas from "../../../../../../_helper/_numberWithCommas";
-import { packingValidationSchema } from "../helper";
+} from '../../../../../../../../_metronic/_partials/controls';
+import numberWithCommas from '../../../../../../_helper/_numberWithCommas';
+import { packingValidationSchema } from '../helper';
 // Validation schema
 
 export default function FormCmp({
@@ -83,21 +82,21 @@ export default function FormCmp({
                 <div className="row">
                   <div className="col-lg-12 text-center">
                     <span>
-                      <span style={{ fontWeight: "bold" }}>PO Number :</span>
+                      <span style={{ fontWeight: 'bold' }}>PO Number :</span>
                       <span>{poNumber}</span>
                     </span>
                     <span className="ml-5">
-                      <span style={{ fontWeight: "bold" }}>LC Number :</span>
+                      <span style={{ fontWeight: 'bold' }}>LC Number :</span>
                       <span>{lcNumber}</span>
                     </span>
                     <span className="ml-5">
-                      <span style={{ fontWeight: "bold" }}>
+                      <span style={{ fontWeight: 'bold' }}>
                         Shipment Code :
                       </span>
                       <span>{shipmentCode}</span>
                     </span>
                     <span className="ml-5">
-                      <span style={{ fontWeight: "bold" }}>
+                      <span style={{ fontWeight: 'bold' }}>
                         Shipped Quantity :
                       </span>
                       <span>{numberWithCommas(shippedQuantity)}</span>
@@ -105,11 +104,11 @@ export default function FormCmp({
                     <span
                       className="ml-5"
                       style={{
-                        fontWeight: "bold",
-                        fontSize: "12px",
+                        fontWeight: 'bold',
+                        fontSize: '12px',
                       }}
                     >
-                      Remaining Qty :{" "}
+                      Remaining Qty :{' '}
                       {numberWithCommas(
                         shippedQuantity -
                           (gridData.reduce((a, b) => {
@@ -149,7 +148,7 @@ export default function FormCmp({
                             value={values?.packingType}
                             label="Packing Type"
                             onChange={(valueOption) => {
-                              setFieldValue("packingType", valueOption);
+                              setFieldValue('packingType', valueOption);
                             }}
                             placeholder="Packing Type"
                             errors={errors}
@@ -184,7 +183,7 @@ export default function FormCmp({
                               href="https://www.track-trace.com"
                               target="_blank"
                               rel="noopener noreferrer"
-                              style={{ textDecoration: "underline" }}
+                              style={{ textDecoration: 'underline' }}
                             >
                               BL No (Optional)
                             </a>
@@ -213,14 +212,14 @@ export default function FormCmp({
                             placeholder="Due Date"
                             type="date"
                             onChange={(e) => {
-                              setFieldValue("dueDate", e.target.value);
+                              setFieldValue('dueDate', e.target.value);
                             }}
                           />
                         </div>
                         <div className="col-lg-3">
                           <button
                             onClick={() => setter(values)}
-                            style={{ marginTop: "14px" }}
+                            style={{ marginTop: '14px' }}
                             type="button"
                             className="btn btn-primary"
                             disabled={
@@ -277,13 +276,13 @@ export default function FormCmp({
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={resetBtnRef}
                   // onSubmit={() => resetForm(initData)}
                 ></button>

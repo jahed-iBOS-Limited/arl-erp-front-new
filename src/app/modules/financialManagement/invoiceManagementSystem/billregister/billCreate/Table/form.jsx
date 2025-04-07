@@ -9,7 +9,7 @@ import { shallowEqual, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
-import { attachmentUpload } from "../../../../../_helper/attachmentUpload";
+import { attachmentUpload } from '../../../../../_helper/attachmentUpload';
 import InternalExpenseGrid from '../../internalExpense/InternalExpenseGrid';
 import {
   Card,
@@ -31,7 +31,7 @@ import {
   GetApproveExpensesGroupApi,
   getCostCenterDDL,
   getExpenseFor,
-  SaveBillRegister_api
+  SaveBillRegister_api,
 } from './../../helper';
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -77,10 +77,10 @@ export default function HeaderForm() {
     expenseGroup:
       headerData?.billType?.value === 4
         ? {
-          value: "Other",
-          label: "Other",
-        }
-        : "",
+            value: 'Other',
+            label: 'Other',
+          }
+        : '',
     isGroup:
       headerData?.billType?.value === 4 ? { value: 2, label: 'Group' } : '',
   };
@@ -101,7 +101,7 @@ export default function HeaderForm() {
       getExpenseFor(
         profileData.accountId,
         selectedBusinessUnit.value,
-        setExpenseFor,
+        setExpenseFor
       );
     }
   }, [selectedBusinessUnit, profileData]);
@@ -138,7 +138,7 @@ export default function HeaderForm() {
         values?.CfromDate,
         values?.CtoDate,
         values?.expenseFor?.value,
-        values?.costCenter?.value,
+        values?.costCenter?.value
       );
     } else if (values?.isGroup?.value === 1) {
       // type Individual
@@ -153,7 +153,7 @@ export default function HeaderForm() {
         values?.CfromDate,
         values?.CtoDate,
         values?.expenseFor?.value,
-        values?.costCenter?.value,
+        values?.costCenter?.value
       );
     }
   };
@@ -178,7 +178,7 @@ export default function HeaderForm() {
         values?.plant?.value,
         values?.sbu?.value,
         setGridData,
-        setDisabled,
+        setDisabled
       );
     }
   };
@@ -191,7 +191,7 @@ export default function HeaderForm() {
         profileData.accountId,
         selectedBusinessUnit.value,
         values?.sbu?.value,
-        setCostCenterDDL,
+        setCostCenterDDL
       );
       if (values?.billType?.value === 3) {
         //Advance For Internal Expense
@@ -201,11 +201,10 @@ export default function HeaderForm() {
           values?.plant?.value,
           values?.sbu?.value,
           setGridData,
-          setDisabled,
+          setDisabled
         );
       }
     }
-
   }, [headerData]);
   const modalView = (code) => {
     return confirmAlert({
@@ -306,7 +305,7 @@ export default function HeaderForm() {
             girdDataFunc,
             allFromData,
             setFileObjects,
-            modalView,
+            modalView
           );
         })
         .catch((err) => console.log(err?.message));
@@ -322,7 +321,7 @@ export default function HeaderForm() {
         girdDataFunc,
         allFromData,
         setFileObjects,
-        modalView,
+        modalView
       );
     }
   };
@@ -471,8 +470,8 @@ export default function HeaderForm() {
                             setFieldValue(
                               'CfromDate',
                               _dateFormatter(
-                                moment(newDate).startOf('month').format(),
-                              ),
+                                moment(newDate).startOf('month').format()
+                              )
                             );
                             setFieldValue('CtoDate', _dateFormatter(newDate));
                           }}
@@ -498,8 +497,8 @@ export default function HeaderForm() {
                             setFieldValue(
                               'CfromDate',
                               _dateFormatter(
-                                moment(newDate).startOf('month').format(),
-                              ),
+                                moment(newDate).startOf('month').format()
+                              )
                             );
                             setFieldValue('CtoDate', _dateFormatter(newDate));
                           }}
@@ -522,13 +521,13 @@ export default function HeaderForm() {
                           min={
                             dateSetFunction(
                               values?.month?.value,
-                              values?.year?.value,
+                              values?.year?.value
                             )?.firstDate
                           }
                           max={
                             dateSetFunction(
                               values?.month?.value,
-                              values?.year?.value,
+                              values?.year?.value
                             )?.lestDate
                           }
                         />
@@ -548,13 +547,13 @@ export default function HeaderForm() {
                           min={
                             dateSetFunction(
                               values?.month?.value,
-                              values?.year?.value,
+                              values?.year?.value
                             )?.firstDate
                           }
                           max={
                             dateSetFunction(
                               values?.month?.value,
-                              values?.year?.value,
+                              values?.year?.value
                             )?.lestDate
                           }
                         />
@@ -656,7 +655,7 @@ export default function HeaderForm() {
                     }}
                     onDelete={(deleteFileObj) => {
                       const newData = fileObjects.filter(
-                        (item) => item.file.name !== deleteFileObj.file.name,
+                        (item) => item.file.name !== deleteFileObj.file.name
                       );
                       setFileObjects(newData);
                     }}

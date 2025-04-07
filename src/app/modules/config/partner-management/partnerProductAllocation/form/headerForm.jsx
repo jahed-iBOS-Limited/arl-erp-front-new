@@ -1,8 +1,8 @@
-import React from "react";
-import { Form } from "formik";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React from 'react';
+import { Form } from 'formik';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 export default function HeaderForm({
   customerDDL,
@@ -21,7 +21,7 @@ export default function HeaderForm({
     <Form className="form form-label-right mb-6">
       <div className="global-form">
         {/* Only For Create */}
-        {viewType !== "view" && viewType !== "edit" ? (
+        {viewType !== 'view' && viewType !== 'edit' ? (
           <div className="row">
             <div className="col-lg-3">
               <NewSelect
@@ -30,12 +30,12 @@ export default function HeaderForm({
                 options={lcNoDDL}
                 value={values?.lCno}
                 onChange={(valueOption) => {
-                  setFieldValue("lCno", valueOption);
+                  setFieldValue('lCno', valueOption);
                   setFieldValue(
-                    "permissionDate",
+                    'permissionDate',
                     _dateFormatter(valueOption?.allotmentRefDate)
                   );
-                  setFieldValue("permissionNo", valueOption?.allotmentRefNo);
+                  setFieldValue('permissionNo', valueOption?.allotmentRefNo);
                 }}
                 errors={errors}
                 touched={touched}
@@ -75,15 +75,15 @@ export default function HeaderForm({
               options={customerDDL || []}
               value={values?.customer}
               onChange={(valueOption) => {
-                setFieldValue("customer", valueOption);
+                setFieldValue('customer', valueOption);
                 setFieldValue(
-                  "upozila",
+                  'upozila',
                   valueOption?.upozilaName
                     ? {
                         value: valueOption?.upozilaId || 0,
-                        label: valueOption?.upozilaName || "",
+                        label: valueOption?.upozilaName || '',
                       }
-                    : ""
+                    : ''
                 );
               }}
               errors={errors}
@@ -98,7 +98,7 @@ export default function HeaderForm({
               options={upozilaList || []}
               value={values?.upozila}
               onChange={(valueOption) => {
-                setFieldValue("upozila", valueOption);
+                setFieldValue('upozila', valueOption);
               }}
               errors={errors}
               touched={touched}
@@ -112,12 +112,12 @@ export default function HeaderForm({
               options={productNameDDL || []}
               value={values?.productName}
               onChange={(valueOption) => {
-                setFieldValue("productName", valueOption);
-                setFieldValue("uomName", valueOption?.uomName);
+                setFieldValue('productName', valueOption);
+                setFieldValue('uomName', valueOption?.uomName);
               }}
               errors={errors}
               touched={touched}
-              isDisabled={viewType === "view"}
+              isDisabled={viewType === 'view'}
             />
           </div>
           <div className="col-lg-3">
@@ -139,14 +139,14 @@ export default function HeaderForm({
               name="allotedQnt"
               type="number"
               onChange={(e) => {
-                setFieldValue("allotedQnt", e.target.value);
+                setFieldValue('allotedQnt', e.target.value);
                 setFieldValue(
-                  "grandTotal",
+                  'grandTotal',
                   Number(e.target.value * Number(values?.rate))
                 );
               }}
               touched={touched}
-              disabled={viewType === "view"}
+              disabled={viewType === 'view'}
             />
           </div>
           <div className="col-lg-3">
@@ -157,14 +157,14 @@ export default function HeaderForm({
               name="rate"
               type="number"
               onChange={(e) => {
-                setFieldValue("rate", e.target.value);
+                setFieldValue('rate', e.target.value);
                 setFieldValue(
-                  "grandTotal",
+                  'grandTotal',
                   Number(e.target.value * Number(values?.allotedQnt))
                 );
               }}
               touched={touched}
-              disabled={viewType === "view"}
+              disabled={viewType === 'view'}
             />
           </div>
           <div className="col-lg-3">
@@ -186,7 +186,7 @@ export default function HeaderForm({
               name="remarks"
               type="text"
               touched={touched}
-              disabled={viewType === "view"}
+              disabled={viewType === 'view'}
             />
           </div>
           <div className="col-lg-3">
@@ -212,7 +212,7 @@ export default function HeaderForm({
             />
           </div>
 
-          {viewType !== "view" && viewType !== "edit" ? (
+          {viewType !== 'view' && viewType !== 'edit' ? (
             <div className="col-lg-12 mt-2 d-flex justify-content-end">
               <div>
                 <button

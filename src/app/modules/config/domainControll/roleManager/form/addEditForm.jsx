@@ -1,11 +1,10 @@
-
-import React, { useEffect, useState } from "react";
-import Form from "./form";
-import { useSelector, shallowEqual } from "react-redux";
-import { useParams } from "react-router-dom";
-import Loading from "./../../../../_helper/_loading";
-import IForm from "./../../../../_helper/_form";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from 'react';
+import Form from './form';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import Loading from './../../../../_helper/_loading';
+import IForm from './../../../../_helper/_form';
+import { toast } from 'react-toastify';
 import {
   getModuleNameDDL,
   getUserDDL,
@@ -15,23 +14,23 @@ import {
   getRoleManagerById,
   getFeatureGroupDDL,
   getFeatureDDL,
-} from "../helper";
+} from '../helper';
 
 const initData = {
-  userPermissionId: "",
-  permissionType: "",
-  user: "",
-  userGroup: "",
-  module: "",
-  feature: "",
-  featureGroup: "",
+  userPermissionId: '',
+  permissionType: '',
+  user: '',
+  userGroup: '',
+  module: '',
+  feature: '',
+  featureGroup: '',
 };
 
 const RoleManagerForm = () => {
   const { id } = useParams();
   const [isDisabled, setDisabled] = useState(false);
   const [rowData, setRowData] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   // State for conditionally render DDL
   const [permissionType, setPermissionType] = useState(0);
@@ -155,8 +154,8 @@ const RoleManagerForm = () => {
             });
             createRoleManager(payload, setDisabled, cb);
           } else {
-            toast.warning("Please select atleast one activity", {
-              toastId: "Psaoa",
+            toast.warning('Please select atleast one activity', {
+              toastId: 'Psaoa',
             });
           }
         }
@@ -187,17 +186,18 @@ const RoleManagerForm = () => {
           // editRoleManager(payload, setDisabled, cb);
           createRoleManager(payload, setDisabled);
         } else if (permissionType === 1 || permissionType === 3) {
-          let filterIsSelect = rowData || rowData?.filter((item) => item?.isSelect);
-          let foundFilterSelectedOneActivityCheck = [] || filterIsSelect?.filter(
-            (item) => {
+          let filterIsSelect =
+            rowData || rowData?.filter((item) => item?.isSelect);
+          let foundFilterSelectedOneActivityCheck =
+            [] ||
+            filterIsSelect?.filter((item) => {
               return (
                 !item?.isCreate &&
                 !item?.isEdit &&
                 !item?.isView &&
                 !item?.isClose
               );
-            }
-          );
+            });
           if (
             filterIsSelect?.length > 0 &&
             foundFilterSelectedOneActivityCheck.length === 0
@@ -224,8 +224,8 @@ const RoleManagerForm = () => {
             // editRoleManager({ objRow: payload }, setDisabled, cb);
             createRoleManager(payload, setDisabled);
           } else {
-            toast.warning("Please select atleast one activity", {
-              toastId: "Psaoa",
+            toast.warning('Please select atleast one activity', {
+              toastId: 'Psaoa',
             });
           }
         }
@@ -242,7 +242,7 @@ const RoleManagerForm = () => {
   return (
     <>
       <IForm
-        title={!id ? "Create Role Manager" : "Edit Role Manager"}
+        title={!id ? 'Create Role Manager' : 'Edit Role Manager'}
         getProps={setObjprops}
         isDisabled={isDisabled}
       >

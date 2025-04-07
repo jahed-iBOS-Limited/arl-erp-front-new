@@ -9,8 +9,9 @@
 }
 
 .print-invoice-wrapper-sales-invoice {
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  font-family:
+    'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande',
+    'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   line-height: 1.6;
 }
 
@@ -76,7 +77,6 @@
   /* background-color: #ebebe5; */
 }
 
-
 .print-invoice-wrapper-sales-invoice tbody tr:last-child {
   border-bottom: 2px solid black;
 }
@@ -120,7 +120,7 @@
   justify-content: space-between;
   align-items: flex-end;
   margin-bottom: -5px;
-  padding: 0 50px
+  padding: 0 50px;
 }
 
 .print-invoice-wrapper-sales-invoice .signature p {
@@ -144,7 +144,6 @@
 .sales-invoice-preview table .sales-invoice-hide {
   display: none;
 }
-
 
 @media print {
   .print-invoice-wrapper-sales-invoice .signature {

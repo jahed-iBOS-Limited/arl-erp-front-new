@@ -1,7 +1,7 @@
-import React from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { getSalesConfigPagination } from "./helper";
+import React from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { getSalesConfigPagination } from './helper';
 
 const BusTaxConfigSchema = Yup.object().shape({
   isUse: Yup.bool(),
@@ -56,69 +56,69 @@ export default function RoleExForm({
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ fontSize: "10px" }}>
+                            <th style={{ fontSize: '10px' }}>
                               <div className="test-rotate">Uses</div>
                             </th>
-                            <th style={{ fontSize: "10px" }}>
+                            <th style={{ fontSize: '10px' }}>
                               <div className="test-rotate">Order Type</div>
                             </th>
-                            <th style={{ fontSize: "10px" }}>
+                            <th style={{ fontSize: '10px' }}>
                               <div className="test-rotate">
                                 Partner Balance Check On Order
                               </div>
                             </th>
-                            <th style={{ fontSize: "10px" }}>
+                            <th style={{ fontSize: '10px' }}>
                               <div className="test-rotate">
                                 Partner Balance Check On Delivery
                               </div>
                             </th>
-                            <th style={{ fontSize: "10px" }}>
+                            <th style={{ fontSize: '10px' }}>
                               <div className="test-rotate">
                                 Balance Block During Order
                               </div>
                             </th>
-                            <th style={{ fontSize: "10px" }}>
+                            <th style={{ fontSize: '10px' }}>
                               <div className="test-rotate">
                                 Balance Block During Delivery
                               </div>
                             </th>
-                            <th style={{ fontSize: "10px" }}>
+                            <th style={{ fontSize: '10px' }}>
                               <div className="test-rotate">
                                 Stock Check On Order
                               </div>
                             </th>
-                            <th style={{ fontSize: "10px" }}>
+                            <th style={{ fontSize: '10px' }}>
                               <div className="test-rotate">
                                 Stock Check On Delivery
                               </div>
                             </th>
-                            <th style={{ fontSize: "10px" }}>
+                            <th style={{ fontSize: '10px' }}>
                               <div className="test-rotate">
                                 Stock Block On Order
                               </div>
                             </th>
-                            <th style={{ fontSize: "10px" }}>
+                            <th style={{ fontSize: '10px' }}>
                               <div className="test-rotate">
                                 Stock Block On Delivery
                               </div>
                             </th>
-                            <th style={{ fontSize: "10px" }}>
+                            <th style={{ fontSize: '10px' }}>
                               <div className="test-rotate">Account Posting</div>
                             </th>
-                            <th style={{ fontSize: "10px" }}>
+                            <th style={{ fontSize: '10px' }}>
                               <div className="test-rotate">Inventory</div>
                             </th>
-                            <th style={{ fontSize: "10px" }}>
+                            <th style={{ fontSize: '10px' }}>
                               <div className="test-rotate">
-                                Order Required For Production Order{" "}
+                                Order Required For Production Order{' '}
                               </div>
                             </th>
-                            <th style={{ fontSize: "10px" }}>
+                            <th style={{ fontSize: '10px' }}>
                               <div className="test-rotate">
                                 Stock Check on Shipment
                               </div>
                             </th>
-                            <th style={{ fontSize: "10px" }}>
+                            <th style={{ fontSize: '10px' }}>
                               <div className="test-rotate">
                                 Auto Sales Invoice
                               </div>
@@ -534,14 +534,14 @@ export default function RoleExForm({
                             </tr>
                           ))}
                         </tbody>
-                      </table>{" "}
+                      </table>{' '}
                     </div>
                   )}
                 </div>
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
               ></button>
             </Form>

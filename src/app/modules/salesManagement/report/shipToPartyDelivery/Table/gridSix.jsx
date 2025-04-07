@@ -1,53 +1,53 @@
-import React from "react";
-import ICustomTable from "../../../../_helper/_customTable";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
+import React from 'react';
+import ICustomTable from '../../../../_helper/_customTable';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import { _fixedPoint } from './../../../../_helper/_fixedPoint';
 
 const ths = [
-  "Sl",
-  "Date",
-  "SO Number",
-  "Challan No",
-  "Product Name",
-  "UoM",
-  "Product Rate",
-  "Product Quantity",
-  "Amount",
-  "Trs. Zone Name",
-  "Trs. Zone Rate",
-  "Trs. Zone Amount",
-  "Handling Rate",
-  "Handling Cost",
-  "Loading Labour Rate",
-  "Loading Labour Cost",
-  "Subsidiary Rate",
-  "Subsidiary",
-  "Grand Amount",
+  'Sl',
+  'Date',
+  'SO Number',
+  'Challan No',
+  'Product Name',
+  'UoM',
+  'Product Rate',
+  'Product Quantity',
+  'Amount',
+  'Trs. Zone Name',
+  'Trs. Zone Rate',
+  'Trs. Zone Amount',
+  'Handling Rate',
+  'Handling Cost',
+  'Loading Labour Rate',
+  'Loading Labour Cost',
+  'Subsidiary Rate',
+  'Subsidiary',
+  'Grand Amount',
 ];
 
 const thsWithShipPointAll = [
-  "Sl",
-  "Date",
-  "SO Number",
-  "Challan No",
-  "Product Name",
-  "Shippoint",
-  "UoM",
-  "Product Rate",
-  "Product Quantity",
-  "Amount",
-  "Trs. Zone Name",
-  "Trs. Zone Rate",
-  "Trs. Zone Amount",
-  "Handling Rate",
-  "Handling Cost",
-  "Loading Labour Rate",
-  "Loading Labour Cost",
-  "Subsidiary Rate",
-  "Subsidiary",
-  "Grand Amount",
+  'Sl',
+  'Date',
+  'SO Number',
+  'Challan No',
+  'Product Name',
+  'Shippoint',
+  'UoM',
+  'Product Rate',
+  'Product Quantity',
+  'Amount',
+  'Trs. Zone Name',
+  'Trs. Zone Rate',
+  'Trs. Zone Amount',
+  'Handling Rate',
+  'Handling Cost',
+  'Loading Labour Rate',
+  'Loading Labour Cost',
+  'Subsidiary Rate',
+  'Subsidiary',
+  'Grand Amount',
 ];
 
 function TableGirdSix({ rowDto, values }) {
@@ -58,7 +58,7 @@ function TableGirdSix({ rowDto, values }) {
 
   return (
     <ICustomTable
-      ths={values?.shippointDDL?.label === "All" ? thsWithShipPointAll : ths}
+      ths={values?.shippointDDL?.label === 'All' ? thsWithShipPointAll : ths}
     >
       <>
         {rowDto.map((itmOne) => {
@@ -72,10 +72,10 @@ function TableGirdSix({ rowDto, values }) {
           );
           return (
             <>
-              <tr style={{ background: "#f1dbdb" }}>
+              <tr style={{ background: '#f1dbdb' }}>
                 <td
                   colSpan={
-                    values?.shippointDDL?.label === "All"
+                    values?.shippointDDL?.label === 'All'
                       ? thsWithShipPointAll.length
                       : ths.length
                   }
@@ -99,7 +99,7 @@ function TableGirdSix({ rowDto, values }) {
                     <td>{itm?.so}</td>
                     <td>{itm?.deliveryCode}</td>
                     <td> {itm?.itemName}</td>
-                    {values?.shippointDDL?.label === "All" && (
+                    {values?.shippointDDL?.label === 'All' && (
                       <td>{itm?.shipPointName}</td>
                     )}
                     <td className="text-center">{itm?.uomName}</td>
@@ -150,7 +150,7 @@ function TableGirdSix({ rowDto, values }) {
 
               <tr className="text-right font-weight-bold">
                 <td
-                  colSpan={values?.shippointDDL?.label === "All" ? "8" : "7"}
+                  colSpan={values?.shippointDDL?.label === 'All' ? '8' : '7'}
                   className="text-right"
                 >
                   Total
@@ -199,13 +199,13 @@ function TableGirdSix({ rowDto, values }) {
                 <td></td>
                 <td></td>
                 <td>
-                  {" "}
+                  {' '}
                   {_formatMoney(
                     itmOne?.objList?.reduce(
                       (acc, cur) => (acc += cur?.loadingLabourCostAmaount),
                       0
                     )
-                  )}{" "}
+                  )}{' '}
                   {/* {_formatMoney(
                     itmOne?.objList?.reduce(
                       (acc, cur) => (acc += cur?.handlingCost),
@@ -233,7 +233,7 @@ function TableGirdSix({ rowDto, values }) {
         })}
         <tr>
           <td
-            colSpan={values?.shippointDDL?.label === "All" ? "11" : "12"}
+            colSpan={values?.shippointDDL?.label === 'All' ? '11' : '12'}
             className="text-right"
           >
             <b>Grand Total </b>

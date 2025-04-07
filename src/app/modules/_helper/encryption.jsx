@@ -12,7 +12,7 @@ export const makeEncryption = (data) => {
       iv: iv,
       mode: CryptoJS.mode.CBC,
       padding: CryptoJS.pad.Pkcs7,
-    },
+    }
   ).toString();
   // return import.meta.env.MODE === "production"  ? encryptedText : data;
   return encryptedText;

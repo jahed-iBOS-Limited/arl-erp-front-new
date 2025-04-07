@@ -1,30 +1,30 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import Loading from "../../../../_helper/_loading";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import Loading from '../../../../_helper/_loading';
 import {
   EditVehicleAndSupplierInfo_api,
   GetSupplierAndVehicleInfo_api,
   getDistributionChannelDDL_api,
-} from "../helper";
+} from '../helper';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "./../../../../../../_metronic/_partials/controls";
-import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import InputField from "./../../../../_helper/_inputField";
-import NewSelect from "./../../../../_helper/_select";
+} from './../../../../../../_metronic/_partials/controls';
+import SearchAsyncSelect from './../../../../_helper/SearchAsyncSelect';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import InputField from './../../../../_helper/_inputField';
+import NewSelect from './../../../../_helper/_select';
 
 const initData = {
-  customer: "",
-  challan: "",
-  supplierName: "",
-  distributionChannel: "",
+  customer: '',
+  challan: '',
+  supplierName: '',
+  distributionChannel: '',
 };
 
 function TransportSupplierUpdate() {
@@ -68,22 +68,19 @@ function TransportSupplierUpdate() {
             <Form>
               <Card>
                 {true && <ModalProgressBar />}
-                <CardHeader title={"Transport Supplier Update"}>
+                <CardHeader title={'Transport Supplier Update'}>
                   <CardHeaderToolbar>
                     <button
                       className="btn btn-primary ml-2"
                       type="button"
                       onClick={(e) => {
-                        const {
-                          vehicleId,
-                          vehicleName,
-                          shipmentId,
-                        } = gridData?.[0];
+                        const { vehicleId, vehicleName, shipmentId } =
+                          gridData?.[0];
                         const payload = {
                           vehicleId: vehicleId || 0,
-                          vehicleName: vehicleName || "",
+                          vehicleName: vehicleName || '',
                           supplierId: values?.supplierName?.value || 0,
-                          supplierName: values?.supplierName?.label || "",
+                          supplierName: values?.supplierName?.label || '',
                           shipmentId: shipmentId || 0,
                           actionBy: profileData?.userId,
                         };
@@ -111,8 +108,8 @@ function TransportSupplierUpdate() {
                         value={values?.distributionChannel}
                         label="Distribution Channel"
                         onChange={(valueOption) => {
-                          setFieldValue("distributionChannel", valueOption);
-                          setFieldValue("customer", "");
+                          setFieldValue('distributionChannel', valueOption);
+                          setFieldValue('customer', '');
                           setGridData([]);
                         }}
                         placeholder="Distribution Channel"
@@ -127,7 +124,7 @@ function TransportSupplierUpdate() {
                         <SearchAsyncSelect
                           selectedValue={values?.customer}
                           handleChange={(valueOption) => {
-                            setFieldValue("customer", valueOption);
+                            setFieldValue('customer', valueOption);
                             setGridData([]);
                           }}
                           isDisabled={!values?.distributionChannel}
@@ -152,8 +149,8 @@ function TransportSupplierUpdate() {
                         placeholder="Challan"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("challan", e.target.value)
-                          setGridData([])
+                          setFieldValue('challan', e.target.value);
+                          setGridData([]);
                         }}
                       />
                     </div>
@@ -172,14 +169,14 @@ function TransportSupplierUpdate() {
                       </button>
                     </div>
                     <div className="col-lg-12">
-                      <hr className="mb-0 mt-1"/>
+                      <hr className="mb-0 mt-1" />
                     </div>
                     <div className="col-lg-4">
                       <label>Supplier Name</label>
                       <SearchAsyncSelect
                         selectedValue={values.supplierName}
                         handleChange={(valueOption) => {
-                          setFieldValue("supplierName", valueOption);
+                          setFieldValue('supplierName', valueOption);
                         }}
                         loadOptions={(v) => {
                           const searchValue = v.trim();
@@ -204,40 +201,40 @@ function TransportSupplierUpdate() {
                   </div>
 
                   <div className="table-responsive">
-                  <table className="table table-striped table-bordered global-table">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Supplier</th>
-                        <th>Shipment</th>
-                        <th>Vehicle No.</th>
-                        <th>Ship to party</th>
-                        <th>Address</th>
-                        <th>Date</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.map((item, index) => (
-                        <tr key={index}>
-                          <td> {index + 1}</td>
-                          <td> {item?.supplierName}</td>
-                          <td> {item?.shipmentId}</td>
-                          <td> {item?.vehicleName}</td>
-                          <td> {item?.shipToPartnerName}</td>
-                          <td> {item?.shiptToPartyAddress}</td>
-                          <td> {_dateFormatter(item?.shipmentDate)}</td>
+                    <table className="table table-striped table-bordered global-table">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Supplier</th>
+                          <th>Shipment</th>
+                          <th>Vehicle No.</th>
+                          <th>Ship to party</th>
+                          <th>Address</th>
+                          <th>Date</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {gridData?.map((item, index) => (
+                          <tr key={index}>
+                            <td> {index + 1}</td>
+                            <td> {item?.supplierName}</td>
+                            <td> {item?.shipmentId}</td>
+                            <td> {item?.vehicleName}</td>
+                            <td> {item?.shipToPartnerName}</td>
+                            <td> {item?.shiptToPartyAddress}</td>
+                            <td> {_dateFormatter(item?.shipmentDate)}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 </CardBody>
               </Card>
-            </Form> 
+            </Form>
           </>
         )}
       </Formik>
-    </> 
+    </>
   );
 }
 

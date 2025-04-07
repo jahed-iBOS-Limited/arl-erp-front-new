@@ -30,9 +30,12 @@ const initData = {
 };
 
 export default function RawMaterialAutoPRNew() {
-  const { selectedBusinessUnit, businessUnitList,profileData } = useSelector((state) => {
-    return state.authData;
-  }, shallowEqual);
+  const { selectedBusinessUnit, businessUnitList, profileData } = useSelector(
+    (state) => {
+      return state.authData;
+    },
+    shallowEqual
+  );
 
   const [singleRowData, setSingleRowData] = useState();
   const [plantDDL, setPlantDDL] = useState([]);
@@ -46,7 +49,7 @@ export default function RawMaterialAutoPRNew() {
   // reducer
   const [commonItemDetailsState, commonItemDetailsDispatch] = useReducer(
     commonItemReducer,
-    commonItemInitialState,
+    commonItemInitialState
   );
 
   const [
@@ -58,9 +61,13 @@ export default function RawMaterialAutoPRNew() {
 
   useEffect(() => {
     if (selectedBusinessUnit) {
-      getPlantDDL(profileData?.userId,profileData?.accountId,selectedBusinessUnit?.value,setPlantDDL)
+      getPlantDDL(
+        profileData?.userId,
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        setPlantDDL
+      );
     }
-
   }, [selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {};
@@ -68,7 +75,7 @@ export default function RawMaterialAutoPRNew() {
   const getData = (values) => {
     setMrpfromProductionScheduleLanding([]);
     getMrpfromProductionScheduleLanding(
-      `/procurement/MRPFromProduction/MrpfromProductionScheduleLanding?businessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&plantId=${values?.plant?.value || 0}`,
+      `/procurement/MRPFromProduction/MrpfromProductionScheduleLanding?businessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&plantId=${values?.plant?.value || 0}`
     );
   };
 
@@ -134,26 +141,31 @@ export default function RawMaterialAutoPRNew() {
                       onChange={(valueOption) => {
                         setFieldValue('businessUnit', valueOption || '');
                         setFieldValue('plant', '');
-                        getPlantDDL(profileData?.userId,profileData?.accountId,valueOption?.value,setPlantDDL)
+                        getPlantDDL(
+                          profileData?.userId,
+                          profileData?.accountId,
+                          valueOption?.value,
+                          setPlantDDL
+                        );
                       }}
                       errors={errors}
                       touched={touched}
                     />
                   </div>
                   <div className="col-lg-3">
-                      <NewSelect
-                        name="plant"
-                        options={plantDDL}
-                        value={values?.plant}
-                        label="Select Plant"
-                        onChange={(valueOption) => {
-                          setFieldValue("plant", valueOption);
-                        }}
-                        placeholder="Select Plant"
-                        errors={errors}
-                        touched={touched}
-                      />
-                    </div>
+                    <NewSelect
+                      name="plant"
+                      options={plantDDL}
+                      value={values?.plant}
+                      label="Select Plant"
+                      onChange={(valueOption) => {
+                        setFieldValue('plant', valueOption);
+                      }}
+                      placeholder="Select Plant"
+                      errors={errors}
+                      touched={touched}
+                    />
+                  </div>
                   <div className="col-lg-3">
                     <InputField
                       value={values?.fromDate}
@@ -231,7 +243,7 @@ export default function RawMaterialAutoPRNew() {
                                     </td>
                                   </tr>
                                 );
-                              },
+                              }
                             )}
                         </tbody>
                       </table>
@@ -317,7 +329,7 @@ export default function RawMaterialAutoPRNew() {
                 singleRowDataFromParent={singleRowData}
                 values={values}
               /> */}
-               <RawMaterialAutoPRNewModalViewVersionTwo
+              <RawMaterialAutoPRNewModalViewVersionTwo
                 singleRowDataFromParent={singleRowData}
                 values={values}
               />

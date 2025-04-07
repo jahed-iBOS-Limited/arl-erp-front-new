@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { dateFormatWithMonthName } from '../../../../_helper/_dateFormate';
 import numberWithCommas from '../../../../_helper/_numberWithCommas';
@@ -35,7 +34,7 @@ export const FormatEight = ({
         adviceReportData.map(async (item) => {
           const moneyInWord = await fetchMoneyInWord(item?.numAmount);
           return moneyInWord;
-        }),
+        })
       );
       setAmounts(newAmounts);
     };

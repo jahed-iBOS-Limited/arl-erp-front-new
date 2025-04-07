@@ -1,16 +1,16 @@
 //
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import { getPermissionBuID_api, saveAllGlExtend } from "../../helper";
-import IForm from "../../../../../../_helper/_form";
-import Loading from "../../../../../../_helper/_loading";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { getPermissionBuID_api, saveAllGlExtend } from '../../helper';
+import IForm from '../../../../../../_helper/_form';
+import Loading from '../../../../../../_helper/_loading';
 
 const initData = {
   id: undefined,
-  businessUnitName: "",
+  businessUnitName: '',
   type: false,
 };
 
@@ -48,7 +48,7 @@ export default function AllextendGLForm({
 
   //SingleData to view
 
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   const saveHandler = async (values, cb) => {
     setDisabled(true);
@@ -66,7 +66,7 @@ export default function AllextendGLForm({
       }));
 
       if (rowDto?.length === 0) {
-        toast.warn("Please add transaction");
+        toast.warn('Please add transaction');
       } else {
         const callBackFunc = () => {
           cb();

@@ -1,7 +1,7 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const GetLighterAllotmentPagination = async (
   accId,
@@ -18,8 +18,9 @@ export const GetLighterAllotmentPagination = async (
   try {
     setLoading(true);
     const res = await Axios.get(
-      `/wms/FertilizerOperation/GetLighterAllotmentPagination?AccountId=${accId}&BusinessUnitId=${buId}&MotherVesselId=${motherVesselId ||
-      0}&PortId=${portId || 0}&PageNo=${pageNo}&PageSize=${pageSize}`
+      `/wms/FertilizerOperation/GetLighterAllotmentPagination?AccountId=${accId}&BusinessUnitId=${buId}&MotherVesselId=${
+        motherVesselId || 0
+      }&PortId=${portId || 0}&PageNo=${pageNo}&PageSize=${pageSize}`
     );
 
     if (res.status === 200 && res?.data) {
@@ -34,7 +35,7 @@ export const GetTotalVsActualPagination = async (
   buId,
   status,
   setter,
-  setLoading,
+  setLoading
 ) => {
   try {
     setLoading(true);
@@ -52,8 +53,6 @@ export const GetTotalVsActualPagination = async (
   }
 };
 
-
-
 // create
 export const CreateLighterAllotment = async (payload, setLoading, cb) => {
   setLoading && setLoading(true);
@@ -64,7 +63,7 @@ export const CreateLighterAllotment = async (payload, setLoading, cb) => {
     );
     if (res.status === 200) {
       cb && cb();
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       setLoading && setLoading(false);
     }
   } catch (error) {
@@ -82,7 +81,7 @@ export const EditLighterAllotment = async (payload, setLoading, cb) => {
     );
     if (res.status === 200) {
       cb && cb();
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       setLoading && setLoading(false);
     }
   } catch (error) {
@@ -91,8 +90,6 @@ export const EditLighterAllotment = async (payload, setLoading, cb) => {
     setLoading && setLoading(false);
   }
 };
-
-
 
 export const GetLighterStevedoreDDL = async (setter) => {
   try {
@@ -154,13 +151,13 @@ export const GetLighterVesselList = async (
       `/wms/FertilizerOperation/GetLighterVesselForAllotment?PortId=${portId}&MotherVesselId=${vesselId}&ProgramNo=${programNo}`
     );
     if (res?.data?.length < 1) {
-      toast.warn("Please configure lighter vessel, port, program no, etc.");
+      toast.warn('Please configure lighter vessel, port, program no, etc.');
     } else {
       setter(
         res?.data?.map((item) => ({
           ...item,
-          surveyQty: "",
-          unloadingPort: "",
+          surveyQty: '',
+          unloadingPort: '',
           isSelected: false,
         }))
       );
@@ -173,8 +170,6 @@ export const GetLighterVesselList = async (
   }
 };
 
-
-
 export const DeleteLighterAllotment = async (id, setLoading, cb) => {
   setLoading(true);
   try {
@@ -182,7 +177,7 @@ export const DeleteLighterAllotment = async (id, setLoading, cb) => {
       `/wms/FertilizerOperation/DeleteLighterAllotment?AllotmentNo=${id}`
     );
 
-    toast.success(res?.data?.message || "Delete Casting Schedule");
+    toast.success(res?.data?.message || 'Delete Casting Schedule');
     cb();
     setLoading(false);
   } catch (error) {
@@ -227,7 +222,7 @@ export const GetLighterAllotmentById = async ({
       },
       allotmentDate: _dateFormatter(h?.allotmentDate),
       lotNo: h?.lotNo,
-      type: h?.type || "badc",
+      type: h?.type || 'badc',
     };
 
     setter && setter(singleHeader);
@@ -259,27 +254,27 @@ export const GetLighterAllotmentById = async ({
 
 export const validationSchema = Yup.object().shape({
   motherVessel: Yup.object().shape({
-    label: Yup.string().required("Mother Vessel is required"),
-    value: Yup.string().required("Mother Vessel is required"),
+    label: Yup.string().required('Mother Vessel is required'),
+    value: Yup.string().required('Mother Vessel is required'),
   }),
   loadingPort: Yup.object().shape({
-    label: Yup.string().required("Loading Port is required"),
-    value: Yup.string().required("Loading Port is required"),
+    label: Yup.string().required('Loading Port is required'),
+    value: Yup.string().required('Loading Port is required'),
   }),
   item: Yup.object().shape({
-    label: Yup.string().required("Item is required"),
-    value: Yup.string().required("Item is required"),
+    label: Yup.string().required('Item is required'),
+    value: Yup.string().required('Item is required'),
   }),
-  lotNo: Yup.string().required("Lot No is required"),
+  lotNo: Yup.string().required('Lot No is required'),
   cnf: Yup.object().shape({
-    label: Yup.string().required("CNF is required"),
-    value: Yup.string().required("CNF is required"),
+    label: Yup.string().required('CNF is required'),
+    value: Yup.string().required('CNF is required'),
   }),
   steveDore: Yup.object().shape({
-    label: Yup.string().required("Steve dore is required"),
-    value: Yup.string().required("Steve dore is required"),
+    label: Yup.string().required('Steve dore is required'),
+    value: Yup.string().required('Steve dore is required'),
   }),
-  allotmentDate: Yup.string().required("Allotment date is required"),
+  allotmentDate: Yup.string().required('Allotment date is required'),
 });
 
 export const updateCNFInfo = async (payload, setLoading, cb) => {
@@ -290,7 +285,7 @@ export const updateCNFInfo = async (payload, setLoading, cb) => {
       payload
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb && cb();
       setLoading(false);
     }

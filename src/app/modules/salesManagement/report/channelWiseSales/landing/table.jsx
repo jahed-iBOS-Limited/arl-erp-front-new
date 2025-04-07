@@ -1,33 +1,33 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import ICard from "../../../../_helper/_card";
-import ICustomTable from "../../../../_helper/_customTable";
-import { Formik, Form } from "formik";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import NewSelect from "../../../../_helper/_select";
-import * as Yup from "yup";
-import { IInput } from "../../../../_helper/_input";
-import Loading from "../../../../_helper/_loading";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
+import React, { useEffect, useState, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import ICard from '../../../../_helper/_card';
+import ICustomTable from '../../../../_helper/_customTable';
+import { Formik, Form } from 'formik';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import NewSelect from '../../../../_helper/_select';
+import * as Yup from 'yup';
+import { IInput } from '../../../../_helper/_input';
+import Loading from '../../../../_helper/_loading';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
 import {
   getDistributionChannelDDL,
   getChannelWiseSalesReportLandingData,
-} from "../helper";
-import { _currentTime } from "../../../../_helper/_currentTime";
-import { TimeFormatter24Hour } from "../../../../_helper/currentDateTime24HourFormat";
+} from '../helper';
+import { _currentTime } from '../../../../_helper/_currentTime';
+import { TimeFormatter24Hour } from '../../../../_helper/currentDateTime24HourFormat';
 
 // Table Header
-const ths = ["Sl", "Product Code", "Product Name", "UoM", "QTY", "Amount"];
+const ths = ['Sl', 'Product Code', 'Product Name', 'UoM', 'QTY', 'Amount'];
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  fromDate: Yup.date().required("From Date is required"),
-  toDate: Yup.date().required("To Date is required"),
-  fromTime: Yup.string().required("Time is required"),
-  toTime: Yup.string().required("Time is required"),
+  fromDate: Yup.date().required('From Date is required'),
+  toDate: Yup.date().required('To Date is required'),
+  fromTime: Yup.string().required('Time is required'),
+  toTime: Yup.string().required('Time is required'),
   distributionChannel: Yup.object().shape({
-    label: Yup.string().required("Distribution Channel is required"),
-    value: Yup.string().required("Distribution Channel is required"),
+    label: Yup.string().required('Distribution Channel is required'),
+    value: Yup.string().required('Distribution Channel is required'),
   }),
 });
 
@@ -36,7 +36,7 @@ const initData = {
   toDate: _todayDate(),
   fromTime: _currentTime(),
   toTime: _currentTime(),
-  distributionChannel: "",
+  distributionChannel: '',
 };
 
 export default function ChannelWiseSalesReportLanding() {
@@ -64,7 +64,6 @@ export default function ChannelWiseSalesReportLanding() {
         setDistributionChannelDDL
       );
     }
-
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   const viewHandler = async (values, setter) => {
@@ -127,7 +126,7 @@ export default function ChannelWiseSalesReportLanding() {
                               name="fromDate"
                               type="date"
                               onChange={(e) => {
-                                setFieldValue("fromDate", e?.target?.value);
+                                setFieldValue('fromDate', e?.target?.value);
                                 setRowDto([]);
                               }}
                             />
@@ -139,7 +138,7 @@ export default function ChannelWiseSalesReportLanding() {
                               name="fromTime"
                               type="time"
                               onChange={(e) => {
-                                setFieldValue("fromTime", e?.target?.value);
+                                setFieldValue('fromTime', e?.target?.value);
                                 setRowDto([]);
                               }}
                             />
@@ -154,7 +153,7 @@ export default function ChannelWiseSalesReportLanding() {
                               name="toDate"
                               type="date"
                               onChange={(e) => {
-                                setFieldValue("toDate", e?.target?.value);
+                                setFieldValue('toDate', e?.target?.value);
                                 setRowDto([]);
                               }}
                             />
@@ -166,7 +165,7 @@ export default function ChannelWiseSalesReportLanding() {
                               name="toTime"
                               type="time"
                               onChange={(e) => {
-                                setFieldValue("toTime", e?.target?.value);
+                                setFieldValue('toTime', e?.target?.value);
                                 setRowDto([]);
                               }}
                             />
@@ -177,13 +176,13 @@ export default function ChannelWiseSalesReportLanding() {
                           <NewSelect
                             name="distributionChannel"
                             options={[
-                              { value: 0, label: "All" },
+                              { value: 0, label: 'All' },
                               ...distributionChannelDDL,
                             ]}
                             value={values?.distributionChannel}
                             label="Distribution Channel"
                             onChange={(valueOption) => {
-                              setFieldValue("distributionChannel", valueOption);
+                              setFieldValue('distributionChannel', valueOption);
                               setRowDto([]);
                             }}
                             placeholder="Distribution Channel"
@@ -217,7 +216,7 @@ export default function ChannelWiseSalesReportLanding() {
                         <td> {itm?.productName}</td>
                         <td> {itm?.uom}</td>
                         <td className="text-center">
-                          {" "}
+                          {' '}
                           {numberWithCommas(itm?.productQTY)}
                         </td>
                         <td className="text-right">

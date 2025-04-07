@@ -1,21 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { _dateFormatter } from "../../_helper/_dateFormate";
-import "./slideReportView.css";
+import React, { useState, useEffect } from 'react';
+import { _dateFormatter } from '../../_helper/_dateFormate';
+import './slideReportView.css';
 
 // this report table is used from four place,
 // individual kpi, sbu kpi, department kpi, corporate kpi
 export default function SlideReportView({ heading, currentItem, newData }) {
-  const [index, setIndex] = useState("");
+  const [index, setIndex] = useState('');
   const [datas, setDatas] = useState([]);
   const [colorIndex, setColorIndex] = useState(0);
 
   useEffect(() => {
     setIndex(currentItem.index);
     setDatas(newData);
-
   }, [currentItem]);
 
-  let colorArr = ["#a6a6a6", "#ffd966"];
+  let colorArr = ['#a6a6a6', '#ffd966'];
 
   const handleArrowRight = () => {
     // right arrow key
@@ -56,13 +55,12 @@ export default function SlideReportView({ heading, currentItem, newData }) {
   };
 
   React.useEffect(() => {
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown);
 
     // cleanup this component
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener('keydown', handleKeyDown);
     };
-
   }, [index, colorIndex]);
 
   return (
@@ -82,7 +80,7 @@ export default function SlideReportView({ heading, currentItem, newData }) {
                     <h2 className="title">Project Name</h2>
                   </div>
                   <div className="single-pms-slider-report-item-card border-one bg-one">
-                    <span>{datas[index]?.particularsName || "-"}</span>
+                    <span>{datas[index]?.particularsName || '-'}</span>
                   </div>
                 </div>
               </div>
@@ -92,7 +90,7 @@ export default function SlideReportView({ heading, currentItem, newData }) {
                     <h2 className="title">Start Date</h2>
                   </div>
                   <div className="single-pms-slider-report-item-card border-two bg-two">
-                    {_dateFormatter(datas[index]?.startDate) || "-"}
+                    {_dateFormatter(datas[index]?.startDate) || '-'}
                   </div>
                 </div>
               </div>
@@ -103,7 +101,7 @@ export default function SlideReportView({ heading, currentItem, newData }) {
                   </div>
                 </div>
                 <div className="single-pms-slider-report-item-card border-three  bg-three">
-                  {_dateFormatter(datas[index]?.endDate) || "-"}
+                  {_dateFormatter(datas[index]?.endDate) || '-'}
                 </div>
               </div>
               <div className="col-lg-3">
@@ -113,7 +111,7 @@ export default function SlideReportView({ heading, currentItem, newData }) {
                   </div>
                 </div>
                 <div className="single-pms-slider-report-item-card border-four bg-four">
-                  {datas[index]?.statusValueLabel?.label || "-"}
+                  {datas[index]?.statusValueLabel?.label || '-'}
                 </div>
               </div>
             </div>
@@ -121,7 +119,7 @@ export default function SlideReportView({ heading, currentItem, newData }) {
           {/* remarks */}
           <div className="pms-slider-report-view-footer">
             <div className="remarks">
-              <h2>Remarks : {datas[index]?.comment || ""} </h2>
+              <h2>Remarks : {datas[index]?.comment || ''} </h2>
             </div>
             <div className="pms-report-view-direction pms-slider-report-view-direction">
               <div

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const getShopfloorDDL = async (accId, buId, plantId, setter) => {
   try {
@@ -8,7 +8,7 @@ export const getShopfloorDDL = async (accId, buId, plantId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const GetProductionDataReport = async ({
@@ -34,8 +34,7 @@ export const GetProductionDataReport = async ({
       const isItemOrderNumberMatch =
         item?.itemId !== data[index - 1]?.itemId ||
         item?.productionOrderId !== data[index - 1]?.productionOrderId;
-      const isItemMatch =
-        item?.itemId !== data[index - 1]?.itemId
+      const isItemMatch = item?.itemId !== data[index - 1]?.itemId;
 
       if (index === 0 || isItemOrderNumberMatch) {
         itemOrderNumberMatchResult = itemOrderNumberMatchFn(item, index, data);
@@ -55,7 +54,7 @@ export const GetProductionDataReport = async ({
     setter(newData);
     setLoading(false);
   } catch (error) {
-    console.log(error, "error");
+    console.log(error, 'error');
     setter([]);
     setLoading(false);
   }
@@ -111,10 +110,10 @@ export const getItemNameDDL = async (accId, buId, plantId, sid, setter) => {
         res?.data?.map((item) => {
           return {
             ...item,
-            label: item?.label + " [" + item?.code + "]",
+            label: item?.label + ' [' + item?.code + ']',
           };
         })
       );
     }
-  } catch (error) { }
+  } catch (error) {}
 };

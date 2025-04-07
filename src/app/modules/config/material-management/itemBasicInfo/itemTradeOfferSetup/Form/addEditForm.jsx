@@ -1,30 +1,30 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import { CreateTradeOfferConfiguration } from "../../helper";
-import IForm from "./../../../../../_helper/_form";
-import Loading from "./../../../../../_helper/_loading";
-import { _todayDate } from "./../../../../../_helper/_todayDate";
-import Form from "./form";
-import useAxiosPost from "../../../../../_helper/customHooks/useAxiosPost";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { CreateTradeOfferConfiguration } from '../../helper';
+import IForm from './../../../../../_helper/_form';
+import Loading from './../../../../../_helper/_loading';
+import { _todayDate } from './../../../../../_helper/_todayDate';
+import Form from './form';
+import useAxiosPost from '../../../../../_helper/customHooks/useAxiosPost';
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
 
 const initData = {
   id: undefined,
-  initData: "",
-  offerItem: "",
-  distributionChannel: "",
+  initData: '',
+  offerItem: '',
+  distributionChannel: '',
   toDate: _todayDate(),
   fromDate: _todayDate(),
-  offerQuantity: "",
-  numMinQuantity: "",
+  offerQuantity: '',
+  numMinQuantity: '',
   isMinApplied: false,
   isMaxApplied: false,
   isOfferContinuous: false,
   isProportionalOffer: false,
-  offerType: "",
+  offerType: '',
 };
 
 export default function ItemTradeOfferSetupForm() {
@@ -52,19 +52,18 @@ export default function ItemTradeOfferSetupForm() {
         setOfferTypes(modified);
       }
     );
-
   }, [selectedBusinessUnit]);
 
   const saveHandler = async (values, cb) => {
     const offerTypeId = values?.offerType?.value;
     if (offerTypeId === 1) {
-      if (rowDto?.length === 0) return toast.warn("Minimum one item add");
+      if (rowDto?.length === 0) return toast.warn('Minimum one item add');
       await CreateTradeOfferConfiguration(rowDto, setDisabled, cb);
     } else if (offerTypeId === 2) {
       const payload = {
         head: {
           promotionId: 0,
-          promotionCode: "",
+          promotionCode: '',
           promotionTypeId: values?.offerType?.value,
           promotionName: values?.offerType?.label,
           promotionStartDateTime: values?.fromDate,
@@ -88,7 +87,7 @@ export default function ItemTradeOfferSetupForm() {
         true
       );
     } else if ([171, 224].includes(selectedBusinessUnit?.value)) {
-      if (rowDto?.length === 0) return toast.warn("Minimum one item add");
+      if (rowDto?.length === 0) return toast.warn('Minimum one item add');
       const {
         numMinQuantity,
         numMaxQuantity,
@@ -96,14 +95,14 @@ export default function ItemTradeOfferSetupForm() {
         strItemName,
         numOfferQuantity,
         itemCategoryId,
-        itemCategoryName
+        itemCategoryName,
       } = rowDto[0];
 
       const payload = {
         head: {
           sl: 0,
           promotionId: 0,
-          promotionCode: "",
+          promotionCode: '',
           promotionTypeId: values?.offerType?.value,
           promotionName: values?.offerType?.label,
           promotionStartDateTime: values?.fromDate,
@@ -130,8 +129,8 @@ export default function ItemTradeOfferSetupForm() {
             itemId: intItemId,
             itemName: strItemName,
             discount: numOfferQuantity,
-            itemCategoryId:itemCategoryId,
-            itemCategoryName: itemCategoryName
+            itemCategoryId: itemCategoryId,
+            itemCategoryName: itemCategoryName,
           },
         ],
       };

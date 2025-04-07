@@ -1,41 +1,41 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import { OutletAttributeLanding } from "./outletAttribute";
-import OutletAttributeForm from "./outletAttribute/Form/addEditForm";
-import { RouteLanding } from "./route";
-import RouteForm from "./route/Form/addEditForm";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import { OutletAttributeLanding } from './outletAttribute';
+import OutletAttributeForm from './outletAttribute/Form/addEditForm';
+import { RouteLanding } from './route';
+import RouteForm from './route/Form/addEditForm';
 
-import OutletBusinessTypeForm from "./outletType/form/addEditForm";
-import OutletBusinessTypeLanding from "./outletType/landing/table";
-import BeatForm from "./beat/form/addEditForm";
+import OutletBusinessTypeForm from './outletType/form/addEditForm';
+import OutletBusinessTypeLanding from './outletType/landing/table';
+import BeatForm from './beat/form/addEditForm';
 
-import OutlateProfileFrom from "./outlateProfile/Form/addEditForm";
+import OutlateProfileFrom from './outlateProfile/Form/addEditForm';
 // import OutlateProfileFrom from "./outlateProfile/form/addEditForm";
 // import OutlateForm from "./outlateProfile/form/addEditForm";
-import { OutlateProfileLanding } from "./outlateProfile/Table/tableHeader";
-import { RoutePlanConfigLanding } from "./routePlanConfig/Table/tableHeader";
-import RouteSetupConfigForm from "./routePlanConfig/Form/addEditForm";
-import { SalesTargetConfig } from "./salesTargetConfig/Table/tableHeader";
-import SalesTargetConfigForm from "./salesTargetConfig/Form/addEditForm";
-import ViewOutletProfile from "./outlateProfile/view/addEditForm";
-import OutlateProfileEditFrom from "./outlateProfile/Edit/addEditForm";
+import { OutlateProfileLanding } from './outlateProfile/Table/tableHeader';
+import { RoutePlanConfigLanding } from './routePlanConfig/Table/tableHeader';
+import RouteSetupConfigForm from './routePlanConfig/Form/addEditForm';
+import { SalesTargetConfig } from './salesTargetConfig/Table/tableHeader';
+import SalesTargetConfigForm from './salesTargetConfig/Form/addEditForm';
+import ViewOutletProfile from './outlateProfile/view/addEditForm';
+import OutlateProfileEditFrom from './outlateProfile/Edit/addEditForm';
 
 // import { OutlateProfileLanding } from "./outlateProfile/table/tableHeader";
-import RetailPriceLanding from "./retailPrice/landing/table";
-import RetailPriceForm from "./retailPrice/form/addEditForm";
-import { EmpGroupTable } from "./empGroup/Table/tableHeader";
-import EmpGroupCreateForm from "./empGroup/Form/addEditForm";
-import EmpGroupExtendCreateForm from "./empGroup/extendEmpGroup/addEditForm";
-import DamageCategoryLanding from "./damageCategory/landing/table";
-import DamageCategoryForm from "./damageCategory/form/addEditForm";
-import BeatLanding from "./beat/Table/index";
-import OutletSurveyLanding from "./outletSurvey/landing/table";
-import OutletSurveyForm from "./outletSurvey/form/addEditForm";
-import EmployeeGroupViewForm from "./empGroup/View/viewModal";
-import RTMCalendarSetup from "./calendarSetup/form/addEditForm";
-import SalescalendarSetupForm from "./salesCalenderSetup/Form/addEditForm";
-import MarketSetupTable from "./marketSetupNew/landing/tableRow"
+import RetailPriceLanding from './retailPrice/landing/table';
+import RetailPriceForm from './retailPrice/form/addEditForm';
+import { EmpGroupTable } from './empGroup/Table/tableHeader';
+import EmpGroupCreateForm from './empGroup/Form/addEditForm';
+import EmpGroupExtendCreateForm from './empGroup/extendEmpGroup/addEditForm';
+import DamageCategoryLanding from './damageCategory/landing/table';
+import DamageCategoryForm from './damageCategory/form/addEditForm';
+import BeatLanding from './beat/Table/index';
+import OutletSurveyLanding from './outletSurvey/landing/table';
+import OutletSurveyForm from './outletSurvey/form/addEditForm';
+import EmployeeGroupViewForm from './empGroup/View/viewModal';
+import RTMCalendarSetup from './calendarSetup/form/addEditForm';
+import SalescalendarSetupForm from './salesCalenderSetup/Form/addEditForm';
+import MarketSetupTable from './marketSetupNew/landing/tableRow';
 
 //
 

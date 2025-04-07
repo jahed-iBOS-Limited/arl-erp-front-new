@@ -1,49 +1,49 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import ICard from "../../../../_helper/_card";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { GetDomesticPortDDL } from "../../loadingInformation/helper";
-import { deleteTenderInfo, getMotherVesselDDL } from "../helper";
-import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { toast } from "react-toastify";
-import ICustomTable from "../../../../chartering/_chartinghelper/_customTable";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import ICard from '../../../../_helper/_card';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { GetDomesticPortDDL } from '../../loadingInformation/helper';
+import { deleteTenderInfo, getMotherVesselDDL } from '../helper';
+import ICon from '../../../../chartering/_chartinghelper/icons/_icon';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { toast } from 'react-toastify';
+import ICustomTable from '../../../../chartering/_chartinghelper/_customTable';
 
 const initData = {
-  motherVessel: "",
-  port: "",
+  motherVessel: '',
+  port: '',
 };
 
 const tHeaders = [
-  { name: "SL", style: { minWidth: "30px" } },
-  { name: "Mother Vessel", style: { minWidth: "150px" } },
-  { name: "Program No", style: { minWidth: "80px" } },
-  { name: "Award", style: { minWidth: "160px" } },
-  { name: "CNF", style: { minWidth: "130px" } },
-  { name: "CNF Rate", style: { minWidth: "50px" } },
-  { name: "Steve Dore", style: { minWidth: "130px" } },
-  { name: "Steve Dore Rate", style: { minWidth: "50px" } },
-  { name: "Surveyor", style: { minWidth: "130px" } },
-  { name: "Surveyor Rate", style: { minWidth: "50px" } },
-  { name: "Hatch Labour", style: { minWidth: "130px" } },
-  { name: "Hatch Labour Rate", style: { minWidth: "50px" } },
-  { name: "Lot No", style: { minWidth: "50px" } },
-  { name: "Program Qty", style: { minWidth: "80px" } },
-  { name: "Transfer Qty", style: { minWidth: "80px" } },
-  { name: "Challan Qty", style: { minWidth: "80px" } },
-  { name: "Remaining Qty", style: { minWidth: "80px" } },
-  { name: "Weight", style: { minWidth: "80px" } },
-  { name: "Action", style: { minWidth: "70px" } },
-  { name: "Bill Generate", style: { minWidth: "70px" } },
+  { name: 'SL', style: { minWidth: '30px' } },
+  { name: 'Mother Vessel', style: { minWidth: '150px' } },
+  { name: 'Program No', style: { minWidth: '80px' } },
+  { name: 'Award', style: { minWidth: '160px' } },
+  { name: 'CNF', style: { minWidth: '130px' } },
+  { name: 'CNF Rate', style: { minWidth: '50px' } },
+  { name: 'Steve Dore', style: { minWidth: '130px' } },
+  { name: 'Steve Dore Rate', style: { minWidth: '50px' } },
+  { name: 'Surveyor', style: { minWidth: '130px' } },
+  { name: 'Surveyor Rate', style: { minWidth: '50px' } },
+  { name: 'Hatch Labour', style: { minWidth: '130px' } },
+  { name: 'Hatch Labour Rate', style: { minWidth: '50px' } },
+  { name: 'Lot No', style: { minWidth: '50px' } },
+  { name: 'Program Qty', style: { minWidth: '80px' } },
+  { name: 'Transfer Qty', style: { minWidth: '80px' } },
+  { name: 'Challan Qty', style: { minWidth: '80px' } },
+  { name: 'Remaining Qty', style: { minWidth: '80px' } },
+  { name: 'Weight', style: { minWidth: '80px' } },
+  { name: 'Action', style: { minWidth: '70px' } },
+  { name: 'Bill Generate', style: { minWidth: '70px' } },
 ];
 
 export default function TenderInformationLandingTable() {
@@ -75,8 +75,8 @@ export default function TenderInformationLandingTable() {
 
   const deleteHandler = (id, values) => {
     const objProps = {
-      title: "Are You Sure?",
-      message: "Are you sure you want to delete this tender information?",
+      title: 'Are You Sure?',
+      message: 'Are you sure you want to delete this tender information?',
       yesAlertFunc: () => {
         deleteTenderInfo(id, setIsLoading, () => {
           setLandingData(pageNo, pageSize, values);
@@ -89,7 +89,7 @@ export default function TenderInformationLandingTable() {
 
   const generateBills = (item, billType) => {
     if (!unloadStarted) {
-      return toast.warn("Mother vessel unloading has not started yet!");
+      return toast.warn('Mother vessel unloading has not started yet!');
     }
     const cnfURL = `/tms/LigterLoadUnload/G2GStandardCostingCNF?motherVesselId=${item?.motherVesselId}`;
     const steveDoreURL = `/tms/LigterLoadUnload/G2GStandardCostingStevdore?motherVesselId=${item?.motherVesselId}`;
@@ -99,16 +99,16 @@ export default function TenderInformationLandingTable() {
     let URL = ``;
 
     switch (billType) {
-      case "cnf":
+      case 'cnf':
         URL = cnfURL;
         break;
-      case "steveDore":
+      case 'steveDore':
         URL = steveDoreURL;
         break;
-      case "surveyor":
+      case 'surveyor':
         URL = surveyorURL;
         break;
-      case "hatchLabour":
+      case 'hatchLabour':
         URL = hatchLabourURL;
         break;
 
@@ -122,10 +122,10 @@ export default function TenderInformationLandingTable() {
   const loader = loading || isLoading || billGenerateLoader || usLoader;
 
   const billIcons = [
-    { title: "Generate CNF Bill", billType: "cnf" },
-    { title: "Generate SteveDore Bill", billType: "steveDore" },
-    { title: "Generate Surveyor Bill", billType: "surveyor" },
-    { title: "Generate Hatch Labour Bill", billType: "hatchLabour" },
+    { title: 'Generate CNF Bill', billType: 'cnf' },
+    { title: 'Generate SteveDore Bill', billType: 'steveDore' },
+    { title: 'Generate Surveyor Bill', billType: 'surveyor' },
+    { title: 'Generate Hatch Labour Bill', billType: 'hatchLabour' },
   ];
 
   return (
@@ -151,8 +151,8 @@ export default function TenderInformationLandingTable() {
                     value={values?.port}
                     label="Port"
                     onChange={(valueOption) => {
-                      setFieldValue("port", valueOption);
-                      setFieldValue("motherVessel", "");
+                      setFieldValue('port', valueOption);
+                      setFieldValue('motherVessel', '');
                       setGridData([]);
                       getMotherVesselDDL(
                         accId,
@@ -171,7 +171,7 @@ export default function TenderInformationLandingTable() {
                     value={values?.motherVessel}
                     label="Mother Vessel"
                     onChange={(valueOption) => {
-                      setFieldValue("motherVessel", valueOption);
+                      setFieldValue('motherVessel', valueOption);
                       setGridData([]);
                       getIsUnloadStarted(
                         `/tms/LigterLoadUnload/MotherVesselInLoadingState?businessUnitId=${buId}&motherVesselId=${valueOption?.value}`
@@ -217,7 +217,7 @@ export default function TenderInformationLandingTable() {
                       </td>
                       <td
                         className="text-right"
-                        style={{ backgroundColor: "#f6f602" }}
+                        style={{ backgroundColor: '#f6f602' }}
                       >
                         {_fixedPoint(item?.transferQnt, true)}
                       </td>
@@ -228,8 +228,8 @@ export default function TenderInformationLandingTable() {
                         className="text-right"
                         style={
                           item?.remaingQuantity < 0
-                            ? { backgroundColor: "#ff00007d" }
-                            : { backgroundColor: "#90ee90" }
+                            ? { backgroundColor: '#ff00007d' }
+                            : { backgroundColor: '#90ee90' }
                         }
                       >
                         {_fixedPoint(item?.remaingQuantity, true)}
@@ -274,7 +274,7 @@ export default function TenderInformationLandingTable() {
                                       generateBills(item, e?.billType);
                                     }}
                                   >
-                                    <i class="fas fa-file-invoice-dollar"></i>{" "}
+                                    <i class="fas fa-file-invoice-dollar"></i>{' '}
                                   </ICon>
                                 </span>
                               );
@@ -323,7 +323,7 @@ export default function TenderInformationLandingTable() {
                     </div>
                   </div>
                 </div>
-              </div> */}{" "}
+              </div> */}{' '}
               {gridData?.data?.length > 0 && (
                 <PaginationTable
                   count={gridData?.totalCount}

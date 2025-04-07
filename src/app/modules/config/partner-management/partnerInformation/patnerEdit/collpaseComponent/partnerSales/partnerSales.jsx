@@ -1,18 +1,18 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from '../../../../../../../../_metronic/_partials/controls'
-import Form from './form'
-import Axios from 'axios'
-import shortid from 'shortid'
-import { useSelector, shallowEqual, useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import { isUniq } from '../../../../../../_helper/uniqChecker'
-import { toast } from 'react-toastify'
+} from '../../../../../../../../_metronic/_partials/controls';
+import Form from './form';
+import Axios from 'axios';
+import shortid from 'shortid';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { isUniq } from '../../../../../../_helper/uniqChecker';
+import { toast } from 'react-toastify';
 import {
   getSbuDDLAction,
   getSalesOrganaizationDDLAction,
@@ -25,10 +25,10 @@ import {
   getPriceStructureDDLAction,
   AlternateGeneraleDDLAction,
   getAlternateShippingPointDDLAction,
-} from './_redux/Actions'
-import { _todayDate } from '../../../../../../_helper/_todayDate'
-import Loading from './../../../../../../_helper/_loading'
-import { EditBPShippingAddressDefaultById_api } from '../../../helper'
+} from './_redux/Actions';
+import { _todayDate } from '../../../../../../_helper/_todayDate';
+import Loading from './../../../../../../_helper/_loading';
+import { EditBPShippingAddressDefaultById_api } from '../../../helper';
 
 const initProduct = {
   sbu: '',
@@ -54,43 +54,42 @@ const initProduct = {
   customerType: '',
   shipToParner: '',
   address: '',
-}
+};
 
 export default function PartnerSales() {
-  const { id } = useParams()
-  const [isDisabled, setDisabled] = useState(false)
-  const dispatch = useDispatch()
+  const { id } = useParams();
+  const [isDisabled, setDisabled] = useState(false);
+  const dispatch = useDispatch();
   // get user profile data from store
-  const profileData = useSelector((state) => state.authData.profileData)
+  const profileData = useSelector((state) => state.authData.profileData);
   // get selected business unit from store
   const selectedBusinessUnit = useSelector(
     (state) => state.authData.selectedBusinessUnit
-  )
-  const [salesData, setSalesData] = useState('')
-  const [rowDto, setRowDto] = useState([])
-  const [rowDtoTwo, setRowDtoTwo] = useState([])
-  const [creditRowDto, setCreditRowDto] = useState([])
-  const [morgazeRowDto, setMorgazeRowDto] = useState([])
-  const [isPartnerSales, setIsPartnerSale] = useState(false)
-  const [defaultConfigId, setDefaultConfigId] = useState(null)
+  );
+  const [salesData, setSalesData] = useState('');
+  const [rowDto, setRowDto] = useState([]);
+  const [rowDtoTwo, setRowDtoTwo] = useState([]);
+  const [creditRowDto, setCreditRowDto] = useState([]);
+  const [morgazeRowDto, setMorgazeRowDto] = useState([]);
+  const [isPartnerSales, setIsPartnerSale] = useState(false);
+  const [defaultConfigId, setDefaultConfigId] = useState(null);
   // const [shippingAddressTrue, setShippingAddressTrue] = useState([]);
   // get sbu ddl from store
   const sbuDDL = useSelector((state) => {
-    return state?.partnerSales?.sbuDDL
-  }, shallowEqual)
+    return state?.partnerSales?.sbuDDL;
+  }, shallowEqual);
   //Dispatch Get sbuDDL action for get sbu ddl
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
       dispatch(
         getSbuDDLAction(profileData.accountId, selectedBusinessUnit.value)
-      )
+      );
     }
-
-  }, [selectedBusinessUnit, profileData])
+  }, [selectedBusinessUnit, profileData]);
   // get salesOrganaization ddl from store
   const salesOrganaizationDDL = useSelector((state) => {
-    return state?.partnerSales?.salesOrganaizationDDL
-  }, shallowEqual)
+    return state?.partnerSales?.salesOrganaizationDDL;
+  }, shallowEqual);
   // call salesOrganaization action
   const getSalesOrganaizationDDL = (sbuId) => {
     dispatch(
@@ -99,12 +98,12 @@ export default function PartnerSales() {
         selectedBusinessUnit.value,
         sbuId
       )
-    )
-  }
+    );
+  };
   // get distributionChannel ddl from store
   const distributionChannelDDL = useSelector((state) => {
-    return state?.partnerSales?.distributionChannelDDL
-  }, shallowEqual)
+    return state?.partnerSales?.distributionChannelDDL;
+  }, shallowEqual);
   // Dispatch Get distributionChannel action for get distributionChannel ddl
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
@@ -113,14 +112,13 @@ export default function PartnerSales() {
           profileData.accountId,
           selectedBusinessUnit.value
         )
-      )
+      );
     }
-
-  }, [selectedBusinessUnit, profileData])
+  }, [selectedBusinessUnit, profileData]);
   // get salesTerriory ddl from store
   const salesTerrioryDDL = useSelector((state) => {
-    return state?.partnerSales?.salesTerrioryDDL
-  }, shallowEqual)
+    return state?.partnerSales?.salesTerrioryDDL;
+  }, shallowEqual);
   // Dispatch Get salesTerriory action for get salesTerriory ddl
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
@@ -129,14 +127,13 @@ export default function PartnerSales() {
           profileData.accountId,
           selectedBusinessUnit.value
         )
-      )
+      );
     }
-
-  }, [selectedBusinessUnit, profileData])
+  }, [selectedBusinessUnit, profileData]);
   // get transportZoneDDL ddl from store
   const transportZoneDDL = useSelector((state) => {
-    return state?.partnerSales?.transportZoneDDL
-  }, shallowEqual)
+    return state?.partnerSales?.transportZoneDDL;
+  }, shallowEqual);
   // Dispatch Get transportZone action for get transportZone ddl
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
@@ -145,22 +142,21 @@ export default function PartnerSales() {
           profileData.accountId,
           selectedBusinessUnit.value
         )
-      )
+      );
     }
-
-  }, [selectedBusinessUnit, profileData])
+  }, [selectedBusinessUnit, profileData]);
   // recon gl ddl and alternante gl ddl
   const GeneralLedgerDDL = useSelector((state) => {
-    return state?.partnerSales?.GeneralLedgerDDL
-  }, shallowEqual)
+    return state?.partnerSales?.GeneralLedgerDDL;
+  }, shallowEqual);
   const alternateGenerale = useSelector((state) => {
-    return state?.partnerSales?.alternateGenerale
-  }, shallowEqual)
+    return state?.partnerSales?.alternateGenerale;
+  }, shallowEqual);
 
   // get soldToPartyDDL ddl from store
   const soldToPartyDDL = useSelector((state) => {
-    return state?.partnerSales?.soldToPartyDDL
-  }, shallowEqual)
+    return state?.partnerSales?.soldToPartyDDL;
+  }, shallowEqual);
 
   // Dispatch Get soldToPartyDDL action for get soldToParty ddl
   useEffect(() => {
@@ -170,15 +166,14 @@ export default function PartnerSales() {
           profileData.accountId,
           selectedBusinessUnit.value
         )
-      )
+      );
     }
-
-  }, [selectedBusinessUnit, profileData])
+  }, [selectedBusinessUnit, profileData]);
 
   // get shippingPointDDL ddl from store
   const shippingPointDDL = useSelector((state) => {
-    return state?.partnerSales?.shippingPointDDL
-  }, shallowEqual)
+    return state?.partnerSales?.shippingPointDDL;
+  }, shallowEqual);
 
   // Dispatch Get shippingPointDDL action for get shippingPointDDL ddl
   useEffect(() => {
@@ -188,15 +183,14 @@ export default function PartnerSales() {
           profileData.accountId,
           selectedBusinessUnit.value
         )
-      )
+      );
     }
-
-  }, [selectedBusinessUnit, profileData])
+  }, [selectedBusinessUnit, profileData]);
 
   // get alternateShippingPointDDL ddl from store
   const alternateShippingPointDDL = useSelector((state) => {
-    return state?.partnerSales?.alternateShippingPointDDL
-  }, shallowEqual)
+    return state?.partnerSales?.alternateShippingPointDDL;
+  }, shallowEqual);
 
   // Dispatch Get alternateShippingPointDDL action for get alternateShippingPointDDL ddl
   useEffect(() => {
@@ -207,28 +201,27 @@ export default function PartnerSales() {
           selectedBusinessUnit.value,
           4
         )
-      )
+      );
       dispatch(
         AlternateGeneraleDDLAction(
           profileData.accountId,
           selectedBusinessUnit.value,
           10
         )
-      )
+      );
       dispatch(
         getAlternateShippingPointDDLAction(
           profileData.accountId,
           selectedBusinessUnit.value
         )
-      )
+      );
     }
-
-  }, [selectedBusinessUnit, profileData])
+  }, [selectedBusinessUnit, profileData]);
 
   // get priceStructureDDL ddl from store
   const priceStructureDDL = useSelector((state) => {
-    return state?.partnerSales?.priceStructureDDL
-  }, shallowEqual)
+    return state?.partnerSales?.priceStructureDDL;
+  }, shallowEqual);
 
   // Dispatch Get priceStructureDDL action for get priceStructureDDL ddl
   useEffect(() => {
@@ -238,32 +231,30 @@ export default function PartnerSales() {
           profileData.accountId,
           selectedBusinessUnit.value
         )
-      )
+      );
     }
-
-  }, [selectedBusinessUnit, profileData])
+  }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {
-    getBusinessPartnerSalesByPartnerId(id)
-
-  }, [id])
+    getBusinessPartnerSalesByPartnerId(id);
+  }, [id]);
 
   const getBusinessPartnerSalesByPartnerId = async (id) => {
     try {
       const res = await Axios.get(
         `/partner/BusinessPartnerSales/GetBusinessPartnerSalesByPartnerId?BusinessPartnerId=${id}`
-      )
-      const { data, status } = res
+      );
+      const { data, status } = res;
       if (status === 200 && data) {
-        const { accountId } = profileData
-        const { value: businessunitid } = selectedBusinessUnit
+        const { accountId } = profileData;
+        const { value: businessunitid } = selectedBusinessUnit;
         if (!(data.objGetDTO === null) || data.objListDTO.length > 0) {
-          setIsPartnerSale(true)
+          setIsPartnerSale(true);
         }
-        const objDataGet = data.objGetDTO
+        const objDataGet = data.objGetDTO;
         const defaultShipPoint = data.objListDTO.filter((item) => {
-          return item.isDefaultShippoint === true
-        })
+          return item.isDefaultShippoint === true;
+        });
         const singleData = {
           accountId: accountId,
           businessUnitId: businessunitid,
@@ -313,23 +304,23 @@ export default function PartnerSales() {
             value: objDataGet?.priceStructureId,
             label: objDataGet?.priceStructureName,
           },
-        }
-        setSalesData(singleData)
-        setRowDto(data?.objListDTO)
-        setCreditRowDto(data?.objData)
-        setMorgazeRowDto(data?.objNewData)
-        setRowDtoTwo(data?.objShippingAddrs)
-        setDefaultConfigId(data.objGetDTO.configId || 0)
+        };
+        setSalesData(singleData);
+        setRowDto(data?.objListDTO);
+        setCreditRowDto(data?.objData);
+        setMorgazeRowDto(data?.objNewData);
+        setRowDtoTwo(data?.objShippingAddrs);
+        setDefaultConfigId(data.objGetDTO.configId || 0);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }
+  };
   // submit handle
   const savePartnerSales = async (values, cb) => {
     // common all RowDto  modifiedRowDto===============
-    const { accountId, userId: actionBy } = profileData
-    const { value: businessunitid } = selectedBusinessUnit
+    const { accountId, userId: actionBy } = profileData;
+    const { value: businessunitid } = selectedBusinessUnit;
     const objRow = rowDto.map((itm) => {
       return {
         ...itm,
@@ -340,24 +331,24 @@ export default function PartnerSales() {
         isDefaultShippoint: itm.isDefaultShippoint,
         distanceKm: 0,
         actionBy,
-      }
-    })
+      };
+    });
     const objMortgageRow = morgazeRowDto.map((itm) => {
       return {
         ...itm,
         mortgageTypeId: itm?.mortgageTypeId,
         numMortgageAmount: itm?.numMortgageAmount,
         narration: itm?.narration,
-      }
-    })
+      };
+    });
     const objCreditRow = creditRowDto.map((itm) => {
       return {
         ...itm,
         creditLimit: itm?.creditLimit,
         fromDate: itm?.fromDate,
         toDate: itm?.toDate,
-      }
-    })
+      };
+    });
 
     if (values && selectedBusinessUnit && profileData) {
       // edit api call
@@ -387,31 +378,31 @@ export default function PartnerSales() {
           objListEditCr: creditRowDto,
           objListEditMortgage: morgazeRowDto,
           objListEditBPAddrss: rowDtoTwo,
-        }
+        };
         try {
           if (objRow?.length > 0) {
             if (rowDtoTwo?.length > 0) {
               //code write
-              setDisabled(true)
+              setDisabled(true);
               const res = await Axios.put(
                 '/partner/BusinessPartnerSales/EditBusinessPartnerSales',
                 salesEditData
-              )
+              );
               toast.success(res.data?.message || 'Submitted successfully', {
                 toastId: shortid(),
-              })
-              setDisabled(false)
+              });
+              setDisabled(false);
             } else {
-              toast.warning('Please add at least one (Add Shipping Address)')
+              toast.warning('Please add at least one (Add Shipping Address)');
             }
           } else {
-            toast.warning('Please add at least one (Assign Shipping Point)')
+            toast.warning('Please add at least one (Assign Shipping Point)');
           }
         } catch (error) {
           toast.error(error?.response?.data?.message, {
             toastId: shortid(),
-          })
-          setDisabled(false)
+          });
+          setDisabled(false);
         }
       } else {
         // create api call
@@ -466,47 +457,47 @@ export default function PartnerSales() {
           objListMortgage: objMortgageRow,
           objListCrLimit: objCreditRow,
           objListBPShippingAddr: rowDtoTwo,
-        }
+        };
 
         try {
           if (objRow?.length > 0) {
             if (rowDtoTwo?.length > 0) {
-              setDisabled(true)
+              setDisabled(true);
               const res = await Axios.post(
                 '/partner/BusinessPartnerSales/CreateBusinessPartnerSales',
                 payload
-              )
+              );
               if (res.status === 200) {
-                setRowDto([])
-                setRowDtoTwo([])
+                setRowDto([]);
+                setRowDtoTwo([]);
               }
               // cb(initProduct)
               toast.success(res.data?.message || 'Submitted successfully', {
                 toastId: shortid(),
-              })
-              setDisabled(false)
+              });
+              setDisabled(false);
             } else {
-              toast.warning('Please add at least one (Add Shipping Address)')
+              toast.warning('Please add at least one (Add Shipping Address)');
             }
           } else {
-            toast.warning('Please add at least one (Assign Shipping Point)')
+            toast.warning('Please add at least one (Assign Shipping Point)');
           }
         } catch (error) {
           toast.error(error?.response?.data?.message, {
             toastId: shortid(),
-          })
-          setDisabled(false)
+          });
+          setDisabled(false);
         }
       }
     } else {
-      setDisabled(false)
+      setDisabled(false);
     }
-  }
+  };
 
   const setter = (payload) => {
     if (isUniq('shipPointId', payload.shipPointId, rowDto)) {
-      const { accountId, userId: actionBy } = profileData
-      const { value: businessunitid } = selectedBusinessUnit
+      const { accountId, userId: actionBy } = profileData;
+      const { value: businessunitid } = selectedBusinessUnit;
       setRowDto([
         ...rowDto,
         {
@@ -517,13 +508,13 @@ export default function PartnerSales() {
           actionBy: actionBy,
           ...payload,
         },
-      ])
+      ]);
     }
-  }
+  };
 
   const setterTwo = (values) => {
-    const { accountId, userId: actionBy } = profileData
-    const { value: businessunitid } = selectedBusinessUnit
+    const { accountId, userId: actionBy } = profileData;
+    const { value: businessunitid } = selectedBusinessUnit;
     const obj = {
       partnerShippingName: values?.shipToParner,
       partnerShippingAddress: values?.address,
@@ -531,7 +522,7 @@ export default function PartnerSales() {
       transportZoneName: values?.transportZone?.label,
       transportZoneId: values?.transportZone?.value,
       shiptoPartnerId: 0,
-    }
+    };
     if (isUniq('transportZoneId', values?.transportZone?.value, rowDtoTwo)) {
       setRowDtoTwo([
         ...rowDtoTwo,
@@ -544,14 +535,14 @@ export default function PartnerSales() {
           ...obj,
           isDefaultAddress: rowDtoTwo?.length > 0 ? false : true,
         },
-      ])
+      ]);
     }
-  }
+  };
 
   const defaultSetter = (payload) => {
     if (isUniq('shipPointId', payload.shipPointId, rowDto)) {
-      const { accountId, userId: actionBy } = profileData
-      const { value: businessunitid } = selectedBusinessUnit
+      const { accountId, userId: actionBy } = profileData;
+      const { value: businessunitid } = selectedBusinessUnit;
 
       setRowDto([
         ...rowDto,
@@ -564,100 +555,101 @@ export default function PartnerSales() {
           ...payload,
           isDefaultShippoint: rowDto?.length > 0 ? false : true,
         },
-      ])
+      ]);
     }
-  }
+  };
 
   const remover = (payload, isDefaultShippoint) => {
     if (isDefaultShippoint) {
-      return
+      return;
     } else {
-      const filterArr = rowDto.filter((itm) => itm.shipPointId !== payload)
-      setRowDto(filterArr)
+      const filterArr = rowDto.filter((itm) => itm.shipPointId !== payload);
+      setRowDto(filterArr);
     }
-  }
+  };
   const removerTwo = (payload, isDefaultAddress) => {
     if (isDefaultAddress) {
-      return
+      return;
     } else {
-      const filterArr = rowDtoTwo.filter((itm, inx) => inx !== payload)
-      setRowDtoTwo(filterArr)
+      const filterArr = rowDtoTwo.filter((itm, inx) => inx !== payload);
+      setRowDtoTwo(filterArr);
     }
-  }
+  };
 
   // credit limit
   const creditLimitSetter = (payload) => {
-    setCreditRowDto([...creditRowDto, payload])
-  }
+    setCreditRowDto([...creditRowDto, payload]);
+  };
   const creditRemover = (payload) => {
-    const filterArr = creditRowDto.filter((itm, idx) => idx !== payload)
-    setCreditRowDto(filterArr)
-  }
+    const filterArr = creditRowDto.filter((itm, idx) => idx !== payload);
+    setCreditRowDto(filterArr);
+  };
   const setCreditLimitAmount = (sl, value) => {
-    const cloneArr = creditRowDto
-    cloneArr[sl].creditLimit = +value
-    setCreditRowDto([...cloneArr])
-  }
+    const cloneArr = creditRowDto;
+    cloneArr[sl].creditLimit = +value;
+    setCreditRowDto([...cloneArr]);
+  };
 
   // morgaze
   const morgazeSetter = (payload) => {
     if (isUniq('mortgageTypeId', payload.mortgageTypeId, morgazeRowDto)) {
-      setMorgazeRowDto([...morgazeRowDto, payload])
+      setMorgazeRowDto([...morgazeRowDto, payload]);
     }
-  }
+  };
   const morgazeRemover = (payload) => {
     const filterArr = morgazeRowDto.filter(
       (itm) => itm?.mortgageTypeId !== payload
-    )
-    setMorgazeRowDto(filterArr)
-  }
+    );
+    setMorgazeRowDto(filterArr);
+  };
 
-  const btnRef = useRef()
+  const btnRef = useRef();
   const saveBtnClicker = () => {
     if (btnRef && btnRef.current) {
-      btnRef.current.click()
+      btnRef.current.click();
     }
-  }
+  };
 
-  const resetBtnRef = useRef()
+  const resetBtnRef = useRef();
   const ResetProductClick = () => {
     if (resetBtnRef && resetBtnRef.current) {
-      resetBtnRef.current.click()
+      resetBtnRef.current.click();
     }
-  }
+  };
 
   // one item select itemSlectedHandler
   const itemSlectedHandler = (value, index) => {
     const modifiedRowDto = rowDto?.map((itm) => ({
       ...itm,
       isDefaultShippoint: false,
-    }))
-    const copyRowDto = [...modifiedRowDto]
-    copyRowDto[index].isDefaultShippoint = !copyRowDto[index].isDefaultShippoint
-    setRowDto(copyRowDto)
-  }
+    }));
+    const copyRowDto = [...modifiedRowDto];
+    copyRowDto[index].isDefaultShippoint =
+      !copyRowDto[index].isDefaultShippoint;
+    setRowDto(copyRowDto);
+  };
   // one item select itemSlectedHandlerTwo
   const itemSlectedHandlerTwo = (value, index) => {
     const modifiedRowDto = rowDtoTwo?.map((itm) => ({
       ...itm,
       isDefaultAddress: false,
-    }))
-    const copyRowDto = [...modifiedRowDto]
-    copyRowDto[index].isDefaultAddress = !copyRowDto[index].isDefaultAddress
-    setRowDtoTwo(copyRowDto)
-  }
+    }));
+    const copyRowDto = [...modifiedRowDto];
+    copyRowDto[index].isDefaultAddress = !copyRowDto[index].isDefaultAddress;
+    setRowDtoTwo(copyRowDto);
+  };
 
   useEffect(() => {
     const rowDtoTwomodified = rowDtoTwo?.filter(
       (itm) => itm?.shiptoPartnerId !== 0
-    )
+    );
     const copyRowDto = rowDtoTwomodified?.map((itm) => ({
       shiptoPartnerId: itm?.shiptoPartnerId,
       isDefaultAddress: itm?.isDefaultAddress,
       intActionBy: itm?.actionBy,
-    }))
-    EditBPShippingAddressDefaultById_api(copyRowDto, setDisabled)
-  }, [rowDtoTwo])
+    }));
+    EditBPShippingAddressDefaultById_api(copyRowDto, setDisabled);
+  }, [rowDtoTwo]);
 
   //shippingAddressTrueFunc
   const shippingAddressTrueFunc = (itm) => {
@@ -667,7 +659,7 @@ export default function PartnerSales() {
     //   )
     //   console.log(rowDtoTwomodified)
     // }
-  }
+  };
 
   return (
     <Card>
@@ -742,5 +734,5 @@ export default function PartnerSales() {
         </div>
       </CardBody>
     </Card>
-  )
+  );
 }

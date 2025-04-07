@@ -1,21 +1,21 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { fromDateFromApiNew } from "../../../_helper/_formDateFromApi";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { getProfitCenterDDL } from "../salesBudgetVarianceReport/helper";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { fromDateFromApiNew } from '../../../_helper/_formDateFromApi';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { getProfitCenterDDL } from '../salesBudgetVarianceReport/helper';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
 const initData = {
-  gl: "",
-  fromDate: "",
+  gl: '',
+  fromDate: '',
   toDate: _todayDate(),
-  currentBusinessUnit: "",
-  profitCenter: "",
+  currentBusinessUnit: '',
+  profitCenter: '',
   isForecast: false,
 };
 export default function OverheadVarianceReport() {
@@ -78,13 +78,12 @@ export default function OverheadVarianceReport() {
 
     fromDateFromApiNew(selectedBusinessUnit?.value, (date) => {
       if (formikRef.current) {
-        const apiFormDate = date ? _dateFormatter(date) : "";
+        const apiFormDate = date ? _dateFormatter(date) : '';
         formikRef.current.setValues({
           fromDate: apiFormDate,
         });
       }
     });
-
   }, []);
 
   const saveHandler = (values, cb) => {};
@@ -134,17 +133,17 @@ export default function OverheadVarianceReport() {
                               console.log(profitCenterDDLData);
                               setProfitCenterDDL(profitCenterDDLData);
                               setFieldValue(
-                                "profitCenter",
-                                profitCenterDDLData?.[1] || ""
+                                'profitCenter',
+                                profitCenterDDLData?.[1] || ''
                               );
                             }
                           );
                         }
                         if (valueOption) {
-                          setFieldValue("currentBusinessUnit", valueOption);
+                          setFieldValue('currentBusinessUnit', valueOption);
                           setRowData([]);
                         } else {
-                          setFieldValue("currentBusinessUnit", "");
+                          setFieldValue('currentBusinessUnit', '');
                           setRowData([]);
                         }
                       }}
@@ -162,7 +161,7 @@ export default function OverheadVarianceReport() {
                       value={values?.profitCenter}
                       label="Profit Center"
                       onChange={(valueOption) => {
-                        setFieldValue("profitCenter", valueOption);
+                        setFieldValue('profitCenter', valueOption);
                         setRowData([]);
                       }}
                       placeholder="Profit Center"
@@ -175,7 +174,7 @@ export default function OverheadVarianceReport() {
                       value={values?.gl}
                       label="GL Name"
                       onChange={(valueOption) => {
-                        setFieldValue("gl", valueOption);
+                        setFieldValue('gl', valueOption);
                         setRowData([]);
                       }}
                       errors={errors}
@@ -190,7 +189,7 @@ export default function OverheadVarianceReport() {
                       name="fromDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                         setRowData([]);
                       }}
                     />
@@ -202,28 +201,28 @@ export default function OverheadVarianceReport() {
                       name="toDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                         setRowData([]);
                       }}
                     />
                   </div>
                   <div className="col-lg-2 mt-4">
                     <div className="d-flex align-items-center">
-                    <p className="pr-1 pt-3">
-                      <input
-                        type="checkbox"
-                        checked={values?.isForecast}
-                      onChange={(e)=>{
-                        setFieldValue("isForecast", e.target.checked);
-                      }}
-                      />
-                    </p>
-                    <p>
-                      <label>Is Forecast</label>
-                    </p>
-                  </div>
+                      <p className="pr-1 pt-3">
+                        <input
+                          type="checkbox"
+                          checked={values?.isForecast}
+                          onChange={(e) => {
+                            setFieldValue('isForecast', e.target.checked);
+                          }}
+                        />
+                      </p>
+                      <p>
+                        <label>Is Forecast</label>
+                      </p>
                     </div>
-                  <div style={{ marginTop: "17px" }}>
+                  </div>
+                  <div style={{ marginTop: '17px' }}>
                     <button
                       disabled={
                         !values?.currentBusinessUnit ||

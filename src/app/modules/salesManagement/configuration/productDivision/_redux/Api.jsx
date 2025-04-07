@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 //Call Product Division APi
 export function getProductDivisionTypeDDL(accId, buId) {
@@ -22,7 +22,7 @@ export function saveEditData(data) {
 }
 //Call ProductDivision get grid data api
 export function getGridData(accId, buId, pageNo, pageSize, search) {
-  const searchPath = search ? `searchTerm=${search}&` : "";
+  const searchPath = search ? `searchTerm=${search}&` : '';
   return axios.get(
     `/oms/ProductDivision/ProductDivisionSearchPagination?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Status=true&viewOrder=asc&PageNo=${pageNo}&PageSize=${pageSize}`
   );

@@ -93,7 +93,7 @@ export default function FormCmp({
                         e,
                         profileData?.accountId,
                         selectedBusinessUnit?.value,
-                        values?.partnerType?.reffPrtTypeId,
+                        values?.partnerType?.reffPrtTypeId
                       );
                     }}
                     isDisabled={!values?.partnerType}
@@ -158,7 +158,7 @@ export default function FormCmp({
                           classes="purchaseInvoiceAttachIcon"
                           clickHandler={() => {
                             dispatch(
-                              getDownlloadFileView_Action(values?.attachmentId),
+                              getDownlloadFileView_Action(values?.attachmentId)
                             );
                           }}
                         />
@@ -193,7 +193,7 @@ export default function FormCmp({
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name,
+                  (item) => item.file.name !== deleteFileObj.file.name
                 );
                 setFileObjects(newData);
               }}

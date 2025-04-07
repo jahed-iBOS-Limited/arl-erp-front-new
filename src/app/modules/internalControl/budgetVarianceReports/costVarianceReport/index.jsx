@@ -1,19 +1,19 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import Loading from "../../../_helper/_loading";
-import IForm from "../../../_helper/_form";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import NewSelect from "../../../_helper/_select";
-import { shallowEqual, useSelector } from "react-redux";
-import InputField from "../../../_helper/_inputField";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import IView from "../../../_helper/_helperIcons/_view";
-import IViewModal from "../../../_helper/_viewModal";
-import DetailsModal from "./detailsModal";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import Loading from '../../../_helper/_loading';
+import IForm from '../../../_helper/_form';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import NewSelect from '../../../_helper/_select';
+import { shallowEqual, useSelector } from 'react-redux';
+import InputField from '../../../_helper/_inputField';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import IView from '../../../_helper/_helperIcons/_view';
+import IViewModal from '../../../_helper/_viewModal';
+import DetailsModal from './detailsModal';
 
 const initData = {
-  businessUnit: "",
+  businessUnit: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
   isForecast: false,
@@ -69,9 +69,9 @@ export default function CostVarianceReportLanding() {
                     label="Business Unit"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("businessUnit", valueOption);
+                        setFieldValue('businessUnit', valueOption);
                       } else {
-                        setFieldValue("businessUnit", "");
+                        setFieldValue('businessUnit', '');
                       }
                     }}
                     placeholder="Business Unit"
@@ -87,7 +87,7 @@ export default function CostVarianceReportLanding() {
                     name="fromDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
+                      setFieldValue('fromDate', e.target.value);
                     }}
                   />
                 </div>
@@ -98,26 +98,26 @@ export default function CostVarianceReportLanding() {
                     name="toDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
+                      setFieldValue('toDate', e.target.value);
                     }}
                   />
                 </div>
                 <div className="col-lg-2 mt-4">
-                    <div className="d-flex align-items-center">
+                  <div className="d-flex align-items-center">
                     <p className="pr-1 pt-3">
                       <input
                         type="checkbox"
-                        checked={values?.isForecast} 
-                      onChange={(e)=>{
-                        setFieldValue("isForecast", e.target.checked);
-                      }}
+                        checked={values?.isForecast}
+                        onChange={(e) => {
+                          setFieldValue('isForecast', e.target.checked);
+                        }}
                       />
                     </p>
                     <p>
                       <label>Is Forecast</label>
                     </p>
                   </div>
-                    </div>
+                </div>
                 <div className="">
                   <button
                     onClick={() => {

@@ -402,8 +402,8 @@ export default function FormCmp({
                           onClick={() => {
                             dispatch(
                               getDownlloadFileView_Action(
-                                values?.identificationDoc,
-                              ),
+                                values?.identificationDoc
+                              )
                             );
                           }}
                         >
@@ -425,7 +425,7 @@ export default function FormCmp({
                     }}
                     onDelete={(deleteFileObj) => {
                       const newData = fileObjects.filter(
-                        (item) => item.file.name !== deleteFileObj.file.name,
+                        (item) => item.file.name !== deleteFileObj.file.name
                       );
                       setFileObjects(newData);
                     }}

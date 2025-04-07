@@ -1,17 +1,16 @@
-
-import { Formik } from "formik";
-import React from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import IButton from "../../../../_helper/iButton";
-import { validationSchemaTwo } from "../helper";
-import { headers } from "../landing/bankInfoTable";
-import ICustomTable from "../../../../_helper/_customTable";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
+import { Formik } from 'formik';
+import React from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import IButton from '../../../../_helper/iButton';
+import { validationSchemaTwo } from '../helper';
+import { headers } from '../landing/bankInfoTable';
+import ICustomTable from '../../../../_helper/_customTable';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
 
 export default function FormTwo({ obj }) {
   const {
@@ -47,7 +46,7 @@ export default function FormTwo({ obj }) {
       validationSchema={validationSchemaTwo}
       onSubmit={(values, { setFieldValue }) => {
         addHandler(values, () => {
-          setBankInfo("", setFieldValue);
+          setBankInfo('', setFieldValue);
         });
       }}
     >
@@ -71,7 +70,7 @@ export default function FormTwo({ obj }) {
               ? () => {
                   resetForm(initData);
                 }
-              : ""
+              : ''
           }
           backHandler={() => {
             history.goBack();
@@ -84,15 +83,15 @@ export default function FormTwo({ obj }) {
               <div className="col-lg-12 mb-3">
                 <div className=" mt-3 d-flex align-items-center">
                   <input
-                    style={{ transform: "scale(1.5)" }}
+                    style={{ transform: 'scale(1.5)' }}
                     type="checkbox"
                     id="isPublic"
                     name="isPublic"
                     value={values?.isPublic}
                     checked={values?.isPublic}
                     onChange={(e) => {
-                      setFieldValue("isPublic", e.target.checked);
-                      setFieldValue("employee", "");
+                      setFieldValue('isPublic', e.target.checked);
+                      setFieldValue('employee', '');
                     }}
                   />
                   <label htmlFor="isPublic" className="pl-2">
@@ -107,11 +106,11 @@ export default function FormTwo({ obj }) {
                     selectedValue={values?.employee}
                     handleChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("employee", valueOption);
+                        setFieldValue('employee', valueOption);
                         setBankInfo(valueOption, setFieldValue);
                       } else {
-                        setFieldValue("employee", "");
-                        setBankInfo("", setFieldValue);
+                        setFieldValue('employee', '');
+                        setBankInfo('', setFieldValue);
                       }
                     }}
                     loadOptions={employeeList}
@@ -127,11 +126,11 @@ export default function FormTwo({ obj }) {
                     placeholder="Employee Name"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("employee", valueOption);
+                        setFieldValue('employee', valueOption);
                         setBankInfo(valueOption, setFieldValue);
                       } else {
-                        setFieldValue("employee", "");
-                        setBankInfo("", setFieldValue);
+                        setFieldValue('employee', '');
+                        setBankInfo('', setFieldValue);
                       }
                     }}
                     errors={errors}
@@ -149,9 +148,9 @@ export default function FormTwo({ obj }) {
                   placeholder="Shipping Point"
                   onChange={(valueOption) => {
                     if (valueOption) {
-                      setFieldValue("shippingPoint", valueOption);
+                      setFieldValue('shippingPoint', valueOption);
                     } else {
-                      setFieldValue("shippingPoint", "");
+                      setFieldValue('shippingPoint', '');
                     }
                   }}
                   errors={errors}
@@ -167,10 +166,10 @@ export default function FormTwo({ obj }) {
                   label="Bank Name"
                   placeholder="Bank Name"
                   onChange={(valueOption) => {
-                    setFieldValue("branch", "");
+                    setFieldValue('branch', '');
                     setBranches([]);
                     if (valueOption) {
-                      setFieldValue("bank", valueOption);
+                      setFieldValue('bank', valueOption);
                       // country id = 18 for Bangladesh
                       getBranches(
                         `/costmgmt/BankAccount/GETBankBranchDDl?BankId=${
@@ -178,7 +177,7 @@ export default function FormTwo({ obj }) {
                         }&CountryId=${18}`
                       );
                     } else {
-                      setFieldValue("bank", "");
+                      setFieldValue('bank', '');
                     }
                   }}
                   errors={errors}
@@ -196,9 +195,9 @@ export default function FormTwo({ obj }) {
                   placeholder="Branch Name"
                   onChange={(valueOption) => {
                     if (valueOption) {
-                      setFieldValue("branch", valueOption);
+                      setFieldValue('branch', valueOption);
                     } else {
-                      setFieldValue("branch", "");
+                      setFieldValue('branch', '');
                     }
                   }}
                   errors={errors}

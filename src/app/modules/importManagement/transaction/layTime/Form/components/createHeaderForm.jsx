@@ -6,7 +6,7 @@ import FormikSelect from '../../../../../chartering/_chartinghelper/common/formi
 import customStyles from '../../../../../chartering/_chartinghelper/common/selectCustomStyle';
 import { getBusinessPartnerNameByVoyageDDL } from '../../../../../chartering/helper';
 import { initData } from '../addEditForm';
-import { daysToDDHHMM } from '../utils';
+import { daysToDDHHMM } from '../../../../../chartering/layTime/Form/utils';
 
 const HeaderLabelComponent = ({ name }) => {
   return (
@@ -45,15 +45,14 @@ export function CreateHeaderForm({
 
   useEffect(() => {
     getItemCategoryDDL(
-      `/wms/ItemPlantWarehouse/GetItemCategoryDDL?accountId=${accId}&businessUnitId=${buId}`,
+      `/wms/ItemPlantWarehouse/GetItemCategoryDDL?accountId=${accId}&businessUnitId=${buId}`
     );
     getPortDDL(
-      `/imp/ImportCommonDDL/GetPortName?accountId=${accId}&businessUnitId=${buId}`,
+      `/imp/ImportCommonDDL/GetPortName?accountId=${accId}&businessUnitId=${buId}`
     );
     getPartnerDDL(
-      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${accId}&businessUnitId=${buId}`,
+      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${accId}&businessUnitId=${buId}`
     );
-
   }, [buId]);
 
   return (
@@ -139,7 +138,7 @@ export function CreateHeaderForm({
                       values?.voyageNo?.value,
                       valueOption?.value,
                       setStackHolderNameDDL,
-                      setFieldValue, // For demurrage, despatch
+                      setFieldValue // For demurrage, despatch
                     );
                   }
                 }}
@@ -167,7 +166,7 @@ export function CreateHeaderForm({
                         label: item?.bankName,
                       }));
                       setBankDDL(modifyData);
-                    },
+                    }
                   );
                 }}
                 errors={errors}
@@ -207,7 +206,7 @@ export function CreateHeaderForm({
                     setItemList([]);
                     if (valueOption) {
                       getItemList(
-                        `wms/ItemPlantWarehouse/ItemByCategoryDDL?CategoryId=${valueOption?.value}`,
+                        `wms/ItemPlantWarehouse/ItemByCategoryDDL?CategoryId=${valueOption?.value}`
                       );
                     }
                   }}
@@ -266,7 +265,7 @@ export function CreateHeaderForm({
                           'timeAllowedForLoading',
                           (
                             e.target.value / parseFloat(values?.loadingRate)
-                          ).toFixed(4) || 0,
+                          ).toFixed(4) || 0
                         );
 
                       setFieldValue('cargoQty', e.target.value);

@@ -1,4 +1,4 @@
-import { generateJsonToExcel } from "../../../_helper/excel/jsonToExcel";
+import { generateJsonToExcel } from '../../../_helper/excel/jsonToExcel';
 
 export const generateSecondLevelList = ({
   list,
@@ -27,60 +27,60 @@ export const generateSecondLevelList = ({
 export const excelDownload = (excelData) => {
   let header = [
     {
-      text: "Warehouse",
-      textFormat: "text",
-      alignment: "center:middle",
-      key: "strWareHouseName",
+      text: 'Warehouse',
+      textFormat: 'text',
+      alignment: 'center:middle',
+      key: 'strWareHouseName',
     },
     {
-      text: "Item Name",
-      textFormat: "text",
-      alignment: "center:middle",
-      key: "strItemName",
+      text: 'Item Name',
+      textFormat: 'text',
+      alignment: 'center:middle',
+      key: 'strItemName',
     },
     {
-      text: "Item Code",
-      textFormat: "text",
-      alignment: "center:middle",
-      key: "strItemCode",
+      text: 'Item Code',
+      textFormat: 'text',
+      alignment: 'center:middle',
+      key: 'strItemCode',
     },
     {
-      text: "Uom",
-      textFormat: "text",
-      alignment: "center:middle",
-      key: "strBaseUOM",
+      text: 'Uom',
+      textFormat: 'text',
+      alignment: 'center:middle',
+      key: 'strBaseUOM',
     },
     {
-      text: "Open Qty",
-      textFormat: "text",
-      alignment: "center:middle",
-      key: "numOpenQty",
+      text: 'Open Qty',
+      textFormat: 'text',
+      alignment: 'center:middle',
+      key: 'numOpenQty',
     },
     {
-      text: "In Qty",
-      textFormat: "text",
-      alignment: "center:middle",
-      key: "numInQty",
+      text: 'In Qty',
+      textFormat: 'text',
+      alignment: 'center:middle',
+      key: 'numInQty',
     },
     {
-      text: "Closing Qty",
-      textFormat: "text",
-      alignment: "center:middle",
-      key: "numCloseQty",
+      text: 'Closing Qty',
+      textFormat: 'text',
+      alignment: 'center:middle',
+      key: 'numCloseQty',
     },
     {
-      text: "Out Qty",
-      textFormat: "text",
-      alignment: "center:middle",
-      key: "numOutQty",
+      text: 'Out Qty',
+      textFormat: 'text',
+      alignment: 'center:middle',
+      key: 'numOutQty',
     },
     {
-      text: "Rate",
-      textFormat: "number",
-      alignment: "center:middle",
-      key: "numRate",
+      text: 'Rate',
+      textFormat: 'number',
+      alignment: 'center:middle',
+      key: 'numRate',
     },
   ];
 
-  generateJsonToExcel(header, excelData, "Warehouse Wise Stock Report");
+  generateJsonToExcel(header, excelData, 'Warehouse Wise Stock Report');
 };

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { Input } from "../../../../../../../../_metronic/_partials/controls";
-import Axios from "axios";
-import NewSelect from "../../../../../../_helper/_select";
-import useAxiosGet from "../../../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../../../_helper/_loading";
-import { IInput } from "../../../../../../_helper/_input";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { Input } from '../../../../../../../../_metronic/_partials/controls';
+import Axios from 'axios';
+import NewSelect from '../../../../../../_helper/_select';
+import useAxiosGet from '../../../../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../../../../_helper/_loading';
+import { IInput } from '../../../../../../_helper/_input';
 
 const DataValiadtionSchema = Yup.object().shape({});
 
@@ -21,7 +21,7 @@ export default function FormCmp({
   basicItemInfo,
   id = null,
 }) {
-  const [orgList, setOrgList] = useState("");
+  const [orgList, setOrgList] = useState('');
   useEffect(() => {
     if (selectedBusinessUnit && accountId) {
       getInfoData(selectedBusinessUnit.value, accountId);
@@ -66,7 +66,6 @@ export default function FormCmp({
     getItemSalesInformation(
       `/item/ItemSales/GetItemSalesById?ItemSalesId=${id}`
     );
-
   }, [id]);
 
   useEffect(() => {
@@ -94,7 +93,6 @@ export default function FormCmp({
         }
       });
     }
-
   }, [basicItemInfo?.length]);
 
   return (
@@ -133,7 +131,7 @@ export default function FormCmp({
               <div className="form-group row global-form">
                 <div className="col-lg-3">
                   <Field
-                    value={values.purchaseDescription || ""}
+                    value={values.purchaseDescription || ''}
                     name="purchaseDescription"
                     component={Input}
                     placeholder="Purchase Description"
@@ -143,7 +141,7 @@ export default function FormCmp({
                 </div>
                 <div className="col-lg-3">
                   <Field
-                    value={values.hscode || ""}
+                    value={values.hscode || ''}
                     name="hscode"
                     component={Input}
                     placeholder="HS Code"
@@ -153,7 +151,7 @@ export default function FormCmp({
                 </div>
                 <div className="col-lg-3">
                   <Field
-                    value={values.maxLeadDays || ""}
+                    value={values.maxLeadDays || ''}
                     name="maxLeadDays"
                     component={Input}
                     placeholder="Maximum Lead Days"
@@ -166,7 +164,7 @@ export default function FormCmp({
 
                 <div className="col-lg-3">
                   <Field
-                    value={values.minOrderQuantity || ""}
+                    value={values.minOrderQuantity || ''}
                     name="minOrderQuantity"
                     component={Input}
                     placeholder="Minimum Order Quantity"
@@ -196,14 +194,14 @@ export default function FormCmp({
                   /> */}
                   <IInput
                     label="Lot Size"
-                    value={values?.lotSize || ""}
+                    value={values?.lotSize || ''}
                     name="lotSize"
                     type="number"
                     onChange={(e) => {
                       if (+e.target.value > 0 || +e.target.value === 0) {
-                        setFieldValue("lotSize", e.target.value);
+                        setFieldValue('lotSize', e.target.value);
                       } else {
-                        setFieldValue("lotSize", "");
+                        setFieldValue('lotSize', '');
                       }
                     }}
                     disabled={!orgList}
@@ -216,14 +214,14 @@ export default function FormCmp({
                     value={values?.profitCenter}
                     label="Profit Center"
                     onChange={(valueOption) => {
-                      setFieldValue("profitCenter", valueOption);
+                      setFieldValue('profitCenter', valueOption);
                     }}
                     placeholder="Profit Center"
                   />
                 </div>
                 <div
                   style={{
-                    marginTop: "18px",
+                    marginTop: '18px',
                   }}
                   className="col-lg-3"
                 >
@@ -232,8 +230,8 @@ export default function FormCmp({
                     component={() => (
                       <input
                         style={{
-                          position: "absolute",
-                          top: "7px",
+                          position: 'absolute',
+                          top: '7px',
                         }}
                         id="isMrp"
                         type="checkbox"
@@ -242,7 +240,7 @@ export default function FormCmp({
                         name="isMrp"
                         disabled={!orgList}
                         onChange={(e) => {
-                          setFieldValue("isMrp", e.target.checked);
+                          setFieldValue('isMrp', e.target.checked);
                         }}
                       />
                     )}
@@ -252,19 +250,19 @@ export default function FormCmp({
                   </label>
                 </div>
                 <p className="text-danger my-2">
-                  {!orgList && "Not found any purchase organization"}
+                  {!orgList && 'Not found any purchase organization'}
                 </p>
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={saveBtnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

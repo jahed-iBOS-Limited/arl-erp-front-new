@@ -49,7 +49,7 @@ export default function DryDocCreateEdit() {
 
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
-    shallowEqual,
+    shallowEqual
   );
 
   const dispatch = useDispatch();
@@ -79,7 +79,7 @@ export default function DryDocCreateEdit() {
         };
         setModifiedData(obj);
         setRowData(data?._rows);
-      },
+      }
     );
   };
 
@@ -87,7 +87,6 @@ export default function DryDocCreateEdit() {
     if (id) {
       modifyDataFromApi();
     }
-
   }, [id]);
 
   const saveHandler = (values, cb) => {
@@ -119,14 +118,13 @@ export default function DryDocCreateEdit() {
 
   useEffect(() => {
     getSupplierDDL(
-      `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=0`,
+      `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=0`
     );
     getCurrencyDDL(`/domain/Purchase/GetBaseCurrencyList`);
     getVesselDDL(
       // `${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
-      `/asset/Asset/GetAssetVesselDdl?IntBussinessUintId=${selectedBusinessUnit?.value}`,
+      `/asset/Asset/GetAssetVesselDdl?IntBussinessUintId=${selectedBusinessUnit?.value}`
     );
-
   }, []);
 
   const deleteRowDto = (index) => {
@@ -136,7 +134,7 @@ export default function DryDocCreateEdit() {
 
   const rowDtoHandler = (values, setFieldValue) => {
     const isDuplicateActivity = rowData?.find(
-      (item) => item?.strActivity === values?.activity,
+      (item) => item?.strActivity === values?.activity
     );
     if (isDuplicateActivity) {
       return toast.warn('Activity already added');
@@ -348,7 +346,7 @@ export default function DryDocCreateEdit() {
                     }}
                     onDelete={(deleteFileObj) => {
                       const newData = fileObjects?.filter(
-                        (item) => item.file.name !== deleteFileObj.file.name,
+                        (item) => item.file.name !== deleteFileObj.file.name
                       );
                       setFileObjects(newData);
                     }}
@@ -415,8 +413,8 @@ export default function DryDocCreateEdit() {
                                     clickHandler={() => {
                                       dispatch(
                                         getDownlloadFileView_Action(
-                                          item?.strAttachmentLink,
-                                        ),
+                                          item?.strAttachmentLink
+                                        )
                                       );
                                     }}
                                   />

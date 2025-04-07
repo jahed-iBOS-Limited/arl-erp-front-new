@@ -20,7 +20,6 @@ const DealersBenefits = ({
   activityChange,
   selectedPlant,
 }) => {
-
   const [loader, setLoader] = useState(false);
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
@@ -34,7 +33,6 @@ const DealersBenefits = ({
 
   useEffect(() => {
     cb();
-
   }, [activityChange]);
 
   let cb = () => {
@@ -48,7 +46,7 @@ const DealersBenefits = ({
       pageNo,
       pageSize,
       '',
-      selectedPlant?.value,
+      selectedPlant?.value
     );
   };
 
@@ -64,7 +62,7 @@ const DealersBenefits = ({
       pageNo,
       pageSize,
       '',
-      selectedPlant.value,
+      selectedPlant.value
     );
   };
 
@@ -115,7 +113,7 @@ const DealersBenefits = ({
       message: `Do you want to post the selected approve submit`,
       yesAlertFunc: () => {
         const filterSelectedData = rowDto?.data?.filter(
-          (item) => item?.isSelect,
+          (item) => item?.isSelect
         );
         const payload = filterSelectedData?.map((item) => {
           return {
@@ -135,11 +133,10 @@ const DealersBenefits = ({
         approvalApi(parameter, payload, activityName, cb, setBillSubmitBtn);
         //setBillSubmitBtn(true);
       },
-      noAlertFunc: () => { },
+      noAlertFunc: () => {},
     };
     IConfirmModal(confirmObject);
   };
-
 
   //reject handler
   const rejectSubmitlHandler = () => {
@@ -148,7 +145,7 @@ const DealersBenefits = ({
       message: `Do you want to reject ?`,
       yesAlertFunc: () => {
         const filterSelectedData = rowDto?.data?.filter(
-          (item) => item?.isSelect,
+          (item) => item?.isSelect
         );
         const payload = filterSelectedData.map((item) => {
           return {
@@ -156,16 +153,20 @@ const DealersBenefits = ({
             actionBy: profileData?.userId,
           };
         });
-        rejectPuchase(`/partner/PartnerBenefitPolicy/RejectPartnerBenefit`, payload, (data) => {
-          setBillSubmitBtn(true);
-          cb();
-        }, true);
+        rejectPuchase(
+          `/partner/PartnerBenefitPolicy/RejectPartnerBenefit`,
+          payload,
+          (data) => {
+            setBillSubmitBtn(true);
+            cb();
+          },
+          true
+        );
         // setBillSubmitBtn(true);
       },
-      noAlertFunc: () => { },
+      noAlertFunc: () => {},
     };
     IConfirmModal(confirmObject);
-
   };
 
   const paginationSearchHandler = (value) => {
@@ -179,7 +180,7 @@ const DealersBenefits = ({
       0,
       pageSize,
       value,
-      selectedPlant.value,
+      selectedPlant.value
     );
     setPageNo(0);
   };
@@ -321,7 +322,11 @@ const DealersBenefits = ({
             )}
 
             <IViewModal show={isShowModal} onHide={() => setIsShowModal(false)}>
-              <DelearsBenefotsViewModal intDealerRegistrationId={currentRowData?.intDealerRegistrationId} />
+              <DelearsBenefotsViewModal
+                intDealerRegistrationId={
+                  currentRowData?.intDealerRegistrationId
+                }
+              />
             </IViewModal>
           </>
         )}

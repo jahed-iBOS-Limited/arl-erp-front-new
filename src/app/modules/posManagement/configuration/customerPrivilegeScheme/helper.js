@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "./../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from './../../../_helper/_dateFormate';
 //GetPrivilegeSchemeLanding_api
 export const GetPrivilegeSchemeLanding_api = async (
   accId,
@@ -116,7 +116,7 @@ export const postPrivilegeScheme_api = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -138,7 +138,7 @@ export const UpdateStatusPreviledgeSchemeById_api = async (
       `/oms/PrivilegeScheme/UpdateStatusPreviledgeSchemeById?CustomersPrivilegeSchemeId=${schemeId}`
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       setDisabled(false);
       activeCB(values);
     }
@@ -175,29 +175,29 @@ export const getCustomerListByGenderDDL = async (
 };
 
 export const valuesEmptyFunc = (setFieldValue) => {
-  setFieldValue("minimumQuantity", "");
-  setFieldValue("maximumQuantity", "");
-  setFieldValue("itemUoM", "");
-  setFieldValue("offerItem", "");
-  setFieldValue("maximumAmount", "");
-  setFieldValue("discountFormat", "");
-  setFieldValue("offerQuantity", "");
-  setFieldValue("discountAmount", "");
-  setFieldValue("minimumAmount", "");
-  setFieldValue("durationType", "");
-  setFieldValue("monthDuration", "");
-  setFieldValue("basedOn", "");
+  setFieldValue('minimumQuantity', '');
+  setFieldValue('maximumQuantity', '');
+  setFieldValue('itemUoM', '');
+  setFieldValue('offerItem', '');
+  setFieldValue('maximumAmount', '');
+  setFieldValue('discountFormat', '');
+  setFieldValue('offerQuantity', '');
+  setFieldValue('discountAmount', '');
+  setFieldValue('minimumAmount', '');
+  setFieldValue('durationType', '');
+  setFieldValue('monthDuration', '');
+  setFieldValue('basedOn', '');
 };
 
 const OfferBasedOnsetFieldFunc = (setFieldValue, valueOption) => {
   if (valueOption) {
     if ([1, 3, 7].includes(valueOption?.value)) {
-      setFieldValue("offerBasedOn", { value: 2, label: "Amount" });
+      setFieldValue('offerBasedOn', { value: 2, label: 'Amount' });
     } else {
-      setFieldValue("offerBasedOn", { value: 1, label: "Quantity" });
+      setFieldValue('offerBasedOn', { value: 1, label: 'Quantity' });
     }
   } else {
-    setFieldValue("offerBasedOn", "");
+    setFieldValue('offerBasedOn', '');
   }
 };
 
@@ -215,8 +215,8 @@ export const conditionTypeOnChangeHandler = (obj) => {
   switch (valueOption?.value) {
     // All Item / All Customer
     case 1:
-      setFieldValue("itemGroup", { value: 0, label: "All" });
-      setFieldValue("customerGroup", { value: 0, label: "All" });
+      setFieldValue('itemGroup', { value: 0, label: 'All' });
+      setFieldValue('customerGroup', { value: 0, label: 'All' });
       break;
     // Item Group / All Customer
     case 2:
@@ -226,7 +226,7 @@ export const conditionTypeOnChangeHandler = (obj) => {
         selectedBusinessUnit?.value,
         setItemDDL
       );
-      setFieldValue("customerGroup", { value: 0, label: "All" });
+      setFieldValue('customerGroup', { value: 0, label: 'All' });
       break;
     // All Item / Customer Group
     case 3:
@@ -236,7 +236,7 @@ export const conditionTypeOnChangeHandler = (obj) => {
         selectedBusinessUnit?.value,
         setCustomerDDL
       );
-      setFieldValue("itemGroup", { value: 0, label: "All" });
+      setFieldValue('itemGroup', { value: 0, label: 'All' });
       break;
     // Item Group / Customer Group
     case 4:
@@ -261,7 +261,7 @@ export const conditionTypeOnChangeHandler = (obj) => {
         selectedBusinessUnit?.value,
         setItemDDL
       );
-      setFieldValue("customerGroup", { value: 0, label: "All" });
+      setFieldValue('customerGroup', { value: 0, label: 'All' });
       break;
     // Item / Customer Group
     case 6:
@@ -286,7 +286,7 @@ export const conditionTypeOnChangeHandler = (obj) => {
         selectedBusinessUnit?.value,
         setCustomerDDL
       );
-      setFieldValue("itemGroup", { value: 0, label: "All" });
+      setFieldValue('itemGroup', { value: 0, label: 'All' });
       break;
     // Item Group / Customer
     case 8:
@@ -325,42 +325,42 @@ export const conditionTypeOnChangeHandler = (obj) => {
 
 export const offerBasedOnDDL = () => {
   return [
-    { value: 1, label: "Quantity" },
-    { value: 2, label: "Amount" },
+    { value: 1, label: 'Quantity' },
+    { value: 2, label: 'Amount' },
   ];
 };
 export const customersPurchaseTypeDDL = () => {
   return [
-    { value: 1, label: "Cash" },
-    { value: 2, label: "Credit" },
-    { value: 3, label: "Online" },
-    { value: 4, label: "Both" },
+    { value: 1, label: 'Cash' },
+    { value: 2, label: 'Credit' },
+    { value: 3, label: 'Online' },
+    { value: 4, label: 'Both' },
   ];
 };
 export const schemeTypeDDL = () => {
   return [
-    { value: 1, label: "Discount" },
-    { value: 2, label: "Item" },
+    { value: 1, label: 'Discount' },
+    { value: 2, label: 'Item' },
   ];
 };
 export const discountFormatDDL = () => {
   return [
-    { value: 1, label: "% (Percentage)" },
-    { value: 2, label: "Amount (Allocation)" },
+    { value: 1, label: '% (Percentage)' },
+    { value: 2, label: 'Amount (Allocation)' },
   ];
 };
 export const durationTypeDDL = () => {
   return [
-    { value: 1, label: "One Time" },
+    { value: 1, label: 'One Time' },
     // { value: 2, label: "Daily" },
-    { value: 3, label: "Monthly" },
-    { value: 4, label: "Yearly" },
+    { value: 3, label: 'Monthly' },
+    { value: 4, label: 'Yearly' },
   ];
 };
 export const basedOnDDL = (label) => {
   return [
     { value: 1, label: label },
-    { value: 2, label: "Accumulation" },
+    { value: 2, label: 'Accumulation' },
   ];
 };
 
@@ -379,20 +379,20 @@ export const GetPreviledgeSchemeById_api = async (
       const durationTypeName =
         durationTypeDDL()?.find(
           (findItm) => findItm?.value === itm?.durationTypeId
-        )?.label || "";
+        )?.label || '';
 
       return {
         ...itm,
         discountFormatName:
           discountFormatDDL()?.find(
             (findItm) => findItm?.value === itm?.discountFormatId
-          )?.label || "",
+          )?.label || '',
         durationTypeName: durationTypeName,
         basedOnName:
           offerBasedOnDDL(durationTypeName)?.find(
             (findItm) => findItm?.value === itm?.basedOnId
-          )?.label || "",
-        itemUomName: itm?.uomName || "",
+          )?.label || '',
+        itemUomName: itm?.uomName || '',
       };
     });
 
@@ -414,35 +414,35 @@ export const GetPreviledgeSchemeById_api = async (
     } = res?.data?.objHeader;
 
     const offerBasedOn =
-    offerBasedOnDDL().find((itm) => itm.value === offerBasedOnId) || "";
+      offerBasedOnDDL().find((itm) => itm.value === offerBasedOnId) || '';
 
     const schemeType =
-      schemeTypeDDL().find((itm) => itm.value === schemeTypeId) || "";
+      schemeTypeDDL().find((itm) => itm.value === schemeTypeId) || '';
 
     const customersPurchaseType =
       customersPurchaseTypeDDL().find(
         (itm) => itm.value === customersPurchaseTypeId
-      ) || "";
+      ) || '';
 
     const obj = {
       objHeader: {
         ...res?.data?.objHeader,
         outletName: warehouseId
           ? { value: warehouseId, label: warehouseName }
-          : "",
-        nameOfScheme: nameOfScheme || "",
+          : '',
+        nameOfScheme: nameOfScheme || '',
         conditionType: conditionTypeId
           ? { value: conditionTypeId, label: conditionTypeName }
-          : "",
+          : '',
         itemGroup: itemOrItemGroupId
           ? { value: itemOrItemGroupId, label: itemOrItemGroupName }
-          : "",
+          : '',
         customerGroup: customerOrCustomerGroupId
           ? {
               value: customerOrCustomerGroupId,
               label: customerOrCustomerGroupName,
             }
-          : "",
+          : '',
         schemeStartDate: _dateFormatter(startDate),
         schemeEndDate: _dateFormatter(endDate),
         offerBasedOn: offerBasedOn,

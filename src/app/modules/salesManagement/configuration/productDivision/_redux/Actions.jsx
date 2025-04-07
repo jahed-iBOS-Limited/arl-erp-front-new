@@ -1,7 +1,7 @@
-import * as requestFromServer from "./Api";
-import { ProductDivisionSlice } from "./Slice";
-import { toast } from "react-toastify";
-import { isArray } from "lodash";
+import * as requestFromServer from './Api';
+import { ProductDivisionSlice } from './Slice';
+import { toast } from 'react-toastify';
+import { isArray } from 'lodash';
 const { actions: slice } = ProductDivisionSlice;
 
 export const getProductDivisionTypeDDLAction = (accId, buId) => (dispatch) => {
@@ -32,13 +32,12 @@ export const saveProductDivision = (payload, setDisabled) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
         setDisabled(false);
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
       setDisabled(false);
     });
@@ -51,7 +50,7 @@ export const saveEditProductDivision = (payload, setDisabled) => () => {
     .then((res) => {
       if (res.status === 200) {
         console.log(res.data);
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         setDisabled(false);
       }
     })
@@ -62,56 +61,48 @@ export const saveEditProductDivision = (payload, setDisabled) => () => {
     });
 };
 // ProductDivision action for get data of table
-export const getGridDataAction = (
-  accId,
-  buId,
-  setLoading,
-  pageNo,
-  pageSize,
-  search
-) => (dispatch) => {
-  setLoading(true);
-  return requestFromServer
-    .getGridData(accId, buId, pageNo, pageSize,search)
-    .then((res) => {
-      setLoading(false);
-      return dispatch(slice.SetGridData(res?.data));
-    })
-    .catch((err) => {
-      setLoading(false);
-     
-    });
-};
+export const getGridDataAction =
+  (accId, buId, setLoading, pageNo, pageSize, search) => (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .getGridData(accId, buId, pageNo, pageSize, search)
+      .then((res) => {
+        setLoading(false);
+        return dispatch(slice.SetGridData(res?.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
 
 // ProductDivision action for get single data by id
-export const getProductDivisionChannelById = (accId, buId, id, setDisabled) => (
-  dispatch
-) => {
-  setDisabled && setDisabled(true);
-  return requestFromServer
-    .getDataById(accId, buId, id)
-    .then((res) => {
-      setDisabled && setDisabled(false);
-      if (res.status === 200 && isArray(res?.data)) {
-        const item = res?.data?.[0];
-        const data = {
-          ...item,
-          productDivisionType: {
-            value: item?.productDivisionTypeId,
-            label: item?.productDivisionType,
-          },
-          parentDivisionName: {
-            value: item?.parentDivisionId,
-            label: item?.parentDivisionName,
-          },
-        };
-        return dispatch(slice.SetDataById(data));
-      }
-    })
-    .catch((err) => {
-      setDisabled && setDisabled(false);
-    });
-};
+export const getProductDivisionChannelById =
+  (accId, buId, id, setDisabled) => (dispatch) => {
+    setDisabled && setDisabled(true);
+    return requestFromServer
+      .getDataById(accId, buId, id)
+      .then((res) => {
+        setDisabled && setDisabled(false);
+        if (res.status === 200 && isArray(res?.data)) {
+          const item = res?.data?.[0];
+          const data = {
+            ...item,
+            productDivisionType: {
+              value: item?.productDivisionTypeId,
+              label: item?.productDivisionType,
+            },
+            parentDivisionName: {
+              value: item?.parentDivisionId,
+              label: item?.parentDivisionName,
+            },
+          };
+          return dispatch(slice.SetDataById(data));
+        }
+      })
+      .catch((err) => {
+        setDisabled && setDisabled(false);
+      });
+  };
 // ProductDivision single to empty
 export const setProductDivisionSingleEmpty = () => async (dispatch) => {
   return dispatch(slice.SetSingleStoreEmpty());

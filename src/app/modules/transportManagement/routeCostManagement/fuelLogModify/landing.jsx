@@ -1,38 +1,38 @@
-import React, { useEffect, useState } from "react";
-import { Formik } from "formik";
-import { shallowEqual, useSelector } from "react-redux";
-import ICard from "../../../_helper/_card";
-import ICustomTable from "../../../_helper/_customTable";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
+import React, { useEffect, useState } from 'react';
+import { Formik } from 'formik';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICard from '../../../_helper/_card';
+import ICustomTable from '../../../_helper/_customTable';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
 import {
   deleteFuelLog,
   GetVehicleDDL,
   getVehicleLogPurchaseDetails,
-} from "./helper";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../_helper/_fixedPoint";
-import IDelete from "../../../_helper/_helperIcons/_delete";
+} from './helper';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../_helper/_fixedPoint';
+import IDelete from '../../../_helper/_helperIcons/_delete';
 
 const FuelLogModify = () => {
   const initData = {
-    vehicleNumber: "",
-    fromDate: "",
-    toDate: "",
+    vehicleNumber: '',
+    fromDate: '',
+    toDate: '',
   };
 
   const headers = [
-    "SL",
-    "Expense Date",
-    "Vehicle Number",
-    "Driver Name",
-    "Cash Amount",
-    "Credit Amount",
-    "Total Amount",
-    "Expense ID",
-    "Action",
+    'SL',
+    'Expense Date',
+    'Vehicle Number',
+    'Driver Name',
+    'Cash Amount',
+    'Credit Amount',
+    'Total Amount',
+    'Expense ID',
+    'Action',
   ];
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -94,7 +94,7 @@ const FuelLogModify = () => {
                       value={values?.vehicleNumber}
                       label="Vehicle Number"
                       onChange={(valueOption) => {
-                        setFieldValue("vehicleNumber", valueOption);
+                        setFieldValue('vehicleNumber', valueOption);
                         setGridData([]);
                       }}
                       placeholder="Select Vehicle Number"

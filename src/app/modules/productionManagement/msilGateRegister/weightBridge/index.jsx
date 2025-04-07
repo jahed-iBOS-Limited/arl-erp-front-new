@@ -1,24 +1,24 @@
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
 
 const initData = {
-  date: "",
-  receiveType: "",
+  date: '',
+  receiveType: '',
 };
 
 function Weightbridge() {
@@ -31,7 +31,7 @@ function Weightbridge() {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getRowData(
       values?.receiveType?.value === 2
         ? `/mes/MSIL/GetWeightBridgeLanding?date=${values?.date}&pageNo=${pageNo}&pageSize=${pageSize}`
@@ -51,7 +51,7 @@ function Weightbridge() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Weighbridge"}>
+              <CardHeader title={'Weighbridge'}>
                 <CardHeaderToolbar>
                   {/* <button
                     onClick={() => {
@@ -76,12 +76,12 @@ function Weightbridge() {
                         name="receiveType"
                         options={[
                           // { value: 1, label: "With PO" },
-                          { value: 2, label: "Without PO" },
+                          { value: 2, label: 'Without PO' },
                         ]}
                         value={values?.receiveType}
                         label="Receive Type"
                         onChange={(valueOption) => {
-                          setFieldValue("receiveType", valueOption);
+                          setFieldValue('receiveType', valueOption);
                         }}
                       />
                     </div>
@@ -92,13 +92,13 @@ function Weightbridge() {
                         name="date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("date", e.target.value);
+                          setFieldValue('date', e.target.value);
                         }}
                       />
                     </div>
                     <div>
                       <button
-                        style={{ marginTop: "18px" }}
+                        style={{ marginTop: '18px' }}
                         className="btn btn-primary"
                         disabled={!values?.date || !values?.receiveType?.value}
                         onClick={() => {
@@ -120,7 +120,7 @@ function Weightbridge() {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>ড্রাইভারের নাম</th>
                             <th>মোবাইল নাম্বার</th>
                             <th>গাড়ীর নাম্বার</th>
@@ -131,7 +131,7 @@ function Weightbridge() {
                             <th>1st Weight</th>
                             <th>2nd Weight</th>
                             <th>Net Weight</th>
-                            <th style={{ width: "50px" }}>Action</th>
+                            <th style={{ width: '50px' }}>Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -160,7 +160,7 @@ function Weightbridge() {
                                     <OverlayTrigger
                                       overlay={
                                         <Tooltip id="cs-icon">
-                                          {"Create"}
+                                          {'Create'}
                                         </Tooltip>
                                       }
                                     >

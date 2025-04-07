@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { ITableTwo } from "./../../../../_helper/_tableTwo";
-import HeaderForm from "./form";
+import React, { useState } from 'react';
+import { ITableTwo } from './../../../../_helper/_tableTwo';
+import HeaderForm from './form';
 
-import { Route } from "react-router-dom";
-import ViewForm from "../View/viewModal";
-import "../salesOrder.css";
-import { useDispatch } from "react-redux";
-import { setSalesOrderSingleEmpty } from "./../_redux/Actions";
+import { Route } from 'react-router-dom';
+import ViewForm from '../View/viewModal';
+import '../salesOrder.css';
+import { useDispatch } from 'react-redux';
+import { setSalesOrderSingleEmpty } from './../_redux/Actions';
 export default function SalesOrderLandingPage() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);

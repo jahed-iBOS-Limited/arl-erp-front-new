@@ -90,70 +90,76 @@
 
 // export default VesselLayoutPDF;
 
-import React from "react";
-import FullLogo from "./images/akijShippingText.png"; // Replace with your logo image path
-import VesselLayout from "./vesselLayout"; // Ensure this component is styled as needed
-import moment from "moment";
+import React from 'react';
+import FullLogo from './images/akijShippingText.png'; // Replace with your logo image path
+import VesselLayout from './vesselLayout'; // Ensure this component is styled as needed
+import moment from 'moment';
 
-const VesselLayoutPDF = ({ vesselData, values, vesselNominationData, holdRows }) => {
-
-console.log("holdRows", holdRows)
-const uniqueLoadPorts = [...new Set(holdRows.map(item => item.strPortName))];
-const uniqueCargos = [...new Set(holdRows.map(item => item.strCargoName))];
+const VesselLayoutPDF = ({
+  vesselData,
+  values,
+  vesselNominationData,
+  holdRows,
+}) => {
+  console.log('holdRows', holdRows);
+  const uniqueLoadPorts = [
+    ...new Set(holdRows.map((item) => item.strPortName)),
+  ];
+  const uniqueCargos = [...new Set(holdRows.map((item) => item.strCargoName))];
 
   const styles = {
     container: {
-      margin: "0 auto",
-      padding: "20px",
+      margin: '0 auto',
+      padding: '20px',
       // border: "1px solid #000",
-      fontFamily: "Arial, sans-serif",
-      width: "100%", // Adjust width to match your layout
+      fontFamily: 'Arial, sans-serif',
+      width: '100%', // Adjust width to match your layout
     },
     header: {
-      textAlign: "left",
-      marginBottom: "10px",
+      textAlign: 'left',
+      marginBottom: '10px',
     },
     logo: {
-      width: "100%",
+      width: '100%',
     },
     title: {
-      fontSize: "24px",
-      fontWeight: "bold",
-      margin: "10px 0",
+      fontSize: '24px',
+      fontWeight: 'bold',
+      margin: '10px 0',
     },
     subTitle: {
-      fontSize: "18px",
-      fontWeight: "bold",
-      margin: "5px 0",
+      fontSize: '18px',
+      fontWeight: 'bold',
+      margin: '5px 0',
     },
     section: {
-      marginBottom: "20px",
-      padding: "10px",
-      display: "flex",
-      justifyContent: "space-between", // Use "space-between" instead of "between"
+      marginBottom: '20px',
+      padding: '10px',
+      display: 'flex',
+      justifyContent: 'space-between', // Use "space-between" instead of "between"
     },
     remarks: {
-      marginTop: "20px",
+      marginTop: '20px',
       //   borderTop: "1px solid #000",
-      paddingTop: "10px",
-      fontSize: "14px",
+      paddingTop: '10px',
+      fontSize: '14px',
     },
     chiefOfficer: {
-      textAlign: "right",
-      marginTop: "20px",
-      fontWeight: "bold",
+      textAlign: 'right',
+      marginTop: '20px',
+      fontWeight: 'bold',
     },
     cargoInfo: {
-      marginTop: "10px",
-      fontSize: "14px",
-      maxWidth:"33%"
+      marginTop: '10px',
+      fontSize: '14px',
+      maxWidth: '33%',
     },
     list: {
-      paddingLeft: "0",
-      margin: "0 0 0 40px",
+      paddingLeft: '0',
+      margin: '0 0 0 40px',
     },
     listItem: {
-      marginBottom: "5px",
+      marginBottom: '5px',
     },
   };
 
@@ -163,44 +169,63 @@ const uniqueCargos = [...new Set(holdRows.map(item => item.strCargoName))];
       <div style={styles.header}>
         <div
           style={{
-            width: "500px",
-            objectFit: "contain",
+            width: '500px',
+            objectFit: 'contain',
           }}
         >
           <img src={FullLogo} alt="Akij Shipping Line" style={styles.logo} />
         </div>
         <p style={{}}>
-          <strong style={{ display: "block" }}>198.AKIJ HOUSE, BIR UTTAM MIR SHAWKAT SARAK, TEJGAON, DHAKA 1208</strong>
-          <strong style={{ display: "block" }}>Tel : +88-09613311783</strong>
-          <strong style={{ display: "block" }}>E-mail: operation.asll@akij.net</strong>
+          <strong style={{ display: 'block' }}>
+            198.AKIJ HOUSE, BIR UTTAM MIR SHAWKAT SARAK, TEJGAON, DHAKA 1208
+          </strong>
+          <strong style={{ display: 'block' }}>Tel : +88-09613311783</strong>
+          <strong style={{ display: 'block' }}>
+            E-mail: operation.asll@akij.net
+          </strong>
         </p>
       </div>
 
-      <div style={{ textAlign: "center", margin: "1rem 0" }}>
+      <div style={{ textAlign: 'center', margin: '1rem 0' }}>
         <h3>CARGO PRE-STOWAGE PLAN</h3>
-        <h5>M.V. {vesselNominationData?.strNameOfVessel || ""} </h5>
+        <h5>M.V. {vesselNominationData?.strNameOfVessel || ''} </h5>
       </div>
 
       <div style={styles.section}>
         <p style={styles.cargoInfo}>
-          <strong>Date:</strong> {moment().format("DD/MM/YYYY")} <br />
+          <strong>Date:</strong> {moment().format('DD/MM/YYYY')} <br />
           {/* <strong>Cargo:</strong> {vesselNominationData?.strCargo} <br /> */}
           <strong>Cargo:</strong> {uniqueCargos?.join(', ')} <br />
-          <strong>Total Cargo:</strong> {holdRows?.reduce((sum, item) => sum + (item.numCargoQuantity || 0), 0)} MT
+          <strong>Total Cargo:</strong>{' '}
+          {holdRows?.reduce(
+            (sum, item) => sum + (item.numCargoQuantity || 0),
+            0
+          )}{' '}
+          MT
         </p>
         <p style={styles.cargoInfo}>
           <strong>Voyage No:</strong> {vesselNominationData?.intVoyageNo} <br />
           {/* <strong>Load Port:</strong> {vesselNominationData?.strNameOfLoadPort} <br /> */}
           <strong>Load Port:</strong> {uniqueLoadPorts?.join(', ')} <br />
-          <strong>Discharge Port:</strong> {vesselNominationData?.strDischargePort} <br />
-          <strong>Departure Draft:</strong> Forward {vesselNominationData?.numDepatureDraftForward || 0} m / Aft {vesselNominationData?.numDepatureDraftAft || 0} m <br />
+          <strong>Discharge Port:</strong>{' '}
+          {vesselNominationData?.strDischargePort} <br />
+          <strong>Departure Draft:</strong> Forward{' '}
+          {vesselNominationData?.numDepatureDraftForward || 0} m / Aft{' '}
+          {vesselNominationData?.numDepatureDraftAft || 0} m <br />
           <strong>Water Density:</strong> {values?.intDockWaterDensity}
         </p>
       </div>
 
       {/* Middle Section - Vessel Layout */}
-      <div style={styles.vesselSection} className={`images_wrapper ${vesselData?.intHoldNumber < 7 ? "less_then_seven" : vesselData?.intHoldNumber === 7 ? "equal_seven" : "greater_then_seven"}`}>
-        <VesselLayout vesselData={vesselData} values={values} holdRows={holdRows}/>
+      <div
+        style={styles.vesselSection}
+        className={`images_wrapper ${vesselData?.intHoldNumber < 7 ? 'less_then_seven' : vesselData?.intHoldNumber === 7 ? 'equal_seven' : 'greater_then_seven'}`}
+      >
+        <VesselLayout
+          vesselData={vesselData}
+          values={values}
+          holdRows={holdRows}
+        />
       </div>
 
       {/* Bottom Section */}
@@ -218,9 +243,9 @@ const uniqueCargos = [...new Set(holdRows.map(item => item.strCargoName))];
       <div style={styles.chiefOfficer}>
         <p
           style={{
-            display: "inline-block",
-            borderTop: "1px solid #000",
-            marginRight: "45px",
+            display: 'inline-block',
+            borderTop: '1px solid #000',
+            marginRight: '45px',
           }}
         >
           CHIEF OFFICER

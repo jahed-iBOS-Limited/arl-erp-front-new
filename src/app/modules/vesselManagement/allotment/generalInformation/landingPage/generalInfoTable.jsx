@@ -1,12 +1,12 @@
-import React from "react";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IView from "../../../../_helper/_helperIcons/_view";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { DeleteLighterAllotment } from "../helper";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import PaginationTable from "../../../../_helper/_tablePagination";
+import React from 'react';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IView from '../../../../_helper/_helperIcons/_view';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import { DeleteLighterAllotment } from '../helper';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import PaginationTable from '../../../../_helper/_tablePagination';
 
 export default function GeneralInfoTable({
   gridData,
@@ -29,7 +29,7 @@ export default function GeneralInfoTable({
               <table className="table table-striped table-bordered global-table">
                 <thead>
                   <tr>
-                    <th style={{ width: "40px" }}>SL</th>
+                    <th style={{ width: '40px' }}>SL</th>
                     <th>Date</th>
                     <th>Mother Vessel</th>
                     <th>Loading Port</th>
@@ -78,9 +78,9 @@ export default function GeneralInfoTable({
                               className="mr-1"
                               onClick={() => {
                                 let confirmObject = {
-                                  title: "Are you sure?",
+                                  title: 'Are you sure?',
                                   message:
-                                    "Are you sure you want to delete this information",
+                                    'Are you sure you want to delete this information',
                                   yesAlertFunc: async () => {
                                     DeleteLighterAllotment(
                                       item?.allotmentNo,
@@ -95,7 +95,7 @@ export default function GeneralInfoTable({
                                     );
                                   },
                                   noAlertFunc: () => {
-                                    "";
+                                    '';
                                   },
                                 };
                                 IConfirmModal(confirmObject);
@@ -109,7 +109,7 @@ export default function GeneralInfoTable({
                     );
                   })}
                   {gridData?.data?.length > 0 && (
-                    <tr style={{ fontWeight: "bold" }}>
+                    <tr style={{ fontWeight: 'bold' }}>
                       <td className="text-right" colSpan={6}>
                         Total
                       </td>

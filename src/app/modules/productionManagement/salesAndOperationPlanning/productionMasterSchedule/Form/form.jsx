@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { toast } from "react-toastify";
-import NewSelect from "./../../../../_helper/_select";
-import InputField from "./../../../../_helper/_inputField";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { toast } from 'react-toastify';
+import NewSelect from './../../../../_helper/_select';
+import InputField from './../../../../_helper/_inputField';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
 
 import {
   getProductionMasterSchedulingYear,
   getMasterSchedulingHorizon,
   getProductionMasterSchedulingItems,
   getProductionMasterSchedulingOthers,
-} from "../helper";
+} from '../helper';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -54,7 +54,7 @@ export default function FormCmp({
   uomId,
   setDateData,
 }) {
-  const [masterPlanQty, setMasterPlanQty] = useState("");
+  const [masterPlanQty, setMasterPlanQty] = useState('');
 
   const addProductionData = (values) => {
     const findDuplicate = rowDto?.find(
@@ -62,7 +62,7 @@ export default function FormCmp({
     );
     if (values?.item?.value) {
       if (findDuplicate) {
-        toast.warning("Item already added");
+        toast.warning('Item already added');
       } else {
         let rowDataValues = {
           itemId: values?.item?.value,
@@ -79,7 +79,7 @@ export default function FormCmp({
         setRowDto([...rowDto, rowDataValues]);
       }
     } else {
-      toast.warn("Add at least one item");
+      toast.warn('Add at least one item');
     }
   };
 
@@ -94,7 +94,6 @@ export default function FormCmp({
         setItemsDDL
       );
     }
-
   }, [plant, year, month]);
 
   useEffect(() => {
@@ -113,7 +112,6 @@ export default function FormCmp({
         setUomId
       );
     }
-
   }, [plant, year, month, item]);
 
   return (
@@ -148,9 +146,9 @@ export default function FormCmp({
                     label="Plant"
                     placeholder="Plant"
                     onChange={(valueOption) => {
-                      setFieldValue("plant", valueOption);
-                      setFieldValue("year", "");
-                      setFieldValue("horizon", "");
+                      setFieldValue('plant', valueOption);
+                      setFieldValue('year', '');
+                      setFieldValue('horizon', '');
                       setPlant(valueOption);
                       getProductionMasterSchedulingYear(
                         profileData?.accountId,
@@ -170,8 +168,8 @@ export default function FormCmp({
                     value={values?.year}
                     label="Year"
                     onChange={(valueOption) => {
-                      setFieldValue("year", valueOption);
-                      setFieldValue("horizon", "");
+                      setFieldValue('year', valueOption);
+                      setFieldValue('horizon', '');
                       setYear(valueOption);
                       getMasterSchedulingHorizon(
                         profileData?.accountId,
@@ -194,7 +192,7 @@ export default function FormCmp({
                     value={values?.horizon}
                     label="Horizon"
                     onChange={(valueOption) => {
-                      setFieldValue("horizon", valueOption);
+                      setFieldValue('horizon', valueOption);
                       setMonth(valueOption);
                     }}
                     placeholder="Horizon"
@@ -226,7 +224,7 @@ export default function FormCmp({
                 <div className="col-lg-12 mt-3 mb-3">
                   <p
                     className="font-weight-bold"
-                    style={{ marginBottom: "0", fontSize: "12px" }}
+                    style={{ marginBottom: '0', fontSize: '12px' }}
                   >
                     Add Production Item
                   </p>
@@ -241,9 +239,9 @@ export default function FormCmp({
                     value={values?.item}
                     label="Item Name"
                     onChange={(valueOption) => {
-                      setFieldValue("item", valueOption);
-                      setFieldValue("workCenters", "");
-                      setFieldValue("boMs", "");
+                      setFieldValue('item', valueOption);
+                      setFieldValue('workCenters', '');
+                      setFieldValue('boMs', '');
                       setItem(valueOption);
                     }}
                     placeholder="Item Name"
@@ -258,7 +256,7 @@ export default function FormCmp({
                     value={values?.workCenters}
                     label="Work Center"
                     onChange={(valueOption) => {
-                      setFieldValue("workCenters", valueOption);
+                      setFieldValue('workCenters', valueOption);
                     }}
                     placeholder="Work Center"
                     errors={errors}
@@ -272,7 +270,7 @@ export default function FormCmp({
                     value={values?.boMs}
                     label="BoM"
                     onChange={(valueOption) => {
-                      setFieldValue("boMs", valueOption);
+                      setFieldValue('boMs', valueOption);
                     }}
                     placeholder="BoM"
                     errors={errors}
@@ -290,7 +288,7 @@ export default function FormCmp({
                       if (e.target.value > 0) {
                         setMasterPlanQty(e.target.value);
                       } else {
-                        setMasterPlanQty("");
+                        setMasterPlanQty('');
                       }
                     }}
                   />
@@ -308,14 +306,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

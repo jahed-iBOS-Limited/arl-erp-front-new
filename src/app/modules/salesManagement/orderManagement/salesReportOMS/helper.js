@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getTaxSalesReport_api = async (
   buId,
@@ -19,11 +19,11 @@ export const getTaxSalesReport_api = async (
       allExceptAkijCement: `/oms/OMSPivotReport/TaxSalesReport?BusinessUnitId=${buId}&ItemId=${itemId}&DepoId=${shippointId}&FromDate=${fromDate}&ToDate=${toDate}&CustomerId=${customerId}`,
     };
 
-    // change 1st api if business unit is cement else 2nd api 
+    // change 1st api if business unit is cement else 2nd api
     const res = await Axios.get(
-      api[buId === 4 ? "akijCement" : "allExceptAkijCement"]
+      api[buId === 4 ? 'akijCement' : 'allExceptAkijCement']
     );
-    if (res?.data?.length === 0) toast.warning("Data not found");
+    if (res?.data?.length === 0) toast.warning('Data not found');
     const result = res?.data?.map((itm) => ({
       ...itm,
       qty: Math.round(itm?.qty),
@@ -55,7 +55,7 @@ export const GetSellableReportApi = async (
     const res = await Axios.get(
       `/procurement/Report/GetSellableReport?businessUnitId=${buId}&fromDate=${fromDate}&toDate=${toDate}&intPlantId=${plantId}&intItemTypeId=${itemTypeId}&itemId=${itemId}&warehouseId=${warehouseId}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
-    if (res?.data?.length === 0) toast.warning("Data not found");
+    if (res?.data?.length === 0) toast.warning('Data not found');
     const result = res?.data?.map((itm) => ({
       ...itm,
       qty: Math.round(itm?.qty),
@@ -79,7 +79,6 @@ export const getItemDDL_api = async (accId, buId, setter) => {
     }
   } catch (error) {}
 };
-
 
 export const getPartnerNameDDL_api = async (accid, buid, setter) => {
   try {

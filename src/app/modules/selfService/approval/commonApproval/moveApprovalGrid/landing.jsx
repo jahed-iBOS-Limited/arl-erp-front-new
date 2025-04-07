@@ -1,24 +1,23 @@
-
-import React, { useState, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
-import { useSelector, shallowEqual } from "react-redux";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { Formik } from "formik";
-import { Form } from "react-bootstrap";
-import { approveSelected, getNewApplicationData } from "./helper";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import NewSelect from "../../../../_helper/_select";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
+import React, { useState, useEffect } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
+import { useSelector, shallowEqual } from 'react-redux';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { Formik } from 'formik';
+import { Form } from 'react-bootstrap';
+import { approveSelected, getNewApplicationData } from './helper';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import NewSelect from '../../../../_helper/_select';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
 
 const initData = {
-  applicationType: "",
+  applicationType: '',
 };
 
 const applicationTypeDDL = [
-  { value: 1, label: "Pending Application" },
-  { value: 2, label: "Approved Application" },
-  { value: 3, label: "Rejected Application" },
+  { value: 1, label: 'Pending Application' },
+  { value: 2, label: 'Approved Application' },
+  { value: 3, label: 'Rejected Application' },
 ];
 
 const MovementApprovalGrid = () => {
@@ -32,7 +31,6 @@ const MovementApprovalGrid = () => {
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
-
 
   const params = useParams();
 
@@ -103,7 +101,7 @@ const MovementApprovalGrid = () => {
   // approveSubmitlHandler btn submit handler
   const approveSubmitlHandler = (values) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       yesAlertFunc: () => {
         const filterSelectedData = rowDto?.filter((item) => item?.itemCheck);
         const payload = filterSelectedData?.map((item) => {
@@ -127,7 +125,7 @@ const MovementApprovalGrid = () => {
         setBillSubmitBtn(true);
       },
       noAlertFunc: () => {
-        history.push("/personal/approval/commonapproval");
+        history.push('/personal/approval/commonapproval');
       },
     };
     IConfirmModal(confirmObject);
@@ -137,7 +135,7 @@ const MovementApprovalGrid = () => {
   // rejectedSubmitlHandler btn submit handler
   const rejectedSubmitlHandler = (values) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       yesAlertFunc: () => {
         const filterSelectedData = rowDto?.filter((item) => item?.itemCheck);
         const payload = filterSelectedData?.map((item) => {
@@ -161,7 +159,7 @@ const MovementApprovalGrid = () => {
         setBillSubmitBtn(true);
       },
       noAlertFunc: () => {
-        history.push("/personal/approval/commonapproval");
+        history.push('/personal/approval/commonapproval');
       },
     };
     IConfirmModal(confirmObject);
@@ -173,7 +171,7 @@ const MovementApprovalGrid = () => {
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          applicationType: { value: 1, label: "Pending Application" },
+          applicationType: { value: 1, label: 'Pending Application' },
         }}
         // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -205,7 +203,7 @@ const MovementApprovalGrid = () => {
                           label="Application Type"
                           onChange={(valueOption) => {
                             setNewApplicationData([]);
-                            setFieldValue("applicationType", valueOption);
+                            setFieldValue('applicationType', valueOption);
 
                             getNewApplicationData(
                               valueOption?.value,
@@ -275,7 +273,7 @@ const MovementApprovalGrid = () => {
                   <thead>
                     <tr>
                       {values?.applicationType?.value === 1 && (
-                        <th style={{ width: "20px" }}>
+                        <th style={{ width: '20px' }}>
                           <input
                             type="checkbox"
                             id="parent"

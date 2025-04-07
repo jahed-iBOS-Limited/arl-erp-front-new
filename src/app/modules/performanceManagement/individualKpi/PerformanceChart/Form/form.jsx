@@ -1,20 +1,20 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import PerformanceChart from "..";
-import { getMonthDDLAction } from "../_redux/Actions";
-import { useDispatch } from "react-redux";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import PerformanceChart from '..';
+import { getMonthDDLAction } from '../_redux/Actions';
+import { useDispatch } from 'react-redux';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   employee: Yup.object().shape({
-    label: Yup.string().required("Employee Person is required"),
-    value: Yup.string().required("Employee Person is required"),
+    label: Yup.string().required('Employee Person is required'),
+    value: Yup.string().required('Employee Person is required'),
   }),
   competency: Yup.object().shape({
-    label: Yup.string().required("Competency Person is required"),
-    value: Yup.string().required("Competency Person is required"),
+    label: Yup.string().required('Competency Person is required'),
+    value: Yup.string().required('Competency Person is required'),
   }),
 });
 
@@ -30,7 +30,7 @@ export default function FormCmp({
   getReportAction,
   selectedBusinessUnit,
   profileData,
-  employeeBasicInfo
+  employeeBasicInfo,
 }) {
   const dispatch = useDispatch();
   return (
@@ -110,21 +110,19 @@ export default function FormCmp({
                     touched={touched}
                   />
                 </div>
-
               </div>
 
               {employeeBasicInfo && (
-                  <p className="mt-1 employee_info">
-                    <b>Enroll </b>: {employeeBasicInfo?.employeeId},{" "}
-                        <b>Employee </b>: {employeeBasicInfo?.employeeFirstName},{" "}
-                    <b> Designation </b>: {employeeBasicInfo?.designationName},{" "}
-                    <b> Department </b>: {employeeBasicInfo?.departmentName},{" "}
-                    <b> Supervisor </b>: {employeeBasicInfo?.supervisorName},{" "}
-                    <b> SBU </b>: {employeeBasicInfo?.sbuName},{" "}
-                    <b> Business Unit </b>:{" "}
-                    {employeeBasicInfo?.businessUnitName}
-                  </p>
-                )}
+                <p className="mt-1 employee_info">
+                  <b>Enroll </b>: {employeeBasicInfo?.employeeId},{' '}
+                  <b>Employee </b>: {employeeBasicInfo?.employeeFirstName},{' '}
+                  <b> Designation </b>: {employeeBasicInfo?.designationName},{' '}
+                  <b> Department </b>: {employeeBasicInfo?.departmentName},{' '}
+                  <b> Supervisor </b>: {employeeBasicInfo?.supervisorName},{' '}
+                  <b> SBU </b>: {employeeBasicInfo?.sbuName},{' '}
+                  <b> Business Unit </b>: {employeeBasicInfo?.businessUnitName}
+                </p>
+              )}
 
               <div className="perform-chart">
                 <PerformanceChart values={values} />
@@ -132,13 +130,13 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

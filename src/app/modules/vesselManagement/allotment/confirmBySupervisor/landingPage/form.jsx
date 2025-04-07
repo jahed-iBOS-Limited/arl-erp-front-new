@@ -1,13 +1,13 @@
-import React from "react";
-import InputField from "../../../../_helper/_inputField";
-import PaginationSearch from "../../../../_helper/_search";
-import NewSelect from "../../../../_helper/_select";
-import IButton from "../../../../_helper/iButton";
-import { BADCBCICForm, PortAndMotherVessel } from "../../../common/components";
+import React from 'react';
+import InputField from '../../../../_helper/_inputField';
+import PaginationSearch from '../../../../_helper/_search';
+import NewSelect from '../../../../_helper/_select';
+import IButton from '../../../../_helper/iButton';
+import { BADCBCICForm, PortAndMotherVessel } from '../../../common/components';
 
 const confirmationTypes = [
-  { value: 1, label: "Receive Confirmation" },
-  { value: 2, label: "Supervisor Confirmation" },
+  { value: 1, label: 'Receive Confirmation' },
+  { value: 2, label: 'Supervisor Confirmation' },
   // { value: 2, label: "Supervisor Confirmation (Truck Bill)" },
   // { value: 3, label: "Supervisor Confirmation (Godown Unload Bill)" },
 ];
@@ -41,7 +41,7 @@ const Form = ({ obj }) => {
           <div className="row">
             {buId === 94 && (
               <BADCBCICForm
-                colSize={"col-lg-3"}
+                colSize={'col-lg-3'}
                 values={values}
                 setFieldValue={setFieldValue}
                 onChange={onChangeHandler}
@@ -56,7 +56,7 @@ const Form = ({ obj }) => {
                   label="Organization"
                   onChange={(valueOption) => {
                     onChangeHandler(
-                      "organization",
+                      'organization',
                       { ...values, organization: valueOption },
                       valueOption,
                       setFieldValue
@@ -73,7 +73,7 @@ const Form = ({ obj }) => {
                 value={values?.confirmationType}
                 label="Confirmation Type"
                 onChange={(e) => {
-                  setFieldValue("confirmationType", e);
+                  setFieldValue('confirmationType', e);
                   setRowData([]);
                 }}
                 placeholder="Confirmation Type"
@@ -82,11 +82,11 @@ const Form = ({ obj }) => {
             <div className="col-lg-3">
               <NewSelect
                 name="shipPoint"
-                options={[{ value: 0, label: "All" }, ...shipPointDDL]}
+                options={[{ value: 0, label: 'All' }, ...shipPointDDL]}
                 value={values?.shipPoint}
                 label="ShipPoint"
                 onChange={(e) => {
-                  setFieldValue("shipPoint", e);
+                  setFieldValue('shipPoint', e);
                   setRowData([]);
                 }}
                 placeholder="ShipPoint"
@@ -95,12 +95,12 @@ const Form = ({ obj }) => {
             <div className="col-lg-3">
               <NewSelect
                 name="shipToPartner"
-                options={[{ value: 0, label: "All" }, ...godownDDL]}
+                options={[{ value: 0, label: 'All' }, ...godownDDL]}
                 value={values?.shipToPartner}
                 label="Ship to Partner"
                 placeholder="Ship to Partner"
                 onChange={(e) => {
-                  setFieldValue("shipToPartner", e);
+                  setFieldValue('shipToPartner', e);
                   setRowData([]);
                 }}
               />
@@ -120,13 +120,13 @@ const Form = ({ obj }) => {
               <NewSelect
                 name="confirmationStatus"
                 options={[
-                  { value: 1, label: "Pending" },
-                  { value: 2, label: "Approve" },
+                  { value: 1, label: 'Pending' },
+                  { value: 2, label: 'Approve' },
                 ]}
                 value={values?.confirmationStatus}
                 label="Confirmation Status"
                 onChange={(e) => {
-                  setFieldValue("confirmationStatus", e);
+                  setFieldValue('confirmationStatus', e);
                   setRowData([]);
                 }}
                 placeholder="Confirmation Status"
@@ -163,14 +163,14 @@ const Form = ({ obj }) => {
                       type="text"
                     />
                   </div>
-                  <IButton colSize={"col-lg-2"} onClick={() => setOpen(true)}>
+                  <IButton colSize={'col-lg-2'} onClick={() => setOpen(true)}>
                     Attachment
                   </IButton>
                 </>
               )}
 
             <IButton
-              colSize={"col-lg-1"}
+              colSize={'col-lg-1'}
               onClick={() => {
                 getData(values, pageNo, pageSize);
               }}

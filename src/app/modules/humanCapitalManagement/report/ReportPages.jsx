@@ -1,7 +1,7 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import ExpenceReport from "./expenseReport";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import ExpenceReport from './expenseReport';
 
 export function ReportPages() {
   return (

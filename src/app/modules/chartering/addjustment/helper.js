@@ -1,12 +1,12 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 //Save
 export const createOutstandingAdjust = async (payload, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      "/hcm/OutstandingAdjust/CreateOutstandingAdjust?partName=CreateOutstandingAdjust",
+      '/hcm/OutstandingAdjust/CreateOutstandingAdjust?partName=CreateOutstandingAdjust',
       payload
     );
     cb && cb();
@@ -28,7 +28,7 @@ export const outstandingAdjustLanding = async (
   setLoading(true);
   try {
     const res = await axios.post(
-      "/hcm/OutstandingAdjust/OutstandingAdjustLanding?partName=OutstandingAdjustLanding",
+      '/hcm/OutstandingAdjust/OutstandingAdjustLanding?partName=OutstandingAdjustLanding',
       payload
     );
     cb && cb();

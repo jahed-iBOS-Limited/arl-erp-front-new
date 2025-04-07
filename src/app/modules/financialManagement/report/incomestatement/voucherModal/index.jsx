@@ -1,15 +1,13 @@
-
-
-import React, { useEffect, useRef, useState } from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import ReactToPrint from "react-to-print";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IViewModal from "../../../../_helper/_viewModal";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { AdjustmentJournalViewTableRow } from "./AdjustmentJournalViewTableRow";
-import { BankJournalViewTableRow } from "./BankJournalViewTableRow";
-import { InvTransViewTableRow } from "./InvTransViewTableRow";
+import React, { useEffect, useRef, useState } from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import ReactToPrint from 'react-to-print';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IViewModal from '../../../../_helper/_viewModal';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { AdjustmentJournalViewTableRow } from './AdjustmentJournalViewTableRow';
+import { BankJournalViewTableRow } from './BankJournalViewTableRow';
+import { InvTransViewTableRow } from './InvTransViewTableRow';
 
 const VoucherModalForIncomeStatement = ({
   values,
@@ -24,7 +22,7 @@ const VoucherModalForIncomeStatement = ({
   useEffect(() => {
     if (subGeneralLedgerRow?.intsubglid) {
       getVoucherInfo(
-        `/fino/IncomeStatement/GetIncomeStatement?partName=VoucherList&dteFromDate=${values?.fromDate}&dteFromDateL=${values?.fromDate}&dteToDate=${values?.todate}&dteToDateL=${values?.todate}&BusinessUnitGroup=${values?.enterpriseDivision?.value}&BusinessUnitId=${values?.businessUnit?.value}&GLId=${subGeneralLedgerRow?.glId}&SUBGLId=${subGeneralLedgerRow?.intsubglid}&ConvertionRate=${values?.conversionRate}&SubGroup=${values?.subDivision?.value||0}`,
+        `/fino/IncomeStatement/GetIncomeStatement?partName=VoucherList&dteFromDate=${values?.fromDate}&dteFromDateL=${values?.fromDate}&dteToDate=${values?.todate}&dteToDateL=${values?.todate}&BusinessUnitGroup=${values?.enterpriseDivision?.value}&BusinessUnitId=${values?.businessUnit?.value}&GLId=${subGeneralLedgerRow?.glId}&SUBGLId=${subGeneralLedgerRow?.intsubglid}&ConvertionRate=${values?.conversionRate}&SubGroup=${values?.subDivision?.value || 0}`,
         (data) => {
           setTotalAmount(
             data?.reduce((value, row) => (value += row?.numAmount), 0) || 0
@@ -60,8 +58,8 @@ const VoucherModalForIncomeStatement = ({
                 <div className="d-flex flex-column justify-content-center align-items-center my-2">
                   <span
                     style={{
-                      fontSize: "22px",
-                      fontWeight: "bold",
+                      fontSize: '22px',
+                      fontWeight: 'bold',
                     }}
                   >
                     {values?.businessUnit?.value > 0
@@ -81,14 +79,14 @@ const VoucherModalForIncomeStatement = ({
                     <></>
                   )}
                   <span>
-                    Particulars :{" "}
+                    Particulars :{' '}
                     <b>{subGeneralLedgerRow?.strFSComponentName}</b>
                   </span>
                   <span>
                     Ledger : <b>{subGeneralLedgerRow?.strGeneralLedgerName}</b>
                   </span>
                   <span>
-                    Ledger Code :{" "}
+                    Ledger Code :{' '}
                     <b>{subGeneralLedgerRow?.strGeneralLedgerCode}</b>
                   </span>
                   <span>
@@ -102,7 +100,7 @@ const VoucherModalForIncomeStatement = ({
               <div className="loan-scrollable-table">
                 <div
                   className="scroll-table _table"
-                  style={{ maxHeight: "540px" }}
+                  style={{ maxHeight: '540px' }}
                 >
                   <table
                     className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-2"
@@ -110,14 +108,14 @@ const VoucherModalForIncomeStatement = ({
                   >
                     <thead>
                       <tr>
-                        <th style={{ minWidth: "60px" }}>SL</th>
+                        <th style={{ minWidth: '60px' }}>SL</th>
                         <th>Voucher Code</th>
-                        <th style={{ textAlign: "center" }}>
+                        <th style={{ textAlign: 'center' }}>
                           Transaction Date
                         </th>
                         <th>
                           <div
-                            style={{ textAlign: "right", marginRight: "5px" }}
+                            style={{ textAlign: 'right', marginRight: '5px' }}
                           >
                             Amount
                           </div>
@@ -132,12 +130,12 @@ const VoucherModalForIncomeStatement = ({
                               <td>{index + 1}</td>
 
                               <td className="text-center">
-                                {item?.strAccountingJournalCode || "N/A"}
+                                {item?.strAccountingJournalCode || 'N/A'}
                               </td>
-                              <td style={{ textAlign: "center" }}>
+                              <td style={{ textAlign: 'center' }}>
                                 {item?.dteTransactionDate
                                   ? _dateFormatter(item?.dteTransactionDate)
-                                  : "N/A"}
+                                  : 'N/A'}
                               </td>
                               <td
                                 onClick={() => {
@@ -145,11 +143,11 @@ const VoucherModalForIncomeStatement = ({
                                   setShowDebitCreditModal(true);
                                 }}
                                 style={{
-                                  textDecoration: "underline",
-                                  color: "blue",
-                                  cursor: "pointer",
-                                  textAlign: "right",
-                                  marginRight: "5px",
+                                  textDecoration: 'underline',
+                                  color: 'blue',
+                                  cursor: 'pointer',
+                                  textAlign: 'right',
+                                  marginRight: '5px',
                                 }}
                               >
                                 {item?.numAmount}
@@ -165,14 +163,14 @@ const VoucherModalForIncomeStatement = ({
                         <td
                           colspan="3"
                           className="text-center ml-1"
-                          style={{ fontWeight: "bold" }}
+                          style={{ fontWeight: 'bold' }}
                         >
                           Total
                         </td>
 
                         <td
                           className="text-right pr-2"
-                          style={{ fontWeight: "bold" }}
+                          style={{ fontWeight: 'bold' }}
                         >
                           {totalAmount || 0}
                         </td>
@@ -193,46 +191,39 @@ const VoucherModalForIncomeStatement = ({
           setVoucherRow(null);
         }}
       >
-        {(
-          voucherRow?.intaccountingjournaltypeid === 7 ||
+        {(voucherRow?.intaccountingjournaltypeid === 7 ||
           voucherRow?.intaccountingjournaltypeid === 8 ||
-          voucherRow?.intaccountingjournaltypeid === 9
-        ) && (
-            <AdjustmentJournalViewTableRow
-              id={voucherRow?.intAccountingJournalId}
-              typeId={voucherRow?.intaccountingjournaltypeid}
-            />
-          )}
+          voucherRow?.intaccountingjournaltypeid === 9) && (
+          <AdjustmentJournalViewTableRow
+            id={voucherRow?.intAccountingJournalId}
+            typeId={voucherRow?.intaccountingjournaltypeid}
+          />
+        )}
 
-        {(
-          voucherRow?.intaccountingjournaltypeid === 4 ||
+        {(voucherRow?.intaccountingjournaltypeid === 4 ||
           voucherRow?.intaccountingjournaltypeid === 5 ||
-          voucherRow?.intaccountingjournaltypeid === 6
-        ) && (
-            <BankJournalViewTableRow
-              id={voucherRow?.intAccountingJournalId}
-              headerData={{
-                ...voucherRow,
-                businessUnit,
-                accountingJournalTypeId: voucherRow?.intaccountingjournaltypeid,
-                fromWhere: "incomeStatement",
-              }}
-            />
-          )}
+          voucherRow?.intaccountingjournaltypeid === 6) && (
+          <BankJournalViewTableRow
+            id={voucherRow?.intAccountingJournalId}
+            headerData={{
+              ...voucherRow,
+              businessUnit,
+              accountingJournalTypeId: voucherRow?.intaccountingjournaltypeid,
+              fromWhere: 'incomeStatement',
+            }}
+          />
+        )}
 
-        {(
-          voucherRow?.intaccountingjournaltypeid === 1 ||
+        {(voucherRow?.intaccountingjournaltypeid === 1 ||
           voucherRow?.intaccountingjournaltypeid === 2 ||
-          voucherRow?.intaccountingjournaltypeid === 3
-        ) && (
-            <InvTransViewTableRow
-              id={voucherRow?.intAccountingJournalId}
-              headerData={{ accountingJournalTypeId: voucherRow?.intaccountingjournaltypeid }}
-            />
-
-          )}
-
-
+          voucherRow?.intaccountingjournaltypeid === 3) && (
+          <InvTransViewTableRow
+            id={voucherRow?.intAccountingJournalId}
+            headerData={{
+              accountingJournalTypeId: voucherRow?.intaccountingjournaltypeid,
+            }}
+          />
+        )}
       </IViewModal>
     </>
   );

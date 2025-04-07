@@ -1,13 +1,13 @@
-import axios from "axios";
-import { Formik } from "formik";
-import React from "react";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import NewSelect from "../../../../_helper/_select";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import IButton from "../../../../_helper/iButton";
-import ICustomCard from "../../../../_helper/_customCard";
-import { useHistory } from "react-router-dom";
+import axios from 'axios';
+import { Formik } from 'formik';
+import React from 'react';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import NewSelect from '../../../../_helper/_select';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import IButton from '../../../../_helper/iButton';
+import ICustomCard from '../../../../_helper/_customCard';
+import { useHistory } from 'react-router-dom';
 
 export default function FormCmp({
   buId,
@@ -62,7 +62,7 @@ export default function FormCmp({
                     <SearchAsyncSelect
                       selectedValue={values?.customer}
                       handleChange={(valueOption) => {
-                        setFieldValue("customer", valueOption);
+                        setFieldValue('customer', valueOption);
                       }}
                       isDisabled={!values?.channel}
                       placeholder="Search Business Partner"
@@ -86,7 +86,7 @@ export default function FormCmp({
                       options={partnerGroups || []}
                       value={values?.partnerGroup}
                       onChange={(valueOption) => {
-                        setFieldValue("partnerGroup", valueOption);
+                        setFieldValue('partnerGroup', valueOption);
                       }}
                     />
                   </div>
@@ -98,7 +98,7 @@ export default function FormCmp({
                     }
                     onClick={() => {
                       addHandler(values, () => {
-                        setFieldValue("customer", "");
+                        setFieldValue('customer', '');
                       });
                     }}
                   >
@@ -114,28 +114,28 @@ export default function FormCmp({
                   {rowData?.length > 0 && (
                     <div className="table-responsive">
                       <table className="table table-striped table-bordered global-table">
-                      <thead>
-                        <tr>
-                          {" "}
-                          <th style={{ width: "50px" }}>SL</th>
-                          <th>Partner Name</th>
-                          <th>Group Name</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.map((item, i) => (
-                          <tr key={i + 1}>
-                            <td>{i + 1}</td>
-                            <td>{item?.businessPartnerName}</td>
-                            <td>{item?.businessPartnerGroupName}</td>
-                            <td className="text-center">
-                              <IDelete id={i} remover={removeHandler} />
-                            </td>
+                        <thead>
+                          <tr>
+                            {' '}
+                            <th style={{ width: '50px' }}>SL</th>
+                            <th>Partner Name</th>
+                            <th>Group Name</th>
+                            <th>Action</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {rowData?.map((item, i) => (
+                            <tr key={i + 1}>
+                              <td>{i + 1}</td>
+                              <td>{item?.businessPartnerName}</td>
+                              <td>{item?.businessPartnerGroupName}</td>
+                              <td className="text-center">
+                                <IDelete id={i} remover={removeHandler} />
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
                   )}
                 </div>

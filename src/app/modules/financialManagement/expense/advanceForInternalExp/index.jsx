@@ -1,11 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import { Route } from "react-router-dom";
+import { Route } from 'react-router-dom';
 
-
-import AdvanceForInternalExpLanding from "./Table/table";
-import ViewForm from "./View/viewModal";
-
+import AdvanceForInternalExpLanding from './Table/table';
+import ViewForm from './View/viewModal';
 
 export function AdvanceForInternalExp() {
   return (
@@ -17,7 +15,7 @@ export function AdvanceForInternalExp() {
             id={match && match.params.id}
             history={history}
             onHide={() => {
-              history.push("/financial-management/expense/advance");
+              history.push('/financial-management/expense/advance');
             }}
           />
         )}

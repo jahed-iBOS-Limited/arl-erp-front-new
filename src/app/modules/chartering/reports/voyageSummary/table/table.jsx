@@ -1,35 +1,34 @@
-
-import { Formik } from "formik";
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { getVesselDDL } from "../../../helper";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import PaginationTable from "../../../_chartinghelper/_tablePagination";
-import IViewModal from "../../../_chartinghelper/_viewModal";
-import { getVoyageSummary } from "../helper";
-import VoyageDetails from "./details";
+import { Formik } from 'formik';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { getVesselDDL } from '../../../helper';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import PaginationTable from '../../../_chartinghelper/_tablePagination';
+import IViewModal from '../../../_chartinghelper/_viewModal';
+import { getVoyageSummary } from '../helper';
+import VoyageDetails from './details';
 
 const initData = {
-  vesselName: "",
+  vesselName: '',
 };
 
 const headers = [
-  { name: "SL" },
-  { name: "Voyage No" },
-  { name: "Ship Type" },
-  { name: "Ship Owner" },
-  { name: "Voyage Type" },
-  { name: "Commence Date" },
-  { name: "Completion Date" },
-  { name: "Duration" },
-  { name: "Start Port" },
-  { name: "End Port" },
-  { name: "Action" },
+  { name: 'SL' },
+  { name: 'Voyage No' },
+  { name: 'Ship Type' },
+  { name: 'Ship Owner' },
+  { name: 'Voyage Type' },
+  { name: 'Commence Date' },
+  { name: 'Completion Date' },
+  { name: 'Duration' },
+  { name: 'Start Port' },
+  { name: 'End Port' },
+  { name: 'Action' },
 ];
 
 export default function VoyageSummary() {
@@ -96,7 +95,7 @@ export default function VoyageSummary() {
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vesselName || ""}
+                      value={values?.vesselName || ''}
                       isSearchable={true}
                       options={vesselDDL || []}
                       styles={customStyles}
@@ -104,7 +103,7 @@ export default function VoyageSummary() {
                       placeholder="Vessel Name"
                       label="Vessel Name"
                       onChange={(valueOption) => {
-                        setFieldValue("vesselName", valueOption);
+                        setFieldValue('vesselName', valueOption);
                         if (valueOption) {
                           getGridData({ ...values, vesselName: valueOption });
                         } else {
@@ -127,12 +126,12 @@ export default function VoyageSummary() {
                     <td>{item?.voyageTypeName}</td>
                     <td className="text-center">
                       {moment(item?.voyageStartDate).format(
-                        "DD-MMM-yyyy, HH:mm"
+                        'DD-MMM-yyyy, HH:mm'
                       )}
                     </td>
                     <td className="text-center">
-                      {" "}
-                      {moment(item?.voyageEndDate).format("DD-MMM-yyyy, HH:mm")}
+                      {' '}
+                      {moment(item?.voyageEndDate).format('DD-MMM-yyyy, HH:mm')}
                     </td>
                     <td className="text-center">{item?.voyageDurrition}</td>
                     <td>{item?.startPortName}</td>
@@ -144,7 +143,7 @@ export default function VoyageSummary() {
                         }
                       >
                         <span
-                          style={{ cursor: "pointer" }}
+                          style={{ cursor: 'pointer' }}
                           onClick={() => {
                             setSingleRow(item);
                             setOpen(true);

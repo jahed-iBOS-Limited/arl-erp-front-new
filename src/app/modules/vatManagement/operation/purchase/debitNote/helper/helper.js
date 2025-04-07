@@ -1,6 +1,6 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import shortid from "shortid";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
 
 // getDebitNoteLandingGridData
 export const getDebitNoteLandingGridData = async (
@@ -17,7 +17,7 @@ export const getDebitNoteLandingGridData = async (
 ) => {
   try {
     setLoading(true);
-    const searchPath = search ? `searchTerm=${search}&` : "";
+    const searchPath = search ? `searchTerm=${search}&` : '';
     const res = await axios.get(
       `/vat/DebitNote/GetDebitNoteLandingSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&TaxBranchId=${taxBranchId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&Fromdate=${fromDate}&Todate=${toDate}`
     );
@@ -41,7 +41,7 @@ export const getDebitNoteById = async (id, setter, setRowData) => {
       const newData = {
         objHeader: {
           ...data?.objHeader,
-          taxPurchaseCode: data?.objHeader?.taxPurchaseCode || "",
+          taxPurchaseCode: data?.objHeader?.taxPurchaseCode || '',
           branchName: {
             value: data?.objHeader?.taxBranchId,
             label: data?.objHeader?.taxBranchName,
@@ -115,7 +115,7 @@ export const getPurchaseInvoiceDDl = async (partnerId, setter) => {
 // getFiscalYearDDL
 export const getFiscalYearDDL = async (setter) => {
   try {
-    const res = await axios.get("/vat/TaxDDL/FiscalYearDDL");
+    const res = await axios.get('/vat/TaxDDL/FiscalYearDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -153,7 +153,7 @@ export const saveDebitNote = async (payload, cb, setter, setDisabled) => {
     setDisabled(true);
     const res = await axios.post(`/vat/DebitNote/CreateDebitNote`, payload);
     if (res.status === 200) {
-      toast.success("Submitted Successfully", {
+      toast.success('Submitted Successfully', {
         toastId: shortid(),
       });
       setter([]);
@@ -171,7 +171,7 @@ export const editDebitNote_api = async (payload, setDisabled) => {
     setDisabled(true);
     const res = await axios.put(`/vat/DebitNote/EditDebitNote`, payload);
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       setDisabled(false);
     }
   } catch (error) {
@@ -207,10 +207,7 @@ export const getTaxPurchaseItemDetailsSingle_api = async (
     }
   } catch (error) {}
 };
-export const getTaxPurchaseItemDetailsALL_api = async (
-  PurchasId,
-  setter
-) => {
+export const getTaxPurchaseItemDetailsALL_api = async (PurchasId, setter) => {
   try {
     const res = await axios.get(
       `/vat/TaxPurchase/GetTaxPurchaseItemDetailsALL?TaxPurchaseId=${PurchasId}`
@@ -239,7 +236,7 @@ export const getDebitNoteReport_api = async (
         setter(res?.data);
         setLoading(false);
       } else {
-        toast.warning("Data Not Found");
+        toast.warning('Data Not Found');
         setLoading(false);
         setter([]);
       }
@@ -260,7 +257,7 @@ export const GetDebitNoteLogDetails_api = async (logId, setter, setLoading) => {
         setter(res?.data);
         setLoading(false);
       } else {
-        toast.warning("Data Not Found");
+        toast.warning('Data Not Found');
         setLoading(false);
         setter([]);
       }

@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from 'axios';
 
 // getItemBasicinfoAction
 export const getItemBasicinfoAction = async (itmId, setter) => {
@@ -9,7 +9,5 @@ export const getItemBasicinfoAction = async (itmId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };

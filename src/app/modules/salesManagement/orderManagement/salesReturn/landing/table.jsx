@@ -1,45 +1,44 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import { getSBUDDL } from "../../../../transportManagement/report/productWiseShipmentReport/helper";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IButton from "../../../../_helper/iButton";
-import TextArea from "../../../../_helper/TextArea";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import IApproval from "../../../../_helper/_helperIcons/_approval";
-import IClose from "../../../../_helper/_helperIcons/_close";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import { salesReturnApprove_api, salesReturnCancel } from "../helper";
-import EditAndApprove from "./editAndApprove";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { getSBUDDL } from '../../../../transportManagement/report/productWiseShipmentReport/helper';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IButton from '../../../../_helper/iButton';
+import TextArea from '../../../../_helper/TextArea';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _firstDateofMonth } from '../../../../_helper/_firstDateOfCurrentMonth';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import IApproval from '../../../../_helper/_helperIcons/_approval';
+import IClose from '../../../../_helper/_helperIcons/_close';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import { salesReturnApprove_api, salesReturnCancel } from '../helper';
+import EditAndApprove from './editAndApprove';
 
 const initData = {
   fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
-  status: { value: 0, label: "All" },
-  viewAs: "",
-  narration: "",
-  returnType: "",
-  sbu: "",
+  status: { value: 0, label: 'All' },
+  viewAs: '',
+  narration: '',
+  returnType: '',
+  sbu: '',
 };
 
 const viewers = (values) => {
   // const returnTypeId = values?.returnType?.value;
   const DDL = [
-    { value: 1, label: "Supervisor" },
-    { value: 2, label: "Accountant" },
+    { value: 1, label: 'Supervisor' },
+    { value: 2, label: 'Accountant' },
   ];
   // returnTypeId === 1
   //   ? [
@@ -121,7 +120,7 @@ const SalesReturn = () => {
   };
 
   const salesReturnApprove = (values, item) => {
-    let url = "";
+    let url = '';
     let payload = {};
     if ([1].includes(values?.viewAs?.value)) {
       if ([1].includes(values?.returnType?.value)) {
@@ -139,7 +138,7 @@ const SalesReturn = () => {
       }
     } else if ([2].includes(values?.viewAs?.value)) {
       if (!values?.narration) {
-        return toast.warning("Narration is required");
+        return toast.warning('Narration is required');
       }
       url = `/oms/SalesInformation/SalesChallanReturnApprove?salesReturnId=${
         item?.salesReturnId
@@ -182,13 +181,13 @@ const SalesReturn = () => {
                     <NewSelect
                       name="returnType"
                       options={[
-                        { value: 1, label: "Full Challan" },
-                        { value: 2, label: "Partial Challan" },
+                        { value: 1, label: 'Full Challan' },
+                        { value: 2, label: 'Partial Challan' },
                       ]}
                       value={values?.returnType}
                       label="Return Type"
                       onChange={(valueOption) => {
-                        setFieldValue("returnType", valueOption);
+                        setFieldValue('returnType', valueOption);
                         setGridData([]);
                       }}
                       placeholder="Return Type"
@@ -203,7 +202,7 @@ const SalesReturn = () => {
                       value={values?.viewAs}
                       label="View As"
                       onChange={(valueOption) => {
-                        setFieldValue("viewAs", valueOption);
+                        setFieldValue('viewAs', valueOption);
                         setGridData([]);
                       }}
                       placeholder="View As"
@@ -216,15 +215,15 @@ const SalesReturn = () => {
                     <NewSelect
                       name="status"
                       options={[
-                        { value: 0, label: "All" },
-                        { value: 1, label: "Approved" },
-                        { value: 2, label: "Pending" },
-                        { value: 3, label: "Canceled" },
+                        { value: 0, label: 'All' },
+                        { value: 1, label: 'Approved' },
+                        { value: 2, label: 'Pending' },
+                        { value: 3, label: 'Canceled' },
                       ]}
                       value={values?.status}
                       label="Status"
                       onChange={(valueOption) => {
-                        setFieldValue("status", valueOption);
+                        setFieldValue('status', valueOption);
                         setGridData([]);
                       }}
                       placeholder="Status"
@@ -233,7 +232,7 @@ const SalesReturn = () => {
                     />
                   </div>
                   <FromDateToDateForm
-                    obj={{ values, setFieldValue, colSize: "col-lg-2" }}
+                    obj={{ values, setFieldValue, colSize: 'col-lg-2' }}
                   />
 
                   {values?.viewAs?.value === 2 && (
@@ -245,11 +244,11 @@ const SalesReturn = () => {
                           value={values?.sbu}
                           label="SBU"
                           onChange={(valueOption) => {
-                            setFieldValue("sbu", valueOption);
+                            setFieldValue('sbu', valueOption);
                           }}
                           placeholder="Select SBU"
                         />
-                      </div>{" "}
+                      </div>{' '}
                       <div className="col-lg-4">
                         <label>Narration</label>
                         <TextArea
@@ -281,8 +280,8 @@ const SalesReturn = () => {
                           <th>Challan No</th>
                           <th>Customer Name</th>
                           <th>Customer Code</th>
-                          <th style={{ width: "120px" }}>Quantity</th>
-                          <th style={{ width: "120px" }}>Amount</th>
+                          <th style={{ width: '120px' }}>Quantity</th>
+                          <th style={{ width: '120px' }}>Amount</th>
                           <th>Entry Date</th>
                           <th>Status</th>
                           <th>Action</th>
@@ -308,7 +307,7 @@ const SalesReturn = () => {
                                       onChange={(e) => {
                                         dataChangeHandler(
                                           index,
-                                          "tempQty",
+                                          'tempQty',
                                           e?.target?.value
                                         );
                                       }}
@@ -318,7 +317,7 @@ const SalesReturn = () => {
                                           item?.numDeliveryQnt
                                         ) {
                                           toast.warn(
-                                            "Damage qty can not be greater than delivery qty"
+                                            'Damage qty can not be greater than delivery qty'
                                           );
                                         }
                                       }}
@@ -339,12 +338,12 @@ const SalesReturn = () => {
                             <td>
                               {item?.isApprovedBySupervisor &&
                               item?.isApprovedByAccount
-                                ? "Approved by Supervisor and Account"
+                                ? 'Approved by Supervisor and Account'
                                 : item?.isApprovedBySupervisor
-                                ? "Approved by Supervisor"
-                                : !item?.isActive
-                                ? "Canceled"
-                                : "Pending"}
+                                  ? 'Approved by Supervisor'
+                                  : !item?.isActive
+                                    ? 'Canceled'
+                                    : 'Pending'}
                             </td>
                             <td>
                               <div className="d-flex justify-content-around">
@@ -401,7 +400,7 @@ const SalesReturn = () => {
                             </td>
                           </tr>
                         ))}
-                        <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+                        <tr style={{ textAlign: 'right', fontWeight: 'bold' }}>
                           <td colSpan={4} className="text-right">
                             <b>Total</b>
                           </td>
@@ -427,7 +426,7 @@ const SalesReturn = () => {
                           <td colSpan={3}></td>
                         </tr>
                       </tbody>
-                    </table>{" "}
+                    </table>{' '}
                   </div>
                 )}
               </form>

@@ -1,7 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-
-
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getChannelBaseCollectionDays = async (buId, channelId, setter) => {
   try {
@@ -31,12 +29,12 @@ export const salesOrderComplete = async (
     );
     if (res?.status === 200) {
       cb();
-      toast.success(res?.data?.message, { toastId: "soc" });
+      toast.success(res?.data?.message, { toastId: 'soc' });
       setIsLoading(false);
     }
   } catch (err) {
     toast.warning(err?.response?.data?.message, {
-      toastId: "soc",
+      toastId: 'soc',
     });
     setIsLoading(false);
   }
@@ -48,12 +46,12 @@ export const cancelSalesOrder = async (payload, setIsLoading, cb) => {
     let res = await axios.put(`/oms/SalesOrder/CancelSalesOrder`, payload);
     if (res?.status === 200) {
       cb();
-      toast.success(res?.data?.message, { toastId: "cso" });
+      toast.success(res?.data?.message, { toastId: 'cso' });
       setIsLoading(false);
     }
   } catch (err) {
     toast.warning(err?.response?.data?.message, {
-      toastId: "cso",
+      toastId: 'cso',
     });
     setIsLoading(false);
   }
@@ -76,14 +74,14 @@ export const saveShippointTransfer = async (obj) => {
     );
     if (res?.status === 200) {
       cb();
-      toast.success(res?.data?.message, { toastId: "cso" });
+      toast.success(res?.data?.message, { toastId: 'cso' });
       setLoading(false);
       setIsTransferModel(false);
       callBackFuncGridData();
     }
   } catch (err) {
     toast.warning(err?.response?.data?.message, {
-      toastId: "cso",
+      toastId: 'cso',
     });
     setLoading(false);
     setIsTransferModel(false);
@@ -96,25 +94,25 @@ export const rejectSalesOrder = async (payload, setIsLoading, cb) => {
     let res = await axios.put(`/oms/SalesOrder/RejectSalesOrder`, payload);
     if (res?.status === 200) {
       cb();
-      toast.success(res?.data?.message, { toastId: "cso" });
+      toast.success(res?.data?.message, { toastId: 'cso' });
       setIsLoading(false);
     }
   } catch (err) {
     toast.warning(err?.response?.data?.message, {
-      toastId: "cso",
+      toastId: 'cso',
     });
     setIsLoading(false);
   }
 };
 
 export const logisticByDDL = [
-  { value: 1, label: "Company" },
-  { value: 2, label: "Supplier" },
-  { value: 3, label: "Customer" },
+  { value: 1, label: 'Company' },
+  { value: 2, label: 'Supplier' },
+  { value: 3, label: 'Customer' },
 ];
 export const isBooleanDDL = [
-  { value: false, label: "No" },
-  { value: true, label: "Yes" },
+  { value: false, label: 'No' },
+  { value: true, label: 'Yes' },
 ];
 
 export const getOrderPendingDetails = async (
@@ -257,7 +255,7 @@ export const GetItemWiseWarehouseStock = async (
     const results = await Promise.allSettled(promises);
     setLoading(false);
     results.forEach((result) => {
-      if (result.status === "fulfilled") {
+      if (result.status === 'fulfilled') {
         const { value } = result;
         list = [...list, ...value?.data];
       } else {
@@ -270,12 +268,12 @@ export const GetItemWiseWarehouseStock = async (
 
     list.forEach((item) => {
       const whId =
-        item?.intWarehouseId || item?.intwarehouseid || item?.warehouseId || "";
+        item?.intWarehouseId || item?.intwarehouseid || item?.warehouseId || '';
       const whName =
         item?.strwareHouseName ||
         item?.strWareHouseName ||
         item?.warehouseName ||
-        "";
+        '';
       const findWearehoseIdx = wearhoseUnique.findIndex(
         (itm) => itm?.warehouseId === whId
       );

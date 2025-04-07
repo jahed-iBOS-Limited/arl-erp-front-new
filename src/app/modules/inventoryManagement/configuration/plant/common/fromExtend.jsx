@@ -1,24 +1,24 @@
-import React, { useEffect } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { Input } from "../../../../../../_metronic/_partials/controls";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
+import React, { useEffect } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { Input } from '../../../../../../_metronic/_partials/controls';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
   plantName: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Warehouse is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Warehouse is required'),
   plantCode: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(50, "Maximum 50 symbols")
-    .required("Code is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(50, 'Maximum 50 symbols')
+    .required('Code is required'),
   plantAddress: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(300, "Maximum 300 symbols")
-    .required("Address is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(300, 'Maximum 300 symbols')
+    .required('Address is required'),
 });
 
 export default function FormExtend({
@@ -40,8 +40,6 @@ export default function FormExtend({
 }) {
   useEffect(() => {
     getGridData(id);
-
-
   }, [id]);
   return (
     <>
@@ -66,13 +64,12 @@ export default function FormExtend({
           isValid,
         }) => (
           <>
-
             {/* {disableHandler(!isValid)} */}
             <Form className="form form-label-right">
               <div className="form-group row">
                 <div className="col-lg-4">
                   <Field
-                    value={values.plantName || ""}
+                    value={values.plantName || ''}
                     name="plantName"
                     component={Input}
                     placeholder="Plant"
@@ -82,7 +79,7 @@ export default function FormExtend({
                 </div>
                 <div className="col-lg-4">
                   <Field
-                    value={values.plantCode || ""}
+                    value={values.plantCode || ''}
                     name="plantCode"
                     component={Input}
                     placeholder="Code"
@@ -92,7 +89,7 @@ export default function FormExtend({
                 </div>
                 <div className="col-lg-4">
                   <Field
-                    value={values.plantAddress || ""}
+                    value={values.plantAddress || ''}
                     name="plantAddress"
                     component={Input}
                     placeholder="Address"
@@ -111,7 +108,7 @@ export default function FormExtend({
                         options={unit}
                         placeholder="Business Unit Name"
                         onChange={(valueOption) => {
-                          setFieldValue("businessUnitName", valueOption);
+                          setFieldValue('businessUnitName', valueOption);
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -123,10 +120,10 @@ export default function FormExtend({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      marginTop: "0.25rem",
-                      width: "100%",
+                      marginTop: '0.25rem',
+                      width: '100%',
                     }}
                     className="text-danger"
                   >
@@ -135,7 +132,7 @@ export default function FormExtend({
                     errors &&
                     errors.businessUnitName
                       ? errors.businessUnitName.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
                 <div className="col-lg-3">
@@ -188,19 +185,19 @@ export default function FormExtend({
                     </tbody>
                   </table>
                 ) : (
-                  ""
+                  ''
                 )}
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(product)}
               ></button>

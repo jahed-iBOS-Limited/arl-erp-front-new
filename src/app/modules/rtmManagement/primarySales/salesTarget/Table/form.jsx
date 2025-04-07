@@ -59,7 +59,7 @@ export default function HeaderForm({ createHandler }) {
       getTerritoryDDL_api(
         profileData.accountId,
         selectedBusinessUnit?.value,
-        setTerritoryDDL,
+        setTerritoryDDL
       );
     }
   }, [profileData, selectedBusinessUnit]);
@@ -75,10 +75,8 @@ export default function HeaderForm({ createHandler }) {
       setGridData,
       setLoading,
       pageNo,
-      pageSize,
+      pageSize
     );
-
-
   }, [selectedBusinessUnit, profileData, territoryDDL]);
 
   return (
@@ -125,7 +123,7 @@ export default function HeaderForm({ createHandler }) {
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
                             valueOption?.value,
-                            setRouteDDL,
+                            setRouteDDL
                           );
                         }}
                         placeholder="Territory Name"
@@ -198,7 +196,7 @@ export default function HeaderForm({ createHandler }) {
                             setGridData,
                             setLoading,
                             pageNo,
-                            pageSize,
+                            pageSize
                           );
                         }}
                         disabled={

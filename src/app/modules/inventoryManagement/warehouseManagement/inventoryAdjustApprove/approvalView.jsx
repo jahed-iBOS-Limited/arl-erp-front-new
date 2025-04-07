@@ -19,12 +19,10 @@ export default function ApprovalView({
   const [viewData, getViewData] = useAxiosGet();
   const [isDisabled, setDisabled] = useState(false);
 
-
   useEffect(() => {
     getViewData(
-      `/wms/InventoryTransaction/GetPendingAdjustmentRowViewByTransId?intBusinessUnitId=${selectedBusinessUnit?.value}&intInventoryTransactionId=${singleData?.intInventoryTransactionId}`,
+      `/wms/InventoryTransaction/GetPendingAdjustmentRowViewByTransId?intBusinessUnitId=${selectedBusinessUnit?.value}&intInventoryTransactionId=${singleData?.intInventoryTransactionId}`
     );
-
   }, [singleData]);
 
   const debounceHandelar = debounce(({ setLoading, CB }) => {
@@ -34,7 +32,7 @@ export default function ApprovalView({
 
   return (
     <>
-      {(saveLoader || isDisabled ) && <Loading />}
+      {(saveLoader || isDisabled) && <Loading />}
       <div className="mt-5">
         <div className="text-right my-3">
           <button
@@ -55,13 +53,12 @@ export default function ApprovalView({
                         () => {
                           setIsShowModal(false);
                           getRowData(
-                            `/wms/InventoryTransaction/GetPendingAdjustments?intBusinessUnitId=${selectedBusinessUnit?.value}`,
+                            `/wms/InventoryTransaction/GetPendingAdjustments?intBusinessUnitId=${selectedBusinessUnit?.value}`
                           );
-                        },
+                        }
                       );
                     },
                   });
-
                 },
                 noAlertFunc: () => {},
               });
@@ -87,9 +84,9 @@ export default function ApprovalView({
                         () => {
                           setIsShowModal(false);
                           getRowData(
-                            `/wms/InventoryTransaction/GetPendingAdjustments?intBusinessUnitId=${selectedBusinessUnit?.value}`,
+                            `/wms/InventoryTransaction/GetPendingAdjustments?intBusinessUnitId=${selectedBusinessUnit?.value}`
                           );
-                        },
+                        }
                       );
                     },
                   });

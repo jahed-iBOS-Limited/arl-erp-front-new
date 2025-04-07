@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import { useParams } from "react-router";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import { useParams } from 'react-router';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import {
   CreateShippingCharge,
   EditShippingCharge,
@@ -11,24 +11,24 @@ import {
   GetShippingChargeList,
   GetShippingLineDDL,
   GetSingleData,
-} from "../helper";
-import { GetShipmentDDL } from "../../insurance/collapsePanels/shipmentwisePolicy/helper";
-import Loading from "../../../../_helper/_loading";
+} from '../helper';
+import { GetShipmentDDL } from '../../insurance/collapsePanels/shipmentwisePolicy/helper';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
   arivalDate: _dateFormatter(new Date()),
-  billNo: "",
-  description: "",
-  instrument: "",
-  payBank: "",
+  billNo: '',
+  description: '',
+  instrument: '',
+  payBank: '',
   deliveryDate: _dateFormatter(new Date()),
-  amountBDT: "",
-  demurrage: "",
-  total: "",
+  amountBDT: '',
+  demurrage: '',
+  total: '',
   paymentDate: _dateFormatter(new Date()),
-  shippingLine: "",
-  agent: "",
-  shipment: "",
+  shippingLine: '',
+  agent: '',
+  shipment: '',
 };
 
 export default function ShippingChargeForm() {
@@ -77,7 +77,6 @@ export default function ShippingChargeForm() {
       selectedBusinessUnit?.value,
       setShippingLineDDL
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -89,7 +88,6 @@ export default function ShippingChargeForm() {
       selectedBusinessUnit?.value,
       setGridData
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   // Save Handler
@@ -128,7 +126,7 @@ export default function ShippingChargeForm() {
       <div className="mt-0">
         <Form
           {...objProps}
-          initData={type === "view" || type === "edit" ? singleData : initData}
+          initData={type === 'view' || type === 'edit' ? singleData : initData}
           saveHandler={saveHandler}
           // edit={pid ? edit : false}
           viewType={type}

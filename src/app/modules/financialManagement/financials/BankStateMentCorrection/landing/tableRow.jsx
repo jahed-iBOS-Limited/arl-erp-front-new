@@ -1,29 +1,27 @@
-
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
+} from '../../../../../../_metronic/_partials/controls';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
 // import PaginationTable from "../../../../_helper/_tablePagination";
 // import ICustomTable from "../../../../_helper/_customTable";
-import { Formik } from "formik";
-import { Modal } from "react-bootstrap";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IClose from "../../../../_helper/_helperIcons/_close";
-import IUpdate from "../../../../_helper/_helperIcons/_update";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _timeFormatter } from "../../../../_helper/_timeFormatter";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { SetBankStatementCorrectionAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import { Formik } from 'formik';
+import { Modal } from 'react-bootstrap';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IClose from '../../../../_helper/_helperIcons/_close';
+import IUpdate from '../../../../_helper/_helperIcons/_update';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _timeFormatter } from '../../../../_helper/_timeFormatter';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { SetBankStatementCorrectionAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 import {
   bankAccountDDL,
   checkTwoFactorApproval,
@@ -31,7 +29,7 @@ import {
   getBankStatementLanding,
   reconcileCancelAction,
   updateBankStatement,
-} from "../helpers";
+} from '../helpers';
 
 const TableRow = () => {
   const [pageNo, setPageNo] = useState(0);
@@ -63,8 +61,8 @@ const TableRow = () => {
   }, []);
 
   const initData = {
-    bankAccount: localStorageData?.bankAccount || "",
-    acDDL: localStorageData?.acDDL || "",
+    bankAccount: localStorageData?.bankAccount || '',
+    acDDL: localStorageData?.acDDL || '',
     toDate: localStorageData?.toDate || _todayDate(),
     fromDate: localStorageData?.fromDate || _todayDate(),
   };
@@ -83,7 +81,7 @@ const TableRow = () => {
     //   return toast.warn("One field must be greater than zero");
 
     if (item?.drAmount < 0 || item?.crAmount < 0)
-      return toast.warn("Negative value not allowed");
+      return toast.warn('Negative value not allowed');
     updateBankStatement(
       {
         bankStatementId: item?.bankStatementId,
@@ -93,7 +91,7 @@ const TableRow = () => {
         trDate: _dateFormatter(item?.bankTransectionDate),
       },
       () => {
-        setDataToGrid(false, "editable", index, gridData, setGridData);
+        setDataToGrid(false, 'editable', index, gridData, setGridData);
       }
     );
   };
@@ -112,7 +110,6 @@ const TableRow = () => {
   };
 
   const setPositionHandler = (pageNo, pageSize, values) => {
-
     getBankStatementData(pageNo, pageSize, values);
   };
 
@@ -140,19 +137,19 @@ const TableRow = () => {
                       placeholder="Select Bank Account"
                       value={values?.bankAccount}
                       onChange={(valueOption) => {
-                        setFieldValue("bankAccount", valueOption);
+                        setFieldValue('bankAccount', valueOption);
                         getBankAccountByBranchDDL(
                           valueOption?.value,
                           profileData?.accountId,
                           selectedBusinessUnit.value,
                           setAcDDL
                         );
-                        setFieldValue("acDDL", "");
+                        setFieldValue('acDDL', '');
                         dispatch(
                           SetBankStatementCorrectionAction({
                             ...values,
                             bankAccount: valueOption,
-                            acDDL: "",
+                            acDDL: '',
                           })
                         );
                       }}
@@ -188,7 +185,7 @@ const TableRow = () => {
                       placeholder="Select A/C No"
                       value={values?.acDDL}
                       onChange={(valueOption) => {
-                        setFieldValue("acDDL", valueOption);
+                        setFieldValue('acDDL', valueOption);
                         dispatch(
                           SetBankStatementCorrectionAction({
                             ...values,
@@ -210,7 +207,7 @@ const TableRow = () => {
                       placeholder="From  Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                         dispatch(
                           SetBankStatementCorrectionAction({
                             ...values,
@@ -228,7 +225,7 @@ const TableRow = () => {
                       placeholder="To Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                         dispatch(
                           SetBankStatementCorrectionAction({
                             ...values,
@@ -240,7 +237,7 @@ const TableRow = () => {
                   </div>
                   <div className="col-lg-1">
                     <button
-                      style={{ marginTop: "19px" }}
+                      style={{ marginTop: '19px' }}
                       className="btn btn-primary"
                       disabled={
                         !(
@@ -252,7 +249,7 @@ const TableRow = () => {
                       }
                       type="button"
                       onClick={() => {
-                        getBankStatementData(pageNo,pageSize,values);
+                        getBankStatementData(pageNo, pageSize, values);
                       }}
                     >
                       View
@@ -262,27 +259,27 @@ const TableRow = () => {
                 <div className="react-bootstrap-table table-responsive">
                   <div className="loan-scrollable-table scroll-table-auto">
                     <div
-                      style={{ maxHeight: "519px" }}
+                      style={{ maxHeight: '519px' }}
                       className="scroll-table _table scroll-table-auto"
                     >
                       <table className="table table-striped table-bordered global-table">
                         <thead>
                           <tr>
-                            <th style={{ minWidth: "30px" }}>Sl</th>
-                            <th style={{ minWidth: "70px" }}>Tr Date</th>
-                            <th style={{ minWidth: "200px" }}>Particulars</th>
-                            <th style={{ minWidth: "70px" }}>Instrument No</th>
-                            <th style={{ minWidth: "70px" }}>Dr Amount</th>
-                            <th style={{ minWidth: "70px" }}>Cr Amount</th>
-                            <th style={{ minWidth: "70px" }}>Balance</th>
-                            <th style={{ minWidth: "50px" }}>Reconciled</th>
-                            <th style={{ minWidth: "70px" }}>
+                            <th style={{ minWidth: '30px' }}>Sl</th>
+                            <th style={{ minWidth: '70px' }}>Tr Date</th>
+                            <th style={{ minWidth: '200px' }}>Particulars</th>
+                            <th style={{ minWidth: '70px' }}>Instrument No</th>
+                            <th style={{ minWidth: '70px' }}>Dr Amount</th>
+                            <th style={{ minWidth: '70px' }}>Cr Amount</th>
+                            <th style={{ minWidth: '70px' }}>Balance</th>
+                            <th style={{ minWidth: '50px' }}>Reconciled</th>
+                            <th style={{ minWidth: '70px' }}>
                               Reconciled Date
                             </th>
                             {/* <th style={{ minWidth: "70px" }}>Journal Code</th> */}
-                            <th style={{ minWidth: "70px" }}>Action</th>
-                            <th style={{ minWidth: "70px" }}>Action</th>
-                            <th style={{ minWidth: "70px" }}>Insertion Time</th>
+                            <th style={{ minWidth: '70px' }}>Action</th>
+                            <th style={{ minWidth: '70px' }}>Action</th>
+                            <th style={{ minWidth: '70px' }}>Insertion Time</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -290,11 +287,11 @@ const TableRow = () => {
                             gridData?.data?.map((item, index) => {
                               return (
                                 <tr>
-                                  <td style={{ fontSize: "8px" }}>
-                                    {" "}
-                                    {index + 1}{" "}
+                                  <td style={{ fontSize: '8px' }}>
+                                    {' '}
+                                    {index + 1}{' '}
                                   </td>
-                                  <td style={{ fontSize: "8px" }}>
+                                  <td style={{ fontSize: '8px' }}>
                                     {item?.editable && (
                                       <InputField
                                         name="bankTransectionDate"
@@ -305,12 +302,12 @@ const TableRow = () => {
                                         )}
                                         onChange={(e) => {
                                           setFieldValue(
-                                            "bankTransectionDate",
+                                            'bankTransectionDate',
                                             e.target.value
                                           );
                                           setDataToGrid(
                                             e.target.value,
-                                            "bankTransectionDate",
+                                            'bankTransectionDate',
                                             index,
                                             gridData,
                                             setGridData
@@ -321,14 +318,14 @@ const TableRow = () => {
                                     {!item?.editable &&
                                       _dateFormatter(item?.bankTransectionDate)}
                                   </td>
-                                  <td style={{ fontSize: "8px" }}>
-                                    {" "}
+                                  <td style={{ fontSize: '8px' }}>
+                                    {' '}
                                     {item?.particulars}
                                   </td>
-                                  <td style={{ fontSize: "8px" }}>
+                                  <td style={{ fontSize: '8px' }}>
                                     {item.chequeNo}
                                   </td>
-                                  <td style={{ fontSize: "8px" }}>
+                                  <td style={{ fontSize: '8px' }}>
                                     {item?.editable && (
                                       <InputField
                                         name="drAmount"
@@ -338,12 +335,12 @@ const TableRow = () => {
                                         min="0"
                                         onChange={(e) => {
                                           setFieldValue(
-                                            "drAmount",
+                                            'drAmount',
                                             e.target.value
                                           );
                                           setDataToGrid(
                                             e.target.value,
-                                            "drAmount",
+                                            'drAmount',
                                             index,
                                             gridData,
                                             setGridData
@@ -353,7 +350,7 @@ const TableRow = () => {
                                     )}
                                     {!item?.editable && item?.drAmount}
                                   </td>
-                                  <td style={{ fontSize: "8px" }}>
+                                  <td style={{ fontSize: '8px' }}>
                                     {item?.editable && (
                                       <InputField
                                         name="crAmount"
@@ -363,12 +360,12 @@ const TableRow = () => {
                                         value={item?.crAmount}
                                         onChange={(e) => {
                                           setFieldValue(
-                                            "crAmount",
+                                            'crAmount',
                                             e.target.value
                                           );
                                           setDataToGrid(
                                             e.target.value,
-                                            "crAmount",
+                                            'crAmount',
                                             index,
                                             gridData,
                                             setGridData
@@ -378,7 +375,7 @@ const TableRow = () => {
                                     )}
                                     {!item?.editable && item?.crAmount}
                                   </td>
-                                  <td style={{ fontSize: "8px" }}>
+                                  <td style={{ fontSize: '8px' }}>
                                     {item?.editable &&
                                     gridData?.data?.length - 1 === index ? (
                                       <InputField
@@ -390,7 +387,7 @@ const TableRow = () => {
                                         onChange={(e) => {
                                           setDataToGrid(
                                             e.target.value,
-                                            "monRunningBalance",
+                                            'monRunningBalance',
                                             index,
                                             gridData,
                                             setGridData
@@ -401,10 +398,10 @@ const TableRow = () => {
                                       item?.monRunningBalance
                                     )}
                                   </td>
-                                  <td style={{ fontSize: "8px" }}>
+                                  <td style={{ fontSize: '8px' }}>
                                     {item?.reconcileStatus}
                                   </td>
-                                  <td style={{ fontSize: "8px" }}>
+                                  <td style={{ fontSize: '8px' }}>
                                     {_dateFormatter(item?.reconcileDate)}
                                   </td>
                                   {/* <td style={{fontSize:"10px"}}>{item?.journalCode}</td> */}
@@ -427,7 +424,7 @@ const TableRow = () => {
                                           onClick={() => {
                                             setDataToGrid(
                                               false,
-                                              "editable",
+                                              'editable',
                                               index,
                                               gridData,
                                               setGridData
@@ -443,14 +440,14 @@ const TableRow = () => {
                                       {!item?.editable && (
                                         <div>
                                           {item?.isReconcile ? (
-                                            "N/A"
+                                            'N/A'
                                           ) : (
                                             <span
                                               className="ml-3"
                                               onClick={() => {
                                                 setDataToGrid(
                                                   true,
-                                                  "editable",
+                                                  'editable',
                                                   index,
                                                   gridData,
                                                   setGridData
@@ -464,7 +461,7 @@ const TableRow = () => {
                                       )}
                                     </div>
                                   </td>
-                                  <td style={{ fontSize: "8px" }}>
+                                  <td style={{ fontSize: '8px' }}>
                                     {item?.bankTransectionDate && (
                                       <span className="ml-3">
                                         {item?.isReconcile ? (
@@ -487,29 +484,29 @@ const TableRow = () => {
                                               // );
                                             }}
                                             style={{
-                                              padding: "1px 5px",
-                                              fontSize: "8px",
-                                              width: "100px",
+                                              padding: '1px 5px',
+                                              fontSize: '8px',
+                                              width: '100px',
                                             }}
                                           >
                                             Cancel Reconcile
                                           </button>
                                         ) : (
-                                          "N/A"
+                                          'N/A'
                                         )}
                                       </span>
                                     )}
                                   </td>
                                   <td
                                     className="text-center"
-                                    style={{ fontSize: "8px" }}
+                                    style={{ fontSize: '8px' }}
                                   >
-                                    {" "}
+                                    {' '}
                                     {_dateFormatter(item?.insertionTime)} (
                                     {_timeFormatter(
                                       item?.insertionTime?.substring(11, 19)
                                     )}
-                                    ){" "}
+                                    ){' '}
                                   </td>
                                 </tr>
                               );
@@ -557,12 +554,12 @@ const TableRow = () => {
                     <div
                       className="position-absolute"
                       style={{
-                        background: "skyblue",
-                        opacity: ".3",
-                        top: "0",
-                        bottom: "0",
-                        left: "0",
-                        right: "0",
+                        background: 'skyblue',
+                        opacity: '.3',
+                        top: '0',
+                        bottom: '0',
+                        left: '0',
+                        right: '0',
                       }}
                     ></div>
                   )}
@@ -604,7 +601,7 @@ const TableRow = () => {
                           checkTwoFactorApproval(
                             2,
                             selectedBusinessUnit?.value,
-                            "Reconcile",
+                            'Reconcile',
                             reconcileModal?.item?.bankStatementId,
                             `${reconcileModal?.item?.chequeNo} ( ${reconcileModal?.item?.journalCode} )`,
                             0,
@@ -643,18 +640,18 @@ const TableRow = () => {
                           checkTwoFactorApproval(
                             1,
                             selectedBusinessUnit?.value,
-                            "Reconcile",
+                            'Reconcile',
                             reconcileModal?.item?.bankStatementId,
                             `${reconcileModal?.item?.chequeNo} ( ${reconcileModal?.item?.journalCode} )`,
                             0,
                             profileData?.userId,
-                            "",
+                            '',
                             1,
                             setIsLoading,
                             () => {
                               setReconcileModal({
                                 ...reconcileModal,
-                                otp: "",
+                                otp: '',
                                 isOtpGenerate: true,
                               });
                             }
@@ -664,10 +661,10 @@ const TableRow = () => {
                       disabled={reconcileModal?.state === 1}
                     >
                       {reconcileModal?.state === 1
-                        ? "Processing"
+                        ? 'Processing'
                         : reconcileModal?.isOtpGenerate
-                        ? "Send"
-                        : "Yes"}
+                          ? 'Send'
+                          : 'Yes'}
                     </button>
                     <button
                       className="btn btn-secondary"
@@ -678,7 +675,7 @@ const TableRow = () => {
                       }
                       disabled={reconcileModal?.state === 1}
                     >
-                      {reconcileModal?.isOtpGenerate ? "Cancel" : "No"}
+                      {reconcileModal?.isOtpGenerate ? 'Cancel' : 'No'}
                     </button>
                   </div>
                 </div>

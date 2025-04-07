@@ -1,16 +1,15 @@
-
-import React, { useState, useEffect } from "react";
-import HeaderForm from "./form";
-import ICard from "../../../../_helper/_card";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import HeaderForm from './form';
+import ICard from '../../../../_helper/_card';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import {
   getCashJournalGridData,
   saveCompletedAdjustmentJournal,
   saveCancelAdjustmentJournal,
-} from "../_redux/Actions";
-import { toast } from "react-toastify";
+} from '../_redux/Actions';
+import { toast } from 'react-toastify';
 
 export default function AddJustmentJournalLanding() {
   const [rowDto, setRowDto] = useState([]);
@@ -37,11 +36,8 @@ export default function AddJustmentJournalLanding() {
     { shallowEqual }
   );
 
-  let {
-    profileData,
-    selectedBusinessUnit,
-    adjustmentJournalLanding,
-  } = adjustmentJournal;
+  let { profileData, selectedBusinessUnit, adjustmentJournalLanding } =
+    adjustmentJournal;
 
   useEffect(() => {
     if (gridData?.length > 0) {
@@ -88,10 +84,8 @@ export default function AddJustmentJournalLanding() {
 
   const approvalHandler = (values) => {
     const { accountId, userId: actionBy } = profileData;
-    const {
-      value: businessunitid,
-      label: businessunitLabel,
-    } = selectedBusinessUnit;
+    const { value: businessunitid, label: businessunitLabel } =
+      selectedBusinessUnit;
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       const approval = rowDto.filter((itm) => itm.itemCheck === true);
 
@@ -106,7 +100,7 @@ export default function AddJustmentJournalLanding() {
         );
 
       let confirmObject = {
-        title: "Are you sure?",
+        title: 'Are you sure?',
         message: `Do you want to post the selected journals on ${_dateFormatter(
           approval[0]?.journaldate
         )}?`,
@@ -135,7 +129,7 @@ export default function AddJustmentJournalLanding() {
           }
         },
         noAlertFunc: () => {
-          alert("Click No");
+          alert('Click No');
         },
       };
       IConfirmModal(confirmObject);
@@ -152,7 +146,7 @@ export default function AddJustmentJournalLanding() {
     pageNo,
     pageSize
   ) => {
-    if (type === "notComplated") {
+    if (type === 'notComplated') {
       dispatch(
         getCashJournalGridData(
           selectedBusinessUnit.value,
@@ -169,7 +163,7 @@ export default function AddJustmentJournalLanding() {
         //isPosted, isActive, fromdate, todate, voucherCode
       );
     }
-    if (type === "complated") {
+    if (type === 'complated') {
       dispatch(
         getCashJournalGridData(
           selectedBusinessUnit.value,
@@ -186,7 +180,7 @@ export default function AddJustmentJournalLanding() {
         //isPosted, isActive, fromdate, todate, voucherCode
       );
     }
-    if (type === "canceled") {
+    if (type === 'canceled') {
       dispatch(
         getCashJournalGridData(
           selectedBusinessUnit.value,
@@ -217,22 +211,17 @@ export default function AddJustmentJournalLanding() {
         pageSize
       );
     }
-
   }, []);
 
-  const onChangeCheckHandler = (type) => {
-
-  };
+  const onChangeCheckHandler = (type) => {};
 
   const remover = (id) => {
     const { accountId, userId: actionBy } = profileData;
-    const {
-      value: businessunitid,
-      label: businessunitLabel,
-    } = selectedBusinessUnit;
+    const { value: businessunitid, label: businessunitLabel } =
+      selectedBusinessUnit;
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       let confirmObject = {
-        title: "Are you sure?",
+        title: 'Are you sure?',
         message: `Do you want to cancel this journal?`,
         yesAlertFunc: async () => {
           const approvalCancel = rowDto.filter((itm, index) => index === id);
@@ -269,14 +258,12 @@ export default function AddJustmentJournalLanding() {
 
   const singleApprovalndler = (index, completeDate) => {
     const { accountId, userId: actionBy } = profileData;
-    const {
-      value: businessunitid,
-      label: businessunitLabel,
-    } = selectedBusinessUnit;
+    const { value: businessunitid, label: businessunitLabel } =
+      selectedBusinessUnit;
 
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       let confirmObject = {
-        title: "Are you sure?",
+        title: 'Are you sure?',
         message: `Do you want to post the selected journals on ${_dateFormatter(
           completeDate
         )}?`,
@@ -305,7 +292,7 @@ export default function AddJustmentJournalLanding() {
           }
         },
         noAlertFunc: () => {
-          alert("Click No");
+          alert('Click No');
         },
       };
       IConfirmModal(confirmObject);

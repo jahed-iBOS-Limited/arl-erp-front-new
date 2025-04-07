@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import { GetLighterCNFDDL } from "../../../../_helper/_commonApi";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { GetLighterCNFDDL } from '../../../../_helper/_commonApi';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import {
   CreateLighterAllotment,
   EditLighterAllotment,
@@ -14,20 +14,20 @@ import {
   GetLighterDDL,
   GetLighterStevedoreDDL,
   GetShipPointDDL,
-} from "../helper";
-import Form from "./form";
+} from '../helper';
+import Form from './form';
 
 const initData = {
-  motherVessel: "",
-  programNo: "",
-  loadingPort: "",
-  item: "",
-  cnf: "",
-  steveDore: "",
+  motherVessel: '',
+  programNo: '',
+  loadingPort: '',
+  item: '',
+  cnf: '',
+  steveDore: '',
   allotmentDate: _todayDate(),
-  lotNo: "",
-  type: "badc",
-  organization: "",
+  lotNo: '',
+  type: 'badc',
+  organization: '',
 };
 
 export default function GeneralInformationCreate() {
@@ -71,7 +71,6 @@ export default function GeneralInformationCreate() {
         setDisabled,
       });
     }
-
   }, [accId, buId]);
 
   const saveHandler = async (values, cb) => {
@@ -81,17 +80,17 @@ export default function GeneralInformationCreate() {
 
       if (!id) {
         if (selectedItems?.length < 1) {
-          return toast.warn("Please select at least one row!");
+          return toast.warn('Please select at least one row!');
         } else if (
           selectedItems?.filter((item) => item?.surveyQty <= 0)?.length
         ) {
           return toast.warn(
-            "Please fill up the quantity for all selected rows!"
+            'Please fill up the quantity for all selected rows!'
           );
         }
       } else {
         if (selectedItemsForEdit?.length < 1) {
-          return toast.warn("Please select at least one row!");
+          return toast.warn('Please select at least one row!');
         }
       }
       const totalAmount = selectedItems?.reduce((a, b) => a + b?.total, 0);
@@ -100,27 +99,27 @@ export default function GeneralInformationCreate() {
           allotmentNo: 0,
           accountId: accId,
           businessUnitId: buId,
-          refNo: values?.generalRefNo || "",
-          lotNo: values?.lotNo || "",
-          award: values?.award || "",
-          program: values?.programNo || "",
+          refNo: values?.generalRefNo || '',
+          lotNo: values?.lotNo || '',
+          award: values?.award || '',
+          program: values?.programNo || '',
           allotmentDate: values?.allotmentDate,
           motherVesselId: values?.motherVessel?.value,
           motherVesselName: values?.motherVessel?.label,
           cnfid: values?.cnf?.value || 0,
-          cnfname: values?.cnf?.label || "",
+          cnfname: values?.cnf?.label || '',
           stevdoreId: values?.steveDore?.value || 0,
-          stevdoreName: values?.steveDore?.label || "",
+          stevdoreName: values?.steveDore?.label || '',
           portId: values?.loadingPort?.value,
           portName: values?.loadingPort?.label,
           totalSurveyQnt: totalAmount,
           totalReceiveQnt: values?.quantity || 0,
           actionby: userId,
-          narration: "",
+          narration: '',
         },
         rowObject: selectedItems?.map((itm) => ({
           shipPointId: itm?.unloadingPort?.value || 0,
-          shipPointName: itm?.unloadingPort?.label || "",
+          shipPointName: itm?.unloadingPort?.label || '',
           lighterDestinationId: itm?.lighterDestination?.value,
           lighterDestinationName: itm?.lighterDestination?.label,
           lighterVesselId: itm?.value,
@@ -136,17 +135,17 @@ export default function GeneralInformationCreate() {
       const payloadOfEdit = {
         headerObject: {
           allotmentNo: id,
-          refNo: values?.generalRefNo || "",
-          lotNo: values?.lotNo || "",
-          award: values?.award || "",
+          refNo: values?.generalRefNo || '',
+          lotNo: values?.lotNo || '',
+          award: values?.award || '',
           allotmentDate: values?.allotmentDate,
           cnfid: values?.cnf?.value || 0,
-          cnfname: values?.cnf?.label || "",
+          cnfname: values?.cnf?.label || '',
           stevdoreId: values?.steveDore?.value || 0,
-          stevdoreName: values?.steveDore?.label || "",
+          stevdoreName: values?.steveDore?.label || '',
           totalSurveyQnt: totalAmount,
           totalReceiveQnt: values?.quantity || 0,
-          narration: "",
+          narration: '',
         },
         rowObject: selectedItemsForEdit?.map((item) => {
           return {
@@ -155,7 +154,7 @@ export default function GeneralInformationCreate() {
             // shipPointId: item?.unloadingPort?.value,
             // shipPointName: item?.unloadingPort?.label,
             shipPointId: item?.unloadingPort?.value || 0,
-            shipPointName: item?.unloadingPort?.label || "",
+            shipPointName: item?.unloadingPort?.label || '',
             lighterDestinationId: item?.lighterDestination?.value,
             lighterDestinationName: item?.lighterDestination?.label,
             itemId: item?.itemId,
@@ -216,22 +215,23 @@ export default function GeneralInformationCreate() {
   const selectedAll = () => {
     const create =
       lighterList?.length > 0 &&
-        lighterList?.filter((item) => item?.isSelected)?.length ===
+      lighterList?.filter((item) => item?.isSelected)?.length ===
         lighterList?.length
         ? true
         : false;
 
     const edit =
       rowDto?.length > 0 &&
-        rowDto?.filter((item) => item?.isSelected)?.length === rowDto?.length
+      rowDto?.filter((item) => item?.isSelected)?.length === rowDto?.length
         ? true
         : false;
 
     return id ? edit : create;
   };
 
-  const title = `${type === "edit" ? "Edit" : type === "view" ? "View" : "Create"
-    } General Information`;
+  const title = `${
+    type === 'edit' ? 'Edit' : type === 'view' ? 'View' : 'Create'
+  } General Information`;
 
   return (
     <>

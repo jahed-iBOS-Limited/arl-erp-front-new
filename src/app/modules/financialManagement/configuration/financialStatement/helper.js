@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getCopyFromDDL = async (accId, busId, setter) => {
   try {
@@ -96,7 +96,7 @@ export const saveFinancialStatement = async (data, cb) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
     }
   } catch (error) {

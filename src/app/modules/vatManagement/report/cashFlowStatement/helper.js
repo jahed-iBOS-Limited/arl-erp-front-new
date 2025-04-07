@@ -1,5 +1,5 @@
-import axios from "axios";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import axios from 'axios';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const getSbuDDLAction = async (accId, buId, setter) => {
   try {
@@ -22,7 +22,9 @@ export const getCashFlowStatement = async (
 ) => {
   try {
     setLoading(true);
-    const res = await axios.get(`/fino/Accounting/GetCashFlowStatement?businessUnitId=${businessUnitId}&sbuId=${sbuId}&fromDate=${_dateFormatter(fromDate)}&toDate=${_dateFormatter(toDate)}`);
+    const res = await axios.get(
+      `/fino/Accounting/GetCashFlowStatement?businessUnitId=${businessUnitId}&sbuId=${sbuId}&fromDate=${_dateFormatter(fromDate)}&toDate=${_dateFormatter(toDate)}`
+    );
     setLoading(false);
     // res?.data?.forEach(item=>{
 
@@ -33,5 +35,3 @@ export const getCashFlowStatement = async (
     setter([]);
   }
 };
-
-

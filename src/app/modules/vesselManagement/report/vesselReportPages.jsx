@@ -1,13 +1,13 @@
-import React from "react";
-import { Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import DayByDayUnloadAndDelivery from "./BIReports/dayByDay";
-import DeliveryReportRDLC from "./BIReports/delivery";
-import InventoryG2GReportRDLC from "./BIReports/inventory";
-import StockAnalysis from "./BIReports/stockAnalysis";
-import TimeSheetReport from "./BIReports/timeSheet";
-import MotherVesselCostInfo from "./motherVesselCostInfo/landing/table";
-import VesselCostInfo from "./vesselCostInfo/landing";
+import React from 'react';
+import { Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import DayByDayUnloadAndDelivery from './BIReports/dayByDay';
+import DeliveryReportRDLC from './BIReports/delivery';
+import InventoryG2GReportRDLC from './BIReports/inventory';
+import StockAnalysis from './BIReports/stockAnalysis';
+import TimeSheetReport from './BIReports/timeSheet';
+import MotherVesselCostInfo from './motherVesselCostInfo/landing/table';
+import VesselCostInfo from './vesselCostInfo/landing';
 
 export default function ReportPages() {
   return (

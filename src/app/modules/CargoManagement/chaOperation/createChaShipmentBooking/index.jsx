@@ -96,7 +96,7 @@ const validationSchema = Yup.object().shape({
   copyDocReceived: Yup.string().required('Copy Doc Received is required'),
   invoiceValue: Yup.number().required('Invoice Value is required'),
   commercialInvoiceNo: Yup.string().required(
-    'Commercial Invoice No is required',
+    'Commercial Invoice No is required'
   ),
   invoiceDate: Yup.string().required('Invoice Date is required'),
   exp: Yup.string().required('EXP is required'),
@@ -110,7 +110,7 @@ function CreateChaShipmentBooking() {
     useAxiosPost();
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
   const [
     airServiceProviderDDLData,
@@ -212,7 +212,7 @@ function CreateChaShipmentBooking() {
           cb();
         }
       },
-      true,
+      true
     );
   };
 
@@ -222,7 +222,7 @@ function CreateChaShipmentBooking() {
         `${imarineBaseUrl}/domain/CHAShipment/GetCarrierDDL?carriarTypeId=${typeId}`,
         (res) => {
           setAirServiceProviderDDL(res);
-        },
+        }
       );
     }
   };
@@ -240,12 +240,11 @@ function CreateChaShipmentBooking() {
           };
         });
         setCurrencyList(modifyData);
-      },
+      }
     );
     getConsigneeCountryList(
-      `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`,
+      `${imarineBaseUrl}/domain/CreateSignUp/GetCountryList`
     );
-
   }, []);
 
   useEffect(() => {
@@ -397,10 +396,9 @@ function CreateChaShipmentBooking() {
           };
 
           formikRef.current.setValues(valuesObj);
-        },
+        }
       );
     }
-
   }, [id]);
 
   return (
@@ -583,7 +581,7 @@ function CreateChaShipmentBooking() {
                         if (searchValue?.length < 3) return [];
                         return axios
                           .get(
-                            `${imarineBaseUrl}/domain/Stakeholder/GetBusinessPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${searchValue}`,
+                            `${imarineBaseUrl}/domain/Stakeholder/GetBusinessPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${searchValue}`
                           )
                           .then((res) => res?.data);
                       }}
@@ -609,7 +607,7 @@ function CreateChaShipmentBooking() {
                         if (searchValue?.length < 3) return [];
                         return axios
                           .get(
-                            `${imarineBaseUrl}/domain/CHAShipment/GetALLTypeChaShipmentCommonDDL?typeId=1&search=${searchValue}`,
+                            `${imarineBaseUrl}/domain/CHAShipment/GetALLTypeChaShipmentCommonDDL?typeId=1&search=${searchValue}`
                           )
                           .then((res) => res?.data);
                       }}
@@ -632,7 +630,7 @@ function CreateChaShipmentBooking() {
                         if (searchValue?.length < 3) return [];
                         return axios
                           .get(
-                            `${imarineBaseUrl}/domain/CHAShipment/GetALLTypeChaShipmentCommonDDL?typeId=2&search=${searchValue}`,
+                            `${imarineBaseUrl}/domain/CHAShipment/GetALLTypeChaShipmentCommonDDL?typeId=2&search=${searchValue}`
                           )
                           .then((res) => res?.data);
                       }}
@@ -679,7 +677,7 @@ function CreateChaShipmentBooking() {
                         if (searchValue?.length < 3) return [];
                         return axios
                           .get(
-                            `${imarineBaseUrl}/domain/CHAShipment/GetALLTypeChaShipmentCommonDDL?typeId=6&search=${searchValue}`,
+                            `${imarineBaseUrl}/domain/CHAShipment/GetALLTypeChaShipmentCommonDDL?typeId=6&search=${searchValue}`
                           )
                           .then((res) => res?.data);
                       }}
@@ -703,7 +701,7 @@ function CreateChaShipmentBooking() {
                         if (searchValue?.length < 3) return [];
                         return axios
                           .get(
-                            `${imarineBaseUrl}/domain/CHAShipment/GetALLTypeChaShipmentCommonDDL?typeId=3&search=${searchValue}`,
+                            `${imarineBaseUrl}/domain/CHAShipment/GetALLTypeChaShipmentCommonDDL?typeId=3&search=${searchValue}`
                           )
                           .then((res) => res?.data);
                       }}
@@ -738,7 +736,7 @@ function CreateChaShipmentBooking() {
                         if (searchValue?.length < 3) return [];
                         return axios
                           .get(
-                            `${imarineBaseUrl}/domain/CHAShipment/GetALLTypeChaShipmentCommonDDL?typeId=4&search=${searchValue}`,
+                            `${imarineBaseUrl}/domain/CHAShipment/GetALLTypeChaShipmentCommonDDL?typeId=4&search=${searchValue}`
                           )
                           .then((res) => res?.data);
                       }}
@@ -762,7 +760,7 @@ function CreateChaShipmentBooking() {
                         if (searchValue?.length < 3) return [];
                         return axios
                           .get(
-                            `${imarineBaseUrl}/domain/Stakeholder/GetBusinessPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${searchValue}`,
+                            `${imarineBaseUrl}/domain/Stakeholder/GetBusinessPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${searchValue}`
                           )
                           .then((res) => res?.data);
                       }}
@@ -799,7 +797,7 @@ function CreateChaShipmentBooking() {
                         if (searchValue?.length < 3) return [];
                         return axios
                           .get(
-                            `${imarineBaseUrl}/domain/CHAShipment/GetALLTypeChaShipmentCommonDDL?typeId=5&search=${searchValue}`,
+                            `${imarineBaseUrl}/domain/CHAShipment/GetALLTypeChaShipmentCommonDDL?typeId=5&search=${searchValue}`
                           )
                           .then((res) => res?.data);
                       }}
@@ -821,7 +819,7 @@ function CreateChaShipmentBooking() {
                         if (v?.length < 3) return [];
                         return axios
                           .get(
-                            `/domain/CreateUser/GetUserListSearchDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&searchTerm=${v}`,
+                            `/domain/CreateUser/GetUserListSearchDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&searchTerm=${v}`
                           )
                           .then((res) => {
                             const updateList = res?.data.map((item) => ({

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import { getItemTransferTransitByInvTransactionId } from "../helper";
+import React, { useEffect, useState } from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { getItemTransferTransitByInvTransactionId } from '../helper';
 
 export function TransferTransitDetail({ currentItem }) {
   const [loading, setLoading] = useState(false);
@@ -94,7 +94,7 @@ export function TransferTransitDetail({ currentItem }) {
                     totalReceive += item?.receiveQty;
                     return (
                       <tr key={index}>
-                        <td style={{ width: "30px" }} className="text-center">
+                        <td style={{ width: '30px' }} className="text-center">
                           {index + 1}
                         </td>
                         <td>{item?.itemName}</td>
@@ -106,7 +106,7 @@ export function TransferTransitDetail({ currentItem }) {
                     );
                   })}
                   {detailData?.objRow?.length > 0 && (
-                    <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+                    <tr style={{ textAlign: 'right', fontWeight: 'bold' }}>
                       <td colSpan={3} className="text-right">
                         Total
                       </td>

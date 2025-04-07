@@ -1,26 +1,26 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import * as Yup from "yup";
-import SearchAsyncSelect from "../../../../../_helper/SearchAsyncSelect";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../../_helper/_fixedPoint";
-import IView from "../../../../../_helper/_helperIcons/_view";
-import InputField from "../../../../../_helper/_inputField";
-import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
-import PaginationSearch from "../../../../../_helper/_search";
-import AttachFile from "../../../../../_helper/commonInputFieldsGroups/attachemntUpload";
-import FromDateToDateForm from "../../../../../_helper/commonInputFieldsGroups/dateForm";
-import IButton from "../../../../../_helper/iButton";
-import { PortAndMotherVessel } from "../../../../../vesselManagement/common/components";
-import NewSelect from "../../../../../_helper/_select";
-import { GetBillTypeDDL } from "../../helper";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import * as Yup from 'yup';
+import SearchAsyncSelect from '../../../../../_helper/SearchAsyncSelect';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../../_helper/_fixedPoint';
+import IView from '../../../../../_helper/_helperIcons/_view';
+import InputField from '../../../../../_helper/_inputField';
+import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actions';
+import PaginationSearch from '../../../../../_helper/_search';
+import AttachFile from '../../../../../_helper/commonInputFieldsGroups/attachemntUpload';
+import FromDateToDateForm from '../../../../../_helper/commonInputFieldsGroups/dateForm';
+import IButton from '../../../../../_helper/iButton';
+import { PortAndMotherVessel } from '../../../../../vesselManagement/common/components';
+import NewSelect from '../../../../../_helper/_select';
+import { GetBillTypeDDL } from '../../helper';
 
 const validationSchema = Yup.object().shape({
-  billNo: Yup.string().required("Bill No is Required"),
-  billDate: Yup.date().required("Bill Date is Required"),
-  paymentDueDate: Yup.date().required("Payment Date is Required"),
+  billNo: Yup.string().required('Bill No is Required'),
+  billDate: Yup.date().required('Bill Date is Required'),
+  paymentDueDate: Yup.date().required('Payment Date is Required'),
 });
 
 export default function FormCmp({
@@ -59,7 +59,6 @@ export default function FormCmp({
     if (buId && accId) {
       GetBillTypeDDL(setBillTypeDDL);
     }
-
   }, []);
 
   return (
@@ -129,7 +128,7 @@ export default function FormCmp({
                         value={values?.billType}
                         label="Bill Type"
                         onChange={(valueOption) => {
-                          setFieldValue("billType", valueOption);
+                          setFieldValue('billType', valueOption);
                         }}
                         placeholder="Bill Type"
                         errors={errors}
@@ -141,19 +140,19 @@ export default function FormCmp({
                       <SearchAsyncSelect
                         selectedValue={values?.carrierName}
                         handleChange={(valueOption) => {
-                          setFieldValue("carrierName", valueOption);
+                          setFieldValue('carrierName', valueOption);
                         }}
-                        placeholder={"Search Carrier Name"}
+                        placeholder={'Search Carrier Name'}
                         loadOptions={loadOptions}
                       />
                     </div>
 
                     <FromDateToDateForm obj={{ values, setFieldValue }} />
                     <IButton
-                      colSize={"col-lg-3"}
+                      colSize={'col-lg-3'}
                       onClick={() => {
                         setGridData([]);
-                        getData(values, "");
+                        getData(values, '');
                       }}
                       disabled={!values?.motherVessel || !values?.carrierName}
                     />
@@ -230,13 +229,13 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
@@ -245,9 +244,9 @@ export default function FormCmp({
               <div
                 className="col d-flex justify-content-between"
                 style={{
-                  fontSize: "15px",
-                  fontWeight: "bold",
-                  flexWrap: "wrap",
+                  fontSize: '15px',
+                  fontWeight: 'bold',
+                  flexWrap: 'wrap',
                 }}
               >
                 <div>
@@ -259,7 +258,7 @@ export default function FormCmp({
                   />
                 </div>
                 <p>
-                  Total Qty:{" "}
+                  Total Qty:{' '}
                   {_fixedPoint(
                     gridData?.reduce(
                       (a, b) =>
@@ -271,7 +270,7 @@ export default function FormCmp({
                   )}
                 </p>
                 <p>
-                  Total Amount:{" "}
+                  Total Amount:{' '}
                   {_fixedPoint(
                     gridData?.reduce(
                       (a, b) =>
@@ -327,10 +326,10 @@ export default function FormCmp({
                       const backgroundColor = {
                         backgroundColor:
                           item?.standardAmount > item?.carrierTotalAmount
-                            ? "#7edb7ec7"
+                            ? '#7edb7ec7'
                             : item?.standardAmount < item?.carrierTotalAmount
-                            ? "#fa030373"
-                            : "#f8fa0373",
+                              ? '#fa030373'
+                              : '#f8fa0373',
                       };
                       return (
                         <tr key={index} style={backgroundColor}>
@@ -340,7 +339,7 @@ export default function FormCmp({
                               // value = {item?.checked ? true:false}
                               checked={item?.checked}
                               onChange={(e) => {
-                                item["checked"] = e.target.checked;
+                                item['checked'] = e.target.checked;
                                 setGridData([...gridData]);
                               }}
                               disabled={item?.transportRate <= 0}
@@ -356,7 +355,7 @@ export default function FormCmp({
 
                           <td className="text-right">{item?.surveyQuantity}</td>
                           {/* <td className="text-right">{item?.carrierRate}</td> */}
-                          <td style={{ width: "100px" }}>
+                          <td style={{ width: '100px' }}>
                             <InputField
                               value={item?.carrierTotalAmount}
                               name="carrierTotalAmount"

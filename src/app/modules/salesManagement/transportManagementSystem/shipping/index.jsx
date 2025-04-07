@@ -1,8 +1,8 @@
-import React from "react";
-import { ShipmentTable } from "./Table/tableHeader";
-import { UiProvider } from "../../../_helper/uiContextHelper";
-import { Route } from "react-router-dom";
-import { ViewModal } from "./shippingUnitView/ViewModal";
+import React from 'react';
+import { ShipmentTable } from './Table/tableHeader';
+import { UiProvider } from '../../../_helper/uiContextHelper';
+import { Route } from 'react-router-dom';
+import { ViewModal } from './shippingUnitView/ViewModal';
 
 export default function SalesQuotation({ history }) {
   const uIEvents = {};
@@ -17,7 +17,7 @@ export default function SalesQuotation({ history }) {
             shipmentCode={match && match.params.shipmentCode}
             history={history}
             onHide={() => {
-              history.push("/sales-management/transportmanagement/shipping");
+              history.push('/sales-management/transportmanagement/shipping');
             }}
           />
         )}

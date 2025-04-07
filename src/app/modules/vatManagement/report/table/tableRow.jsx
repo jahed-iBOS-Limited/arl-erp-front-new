@@ -1,12 +1,10 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { GetVatItemPagination } from "../helper";
-import "./vatReport.css";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { GetVatItemPagination } from '../helper';
+import './vatReport.css';
 
 export function TableRow() {
-
   const [gridData, setGridData] = useState([]);
   const [rowDto, setRowDto] = useState([]);
   const history = useHistory();
@@ -29,7 +27,6 @@ export function TableRow() {
         setGridData
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   return (
@@ -49,7 +46,7 @@ export function TableRow() {
                       Opening stock of Goods/Service
                     </th>
                   </tr>
-                  <tr style={{ width: "200px" }}>
+                  <tr style={{ width: '200px' }}>
                     <th scope="col">Quantity (unit)</th>
                     <th scope="col">Value(Exclueding all types of taxes)</th>
                   </tr>
@@ -142,12 +139,12 @@ export function TableRow() {
                     </td>
                     <td>
                       <div className="pl-2">
-                        {data?.EmailAddress ? data?.EmailAddress : "N/A"}
+                        {data?.EmailAddress ? data?.EmailAddress : 'N/A'}
                       </div>
                     </td>
                     <td>
                       <div className="text-right pr-2">
-                        {data?.ContactNumber ? data?.ContactNumber : "N/A"}
+                        {data?.ContactNumber ? data?.ContactNumber : 'N/A'}
                       </div>
                     </td>
                     <td>
@@ -160,7 +157,7 @@ export function TableRow() {
                       <div className="pl-2">{data?.Unit}</div>
                     </td>
                     <td>
-                      <div className="pl-2">{""}</div>
+                      <div className="pl-2">{''}</div>
                     </td>
                     <td>
                       <div className="pl-2">{data?.LeaveType}</div>
@@ -185,13 +182,13 @@ export function TableRow() {
                       <div className="text-right pr-2">{data?.NoOfDay}</div>
                     </td>
                     <td>
-                      <div className="pl-2">{""}</div>
+                      <div className="pl-2">{''}</div>
                     </td>
                     <td>
-                      <div className="pl-2">{""}</div>
+                      <div className="pl-2">{''}</div>
                     </td>
                     <td>
-                      <div className="pl-2">{""}</div>
+                      <div className="pl-2">{''}</div>
                     </td>
                     <td>
                       <div className="pl-2">{data?.PersonalNo}</div>

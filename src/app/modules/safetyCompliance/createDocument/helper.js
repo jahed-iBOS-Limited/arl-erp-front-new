@@ -1,5 +1,5 @@
-import axios from "axios";
-import { _dateFormatter } from "../../_helper/_dateFormate";
+import axios from 'axios';
+import { _dateFormatter } from '../../_helper/_dateFormate';
 
 // get data by id
 export const GetDocNameDataById = async (id, setter, setLoading) => {
@@ -16,20 +16,20 @@ export const GetDocNameDataById = async (id, setter, setLoading) => {
         value: data?.[0]?.intBusinessUnitId,
         label:
           data?.[0]?.intBusinessUnitId === 0
-            ? "All"
+            ? 'All'
             : data?.[0]?.strBusinessUnitName,
       },
       workplaceGroup: {
         value: data?.[0]?.intWorkplaceGroupId,
         label:
           data?.[0]?.intWorkplaceGroupId === 0
-            ? "All"
+            ? 'All'
             : data?.[0]?.strWorkplaceGroupName,
       },
       workplace: {
         value: data?.[0]?.intWorkplaceId,
         label:
-          data?.[0]?.intWorkplaceId === 0 ? "All" : data?.[0]?.strWorkplaceName,
+          data?.[0]?.intWorkplaceId === 0 ? 'All' : data?.[0]?.strWorkplaceName,
       },
       reminderDate: _dateFormatter(data?.[0]?.dteNotifyReminderDate),
       frequency: data?.[0]?.strFrequency,
@@ -77,7 +77,5 @@ export const getBusinessUnitDDL_api = async (actionBy, accountId, setter) => {
       });
       setter(newdata);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };

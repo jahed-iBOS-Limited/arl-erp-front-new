@@ -1,18 +1,18 @@
-import React from "react";
-import { Formik, Form as FormikForm } from "formik";
-import * as Yup from "yup";
-import InputField from "../../../../_helper/_inputField";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls/ModalProgressBar";
+import React from 'react';
+import { Formik, Form as FormikForm } from 'formik';
+import * as Yup from 'yup';
+import InputField from '../../../../_helper/_inputField';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls/ModalProgressBar';
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   CardBody,
-} from "../../../../../../_metronic/_partials/controls/Card";
-import NewSelect from "./../../../../_helper/_select";
-import { getDamageCalender } from "./../helper";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import { YearDDL } from "../../../../_helper/_yearDDL";
+} from '../../../../../../_metronic/_partials/controls/Card';
+import NewSelect from './../../../../_helper/_select';
+import { getDamageCalender } from './../helper';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import { YearDDL } from '../../../../_helper/_yearDDL';
 
 const validationSchema = Yup.object().shape({});
 
@@ -85,7 +85,7 @@ function Form(props) {
                                   setCalendarConfig,
                                   setIsLoading
                                 );
-                                setFieldValue("year", valueOption);
+                                setFieldValue('year', valueOption);
                               }}
                               placeholder="Year"
                               errors={errors}
@@ -131,7 +131,7 @@ function Form(props) {
                                               selectIndividualItem(
                                                 index,
                                                 e.target.value,
-                                                "startDate"
+                                                'startDate'
                                               );
                                             }}
                                             errors={errors}
@@ -153,7 +153,7 @@ function Form(props) {
                                               selectIndividualItem(
                                                 index,
                                                 e.target.value,
-                                                "endDate"
+                                                'endDate'
                                               );
                                             }}
                                             errors={errors}

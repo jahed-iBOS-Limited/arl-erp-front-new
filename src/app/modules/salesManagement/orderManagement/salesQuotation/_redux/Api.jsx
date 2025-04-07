@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 //Call sales org
 export function getSalesOrgDDL(accId, buId) {
@@ -8,7 +8,7 @@ export function getSalesOrgDDL(accId, buId) {
 }
 
 //Call sales org
-export function getSpecificationDDL( buId) {
+export function getSpecificationDDL(buId) {
   return axios.get(
     `/oms/SalesQuotation/GetSpecificationDDL?businessUnitId=${buId}`
   );
@@ -47,7 +47,7 @@ export function getGridData(
   fromDate,
   toDate
 ) {
-  const searchPath = search ? `searchTerm=${search}&` : "";
+  const searchPath = search ? `searchTerm=${search}&` : '';
 
   return axios.get(
     `/oms/SalesQuotation/GetSalesQuotationSearchLandingPagination?${searchPath}AccountId=${accId}&BUnitId=${buId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&QuotationStatus=${status}&fromDate=${fromDate}&toDate=${toDate}`

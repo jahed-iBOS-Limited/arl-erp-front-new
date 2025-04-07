@@ -1,18 +1,20 @@
-import axios from "axios";
-import { models } from "powerbi-client";
-import { PowerBIEmbed } from "powerbi-client-react";
-import React, { useEffect } from "react";
-import "react-confirm-alert/src/react-confirm-alert.css";
-import { useDispatch, useSelector } from "react-redux";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { SetPowerBiAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import Loading from "../../../../_helper/_loading";
-import "./styles.css";
+import axios from 'axios';
+import { models } from 'powerbi-client';
+import { PowerBIEmbed } from 'powerbi-client-react';
+import React, { useEffect } from 'react';
+import 'react-confirm-alert/src/react-confirm-alert.css';
+import { useDispatch, useSelector } from 'react-redux';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { SetPowerBiAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import Loading from '../../../../_helper/_loading';
+import './styles.css';
 
 const SubScheduleRDLCReport = ({ values, selectedBusinessUnit }) => {
   const dispatch = useDispatch();
   const [, getRowData, isLoading] = useAxiosGet();
-  const { powerApi: localStorageData } = useSelector((state) => state.localStorage);
+  const { powerApi: localStorageData } = useSelector(
+    (state) => state.localStorage
+  );
 
   const getData = () => {
     // 1st api
@@ -23,14 +25,17 @@ const SubScheduleRDLCReport = ({ values, selectedBusinessUnit }) => {
       };
       try {
         // 2nd api
-        const res = await axios.get(`https://api.powerbi.com/v1.0/myorg/groups/218e3d7e-f3ea-4f66-8150-bb16eb6fc606/reports/ef951be6-72a9-44d7-a158-1ed88d476761`, config);
+        const res = await axios.get(
+          `https://api.powerbi.com/v1.0/myorg/groups/218e3d7e-f3ea-4f66-8150-bb16eb6fc606/reports/ef951be6-72a9-44d7-a158-1ed88d476761`,
+          config
+        );
         if (res?.data) {
           const configGenerateToken = {
             headers: { Authorization: `Bearer ${data}` },
           };
           try {
             const payload = {
-              accessLevel: "View",
+              accessLevel: 'View',
             };
             // 3rd api
             const resGenerateToken = await axios.post(
@@ -61,7 +66,6 @@ const SubScheduleRDLCReport = ({ values, selectedBusinessUnit }) => {
 
   useEffect(() => {
     getData();
-
   }, []);
   return (
     <div>
@@ -69,16 +73,16 @@ const SubScheduleRDLCReport = ({ values, selectedBusinessUnit }) => {
       {localStorageData?.generateToken ? (
         <PowerBIEmbed
           embedConfig={{
-            type: "report",
+            type: 'report',
             id: localStorageData?.reportId,
             embedUrl: localStorageData?.embedUrl,
             accessToken: localStorageData?.generateToken,
             tokenType: models.TokenType.Embed,
             parameterValues: [
-              { name: "unit", value: `${selectedBusinessUnit?.value}` },
-              { name: "GLId", value: `${values?.generalLedger?.value}` },
-              { name: "fromDate", value: `${values?.fromDate}` },
-              { name: "toDate", value: `${values?.toDate}` },
+              { name: 'unit', value: `${selectedBusinessUnit?.value}` },
+              { name: 'GLId', value: `${values?.generalLedger?.value}` },
+              { name: 'fromDate', value: `${values?.fromDate}` },
+              { name: 'toDate', value: `${values?.toDate}` },
             ],
             settings: {
               commands: {
@@ -91,26 +95,26 @@ const SubScheduleRDLCReport = ({ values, selectedBusinessUnit }) => {
           eventHandlers={
             new Map([
               [
-                "loaded",
-                function() {
-                  console.log("Report loaded");
+                'loaded',
+                function () {
+                  console.log('Report loaded');
                 },
               ],
               [
-                "rendered",
-                function() {
-                  console.log("Report rendered");
+                'rendered',
+                function () {
+                  console.log('Report rendered');
                 },
               ],
               [
-                "error",
-                function(event) {
+                'error',
+                function (event) {
                   console.log(event.detail);
                 },
               ],
             ])
           }
-          cssClassName={"powerbi-report-style-class"}
+          cssClassName={'powerbi-report-style-class'}
           getEmbeddedComponent={(embeddedReport) => {
             window.report = embeddedReport;
           }}

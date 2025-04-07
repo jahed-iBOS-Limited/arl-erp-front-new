@@ -1,20 +1,19 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import ICard from "../../../../_helper/_card";
-import Loading from "../../../../_helper/_loading";
-import HomeBuildersInfoLandingForm from "./form";
-import HomeBuildersInfoLandingTable from "./table";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import ICard from '../../../../_helper/_card';
+import Loading from '../../../../_helper/_loading';
+import HomeBuildersInfoLandingForm from './form';
+import HomeBuildersInfoLandingTable from './table';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
 
 const initData = {
-  type: { value: 3, label: "IHB" },
-  channel: "",
-  region: "",
-  area: "",
-  territory: "",
+  type: { value: 3, label: 'IHB' },
+  channel: '',
+  region: '',
+  area: '',
+  territory: '',
 };
 
 const HomeBuildersInfoLanding = () => {
@@ -40,9 +39,11 @@ const HomeBuildersInfoLanding = () => {
     getGridData(
       `/oms/SitePeopleInfos/SitePeopleDetailsInfoReport?LevelId=${
         employeeInfo?.empLevelId
-      }&RegionId=${values?.region?.value || 0}&AreaId=${values?.area?.value ||
-        0}&TerritoryId=${values?.territory?.value ||
-        0}&BusinessId=${buId}&TypeId=${
+      }&RegionId=${values?.region?.value || 0}&AreaId=${
+        values?.area?.value || 0
+      }&TerritoryId=${
+        values?.territory?.value || 0
+      }&BusinessId=${buId}&TypeId=${
         values?.type?.value
       }&employeeId=${employeeId}&PageNo=${_pageNo}&PageSize=${_pageSize}`
     );
@@ -56,28 +57,28 @@ const HomeBuildersInfoLanding = () => {
             value: employeeInfo?.empChannelId,
             label: employeeInfo?.empChannelName,
           }
-        : "",
+        : '',
     region:
       employeeInfo?.empLevelId === 7
         ? {
             value: employeeInfo?.regionId,
             label: employeeInfo?.regionName,
           }
-        : "",
+        : '',
     area:
       employeeInfo?.empLevelId === 7
         ? {
             value: employeeInfo?.areaId,
             label: employeeInfo?.areaName,
           }
-        : "",
+        : '',
     territory:
       employeeInfo?.empLevelId === 7
         ? {
             value: employeeInfo?.territoryInfoId,
             label: employeeInfo?.territoryInfoName,
           }
-        : "",
+        : '',
   };
 
   return (
@@ -94,7 +95,7 @@ const HomeBuildersInfoLanding = () => {
               isCreteBtn={true}
               createHandler={() => {
                 history.push(
-                  "/config/partner-management/HomeBuildersInfo/entry"
+                  '/config/partner-management/HomeBuildersInfo/entry'
                 );
               }}
             >

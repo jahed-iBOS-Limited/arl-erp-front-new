@@ -1,42 +1,41 @@
-
-import Axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import Axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import ICustomTable from "../../../../_helper/_customTable";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { getLandingData, getShipmentDDL } from "../helper";
-import IView from "../../../../_helper/_helperIcons/_view";
-import IViewModal from "../../../../_helper/_viewModal";
-import ViewModal from "./viewModal";
+} from '../../../../../../_metronic/_partials/controls';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import ICustomTable from '../../../../_helper/_customTable';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { getLandingData, getShipmentDDL } from '../helper';
+import IView from '../../../../_helper/_helperIcons/_view';
+import IViewModal from '../../../../_helper/_viewModal';
+import ViewModal from './viewModal';
 // import IWarningModal from "../../../../_helper/_warningModal";
 // import numberWithCommas from "../../../../_helper/_numberWithCommas";
 
 const header = [
-  "SL",
-  "Sender Name",
-  "Sender Bank",
-  "Sender Branch",
-  "Sender Routing No",
-  "Sender Account No",
-  "Sender Address",
-  "Beneficiary Name",
-  "Beneficiary Bank",
-  "Beneficiary Branch",
-  "Beneficiary Routing No",
-  "Beneficiary Account No",
-  "Beneficiary Bank Email",
-  "Action",
+  'SL',
+  'Sender Name',
+  'Sender Bank',
+  'Sender Branch',
+  'Sender Routing No',
+  'Sender Account No',
+  'Sender Address',
+  'Beneficiary Name',
+  'Beneficiary Bank',
+  'Beneficiary Branch',
+  'Beneficiary Routing No',
+  'Beneficiary Account No',
+  'Beneficiary Bank Email',
+  'Action',
 ];
 
 const CustomDutyLanding = () => {
@@ -92,7 +91,7 @@ const CustomDutyLanding = () => {
       return [
         {
           value: 0,
-          label: "All",
+          label: 'All',
         },
       ];
     return Axios.get(
@@ -107,11 +106,11 @@ const CustomDutyLanding = () => {
         initialValues={{
           poLc: {
             value: 0,
-            label: "All",
+            label: 'All',
           },
           shipment: {
             value: 0,
-            label: "All",
+            label: 'All',
           },
         }}
         // validationSchema={validationSchema}
@@ -125,7 +124,7 @@ const CustomDutyLanding = () => {
                   <button
                     onClick={() => {
                       history.push(
-                        "/managementImport/transaction/customs-rtgs/create"
+                        '/managementImport/transaction/customs-rtgs/create'
                       );
                     }}
                     className="btn btn-primary"
@@ -146,14 +145,14 @@ const CustomDutyLanding = () => {
                         paddingRight={10}
                         name="poLc"
                         handleChange={(valueOption) => {
-                          setFieldValue("poLc", valueOption);
+                          setFieldValue('poLc', valueOption);
                           getShipmentDDL(
                             profileData.accountId,
                             selectedBusinessUnit.value,
                             valueOption?.label,
                             setShipmentDDL
                           );
-                          setFieldValue("shipment", "");
+                          setFieldValue('shipment', '');
                         }}
                         loadOptions={polcList || []}
                         placeholder="Search by PO/LC Id"
@@ -166,7 +165,7 @@ const CustomDutyLanding = () => {
                           [
                             {
                               value: 0,
-                              label: "All",
+                              label: 'All',
                             },
                             ...shipmentDDL,
                           ] || []
@@ -174,7 +173,7 @@ const CustomDutyLanding = () => {
                         label="Shipment No"
                         value={values?.shipment}
                         onChange={(valueOption) => {
-                          setFieldValue("shipment", valueOption);
+                          setFieldValue('shipment', valueOption);
                         }}
                         placeholder="Shipment"
                         errors={errors}
@@ -186,7 +185,7 @@ const CustomDutyLanding = () => {
                         onClick={() => {
                           getGrid(values?.poLc?.value, values?.shipment?.value);
                         }}
-                        style={{ marginTop: "15px" }}
+                        style={{ marginTop: '15px' }}
                         className="btn btn-primary"
                         type="button"
                       >
@@ -201,7 +200,7 @@ const CustomDutyLanding = () => {
                         return (
                           <tr key={index}>
                             <td
-                              style={{ width: "30px" }}
+                              style={{ width: '30px' }}
                               className="text-center"
                             >
                               {index + 1}

@@ -1,12 +1,12 @@
-import { Formik } from "formik";
-import React from "react";
+import { Formik } from 'formik';
+import React from 'react';
 import {
   Card,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
+} from '../../../../../../_metronic/_partials/controls';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
 
 const Form = ({ initData, territoryDDL, loading, saveHandler }) => {
   return (
@@ -67,7 +67,7 @@ const Form = ({ initData, territoryDDL, loading, saveHandler }) => {
                       options={territoryDDL || []}
                       value={values?.territory}
                       onChange={(e) => {
-                        setFieldValue("territory", e);
+                        setFieldValue('territory', e);
                       }}
                       label="Territory"
                       placeholder="Territory"

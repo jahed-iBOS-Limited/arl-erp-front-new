@@ -1,5 +1,5 @@
-import React from "react";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
+import React from 'react';
+import { _fixedPoint } from './../../../../_helper/_fixedPoint';
 
 function LocalSalesTable({ rowDto }) {
   let totalQty = 0,

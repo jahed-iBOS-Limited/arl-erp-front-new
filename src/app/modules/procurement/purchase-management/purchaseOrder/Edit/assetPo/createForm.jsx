@@ -1,4 +1,3 @@
-
 import React, { useEffect, useMemo, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { ISelect } from '../../../../../_helper/_inputDropDown';
@@ -65,7 +64,6 @@ export default function AssetPOEditForm({
   useEffect(() => {
     // all input fields : this function will set our all input fields  , then we will use loop to generate input fields in UI
     setInputFieldsFunc(setInputFields, storeData);
-
   }, [supplierNameDDL, currencyDDL, paymentTermsDDL, incoTermsDDL]);
 
   useEffect(() => {
@@ -114,7 +112,7 @@ export default function AssetPOEditForm({
       getItemDDL(
         singleData?.objHeaderDTO?.businessPartnerId,
         singleData?.objHeaderDTO?.referenceTypeId,
-        0,
+        0
       );
     }
 
@@ -128,12 +126,10 @@ export default function AssetPOEditForm({
           singleData?.objHeaderDTO?.warehouseId,
           singleData?.objHeaderDTO?.businessPartnerId,
           singleData?.objHeaderDTO?.referenceTypeId,
-          0,
-        ),
+          0
+        )
       );
     }
-
-
   }, [singleData]);
 
   // add single item to row or add all item to row
@@ -182,11 +178,11 @@ export default function AssetPOEditForm({
         arr = rowDto?.filter(
           (item) =>
             item.referenceNo?.value === values?.referenceNo?.value &&
-            item?.item?.value === values?.item?.value,
+            item?.item?.value === values?.item?.value
         );
       } else {
         arr = rowDto?.filter(
-          (item) => item?.item?.value === values?.item?.value,
+          (item) => item?.item?.value === values?.item?.value
         );
       }
 
@@ -257,14 +253,13 @@ export default function AssetPOEditForm({
         singleData?.objHeaderDTO?.warehouseId,
         supplierId,
         refType,
-        referenceNo,
-      ),
+        referenceNo
+      )
     );
   };
 
   useEffect(() => {
     getRefNoDDL();
-
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   // getRefNoDdlBySupplier
@@ -277,7 +272,7 @@ export default function AssetPOEditForm({
       singleData?.objHeaderDTO?.plantId,
       singleData?.objHeaderDTO?.warehouseId,
       singleData?.objHeaderDTO?.referenceTypeName,
-      setRefNoDDL,
+      setRefNoDDL
     );
   };
 
@@ -337,10 +332,10 @@ export default function AssetPOEditForm({
 
   useEffect(() => {
     getTransferBu(
-      `/procurement/PurchaseOrder/TransferPoBusinessUnit?UnitId=${selectedBusinessUnit?.value}`,
+      `/procurement/PurchaseOrder/TransferPoBusinessUnit?UnitId=${selectedBusinessUnit?.value}`
     );
     getBuTransaction(
-      `/fino/BusinessTransaction/BusinessTransactionList?GroupId=1&BusinessUnitId=${selectedBusinessUnit?.value}`,
+      `/fino/BusinessTransaction/BusinessTransactionList?GroupId=1&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
   }, [selectedBusinessUnit]);
   return (
@@ -453,7 +448,7 @@ export default function AssetPOEditForm({
                         if (v.length < 3) return [];
                         return axios
                           .get(
-                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${singleData?.objHeaderDTO?.sbuId}`,
+                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${singleData?.objHeaderDTO?.sbuId}`
                           )
                           .then((res) => {
                             const updateList = res?.data.map((item) => ({
@@ -509,7 +504,7 @@ export default function AssetPOEditForm({
                           />
                         </div>
                       )
-                    ),
+                    )
                   )}
                   <div className="col-lg-2">
                     <IInput
@@ -632,7 +627,7 @@ export default function AssetPOEditForm({
                             getItemDDL(
                               values?.supplierName?.value,
                               singleData?.objHeaderDTO?.referenceTypeId,
-                              value,
+                              value
                             );
                           }
                         }}
@@ -670,7 +665,7 @@ export default function AssetPOEditForm({
                                   singleData?.objHeaderDTO?.warehouseId
                                 }&RefTypeId=${
                                   singleData?.objHeaderDTO?.referenceTypeId
-                                }&RefNoId=${0}&searchTerm=${v}`,
+                                }&RefNoId=${0}&searchTerm=${v}`
                               )
                               .then((res) => {
                                 const updateList = res?.data.map((item) => ({
@@ -748,8 +743,8 @@ export default function AssetPOEditForm({
                               ? !values.item
                               : false
                             : !values.isAllItem
-                            ? !values.referenceNo || !values.item
-                            : !values.referenceNo
+                              ? !values.referenceNo || !values.item
+                              : !values.referenceNo
                         }
                         style={{
                           marginTop: '20px',

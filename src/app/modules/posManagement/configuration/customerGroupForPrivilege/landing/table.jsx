@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import IView from "./../../../../_helper/_helperIcons/_view";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import IViewModal from "./../../../../_helper/_viewModal";
-import CustomerGroupForPrivilegeView from "../view";
-import { getCustomerActiveInactive } from "./../helper";
-import Loading from "./../../../../_helper/_loading";
-import IConfirmModal from "./../../../../_helper/_confirmModal";
-import IActiveInActiveIcon from "./../../../../_helper/_helperIcons/_activeInActiveIcon";
+import React, { useState } from 'react';
+import IView from './../../../../_helper/_helperIcons/_view';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import IViewModal from './../../../../_helper/_viewModal';
+import CustomerGroupForPrivilegeView from '../view';
+import { getCustomerActiveInactive } from './../helper';
+import Loading from './../../../../_helper/_loading';
+import IConfirmModal from './../../../../_helper/_confirmModal';
+import IActiveInActiveIcon from './../../../../_helper/_helperIcons/_activeInActiveIcon';
 
 function GridTable({ rowDto, values, commonGridFunc, pageSize, pageNo }) {
   const [isShowModal, setisShowModal] = useState(false);
-  const [rowClickData, setRowClickData] = useState("");
+  const [rowClickData, setRowClickData] = useState('');
   const [loading, setLoading] = useState(false);
 
   return (
@@ -23,7 +23,7 @@ function GridTable({ rowDto, values, commonGridFunc, pageSize, pageNo }) {
             <th>Customer Group Name</th>
             <th>Created Date</th>
             <th>Created By</th>
-            <th style={{ width: "125px" }}>Action</th>
+            <th style={{ width: '125px' }}>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -52,7 +52,7 @@ function GridTable({ rowDto, values, commonGridFunc, pageSize, pageNo }) {
                       onClick={() => {
                         IConfirmModal({
                           title: `Are you sure "${
-                            values?.status?.value ? "In-Active" : "Active"
+                            values?.status?.value ? 'In-Active' : 'Active'
                           }"?`,
                           yesAlertFunc: async () => {
                             await getCustomerActiveInactive(
@@ -62,14 +62,14 @@ function GridTable({ rowDto, values, commonGridFunc, pageSize, pageNo }) {
                             );
                             commonGridFunc(pageNo, pageSize, values);
                           },
-                          noAlertFunc: function() {
-                            return "";
+                          noAlertFunc: function () {
+                            return '';
                           },
                         });
                       }}
                     >
                       <IActiveInActiveIcon
-                        iconTyee={item?.isActive ? "inActive" : "Active"}
+                        iconTyee={item?.isActive ? 'inActive' : 'Active'}
                       />
                     </span>
                   </div>
@@ -81,7 +81,7 @@ function GridTable({ rowDto, values, commonGridFunc, pageSize, pageNo }) {
       <IViewModal
         show={isShowModal}
         onHide={() => setisShowModal(false)}
-        title={"Customer Group For Privilege View"}
+        title={'Customer Group For Privilege View'}
       >
         <CustomerGroupForPrivilegeView rowClickData={rowClickData} />
       </IViewModal>

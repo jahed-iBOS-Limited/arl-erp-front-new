@@ -1,21 +1,21 @@
-import { Field, Form, Formik } from "formik";
-import React from "react";
-import Select from "react-select";
-import * as Yup from "yup";
-import { Input } from "../../../../../../_metronic/_partials/controls";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import customStyles from "../../../../selectCustomStyle";
+import { Field, Form, Formik } from 'formik';
+import React from 'react';
+import Select from 'react-select';
+import * as Yup from 'yup';
+import { Input } from '../../../../../../_metronic/_partials/controls';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import customStyles from '../../../../selectCustomStyle';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   routeAddress: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Address is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Address is required'),
   routeName: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Route Name Name is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Route Name Name is required'),
 });
 
 export default function FormCmp({
@@ -39,8 +39,8 @@ export default function FormCmp({
         enableReinitialize={true}
         initialValues={{
           initData,
-          routeName: objHeader?.routeName || "",
-          routeAddress: objHeader?.routeAddress || "",
+          routeName: objHeader?.routeName || '',
+          routeAddress: objHeader?.routeAddress || '',
         }}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -65,7 +65,7 @@ export default function FormCmp({
                 <div className="form-group row">
                   <div className="col-lg-4">
                     <Field
-                      value={values.routeName || ""}
+                      value={values.routeName || ''}
                       name="routeName"
                       component={Input}
                       placeholder="Route Name"
@@ -75,7 +75,7 @@ export default function FormCmp({
                   </div>
                   <div className="col-lg-4">
                     <Field
-                      value={values.routeAddress || ""}
+                      value={values.routeAddress || ''}
                       name="routeAddress"
                       component={Input}
                       disabled={isEdit}
@@ -89,7 +89,7 @@ export default function FormCmp({
                   <div className="form-group row">
                     <div className="col-lg-3">
                       <Field
-                        value={values.routeName || ""}
+                        value={values.routeName || ''}
                         name="routeName"
                         component={Input}
                         placeholder="Route Name"
@@ -99,7 +99,7 @@ export default function FormCmp({
                     </div>
                     <div className="col-lg-3">
                       <Field
-                        value={values.routeAddress || ""}
+                        value={values.routeAddress || ''}
                         name="routeAddress"
                         component={Input}
                         disabled={isEdit}
@@ -119,7 +119,7 @@ export default function FormCmp({
                             placeholder="Transport Zone"
                             defaultValue={values.transportZone}
                             onChange={(valueOption) => {
-                              setFieldValue("transportZone", valueOption);
+                              setFieldValue('transportZone', valueOption);
                             }}
                             isSearchable={true}
                             styles={customStyles}
@@ -136,7 +136,7 @@ export default function FormCmp({
                           })
                         }
                         disabled={!values?.transportZone?.value}
-                        style={{ marginTop: "19px" }}
+                        style={{ marginTop: '19px' }}
                         type="button"
                         className="btn btn-primary"
                       >
@@ -148,14 +148,14 @@ export default function FormCmp({
               )}
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
@@ -164,7 +164,7 @@ export default function FormCmp({
             {id && (
               <div
                 className="form-group row px-4 table-responsive"
-                style={{ marginTop: "25px" }}
+                style={{ marginTop: '25px' }}
               >
                 <table className="table table-striped table-bordered global-table">
                   <thead>

@@ -1,30 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import Axios from "axios";
-
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import Axios from 'axios';
 
 const DataValiadtionSchema = Yup.object().shape({
   maxLeadDays: Yup.number()
-    .required("Maximum lead days is required")
+    .required('Maximum lead days is required')
     .integer()
-    .min(1, "Maximum lead days is required"),
+    .min(1, 'Maximum lead days is required'),
 
   minOrderQuantity: Yup.number()
     .integer()
     .min(1)
-    .required("Minimum order quantity is required")
+    .required('Minimum order quantity is required')
     .integer()
-    .min(1, "Minimum order quantity is required"),
+    .min(1, 'Minimum order quantity is required'),
   lotSize: Yup.number()
     .integer()
     .min(1)
-    .required("Lot Size is required")
+    .required('Lot Size is required')
     .integer()
-    .min(1, "Lot Size is required"),
+    .min(1, 'Lot Size is required'),
   org: Yup.object().shape({
-    label: Yup.string().required("Item Organization is required"),
-    value: Yup.string().required("Item Organization is required"),
+    label: Yup.string().required('Item Organization is required'),
+    value: Yup.string().required('Item Organization is required'),
   }),
 });
 // const initValue = {
@@ -49,7 +48,7 @@ export default function FormCmp({
   accountId,
   basicItemInfo,
 }) {
-  const [, setOrgList] = useState("");
+  const [, setOrgList] = useState('');
   useEffect(() => {
     if (selectedBusinessUnit && accountId) {
       getInfoData(selectedBusinessUnit.value, accountId);
@@ -74,9 +73,7 @@ export default function FormCmp({
         setOrgList(orgs);
         orgs = null;
       }
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   return (
@@ -109,48 +106,48 @@ export default function FormCmp({
           <>
             {disableHandler(!isValid)}
             <Form className="form form-label-right">
-            <div className="row mb-1">
+              <div className="row mb-1">
                 <div className="col-lg-3">
                   <label>Purchase Organization</label>
-                  <div>{values?.org?.label || "......."}</div>
+                  <div>{values?.org?.label || '.......'}</div>
                 </div>
 
                 <div className="col-lg-3">
                   <label>Purchase Description</label>
-                  <div>{values?.purchaseDescription || "......."}</div>
+                  <div>{values?.purchaseDescription || '.......'}</div>
                 </div>
 
                 <div className="col-lg-3">
                   <label>HS Code</label>
-                  <div>{values?.hscode || "......."}</div>
+                  <div>{values?.hscode || '.......'}</div>
                 </div>
 
                 <div className="col-lg-3">
                   <label>Maximum Lead Days</label>
-                  <div>{values?.maxLeadDays || "......."}</div>
+                  <div>{values?.maxLeadDays || '.......'}</div>
                 </div>
 
                 <div className="col-lg-3">
-                <label>Minimum Order Quantity</label>
-                  <div>{values?.minOrderQuantity || "......."}</div>
+                  <label>Minimum Order Quantity</label>
+                  <div>{values?.minOrderQuantity || '.......'}</div>
                 </div>
 
                 <div className="col-lg-3">
-                <label>Lot Size</label>
-                  <div>{values?.lotSize || "......."}</div>
+                  <label>Lot Size</label>
+                  <div>{values?.lotSize || '.......'}</div>
                 </div>
               </div>
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={saveBtnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

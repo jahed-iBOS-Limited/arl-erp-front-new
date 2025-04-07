@@ -109,16 +109,15 @@ export default function FormCmp({
           label: item.profitCenterName,
         }));
         setProfitCenterList(result);
-      },
+      }
     );
-
   }, []);
 
   useEffect(() => {
     if (selectedBusinessUnit)
       getExpenseBusinessTransactionList(
         selectedBusinessUnit?.value,
-        setBusinessTransactionDDL,
+        setBusinessTransactionDDL
       );
   }, [selectedBusinessUnit]);
 
@@ -362,7 +361,7 @@ export default function FormCmp({
                     onClick={(e) => {
                       if (
                         [3, 4]?.includes(
-                          values?.businessTransaction?.accountGroupId,
+                          values?.businessTransaction?.accountGroupId
                         ) &&
                         !values?.profitCenter?.value
                       ) {
@@ -376,7 +375,7 @@ export default function FormCmp({
                         });
                         setFieldValue(
                           'businessTransaction',
-                          copyValues?.businessTransaction,
+                          copyValues?.businessTransaction
                         );
                       });
                     }}
@@ -399,7 +398,7 @@ export default function FormCmp({
                     onClick={(e) => {
                       if (!values?.businessTransaction)
                         return toast.warn(
-                          'Please select business transaction first',
+                          'Please select business transaction first'
                         );
                       setExcelModalOpen(true);
                     }}
@@ -440,7 +439,7 @@ export default function FormCmp({
                       <td className="text-right font-weight-bolder">
                         {rowData?.reduce(
                           (acc, item) => acc + Number(item?.amount),
-                          0,
+                          0
                         )}
                       </td>
                       <td className="text-center"></td>
@@ -475,7 +474,7 @@ export default function FormCmp({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}
@@ -501,7 +500,7 @@ export default function FormCmp({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = excelFiles.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setExcelFiles(newData);
                 }}
@@ -511,7 +510,7 @@ export default function FormCmp({
                   setDisabled(true);
                   const data = await excelFileToArray(
                     excelFiles[0].file,
-                    setDisabled,
+                    setDisabled
                   );
                   setExcelFiles([]);
                   setExcelDataToRowDto(data, values, setDisabled);

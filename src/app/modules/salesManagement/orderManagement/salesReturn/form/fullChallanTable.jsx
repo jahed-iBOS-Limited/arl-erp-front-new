@@ -1,6 +1,6 @@
-import React from "react";
-import { _dateFormatterTwo } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import React from 'react';
+import { _dateFormatterTwo } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
 
 export default function FullChallanTable({ obj }) {
   const { gridData } = obj;
@@ -24,7 +24,7 @@ export default function FullChallanTable({ obj }) {
               <th>Delivery Qty</th>
               <th>Product Price</th>
               <th>Delivery Amount</th>
-              <th style={{ width: "120px" }}>Damage Qty</th>
+              <th style={{ width: '120px' }}>Damage Qty</th>
               <th>Challan Date</th>
             </tr>
           </thead>
@@ -51,7 +51,7 @@ export default function FullChallanTable({ obj }) {
                 </tr>
               );
             })}
-            <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+            <tr style={{ textAlign: 'right', fontWeight: 'bold' }}>
               <td colSpan={7} className="text-right">
                 <b>Total</b>
               </td>

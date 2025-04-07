@@ -69,11 +69,11 @@ export const validationSchema = Yup.object().shape({
         .nullable(),
       deliveryQty: Yup.number()
         .min(0, 'Minimum 0 number')
-        .test('pendingQty', 'Invalid qty ', function(value) {
+        .test('pendingQty', 'Invalid qty ', function (value) {
           return this.parent.pendingQty >= value;
         })
         .required('Item Qty required'),
-    }),
+    })
   ),
 });
 
@@ -154,7 +154,7 @@ export default function FormCmp({
 
     if (
       [178, 180, 181, 182, 183, 209, 212, 216, 221, 232].includes(
-        selectedBusinessUnit?.value,
+        selectedBusinessUnit?.value
       )
     ) {
       return false;
@@ -212,11 +212,11 @@ export default function FormCmp({
                       .nullable(),
                     deliveryQty: Yup.number()
                       .min(0, 'Minimum 0 number')
-                      .test('maxDeliveryQty', 'Invalid qty ', function(value) {
+                      .test('maxDeliveryQty', 'Invalid qty ', function (value) {
                         return this.parent.maxDeliveryQty >= value;
                       })
                       .required('Item Qty required'),
-                  }),
+                  })
                 ),
               })
             : validationSchema
@@ -301,9 +301,9 @@ export default function FormCmp({
                               (resData) => {
                                 setFieldValue(
                                   'shipmentType',
-                                  resData?.[0] || '',
+                                  resData?.[0] || ''
                                 );
-                              },
+                              }
                             );
                           }
                         }}
@@ -469,16 +469,16 @@ export default function FormCmp({
                             GetDataBySalesOrderAction(
                               valueOption?.value,
                               values?.warehouse?.value,
-                              setDisabled,
-                            ),
+                              setDisabled
+                            )
                           );
                           dispatch(
                             getShipToPartner_Action(
                               profileData?.accountId,
                               selectedBusinessUnit.value,
                               valueOption?.value,
-                              setFieldValue,
-                            ),
+                              setFieldValue
+                            )
                           );
                         }}
                         placeholder="Select Order No"
@@ -568,7 +568,7 @@ export default function FormCmp({
                                     values?.itemLists,
                                     values?.itemLists?.[0]?.isVatPrice
                                       ? 'vatAmount'
-                                      : 'amount',
+                                      : 'amount'
                                   )}
                                 </span>
                               </div>
@@ -578,7 +578,7 @@ export default function FormCmp({
                                 <b>Delivery Qty: </b>
                                 {totalAmountCalFunc(
                                   values?.itemLists,
-                                  'deliveryQty',
+                                  'deliveryQty'
                                 )}
                               </div>
                             </li>
@@ -695,7 +695,7 @@ export default function FormCmp({
                                       onChange={(valueOption) => {
                                         setFieldValue(
                                           `itemLists.${index}.selectLocation`,
-                                          valueOption || '',
+                                          valueOption || ''
                                         );
                                       }}
                                       errors={errors}
@@ -709,7 +709,7 @@ export default function FormCmp({
                                     </div>
                                   </td>
                                   {[4].includes(
-                                    selectedBusinessUnit?.value,
+                                    selectedBusinessUnit?.value
                                   ) && (
                                     <>
                                       <td style={{ width: '20px' }}>
@@ -761,21 +761,21 @@ export default function FormCmp({
                                         onChange={(e) => {
                                           setFieldValue(
                                             `itemLists.${index}.deliveryQty`,
-                                            e.target.value || '',
+                                            e.target.value || ''
                                           );
                                           setFieldValue(
                                             `itemLists.${index}.amount`,
                                             (
                                               values?.itemLists[index]
                                                 ?.numItemPrice * e.target.value
-                                            ).toFixed(2),
+                                            ).toFixed(2)
                                           );
                                           setFieldValue(
                                             `itemLists.${index}.vatAmount`,
                                             (
                                               values?.itemLists[index]
                                                 ?.vatItemPrice * e.target.value
-                                            ).toFixed(2),
+                                            ).toFixed(2)
                                           );
 
                                           // ======offer item qty change logic=====
@@ -787,18 +787,18 @@ export default function FormCmp({
                                               (+e.target.value || 0);
                                             let acculNumber = 0;
                                             const decimalPoint = Number(
-                                              `.${calNumber
-                                                .toString()
-                                                .split('.')[1] || 0}`,
+                                              `.${
+                                                calNumber
+                                                  .toString()
+                                                  .split('.')[1] || 0
+                                              }`
                                             );
                                             if (decimalPoint >= 0.95) {
-                                              acculNumber = Math.round(
-                                                calNumber,
-                                              );
+                                              acculNumber =
+                                                Math.round(calNumber);
                                             } else {
-                                              acculNumber = Math.floor(
-                                                calNumber,
-                                              );
+                                              acculNumber =
+                                                Math.floor(calNumber);
                                             }
                                             return {
                                               ...itm,
@@ -809,7 +809,7 @@ export default function FormCmp({
                                           });
                                           setFieldValue(
                                             `itemLists.${index}.offerItemList`,
-                                            modifid,
+                                            modifid
                                           );
                                         }}
                                         errors={errors}

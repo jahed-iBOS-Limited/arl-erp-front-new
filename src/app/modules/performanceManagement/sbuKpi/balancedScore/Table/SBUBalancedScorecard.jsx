@@ -25,7 +25,6 @@ const SBUBalancedScorecard = () => {
   useEffect(() => {
     setIndex(currentItem.index);
     setDatas(newData);
-
   }, [currentItem]);
 
   const handleArrowRight = () => {
@@ -245,14 +244,14 @@ const SBUBalancedScorecard = () => {
                           newData[index]?.numTarget === 0
                             ? 0
                             : newData[index]?.intMaxMin === 1
-                            ? (
-                                (newData[index]?.numAchivement * 100) /
-                                newData[index]?.numTarget
-                              ).toFixed(2)
-                            : (
-                                (newData[index]?.numTarget * 100) /
-                                newData[index]?.numAchivement
-                              ).toFixed(2)}
+                              ? (
+                                  (newData[index]?.numAchivement * 100) /
+                                  newData[index]?.numTarget
+                                ).toFixed(2)
+                              : (
+                                  (newData[index]?.numTarget * 100) /
+                                  newData[index]?.numAchivement
+                                ).toFixed(2)}
                           %{' '}
                           {newData[index]?.numAchivement !== 0 &&
                             newData[index]?.numTarget !== 0 && (
@@ -270,14 +269,15 @@ const SBUBalancedScorecard = () => {
                           newData[index]?.previousYearTarget === 0
                             ? 0
                             : newData[index]?.intMaxMin === 1
-                            ? (
-                                (newData[index]?.previousYearAchivement * 100) /
-                                newData[index]?.previousYearTarget
-                              ).toFixed(2)
-                            : (
-                                (newData[index]?.previousYearTarget * 100) /
-                                newData[index]?.previousYearAchivement
-                              ).toFixed(2)}
+                              ? (
+                                  (newData[index]?.previousYearAchivement *
+                                    100) /
+                                  newData[index]?.previousYearTarget
+                                ).toFixed(2)
+                              : (
+                                  (newData[index]?.previousYearTarget * 100) /
+                                  newData[index]?.previousYearAchivement
+                                ).toFixed(2)}
                           %{' '}
                         </div>
                       </div>

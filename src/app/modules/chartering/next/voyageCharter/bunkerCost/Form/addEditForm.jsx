@@ -1,22 +1,21 @@
-
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useParams, useLocation, useHistory } from "react-router";
-import Form from "./form";
-import { toast } from "react-toastify";
-import Loading from "../../../../_chartinghelper/loading/_loading";
-import { saveBunkerCost } from "../../../../../_helper/_commonApi";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useParams, useLocation, useHistory } from 'react-router';
+import Form from './form';
+import { toast } from 'react-toastify';
+import Loading from '../../../../_chartinghelper/loading/_loading';
+import { saveBunkerCost } from '../../../../../_helper/_commonApi';
 
 const initData = {
-  vesselName: "",
-  voyageNo: "",
+  vesselName: '',
+  voyageNo: '',
 };
 
 const consumptionHeader = [
-  { name: "SL" },
-  { name: "Item Name" },
-  { name: "Consumption" },
-  { name: "Added Consumption" },
+  { name: 'SL' },
+  { name: 'Item Name' },
+  { name: 'Consumption' },
+  { name: 'Added Consumption' },
 ];
 
 export default function NextBunkerCostForm() {
@@ -50,7 +49,7 @@ export default function NextBunkerCostForm() {
       Number(Lsfo1) !== consumption?.consumptionLsfo1qty ||
       Number(Lsfo2) !== consumption?.consumptionLsfo2qty
     ) {
-      return toast.error("Please check consumption adjustment");
+      return toast.error('Please check consumption adjustment');
     }
 
     if (id) {
@@ -60,7 +59,7 @@ export default function NextBunkerCostForm() {
         )?.length
       )
         toast.error(
-          "Consumption can not be greater than remaining quantity. So, Please check the consumptions"
+          'Consumption can not be greater than remaining quantity. So, Please check the consumptions'
         );
 
       // editVoyage(data, setLoading, cb);
@@ -111,11 +110,11 @@ export default function NextBunkerCostForm() {
   const rowDtoHandler = (key, value, index) => {
     let data = [...bunkerPurchaseList];
     data[index][key] = value;
-    data[index]["itemCost"] = bunkerPurchaseList[index]["itemRate"] * value;
-    data[index]["remainingQty"] = value
-      ? bunkerPurchaseList[index]["remaining"] -
-      Number(bunkerPurchaseList[index]["consumption"])
-      : data[index]["remaining"];
+    data[index]['itemCost'] = bunkerPurchaseList[index]['itemRate'] * value;
+    data[index]['remainingQty'] = value
+      ? bunkerPurchaseList[index]['remaining'] -
+        Number(bunkerPurchaseList[index]['consumption'])
+      : data[index]['remaining'];
     setBunkerPurchaseList(data);
   };
 

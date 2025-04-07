@@ -1,29 +1,29 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import * as XLSX from "xlsx";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import * as XLSX from 'xlsx';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 const initData = {
   dteLastActionDate: _todayDate(),
   intActionBy: 0,
   intOrder: 1,
   intScheduleId: 0,
   isActive: true,
-  isPreAssesment: "",
+  isPreAssesment: '',
   isRequired: true,
   options: [],
-  strInputType: "radio",
-  strQuestion: "",
+  strInputType: 'radio',
+  strQuestion: '',
 };
 const AssessmentFormCreateEdit = () => {
   const ref = useRef(null);
@@ -36,7 +36,7 @@ const AssessmentFormCreateEdit = () => {
   const [modifyData, setModifyData] = useState([{ ...initData }]);
   const [optionObject, setOptionObject] = useState({
     intOptionId: 0,
-    strOption: "",
+    strOption: '',
     intQuestionId: 0,
     numPoints: 0,
     dteLastAction: _todayDate(),
@@ -61,7 +61,7 @@ const AssessmentFormCreateEdit = () => {
       return item;
     });
 
-    const isQuestionValid = payload.every((item) => item?.strQuestion !== "");
+    const isQuestionValid = payload.every((item) => item?.strQuestion !== '');
     if (isQuestionValid && payload.length > 0) {
       saveData(
         `/hcm/Training/EditTrainingAssesmentQuestion`,
@@ -70,9 +70,9 @@ const AssessmentFormCreateEdit = () => {
         true
       );
     } else if (payload.length === 0) {
-      toast.error("please add question");
+      toast.error('please add question');
     } else {
-      toast.error("Question is required");
+      toast.error('Question is required');
     }
   };
 
@@ -85,11 +85,10 @@ const AssessmentFormCreateEdit = () => {
             (item) => (item.isPreAssesment = location?.state?.isPreAssesment)
           );
           setModifyData(data);
-          console.log("modify-data", data);
+          console.log('modify-data', data);
         }
       );
     }
-
   }, []);
 
   const downloadAssesmentQuesFormat = () => {
@@ -97,21 +96,21 @@ const AssessmentFormCreateEdit = () => {
     const url = `/domain/Document/DownlloadFile?id=638071461123892562_Assesment_Question_Format.xlsx`;
     axios({
       url: url,
-      method: "GET",
-      responseType: "blob",
+      method: 'GET',
+      responseType: 'blob',
     })
       .then((response) => {
         const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement("a");
+        const link = document.createElement('a');
         link.href = url;
-        link.setAttribute("download", `Assesment_Question_Format.xlsx`);
+        link.setAttribute('download', `Assesment_Question_Format.xlsx`);
         document.body.appendChild(link);
         link.click();
         setLoading(false);
       })
       .catch((err) => {
         setLoading(false);
-        toast.error(err?.response?.data?.message, "Something went wrong");
+        toast.error(err?.response?.data?.message, 'Something went wrong');
       });
   };
 
@@ -121,7 +120,7 @@ const AssessmentFormCreateEdit = () => {
       fileReader.readAsArrayBuffer(file);
       fileReader.onload = (e) => {
         const bufferArray = e.target.result;
-        const wb = XLSX.read(bufferArray, { type: "buffer" });
+        const wb = XLSX.read(bufferArray, { type: 'buffer' });
         const wsname = wb.SheetNames[0];
         const ws = wb.Sheets[wsname];
         const data = XLSX.utils.sheet_to_json(ws);
@@ -142,7 +141,7 @@ const AssessmentFormCreateEdit = () => {
           newObj.isActive = true;
           newObj.isPreAssesment = location?.state?.isPreAssesment;
           newObj.isRequired = true;
-          newObj.strInputType = "radio";
+          newObj.strInputType = 'radio';
           newObj.strQuestion = item.Question;
           newObj.intActionBy = profileData?.userId;
           newObj.intScheduleId = +id;
@@ -195,8 +194,8 @@ const AssessmentFormCreateEdit = () => {
     <IForm
       title={
         location?.state?.isPreAssesment
-          ? "Edit Pre-Assessment Form"
-          : "Edit Post-Assessment Form"
+          ? 'Edit Pre-Assessment Form'
+          : 'Edit Post-Assessment Form'
       }
       getProps={setObjprops}
       isHiddenReset={true}
@@ -231,20 +230,20 @@ const AssessmentFormCreateEdit = () => {
                 <div className="text-center">
                   <h1 className="text-center">{location?.state?.name}</h1>
                   <h3 className="text-center">
-                    From: {_dateFormatter(location?.state?.fromDate)} To:{" "}
+                    From: {_dateFormatter(location?.state?.fromDate)} To:{' '}
                     {_dateFormatter(location?.state?.toDate)}
                   </h3>
                 </div>
                 {loading && <Loading />}
                 <div className="row w-100 ml-3">
                   <div className="col-md-9 d-flex align-items-center mt-5 form-group">
-                    <h4 style={{ marginRight: "10px" }}>Add New Question</h4>
+                    <h4 style={{ marginRight: '10px' }}>Add New Question</h4>
                     <OverlayTrigger
-                      overlay={<Tooltip id="cs-icon">{"Add Question"}</Tooltip>}
+                      overlay={<Tooltip id="cs-icon">{'Add Question'}</Tooltip>}
                     >
                       <span>
                         <i
-                          style={{ fontSize: "20px" }}
+                          style={{ fontSize: '20px' }}
                           className={`fas fa-plus-circle cursor-pointer`}
                           onClick={() => {
                             setModifyData([
@@ -264,9 +263,9 @@ const AssessmentFormCreateEdit = () => {
                   <div className="col-md-3 d-flex justify-content-end mt-5">
                     <button
                       style={{
-                        height: "31px",
-                        backgroundColor: "#7f8386",
-                        color: "#FFF",
+                        height: '31px',
+                        backgroundColor: '#7f8386',
+                        color: '#FFF',
                       }}
                       className="btn mr-1"
                       type="button"
@@ -286,7 +285,7 @@ const AssessmentFormCreateEdit = () => {
                         onChange={(e) => {
                           let file = e.target.files[0];
                           readExcel(file, () => {
-                            ref.current.value = "";
+                            ref.current.value = '';
                           });
                         }}
                       />
@@ -308,28 +307,28 @@ const AssessmentFormCreateEdit = () => {
                           key={index}
                           className="ml-2 text-center"
                           style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "space-between",
-                            alignItems: "center",
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
                           }}
                         >
-                          <label style={{ fontWeight: "bold" }}>Sl</label>
+                          <label style={{ fontWeight: 'bold' }}>Sl</label>
                           {index + 1}
                         </div>
                         <div
                           key={index}
                           className=" ml-3 text-center"
                           style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "space-between",
-                            alignItems: "center",
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
                           }}
                         >
                           <label
                             style={{
-                              fontWeight: "bold",
+                              fontWeight: 'bold',
                             }}
                           >
                             Required
@@ -339,7 +338,7 @@ const AssessmentFormCreateEdit = () => {
                             name="isRequired"
                             checked={item?.isRequired}
                             onChange={(e) => {
-                              setFieldValue("isRequired", e.target.checked);
+                              setFieldValue('isRequired', e.target.checked);
                               modifyData[index].isRequired = e.target.checked;
                               setModifyData([...modifyData]);
                             }}
@@ -348,7 +347,7 @@ const AssessmentFormCreateEdit = () => {
                         <div key={index} className="col-md-5">
                           <label
                             style={{
-                              fontWeight: "bold",
+                              fontWeight: 'bold',
                             }}
                           >
                             Question
@@ -358,7 +357,7 @@ const AssessmentFormCreateEdit = () => {
                             type="text"
                             name="strQuestion"
                             onChange={(e) => {
-                              setFieldValue("strQuestion", e.target.value);
+                              setFieldValue('strQuestion', e.target.value);
                               modifyData[index].strQuestion = e.target.value;
                               setModifyData([...modifyData]);
                             }}
@@ -368,7 +367,7 @@ const AssessmentFormCreateEdit = () => {
                         <div key={index} className="col-md-2">
                           <label
                             style={{
-                              fontWeight: "bold",
+                              fontWeight: 'bold',
                             }}
                           >
                             Option
@@ -378,10 +377,10 @@ const AssessmentFormCreateEdit = () => {
                             value={item?.strOption}
                             name="strOption"
                             onChange={(e) => {
-                              setFieldValue("strOption", e.target.value);
+                              setFieldValue('strOption', e.target.value);
                               rowDtoHandler(
                                 index,
-                                "strOption",
+                                'strOption',
                                 e?.target?.value
                               );
                               setOptionObject({
@@ -395,7 +394,7 @@ const AssessmentFormCreateEdit = () => {
                         <div key={index} className="col-md-1">
                           <label
                             style={{
-                              fontWeight: "bold",
+                              fontWeight: 'bold',
                             }}
                           >
                             Marks
@@ -405,10 +404,10 @@ const AssessmentFormCreateEdit = () => {
                             type="number"
                             name="numPoints"
                             onChange={(e) => {
-                              setFieldValue("numPoints", +e.target.value);
+                              setFieldValue('numPoints', +e.target.value);
                               rowDtoHandler(
                                 index,
-                                "numPoints",
+                                'numPoints',
                                 +e?.target?.value
                               );
                               setOptionObject({
@@ -422,42 +421,42 @@ const AssessmentFormCreateEdit = () => {
                         <div
                           key={index}
                           style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "space-between",
-                            alignItems: "center",
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
                           }}
                           className="col-md-1 text-center"
                         >
                           <label
                             style={{
-                              fontWeight: "bold",
+                              fontWeight: 'bold',
                             }}
                           >
                             Add Option
                           </label>
                           <OverlayTrigger
                             overlay={
-                              <Tooltip id="cs-icon">{"Add Option"}</Tooltip>
+                              <Tooltip id="cs-icon">{'Add Option'}</Tooltip>
                             }
                           >
                             <span>
                               <i
-                                style={{ fontSize: "15px" }}
+                                style={{ fontSize: '15px' }}
                                 className={`fas fa-plus-circle cursor-pointer`}
                                 onClick={() => {
-                                  if (optionObject?.strOption === "") {
-                                    toast.warning("Please enter option");
+                                  if (optionObject?.strOption === '') {
+                                    toast.warning('Please enter option');
                                   } else {
                                     modifyData[index].options.push(
                                       optionObject
                                     );
-                                    modifyData[index]["strOption"] = "";
-                                    modifyData[index]["numPoints"] = "";
+                                    modifyData[index]['strOption'] = '';
+                                    modifyData[index]['numPoints'] = '';
                                     setModifyData([...modifyData]);
                                     setOptionObject({
                                       intOptionId: 0,
-                                      strOption: "",
+                                      strOption: '',
                                       intQuestionId: 0,
                                       numPoints: 0,
                                       dteLastAction: _todayDate(),
@@ -473,16 +472,16 @@ const AssessmentFormCreateEdit = () => {
                         <div
                           key={index}
                           style={{
-                            display: "flex",
-                            flexDirection: "column",
-                            justifyContent: "space-between",
-                            alignItems: "center",
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
                           }}
                           className="col-md-1 text-center"
                         >
                           <label
                             style={{
-                              fontWeight: "bold",
+                              fontWeight: 'bold',
                             }}
                           >
                             Remove
@@ -490,13 +489,13 @@ const AssessmentFormCreateEdit = () => {
                           <OverlayTrigger
                             overlay={
                               <Tooltip id="cs-icon">
-                                {"Remove question"}
+                                {'Remove question'}
                               </Tooltip>
                             }
                           >
                             <span className="mx-1">
                               <i
-                                style={{ fontSize: "15px" }}
+                                style={{ fontSize: '15px' }}
                                 className={`fas fa-close cursor-pointer`}
                                 onClick={() => {
                                   setModifyData(
@@ -514,26 +513,26 @@ const AssessmentFormCreateEdit = () => {
                             <div
                               className="d-flex "
                               style={{
-                                background: "#FFFFFF",
-                                padding: "4px 7px",
-                                marginTop: "3px",
-                                marginRight: "5px",
-                                marginLeft: "5px",
-                                fontWeight: "500",
-                                borderRadius: "10px",
+                                background: '#FFFFFF',
+                                padding: '4px 7px',
+                                marginTop: '3px',
+                                marginRight: '5px',
+                                marginLeft: '5px',
+                                fontWeight: '500',
+                                borderRadius: '10px',
                               }}
                             >
-                              <span style={{ marginRight: "5px" }}>
+                              <span style={{ marginRight: '5px' }}>
                                 {option.strOption} ({option.numPoints})
                               </span>
                               <OverlayTrigger
                                 overlay={
-                                  <Tooltip id="cs-icon">{"Delete"}</Tooltip>
+                                  <Tooltip id="cs-icon">{'Delete'}</Tooltip>
                                 }
                               >
                                 <span>
                                   <i
-                                    style={{ fontSize: "12px" }}
+                                    style={{ fontSize: '12px' }}
                                     className={`fa fa-times cursor-pointer`}
                                     onClick={() => {
                                       modifyData[index].options.splice(
@@ -555,14 +554,14 @@ const AssessmentFormCreateEdit = () => {
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

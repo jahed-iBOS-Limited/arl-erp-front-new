@@ -1,12 +1,12 @@
-import React from 'react'
-import TableRow from "./tableRow";
+import React from 'react';
+import TableRow from './tableRow';
 
 const ManualReconcileLanding = () => {
-    return (
-        <>
-            <TableRow />
-        </>
-    )
-}
+  return (
+    <>
+      <TableRow />
+    </>
+  );
+};
 
-export default ManualReconcileLanding
+export default ManualReconcileLanding;

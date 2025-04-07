@@ -1,9 +1,9 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { toast } from "react-toastify";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { toast } from 'react-toastify';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 
 export default function PreRawMaterialReceiveForm({
   initData,
@@ -63,7 +63,7 @@ export default function PreRawMaterialReceiveForm({
                       value={values?.supplierName}
                       label="Supplier Name"
                       onChange={(valueOption) => {
-                        setFieldValue("supplierName", valueOption);
+                        setFieldValue('supplierName', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -76,12 +76,12 @@ export default function PreRawMaterialReceiveForm({
                       name="numberOfTruck"
                       type="text"
                       onChange={(e) => {
-                        setFieldValue("numberOfTruck", e.target.value);
+                        setFieldValue('numberOfTruck', e.target.value);
                       }}
                     />
                   </div>
                 </div>
-                <h6 style={{ marginTop: "25px" }}>Add Item:</h6>
+                <h6 style={{ marginTop: '25px' }}>Add Item:</h6>
                 <div className="row">
                   <div className="col-lg-3">
                     <NewSelect
@@ -90,7 +90,7 @@ export default function PreRawMaterialReceiveForm({
                       value={values?.itemName}
                       label="Item Name"
                       onChange={(valueOption) => {
-                        setFieldValue("itemName", valueOption);
+                        setFieldValue('itemName', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -104,7 +104,7 @@ export default function PreRawMaterialReceiveForm({
                       type="number"
                       onChange={(e) => {
                         if (+e.target.value < 0) return;
-                        setFieldValue("receiveQty", e.target.value);
+                        setFieldValue('receiveQty', e.target.value);
                       }}
                     />
                   </div>
@@ -116,7 +116,7 @@ export default function PreRawMaterialReceiveForm({
                       type="number"
                       onChange={(e) => {
                         if (+e.target.value < 0) return;
-                        setFieldValue("numLessQty", e.target.value);
+                        setFieldValue('numLessQty', e.target.value);
                       }}
                     />
                   </div>
@@ -128,21 +128,21 @@ export default function PreRawMaterialReceiveForm({
                       type="number"
                       onChange={(e) => {
                         if (+e.target.value < 0) return;
-                        setFieldValue("numOverSizeQty", e.target.value);
+                        setFieldValue('numOverSizeQty', e.target.value);
                       }}
                     />
                   </div>
-                  <div style={{ marginTop: "17px", marginLeft: "20px" }}>
+                  <div style={{ marginTop: '17px', marginLeft: '20px' }}>
                     <button
                       onClick={() => {
                         if (!values?.itemName?.value)
-                          return toast.warn("Item is required");
+                          return toast.warn('Item is required');
                         if (!values?.receiveQty)
-                          return toast.warn("Receive Qty is required");
+                          return toast.warn('Receive Qty is required');
                         if (!values?.numLessQty)
-                          return toast.warn("Less Qty is required");
+                          return toast.warn('Less Qty is required');
                         if (!values?.numOverSizeQty)
-                          return toast.warn("Over Size Qty is required");
+                          return toast.warn('Over Size Qty is required');
                         setItemList([
                           {
                             intRowId: 0,
@@ -158,10 +158,10 @@ export default function PreRawMaterialReceiveForm({
                           },
                           ...itemList,
                         ]);
-                        setFieldValue("itemName", "");
-                        setFieldValue("receiveQty", "");
-                        setFieldValue("numLessQty", "");
-                        setFieldValue("numOverSizeQty", "");
+                        setFieldValue('itemName', '');
+                        setFieldValue('receiveQty', '');
+                        setFieldValue('numLessQty', '');
+                        setFieldValue('numOverSizeQty', '');
                       }}
                       className="btn btn-primary"
                       type="button"
@@ -172,13 +172,13 @@ export default function PreRawMaterialReceiveForm({
                 </div>
               </div>
 
-              <div style={{ marginTop: "15px" }}>
+              <div style={{ marginTop: '15px' }}>
                 <div>
                   <div className="table-responsive">
                     <table className="table table-striped table-bordered global-table">
                       <thead>
                         <tr>
-                          <th style={{ width: "50px" }}>SL</th>
+                          <th style={{ width: '50px' }}>SL</th>
                           <th>Item Name</th>
                           <th>UoM</th>
                           <th>Receive Qty</th>
@@ -206,7 +206,7 @@ export default function PreRawMaterialReceiveForm({
                               <td className="text-center">
                                 <OverlayTrigger
                                   overlay={
-                                    <Tooltip id="cs-icon">{"Remove"}</Tooltip>
+                                    <Tooltip id="cs-icon">{'Remove'}</Tooltip>
                                   }
                                 >
                                   <span>
@@ -229,14 +229,14 @@ export default function PreRawMaterialReceiveForm({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -1,6 +1,5 @@
-
-import { toast } from "react-toastify";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { toast } from 'react-toastify';
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 /* It Will Call When Traverse the array and then calculate with prev row */
 export const renderPlusUpdateTotalTimeAndRemainingTime = (
@@ -38,7 +37,7 @@ export const renderPlusUpdateTotalTimeAndRemainingTime = (
         timeTotalInSeconds
       );
     } else {
-      copy[index].rowlist[nestedIndex].remainingTime = "-";
+      copy[index].rowlist[nestedIndex].remainingTime = '-';
       copy[index].rowlist[nestedIndex].isDemurage = true;
     }
 
@@ -49,7 +48,7 @@ export const renderPlusUpdateTotalTimeAndRemainingTime = (
     );
     if (totalRemainingTimeCal < 0 && !lastIndex?.isDemurage) {
       copy[index].rowlist[nestedIndex].totalTime = usedTime;
-      copy[index].rowlist[nestedIndex].remainingTime = "-";
+      copy[index].rowlist[nestedIndex].remainingTime = '-';
       copy[index].rowlist[nestedIndex].isDemurage = true;
     }
   } else {
@@ -67,7 +66,7 @@ export const renderPlusUpdateTotalTimeAndRemainingTime = (
         timeTotalInSeconds
       );
     } else {
-      copy[index].rowlist[nestedIndex].remainingTime = "-";
+      copy[index].rowlist[nestedIndex].remainingTime = '-';
       copy[index].rowlist[nestedIndex].isDemurage = true;
     }
 
@@ -77,7 +76,7 @@ export const renderPlusUpdateTotalTimeAndRemainingTime = (
     );
     if (totalRemainingTimeCal < 0 && !lastNestedRow?.isDemurage) {
       copy[index].rowlist[nestedIndex].totalTime = usedTime;
-      copy[index].rowlist[nestedIndex].remainingTime = "-";
+      copy[index].rowlist[nestedIndex].remainingTime = '-';
       copy[index].rowlist[nestedIndex].isDemurage = true;
     }
   }
@@ -268,24 +267,24 @@ export const saveLayTimePayloadMaker = ({
       voyageNo: values?.voyageNo,
       vesselArrive: values?.vesselArrived,
       berthedPortId: values?.portAt?.value || 0,
-      berthedPortName: values?.portAt?.label || "",
+      berthedPortName: values?.portAt?.label || '',
       cargoId: values?.cargo?.value,
       cargoName: values?.cargo?.label,
       cargoQty: values?.cargoQty,
       norTendered: values?.notTendered,
       loadingCommenced:
-        values?.layTimeType?.value === 1 ? values?.loadingCommenced : "",
+        values?.layTimeType?.value === 1 ? values?.loadingCommenced : '',
       loadingCompleted:
-        values?.layTimeType?.value === 1 ? values?.loadingCompleted : "",
+        values?.layTimeType?.value === 1 ? values?.loadingCompleted : '',
       laytimeEntry: values?.laytimeEntry || _todayDate(), // Unknow Ui
       loadingRate: values?.layTimeType?.value === 1 ? values?.loadingRate : 0,
-      loadingRateText: "", // Unknow Ui
+      loadingRateText: '', // Unknow Ui
       dischargeCommenced:
-        values?.layTimeType?.value === 2 ? values?.loadingCommenced : "",
+        values?.layTimeType?.value === 2 ? values?.loadingCommenced : '',
       dischargeCompleted:
-        values?.layTimeType?.value === 2 ? values?.loadingCompleted : "",
+        values?.layTimeType?.value === 2 ? values?.loadingCompleted : '',
       dischargeRate: values?.layTimeType?.value === 2 ? values?.loadingRate : 0,
-      dischargeRateText: "",
+      dischargeRateText: '',
       demurrageRate: values?.demurrageRate,
       despatchRate: values?.despatchRate,
       totalAllowedDay: values?.timeAllowedForLoading,
@@ -296,9 +295,9 @@ export const saveLayTimePayloadMaker = ({
       stackHolderId: values?.stackHolderName?.value,
       stackHolderName: values?.stackHolderName?.label,
       stackHolderTypeId: values?.stackHolderType?.value || 0,
-      stackHolderTypeName: values?.stackHolderType?.label || "",
-      cargoUomSuffix: values?.cargoUomSuffix || "",
-      loadUnloadRateSuffix: values?.loadUnloadRateSuffix || "",
+      stackHolderTypeName: values?.stackHolderType?.label || '',
+      cargoUomSuffix: values?.cargoUomSuffix || '',
+      loadUnloadRateSuffix: values?.loadUnloadRateSuffix || '',
 
       ...despatchAndDemurageMaker(rowData, values),
     },
@@ -331,10 +330,10 @@ export const addHandlerLayTimeRowValidator = ({
     });
     window.setTimeout(() => {
       setErrors({
-        workingTime: !values?.workingTime && "Working To is required",
-        workingTimeFrom: !values?.workingTimeFrom && "Working From is required",
-        cargoQty: !values?.cargoQty && "Cargo Qty is required",
-        loadingRate: !values?.loadingRate && "Rate is required",
+        workingTime: !values?.workingTime && 'Working To is required',
+        workingTimeFrom: !values?.workingTimeFrom && 'Working From is required',
+        cargoQty: !values?.cargoQty && 'Cargo Qty is required',
+        loadingRate: !values?.loadingRate && 'Rate is required',
       });
     }, 50);
   } else {
@@ -352,22 +351,22 @@ export const addHandlerLayTimeRow = (
 
   const reset = () => {
     const workingTime =
-      values?.workingTime === "24:00" ? "00:00" : values?.workingTime;
+      values?.workingTime === '24:00' ? '00:00' : values?.workingTime;
 
-    setFieldValue && setFieldValue("workingTimeFrom", workingTime);
-    setFieldValue && setFieldValue("workingTime", "");
+    setFieldValue && setFieldValue('workingTimeFrom', workingTime);
+    setFieldValue && setFieldValue('workingTime', '');
     setFieldValue &&
-      setFieldValue("workingFromHH", {
-        value: workingTime?.split(":")[0],
-        label: workingTime?.split(":")[0],
+      setFieldValue('workingFromHH', {
+        value: workingTime?.split(':')[0],
+        label: workingTime?.split(':')[0],
       });
     setFieldValue &&
-      setFieldValue("workingFromMM", {
-        value: workingTime?.split(":")[1],
-        label: workingTime?.split(":")[1],
+      setFieldValue('workingFromMM', {
+        value: workingTime?.split(':')[1],
+        label: workingTime?.split(':')[1],
       });
-    setFieldValue && setFieldValue("workingToHH", "");
-    setFieldValue && setFieldValue("workingToMM", "");
+    setFieldValue && setFieldValue('workingToHH', '');
+    setFieldValue && setFieldValue('workingToMM', '');
   };
 
   /* Here Find The Index By Date For Adding into the date rowList */
@@ -402,8 +401,8 @@ export const addHandlerLayTimeRow = (
 
   if (dateIndex === null) {
     if (
-      lastIndexCopyRow?.remainingTime === "00:00:00" ||
-      lastIndexCopyRow?.remainingTime === "-" ||
+      lastIndexCopyRow?.remainingTime === '00:00:00' ||
+      lastIndexCopyRow?.remainingTime === '-' ||
       cal()
     ) {
       let newArr = [
@@ -414,14 +413,14 @@ export const addHandlerLayTimeRow = (
           layhTimeDay: values?.layhTimeDay,
           rowlist: [
             {
-              rowId: "0",
+              rowId: '0',
               workingTimeFrom: values?.workingTimeFrom,
               workingTime: values?.workingTime,
               ratio: values?.ratio,
               usedTime: usedTime,
               totalTime: 0,
               remainingTime: 0,
-              remark: values?.remark || "",
+              remark: values?.remark || '',
               isDemurage: false,
               isEdit: false,
             },
@@ -429,7 +428,7 @@ export const addHandlerLayTimeRow = (
         },
       ];
 
-      newArr?.sort(function(a, b) {
+      newArr?.sort(function (a, b) {
         if (a.layTimeDate < b.layTimeDate) return -1;
         else return 1;
       });
@@ -437,7 +436,7 @@ export const addHandlerLayTimeRow = (
       setRowData(newArr);
       reset();
     } else {
-      toast.warn("Please adjust the remaining time first", { toastId: 345678 });
+      toast.warn('Please adjust the remaining time first', { toastId: 345678 });
       return false;
     }
   } else {
@@ -449,12 +448,12 @@ export const addHandlerLayTimeRow = (
         values?.ratio === item?.ratio
     );
     if (findDuplicate) {
-      return toast.warn("Duplicate Time Not Allowed", { toastId: 23456 });
+      return toast.warn('Duplicate Time Not Allowed', { toastId: 23456 });
     }
 
     if (
-      lastIndexCopyRow?.remainingTime === "00:00:00" ||
-      lastIndexCopyRow?.remainingTime === "-" ||
+      lastIndexCopyRow?.remainingTime === '00:00:00' ||
+      lastIndexCopyRow?.remainingTime === '-' ||
       cal()
     ) {
       copy[dateIndex] = {
@@ -462,14 +461,14 @@ export const addHandlerLayTimeRow = (
         rowlist: [
           ...copy[dateIndex].rowlist,
           {
-            rowId: "0",
+            rowId: '0',
             workingTimeFrom: values?.workingTimeFrom,
             workingTime: values?.workingTime,
             ratio: values?.ratio,
             usedTime: usedTime,
             totalTime: 0,
             remainingTime: 0,
-            remark: values?.remark || "",
+            remark: values?.remark || '',
             isDemurage: false,
             isEdit: false,
           },
@@ -480,14 +479,14 @@ export const addHandlerLayTimeRow = (
       const sortedArray = [];
       for (let i = 0; i < copy?.length; i++) {
         let item = copy[i];
-        item?.rowlist?.sort(function(a, b) {
+        item?.rowlist?.sort(function (a, b) {
           if (a.workingTimeFrom < b.workingTimeFrom) return -1;
           else return 1;
         });
         sortedArray.push(item);
       }
 
-      sortedArray?.sort(function(a, b) {
+      sortedArray?.sort(function (a, b) {
         if (a.layTimeDate < b.layTimeDate) return -1;
         else return 1;
       });
@@ -512,7 +511,7 @@ export const addHandlerLayTimeRow = (
       return true;
       // }
     } else {
-      toast.warn("Please adjust the remaining time first", { toastId: 345678 });
+      toast.warn('Please adjust the remaining time first', { toastId: 345678 });
       return false;
     }
   }
@@ -530,10 +529,14 @@ export const checkValidTimeRange = (now, then, arr) => {
 
   for (let i = 0; i < arr.length; i++) {
     let item = arr[i];
-    let compareTimeNow = secondsMaker(item?.workingTimeFrom, item?.workingTime)
-      ?.nowTime;
-    let compareTimeThen = secondsMaker(item?.workingTimeFrom, item?.workingTime)
-      ?.thenTime;
+    let compareTimeNow = secondsMaker(
+      item?.workingTimeFrom,
+      item?.workingTime
+    )?.nowTime;
+    let compareTimeThen = secondsMaker(
+      item?.workingTimeFrom,
+      item?.workingTime
+    )?.thenTime;
 
     if (compareTimeNow <= currentNow && compareTimeThen > currentNow) {
       return true;
@@ -551,10 +554,10 @@ export let toDDHHMM = (secs) => {
   let minutes = Math.floor(secs / 60) % 60;
 
   if (days < 0 || hours < 0) {
-    return { error: "Please add a valid time" };
+    return { error: 'Please add a valid time' };
   }
 
-  return [days, hours, minutes].map((v) => (v < 10 ? "0" + v : v)).join(":");
+  return [days, hours, minutes].map((v) => (v < 10 ? '0' + v : v)).join(':');
 };
 
 /* New Method | Make Time Difference Between two time in a day | Return DD:HH:MM Format */
@@ -569,8 +572,8 @@ const timeDiffDDHHmmFormat = (now, then, ratio) => {
     return `00:00:00`;
   }
 
-  if (then === "00:00") {
-    then = "24:00";
+  if (then === '00:00') {
+    then = '24:00';
   }
 
   let nowTimeSec = (+hourMinToSecondsCalculate(now) * ratio) / 100;
@@ -583,7 +586,7 @@ const timeDiffDDHHmmFormat = (now, then, ratio) => {
 
 /* HH:MM to Seconds Calculator */
 export const hourMinToSecondsCalculate = (time) => {
-  let splitedTime = time.split(":");
+  let splitedTime = time.split(':');
 
   let seconds = (+splitedTime[0] * 60 + +splitedTime[1]) * 60;
 
@@ -592,7 +595,7 @@ export const hourMinToSecondsCalculate = (time) => {
 
 /* DD:HH:MM to Seconds Calculator */
 export const totalSecondCalculate = (time) => {
-  let splitedTime = time.split(":");
+  let splitedTime = time.split(':');
 
   let seconds =
     ((+splitedTime[0] * 24 + +splitedTime[1]) * 60 + +splitedTime[2]) * 60;

@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import PrintFormetReportDebitNote from "./printFormetReportDebitNote";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import PrintFormetReportDebitNote from './printFormetReportDebitNote';
 import {
   getDebitNoteReport_api,
   GetDebitNoteLogDetails_api,
-} from "./../helper/helper";
-import moment from "moment";
+} from './../helper/helper';
+import moment from 'moment';
 const DebitNoteView = ({ viewClick, title, redirectAuditLogPage }) => {
   const [loading, setLoading] = useState(false);
   const [singleData, setSingleData] = useState([]);
@@ -44,19 +44,18 @@ const DebitNoteView = ({ viewClick, title, redirectAuditLogPage }) => {
         );
       }
     }
-
   }, [selectedBusinessUnit, profileData, viewClick]);
   return (
     <>
       {redirectAuditLogPage?.logId && (
         <div className="mt-8">
           <p className="p-0 m-0">
-            <b>Activity</b>: {singleData?.auditLog?.activity}{" "}
+            <b>Activity</b>: {singleData?.auditLog?.activity}{' '}
           </p>
           <p className="p-0 m-0">
-            <b>Action Date/Time</b>:{" "}
+            <b>Action Date/Time</b>:{' '}
             {moment(singleData?.auditLog?.activityTime).format(
-              "DD-MMM-YY, LTS"
+              'DD-MMM-YY, LTS'
             )}
           </p>
         </div>

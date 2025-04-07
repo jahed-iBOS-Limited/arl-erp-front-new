@@ -1,27 +1,26 @@
-
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { useSelector } from "react-redux";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import Form from "../common/form";
-import Axios from "axios";
-import { toast } from "react-toastify";
-import shortid from "shortid";
-import Loading from "../../../../_helper/_loading";
+} from '../../../../../../_metronic/_partials/controls';
+import { useSelector } from 'react-redux';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import Form from '../common/form';
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
+import Loading from '../../../../_helper/_loading';
 const initProduct = {
   id: undefined,
-  priceComponentCode: "",
-  priceComponentName: "",
-  priceComponentType: "",
-  priceStuctureTypeDDL: "",
-  factor: "",
-  roundingType: "",
-  generalledger: "",
+  priceComponentCode: '',
+  priceComponentName: '',
+  priceComponentType: '',
+  priceStuctureTypeDDL: '',
+  factor: '',
+  roundingType: '',
+  generalledger: '',
 };
 
 export default function PriceCpomponentAddForm({
@@ -47,9 +46,9 @@ export default function PriceCpomponentAddForm({
         accountId: profileData.accountId,
         businessUnitId: selectedBusinessUnit.value,
         priceComponentTypeId: values.priceComponentType.value,
-        factor: values.factor.value === "null" ? 1 : values.factor.value,
+        factor: values.factor.value === 'null' ? 1 : values.factor.value,
         roundingTypeId:
-          values.roundingType.value === "null" ? 1 : values.roundingType.value,
+          values.roundingType.value === 'null' ? 1 : values.roundingType.value,
         generalLedgerId: values?.generalledger?.value || 0,
         priceStructureTypeId: values.priceStuctureTypeDDL.value,
         priceStructureTypename: values.priceStuctureTypeDDL.label,
@@ -58,11 +57,11 @@ export default function PriceCpomponentAddForm({
       try {
         setDisabled(true);
         const res = await Axios.post(
-          "/item/PriceComponent/CreatePrice",
+          '/item/PriceComponent/CreatePrice',
           warehouseData
         );
         cb(initProduct);
-        toast.success(res.data?.message || "Submitted successfully", {
+        toast.success(res.data?.message || 'Submitted successfully', {
           toastId: shortid(),
         });
         setDisabled(false);
@@ -129,7 +128,7 @@ export default function PriceCpomponentAddForm({
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody>
-        {isDisabled && <Loading/>}
+        {isDisabled && <Loading />}
         <div className="mt-0">
           <Form
             product={initProduct}

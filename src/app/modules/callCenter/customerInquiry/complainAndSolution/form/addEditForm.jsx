@@ -1,34 +1,33 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useParams, useLocation } from "react-router";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { editComplain } from "../helper";
-import Form from "./form";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useParams, useLocation } from 'react-router';
+import { toast } from 'react-toastify';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { editComplain } from '../helper';
+import Form from './form';
 
 const initData = {
-  channel: "",
-  client: "",
+  channel: '',
+  client: '',
   supplyDate: _todayDate(),
   complainDate: _todayDate(),
-  complainType: "",
-  causeOfComplain: "",
-  contactPerson: "",
-  contactNumber: "",
-  siteAddress: "",
-  details: "",
-  soName: { value: 6, label: "LOCAL SALES" },
-  itemName: "",
-  deliveredQuantity: "",
-  clientMeasurementQuantity: "",
-  workOrderQuantity: "",
-  problemQuantity: "",
-  comment: "",
+  complainType: '',
+  causeOfComplain: '',
+  contactPerson: '',
+  contactNumber: '',
+  siteAddress: '',
+  details: '',
+  soName: { value: 6, label: 'LOCAL SALES' },
+  itemName: '',
+  deliveredQuantity: '',
+  clientMeasurementQuantity: '',
+  workOrderQuantity: '',
+  problemQuantity: '',
+  comment: '',
 };
 
 export default function ComplainAndSolutionForm() {
@@ -85,7 +84,7 @@ export default function ComplainAndSolutionForm() {
         complainDate: _dateFormatter(complainDate),
         complainType: complainTypeName,
         causeOfComplain: causeofCompalinName,
-        contactPerson: "",
+        contactPerson: '',
         contactNumber: contactNumber,
         siteAddress: siteAddress,
         details: problemDetaills,
@@ -110,7 +109,7 @@ export default function ComplainAndSolutionForm() {
 
   const addRow = (values, callBack) => {
     if (rowData?.find((item) => item?.itemId === values?.itemName?.value)) {
-      return toast.warn("Item already added");
+      return toast.warn('Item already added');
     }
     try {
       const newRow = {
@@ -151,7 +150,7 @@ export default function ComplainAndSolutionForm() {
           businessUnitId: buId,
           complainTypeId: 0,
           complainTypeName: values?.complainType,
-          complainName: "",
+          complainName: '',
           address: values?.siteAddress,
           contactNumber: values?.contactNumber,
           problemDetails: values?.details,
@@ -185,7 +184,7 @@ export default function ComplainAndSolutionForm() {
           businessUnitId: buId,
           complainTypeId: 0,
           complainTypeName: values?.complainType,
-          complainName: "",
+          complainName: '',
           address: values?.siteAddress,
           contactNumber: values?.contactNumber,
           problemDetails: values?.details,

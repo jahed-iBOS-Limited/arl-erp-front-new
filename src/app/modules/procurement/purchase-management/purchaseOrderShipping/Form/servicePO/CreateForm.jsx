@@ -1,4 +1,3 @@
-
 import { Field, Form, Formik } from 'formik';
 import React, { useEffect, useMemo, useState } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
@@ -85,7 +84,7 @@ export default function CreateForm({
       arr = rowDto?.filter(
         (item) =>
           item.referenceNo?.value === values?.referenceNo?.value &&
-          item?.item?.value === values?.item?.value,
+          item?.item?.value === values?.item?.value
       );
     } else {
       arr = rowDto?.filter((item) => item?.item?.value === values?.item?.value);
@@ -163,18 +162,18 @@ export default function CreateForm({
     getControllingUnitDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setCuList,
+      setCuList
     );
     getCostCenterDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setCostCenterList,
+      setCostCenterList
     );
 
     getProfitCenterList(
       selectedBusinessUnit?.value,
       setProfitCenterList,
-      setLoading,
+      setLoading
     );
   }, [profileData, selectedBusinessUnit]);
 
@@ -190,14 +189,13 @@ export default function CreateForm({
         location?.state?.warehouse?.value,
         supplierId,
         refType,
-        referenceNo,
-      ),
+        referenceNo
+      )
     );
   };
   // getRefNoDdlBySupplier
   useEffect(() => {
     getRefNoDDL();
-
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   // getRefNoDdlBySupplier
@@ -210,7 +208,7 @@ export default function CreateForm({
       location?.state?.plant?.value,
       location?.state?.warehouse?.value,
       location?.state?.refType?.label,
-      setRefNoDDL,
+      setRefNoDDL
     );
   };
 
@@ -229,7 +227,7 @@ export default function CreateForm({
 
   useEffect(() => {
     getTransferBu(
-      `/procurement/PurchaseOrder/TransferPoBusinessUnit_reverse?UnitId=${selectedBusinessUnit?.value}`,
+      `/procurement/PurchaseOrder/TransferPoBusinessUnit_reverse?UnitId=${selectedBusinessUnit?.value}`
     );
   }, [selectedBusinessUnit]);
   const getIsDisabledAddBtn = (values) => {
@@ -308,7 +306,7 @@ export default function CreateForm({
                         if (v.length < 3) return [];
                         return axios
                           .get(
-                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${location?.state?.sbu?.value}`,
+                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${location?.state?.sbu?.value}`
                           )
                           .then((res) => {
                             const updateList = res?.data.map((item) => ({
@@ -365,7 +363,7 @@ export default function CreateForm({
                           setFieldValue('currency', valueOption);
                           setFieldValue(
                             'isTransfer',
-                            valueOption?.value === 141 ? true : false,
+                            valueOption?.value === 141 ? true : false
                           );
                           setFieldValue('transferBusinessUnit', '');
                           setFieldValue('transferBusinessUnitSupplier', '');
@@ -579,7 +577,7 @@ export default function CreateForm({
                             selectedBusinessUnit?.value,
                             profileData?.accountId,
                             valueOption?.value,
-                            setCostElementList,
+                            setCostElementList
                           );
                         } else {
                           setFieldValue('costCenter', '');
@@ -623,15 +621,15 @@ export default function CreateForm({
                             values,
                             setFieldValue,
                             label,
-                            valueOption,
+                            valueOption
                           ) => {
                             if (valueOption) {
                               setFieldValue(
                                 'transferBusinessUnit',
-                                valueOption,
+                                valueOption
                               );
                               getTransferUnitSupplierDDL(
-                                `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${profileData?.accountId}&UnitId=${valueOption?.value}&SBUId=0`,
+                                `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${profileData?.accountId}&UnitId=${valueOption?.value}&SBUId=0`
                               );
                             } else {
                               setFieldValue('transferBusinessUnit', '');
@@ -653,7 +651,7 @@ export default function CreateForm({
                           onChange={(valueOption) => {
                             setFieldValue(
                               'transferBusinessUnitSupplier',
-                              valueOption,
+                              valueOption
                             );
                           }}
                           errors={errors}
@@ -693,7 +691,7 @@ export default function CreateForm({
                           getItemDDL(
                             values?.supplierName?.value,
                             location?.state?.refType?.value,
-                            valueOption?.value,
+                            valueOption?.value
                           );
                         }
                       }}
@@ -732,7 +730,7 @@ export default function CreateForm({
                                 location?.state?.warehouse?.value
                               }&RefTypeId=${
                                 location?.state?.refType?.value
-                              }&RefNoId=${0}&searchTerm=${v}`,
+                              }&RefNoId=${0}&searchTerm=${v}`
                             )
                             .then((res) => {
                               const updateList = res?.data.map((item) => ({

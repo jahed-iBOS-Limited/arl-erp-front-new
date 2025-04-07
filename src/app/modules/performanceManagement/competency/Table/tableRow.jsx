@@ -21,13 +21,9 @@ export function TableRow() {
   useEffect(() => {
     if (selectedBusinessUnit && profileData) {
       dispatch(
-        getCompetencyGridData(
-          profileData.accountId,
-          selectedBusinessUnit.value,
-        ),
+        getCompetencyGridData(profileData.accountId, selectedBusinessUnit.value)
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   // UI Context

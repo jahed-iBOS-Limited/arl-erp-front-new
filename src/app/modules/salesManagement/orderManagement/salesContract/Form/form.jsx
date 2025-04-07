@@ -1,70 +1,70 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as Yup from "yup";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import { IInput } from "../../../../_helper/_input";
-import ICalendar from "../../../../_helper/_inputCalender";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import InputField from "../../../../_helper/_inputField";
-import { useDispatch } from "react-redux";
-import { getDeliveryAddressAction } from "../_redux/Actions";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import NewSelect from "./../../../../_helper/_select";
-import { _numberValidation } from "../../../../_helper/_numberValidation";
-import IViewModal from "../../../../_helper/_viewModal";
-import StockInfo from "../../salesOrder/Form/stockInfo";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import { IInput } from '../../../../_helper/_input';
+import ICalendar from '../../../../_helper/_inputCalender';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import InputField from '../../../../_helper/_inputField';
+import { useDispatch } from 'react-redux';
+import { getDeliveryAddressAction } from '../_redux/Actions';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import NewSelect from './../../../../_helper/_select';
+import { _numberValidation } from '../../../../_helper/_numberValidation';
+import IViewModal from '../../../../_helper/_viewModal';
+import StockInfo from '../../salesOrder/Form/stockInfo';
 
 // common schema
 const commonSchema = {
   partnerReffNo: Yup.string()
-    .min(2, "Minimum 2 strings")
-    .max(100, "Maximum 100 strings")
-    .required("Reference No is required"),
+    .min(2, 'Minimum 2 strings')
+    .max(100, 'Maximum 100 strings')
+    .required('Reference No is required'),
   deliveryAddress: Yup.string()
-    .min(2, "Minimum 2 strings")
-    .max(100, "Maximum 100 strings")
-    .required("Delivery Address is required"),
+    .min(2, 'Minimum 2 strings')
+    .max(100, 'Maximum 100 strings')
+    .required('Delivery Address is required'),
   plant: Yup.object().shape({
-    label: Yup.string().required("Plant is required"),
-    value: Yup.string().required("Plant is required"),
+    label: Yup.string().required('Plant is required'),
+    value: Yup.string().required('Plant is required'),
   }),
   salesOrg: Yup.object().shape({
-    label: Yup.string().required("Sales Organization is required"),
-    value: Yup.string().required("Sales Organization is required"),
+    label: Yup.string().required('Sales Organization is required'),
+    value: Yup.string().required('Sales Organization is required'),
   }),
   distributionChannel: Yup.object().shape({
-    label: Yup.string().required("Distribution Channel is required"),
-    value: Yup.string().required("Distribution Channel is required"),
+    label: Yup.string().required('Distribution Channel is required'),
+    value: Yup.string().required('Distribution Channel is required'),
   }),
   salesOffice: Yup.object().shape({
-    label: Yup.string().required("Sales Office is required"),
-    value: Yup.string().required("Sales Office is required"),
+    label: Yup.string().required('Sales Office is required'),
+    value: Yup.string().required('Sales Office is required'),
   }),
   soldToParty: Yup.object().shape({
-    label: Yup.string().required("Sold to Party is required"),
-    value: Yup.string().required("Sold to Party is required"),
+    label: Yup.string().required('Sold to Party is required'),
+    value: Yup.string().required('Sold to Party is required'),
   }),
 
   paymentTerms: Yup.object().shape({
-    label: Yup.string().required("Payment Term is required"),
-    value: Yup.string().required("Payment Term is required"),
+    label: Yup.string().required('Payment Term is required'),
+    value: Yup.string().required('Payment Term is required'),
   }),
   vehicleBy: Yup.object().shape({
-    label: Yup.string().required("Vehicle By is required"),
-    value: Yup.string().required("Vehicle By is required"),
+    label: Yup.string().required('Vehicle By is required'),
+    value: Yup.string().required('Vehicle By is required'),
   }),
-  pricingDate: Yup.date().required("Pricing Date required"),
-  startDate: Yup.date().required("Start Date required"),
-  endDate: Yup.date().required("End Date required"),
+  pricingDate: Yup.date().required('Pricing Date required'),
+  startDate: Yup.date().required('Start Date required'),
+  endDate: Yup.date().required('End Date required'),
   itemLists: Yup.array().of(
     Yup.object().shape({
       contactQuantity: Yup.number()
-        .min(1, "Minimum 1 number")
-        .required("Quantity is required"),
+        .min(1, 'Minimum 1 number')
+        .required('Quantity is required'),
       itemPrice: Yup.number()
-        .min(1, "Minimum 1 number")
-        .required("Price is required"),
+        .min(1, 'Minimum 1 number')
+        .required('Price is required'),
     })
   ),
 };
@@ -77,17 +77,17 @@ const editSchema = Yup.object().shape({
 const createSchema = Yup.object().shape({
   ...commonSchema,
   itemSale: Yup.object().shape({
-    label: Yup.string().required("Item List is required"),
-    value: Yup.string().required("Item List is required"),
+    label: Yup.string().required('Item List is required'),
+    value: Yup.string().required('Item List is required'),
   }),
   price: Yup.number()
-    .min(1, "Minimum 1 number")
-    .max(10000000000000000, "Maximum 10000000000000000 numbers")
-    .required("Price is required"),
+    .min(1, 'Minimum 1 number')
+    .max(10000000000000000, 'Maximum 10000000000000000 numbers')
+    .required('Price is required'),
   quantity: Yup.number()
-    .min(1, "Minimum 1 number")
-    .max(100000000000, "Maximum 100000000000 numbers")
-    .required("Quantity is required"),
+    .min(1, 'Minimum 1 number')
+    .max(100000000000, 'Maximum 100000000000 numbers')
+    .required('Quantity is required'),
 });
 
 export default function FormCmp({
@@ -122,46 +122,46 @@ export default function FormCmp({
   useEffect(() => {
     setControls([
       {
-        label: "Select Plant",
-        placeholder: "Plant",
-        name: "plant",
+        label: 'Select Plant',
+        placeholder: 'Plant',
+        name: 'plant',
         options: plantDDL,
         value: initData.plant,
         isDisabled: true,
       },
       {
-        label: "Select Sales Organization",
-        placeholder: "Sales Organization",
-        name: "salesOrg",
+        label: 'Select Sales Organization',
+        placeholder: 'Sales Organization',
+        name: 'salesOrg',
         options: salesOrgDDL || [],
         value: initData.salesOrg,
         isDisabled: true,
         dependencyFunc: (currentValue, values, setter) => {
           salesOfficeDDLDispatcher(currentValue);
-          setter("salesOffice", "");
-          setter("BUsalesOrgIncoterm", "");
+          setter('salesOffice', '');
+          setter('BUsalesOrgIncoterm', '');
         },
       },
       {
-        label: "Select Dist Channel",
-        placeholder: "Dist Channel",
-        name: "distributionChannel",
+        label: 'Select Dist Channel',
+        placeholder: 'Dist Channel',
+        name: 'distributionChannel',
         options: distributionChannelDDL,
         value: initData.distributionChannel,
         isDisabled: true,
       },
       {
-        label: "Select Sales Office",
-        placeholder: "Sales Office",
-        name: "salesOffice",
+        label: 'Select Sales Office',
+        placeholder: 'Sales Office',
+        name: 'salesOffice',
         options: salesOfficeDDL,
         value: initData.salesOffice,
         isDisabled: true,
       },
       {
-        label: "Select Sold to Party",
-        placeholder: "Sold to Party",
-        name: "soldToParty",
+        label: 'Select Sold to Party',
+        placeholder: 'Sold to Party',
+        name: 'soldToParty',
         options: soldToPartyDDL,
         value: initData.soldToParty,
         isDisabled: true,
@@ -177,7 +177,6 @@ export default function FormCmp({
         },
       },
     ]);
-
   }, [
     plantDDL,
     salesOrgDDL,
@@ -233,7 +232,7 @@ export default function FormCmp({
                       })}
                       <div className="col-lg-2">
                         <IInput
-                          value={values.partnerReffNo || ""}
+                          value={values.partnerReffNo || ''}
                           label="Reference No"
                           name="partnerReffNo"
                           disabled={isEdit}
@@ -241,7 +240,7 @@ export default function FormCmp({
                       </div>
                       <div className="col-lg-2">
                         <ICalendar
-                          value={_dateFormatter(values.pricingDate || "")}
+                          value={_dateFormatter(values.pricingDate || '')}
                           label="Pricing Date"
                           name="pricingDate"
                           disabled={isEdit}
@@ -274,14 +273,14 @@ export default function FormCmp({
                                 className="ml-2"
                                 disabled={
                                   values.refType?.value ===
-                                    "Is Partial Shipment" || isEdit
+                                    'Is Partial Shipment' || isEdit
                                 }
-                                value={values.partialShipment || ""}
+                                value={values.partialShipment || ''}
                                 checked={values.partialShipment}
                                 name={values.partialShipment}
                                 onChange={(e) => {
                                   setFieldValue(
-                                    "partialShipment",
+                                    'partialShipment',
                                     e.target.checked
                                   );
                                 }}
@@ -302,14 +301,14 @@ export default function FormCmp({
                                 type="checkbox"
                                 className="ml-2"
                                 disabled={
-                                  values.refType?.value === "IS Unlimited" ||
+                                  values.refType?.value === 'IS Unlimited' ||
                                   isEdit
                                 }
-                                value={values.unlimited || ""}
+                                value={values.unlimited || ''}
                                 checked={values.unlimited}
                                 name={values.unlimited}
                                 onChange={(e) => {
-                                  setFieldValue("unlimited", e.target.checked);
+                                  setFieldValue('unlimited', e.target.checked);
                                 }}
                               />
                             )}
@@ -319,7 +318,7 @@ export default function FormCmp({
                       </div>
                       <div className="col-lg-2">
                         <ICalendar
-                          value={_dateFormatter(values.startDate || "")}
+                          value={_dateFormatter(values.startDate || '')}
                           label="Start Date"
                           name="startDate"
                           disabled={isEdit}
@@ -327,7 +326,7 @@ export default function FormCmp({
                       </div>
                       <div className="col-lg-2">
                         <ICalendar
-                          value={_dateFormatter(values.endDate || "")}
+                          value={_dateFormatter(values.endDate || '')}
                           label="End Date"
                           name="endDate"
                           disabled={isEdit}
@@ -337,8 +336,8 @@ export default function FormCmp({
                         <ISelect
                           label="Select Transport Provider"
                           options={[
-                            { value: 1, label: "Company" },
-                            { value: 2, label: "Customer" },
+                            { value: 1, label: 'Company' },
+                            { value: 2, label: 'Customer' },
                           ]}
                           value={values.vehicleBy}
                           name="vehicleBy"
@@ -360,7 +359,7 @@ export default function FormCmp({
                       <div className="col-lg-2">
                         <label>Remarks</label>
                         <InputField
-                          value={values?.remark || ""}
+                          value={values?.remark || ''}
                           name="remark"
                           placeholder="Remarks"
                           type="text"
@@ -377,14 +376,14 @@ export default function FormCmp({
                               type="checkbox"
                               className="ml-2"
                               disabled={
-                                values.refType?.value === "Offer Include" ||
+                                values.refType?.value === 'Offer Include' ||
                                 isEdit
                               }
-                              value={values.offerInclude || ""}
+                              value={values.offerInclude || ''}
                               checked={values.offerInclude}
                               name={values.offerInclude}
                               onChange={(e) => {
-                                setFieldValue("offerInclude", e.target.checked);
+                                setFieldValue('offerInclude', e.target.checked);
                               }}
                             />
                           )}
@@ -412,25 +411,16 @@ export default function FormCmp({
                   <div className="row global-form m-0">
                     <div className="col-lg-2">
                       {[
-                        144,
-                        178,
-                        180,
-                        181,
-                        182,
-                        183,
-                        209,
-                        212,
-                        216,
-                        221,
+                        144, 178, 180, 181, 182, 183, 209, 212, 216, 221,
                       ].includes(selectedBusinessUnit?.value) &&
                         values?.itemSale?.value && (
                           <>
                             <button
                               style={{
-                                position: "absolute",
-                                right: "13px",
-                                top: "-10px",
-                                zIndex: "9",
+                                position: 'absolute',
+                                right: '13px',
+                                top: '-10px',
+                                zIndex: '9',
                               }}
                               onClick={() => {
                                 setIsStockModalShow(true);
@@ -449,7 +439,7 @@ export default function FormCmp({
                         value={values.itemSale}
                         name="itemSale"
                         onChange={(valueOption) => {
-                          setFieldValue("itemSale", valueOption);
+                          setFieldValue('itemSale', valueOption);
                           itemListHandelar(valueOption?.value, setFieldValue);
                         }}
                         errors={errors}
@@ -488,7 +478,7 @@ export default function FormCmp({
                         options={uomDDL || []}
                         name="uom"
                         onChange={(valueOption) => {
-                          setFieldValue("uom", valueOption);
+                          setFieldValue('uom', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -517,14 +507,14 @@ export default function FormCmp({
                         <div className="left d-flex justify-content-start align-content-center">
                           <div className="d-flex ">
                             <b className="mx-2">
-                              Total Qty :{" "}
+                              Total Qty :{' '}
                               {values?.itemLists?.reduce(
                                 (acc, cur) => acc + +cur?.contactQuantity,
                                 0
                               )}
                             </b>
                             <b>
-                              Total Amount :{" "}
+                              Total Amount :{' '}
                               {values?.itemLists?.reduce(
                                 (acc, cur) => acc + +cur?.contactValue,
                                 0
@@ -545,7 +535,7 @@ export default function FormCmp({
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                         <thead>
                           <tr>
-                            <th style={{ width: "35px" }}>SL</th>
+                            <th style={{ width: '35px' }}>SL</th>
                             <th>Item Name</th>
                             <th>Item Code</th>
                             <th>UoM Name</th>
@@ -625,14 +615,14 @@ export default function FormCmp({
                                     let ccdata = values?.itemLists.filter(
                                       (itm, ind) => ind !== index
                                     );
-                                    setFieldValue("itemLists", ccdata);
+                                    setFieldValue('itemLists', ccdata);
                                   }}
                                 ></i>
                               </td>
                             </tr>
                           ))}
                         </tbody>
-                      </table>{" "}
+                      </table>{' '}
                     </div>
                   )}
                 </div>
@@ -656,14 +646,14 @@ export default function FormCmp({
               )}
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

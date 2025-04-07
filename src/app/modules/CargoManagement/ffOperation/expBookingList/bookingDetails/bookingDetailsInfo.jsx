@@ -593,7 +593,7 @@ function BookingDetailsInfo({ bookingData, billingData }) {
                                         <td>{volumeItem?.dimsHeight}</td>
                                         <td>{volumeItem?.numberOfPackage}</td>
                                       </tr>
-                                    ),
+                                    )
                                   )}
                                 </tbody>
                               </table>
@@ -611,7 +611,7 @@ function BookingDetailsInfo({ bookingData, billingData }) {
                       <span className="font-bold">
                         {bookingData?.rowsData?.reduce(
                           (acc, item) => acc + +item?.totalGrossWeightKG,
-                          0,
+                          0
                         )}
                       </span>
                     </td>
@@ -619,7 +619,7 @@ function BookingDetailsInfo({ bookingData, billingData }) {
                       <span className="font-bold">
                         {bookingData?.rowsData?.reduce(
                           (acc, item) => acc + +item?.totalNetWeightKG,
-                          0,
+                          0
                         )}
                       </span>
                     </td>
@@ -627,7 +627,7 @@ function BookingDetailsInfo({ bookingData, billingData }) {
                       <span className="font-bold">
                         {bookingData?.rowsData?.reduce(
                           (acc, item) => acc + +item?.totalVolumeCBM,
-                          0,
+                          0
                         )}
                       </span>
                     </td>
@@ -636,7 +636,7 @@ function BookingDetailsInfo({ bookingData, billingData }) {
                         <span className="font-bold">
                           {bookingData?.rowsData?.reduce(
                             (acc, item) => acc + +item?.totalVolumetricWeight,
-                            0,
+                            0
                           )}
                         </span>
                       </td>
@@ -645,7 +645,7 @@ function BookingDetailsInfo({ bookingData, billingData }) {
                       <span className="font-bold">
                         {bookingData?.rowsData?.reduce(
                           (acc, item) => acc + +item?.totalDimsLength,
-                          0,
+                          0
                         )}
                       </span>
                     </td>
@@ -653,7 +653,7 @@ function BookingDetailsInfo({ bookingData, billingData }) {
                       <span className="font-bold">
                         {bookingData?.rowsData?.reduce(
                           (acc, item) => acc + +item?.totalDimsWidth,
-                          0,
+                          0
                         )}
                       </span>
                     </td>
@@ -661,7 +661,7 @@ function BookingDetailsInfo({ bookingData, billingData }) {
                       <span className="font-bold">
                         {bookingData?.rowsData?.reduce(
                           (acc, item) => acc + +item?.totalDimsHeight,
-                          0,
+                          0
                         )}
                       </span>
                     </td>
@@ -669,7 +669,7 @@ function BookingDetailsInfo({ bookingData, billingData }) {
                       <span className="font-bold">
                         {bookingData?.rowsData?.reduce(
                           (acc, item) => acc + +item?.totalNumberOfPackages,
-                          0,
+                          0
                         )}
                       </span>
                     </td>
@@ -708,7 +708,7 @@ function BookingDetailsInfo({ bookingData, billingData }) {
                       <span
                         onClick={() => {
                           dispatch(
-                            getDownlloadFileView_Action(doc?.documentFileId),
+                            getDownlloadFileView_Action(doc?.documentFileId)
                           );
                         }}
                         style={{
@@ -883,7 +883,7 @@ const CommonTransportPlanningView = ({
               <strong>Estimated Arrival Date & Time:</strong>{' '}
               {transportPlanning?.arrivalDateTime &&
                 moment(transportPlanning?.arrivalDateTime).format(
-                  'DD MMM YYYY',
+                  'DD MMM YYYY'
                 )}
             </p>
             <p>
@@ -900,7 +900,7 @@ const CommonTransportPlanningView = ({
               <strong>Estimated Time Of Depart</strong>{' '}
               {transportPlanning?.estimatedTimeOfDepart &&
                 moment(transportPlanning?.estimatedTimeOfDepart).format(
-                  'DD MMM YYYY',
+                  'DD MMM YYYY'
                 )}
             </p>
           </>
@@ -915,7 +915,7 @@ const CommonTransportPlanningView = ({
               <strong>Estimated Arrival Date At Land Port:</strong>{' '}
               {transportPlanning?.arrivalDateTime &&
                 moment(transportPlanning?.arrivalDateTime).format(
-                  'DD MMM YYYY',
+                  'DD MMM YYYY'
                 )}
             </p>
 
@@ -923,14 +923,14 @@ const CommonTransportPlanningView = ({
               <strong>Subidha Access Date:</strong>{' '}
               {transportPlanning?.subidhaAccessDate &&
                 moment(transportPlanning?.subidhaAccessDate).format(
-                  'DD MMM YYYY',
+                  'DD MMM YYYY'
                 )}
             </p>
             <p>
               <strong>Date of Depart</strong>{' '}
               {transportPlanning?.estimatedTimeOfDepart &&
                 moment(transportPlanning?.estimatedTimeOfDepart).format(
-                  'DD MMM YYYY',
+                  'DD MMM YYYY'
                 )}
             </p>
           </>
@@ -947,7 +947,7 @@ const CommonTransportPlanningView = ({
               <strong>Estimated Time Of Depart:</strong>{' '}
               {transportPlanning?.estimatedTimeOfDepart &&
                 moment(transportPlanning?.estimatedTimeOfDepart).format(
-                  'DD MMM YYYY',
+                  'DD MMM YYYY'
                 )}
             </p>
           </>

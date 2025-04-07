@@ -1,22 +1,20 @@
-
-
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import Form from "../common/form";
-import Axios from "axios";
+} from '../../../../../../_metronic/_partials/controls';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import Form from '../common/form';
+import Axios from 'axios';
 
-import { useSelector, shallowEqual } from "react-redux";
+import { useSelector, shallowEqual } from 'react-redux';
 
 const initData = {
   id: undefined,
-  itemCategoryName: "....",
-  generalLedgerName: "....",
+  itemCategoryName: '....',
+  generalLedgerName: '....',
 };
 
 export default function ConfigItemTypeGLEditForm({
@@ -27,7 +25,7 @@ export default function ConfigItemTypeGLEditForm({
 }) {
   const [isDisabled, setDisabled] = useState(false);
 
-  const [businessUnitData, setData] = useState("");
+  const [businessUnitData, setData] = useState('');
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -45,7 +43,6 @@ export default function ConfigItemTypeGLEditForm({
       selectedBusinessUnit?.value,
       id
     );
-
   }, [id]);
 
   const getBusinessUnitById = async (accId, buId, id) => {
@@ -71,7 +68,6 @@ export default function ConfigItemTypeGLEditForm({
 
   // save business unit data to DB
   const saveBusinessUnit = async (values, cb) => {
-
     const businessData = {
       configId: +id,
       itemCategoryId: values?.itemCategoryName.value,
@@ -84,7 +80,7 @@ export default function ConfigItemTypeGLEditForm({
 
     try {
       setDisabled(true);
-      await Axios.put("/item/ItemCategoryGL/EditItemCategoryGL", businessData);
+      await Axios.put('/item/ItemCategoryGL/EditItemCategoryGL', businessData);
       cb(initData);
       setDisabled(false);
       backHandler();

@@ -1,21 +1,20 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import MROItemPlanningTable from "./table";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IForm from '../../../_helper/_form';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import PowerBIReport from '../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import MROItemPlanningTable from './table';
 const initData = {
-  plant: "",
-  wareHouse: "",
-  itemType: "",
-  itemCategory: "",
-  itemSubCategory: "",
-  category: "",
-  item: "",
+  plant: '',
+  wareHouse: '',
+  itemType: '',
+  itemCategory: '',
+  itemSubCategory: '',
+  category: '',
+  item: '',
 };
 export default function MROItemReports() {
   const [rowData, getRowData, loader] = useAxiosGet();
@@ -36,14 +35,14 @@ export default function MROItemReports() {
 
   const parameterValues = (values) => {
     return [
-      { name: "unitid", value: `${+buId}` },
-      { name: "itemcategoryid", value: `${+values?.category?.value}` },
-      { name: "itemname", value: `${+values?.item?.value || ""}` },
-      { name: "ViewType", value: `${+values?.viewType?.value}` },
+      { name: 'unitid', value: `${+buId}` },
+      { name: 'itemcategoryid', value: `${+values?.category?.value}` },
+      { name: 'itemname', value: `${+values?.item?.value || ''}` },
+      { name: 'ViewType', value: `${+values?.viewType?.value}` },
     ];
   };
 
-  const getLandingApiCall = (values, searchValue = "") => {
+  const getLandingApiCall = (values, searchValue = '') => {
     getRowData(
       `/wms/ItemPlantWarehouse/MroItemNextMonthRequiredQty?partId=1&businessUnitId=${buId}&plantId=${values?.plant?.value}&warehouseId=${values?.wareHouse?.value}&categoryId=${values?.itemCategory?.value}&subCategoryId=${values?.itemSubCategory?.value}&search=${searchValue}`
     );
@@ -112,13 +111,13 @@ export default function MROItemReports() {
                   <NewSelect
                     name="reportName"
                     options={[
-                      { label: "MRO Item Planning", value: 1 },
-                      { label: "MRO Item Prediction", value: 2 },
+                      { label: 'MRO Item Planning', value: 1 },
+                      { label: 'MRO Item Prediction', value: 2 },
                     ]}
                     value={values?.reportName}
                     label="Report Name"
                     onChange={(valueOption) => {
-                      setFieldValue("reportName", valueOption);
+                      setFieldValue('reportName', valueOption);
                       getItemCategoryList(valueOption?.value);
                       setShowReport(false);
                     }}
@@ -132,14 +131,12 @@ export default function MROItemReports() {
                     <div className="col-lg-3 ">
                       <NewSelect
                         name="plant"
-                        options={
-                          plantDDL || []
-                        }
+                        options={plantDDL || []}
                         value={values?.plant}
                         label="Plant"
                         onChange={(valueOption) => {
-                          setFieldValue("plant", valueOption);
-                          setFieldValue("wareHouse", "");
+                          setFieldValue('plant', valueOption);
+                          setFieldValue('wareHouse', '');
                           if (!valueOption) return;
                           getWareHouseDDL(
                             `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${valueOption?.value}&OrgUnitTypeId=8`
@@ -153,14 +150,12 @@ export default function MROItemReports() {
                     <div className="col-lg-3 ">
                       <NewSelect
                         name="wareHouse"
-                        options={
-                          wareHouseDDL || []
-                        }
+                        options={wareHouseDDL || []}
                         value={values?.wareHouse}
                         label="WareHouse"
                         onChange={(valueOption) => {
-                          setFieldValue("wareHouse", valueOption);
-                          setFieldValue("itemType", "");
+                          setFieldValue('wareHouse', valueOption);
+                          setFieldValue('itemType', '');
                           if (!valueOption) return;
                         }}
                         placeholder="WareHouse"
@@ -177,8 +172,8 @@ export default function MROItemReports() {
                         value={values?.itemCategory}
                         label="Item Category"
                         onChange={(valueOption) => {
-                          setFieldValue("itemCategory", valueOption);
-                          setFieldValue("itemSubCategory", "");
+                          setFieldValue('itemCategory', valueOption);
+                          setFieldValue('itemSubCategory', '');
                           if (!valueOption) return;
                           getItemSubCategoryDDL(
                             `/wms/WmsReport/GetItemSubCategoryListDDL?AccountId=${accId}&BusinessUnitId=${buId}&ItemCategoryId=${valueOption?.value}`
@@ -196,7 +191,7 @@ export default function MROItemReports() {
                         value={values?.itemSubCategory}
                         label="Item Sub-Category"
                         onChange={(valueOption) => {
-                          setFieldValue("itemSubCategory", valueOption);
+                          setFieldValue('itemSubCategory', valueOption);
                         }}
                         placeholder="Item Type"
                         errors={errors}
@@ -212,13 +207,13 @@ export default function MROItemReports() {
                       <NewSelect
                         name="viewType"
                         options={[
-                          { label: "Item Base", value: 1 },
-                          { label: "Item Category Base ", value: 2 },
+                          { label: 'Item Base', value: 1 },
+                          { label: 'Item Category Base ', value: 2 },
                         ]}
                         value={values?.viewType}
                         label="View Type"
                         onChange={(valueOption) => {
-                          setFieldValue("viewType", valueOption);
+                          setFieldValue('viewType', valueOption);
                           setShowReport(false);
                         }}
                         placeholder="View Type"
@@ -233,8 +228,8 @@ export default function MROItemReports() {
                         value={values?.category}
                         label="Item Category"
                         onChange={(valueOption) => {
-                          setFieldValue("category", valueOption);
-                          setFieldValue("item", "");
+                          setFieldValue('category', valueOption);
+                          setFieldValue('item', '');
                           setShowReport(false);
                           if (!valueOption) return;
                           getItemDDL(
@@ -251,12 +246,12 @@ export default function MROItemReports() {
                         <NewSelect
                           name="item"
                           options={
-                            [{ value: 0, label: "All" }, ...itemDDL] || []
+                            [{ value: 0, label: 'All' }, ...itemDDL] || []
                           }
                           value={values?.item}
                           label="Item"
                           onChange={(valueOption) => {
-                            setFieldValue("item", valueOption);
+                            setFieldValue('item', valueOption);
                             setShowReport(false);
                           }}
                           placeholder="Item"

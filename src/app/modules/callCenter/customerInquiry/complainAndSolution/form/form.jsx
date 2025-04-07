@@ -1,23 +1,22 @@
-
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import { useHistory, useLocation } from "react-router";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import { useHistory, useLocation } from 'react-router';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
-import TextArea from "../../../../_helper/TextArea";
-import { approveOrRejectHandler } from "../helper";
-import IViewModal from "../../../../_helper/_viewModal";
-import Loading from "../../../../_helper/_loading";
+} from '../../../../../../_metronic/_partials/controls';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
+import TextArea from '../../../../_helper/TextArea';
+import { approveOrRejectHandler } from '../helper';
+import IViewModal from '../../../../_helper/_viewModal';
+import Loading from '../../../../_helper/_loading';
 
 export default function FormCmp({
   id,
@@ -41,7 +40,7 @@ export default function FormCmp({
 }) {
   const history = useHistory();
   const [show, setShow] = useState(false);
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState('');
   const { state } = useLocation();
 
   return (
@@ -69,11 +68,11 @@ export default function FormCmp({
               {true && <ModalProgressBar />}
               <CardHeader
                 title={`${
-                  viewType === "edit"
-                    ? "Edit"
-                    : viewType === "view"
-                    ? "View"
-                    : "New"
+                  viewType === 'edit'
+                    ? 'Edit'
+                    : viewType === 'view'
+                      ? 'View'
+                      : 'New'
                 } Complain`}
               >
                 <CardHeaderToolbar>
@@ -88,7 +87,7 @@ export default function FormCmp({
                       <i className="fa fa-arrow-left"></i>
                       Back
                     </button>
-                    {viewType !== "view" && (
+                    {viewType !== 'view' && (
                       <button
                         type="reset"
                         onClick={() => {
@@ -96,14 +95,14 @@ export default function FormCmp({
                           resetForm(initData);
                         }}
                         className="btn btn-light ml-2"
-                        disabled={viewType === "view"}
+                        disabled={viewType === 'view'}
                       >
                         <i className="fa fa-redo"></i>
                         Reset
                       </button>
                     )}
 
-                    {viewType === "view" ? (
+                    {viewType === 'view' ? (
                       !state?.isReject &&
                       !state?.salesHeadApprove && (
                         <div>
@@ -112,7 +111,7 @@ export default function FormCmp({
                             className="btn btn-danger ml-2"
                             onClick={() => {
                               setShow(true);
-                              setStatus("reject");
+                              setStatus('reject');
                             }}
                             disabled={!rowData?.length}
                           >
@@ -123,7 +122,7 @@ export default function FormCmp({
                             className="btn btn-primary ml-2"
                             onClick={() => {
                               setShow(true);
-                              setStatus("approve");
+                              setStatus('approve');
                             }}
                             disabled={!rowData?.length}
                           >
@@ -156,7 +155,7 @@ export default function FormCmp({
                             value={values?.channel}
                             label="Distribution Channel"
                             onChange={(valueOption) => {
-                              setFieldValue("channel", valueOption);
+                              setFieldValue('channel', valueOption);
                               getItemList(
                                 `/item/ItemSales/GetItemSalesByChannelAndWarehouseDDL?AccountId=${accId}&BUnitId=${buId}&DistributionChannelId=${valueOption?.value}&SalesOrgId=${values?.soName?.value}`
                               );
@@ -173,7 +172,7 @@ export default function FormCmp({
                         <SearchAsyncSelect
                           selectedValue={values?.client}
                           handleChange={(valueOption) => {
-                            setFieldValue("client", valueOption);
+                            setFieldValue('client', valueOption);
                           }}
                           isDisabled={!values?.channel || viewType}
                           placeholder="Search Client"
@@ -197,7 +196,7 @@ export default function FormCmp({
                           type="date"
                           errors={errors}
                           touched={touched}
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -209,7 +208,7 @@ export default function FormCmp({
                           type="date"
                           errors={errors}
                           touched={touched}
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -221,7 +220,7 @@ export default function FormCmp({
                           type="text"
                           errors={errors}
                           touched={touched}
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -233,7 +232,7 @@ export default function FormCmp({
                           type="text"
                           errors={errors}
                           touched={touched}
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -245,7 +244,7 @@ export default function FormCmp({
                           type="text"
                           errors={errors}
                           touched={touched}
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
                       <div className="col-lg-3">
@@ -257,7 +256,7 @@ export default function FormCmp({
                           type="text"
                           errors={errors}
                           touched={touched}
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
 
@@ -270,7 +269,7 @@ export default function FormCmp({
                           type="text"
                           errors={errors}
                           touched={touched}
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
 
@@ -282,7 +281,7 @@ export default function FormCmp({
                           name="details"
                           placeholder="Details"
                           type="text"
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
 
@@ -296,7 +295,7 @@ export default function FormCmp({
                               value={values?.soName}
                               label="Sales Organization"
                               onChange={(valueOption) => {
-                                setFieldValue("soName", valueOption);
+                                setFieldValue('soName', valueOption);
                                 if (valueOption && values?.channel) {
                                   getItemList(
                                     `/item/ItemSales/GetItemSalesByChannelAndWarehouseDDL?AccountId=${accId}&BUnitId=${buId}&DistributionChannelId=${values?.channel?.value}&SalesOrgId=${valueOption?.value}`
@@ -317,7 +316,7 @@ export default function FormCmp({
                               value={values?.itemName}
                               label="Item"
                               onChange={(valueOption) => {
-                                setFieldValue("itemName", valueOption);
+                                setFieldValue('itemName', valueOption);
                               }}
                               placeholder="Select Item"
                               errors={errors}
@@ -377,14 +376,14 @@ export default function FormCmp({
                                   className="btn btn-primary"
                                   onClick={() => {
                                     addRow(values, () => {
-                                      setFieldValue("itemName", "");
-                                      setFieldValue("deliveredQuantity", "");
+                                      setFieldValue('itemName', '');
+                                      setFieldValue('deliveredQuantity', '');
                                       setFieldValue(
-                                        "clientMeasurementQuantity",
-                                        ""
+                                        'clientMeasurementQuantity',
+                                        ''
                                       );
-                                      setFieldValue("workOrderQuantity", "");
-                                      setFieldValue("problemQuantity", "");
+                                      setFieldValue('workOrderQuantity', '');
+                                      setFieldValue('problemQuantity', '');
                                     });
                                   }}
                                   disabled={
@@ -405,124 +404,139 @@ export default function FormCmp({
                     </div>
                   </div>
                   {rowData?.length > 0 && (
-                <div className="table-responsive">
+                    <div className="table-responsive">
                       <table
-                      className={
-                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                      }
-                    >
-                      <thead>
-                        <tr className="cursor-pointer">
-                          <th>SL</th>
-                          <th>Item</th>
-                          <th>Delivered Qty</th>
-                          <th>Client Measurement Qty</th>
-                          <th>Work Order Qty</th>
-                          <th>Problem Qty</th>
-                          {!viewType && <th>Action</th>}
-                        </tr>
-                      </thead>
-                      {rowData?.map((row, index) => (
-                        <tr key={index}>
-                          <td className="text-center" style={{ width: "40px" }}>
-                            {index + 1}
-                          </td>
-                          <td>{row?.itemName}</td>
-                          <td className="text-right" style={{ width: "150px" }}>
-                            {viewType === "edit" ? (
-                              <InputField
-                                value={row?.deliverdQnt}
-                                name="deliverdQnt"
-                                type="number"
-                                errors={errors}
-                                touched={touched}
-                                onChange={(e) => {
-                                  rowDataChange(
-                                    index,
-                                    "deliverdQnt",
-                                    e?.target?.value
-                                  );
-                                }}
-                              />
-                            ) : (
-                              row?.deliverdQnt
-                            )}
-                          </td>
-                          <td className="text-right" style={{ width: "150px" }}>
-                            {viewType === "edit" ? (
-                              <InputField
-                                value={row?.clientMeasurementQnt}
-                                name="clientMeasurementQnt"
-                                type="number"
-                                errors={errors}
-                                touched={touched}
-                                onChange={(e) => {
-                                  rowDataChange(
-                                    index,
-                                    "clientMeasurementQnt",
-                                    e?.target?.value
-                                  );
-                                }}
-                              />
-                            ) : (
-                              row?.clientMeasurementQnt
-                            )}
-                          </td>
-                          <td className="text-right" style={{ width: "150px" }}>
-                            {viewType === "edit" ? (
-                              <InputField
-                                value={row?.workOrderQnt}
-                                name="workOrderQnt"
-                                type="number"
-                                errors={errors}
-                                touched={touched}
-                                onChange={(e) => {
-                                  rowDataChange(
-                                    index,
-                                    "workOrderQnt",
-                                    e?.target?.value
-                                  );
-                                }}
-                              />
-                            ) : (
-                              row?.workOrderQnt
-                            )}
-                          </td>
-                          <td className="text-right" style={{ width: "150px" }}>
-                            {viewType &&
-                            !state?.isReject &&
-                            !state?.salesHeadApprove ? (
-                              <InputField
-                                value={row?.problemQnt}
-                                name="problemQnt"
-                                type="number"
-                                errors={errors}
-                                touched={touched}
-                                onChange={(e) => {
-                                  rowDataChange(
-                                    index,
-                                    "problemQnt",
-                                    e?.target?.value
-                                  );
-                                }}
-                              />
-                            ) : (
-                              row?.problemQnt
-                            )}
-                          </td>
-
-                          {!viewType && (
+                        className={
+                          'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
+                        }
+                      >
+                        <thead>
+                          <tr className="cursor-pointer">
+                            <th>SL</th>
+                            <th>Item</th>
+                            <th>Delivered Qty</th>
+                            <th>Client Measurement Qty</th>
+                            <th>Work Order Qty</th>
+                            <th>Problem Qty</th>
+                            {!viewType && <th>Action</th>}
+                          </tr>
+                        </thead>
+                        {rowData?.map((row, index) => (
+                          <tr key={index}>
                             <td
                               className="text-center"
-                              style={{ width: "60px" }}
+                              style={{ width: '40px' }}
                             >
-                              <IDelete remover={deleteRow} id={index} />
+                              {index + 1}
                             </td>
-                          )}
-                        </tr>
-                      ))}
-                    </table>
-                </div>
+                            <td>{row?.itemName}</td>
+                            <td
+                              className="text-right"
+                              style={{ width: '150px' }}
+                            >
+                              {viewType === 'edit' ? (
+                                <InputField
+                                  value={row?.deliverdQnt}
+                                  name="deliverdQnt"
+                                  type="number"
+                                  errors={errors}
+                                  touched={touched}
+                                  onChange={(e) => {
+                                    rowDataChange(
+                                      index,
+                                      'deliverdQnt',
+                                      e?.target?.value
+                                    );
+                                  }}
+                                />
+                              ) : (
+                                row?.deliverdQnt
+                              )}
+                            </td>
+                            <td
+                              className="text-right"
+                              style={{ width: '150px' }}
+                            >
+                              {viewType === 'edit' ? (
+                                <InputField
+                                  value={row?.clientMeasurementQnt}
+                                  name="clientMeasurementQnt"
+                                  type="number"
+                                  errors={errors}
+                                  touched={touched}
+                                  onChange={(e) => {
+                                    rowDataChange(
+                                      index,
+                                      'clientMeasurementQnt',
+                                      e?.target?.value
+                                    );
+                                  }}
+                                />
+                              ) : (
+                                row?.clientMeasurementQnt
+                              )}
+                            </td>
+                            <td
+                              className="text-right"
+                              style={{ width: '150px' }}
+                            >
+                              {viewType === 'edit' ? (
+                                <InputField
+                                  value={row?.workOrderQnt}
+                                  name="workOrderQnt"
+                                  type="number"
+                                  errors={errors}
+                                  touched={touched}
+                                  onChange={(e) => {
+                                    rowDataChange(
+                                      index,
+                                      'workOrderQnt',
+                                      e?.target?.value
+                                    );
+                                  }}
+                                />
+                              ) : (
+                                row?.workOrderQnt
+                              )}
+                            </td>
+                            <td
+                              className="text-right"
+                              style={{ width: '150px' }}
+                            >
+                              {viewType &&
+                              !state?.isReject &&
+                              !state?.salesHeadApprove ? (
+                                <InputField
+                                  value={row?.problemQnt}
+                                  name="problemQnt"
+                                  type="number"
+                                  errors={errors}
+                                  touched={touched}
+                                  onChange={(e) => {
+                                    rowDataChange(
+                                      index,
+                                      'problemQnt',
+                                      e?.target?.value
+                                    );
+                                  }}
+                                />
+                              ) : (
+                                row?.problemQnt
+                              )}
+                            </td>
+
+                            {!viewType && (
+                              <td
+                                className="text-center"
+                                style={{ width: '60px' }}
+                              >
+                                <IDelete remover={deleteRow} id={index} />
+                              </td>
+                            )}
+                          </tr>
+                        ))}
+                      </table>
+                    </div>
                   )}
                 </Form>
               </CardBody>
@@ -540,19 +554,19 @@ export default function FormCmp({
                     onClick={() => {
                       approveOrRejectHandler(
                         values,
-                        status === "approve" ? true : false,
+                        status === 'approve' ? true : false,
                         userId,
                         !state?.tsdapprove
                           ? 1
                           : !state?.productionApprove
-                          ? 2
-                          : !state?.logisticApprove
-                          ? 3
-                          : !state?.plantHeadApprove
-                          ? 4
-                          : !state?.salesHeadApprove
-                          ? 5
-                          : 0,
+                            ? 2
+                            : !state?.logisticApprove
+                              ? 3
+                              : !state?.plantHeadApprove
+                                ? 4
+                                : !state?.salesHeadApprove
+                                  ? 5
+                                  : 0,
                         rowData,
                         id,
                         buId,

@@ -1,12 +1,11 @@
-
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "../../../../_helper/_loading";
-import { _timeFormatter } from "../../../../_helper/_timeFormatter";
-import { getOverTimeDetailsById } from "../helper";
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import Loading from '../../../../_helper/_loading';
+import { _timeFormatter } from '../../../../_helper/_timeFormatter';
+import { getOverTimeDetailsById } from '../helper';
 
 const ViewModal = ({ currentItem, values }) => {
   const { intEmployeeId } = currentItem;
@@ -60,10 +59,10 @@ const ViewModal = ({ currentItem, values }) => {
             <button type="button" className="btn btn-primary p-0 m-0 py-2 px-2">
               <ReactToPrint
                 pageStyle={
-                  "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                  '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
                 }
                 trigger={() => (
-                  <i style={{ fontSize: "18px" }} className="fas fa-print"></i>
+                  <i style={{ fontSize: '18px' }} className="fas fa-print"></i>
                 )}
                 content={() => printRef.current}
               />
@@ -72,7 +71,7 @@ const ViewModal = ({ currentItem, values }) => {
         </>
       )}
       {loading && <Loading />}
-      <div style={{ marginTop: "10px" }} ref={printRef}>
+      <div style={{ marginTop: '10px' }} ref={printRef}>
         <h3 className="overTime-title text-center">Overtime Report</h3>
         <div className="d-flex justify-content-between">
           <div>
@@ -112,15 +111,15 @@ const ViewModal = ({ currentItem, values }) => {
           <thead>
             <tr>
               <th>SL</th>
-              <th style={{ width: "75px" }}>Date</th>
-              <th style={{ width: "75px" }}>Start Time</th>
-              <th style={{ width: "75px" }}>End Time</th>
-              <th style={{ width: "85px" }}>Gross Amount</th>
-              <th style={{ width: "85px" }}>Basic Salary</th>
-              <th style={{ width: "55px" }}>Hours</th>
-              <th style={{ width: "55px" }}>Rate</th>
-              <th style={{ width: "85px" }}>Amount</th>
-              <th style={{ width: "145px" }}>Purpose</th>
+              <th style={{ width: '75px' }}>Date</th>
+              <th style={{ width: '75px' }}>Start Time</th>
+              <th style={{ width: '75px' }}>End Time</th>
+              <th style={{ width: '85px' }}>Gross Amount</th>
+              <th style={{ width: '85px' }}>Basic Salary</th>
+              <th style={{ width: '55px' }}>Hours</th>
+              <th style={{ width: '55px' }}>Rate</th>
+              <th style={{ width: '85px' }}>Amount</th>
+              <th style={{ width: '145px' }}>Purpose</th>
               <th>Remarks</th>
             </tr>
           </thead>
@@ -146,7 +145,7 @@ const ViewModal = ({ currentItem, values }) => {
             ))}
             <tr>
               <td colspan="6">
-                <div style={{ textAlign: "left" }}>Total :</div>
+                <div style={{ textAlign: 'left' }}>Total :</div>
               </td>
               <td className="text-center">{numHours}</td>
               <td></td>

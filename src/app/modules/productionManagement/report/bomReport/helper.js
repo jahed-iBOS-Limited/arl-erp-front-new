@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const getShopfloorDDL = async (accId, buId, plantId, setter) => {
   try {
@@ -13,7 +13,12 @@ export const getShopfloorDDL = async (accId, buId, plantId, setter) => {
   }
 };
 // /mes/MESReport/GetItemBOMReport?itemId=7472&Qty=0&ShoopFloorId=74
-export const getBOMReport = async (itemId, shoopFloorId, setter, setLoading) => {
+export const getBOMReport = async (
+  itemId,
+  shoopFloorId,
+  setter,
+  setLoading
+) => {
   setLoading(true);
   try {
     const res = await axios.get(

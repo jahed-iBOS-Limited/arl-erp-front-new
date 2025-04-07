@@ -1,5 +1,5 @@
-import React from "react";
-import InputField from "../../../../_helper/_inputField";
+import React from 'react';
+import InputField from '../../../../_helper/_inputField';
 
 export default function TaxCalculationReport({
   noteData,
@@ -59,129 +59,129 @@ export default function TaxCalculationReport({
   const getNote_52 = commonNoteFind(52);
   const getNote_53 = commonNoteFind(53);
   const note_34 = {
-    noteNo: "note_34",
+    noteNo: 'note_34',
     value: 0,
     sd: 0,
     vat: getNote_34?.vat || result34,
   };
   const note_35 = {
-    noteNo: "note_35",
+    noteNo: 'note_35',
     value: 0,
     sd: 0,
     vat: getNote_35?.vat || result35,
   };
   const note_36 = {
-    noteNo: "note_36",
+    noteNo: 'note_36',
     value: 0,
     sd: 0,
     vat: getNote_36?.vat || result36,
   };
   const note_37 = {
-    noteNo: "note_37",
+    noteNo: 'note_37',
     value: 0,
     sd: 0,
     vat: getNote_37?.vat || result37,
   };
   const note_38 = {
-    noteNo: "note_38",
+    noteNo: 'note_38',
     value: 0,
     sd: 0,
     vat:
       getNote_38?.vat ||
       (noteData[0]?.noteNo === 38
         ? commonNumberFormat(noteData?.[0]?.amount)
-        : ""),
+        : ''),
   };
   const note_39 = {
-    noteNo: "note_38",
+    noteNo: 'note_38',
     value: 0,
     sd: 0,
     vat:
       getNote_39?.vat ||
       (noteData[1]?.noteNo === 39
         ? commonNumberFormat(noteData?.[1]?.amount)
-        : ""),
+        : ''),
   };
   const note_40 = {
-    noteNo: "note_40",
+    noteNo: 'note_40',
     value: 0,
     sd: 0,
     vat: getNote_40?.vat || result40,
   };
   const note_41 = {
-    noteNo: "note_41",
+    noteNo: 'note_41',
     value: 0,
     sd: 0,
     vat: getNote_41?.vat || result41,
   };
   const note_42 = {
-    noteNo: "note_42",
+    noteNo: 'note_42',
     value: 0,
     sd: 0,
     vat: getNote_42?.vat || result42,
   };
   const note_43 = {
-    noteNo: "note_43",
+    noteNo: 'note_43',
     value: 0,
     sd: 0,
     vat: getNote_43?.vat || result43,
   };
   const note_44 = {
-    noteNo: "note_44",
+    noteNo: 'note_44',
     value: 0,
     sd: 0,
     vat: getNote_44?.vat || result44,
   };
   const note_45 = {
-    noteNo: "note_45",
+    noteNo: 'note_45',
     value: 0,
     sd: 0,
     vat: getNote_45?.vat || result45,
   };
   const note_46 = {
-    noteNo: "note_46",
+    noteNo: 'note_46',
     value: 0,
     sd: 0,
     vat: getNote_46?.vat || result46,
   };
   const note_47 = {
-    noteNo: "note_47",
+    noteNo: 'note_47',
     value: 0,
     sd: 0,
     vat: getNote_47?.vat || result47,
   };
   const note_48 = {
-    noteNo: "note_48",
+    noteNo: 'note_48',
     value: 0,
     sd: 0,
     vat: getNote_48?.vat || result48,
   };
   const note_49 = {
-    noteNo: "note_49",
+    noteNo: 'note_49',
     value: 0,
     sd: 0,
     vat: getNote_49?.vat || result49,
   };
   const note_50 = {
-    noteNo: "note_50",
+    noteNo: 'note_50',
     value: 0,
     sd: 0,
     vat: getNote_50?.vat || result50,
   };
   const note_51 = {
-    noteNo: "note_51",
+    noteNo: 'note_51',
     value: 0,
     sd: 0,
     vat: getNote_51?.vat || result51,
   };
   const note_52 = {
-    noteNo: "note_52",
+    noteNo: 'note_52',
     value: 0,
     sd: 0,
     vat: getNote_52?.vat || result52,
   };
   const note_53 = {
-    noteNo: "note_53",
+    noteNo: 'note_53',
     value: 0,
     sd: 0,
     vat: getNote_53?.vat || result53,
@@ -216,7 +216,7 @@ export default function TaxCalculationReport({
             <th colSpan="3">Part - 7: NET TAX CALCULATION</th>
           </tr>
           <tr>
-            <th style={{ width: "550px" }}>Items</th>
+            <th style={{ width: '550px' }}>Items</th>
             <th>Note</th>
             <th>Amount (Tax)</th>
           </tr>
@@ -400,7 +400,7 @@ export default function TaxCalculationReport({
                   commonNumberFormat(note_44?.vat)
                 ) : (
                   <InputField
-                    style={{ height: "25px" }}
+                    style={{ height: '25px' }}
                     value={netTaxCalculation?.note44}
                     name="names"
                     placeholder="Name"

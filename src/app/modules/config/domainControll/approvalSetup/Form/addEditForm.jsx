@@ -1,25 +1,23 @@
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { toast } from "react-toastify";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { toast } from 'react-toastify';
 import {
   editApprovalSetup,
   getApprovalDataByIdAction,
   saveApprovalSetup,
-} from "../helper";
-import { useParams } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
+} from '../helper';
+import { useParams } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
 
 var initData = {
-  activityName: "",
-  isThreshold: "",
-  userName: "",
+  activityName: '',
+  isThreshold: '',
+  userName: '',
   any: {},
-  groupName:"",
-  approvalOrder: "",
+  groupName: '',
+  approvalOrder: '',
 };
 
 export default function ApprovalSetupCreate({
@@ -31,7 +29,7 @@ export default function ApprovalSetupCreate({
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
 
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   const params = useParams();
 
@@ -54,7 +52,7 @@ export default function ApprovalSetupCreate({
           approvalConfigId: 0,
           rowId: item?.rowId || 0,
           strUserName: item?.userName?.label,
-          threshold: 0,//item?.isThreshold || 0,
+          threshold: 0, //item?.isThreshold || 0,
           // plantId:item?.plant?.value,
           // plantName:item?.plant?.label,
         }));
@@ -67,17 +65,17 @@ export default function ApprovalSetupCreate({
           predisorActivityName: values?.activityName?.label,
           groupName: values?.groupName,
           isAnyOrder:
-            values?.approvalOrder?.label === "Any Order" ? true : false,
+            values?.approvalOrder?.label === 'Any Order' ? true : false,
           isInSequence:
-            values?.approvalOrder?.label === "In Sequence" ? true : false,
+            values?.approvalOrder?.label === 'In Sequence' ? true : false,
           anyUsers: values?.any?.value || 1,
           accountId: profileData?.accountId,
           unitId: selectedBusinessUnit?.value,
           actionBy: profileData?.userId,
-          lastActionDateTime: "2020-12-08T05:01:33.111Z",
-          serverDateTime: "2020-12-10T09:12:12.040Z",
-          plantId:values?.plant?.value,
-          plantName:values?.plant?.label,
+          lastActionDateTime: '2020-12-08T05:01:33.111Z',
+          serverDateTime: '2020-12-10T09:12:12.040Z',
+          plantId: values?.plant?.value,
+          plantName: values?.plant?.label,
           tblApprovalConfigRow,
         };
         editApprovalSetup(payload, setDisabled);
@@ -87,21 +85,20 @@ export default function ApprovalSetupCreate({
           !values?.approvalOrder ||
           rowDto?.length === 0
         )
-          return toast.warn("Select all fields");
+          return toast.warn('Select all fields');
 
         if (
           rowDto?.length > 1 &&
-          values?.approvalOrder?.label === "Any Person" &&
-          values?.any === ""
+          values?.approvalOrder?.label === 'Any Person' &&
+          values?.any === ''
         )
-          return toast.warn("Select Any");
+          return toast.warn('Select Any');
 
         const approvalConfigRow = rowDto?.map((item, index) => ({
           userId: item?.userName?.value,
           userName: item?.userName?.label,
           numThreshold: 0,
           sequenceId: index + 1,
-
         }));
 
         console.log(rowDto);
@@ -111,23 +108,22 @@ export default function ApprovalSetupCreate({
           predisorActivityName: values?.activityName?.label,
           groupName: values?.groupName,
           isAnyOrder:
-            values?.approvalOrder?.label === "Any Order" ? true : false,
+            values?.approvalOrder?.label === 'Any Order' ? true : false,
           isInSequence:
-            values?.approvalOrder?.label === "In Sequence" ? true : false,
+            values?.approvalOrder?.label === 'In Sequence' ? true : false,
           anyUsers: values?.any?.value || 1,
           accountId: profileData?.accountId,
           unitId: selectedBusinessUnit?.value,
           actionBy: profileData?.userId,
-          lastActionDateTime: "2020-12-08T05:01:33.111Z",
-          plantId:values?.plant?.value,
-          plantName:values?.plant?.label,
+          lastActionDateTime: '2020-12-08T05:01:33.111Z',
+          plantId: values?.plant?.value,
+          plantName: values?.plant?.label,
           approvalConfigRow,
         };
         saveApprovalSetup(payload, cb, setDisabled);
       }
     } else {
       // setDisabled(false);
-
     }
   };
 
@@ -162,7 +158,7 @@ export default function ApprovalSetupCreate({
       (item) => item?.userName?.value === values?.userName?.value
     );
     if (arr?.length > 0) {
-      toast.warn("Not allowed to duplicate items");
+      toast.warn('Not allowed to duplicate items');
     } else {
       setRowDto([...rowDto, values]);
     }
@@ -177,10 +173,10 @@ export default function ApprovalSetupCreate({
     <IForm
       title={
         params?.type
-          ? "Setup Approval"
+          ? 'Setup Approval'
           : approvalId
-          ? "Edit Approval Setup"
-          : "Setup Approval"
+            ? 'Edit Approval Setup'
+            : 'Setup Approval'
       }
       getProps={setObjprops}
       isDisabled={isDisabled}

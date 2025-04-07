@@ -1,32 +1,29 @@
-
-
-
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import moment from "moment";
-import Form from "./form";
-import Loading from "../../../../_helper/_loading";
-import { useHistory } from "react-router";
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import moment from 'moment';
+import Form from './form';
+import Loading from '../../../../_helper/_loading';
+import { useHistory } from 'react-router';
 import {
   createTransportCharge,
   getShipmentDDL,
   getTransportTypeDDL,
   getTransportProviderDDL,
-  getTransportChargeByProvider
-} from '../helper'
+  getTransportChargeByProvider,
+} from '../helper';
 
 const initData = {
-  shipment: "",
-  transportProvider: "",
-  transportType: "",
-  route: "",
-  quantity: "",
-  billNumber: "",
-  serviceDate: "",
-  receiveDate: "",
-  paymentDate: "",
-  transportCost: "",
-  vat: "",
+  shipment: '',
+  transportProvider: '',
+  transportType: '',
+  route: '',
+  quantity: '',
+  billNumber: '',
+  serviceDate: '',
+  receiveDate: '',
+  paymentDate: '',
+  transportCost: '',
+  vat: '',
 };
 
 export default function TransportChargesForm() {
@@ -34,14 +31,14 @@ export default function TransportChargesForm() {
   const [objProps, setObjprops] = useState({});
   const [rowDto, setRowDto] = useState([]);
   const [edit, setEdit] = useState(true);
-  const [shipmentDDL, setShipmentDDL] = useState([])
-  const [transportTypeDDL, setTransportTypeDDL] = useState([])
-  const [transportProviderDDL, setTransportProviderDDL] = useState([])
-  const [shipment, setShipment] = useState({})
-  const [providerId, setProviderId] = useState('')
-  const [gridData, setGridData] = useState([])
-  const [totalQty, setTotalQty] = useState('')
-  const [totalAmountBDT, setTotalAvmountBDT] = useState('')
+  const [shipmentDDL, setShipmentDDL] = useState([]);
+  const [transportTypeDDL, setTransportTypeDDL] = useState([]);
+  const [transportProviderDDL, setTransportProviderDDL] = useState([]);
+  const [shipment, setShipment] = useState({});
+  const [providerId, setProviderId] = useState('');
+  const [gridData, setGridData] = useState([]);
+  const [totalQty, setTotalQty] = useState('');
+  const [totalAmountBDT, setTotalAvmountBDT] = useState('');
 
   const saveBtnRef = useRef();
   const resetBtnRef = useRef();
@@ -62,10 +59,14 @@ export default function TransportChargesForm() {
 
   useEffect(() => {
     var currentDate = new Date();
-    var firstDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-    var fromDate = moment(firstDate).format('YYYY-MM-DD')
-    var toDate = moment(currentDate).format('YYYY-MM-DD')
-    if(providerId && profileData?.accountId && selectedBusinessUnit?.value){
+    var firstDate = new Date(
+      currentDate.getFullYear(),
+      currentDate.getMonth(),
+      1
+    );
+    var fromDate = moment(firstDate).format('YYYY-MM-DD');
+    var toDate = moment(currentDate).format('YYYY-MM-DD');
+    if (providerId && profileData?.accountId && selectedBusinessUnit?.value) {
       getTransportChargeByProvider(
         providerId,
         profileData?.accountId,
@@ -75,47 +76,47 @@ export default function TransportChargesForm() {
         setGridData,
         setTotalQty,
         setTotalAvmountBDT
-      )
+      );
     }
-  }, [providerId, profileData, selectedBusinessUnit])
+  }, [providerId, profileData, selectedBusinessUnit]);
 
   useEffect(() => {
-    if(profileData?.accountId && selectedBusinessUnit?.value){
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
       getShipmentDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setShipmentDDL
-      )
-      getTransportTypeDDL(setTransportTypeDDL)
+      );
+      getTransportTypeDDL(setTransportTypeDDL);
       getTransportProviderDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setTransportProviderDDL
-      )
+      );
     }
-  }, [profileData, selectedBusinessUnit])
+  }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = async (values, cb) => {
-    const payload={
-      "accountId": profileData?.accountId,
-      "businessUnitId": selectedBusinessUnit?.value,
-      "lcnumber": values?.shipment?.lcNumber,
-      "ponumber": values?.shipment?.poNumber,
-      "shipmentId": values?.shipment?.value,
-      "transportProvider": values?.transportProvider?.value,
-      "transportTypeId": values?.transportType?.value,
-      "routeName": values?.route,
-      "qty": values?.quantity,
-      "serviceDate": values?.serviceDate,
-      "receiveDate": values?.receiveDate,
-      "paymentDate": values?.paymentDate,
-      "billNumber": values?.billNumber,
-      "transportAmount": values?.transportCost,
-      "vatamount": values?.vat
-    }
-    console.log(payload)
-    await createTransportCharge(payload)
-    cb()
+    const payload = {
+      accountId: profileData?.accountId,
+      businessUnitId: selectedBusinessUnit?.value,
+      lcnumber: values?.shipment?.lcNumber,
+      ponumber: values?.shipment?.poNumber,
+      shipmentId: values?.shipment?.value,
+      transportProvider: values?.transportProvider?.value,
+      transportTypeId: values?.transportType?.value,
+      routeName: values?.route,
+      qty: values?.quantity,
+      serviceDate: values?.serviceDate,
+      receiveDate: values?.receiveDate,
+      paymentDate: values?.paymentDate,
+      billNumber: values?.billNumber,
+      transportAmount: values?.transportCost,
+      vatamount: values?.vat,
+    };
+    console.log(payload);
+    await createTransportCharge(payload);
+    cb();
   };
 
   const remover = (payload) => {

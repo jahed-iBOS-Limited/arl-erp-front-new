@@ -1,47 +1,47 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import * as Yup from "yup";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import ChemicalCompositionForm from "./From";
-import { useParams, useLocation } from "react-router";
-import useAxiosGet from "./../../../../_helper/customHooks/useAxiosGet";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import * as Yup from 'yup';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import ChemicalCompositionForm from './From';
+import { useParams, useLocation } from 'react-router';
+import useAxiosGet from './../../../../_helper/customHooks/useAxiosGet';
 
 const initData = {
-  date: "",
-  shift: "",
-  heatNo: "",
-  sampleType: "",
-  carbone: "",
-  silicon: "",
-  manganese: "",
-  phosphorus: "",
-  shulfer: "",
-  chromium: "",
-  copper: "",
-  nickel: "",
+  date: '',
+  shift: '',
+  heatNo: '',
+  sampleType: '',
+  carbone: '',
+  silicon: '',
+  manganese: '',
+  phosphorus: '',
+  shulfer: '',
+  chromium: '',
+  copper: '',
+  nickel: '',
   carbonEquivalent: 0,
 };
 
 // Required: date, shift(A,B,C), Heat no, sample type (Bath Sample, Final Sample),
 
 const validationSchema = Yup.object().shape({
-  date: Yup.string().required("Date is required"),
+  date: Yup.string().required('Date is required'),
   shift: Yup.object()
     .shape({
-      label: Yup.string().required("Shift is required"),
-      value: Yup.string().required("Shift is required"),
+      label: Yup.string().required('Shift is required'),
+      value: Yup.string().required('Shift is required'),
     })
-    .typeError("Shift is required"),
-  heatNo: Yup.string().required("Heat no is required"),
+    .typeError('Shift is required'),
+  heatNo: Yup.string().required('Heat no is required'),
   sampleType: Yup.object()
     .shape({
-      label: Yup.string().required("Sample type is required"),
-      value: Yup.string().required("Sample type is required"),
+      label: Yup.string().required('Sample type is required'),
+      value: Yup.string().required('Sample type is required'),
     })
-    .typeError("Sample type is required"),
+    .typeError('Sample type is required'),
 });
 
 export default function ChemicalCompositionCreate() {
@@ -94,12 +94,11 @@ export default function ChemicalCompositionCreate() {
         `/mes/MSIL/GetAllMSIL?PartName=MeltingQC&FromDate=${state?.dteDate}&ToDate=${state?.dteDate}&BusinessUnitId=${buId}&AutoId=${state?.intAutoId}`
       );
     }
-
   }, [state?.intAutoId, buId, id]);
 
   return (
     <IForm
-      title={"Chemical Composition Entry"}
+      title={'Chemical Composition Entry'}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenReset={true}

@@ -1,9 +1,9 @@
-import { default as Axios, default as axios } from "axios";
-import moment from "moment";
-import { toast } from "react-toastify";
-import { _fixedPoint } from "./../../../_helper/_fixedPoint";
-import { _todayDate } from "./../../../_helper/_todayDate";
-import { eProcurementBaseURL } from "../../../../../App";
+import { default as Axios, default as axios } from 'axios';
+import moment from 'moment';
+import { toast } from 'react-toastify';
+import { _fixedPoint } from './../../../_helper/_fixedPoint';
+import { _todayDate } from './../../../_helper/_todayDate';
+import { eProcurementBaseURL } from '../../../../../App';
 // Plant DDL Call
 export const getPlantDDL = async (userId, accId, buId, setter) => {
   try {
@@ -20,7 +20,7 @@ export const GetBillTypeDDL = async (setter) => {
   try {
     const res = await Axios.get(`/fino/FinanceCommonDDL/GetBillTypeDDL`);
     if (res.status === 200 && res?.data) {
-      setter([{ value: 0, label: "All" }].concat(res?.data));
+      setter([{ value: 0, label: 'All' }].concat(res?.data));
     }
   } catch (error) {}
 };
@@ -40,9 +40,9 @@ export const GetApproveExpensesGroupApi = async (
 ) => {
   setDisabled && setDisabled(true);
   try {
-    const Fdate = fromDate ? `&fromDate=${fromDate}` : "";
-    const Tdate = toDate ? `&toDate=${toDate}` : "";
-    const expForId = expenseForId ? `&employeeId=${expenseForId}` : "";
+    const Fdate = fromDate ? `&fromDate=${fromDate}` : '';
+    const Tdate = toDate ? `&toDate=${toDate}` : '';
+    const expForId = expenseForId ? `&employeeId=${expenseForId}` : '';
     const url =
       type === 4
         ? `/fino/PaymentRequest/GetApproveExpensesGroupByEmployeeId?PlantId=${plantId}&AccountId=${accId}&BusinessUnitId=${buId}&SbuId=${sbuId}${Fdate}${Tdate}${expForId}&CostCenterId=${
@@ -90,9 +90,9 @@ export const GetApproveExpensesForTaDaByEmpId_api = async (
 ) => {
   setDisabled && setDisabled(true);
   try {
-    const Fdate = fromDate ? `&fromDate=${fromDate}` : "";
-    const Tdate = toDate ? `&toDate=${toDate}` : "";
-    const expEmpId = empId ? `&employeeId=${empId}` : "";
+    const Fdate = fromDate ? `&fromDate=${fromDate}` : '';
+    const Tdate = toDate ? `&toDate=${toDate}` : '';
+    const expEmpId = empId ? `&employeeId=${empId}` : '';
     const res = await Axios.get(
       `/fino/PaymentRequest/GetApproveExpensesForTaDaByEmployeeId?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&SbuId=${sbuId}${Fdate}${Tdate}${expEmpId}&disbursementCenterId=${disCId}`
     );
@@ -127,9 +127,9 @@ export const GetApproveExpensesByEmployeeId_api = async (
 ) => {
   setDisabled && setDisabled(true);
   try {
-    const Fdate = fromDate ? `&fromDate=${fromDate}` : "";
-    const Tdate = toDate ? `&toDate=${toDate}` : "";
-    const expEmpId = empId ? `&employeeId=${empId}` : "";
+    const Fdate = fromDate ? `&fromDate=${fromDate}` : '';
+    const Tdate = toDate ? `&toDate=${toDate}` : '';
+    const expEmpId = empId ? `&employeeId=${empId}` : '';
     const res = await Axios.get(
       `/fino/PaymentRequest/GetApproveExpensesByEmployeeId?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&SbuId=${sbuId}${Fdate}${Tdate}${expEmpId}&disbursementCenterId=${disCId}`
     );
@@ -196,7 +196,7 @@ export const paymentRequestSearchLandingApi = async (
     );
     if (res.status === 200 && res?.data) {
       setDisabled && setDisabled(false);
-      res?.data?.data?.length === 0 && toast.warning("Data not found");
+      res?.data?.data?.length === 0 && toast.warning('Data not found');
       setter(res?.data?.data?.map((itm) => ({ ...itm, itemCheck: false })));
     }
   } catch (error) {
@@ -243,14 +243,14 @@ export const getExpenseById = async (expId, setter, setRowDto) => {
             label: data?.objHeader?.disbursementCenterName,
           },
           expenseGroup:
-            data?.objHeader?.expenseGroup === "TaDa"
+            data?.objHeader?.expenseGroup === 'TaDa'
               ? {
-                  value: "TaDa",
-                  label: "Ta/Da",
+                  value: 'TaDa',
+                  label: 'Ta/Da',
                 }
               : {
-                  value: "Other",
-                  label: "Other",
+                  value: 'Other',
+                  label: 'Other',
                 },
         },
         objRow: [...data?.objRow],
@@ -271,7 +271,7 @@ export const getExpenseById = async (expId, setter, setRowDto) => {
         driverName: item?.driverName,
         driverId: item?.driverId,
         expenseGroupName:
-          data?.objHeader?.expenseGroup === "TaDa" ? "Ta/Da" : "Other",
+          data?.objHeader?.expenseGroup === 'TaDa' ? 'Ta/Da' : 'Other',
       }));
       setRowDto(newRowDto);
       setter(newData);
@@ -292,8 +292,8 @@ export const CreateBillRegister_api = async (
     const res = await Axios.post(`/fino/BillRegister/CreateBillRegister`, data);
     if (res.status === 200) {
       setDisabled(false);
-      toast.success(res?.data?.message || "Submitted successfully", {
-        toastId: "CreatePaymentRequest",
+      toast.success(res?.data?.message || 'Submitted successfully', {
+        toastId: 'CreatePaymentRequest',
       });
       girdDataFunc(values);
       setFileObjects && setFileObjects([]);
@@ -303,7 +303,7 @@ export const CreateBillRegister_api = async (
     setDisabled(false);
     setFileObjects && setFileObjects([]);
     toast.error(error?.response?.data?.message, {
-      toastId: "CreatePaymentRequest",
+      toastId: 'CreatePaymentRequest',
     });
   }
 };
@@ -328,8 +328,8 @@ export const SaveBillRegister_api = async (
     );
     if (res.status === 200) {
       setDisabled(false);
-      toast.success(res?.data?.message || "Submitted successfully", {
-        toastId: "ExpanceBill",
+      toast.success(res?.data?.message || 'Submitted successfully', {
+        toastId: 'ExpanceBill',
       });
       girdDataFunc(values);
       setFileObjects && setFileObjects([]);
@@ -339,7 +339,7 @@ export const SaveBillRegister_api = async (
     setDisabled(false);
     setFileObjects && setFileObjects([]);
     toast.error(error?.response?.data?.message, {
-      toastId: "ExpanceBill",
+      toastId: 'ExpanceBill',
     });
   }
 };
@@ -426,11 +426,11 @@ export const savePurchaseInvoice = async (
       setFileObjects([]);
       setgrnGridData([]);
       modalView(res?.data?.code);
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     } else {
-      toast.error(res.data?.message || "Invoice Already Exists");
+      toast.error(res.data?.message || 'Invoice Already Exists');
       setDisabled(false);
     }
     // }
@@ -509,7 +509,7 @@ export const savePurchaseEditInvoice = async (
       data
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Update successfully");
+      toast.success(res?.message || 'Update successfully');
       setDisabled(false);
       singleDataCB();
       //cb()
@@ -538,10 +538,10 @@ export const GetSupplierAmountInfo = async (poId, setter, setFieldValue) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
       setFieldValue &&
-        setFieldValue("totalAdjustedBalance", res?.data?.totalAdjustedBalance);
-      setFieldValue("poAdvanceAmount", res?.data?.poAdvanceAmount);
+        setFieldValue('totalAdjustedBalance', res?.data?.totalAdjustedBalance);
+      setFieldValue('poAdvanceAmount', res?.data?.poAdvanceAmount);
       setFieldValue(
-        "curentAdjustmentBalance",
+        'curentAdjustmentBalance',
         res?.data?.poAdvanceAmount // - res?.data?.totalAdjustedBalance
       );
     }
@@ -603,7 +603,7 @@ export const getBillRegisterPagination_api = async (
   try {
     setDisabled(true);
 
-    const isTopsheet = typeId === 18 ? "&isTopSheet=true" : "";
+    const isTopsheet = typeId === 18 ? '&isTopSheet=true' : '';
 
     const res = await Axios.get(
       `/fino/BillRegister/BillRegisterPagination?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&ViewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}&SBUId=${sbu}&TypeId=${typeId}&fromDate=${
@@ -637,7 +637,7 @@ export const CreateAdvanceForSupplier = async (
     );
     setFileObjects([]);
     setAdvanceForSupplierById([]);
-    toast.success("Submitted successfully");
+    toast.success('Submitted successfully');
     cb();
     setDisabled(false);
     IWarningModal({
@@ -646,7 +646,7 @@ export const CreateAdvanceForSupplier = async (
     });
   } catch (error) {
     toast.error(error?.response?.data?.message, {
-      toastId: "CreateAdvanceForSupplier",
+      toastId: 'CreateAdvanceForSupplier',
     });
     setDisabled(false);
   }
@@ -664,8 +664,8 @@ export const rejectBillRegister_api = async (
     const res = await Axios.post(`/fino/BillRegister/RejectBillRegister`, data);
     if (res.status === 200) {
       setDisabled(false);
-      toast.success(res?.data?.message || "Submitted successfully", {
-        toastId: "RejectBillRegister",
+      toast.success(res?.data?.message || 'Submitted successfully', {
+        toastId: 'RejectBillRegister',
       });
       cb();
       setIsReject(false);
@@ -673,7 +673,7 @@ export const rejectBillRegister_api = async (
   } catch (error) {
     setDisabled(false);
     toast.error(error?.response?.data?.message, {
-      toastId: "RejectBillRegister",
+      toastId: 'RejectBillRegister',
     });
   }
 };
@@ -756,7 +756,7 @@ export const getG2GCarrierData = async (
   setDisabled,
   searchTerm
 ) => {
-  const search = searchTerm ? `&SearchTerm=${searchTerm}` : "";
+  const search = searchTerm ? `&SearchTerm=${searchTerm}` : '';
   try {
     setDisabled(true);
     const res = await Axios.get(
@@ -794,7 +794,7 @@ export const InternalTransport_api = async (
       `/tms/InternalTransport/getInternalTransportBillInfo?Accountid=${accountid}&Businessunitid=${businessunitid}&VehicleSupplierId=${VehicleSupplierId}&Whid=${warehouseId}&FromDate=${fromDate}&ToDate=${toDate}&Partid=2&Shipmencostid=0&BillRegisterid=0`
     );
     setDisabled(false);
-    if (res?.data?.length === 0) return toast.warn("Data not found");
+    if (res?.data?.length === 0) return toast.warn('Data not found');
     setter(
       res?.data?.map((item) => ({
         ...item,
@@ -824,7 +824,7 @@ export const getTripCost = async (
       `/tms/ShipmentExpReport/GetTripCostNetAmountForBillRegister?AccountId=${accId}&BusinessUnitId=${buId}&shipPointId=${shipPointId}&fromDate=${fromDate}&toDate=${toDate}`
     );
     setDisabled(false);
-    if (res?.data?.length === 0) return toast.warn("Data not found");
+    if (res?.data?.length === 0) return toast.warn('Data not found');
     setter(res?.data);
     setDisabled(false);
   } catch (error) {
@@ -876,8 +876,8 @@ export const createTransportBill = async (
       data
     );
     setDisabled && setDisabled(false);
-    toast.success("Save successfully", {
-      toastId: "CreatePaymentRequest",
+    toast.success('Save successfully', {
+      toastId: 'CreatePaymentRequest',
     });
     // const res={data:{message:"test"}}
     IWarningModal({
@@ -887,8 +887,8 @@ export const createTransportBill = async (
     cb();
   } catch (error) {
     setDisabled && setDisabled(false);
-    toast.error(error?.response?.data?.message || "Something went wrong", {
-      toastId: "CreatePaymentRequest",
+    toast.error(error?.response?.data?.message || 'Something went wrong', {
+      toastId: 'CreatePaymentRequest',
     });
   }
 };
@@ -905,8 +905,8 @@ export const createG2GCustomizeBill = async (
       data
     );
     setDisabled && setDisabled(false);
-    toast.success("Save successfully", {
-      toastId: "CreatePaymentRequest",
+    toast.success('Save successfully', {
+      toastId: 'CreatePaymentRequest',
     });
     // const res={data:{message:"test"}}
     IWarningModal({
@@ -916,8 +916,8 @@ export const createG2GCustomizeBill = async (
     cb();
   } catch (error) {
     setDisabled && setDisabled(false);
-    toast.error(error?.response?.data?.message || "Something went wrong", {
-      toastId: "CreatePaymentRequest",
+    toast.error(error?.response?.data?.message || 'Something went wrong', {
+      toastId: 'CreatePaymentRequest',
     });
   }
 };
@@ -935,8 +935,8 @@ export const postInternalTransportBillEntry_api = async (
       data
     );
     setDisabled && setDisabled(false);
-    toast.success("Save successfully", {
-      toastId: "CreatePaymentRequest",
+    toast.success('Save successfully', {
+      toastId: 'CreatePaymentRequest',
     });
     // const res={data:{message:"test"}}
     IWarningModal({
@@ -946,8 +946,8 @@ export const postInternalTransportBillEntry_api = async (
     cb();
   } catch (error) {
     setDisabled && setDisabled(false);
-    toast.error(error?.response?.data?.message || "Something went wrong", {
-      toastId: "CreatePaymentRequest",
+    toast.error(error?.response?.data?.message || 'Something went wrong', {
+      toastId: 'CreatePaymentRequest',
     });
   }
 };
@@ -962,8 +962,8 @@ export const PostLabourBillEntry_api = async (
   try {
     const res = await Axios.post(`/wms/LabourBill/PostLabourBillEntry`, data);
     setDisabled && setDisabled(false);
-    toast.success("Save successfully", {
-      toastId: "CreatePaymentRequest",
+    toast.success('Save successfully', {
+      toastId: 'CreatePaymentRequest',
     });
     // const res={data:{message:"test"}}
     IWarningModal({
@@ -973,8 +973,8 @@ export const PostLabourBillEntry_api = async (
     cb();
   } catch (error) {
     setDisabled && setDisabled(false);
-    toast.error(error?.response?.data?.message || "Something went wrong", {
-      toastId: "CreatePaymentRequest",
+    toast.error(error?.response?.data?.message || 'Something went wrong', {
+      toastId: 'CreatePaymentRequest',
     });
   }
 };
@@ -986,7 +986,7 @@ export const uploadAttachmentForPeopleDeskApi = async (
   setDisabled && setDisabled(true);
   let formData = new FormData();
   attachment.forEach((file) => {
-    formData.append("files", file);
+    formData.append('files', file);
   });
   try {
     let { data } = await Axios.post(
@@ -994,54 +994,54 @@ export const uploadAttachmentForPeopleDeskApi = async (
       formData,
       {
         headers: {
-          "Content-Type": "multipart/form-data",
+          'Content-Type': 'multipart/form-data',
         },
       }
     );
     setDisabled && setDisabled(false);
-    toast.success("File Attachment successfully");
+    toast.success('File Attachment successfully');
     return data;
   } catch (error) {
     setDisabled && setDisabled(false);
-    toast.error("Document not upload");
-    throw new Error("Document not upload");
+    toast.error('Document not upload');
+    throw new Error('Document not upload');
   }
 };
 
 export const uploadAttachmentNew = async (attachment, setDisabled) => {
   const hardcodedToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJkMTIyNTkzYy0xNGM3LTRmNDYtYjliNC04NGI3YjlhNDZlNTgiLCJlbnJvbGwiOiJleE5qUk1Wa2FpQm02YnJPclY2MjVnPT0iLCJlbWFpbGFkZHJlc3MiOiJtaXJhakBpYm9zLmlvIiwic3ViIjoibWlyYWpAaWJvcy5pbyIsImp0aSI6ImY1MmJlMDljLTc3MDYtNGM1Zi1iMTk4LTkyZDQ2Y2E5YTE5YiIsImlhdCI6IjkvMjMvMjAyNCA2OjEyOjE4IEFNIiwiZXhwIjoxNzU4NjA3OTM4LCJpc3MiOiJBa2lqSW5mb1RlY2ggTHRkLiAiLCJhdWQiOiJBdWRpZW5jZSJ9.06aBO2uUCHG0IViaUpSbecHp_JUtkzXCBi-oFJwT4Ek"; // 1 year expire date
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJkMTIyNTkzYy0xNGM3LTRmNDYtYjliNC04NGI3YjlhNDZlNTgiLCJlbnJvbGwiOiJleE5qUk1Wa2FpQm02YnJPclY2MjVnPT0iLCJlbWFpbGFkZHJlc3MiOiJtaXJhakBpYm9zLmlvIiwic3ViIjoibWlyYWpAaWJvcy5pbyIsImp0aSI6ImY1MmJlMDljLTc3MDYtNGM1Zi1iMTk4LTkyZDQ2Y2E5YTE5YiIsImlhdCI6IjkvMjMvMjAyNCA2OjEyOjE4IEFNIiwiZXhwIjoxNzU4NjA3OTM4LCJpc3MiOiJBa2lqSW5mb1RlY2ggTHRkLiAiLCJhdWQiOiJBdWRpZW5jZSJ9.06aBO2uUCHG0IViaUpSbecHp_JUtkzXCBi-oFJwT4Ek'; // 1 year expire date
 
   setDisabled && setDisabled(true);
   let formData = new FormData();
   attachment.forEach((file) => {
-    formData.append("files", file);
+    formData.append('files', file);
   });
   try {
-    let { data } = await Axios.post("/domain/Document/UploadFile", formData, {
+    let { data } = await Axios.post('/domain/Document/UploadFile', formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
         Authorization: `Bearer ${hardcodedToken}`, // Correct usage: "Authorization" as the key
       },
     });
     setDisabled && setDisabled(false);
-    toast.success("File Attachment successfully");
+    toast.success('File Attachment successfully');
     return data;
   } catch (error) {
     setDisabled && setDisabled(false);
-    toast.error("Document not upload");
-    throw new Error("Document not upload");
+    toast.error('Document not upload');
+    throw new Error('Document not upload');
   }
 };
 
 export const uploadAtt = async (attachment, setDisabled) => {
   let formData = new FormData();
   attachment.forEach((file) => {
-    formData.append("files", file);
+    formData.append('files', file);
   });
-  return Axios.post("/domain/Document/UploadFile", formData, {
+  return Axios.post('/domain/Document/UploadFile', formData, {
     headers: {
-      "Content-Type": "multipart/form-data",
+      'Content-Type': 'multipart/form-data',
     },
   });
 };
@@ -1216,10 +1216,10 @@ export const GetPendingUnloadLabourBillAmount = async (
   setDisabled
 ) => {
   const fromDateTime = moment(`${fromDate} ${fromTime}`).format(
-    "YYYY-MM-DDTHH:mm:ss"
+    'YYYY-MM-DDTHH:mm:ss'
   );
   const toDateTime = moment(`${toDate} ${toTime}`).format(
-    "YYYY-MM-DDTHH:mm:ss"
+    'YYYY-MM-DDTHH:mm:ss'
   );
   try {
     setDisabled(true);
@@ -1227,7 +1227,7 @@ export const GetPendingUnloadLabourBillAmount = async (
       `/tms/LabourBillInfo/GetPendingUnloadLabourBillAmount?accountid=${accountid}&businessunitid=${businessunitid}&LabourSupplierId=${VehicleSupplierId}&ShipPointId=${shipPointId}&fromdate=${fromDateTime}&todate=${toDateTime}`
     );
     setDisabled(false);
-    if (res?.data?.length === 0) toast.warning("Data not found");
+    if (res?.data?.length === 0) toast.warning('Data not found');
     setter(
       res?.data?.map((item) => ({
         ...item,
@@ -1293,9 +1293,9 @@ export const GetApproveExpensesApi = async (
 ) => {
   setDisabled && setDisabled(true);
   try {
-    const Fdate = fromDate ? `&fromDate=${fromDate}` : "";
-    const Tdate = toDate ? `&toDate=${toDate}` : "";
-    const expForId = expenseForId ? `&employeeId=${expenseForId}` : "";
+    const Fdate = fromDate ? `&fromDate=${fromDate}` : '';
+    const Tdate = toDate ? `&toDate=${toDate}` : '';
+    const expForId = expenseForId ? `&employeeId=${expenseForId}` : '';
     const url =
       type === 4
         ? `/fino/PaymentRequest/GetApproveExpenses?PlantId=${plantId}&AccountId=${accId}&BusinessUnitId=${buId}&SbuId=${sbuId}${Fdate}${Tdate}${expForId}&CostCenterId=${
@@ -1359,11 +1359,11 @@ export const saveFairPriceShopInvoice = async (
       setFileObjects([]);
       setgrnGridData([]);
       modalView(res?.data?.code);
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     } else {
-      toast.error(res.data?.message || "Invoice Already Exists");
+      toast.error(res.data?.message || 'Invoice Already Exists');
       setDisabled(false);
     }
     // }

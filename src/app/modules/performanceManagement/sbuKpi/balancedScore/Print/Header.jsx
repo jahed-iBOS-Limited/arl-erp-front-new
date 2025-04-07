@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from "react";
-import { useHistory, useLocation } from "react-router-dom";
-import ICard from "../../../../_helper/_card";
-import { useSelector, shallowEqual } from "react-redux";
-import { getPmsReportAction } from "../../../_helper/getReportAction";
-import PmsCommonTableScorecard from "../../../_helper/pmsCommonTable/PmsCommonTableScorecard";
+import React, { useEffect, useRef } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import ICard from '../../../../_helper/_card';
+import { useSelector, shallowEqual } from 'react-redux';
+import { getPmsReportAction } from '../../../_helper/getReportAction';
+import PmsCommonTableScorecard from '../../../_helper/pmsCommonTable/PmsCommonTableScorecard';
 
 export default function SBUBSCPrint() {
   const location = useLocation();
@@ -48,13 +48,13 @@ export default function SBUBSCPrint() {
         isShowPrintBtn={true}
         componentRef={printRef}
         backHandler={() =>
-          history.push("/performance-management/sbu-kpi/scorecard")
+          history.push('/performance-management/sbu-kpi/scorecard')
         }
       >
         <div ref={printRef} className="bsc-print-section">
           <div className="mx-auto">
             <div className="text-center my-2">
-              <b className="display-5"> {selectedBusinessUnit?.label} </b>{" "}
+              <b className="display-5"> {selectedBusinessUnit?.label} </b>{' '}
               <br />
               <b className="display-5"> SBU Balanced Scorecard </b>
             </div>

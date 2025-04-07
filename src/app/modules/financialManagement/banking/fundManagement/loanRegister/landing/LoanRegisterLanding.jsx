@@ -57,7 +57,6 @@ const LoanRegisterLanding = () => {
 
   const printRef = useRef();
 
-
   const [loading, setLoading] = useState(false);
   const [loanRegisterData, setLoanRegisterData] = useState([]);
   const [businessUnitDDL, setBusinessUnitDDL] = useState([]);
@@ -120,7 +119,6 @@ const LoanRegisterLanding = () => {
       handleInvoicePrint();
       setShowModal(false);
     }
-
   }, [singleItem]);
 
   const {
@@ -137,7 +135,6 @@ const LoanRegisterLanding = () => {
   useEffect(() => {
     getBankDDLAll(setBankDDL, setLoading);
     getBusinessUnitDDL(profileData?.accountId, setBusinessUnitDDL);
-
   }, []);
 
   useEffect(() => {
@@ -150,9 +147,8 @@ const LoanRegisterLanding = () => {
       pageSize,
       setLoanRegisterData,
       setLoading,
-      0,
+      0
     );
-
   }, []);
 
   //setPositionHandler
@@ -166,7 +162,7 @@ const LoanRegisterLanding = () => {
       pageSize,
       setLoanRegisterData,
       setLoading,
-      values?.applicationType?.value || 0,
+      values?.applicationType?.value || 0
     );
   };
 
@@ -178,33 +174,33 @@ const LoanRegisterLanding = () => {
           (c?.numPrinciple - c?.numPaid >= 0
             ? c?.numPrinciple - c?.numPaid
             : 0),
-        0,
+        0
       ),
-    [loanRegisterData],
+    [loanRegisterData]
   );
   const totalDisbursedAmount = useMemo(
     () =>
       loanRegisterData?.data?.reduce(
         (a, c) => a + (c?.numPrinciple < 0 ? 0 : c?.numPrinciple),
-        0,
+        0
       ),
-    [loanRegisterData],
+    [loanRegisterData]
   );
   const totalInterestAmount = useMemo(
     () => loanRegisterData?.data?.reduce((a, c) => a + c?.numInterest, 0),
-    [loanRegisterData],
+    [loanRegisterData]
   );
   const totalPayable = useMemo(
     () => loanRegisterData?.data?.reduce((a, c) => a + c?.numTotalPayable, 0),
-    [loanRegisterData],
+    [loanRegisterData]
   );
   const totalPaidPrincipal = useMemo(
     () => loanRegisterData?.data?.reduce((a, c) => a + c?.numPaid, 0),
-    [loanRegisterData],
+    [loanRegisterData]
   );
   const totalPaidInterest = useMemo(
     () => loanRegisterData?.data?.reduce((a, c) => a + c?.interestAmount, 0),
-    [loanRegisterData],
+    [loanRegisterData]
   );
   // const totalBalance = useMemo(
   //   () =>
@@ -245,7 +241,7 @@ const LoanRegisterLanding = () => {
             pageSize,
             setLoanRegisterData,
             setLoading,
-            values?.applicationType?.value || 0,
+            values?.applicationType?.value || 0
           );
         };
         createLoanRegister(
@@ -265,7 +261,7 @@ const LoanRegisterLanding = () => {
           setLoading,
           cb,
           true,
-          item?.intLoanAccountId,
+          item?.intLoanAccountId
         );
       },
       noAlertFunc: () => {
@@ -485,7 +481,7 @@ const LoanRegisterLanding = () => {
       values?.applicationType?.value || 0,
       values?.fromDate,
       values?.toDate,
-      values?.dateFilter?.value,
+      values?.dateFilter?.value
     );
   };
   return (
@@ -495,7 +491,7 @@ const LoanRegisterLanding = () => {
         enableReinitialize={true}
         initialValues={initData}
         onSubmit={(values, { setSubmitting, resetForm }) => {
-          saveHandler(values, (code) => { });
+          saveHandler(values, (code) => {});
         }}
       >
         {({ values, errors, touched, setFieldValue }) => (
@@ -686,7 +682,7 @@ const LoanRegisterLanding = () => {
                             values?.applicationType?.value || 0,
                             values?.fromDate,
                             values?.toDate,
-                            values?.dateFilter?.value,
+                            values?.dateFilter?.value
                           );
                         }}
                       >
@@ -811,7 +807,7 @@ const LoanRegisterLanding = () => {
                                     <InfoCircle
                                       clickHandler={() => {
                                         getHistory(
-                                          `/fino/FundManagement/GetLoanRegisterHistory?loanAccountId=${item?.intLoanAccountId}&journalCode=${item?.brCode}`,
+                                          `/fino/FundManagement/GetLoanRegisterHistory?loanAccountId=${item?.intLoanAccountId}&journalCode=${item?.brCode}`
                                         );
                                         setShow(true);
                                       }}
@@ -832,15 +828,15 @@ const LoanRegisterLanding = () => {
                                 <td className="text-right">
                                   {item?.numPrinciple - item?.numPaid >= 0
                                     ? _formatMoney(
-                                      item?.numPrinciple - item?.numPaid,
-                                    )
+                                        item?.numPrinciple - item?.numPaid
+                                      )
                                     : 0}
                                 </td>
                                 <td className="text-right">
                                   {_formatMoney(
                                     item?.numPrinciple < 0
                                       ? 0
-                                      : item?.numPrinciple,
+                                      : item?.numPrinciple
                                   )}
                                 </td>
                                 <td className="text-right">
@@ -907,7 +903,7 @@ const LoanRegisterLanding = () => {
                                             setLoading,
                                             () => {
                                               setOpen(true);
-                                            },
+                                            }
                                           );
                                         }}
                                       >
@@ -957,7 +953,7 @@ const LoanRegisterLanding = () => {
                                           1
                                         ) {
                                           toast.warn(
-                                            "You can't renew this loan",
+                                            "You can't renew this loan"
                                           );
                                           return;
                                         } else {
@@ -970,11 +966,16 @@ const LoanRegisterLanding = () => {
                                     >
                                       Renew
                                     </span>
-                                    {(!item?.isLoanApproved && (                                            // Loan must not be approved
-                                      ((item?.numPrinciple || 0) - (item?.numPaid || 0) <= 250000000) ||    // All users see if balance is <= 25 crore
-                                      (((item?.numPrinciple || 0) - (item?.numPaid || 0) > 250000000) &&    // Only specific users see if balance is > 25 crore
-                                        ([1455, 509697].includes(profileData?.userId)))                 // Check user ID (specific users)
-                                    )) ? (
+                                    {!item?.isLoanApproved && // Loan must not be approved
+                                    ((item?.numPrinciple || 0) -
+                                      (item?.numPaid || 0) <=
+                                      250000000 || // All users see if balance is <= 25 crore
+                                      ((item?.numPrinciple || 0) -
+                                        (item?.numPaid || 0) >
+                                        250000000 && // Only specific users see if balance is > 25 crore
+                                        [1455, 509697].includes(
+                                          profileData?.userId
+                                        ))) ? ( // Check user ID (specific users)
                                       <span
                                         className="text-primary "
                                         style={{
@@ -988,7 +989,7 @@ const LoanRegisterLanding = () => {
                                             item?.intTenureDays > 0
                                           ) {
                                             toast.warn(
-                                              'Principal should be greater than 0',
+                                              'Principal should be greater than 0'
                                             );
                                             return;
                                           } else if (
@@ -996,7 +997,7 @@ const LoanRegisterLanding = () => {
                                             item?.intTenureDays === 0
                                           ) {
                                             toast.warn(
-                                              'Tenure Days should be greater than 0',
+                                              'Tenure Days should be greater than 0'
                                             );
                                             return;
                                           } else if (
@@ -1004,7 +1005,7 @@ const LoanRegisterLanding = () => {
                                             item?.intTenureDays === 0
                                           ) {
                                             toast.warn(
-                                              'Principal & Tenure Days should be greater than 0',
+                                              'Principal & Tenure Days should be greater than 0'
                                             );
                                             return;
                                           } else {
@@ -1059,7 +1060,7 @@ const LoanRegisterLanding = () => {
                                                   values?.businessUnit?.value >=
                                                     0
                                                     ? values?.businessUnit
-                                                      ?.value
+                                                        ?.value
                                                     : buId,
                                                   values?.bank?.value,
                                                   values?.status?.value,
@@ -1068,9 +1069,9 @@ const LoanRegisterLanding = () => {
                                                   setLoanRegisterData,
                                                   setLoading,
                                                   values?.applicationType
-                                                    ?.value || 0,
+                                                    ?.value || 0
                                                 );
-                                              },
+                                              }
                                             );
                                           }}
                                           title="Cancel Loan Register"
@@ -1185,7 +1186,7 @@ const LoanRegisterLanding = () => {
                             <td>{item?.loanAccountId}</td>
                             <td>
                               {new Date(
-                                item?.transactionDate,
+                                item?.transactionDate
                               ).toLocaleDateString()}
                             </td>
                             <td>{item?.amount}</td>

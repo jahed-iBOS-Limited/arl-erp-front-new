@@ -1,17 +1,16 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import IView from "../../../_helper/_helperIcons/_view";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import IView from '../../../_helper/_helperIcons/_view';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
 const initData = {
-  trainigName: { value: 0, label: "All" },
+  trainigName: { value: 0, label: 'All' },
 };
 export default function RequisitionApproval() {
   const [isDisabled] = useState(false);
@@ -32,10 +31,11 @@ export default function RequisitionApproval() {
     getTrainingName(`/hcm/Training/TrainingNameDDL`);
   }, []);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getRowData(
-      `/hcm/Training/GetTrainingScheduleLanding?pageNo=${pageNo}&pageSize=${pageSize}&intTrainingId=${values
-        ?.trainigName?.value || 0}`
+      `/hcm/Training/GetTrainingScheduleLanding?pageNo=${pageNo}&pageSize=${pageSize}&intTrainingId=${
+        values?.trainigName?.value || 0
+      }`
     );
   };
 
@@ -76,17 +76,17 @@ export default function RequisitionApproval() {
                     <NewSelect
                       name="trainigName"
                       options={
-                        [{ value: 0, label: "All" }, ...trainingNameDDL] || []
+                        [{ value: 0, label: 'All' }, ...trainingNameDDL] || []
                       }
                       value={values?.trainigName}
                       label="Training Name"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("trainigName", valueOption);
+                          setFieldValue('trainigName', valueOption);
                         } else {
-                          setFieldValue("trainigName", {
+                          setFieldValue('trainigName', {
                             value: 0,
-                            label: "All",
+                            label: 'All',
                           });
                           getRowData(
                             `/hcm/Training/GetTrainingScheduleLanding?pageNo=${pageNo}&pageSize=${pageSize}&intTrainingId=0`
@@ -97,13 +97,14 @@ export default function RequisitionApproval() {
                     />
                   </div>
 
-                  <div style={{ marginTop: "15px" }} className="col-lg-1">
+                  <div style={{ marginTop: '15px' }} className="col-lg-1">
                     <button
                       type="button"
                       onClick={() => {
                         getRowData(
-                          `/hcm/Training/GetTrainingScheduleLanding?pageNo=${pageNo}&pageSize=${pageSize}&intTrainingId=${values
-                            ?.trainigName?.value || 0}`
+                          `/hcm/Training/GetTrainingScheduleLanding?pageNo=${pageNo}&pageSize=${pageSize}&intTrainingId=${
+                            values?.trainigName?.value || 0
+                          }`
                         );
                       }}
                       className="btn btn-primary"
@@ -118,15 +119,15 @@ export default function RequisitionApproval() {
                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                       <thead>
                         <tr>
-                          <th style={{ width: "30px" }}>SL</th>
+                          <th style={{ width: '30px' }}>SL</th>
                           <th>Training Name</th>
                           <th>Resource Person</th>
                           <th>Month-Year</th>
-                          <th style={{ width: "180px" }}>Date</th>
+                          <th style={{ width: '180px' }}>Date</th>
                           <th>Duration</th>
                           <th>Venue</th>
                           <th>Batch No (Size)</th>
-                          <th style={{ width: "50px" }}>Action</th>
+                          <th style={{ width: '50px' }}>Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -157,8 +158,8 @@ export default function RequisitionApproval() {
                                       // );
                                       history.push({
                                         pathname: `/learningDevelopment/training/approval/view/${item?.intScheduleId}`,
-                                        state: { ...item},
-                                      })
+                                        state: { ...item },
+                                      });
                                     }}
                                   />
                                   <IEdit

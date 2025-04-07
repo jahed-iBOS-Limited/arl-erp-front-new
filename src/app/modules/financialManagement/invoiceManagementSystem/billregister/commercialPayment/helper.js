@@ -4,13 +4,12 @@ import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import numberWithCommas from '../../../../_helper/_numberWithCommas';
 import IWarningModal from '../../../../_helper/_warningModal';
 
-
 // get supplier DDL
 export const GetSupplier_api = async (setDisabled, accId, buId, setter) => {
   try {
     setDisabled(true);
     const res = await axios.get(
-      `/imp/LCBusinessPartner/GetSupplierListForBillDDL?accountId=${accId}&businessUnitId=${buId}`,
+      `/imp/LCBusinessPartner/GetSupplierListForBillDDL?accountId=${accId}&businessUnitId=${buId}`
     );
     const modifyData = res?.data?.map((item) => ({
       value: item?.value,
@@ -37,7 +36,7 @@ export const getLandingData = async (
   setDisabled,
   setTotalCount,
   chargeTypeName,
-  subChargeTypeId,
+  subChargeTypeId
 ) => {
   const poLc = PoLcLabel ? PoLcLabel : '';
   let supplier = supplierId ? supplierId : '';
@@ -53,7 +52,7 @@ export const getLandingData = async (
 
   try {
     const res = await axios.get(
-      `/imp/ImportReport/CommercialPaymentLandingPasignation?accountId=${accId}&businessUnitId=${buId}${searchTerm}&${supplier}billingStatus=${billingStatus}${ChargeTypeName}&subChargeTypeId=${subChargeTypeId}&pageSize=${pageSize}&pageNo=${pageNo}&viewOrder=desc`,
+      `/imp/ImportReport/CommercialPaymentLandingPasignation?accountId=${accId}&businessUnitId=${buId}${searchTerm}&${supplier}billingStatus=${billingStatus}${ChargeTypeName}&subChargeTypeId=${subChargeTypeId}&pageSize=${pageSize}&pageNo=${pageNo}&viewOrder=desc`
     );
     setTotalCount(res?.data?.totalCount);
     const modify = res?.data?.data?.map((item) => {
@@ -89,28 +88,28 @@ export const saveCommercialPayment = async (
   rowDto,
   setDisabled,
   cb,
-  getLandingDataForCommercialBill,
+  getLandingDataForCommercialBill
 ) => {
   // console.log(rowDto)
   const filterData = rowDto?.filter((item) => item?.isSelect !== false);
   const dataSet = modifyPayload(filterData, imageId);
   const filterByBillAmount = rowDto?.reduce(
     (acc, item) => acc + item?.totalBilledAmount,
-    0,
+    0
   );
   const supplierId =
     filterData?.length > 0 && filterData[0]['businessPartnerId'];
   try {
     if (
       !filterData?.every(
-        (item) => item?.costTypeName === filterData[0]?.costTypeName,
+        (item) => item?.costTypeName === filterData[0]?.costTypeName
       )
     ) {
       return toast.error('Charge Type Should Be Same');
     }
     if (
       !filterData?.every(
-        (item) => item?.subChargeTypeName === filterData[0]?.subChargeTypeName,
+        (item) => item?.subChargeTypeName === filterData[0]?.subChargeTypeName
       )
     ) {
       return toast.error('Sub Charge Type Should Be Same');
@@ -118,7 +117,7 @@ export const saveCommercialPayment = async (
     if (
       !filterData?.every(
         (item) =>
-          item?.businessPartnerName === filterData[0]?.businessPartnerName,
+          item?.businessPartnerName === filterData[0]?.businessPartnerName
       )
     ) {
       toast.error('Supplier Name Should Be Same');
@@ -130,13 +129,13 @@ export const saveCommercialPayment = async (
       setDisabled(true);
       const res = await axios.post(
         `/imp/FormulaForCalculation/CommercialCostingForTypeTwo?accountId=${accId}&businessUnitId=${buId}&plantId=${plantId}&sbuId=${sbuId}&transactionDate=${_dateFormatter(
-          new Date(),
+          new Date()
         )}&costId=${0}&businessPartnerId=${supplierId}&totalAmount=${0}&typeId=${2}&actionById=${actionById}&SupplierBillRef=${supplierBillRef}`,
-        dataSet,
+        dataSet
       );
       setDisabled(false);
       toast.success(
-        res?.data?.message ? res?.data?.message : 'Submitted successfully',
+        res?.data?.message ? res?.data?.message : 'Submitted successfully'
       );
       cb();
       getLandingDataForCommercialBill && getLandingDataForCommercialBill();
@@ -164,21 +163,23 @@ export const CommercialCostingForTypeTwo = async (
   payload,
   cb,
   getLandingDataForCommercialBill,
-  advanceAdjust,
+  advanceAdjust
 ) => {
   setDisabled(true);
   try {
     const res = await axios.post(
       `/imp/FormulaForCalculation/CommercialCostingForTypeTwo?accountId=${accId}&businessUnitId=${buId}&plantId=${plantId}&sbuId=${sbuId}&transactionDate=${_dateFormatter(
-        new Date(),
-      )}&costId=${costId}&businessPartnerId=${supplierId}&totalAmount=${totalAmount < advanceAdjust ? 0 : totalAmount - advanceAdjust || 0
-      }&typeId=${2}&actionById=${actionById}&SupplierBillRef=${supplierBillRef}&numAdvanceAdjust=${totalAmount < advanceAdjust ? totalAmount : advanceAdjust || 0
+        new Date()
+      )}&costId=${costId}&businessPartnerId=${supplierId}&totalAmount=${
+        totalAmount < advanceAdjust ? 0 : totalAmount - advanceAdjust || 0
+      }&typeId=${2}&actionById=${actionById}&SupplierBillRef=${supplierBillRef}&numAdvanceAdjust=${
+        totalAmount < advanceAdjust ? totalAmount : advanceAdjust || 0
       }`,
-      payload,
+      payload
     );
     setDisabled(false);
     toast.success(
-      res?.data?.message ? res?.data?.message : 'Submitted successfully',
+      res?.data?.message ? res?.data?.message : 'Submitted successfully'
     );
     cb();
     getLandingDataForCommercialBill && getLandingDataForCommercialBill();
@@ -206,19 +207,17 @@ const modifyPayload = (filterData, imageId) => {
   };
 };
 
-
-
 export const getCommercialBreakdownForAdvanceAndBill = async (
   referenceId,
   supplierId,
   setAdvanceBill,
   setBill,
-  setLoading,
+  setLoading
 ) => {
   setLoading && setLoading(true);
   try {
     const res = await axios.get(
-      `/imp/AllCharge/GetCommercialBreakdownForAdvanceAndBill?referenceId=${referenceId}&supplierId=${supplierId}`,
+      `/imp/AllCharge/GetCommercialBreakdownForAdvanceAndBill?referenceId=${referenceId}&supplierId=${supplierId}`
     );
     console.log(res);
     if (res.status === 200) {
@@ -235,13 +234,13 @@ export const getCommercialBreakdownForAdvanceAndBill = async (
 export const createCommercialBreakdownForAdvance = async (
   payload,
   setIsLoading,
-  cb,
+  cb
 ) => {
   try {
     setIsLoading(true);
     const res = await axios.post(
       '/imp/AllCharge/CreateCommercialBreakdownForAdvance',
-      payload,
+      payload
     );
     if (res.status === 200) {
       setIsLoading(false);
@@ -256,13 +255,13 @@ export const createCommercialBreakdownForAdvance = async (
 
 export const createCommercialBreakdownForBill = async (
   payload,
-  setIsLoading,
+  setIsLoading
 ) => {
   try {
     setIsLoading(true);
     const res = await axios.post(
       '/imp/AllCharge/CreateCommercialBreakdownForBill',
-      payload,
+      payload
     );
 
     if (res.status === 200) {
@@ -272,7 +271,7 @@ export const createCommercialBreakdownForBill = async (
       let confirmObject = {
         title: 'Bill Code',
         message: res?.data?.invoiceCode,
-        okAlertFunc: async () => { },
+        okAlertFunc: async () => {},
       };
       IWarningModal(confirmObject);
     }

@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getVatBranches_api = async (userId, accid, buid, setter) => {
   try {
@@ -7,7 +7,7 @@ export const getVatBranches_api = async (userId, accid, buid, setter) => {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accid}&BusinessUnitId=${buid}&OrgUnitTypeId=15`
     );
     if (res.status === 200 && res?.data) {
-      const modifiedData = [{ value: 0, label: "All" }, ...res?.data];
+      const modifiedData = [{ value: 0, label: 'All' }, ...res?.data];
       setter(modifiedData);
     }
   } catch (error) {}
@@ -40,7 +40,7 @@ export const SalesSummaryReport_api = async (
         }));
         setter(modifiedData);
       } else {
-        toast.warning("Data Not Found");
+        toast.warning('Data Not Found');
         setter([]);
       }
     }

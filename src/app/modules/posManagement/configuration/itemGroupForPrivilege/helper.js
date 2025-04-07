@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 //DeliveryInquiryReportGrid_api
 export const GetItemGroupLanding_api = async (
   accId,
@@ -77,7 +77,7 @@ export const saveItemGroupForPrivilege_api = async (data, cb, setDisabled) => {
     setDisabled(true);
     const res = await Axios.post(`/item/ItemProfile/PostItemGroup`, data);
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -87,16 +87,22 @@ export const saveItemGroupForPrivilege_api = async (data, cb, setDisabled) => {
   }
 };
 
-export const updateItemGroupById_api = async (groupId, status, setDisabled, activeCB, values) => {
+export const updateItemGroupById_api = async (
+  groupId,
+  status,
+  setDisabled,
+  activeCB,
+  values
+) => {
   try {
     setDisabled(true);
     const res = await Axios.put(
       `/item/ItemProfile/UpdateItemGroupById?ItemGroupById=${groupId}&Status=${status}`
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       setDisabled(false);
-      activeCB(values)
+      activeCB(values);
     }
   } catch (error) {
     toast.error(error?.response?.data?.message);

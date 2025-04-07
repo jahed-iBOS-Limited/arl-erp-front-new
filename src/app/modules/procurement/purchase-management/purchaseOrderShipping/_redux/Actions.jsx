@@ -1,9 +1,8 @@
-import * as requestFromServer from "./Api";
-import { setLastPoDataAction } from '../../../../_helper/reduxForLocalStorage/Actions'
-import { purchaseOrderSlice } from "./Slice";
-import { toast } from "react-toastify";
+import * as requestFromServer from './Api';
+import { setLastPoDataAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import { purchaseOrderSlice } from './Slice';
+import { toast } from 'react-toastify';
 const { actions: slice } = purchaseOrderSlice;
-
 
 export const getSupplierNameDDLAction = (accId, buId, sbuId) => (dispatch) => {
   return requestFromServer
@@ -46,288 +45,282 @@ export const getPoReferenceTypeDDLAction = (orderTypeId) => (dispatch) => {
 };
 
 // get POReferenceNoDDL
-export const getPOReferenceNoDDLAction = (id, wareHouseId,orderTypeId) => (dispatch) => {
-  return requestFromServer.getPOReferenceNoDDL(id, wareHouseId,orderTypeId).then((res) => {
-    const { status, data } = res;
-    if (status === 200 && data) {
-      dispatch(slice.SetPoReferenceNoDDL(data));
-    }
-  });
-};
+export const getPOReferenceNoDDLAction =
+  (id, wareHouseId, orderTypeId) => (dispatch) => {
+    return requestFromServer
+      .getPOReferenceNoDDL(id, wareHouseId, orderTypeId)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          dispatch(slice.SetPoReferenceNoDDL(data));
+        }
+      });
+  };
 
 // get item based on reference or without reference
-export const getPOItemDDLAction = (
-  orderTypeId,
-  accId,
-  buId,
-  sbuId,
-  orgId,
-  plantId,
-  whId,
-  partnerId,
-  refTypeId,
-  refNoId
-) => (dispatch) => {
-  return requestFromServer
-    .getPOItemDDL(
-      orderTypeId,
-      accId,
-      buId,
-      sbuId,
-      orgId,
-      plantId,
-      whId,
-      partnerId,
-      refTypeId,
-      refNoId
-    )
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        let newData =[];
-        data.forEach(item=>{
-          let index=newData.findIndex(x=>x.label===item.label)
-          if(index===-1){
-            newData.push(item)
-          }
-        })
-        dispatch(slice.SetPoItemsDDL(newData));
-      }
-    });
-};
-
-
-// get service item based on reference or without reference
-export const getPOItemForStandradItemDDLAction = (
-  //orId,
-  accId,
-  buId,
-  sbuId,
-  //purchaseOrgId,
-  //plantId,
-  //whId,
-  partnerId,
-  refTypeId,
-  refNoId
-) => (dispatch) => {
-  return requestFromServer
-    .getStandradPOItemDDL(
-      //orId,
-      accId,
-      buId,
-      sbuId,
-      //purchaseOrgId,
-     // plantId,
-      //whId,
-      partnerId,
-      refTypeId,
-      refNoId
-    )
-    .then((res) => {
-      const { data } = res;
-      //let newData = data?.filter(item => item?.restofQty > 0)
-      dispatch(slice.SetPoItemsDDL(data));
-    });
-};
-
+export const getPOItemDDLAction =
+  (
+    orderTypeId,
+    accId,
+    buId,
+    sbuId,
+    orgId,
+    plantId,
+    whId,
+    partnerId,
+    refTypeId,
+    refNoId
+  ) =>
+  (dispatch) => {
+    return requestFromServer
+      .getPOItemDDL(
+        orderTypeId,
+        accId,
+        buId,
+        sbuId,
+        orgId,
+        plantId,
+        whId,
+        partnerId,
+        refTypeId,
+        refNoId
+      )
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          let newData = [];
+          data.forEach((item) => {
+            let index = newData.findIndex((x) => x.label === item.label);
+            if (index === -1) {
+              newData.push(item);
+            }
+          });
+          dispatch(slice.SetPoItemsDDL(newData));
+        }
+      });
+  };
 
 // get service item based on reference or without reference
-export const getPOItemForContractItemDDLAction = (
-  orId,
-  accId,
-  buId,
-  sbuId,
-  purchaseOrgId,
-  plantId,
-  whId,
-  partnerId,
-  refTypeId,
-  refNoId
-) => (dispatch) => {
-  return requestFromServer
-    .getContractPOItemDDL(
-      orId,
-      accId,
-      buId,
-      sbuId,
-      purchaseOrgId,
-      plantId,
-      whId,
-      partnerId,
-      refTypeId,
-      refNoId
-    )
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
+export const getPOItemForStandradItemDDLAction =
+  (
+    //orId,
+    accId,
+    buId,
+    sbuId,
+    //purchaseOrgId,
+    //plantId,
+    //whId,
+    partnerId,
+    refTypeId,
+    refNoId
+  ) =>
+  (dispatch) => {
+    return requestFromServer
+      .getStandradPOItemDDL(
+        //orId,
+        accId,
+        buId,
+        sbuId,
+        //purchaseOrgId,
+        // plantId,
+        //whId,
+        partnerId,
+        refTypeId,
+        refNoId
+      )
+      .then((res) => {
+        const { data } = res;
+        //let newData = data?.filter(item => item?.restofQty > 0)
         dispatch(slice.SetPoItemsDDL(data));
-      }
-    });
-};
+      });
+  };
 
+// get service item based on reference or without reference
+export const getPOItemForContractItemDDLAction =
+  (
+    orId,
+    accId,
+    buId,
+    sbuId,
+    purchaseOrgId,
+    plantId,
+    whId,
+    partnerId,
+    refTypeId,
+    refNoId
+  ) =>
+  (dispatch) => {
+    return requestFromServer
+      .getContractPOItemDDL(
+        orId,
+        accId,
+        buId,
+        sbuId,
+        purchaseOrgId,
+        plantId,
+        whId,
+        partnerId,
+        refTypeId,
+        refNoId
+      )
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          dispatch(slice.SetPoItemsDDL(data));
+        }
+      });
+  };
 
 // get service item based on service po
-export const getPOItemForServiceItemDDLAction = (
-  orId,
-  accId,
-  buId,
-  sbuId,
-  purchaseOrgId,
-  plantId,
-  whId,
-  partnerId,
-  refTypeId,
-  refNoId
-) => (dispatch) => {
-  return requestFromServer
-    .getServicePOItemApi(
-      orId,
-      accId,
-      buId,
-      sbuId,
-      purchaseOrgId,
-      plantId,
-      whId,
-      partnerId,
-      refTypeId,
-      refNoId
-    )
-    .then((res) => {
-      const { data } = res;
-      let newData = data?.filter(item => item?.restofQty > 0)
-      dispatch(slice.SetPoItemsDDL(newData));
-    });
-};
+export const getPOItemForServiceItemDDLAction =
+  (
+    orId,
+    accId,
+    buId,
+    sbuId,
+    purchaseOrgId,
+    plantId,
+    whId,
+    partnerId,
+    refTypeId,
+    refNoId
+  ) =>
+  (dispatch) => {
+    return requestFromServer
+      .getServicePOItemApi(
+        orId,
+        accId,
+        buId,
+        sbuId,
+        purchaseOrgId,
+        plantId,
+        whId,
+        partnerId,
+        refTypeId,
+        refNoId
+      )
+      .then((res) => {
+        const { data } = res;
+        let newData = data?.filter((item) => item?.restofQty > 0);
+        dispatch(slice.SetPoItemsDDL(newData));
+      });
+  };
 
 // get service item based on asset po
-export const getPOItemForAssetItemDDLAction = (
-  orId,
-  accId,
-  buId,
-  sbuId,
-  purchaseOrgId,
-  plantId,
-  whId,
-  partnerId,
-  refTypeId,
-  refNoId
-) => (dispatch) => {
-  return requestFromServer
-    .getAssetPOItemApi(
-      orId,
-      accId,
-      buId,
-      sbuId,
-      purchaseOrgId,
-      plantId,
-      whId,
-      partnerId,
-      refTypeId,
-      refNoId
-    )
-    .then((res) => {
-      const { data } = res;
-      let newData = data?.filter(item => item?.restofQty > 0)
-      dispatch(slice.SetPoItemsDDL(newData));
-    });
-};
+export const getPOItemForAssetItemDDLAction =
+  (
+    orId,
+    accId,
+    buId,
+    sbuId,
+    purchaseOrgId,
+    plantId,
+    whId,
+    partnerId,
+    refTypeId,
+    refNoId
+  ) =>
+  (dispatch) => {
+    return requestFromServer
+      .getAssetPOItemApi(
+        orId,
+        accId,
+        buId,
+        sbuId,
+        purchaseOrgId,
+        plantId,
+        whId,
+        partnerId,
+        refTypeId,
+        refNoId
+      )
+      .then((res) => {
+        const { data } = res;
+        let newData = data?.filter((item) => item?.restofQty > 0);
+        dispatch(slice.SetPoItemsDDL(newData));
+      });
+  };
 
 // get service item based on return po
-export const getPOItemForReturnItemDDLAction = (
-  orId,
-  accId,
-  buId,
-  sbuId,
-  purchaseOrgId,
-  plantId,
-  whId,
-  partnerId,
-  refTypeId,
-  refNoId
-) => (dispatch) => {
-  return requestFromServer
-    .getReturnPOItemApi(
-      orId,
-      accId,
-      buId,
-      sbuId,
-      purchaseOrgId,
-      plantId,
-      whId,
-      partnerId,
-      refTypeId,
-      refNoId
-    )
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        dispatch(slice.SetPoItemsDDL(data));
-      }
-    });
-};
-
-
+export const getPOItemForReturnItemDDLAction =
+  (
+    orId,
+    accId,
+    buId,
+    sbuId,
+    purchaseOrgId,
+    plantId,
+    whId,
+    partnerId,
+    refTypeId,
+    refNoId
+  ) =>
+  (dispatch) => {
+    return requestFromServer
+      .getReturnPOItemApi(
+        orId,
+        accId,
+        buId,
+        sbuId,
+        purchaseOrgId,
+        plantId,
+        whId,
+        partnerId,
+        refTypeId,
+        refNoId
+      )
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          dispatch(slice.SetPoItemsDDL(data));
+        }
+      });
+  };
 
 // get service item based on reference or without reference
-export const getPOWihoutServiceItemDDLAction = (
-  accId,
-  buId,
-  purchaseOrgId,
-  plantId,
-  whId,
-  partnerId,
-  refTypeId,
-  refNoId
-) => (dispatch) => {
-  return requestFromServer
-    .getServicePOItemDDL(
-      accId,
-      buId,
-      purchaseOrgId,
-      plantId,
-      whId,
-      partnerId,
-      refTypeId,
-      refNoId
-    )
-    .then((res) => {
-      const { data } = res;
-      let newData = data?.filter(item => item?.restofQty > 0)
-      dispatch(slice.SetPoItemsDDL(newData));
-    });
-};
-
+export const getPOWihoutServiceItemDDLAction =
+  (accId, buId, purchaseOrgId, plantId, whId, partnerId, refTypeId, refNoId) =>
+  (dispatch) => {
+    return requestFromServer
+      .getServicePOItemDDL(
+        accId,
+        buId,
+        purchaseOrgId,
+        plantId,
+        whId,
+        partnerId,
+        refTypeId,
+        refNoId
+      )
+      .then((res) => {
+        const { data } = res;
+        let newData = data?.filter((item) => item?.restofQty > 0);
+        dispatch(slice.SetPoItemsDDL(newData));
+      });
+  };
 
 // get item based on reference or without reference
-export const getPOItemWithoutRefDDLAction = (
-  accId,
-  buId,
-  purchaseOrgId,
-  plantId,
-  whId,
-  partnerId,
-  refTypeId,
-  refNoId
-) => (dispatch) => {
-  return requestFromServer
-    .getPOItemWithoutRefDDL(
-      accId,
-      buId,
-      purchaseOrgId,
-      plantId,
-      whId,
-      partnerId,
-      refTypeId,
-      refNoId
-    )
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        dispatch(slice.SetPoItemsDDL(data));
-      }
-    });
-};
-
+export const getPOItemWithoutRefDDLAction =
+  (accId, buId, purchaseOrgId, plantId, whId, partnerId, refTypeId, refNoId) =>
+  (dispatch) => {
+    return requestFromServer
+      .getPOItemWithoutRefDDL(
+        accId,
+        buId,
+        purchaseOrgId,
+        plantId,
+        whId,
+        partnerId,
+        refTypeId,
+        refNoId
+      )
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          dispatch(slice.SetPoItemsDDL(data));
+        }
+      });
+  };
 
 // get payment terms list ddl
 export const getPaymentTermsListDDLAction = () => (dispatch) => {
@@ -358,82 +351,83 @@ export const getPlantListDDLAction = (userId, accId, buId) => (dispatch) => {
   });
 };
 
-export const getWareHouseDDLAction = (userId, accId, buId, plantId) => (
-  dispatch
-) => {
-  return requestFromServer
-    .getWareHouseDDL(userId, accId, buId, plantId)
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        dispatch(slice.setWareHouseDDL(data));
+export const getWareHouseDDLAction =
+  (userId, accId, buId, plantId) => (dispatch) => {
+    return requestFromServer
+      .getWareHouseDDL(userId, accId, buId, plantId)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          dispatch(slice.setWareHouseDDL(data));
+        }
+      });
+  };
+
+export const getGridAction =
+  (
+    accId,
+    buId,
+    sbuId,
+    plantId,
+    whId,
+    poTypeId,
+    pOrgId,
+    refTypeId,
+    status,
+    fromDate,
+    toDate,
+    setLoading,
+    pageNo,
+    pageSize,
+    searchValue,
+    isClose
+  ) =>
+  (dispatch) => {
+    setLoading(true);
+
+    if (fromDate) {
+      if (!toDate) {
+        setLoading(false);
+        return toast.warning('To date is Required');
       }
-    });
-};
-
-export const getGridAction = (
-  accId,
-  buId,
-  sbuId,
-  plantId,
-  whId,
-  poTypeId,
-  pOrgId,
-  refTypeId,
-  status,
-  fromDate,
-  toDate,
-  setLoading,
-  pageNo,
-  pageSize,
-  searchValue,
-  isClose
-) => (dispatch) => {
-  setLoading(true);
-
-  if(fromDate){
-    if(!toDate){
-      setLoading(false);
-      return toast.warning("To date is Required")
     }
-  }
 
-  if(toDate){
-    if(!fromDate){
-      setLoading(false);
-      return toast.warning("From date is Required")
-    }
-  }
-
-  return requestFromServer
-    .getGridData(
-      accId,
-      buId,
-      sbuId,
-      plantId,
-      whId,
-      poTypeId,
-      pOrgId,
-      refTypeId,
-      status,
-      fromDate,
-      toDate,
-      pageNo,
-      pageSize,
-      searchValue,
-      isClose
-    )
-    .then((res) => {
-      setLoading(false);
-      const { status, data } = res;
-      if (status === 200 && data) {
-        dispatch(slice.setGridData(data));
+    if (toDate) {
+      if (!fromDate) {
+        setLoading(false);
+        return toast.warning('From date is Required');
       }
-    })
-    .catch((err) => {
-      setLoading(false);
-    });
-};
+    }
+
+    return requestFromServer
+      .getGridData(
+        accId,
+        buId,
+        sbuId,
+        plantId,
+        whId,
+        poTypeId,
+        pOrgId,
+        refTypeId,
+        status,
+        fromDate,
+        toDate,
+        pageNo,
+        pageSize,
+        searchValue,
+        isClose
+      )
+      .then((res) => {
+        setLoading(false);
+        const { status, data } = res;
+        if (status === 200 && data) {
+          dispatch(slice.setGridData(data));
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
 export const getSingleDataAction = (id, poType) => (dispatch) => {
   return requestFromServer.getSingleData(id, poType).then((res) => {
     const { status, data } = res;
@@ -452,87 +446,77 @@ export const getSingleDataForReturnAction = (id) => (dispatch) => {
   });
 };
 //org
-export const savePurchaseOrderForAssetStandardService = (
-  payload,
-  IConfirmModal
-) => (dispatch) => {
-  return requestFromServer
-    .saveCreateDataForAssetStandardService(payload?.data)
-    .then((res) => {
-      if (res.status === 200) {
-        // toast.success(res.data?.message || "Submitted successfully");
-        payload.cb();
+export const savePurchaseOrderForAssetStandardService =
+  (payload, IConfirmModal) => (dispatch) => {
+    return requestFromServer
+      .saveCreateDataForAssetStandardService(payload?.data)
+      .then((res) => {
+        if (res.status === 200) {
+          // toast.success(res.data?.message || "Submitted successfully");
+          payload.cb();
+          payload.setDisabled(false);
+          const obj = {
+            title: res.data?.message,
+            code: '00987',
+            noAlertFunc: () => {
+              //window.location.reload();
+            },
+          };
+          payload.IConfirmModal(obj);
+        }
+        dispatch(setLastPoDataAction(res.data?.message));
+      })
+      .catch((err) => {
         payload.setDisabled(false);
-        const obj = {
-          title: res.data?.message,
-          code: "00987",
-          noAlertFunc: () => {
-            //window.location.reload();
-          },
-        };
-        payload.IConfirmModal(obj);
-      }
-      dispatch(setLastPoDataAction(res.data?.message))
-    })
-    .catch((err) => {
-     
-      payload.setDisabled(false);
-      toast.error(err?.response?.data?.message);
-    });
-};
+        toast.error(err?.response?.data?.message);
+      });
+  };
 
+export const savePurchaseOrderForReturnStandardService =
+  (payload, IConfirmModal) => () => {
+    return requestFromServer
+      .saveCreateDataForReturnStandardService(payload?.data)
+      .then((res) => {
+        if (res.status === 200) {
+          // toast.success(res.data?.message || "Submitted successfully");
+          payload.cb();
+          //payload.setDisabled(false);
+          const obj = {
+            title: res.data?.message,
+            code: '00987',
+            noAlertFunc: () => {},
+          };
+          payload.IConfirmModal(obj);
+        }
+      })
+      .catch((err) => {
+        // payload.setDisabled(false);
+        toast.error(err?.response?.data?.message);
+      });
+  };
 
-export const savePurchaseOrderForReturnStandardService = (
-  payload,
-  IConfirmModal
-) => () => {
-  return requestFromServer
-    .saveCreateDataForReturnStandardService(payload?.data)
-    .then((res) => {
-      if (res.status === 200) {
-        // toast.success(res.data?.message || "Submitted successfully");
-        payload.cb();
-        //payload.setDisabled(false);
-        const obj = {
-          title: res.data?.message,
-          code: "00987",
-          noAlertFunc: () => {},
-        };
-        payload.IConfirmModal(obj);
-      }
-    })
-    .catch((err) => {
-     
-     // payload.setDisabled(false);
-      toast.error(err?.response?.data?.message);
-    });
-};
-
-export const saveCreateDataForPurchaseContractAction = (
-  payload,
-  IConfirmModal
-) => () => {
-  return requestFromServer
-    .saveCreateDataForPurchaseContract(payload?.data)
-    .then((res) => {
-      if (res.status === 200) {
-        // toast.success(res.data?.message);
-        payload.cb();
+export const saveCreateDataForPurchaseContractAction =
+  (payload, IConfirmModal) => () => {
+    return requestFromServer
+      .saveCreateDataForPurchaseContract(payload?.data)
+      .then((res) => {
+        if (res.status === 200) {
+          // toast.success(res.data?.message);
+          payload.cb();
+          payload.setDisabled(false);
+          const obj = {
+            title: res.data?.message,
+            code: '00987',
+            noAlertFunc: () => {},
+          };
+          payload.IConfirmModal(obj);
+        }
+      })
+      .catch((err) => {
         payload.setDisabled(false);
-        const obj = {
-          title: res.data?.message,
-          code: "00987",
-          noAlertFunc: () => {},
-        };
-        payload.IConfirmModal(obj);
-      }
-    })
-    .catch((err) => {
-     
-      payload.setDisabled(false);
-      toast.error(err?.response?.data?.message);
-    });
-};
+        toast.error(err?.response?.data?.message);
+      });
+  };
 
 // Edit
 
@@ -541,14 +525,13 @@ export const editPurchaseOrderForAssetStandardService = (payload) => () => {
     .editCreateDataForAssetStandardService(payload?.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
         payload.setDisabled(false);
-        payload.singleCB()
+        payload.singleCB();
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
       payload.setDisabled(false);
     });
@@ -559,14 +542,13 @@ export const editPurchaseReturn = (payload) => () => {
     .editPurchaseReturnApi(payload?.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
         //payload.setDisabled(false);
-        payload.singlereturnCB()
+        payload.singlereturnCB();
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
       //payload.setDisabled(false);
     });
@@ -577,13 +559,12 @@ export const editCreateDataForPurchaseContractAction = (payload) => () => {
     .editCreateDataForPurchaseContract(payload?.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
         payload.setDisabled(false);
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
       payload.setDisabled(false);
     });

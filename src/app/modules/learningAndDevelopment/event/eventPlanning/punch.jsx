@@ -1,16 +1,16 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router";
-import { useParams } from "react-router-dom";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router';
+import { useParams } from 'react-router-dom';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 
 const initData = {
-  strCardNumber: "",
+  strCardNumber: '',
 };
 const Punch = () => {
   const { id } = useParams();
@@ -22,16 +22,14 @@ const Punch = () => {
   }, shallowEqual);
 
   const saveHandler = (values, cb) => {
-  
     saveData(
       `/hcm/Training/CheckParticipant?ActionBy=${profileData?.userId}&CardNumber=${values?.strCardNumber}&ActivityId=${location?.clickedItem?.activityId}&EventId=${+id}`,
       (res) => {
-        console.log("res", res);
+        console.log('res', res);
         setResponse(res);
         cb && cb();
       }
     );
-
   };
 
   const location = useLocation();
@@ -44,8 +42,8 @@ const Punch = () => {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
           resetForm(initData);
-          document.getElementById("cardNoInput").focus();
-          initData.strCardNumber = "";
+          document.getElementById('cardNoInput').focus();
+          initData.strCardNumber = '';
         });
       }}
     >
@@ -63,7 +61,7 @@ const Punch = () => {
           <IForm
             isHiddenReset={true}
             isHiddenSave={true}
-            customTitle={"Event Planning"}
+            customTitle={'Event Planning'}
             getProps={setObjprops}
           >
             <Form>
@@ -80,13 +78,13 @@ const Punch = () => {
                 <div className="col-lg-4"></div>
                 <div className="col-lg-4">
                   <h6>
-                    Start Date:{" "}
+                    Start Date:{' '}
                     {_dateFormatter(location?.eventHeaderData?.eventStartDate)}
                   </h6>
                 </div>
                 <div className="col-lg-4">
                   <h6>
-                    End Date:{" "}
+                    End Date:{' '}
                     {_dateFormatter(location?.eventHeaderData?.eventEndDate)}
                   </h6>
                 </div>
@@ -94,7 +92,7 @@ const Punch = () => {
                 <div className="col-lg-4">
                   <h6
                     style={{
-                      color: "green",
+                      color: 'green',
                     }}
                   >
                     Activity: {location?.clickedItem?.activityName}
@@ -109,7 +107,7 @@ const Punch = () => {
                     name="strCardNumber"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("strCardNumber", e.target.value);
+                      setFieldValue('strCardNumber', e.target.value);
                       setResponse({});
                     }}
                   />
@@ -122,27 +120,27 @@ const Punch = () => {
                   <div
                     className="text-center"
                     style={{
-                      height: "200px",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      borderRadius: "10px",
+                      height: '200px',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: '10px',
                       backgroundColor:
                         response?.autoId === 1
-                          ? "#00b33c"
+                          ? '#00b33c'
                           : response?.autoId === 2
-                          ? "#f7b500"
-                          : response?.autoId === 3
-                          ? "#b53535"
-                          : "",
+                            ? '#f7b500'
+                            : response?.autoId === 3
+                              ? '#b53535'
+                              : '',
                       color:
                         response?.autoId === 1
-                          ? "white"
+                          ? 'white'
                           : response?.autoId === 2
-                          ? "black"
-                          : response?.autoId === 3
-                          ? "white"
-                          : "",
+                            ? 'black'
+                            : response?.autoId === 3
+                              ? 'white'
+                              : '',
                     }}
                   >
                     <h1>{response?.message}</h1>
@@ -153,14 +151,14 @@ const Punch = () => {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -60,7 +60,7 @@ export default function CustomerRefundCreateEditForm() {
       setDisabled(true);
       if (fileObjects?.length > 0) {
         const compressedFile = await compressfile(
-          fileObjects?.map((f) => f.file),
+          fileObjects?.map((f) => f.file)
         );
         const uploadedImage = await uploadAtt(compressedFile);
         payload['image'] = uploadedImage?.data?.map((item) => ({
@@ -74,7 +74,7 @@ export default function CustomerRefundCreateEditForm() {
             setRowData([]);
             setFileObjects([]);
           },
-          true,
+          true
         );
       }
     } catch (error) {
@@ -86,7 +86,7 @@ export default function CustomerRefundCreateEditForm() {
     if (v === '') {
       return axios
         .get(
-          `/partner/BusinessPartnerBankInfo/GetPartnerBankInfoByCustomer?searchTerm=%20%20%20&accountId=${accId}&businessUnitId=${buId}&SbuId=${location?.state?.sbu?.value}`,
+          `/partner/BusinessPartnerBankInfo/GetPartnerBankInfoByCustomer?searchTerm=%20%20%20&accountId=${accId}&businessUnitId=${buId}&SbuId=${location?.state?.sbu?.value}`
         )
         .then((res) => {
           const updateList = res?.data.map((item) => ({
@@ -100,7 +100,7 @@ export default function CustomerRefundCreateEditForm() {
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/partner/BusinessPartnerBankInfo/GetPartnerBankInfoByCustomer?searchTerm=${v}&accountId=${accId}&businessUnitId=${buId}&SbuId=${location?.state?.sbu?.value}`,
+        `/partner/BusinessPartnerBankInfo/GetPartnerBankInfoByCustomer?searchTerm=${v}&accountId=${accId}&businessUnitId=${buId}&SbuId=${location?.state?.sbu?.value}`
       )
       .then((res) => {
         const updateList = res?.data.map((item) => ({
@@ -153,7 +153,7 @@ export default function CustomerRefundCreateEditForm() {
                         {
                           label: valueOption?.bankName,
                           value: valueOption?.bankId,
-                        } || '',
+                        } || ''
                       );
                       setFieldValue(
                         'branchName',
@@ -161,11 +161,11 @@ export default function CustomerRefundCreateEditForm() {
                           label: valueOption?.bankBranchName,
                           value: valueOption?.bankBranchId,
                           strRoutingNo: valueOption?.routingNo,
-                        } || '',
+                        } || ''
                       );
                       setFieldValue(
                         'bankAccountingNo',
-                        valueOption?.bankAccountNo || '',
+                        valueOption?.bankAccountNo || ''
                       );
                       setFieldValue('remarks', '');
                       setFieldValue('amount', '');
@@ -174,7 +174,7 @@ export default function CustomerRefundCreateEditForm() {
                       getBalance(
                         `/fino/BankBranch/GetPartnerBook?BusinessUnitId=${buId}&PartnerId=${
                           valueOption?.value
-                        }&PartnerType=2&FromDate=${_todayDate()}&ToDate=${_todayDate()}`,
+                        }&PartnerType=2&FromDate=${_todayDate()}&ToDate=${_todayDate()}`
                       );
                       if (
                         !valueOption?.bankAccountName &&
@@ -201,7 +201,7 @@ export default function CustomerRefundCreateEditForm() {
                       {balance[0]?.numBalance > 0
                         ? `Due Balance:${balance[0]?.numBalance}`
                         : `Available Balance:${convertBalance(
-                            balance[0]?.numBalance,
+                            balance[0]?.numBalance
                           )}`}
                     </span>
                   ) : (
@@ -281,8 +281,8 @@ export default function CustomerRefundCreateEditForm() {
                       ) {
                         return toast.warn(
                           `Balance must be at most ${convertBalance(
-                            balance[0]?.numBalance,
-                          )}`,
+                            balance[0]?.numBalance
+                          )}`
                         );
                       }
                       if (values?.amount <= 0) {
@@ -304,9 +304,9 @@ export default function CustomerRefundCreateEditForm() {
                           });
                           setFieldValue(
                             'businessTransaction',
-                            copyValues?.businessTransaction,
+                            copyValues?.businessTransaction
                           );
-                        },
+                        }
                       );
                     }}
                     disabled={
@@ -370,7 +370,7 @@ export default function CustomerRefundCreateEditForm() {
                       <td className="text-right font-weight-bolder">
                         {rowData?.reduce(
                           (acc, item) => acc + Number(item?.amount),
-                          0,
+                          0
                         )}
                       </td>
                       <td className="text-center"></td>
@@ -406,7 +406,7 @@ export default function CustomerRefundCreateEditForm() {
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

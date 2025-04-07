@@ -24,7 +24,6 @@ export default function TdsVdsJvDataTable({
       values?.profitCenter?.value &&
       values?.accountNo?.value;
     setDisabled(!activeStatus);
-
   }, [values]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -70,7 +69,7 @@ export default function TdsVdsJvDataTable({
                             editableData?.map((item) => ({
                               ...item,
                               isSelect: e.target.checked,
-                            })),
+                            }))
                         );
                       }}
                     />
@@ -148,21 +147,27 @@ export default function TdsVdsJvDataTable({
                     </tr>
                   );
                 })}
-                 <tr>
-      <td colSpan={5} className="text-right font-weight-bold">
-        Total:
-      </td>
-      <td className="text-center" style={{ fontSize: 11 }}>
-        {/* Optional: Add total Bill Amount if needed */}
-      </td>
-      <td className="text-center" style={{ fontSize: 11 }}>
-        {editableData.reduce((sum, item) => sum + (item.tdsamount || 0), 0)}
-      </td>
-      <td className="text-center" style={{ fontSize: 11 }}>
-        {editableData.reduce((sum, item) => sum + (item.vdsamount || 0), 0)}
-      </td>
-      <td colSpan={2}></td>
-    </tr>
+              <tr>
+                <td colSpan={5} className="text-right font-weight-bold">
+                  Total:
+                </td>
+                <td className="text-center" style={{ fontSize: 11 }}>
+                  {/* Optional: Add total Bill Amount if needed */}
+                </td>
+                <td className="text-center" style={{ fontSize: 11 }}>
+                  {editableData.reduce(
+                    (sum, item) => sum + (item.tdsamount || 0),
+                    0
+                  )}
+                </td>
+                <td className="text-center" style={{ fontSize: 11 }}>
+                  {editableData.reduce(
+                    (sum, item) => sum + (item.vdsamount || 0),
+                    0
+                  )}
+                </td>
+                <td colSpan={2}></td>
+              </tr>
             </tbody>
           </table>
         </div>

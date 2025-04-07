@@ -1,6 +1,6 @@
-import * as requestFromServer from "./Api";
-import { corporatePerformanceChartSlice } from "./Slice";
-import { toast } from "react-toastify";
+import * as requestFromServer from './Api';
+import { corporatePerformanceChartSlice } from './Slice';
+import { toast } from 'react-toastify';
 const { actions: slice } = corporatePerformanceChartSlice;
 
 // action for save created data
@@ -9,7 +9,7 @@ export const saveMeasuringScaleAction = (payload) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
         payload.setRowDto([]);
       }
@@ -19,22 +19,19 @@ export const saveMeasuringScaleAction = (payload) => () => {
     });
 };
 
-export const updateChartTypeAction = (
-  kpiId,
-  chartId,
-  callGetReportAction
-) => () => {
-  return requestFromServer
-    .updateChartType(kpiId, chartId)
-    .then((res) => {
-      if (res.status === 200) {
-        callGetReportAction();
-      }
-    })
-    .catch((err) => {
-      toast.error(err?.response?.data?.message);
-    });
-};
+export const updateChartTypeAction =
+  (kpiId, chartId, callGetReportAction) => () => {
+    return requestFromServer
+      .updateChartType(kpiId, chartId)
+      .then((res) => {
+        if (res.status === 200) {
+          callGetReportAction();
+        }
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message);
+      });
+  };
 
 export const updateIsShownAction = (kpiId, tf, callGetReportAction) => () => {
   return requestFromServer

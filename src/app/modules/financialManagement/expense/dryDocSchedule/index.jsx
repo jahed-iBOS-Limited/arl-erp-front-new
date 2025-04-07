@@ -1,21 +1,21 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import IView from "../../../_helper/_helperIcons/_view";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import numberWithCommas from "../../../_helper/_numberWithCommas";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import ActivityListModal from "./activityListModal";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import IView from '../../../_helper/_helperIcons/_view';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import numberWithCommas from '../../../_helper/_numberWithCommas';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import ActivityListModal from './activityListModal';
 const initData = {
-  vessel: "",
+  vessel: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -29,12 +29,8 @@ export default function DryDocLanding() {
   );
 
   const [vesselDDL, getVesselDDL, vesselAssetLoader] = useAxiosGet();
-  const [
-    tableData,
-    getTableData,
-    tableDataLoader,
-    setTableData,
-  ] = useAxiosGet();
+  const [tableData, getTableData, tableDataLoader, setTableData] =
+    useAxiosGet();
   const [activityListModal, setActivityListModal] = useState(false);
   const [clickedItem, setClickedItem] = useState(null);
 
@@ -42,7 +38,6 @@ export default function DryDocLanding() {
     getVesselDDL(
       `/asset/Asset/GetAssetVesselDdl?IntBussinessUintId=${selectedBusinessUnit?.value}`
     );
-
   }, []);
 
   const getData = (values) => {
@@ -85,7 +80,7 @@ export default function DryDocLanding() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        "/financial-management/expense/drydocschedule/create"
+                        '/financial-management/expense/drydocschedule/create'
                       );
                     }}
                   >
@@ -105,10 +100,10 @@ export default function DryDocLanding() {
                     label="Vessel"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("vessel", valueOption);
+                        setFieldValue('vessel', valueOption);
                         setTableData([]);
                       } else {
-                        setFieldValue("vessel", "");
+                        setFieldValue('vessel', '');
                         setTableData([]);
                       }
                     }}
@@ -124,7 +119,7 @@ export default function DryDocLanding() {
                     placeholder="Date"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
+                      setFieldValue('fromDate', e.target.value);
                       setTableData([]);
                     }}
                   />
@@ -137,14 +132,14 @@ export default function DryDocLanding() {
                     placeholder="Date"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
+                      setFieldValue('toDate', e.target.value);
                       setTableData([]);
                     }}
                   />
                 </div>
                 <div className="col-lg-3">
                   <button
-                    style={{ marginTop: "17px" }}
+                    style={{ marginTop: '17px' }}
                     type="button"
                     className="btn btn-primary"
                     onClick={() => {

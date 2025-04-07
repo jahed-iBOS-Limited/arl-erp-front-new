@@ -1,35 +1,35 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import { IInput } from "../../../../_helper/_input";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import { IInput } from '../../../../_helper/_input';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   codeType: Yup.object().shape({
-    label: Yup.string().required("Code Type is required"),
-    value: Yup.string().required("Code Type is required"),
+    label: Yup.string().required('Code Type is required'),
+    value: Yup.string().required('Code Type is required'),
   }),
   prefix: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Prefix is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Prefix is required'),
   monthLength: Yup.object().shape({
-    label: Yup.string().required("Month Length is required"),
-    value: Yup.string().required("Month Length is required"),
+    label: Yup.string().required('Month Length is required'),
+    value: Yup.string().required('Month Length is required'),
   }),
   yearLength: Yup.object().shape({
-    label: Yup.string().required("Year Length is required"),
-    value: Yup.string().required("Year Length is required"),
+    label: Yup.string().required('Year Length is required'),
+    value: Yup.string().required('Year Length is required'),
   }),
   refreshType: Yup.object().shape({
-    label: Yup.string().required("Refresh Type is required"),
-    value: Yup.string().required("Refresh Type is required"),
+    label: Yup.string().required('Refresh Type is required'),
+    value: Yup.string().required('Refresh Type is required'),
   }),
   startLengthId: Yup.number()
-    .min(0, "Minimum 0 range")
-    .max(100000, "Maximum 100000 range")
-    .required("Start Length is required"),
+    .min(0, 'Minimum 0 range')
+    .max(100000, 'Maximum 100000 range')
+    .required('Start Length is required'),
 });
 
 export default function FormCmp({
@@ -140,14 +140,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

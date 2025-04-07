@@ -1,26 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import IForm from "../../../../../_helper/_form";
-import Loading from "../../../../../_helper/_loading";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import { createAndUpdateFDR, getFdrById } from "../../helper";
-import FdrForm from "./Form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import IForm from '../../../../../_helper/_form';
+import Loading from '../../../../../_helper/_loading';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import { createAndUpdateFDR, getFdrById } from '../../helper';
+import FdrForm from './Form';
 
 const initData = {
-  bank: "",
-  fdrNo: "",
-  leanTo: "",
+  bank: '',
+  fdrNo: '',
+  leanTo: '',
   openingDate: _todayDate(),
-  termDays: "",
-  oldPrincipal: "",
-  principle: "",
-  interestRate: "",
-  bankBranch: "",
-  bankAccount: "",
-  ait: "",
-  exDuty: "",
-  interest: "",
+  termDays: '',
+  oldPrincipal: '',
+  principle: '',
+  interestRate: '',
+  bankBranch: '',
+  bankAccount: '',
+  ait: '',
+  exDuty: '',
+  interest: '',
 };
 
 export default function FdrCreate({
@@ -42,19 +42,22 @@ export default function FdrCreate({
     console.log(values);
     if (!values?.bank) {
       setDisabled(false);
-      return toast.warn("Please Select Bank");
+      return toast.warn('Please Select Bank');
     }
     if (!values?.bankBranch) {
       setDisabled(false);
-      return toast.warn("Please Select Branch");
+      return toast.warn('Please Select Branch');
     }
     // if (!values?.bankAccount) {
     //   setDisabled(false);
     //   return toast.warn("Please Select Bank Account");
     // }
-    if(values?.termDays <= 0) return toast.warn("Term (Days) must be greater than zero");
-    if(values?.principle <= 0) return toast.warn("Principal must be greater than zero");
-    if(values?.interestRate <= 0) return toast.warn("Interest Rate must be greater than zero");
+    if (values?.termDays <= 0)
+      return toast.warn('Term (Days) must be greater than zero');
+    if (values?.principle <= 0)
+      return toast.warn('Principal must be greater than zero');
+    if (values?.interestRate <= 0)
+      return toast.warn('Interest Rate must be greater than zero');
 
     const payload = {
       sl: 0,
@@ -72,7 +75,7 @@ export default function FdrCreate({
       isActive: true,
       intActionBy: profileData?.userId,
       dteLastActionDate: _todayDate(),
-      strLienTo: values?.leanTo || "",
+      strLienTo: values?.leanTo || '',
       intBankBranchId: values?.bankBranch?.value || 0,
       intBankAccountId: values?.bankAccount?.value || 0,
       typeId: +id ? 2 : 1, //typeId 1 for create new Fdr And typeId 2 for renew FDR

@@ -1,10 +1,8 @@
-import React from "react";
-import LandingHeader from "./LandingHeader";
+import React from 'react';
+import LandingHeader from './LandingHeader';
 
 const AssetReceiveLanding = () => {
-  return (
-    <LandingHeader />
-  );
+  return <LandingHeader />;
 };
 
 export default AssetReceiveLanding;

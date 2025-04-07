@@ -1,19 +1,19 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { getBankAccount, getInstrumentDDL, getSBUList } from "../helper";
-import InputFields from "./InputFields";
-import "./style.css";
-import TableData from "./TableData";
+} from '../../../../../../_metronic/_partials/controls';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { getBankAccount, getInstrumentDDL, getSBUList } from '../helper';
+import InputFields from './InputFields';
+import './style.css';
+import TableData from './TableData';
 
 const BankAdvice = () => {
   const [adviceTypeDDL, setAdviceTypeDDL] = useState([]);
@@ -21,13 +21,13 @@ const BankAdvice = () => {
 
   const initData = {
     dateTime: financialsBankadvice?.dateTime || _todayDate(),
-    businessUnit: financialsBankadvice?.businessUnit || "",
-    bankAccountNo: financialsBankadvice?.bankAccountNo || "",
-    adviceType: financialsBankadvice?.adviceType || "",
-    mandatory: financialsBankadvice?.mandatory || "",
-    advice: "",
-    voucherPosting: financialsBankadvice?.voucherPosting || "",
-    sbuUnit: financialsBankadvice?.sbuUnit || "",
+    businessUnit: financialsBankadvice?.businessUnit || '',
+    bankAccountNo: financialsBankadvice?.bankAccountNo || '',
+    adviceType: financialsBankadvice?.adviceType || '',
+    mandatory: financialsBankadvice?.mandatory || '',
+    advice: '',
+    voucherPosting: financialsBankadvice?.voucherPosting || '',
+    sbuUnit: financialsBankadvice?.sbuUnit || '',
   };
   const printRef = useRef();
   const [bankAccountDDL, setBankAccountDDL] = useState([]);
@@ -55,7 +55,7 @@ const BankAdvice = () => {
     <>
       <Card>
         {true && <ModalProgressBar />}
-        <CardHeader title={"Bank Advice"}>
+        <CardHeader title={'Bank Advice'}>
           <CardHeaderToolbar></CardHeaderToolbar>
         </CardHeader>
         <CardBody>

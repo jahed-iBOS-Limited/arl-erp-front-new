@@ -1,12 +1,12 @@
-import React from "react";
-import ICustomTable from "../../../../_helper/_customTable";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
+import React from 'react';
+import ICustomTable from '../../../../_helper/_customTable';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
 
 const TableTow = ({ rowDto }) => {
-  const headers = ["Com. Name", "Amount"];
+  const headers = ['Com. Name', 'Amount'];
   return (
     <div>
-       <h6 className="m-0 p-0 mt-2">Financial Ratio Component</h6>
+      <h6 className="m-0 p-0 mt-2">Financial Ratio Component</h6>
       <ICustomTable ths={headers} className="table-font-size-sm">
         {rowDto?.map((item, index) => {
           return (

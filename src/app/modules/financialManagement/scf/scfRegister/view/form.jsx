@@ -1,53 +1,57 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import * as Yup from "yup";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { getBankAccountDDLByBankId, getBankDDL, getFacilityDLL } from "../helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import {
+  getBankAccountDDLByBankId,
+  getBankDDL,
+  getFacilityDLL,
+} from '../helper';
 
 const disbursementPurposeDDL = [
-  { value: 1, label: "Duty" },
-  { value: 2, label: "Bill Payment" },
-  { value: 3, label: "Utility Payment" },
-  { value: 4, label: "Working Capital" },
-  { value: 5, label: "Sanctioned Working Capital" },
+  { value: 1, label: 'Duty' },
+  { value: 2, label: 'Bill Payment' },
+  { value: 3, label: 'Utility Payment' },
+  { value: 4, label: 'Working Capital' },
+  { value: 5, label: 'Sanctioned Working Capital' },
 ];
 
 const loanRegister = Yup.object().shape({
   bank: Yup.object()
     .shape({
-      label: Yup.string().required("Bank is required"),
-      value: Yup.string().required("Bank is required"),
+      label: Yup.string().required('Bank is required'),
+      value: Yup.string().required('Bank is required'),
     })
     .nullable()
-    .required("Bank is required"),
+    .required('Bank is required'),
   facility: Yup.object()
     .shape({
-      label: Yup.string().required("Facility is required"),
-      value: Yup.string().required("Facility is required"),
+      label: Yup.string().required('Facility is required'),
+      value: Yup.string().required('Facility is required'),
     })
     .nullable()
-    .required("Facility is required"),
+    .required('Facility is required'),
   account: Yup.object()
     .shape({
-      label: Yup.string().required("Account is required"),
-      value: Yup.string().required("Account is required"),
+      label: Yup.string().required('Account is required'),
+      value: Yup.string().required('Account is required'),
     })
     .nullable()
-    .required("Account is required"),
-  openingDate: Yup.string().required("Opening Date is required"),
+    .required('Account is required'),
+  openingDate: Yup.string().required('Opening Date is required'),
   principle: Yup.number()
-    .min(1, "Principle is required")
-    .required("Principle is required"),
+    .min(1, 'Principle is required')
+    .required('Principle is required'),
   disbursementPurpose: Yup.object()
     .shape({
-      label: Yup.string().required("Disbursement Purpose is required"),
-      value: Yup.string().required("Disbursement Purpose is required"),
+      label: Yup.string().required('Disbursement Purpose is required'),
+      value: Yup.string().required('Disbursement Purpose is required'),
     })
     .nullable()
-    .required("Disbursement Purpose is required"),
+    .required('Disbursement Purpose is required'),
 });
 
 export default function SCFRegisterViewForm({
@@ -69,18 +73,14 @@ export default function SCFRegisterViewForm({
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
   }, shallowEqual);
-  const [maturityDate, setMaturityDate] = useState("");
+  const [maturityDate, setMaturityDate] = useState('');
 
   useEffect(() => {
     getBankDDL(setBankDDL, setLoading);
-
-
   }, []);
 
-  useEffect(()=>{
-
-    if(initData?.bank?.value){
-
+  useEffect(() => {
+    if (initData?.bank?.value) {
       const fetchBankAccountDDL = () => {
         getBankAccountDDLByBankId(
           profileData?.accountId,
@@ -98,12 +98,10 @@ export default function SCFRegisterViewForm({
           (resData) => {
             setFacilityDDL(resData);
             if (!renewId && !isEdit && formikRef.current) {
-              const facilityFind = resData?.find(
-                (item) => item?.value === 2
-              );
-              formikRef.current.setFieldValue("facility", facilityFind || "");
+              const facilityFind = resData?.find((item) => item?.value === 2);
+              formikRef.current.setFieldValue('facility', facilityFind || '');
               formikRef.current.setFieldValue(
-                "termDays",
+                'termDays',
                 facilityFind?.tenorDays || 0
               );
             }
@@ -115,25 +113,27 @@ export default function SCFRegisterViewForm({
       fetchBankAccountDDL();
       fetchFacilityDDL();
     }
-
-  },[initData])
+  }, [initData]);
 
   useEffect(() => {
     if (formikRef.current) {
       const { openingDate, termDays } = formikRef.current.values;
-      onSetMaturityDate(openingDate, termDays)
+      onSetMaturityDate(openingDate, termDays);
     }
-  }, [formikRef.current?.values?.openingDate, formikRef.current?.values?.termDays]);
+  }, [
+    formikRef.current?.values?.openingDate,
+    formikRef.current?.values?.termDays,
+  ]);
 
   const onSetMaturityDate = (openingDate, termDays) => {
-    setMaturityDate("");
+    setMaturityDate('');
     if (openingDate && termDays > 0) {
       const openingDateObj = new Date(openingDate);
       const calculatedDate = new Date(openingDateObj);
       calculatedDate.setDate(calculatedDate.getDate() + Number(termDays));
-      setMaturityDate(calculatedDate.toISOString().split("T")[0]);
+      setMaturityDate(calculatedDate.toISOString().split('T')[0]);
     }
-  }
+  };
 
   return (
     <>
@@ -145,7 +145,7 @@ export default function SCFRegisterViewForm({
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
-            history.push("/financial-management/banking/loan-register");
+            history.push('/financial-management/banking/loan-register');
           });
         }}
       >
@@ -167,10 +167,10 @@ export default function SCFRegisterViewForm({
                     options={bankDDL}
                     value={values?.bank}
                     onChange={(valueOption) => {
-                      setFieldValue("bank", valueOption);
-                      setFieldValue("account", "");
-                      setFieldValue("facility", "");
-                      setFieldValue("termDays", "");
+                      setFieldValue('bank', valueOption);
+                      setFieldValue('account', '');
+                      setFieldValue('facility', '');
+                      setFieldValue('termDays', '');
                       getBankAccountDDLByBankId(
                         profileData?.accountId,
                         selectedBusinessUnit?.value,
@@ -188,9 +188,9 @@ export default function SCFRegisterViewForm({
                               const facilityFind = resData?.find(
                                 (item) => item?.value === 2
                               );
-                              setFieldValue("facility", facilityFind || "");
+                              setFieldValue('facility', facilityFind || '');
                               setFieldValue(
-                                "termDays",
+                                'termDays',
                                 facilityFind?.tenorDays || 0
                               );
                             }
@@ -211,7 +211,7 @@ export default function SCFRegisterViewForm({
                     options={accountDDL}
                     value={values?.account}
                     onChange={(valueOption) => {
-                      setFieldValue("account", valueOption);
+                      setFieldValue('account', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -224,10 +224,10 @@ export default function SCFRegisterViewForm({
                     options={facilityDDL}
                     value={values?.facility}
                     onChange={(valueOption) => {
-                      setFieldValue("facility", valueOption);
-                      setFieldValue("facilityRemarks", valueOption?.remarks);
-                      setFieldValue("interestRate", valueOption?.iterestRate);
-                      setFieldValue("termDays", valueOption?.tenorDays || 0);
+                      setFieldValue('facility', valueOption);
+                      setFieldValue('facilityRemarks', valueOption?.remarks);
+                      setFieldValue('interestRate', valueOption?.iterestRate);
+                      setFieldValue('termDays', valueOption?.tenorDays || 0);
                     }}
                     errors={errors}
                     touched={touched}
@@ -242,7 +242,7 @@ export default function SCFRegisterViewForm({
                     name="loanAccNo"
                     placeholder="Loan Acc No"
                     onChange={(e) => {
-                      setFieldValue("loanAccNo", e.target.value);
+                      setFieldValue('loanAccNo', e.target.value);
                     }}
                     type="string"
                     disabled={renewId || location?.state?.isLoanApproved}
@@ -253,10 +253,10 @@ export default function SCFRegisterViewForm({
                   <InputField
                     value={values?.openingDate}
                     onChange={(e) => {
-                      setFieldValue("openingDate", e.target.value);
+                      setFieldValue('openingDate', e.target.value);
                       let openingDate = e.target.value;
                       let termDays = values?.termDays;
-                      onSetMaturityDate(openingDate, termDays)
+                      onSetMaturityDate(openingDate, termDays);
                     }}
                     name="openingDate"
                     placeholder="Date"
@@ -273,11 +273,11 @@ export default function SCFRegisterViewForm({
                     onChange={(e) => {
                       let openingDate = values?.openingDate;
                       let termDays = e.target.value;
-                      onSetMaturityDate(openingDate, termDays)
+                      onSetMaturityDate(openingDate, termDays);
                       if (e.target.value > 0) {
-                        setFieldValue("termDays", e.target.value);
+                        setFieldValue('termDays', e.target.value);
                       } else {
-                        setFieldValue("termDays", "");
+                        setFieldValue('termDays', '');
                       }
                     }}
                     type="number"
@@ -287,11 +287,7 @@ export default function SCFRegisterViewForm({
                 </div>
                 <div className="col-lg-2 pl pr-1 mb-1">
                   <label>Maturity Date</label>
-                  <InputField
-                    value={maturityDate || ""}
-                    disabled
-                    type="date"
-                  />
+                  <InputField value={maturityDate || ''} disabled type="date" />
                 </div>
                 <div className="col-lg-2 pl pr-1 mb-1">
                   <label>Principal</label>
@@ -309,9 +305,9 @@ export default function SCFRegisterViewForm({
                             return;
                           }
                         }
-                        setFieldValue("principle", e.target.value);
+                        setFieldValue('principle', e.target.value);
                       } else {
-                        setFieldValue("principle", "");
+                        setFieldValue('principle', '');
                       }
                     }}
                     type="number"
@@ -328,9 +324,9 @@ export default function SCFRegisterViewForm({
                     placeholder="Interest Rate"
                     onChange={(e) => {
                       if (e.target.value > 0) {
-                        setFieldValue("interestRate", e.target.value);
+                        setFieldValue('interestRate', e.target.value);
                       } else {
-                        setFieldValue("interestRate", "");
+                        setFieldValue('interestRate', '');
                       }
                     }}
                     type="number"
@@ -346,7 +342,7 @@ export default function SCFRegisterViewForm({
                       options={disbursementPurposeDDL}
                       value={values?.disbursementPurpose}
                       onChange={(valueOption) => {
-                        setFieldValue("disbursementPurpose", valueOption);
+                        setFieldValue('disbursementPurpose', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -355,7 +351,7 @@ export default function SCFRegisterViewForm({
                     />
                   </div>
                 )}
-                {!(renewId) && (
+                {!renewId && (
                   <>
                     <div className="col-lg-2 ">
                       <label>Loan Remarks</label>
@@ -364,7 +360,7 @@ export default function SCFRegisterViewForm({
                         name="remarks"
                         placeholder="Remarks"
                         onChange={(e) => {
-                          setFieldValue("remarks", e.target.value);
+                          setFieldValue('remarks', e.target.value);
                         }}
                         type="text"
                       />
@@ -376,7 +372,7 @@ export default function SCFRegisterViewForm({
                         name="facilityRemarks"
                         placeholder="Facility Info"
                         onChange={(e) => {
-                          setFieldValue("facilityRemarks", e.target.value);
+                          setFieldValue('facilityRemarks', e.target.value);
                         }}
                         disabled
                         type="text"
@@ -388,14 +384,14 @@ export default function SCFRegisterViewForm({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

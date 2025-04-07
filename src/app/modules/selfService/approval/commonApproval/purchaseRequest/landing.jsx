@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 // import { useHistory } from "react-router-dom";
-import { useSelector, shallowEqual } from "react-redux";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { Formik } from "formik";
-import { Form } from "react-bootstrap";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { getPurchaseReqGridData, approvalApi } from "./helper";
+import { useSelector, shallowEqual } from 'react-redux';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { Formik } from 'formik';
+import { Form } from 'react-bootstrap';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { getPurchaseReqGridData, approvalApi } from './helper';
 // import { setPRApprovalId } from "../../../../_helper/reduxForLocalStorage/Actions";
-import PaginationSearch from "./../../../../_helper/_search";
-import IViewModal from "../../../../_helper/_viewModal";
-import { ItemReqViewTableRow } from "../../../../procurement/purchase-management/purchaseRequestNew/report/tableRow";
+import PaginationSearch from './../../../../_helper/_search';
+import IViewModal from '../../../../_helper/_viewModal';
+import { ItemReqViewTableRow } from '../../../../procurement/purchase-management/purchaseRequestNew/report/tableRow';
 
 let initData = {};
 
@@ -46,7 +46,6 @@ const PurchaseRequestApprovalGrid = ({
 
   useEffect(() => {
     cb();
-
   }, [activityChange]);
 
   let cb = () => {
@@ -59,7 +58,7 @@ const PurchaseRequestApprovalGrid = ({
       setLoader,
       pageNo,
       pageSize,
-      "",
+      '',
       selectedPlant?.value
     );
   };
@@ -75,7 +74,7 @@ const PurchaseRequestApprovalGrid = ({
       setLoader,
       pageNo,
       pageSize,
-      "",
+      '',
       selectedPlant.value
     );
   };
@@ -123,7 +122,7 @@ const PurchaseRequestApprovalGrid = ({
   // approveSubmitlHandler btn submit handler
   const approveSubmitlHandler = (values) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to post the selected approve submit`,
       yesAlertFunc: () => {
         const filterSelectedData = rowDto?.data?.filter(
@@ -169,7 +168,7 @@ const PurchaseRequestApprovalGrid = ({
   };
 
   const [isShowModal, setIsShowModal] = useState(false);
-  const [currentRowData, setCurrentRowData] = useState("");
+  const [currentRowData, setCurrentRowData] = useState('');
 
   return (
     <>
@@ -177,7 +176,7 @@ const PurchaseRequestApprovalGrid = ({
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          applicationType: { value: 1, label: "Pending Application" },
+          applicationType: { value: 1, label: 'Pending Application' },
         }}
         // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -234,7 +233,7 @@ const PurchaseRequestApprovalGrid = ({
                 <table className="table table-striped table-bordered global-table">
                   <thead>
                     <tr>
-                      <th style={{ width: "20px" }}>
+                      <th style={{ width: '20px' }}>
                         <input
                           type="checkbox"
                           id="parent"
@@ -294,14 +293,14 @@ const PurchaseRequestApprovalGrid = ({
                             }}
                           >
                             <OverlayTrigger
-                              overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}
+                              overlay={<Tooltip id="cs-icon">{'View'}</Tooltip>}
                             >
-                              <span style={{ cursor: "pointer" }}>
+                              <span style={{ cursor: 'pointer' }}>
                                 <i
                                   className={`fas fa-eye ${
                                     LastPrApprovalId === item?.transectionId
-                                      ? "text-primary"
-                                      : ""
+                                      ? 'text-primary'
+                                      : ''
                                   }`}
                                   aria-hidden="true"
                                 ></i>
@@ -315,7 +314,7 @@ const PurchaseRequestApprovalGrid = ({
                 </table>
               </div>
             ) : (
-              ""
+              ''
             )}
             {rowDto?.data?.length > 0 && (
               <PaginationTable

@@ -1,17 +1,17 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
   Card,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../_helper/_loading";
-import PaginationTable from "../../../_helper/_tablePagination";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../_helper/_loading';
+import PaginationTable from '../../../_helper/_tablePagination';
 
 export default function MedicalStock() {
   const history = useHistory();
@@ -22,7 +22,7 @@ export default function MedicalStock() {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getRowData(
       `/mes/MSIL/GetMedicalStockLanding?BuId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}`
     );
@@ -32,7 +32,6 @@ export default function MedicalStock() {
     getRowData(
       `/mes/MSIL/GetMedicalStockLanding?BuId=${selectedBusinessUnit?.value}&PageNo=${pageNo}&PageSize=${pageSize}`
     );
-
   }, [selectedBusinessUnit]);
 
   return (
@@ -47,7 +46,7 @@ export default function MedicalStock() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Medicine Stock"}>
+              <CardHeader title={'Medicine Stock'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
@@ -70,7 +69,7 @@ export default function MedicalStock() {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>Item Code</th>
                             <th>Item Name</th>
                             <th>Uom</th>

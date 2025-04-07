@@ -1,17 +1,16 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { getSBU } from "../../../_helper/_commonApi";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { getSBU } from '../../../_helper/_commonApi';
 
 const initData = {
-  sbu: "",
-  accountingJournalTypeId: { value: 4, label: "Bank Receipts " },
+  sbu: '',
+  accountingJournalTypeId: { value: 4, label: 'Bank Receipts ' },
 };
 
 export default function CollectionModal({
@@ -34,7 +33,7 @@ export default function CollectionModal({
   }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {
-    alert("Working...");
+    alert('Working...');
   };
   return (
     <Formik
@@ -98,7 +97,7 @@ export default function CollectionModal({
                       name="paymentType"
                       checked={paymentType === 1}
                       className="mr-1 pointer"
-                      style={{ position: "relative", top: "2px" }}
+                      style={{ position: 'relative', top: '2px' }}
                       onChange={(valueOption) => {
                         setPaymentType(1);
                       }}
@@ -111,7 +110,7 @@ export default function CollectionModal({
                       name="paymentType"
                       checked={paymentType === 2}
                       className="mr-1 pointer"
-                      style={{ position: "relative", top: "2px" }}
+                      style={{ position: 'relative', top: '2px' }}
                       onChange={(e) => {
                         setPaymentType(2);
                       }}
@@ -130,7 +129,7 @@ export default function CollectionModal({
                         value={values?.sbu}
                         label="SBU"
                         onChange={(valueOption) => {
-                          setFieldValue("sbu", valueOption);
+                          setFieldValue('sbu', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -140,14 +139,14 @@ export default function CollectionModal({
                       <NewSelect
                         name="accountingJournalTypeId"
                         options={[
-                          { value: 4, label: "Bank Receipts " },
+                          { value: 4, label: 'Bank Receipts ' },
                           //   { value: 5, label: "Bank Payments" },
                           //   { value: 6, label: "Bank Transfer" },
                         ]}
                         value={values?.accountingJournalTypeId}
                         label="Select Journal Type"
                         onChange={(valueOption) => {
-                          setFieldValue("accountingJournalTypeId", valueOption);
+                          setFieldValue('accountingJournalTypeId', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -159,14 +158,14 @@ export default function CollectionModal({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

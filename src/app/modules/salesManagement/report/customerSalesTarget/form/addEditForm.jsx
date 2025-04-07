@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { useLocation } from 'react-router-dom';
 
 import {
   createCustomerSalesTarget,
@@ -12,25 +12,25 @@ import {
   editCustomerSalesTarget,
   getItemListByPartnerId_api,
   CreateCustomerSalesTarget,
-} from "../helper";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { toast } from "react-toastify";
-import { getDistributionChannelDDL_api } from "../../../../transportManagement/report/transportSupplierUpdate/helper";
-import Loading from "../../../../_helper/_loading";
+} from '../helper';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { toast } from 'react-toastify';
+import { getDistributionChannelDDL_api } from '../../../../transportManagement/report/transportSupplierUpdate/helper';
+import Loading from '../../../../_helper/_loading';
 
 const monthDDL = [
-  { value: 1, label: "January" },
-  { value: 2, label: "February" },
-  { value: 3, label: "March" },
-  { value: 4, label: "April" },
-  { value: 5, label: "May" },
-  { value: 6, label: "June" },
-  { value: 7, label: "July" },
-  { value: 8, label: "August" },
-  { value: 9, label: "Sepetember" },
-  { value: 10, label: "October" },
-  { value: 11, label: "November" },
-  { value: 12, label: "December" },
+  { value: 1, label: 'January' },
+  { value: 2, label: 'February' },
+  { value: 3, label: 'March' },
+  { value: 4, label: 'April' },
+  { value: 5, label: 'May' },
+  { value: 6, label: 'June' },
+  { value: 7, label: 'July' },
+  { value: 8, label: 'August' },
+  { value: 9, label: 'Sepetember' },
+  { value: 10, label: 'October' },
+  { value: 11, label: 'November' },
+  { value: 12, label: 'December' },
 ];
 
 var date = new Date(),
@@ -54,10 +54,10 @@ export function CustomerSalesTargetForm({
   const [isDisabled, setDisabled] = useState(false);
 
   const [generalLedgerRowDto, setGeneralLedgerRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [singleRowData, setSingleRowData] = useState([]);
   // const [itemNameDDL, setItemNameDDL] = useState("");
-  const [rate, setRate] = useState("");
+  const [rate, setRate] = useState('');
   const [rowDto, setRowDto] = React.useState([]);
   const [itemListByPartner, setItemListByPartner] = React.useState([]);
   const [distributionChannelDDL, setDistributionChannelDDL] = useState([]);
@@ -66,10 +66,10 @@ export function CustomerSalesTargetForm({
     var today = new Date();
     const todayDate =
       today.getFullYear() +
-      "-" +
-      ("0" + (today.getMonth() + 2)).slice(-2) +
-      "-" +
-      ("0" + today.getDate()).slice(-2);
+      '-' +
+      ('0' + (today.getMonth() + 2)).slice(-2) +
+      '-' +
+      ('0' + today.getDate()).slice(-2);
     return todayDate;
   };
 
@@ -86,23 +86,23 @@ export function CustomerSalesTargetForm({
     initData = {
       targetStartDate: _todayDate(),
       targetEndDate: _nextDate(),
-      item: "",
-      uom: "",
-      quantity: "",
-      itemName: "",
-      itemCode: "",
+      item: '',
+      uom: '',
+      quantity: '',
+      itemName: '',
+      itemCode: '',
       rate: rate,
       sbu: location?.state?.sbu,
       businessPartner: location?.state?.business_partner?.label,
-      businessPartnerId: "",
-      totalTargetAmoun: "",
-      targetMonth: "",
-      targetYear: "",
+      businessPartnerId: '',
+      totalTargetAmoun: '',
+      targetMonth: '',
+      targetYear: '',
       approval: false,
-      distributionChannel: "",
-      region: "",
-      area: "",
-      territory: "",
+      distributionChannel: '',
+      region: '',
+      area: '',
+      territory: '',
     };
   }
 
@@ -121,8 +121,6 @@ export function CustomerSalesTargetForm({
         setDistributionChannelDDL
       );
     }
-
-
   }, [selectedBusinessUnit, profileData, singleData]);
 
   // get user profile data from store
@@ -136,8 +134,6 @@ export function CustomerSalesTargetForm({
         setDisabled
       );
     }
-
-
   }, [id, approveid]);
 
   // useEffect(() => {
@@ -154,7 +150,7 @@ export function CustomerSalesTargetForm({
     if (buSetOne) {
       const selectedItems = rowDto.filter((item) => item?.isSelected);
       if (selectedItems?.length === 0) {
-        return toast.warn("Please select at least one item");
+        return toast.warn('Please select at least one item');
       } else {
         const totalTargetAmount = selectedItems?.reduce((acc, curr) => {
           const amount = curr?.targetQty * curr?.itemSalesRate;
@@ -188,7 +184,7 @@ export function CustomerSalesTargetForm({
             itemCode: item?.itemCode,
             itemName: item?.itemName,
             uomid: item?.uomid,
-            uomcode: item?.uomcode || "",
+            uomcode: item?.uomcode || '',
             uomname: item?.uomname,
             itemTypeId: item?.itemTypeId,
             targetQuantity: +item?.targetQty,
@@ -201,13 +197,13 @@ export function CustomerSalesTargetForm({
         });
         await CreateCustomerSalesTarget(payload, setDisabled, cb);
         if (+id || +approveid) {
-          history.push("/sales-management/report/customersalestarget");
+          history.push('/sales-management/report/customersalestarget');
         }
       }
     } else {
       const selectedItems = rowDto?.filter((item) => item?.isSelected);
       if (selectedItems?.length < 1) {
-        return toast.warn("Please select at least one item!");
+        return toast.warn('Please select at least one item!');
       }
       const total = selectedItems?.reduce((a, b) => a + b.amount, 0);
       if (id || approveid) {
@@ -243,7 +239,7 @@ export function CustomerSalesTargetForm({
           //   toast.warning(`Total Target Amount can't be "0"`);
           // }
         } else {
-          toast.warning("You must have to select at least one item");
+          toast.warning('You must have to select at least one item');
         }
       } else {
         const rowDtoSave = selectedItems?.map((itm) => ({
@@ -251,7 +247,7 @@ export function CustomerSalesTargetForm({
           itemCode: itm?.itemCode,
           itemName: itm?.itemName,
           uomid: itm?.uom,
-          uomcode: itm?.uomCode || "",
+          uomcode: itm?.uomCode || '',
           uomname: itm?.uomname,
           itemTypeId: 4,
           targetQuantity: +itm?.targetQuantity,
@@ -286,7 +282,7 @@ export function CustomerSalesTargetForm({
           //   toast.warning(`Total Target Amount can't be "0"`);
           // }
         } else {
-          toast.warning("You must have to select at least one item");
+          toast.warning('You must have to select at least one item');
         }
       }
     }
@@ -308,8 +304,6 @@ export function CustomerSalesTargetForm({
         setItemListByPartner
       );
     }
-
-
   }, [selectedBusinessUnit, profileData, location]);
 
   const intValues = id ? singleData : approveid ? singleData : initData;
@@ -317,8 +311,8 @@ export function CustomerSalesTargetForm({
     <IForm
       title={
         approveid
-          ? "Approve Customer Sales Target"
-          : "Create Customer Sales Target"
+          ? 'Approve Customer Sales Target'
+          : 'Create Customer Sales Target'
       }
       getProps={setObjprops}
       isDisabled={isDisabled || (buSetOne && !rowDto?.length)}

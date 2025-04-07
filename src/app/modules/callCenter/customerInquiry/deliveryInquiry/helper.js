@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const GetCustomerDeliveryInqueryLanding_api = async (
   fromDate,
@@ -14,7 +14,7 @@ export const GetCustomerDeliveryInqueryLanding_api = async (
 ) => {
   setLoading && setLoading(true);
   try {
-    const searchPath = search ? `search=${search}&` : "";
+    const searchPath = search ? `search=${search}&` : '';
     const res = await Axios.get(
       `/wms/CustomerDeliveryInquery/GetCustomerDeliveryInqueryLanding?AccountId=${accId}&BusinessUnitid=${buId}&fromDate=${fromDate}&toDate=${toDate}&${searchPath}PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
     );
@@ -50,13 +50,13 @@ export const CreateDailyDeliveryStatus_api = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
   } catch (error) {
-    console.log("object");
-    toast.error(error?.response?.data?.message || "Something went wrong");
+    console.log('object');
+    toast.error(error?.response?.data?.message || 'Something went wrong');
     setDisabled(false);
   }
 };

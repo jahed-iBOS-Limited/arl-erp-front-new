@@ -37,7 +37,6 @@ export default function ReceiveInvCreateForm({
   landingData,
   isEdit,
 }) {
-
   const [isDisabled, setDisabled] = useState(false);
   const dispatch = useDispatch();
   const [rowDto, setRowDto] = useState([]);
@@ -77,8 +76,8 @@ export default function ReceiveInvCreateForm({
         landingData?.sbu?.value,
         landingData?.plant?.value,
         landingData?.warehouse?.value,
-        setFieldValue,
-      ),
+        setFieldValue
+      )
     );
   };
 
@@ -96,10 +95,10 @@ export default function ReceiveInvCreateForm({
       profileData.accountId,
       selectedBusinessUnit.value,
       landingData?.sbu?.value,
-      setSupplierDDL,
+      setSupplierDDL
     );
     dispatch(
-      getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value),
+      getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value)
     );
     onChaneForRefType({ value: 5, label: 'Inventory Request' });
     dispatch(getStockDDLAction());
@@ -109,8 +108,6 @@ export default function ReceiveInvCreateForm({
       dispatch(slice.setreferenceNoDDL([]));
       dispatch(slice.setTransactionTypeDDL([]));
     };
-
-
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
   // const onChangeForRefNo = (refNo, values) => {
@@ -362,10 +359,10 @@ export default function ReceiveInvCreateForm({
                 saveInventoryTransactionForIssue(
                   { data: modifyPlyload, cb },
                   setRowDto,
-                  setDisabled,
+                  setDisabled
                   // setFileObjects,
                   // IConfirmModal
-                ),
+                )
               );
             } else {
             }
@@ -375,8 +372,8 @@ export default function ReceiveInvCreateForm({
             saveInventoryTransactionForIssue(
               { data: payload, cb },
               setRowDto,
-              setDisabled,
-            ),
+              setDisabled
+            )
           );
           // toast.warning("Please Select Attachment")
         }
@@ -467,7 +464,7 @@ export default function ReceiveInvCreateForm({
                                 value: valueOption.actionBy || 0,
                                 label: valueOption.actionName || '',
                               }
-                            : '',
+                            : ''
                         );
                         setFieldValue('item', '');
                         setRowDto([]);
@@ -476,7 +473,7 @@ export default function ReceiveInvCreateForm({
                         if (v?.length < 3) return [];
                         return axios
                           .get(
-                            `/wms/InventoryTransaction/GetReferenceNoForInventoryRequest?searchTerm=${v}&RefTypeId=7&RefTypeName=Inventory%20Request&accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&SbuId=${landingData?.sbu?.value}&PlantId=${landingData?.plant?.value}&WearhouseId=${landingData?.warehouse?.value}&IsActive=true&IsClosed=false`,
+                            `/wms/InventoryTransaction/GetReferenceNoForInventoryRequest?searchTerm=${v}&RefTypeId=7&RefTypeName=Inventory%20Request&accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&SbuId=${landingData?.sbu?.value}&PlantId=${landingData?.plant?.value}&WearhouseId=${landingData?.warehouse?.value}&IsActive=true&IsClosed=false`
                           )
                           .then((res) => {
                             const updateList = res?.data.map((item) => ({
@@ -514,7 +511,7 @@ export default function ReceiveInvCreateForm({
                           getForeignPurchaseDDL(
                             data?.value,
                             landingData?.plant?.value,
-                            setForeginPurchase,
+                            setForeginPurchase
                           );
                         } else {
                           dispatch(
@@ -522,8 +519,8 @@ export default function ReceiveInvCreateForm({
                               profileData?.accountId,
                               selectedBusinessUnit?.value,
                               data?.value,
-                              0,
-                            ),
+                              0
+                            )
                           );
                         }
 
@@ -543,7 +540,7 @@ export default function ReceiveInvCreateForm({
                                 value: data.supplierId || 0,
                                 label: data.supplierName || '',
                               }
-                            : '',
+                            : ''
                         );
                         setFieldValue('freight', data?.freight);
                         setFieldValue('grossDiscount', data?.grossDiscount);
@@ -579,8 +576,8 @@ export default function ReceiveInvCreateForm({
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
                             values?.refNo?.value,
-                            value?.value,
-                          ),
+                            value?.value
+                          )
                         );
                       }}
                       //setFieldValue={setFieldValue}
@@ -796,7 +793,7 @@ export default function ReceiveInvCreateForm({
                         if (v?.length < 3) return [];
                         return axios
                           .get(
-                            `/wms/InventoryTransaction/GetItemForReceiveInventory?accountId=${profileData.accountId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${landingData?.plant?.value}&warehouseId=${landingData?.warehouse?.value}&searchTerm=${v}&RefTypeId=${values?.refType?.value}`,
+                            `/wms/InventoryTransaction/GetItemForReceiveInventory?accountId=${profileData.accountId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${landingData?.plant?.value}&warehouseId=${landingData?.warehouse?.value}&searchTerm=${v}&RefTypeId=${values?.refType?.value}`
                           )
                           .then((res) => {
                             const updateList = res?.data.map((item) => ({
@@ -924,7 +921,7 @@ export default function ReceiveInvCreateForm({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

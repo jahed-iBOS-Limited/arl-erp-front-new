@@ -1,26 +1,25 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import ICustomTable from "../../../../_helper/_customTable";
-import IForm from "../../../../_helper/_form";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { addButtonHandler, saveHandler } from "../helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import ICustomTable from '../../../../_helper/_customTable';
+import IForm from '../../../../_helper/_form';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { addButtonHandler, saveHandler } from '../helper';
 
 const initData = {
   date: _todayDate(),
-  bankName: "",
-  limitType: "",
-  type: "",
-  amount: "",
+  bankName: '',
+  limitType: '',
+  type: '',
+  amount: '',
 };
 
 const CreateBankLimit = () => {
@@ -47,7 +46,11 @@ const CreateBankLimit = () => {
   return (
     <div>
       {(isDisabled || loading) && <Loading />}
-      <IForm title={"Create Bank Limit"} getProps={setObjprops} isDisabled={isDisabled}>
+      <IForm
+        title={'Create Bank Limit'}
+        getProps={setObjprops}
+        isDisabled={isDisabled}
+      >
         <Formik
           enableReinitialize={true}
           initialValues={initData}
@@ -68,7 +71,15 @@ const CreateBankLimit = () => {
             });
           }}
         >
-          {({ handleSubmit, resetForm, values, errors, touched, setFieldValue, isValid }) => (
+          {({
+            handleSubmit,
+            resetForm,
+            values,
+            errors,
+            touched,
+            setFieldValue,
+            isValid,
+          }) => (
             <>
               <Form className="form form-label-right">
                 <div className="form-group row global-form">
@@ -80,7 +91,7 @@ const CreateBankLimit = () => {
                       type="date"
                       value={values?.date}
                       onChange={(e) => {
-                        setFieldValue("date", e.target.value);
+                        setFieldValue('date', e.target.value);
                       }}
                       errors={errors}
                       touched={touched}
@@ -94,7 +105,7 @@ const CreateBankLimit = () => {
                       options={bankDDL}
                       value={values?.bankName}
                       onChange={(valueOption) => {
-                        setFieldValue("bankName", valueOption);
+                        setFieldValue('bankName', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -106,12 +117,12 @@ const CreateBankLimit = () => {
                       placeholder="Limit Type"
                       name="limitType"
                       options={[
-                        { value: 1, label: "Limit-1" },
-                        { value: 2, label: "Limit-2" },
+                        { value: 1, label: 'Limit-1' },
+                        { value: 2, label: 'Limit-2' },
                       ]}
                       value={values?.limitType}
                       onChange={(valueOption) => {
-                        setFieldValue("limitType", valueOption);
+                        setFieldValue('limitType', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -123,12 +134,12 @@ const CreateBankLimit = () => {
                       placeholder="Type"
                       name="type"
                       options={[
-                        { value: 1, label: "Addition" },
-                        { value: 2, label: "Deduction" },
+                        { value: 1, label: 'Addition' },
+                        { value: 2, label: 'Deduction' },
                       ]}
                       value={values?.type}
                       onChange={(valueOption) => {
-                        setFieldValue("type", valueOption);
+                        setFieldValue('type', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -143,7 +154,7 @@ const CreateBankLimit = () => {
                       value={values?.amount}
                       onChange={(e) => {
                         if (+e.target.value < 0) return null;
-                        setFieldValue("amount", e.target.value);
+                        setFieldValue('amount', e.target.value);
                       }}
                       errors={errors}
                       touched={touched}
@@ -162,7 +173,17 @@ const CreateBankLimit = () => {
                   </div>
                   {rowDto?.length ? (
                     <div className="col-lg-12 mt-2">
-                      <ICustomTable ths={["SL", "Date ", "Bank Name", "Limit Type", "Type", "Amount", "Action"]}>
+                      <ICustomTable
+                        ths={[
+                          'SL',
+                          'Date ',
+                          'Bank Name',
+                          'Limit Type',
+                          'Type',
+                          'Amount',
+                          'Action',
+                        ]}
+                      >
                         {rowDto?.map((item, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
@@ -181,15 +202,30 @@ const CreateBankLimit = () => {
                             <td colSpan="5" className="text-right">
                               Total:
                             </td>
-                            <td className="text-center">{rowDto?.reduce((total, value) => total + +value?.amount, 0)}</td>
+                            <td className="text-center">
+                              {rowDto?.reduce(
+                                (total, value) => total + +value?.amount,
+                                0
+                              )}
+                            </td>
                             <td></td>
                           </tr>
                         ) : null}
                       </ICustomTable>
                     </div>
                   ) : null}
-                  <button type="submit" style={{ display: "none" }} ref={objProps.btnRef} onSubmit={() => handleSubmit()}></button>
-                  <button type="reset" style={{ display: "none" }} ref={objProps.resetBtnRef} onSubmit={() => resetForm(initData)}></button>
+                  <button
+                    type="submit"
+                    style={{ display: 'none' }}
+                    ref={objProps.btnRef}
+                    onSubmit={() => handleSubmit()}
+                  ></button>
+                  <button
+                    type="reset"
+                    style={{ display: 'none' }}
+                    ref={objProps.resetBtnRef}
+                    onSubmit={() => resetForm(initData)}
+                  ></button>
                 </div>
               </Form>
             </>

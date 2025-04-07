@@ -27,11 +27,10 @@ export function TableRow() {
         getKpiTargetGridData(
           profileData.accountId,
           selectedBusinessUnit.value,
-          4,
-        ),
+          4
+        )
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   // UI Context

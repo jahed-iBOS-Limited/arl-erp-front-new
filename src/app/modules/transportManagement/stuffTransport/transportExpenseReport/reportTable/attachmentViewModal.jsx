@@ -6,17 +6,13 @@ import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions'
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 export default function AttachmentViewModal({ singleData }) {
-  const [
-    attachmentData,
-    getAttachmentData,
-    loadingAttachmentData,
-  ] = useAxiosGet();
+  const [attachmentData, getAttachmentData, loadingAttachmentData] =
+    useAxiosGet();
   const dispatch = useDispatch();
   useEffect(() => {
     getAttachmentData(
-      `/mes/VehicleLog/GetStuffTripExpenseAttachmentList?tripId=${singleData?.intTripId}`,
+      `/mes/VehicleLog/GetStuffTripExpenseAttachmentList?tripId=${singleData?.intTripId}`
     );
-
   }, []);
   return (
     <>
@@ -40,7 +36,7 @@ export default function AttachmentViewModal({ singleData }) {
                         onClick={(e) => {
                           e.stopPropagation();
                           dispatch(
-                            getDownlloadFileView_Action(item?.attachment),
+                            getDownlloadFileView_Action(item?.attachment)
                           );
                         }}
                       >

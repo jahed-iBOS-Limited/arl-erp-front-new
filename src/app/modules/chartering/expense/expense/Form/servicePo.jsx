@@ -32,9 +32,7 @@ import {
   getWareHouseDDLAction,
   savePurchaseOrderForAssetStandardService,
 } from '../../../../procurement/purchase-management/purchaseOrder/_redux/Actions';
-import {
-  getRefNoDdlForServicePo,
-} from '../../../../procurement/purchase-management/purchaseOrder/Form/servicePO/helper';
+import { getRefNoDdlForServicePo } from '../../../../procurement/purchase-management/purchaseOrder/Form/servicePO/helper';
 import Loading from '../../../../_helper/_loading';
 import TotalNetAmount from '../../../../procurement/purchase-management/purchaseOrder/TotalNetAmount';
 import RowDtoTable from './rowDtoTable';
@@ -88,8 +86,6 @@ export default function ServicePO({
     dispatch(getSbuDDLAction(accountId, buId));
     dispatch(getPurchaseOrgDDLAction(accountId, buId));
     dispatch(getPlantListDDLAction(profileData?.userId, accountId, buId));
-
-
   }, [buId]);
   // const location = useLocation();
 
@@ -119,7 +115,7 @@ export default function ServicePO({
       arr = rowDto?.filter(
         (item) =>
           item.referenceNo?.value === values?.referenceNo?.value &&
-          item?.item?.value === values?.item?.value,
+          item?.item?.value === values?.item?.value
       );
     } else {
       arr = rowDto?.filter((item) => item?.item?.value === values?.item?.value);
@@ -184,7 +180,6 @@ export default function ServicePO({
 
     getProfitCenterList(buId, setProfitCenterListTwo, setLoading);
     dispatch(getUomDDLAction(accountId, buId));
-
   }, [profileData, buId]);
 
   const getItemDDL = (values, supplierId, refType, referenceNo) => {
@@ -199,8 +194,8 @@ export default function ServicePO({
         values?.warehouse?.value,
         supplierId,
         refType,
-        referenceNo,
-      ),
+        referenceNo
+      )
     );
   };
 
@@ -219,11 +214,10 @@ export default function ServicePO({
 
   useEffect(() => {
     getTransferBu(
-      `/procurement/PurchaseOrder/TransferPoBusinessUnit_reverse?UnitId=${buId}`,
+      `/procurement/PurchaseOrder/TransferPoBusinessUnit_reverse?UnitId=${buId}`
     );
     dispatch(getPaymentTermsListDDLAction());
     dispatch(getCurrencyDDLAction(accountId, 11, buId));
-
   }, [buId]);
   const getIsDisabledAddBtn = (values) => {
     if (values.isTransfer) {
@@ -381,7 +375,7 @@ export default function ServicePO({
           IConfirmModal,
           estimatePDAPOPage: '',
           history,
-        }),
+        })
       );
     } else {
       setDisabled(false);
@@ -389,10 +383,10 @@ export default function ServicePO({
   };
   const plantDDL = useSelector((state) => state?.purchaseOrder?.plantDDL);
   const wareHouseDDL = useSelector(
-    (state) => state?.purchaseOrder?.wareHouseDDL,
+    (state) => state?.purchaseOrder?.wareHouseDDL
   );
   const purchaseOrgDDL = useSelector(
-    (state) => state?.commonDDL?.purchaseOrgDDL,
+    (state) => state?.commonDDL?.purchaseOrgDDL
   );
   const sbuDDL = useSelector((state) => state?.commonDDL?.sbuDDL);
   return (
@@ -431,12 +425,12 @@ export default function ServicePO({
                     getCostTypeDDL(
                       data?.voyageTypeId,
                       setCostTypeDDL,
-                      setLoading,
+                      setLoading
                     );
-                  },
+                  }
                 );
               },
-              true,
+              true
             );
           });
         }}
@@ -506,7 +500,7 @@ export default function ServicePO({
                               values?.plant?.value,
                               values?.warehouse?.value,
                               'Without Reference',
-                              setRefNoDDL,
+                              setRefNoDDL
                             );
                             dispatch(
                               getPOItemForServiceItemDDLAction(
@@ -519,15 +513,15 @@ export default function ServicePO({
                                 values?.warehouse?.value,
                                 values?.supplierName?.value,
                                 3,
-                                values?.referenceNo,
-                              ),
+                                values?.referenceNo
+                              )
                             );
                             dispatch(
                               getCurrencyDDLAction(
                                 accountId,
                                 valueOption?.value,
-                                buId,
-                              ),
+                                buId
+                              )
                             );
                           }
                         }}
@@ -549,8 +543,8 @@ export default function ServicePO({
                                 profileData?.userId,
                                 accountId,
                                 buId,
-                                valueOption?.value,
-                              ),
+                                valueOption?.value
+                              )
                             );
 
                             getRefNoDdlForServicePo(
@@ -561,7 +555,7 @@ export default function ServicePO({
                               valueOption?.value,
                               values?.warehouse?.value,
                               'Without Reference',
-                              setRefNoDDL,
+                              setRefNoDDL
                             );
                             getPOItemForServiceItemDDLAction(
                               5,
@@ -573,7 +567,7 @@ export default function ServicePO({
                               values?.warehouse?.value,
                               values?.supplierName?.value,
                               3,
-                              values?.referenceNo,
+                              values?.referenceNo
                             );
                             setFieldValue('plant', valueOption);
                           } else {
@@ -598,7 +592,7 @@ export default function ServicePO({
                             setFieldValue('warehouse', valueOption);
                             setFieldValue(
                               'deliveryAddress',
-                              valueOption?.address,
+                              valueOption?.address
                             );
 
                             getRefNoDdlForServicePo(
@@ -609,7 +603,7 @@ export default function ServicePO({
                               values?.plant?.value,
                               valueOption?.value,
                               'Without Reference',
-                              setRefNoDDL,
+                              setRefNoDDL
                             );
                             getPOItemForServiceItemDDLAction(
                               5,
@@ -621,7 +615,7 @@ export default function ServicePO({
                               valueOption.value,
                               values?.supplierName?.value,
                               3,
-                              values?.referenceNo,
+                              values?.referenceNo
                             );
                           }
                         }}
@@ -646,7 +640,7 @@ export default function ServicePO({
                           if (v.length < 3) return [];
                           return axios
                             .get(
-                              `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accountId}&UnitId=${buId}&SBUId=${sbuDDL[0]?.value}`,
+                              `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accountId}&UnitId=${buId}&SBUId=${sbuDDL[0]?.value}`
                             )
                             .then((res) => {
                               const updateList = res?.data.map((item) => ({
@@ -924,13 +918,13 @@ export default function ServicePO({
                               values,
                               setFieldValue,
                               label,
-                              valueOption,
+                              valueOption
                             ) => {
                               getCostCenterDDL(
                                 accountId,
                                 valueOption?.value,
                                 values?.isTransfer,
-                                setCostCenterList,
+                                setCostCenterList
                               );
                               // getCostElementDDL(
                               //   accountId,
@@ -941,10 +935,10 @@ export default function ServicePO({
                               getProfitCenterList(
                                 valueOption?.value,
                                 setProfitCenterList,
-                                setLoading,
+                                setLoading
                               );
                               getTransferUnitSupplierDDL(
-                                `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${accountId}&UnitId=${valueOption?.value}&SBUId=0`,
+                                `/procurement/PurchaseOrder/GetSupplierListDDL?AccountId=${accountId}&UnitId=${valueOption?.value}&SBUId=0`
                               );
                             }}
                             errors={errors}
@@ -961,7 +955,7 @@ export default function ServicePO({
                             onChange={(valueOption) => {
                               setFieldValue(
                                 'transferBusinessUnitSupplier',
-                                valueOption,
+                                valueOption
                               );
                             }}
                             errors={errors}
@@ -996,7 +990,7 @@ export default function ServicePO({
                                   values?.transferBusinessUnit?.value,
                                   accountId,
                                   valueOption?.value,
-                                  setCostElementList,
+                                  setCostElementList
                                 );
                               } else {
                                 setFieldValue('costCenter', '');
@@ -1075,7 +1069,7 @@ export default function ServicePO({
                                   buId,
                                   accountId,
                                   valueOption?.value,
-                                  setCostElementListTwo,
+                                  setCostElementListTwo
                                 );
                               } else {
                                 setFieldValue('costCenterTwo', '');
@@ -1118,7 +1112,7 @@ export default function ServicePO({
                             values,
                             values?.supplierName?.value,
                             3,
-                            valueOption?.value,
+                            valueOption?.value
                           );
                         }}
                         label="Reference No"
@@ -1146,7 +1140,7 @@ export default function ServicePO({
                                 values?.purchaseOrg?.value
                               }&PlantId=${values?.plant?.value}&WearhouseId=${
                                 values?.warehouse?.value
-                              }&RefTypeId=${3}&RefNoId=${0}&searchTerm=${v}`,
+                              }&RefTypeId=${3}&RefNoId=${0}&searchTerm=${v}`
                             )
                             .then((res) => {
                               const updateList = res?.data.map((item) => ({

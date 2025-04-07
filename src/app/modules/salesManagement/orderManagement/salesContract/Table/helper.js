@@ -1,11 +1,11 @@
-import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
-import { _monthLastDate } from "../../../../_helper/_monthLastDate";
-import { getSalesContactGridData } from "../_redux/Actions";
+import { _monthFirstDate } from '../../../../_helper/_monthFirstDate';
+import { _monthLastDate } from '../../../../_helper/_monthLastDate';
+import { getSalesContactGridData } from '../_redux/Actions';
 
 // group id
-export const groupId = "e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a";
+export const groupId = 'e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a';
 // report id
-export const reportId = "43b34d8a-19cd-4723-90c6-79729d4bd387";
+export const reportId = '43b34d8a-19cd-4723-90c6-79729d4bd387';
 
 // generate parameter values
 export const generateParameterValues = (obj) => {
@@ -13,10 +13,10 @@ export const generateParameterValues = (obj) => {
   const { channel, fromDate, toDate } = values;
 
   const parameter = [
-    { name: "BUnitId", value: `${selectedBusinessUnit?.value}` },
-    { name: "intDistributionChannelId", value: `${+channel?.value}` || 0 },
-    { name: "dteApprovedDateFrom", value: `${fromDate}` },
-    { name: "dteApprovedDateTo", value: `${toDate}` },
+    { name: 'BUnitId', value: `${selectedBusinessUnit?.value}` },
+    { name: 'intDistributionChannelId', value: `${+channel?.value}` || 0 },
+    { name: 'dteApprovedDateFrom', value: `${fromDate}` },
+    { name: 'dteApprovedDateTo', value: `${toDate}` },
   ];
   console.log(parameter);
 
@@ -25,14 +25,14 @@ export const generateParameterValues = (obj) => {
 
 // report types
 export const reportTypes = [
-  { value: 1, label: "Details" },
-  { value: 2, label: "Top Sheet" },
+  { value: 1, label: 'Details' },
+  { value: 2, label: 'Top Sheet' },
 ];
 
 // sales contract inital values
 export const salesContractInitalValues = {
-  reportType: { value: 1, label: "Details" },
-  channel: "",
+  reportType: { value: 1, label: 'Details' },
+  channel: '',
   fromDate: _monthFirstDate(),
   toDate: _monthLastDate(),
 };

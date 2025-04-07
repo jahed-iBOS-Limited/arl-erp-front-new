@@ -1,20 +1,20 @@
-import { Form, Formik } from "formik";
-import React, { useState, useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
+import { Form, Formik } from 'formik';
+import React, { useState, useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 const initData = {
-  weightNo: "",
-  firstWeight: "",
-  secondWeight: "",
-  netWeight: "",
+  weightNo: '',
+  firstWeight: '',
+  secondWeight: '',
+  netWeight: '',
 };
 export default function WeightbridgeEdit() {
   const [objProps, setObjprops] = useState({});
@@ -37,7 +37,7 @@ export default function WeightbridgeEdit() {
     }
   }, [editId, location]);
 
-  console.log("location", location);
+  console.log('location', location);
 
   const saveHandler = async (values, cb) => {
     saveData(
@@ -47,7 +47,7 @@ export default function WeightbridgeEdit() {
         numVehicleWeightWithoutScrap: +values?.secondWeight,
         numVehicleWeightWithScrap: +values?.firstWeight,
         numScrapWeight: +values?.firstWeight - +values?.secondWeight,
-        strWeightNo: values?.weightNo || "",
+        strWeightNo: values?.weightNo || '',
         intUpdatedBy: profileData?.userId,
         dteUpdatedDate: _todayDate(),
       },
@@ -124,7 +124,7 @@ export default function WeightbridgeEdit() {
                         name="weightNo"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("weightNo", e.target.value);
+                          setFieldValue('weightNo', e.target.value);
                         }}
                       />
                     </div>
@@ -138,11 +138,11 @@ export default function WeightbridgeEdit() {
                           if (+e.target.value < 0) return;
                           if (+e.target.value <= values?.firstWeight)
                             return toast.warn(
-                              "2nd weight must be less than 1st weight"
+                              '2nd weight must be less than 1st weight'
                             );
-                          setFieldValue("firstWeight", e.target.value);
+                          setFieldValue('firstWeight', e.target.value);
                           setFieldValue(
-                            "netWeight",
+                            'netWeight',
                             +e.target.value - values?.secondWeight || 0
                           );
                         }}
@@ -157,14 +157,14 @@ export default function WeightbridgeEdit() {
                         onChange={(e) => {
                           if (+e.target.value < 0) return;
                           if (!values?.firstWeight)
-                            return toast.warn("Please input 1st weight first");
+                            return toast.warn('Please input 1st weight first');
                           if (+e.target.value >= values?.firstWeight)
                             return toast.warn(
-                              "2nd weight must be less than 1st weight"
+                              '2nd weight must be less than 1st weight'
                             );
-                          setFieldValue("secondWeight", e.target.value);
+                          setFieldValue('secondWeight', e.target.value);
                           setFieldValue(
-                            "netWeight",
+                            'netWeight',
                             (values?.firstWeight || 0) - +e.target.value
                           );
                         }}
@@ -179,7 +179,7 @@ export default function WeightbridgeEdit() {
                         disabled
                         onChange={(e) => {
                           if (+e.target.value < 0) return;
-                          setFieldValue("netWeight", e.target.value);
+                          setFieldValue('netWeight', e.target.value);
                         }}
                       />
                     </div>
@@ -188,14 +188,14 @@ export default function WeightbridgeEdit() {
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

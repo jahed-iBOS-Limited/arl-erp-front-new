@@ -1,23 +1,23 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import PaginationTable from "../../../chartering/_chartinghelper/_tablePagination";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { ITable } from "../../../_helper/_table";
-import { _todayDate } from "../../../_helper/_todayDate";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import PaginationTable from '../../../chartering/_chartinghelper/_tablePagination';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import IConfirmModal from '../../../_helper/_confirmModal';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { ITable } from '../../../_helper/_table';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  shift: { value: "", label: "All" },
+  shift: { value: '', label: 'All' },
 };
 export default function FinishProduction() {
   const [pageNo, setPageNo] = useState(0);
@@ -27,10 +27,11 @@ export default function FinishProduction() {
 
   const history = useHistory();
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getlandingData(
-      `/mes/MSIL/GetRollingFinishProductLanding?FromDate=${values?.fromDate ||
-        _todayDate()}&ToDate=${values?.toDate || _todayDate()}&Shift=${
+      `/mes/MSIL/GetRollingFinishProductLanding?FromDate=${
+        values?.fromDate || _todayDate()
+      }&ToDate=${values?.toDate || _todayDate()}&Shift=${
         values?.shift?.value
       }&pageNumber=${pageNo}&pageSize=${pageSize}`
     );
@@ -45,8 +46,9 @@ export default function FinishProduction() {
           null,
           () => {
             getlandingData(
-              `/mes/MSIL/GetRollingFinishProductLanding?FromDate=${values?.fromDate ||
-                _todayDate()}&ToDate=${values?.toDate || _todayDate()}&Shift=${
+              `/mes/MSIL/GetRollingFinishProductLanding?FromDate=${
+                values?.fromDate || _todayDate()
+              }&ToDate=${values?.toDate || _todayDate()}&Shift=${
                 values?.shift?.value
               }&pageNumber=${pageNo}&pageSize=${pageSize}`
             );
@@ -102,19 +104,19 @@ export default function FinishProduction() {
                     <NewSelect
                       name="shift"
                       options={[
-                        { value: "", label: "All" },
-                        { value: "A", label: "A" },
-                        { value: "B", label: "B" },
-                        { value: "C", label: "C" },
-                        { value: "General", label: "General" },
+                        { value: '', label: 'All' },
+                        { value: 'A', label: 'A' },
+                        { value: 'B', label: 'B' },
+                        { value: 'C', label: 'C' },
+                        { value: 'General', label: 'General' },
                       ]}
                       value={values?.shift}
                       label="Shift"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("shift", valueOption);
+                          setFieldValue('shift', valueOption);
                         } else {
-                          setFieldValue("shift", { value: "", label: "All" });
+                          setFieldValue('shift', { value: '', label: 'All' });
                         }
                       }}
                       isDisabled={false}
@@ -123,14 +125,14 @@ export default function FinishProduction() {
                     />
                   </div>
 
-                  <div style={{ marginTop: "15px" }} className="col-lg-1">
+                  <div style={{ marginTop: '15px' }} className="col-lg-1">
                     <button
                       type="button"
                       onClick={() => {
                         getlandingData(
-                          `/mes/MSIL/GetRollingFinishProductLanding?FromDate=${values?.fromDate ||
-                            _todayDate()}&ToDate=${values?.toDate ||
-                            _todayDate()}&Shift=${
+                          `/mes/MSIL/GetRollingFinishProductLanding?FromDate=${
+                            values?.fromDate || _todayDate()
+                          }&ToDate=${values?.toDate || _todayDate()}&Shift=${
                             values?.shift?.value
                           }&pageNumber=${pageNo}&pageSize=${pageSize}`
                         );
@@ -148,20 +150,20 @@ export default function FinishProduction() {
                     <table className="table table-striped table-bordered global-table">
                       <thead>
                         <tr>
-                          <th style={{ minWidth: "50px" }}>SL</th>
+                          <th style={{ minWidth: '50px' }}>SL</th>
                           <th>Date</th>
                           <th>Shift</th>
                           <th>Product Name</th>
                           <th>Production [kgs]</th>
                           <th>Rod Quantity [kgs]</th>
-                          <th style={{ width: "60px" }}>Action</th>
+                          <th style={{ width: '60px' }}>Action</th>
                         </tr>
                       </thead>
                       <tbody>
                         {landigData?.data?.length > 0 &&
                           landigData?.data?.map((item, index) => (
                             <tr key={index}>
-                              <td style={{ width: "50px" }}>{index + 1}</td>
+                              <td style={{ width: '50px' }}>{index + 1}</td>
                               <td className="text-center">
                                 {_dateFormatter(item?.dteDate)}
                               </td>

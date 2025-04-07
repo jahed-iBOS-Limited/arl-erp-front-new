@@ -1,45 +1,43 @@
-
-
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { getDistributionChannelDDL_api } from "../../../../transportManagement/report/transportSupplierUpdate/helper";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import ICard from "../../../../_helper/_card";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import FormikError from "../../../../_helper/_formikError";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { getRegionAreaTerritory } from "../../customerSalesTarget/helper";
-import { getShippointDDL_Action } from "../../pendingOrder/_redux/Actions";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { getDistributionChannelDDL_api } from '../../../../transportManagement/report/transportSupplierUpdate/helper';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import ICard from '../../../../_helper/_card';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import FormikError from '../../../../_helper/_formikError';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { getRegionAreaTerritory } from '../../customerSalesTarget/helper';
+import { getShippointDDL_Action } from '../../pendingOrder/_redux/Actions';
 import {
   CreateTransportScheduleTypeApi,
   getOrderVsShipmentVsPending_api,
   getTransportScheduleTypeData_api,
-} from "../helper";
-import "../style.css";
+} from '../helper';
+import '../style.css';
 
 // const date = new Date();
 
 const initData = {
-  reportType: "",
-  shipPoint: "",
+  reportType: '',
+  shipPoint: '',
   // fromDate: moment(date).format("YYYY-MM-DD HH:mm"),
   // toDate: moment(date).format("YYYY-MM-DD HH:mm"),
   fromDate: _todayDate(),
-  fromTime: "",
+  fromTime: '',
   toDate: _todayDate(),
-  toTime: "",
-  distributionChannel: "",
-  region: "",
-  area: "",
-  territory: "",
-  supplier: "",
+  toTime: '',
+  distributionChannel: '',
+  region: '',
+  area: '',
+  territory: '',
+  supplier: '',
 };
 
 export default function VehicleArrangeInfo() {
@@ -217,8 +215,8 @@ export default function VehicleArrangeInfo() {
         enableReinitialize={true}
         initialValues={initData}
         onSubmit={(values, { setSubmitting, resetForm, setFieldValue }) => {
-          setFieldValue("trackingCompleteBtnClick", false);
-          setFieldValue("logisticBy", "");
+          setFieldValue('trackingCompleteBtnClick', false);
+          setFieldValue('logisticBy', '');
           viewHandler(values, setGridData);
         }}
       >
@@ -236,13 +234,13 @@ export default function VehicleArrangeInfo() {
                   : false
               }
               excelFileNameWillbe={`Delivery Sales Pending (${
-                values?.reportType?.value === 1 ? "Top Sheet" : "Details"
+                values?.reportType?.value === 1 ? 'Top Sheet' : 'Details'
               } )`}
             >
               <div>
                 <marquee
                   direction="left"
-                  style={{ fontSize: "15px", fontWeight: "bold", color: "red" }}
+                  style={{ fontSize: '15px', fontWeight: 'bold', color: 'red' }}
                 >
                   Excel export allow for only one month
                 </marquee>
@@ -254,14 +252,14 @@ export default function VehicleArrangeInfo() {
                         <NewSelect
                           name="reportType"
                           options={[
-                            { value: 1, label: "Top Sheet (Pending)" },
-                            { value: 3, label: "Top Sheet (Complete)" },
-                            { value: 2, label: "Details" },
+                            { value: 1, label: 'Top Sheet (Pending)' },
+                            { value: 3, label: 'Top Sheet (Complete)' },
+                            { value: 2, label: 'Details' },
                           ]}
                           value={values?.reportType}
                           label="Report Type"
                           onChange={(valueOption) => {
-                            setFieldValue("reportType", valueOption);
+                            setFieldValue('reportType', valueOption);
                             setGridData([]);
                           }}
                           placeholder="Select Report Type"
@@ -273,13 +271,13 @@ export default function VehicleArrangeInfo() {
                         <NewSelect
                           name="shipPoint"
                           options={[
-                            { value: 0, label: "All" },
+                            { value: 0, label: 'All' },
                             ...shippointDDL,
                           ]}
                           value={values?.shipPoint}
                           label="Select Ship Point"
                           onChange={(valueOption) => {
-                            setFieldValue("shipPoint", valueOption);
+                            setFieldValue('shipPoint', valueOption);
                           }}
                           placeholder="Select Ship Point"
                           errors={errors}
@@ -296,7 +294,7 @@ export default function VehicleArrangeInfo() {
                             type="date"
                             onChange={(e) => {
                               setGridData([]);
-                              setFieldValue("fromDate", e.target.value);
+                              setFieldValue('fromDate', e.target.value);
                             }}
                             max={values?.toDate}
                           />
@@ -307,7 +305,7 @@ export default function VehicleArrangeInfo() {
                             type="time"
                             onChange={(e) => {
                               setGridData([]);
-                              setFieldValue("fromTime", e.target.value);
+                              setFieldValue('fromTime', e.target.value);
                             }}
                           />
                         </span>
@@ -322,7 +320,7 @@ export default function VehicleArrangeInfo() {
                             type="date"
                             onChange={(e) => {
                               setGridData([]);
-                              setFieldValue("toDate", e.target.value);
+                              setFieldValue('toDate', e.target.value);
                             }}
                             min={values?.fromDate}
                           />
@@ -333,7 +331,7 @@ export default function VehicleArrangeInfo() {
                             type="time"
                             onChange={(e) => {
                               setGridData([]);
-                              setFieldValue("toTime", e.target.value);
+                              setFieldValue('toTime', e.target.value);
                             }}
                           />
                         </span>
@@ -345,15 +343,15 @@ export default function VehicleArrangeInfo() {
                             name="logisticBy"
                             options={[
                               ...(values?.trackingCompleteBtnClick
-                                ? [{ value: 0, label: "All" }]
+                                ? [{ value: 0, label: 'All' }]
                                 : []),
-                              { value: 1, label: "Company" },
-                              { value: 2, label: "Supplier" },
+                              { value: 1, label: 'Company' },
+                              { value: 2, label: 'Supplier' },
                             ]}
                             value={values?.logisticBy}
                             label="Logistic By"
                             onChange={(valueOption) => {
-                              setFieldValue("logisticBy", valueOption);
+                              setFieldValue('logisticBy', valueOption);
                             }}
                             placeholder="Logistic By"
                             errors={errors}
@@ -368,7 +366,7 @@ export default function VehicleArrangeInfo() {
                           <SearchAsyncSelect
                             selectedValue={values?.supplier}
                             handleChange={(valueOption) => {
-                              setFieldValue("supplier", valueOption);
+                              setFieldValue('supplier', valueOption);
                             }}
                             loadOptions={(v) => {
                               if (v.length < 3) return [];
@@ -436,7 +434,7 @@ export default function VehicleArrangeInfo() {
                                   values,
                                   setGridData
                                 );
-                                setFieldValue("trackingCompleteBtnClick", true);
+                                setFieldValue('trackingCompleteBtnClick', true);
                               }}
                             >
                               Request Complete
@@ -503,40 +501,40 @@ export default function VehicleArrangeInfo() {
                             <NewSelect
                               name="distributionChannel"
                               options={[
-                                { value: 0, label: "All" },
+                                { value: 0, label: 'All' },
                                 ...channelList,
                               ]}
                               value={values?.distributionChannel}
                               label="Distribution Channel"
                               onChange={(valueOption) => {
                                 setFieldValue(
-                                  "distributionChannel",
+                                  'distributionChannel',
                                   valueOption
                                 );
-                                setFieldValue("region", "");
-                                setFieldValue("area", "");
-                                setFieldValue("territory", "");
+                                setFieldValue('region', '');
+                                setFieldValue('area', '');
+                                setFieldValue('territory', '');
                                 if (valueOption) {
                                   getRegionAreaTerritory({
                                     channelId: valueOption?.value,
                                     setter: setRegionList,
                                     setLoading: setLoading,
-                                    value: "regionId",
-                                    label: "regionName",
+                                    value: 'regionId',
+                                    label: 'regionName',
                                   });
                                 }
                                 if (valueOption?.value === 0) {
-                                  setFieldValue("region", {
+                                  setFieldValue('region', {
                                     value: 0,
-                                    label: "All",
+                                    label: 'All',
                                   });
-                                  setFieldValue("area", {
+                                  setFieldValue('area', {
                                     value: 0,
-                                    label: "All",
+                                    label: 'All',
                                   });
-                                  setFieldValue("territory", {
+                                  setFieldValue('territory', {
                                     value: 0,
-                                    label: "All",
+                                    label: 'All',
                                   });
                                 }
                               }}
@@ -549,15 +547,15 @@ export default function VehicleArrangeInfo() {
                             <NewSelect
                               name="region"
                               options={[
-                                { value: 0, label: "All" },
+                                { value: 0, label: 'All' },
                                 ...regionList,
                               ]}
                               value={values?.region}
                               label="Region"
                               onChange={(valueOption) => {
-                                setFieldValue("region", valueOption);
-                                setFieldValue("area", "");
-                                setFieldValue("territory", "");
+                                setFieldValue('region', valueOption);
+                                setFieldValue('area', '');
+                                setFieldValue('territory', '');
                                 if (valueOption) {
                                   getRegionAreaTerritory({
                                     channelId:
@@ -565,14 +563,14 @@ export default function VehicleArrangeInfo() {
                                     regionId: valueOption?.value,
                                     setter: setAreaList,
                                     setLoading: setLoading,
-                                    value: "areaId",
-                                    label: "areaName",
+                                    value: 'areaId',
+                                    label: 'areaName',
                                   });
                                 }
                                 if (valueOption?.value === 0) {
-                                  setFieldValue("area", {
+                                  setFieldValue('area', {
                                     value: 0,
-                                    label: "All",
+                                    label: 'All',
                                   });
                                 }
                                 filterGridData({
@@ -593,14 +591,14 @@ export default function VehicleArrangeInfo() {
                             <NewSelect
                               name="area"
                               options={[
-                                { value: 0, label: "All" },
+                                { value: 0, label: 'All' },
                                 ...areaList,
                               ]}
                               value={values?.area}
                               label="Area"
                               onChange={(valueOption) => {
-                                setFieldValue("area", valueOption);
-                                setFieldValue("territory", "");
+                                setFieldValue('area', valueOption);
+                                setFieldValue('territory', '');
                                 if (valueOption) {
                                   getRegionAreaTerritory({
                                     channelId:
@@ -609,8 +607,8 @@ export default function VehicleArrangeInfo() {
                                     areaId: valueOption?.value,
                                     setter: setTerritoryList,
                                     setLoading: setLoading,
-                                    value: "territoryId",
-                                    label: "territoryName",
+                                    value: 'territoryId',
+                                    label: 'territoryName',
                                   });
                                 }
                                 filterGridData({
@@ -630,13 +628,13 @@ export default function VehicleArrangeInfo() {
                             <NewSelect
                               name="territory"
                               options={[
-                                { value: 0, label: "All" },
+                                { value: 0, label: 'All' },
                                 ...territoryList,
                               ]}
                               value={values?.territory}
                               label="Territory"
                               onChange={(valueOption) => {
-                                setFieldValue("territory", valueOption);
+                                setFieldValue('territory', valueOption);
                                 filterGridData({
                                   ...values,
                                   territory: valueOption,
@@ -663,7 +661,7 @@ export default function VehicleArrangeInfo() {
                         <div className="react-bootstrap-table table-responsive pendingDeliveryReport">
                           <div className="sta-scrollable-table scroll-table-auto">
                             <div
-                              style={{ maxHeight: "500px" }}
+                              style={{ maxHeight: '500px' }}
                               className="scroll-table _table scroll-table-auto"
                             >
                               <table
@@ -675,7 +673,7 @@ export default function VehicleArrangeInfo() {
                                   {[2]?.includes(values?.reportType?.value) &&
                                     !values?.trackingCompleteBtnClick && (
                                       <th
-                                        style={{ minWidth: "25px" }}
+                                        style={{ minWidth: '25px' }}
                                         className="printSectionNone"
                                       >
                                         <input
@@ -688,7 +686,7 @@ export default function VehicleArrangeInfo() {
                                       </th>
                                     )}
 
-                                  <th style={{ minWidth: "35px" }}>SL</th>
+                                  <th style={{ minWidth: '35px' }}>SL</th>
                                   {values?.trackingCompleteBtnClick && (
                                     <th>Logistic By</th>
                                   )}
@@ -731,13 +729,13 @@ export default function VehicleArrangeInfo() {
                                           )}
                                         <td
                                           className="text-center"
-                                          style={{ width: "30px" }}
+                                          style={{ width: '30px' }}
                                         >
                                           {index + 1}
                                         </td>
                                         {values?.trackingCompleteBtnClick && (
                                           <td>
-                                            {item?.providerTypeName || ""}
+                                            {item?.providerTypeName || ''}
                                           </td>
                                         )}
                                         <td>{item?.region}</td>
@@ -777,7 +775,7 @@ export default function VehicleArrangeInfo() {
                       >
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>SO No</th>
                             <th>SO Qty</th>
                             <th>Customer Delivery Qty</th>
@@ -817,7 +815,7 @@ export default function VehicleArrangeInfo() {
                             );
                           })}
                           <tr
-                            style={{ textAlign: "right", fontWeight: "bold" }}
+                            style={{ textAlign: 'right', fontWeight: 'bold' }}
                           >
                             <td colSpan={2}>Total</td>
                             <td>{_fixedPoint(totalOrderQty, true)}</td>

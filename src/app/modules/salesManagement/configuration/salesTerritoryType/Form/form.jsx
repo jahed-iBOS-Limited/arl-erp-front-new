@@ -1,37 +1,36 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import * as Yup from "yup";
-import { IInput } from "../../../../_helper/_input";
-import { _numberValidation } from "../../../../_helper/_numberValidation";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import { IInput } from '../../../../_helper/_input';
+import { _numberValidation } from '../../../../_helper/_numberValidation';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  ddlType :Yup.object()
-  .shape({
-    label: Yup.string().required("Type DDL is required"),
-    value: Yup.string().required("Type DDL is required"),
+  ddlType: Yup.object().shape({
+    label: Yup.string().required('Type DDL is required'),
+    value: Yup.string().required('Type DDL is required'),
   }),
-  territoryTypeName: Yup.string().when("ddlType", {
+  territoryTypeName: Yup.string().when('ddlType', {
     is: (ddlType) => +ddlType?.value === 1,
     then: Yup.string()
-      .min(1, "Minimum 2 symbols")
-      .max(100, "Maximum 100 symbols")
-      .required("Territory type name is required"),
+      .min(1, 'Minimum 2 symbols')
+      .max(100, 'Maximum 100 symbols')
+      .required('Territory type name is required'),
   }),
-  levelPosition: Yup.number().when("ddlType", {
+  levelPosition: Yup.number().when('ddlType', {
     is: (ddlType) => +ddlType?.value === 1,
-    then: Yup.number().required("Level position is required"),
+    then: Yup.number().required('Level position is required'),
   }),
 
-  channel: Yup.object().when("ddlType", {
+  channel: Yup.object().when('ddlType', {
     is: (ddlType) => +ddlType?.value === 2,
     then: Yup.object().shape({
-      label: Yup.string().required("Channel Name is required"),
-      value: Yup.string().required("Channel Name is required"),
+      label: Yup.string().required('Channel Name is required'),
+      value: Yup.string().required('Channel Name is required'),
     }),
   }),
 });
@@ -53,7 +52,7 @@ export default function FormCmp({
   const [, saveOparetionSetup] = useAxiosPost();
 
   const operationSetupHandler = (values) => {
-    console.log("entire oparetion handler");
+    console.log('entire oparetion handler');
     const payload = {
       businessunit: buId,
       partid: 2,
@@ -82,7 +81,7 @@ export default function FormCmp({
             });
           }
           if (values?.ddlType?.value === 2) {
-            console.log("click handle ");
+            console.log('click handle ');
             operationSetupHandler(values);
             resetForm(initData);
           }
@@ -104,15 +103,15 @@ export default function FormCmp({
               <div className="form-group row global-form">
                 <div className="col-lg-3">
                   <NewSelect
-                    value={values.ddlType || ""}
+                    value={values.ddlType || ''}
                     name="ddlType"
                     options={[
-                      { value: 1, label: "Seals Territory Type" },
-                      { value: 2, label: "Setup First Level Entry" },
+                      { value: 1, label: 'Seals Territory Type' },
+                      { value: 2, label: 'Setup First Level Entry' },
                     ]}
                     label="Type DDL"
                     onChange={(valueOption) => {
-                      setFieldValue("ddlType", valueOption);
+                      setFieldValue('ddlType', valueOption);
                       if (valueOption?.value === 2) {
                         getChannelList(
                           `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`
@@ -138,7 +137,7 @@ export default function FormCmp({
                         label="Level Position"
                         name="levelPosition"
                         onChange={(e) => {
-                          setFieldValue("levelPosition", _numberValidation(e));
+                          setFieldValue('levelPosition', _numberValidation(e));
                         }}
                       />
                     </div>
@@ -153,7 +152,7 @@ export default function FormCmp({
                         value={values?.channelList}
                         label="Channel Name"
                         onChange={(valueOption) => {
-                          setFieldValue("channel", valueOption);
+                          setFieldValue('channel', valueOption);
                         }}
                         touched={touched}
                         errors={errors}
@@ -165,14 +164,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

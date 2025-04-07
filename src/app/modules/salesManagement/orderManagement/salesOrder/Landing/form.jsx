@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -76,14 +74,14 @@ export default function HeaderForm({ loading, setLoading }) {
 
   const [isShowModal, setIsShowModal] = useState(false);
   const purchaseOrgDDL = useSelector(
-    (state) => state?.commonDDL?.purchaseOrgDDL,
+    (state) => state?.commonDDL?.purchaseOrgDDL
   );
   const wareHouseDDL = useSelector((state) => state?.commonDDL?.wareHouseDDL);
   const orderTypeDDL = useSelector(
-    (state) => state.purchaseOrder?.orderTypeDDL,
+    (state) => state.purchaseOrder?.orderTypeDDL
   );
   const poReferenceTypeDDL = useSelector(
-    (state) => state?.purchaseOrder?.poReferenceTypeDDL,
+    (state) => state?.purchaseOrder?.poReferenceTypeDDL
   );
 
   let salesOrderData = useSelector(
@@ -101,7 +99,7 @@ export default function HeaderForm({ loading, setLoading }) {
         shipPointDDL: state.salesOrder.shipPointDDL,
       };
     },
-    { shallowEqual },
+    { shallowEqual }
   );
 
   let {
@@ -131,30 +129,29 @@ export default function HeaderForm({ loading, setLoading }) {
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
       dispatch(
-        getSBUDDL_Aciton(profileData.accountId, selectedBusinessUnit.value),
+        getSBUDDL_Aciton(profileData.accountId, selectedBusinessUnit.value)
       );
       dispatch(
         getPlantDDLAction(
           profileData.userId,
           profileData.accountId,
-          selectedBusinessUnit.value,
-        ),
+          selectedBusinessUnit.value
+        )
       );
       dispatch(
         getSalesOrderTypeDDL_Action(
           profileData.accountId,
-          selectedBusinessUnit.value,
-        ),
+          selectedBusinessUnit.value
+        )
       );
       dispatch(
         getShipPoint_Action(
           profileData?.userId,
           profileData?.accountId,
-          selectedBusinessUnit?.value,
-        ),
+          selectedBusinessUnit?.value
+        )
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   //setPositionHandler
@@ -170,9 +167,9 @@ export default function HeaderForm({ loading, setLoading }) {
         searchValue,
         setLoading,
         salesOrderLanding?.distributionChannel?.value,
-        salesOrderLanding?.fromDate || "",
-        salesOrderLanding?.toDate || "",
-      ),
+        salesOrderLanding?.fromDate || '',
+        salesOrderLanding?.toDate || ''
+      )
     );
   };
 
@@ -200,15 +197,15 @@ export default function HeaderForm({ loading, setLoading }) {
             getSalesOrgDDL_Action(
               profileData.accountId,
               selectedBusinessUnit.value,
-              currentValue,
-            ),
+              currentValue
+            )
           );
           dispatch(
             getDistributionChannelDDLAction(
               profileData.accountId,
               selectedBusinessUnit.value,
-              currentValue,
-            ),
+              currentValue
+            )
           );
           setter('salesOrg', '');
           setter('distributionChannel', '');
@@ -229,8 +226,8 @@ export default function HeaderForm({ loading, setLoading }) {
             getSalesOfficeDDL_Action(
               profileData.accountId,
               selectedBusinessUnit.value,
-              currentValue,
-            ),
+              currentValue
+            )
           );
 
           setter('salesOffice', '');
@@ -289,9 +286,9 @@ export default function HeaderForm({ loading, setLoading }) {
         null,
         setLoading,
         salesOrderLanding?.distributionChannel?.value,
-        salesOrderLanding?.fromDate || "",
-        salesOrderLanding?.toDate || "",
-      ),
+        salesOrderLanding?.fromDate || '',
+        salesOrderLanding?.toDate || ''
+      )
     );
   };
 
@@ -312,7 +309,7 @@ export default function HeaderForm({ loading, setLoading }) {
         payload?.completeNarration,
         payload?.orderId,
         setLoading,
-        callBackFunc,
+        callBackFunc
       );
     }
   };
@@ -371,13 +368,12 @@ export default function HeaderForm({ loading, setLoading }) {
               setLoading,
               values?.distributionChannel?.value,
               values?.fromDate,
-              values?.toDate,
-            ),
+              values?.toDate
+            )
           );
         }
       }
     }
-
   }, []);
 
   useEffect(() => {
@@ -422,8 +418,8 @@ export default function HeaderForm({ loading, setLoading }) {
           setLoading,
           values?.distributionChannel?.value,
           values?.fromDate,
-          values?.toDate,
-        ),
+          values?.toDate
+        )
       );
       // dispatch(
       //   getSalesOrgDDL_Action(
@@ -493,9 +489,7 @@ export default function HeaderForm({ loading, setLoading }) {
                     label={'From Date'}
                     name="fromDate"
                     type="date"
-                    onChange={(e) =>
-                      setFieldValue('fromDate', e.target.value)
-                    }
+                    onChange={(e) => setFieldValue('fromDate', e.target.value)}
                   />
                 </div>
                 <div className="col-lg-3 ">
@@ -525,8 +519,8 @@ export default function HeaderForm({ loading, setLoading }) {
                           setLoading,
                           values?.distributionChannel?.value,
                           values?.fromDate,
-                          values?.toDate,
-                        ),
+                          values?.toDate
+                        )
                       );
                       dispatch(setSalesOrderLandingAction(values));
                     }}

@@ -21,14 +21,12 @@ const cellStyle = {
 
 export default function DeliveryNoteModal({ rowClickData }) {
   const bookingRequestId = rowClickData?.bookingRequestId;
-  const [
-    selectedModeOfTransport,
-    setSelectedModeOfTransport,
-  ] = React.useState();
+  const [selectedModeOfTransport, setSelectedModeOfTransport] =
+    React.useState();
   const componentRef = useRef();
   const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
 
   const [
@@ -46,11 +44,9 @@ export default function DeliveryNoteModal({ rowClickData }) {
             : 1;
 
           setSelectedModeOfTransport(modeOfTransportId);
-        },
+        }
       );
     }
-
-
   }, [bookingRequestId]);
 
   const bookingData = shipBookingRequestGetById || {};

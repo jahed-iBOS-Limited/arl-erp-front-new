@@ -1,6 +1,6 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
 
 const LandingTable = ({ obj }) => {
   const { gridData } = obj;
@@ -25,12 +25,12 @@ const LandingTable = ({ obj }) => {
                 <td className="text-center"> {index + 1}</td>
                 <td>{item?.particularName}</td>
                 <td>{item?.category}</td>
-                <td>{item?.isActive ? "True" : "False"} </td>
+                <td>{item?.isActive ? 'True' : 'False'} </td>
                 <td>
                   <div
                     className="d-flex justify-content-around"
                     style={{
-                      gap: "8px",
+                      gap: '8px',
                     }}
                   >
                     <span

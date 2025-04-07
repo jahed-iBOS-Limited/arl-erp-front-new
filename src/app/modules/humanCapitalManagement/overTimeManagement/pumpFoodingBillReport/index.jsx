@@ -1,20 +1,20 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import PumpFoodingBillReportTbl from "./reportTable/pumpFoodingBillReport";
-import DateWisePumpFoodingBillSMRT from "./reportTable/DateWisePumpFoodingBillSMRT";
-import { getLastDateOfMonth } from "./helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import PumpFoodingBillReportTbl from './reportTable/pumpFoodingBillReport';
+import DateWisePumpFoodingBillSMRT from './reportTable/DateWisePumpFoodingBillSMRT';
+import { getLastDateOfMonth } from './helper';
 const initData = {
-  reportType: "",
-  fromDate: "",
-  toDate: "",
-  plant: "",
-  wareHouse: "",
+  reportType: '',
+  fromDate: '',
+  toDate: '',
+  plant: '',
+  wareHouse: '',
 };
 export default function PumpFoodingBillReport() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -22,24 +22,19 @@ export default function PumpFoodingBillReport() {
   }, shallowEqual);
 
   const [plantDDL, getPlantDDL] = useAxiosGet();
-  const [
-    warehouseDDL,
-    getWarehouseDDL,
-    warehouseDDLloader,
-    setWarehouseDDL,
-  ] = useAxiosGet();
+  const [warehouseDDL, getWarehouseDDL, warehouseDDLloader, setWarehouseDDL] =
+    useAxiosGet();
 
   useEffect(() => {
     getPlantDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   const [rowData, getRowData, loading, setRowData] = useAxiosGet();
 
   const getData = ({ reportTypeId, values }) => {
-    let requestUrl = "";
+    let requestUrl = '';
     if (reportTypeId === 1) {
       requestUrl = `/hcm/MenuListOfFoodCorner/GetPumpFoodBillByEmployees?intBusinessUnit=${selectedBusinessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}&intWareHouseId=${values?.wareHouse?.value || 0}`;
     } else if (reportTypeId === 2) {
@@ -91,10 +86,10 @@ export default function PumpFoodingBillReport() {
                     <NewSelect
                       name="reportType"
                       options={[
-                        { value: 1, label: "Pump Fooding Bill Report" },
+                        { value: 1, label: 'Pump Fooding Bill Report' },
                         {
                           value: 2,
-                          label: "Date Wise Pump Fooding Bill Summery Report",
+                          label: 'Date Wise Pump Fooding Bill Summery Report',
                         },
                       ]}
                       value={values?.reportType}
@@ -102,7 +97,7 @@ export default function PumpFoodingBillReport() {
                       onChange={(valueOption) => {
                         setValues({
                           ...initData,
-                          reportType: valueOption || "",
+                          reportType: valueOption || '',
                         });
                         setRowData([]);
                       }}
@@ -119,14 +114,14 @@ export default function PumpFoodingBillReport() {
                       label="Plant"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("plant", valueOption);
-                          setFieldValue("wareHouse", "");
+                          setFieldValue('plant', valueOption);
+                          setFieldValue('wareHouse', '');
                           getWarehouseDDL(
                             `/asset/DropDown/GetWareHouseByPlantId?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&PlantId=${valueOption?.value}`
                           );
                         } else {
-                          setFieldValue("plant", "");
-                          setFieldValue("wareHouse", "");
+                          setFieldValue('plant', '');
+                          setFieldValue('wareHouse', '');
                           setWarehouseDDL([]);
                         }
                       }}
@@ -139,7 +134,7 @@ export default function PumpFoodingBillReport() {
                         warehouseDDL?.length > 0 && [
                           {
                             value: 0,
-                            label: "All",
+                            label: 'All',
                           },
                           ...warehouseDDL,
                         ]
@@ -147,7 +142,7 @@ export default function PumpFoodingBillReport() {
                       value={values?.wareHouse}
                       label="Warehouse"
                       onChange={(valueOption) => {
-                        setFieldValue("wareHouse", valueOption || "");
+                        setFieldValue('wareHouse', valueOption || '');
                       }}
                     />
                   </div>
@@ -159,7 +154,7 @@ export default function PumpFoodingBillReport() {
                       name="fromDate"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                         setRowData([]);
                       }}
                     />
@@ -177,14 +172,14 @@ export default function PumpFoodingBillReport() {
                       }
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                         setRowData([]);
                       }}
                     />
                   </div>
                   <div>
                     <button
-                      style={{ marginTop: "16px" }}
+                      style={{ marginTop: '16px' }}
                       className="btn btn-primary ml-2"
                       type="button"
                       onClick={() => {

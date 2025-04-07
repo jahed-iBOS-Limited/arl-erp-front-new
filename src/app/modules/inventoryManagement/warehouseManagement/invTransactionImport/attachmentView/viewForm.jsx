@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
 import { useDispatch } from 'react-redux';
@@ -8,10 +7,7 @@ import IClose from '../../../../_helper/_helperIcons/_close';
 import IView from '../../../../_helper/_helperIcons/_view';
 import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 import { _todayDate } from '../../../../_helper/_todayDate';
-import {
-  getAttachmentLandingData,
-  saveAttchmentForPo,
-} from '../helper';
+import { getAttachmentLandingData, saveAttchmentForPo } from '../helper';
 import { uploadAttachment } from '../../../../_helper/attachmentUpload';
 
 const ths = ['SL', 'Attachment', 'Action'];
@@ -128,7 +124,7 @@ export default function ViewForm({ poData, setIsShowModal }) {
         }}
         onDelete={(deleteFileObj) => {
           const newData = fileObjects.filter(
-            (item) => item.file.name !== deleteFileObj.file.name,
+            (item) => item.file.name !== deleteFileObj.file.name
           );
           setFileObjects(newData);
         }}

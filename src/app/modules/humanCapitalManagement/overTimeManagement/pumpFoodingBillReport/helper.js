@@ -40,7 +40,7 @@ export function modifyDataset(originalDataset) {
 
 export function getLastDateOfMonth(inputDate) {
   if (!inputDate) return;
-  const [year, month] = inputDate.split("-").map(Number);
+  const [year, month] = inputDate.split('-').map(Number);
 
   // Create a new Date object for the first day of the next month
   const nextMonthFirstDay = new Date(year, month, 1);
@@ -49,7 +49,7 @@ export function getLastDateOfMonth(inputDate) {
   const lastDateOfMonth = new Date(nextMonthFirstDay - 1);
 
   // Format the date as "YYYY-MM-DD"
-  const formattedDate = lastDateOfMonth?.toISOString()?.split("T")[0];
+  const formattedDate = lastDateOfMonth?.toISOString()?.split('T')[0];
 
   return formattedDate;
 }

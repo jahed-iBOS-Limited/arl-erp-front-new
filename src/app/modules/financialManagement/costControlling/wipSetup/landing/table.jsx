@@ -1,32 +1,31 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { getGeneralLedgerDDL, saveData, getByDDLId } from "../helper";
-import Loading from "./../../../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { getGeneralLedgerDDL, saveData, getByDDLId } from '../helper';
+import Loading from './../../../../_helper/_loading';
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   CardBody,
   ModalProgressBar,
-} from "./../../../../../../_metronic/_partials/controls";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import * as Yup from "yup";
+} from './../../../../../../_metronic/_partials/controls';
+import { Formik, Form } from 'formik';
+import NewSelect from '../../../../_helper/_select';
+import * as Yup from 'yup';
 
 const initData = {
-  materialWIP: "",
-  overheadCost: "",
+  materialWIP: '',
+  overheadCost: '',
 };
 
 const validationSchema = Yup.object().shape({
   materialWIP: Yup.object().shape({
-    value: Yup.string().required("Material WIP is required"),
-    label: Yup.string().required("Material WIP is required"),
+    value: Yup.string().required('Material WIP is required'),
+    label: Yup.string().required('Material WIP is required'),
   }),
   overheadCost: Yup.object().shape({
-    value: Yup.string().required("Overhead Cost is required"),
-    label: Yup.string().required("Overhead Cost is required"),
+    value: Yup.string().required('Overhead Cost is required'),
+    label: Yup.string().required('Overhead Cost is required'),
   }),
 });
 
@@ -112,7 +111,7 @@ const WipSetupLanding = () => {
                       value={values?.materialWIP}
                       label="Material WIP"
                       onChange={(valueOption) => {
-                        setFieldValue("materialWIP", valueOption);
+                        setFieldValue('materialWIP', valueOption);
                       }}
                       placeholder="Material WIP"
                       errors={errors}
@@ -126,7 +125,7 @@ const WipSetupLanding = () => {
                       value={values?.overheadCost}
                       label="Overhead Cost"
                       onChange={(valueOption) => {
-                        setFieldValue("overheadCost", valueOption);
+                        setFieldValue('overheadCost', valueOption);
                       }}
                       placeholder="Overhead Cost"
                       errors={errors}

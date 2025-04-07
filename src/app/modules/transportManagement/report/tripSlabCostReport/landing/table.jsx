@@ -1,15 +1,14 @@
-
-import { Form, Formik } from "formik";
-import React, { useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICard from "../../../../_helper/_card";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { getLandingData } from "../helper";
+import { Form, Formik } from 'formik';
+import React, { useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICard from '../../../../_helper/_card';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { getLandingData } from '../helper';
 const initData = {
-  shipPoint: "",
+  shipPoint: '',
 };
 
 function TripSlabCostReport() {
@@ -60,11 +59,11 @@ function TripSlabCostReport() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="shipPoint"
-                      options={[{ value: 0, label: "All" }, ...shipPointDDL]}
+                      options={[{ value: 0, label: 'All' }, ...shipPointDDL]}
                       value={values?.shipPoint}
                       label="Shippoint"
                       onChange={(valueOption) => {
-                        setFieldValue("shipPoint", valueOption);
+                        setFieldValue('shipPoint', valueOption);
                         setGridData([]);
                       }}
                       placeholder="Shippoint"
@@ -91,66 +90,70 @@ function TripSlabCostReport() {
                   <h6> Thana Wise Transport Rate </h6>
                 </div>
                 <div className="table-responsive">
-                <table
-                  className="table table-striped table-bordered global-table"
-                  id="table-to-xlsx"
-                  ref={printRef}
-                >
-                  <thead>
-                    <tr>
-                      <th>SL</th>
-                      <th>Ship Point</th>
-                      <th>Transport Zone</th>
-                      <th>Minimum Order Qty</th>
-                      <th>Maximum Order Qty</th>
-                      <th>KM (Up-Down)</th>
-                      <th>Transport Rate</th>
-                      {/* <th>Proposal Rate (per ton)</th> */}
-                      <th>Subsidy Rate</th>
-                      <th>Insert By</th>
-                      <th>Insertion Date</th>
-                      <th>Handling Cost</th>
-                      <th>Labour Cost</th>
-                      <th>Other Cost</th>
-                      <th>Is Amount Base</th>
-                      <th>Remarks</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {gridData?.map((item, index) => (
-                      <tr
-                        style={
-                          item?.isAmountBase
-                            ? { backgroundColor: "#ff5f5f" }
-                            : {}
-                        }
-                        key={index}
-                      >
-                        <td className="text-center"> {index + 1}</td>
-                        <td>{item?.shippointName}</td>
-                        <td>{item?.zoneName}</td>
-                        <td className="text-right">{item?.minimumOrderQty}</td>
-                        <td className="text-right">{item?.maximumOrderQty}</td>
-                        <td className="text-right">{item?.distanceKm}</td>
-                        <td className="text-right">{item?.proposalRate}</td>
-                        <td className="text-right">{item?.subsidiaryRate}</td>
-                        <td>{item?.userName}</td>
-                        <td>{_dateFormatter(item?.lastActionDateTime)}</td>
-                        <td className="text-right">
-                          {_fixedPoint(item?.handlingCost, true, 0)}
-                        </td>
-                        <td className="text-right">
-                          {_fixedPoint(item?.labourCost, true, 0)}
-                        </td>
-                        <td className="text-right">
-                          {_fixedPoint(item?.otherCost, true, 0)}
-                        </td>
-                        <td>{item?.isAmountBase ? "Yes" : "No"}</td>
-                        <td>{item?.remarks}</td>
+                  <table
+                    className="table table-striped table-bordered global-table"
+                    id="table-to-xlsx"
+                    ref={printRef}
+                  >
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th>Ship Point</th>
+                        <th>Transport Zone</th>
+                        <th>Minimum Order Qty</th>
+                        <th>Maximum Order Qty</th>
+                        <th>KM (Up-Down)</th>
+                        <th>Transport Rate</th>
+                        {/* <th>Proposal Rate (per ton)</th> */}
+                        <th>Subsidy Rate</th>
+                        <th>Insert By</th>
+                        <th>Insertion Date</th>
+                        <th>Handling Cost</th>
+                        <th>Labour Cost</th>
+                        <th>Other Cost</th>
+                        <th>Is Amount Base</th>
+                        <th>Remarks</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {gridData?.map((item, index) => (
+                        <tr
+                          style={
+                            item?.isAmountBase
+                              ? { backgroundColor: '#ff5f5f' }
+                              : {}
+                          }
+                          key={index}
+                        >
+                          <td className="text-center"> {index + 1}</td>
+                          <td>{item?.shippointName}</td>
+                          <td>{item?.zoneName}</td>
+                          <td className="text-right">
+                            {item?.minimumOrderQty}
+                          </td>
+                          <td className="text-right">
+                            {item?.maximumOrderQty}
+                          </td>
+                          <td className="text-right">{item?.distanceKm}</td>
+                          <td className="text-right">{item?.proposalRate}</td>
+                          <td className="text-right">{item?.subsidiaryRate}</td>
+                          <td>{item?.userName}</td>
+                          <td>{_dateFormatter(item?.lastActionDateTime)}</td>
+                          <td className="text-right">
+                            {_fixedPoint(item?.handlingCost, true, 0)}
+                          </td>
+                          <td className="text-right">
+                            {_fixedPoint(item?.labourCost, true, 0)}
+                          </td>
+                          <td className="text-right">
+                            {_fixedPoint(item?.otherCost, true, 0)}
+                          </td>
+                          <td>{item?.isAmountBase ? 'Yes' : 'No'}</td>
+                          <td>{item?.remarks}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </Form>
             </>

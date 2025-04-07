@@ -1,32 +1,30 @@
-
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useParams } from "react-router";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useParams } from 'react-router';
+import { toast } from 'react-toastify';
 import {
   createAdditionalCost,
   deleteAdditionalCost,
   editOrCashReceive,
   getCostTypeDDL,
-} from "../helper";
-import Form from "./form";
-import { useLocation, useHistory } from "react-router-dom";
-import { _todayDate } from "../../../../_chartinghelper/_todayDate";
-import IConfirmModal from "../../../../_chartinghelper/_confirmModal";
-import Loading from "../../../../_chartinghelper/loading/_loading";
+} from '../helper';
+import Form from './form';
+import { useLocation, useHistory } from 'react-router-dom';
+import { _todayDate } from '../../../../_chartinghelper/_todayDate';
+import IConfirmModal from '../../../../_chartinghelper/_confirmModal';
+import Loading from '../../../../_chartinghelper/loading/_loading';
 
 const initData = {
-  vesselName: "",
-  voyageNo: "",
-  voyageType: "",
-  costType: "",
-  cost: "",
-  costAmount: "",
-  totalAmount: "",
-  advanceAmount: "",
-  dueAmount: "",
-  businessPartner: "",
+  vesselName: '',
+  voyageNo: '',
+  voyageType: '',
+  costType: '',
+  cost: '',
+  costAmount: '',
+  totalAmount: '',
+  advanceAmount: '',
+  dueAmount: '',
+  businessPartner: '',
   transactionDate: _todayDate(),
 };
 
@@ -50,7 +48,7 @@ export default function NextExpenseForm() {
 
   const addRow = (values, setFieldValue) => {
     if (rowData?.find((item) => item?.costId === values?.costType?.value)) {
-      return toast.warn("Cost already added");
+      return toast.warn('Cost already added');
     }
     const newRow = {
       additionalCost: 0,
@@ -73,19 +71,19 @@ export default function NextExpenseForm() {
       lastTransactionDate: _todayDate(),
     };
     setRowData([...rowData, newRow]);
-    setFieldValue("businessPartner", "");
-    setFieldValue("costType", "");
-    setFieldValue("totalAmount", "");
-    setFieldValue("advanceAmount", "");
-    setFieldValue("dueAmount", "");
-    setFieldValue("costAmount", "");
+    setFieldValue('businessPartner', '');
+    setFieldValue('costType', '');
+    setFieldValue('totalAmount', '');
+    setFieldValue('advanceAmount', '');
+    setFieldValue('dueAmount', '');
+    setFieldValue('costAmount', '');
   };
 
   const removeRow = (index) => {
     if (rowData[index]?.additionalCost) {
       IConfirmModal({
-        title: "Delete Cost",
-        message: "Are you sure you want to delete this cost?",
+        title: 'Delete Cost',
+        message: 'Are you sure you want to delete this cost?',
         yesAlertFunc: () => {
           deleteAdditionalCost(
             rowData[index]?.additionalCost,
@@ -114,7 +112,7 @@ export default function NextExpenseForm() {
             pathname: `${
               preData?.voyageType?.value === 1
                 ? `/chartering/next/offHire`
-                : "/chartering/layTime/layTime"
+                : '/chartering/layTime/layTime'
             }`,
             state: preData,
           });

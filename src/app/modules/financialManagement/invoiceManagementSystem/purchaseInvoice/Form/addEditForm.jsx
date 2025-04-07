@@ -1,13 +1,10 @@
-
-
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
-import IForm from "../../../../_helper/_form";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { empAttachment_action } from "../../../../_helper/attachmentUpload";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IForm from '../../../../_helper/_form';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 import {
   getPlantDDL,
   getPurchaseOrgDDL,
@@ -16,30 +13,30 @@ import {
   getSupplierDDL,
   getWarehouseDDL,
   savePurchaseEditInvoice,
-  savePurchaseInvoice
-} from "../helper";
-import "../purchaseInvoice.css";
-import Loading from "./../../../../_helper/_loading";
-import Form from "./form";
+  savePurchaseInvoice,
+} from '../helper';
+import '../purchaseInvoice.css';
+import Loading from './../../../../_helper/_loading';
+import Form from './form';
 
 const initData = {
-  SBU: "",
-  purchaseOrg: "",
-  plant: "",
-  warehouse: "",
-  supplierName: "",
-  purchaseOrder: "",
-  invoiceNumber: "",
+  SBU: '',
+  purchaseOrg: '',
+  plant: '',
+  warehouse: '',
+  supplierName: '',
+  purchaseOrder: '',
+  invoiceNumber: '',
   invoiceDate: _todayDate(),
-  remarks: "",
-  selectGRN: "",
+  remarks: '',
+  selectGRN: '',
   checked: false,
-  ginvoiceAmount: "",
-  deducationAmount: "",
-  invoiceAmount: "",
+  ginvoiceAmount: '',
+  deducationAmount: '',
+  invoiceAmount: '',
   paymentDueDate: _todayDate(),
-  grossInvoiceAmount: "",
-  deductionAmount: "",
+  grossInvoiceAmount: '',
+  deductionAmount: '',
 };
 
 export default function PurchaseInvoiceForm({
@@ -74,7 +71,7 @@ export default function PurchaseInvoiceForm({
   const [grnDDLData, setgrnDDLData] = useState([]);
 
   //state for input
-  const [grossInvoiceAmount, setginvoiceAmount] = useState("");
+  const [grossInvoiceAmount, setginvoiceAmount] = useState('');
   const [deductionAmount, setdeducationAmount] = useState(0);
 
   let netPayment = grossInvoiceAmount - deductionAmount;
@@ -84,9 +81,9 @@ export default function PurchaseInvoiceForm({
     getSBUDDL(profileData.accountId, selectedBusinessUnit.value, setSBUDDL);
 
     if (
-      (profileData?.accountId &&
-        selectedBusinessUnit?.value &&
-        location?.state?.selectSBU?.value)
+      profileData?.accountId &&
+      selectedBusinessUnit?.value &&
+      location?.state?.selectSBU?.value
     ) {
       getPurchaseOrgDDL(
         profileData.accountId,
@@ -120,10 +117,9 @@ export default function PurchaseInvoiceForm({
     }
   }, [singleData]);
 
-
   let singleDataCB = () => {
     getSingleDataForEdit(id, setSingleData);
-  }
+  };
 
   useEffect(() => {
     if (id) {
@@ -210,7 +206,7 @@ export default function PurchaseInvoiceForm({
         (data) => data?.referenceId === values?.selectGRN?.value
       );
       if (data) {
-        toast.warning("GRN Already added");
+        toast.warning('GRN Already added');
         // alert("GRN Already added");
       } else {
         setgrnGridData([
@@ -272,7 +268,7 @@ export default function PurchaseInvoiceForm({
           grossInvoiceAmount: +grossInvoiceAmount,
           deductionAmount: +deductionAmount,
           netPaymentAmount: netPayment,
-          remarks: values.remarks || "",
+          remarks: values.remarks || '',
         };
         if (fileObjects.length > 0) {
           //true image attachment
@@ -280,14 +276,19 @@ export default function PurchaseInvoiceForm({
             const modifyPlyload = {
               headerData: {
                 ...payload,
-                attachmentId: data[0]?.id || "",
+                attachmentId: data[0]?.id || '',
               },
               rowData: rowDatas,
             };
             if (grnGridData.length) {
-              savePurchaseEditInvoice(modifyPlyload, cb, setDisabled, singleDataCB);
+              savePurchaseEditInvoice(
+                modifyPlyload,
+                cb,
+                setDisabled,
+                singleDataCB
+              );
             } else {
-              toast.warning("You must have to add atleast one item");
+              toast.warning('You must have to add atleast one item');
             }
           });
         } else {
@@ -296,13 +297,18 @@ export default function PurchaseInvoiceForm({
             const modifyPlyload = {
               headerData: {
                 ...payload,
-                attachmentId: values?.attachmentId || "",
+                attachmentId: values?.attachmentId || '',
               },
               rowData: rowDatas,
             };
-            savePurchaseEditInvoice(modifyPlyload, cb, setDisabled, singleDataCB);
+            savePurchaseEditInvoice(
+              modifyPlyload,
+              cb,
+              setDisabled,
+              singleDataCB
+            );
           } else {
-            toast.warning("You must have to add atleast one item");
+            toast.warning('You must have to add atleast one item');
           }
         }
       } else {
@@ -333,7 +339,7 @@ export default function PurchaseInvoiceForm({
             values?.purchaseOrder?.advanceAdjustmentAmount || 0,
           netPaymentAmount: netPayment,
           paymentDueDate: values.paymentDueDate,
-          remarks: values.remarks || "",
+          remarks: values.remarks || '',
           actionBy: profileData.userId,
           lastActionDateTime: values.invoiceDate,
           serverDateTime: values.invoiceDate,
@@ -345,7 +351,7 @@ export default function PurchaseInvoiceForm({
             const modifyPlyload = {
               headerData: {
                 ...payload,
-                attachmentId: data[0]?.id || "",
+                attachmentId: data[0]?.id || '',
               },
               rowListData: grnGridData,
             };
@@ -359,7 +365,7 @@ export default function PurchaseInvoiceForm({
                 setDisabled
               );
             } else {
-              toast.warning("You must have to add atleast one item");
+              toast.warning('You must have to add atleast one item');
             }
           });
         } else {
@@ -367,7 +373,7 @@ export default function PurchaseInvoiceForm({
             const modifyPlyload = {
               headerData: {
                 ...payload,
-                attachmentId: "",
+                attachmentId: '',
               },
               rowListData: grnGridData,
             };
@@ -380,7 +386,7 @@ export default function PurchaseInvoiceForm({
               setDisabled
             );
           } else {
-            toast.warning("You must have to add atleast one item");
+            toast.warning('You must have to add atleast one item');
           }
         }
       }

@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 //Get Tax Branch DDL
 export const getTaxBranchDDL = async (userId, accid, buid, setter) => {
@@ -38,7 +38,7 @@ export const createItemTransferOutIbos = async (
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
       getInventoryTransferDDL();
@@ -64,7 +64,7 @@ export const GetTransferOutPagination = async (
 ) => {
   try {
     setLoading(true);
-    const searchPath = search ? `Search=${search}&` : "";
+    const searchPath = search ? `Search=${search}&` : '';
     const res = await Axios.get(
       `/vat/TaxItemTransferOutIbos/GetItemTransferOutSearchPaginationIbos?${searchPath}accountId=${accId}&businessUnitId=${buId}&taxBranchId=${taxBranchId}&ItemTypeId=${itemTypeId}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&fromDate=${fromDate}&toDate=${toDate}`
     );
@@ -87,7 +87,7 @@ export const getItemTransferOutById = async (
   setter,
   setLoading
 ) => {
-  console.log(taxTransId, "2")
+  console.log(taxTransId, '2');
   try {
     setLoading && setLoading(true);
     const res = await Axios.get(
@@ -100,7 +100,7 @@ export const getItemTransferOutById = async (
         baseTotal: Number(itm?.baseTotal.toFixed(2)),
         vatTotal: Number(itm?.vatTotal.toFixed(2)),
       }));
-      if (res?.data?.getByIdRow?.length === 0) toast.warning("Item Data found");
+      if (res?.data?.getByIdRow?.length === 0) toast.warning('Item Data found');
       setter({
         ...res?.data,
         getByIdRow: modifiedData,
@@ -132,7 +132,7 @@ export const editVatAdjustment = async (data, setDisabled) => {
   try {
     const res = await Axios.put(`/vat/VatAdjustment/EditVatAdjustment`, data);
     if (res.status === 200) {
-      toast.success(res?.message || "Edited successfully");
+      toast.success(res?.message || 'Edited successfully');
       setDisabled(false);
     }
   } catch (error) {

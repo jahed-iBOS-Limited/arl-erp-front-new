@@ -1,23 +1,22 @@
-
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { getEmployeeDDL, getTerritoryDDL } from "../helper";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { toast } from "react-toastify";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { getEmployeeDDL, getTerritoryDDL } from '../helper';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { toast } from 'react-toastify';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  routeDate: Yup.date().required("Route Date is required"),
+  routeDate: Yup.date().required('Route Date is required'),
   routeCategory: Yup.object().shape({
-    label: Yup.string().required("Route Category is required"),
-    value: Yup.string().required("Route Category is required"),
+    label: Yup.string().required('Route Category is required'),
+    value: Yup.string().required('Route Category is required'),
   }),
   routeLocation: Yup.object().shape({
-    label: Yup.string().required("Route Location is required"),
-    value: Yup.string().required("Route Location is required"),
+    label: Yup.string().required('Route Location is required'),
+    value: Yup.string().required('Route Location is required'),
   }),
 });
 
@@ -38,16 +37,15 @@ export default function FormCmp({
   setMonthlyCategoryHandler,
   isEdit,
   territoryNameDDL,
-  setTerritoryNameDDL
+  setTerritoryNameDDL,
 }) {
-
   const [employeeDDL, setEmployeeDDL] = useState([]);
 
   const tourCategoryLocationDDL = [
-    { value: 1, label: "Market Visit" },
-    { value: 2, label: "Leave" },
-    { value: 3, label: "Movement" },
-    { value: 4, label: "Meeting" },
+    { value: 1, label: 'Market Visit' },
+    { value: 2, label: 'Leave' },
+    { value: 3, label: 'Movement' },
+    { value: 4, label: 'Meeting' },
   ];
 
   useEffect(() => {
@@ -65,7 +63,7 @@ export default function FormCmp({
     }
   }, [profileData, selectedBusinessUnit]);
 
-  console.log("initData",initData)
+  console.log('initData', initData);
 
   return (
     <>
@@ -74,7 +72,7 @@ export default function FormCmp({
         initialValues={{
           ...initData,
           routeDate: tourId ? initData?.routeDate : location?.tourDate,
-          employeeName: tourId ? initData?.employeeName : "",
+          employeeName: tourId ? initData?.employeeName : '',
           routeCategory: {
             value: tourCategoryLocationDDL[0]?.value,
             label: tourCategoryLocationDDL[0]?.label,
@@ -126,10 +124,10 @@ export default function FormCmp({
                         valueOption?.level !== 2
                           ? setIsRoutePlanWeekwise(false)
                           : setIsRoutePlanWeekwise(true);
-                          if(valueOption?.level === 0){
-                            toast.warning("Set Your Employee Level")
-                          }
-                        setFieldValue("employeeName", valueOption);
+                        if (valueOption?.level === 0) {
+                          toast.warning('Set Your Employee Level');
+                        }
+                        setFieldValue('employeeName', valueOption);
                       }}
                       placeholder="Employee Name"
                       errors={errors}
@@ -141,88 +139,91 @@ export default function FormCmp({
               </div>
 
               {/* create  */}
-              { values?.employeeName?.level && values?.employeeName?.level  !== 2 && (
-                <>
-                  <table className="table table-striped table-bordered global-table">
-                    <thead>
-                      <tr>
-                        <th style={{ width: "30px" }}>SL</th>
-                        <th>Date</th>
-                        <th>Day Name</th>
-                        <th>Category</th>
-                        <th>Market Visit Location</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {monthlyRowDto?.map((td, index) => (
-                        <tr key={index}>
-                          <td className="text-center">{index + 1}</td>
-                          <td>
-                            <div className="pl-2">{_dateFormatter(td?.dteTourDate)}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{td?.strDayName}</div>
-                          </td>
-                          <td>
-                            <div className="px-2 routesetupDDL">
-                              <NewSelect
-                                name="routeCategory"
-                                options={tourCategoryLocationDDL}
-                                value={td?.routeCategory || ""}
-                                // label="Employee Name"
-                                onChange={(valueOption) => {
-                                  setMonthlyCategoryHandler(
-                                    index,
-                                    {
-                                      value: valueOption?.value,
-                                      label: valueOption?.label,
-                                    },
-                                    "routeCategory"
-                                  );
-                                }}
-                                // placeholder="Route Category"
-                                errors={errors}
-                                touched={touched}
-                                isDisabled={tourId}
-                              />
-                            </div>
-                          </td>
-                          <td>
-                            <div className="px-2 routesetupDDL">
-                              <NewSelect
-                                name="routeLocation"
-                                options={territoryNameDDL}
-                                value={td?.routeLocation || ""}
-                                // label="Employee Name"
-                                onChange={(valueOption) => {
-                                  setMonthlyCategoryHandler(
-                                    index,
-                                    {
-                                      value: valueOption?.value,
-                                      label: valueOption?.label,
-                                    },
-                                    "routeLocation"
-                                  );
-                                }}
-                                // placeholder="Route Category"
-                                errors={errors}
-                                touched={touched}
-                              />
-                            </div>
-                          </td>
+              {values?.employeeName?.level &&
+                values?.employeeName?.level !== 2 && (
+                  <>
+                    <table className="table table-striped table-bordered global-table">
+                      <thead>
+                        <tr>
+                          <th style={{ width: '30px' }}>SL</th>
+                          <th>Date</th>
+                          <th>Day Name</th>
+                          <th>Category</th>
+                          <th>Market Visit Location</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </>
-              )}
+                      </thead>
+                      <tbody>
+                        {monthlyRowDto?.map((td, index) => (
+                          <tr key={index}>
+                            <td className="text-center">{index + 1}</td>
+                            <td>
+                              <div className="pl-2">
+                                {_dateFormatter(td?.dteTourDate)}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{td?.strDayName}</div>
+                            </td>
+                            <td>
+                              <div className="px-2 routesetupDDL">
+                                <NewSelect
+                                  name="routeCategory"
+                                  options={tourCategoryLocationDDL}
+                                  value={td?.routeCategory || ''}
+                                  // label="Employee Name"
+                                  onChange={(valueOption) => {
+                                    setMonthlyCategoryHandler(
+                                      index,
+                                      {
+                                        value: valueOption?.value,
+                                        label: valueOption?.label,
+                                      },
+                                      'routeCategory'
+                                    );
+                                  }}
+                                  // placeholder="Route Category"
+                                  errors={errors}
+                                  touched={touched}
+                                  isDisabled={tourId}
+                                />
+                              </div>
+                            </td>
+                            <td>
+                              <div className="px-2 routesetupDDL">
+                                <NewSelect
+                                  name="routeLocation"
+                                  options={territoryNameDDL}
+                                  value={td?.routeLocation || ''}
+                                  // label="Employee Name"
+                                  onChange={(valueOption) => {
+                                    setMonthlyCategoryHandler(
+                                      index,
+                                      {
+                                        value: valueOption?.value,
+                                        label: valueOption?.label,
+                                      },
+                                      'routeLocation'
+                                    );
+                                  }}
+                                  // placeholder="Route Category"
+                                  errors={errors}
+                                  touched={touched}
+                                />
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </>
+                )}
 
               {values?.employeeName?.level === 2 && (
                 <>
                   <table className="table table-striped table-bordered global-table">
                     <thead>
                       <tr>
-                        <th style={{ width: "30px" }}>SL</th>
+                        <th style={{ width: '30px' }}>SL</th>
                         <th>Day Name</th>
                         <th>Category</th>
                         <th>Tour Location</th>
@@ -240,7 +241,7 @@ export default function FormCmp({
                               <NewSelect
                                 name="routeCategory"
                                 options={tourCategoryLocationDDL}
-                                value={td?.routeCategory || ""}
+                                value={td?.routeCategory || ''}
                                 // label="Employee Name"
                                 onChange={(valueOption) => {
                                   setWeeklyCategoryHandler(
@@ -249,7 +250,7 @@ export default function FormCmp({
                                       value: valueOption?.value,
                                       label: valueOption?.label,
                                     },
-                                    "routeCategory"
+                                    'routeCategory'
                                   );
                                 }}
                                 // placeholder="Route Category"
@@ -264,7 +265,7 @@ export default function FormCmp({
                               <NewSelect
                                 name="routeLocation"
                                 options={territoryNameDDL}
-                                value={td?.routeLocation || ""}
+                                value={td?.routeLocation || ''}
                                 // label="Employee Name"
                                 onChange={(valueOption) => {
                                   setWeeklyCategoryHandler(
@@ -273,7 +274,7 @@ export default function FormCmp({
                                       value: valueOption?.value,
                                       label: valueOption?.label,
                                     },
-                                    "routeLocation"
+                                    'routeLocation'
                                   );
                                 }}
                                 // placeholder="Route Category"
@@ -291,14 +292,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

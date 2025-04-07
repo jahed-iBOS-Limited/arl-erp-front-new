@@ -1,25 +1,24 @@
-
-import React, { useEffect, useState } from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import { useHistory } from "react-router-dom";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import Select from "react-select";
-import { useSelector, shallowEqual } from "react-redux";
-import { getLandingPageData, getPlantNameDDL } from "../helper";
-import IView from "../../../../_helper/_helperIcons/_view";
-import customStyles from "../../../../selectCustomStyle";
-import Loading from "./../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import PaginationSearch from "./../../../../_helper/_search";
+import React, { useEffect, useState } from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import { useHistory } from 'react-router-dom';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import Select from 'react-select';
+import { useSelector, shallowEqual } from 'react-redux';
+import { getLandingPageData, getPlantNameDDL } from '../helper';
+import IView from '../../../../_helper/_helperIcons/_view';
+import customStyles from '../../../../selectCustomStyle';
+import Loading from './../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import PaginationSearch from './../../../../_helper/_search';
 
 const headers = [
-  "SL",
-  "Item Name",
-  "BoM Name",
-  "BoM Version",
-  "Work Center",
+  'SL',
+  'Item Name',
+  'BoM Name',
+  'BoM Version',
+  'Work Center',
   // "Plant",   {/* Last Change Assign By Miraj Hossain (BA) */}
-  "Action",
+  'Action',
 ];
 
 const TBody = ({ landingPageData }) => {
@@ -28,9 +27,9 @@ const TBody = ({ landingPageData }) => {
     <>
       {landingPageData?.length > 0 &&
         landingPageData?.map((data, index) => (
-          <tr style={{ textAlign: "left" }} key={index}>
+          <tr style={{ textAlign: 'left' }} key={index}>
             <td>
-              {" "}
+              {' '}
               <div className="pl-2">{index + 1}</div>
             </td>
 
@@ -54,7 +53,7 @@ const TBody = ({ landingPageData }) => {
               <div className="pl-2">{data.plantName}</div>
             </td> */}
 
-            <td style={{ textAlign: "center" }}>
+            <td style={{ textAlign: 'center' }}>
               <span className="ml-3">
                 <IView
                   clickHandler={() =>
@@ -84,7 +83,7 @@ const TBody = ({ landingPageData }) => {
 
 const RoutingLanding = () => {
   const history = useHistory();
-  const [selectplant, setselectPlant] = useState("");
+  const [selectplant, setselectPlant] = useState('');
   const [plant, setPlantNameDDL] = useState([]);
   const [landingPageData, setLandingPageData] = useState([]);
   const [loader, setLoader] = useState(false);
@@ -150,7 +149,7 @@ const RoutingLanding = () => {
         <button
           className="btn btn-primary"
           onClick={() =>
-            history.push("/production-management/configuration/routing/create")
+            history.push('/production-management/configuration/routing/create')
           }
         >
           Create New

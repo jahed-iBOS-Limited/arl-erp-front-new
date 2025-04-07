@@ -1,10 +1,10 @@
-import { Formik } from "formik";
-import React from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import InputField from "../../../../_helper/_inputField";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../../_helper/_loading";
+import { Formik } from 'formik';
+import React from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import InputField from '../../../../_helper/_inputField';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import Loading from '../../../../_helper/_loading';
 
 export default function EditForm({ obj }) {
   const { setOpen, singleData, preValues, getData } = obj;
@@ -90,7 +90,7 @@ export default function EditForm({ obj }) {
                       <>
                         <th>1-99%</th>
                         <th>100-999%</th>
-                        <th> {">"}999% </th>
+                        <th> {'>'}999% </th>
                       </>
                     )}
                   </tr>
@@ -104,7 +104,7 @@ export default function EditForm({ obj }) {
                         placeholder="Date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("commissionDate", e?.target?.value);
+                          setFieldValue('commissionDate', e?.target?.value);
                         }}
                       />
                     </td>
@@ -120,7 +120,7 @@ export default function EditForm({ obj }) {
                             placeholder="offerQntFrom"
                             type="text"
                             onChange={(e) => {
-                              setFieldValue("offerQntFrom", e?.target?.value);
+                              setFieldValue('offerQntFrom', e?.target?.value);
                             }}
                           />
                         </td>
@@ -131,7 +131,7 @@ export default function EditForm({ obj }) {
                             placeholder="BA"
                             type="text"
                             onChange={(e) => {
-                              setFieldValue("offerQntTo", e?.target?.value);
+                              setFieldValue('offerQntTo', e?.target?.value);
                             }}
                           />
                         </td>
@@ -143,7 +143,7 @@ export default function EditForm({ obj }) {
                             type="text"
                             onChange={(e) => {
                               setFieldValue(
-                                "achievementFrom",
+                                'achievementFrom',
                                 e?.target?.value
                               );
                             }}
@@ -156,7 +156,7 @@ export default function EditForm({ obj }) {
                             placeholder="CP"
                             type="text"
                             onChange={(e) => {
-                              setFieldValue("achievementTo", e?.target?.value);
+                              setFieldValue('achievementTo', e?.target?.value);
                             }}
                           />
                         </td>
@@ -167,7 +167,7 @@ export default function EditForm({ obj }) {
                             placeholder="CP"
                             type="text"
                             onChange={(e) => {
-                              setFieldValue("commissionRate", e?.target?.value);
+                              setFieldValue('commissionRate', e?.target?.value);
                             }}
                           />
                         </td>
@@ -182,7 +182,7 @@ export default function EditForm({ obj }) {
                             type="text"
                             onChange={(e) => {
                               setFieldValue(
-                                "bpcommissionRate",
+                                'bpcommissionRate',
                                 e?.target?.value
                               );
                             }}
@@ -196,7 +196,7 @@ export default function EditForm({ obj }) {
                             type="text"
                             onChange={(e) => {
                               setFieldValue(
-                                "bacommissionRate",
+                                'bacommissionRate',
                                 e?.target?.value
                               );
                             }}
@@ -210,7 +210,7 @@ export default function EditForm({ obj }) {
                             type="text"
                             onChange={(e) => {
                               setFieldValue(
-                                "cpcommissionRate",
+                                'cpcommissionRate',
                                 e?.target?.value
                               );
                             }}
@@ -224,7 +224,7 @@ export default function EditForm({ obj }) {
                             type="text"
                             onChange={(e) => {
                               setFieldValue(
-                                "cacommissionRate",
+                                'cacommissionRate',
                                 e?.target?.value
                               );
                             }}
@@ -243,7 +243,7 @@ export default function EditForm({ obj }) {
                             type="text"
                             onChange={(e) => {
                               setFieldValue(
-                                "firstSlabCommissionRate",
+                                'firstSlabCommissionRate',
                                 e?.target?.value
                               );
                             }}
@@ -256,7 +256,7 @@ export default function EditForm({ obj }) {
                             type="text"
                             onChange={(e) => {
                               setFieldValue(
-                                "secondSlabCommissionRate",
+                                'secondSlabCommissionRate',
                                 e?.target?.value
                               );
                             }}
@@ -269,7 +269,7 @@ export default function EditForm({ obj }) {
                             type="text"
                             onChange={(e) => {
                               setFieldValue(
-                                "thirdSlabCommissionRate",
+                                'thirdSlabCommissionRate',
                                 e?.target?.value
                               );
                             }}

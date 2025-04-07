@@ -1,13 +1,13 @@
-import { Formik } from "formik";
-import React from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import IViewModal from "../../../../_helper/_viewModal";
-import IButton from "../../../../_helper/iButton";
-import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
-import Loading from "../../../../_helper/_loading";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
+import { Formik } from 'formik';
+import React from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import IViewModal from '../../../../_helper/_viewModal';
+import IButton from '../../../../_helper/iButton';
+import ICon from '../../../../chartering/_chartinghelper/icons/_icon';
+import Loading from '../../../../_helper/_loading';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
 
 export default function FormCmp({
   show,
@@ -60,7 +60,7 @@ export default function FormCmp({
                       placeholder="Discount Offer Group Name"
                       options={discountOfferGroups?.data}
                       onChange={(v) => {
-                        setFieldValue("offerGroupName", v);
+                        setFieldValue('offerGroupName', v);
                       }}
                     />
                     <ICon title="Create a new offer group">
@@ -68,7 +68,7 @@ export default function FormCmp({
                         onClick={() => {
                           setShow(true);
                         }}
-                        style={{ fontSize: "15px", color: "#3699FF" }}
+                        style={{ fontSize: '15px', color: '#3699FF' }}
                         className="fa pointer fa-plus-circle mt-7 pl-3"
                         aria-hidden="true"
                       ></i>
@@ -83,14 +83,14 @@ export default function FormCmp({
                     placeholder="Select Item"
                     options={itemList}
                     onChange={(v) => {
-                      setFieldValue("itemName", v);
+                      setFieldValue('itemName', v);
                     }}
                   />
                 </div>
                 <IButton
                   onClick={() => {
                     itemAddHandler(values, () => {
-                      setFieldValue("itemName", "");
+                      setFieldValue('itemName', '');
                     });
                   }}
                 >
@@ -104,13 +104,13 @@ export default function FormCmp({
                       <table className="table table-striped table-bordered global-table mt-0">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>Discount Group Name</th>
                             <th>Item Name</th>
                             <th>Action</th>
                           </tr>
                         </thead>
-                        <tbody style={{ overflow: "scroll" }}>
+                        <tbody style={{ overflow: 'scroll' }}>
                           {rowDto?.map((itm, index) => (
                             <tr key={index}>
                               <td>{index + 1}</td>
@@ -131,7 +131,7 @@ export default function FormCmp({
             <IViewModal
               show={show}
               onHide={() => setShow(false)}
-              modelSize={"md"}
+              modelSize={'md'}
             >
               {loader && <Loading />}
               <form className="form form-label-right">

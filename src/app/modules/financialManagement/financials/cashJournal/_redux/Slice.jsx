@@ -1,14 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
-  error: "",
-  msg: "",
+  error: '',
+  msg: '',
   gridData: [],
 };
 
 export const cashJournalSlice = createSlice({
-  name: "cashJournal",
+  name: 'cashJournal',
   initialState: initState,
   reducers: {
     SetGridData: (state, action) => {

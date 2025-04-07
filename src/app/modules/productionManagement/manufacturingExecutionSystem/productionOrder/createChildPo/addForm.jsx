@@ -1,23 +1,21 @@
-
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import { useHistory, useParams } from "react-router-dom";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { getProductionOrderById, getProductionOrderSFGById } from "../helper";
-import "../subpo.css";
-import Loading from "./../../../../_helper/_loading";
-import IForm from "../../../../_helper/_form";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import { useHistory, useParams } from 'react-router-dom';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { getProductionOrderById, getProductionOrderSFGById } from '../helper';
+import '../subpo.css';
+import Loading from './../../../../_helper/_loading';
+import IForm from '../../../../_helper/_form';
 
 const initData = {
   startDateTime: _todayDate(),
-  startTime: "",
-  endDateTime: "",
-  endTime: "",
-  prtNumber: "",
-  workCenter: "",
-  bomName: "",
+  startTime: '',
+  endDateTime: '',
+  endTime: '',
+  prtNumber: '',
+  workCenter: '',
+  bomName: '',
 };
 
 export default function CreateSubPOForm({
@@ -25,13 +23,13 @@ export default function CreateSubPOForm({
   productionId,
   plantName,
   subPo,
-  shopFloorId
+  shopFloorId,
 }) {
   // console.log(productionOrderSFG,"productionOrderSFG")
 
   const [isDisabled, setDisabled] = useState(false);
   const [gridData, setGridData] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [objProps, setObjprops] = useState({});
   const params = useParams();
   const history = useHistory();
@@ -54,7 +52,6 @@ export default function CreateSubPOForm({
         setGridData
       );
     }
-
   }, [profileData, params || productionId]);
 
   useEffect(() => {
@@ -67,8 +64,6 @@ export default function CreateSubPOForm({
         singleData?.numOrderQty
       );
     }
-
-
   }, [singleData]);
 
   // set data to rowDto dynamically
@@ -80,9 +75,9 @@ export default function CreateSubPOForm({
     setGridData(xData);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     setGridData(productionOrderSFG);
-  },[productionOrderSFG])
+  }, [productionOrderSFG]);
 
   const saveHandler = async (values, cb) => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -96,8 +91,8 @@ export default function CreateSubPOForm({
         workCenterId: 0,
         numOrderQty: 0,
         uomid: +gridData?.uomid,
-        startDateTime: "2020-12-21T10:22:29.087Z",
-        endDateTime: "2020-12-21T10:22:29.087Z",
+        startDateTime: '2020-12-21T10:22:29.087Z',
+        endDateTime: '2020-12-21T10:22:29.087Z',
         itemIdTools: 0,
         actionBy: 0,
       };
@@ -112,7 +107,7 @@ export default function CreateSubPOForm({
 
   return (
     <IForm
-      title={"Create Sub-PO"}
+      title={'Create Sub-PO'}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenReset

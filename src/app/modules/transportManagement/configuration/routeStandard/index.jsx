@@ -1,6 +1,6 @@
-import React from "react";
-import { UiProvider } from "../../../_helper/uiContextHelper";
-import { RouteStandardLandingTable } from "./Table/tableHeader";
+import React from 'react';
+import { UiProvider } from '../../../_helper/uiContextHelper';
+import { RouteStandardLandingTable } from './Table/tableHeader';
 
 export function RouteStandardLanding() {
   const uIEvents = {};
@@ -10,4 +10,4 @@ export function RouteStandardLanding() {
       <RouteStandardLandingTable />
     </UiProvider>
   );
-};
+}

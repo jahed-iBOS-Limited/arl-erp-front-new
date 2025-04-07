@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 //Call general ledger ddl
 export function getGeneralLedgerDDL(accId, buId) {

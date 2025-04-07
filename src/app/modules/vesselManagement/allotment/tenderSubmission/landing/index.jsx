@@ -1,30 +1,30 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { useReactToPrint } from "react-to-print";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { useReactToPrint } from 'react-to-print';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _monthFirstDate } from '../../../../_helper/_monthFirstDate';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import {
   approveStatusDDL,
   fetchSubmittedTenderData,
   generateBusinessPartnerDDL,
   landingPageValidationSchema,
-} from "../helper";
-import PrintBADCMOPTender from "../print/printBADCMOPTender";
-import PrintBADCTender from "../print/printBADCTender";
-import PrintBCICTender from "../print/printBCICTender";
-import "../print/style.css";
-import BADCMOPTable from "./badcMopTable";
-import BADCTendersTable from "./badcTable";
-import BCICTendersTable from "./bcicTable";
-import { commonGetLetterHead } from "../../../../_helper/letterHead/commonGetLetterHead";
+} from '../helper';
+import PrintBADCMOPTender from '../print/printBADCMOPTender';
+import PrintBADCTender from '../print/printBADCTender';
+import PrintBCICTender from '../print/printBCICTender';
+import '../print/style.css';
+import BADCMOPTable from './badcMopTable';
+import BADCTendersTable from './badcTable';
+import BCICTendersTable from './bcicTable';
+import { commonGetLetterHead } from '../../../../_helper/letterHead/commonGetLetterHead';
 
 // const initData = {};
 
@@ -56,7 +56,6 @@ export default function TenderSubmissionLanding() {
   useEffect(() => {
     // Fetch sumitted tender data
     // fetchSubmittedTenderData(pageNo, pageSize);
-
   }, []);
 
   // Set paginations
@@ -79,7 +78,7 @@ export default function TenderSubmissionLanding() {
   const handleTenderPrint = useReactToPrint({
     content: () => printRef.current,
     pageStyle:
-      "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}",
+      '@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}',
     onAfterPrint: () => {
       setTenderPrintId(null);
       setTenderDetails([]);
@@ -93,10 +92,10 @@ export default function TenderSubmissionLanding() {
     <Formik
       enableReinitialize={true}
       initialValues={{
-        businessPartner: "",
+        businessPartner: '',
         fromDate: _monthFirstDate(),
         toDate: _todayDate(),
-        approveStatus: "",
+        approveStatus: '',
       }}
       validationSchema={landingPageValidationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -132,7 +131,7 @@ export default function TenderSubmissionLanding() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        "/vessel-management/allotment/tendersubmission/entry"
+                        '/vessel-management/allotment/tendersubmission/entry'
                       );
                     }}
                   >
@@ -151,7 +150,7 @@ export default function TenderSubmissionLanding() {
                     value={values?.businessPartner}
                     label="Business Partner"
                     onChange={(valueOption) => {
-                      setFieldValue("businessPartner", valueOption);
+                      setFieldValue('businessPartner', valueOption);
                       setSubmittedTenderList([]);
                     }}
                     errors={errors}
@@ -166,7 +165,7 @@ export default function TenderSubmissionLanding() {
                     value={values?.approveStatus}
                     label="Approve Status"
                     onChange={(valueOption) => {
-                      setFieldValue("approveStatus", valueOption);
+                      setFieldValue('approveStatus', valueOption);
                       setSubmittedTenderList([]);
                     }}
                     errors={errors}
@@ -196,7 +195,7 @@ export default function TenderSubmissionLanding() {
               </div>
 
               {/* Table of BCIC & BADC Tender  */}
-              {values?.businessPartner?.label === "BCIC" ? (
+              {values?.businessPartner?.label === 'BCIC' ? (
                 <BCICTendersTable
                   accountId={accountId}
                   buUnId={buUnId}
@@ -205,7 +204,7 @@ export default function TenderSubmissionLanding() {
                   handleTenderPrint={handleTenderPrint}
                   getTenderDetails={getTenderDetails}
                 />
-              ) : values?.businessPartner?.label === "BADC" ? (
+              ) : values?.businessPartner?.label === 'BADC' ? (
                 <BADCTendersTable
                   accountId={accountId}
                   buUnId={buUnId}
@@ -214,7 +213,7 @@ export default function TenderSubmissionLanding() {
                   handleTenderPrint={handleTenderPrint}
                   getTenderDetails={getTenderDetails}
                 />
-              ) : values?.businessPartner?.label === "BADC(MOP)" ? (
+              ) : values?.businessPartner?.label === 'BADC(MOP)' ? (
                 <BADCMOPTable
                   accountId={accountId}
                   buUnId={buUnId}
@@ -243,7 +242,7 @@ export default function TenderSubmissionLanding() {
             </Form>
 
             <div ref={printRef} className="tender-print-preview">
-              <div style={{ margin: "-13px 0 51px 0" }}>
+              <div style={{ margin: '-13px 0 51px 0' }}>
                 <table>
                   <thead>
                     <div
@@ -252,26 +251,26 @@ export default function TenderSubmissionLanding() {
                         backgroundImage: `url(${commonGetLetterHead({
                           buId: buUnId,
                         })})`,
-                        backgroundRepeat: "no-repeat",
-                        height: "150px",
-                        backgroundPosition: "left 10px",
-                        backgroundSize: "cover",
+                        backgroundRepeat: 'no-repeat',
+                        height: '150px',
+                        backgroundPosition: 'left 10px',
+                        backgroundSize: 'cover',
                         // position: "fixed",
-                        width: "100%",
-                        top: "-60px",
+                        width: '100%',
+                        top: '-60px',
                       }}
                     ></div>
-                    {(values?.businessPartner?.label === "BADC(MOP)" ||
-                      values?.businessPartner?.label === "BCIC") && (
+                    {(values?.businessPartner?.label === 'BADC(MOP)' ||
+                      values?.businessPartner?.label === 'BCIC') && (
                       <tr>
                         <td
                           style={{
-                            border: "none",
+                            border: 'none',
                           }}
                         >
                           <div
                             style={{
-                              height: "0px",
+                              height: '0px',
                             }}
                           ></div>
                         </td>
@@ -280,12 +279,12 @@ export default function TenderSubmissionLanding() {
                   </thead>
                   {/* CONTENT GOES HERE */}
                   <tbody>
-                    <div style={{ margin: "40px 75px 0 75px" }}>
-                      {values?.businessPartner?.label === "BCIC" ? (
+                    <div style={{ margin: '40px 75px 0 75px' }}>
+                      {values?.businessPartner?.label === 'BCIC' ? (
                         <PrintBCICTender tenderDetails={tenderDetails} />
-                      ) : values?.businessPartner?.label === "BADC" ? (
+                      ) : values?.businessPartner?.label === 'BADC' ? (
                         <PrintBADCTender tenderDetails={tenderDetails} />
-                      ) : values?.businessPartner?.label === "BADC(MOP)" ? (
+                      ) : values?.businessPartner?.label === 'BADC(MOP)' ? (
                         <PrintBADCMOPTender
                           tenderDetails={tenderDetails}
                           tenderPrintId={tenderPrintId}
@@ -296,17 +295,17 @@ export default function TenderSubmissionLanding() {
                     </div>
                   </tbody>
                   <tfoot>
-                    {(values?.businessPartner?.label === "BADC(MOP)" ||
-                      values?.businessPartner?.label === "BCIC") && (
+                    {(values?.businessPartner?.label === 'BADC(MOP)' ||
+                      values?.businessPartner?.label === 'BCIC') && (
                       <tr>
                         <td
                           style={{
-                            border: "none",
+                            border: 'none',
                           }}
                         >
                           <div
                             style={{
-                              height: "70px",
+                              height: '70px',
                             }}
                           ></div>
                         </td>
@@ -318,13 +317,13 @@ export default function TenderSubmissionLanding() {
                         backgroundImage: `url(${commonGetLetterHead({
                           buId: buUnId,
                         })})`,
-                        backgroundRepeat: "no-repeat",
-                        height: "100px",
-                        backgroundPosition: "left bottom",
-                        backgroundSize: "cover",
-                        bottom: "-25px",
-                        position: "fixed",
-                        width: "100%",
+                        backgroundRepeat: 'no-repeat',
+                        height: '100px',
+                        backgroundPosition: 'left bottom',
+                        backgroundSize: 'cover',
+                        bottom: '-25px',
+                        position: 'fixed',
+                        width: '100%',
                       }}
                     ></div>
                   </tfoot>
@@ -337,7 +336,6 @@ export default function TenderSubmissionLanding() {
     </Formik>
   );
 }
-
 
 {
   /* <div ref={printRef} className="tender-print-preview">

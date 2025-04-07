@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import * as Yup from "yup";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import ScrapusedCreateForm from "./form";
-import { useLocation, useParams } from "react-router-dom";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import * as Yup from 'yup';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import ScrapusedCreateForm from './form';
+import { useLocation, useParams } from 'react-router-dom';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 const initData = {
-  date: "",
-  shift: "",
+  date: '',
+  shift: '',
   // grade: "",
   // forignScrap: "",
   // hundredSuper: "",
@@ -27,13 +27,13 @@ const initData = {
 };
 
 const validationSchema = Yup.object().shape({
-  date: Yup.string().required("Date is required"),
+  date: Yup.string().required('Date is required'),
   shift: Yup.object()
     .shape({
-      label: Yup.string().required("Shift is required"),
-      value: Yup.string().required("Shift is required"),
+      label: Yup.string().required('Shift is required'),
+      value: Yup.string().required('Shift is required'),
     })
-    .typeError("Shift is required"),
+    .typeError('Shift is required'),
 });
 
 export default function ScrapusedCreate() {
@@ -46,17 +46,17 @@ export default function ScrapusedCreate() {
   const location = useLocation();
 
   const [numberInfo, setNumberInfo] = useState({
-    scapAvgGrade: "",
-    spongeIron: "",
-    tinBundle: "",
-    msBabri: "",
-    mediumSuper: "",
-    railwayWheel: "",
-    hardScrap: "",
-    castIron: "",
-    hundredSuper: "",
-    forignScrap: "",
-    grade: "",
+    scapAvgGrade: '',
+    spongeIron: '',
+    tinBundle: '',
+    msBabri: '',
+    mediumSuper: '',
+    railwayWheel: '',
+    hardScrap: '',
+    castIron: '',
+    hundredSuper: '',
+    forignScrap: '',
+    grade: '',
   });
 
   const { profileData } = useSelector((state) => {
@@ -87,7 +87,6 @@ export default function ScrapusedCreate() {
         },
       });
     }
-
   }, [params?.id]);
 
   const saveHandler = async (values, setFieldValue, cb) => {
@@ -118,17 +117,17 @@ export default function ScrapusedCreate() {
       !params?.id &&
         (() => {
           setNumberInfo({
-            scapAvgGrade: "",
-            spongeIron: "",
-            tinBundle: "",
-            msBabri: "",
-            mediumSuper: "",
-            railwayWheel: "",
-            hardScrap: "",
-            castIron: "",
-            hundredSuper: "",
-            forignScrap: "",
-            grade: "",
+            scapAvgGrade: '',
+            spongeIron: '',
+            tinBundle: '',
+            msBabri: '',
+            mediumSuper: '',
+            railwayWheel: '',
+            hardScrap: '',
+            castIron: '',
+            hundredSuper: '',
+            forignScrap: '',
+            grade: '',
           });
           setTotal(0);
           cb();
@@ -145,8 +144,8 @@ export default function ScrapusedCreate() {
     <IForm
       title={
         params?.id
-          ? "Edit Scrapused Used Entry From"
-          : "Scrapused Used Entry From"
+          ? 'Edit Scrapused Used Entry From'
+          : 'Scrapused Used Entry From'
       }
       getProps={setObjprops}
       isDisabled={isDisabled}

@@ -53,11 +53,10 @@ export default function FormCmp({
       getPlantItemPlantWareHouseDDL(
         userId,
         accountId,
-        selectedBusinessUnit?.value,
+        selectedBusinessUnit?.value
       );
       getItemUOMDDL(accountId, selectedBusinessUnit?.value);
     }
-
   }, [selectedBusinessUnit, accountId]);
 
   useEffect(() => {
@@ -65,7 +64,7 @@ export default function FormCmp({
       whApiCaller(
         accountId,
         selectedBusinessUnit?.value,
-        productData?.plant?.value,
+        productData?.plant?.value
       );
     }
   }, [selectedBusinessUnit, accountId, productData]);
@@ -79,11 +78,11 @@ export default function FormCmp({
   const getPlantItemPlantWareHouseDDL = async (
     userId,
     accId,
-    businessUnitId,
+    businessUnitId
   ) => {
     try {
       const res = await Axios.get(
-        `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${businessUnitId}&OrgUnitTypeId=7`,
+        `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${businessUnitId}&OrgUnitTypeId=7`
       );
       const { status, data } = res;
       if (status === 200 && data.length) {
@@ -94,7 +93,7 @@ export default function FormCmp({
   const getItemUOMDDL = async (accountId, businessUnitId) => {
     try {
       const res = await Axios.get(
-        `/item/ItemUOM/GetItemUOMByAccountIdBusinessUnitId?AccountId=${accountId}&BusinessUnitId=${businessUnitId}`,
+        `/item/ItemUOM/GetItemUOMByAccountIdBusinessUnitId?AccountId=${accountId}&BusinessUnitId=${businessUnitId}`
       );
       const { status, data } = res;
       if (status === 200 && data.length) {
@@ -115,7 +114,7 @@ export default function FormCmp({
   const whApiCaller = async (accountId, businessUnitId, v) => {
     try {
       const res = await Axios.get(
-        `/wms/ConfigPlantWearHouse/GetWareHouseDDL?AccountId=${accountId}&BusinessUnitId=${businessUnitId}&PlantId=${v}`,
+        `/wms/ConfigPlantWearHouse/GetWareHouseDDL?AccountId=${accountId}&BusinessUnitId=${businessUnitId}&PlantId=${v}`
       );
 
       const newData = res?.data?.map((item) => ({
@@ -132,7 +131,7 @@ export default function FormCmp({
   // Get inventory location by warehouseid and plantid
   const inventoryLocationAPiCaller = async (whid, plantId) => {
     const res = await Axios.get(
-      `/wms/InventoryLocation/GetInventoryLocationDDL?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit.value}&plantId=${plantId}&WhId=${whid}`,
+      `/wms/InventoryLocation/GetInventoryLocationDDL?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit.value}&plantId=${plantId}&WhId=${whid}`
     );
     const { status, data } = res;
     if (status && data?.length) {
@@ -158,9 +157,7 @@ export default function FormCmp({
     setDefaultRowDto(data);
   };
 
-  useEffect(() => {
-
-  }, [baseUomList, productData]);
+  useEffect(() => {}, [baseUomList, productData]);
 
   return (
     <>
@@ -215,7 +212,7 @@ export default function FormCmp({
                         whApiCaller(
                           accountId,
                           selectedBusinessUnit?.value,
-                          valueOption?.value,
+                          valueOption?.value
                         );
                         setFieldValue('plant', valueOption);
                       }}
@@ -237,7 +234,7 @@ export default function FormCmp({
                             setFieldValue('warehouse', valueOption);
                             inventoryLocationAPiCaller(
                               valueOption?.value,
-                              values?.plant?.value,
+                              values?.plant?.value
                             );
                           }}
                           isSearchable={true}
@@ -520,7 +517,7 @@ export default function FormCmp({
                                   rowDtoHandler(
                                     'minimumStockQuantity',
                                     i,
-                                    +e.target.value,
+                                    +e.target.value
                                   );
                                 }}
                               />
@@ -537,7 +534,7 @@ export default function FormCmp({
                                   rowDtoHandler(
                                     'safetyStockQuantity',
                                     i,
-                                    +e.target.value,
+                                    +e.target.value
                                   );
                                 }}
                               />
@@ -554,7 +551,7 @@ export default function FormCmp({
                                   rowDtoHandler(
                                     'maximumQuantity',
                                     i,
-                                    +e.target.value,
+                                    +e.target.value
                                   );
                                 }}
                               />
@@ -571,7 +568,7 @@ export default function FormCmp({
                                   rowDtoHandler(
                                     'reorderLevel',
                                     i,
-                                    +e.target.value,
+                                    +e.target.value
                                   );
                                 }}
                               />
@@ -588,7 +585,7 @@ export default function FormCmp({
                                   rowDtoHandler(
                                     'reorderQuantity',
                                     i,
-                                    +e.target.value,
+                                    +e.target.value
                                   );
                                 }}
                               />
@@ -605,7 +602,7 @@ export default function FormCmp({
                                   rowDtoHandler(
                                     'averageDailyConsumption',
                                     i,
-                                    +e.target.value,
+                                    +e.target.value
                                   );
                                 }}
                               />
@@ -622,7 +619,7 @@ export default function FormCmp({
                                   rowDtoHandler(
                                     'maxLeadDays',
                                     i,
-                                    +e.target.value,
+                                    +e.target.value
                                   );
                                 }}
                               />
@@ -639,7 +636,7 @@ export default function FormCmp({
                                   rowDtoHandler(
                                     'minLeadDays',
                                     i,
-                                    +e.target.value,
+                                    +e.target.value
                                   );
                                 }}
                               />
@@ -695,7 +692,7 @@ export default function FormCmp({
                                     rowDtoHandler(
                                       'shippingItemSubHead',
                                       i,
-                                      e.target.value,
+                                      e.target.value
                                     );
                                   }}
                                 />

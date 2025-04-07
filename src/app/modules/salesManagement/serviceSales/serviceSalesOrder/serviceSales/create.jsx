@@ -86,23 +86,24 @@ export default function ServiceSalesCreate({
   useEffect(() => {
     if (isView) {
       getRowData(
-        `/oms/ServiceSales/GetServiceSaleOrderReport?BusinessUnitId=${selectedBusinessUnit?.value
-        }&CustomerId=${singleData?.intCustomerId
-        }&PaymentTypeId=${0}&FromDate=${'2021-01-01'}&ToDate=${_todayDate()}`,
+        `/oms/ServiceSales/GetServiceSaleOrderReport?BusinessUnitId=${
+          selectedBusinessUnit?.value
+        }&CustomerId=${
+          singleData?.intCustomerId
+        }&PaymentTypeId=${0}&FromDate=${'2021-01-01'}&ToDate=${_todayDate()}`
       );
     }
-
   }, [isView]);
 
   useEffect(() => {
     if (itemList?.length) {
       const amount = itemList.reduce(
         (sum, item) => sum + (item?.qty || 0) * (item?.rate || 0),
-        0,
+        0
       );
       const vat = itemList.reduce(
         (sum, item) => sum + (item?.vatAmount || 0),
-        0,
+        0
       );
       let netAmount = amount + (amount * vat) / 100;
       setActualAmount(amount);
@@ -115,22 +116,21 @@ export default function ServiceSalesCreate({
 
   useEffect(() => {
     getChannelDDL(
-      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}`,
+      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}`
     );
     getSalesOrgList(
-      `/oms/BusinessUnitSalesOrganization/GetBUSalesOrgDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}&SBUId=0`,
+      `/oms/BusinessUnitSalesOrganization/GetBUSalesOrgDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}&SBUId=0`
     );
 
     getCustomerList(
-      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
+      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
     );
     getItemDDL(
-      `/oms/SalesOrder/GetgetServiceItemList?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
+      `/oms/SalesOrder/GetgetServiceItemList?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
     );
     getAccountManagerList(
-      `/domain/EmployeeBasicInformation/GetEmployeeDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
+      `/domain/EmployeeBasicInformation/GetEmployeeDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = (values, cb) => {
@@ -140,7 +140,7 @@ export default function ServiceSalesCreate({
     if (scheduleList?.length < 0) return toast.warn('Add Schedule');
     let totalPercentage = scheduleListFOneTime.reduce(
       (accumulator, currentValue) => accumulator + currentValue['percentage'],
-      0,
+      0
     );
     if (
       !isEdit &&
@@ -304,14 +304,14 @@ export default function ServiceSalesCreate({
           header: header,
         },
         cb,
-        true,
+        true
       );
     } else {
       saveHandlerFunc(
         `oms/ServiceSales/createServiceSalesOrder`,
         payload,
         cb,
-        true,
+        true
       );
     }
   };
@@ -325,7 +325,7 @@ export default function ServiceSalesCreate({
           return acc + (+curr.percentage || 0);
         }
       },
-      0,
+      0
     );
 
     return totalPercentage;
@@ -356,7 +356,7 @@ export default function ServiceSalesCreate({
           schedule.numScheduleVatAmount === 0
             ? 0
             : (schedule.numScheduleVatAmount / schedule.numScheduleAmount) *
-            100,
+              100,
         vatAmount: schedule?.numScheduleVatAmount,
         remarks: schedule.strRemarks || '',
         isInvoiceComplete: schedule.isInvoiceComplete,
@@ -386,7 +386,7 @@ export default function ServiceSalesCreate({
       totalInvoiceAmount: 0,
       totalCollectionAmount: 0,
       totalPendingAmount: 0,
-    },
+    }
   );
 
   return (
@@ -395,71 +395,71 @@ export default function ServiceSalesCreate({
       initialValues={
         isEdit || isView
           ? {
-            ...initData,
-            paymentType: {
-              value: singleData?.strPaymentType === 'One Time' ? 2 : 1,
-              label: singleData?.strPaymentType,
-            },
-            scheduleType:
-              singleData?.strScheduleTypeName === 'Monthly'
-                ? { value: 1, label: 'Monthly', range: 1 }
-                : singleData?.strScheduleTypeName === 'Quarterly'
-                  ? { value: 2, label: 'Quarterly', range: 3 }
-                  : singleData?.strScheduleTypeName === 'Yearly'
-                    ? { value: 3, label: 'Yearly', range: 12 }
-                    : { value: 1, label: 'Monthly', range: 1 },
-            salesOrg: {
-              value: singleData?.intSalesTypeId,
-              label: singleData?.strSalesTypeName,
-            },
-            distributionChannel: {
-              value: singleData?.intDistributionChannelId,
-              label: singleData?.strDistributionChannelName,
-            },
-            accountManager: {
-              value: singleData?.intAccountManagerEnroll,
-              label: singleData?.strAccountManagerName,
-            },
-            billToParty: singleData?.strCustomerName,
-            numScheduleAmount: singleData?.numScheduleAmount,
-            numServerAmount: singleData?.numServerAmount,
+              ...initData,
+              paymentType: {
+                value: singleData?.strPaymentType === 'One Time' ? 2 : 1,
+                label: singleData?.strPaymentType,
+              },
+              scheduleType:
+                singleData?.strScheduleTypeName === 'Monthly'
+                  ? { value: 1, label: 'Monthly', range: 1 }
+                  : singleData?.strScheduleTypeName === 'Quarterly'
+                    ? { value: 2, label: 'Quarterly', range: 3 }
+                    : singleData?.strScheduleTypeName === 'Yearly'
+                      ? { value: 3, label: 'Yearly', range: 12 }
+                      : { value: 1, label: 'Monthly', range: 1 },
+              salesOrg: {
+                value: singleData?.intSalesTypeId,
+                label: singleData?.strSalesTypeName,
+              },
+              distributionChannel: {
+                value: singleData?.intDistributionChannelId,
+                label: singleData?.strDistributionChannelName,
+              },
+              accountManager: {
+                value: singleData?.intAccountManagerEnroll,
+                label: singleData?.strAccountManagerName,
+              },
+              billToParty: singleData?.strCustomerName,
+              numScheduleAmount: singleData?.numScheduleAmount,
+              numServerAmount: singleData?.numServerAmount,
 
-            customer: {
-              value: singleData?.intCustomerId,
-              label: singleData?.strCustomerName,
-            },
-            item: {
-              value: singleData?.intItemId || '',
-              label: singleData?.strItemName || '',
-            },
-            agreementStartDate: moment(singleData?.dteStartDateTime).format(
-              'YYYY-MM-DD',
-            ),
-            agreementEndDate: moment(singleData?.dteEndDateTime).format(
-              'YYYY-MM-DD',
-            ),
-            validFrom: moment(singleData?.dteStartDateTime).format(
-              'YYYY-MM-DD',
-            ),
-            validTo: moment(singleData?.dteEndDateTime).format('YYYY-MM-DD'),
-            intWarrantyMonth: singleData?.intWarrantyMonth,
-            dteWarrantyEndDate: dateFormatterForInput(
-              singleData?.dteWarrantyEndDate || '',
-            ),
-            dteActualLiveDate: dateFormatterForInput(
-              singleData?.dteActualLiveDate || '',
-            ),
-            status: singleData?.strStatus
-              ? { value: singleData?.strStatus, label: singleData?.strStatus }
-              : '',
-          }
-          : {
-            ...initData,
-            status:
-              !isEdit && !isView
-                ? { value: 'Running', label: 'Running' }
+              customer: {
+                value: singleData?.intCustomerId,
+                label: singleData?.strCustomerName,
+              },
+              item: {
+                value: singleData?.intItemId || '',
+                label: singleData?.strItemName || '',
+              },
+              agreementStartDate: moment(singleData?.dteStartDateTime).format(
+                'YYYY-MM-DD'
+              ),
+              agreementEndDate: moment(singleData?.dteEndDateTime).format(
+                'YYYY-MM-DD'
+              ),
+              validFrom: moment(singleData?.dteStartDateTime).format(
+                'YYYY-MM-DD'
+              ),
+              validTo: moment(singleData?.dteEndDateTime).format('YYYY-MM-DD'),
+              intWarrantyMonth: singleData?.intWarrantyMonth,
+              dteWarrantyEndDate: dateFormatterForInput(
+                singleData?.dteWarrantyEndDate || ''
+              ),
+              dteActualLiveDate: dateFormatterForInput(
+                singleData?.dteActualLiveDate || ''
+              ),
+              status: singleData?.strStatus
+                ? { value: singleData?.strStatus, label: singleData?.strStatus }
                 : '',
-          }
+            }
+          : {
+              ...initData,
+              status:
+                !isEdit && !isView
+                  ? { value: 'Running', label: 'Running' }
+                  : '',
+            }
       }
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -491,8 +491,9 @@ export default function ServiceSalesCreate({
             load ||
             itemDDLloader) && <Loading />}
           <IForm
-            title={`${isEdit ? 'Edit' : isView ? 'View' : 'Create'
-              } Service Sales Order`}
+            title={`${
+              isEdit ? 'Edit' : isView ? 'View' : 'Create'
+            } Service Sales Order`}
             isHiddenBack={isView}
             isHiddenReset={isView}
             isHiddenSave={isView}
@@ -592,13 +593,13 @@ export default function ServiceSalesCreate({
                           (res) => {
                             setFieldValue(
                               'validFrom',
-                              _dateFormatter(res?.dteStartDateTime) || '',
+                              _dateFormatter(res?.dteStartDateTime) || ''
                             );
                             setFieldValue(
                               'validTo',
-                              _dateFormatter(res?.dteEndDateTime) || '',
+                              _dateFormatter(res?.dteEndDateTime) || ''
                             );
-                          },
+                          }
                         );
                       }
                     }}
@@ -684,7 +685,7 @@ export default function ServiceSalesCreate({
                             +values?.invoiceDay
                           ) {
                             return toast.warn(
-                              `Selected Date should be ${values?.invoiceDay} `,
+                              `Selected Date should be ${values?.invoiceDay} `
                             );
                           }
 
@@ -704,7 +705,7 @@ export default function ServiceSalesCreate({
                         type="date"
                         min={addMonthsToDate(
                           values?.validFrom || _todayDate(),
-                          values?.scheduleType?.range || 1,
+                          values?.scheduleType?.range || 1
                         )}
                         onChange={(e) => {
                           if (
@@ -712,7 +713,7 @@ export default function ServiceSalesCreate({
                             +values?.invoiceDay
                           ) {
                             return toast.warn(
-                              `Selected Date should be ${values?.invoiceDay} `,
+                              `Selected Date should be ${values?.invoiceDay} `
                             );
                           }
                           setFieldValue('validTo', e.target.value);
@@ -753,8 +754,8 @@ export default function ServiceSalesCreate({
                           ) {
                             return toast.warn(
                               `Selected Date should be ${+values?.agreementStartDate?.split(
-                                '-',
-                              )[2]} `,
+                                '-'
+                              )[2]} `
                             );
                           }
                           setFieldValue('agreementEndDate', e.target.value);
@@ -775,11 +776,11 @@ export default function ServiceSalesCreate({
                           if (date && values.intWarrantyMonth) {
                             const warrantyEndDate = addMonthsToDate(
                               date,
-                              values.intWarrantyMonth,
+                              values.intWarrantyMonth
                             );
                             setFieldValue(
                               'dteWarrantyEndDate',
-                              warrantyEndDate,
+                              warrantyEndDate
                             );
                           } else {
                             setFieldValue('dteWarrantyEndDate', ''); // Clear warranty end date if live date or warranty month is absent
@@ -806,11 +807,11 @@ export default function ServiceSalesCreate({
                           if (values.dteActualLiveDate) {
                             const warrantyEndDate = addMonthsToDate(
                               values.dteActualLiveDate,
-                              warrantyMonth,
+                              warrantyMonth
                             );
                             setFieldValue(
                               'dteWarrantyEndDate',
-                              warrantyEndDate,
+                              warrantyEndDate
                             );
                           }
                         }}
@@ -976,7 +977,7 @@ export default function ServiceSalesCreate({
                         onClick={() => {
                           setSheduleList([]);
                           let isExist = itemList?.some(
-                            (item) => item.label === values?.item?.label,
+                            (item) => item.label === values?.item?.label
                           );
                           if (isExist) return toast.warn('Already exist');
                           setItemList((prev) => [
@@ -1015,13 +1016,13 @@ export default function ServiceSalesCreate({
                             const n =
                               +calculateMonthDifference(
                                 values?.validFrom,
-                                values?.validTo,
+                                values?.validTo
                               ) / +values?.scheduleType?.range;
                             for (let i = 0; i < n; i++) {
                               list.push({
                                 dueDate: addMonthsToDate(
                                   values?.validFrom,
-                                  i === 0 ? 0 : i * values?.scheduleType?.range,
+                                  i === 0 ? 0 : i * values?.scheduleType?.range
                                 ),
                                 percentage: 0,
                                 amountWithoutVat:
@@ -1059,8 +1060,8 @@ export default function ServiceSalesCreate({
                     </div>
                   ) : null}
                   {[2]?.includes(values?.paymentType?.value) &&
-                    !isEdit &&
-                    !isView ? (
+                  !isEdit &&
+                  !isView ? (
                     <>
                       <div style={{ marginTop: '18px' }} className="ml-4">
                         <button
@@ -1073,7 +1074,7 @@ export default function ServiceSalesCreate({
                           onClick={() => {
                             setSheduleList([]);
                             let isExist = itemList?.some(
-                              (item) => item.label === values?.item?.label,
+                              (item) => item.label === values?.item?.label
                             );
                             if (isExist) return toast.warn('Already exist');
                             setItemList((prev) => [
@@ -1172,7 +1173,7 @@ export default function ServiceSalesCreate({
                                     style={{ fontSize: '16px' }}
                                     remover={(index) => {
                                       let data = itemList.filter(
-                                        (item, i) => i !== index,
+                                        (item, i) => i !== index
                                       );
                                       setItemList(data);
                                       setSheduleList([]);
@@ -1281,21 +1282,18 @@ export default function ServiceSalesCreate({
                                       if (newValue < 0) {
                                         return;
                                       }
-                                      let totalPercentage = getTotalPersecentage(
-                                        newValue,
-                                        index,
-                                      );
+                                      let totalPercentage =
+                                        getTotalPersecentage(newValue, index);
                                       if (totalPercentage > 100) {
                                         return toast.warn(
-                                          'Total percentage should be 100',
+                                          'Total percentage should be 100'
                                         );
                                       }
                                       let updatedScheduleList = [
                                         ...scheduleListFOneTime,
                                       ];
-                                      updatedScheduleList[
-                                        index
-                                      ].percentage = newValue;
+                                      updatedScheduleList[index].percentage =
+                                        newValue;
                                       updatedScheduleList[index].amount =
                                         ((newValue || 0) / 100) *
                                         (actualAmount || 0);
@@ -1306,7 +1304,7 @@ export default function ServiceSalesCreate({
                                         actualVatAmount * (newValue / 100) || 0;
 
                                       setSheduleListFOneTime(
-                                        updatedScheduleList,
+                                        updatedScheduleList
                                       );
                                     }}
                                   />
@@ -1331,7 +1329,7 @@ export default function ServiceSalesCreate({
                                         e.target.value;
 
                                       setSheduleListFOneTime(
-                                        updatedScheduleList,
+                                        updatedScheduleList
                                       );
                                     }}
                                   />
@@ -1356,31 +1354,32 @@ export default function ServiceSalesCreate({
                                             onClick={() => {
                                               const newValue =
                                                 scheduleListFOneTime[index][
-                                                'percentage'
+                                                  'percentage'
                                                 ];
 
                                               if (!newValue) {
                                                 return toast.warn(
-                                                  'Please add percentage',
+                                                  'Please add percentage'
                                                 );
                                               }
 
-                                              let totalPercentage = scheduleListFOneTime.reduce(
-                                                (acc, curr, currIndex) => {
-                                                  if (currIndex === index) {
-                                                    return acc + newValue;
-                                                  } else {
-                                                    return (
-                                                      acc + curr.percentage
-                                                    );
-                                                  }
-                                                },
-                                                0,
-                                              );
+                                              let totalPercentage =
+                                                scheduleListFOneTime.reduce(
+                                                  (acc, curr, currIndex) => {
+                                                    if (currIndex === index) {
+                                                      return acc + newValue;
+                                                    } else {
+                                                      return (
+                                                        acc + curr.percentage
+                                                      );
+                                                    }
+                                                  },
+                                                  0
+                                                );
 
                                               if (totalPercentage >= 100) {
                                                 return toast.warn(
-                                                  'Total percentage already 100',
+                                                  'Total percentage already 100'
                                                 );
                                               }
 
@@ -1406,11 +1405,12 @@ export default function ServiceSalesCreate({
                                         style={{ fontSize: '16px' }}
                                         id={index}
                                         remover={(index) => {
-                                          let updatedScheduleList = scheduleListFOneTime?.filter(
-                                            (schedule, i) => i !== index,
-                                          );
+                                          let updatedScheduleList =
+                                            scheduleListFOneTime?.filter(
+                                              (schedule, i) => i !== index
+                                            );
                                           setSheduleListFOneTime(
-                                            updatedScheduleList,
+                                            updatedScheduleList
                                           );
                                         }}
                                       />
@@ -1496,7 +1496,7 @@ export default function ServiceSalesCreate({
                                 <span className="">
                                   <IView
                                     styles={{ fontSize: '16px' }}
-                                    clickHandler={(e) => { }}
+                                    clickHandler={(e) => {}}
                                   />
                                 </span>
                               </td>

@@ -1,4 +1,3 @@
-
 import Axios from 'axios';
 import { Field, Form, Formik } from 'formik';
 import moment from 'moment';
@@ -69,7 +68,6 @@ export default function FormCmp({
   setUploadImage,
   location,
 }) {
-
   const [transaction, setTransaction] = useState([]);
   // payment type state
 
@@ -112,19 +110,19 @@ export default function FormCmp({
       getBusTransDDLForExpense(
         profileData.accountId,
         selectedBusinessUnit.value,
-        setTransaction,
+        setTransaction
       );
       getCategory(
         profileData.accountId,
         selectedBusinessUnit.value,
         sbu?.value,
-        setCategory,
+        setCategory
       );
       getCostCenter(
         profileData.accountId,
         selectedBusinessUnit.value,
         sbu?.value,
-        setCostCenter,
+        setCostCenter
       );
       getPaymentType(setPaymentType);
 
@@ -132,26 +130,25 @@ export default function FormCmp({
         profileData.accountId,
         selectedBusinessUnit.value,
         sbu?.value,
-        setDisbustmentCenter,
+        setDisbustmentCenter
       );
       getProjectName(
         profileData.accountId,
         selectedBusinessUnit.value,
-        setProjectName,
+        setProjectName
       );
       getVehicleDDL(
         profileData.accountId,
         selectedBusinessUnit.value,
-        setVehicleDDL,
+        setVehicleDDL
       );
     }
-
   }, [profileData, sbu?.value, selectedBusinessUnit]);
 
   const loadUserList = (v) => {
     if (v?.length < 2) return [];
     return Axios.get(
-      `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Search=${v}`,
+      `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Search=${v}`
     )
       .then((res) => {
         return res?.data;
@@ -182,10 +179,9 @@ export default function FormCmp({
           [184].includes(selectedBusinessUnit?.value)
             ? profileData?.employeeId
             : 0
-        }`,
+        }`
       );
     }
-
   }, []);
 
   return (
@@ -274,7 +270,7 @@ export default function FormCmp({
                             .format();
                           setFieldValue(
                             'expenseTo',
-                            _dateFormatter(endOfMonth),
+                            _dateFormatter(endOfMonth)
                           );
                           setFieldValue('expenseDate', '');
                         }}
@@ -420,7 +416,7 @@ export default function FormCmp({
                               profileData.accountId,
                               selectedBusinessUnit.value,
                               valueOption?.value,
-                              setCostElementDDL,
+                              setCostElementDDL
                             );
                             if (![184].includes(selectedBusinessUnit?.value)) {
                               setFieldValue('profitCenter', '');
@@ -439,7 +435,7 @@ export default function FormCmp({
                                   if (data?.length === 1) {
                                     setFieldValue('profitCenter', data[0]);
                                   }
-                                },
+                                }
                               );
                             }
                             setLoading(false);
@@ -475,7 +471,7 @@ export default function FormCmp({
                                 }));
 
                                 setBugetHeadWiseBalance(modiFyData);
-                              },
+                              }
                             );
                           }
                         }}
@@ -506,7 +502,7 @@ export default function FormCmp({
                                     values?.costElement?.subGlId
                                   }&accountHeadId=${
                                     valueOption?.value
-                                  }&dteJournalDate=${_todayDate()}`,
+                                  }&dteJournalDate=${_todayDate()}`
                                 );
                               }
                             }}
@@ -631,7 +627,7 @@ export default function FormCmp({
                                 ?.numRemainAmount < values?.expenseAmount
                             ) {
                               return toast.warn(
-                                'Budget Advance Amount is Exceed',
+                                'Budget Advance Amount is Exceed'
                               );
                             }
                             setter(values, () => {
@@ -783,8 +779,8 @@ export default function FormCmp({
                                           clickHandler={() => {
                                             dispatch(
                                               getDownlloadFileView_Action(
-                                                item?.attachmentLink,
-                                              ),
+                                                item?.attachmentLink
+                                              )
                                             );
                                           }}
                                         />

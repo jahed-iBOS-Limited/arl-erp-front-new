@@ -1,33 +1,32 @@
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import ICustomCard from '../../../../_helper/_customCard';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import IViewModal from '../../../../_helper/_viewModal';
+import { getMotherVesselDDL } from '../../../allotment/tenderInformation/helper';
+import LighterVesselCreateForm from '../form/_form';
+import { deleteLighterVessel } from '../helper';
+import { GetDomesticPortDDL } from '../../../allotment/loadingInformation/helper';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
 
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import ICustomCard from "../../../../_helper/_customCard";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import IViewModal from "../../../../_helper/_viewModal";
-import { getMotherVesselDDL } from "../../../allotment/tenderInformation/helper";
-import LighterVesselCreateForm from "../form/_form";
-import { deleteLighterVessel } from "../helper";
-import { GetDomesticPortDDL } from "../../../allotment/loadingInformation/helper";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-
-const initData = { search: "", port: "", motherVessel: "" };
+const initData = { search: '', port: '', motherVessel: '' };
 const headers = [
-  "SL",
-  "Port Name",
-  "Lighter Vessel Name",
-  "Lighter Master Contact No",
-  "Mother Vessel Name",
-  "Local Agent Name",
-  "Capacity",
-  "Carrier Rate",
-  "Action",
+  'SL',
+  'Port Name',
+  'Lighter Vessel Name',
+  'Lighter Master Contact No',
+  'Mother Vessel Name',
+  'Local Agent Name',
+  'Capacity',
+  'Carrier Rate',
+  'Action',
 ];
 
 const LighterVesselLanding = () => {
@@ -39,7 +38,7 @@ const LighterVesselLanding = () => {
   const [isDeleteHidden, deleteHiddenHandler] = useAxiosGet();
   const [motherVesselDDL, setMotherVesselDDL] = useState([]);
   const [portDDL, setPortDDL] = useState([]);
-  const [formType, setFormType] = useState("");
+  const [formType, setFormType] = useState('');
   const [singleItem, setSingleItem] = useState({});
 
   // get user data from store
@@ -48,8 +47,8 @@ const LighterVesselLanding = () => {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const getData = (search = "", pageNo, pageSize, values) => {
-    const SearchTerm = search ? `SearchTerm=${search}&` : "";
+  const getData = (search = '', pageNo, pageSize, values) => {
+    const SearchTerm = search ? `SearchTerm=${search}&` : '';
     const url = `/wms/FertilizerOperation/GetLighterVesselPagination?${SearchTerm}AccountId=${accId}&BusinessUnitId=${buId}&PortId=${values?.port?.value}&MotherVesselId=${values?.motherVessel?.value}&PageNo=${pageNo}&PageSize=${pageSize}`;
 
     getRowData(url);
@@ -64,7 +63,7 @@ const LighterVesselLanding = () => {
 
   // set PositionHandler
   const setPositionHandler = (pageNo, pageSize, values) => {
-    getData("", pageNo, pageSize, values);
+    getData('', pageNo, pageSize, values);
   };
 
   const paginationSearchHandler = (search, values) => {
@@ -73,11 +72,11 @@ const LighterVesselLanding = () => {
 
   const deleteHandler = (id) => {
     const objProps = {
-      title: "Are You Sure?",
-      message: "Are you sure you want to delete this lighter vessel?",
+      title: 'Are You Sure?',
+      message: 'Are you sure you want to delete this lighter vessel?',
       yesAlertFunc: () => {
         deleteLighterVessel(id, userId, setLoading, () => {
-          getData("", pageNo, pageSize);
+          getData('', pageNo, pageSize);
         });
       },
       noAlertFunc: () => {},
@@ -97,7 +96,7 @@ const LighterVesselLanding = () => {
             <ICustomCard
               title="Lighter Vessel Information"
               createHandler={() => {
-                setFormType("create");
+                setFormType('create');
                 setShow(true);
               }}
             >
@@ -112,8 +111,8 @@ const LighterVesselLanding = () => {
                       value={values?.port}
                       label="Port"
                       onChange={(valueOption) => {
-                        setFieldValue("port", valueOption);
-                        setFieldValue("motherVessel", "");
+                        setFieldValue('port', valueOption);
+                        setFieldValue('motherVessel', '');
                         getMotherVesselDDL(
                           accId,
                           buId,
@@ -131,7 +130,7 @@ const LighterVesselLanding = () => {
                       value={values?.motherVessel}
                       label="Mother Vessel"
                       onChange={(valueOption) => {
-                        setFieldValue("motherVessel", valueOption);
+                        setFieldValue('motherVessel', valueOption);
                       }}
                       placeholder="Mother Vessel"
                       isDisabled={!values?.port}
@@ -143,7 +142,7 @@ const LighterVesselLanding = () => {
                       className="btn btn-primary mt-5"
                       type="button"
                       onClick={() => {
-                        getData("", pageNo, pageSize, values);
+                        getData('', pageNo, pageSize, values);
                       }}
                       disabled={!values?.motherVessel}
                     >
@@ -164,7 +163,7 @@ const LighterVesselLanding = () => {
                   <table
                     id="table-to-xlsx"
                     className={
-                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                      'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                     }
                   >
                     <thead>
@@ -179,7 +178,7 @@ const LighterVesselLanding = () => {
                         return (
                           <tr key={index}>
                             <td
-                              style={{ width: "40px" }}
+                              style={{ width: '40px' }}
                               className="text-center"
                             >
                               {index + 1}
@@ -192,7 +191,7 @@ const LighterVesselLanding = () => {
                             <td>{item?.vesselCapacity}</td>
                             <td className="text-right">{item?.carrierRate}</td>
                             <td
-                              style={{ width: "80px" }}
+                              style={{ width: '80px' }}
                               className="text-center"
                             >
                               <div className="d-flex justify-content-around">
@@ -207,7 +206,7 @@ const LighterVesselLanding = () => {
                                 <span
                                   onClick={() => {
                                     setSingleItem(item);
-                                    setFormType("edit");
+                                    setFormType('edit');
                                     setShow(true);
                                   }}
                                 >

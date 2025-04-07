@@ -1,29 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { getLandingData, getLCAmendmentLandingPasignation } from "../helper";
-import Loading from "./../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import ICustomTable from "../../../../_helper/_customTable";
-import IView from "./../../../../_helper/_helperIcons/_view";
-import { Formik } from "formik";
-import Axios from "axios";
-import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { useLocation } from "react-router-dom";
-import ICustomCard from "./../../../../_helper/_customCard";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { getLandingData, getLCAmendmentLandingPasignation } from '../helper';
+import Loading from './../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import ICustomTable from '../../../../_helper/_customTable';
+import IView from './../../../../_helper/_helperIcons/_view';
+import { Formik } from 'formik';
+import Axios from 'axios';
+import SearchAsyncSelect from './../../../../_helper/SearchAsyncSelect';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { useLocation } from 'react-router-dom';
+import ICustomCard from './../../../../_helper/_customCard';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
 
 const header = [
-  "SL",
-  "PO Number",
-  "LC Number",
-  "LC Amendment Code",
-  "Expire Date",
-  "Tolerance",
-  "PI Amount (BDT)",
-  "Currency",
-  "Action",
+  'SL',
+  'PO Number',
+  'LC Number',
+  'LC Amendment Code',
+  'Expire Date',
+  'Tolerance',
+  'PI Amount (BDT)',
+  'Currency',
+  'Action',
 ];
 
 const LCAmendmentLanding = () => {
@@ -60,7 +60,6 @@ const LCAmendmentLanding = () => {
         // values?.lcNo?.label
       );
     }
-
   }, [location?.state?.lcnumber]);
 
   //setPositionHandler
@@ -102,8 +101,8 @@ const LCAmendmentLanding = () => {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          lcNo: "",
-          poNo: "",
+          lcNo: '',
+          poNo: '',
         }}
         // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {}}
@@ -115,11 +114,11 @@ const LCAmendmentLanding = () => {
               backHandler={() => history.goBack()}
               renderProps={() => (
                 <button
-                  style={{ marginLeft: "15px" }}
+                  style={{ marginLeft: '15px' }}
                   onClick={() =>
                     history.push({
                       pathname:
-                        "/managementImport/transaction/lc-amendment/create",
+                        '/managementImport/transaction/lc-amendment/create',
                       state: {
                         ...location?.state,
                         lcNo: location?.state?.lcnumber,
@@ -141,9 +140,9 @@ const LCAmendmentLanding = () => {
                     selectedValue={values?.poNo}
                     isSearchIcon={true}
                     paddingRight={10}
-                    name='poNo'
+                    name="poNo"
                     handleChange={(valueOption) => {
-                      setFieldValue("poNo", valueOption);
+                      setFieldValue('poNo', valueOption);
                       getLCAmendmentLandingPasignation(
                         profileData?.accountId,
                         selectedBusinessUnit?.value,
@@ -169,25 +168,25 @@ const LCAmendmentLanding = () => {
                   gridData?.data?.map((item, index) => {
                     return (
                       <tr key={index}>
-                        <td style={{ width: "30px" }} className="text-center">
+                        <td style={{ width: '30px' }} className="text-center">
                           {index + 1}
                         </td>
 
                         <td>{item?.ponumber}</td>
-                        <td style={{ width: "150px" }}>{item?.lcnumber}</td>
+                        <td style={{ width: '150px' }}>{item?.lcnumber}</td>
                         <td>{item?.lcacode}</td>
-                        <td style={{ width: "100px" }} className="text-center">
+                        <td style={{ width: '100px' }} className="text-center">
                           {_dateFormatter(item?.dteLCExpireDate)}
                         </td>
                         <td className="text-right">
                           {item?.tolarance}
-                          {item?.tolarance ? "%" : ""}
+                          {item?.tolarance ? '%' : ''}
                         </td>
                         <td className="text-right">
                           {numberWithCommas(item?.piAmountBDT)}
                         </td>
                         <td className="text-center">{item?.currencyName}</td>
-                        <td style={{ width: "100px" }} className="text-center">
+                        <td style={{ width: '100px' }} className="text-center">
                           <div className="d-flex justify-content-center">
                             <span className="view">
                               <IView
@@ -195,7 +194,7 @@ const LCAmendmentLanding = () => {
                                   history.push({
                                     pathname: `/managementImport/transaction/lc-amendment/view/${item?.lcAmendmentId}`,
                                     state: item,
-                                    type:"view"
+                                    type: 'view',
                                   });
                                 }}
                               />

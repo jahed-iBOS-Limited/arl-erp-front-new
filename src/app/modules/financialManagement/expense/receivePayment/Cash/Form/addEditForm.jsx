@@ -1,9 +1,8 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import { useLocation } from "react-router-dom";
-import IForm from "../../../../../_helper/_form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import { useLocation } from 'react-router-dom';
+import IForm from '../../../../../_helper/_form';
 import {
   recivePayment_SBU_Api,
   recivePayment_CashGL_Api,
@@ -12,21 +11,21 @@ import {
   createCashReceive_Api,
   getPaymentOrReceiveById_api,
   CreateJournalWithoutReference_api,
-} from "../../helper";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import Loading from "./../../../../../_helper/_loading";
-import { getBusinessTransactionDDL } from "../../../../../_helper/_commonApi";
+} from '../../helper';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import Loading from './../../../../../_helper/_loading';
+import { getBusinessTransactionDDL } from '../../../../../_helper/_commonApi';
 
 const initData = {
   id: undefined,
-  SBU: "",
-  cashGLPlus: "",
-  headerNarration: "",
-  profitCenter: "",
-  transaction: "",
-  amount: "",
-  GLInfo: "",
-  narration: "",
+  SBU: '',
+  cashGLPlus: '',
+  headerNarration: '',
+  profitCenter: '',
+  transaction: '',
+  amount: '',
+  GLInfo: '',
+  narration: '',
 };
 
 export default function RecivePaymentCashForm({
@@ -43,7 +42,7 @@ export default function RecivePaymentCashForm({
   const [cashGLDDL, SetCashGLDDL] = useState([]);
   const [profitCenterDDL, SetProfitCenterDDL] = useState([]);
   const [businessTransactionDDL, setBusinessTransactionDDL] = useState([]);
-  const [referenceTypeName, setReferenceTypeName] = useState("");
+  const [referenceTypeName, setReferenceTypeName] = useState('');
   // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -76,15 +75,14 @@ export default function RecivePaymentCashForm({
       selectedBusinessUnit.value,
       setBusinessTransactionDDL
     );
-
   }, []);
 
   const getPaymentOrReceiveByIdFunc = () => {
     const referenceTypeName =
       headerData?.values?.transactionType?.value === 1 ||
       headerData?.values?.transactionType?.value === 3
-        ? "Advance"
-        : "Expense";
+        ? 'Advance'
+        : 'Expense';
     getPaymentOrReceiveById_api(
       cash,
       referenceTypeName,
@@ -99,7 +97,6 @@ export default function RecivePaymentCashForm({
     if (cash) {
       getPaymentOrReceiveByIdFunc();
     }
-
   }, [cash]);
 
   const saveHandler = async (values, cb) => {
@@ -119,7 +116,7 @@ export default function RecivePaymentCashForm({
             narration: values?.headerNarration,
             posted: true,
             businessPartnerId: headerData?.values?.employeeEnroll?.value,
-            businessPartnerCode: "",
+            businessPartnerCode: '',
             businessPartnerName: headerData?.values?.employeeEnroll?.label,
             accountingJournalTypeId: 1,
             directPosting: true,
@@ -128,21 +125,21 @@ export default function RecivePaymentCashForm({
             advanceId: +cash,
             expenceId: 0,
             bankId: 0,
-            bankName: "",
+            bankName: '',
             bankBranchId: 0,
-            bankBranchName: "",
+            bankBranchName: '',
             bankAccountId: 0,
-            bankAccountNumber: "",
+            bankAccountNumber: '',
             placedInBank: true,
             placingDate: _todayDate(),
             instrumentId: 0,
-            instrumentName: "",
-            instrumentNo: "",
+            instrumentName: '',
+            instrumentNo: '',
             instrumentDate: _todayDate(),
           },
           objRow: {
             bankAccountId: 0,
-            bankAccNo: "",
+            bankAccNo: '',
             businessTransactionId: values?.transaction?.value,
             businessTransactionCode: values.transaction.businessTransactionCode,
             businessTransactionName: values.transaction.label,
@@ -152,7 +149,7 @@ export default function RecivePaymentCashForm({
             amount: values?.amount,
             narration: values?.narration,
             accountingJournalId: 0,
-            accountingJournalCode: "",
+            accountingJournalCode: '',
           },
         };
         createCashPayment_Api(
@@ -175,7 +172,7 @@ export default function RecivePaymentCashForm({
             narration: values?.headerNarration,
             posted: true,
             businessPartnerId: headerData?.values?.employeeEnroll?.value,
-            businessPartnerCode: "",
+            businessPartnerCode: '',
             businessPartnerName: headerData?.values?.employeeEnroll?.label,
             accountingJournalTypeId: 1,
             directPosting: true,
@@ -184,21 +181,21 @@ export default function RecivePaymentCashForm({
             advanceId: 0,
             expenceId: +cash,
             bankId: 0,
-            bankName: "",
+            bankName: '',
             bankBranchId: 0,
-            bankBranchName: "",
+            bankBranchName: '',
             bankAccountId: 0,
-            bankAccountNumber: "",
+            bankAccountNumber: '',
             placedInBank: true,
             placingDate: _todayDate(),
             instrumentId: 0,
-            instrumentName: "",
-            instrumentNo: "",
+            instrumentName: '',
+            instrumentNo: '',
             instrumentDate: _todayDate(),
           },
           objRow: {
             bankAccountId: 0,
-            bankAccNo: "",
+            bankAccNo: '',
             businessTransactionId: values?.transaction?.value,
             businessTransactionCode: values.transaction.businessTransactionCode,
             businessTransactionName: values.transaction.label,
@@ -208,7 +205,7 @@ export default function RecivePaymentCashForm({
             amount: values?.amount,
             narration: values?.narration,
             accountingJournalId: 0,
-            accountingJournalCode: "",
+            accountingJournalCode: '',
           },
         };
         createCashReceive_Api(
@@ -231,7 +228,7 @@ export default function RecivePaymentCashForm({
             narration: values?.headerNarration,
             posted: true,
             businessPartnerId: headerData?.values?.employeeEnroll?.value,
-            businessPartnerCode: "",
+            businessPartnerCode: '',
             businessPartnerName: headerData?.values?.employeeEnroll?.label,
             accountingJournalTypeId: 1,
             directPosting: true,
@@ -240,21 +237,21 @@ export default function RecivePaymentCashForm({
             advanceId: +cash,
             expenceId: 0,
             bankId: 0,
-            bankName: "",
+            bankName: '',
             bankBranchId: 0,
-            bankBranchName: "",
+            bankBranchName: '',
             bankAccountId: 0,
-            bankAccountNumber: "",
+            bankAccountNumber: '',
             placedInBank: true,
             placingDate: _todayDate(),
             instrumentId: 0,
-            instrumentName: "",
-            instrumentNo: "",
+            instrumentName: '',
+            instrumentNo: '',
             instrumentDate: _todayDate(),
           },
           objRow: {
             bankAccountId: 0,
-            bankAccNo: "",
+            bankAccNo: '',
             businessTransactionId: values?.transaction?.value,
             businessTransactionCode: values.transaction.businessTransactionCode,
             businessTransactionName: values.transaction.label,
@@ -264,7 +261,7 @@ export default function RecivePaymentCashForm({
             amount: values?.amount,
             narration: values?.narration,
             accountingJournalId: 0,
-            accountingJournalCode: "",
+            accountingJournalCode: '',
           },
         };
         createCashReceive_Api(
@@ -294,7 +291,6 @@ export default function RecivePaymentCashForm({
       }
     } else {
       setDisabled(false);
-
     }
   };
 
@@ -304,12 +300,12 @@ export default function RecivePaymentCashForm({
       <IForm
         title={`Create ${
           headerData?.values?.transactionType.value === 1
-            ? "Receive Against Advance (Cash)"
+            ? 'Receive Against Advance (Cash)'
             : headerData?.values?.transactionType.value === 2
-            ? "Receive Without Reference (Cash)"
-            : headerData?.values?.transactionType.value === 3
-            ? "Advance Pay (Cash)"
-            : "Expense Pay (Cash)"
+              ? 'Receive Without Reference (Cash)'
+              : headerData?.values?.transactionType.value === 3
+                ? 'Advance Pay (Cash)'
+                : 'Expense Pay (Cash)'
         }`}
         getProps={setObjprops}
         isDisabled={isDisabled}
