@@ -1,16 +1,16 @@
-import React, { useState, useRef } from 'react';
+import Axios from 'axios';
+import React, { useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from '../../../../../../_metronic/_partials/controls';
-import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
-import { useSelector, shallowEqual } from 'react-redux';
 import Form from '../common/form';
-import Axios from 'axios';
-import { toast } from 'react-toastify';
-import shortid from 'shortid';
 import Loading from './../../../../_helper/_loading';
 const initProduct = {
   id: undefined,
