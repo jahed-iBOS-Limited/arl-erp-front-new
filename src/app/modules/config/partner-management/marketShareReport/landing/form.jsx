@@ -12,13 +12,11 @@ import GridView from './table';
 import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 import Loading from '../../../../_helper/_loading';
 import NewSelect from '../../../../_helper/_select';
-import {
-  monthDDL,
-  yearsDDL,
-} from '../../../../inventoryManagement/warehouseManagement/liftingEntry/form/addEditForm';
+import { yearsDDL } from '../../../../inventoryManagement/warehouseManagement/liftingEntry/form/addEditForm';
 import { getRegionAreaTerritory } from '../../../../salesManagement/report/customerSalesTargetReport/helper';
 import { useEffect } from 'react';
 import { getDistributionChannelDDL_api } from '../../../../transportManagement/report/transportSupplierUpdate/helper';
+import { monthDDL } from '../../../../_helper/commonInputFieldsGroups/yearMonthForm';
 
 const initData = {
   channel: '',

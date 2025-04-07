@@ -7,21 +7,7 @@ import { isUniq } from '../../../../_helper/uniqChecker';
 import { getSalesTargetById } from '../helper';
 import { _todayDate } from '../../../../_helper/_todayDate';
 import ICustomCard from '../../../../_helper/_customCard';
-
-// const monthDDL = [
-//   { value: 1, label: "January" },
-//   { value: 2, label: "February" },
-//   { value: 3, label: "March" },
-//   { value: 4, label: "April" },
-//   { value: 5, label: "May" },
-//   { value: 6, label: "June" },
-//   { value: 7, label: "July" },
-//   { value: 8, label: "August" },
-//   { value: 9, label: "Sepetember" },
-//   { value: 10, label: "October" },
-//   { value: 11, label: "November" },
-//   { value: 12, label: "December" },
-// ];
+import { monthDDL } from '../../../../_helper/commonInputFieldsGroups/yearMonthForm';
 
 var date = new Date(),
   targetYearsDDL = [];

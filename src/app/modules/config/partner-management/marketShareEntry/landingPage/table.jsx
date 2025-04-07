@@ -1,8 +1,8 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import IEdit from '../../../../_helper/_helperIcons/_edit';
-import { monthDDL } from '../../../../inventoryManagement/warehouseManagement/liftingEntry/form/addEditForm';
 import ICon from '../../../../chartering/_chartinghelper/icons/_icon';
+import { monthDDL } from '../../../../_helper/commonInputFieldsGroups/yearMonthForm';
 
 const headers = ['SL', 'Territory', 'Year', 'Month', 'Action'];
 

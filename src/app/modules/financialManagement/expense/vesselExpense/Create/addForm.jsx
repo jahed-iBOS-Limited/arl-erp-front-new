@@ -10,28 +10,13 @@ import {
   editExpenseRegister,
   getExpenseById,
   getFuelLogCash,
-} from "../helper";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import Loading from "./../../../../_helper/_loading";
-import { useHistory } from "react-router-dom";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-const endOfMonth = moment(_todayDate())
-  .endOf("month")
-  .format();
-// const monthDDL = [
-//   { value: 1, label: "January" },
-//   { value: 2, label: "February" },
-//   { value: 3, label: "March" },
-//   { value: 4, label: "April" },
-//   { value: 5, label: "May" },
-//   { value: 6, label: "June" },
-//   { value: 7, label: "July" },
-//   { value: 8, label: "August" },
-//   { value: 9, label: "September" },
-//   { value: 10, label: "October" },
-//   { value: 11, label: "November" },
-//   { value: 12, label: "December" },
-// ];
+} from '../helper';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import Loading from './../../../../_helper/_loading';
+import { useHistory } from 'react-router-dom';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import { monthDDL } from '../../../../_helper/commonInputFieldsGroups/yearMonthForm';
+const endOfMonth = moment(_todayDate()).endOf('month').format();
 
 const initData = {
   expenseCategory: '',
