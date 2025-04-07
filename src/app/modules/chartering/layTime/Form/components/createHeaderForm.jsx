@@ -117,13 +117,6 @@ export function CreateHeaderForm({
                       isComplete: 2,
                       voyageTypeId: 2,
                     });
-                    // getVoyageDDLFilter({
-                    //   id: valueOption?.value,
-                    //   setter: setVoyageNoDDL,
-                    //   typeId: 2,
-                    //   setLoading: setLoading,
-                    //   isComplete: false,
-                    // });
                   }
                 }}
                 isDisabled={preData?.vesselName?.value || viewType}
@@ -168,7 +161,6 @@ export function CreateHeaderForm({
                 styles={customStyles}
                 name="stackHolderType"
                 placeholder="Business Partner Type"
-                // label="Business Partner Type"
                 onChange={(valueOption) => {
                   setFieldValue('stackHolderType', valueOption);
 
@@ -187,7 +179,7 @@ export function CreateHeaderForm({
                       values?.voyageNo?.value,
                       valueOption?.value,
                       setStackHolderNameDDL,
-                      setFieldValue // For demurrage, despatch
+                      setFieldValue
                     );
                   }
                 }}
@@ -204,7 +196,6 @@ export function CreateHeaderForm({
                 styles={customStyles}
                 name="stackHolderName"
                 placeholder="Business Partner Name"
-                // label="Business Partner Name"
                 onChange={(valueOption) => {
                   setFieldValue('stackHolderName', valueOption);
                   setValuesState({
@@ -377,17 +368,6 @@ export function CreateHeaderForm({
                   touched={touched}
                 />
               </div>
-              {/* <HeaderLabelComponent name="BERTHED/Port at" />
-              <div className="col-lg-3">
-                <FormikInput
-                  value={values?.portAt}
-                  placeholder="BERTHED/Port at"
-                  name="portAt"
-                  type="text"
-                  errors={errors}
-                  touched={touched}
-                />
-              </div> */}
             </>
             <>
               <HeaderLabelComponent

@@ -6,7 +6,7 @@ import FormikSelect from '../../../../../chartering/_chartinghelper/common/formi
 import customStyles from '../../../../../chartering/_chartinghelper/common/selectCustomStyle';
 import { getBusinessPartnerNameByVoyageDDL } from '../../../../../chartering/helper';
 import { initData } from '../addEditForm';
-import { daysToDDHHMM } from '../utils';
+import { daysToDDHHMM } from '../../../../../chartering/layTime/Form/utils';
 
 const HeaderLabelComponent = ({ name }) => {
   return (

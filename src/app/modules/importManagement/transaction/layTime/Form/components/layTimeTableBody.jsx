@@ -26,7 +26,7 @@ import {
   saveEditRowDataHandler,
   toDDHHMM,
   totalSecondCalculate,
-} from '../utils';
+} from '../../../../../chartering/layTime/Form/utils';
 
 export default function LayTimeTableBody({
   rowData,

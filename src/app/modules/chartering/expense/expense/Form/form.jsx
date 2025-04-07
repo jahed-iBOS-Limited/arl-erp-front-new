@@ -279,82 +279,8 @@ export default function FormCmp({
                           type="text"
                           errors={errors}
                           touched={touched}
-                          // onChange={(e) => {
-                          //   setFieldValue("advanceAmount", e?.target?.value);
-                          //   setFieldValue(
-                          //     "dueAmount",
-                          //     Number(values?.totalAmount) -
-                          //       Number(e?.target?.value)
-                          //   );
-                          // }}
-                          // onBlur={(e) => {
-                          //   if (
-                          //     Number(e?.target?.value) >
-                          //     Number(values?.totalAmount)
-                          //   ) {
-                          //     toast.warn(
-                          //       "Advance amount cannot be greater than final amount"
-                          //     );
-                          //   }
-                          // }}
                         />
                       </div>
-                      {/* {(values?.costType?.value === 15 ||
-                        values?.costType?.value === 16) && (
-                        <div className="col-lg-3">
-                          <label>Advance Amount</label>
-                          <FormikInput
-                            value={values?.advanceAmount}
-                            name="advanceAmount"
-                            placeholder="Advance Amount"
-                            type="text"
-                            errors={errors}
-                            touched={touched}
-                            // onChange={(e) => {
-                            //   setFieldValue("advanceAmount", e?.target?.value);
-                            //   setFieldValue(
-                            //     "dueAmount",
-                            //     Number(values?.totalAmount) -
-                            //       Number(e?.target?.value)
-                            //   );
-                            // }}
-                            // onBlur={(e) => {
-                            //   if (
-                            //     Number(e?.target?.value) >
-                            //     Number(values?.totalAmount)
-                            //   ) {
-                            //     toast.warn(
-                            //       "Advance amount cannot be greater than final amount"
-                            //     );
-                            //   }
-                            // }}
-                          />
-                        </div>
-                      )} */}
-                      {/* {values?.costType &&
-                        values?.costType?.value !== 15 &&
-                        values?.costType?.value !== 16 && (
-                          <div className="col-lg-3">
-                            <label>Final Amount</label>
-                            <FormikInput
-                              value={values?.totalAmount}
-                              name="totalAmount"
-                              placeholder="Final Amount"
-                              type="text"
-                              errors={errors}
-                              touched={touched}
-                              // onChange={(e) => {
-                              //   setFieldValue("totalAmount", e?.target?.value);
-                              //   setFieldValue(
-                              //     "dueAmount",
-                              //     Number(e?.target?.value) -
-                              //       Number(values?.advanceAmount)
-                              //   );
-                              // }}
-                            />
-                          </div>
-                        )} */}
-
                       <div className="col-lg-3">
                         <label>Transaction Date</label>
                         <FormikInput
@@ -364,22 +290,8 @@ export default function FormCmp({
                           type="date"
                           errors={errors}
                           touched={touched}
-                          // disabled={true}
                         />
                       </div>
-
-                      {/* <div className="col-lg-3">
-                        <label>Due Amount</label>
-                        <FormikInput
-                          value={values?.dueAmount}
-                          name="dueAmount"
-                          placeholder="Due Amount"
-                          type="text"
-                          errors={errors}
-                          touched={touched}
-                          disabled={true}
-                        />
-                      </div> */}
 
                       <div className="col-lg-3 mt-5">
                         <button
@@ -411,11 +323,6 @@ export default function FormCmp({
                       { name: 'Transaction Date' },
                       { name: 'Cost Amount' },
                       { name: 'PO Code' },
-                      // { name: "Advance Amount" },
-                      // { name: "Final Amount" },
-                      // { name: "Paid Amount" },
-                      // { name: "Due Amount" },
-                      // viewType !== "view" && { name: "Action" },
                       { name: 'Action' },
                     ]}
                   >
@@ -447,20 +354,8 @@ export default function FormCmp({
                             )}
                           </td>
                         )}
-                        {/* <td className="text-right">
-                          {_formatMoney(item?.totalAmount)}
-                        </td> */}
-                        {/* <td className="text-right">
-                          {_formatMoney(item?.paidAmount)}
-                        </td>
-                        <td className="text-right">
-                          {_formatMoney(item?.dueAmount)}
-                        </td> */}
                         {viewType !== 'view' && (
-                          <td
-                            className="text-center d-flex justify-content-center"
-                            // style={{ maxWidth: "120px" }}
-                          >
+                          <td className="text-center d-flex justify-content-center">
                             {(viewType === 'edit' || !viewType) &&
                             !item?.purchaseOrderNo ? (
                               <div>
@@ -469,34 +364,6 @@ export default function FormCmp({
                             ) : (
                               <div>&nbsp;</div>
                             )}
-                            {/* {(viewType === "edit" || viewType === "cash") && (
-                              <div className="d-flex justify-content-center">
-                                <span style={{ opacity: "0%" }}>
-                                  <i className="fas fa-lg fa-hand-holding-usd ml-3"></i>{" "}
-                                </span>
-
-                                {(item?.costId === 15 || item?.costId === 16) &&
-                                  !item?.totalAmount && (
-                                    <OverlayTrigger
-                                      overlay={
-                                        <Tooltip id="cs-icon">
-                                          Pay/Receive
-                                        </Tooltip>
-                                      }
-                                    >
-                                      <div
-                                        style={{ cursor: "pointer" }}
-                                        onClick={() => {
-                                          setSingleRow(item);
-                                          setShow(true);
-                                        }}
-                                      >
-                                        <i className="fas fa-lg fa-hand-holding-usd ml-3"></i>{" "}
-                                      </div>
-                                    </OverlayTrigger>
-                                  )}
-                              </div>
-                            )} */}
                           </td>
                         )}
                       </tr>
@@ -519,7 +386,6 @@ export default function FormCmp({
                 title="Cash Payment/Receive"
                 setShow={setShow}
                 setLoading={setLoading}
-                // singleRow={singleRow}
                 setRowData={setRowData}
               />
             </IViewModal>

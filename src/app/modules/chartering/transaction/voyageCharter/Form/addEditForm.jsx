@@ -244,7 +244,7 @@ const initialStateMentRowMaker = (item, index, total) => {
     return {
       freightInvoiceId: 0,
       sl: index + 1,
-      particulars: `${item?.parcentageValue || 0}% FREIGHT` || '',
+      particulars: `${item?.parcentageValue || 0}% FREIGHT`,
       cargoQty: 0,
       freightRate: item?.parcentageValue, // For Percentage Value
       debit: 0,
@@ -257,9 +257,7 @@ const initialStateMentRowMaker = (item, index, total) => {
     return {
       freightInvoiceId: 0,
       sl: index + 1,
-      particulars:
-        `${item?.parcentageValue || 0}% Broker COMMISSION ON 100% FREIGHT` ||
-        '',
+      particulars: `${item?.parcentageValue || 0}% Broker COMMISSION ON 100% FREIGHT`,
       cargoQty: 0,
       freightRate: item?.parcentageValue, // For Percentage Value
       debit: 0,
@@ -272,9 +270,7 @@ const initialStateMentRowMaker = (item, index, total) => {
     return {
       freightInvoiceId: 0,
       sl: index + 1,
-      particulars:
-        `${item?.parcentageValue || 0}% Address COMMISSION ON 100% FREIGHT` ||
-        '',
+      particulars: `${item?.parcentageValue || 0}% Address COMMISSION ON 100% FREIGHT`,
       cargoQty: 0,
       freightRate: item?.parcentageValue, // For Percentage Value
       debit: 0,

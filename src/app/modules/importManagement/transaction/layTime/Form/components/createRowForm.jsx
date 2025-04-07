@@ -1,10 +1,14 @@
 import moment from 'moment';
 import React from 'react';
+import FormikError from '../../../../../chartering/_chartinghelper/common/formikError';
 import FormikInput from '../../../../../chartering/_chartinghelper/common/formikInput';
 import FormikSelect from '../../../../../chartering/_chartinghelper/common/formikSelect';
 import customStyles from '../../../../../chartering/_chartinghelper/common/selectCustomStyle';
-import { addHandlerLayTimeRowValidator, hourDDL, minDDL } from '../utils';
-import FormikError from '../../../../../chartering/_chartinghelper/common/formikError';
+import {
+  addHandlerLayTimeRowValidator,
+  hourDDL,
+  minDDL,
+} from '../../../../../chartering/layTime/Form/utils';
 
 export default function CreateRowForm({
   /* Formik */

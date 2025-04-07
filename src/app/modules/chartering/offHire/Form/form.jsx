@@ -434,7 +434,6 @@ export default function FormCmp({
                     <label>Off Hire LSFO Rate</label>
                     <FormikInput
                       value={itemRates?.lsifoPrice}
-                      // value={values?.offHireLsforate}
                       name="offHireLsforate"
                       placeholder="Off Hire LSFO Rate"
                       type="number"
