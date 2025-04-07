@@ -15,7 +15,6 @@ import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/date
 import PowerBIReport from '../../../../_helper/commonInputFieldsGroups/PowerBIReport';
 import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
 import IButton from '../../../../_helper/iButton';
-import { monthDDL } from '../form/addEditForm';
 import {
   getAllDates,
   GetEmployeeLoginInfo_api,
@@ -24,6 +23,7 @@ import {
   getSalesOrgList,
 } from '../helper';
 import './style.css';
+import { monthDDL } from '../../../../_helper/commonInputFieldsGroups/yearMonthForm';
 const initData = {
   liftingPlanType: { value: 1, label: 'Lifting Entry' },
   date: _todayDate(),
