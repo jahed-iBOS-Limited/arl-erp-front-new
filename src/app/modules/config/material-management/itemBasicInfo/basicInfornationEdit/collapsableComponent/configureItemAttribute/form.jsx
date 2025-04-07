@@ -5,18 +5,7 @@ import { Input } from "../../../../../../../../_metronic/_partials/controls";
 import Axios from "axios";
 import Select from "react-select";
 import customStyles from "../../../../../../selectCustomStyle";
-
-const DataValiadtionSchema = Yup.object().shape({
-  attribute: Yup.object().shape({
-    label: Yup.string().required("Attribute is required"),
-    value: Yup.string().required("Attribute is required"),
-  }),
-  uom: Yup.object().shape({
-    label: Yup.string().required("Uom is required"),
-    value: Yup.string().required("Uom is required"),
-  }),
-  value: Yup.string().required("Value is required"),
-});
+import { dataValidationSchema } from "../../../../../../_helper/_validationSchema";
 
 const intiValue = {
   attribute: "",
@@ -53,7 +42,7 @@ export default function FormCmp({
           ]);
           setAttributeList(res.data);
           // setBaseUomList(res2.data);
-        } catch (error) {}
+        } catch (error) { }
       };
       getInfoData();
     }
@@ -68,7 +57,7 @@ export default function FormCmp({
       ]);
       setFieldValue("uom", res2[0]?.data);
       setBaseUomList([res2[0]?.data]);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   useEffect(() => {
@@ -85,26 +74,13 @@ export default function FormCmp({
     attributes = null;
   }, [attributeList]);
 
-  // useEffect(() => {
-  //   let baseUom = [];
-  //   baseUomList &&
-  //     baseUomList.forEach((item) => {
-  //       let items = {
-  //         value: item.uomid,
-  //         label: item.uomName,
-  //       };
-  //       baseUom.push(items);
-  //     });
-  //   setBaseUomOption(baseUom);
-  //   baseUom = null;
-  // }, [baseUomList]);
 
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={intiValue}
-        validationSchema={DataValiadtionSchema}
+        validationSchema={dataValidationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveData(data, () => {
             resetForm(intiValue);
@@ -155,9 +131,9 @@ export default function FormCmp({
                       className="text-danger"
                     >
                       {errors &&
-                      errors.attribute &&
-                      touched &&
-                      touched.attribute
+                        errors.attribute &&
+                        touched &&
+                        touched.attribute
                         ? errors.attribute.value
                         : ""}
                     </p>
@@ -233,47 +209,47 @@ export default function FormCmp({
                 </div>
               )}
               <div className="table-responsive">
-              <table className="table table-striped table-bordered global-table">
-                <thead>
-                  <tr className="text-center">
-                    <th>SL</th>
-                    <th>Attribute</th>
-                    <th>UoM</th>
-                    <th>Value</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {data &&
-                    data.map((itm, idx) => (
-                      <tr
-                        key={idx}
-                        style={{ marginBottom: "15px", textAlign: "center" }}
-                      >
-                        <td>{idx + 1}</td>
-                        <td>{itm.attributeName}</td>
-                        <td>{itm.attributeUom}</td>
-                        <td>{itm.attributeValue}</td>
+                <table className="table table-striped table-bordered global-table">
+                  <thead>
+                    <tr className="text-center">
+                      <th>SL</th>
+                      <th>Attribute</th>
+                      <th>UoM</th>
+                      <th>Value</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data &&
+                      data.map((itm, idx) => (
+                        <tr
+                          key={idx}
+                          style={{ marginBottom: "15px", textAlign: "center" }}
+                        >
+                          <td>{idx + 1}</td>
+                          <td>{itm.attributeName}</td>
+                          <td>{itm.attributeUom}</td>
+                          <td>{itm.attributeValue}</td>
 
-                        <td>
-                          <span
-                            className="pointer alterUomDeleteIcon"
-                            style={{
-                              width: "50%",
-                              marginTop: "3px",
-                            }}
-                          >
-                            <i
-                              onClick={() => removeAlterUom(itm.attributeId)}
-                              className="fa fa-trash"
-                              aria-hidden="true"
-                            ></i>
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
+                          <td>
+                            <span
+                              className="pointer alterUomDeleteIcon"
+                              style={{
+                                width: "50%",
+                                marginTop: "3px",
+                              }}
+                            >
+                              <i
+                                onClick={() => removeAlterUom(itm.attributeId)}
+                                className="fa fa-trash"
+                                aria-hidden="true"
+                              ></i>
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
               </div>
 
               <button

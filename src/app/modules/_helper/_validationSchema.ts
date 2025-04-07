@@ -60,10 +60,6 @@ export const complainValidationSchema = Yup.object().shape({
         label: Yup.string().required('Respondent Type is required'),
         value: Yup.string().required('Respondent Type is required'),
     }),
-    // respondentName: Yup.object().shape({
-    //   label: Yup.string().required("Field is required"),
-    //   value: Yup.string().required("Field is required"),
-    // }),
     respondentName: Yup.object().when('respondentType.value', {
         is: (value) => value !== '4',
         then: Yup.object().shape({
@@ -140,4 +136,16 @@ export const ProductEditSchema = Yup.object().shape({
     routingNo: Yup.string()
         .min(2, "Minimum 0 range")
         .required("Routing No is required"),
+});
+
+export const dataValidationSchema = Yup.object().shape({
+    attribute: Yup.object().shape({
+        label: Yup.string().required("Attribute is required"),
+        value: Yup.string().required("Attribute is required"),
+    }),
+    uom: Yup.object().shape({
+        label: Yup.string().required("Uom is required"),
+        value: Yup.string().required("Uom is required"),
+    }),
+    value: Yup.string().required("Value is required"),
 });
