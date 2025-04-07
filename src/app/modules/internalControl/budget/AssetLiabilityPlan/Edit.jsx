@@ -10,6 +10,8 @@ import NewSelect from '../../../_helper/_select';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 import { _todayDate } from '../../../_helper/_todayDate';
 import { useParams } from 'react-router-dom';
+import { fillPersentageValueInRow } from './helper';
+import { fetchInventoryData } from '../../../_helper/_commonApi';
 
 const initData = {
   fiscalYear: '',
@@ -64,31 +66,6 @@ export default function AssetLiabilityPlanEdit() {
       );
     }
   }, [yearId, buId]);
-
-  const fillPersentageValueInRow = (PercentageValue, index, initialAmount) => {
-    const updatedData = [...tableData];
-    let updatedValue = initialAmount;
-    const monthsToUpdate = [
-      'julAmount',
-      'augAmount',
-      'sepAmount',
-      'octAmount',
-      'novAmount',
-      'decAmount',
-      'janAmount',
-      'febAmount',
-      'marAmount',
-      'aprAmount',
-      'mayAmount',
-      'junAmount',
-    ];
-    for (const month of monthsToUpdate) {
-      updatedValue += updatedValue * (PercentageValue / 100);
-      updatedValue = parseFloat(updatedValue.toFixed(2));
-      updatedData[index][month] = updatedValue;
-    }
-    setTableData(updatedData);
-  };
 
   const calculatePercentageValues = (item) => {
     if (item.entryType === 'Percentage') {
@@ -213,6 +190,13 @@ export default function AssetLiabilityPlanEdit() {
               setTableData(updatedDataWithInventory);
             }
           );
+
+        fetchInventoryData({
+          getInventoryData,
+          values,
+          updatedData,
+          setTableData,
+        });
       }
     );
   };
@@ -359,7 +343,9 @@ export default function AssetLiabilityPlanEdit() {
                                         fillPersentageValueInRow(
                                           +e.target.value,
                                           index,
-                                          item?.initialAmount
+                                          item?.initialAmount,
+                                          tableData,
+                                          setTableData
                                         );
                                       } else {
                                         const updatedData = [...tableData];

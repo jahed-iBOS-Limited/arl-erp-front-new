@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
-import { monthDDL } from '../../../inventoryManagement/warehouseManagement/liftingEntry/form/addEditForm';
+import { monthDDL } from '../../../_helper/commonInputFieldsGroups/yearMonthForm';
 
 export const getCompanyList = async (buId, setter, setLoading) => {
   setLoading && setLoading(true);

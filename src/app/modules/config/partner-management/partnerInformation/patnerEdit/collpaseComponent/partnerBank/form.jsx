@@ -1,12 +1,11 @@
-
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field, FieldArray } from "formik";
-import * as Yup from "yup";
-import Axios from "axios";
-import Select from "react-select";
-import customStyles from "../../../../../../selectCustomStyle";
-import { Input } from "../../../../../../../../_metronic/_partials/controls";
-import { ProductEditSchema } from "../../../../../../_helper/_validationSchema";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form, Field, FieldArray } from 'formik';
+import * as Yup from 'yup';
+import Axios from 'axios';
+import Select from 'react-select';
+import customStyles from '../../../../../../selectCustomStyle';
+import { Input } from '../../../../../../../../_metronic/_partials/controls';
+import { ProductEditSchema } from '../../../../../../_helper/_validationSchema';
 
 export default function RoleExForm({
   product,
@@ -47,7 +46,7 @@ export default function RoleExForm({
           });
         setorgtypeListDDL(ItemType);
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const getEmployeeData = async (accId, buId) => {
@@ -68,7 +67,7 @@ export default function RoleExForm({
           });
         // setpartnerListDDL(ItemType);
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const getOrgNameData = async (id) => {
@@ -90,7 +89,7 @@ export default function RoleExForm({
           });
         setorgnameListDDL(ItemType);
       }
-    } catch (error) { }
+    } catch (error) {}
   };
 
   return (

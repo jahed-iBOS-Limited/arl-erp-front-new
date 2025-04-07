@@ -132,8 +132,8 @@ export function TableRow() {
       )}
     >
       <Formik>
-        {loading && <Loading />}
         <>
+          {loading && <Loading />}
           <div className="global-form">
             <div className="row">
               <div className="col-lg-4">

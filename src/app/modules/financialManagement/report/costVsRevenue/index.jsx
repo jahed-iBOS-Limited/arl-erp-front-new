@@ -7,7 +7,7 @@ import NewSelect from '../../../_helper/_select';
 import { YearDDL } from '../../../_helper/_yearDDL';
 import PowerBIReport from '../../../_helper/commonInputFieldsGroups/PowerBIReport';
 import IButton from '../../../_helper/iButton';
-import { monthDDL } from '../../invoiceManagementSystem/billregister/billCreate/Table/form';
+import { monthDDL } from '../../../_helper/commonInputFieldsGroups/yearMonthForm';
 
 export const getBuDDL = async (userId, accountId, setter) => {
   try {
