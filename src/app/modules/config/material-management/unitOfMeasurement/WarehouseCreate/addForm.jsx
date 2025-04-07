@@ -69,18 +69,15 @@ export default function UOMAddForm({
       btnRef.current.click();
     }
   };
-
   const resetBtnRef = useRef();
   const ResetProductClick = () => {
     if (resetBtnRef && resetBtnRef.current) {
       resetBtnRef.current.click();
     }
   };
-
   const backToWarehouseList = () => {
     history.push(`/config/material-management/unit-of-measurement/`);
   };
-
   return (
     <Card>
       {true && <ModalProgressBar />}
