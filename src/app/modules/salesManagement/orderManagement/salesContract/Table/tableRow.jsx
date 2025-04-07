@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { getSalesContactGridData } from "../_redux/Actions";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import IViewModal from "../../../../_helper/_viewModal";
-import SalesContractView from "./salesContractViewModal";
-import { Formik } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import IButton from "../../../../_helper/iButton";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { getSalesContactGridData } from '../_redux/Actions';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IView from '../../../../_helper/_helperIcons/_view';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import PaginationSearch from '../../../../_helper/_search';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import IViewModal from '../../../../_helper/_viewModal';
+import SalesContractView from './salesContractViewModal';
+import { Formik } from 'formik';
+import NewSelect from '../../../../_helper/_select';
+import IButton from '../../../../_helper/iButton';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import PowerBIReport from '../../../../_helper/commonInputFieldsGroups/PowerBIReport';
 import {
   generateParameterValues,
   groupId,
@@ -24,7 +24,7 @@ import {
   reportTypes,
   salesContractDetailsLandingData,
   salesContractInitalValues,
-} from "./helper";
+} from './helper';
 
 export function TableRow() {
   const dispatch = useDispatch();
@@ -66,7 +66,6 @@ export function TableRow() {
         )
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   //setPositionHandler
@@ -137,8 +136,8 @@ export function TableRow() {
                     value={values?.reportType}
                     onChange={(valueOption) => {
                       setShowReport(false);
-                      setFieldValue("reportType", valueOption);
-                      setFieldValue("channel", "");
+                      setFieldValue('reportType', valueOption);
+                      setFieldValue('channel', '');
                     }}
                     placeholder="Report Type"
                   />
@@ -191,15 +190,15 @@ export function TableRow() {
                         <table className="table table-striped table-bordered mt-3 global-table sales_order_landing_table">
                           <thead>
                             <tr>
-                              <th style={{ width: "35px" }}>SL</th>
-                              <th style={{ width: "90px" }}>Contract Code</th>
-                              <th style={{ width: "90px" }}>Contract Date</th>
+                              <th style={{ width: '35px' }}>SL</th>
+                              <th style={{ width: '90px' }}>Contract Code</th>
+                              <th style={{ width: '90px' }}>Contract Date</th>
                               <th>Plant</th>
                               <th>Sales Office</th>
                               <th>Party Name</th>
-                              <th style={{ width: "75px" }}>Total Qty</th>
-                              <th style={{ width: "75px" }}>Amount</th>
-                              <th style={{ width: "60px" }}>Actions</th>
+                              <th style={{ width: '75px' }}>Total Qty</th>
+                              <th style={{ width: '75px' }}>Amount</th>
+                              <th style={{ width: '60px' }}>Actions</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -207,25 +206,25 @@ export function TableRow() {
                               <tr key={index}>
                                 <td> {td.sl} </td>
                                 <td>
-                                  {" "}
+                                  {' '}
                                   <div className="pl-2">
-                                    {td.salesContactCode}{" "}
+                                    {td.salesContactCode}{' '}
                                   </div>
                                 </td>
                                 <td className="text-center">
-                                  {" "}
-                                  {_dateFormatter(td.salesContactDate)}{" "}
+                                  {' '}
+                                  {_dateFormatter(td.salesContactDate)}{' '}
                                 </td>
                                 <td> {td.plantName} </td>
                                 <td> {td.salesOfficeName} </td>
                                 <td> {td.soldToPartnerName} </td>
                                 <td className="text-right">
-                                  {" "}
-                                  {td.contactQuantity}{" "}
+                                  {' '}
+                                  {td.contactQuantity}{' '}
                                 </td>
                                 <td className="text-right">
-                                  {" "}
-                                  {td.totalAmount}{" "}
+                                  {' '}
+                                  {td.totalAmount}{' '}
                                 </td>
                                 <td>
                                   <div className="d-flex justify-content-around">
@@ -270,7 +269,7 @@ export function TableRow() {
                               </tr>
                             ))}
                           </tbody>
-                        </table>{" "}
+                        </table>{' '}
                       </div>
                     )}
                   </div>

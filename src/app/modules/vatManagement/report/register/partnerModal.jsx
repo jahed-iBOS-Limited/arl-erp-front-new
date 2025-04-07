@@ -36,7 +36,7 @@ const PartnerModal = ({ tableItem, landingValues }) => {
   const [modelShow, setModelShow] = useState(false);
   const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
-    shallowEqual,
+    shallowEqual
   );
 
   useEffect(() => {
@@ -48,7 +48,7 @@ const PartnerModal = ({ tableItem, landingValues }) => {
         _todayDate(),
         _todayDate(),
         setLoading,
-        setRowDto,
+        setRowDto
       );
     }
   }, [tableItem, landingValues, selectedBusinessUnit]);
@@ -58,7 +58,7 @@ const PartnerModal = ({ tableItem, landingValues }) => {
       partnerGeneralLedgerList(
         selectedBusinessUnit?.value,
         landingValues?.partnerType?.value,
-        setGlDDL,
+        setGlDDL
       );
     }
   }, [selectedBusinessUnit, landingValues]);
@@ -160,7 +160,7 @@ const PartnerModal = ({ tableItem, landingValues }) => {
                             values?.fromDate,
                             values?.toDate,
                             setLoading,
-                            setRowDto,
+                            setRowDto
                           );
                         }}
                         style={{ marginTop: '19px' }}
@@ -269,17 +269,17 @@ const PartnerModal = ({ tableItem, landingValues }) => {
                                 <td>{item?.strNarration}</td>
                                 <td className="text-right">
                                   {_formatMoney(
-                                    Math.abs(item?.numDebit)?.toFixed(2),
+                                    Math.abs(item?.numDebit)?.toFixed(2)
                                   )}
                                 </td>
                                 <td className="text-right">
                                   {_formatMoney(
-                                    Math.abs(item?.numCredit)?.toFixed(),
+                                    Math.abs(item?.numCredit)?.toFixed()
                                   )}
                                 </td>
                                 <td className="text-right">
                                   {_formatMoney(
-                                    Number(item?.numBalance)?.toFixed(2),
+                                    Number(item?.numBalance)?.toFixed(2)
                                   )}
                                 </td>
                               </tr>
@@ -293,9 +293,9 @@ const PartnerModal = ({ tableItem, landingValues }) => {
                                   Math.abs(
                                     rowDto?.reduce(
                                       (a, b) => a + Number(b?.numDebit),
-                                      0,
-                                    ),
-                                  )?.toFixed(2),
+                                      0
+                                    )
+                                  )?.toFixed(2)
                                 )}
                               </td>
                               <td className="text-right">
@@ -303,9 +303,9 @@ const PartnerModal = ({ tableItem, landingValues }) => {
                                   Math.abs(
                                     rowDto?.reduce(
                                       (a, b) => a + Number(b?.numCredit),
-                                      0,
-                                    ),
-                                  )?.toFixed(2),
+                                      0
+                                    )
+                                  )?.toFixed(2)
                                 )}
                               </td>
                               <td className="text-right">
@@ -314,16 +314,16 @@ const PartnerModal = ({ tableItem, landingValues }) => {
                                     Math.abs(
                                       rowDto?.reduce(
                                         (a, b) => a + Number(b?.numDebit),
-                                        0,
-                                      ),
+                                        0
+                                      )
                                     ) -
                                     Math.abs(
                                       rowDto?.reduce(
                                         (a, b) => a + Number(b?.numCredit),
-                                        0,
-                                      ),
+                                        0
+                                      )
                                     )
-                                  )?.toFixed(2),
+                                  )?.toFixed(2)
                                 )}
                               </td>
                             </tr>
@@ -338,7 +338,7 @@ const PartnerModal = ({ tableItem, landingValues }) => {
                     onHide={() => setModelShow(false)}
                   >
                     {[1, 2, 3, 4, 5, 6].includes(
-                      clickRowData?.journalTypeId,
+                      clickRowData?.journalTypeId
                     ) ? (
                       <>
                         {[1, 2, 3].includes(clickRowData?.journalTypeId) && (

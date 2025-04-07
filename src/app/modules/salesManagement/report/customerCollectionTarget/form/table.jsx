@@ -1,5 +1,5 @@
-import React from "react";
-import InputField from "../../../../_helper/_inputField";
+import React from 'react';
+import InputField from '../../../../_helper/_inputField';
 
 const Table = ({ rowDto, setRowDto, rowDtoHandler }) => {
   const allSelect = (value) => {
@@ -26,7 +26,7 @@ const Table = ({ rowDto, setRowDto, rowDtoHandler }) => {
               <th
                 onClick={() => allSelect(!selectedAll())}
                 className="text-center cursor-pointer"
-                style={{ width: "40px" }}
+                style={{ width: '40px' }}
               >
                 <input
                   type="checkbox"
@@ -41,7 +41,7 @@ const Table = ({ rowDto, setRowDto, rowDtoHandler }) => {
               <th>Region</th>
               <th>Area</th>
               <th>Territory</th>
-              <th style={{ width: "150px" }}>Target Amount</th>
+              <th style={{ width: '150px' }}>Target Amount</th>
             </tr>
           </thead>
           <tbody>

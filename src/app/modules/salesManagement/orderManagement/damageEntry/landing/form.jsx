@@ -32,7 +32,7 @@ const DamageEntryLandingForm = ({ obj }) => {
     if (searchValue?.length < 3 || !searchValue) return [];
     return axios
       .get(
-        `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${searchValue}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${values?.channel?.value}`,
+        `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${searchValue}&AccountId=${accId}&BusinessUnitId=${buId}&ChannelId=${values?.channel?.value}`
       )
       .then((res) => res?.data);
   };
@@ -136,7 +136,6 @@ const DamageEntryLandingForm = ({ obj }) => {
           />{' '}
           {/* Status Form Field For Damage Entry Landing */}
           {[1].includes(values?.reportType?.value) && <StatusFormField />}
-
           {isChallanVSDamageFilterSelectShow(values, gridData?.data) ? (
             <div className="col-lg-2">
               <NewSelect

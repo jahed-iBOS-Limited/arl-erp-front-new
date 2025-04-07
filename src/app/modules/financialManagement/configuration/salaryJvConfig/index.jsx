@@ -1,10 +1,10 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
 const initData = {};
 export default function SalaryJvConfigLanding() {
   const [landingData, getLandingData, landingDataLoader] = useAxiosGet();
@@ -19,7 +19,6 @@ export default function SalaryJvConfigLanding() {
     getLandingData(
       `/fino/AdjustmentJournal/GetAllDebitCreditGLConfig?BusinessUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, []);
 
   return (
@@ -72,7 +71,7 @@ export default function SalaryJvConfigLanding() {
                       className="btn btn-primary ml-1"
                       onClick={() => {
                         history.push(
-                          "/financial-management/configuration/SalaryJVConfig/create"
+                          '/financial-management/configuration/SalaryJVConfig/create'
                         );
                       }}
                     >
@@ -106,7 +105,7 @@ export default function SalaryJvConfigLanding() {
                         return (
                           <tr key={index}>
                             <td
-                              style={{ width: "30px" }}
+                              style={{ width: '30px' }}
                               className="text-center"
                             >
                               {index + 1}

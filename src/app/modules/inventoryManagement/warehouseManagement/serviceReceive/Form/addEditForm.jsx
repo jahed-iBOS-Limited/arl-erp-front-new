@@ -1,14 +1,12 @@
-
-
-import React, { useEffect, useState } from "react";
-import { confirmAlert } from "react-confirm-alert";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { empAttachment_action } from "../../../../_helper/attachmentUpload";
+import React, { useEffect, useState } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 import {
   getCostCenterDDL,
   getPoNumberDDL,
@@ -19,32 +17,32 @@ import {
   getSingleDataForEdit,
   saveCreateServiceEdit,
   saveServiceReceive,
-} from "../helper/Actions";
-import Form from "./form";
+} from '../helper/Actions';
+import Form from './form';
 // import { _validationNumber } from "../../../../_helper/_numberValidation";
 
 let initData = {
-  poNumber: "",
-  poAmount: "",
-  adjustedAmount: "",
-  supplier: "",
-  comment: "",
-  attachment: "",
-  file: "",
-  costCenter: "",
-  projectName: "",
-  serviceReceive: "",
-  challanNO: "",
-  challanDate: "",
-  vatChallan: "",
-  vatAmmount: "",
-  getEntry: "",
-  freight: "",
-  grossDiscount: "",
-  commission: "",
-  productCost: "",
-  foreignPurchase: "",
-  othersCharge: ""
+  poNumber: '',
+  poAmount: '',
+  adjustedAmount: '',
+  supplier: '',
+  comment: '',
+  attachment: '',
+  file: '',
+  costCenter: '',
+  projectName: '',
+  serviceReceive: '',
+  challanNO: '',
+  challanDate: '',
+  vatChallan: '',
+  vatAmmount: '',
+  getEntry: '',
+  freight: '',
+  grossDiscount: '',
+  commission: '',
+  productCost: '',
+  foreignPurchase: '',
+  othersCharge: '',
 };
 
 export default function ServiceReceiveForm({
@@ -65,8 +63,8 @@ export default function ServiceReceiveForm({
   const [serviceReceived, setServiceReceived] = useState([]);
   const [attachError, setAttachError] = useState(false);
 
-  const [attachment, setAttachment] = useState("");
-  const dispatch = useDispatch()
+  const [attachment, setAttachment] = useState('');
+  const dispatch = useDispatch();
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -124,37 +122,41 @@ export default function ServiceReceiveForm({
   //   getRowDtoData(poId, setRowDto);
   // };
 
-  let vatAmount = rowDto?.reduce((sum, data) => sum + data.vatValue, 0)
+  let vatAmount = rowDto?.reduce((sum, data) => sum + data.vatValue, 0);
 
   // rowdto handler for catch data from row's input field in rowTable
   const rowDtoHandler = (name, value, sl) => {
     let data = [...rowDto];
     let _sl = data[sl];
-    if (name === "quantity") {
+    if (name === 'quantity') {
       // _sl[name] = _validationNumber(value) ;
       _sl[name] = value;
-      _sl["serviceAmount"] = (_sl.totalValue / _sl.poQuantity) * +value;
-      _sl["totalVat"] = (_sl?.vatValue / _sl?.poQuantity) * +value
-      _sl["netTotalValue"] = ((_sl?.vatValue / _sl?.poQuantity) * +value) + ((_sl.totalValue / _sl.poQuantity) * +value);
+      _sl['serviceAmount'] = (_sl.totalValue / _sl.poQuantity) * +value;
+      _sl['totalVat'] = (_sl?.vatValue / _sl?.poQuantity) * +value;
+      _sl['netTotalValue'] =
+        (_sl?.vatValue / _sl?.poQuantity) * +value +
+        (_sl.totalValue / _sl.poQuantity) * +value;
     } else {
       _sl[name] = value;
     }
     setRowDto(data);
   };
 
-
-  let totalAmount = rowDto?.reduce((sum, data) => sum + data?.serviceAmount, 0)
-  let totalVat = rowDto?.reduce((sum, data) => sum + data?.totalVat, 0)
-  let netTotalValue = rowDto?.reduce((sum, data) => sum + data?.netTotalValue, 0)
+  let totalAmount = rowDto?.reduce((sum, data) => sum + data?.serviceAmount, 0);
+  let totalVat = rowDto?.reduce((sum, data) => sum + data?.totalVat, 0);
+  let netTotalValue = rowDto?.reduce(
+    (sum, data) => sum + data?.netTotalValue,
+    0
+  );
 
   const attachmentHandleChange = (files) => {
     // file extention chack
     const condition = Array.from(files).every((itm) => {
       return (
-        itm.type === "image/jpeg" ||
-        itm.type === "image/png" ||
-        itm.type === "image/jpg" ||
-        itm.type === "application/pdf"
+        itm.type === 'image/jpeg' ||
+        itm.type === 'image/png' ||
+        itm.type === 'image/jpg' ||
+        itm.type === 'application/pdf'
       );
     });
     if (condition && files.length > 0) {
@@ -171,16 +173,16 @@ export default function ServiceReceiveForm({
       message: message,
       buttons: [
         {
-          label: "Ok",
+          label: 'Ok',
           onClick: () => noAlertFunc(),
         },
       ],
     });
-
   };
 
   const saveHandler = async (values, cb) => {
-    if (totalVat.toFixed(4) > 0 && values?.vatAmmount < 1) return toast.warn("Vat amount should be greater than zero")
+    if (totalVat.toFixed(4) > 0 && values?.vatAmmount < 1)
+      return toast.warn('Vat amount should be greater than zero');
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
       //edit api check
       if (id) {
@@ -192,15 +194,17 @@ export default function ServiceReceiveForm({
             transactionQuantity: +data.quantity,
             poQuantity: data?.poQuantity,
             previousQuantity: data?.receiveQuantity,
-            referenceId: data?.referenceId || 0
+            referenceId: data?.referenceId || 0,
           };
         });
 
         // filter items quantity greater than 0
-        let filterRowDto = rowFormet?.filter(item => item?.transactionQuantity > 0)
+        let filterRowDto = rowFormet?.filter(
+          (item) => item?.transactionQuantity > 0
+        );
 
         if (filterRowDto?.length === 0) {
-          return toast.error("Not inputting valid data")
+          return toast.error('Not inputting valid data');
         }
 
         const payload = {
@@ -229,23 +233,25 @@ export default function ServiceReceiveForm({
             discount: data?.discount || 0,
             referenceId: data?.referenceId || 0,
             profitCenterId: data?.profitCenterId || 0,
-            profitCenterName: data?.profitCenterName || "",
-            costRevenueName: data?.costRevenueName || "",
+            profitCenterName: data?.profitCenterName || '',
+            costRevenueName: data?.costRevenueName || '',
             costRevenueId: data?.costRevenueId || 0,
-            elementName: data?.elementName || "",
+            elementName: data?.elementName || '',
             elementId: data?.elementId || 0,
           };
         });
 
         // filter items quantity greater than 0
-        let filterRowDto = rowDtoFormet?.filter(item => item?.transactionQuantity > 0)
+        let filterRowDto = rowDtoFormet?.filter(
+          (item) => item?.transactionQuantity > 0
+        );
 
         if (filterRowDto?.length === 0) {
-          return toast.error("Not inputting valid data")
+          return toast.error('Not inputting valid data');
         }
 
         const payload = {
-          serviceCode: "",
+          serviceCode: '',
           transactionDate: _todayDate(),
           referenceId: values?.poNumber.value,
           referenceCode: values?.poNumber.label,
@@ -263,13 +269,13 @@ export default function ServiceReceiveForm({
           businessPartnerName: values.supplier.label,
           strComments: values.comment,
           intActionBy: profileData.userId,
-          strDocumentId: "",
+          strDocumentId: '',
           costCenterId: values?.costCenter?.value || 0,
-          costCenterCode: values?.costCenter?.code || "",
-          costCenterName: values?.costCenter?.label || "",
+          costCenterCode: values?.costCenter?.code || '',
+          costCenterName: values?.costCenter?.label || '',
           projectId: values?.projectName?.value || 0,
-          projectCode: values?.projectName?.code || "",
-          projectName: values?.projectName?.label || "",
+          projectCode: values?.projectName?.code || '',
+          projectName: values?.projectName?.label || '',
           receivedById: values?.serviceReceive?.value || 0,
           receivedBy: values?.serviceReceive?.label || 0,
           gateEntryNo: values?.getEntry,
@@ -281,31 +287,43 @@ export default function ServiceReceiveForm({
           freight: +values?.freight || 0,
           commission: +values?.commission || 0,
           shipmentId: values?.foreignPurchase?.value || 0,
-          othersCharge: +values?.othersCharge || 0
+          othersCharge: +values?.othersCharge || 0,
         };
-        if (fileObjects.length < 1) return toast.warn("Attachment is required", { toastId: "attachment" });
-        if (fileObjects.length > 0) {
-          setDisabled(true)
-          empAttachment_action(fileObjects).then((data) => {
-            setDisabled(false)
-            const modifyPlyload = {
-              objHeader: {
-                ...payload,
-                strDocumentId: data?.[0]?.id || "",
-              },
-              images: data?.map(data => {
-                return {
-                  imageId: data?.id
-                }
-              }),
-              objRow: rowDtoFormet,
-            };
-            saveServiceReceive(modifyPlyload, cb, setRowDto, setDisabled, IConfirmModal, dispatch).then((data) => {
-              setFileObjects([]);
-            });
-          }).catch(err => {
-            setDisabled(false)
+        if (fileObjects.length < 1)
+          return toast.warn('Attachment is required', {
+            toastId: 'attachment',
           });
+        if (fileObjects.length > 0) {
+          setDisabled(true);
+          empAttachment_action(fileObjects)
+            .then((data) => {
+              setDisabled(false);
+              const modifyPlyload = {
+                objHeader: {
+                  ...payload,
+                  strDocumentId: data?.[0]?.id || '',
+                },
+                images: data?.map((data) => {
+                  return {
+                    imageId: data?.id,
+                  };
+                }),
+                objRow: rowDtoFormet,
+              };
+              saveServiceReceive(
+                modifyPlyload,
+                cb,
+                setRowDto,
+                setDisabled,
+                IConfirmModal,
+                dispatch
+              ).then((data) => {
+                setFileObjects([]);
+              });
+            })
+            .catch((err) => {
+              setDisabled(false);
+            });
         } else {
           const modifyPlyload = {
             objHeader: {
@@ -315,22 +333,25 @@ export default function ServiceReceiveForm({
             images: [],
             objRow: rowDtoFormet,
           };
-          saveServiceReceive(modifyPlyload, cb, setRowDto, setDisabled, IConfirmModal, dispatch).then((data) => {
+          saveServiceReceive(
+            modifyPlyload,
+            cb,
+            setRowDto,
+            setDisabled,
+            IConfirmModal,
+            dispatch
+          ).then((data) => {
             setFileObjects([]);
           });
         }
       }
     } else {
-
     }
   };
 
-
   const [objProps, setObjprops] = useState({});
 
-  const lastInvData = useSelector(
-    (state) => state?.localStorage?.lastInvData
-  )
+  const lastInvData = useSelector((state) => state?.localStorage?.lastInvData);
 
   // remove single data from rowDto
   const remover = (payload) => {
@@ -338,10 +359,13 @@ export default function ServiceReceiveForm({
     setRowDto([...filterArr]);
   };
 
-
   return (
     <IForm
-      title={id ? "Edit Service Receive" : `Create Service Receive (Warehouse : ${state?.warehouse?.label}) ${lastInvData ? lastInvData : ""}`}
+      title={
+        id
+          ? 'Edit Service Receive'
+          : `Create Service Receive (Warehouse : ${state?.warehouse?.label}) ${lastInvData ? lastInvData : ''}`
+      }
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenReset={id ? true : false}

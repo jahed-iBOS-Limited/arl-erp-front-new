@@ -1,14 +1,14 @@
-import * as requestFromServer from "./Api";
-import { codeGenerateSlice } from "./Slice";
-import { toast } from "react-toastify";
-import { isArray } from "lodash";
+import * as requestFromServer from './Api';
+import { codeGenerateSlice } from './Slice';
+import { toast } from 'react-toastify';
+import { isArray } from 'lodash';
 const { actions: slice } = codeGenerateSlice;
 
 export const getCodeTypeDDLAction = () => (dispatch) => {
   return requestFromServer.getCodeTypeDDL().then((res) => {
     const { status, data } = res;
     if (status === 200 && data) {
-       dispatch(slice.SetCodeTypeDDL(data));
+      dispatch(slice.SetCodeTypeDDL(data));
     }
   });
 };
@@ -20,13 +20,12 @@ export const saveCodeGenerate = (payload) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
         payload.setDisabled(false);
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
       payload.setDisabled(false);
     });
@@ -39,7 +38,7 @@ export const saveEditedCodeGenerate = (payload, setDisabled) => () => {
     .then((res) => {
       if (res.status === 200) {
         // console.log(res.data);
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         setDisabled(false);
       }
     })
@@ -50,19 +49,20 @@ export const saveEditedCodeGenerate = (payload, setDisabled) => () => {
     });
 };
 // action for get grid data
-export const getCodeGenerateGridData = (accId, buId, pageNo, pageSize, setLoading) => (dispatch) => {
-  setLoading(true);
-  return requestFromServer
-    .getGridData(accId, buId, pageNo, pageSize)
-    .then((res) => {
-      setLoading(false);
-      return dispatch(slice.SetGridData(res?.data));
-    })
-    .catch((err) => {
-      setLoading(false);
-      //
-    });
-};
+export const getCodeGenerateGridData =
+  (accId, buId, pageNo, pageSize, setLoading) => (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .getGridData(accId, buId, pageNo, pageSize)
+      .then((res) => {
+        setLoading(false);
+        return dispatch(slice.SetGridData(res?.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+        //
+      });
+  };
 
 // action for get data by id single
 export const getSingleById = (id) => (dispatch) => {
@@ -75,27 +75,25 @@ export const getSingleById = (id) => (dispatch) => {
           ...item,
           codeType: {
             value: item.codegeneratorId,
-            label: item.codegeneratorType
+            label: item.codegeneratorType,
           },
           refreshType: {
             value: item.refreshTypeId,
-            label: item.refreshType
+            label: item.refreshType,
           },
           monthLength: {
             value: item.monthLengthTypeId,
-            label: item.monthLengthType
+            label: item.monthLengthType,
           },
           yearLength: {
             value: item.yearLengthTypeId,
-            label: item.yearLengthType
+            label: item.yearLengthType,
           },
         };
         return dispatch(slice.SetDataById(data));
       }
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };
 // set single store empty
 export const setCodeGenerateSingleEmpty = () => async (dispatch) => {

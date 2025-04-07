@@ -1,44 +1,44 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import Axios from "axios";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import Axios from 'axios';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../../_metronic/_partials/controls";
-import NewSelect from "../../../../../_helper/_select";
-import InputField from "../../../../../_helper/_inputField";
+} from '../../../../../../../_metronic/_partials/controls';
+import NewSelect from '../../../../../_helper/_select';
+import InputField from '../../../../../_helper/_inputField';
 // import Form from "./form";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   vehicleCity: Yup.object().shape({
-    label: Yup.string().required("Vehicle City is required"),
-    value: Yup.string().required("Vehicle City is required"),
+    label: Yup.string().required('Vehicle City is required'),
+    value: Yup.string().required('Vehicle City is required'),
   }),
   vehicleRegistrationLetter: Yup.object().shape({
-    label: Yup.string().required("Vehicle Registration Letter is required"),
-    value: Yup.string().required("Vehicle Registration Letter is required"),
+    label: Yup.string().required('Vehicle Registration Letter is required'),
+    value: Yup.string().required('Vehicle Registration Letter is required'),
   }),
   vehicleRegistrationNumber: Yup.object().shape({
-    label: Yup.string().required("Vehicle Registration Number is required"),
-    value: Yup.string().required("Vehicle Registration Number is required"),
+    label: Yup.string().required('Vehicle Registration Number is required'),
+    value: Yup.string().required('Vehicle Registration Number is required'),
   }),
   vehicleManualNo: Yup.string()
-    .min(0, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Vehicle Manual No is required"),
+    .min(0, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Vehicle Manual No is required'),
 });
 
 const initData = {
-  vehicleCity: "",
-  vehicleRegistrationLetter: "",
-  vehicleRegistrationNumber: "",
-  vehicleManualNo: "",
-  vehicleManualFinalNo: "",
+  vehicleCity: '',
+  vehicleRegistrationLetter: '',
+  vehicleRegistrationNumber: '',
+  vehicleManualNo: '',
+  vehicleManualFinalNo: '',
 };
 
 export default function VehicleNoAddForm({
@@ -47,16 +47,12 @@ export default function VehicleNoAddForm({
   setNewValues,
 }) {
   // const [isDisabled, setDisabled] = useState(true);
-  const [vehicleAddress, setVehicleAddress] = useState("");
+  const [vehicleAddress, setVehicleAddress] = useState('');
   const [vehicheCityDDL, setVehicleCityDDL] = useState([]);
-  const [
-    vehicleRegistrationLetterDDL,
-    setVehicleRegistrationLetterDDL,
-  ] = useState([]);
-  const [
-    vehicleRegistrationNumberDDL,
-    setVehicleRegistrationNumberDDL,
-  ] = useState([]);
+  const [vehicleRegistrationLetterDDL, setVehicleRegistrationLetterDDL] =
+    useState([]);
+  const [vehicleRegistrationNumberDDL, setVehicleRegistrationNumberDDL] =
+    useState([]);
   useEffect(() => {
     getVehicleCityDDL();
     getVehicleRegistrationLetterDDL();
@@ -66,9 +62,7 @@ export default function VehicleNoAddForm({
     try {
       const res = await Axios.get(`/tms/TransportMgtDDL/GetVehicleCityDDL`);
       setVehicleCityDDL(res.data);
-    } catch (error) {
-     
-    }
+    } catch (error) {}
   };
   const getVehicleRegistrationLetterDDL = async () => {
     try {
@@ -76,9 +70,7 @@ export default function VehicleNoAddForm({
         `/tms/TransportMgtDDL/GetVehicleRegistrationLetterDDL`
       );
       setVehicleRegistrationLetterDDL(res.data);
-    } catch (error) {
-     
-    }
+    } catch (error) {}
   };
   const getVehicleRegitrationNumberDDL = async () => {
     try {
@@ -86,9 +78,7 @@ export default function VehicleNoAddForm({
         `/tms/TransportMgtDDL/GetVehicleRegitrationNumberDDL`
       );
       setVehicleRegistrationNumberDDL(res.data);
-    } catch (error) {
-     
-    }
+    } catch (error) {}
   };
   return (
     <div>
@@ -138,19 +128,19 @@ export default function VehicleNoAddForm({
                       <div className="col-lg-12">
                         <div
                           className="row bank-journal bank-journal-custom bj-left"
-                          style={{ paddingBottom: "0px" }}
+                          style={{ paddingBottom: '0px' }}
                         >
                           <div className="col-lg-2 mb-2">
                             <NewSelect
                               name="vehicleCity"
                               options={vehicheCityDDL}
-                              value={values?.vehicleCity || ""}
+                              value={values?.vehicleCity || ''}
                               label="Vehicle City"
                               onChange={(valueOption) => {
                                 setVehicleAddress(
                                   `${valueOption?.label} ${values?.vehicleRegistrationLetter?.label} ${values?.vehicleRegistrationNumber?.label}-${values?.vehicleManualNo}`
                                 );
-                                setFieldValue("vehicleCity", valueOption);
+                                setFieldValue('vehicleCity', valueOption);
                               }}
                               placeholder="Vehicle City"
                               errors={errors}
@@ -168,7 +158,7 @@ export default function VehicleNoAddForm({
                                   `${values?.vehicleCity?.label} ${valueOption?.label} ${values?.vehicleRegistrationNumber?.label}-${values?.vehicleManualNo}`
                                 );
                                 setFieldValue(
-                                  "vehicleRegistrationLetter",
+                                  'vehicleRegistrationLetter',
                                   valueOption
                                 );
                               }}
@@ -188,7 +178,7 @@ export default function VehicleNoAddForm({
                                   `${values?.vehicleCity?.label} ${values?.vehicleRegistrationLetter?.label} ${valueOption?.label}-${values?.vehicleManualNo}`
                                 );
                                 setFieldValue(
-                                  "vehicleRegistrationNumber",
+                                  'vehicleRegistrationNumber',
                                   valueOption
                                 );
                               }}
@@ -200,7 +190,7 @@ export default function VehicleNoAddForm({
                           <div className="col-lg-2 mb-2">
                             <label>Vehicle No</label>
                             <InputField
-                              value={values?.vehicleManualNo || ""}
+                              value={values?.vehicleManualNo || ''}
                               name="vehicleManualNo"
                               placeholder="Vehicle Number"
                               type="text"
@@ -209,7 +199,7 @@ export default function VehicleNoAddForm({
                                   `${values?.vehicleCity?.label} ${values?.vehicleRegistrationLetter?.label} ${values?.vehicleRegistrationNumber?.label}-${e?.target?.value}`
                                 );
                                 setFieldValue(
-                                  "vehicleManualNo",
+                                  'vehicleManualNo',
                                   e?.target?.value
                                 );
                               }}
@@ -221,7 +211,7 @@ export default function VehicleNoAddForm({
                               value={
                                 vehicleAddress ||
                                 values?.vehicleManualFinalNo ||
-                                ""
+                                ''
                               }
                               name="vehicleManualFinalNo"
                               placeholder="Vehicle Full No"
@@ -242,7 +232,7 @@ export default function VehicleNoAddForm({
                                 });
                                 setIsShowModal(false);
                               }}
-                              style={{ marginTop: "13px" }}
+                              style={{ marginTop: '13px' }}
                               className="btn btn-primary ml-2"
                               disabled={
                                 !values?.vehicleCity ||

@@ -1,7 +1,6 @@
-import React from "react";
-import InfoCircle from "../../../../_helper/_helperIcons/_infoCircle";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-
+import React from 'react';
+import InfoCircle from '../../../../_helper/_helperIcons/_infoCircle';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
 
 const TableForSummary = ({
   setTableItem,
@@ -32,7 +31,7 @@ const TableForSummary = ({
             inventoryStatement?.map((item, index) => {
               return (
                 <tr key={index}>
-                  <td style={{ width: "30px" }} className="text-center">
+                  <td style={{ width: '30px' }} className="text-center">
                     {item?.sl}
                   </td>
                   <td>
@@ -42,19 +41,29 @@ const TableForSummary = ({
                     <span>{item?.opnQty}</span>
                   </td>
                   <td className="text-right">
-                    <span>{numberWithCommas(( item?.openValue || 0).toFixed(2))}</span>
+                    <span>
+                      {numberWithCommas((item?.openValue || 0).toFixed(2))}
+                    </span>
                   </td>
                   <td className="text-right">
                     <span>{item?.numTransferIn}</span>
                   </td>
                   <td className="text-right">
-                    <span>{numberWithCommas(( item?.numTransferInValue || 0).toFixed(2))}</span>
+                    <span>
+                      {numberWithCommas(
+                        (item?.numTransferInValue || 0).toFixed(2)
+                      )}
+                    </span>
                   </td>
                   <td className="text-right">
                     <span>{item?.numTransferOut}</span>
                   </td>
                   <td className="text-right">
-                    <span>{numberWithCommas(( item?.numTransferOutValue || 0).toFixed(2))}</span>
+                    <span>
+                      {numberWithCommas(
+                        (item?.numTransferOutValue || 0).toFixed(2)
+                      )}
+                    </span>
                   </td>
                   <td className="text-right">
                     <span className="pl-2">{item?.numTransitQuantity}</span>
@@ -70,11 +79,13 @@ const TableForSummary = ({
                   </td>
                   <td className="text-right">
                     <span>
-                      {numberWithCommas((
-                        item?.openValue +
-                        item?.numTransferInValue -
-                        item?.numTransferOutValue || 0
-                      ).toFixed(2))}
+                      {numberWithCommas(
+                        (
+                          item?.openValue +
+                            item?.numTransferInValue -
+                            item?.numTransferOutValue || 0
+                        ).toFixed(2)
+                      )}
                     </span>
                   </td>
                   <td className="text-center">
@@ -83,7 +94,7 @@ const TableForSummary = ({
                         setIsShowModal(true);
                         setTableItem(item);
                       }}
-                      classes={"text-primary"}
+                      classes={'text-primary'}
                     />
                   </td>
                 </tr>

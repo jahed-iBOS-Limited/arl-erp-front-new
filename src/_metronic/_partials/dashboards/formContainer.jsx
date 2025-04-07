@@ -1,32 +1,31 @@
-
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   CardFooter,
-} from "../controls";
-import { Modal } from "react-bootstrap";
-import { ModalProgressBar } from "../controls";
-import Form from "./initBusinessUnitForm";
-import Axios from "axios";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+} from '../controls';
+import { Modal } from 'react-bootstrap';
+import { ModalProgressBar } from '../controls';
+import Form from './initBusinessUnitForm';
+import Axios from 'axios';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import {
   Logout,
   SetBusinessUnitTrue,
-} from "../../../app/modules/Auth/_redux/Auth_Actions";
-import { isObject } from "lodash";
-import { toast } from "react-toastify";
+} from '../../../app/modules/Auth/_redux/Auth_Actions';
+import { isObject } from 'lodash';
+import { toast } from 'react-toastify';
 import { clearLocalStorageAction } from './../../../app/modules/_helper/reduxForLocalStorage/Actions';
 
 const initData = {
   id: undefined,
-  businessUnitName: "",
-  businessUnitCode: "",
-  languageName: "",
-  currencyName: "",
-  businessUnitAddress: "",
+  businessUnitName: '',
+  businessUnitCode: '',
+  languageName: '',
+  currencyName: '',
+  businessUnitAddress: '',
 };
 
 export default function FormContainer() {
@@ -83,20 +82,19 @@ export default function FormContainer() {
       try {
         setDisabled(true);
         await Axios.post(
-          "/domain/BusinessUnitDomain/CreateBUandUserPermissionDomain",
+          '/domain/BusinessUnitDomain/CreateBUandUserPermissionDomain',
           businessData
         );
         cb(initData);
         setDisabled(false);
         dispatch(SetBusinessUnitTrue());
-        toast.success("Proccesing", { toastId: 113 });
+        toast.success('Proccesing', { toastId: 113 });
       } catch (error) {
         setDisabled(false);
         toast.error(error?.response?.data?.message, { toastId: 112 });
       }
     } else {
       setDisabled(false);
-
     }
   };
 
@@ -161,7 +159,7 @@ export default function FormContainer() {
             <p
               onClick={() => {
                 dispatch(Logout());
-                dispatch(clearLocalStorageAction())
+                dispatch(clearLocalStorageAction());
               }}
               className="back_2_login d-inline-block"
             >

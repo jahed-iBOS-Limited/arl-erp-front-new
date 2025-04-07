@@ -1,67 +1,69 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { Input } from "../../../../../../../../_metronic/_partials/controls";
-import Axios from "axios";
-import Select from "react-select";
-import customStyles, { createCustomSelectStyles } from "../../../../../../selectCustomStyle";
-import NewSelect from "./../../../../../../_helper/_select";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { Input } from '../../../../../../../../_metronic/_partials/controls';
+import Axios from 'axios';
+import Select from 'react-select';
+import customStyles, {
+  createCustomSelectStyles,
+} from '../../../../../../selectCustomStyle';
+import NewSelect from './../../../../../../_helper/_select';
 
 const DataValiadtionSchema = Yup.object().shape({
   minOrderQuantity: Yup.number()
     .integer()
     .min(1)
-    .required("Minimum order quantity is required")
+    .required('Minimum order quantity is required')
     .integer()
-    .min(1, "Minimum order quantity is required"),
+    .min(1, 'Minimum order quantity is required'),
   lotSize: Yup.number()
     .integer()
     .min(1)
-    .required("Lot Size is required")
+    .required('Lot Size is required')
     .integer()
-    .min(1, "Lot Size is required"),
+    .min(1, 'Lot Size is required'),
   org: Yup.object().shape({
-    label: Yup.string().required("Sales Organization is required"),
-    value: Yup.string().required("Sales Organization is required"),
+    label: Yup.string().required('Sales Organization is required'),
+    value: Yup.string().required('Sales Organization is required'),
   }),
   profitCenter: Yup.object().shape({
-    label: Yup.string().required("Profit Center is required"),
-    value: Yup.string().required("Profit Center is required"),
+    label: Yup.string().required('Profit Center is required'),
+    value: Yup.string().required('Profit Center is required'),
   }),
   revenueGL: Yup.object().shape({
-    label: Yup.string().required("Revenue GL is required"),
-    value: Yup.string().required("Revenue GL is required"),
+    label: Yup.string().required('Revenue GL is required'),
+    value: Yup.string().required('Revenue GL is required'),
   }),
   productDivision: Yup.object().shape({
-    label: Yup.string().required("Product Division is required"),
-    value: Yup.string().required("Product Division is required"),
+    label: Yup.string().required('Product Division is required'),
+    value: Yup.string().required('Product Division is required'),
   }),
   cogsGL: Yup.object().shape({
-    label: Yup.string().required("COGS GL is required"),
-    value: Yup.string().required("COGS GL is required"),
+    label: Yup.string().required('COGS GL is required'),
+    value: Yup.string().required('COGS GL is required'),
   }),
   accroedCogsGL: Yup.object().shape({
-    label: Yup.string().required("Accroed COGS GL is required"),
-    value: Yup.string().required("Accroed COGS GL is required"),
+    label: Yup.string().required('Accroed COGS GL is required'),
+    value: Yup.string().required('Accroed COGS GL is required'),
   }),
-  distributionChannel: Yup.array().required("Distribution Channel"),
+  distributionChannel: Yup.array().required('Distribution Channel'),
 });
 const initValue = {
-  org: { label: "", value: "" },
-  profitCenter: "",
-  productDivision: { label: "", value: "" },
-  cogsGL: { label: "", value: "" },
-  distributionChannel: "",
-  accroedCogsGL: { label: "", value: "" },
-  revenueGL: { label: "", value: "" },
-  salesDescription: "",
+  org: { label: '', value: '' },
+  profitCenter: '',
+  productDivision: { label: '', value: '' },
+  cogsGL: { label: '', value: '' },
+  distributionChannel: '',
+  accroedCogsGL: { label: '', value: '' },
+  revenueGL: { label: '', value: '' },
+  salesDescription: '',
   minOrderQuantity: 0,
-  volume: "",
+  volume: '',
   isMrp: false,
-  hsCode: "",
+  hsCode: '',
   lotSize: 0,
-  vatItem: "",
-  conversionRatePcs: "",
+  vatItem: '',
+  conversionRatePcs: '',
 };
 
 export default function FormCmp({
@@ -74,13 +76,13 @@ export default function FormCmp({
   accountId,
   basicItemInfo,
 }) {
-  const [orgListDDL, setOrgList] = useState("");
-  const [profitCenterDDL, setProfitCenter] = useState("");
-  const [productDivisionDDL, setproductDivision] = useState("");
-  const [cogsGLDDL, setCogsGL] = useState("");
+  const [orgListDDL, setOrgList] = useState('');
+  const [profitCenterDDL, setProfitCenter] = useState('');
+  const [productDivisionDDL, setproductDivision] = useState('');
+  const [cogsGLDDL, setCogsGL] = useState('');
   // const [accroedCogsGLDDL, setAccroedCogsGL] = useState("");
-  const [revenueGLDDL, setRevenueGL] = useState("");
-  const [distributionChannelDDL, setdistributionChannel] = useState("");
+  const [revenueGLDDL, setRevenueGL] = useState('');
+  const [distributionChannelDDL, setdistributionChannel] = useState('');
   const [taxItemGroupDDL, setTaxItemGroupDDL] = useState([]);
 
   const getInfoData = async (buId, accId) => {
@@ -229,7 +231,6 @@ export default function FormCmp({
       getDistributionChannel(selectedBusinessUnit.value, accountId);
       getTaxItemGroupDDL_api(accountId, selectedBusinessUnit.value);
     }
-
   }, [selectedBusinessUnit, accountId]);
 
   return (
@@ -271,9 +272,9 @@ export default function FormCmp({
                       <Select
                         options={orgListDDL || []}
                         placeholder="Select Sales Organization"
-                        value={values.org || { value: "", label: "" }}
+                        value={values.org || { value: '', label: '' }}
                         onChange={(valueOption) => {
-                          setFieldValue("org", valueOption);
+                          setFieldValue('org', valueOption);
                         }}
                         // isSearchable={true}
 
@@ -287,16 +288,16 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
                     {errors && errors.org && touched && touched.org
                       ? errors.org.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
                 <div className="col-lg-3">
@@ -307,9 +308,9 @@ export default function FormCmp({
                       <Select
                         options={profitCenterDDL || []}
                         placeholder="Select Profit Center"
-                        value={values.profitCenter || { value: "", label: "" }}
+                        value={values.profitCenter || { value: '', label: '' }}
                         onChange={(valueOption) => {
-                          setFieldValue("profitCenter", valueOption);
+                          setFieldValue('profitCenter', valueOption);
                         }}
                         // isSearchable={true}
 
@@ -323,10 +324,10 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
@@ -335,7 +336,7 @@ export default function FormCmp({
                     touched &&
                     touched.profitCenter
                       ? errors.profitCenter.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
                 <div className="col-lg-3">
@@ -347,10 +348,10 @@ export default function FormCmp({
                         options={productDivisionDDL || []}
                         placeholder="Select Product Division"
                         value={
-                          values.productDivision || { value: "", label: "" }
+                          values.productDivision || { value: '', label: '' }
                         }
                         onChange={(valueOption) => {
-                          setFieldValue("productDivision", valueOption);
+                          setFieldValue('productDivision', valueOption);
                         }}
                         // isSearchable={true}
 
@@ -364,10 +365,10 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
@@ -376,7 +377,7 @@ export default function FormCmp({
                     touched &&
                     touched.productDivision
                       ? errors.productDivision.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
                 <div className="col-lg-3">
@@ -387,9 +388,9 @@ export default function FormCmp({
                       <Select
                         options={cogsGLDDL || []}
                         placeholder="Select COGS GL"
-                        value={values.cogsGL || { value: "", label: "" }}
+                        value={values.cogsGL || { value: '', label: '' }}
                         onChange={(valueOption) => {
-                          setFieldValue("cogsGL", valueOption);
+                          setFieldValue('cogsGL', valueOption);
                         }}
                         // isSearchable={true}
 
@@ -403,16 +404,16 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
                     {errors && errors.cogsGL && touched && touched.cogsGL
                       ? errors.cogsGL.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
                 <div className="col-lg-3">
@@ -423,9 +424,9 @@ export default function FormCmp({
                       <Select
                         options={cogsGLDDL || []}
                         placeholder="Select Accroed COGS GL"
-                        value={values.accroedCogsGL || { value: "", label: "" }}
+                        value={values.accroedCogsGL || { value: '', label: '' }}
                         onChange={(valueOption) => {
-                          setFieldValue("accroedCogsGL", valueOption);
+                          setFieldValue('accroedCogsGL', valueOption);
                         }}
                         // isSearchable={true}
 
@@ -439,10 +440,10 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
@@ -451,7 +452,7 @@ export default function FormCmp({
                     touched &&
                     touched.accroedCogsGL
                       ? errors.accroedCogsGL.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
                 <div className="col-lg-3">
@@ -462,9 +463,9 @@ export default function FormCmp({
                       <Select
                         options={revenueGLDDL || []}
                         placeholder="Select Revenue GL"
-                        value={values.revenueGL || { value: "", label: "" }}
+                        value={values.revenueGL || { value: '', label: '' }}
                         onChange={(valueOption) => {
-                          setFieldValue("revenueGL", valueOption);
+                          setFieldValue('revenueGL', valueOption);
                         }}
                         // isSearchable={true}
 
@@ -478,22 +479,22 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
                     {errors && errors.revenueGL && touched && touched.revenueGL
                       ? errors.revenueGL.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
 
                 <div className="col-lg-3">
                   <Field
-                    value={values.lotSize || ""}
+                    value={values.lotSize || ''}
                     name="lotSize"
                     component={Input}
                     placeholder="lot Size"
@@ -503,7 +504,7 @@ export default function FormCmp({
                 </div>
                 <div className="col-lg-3">
                   <Field
-                    value={values.minOrderQuantity || ""}
+                    value={values.minOrderQuantity || ''}
                     name="minOrderQuantity"
                     component={Input}
                     placeholder="Minimum Order Qty."
@@ -513,7 +514,7 @@ export default function FormCmp({
                 </div>
                 <div className="col-lg-3">
                   <Field
-                    value={values.salesDescription || ""}
+                    value={values.salesDescription || ''}
                     name="salesDescription"
                     component={Input}
                     placeholder="Sales Description (Optional)"
@@ -523,7 +524,7 @@ export default function FormCmp({
                 </div>
                 <div className="col-lg-3">
                   <Field
-                    value={values.volume || ""}
+                    value={values.volume || ''}
                     name="volume"
                     component={Input}
                     placeholder="Volume(CFT)"
@@ -539,7 +540,7 @@ export default function FormCmp({
                     value={values?.vatItem}
                     label="VAT Item (optional)"
                     onChange={(valueOption) => {
-                      setFieldValue("vatItem", valueOption);
+                      setFieldValue('vatItem', valueOption);
                     }}
                     placeholder="VAT Item (optional)"
                     errors={errors}
@@ -564,16 +565,16 @@ export default function FormCmp({
                       <Select
                         options={distributionChannelDDL || []}
                         placeholder="Select Distribution Channel"
-                        value={values.distributionChannel || ""}
+                        value={values.distributionChannel || ''}
                         onChange={(valueOption) => {
                           setFieldValue(
-                            "distributionChannel",
-                            valueOption || ""
+                            'distributionChannel',
+                            valueOption || ''
                           );
                         }}
                         styles={createCustomSelectStyles({
                           isAutoHeight: true,
-                          minHeight: "30px"
+                          minHeight: '30px',
                         })}
                         name="distributionChannel"
                         isDisabled={!distributionChannelDDL}
@@ -585,10 +586,10 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
@@ -597,7 +598,7 @@ export default function FormCmp({
                     touched &&
                     touched.org
                       ? errors.distributionChannel
-                      : ""}
+                      : ''}
                   </p>
                 </div>
                 <div className="col-lg-3">
@@ -614,14 +615,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={saveBtnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

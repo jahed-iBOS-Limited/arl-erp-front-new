@@ -2,7 +2,6 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { imarineBaseUrl } from '../../../../../App';
 
-
 // get landing page data
 export const getBunkerCostLandingData = async (
   accId,
@@ -12,12 +11,12 @@ export const getBunkerCostLandingData = async (
   pageNo,
   pageSize,
   setter,
-  setLoading,
+  setLoading
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/BunkerCost/GetBunkerCostLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
+      `${imarineBaseUrl}/domain/BunkerCost/GetBunkerCostLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     setter(res?.data);
     setLoading(false);
@@ -32,12 +31,12 @@ export const GetBunkerCostById = async (
   setter,
   setBunkerPurchaseList,
   setConsumption,
-  setLoading,
+  setLoading
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/BunkerCost/GetBunkerCostById?CostId=${costId}`,
+      `${imarineBaseUrl}/domain/BunkerCost/GetBunkerCostById?CostId=${costId}`
     );
     const modifyList = res?.data?.objRow?.map((item) => ({
       ...item,

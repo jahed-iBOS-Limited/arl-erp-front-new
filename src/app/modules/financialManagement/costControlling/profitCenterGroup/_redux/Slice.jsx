@@ -1,23 +1,23 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
   error: '',
-  msg: "",
-  groupParentDDL:[],
+  msg: '',
+  groupParentDDL: [],
   gridData: [],
-  singleData: "",
+  singleData: '',
 };
 
 export const profitCenterGroupSlice = createSlice({
-  name: "profitCenterGroup",
+  name: 'profitCenterGroup',
   initialState: initState,
   reducers: {
     catchError: (state, action) => {
-      state.msg = { color: "error", msg: "Login Failed" };
+      state.msg = { color: 'error', msg: 'Login Failed' };
       state.isLoading = false;
     },
-    
+
     SetGroupParentDDL: (state, action) => {
       const { payload } = action;
       state.groupParentDDL = payload;
@@ -32,9 +32,8 @@ export const profitCenterGroupSlice = createSlice({
       const { payload } = action;
       state.singleData = payload;
     },
-    SetSingleStoreEmpty: state => {
-      state.singleData = "";
+    SetSingleStoreEmpty: (state) => {
+      state.singleData = '';
     },
-  }
+  },
 });
-

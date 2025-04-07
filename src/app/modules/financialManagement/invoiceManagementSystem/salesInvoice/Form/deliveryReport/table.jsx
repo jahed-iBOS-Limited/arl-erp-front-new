@@ -1,19 +1,19 @@
-import Axios from "axios";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICard from "../../../../../_helper/_card";
-import ISpinner from "../../../../../_helper/_spinner";
-import bluePill_logo from "./../../../../../_helper/images/bluePill_logo.png";
-import cement_log from "./../../../../../_helper/images/cement_logo.png";
-import "./style.css";
+import Axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICard from '../../../../../_helper/_card';
+import ISpinner from '../../../../../_helper/_spinner';
+import bluePill_logo from './../../../../../_helper/images/bluePill_logo.png';
+import cement_log from './../../../../../_helper/images/cement_logo.png';
+import './style.css';
 // import moment from "moment";
 // import { _dateFormatterTwo } from "../../../../../_helper/_dateFormate";
-import { useLocation } from "react-router";
-import { _currentTime } from "../../../../../_helper/_currentTime";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import BongTradersTable from "./bongTradersTable";
-import CommonTable from "./commonTable";
-import { getDeliveryChallanInfoById } from "../../../../../_helper/_commonApi";
+import { useLocation } from 'react-router';
+import { _currentTime } from '../../../../../_helper/_currentTime';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import BongTradersTable from './bongTradersTable';
+import CommonTable from './commonTable';
+import { getDeliveryChallanInfoById } from '../../../../../_helper/_commonApi';
 
 export default function DeliveryReport({ id }) {
   const [loading, setLoading] = React.useState(false);
@@ -30,11 +30,16 @@ export default function DeliveryReport({ id }) {
   );
   const [deliveryOrderReportData, setDeliveryOrderReporData] = useState([]);
 
-   useEffect(() => {
+  useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value && id) {
-      getDeliveryChallanInfoById({id,profileData,selectedBusinessUnit,setLoading,setDeliveryOrderReporData});
+      getDeliveryChallanInfoById({
+        id,
+        profileData,
+        selectedBusinessUnit,
+        setLoading,
+        setDeliveryOrderReporData,
+      });
     }
-
   }, [profileData, selectedBusinessUnit, id]);
   const {
     challanNo,
@@ -86,18 +91,20 @@ export default function DeliveryReport({ id }) {
         <div>
           <div
             style={
-              selectedBusinessUnit?.value === 186 ? { marginTop: "2rem" } : {}
+              selectedBusinessUnit?.value === 186 ? { marginTop: '2rem' } : {}
             }
-            className={`mx-auto print_wrapper delivery_challan_print_wrapper ${selectedBusinessUnit?.value ===
-              178 && "bongoTradersLtdChalanPrintMargin"}`}
+            className={`mx-auto print_wrapper delivery_challan_print_wrapper ${
+              selectedBusinessUnit?.value === 178 &&
+              'bongoTradersLtdChalanPrintMargin'
+            }`}
           >
             <div className="borderTop">
               <div className="text-center my-2 delivery_challan">
                 <h2>
-                  {" "}
+                  {' '}
                   {landingData?.status?.value === false
-                    ? "DELIVERY ORDER"
-                    : "DELIVERY CHALLAN"}
+                    ? 'DELIVERY ORDER'
+                    : 'DELIVERY CHALLAN'}
                 </h2>
                 <b className="display-5">{selectedBusinessUnit?.label}</b>
                 <br />
@@ -108,9 +115,9 @@ export default function DeliveryReport({ id }) {
                 {selectedBusinessUnit?.value === 186 && (
                   <img
                     style={{
-                      height: "80px",
-                      paddingLeft: "20px",
-                      paddingBottom: "10px",
+                      height: '80px',
+                      paddingLeft: '20px',
+                      paddingBottom: '10px',
                     }}
                     src={bluePill_logo}
                     alt="Blue Pill Logo"
@@ -155,14 +162,14 @@ export default function DeliveryReport({ id }) {
                 <table className="table delivery_challan_top_table mt-8">
                   <tbody>
                     <tr>
-                      <td style={{ width: "107px" }}>
+                      <td style={{ width: '107px' }}>
                         <b>Challan No</b>
                       </td>
                       <td>:</td>
                       <td>
                         <b>{challanNo}</b>
                       </td>
-                      <td style={{ width: "120px" }}>Delivery From</td>
+                      <td style={{ width: '120px' }}>Delivery From</td>
                       <td>:</td>
                       <td>{warehouseName}</td>
                     </tr>
@@ -170,15 +177,15 @@ export default function DeliveryReport({ id }) {
                       <td>Sold To Partner</td>
                       <td>:</td>
                       <td>{soldToPartner}</td>
-                      <td style={{ width: "120px" }}>ShipPoint</td>
+                      <td style={{ width: '120px' }}>ShipPoint</td>
                       <td>:</td>
                       <td>{shippointName}</td>
                     </tr>
                     <tr>
                       <td>Ship To Partner</td>
                       <td>:</td>
-                      <td>{shipToPartner}</td>{" "}
-                      <td style={{ width: "120px" }}>Delivery Order</td>
+                      <td>{shipToPartner}</td>{' '}
+                      <td style={{ width: '120px' }}>Delivery Order</td>
                       <td>:</td>
                       <td>{deliveryOrder}</td>
                     </tr>
@@ -221,7 +228,7 @@ export default function DeliveryReport({ id }) {
                     {(selectedBusinessUnit?.value === 171 ||
                       selectedBusinessUnit?.value === 224) && (
                       <>
-                        {" "}
+                        {' '}
                         <tr>
                           <td>Total Bundle</td>
                           <td>:</td>
@@ -236,7 +243,7 @@ export default function DeliveryReport({ id }) {
                           <td>{totalPieces}</td>
                           <td>Printed At</td>
                           <td>:</td>
-                          <td>{`${_todayDate()} ${" "} ${_currentTime()}`}</td>
+                          <td>{`${_todayDate()} ${' '} ${_currentTime()}`}</td>
                         </tr>
                       </>
                     )}
@@ -266,20 +273,20 @@ export default function DeliveryReport({ id }) {
 
               <div
                 className="d-flex justify-content-between"
-                style={{ margin: "80px 0 0" }}
+                style={{ margin: '80px 0 0' }}
               >
                 <div>
-                  <b style={{ borderTop: "1px solid", padding: "5px 0 0" }}>
+                  <b style={{ borderTop: '1px solid', padding: '5px 0 0' }}>
                     Officer
                   </b>
                 </div>
                 <div>
-                  <b style={{ borderTop: "1px solid", padding: "5px 0 0" }}>
+                  <b style={{ borderTop: '1px solid', padding: '5px 0 0' }}>
                     Driver's Signature
                   </b>
                 </div>
                 <div>
-                  <b style={{ borderTop: "1px solid", padding: "5px 0 0" }}>
+                  <b style={{ borderTop: '1px solid', padding: '5px 0 0' }}>
                     Receiver's Signature With Seal & Date
                   </b>
                 </div>

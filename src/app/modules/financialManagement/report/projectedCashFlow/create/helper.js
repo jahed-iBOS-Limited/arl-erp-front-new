@@ -1,61 +1,61 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import { _todayDate } from '../../../../_helper/_todayDate';
 // create page
 // init data
 export const initData = {
   // global
-  viewType: "import",
+  viewType: 'import',
 
   // common (import, income, payment)
-  poLC: "",
-  sbu: "", // customer received
-  bankName: "",
-  bankAccount: "",
-  paymentType: { value: "Duty", label: "Duty" },
-  amount: "",
-  paymentDate: "",
-  remarks: "",
+  poLC: '',
+  sbu: '', // customer received
+  bankName: '',
+  bankAccount: '',
+  paymentType: { value: 'Duty', label: 'Duty' },
+  amount: '',
+  paymentDate: '',
+  remarks: '',
 
   // margin & at sight payment
-  marginType: "",
+  marginType: '',
 
   // margin
-  beneficiary: "",
-  poValue: "",
+  beneficiary: '',
+  poValue: '',
 
   // at sight payment
-  lcType: "",
-  margin: "",
-  docValue: "",
-  exchangeRate: "",
+  lcType: '',
+  margin: '',
+  docValue: '',
+  exchangeRate: '',
 
   // payment & income
-  partnerType: "",
-  transaction: "",
-  dueDate: "",
+  partnerType: '',
+  transaction: '',
+  dueDate: '',
 
   // others (not exit on field)
-  businessPartner: "",
+  businessPartner: '',
 
   // customer received
-  month: "",
+  month: '',
 };
 
 export const generateSaveURL = (viewType) => {
-  if (!viewType) toast.warn("Select a view type");
+  if (!viewType) toast.warn('Select a view type');
   // generate url
   switch (viewType) {
-    case "income":
-    case "import":
-    case "payment":
-      return "/fino/FundManagement/SaveProjectedCashFlow?partName=SaveProjectedCashFlow";
-    case "customer received":
-      return "/fino/FundManagement/SaveCustomerPaymentReceived?partName=SaveCustomerPaymentReceived";
+    case 'income':
+    case 'import':
+    case 'payment':
+      return '/fino/FundManagement/SaveProjectedCashFlow?partName=SaveProjectedCashFlow';
+    case 'customer received':
+      return '/fino/FundManagement/SaveCustomerPaymentReceived?partName=SaveCustomerPaymentReceived';
     default:
-      return "";
+      return '';
   }
 };
 
@@ -80,31 +80,31 @@ export const fetchPOLCAndSetFormField = (obj) => {
       const responseData = {
         bankName: {
           value: desData?.bankId || 0,
-          label: desData?.bankName || "",
+          label: desData?.bankName || '',
         },
         bankAccount: {
           value: desData?.bankAccountId || 0,
-          label: desData?.bankAccountNo || "",
+          label: desData?.bankAccountNo || '',
         },
-        exchangeRate: desData?.exchangeRate || "",
+        exchangeRate: desData?.exchangeRate || '',
         poLC: {
           ...values?.poLC,
-          lcId: desData?.lcId || "",
+          lcId: desData?.lcId || '',
           lcMarginValue: desData?.lcMarginValue || 0,
           lcNumber: desData?.lcNo || 0,
           // poAmount: desData?.poValue || 0,
           poId: desData?.purchaseOrderId || 0,
-          poNumber: desData?.purchaseOrderNo || "",
-          label: desData?.purchaseOrderNo || "",
+          poNumber: desData?.purchaseOrderNo || '',
+          label: desData?.purchaseOrderNo || '',
           value: desData?.purchaseOrderId || 0,
         },
         lcType: {
-          label: desData?.lcTypeName || "",
+          label: desData?.lcTypeName || '',
           value: desData?.lcTypeId || 0,
         },
         margin: desData?.marginPercentage || 0,
         beneficiary: {
-          label: desData?.businessPartnerName || "",
+          label: desData?.businessPartnerName || '',
           value: desData?.businessPartnerId || 0,
         },
         poValue: desData?.poValue || 0,
@@ -159,9 +159,9 @@ export const generateSavePayloadAndURL = (obj) => {
   let payload = {};
 
   // customer received payload
-  if (viewType === "customer received") {
+  if (viewType === 'customer received') {
     return customerReceivedRowData;
-  } else if (viewType === "income" || viewType === "payment") {
+  } else if (viewType === 'income' || viewType === 'payment') {
     payload =
       // income, payment payload
       {
@@ -173,8 +173,8 @@ export const generateSavePayloadAndURL = (obj) => {
         bankAccountId: bankAccount?.value,
         bankAccountNo: bankAccount?.label,
         projectedAmount: +amount || 0,
-        remarks: remarks || "",
-        partnerType: partnerType?.label || "",
+        remarks: remarks || '',
+        partnerType: partnerType?.label || '',
         transactionId: transaction?.value || 0,
         transactionName: transaction?.label || 0,
         dueDate: dueDate,
@@ -200,7 +200,7 @@ export const generateSavePayloadAndURL = (obj) => {
         paymentType: paymentType?.value,
         paymentDate: paymentDate,
         projectedAmount: +amount || 0,
-        remarks: remarks || "",
+        remarks: remarks || '',
 
         // margin & at sight payment
         marginTypeId: marginType?.value,
@@ -217,12 +217,12 @@ export const generateSavePayloadAndURL = (obj) => {
         exchangeRate: +exchangeRate || 0,
 
         // payment & income
-        partnerType: partnerType?.label || "",
+        partnerType: partnerType?.label || '',
         transactionId: transaction?.value || 0,
         transactionName: transaction?.label || 0,
         dueDate: dueDate,
         businessPartnerId: beneficiary?.value || 0,
-        businessPartnerName: beneficiary?.label || "",
+        businessPartnerName: beneficiary?.label || '',
       };
   }
 
@@ -231,21 +231,21 @@ export const generateSavePayloadAndURL = (obj) => {
 
 // import payment type
 export const importPaymentType = [
-  { value: "Duty", label: "Duty" },
+  { value: 'Duty', label: 'Duty' },
   {
-    value: "At sight payment",
-    label: "At sight payment",
+    value: 'At sight payment',
+    label: 'At sight payment',
   },
   {
-    value: "Margin",
-    label: "Margin",
+    value: 'Margin',
+    label: 'Margin',
   },
 ];
 
 // margin type ddl
 export const marginTypeDDL = [
-  { value: 1, label: "Cash Margin" },
-  { value: 2, label: "Fdr Margin" },
+  { value: 1, label: 'Cash Margin' },
+  { value: 2, label: 'Fdr Margin' },
 ];
 
 // get po lc number
@@ -268,9 +268,11 @@ export const fetchTransactionList = (obj) => {
     .get(
       `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${
         profileData?.accountId
-      }&BusinessUnitId=${values?.sbu?.value ||
-        0}&Search=${v}&PartnerTypeName=${""}&RefferanceTypeId=${values
-        ?.partnerType?.reffPrtTypeId || 0}`
+      }&BusinessUnitId=${
+        values?.sbu?.value || 0
+      }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${
+        values?.partnerType?.reffPrtTypeId || 0
+      }`
     )
     .then((res) => {
       return res?.data;
@@ -318,17 +320,17 @@ export const generateGetPCFLandingDataURL = ({
   let customerReceivedParams = `partName=GetCustomerPaymentReceived&businessUnitId=${sbu?.value}&fromDate=${fromDate}&toDate=${toDate}`;
 
   switch (viewType) {
-    case "import": {
+    case 'import': {
       paymentIncomeImportParams += `&cashFlowType=Import`;
       if (paymentType !== undefined) {
         paymentIncomeImportParams += `&paymentType=${`${paymentType?.value}`}`;
       }
       break;
     }
-    case "payment":
+    case 'payment':
       paymentIncomeImportParams += `&cashFlowType=Payment`;
       break;
-    case "income":
+    case 'income':
       paymentIncomeImportParams += `&cashFlowType=Income`;
       break;
     default:
@@ -336,11 +338,11 @@ export const generateGetPCFLandingDataURL = ({
   }
 
   return `${
-    viewType !== "customer received"
+    viewType !== 'customer received'
       ? paymentIncomeImportBaseURL
       : customerReceivedBaseURL
   }?${
-    viewType !== "customer received"
+    viewType !== 'customer received'
       ? paymentIncomeImportParams
       : customerReceivedParams
   }`;
@@ -352,15 +354,15 @@ export const landingShowBtnValidation = ({
   createPageValues,
 }) => {
   if (!landingPageValues?.sbu) {
-    toast.warn("Please select sbu");
+    toast.warn('Please select sbu');
     return false;
   }
 
   if (
-    createPageValues?.viewType === "import" &&
+    createPageValues?.viewType === 'import' &&
     !landingPageValues?.paymentType
   ) {
-    toast.warn("Please select payment type");
+    toast.warn('Please select payment type');
     return false;
   }
 
@@ -391,105 +393,105 @@ export const fetchPCFLandingData = (obj) => {
     return true;
   } catch (e) {
     // Optionally handle error feedback
-    toast.error("Please try again later.");
+    toast.error('Please try again later.');
     return false;
   }
 };
 
 // import table header
 export const columnsForImportLanding = [
-  { header: "SL", render: (_i, index) => index + 1 },
-  { header: "Payment Type", key: "paymentType" },
-  { header: "Cash Flow Type", key: "cashFlowType" },
-  { header: "LC No", key: "lcNo" },
-  { header: "LC Type", key: "lcTypeName" },
-  { header: "PO No", key: "purchaseOrderNo" },
-  { header: "Bank Name", key: "bankName" },
-  { header: "Bank Acc No", key: "bankAccountNo" },
-  { header: "Business Partner Name", key: "businessPartnerName" },
+  { header: 'SL', render: (_i, index) => index + 1 },
+  { header: 'Payment Type', key: 'paymentType' },
+  { header: 'Cash Flow Type', key: 'cashFlowType' },
+  { header: 'LC No', key: 'lcNo' },
+  { header: 'LC Type', key: 'lcTypeName' },
+  { header: 'PO No', key: 'purchaseOrderNo' },
+  { header: 'Bank Name', key: 'bankName' },
+  { header: 'Bank Acc No', key: 'bankAccountNo' },
+  { header: 'Business Partner Name', key: 'businessPartnerName' },
   {
-    header: "Margin",
-    className: "text-right",
+    header: 'Margin',
+    className: 'text-right',
     render: (item) => _formatMoney(item.lcMarginPercentage),
   },
   {
-    header: "Exchange Rate",
-    className: "text-right",
+    header: 'Exchange Rate',
+    className: 'text-right',
     render: (item) => _formatMoney(item.exchangeRate),
   },
   {
-    header: "PO Amount",
-    className: "text-right",
+    header: 'PO Amount',
+    className: 'text-right',
     render: (item) => _formatMoney(item.purchaseOrderAmount),
   },
   {
-    header: "DOC Value",
-    className: "text-right",
+    header: 'DOC Value',
+    className: 'text-right',
     render: (item) => _formatMoney(item.docValue),
   },
   {
-    header: "Amount",
-    className: "text-right",
+    header: 'Amount',
+    className: 'text-right',
     render: (item) => _formatMoney(item.projectedAmount),
   },
   {
-    header: "Payment Date",
+    header: 'Payment Date',
     render: (item) => _dateFormatter(item.paymentDate),
   },
-  { header: "Action By", key: "actionByUserName" },
+  { header: 'Action By', key: 'actionByUserName' },
 ];
 
 // payment & income table header
 export const paymentAndIncomeLanding = [
-  { header: "SL", render: (_i, index) => index + 1 },
-  { header: "Cash Flow Type", key: "cashFlowType" },
-  { header: "Bank Name", key: "bankName" },
-  { header: "Bank Acc No", key: "bankAccountNo" },
-  { header: "Partner Type", key: "partnerType" },
-  { header: "Transaction Name", key: "transactionName" },
+  { header: 'SL', render: (_i, index) => index + 1 },
+  { header: 'Cash Flow Type', key: 'cashFlowType' },
+  { header: 'Bank Name', key: 'bankName' },
+  { header: 'Bank Acc No', key: 'bankAccountNo' },
+  { header: 'Partner Type', key: 'partnerType' },
+  { header: 'Transaction Name', key: 'transactionName' },
   {
-    header: "Amount",
-    className: "text-right",
+    header: 'Amount',
+    className: 'text-right',
     render: (item) => _formatMoney(item.projectedAmount),
   },
-  { header: "Due Date", render: (item) => _dateFormatter(item?.dueDate) },
-  { header: "Action By", key: "actionByUserName" },
+  { header: 'Due Date', render: (item) => _dateFormatter(item?.dueDate) },
+  { header: 'Action By', key: 'actionByUserName' },
 ];
 
 // customer received table header
 export const customerReceivedLanding = [
-  { header: "SL", render: (_i, index) => index + 1 },
+  { header: 'SL', render: (_i, index) => index + 1 },
   {
-    header: "Business Unit",
-    key: "businessUnitName",
+    header: 'Business Unit',
+    key: 'businessUnitName',
   },
   {
-    header: "Payment Date",
-    key: "paymentDate",
-    className: "text-center",
+    header: 'Payment Date',
+    key: 'paymentDate',
+    className: 'text-center',
     render: (item) => _dateFormatter(item.paymentDate),
   },
   {
-    header: "Amount",
-    key: "receivedAmount",
-    className: "text-right",
+    header: 'Amount',
+    key: 'receivedAmount',
+    className: 'text-right',
     render: (item) => _formatMoney(item.receivedAmount),
   },
   {
-    header: "Action By",
-    key: "actionByUserName",
+    header: 'Action By',
+    key: 'actionByUserName',
   },
 ];
 
 // choose table header
 export const chooseTableColumns = (viewType) => {
   switch (viewType) {
-    case "import":
+    case 'import':
       return columnsForImportLanding;
-    case "payment":
-    case "income":
+    case 'payment':
+    case 'income':
       return paymentAndIncomeLanding;
-    case "customer received":
+    case 'customer received':
       return customerReceivedLanding;
     default:
       return columnsForImportLanding;
@@ -498,8 +500,8 @@ export const chooseTableColumns = (viewType) => {
 
 // landing table init data
 export const landingInitData = {
-  sbu: "",
-  paymentType: { value: "Duty", label: "Duty" },
+  sbu: '',
+  paymentType: { value: 'Duty', label: 'Duty' },
   // fromDate: _monthFirstDate(),
   // toDate: _monthLastDate(),
   fromDate: _todayDate(), // temporary untill pagination
@@ -517,7 +519,7 @@ export const totalDaysOfMonth = (monthYear) => {
 
 // get month & year of selected month
 export const getMonthAndYear = (monthYear) => {
-  return monthYear.split("-").map(Number);
+  return monthYear.split('-').map(Number);
 };
 
 // handle customer received row data generate
@@ -540,7 +542,7 @@ export const generateCustomerReceivedRowData = (obj) => {
         receivedAmount: 0,
         actionBy: profileData?.userId,
         paymentDate: new Date(year, month - 1, index + 1).toLocaleDateString(),
-        remarks: "",
+        remarks: '',
       })
     );
 
@@ -551,4 +553,4 @@ export const generateCustomerReceivedRowData = (obj) => {
 };
 
 // all object for landing sbu
-export const allObjSBU = { value: 0, label: "All" };
+export const allObjSBU = { value: 0, label: 'All' };

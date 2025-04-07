@@ -1,28 +1,28 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import ICard from "../../../../_helper/_card";
-import { Formik, Form } from "formik";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import Loading from "../../../../_helper/_loading";
-import InputField from "../../../../_helper/_inputField";
-import GridTable from "./table";
-import NewSelect from "./../../../../_helper/_select";
-import { _dateFormatterTwo } from "./../../../../_helper/_dateFormate";
+import React, { useState, useRef, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import ICard from '../../../../_helper/_card';
+import { Formik, Form } from 'formik';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import Loading from '../../../../_helper/_loading';
+import InputField from '../../../../_helper/_inputField';
+import GridTable from './table';
+import NewSelect from './../../../../_helper/_select';
+import { _dateFormatterTwo } from './../../../../_helper/_dateFormate';
 
-import "./style.css";
+import './style.css';
 import {
   GetFartilizerSubsidy_api,
   GetFartilizerOutsideSubsidy_api,
   GetBusinessUnitName_api,
-} from "./../helper";
+} from './../helper';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  importersName: "",
+  importersName: '',
   internalType: {
     value: 1,
-    label: "Sales Center Wise Sales",
+    label: 'Sales Center Wise Sales',
   },
 };
 
@@ -47,8 +47,8 @@ export default function AllotmentSalesReport() {
 
   const printTopTitleFunc = (type) => {
     return type === 1
-      ? "Report of Fertilizers Under Govt. Subsidy"
-      : "Report of Fertilizers Managed Outside Govt. Subsidy";
+      ? 'Report of Fertilizers Under Govt. Subsidy'
+      : 'Report of Fertilizers Managed Outside Govt. Subsidy';
   };
   return (
     <Formik>
@@ -64,7 +64,7 @@ export default function AllotmentSalesReport() {
             <div className="mx-auto">
               <Formik
                 enableReinitialize={true}
-                initialValues={{ ...initData, importersName: curentBuid || "" }}
+                initialValues={{ ...initData, importersName: curentBuid || '' }}
               >
                 {({ values, errors, touched, setFieldValue }) => (
                   <>
@@ -78,7 +78,7 @@ export default function AllotmentSalesReport() {
                             label="Importer's Name"
                             onChange={(valueOption) => {
                               setRowDto([]);
-                              setFieldValue("importersName", valueOption);
+                              setFieldValue('importersName', valueOption);
                             }}
                             placeholder="Importer's Name"
                             errors={errors}
@@ -109,18 +109,18 @@ export default function AllotmentSalesReport() {
                             options={[
                               {
                                 value: 1,
-                                label: "Sales Center Wise Sales",
+                                label: 'Sales Center Wise Sales',
                               },
                               {
                                 value: 2,
-                                label: "Customer Wise Re-Sell",
+                                label: 'Customer Wise Re-Sell',
                               },
                             ]}
                             value={values?.internalType}
                             label="Internal Report"
                             onChange={(valueOption) => {
                               setRowDto([]);
-                              setFieldValue("internalType", valueOption);
+                              setFieldValue('internalType', valueOption);
                             }}
                             placeholder="Internal Report"
                             errors={errors}

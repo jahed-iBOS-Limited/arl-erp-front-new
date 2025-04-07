@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { toast } from 'react-toastify';
 
 export const getComponentDDL = async (accId, setter) => {
   try {
@@ -28,13 +28,13 @@ export const landingGridData = async (
 ) => {
   try {
     setLoading(true);
-    const searchPath = searchValue ? `search=${searchValue}&` : "";
+    const searchPath = searchValue ? `search=${searchValue}&` : '';
     const res = await Axios.get(
       `/tms/ShipmentStandardCost/ShipmentStandardCostReportLandingPasignation?${searchPath}accountid=${accId}&businessunitid=${buId}&fromdate=${fromDate}&todate=${toDate}&inoutstatus=${statusCode}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}&ShippointId=${shippointId}`
     );
     if (res?.status === 200) {
       if (res?.data?.length === 0) {
-        toast.warning("No data found", { toastId: "ndf" });
+        toast.warning('No data found', { toastId: 'ndf' });
       } else {
         setter(res?.data);
       }
@@ -55,10 +55,10 @@ export const getShipmentByID = async (shipmentId, setter, setRowDto) => {
       const newObj = {
         ...objHeader,
         shipmentDate: _dateFormatter(objHeader.shipmentDate),
-        daQuantity: "",
-        daAmount: "",
+        daQuantity: '',
+        daAmount: '',
         downTraip: false,
-        downTripAllowns: "",
+        downTripAllowns: '',
       };
       setter(newObj);
       const modify = res?.data?.objList?.map((itm) => ({

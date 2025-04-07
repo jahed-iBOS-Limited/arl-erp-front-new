@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import IViewModal from "../../../../_helper/_viewModal";
-import Amendtable from "../amendTable/Amendtable";
-import Latetable from "../lateTable/LateTable";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import moment from "moment";
+import React, { useState } from 'react';
+import IViewModal from '../../../../_helper/_viewModal';
+import Amendtable from '../amendTable/Amendtable';
+import Latetable from '../lateTable/LateTable';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import moment from 'moment';
 export default function ReturnSubmissionReport({
   parentValues,
   isLateReturn65,
@@ -44,7 +44,7 @@ export default function ReturnSubmissionReport({
             </td>
             <td>
               <div className="text-left pl-2">
-                <b> {moment(parentValues?.mushakDate).format("MMM-YY")}</b>
+                <b> {moment(parentValues?.mushakDate).format('MMM-YY')}</b>
               </div>
             </td>
           </tr>
@@ -62,14 +62,14 @@ export default function ReturnSubmissionReport({
               <div className="text-center">:</div>
             </td>
             <td>
-              <ul style={{ paddingLeft: "0" }}>
+              <ul style={{ paddingLeft: '0' }}>
                 <li className="d-flex justify-content-between">
                   <spn>A) Main/Original Return (Section 64)</spn>
                   <spn>
                     <input
                       type="checkbox"
                       checked
-                      style={{ position: "relative", top: "2px" }}
+                      style={{ position: 'relative', top: '2px' }}
                       disabled
                     />
                   </spn>
@@ -80,7 +80,7 @@ export default function ReturnSubmissionReport({
                     <input
                       checked={isLateReturn65}
                       type="checkbox"
-                      style={{ position: "relative", top: "2px" }}
+                      style={{ position: 'relative', top: '2px' }}
                       onClick={(e) => {
                         setLateReturn65(e.target.checked);
                         if (e.target.checked) {
@@ -96,7 +96,7 @@ export default function ReturnSubmissionReport({
                     <input
                       type="checkbox"
                       checked={isAmendReturn66}
-                      style={{ position: "relative", top: "2px" }}
+                      style={{ position: 'relative', top: '2px' }}
                       onClick={(e) => {
                         setAmendReturn66(e.target.checked);
                         if (e.target.checked) {
@@ -113,7 +113,7 @@ export default function ReturnSubmissionReport({
                   <spn>
                     <input
                       type="checkbox"
-                      style={{ position: "relative", top: "2px" }}
+                      style={{ position: 'relative', top: '2px' }}
                       disabled
                     />
                   </spn>
@@ -139,7 +139,7 @@ export default function ReturnSubmissionReport({
                   <input
                     type="checkbox"
                     checked
-                    style={{ position: "relative", top: "2px" }}
+                    style={{ position: 'relative', top: '2px' }}
                     disabled
                   />
                 </div>
@@ -147,7 +147,7 @@ export default function ReturnSubmissionReport({
                   <label className="pr-2">No</label>
                   <input
                     type="checkbox"
-                    style={{ position: "relative", top: "2px" }}
+                    style={{ position: 'relative', top: '2px' }}
                     disabled
                   />
                 </div>

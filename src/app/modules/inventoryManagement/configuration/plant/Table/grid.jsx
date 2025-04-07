@@ -1,7 +1,7 @@
-import React from "react";
-import { withRouter } from "react-router-dom";
-import IEdit from "./../../../../_helper/_helperIcons/_edit";
-import IExtend from "./../../../../_helper/_helperIcons/_extend";
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import IEdit from './../../../../_helper/_helperIcons/_edit';
+import IExtend from './../../../../_helper/_helperIcons/_extend';
 const GridData = ({ history, rowDto }) => {
   return (
     <>
@@ -12,11 +12,11 @@ const GridData = ({ history, rowDto }) => {
               <table className="table table-striped table-bordered global-table">
                 <thead>
                   <tr>
-                    <th style={{ width: "35px" }}>SL</th>
-                    <th style={{ width: "50px" }}>Plant</th>
-                    <th style={{ width: "50px" }}>Code</th>
-                    <th style={{ width: "35px" }}>Address</th>
-                    <th style={{ width: "20px" }}>Action </th>
+                    <th style={{ width: '35px' }}>SL</th>
+                    <th style={{ width: '50px' }}>Plant</th>
+                    <th style={{ width: '50px' }}>Code</th>
+                    <th style={{ width: '35px' }}>Address</th>
+                    <th style={{ width: '20px' }}>Action </th>
                   </tr>
                 </thead>
                 <tbody>

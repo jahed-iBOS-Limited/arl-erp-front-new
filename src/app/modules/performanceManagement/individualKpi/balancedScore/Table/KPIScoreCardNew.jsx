@@ -238,14 +238,14 @@ const KPIScoreCardNew = () => {
                           newData[index]?.numTarget === 0
                             ? 0
                             : newData[index]?.intMaxMin === 1
-                            ? (
-                                (newData[index]?.numAchivement * 100) /
-                                newData[index]?.numTarget
-                              ).toFixed(2)
-                            : (
-                                (newData[index]?.numTarget * 100) /
-                                newData[index]?.numAchivement
-                              ).toFixed(2)}
+                              ? (
+                                  (newData[index]?.numAchivement * 100) /
+                                  newData[index]?.numTarget
+                                ).toFixed(2)
+                              : (
+                                  (newData[index]?.numTarget * 100) /
+                                  newData[index]?.numAchivement
+                                ).toFixed(2)}
                           %{' '}
                           {newData[index]?.numAchivement !== 0 &&
                             newData[index]?.numTarget !== 0 && (

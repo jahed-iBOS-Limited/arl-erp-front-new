@@ -42,16 +42,15 @@ function OrderDetailsReportLanding() {
         selectedBusinessUnit?.value,
         values?.orderId,
         setLandingData,
-        setLoading,
+        setLoading
       );
     }
   };
 
   useEffect(() => {
     getIHBDDL(
-      `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${selectedBusinessUnit?.value}&TypeId=4&RefferencePKId=0&ShipPointId=0`,
+      `/wms/AssetTransection/GetLabelNValueForDDL?BusinessUnitId=${selectedBusinessUnit?.value}&TypeId=4&RefferencePKId=0&ShipPointId=0`
     );
-
   }, [selectedBusinessUnit]);
 
   return (

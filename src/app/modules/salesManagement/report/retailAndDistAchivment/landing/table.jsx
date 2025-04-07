@@ -1,19 +1,17 @@
-
-
-import React from "react";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import React from 'react';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
 
 export const NetToCompanyTable = ({ rowData }) => {
   return (
     <div
-      style={{ maxHeight: "500px" }}
+      style={{ maxHeight: '500px' }}
       className="scroll-table _table scroll-table-auto"
     >
       {rowData?.length > 0 && (
         <table
           id="table-to-xlsx"
           className={
-            "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+            'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
           }
         >
           <thead>
@@ -242,55 +240,60 @@ export const NetToCompanyTable = ({ rowData }) => {
 
 const RetailAndDistributorAchievementTable = ({ rowData, values }) => {
   const tHeader_1 = [
-    "SL",
-    "Enroll",
-    "Employee Name",
-    "Designation",
-    "Target Qty",
-    "Increase Qty",
-    "Achievement",
+    'SL',
+    'Enroll',
+    'Employee Name',
+    'Designation',
+    'Target Qty',
+    'Increase Qty',
+    'Achievement',
   ];
 
   const commonHeaders = [
-    "SL",
-    "Employee Name",
-    "Region",
-    "Area",
-    "Territory",
-    "Target Qty",
+    'SL',
+    'Employee Name',
+    'Region',
+    'Area',
+    'Territory',
+    'Target Qty',
   ];
 
-  const tHeader_2 = ["Zone","Delivery Qty", "Monthly Sales", "Monthly Achievement"];
+  const tHeader_2 = [
+    'Zone',
+    'Delivery Qty',
+    'Monthly Sales',
+    'Monthly Achievement',
+  ];
   const tHeader_3 = [
-    "Collection Amount",
-    "Total Revenue Target",
-    "Revenue Target 70 Percent",
+    'Collection Amount',
+    'Total Revenue Target',
+    'Revenue Target 70 Percent',
   ];
   const tHeader_4 = [
-    "Delivery Qty",
-    "Monthly Sales",
-    "Revenue Target 70 Percent",
-    "Allow BG",
-    "Mortgage Amount",
-    "Actual CL",
-    "Mortgage Vs Sales",
+    'Delivery Qty',
+    'Monthly Sales',
+    'Revenue Target 70 Percent',
+    'Allow BG',
+    'Mortgage Amount',
+    'Actual CL',
+    'Mortgage Vs Sales',
   ];
 
   const headers =
     values?.reportType?.value === 1
       ? tHeader_1
       : values?.reportType?.value === 2
-      ? [...commonHeaders, ...tHeader_2]
-      : values?.reportType?.value === 3
-      ? [...commonHeaders, ...tHeader_3]
-      : values?.reportType?.value === 4
-      ? [...commonHeaders, ...tHeader_4]
-      : [];
+        ? [...commonHeaders, ...tHeader_2]
+        : values?.reportType?.value === 3
+          ? [...commonHeaders, ...tHeader_3]
+          : values?.reportType?.value === 4
+            ? [...commonHeaders, ...tHeader_4]
+            : [];
 
   const getRows = (row, index) => {
     return values?.reportType?.value === 1 ? (
       <tr key={index}>
-        <td className="text-center" style={{ width: "40px" }}>
+        <td className="text-center" style={{ width: '40px' }}>
           {index + 1}
         </td>
         <td>{row?.enroll}</td>
@@ -302,7 +305,7 @@ const RetailAndDistributorAchievementTable = ({ rowData, values }) => {
       </tr>
     ) : (
       <tr key={index}>
-        <td className="text-center" style={{ width: "40px" }}>
+        <td className="text-center" style={{ width: '40px' }}>
           {index + 1}
         </td>
         <td>{row?.strEmployeeName}</td>
@@ -312,7 +315,7 @@ const RetailAndDistributorAchievementTable = ({ rowData, values }) => {
         <td className="text-right">
           {_fixedPoint(row?.numTargetQuantity, true, 0)}
         </td>
-        {[2]?.includes(values?.reportType?.value) ? (<td>{row?.nl8}</td>) : null}
+        {[2]?.includes(values?.reportType?.value) ? <td>{row?.nl8}</td> : null}
         {[2, 4]?.includes(values?.reportType?.value) && (
           <td className="text-right">
             {_fixedPoint(row?.QntOneMonth, true, 0)}
@@ -369,41 +372,41 @@ const RetailAndDistributorAchievementTable = ({ rowData, values }) => {
 
   const getTotalRow = () => {
     return values?.reportType?.value === 1 ? (
-      <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+      <tr style={{ textAlign: 'right', fontWeight: 'bold' }}>
         <td colSpan={4}>Total</td>
-        <td>{_fixedPoint(getTotal("targetQty"), true, 0)}</td>
-        <td>{_fixedPoint(getTotal("inCreaseQty"), true, 0)}</td>
-        <td>{_fixedPoint(getTotal("achievement"), true, 0)}</td>
+        <td>{_fixedPoint(getTotal('targetQty'), true, 0)}</td>
+        <td>{_fixedPoint(getTotal('inCreaseQty'), true, 0)}</td>
+        <td>{_fixedPoint(getTotal('achievement'), true, 0)}</td>
       </tr>
     ) : (
-      <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+      <tr style={{ textAlign: 'right', fontWeight: 'bold' }}>
         <td colSpan={5}>Total</td>
-        <td>{_fixedPoint(getTotal("numTargetQuantity"), true, 0)}</td>
+        <td>{_fixedPoint(getTotal('numTargetQuantity'), true, 0)}</td>
 
         {[2, 4]?.includes(values?.reportType?.value) && (
-          <td>{_fixedPoint(getTotal("QntOneMonth"), true, 0)}</td>
+          <td>{_fixedPoint(getTotal('QntOneMonth'), true, 0)}</td>
         )}
         {[2]?.includes(values?.reportType?.value) && (
           <>
-            <td>{_fixedPoint(getTotal("montsales"), true, 0)}</td>
-            <td>{_fixedPoint(getTotal("monAchv"), true, 0)}</td>
+            <td>{_fixedPoint(getTotal('montsales'), true, 0)}</td>
+            <td>{_fixedPoint(getTotal('monAchv'), true, 0)}</td>
           </>
         )}
         {[3]?.includes(values?.reportType?.value) && (
           <>
-            <td>{_fixedPoint(getTotal("monCollectionAmount"), true, 0)}</td>
-            <td>{_fixedPoint(getTotal("TotalvRevenueTarget"), true, 0)}</td>
-            <td>{_fixedPoint(getTotal("RevenueTarget70Percent"), true, 0)}</td>
+            <td>{_fixedPoint(getTotal('monCollectionAmount'), true, 0)}</td>
+            <td>{_fixedPoint(getTotal('TotalvRevenueTarget'), true, 0)}</td>
+            <td>{_fixedPoint(getTotal('RevenueTarget70Percent'), true, 0)}</td>
           </>
         )}
         {[4]?.includes(values?.reportType?.value) && (
           <>
-            <td>{_fixedPoint(getTotal("montsales"), true, 0)}</td>
-            <td>{_fixedPoint(getTotal("RevenueTarget70Percent"), true, 0)}</td>
-            <td>{_fixedPoint(getTotal("allowbg"), true, 0)}</td>
-            <td>{_fixedPoint(getTotal("decMortgageAmount"), true, 0)}</td>
-            <td>{_fixedPoint(getTotal("decActualCL"), true, 0)}</td>
-            <td>{_fixedPoint(getTotal("MortgageVsSales"), true, 0)}</td>
+            <td>{_fixedPoint(getTotal('montsales'), true, 0)}</td>
+            <td>{_fixedPoint(getTotal('RevenueTarget70Percent'), true, 0)}</td>
+            <td>{_fixedPoint(getTotal('allowbg'), true, 0)}</td>
+            <td>{_fixedPoint(getTotal('decMortgageAmount'), true, 0)}</td>
+            <td>{_fixedPoint(getTotal('decActualCL'), true, 0)}</td>
+            <td>{_fixedPoint(getTotal('MortgageVsSales'), true, 0)}</td>
           </>
         )}
       </tr>
@@ -417,7 +420,7 @@ const RetailAndDistributorAchievementTable = ({ rowData, values }) => {
           <table
             id="table-to-xlsx"
             className={
-              "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+              'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
             }
           >
             <thead>

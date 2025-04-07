@@ -1,20 +1,19 @@
-
-import { Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import ReceivePaymentInfoLandingForm from "./form";
-import ReceivePaymentInfoLandingTable from "./table";
+import { Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import ReceivePaymentInfoLandingForm from './form';
+import ReceivePaymentInfoLandingTable from './table';
 
 const initData = {
-  port: "",
-  motherVessel: "",
-  soldToPartner: "",
-  shipToPartner: "",
-  status: "",
+  port: '',
+  motherVessel: '',
+  soldToPartner: '',
+  shipToPartner: '',
+  status: '',
 };
 
 const ReceivePaymentInfoLanding = () => {

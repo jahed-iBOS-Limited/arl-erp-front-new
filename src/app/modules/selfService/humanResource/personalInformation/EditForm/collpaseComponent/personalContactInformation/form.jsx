@@ -83,7 +83,7 @@ export default function FormCmp({
       countryId,
       divisionId,
       districtId,
-      setPoliceStationDDL,
+      setPoliceStationDDL
     );
   };
 
@@ -97,12 +97,12 @@ export default function FormCmp({
       getDistrictDDL_api(
         initData?.country?.value,
         initData?.divison?.value,
-        setDistrictDDL,
+        setDistrictDDL
       );
       cityDistrictOnChangeHandler(
         initData?.country?.value,
         initData?.divison?.value,
-        initData?.district?.value,
+        initData?.district?.value
       );
     }
   }, [initData]);
@@ -185,7 +185,7 @@ export default function FormCmp({
                           onChange={(valueOption) => {
                             getDivisionDDL_api(
                               valueOption?.value,
-                              setDivisionDDLLocal,
+                              setDivisionDDLLocal
                             );
                             if (valueOption?.value !== 18) {
                               setFieldValue('divison', {
@@ -224,7 +224,7 @@ export default function FormCmp({
                                 getDistrictDDL_api(
                                   values?.country?.value,
                                   valueOption?.value,
-                                  setDistrictDDL,
+                                  setDistrictDDL
                                 );
                               }}
                               placeholder="State/Divison"
@@ -247,7 +247,7 @@ export default function FormCmp({
                                 cityDistrictOnChangeHandler(
                                   values?.country?.value,
                                   values?.divison?.value,
-                                  valueOption?.value,
+                                  valueOption?.value
                                 );
                               }}
                               placeholder="City/District"
@@ -323,7 +323,7 @@ export default function FormCmp({
                           onChange={(event) => {
                             setFieldValue(
                               'samePresentAddress',
-                              event.target.checked,
+                              event.target.checked
                             );
                           }}
                         />
@@ -345,7 +345,7 @@ export default function FormCmp({
                               setFieldValue('divison2', '');
                               getDivisionDDL_api(
                                 valueOption?.value,
-                                setDivisionDDLLocal,
+                                setDivisionDDLLocal
                               );
                             }}
                             placeholder="Country"
@@ -375,7 +375,7 @@ export default function FormCmp({
                                   getDistrictDDL_api(
                                     values?.country2?.value,
                                     valueOption?.value,
-                                    setDistrictDDL,
+                                    setDistrictDDL
                                   );
                                 }}
                                 placeholder="State/Divison"
@@ -398,7 +398,7 @@ export default function FormCmp({
                                   cityDistrictOnChangeHandler(
                                     values?.country2?.value,
                                     values?.divison2?.value,
-                                    valueOption?.value,
+                                    valueOption?.value
                                   );
                                 }}
                                 placeholder="City/District"

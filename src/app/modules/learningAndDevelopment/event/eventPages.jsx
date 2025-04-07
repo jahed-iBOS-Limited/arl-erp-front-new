@@ -1,12 +1,12 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import EventPlanningLanding from "./eventPlanning";
-import EventPlanningCreateEdit from "./eventPlanning/createEdit";
-import ViewEventDetails from "./eventPlanning/view";
-import Punch from "./eventPlanning/punch";
-import NotPermitted from "../../performanceManagement/notPermittedPage/notPermitted";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import EventPlanningLanding from './eventPlanning';
+import EventPlanningCreateEdit from './eventPlanning/createEdit';
+import ViewEventDetails from './eventPlanning/view';
+import Punch from './eventPlanning/punch';
+import NotPermitted from '../../performanceManagement/notPermittedPage/notPermitted';
 
 export function EventPages() {
   const userRole = useSelector(

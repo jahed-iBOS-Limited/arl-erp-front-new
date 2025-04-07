@@ -28,7 +28,7 @@ export default function InterCompanyLoan() {
 
   const getLandingData = (values, pageNo, pageSize, searchValue = '') => {
     getGridData(
-      `/fino/CommonFino/InterCompanyLoanLanding?businessUnitId=${selectedBusinessUnit?.value}&loanType=${values?.loanType?.type}&pageNo=${pageNo}&pageSize=${pageSize}`,
+      `/fino/CommonFino/InterCompanyLoanLanding?businessUnitId=${selectedBusinessUnit?.value}&loanType=${values?.loanType?.type}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
   };
 
@@ -71,7 +71,7 @@ export default function InterCompanyLoan() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        '/financial-management/banking/InterCompanyLoan/create',
+                        '/financial-management/banking/InterCompanyLoan/create'
                       );
                     }}
                   >

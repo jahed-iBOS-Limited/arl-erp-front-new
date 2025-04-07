@@ -1,58 +1,57 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import REBConsumptionForm from "./From";
-import { getMultipleBy } from "./helper";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import REBConsumptionForm from './From';
+import { getMultipleBy } from './helper';
 
 const initData = {
   date: _todayDate(),
-  shift: "",
-  rebConsumptionDDL: "",
-  previousPressure: "",
-  previousPressureTwo: "",
-  previousPressureThree: "",
-  previousPressureFour: "",
-  presentPressure: "",
-  presentPressureTwo: "",
-  presentPressureThree: "",
-  presentPressureFour: "",
-  totalConsumption: "",
-  totalConsumptionUnit: "",
-  tmReadingTime: "",
+  shift: '',
+  rebConsumptionDDL: '',
+  previousPressure: '',
+  previousPressureTwo: '',
+  previousPressureThree: '',
+  previousPressureFour: '',
+  presentPressure: '',
+  presentPressureTwo: '',
+  presentPressureThree: '',
+  presentPressureFour: '',
+  totalConsumption: '',
+  totalConsumptionUnit: '',
+  tmReadingTime: '',
 };
 
 const validationSchema = Yup.object().shape({
-  date: Yup.string().required("Date is required"),
+  date: Yup.string().required('Date is required'),
   shift: Yup.object()
     .shape({
-      label: Yup.string().required("Shift is required"),
-      value: Yup.string().required("Shift is required"),
+      label: Yup.string().required('Shift is required'),
+      value: Yup.string().required('Shift is required'),
     })
-    .typeError("Shift is required"),
+    .typeError('Shift is required'),
   rebConsumptionDDL: Yup.object()
     .shape({
-      label: Yup.string().required("REB Consumption Type Name is required"),
-      value: Yup.string().required("REB Consumption Type Name is required"),
+      label: Yup.string().required('REB Consumption Type Name is required'),
+      value: Yup.string().required('REB Consumption Type Name is required'),
     })
-    .typeError("Shift is required"),
+    .typeError('Shift is required'),
   presentPressure: Yup.string().required(
-    "Present KWH (Meter Reading) is required"
+    'Present KWH (Meter Reading) is required'
   ),
 });
 
 export default function REBConsumptionCreate() {
   const [isDisabled, setDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
-  const [modifyData, setModifyData] = useState("");
+  const [modifyData, setModifyData] = useState('');
   const [previousPressureData, getPreviousPressureData] = useAxiosGet();
   const [, saveData, saveDataLoader] = useAxiosPost();
   const params = useParams();
@@ -79,12 +78,12 @@ export default function REBConsumptionCreate() {
       },
       presentPressure: location?.state?.intEndKwh,
       previousPressure: location?.state?.intStartKwh,
-      presentPressureTwo: location?.state?.intEndKwhm2 || "",
-      previousPressureTwo: location?.state?.intStartKwhm2 || "",
-      presentPressureThree: location?.state?.intEndKwhm3 || "",
-      presentPressureFour: location?.state?.intEndKwhm4 || "",
-      previousPressureThree: location?.state?.intStartKwhm3 || "",
-      previousPressureFour: location?.state?.intStartKwhm4 || "",
+      presentPressureTwo: location?.state?.intEndKwhm2 || '',
+      previousPressureTwo: location?.state?.intStartKwhm2 || '',
+      presentPressureThree: location?.state?.intEndKwhm3 || '',
+      presentPressureFour: location?.state?.intEndKwhm4 || '',
+      previousPressureThree: location?.state?.intStartKwhm3 || '',
+      previousPressureFour: location?.state?.intStartKwhm4 || '',
       totalConsumption: location?.state?.intTotalRebconsumedUnitCal,
       totalConsumptionUnit: location?.state?.intMultiplyBy,
       tmReadingTime: location?.state?.tmReadingTime,
@@ -93,7 +92,7 @@ export default function REBConsumptionCreate() {
 
   const saveHandler = async (values, cb) => {
     if (values?.presentPressure < values?.previousPressure) {
-      return toast.warn("Present KWH can not less than Previous KWH");
+      return toast.warn('Present KWH can not less than Previous KWH');
     }
     if (values) {
       saveData(
@@ -118,8 +117,8 @@ export default function REBConsumptionCreate() {
           tmReadingTime:
             selectedBusinessUnit?.value === 171 ||
             selectedBusinessUnit?.value === 224
-              ? ""
-              : values?.tmReadingTime || "",
+              ? ''
+              : values?.tmReadingTime || '',
           intEndKwh: +values?.presentPressure,
           intEndKwhm2: +values?.presentPressureTwo || null,
           intEndKwhm3: +values?.presentPressureThree || null,
@@ -132,7 +131,7 @@ export default function REBConsumptionCreate() {
           intInsertBy: profileData?.userId,
           dteInsertDateTime: _todayDate(),
         },
-        params?.id ? "" : cb,
+        params?.id ? '' : cb,
         true
       );
     }
@@ -146,8 +145,8 @@ export default function REBConsumptionCreate() {
     <IForm
       title={
         params?.id
-          ? "Edit REB Consumption Entry Form"
-          : "REB Consumption Entry Form"
+          ? 'Edit REB Consumption Entry Form'
+          : 'REB Consumption Entry Form'
       }
       getProps={setObjprops}
       isDisabled={isDisabled}

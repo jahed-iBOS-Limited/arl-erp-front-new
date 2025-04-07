@@ -1,9 +1,9 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 //getCountryDDL_api
 export const getCountryDDL_api = async (setter) => {
   try {
-    const res = await Axios.get("/hcm/HCMDDL/GetCountryDDL");
+    const res = await Axios.get('/hcm/HCMDDL/GetCountryDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -57,7 +57,7 @@ export const getPoliceStationDDL_api = async (
 
 export const getPostCodeDDL_api = async (setter) => {
   try {
-    const res = await Axios.get("/hcm/HCMDDL/GetPostCodeDDL");
+    const res = await Axios.get('/hcm/HCMDDL/GetPostCodeDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -73,11 +73,11 @@ export const createEmployeeNomineeInfo_api = async (
   try {
     setDisabled(true);
     const res = await Axios.post(
-      "/hcm/EmployeeNomineeInfo/CreateEmployeeNomineeInfo",
+      '/hcm/EmployeeNomineeInfo/CreateEmployeeNomineeInfo',
       payload
     );
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted Successfully");
+      toast.success(res?.data?.message || 'Submitted Successfully');
       cb();
       setDisabled(false);
     }
@@ -89,7 +89,7 @@ export const createEmployeeNomineeInfo_api = async (
 
 export const getNationalityDDL = async (setter) => {
   try {
-    const res = await Axios.get("/hcm/HCMDDL/GetNationalityDDL");
+    const res = await Axios.get('/hcm/HCMDDL/GetNationalityDDL');
 
     if (res.status === 200 && res.data) {
       setter(res.data);
@@ -118,11 +118,11 @@ export const editEmployeeNomineeInfo_api = async (payload, cb, setDisabled) => {
   try {
     setDisabled(true);
     const res = await Axios.put(
-      "/hcm/EmployeeNomineeInfo/EditEmployeeNomineeInfo",
+      '/hcm/EmployeeNomineeInfo/EditEmployeeNomineeInfo',
       payload
     );
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted Successfully");
+      toast.success(res?.data?.message || 'Submitted Successfully');
       cb();
       setDisabled(false);
     }

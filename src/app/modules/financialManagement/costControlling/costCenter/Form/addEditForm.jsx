@@ -1,7 +1,6 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   getEmpDDLAction,
   saveControllingUnit,
@@ -11,23 +10,23 @@ import {
   getCostCenterTypeDDLAction,
   getCostCenterGroupDDLAction,
   getProfitCenterDDLAction,
-} from "../_redux/Actions";
-import Loading from "./../../../../_helper/_loading";
-import IForm from "../../../../_helper/_form";
+} from '../_redux/Actions';
+import Loading from './../../../../_helper/_loading';
+import IForm from '../../../../_helper/_form';
 import {
   getSbuDDLAction,
   getControllingUnitDDLAction,
-} from "../../../../_helper/_redux/Actions";
+} from '../../../../_helper/_redux/Actions';
 
 const initData = {
   id: undefined,
-  costCenterName: "",
-  costCenterCode: "",
-  responsiblePerson: "",
-  sbu: "",
-  cu: "",
-  ccGroupName: "",
-  profitCenter: "",
+  costCenterName: '',
+  costCenterCode: '',
+  responsiblePerson: '',
+  sbu: '',
+  cu: '',
+  ccGroupName: '',
+  profitCenter: '',
 };
 
 export default function CostCenterForm({
@@ -75,11 +74,12 @@ export default function CostCenterForm({
   const dispatch = useDispatch();
   useEffect(() => {
     if (id) {
-      dispatch(getCostCenterById(id, profileData.accountId,selectedBusinessUnit.value ));
+      dispatch(
+        getCostCenterById(id, profileData.accountId, selectedBusinessUnit.value)
+      );
     } else {
       dispatch(setControllingUnitSingleEmpty());
     }
-
   }, [id]);
 
   //Dispatch Get emplist action for get emplist ddl
@@ -89,7 +89,6 @@ export default function CostCenterForm({
         getEmpDDLAction(profileData.accountId, selectedBusinessUnit.value)
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
   //Dispatch Get emplist action for get emplist ddl
   useEffect(() => {
@@ -104,7 +103,6 @@ export default function CostCenterForm({
         )
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const CostCenterType = (CostControlUnitId) => {

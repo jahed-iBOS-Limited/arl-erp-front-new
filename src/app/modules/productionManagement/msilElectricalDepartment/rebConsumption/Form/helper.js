@@ -5,19 +5,19 @@ export const setTotalConsumptionUnit = (
   selectedBusinessUnit
 ) => {
   if ([144].includes(selectedBusinessUnit?.value)) {
-    setFieldValue("totalConsumptionUnit", "");
+    setFieldValue('totalConsumptionUnit', '');
   }
 
   if ([188, 189].includes(selectedBusinessUnit?.value)) {
     setFieldValue(
-      "totalConsumptionUnit",
+      'totalConsumptionUnit',
       (+fieldValue - +values?.previousPressure) * 264.59
     );
   }
 
   if ([188].includes(selectedBusinessUnit?.value)) {
     setFieldValue(
-      "totalConsumptionUnit",
+      'totalConsumptionUnit',
       (+fieldValue - +values?.previousPressure) * 1058.33
     );
   }
@@ -28,7 +28,7 @@ export const setTotalConsumptionUnit = (
       values?.rebConsumptionDDL?.value === 4)
   ) {
     setFieldValue(
-      "totalConsumptionUnit",
+      'totalConsumptionUnit',
       (+fieldValue +
         (+values?.presentPressureTwo || 0) -
         ((+values?.previousPressure || 0) +
@@ -42,7 +42,7 @@ export const setTotalConsumptionUnit = (
       values?.rebConsumptionDDL?.value === 6)
   ) {
     setFieldValue(
-      "totalConsumptionUnit",
+      'totalConsumptionUnit',
       (+fieldValue +
         (+values?.presentPressureTwo || 0) -
         ((+values?.previousPressure || 0) +
@@ -53,10 +53,10 @@ export const setTotalConsumptionUnit = (
 };
 
 export const setPreviousPressure = (setFieldValue, data) => {
-  setFieldValue("previousPressure", data?.intPreviousKwh || "");
-  setFieldValue("previousPressureTwo", data?.intPreviousKwhm2 || "");
-  setFieldValue("previousPressureThree", data?.intPreviousKwhm3 || "");
-  setFieldValue("previousPressureFour", data?.intPreviousKwhm4 || "");
+  setFieldValue('previousPressure', data?.intPreviousKwh || '');
+  setFieldValue('previousPressureTwo', data?.intPreviousKwhm2 || '');
+  setFieldValue('previousPressureThree', data?.intPreviousKwhm3 || '');
+  setFieldValue('previousPressureFour', data?.intPreviousKwhm4 || '');
 };
 
 export const getMultipleBy = (buId, typeId) => {

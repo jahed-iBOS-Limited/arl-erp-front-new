@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getCategoryDDLAction = async (setter) => {
   try {
@@ -32,10 +32,10 @@ export const strLandingActiveInactiveAction = async (
       `/pms/StrategicParticulars/EditStrategicParticularsActiveInactive`,
       payload
     );
-    toast.success(res?.data?.message || "Successfull");
+    toast.success(res?.data?.message || 'Successfull');
     setLoading(false);
     cb();
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Something went wrong");
+    toast.error(error?.response?.data?.message || 'Something went wrong');
   }
 };

@@ -1,26 +1,25 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   saveCompetencyAction,
   saveEditedCompetencyAction,
   getCompetencyIdAction,
   setCompetencyEmpty,
   getEmployeeClusterListAction,
-} from "../_redux/Actions";
-import { toast } from "react-toastify";
-import { isUniq } from "../../../_helper/uniqChecker";
-import IForm from "../../../_helper/_form";
+} from '../_redux/Actions';
+import { toast } from 'react-toastify';
+import { isUniq } from '../../../_helper/uniqChecker';
+import IForm from '../../../_helper/_form';
 
 const initData = {
   id: undefined,
-  competencyType: "",
-  competencyName: "",
-  competencyDefinition: "",
-  demonstratedBehaviour: "",
-  desiredValue: "",
-  isPositive: true
+  competencyType: '',
+  competencyName: '',
+  competencyDefinition: '',
+  demonstratedBehaviour: '',
+  desiredValue: '',
+  isPositive: true,
 };
 
 export default function CompetencyForm({
@@ -69,7 +68,6 @@ export default function CompetencyForm({
     } else {
       dispatch(setCompetencyEmpty());
     }
-
   }, [id]);
 
   useEffect(() => {
@@ -87,7 +85,10 @@ export default function CompetencyForm({
 
   useEffect(() => {
     if (singleData && id) {
-      let newData = singleData?.objDemo?.map(item => ({...item, isPositive : item?.isPositive}))
+      let newData = singleData?.objDemo?.map((item) => ({
+        ...item,
+        isPositive: item?.isPositive,
+      }));
       setRowDto(newData);
     } else {
       setRowDto([]);
@@ -100,7 +101,7 @@ export default function CompetencyForm({
       let data = empClusterList?.map((itm, index) => {
         return {
           ...itm,
-          desiredValue: "",
+          desiredValue: '',
         };
       });
       setRowDtoTwo([...data]);
@@ -112,7 +113,6 @@ export default function CompetencyForm({
     if (selectedBusinessUnit?.value && profileData?.accountId) {
       dispatch(getEmployeeClusterListAction());
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {
@@ -158,7 +158,7 @@ export default function CompetencyForm({
           objDemBehav: rowDto,
         };
         if (!rowDto.length) {
-          toast.warning("Demonstrated behaviour adds");
+          toast.warning('Demonstrated behaviour adds');
         } else {
           dispatch(saveCompetencyAction({ data: payload, cb }));
           setRowDtoTwo([]);
@@ -169,7 +169,6 @@ export default function CompetencyForm({
       }
     } else {
       setDisabled(false);
-
     }
   };
 
@@ -185,7 +184,7 @@ export default function CompetencyForm({
   };
   const setter = (values) => {
     if (
-      isUniq("demonstratedBehaviour", values?.demonstratedBehaviour, rowDto)
+      isUniq('demonstratedBehaviour', values?.demonstratedBehaviour, rowDto)
     ) {
       let obj = {
         demonstratedBehaviour: values?.demonstratedBehaviour,
@@ -204,7 +203,7 @@ export default function CompetencyForm({
 
   return (
     <IForm
-      title={id ? "EDIT COMPETENCY" : "CREATE COMPETENCY"}
+      title={id ? 'EDIT COMPETENCY' : 'CREATE COMPETENCY'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

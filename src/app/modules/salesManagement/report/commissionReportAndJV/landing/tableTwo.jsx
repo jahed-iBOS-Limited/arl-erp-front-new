@@ -1,17 +1,16 @@
-
-import React from "react";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import IButton from "../../../../_helper/iButton";
-import { cancelJV } from "../helper";
+import React from 'react';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import IButton from '../../../../_helper/iButton';
+import { cancelJV } from '../helper';
 
 const headers = [
-  "SL",
-  "Customer Name",
-  "Target Qty",
-  "Delivery Quantity",
-  "Achievement",
-  "Commission",
-  "Journal Code",
+  'SL',
+  'Customer Name',
+  'Target Qty',
+  'Delivery Quantity',
+  'Achievement',
+  'Commission',
+  'Journal Code',
 ];
 
 const CommissionReportAndJVTableTwo = ({ obj }) => {
@@ -26,9 +25,9 @@ const CommissionReportAndJVTableTwo = ({ obj }) => {
     <>
       {rowData?.length > 0 && (
         <>
-          {" "}
+          {' '}
           <IButton
-            className={"btn-danger"}
+            className={'btn-danger'}
             onClick={() => {
               cancelJV(
                 values?.type?.value,
@@ -42,7 +41,7 @@ const CommissionReportAndJVTableTwo = ({ obj }) => {
           </IButton>
           <table
             className={
-              "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+              'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
             }
           >
             <thead>
@@ -88,7 +87,7 @@ const CommissionReportAndJVTableTwo = ({ obj }) => {
                       onChange={() => {}}
                     />
                   </td> */}
-                    <td style={{ width: "40px" }} className="text-center">
+                    <td style={{ width: '40px' }} className="text-center">
                       {index + 1}
                     </td>
                     <td>{item?.customerName}</td>
@@ -97,7 +96,7 @@ const CommissionReportAndJVTableTwo = ({ obj }) => {
                     </td>
                     <td className="text-right">
                       {_fixedPoint(item?.deliveryQty, true, 4)}
-                    </td>{" "}
+                    </td>{' '}
                     <td className="text-right">
                       {_fixedPoint(item?.achievement, true)}
                     </td>
@@ -108,7 +107,7 @@ const CommissionReportAndJVTableTwo = ({ obj }) => {
                   </tr>
                 );
               })}
-              <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+              <tr style={{ textAlign: 'right', fontWeight: 'bold' }}>
                 <td colSpan={2} className="text-right">
                   Total
                 </td>

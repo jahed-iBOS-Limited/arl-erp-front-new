@@ -1,23 +1,23 @@
-import { Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { Form } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import ReactToPrint from "react-to-print";
-import ICustomCard from "../../../../../_helper/_customCard";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../../_helper/_formatMoney";
-import Loading from "../../../../../_helper/_loading";
-import NewSelect from "../../../../../_helper/_select";
-import IViewModal from "../../../../../_helper/_viewModal";
-import printIcon from "../../../../../_helper/images/print-icon.png";
-import { getReportHeaderInfo } from "../../../../../importManagement/reports/costSummary/helper";
+import { Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { Form } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ReactToPrint from 'react-to-print';
+import ICustomCard from '../../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../../_helper/_formatMoney';
+import Loading from '../../../../../_helper/_loading';
+import NewSelect from '../../../../../_helper/_select';
+import IViewModal from '../../../../../_helper/_viewModal';
+import printIcon from '../../../../../_helper/images/print-icon.png';
+import { getReportHeaderInfo } from '../../../../../importManagement/reports/costSummary/helper';
 import {
   getLCSummaryBasicInformation,
   getLCSummaryCostSummary,
   getShipmentListForLCSummaryReport,
-} from "../../../../../importManagement/reports/lcSummary/helper";
-import { PurchaseOrderViewTableRow } from "../../../../../procurement/purchase-management/purchaseOrder/report/tableRow";
+} from '../../../../../importManagement/reports/lcSummary/helper';
+import { PurchaseOrderViewTableRow } from '../../../../../procurement/purchase-management/purchaseOrder/report/tableRow';
 
 const LCSummaryDetails = ({ fundLimitDetails }) => {
   const [loader, setLoader] = useState(false);
@@ -26,14 +26,14 @@ const LCSummaryDetails = ({ fundLimitDetails }) => {
   const [costSummary, setCostSummary] = useState({});
   const [shipmentDDL, setShipmentDDL] = useState([]);
   // const [poLc, setPoLc] = useState({});
-  const [totalLandingCost, setTotalLandingCost] = useState("");
+  const [totalLandingCost, setTotalLandingCost] = useState('');
   const [isPrintable, setIsPrintable] = useState(false);
   const [headerInfo, setHeaderInfo] = useState([]);
   const [isShowModal, setIsShowModal] = useState(false);
   const history = useHistory();
 
   const initData = {
-    poLc: "",
+    poLc: '',
   };
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -83,8 +83,6 @@ const LCSummaryDetails = ({ fundLimitDetails }) => {
       selectedBusinessUnit?.value,
       setHeaderInfo
     );
-
-
   }, [selectedBusinessUnit, profileData]);
 
   const printRef = useRef();
@@ -103,7 +101,7 @@ const LCSummaryDetails = ({ fundLimitDetails }) => {
               trigger={() => (
                 <button className="btn btn-primary">
                   <img
-                    style={{ width: "25px", paddingRight: "5px" }}
+                    style={{ width: '25px', paddingRight: '5px' }}
                     src={printIcon}
                     alt="print-icon"
                   />
@@ -130,20 +128,20 @@ const LCSummaryDetails = ({ fundLimitDetails }) => {
                   <b>PO Number: </b>
                   <span
                     className="text-primary font-weight-bold cursor-pointer mr-2"
-                    style={{ textDecoration: "underline" }}
+                    style={{ textDecoration: 'underline' }}
                     onClick={() => {
                       setIsShowModal(true);
                     }}
                   >
                     {basicInformation?.poNumber
                       ? basicInformation?.poNumber
-                      : ""}
+                      : ''}
                   </span>
                 </div>
 
                 <div className="col-lg-6 pt-5 mt-2">
                   <b>{`LC Number: ${
-                    basicInformation?.lcNumber ? basicInformation?.lcNumber : ""
+                    basicInformation?.lcNumber ? basicInformation?.lcNumber : ''
                   }`}</b>
                 </div>
               </div>
@@ -168,7 +166,7 @@ const LCSummaryDetails = ({ fundLimitDetails }) => {
                             <td className="w-50">
                               {basicInformation?.supplierName
                                 ? basicInformation.supplierName
-                                : ""}
+                                : ''}
                             </td>
                           </tr>
                           <tr>
@@ -180,7 +178,7 @@ const LCSummaryDetails = ({ fundLimitDetails }) => {
                             <td>
                               {basicInformation?.lcNumber
                                 ? basicInformation?.lcNumber
-                                : ""}
+                                : ''}
                             </td>
                           </tr>
                           <tr>
@@ -208,7 +206,7 @@ const LCSummaryDetails = ({ fundLimitDetails }) => {
                             <td>
                               {basicInformation?.hsCode
                                 ? basicInformation.hsCode
-                                : ""}
+                                : ''}
                             </td>
                           </tr>
                           <tr>
@@ -262,7 +260,7 @@ const LCSummaryDetails = ({ fundLimitDetails }) => {
                             <td>
                               {basicInformation?.coverNoteNumber
                                 ? basicInformation.coverNoteNumber
-                                : ""}
+                                : ''}
                             </td>
                           </tr>
                           <tr>
@@ -297,10 +295,10 @@ const LCSummaryDetails = ({ fundLimitDetails }) => {
                                 options={shipmentDDL || []}
                                 value={values?.shipment}
                                 onChange={(valueOption) => {
-                                  setFieldValue("shipment", valueOption);
+                                  setFieldValue('shipment', valueOption);
                                   if (!valueOption) {
                                     setCostSummary({});
-                                    setTotalLandingCost("");
+                                    setTotalLandingCost('');
                                   } else {
                                     getLCSummaryCostSummary(
                                       profileData?.accountId,
@@ -324,27 +322,27 @@ const LCSummaryDetails = ({ fundLimitDetails }) => {
                               <span
                                 className="text-primary font-weight-bold cursor-pointer mr-2"
                                 style={{
-                                  textDecoration: "underline",
+                                  textDecoration: 'underline',
                                 }}
                                 onClick={() => {
                                   history.push({
                                     pathname: `/managementImport/transaction/shipment/view/${costSummary?.shipmentId}`,
                                     state: {
                                       ...costSummary,
-                                      checkbox: "shipmentInformation",
+                                      checkbox: 'shipmentInformation',
                                       ponumber: basicInformation?.poNumber
                                         ? basicInformation?.poNumber
-                                        : "",
+                                        : '',
                                       lcnumber: basicInformation?.lcNumber
                                         ? basicInformation?.lcNumber
-                                        : "",
+                                        : '',
                                     },
                                   });
                                 }}
                               >
                                 {costSummary?.blawbtrNo
                                   ? costSummary?.blawbtrNo
-                                  : ""}
+                                  : ''}
                               </span>
                             </td>
                           </tr>
@@ -435,7 +433,7 @@ const LCSummaryDetails = ({ fundLimitDetails }) => {
                             <td className="text-right">
                               <b>{_formatMoney(totalLandingCost)}</b>
                             </td>
-                          </tr>{" "}
+                          </tr>{' '}
                           {/* </>
                         ) : (
                           <>

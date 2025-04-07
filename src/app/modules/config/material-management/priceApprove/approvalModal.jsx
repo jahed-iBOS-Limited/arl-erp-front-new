@@ -1,11 +1,11 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import InputField from "../../../_helper/_inputField";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import InputField from '../../../_helper/_inputField';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 const initData = {};
 
 export default function ApprovalModal({
@@ -91,7 +91,7 @@ export default function ApprovalModal({
                               min="0"
                               onChange={(e) => {
                                 const cloneArr = [...cehckedItems];
-                                cloneArr[index]["price"] = e.target.value;
+                                cloneArr[index]['price'] = e.target.value;
                                 setCheckedItems([...cloneArr]);
                               }}
                             />
@@ -104,13 +104,13 @@ export default function ApprovalModal({
                               onChange={(e) => {
                                 if (e) {
                                   const cloneArr = [...cehckedItems];
-                                  cloneArr[index]["startDate"] = e.target.value;
-                                  cloneArr[index]["endDate"] = null;
+                                  cloneArr[index]['startDate'] = e.target.value;
+                                  cloneArr[index]['endDate'] = null;
                                   setCheckedItems([...cloneArr]);
                                 } else {
                                   const cloneArr = [...cehckedItems];
-                                  cloneArr[index]["startDate"] = null;
-                                  cloneArr[index]["endDate"] = null;
+                                  cloneArr[index]['startDate'] = null;
+                                  cloneArr[index]['endDate'] = null;
                                   setCheckedItems([...cloneArr]);
                                 }
                               }}
@@ -125,11 +125,11 @@ export default function ApprovalModal({
                               onChange={(e) => {
                                 if (e) {
                                   const cloneArr = [...cehckedItems];
-                                  cloneArr[index]["endDate"] = e.target.value;
+                                  cloneArr[index]['endDate'] = e.target.value;
                                   setCheckedItems([...cloneArr]);
                                 } else {
                                   const cloneArr = [...cehckedItems];
-                                  cloneArr[index]["endDate"] = null;
+                                  cloneArr[index]['endDate'] = null;
                                   setCheckedItems([...cloneArr]);
                                 }
                               }}
@@ -144,14 +144,14 @@ export default function ApprovalModal({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

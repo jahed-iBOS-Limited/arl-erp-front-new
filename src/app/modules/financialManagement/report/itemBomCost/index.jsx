@@ -1,17 +1,17 @@
-import { Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 const initData = {
   fromDate: _todayDate(),
@@ -27,7 +27,6 @@ function ItemBomCost() {
     getRowData(
       `/fino/Report/GetBOMCost?intUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, []);
   return (
     <>
@@ -41,7 +40,7 @@ function ItemBomCost() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Item BOM Cost"}>
+              <CardHeader title={'Item BOM Cost'}>
                 <CardHeaderToolbar>
                   {/* <button
                     onClick={() => {
@@ -92,48 +91,47 @@ function ItemBomCost() {
                 </div> */}
                 <div className="row mt-5">
                   <div className="col-lg-12">
-                  <div className="table-responsive">
-  <table className="table table-striped table-bordered bj-table bj-table-landing">
-                      <thead>
-                        <tr>
-                          <th>SL</th>
-                          <th>Item Code</th>
-                          <th>Item Name</th>
-                          <th>UoM</th>
-                          <th>Lot Size</th>
-                          <th>Material Cost</th>
-                          <th>Overhead Cost</th>
-                          <th>Total Cost</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {rowData?.length > 0 &&
-                          rowData?.map((item, index) => (
-                            <tr key={index}>
-                              <td>{index + 1}</td>
-                              <td className="text-center">
-                                {item?.strItemCode}
-                              </td>
-                              <td>{item?.strItemName}</td>
-                              <td>{item?.strBaseUomName}</td>
-                              <td className="text-center">
-                                {item?.numLotSize}
-                              </td>
-                              <td className="text-center">
-                                {_formatMoney(item?.numMaterialCost)}
-                              </td>
-                              <td className="text-center">
-                                {_formatMoney(item?.numOhCost)}
-                              </td>
-                              <td className="text-center">
-                                {_formatMoney(item?.numTotalCost)}
-                              </td>
-                            </tr>
-                          ))}
-                      </tbody>
-                    </table>
-</div>
-
+                    <div className="table-responsive">
+                      <table className="table table-striped table-bordered bj-table bj-table-landing">
+                        <thead>
+                          <tr>
+                            <th>SL</th>
+                            <th>Item Code</th>
+                            <th>Item Name</th>
+                            <th>UoM</th>
+                            <th>Lot Size</th>
+                            <th>Material Cost</th>
+                            <th>Overhead Cost</th>
+                            <th>Total Cost</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rowData?.length > 0 &&
+                            rowData?.map((item, index) => (
+                              <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td className="text-center">
+                                  {item?.strItemCode}
+                                </td>
+                                <td>{item?.strItemName}</td>
+                                <td>{item?.strBaseUomName}</td>
+                                <td className="text-center">
+                                  {item?.numLotSize}
+                                </td>
+                                <td className="text-center">
+                                  {_formatMoney(item?.numMaterialCost)}
+                                </td>
+                                <td className="text-center">
+                                  {_formatMoney(item?.numOhCost)}
+                                </td>
+                                <td className="text-center">
+                                  {_formatMoney(item?.numTotalCost)}
+                                </td>
+                              </tr>
+                            ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </CardBody>

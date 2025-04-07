@@ -22,12 +22,8 @@ export default function SendOtpToEmailModal({ objProps }) {
   // sending email for otp
   const [verifyOtpResponse, verifyOtp, verifyOtpLoading, ,] = useAxiosPost();
   // confirm salary disbursement
-  const [
-    ,
-    confirmSalaryDisbursement,
-    confirmSalaryDisbursementLoading,
-    ,
-  ] = useAxiosPost();
+  const [, confirmSalaryDisbursement, confirmSalaryDisbursementLoading, ,] =
+    useAxiosPost();
 
   // console.log(confirmSalaryDisbursementResponse);
 
@@ -44,7 +40,7 @@ export default function SendOtpToEmailModal({ objProps }) {
   // generate salary disbursement payload
   const generateSCBDisbursementPayload = (landingValues) => {
     const filterdData = adviceReportData?.filter((item) =>
-      Boolean(item?.checked),
+      Boolean(item?.checked)
     );
 
     const modifyData = filterdData.map((item) => {
@@ -106,7 +102,7 @@ export default function SendOtpToEmailModal({ objProps }) {
     profileData,
     selectedBusinessUnit,
     adviceReportData,
-    cb,
+    cb
   ) => {
     // generate scb disbursement payload
     const payload = generateSCBDisbursementPayload(landingValues);
@@ -138,7 +134,7 @@ export default function SendOtpToEmailModal({ objProps }) {
         },
         false,
         'Salary disbursement complement',
-        'Salary disbursement not complement',
+        'Salary disbursement not complement'
         // () => {
         //   setAdviceReportData([]);
         //   setSCBModalShow(false);
@@ -151,7 +147,7 @@ export default function SendOtpToEmailModal({ objProps }) {
 
   const totalAmount = useMemo(
     () => adviceReportData.reduce((acc, item) => acc + +item.numAmount, 0),
-    [adviceReportData],
+    [adviceReportData]
   );
 
   // console.log(adviceReportData?.filter((item) => Boolean(item?.checked)));
@@ -170,7 +166,7 @@ export default function SendOtpToEmailModal({ objProps }) {
       true,
       'OTP verified',
       'OTP not verified',
-      () => setVerified(false),
+      () => setVerified(false)
     );
   };
 
@@ -192,7 +188,7 @@ export default function SendOtpToEmailModal({ objProps }) {
           adviceReportData,
           () => {
             resetForm(initData);
-          },
+          }
         );
       }}
     >
@@ -287,8 +283,9 @@ export default function SendOtpToEmailModal({ objProps }) {
               {adviceReportData?.length > 0 && (
                 <div className="table-responsive">
                   <table
-                    className={`table table-bordered global-table mt-0 table-font-size-sm advice_table ${!verified &&
-                      'table-striped '}`}
+                    className={`table table-bordered global-table mt-0 table-font-size-sm advice_table ${
+                      !verified && 'table-striped '
+                    }`}
                   >
                     <thead className="bg-secondary">
                       <tr>

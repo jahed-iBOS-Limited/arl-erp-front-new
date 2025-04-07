@@ -1,37 +1,37 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import ICustomCard from "../../../../_helper/_customCard";
-import Table from "./table";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import IButton from "../../../../_helper/iButton";
-import { BankInfoTable } from "./bankInfoTable";
-import PaginationSearch from "../../../../_helper/_search";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import Axios from "axios";
-import FormikError from "../../../../_helper/_formikError";
-import IViewModal from "../../../../_helper/_viewModal";
-import SupplierAndShippingPointModal from "./supplierAndShippingPointModal";
-import SupplierAndShippingPointTable from "./supplierAndShippingPointTable";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import ICustomCard from '../../../../_helper/_customCard';
+import Table from './table';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import IButton from '../../../../_helper/iButton';
+import { BankInfoTable } from './bankInfoTable';
+import PaginationSearch from '../../../../_helper/_search';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import Axios from 'axios';
+import FormikError from '../../../../_helper/_formikError';
+import IViewModal from '../../../../_helper/_viewModal';
+import SupplierAndShippingPointModal from './supplierAndShippingPointModal';
+import SupplierAndShippingPointTable from './supplierAndShippingPointTable';
 
 const initData = {
-  shipPoint: "",
-  type: "",
+  shipPoint: '',
+  type: '',
   supplier: {
     value: 0,
-    label: "All",
+    label: 'All',
   },
 };
 
 const types = [
-  { value: 1, label: "Shipping Point Transport Zone" },
-  { value: 2, label: "Shipping Point Bank Configure" },
-  { value: 3, label: "Supplier & Shipping Point" },
+  { value: 1, label: 'Shipping Point Transport Zone' },
+  { value: 2, label: 'Shipping Point Bank Configure' },
+  { value: 3, label: 'Supplier & Shipping Point' },
 ];
 
 export default function ShippingPointTransportZoneLanding() {
@@ -40,10 +40,8 @@ export default function ShippingPointTransportZoneLanding() {
   // _____ pagination states _____
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
-  const [
-    supplierAndShippingPointModal,
-    setSupplierAndShippingPointModal,
-  ] = useState(false);
+  const [supplierAndShippingPointModal, setSupplierAndShippingPointModal] =
+    useState(false);
 
   // _____ general states _____
   const [rowData, getRowData, loader, setRowData] = useAxiosGet();
@@ -66,7 +64,6 @@ export default function ShippingPointTransportZoneLanding() {
     getShipPointDDL(
       `/wms/ShipPoint/GetShipPointDDL?accountId=${accId}&businessUnitId=${buId}`
     );
-
   }, [accId, buId]);
 
   //  ______ landing data getting functions _______
@@ -74,9 +71,9 @@ export default function ShippingPointTransportZoneLanding() {
     values,
     _pageNo = 0,
     _pageSize = 15,
-    searchTerm = ""
+    searchTerm = ''
   ) => {
-    const search = searchTerm ? `&searchTerm=${searchTerm}` : "";
+    const search = searchTerm ? `&searchTerm=${searchTerm}` : '';
 
     const typeOneURL = `/oms/POSDamageEntry/GetWareHouseZoneLandingPagination?accountId=${accId}&businessUnitId=${buId}&ShipPointId=${values?.shipPoint?.value}&PageNo=${_pageNo}&PageSize=${_pageSize}&viewOrder=Asc`;
 
@@ -85,8 +82,8 @@ export default function ShippingPointTransportZoneLanding() {
     const URL = [1].includes(values?.type?.value)
       ? typeOneURL
       : [2].includes(values?.type?.value)
-      ? typeTwoURL
-      : "";
+        ? typeTwoURL
+        : '';
 
     getRowData(URL);
   };
@@ -104,11 +101,11 @@ export default function ShippingPointTransportZoneLanding() {
   // ______ delete confirmation function ________
   const confirmToCancel = (id, values) => {
     let confirmObject = {
-      title: "Are you sure?",
-      message: "If you delete this, it can not be undone",
+      title: 'Are you sure?',
+      message: 'If you delete this, it can not be undone',
       yesAlertFunc: async () => {
         const cb = () => {
-          toast.success("Deleted Successfully");
+          toast.success('Deleted Successfully');
           landingData(values, pageNo, pageSize);
         };
         deleteRow(
@@ -127,7 +124,7 @@ export default function ShippingPointTransportZoneLanding() {
     values,
     _pageNo = 0,
     _pageSize = 15,
-    searchTerm = ""
+    searchTerm = ''
   ) => {
     const url = `/wms/ShipPointWarehouse/GetSupplierByShippointPagination?unitId=${buId}&supplierId=${values?.supplier?.value}&PageNo=${_pageNo}&PageSize=${_pageSize}`;
     getLandingSupplierByShippoint(url);
@@ -141,10 +138,10 @@ export default function ShippingPointTransportZoneLanding() {
     >
       {({ values, setFieldValue, errors, touched }) => (
         <ICustomCard
-          title={"Shipping Point Transport Zone"}
+          title={'Shipping Point Transport Zone'}
           createHandler={() => {
             if (!values?.type) {
-              toast.warning("Please select a type!");
+              toast.warning('Please select a type!');
             } else {
               if ([3].includes(values?.type?.value)) {
                 //Supplier And ShippingPoint Modal open
@@ -152,7 +149,7 @@ export default function ShippingPointTransportZoneLanding() {
               } else {
                 history.push({
                   pathname:
-                    "/transport-management/configuration/shippingpointtransportzone/create",
+                    '/transport-management/configuration/shippingpointtransportzone/create',
                   state: values,
                 });
               }
@@ -161,15 +158,15 @@ export default function ShippingPointTransportZoneLanding() {
         >
           {loading && <Loading />}
 
-          <div className='row global-form'>
-            <div className='col-lg-3'>
+          <div className="row global-form">
+            <div className="col-lg-3">
               <NewSelect
-                name='type'
+                name="type"
                 options={types}
                 value={values?.type}
-                label='Type'
+                label="Type"
                 onChange={(valueOption) => {
-                  setFieldValue("type", valueOption);
+                  setFieldValue('type', valueOption);
                   setRowData([]);
                   setLandingSupplierByShippoint([]);
                 }}
@@ -178,14 +175,14 @@ export default function ShippingPointTransportZoneLanding() {
               />
             </div>
             {[1].includes(values?.type?.value) && (
-              <div className='col-lg-3'>
+              <div className="col-lg-3">
                 <NewSelect
-                  name='shipPoint'
+                  name="shipPoint"
                   options={shipPointDDL || []}
                   value={values?.shipPoint}
-                  label='Ship Point'
+                  label="Ship Point"
                   onChange={(valueOption) => {
-                    setFieldValue("shipPoint", valueOption);
+                    setFieldValue('shipPoint', valueOption);
                     setRowData([]);
                   }}
                   errors={errors}
@@ -196,16 +193,16 @@ export default function ShippingPointTransportZoneLanding() {
 
             {[3].includes(values?.type?.value) && (
               <>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <label>Select Supplier</label>
                   <SearchAsyncSelect
                     selectedValue={values?.supplier}
                     handleChange={(valueOption) => {
-                      setFieldValue("supplier", valueOption);
+                      setFieldValue('supplier', valueOption);
                       setLandingSupplierByShippoint([]);
                     }}
                     loadOptions={async (v) => {
-                      if (v?.length < 3) return [{ value: 0, label: "All" }];
+                      if (v?.length < 3) return [{ value: 0, label: 'All' }];
                       return Axios.get(
                         `/wms/Delivery/GetSupplierByShipPointDDl?businessUnitId=${buId}&shippointId=${0}&searchTerm=${v}`
                       ).then((res) => {
@@ -213,24 +210,24 @@ export default function ShippingPointTransportZoneLanding() {
                         return [
                           {
                             value: 0,
-                            label: "All",
+                            label: 'All',
                           },
                           ...data,
                         ];
                       });
                     }}
-                    placeholder='Select Supplier'
+                    placeholder="Select Supplier"
                   />
                   <FormikError
                     errors={errors}
-                    name='supplier'
+                    name="supplier"
                     touched={touched}
                   />
                 </div>
               </>
             )}
             <IButton
-              colSize={"col"}
+              colSize={'col'}
               onClick={() => {
                 if ([3].includes(values?.type?.value)) {
                   commonSupplierByShippointGridDataFunc(
@@ -249,9 +246,9 @@ export default function ShippingPointTransportZoneLanding() {
             />
           </div>
           {[2].includes(values?.type?.value) && (
-            <div className='mt-5'>
+            <div className="mt-5">
               <PaginationSearch
-                placeholder='ShipPint Name'
+                placeholder="ShipPint Name"
                 paginationSearchHandler={searchHandler}
                 values={values}
               />
@@ -283,7 +280,7 @@ export default function ShippingPointTransportZoneLanding() {
               }}
             />
           ) : (
-            ""
+            ''
           )}
           {/* SupplierAndShippingPointTable */}
           {[3].includes(values?.type?.value) && (

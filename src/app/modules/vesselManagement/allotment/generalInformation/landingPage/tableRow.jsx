@@ -1,47 +1,47 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 // import IConfirmModal from "../../../../_helper/_confirmModal";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
 // import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { toast } from "react-toastify";
-import TextArea from "../../../../_helper/TextArea";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { getTotal } from "../../../common/helper";
-import { getMotherVesselDDL } from "../../tenderInformation/helper";
+import { toast } from 'react-toastify';
+import TextArea from '../../../../_helper/TextArea';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { getTotal } from '../../../common/helper';
+import { getMotherVesselDDL } from '../../tenderInformation/helper';
 import {
   GetDomesticPortDDL,
   GetLighterAllotmentPagination,
   GetTotalVsActualPagination,
   updateCNFInfo,
-} from "../helper";
-import CommissionRevenueCostTable from "./comRevCostTable";
-import GeneralInfoTable from "./generalInfoTable";
-import CNFTable from "./cnfTable";
-import AttachFile from "../../../../_helper/commonInputFieldsGroups/attachemntUpload";
-import TenderVsActualTable from "./tenderVsActualTable";
+} from '../helper';
+import CommissionRevenueCostTable from './comRevCostTable';
+import GeneralInfoTable from './generalInfoTable';
+import CNFTable from './cnfTable';
+import AttachFile from '../../../../_helper/commonInputFieldsGroups/attachemntUpload';
+import TenderVsActualTable from './tenderVsActualTable';
 
 const initData = {
-  status: "",
-  motherVessel: "",
-  loadingPort: "",
-  narration: "",
+  status: '',
+  motherVessel: '',
+  loadingPort: '',
+  narration: '',
   commissionRate: 0.15,
 };
 
 const statusDDL = [
-  { value: 1, label: "General Information" },
-  { value: 2, label: "Mother Vessel Commission" },
-  { value: 3, label: "Mother Vessel Revenue Generate" },
-  { value: 4, label: "Mother Vessel Cost Generate" },
-  { value: 5, label: "CNF Bill Configure" },
-  { value: 6, label: "Tender vs Actual Details" },
-  { value: 7, label: "Tender vs Actual Topsheet" },
+  { value: 1, label: 'General Information' },
+  { value: 2, label: 'Mother Vessel Commission' },
+  { value: 3, label: 'Mother Vessel Revenue Generate' },
+  { value: 4, label: 'Mother Vessel Cost Generate' },
+  { value: 5, label: 'CNF Bill Configure' },
+  { value: 6, label: 'Tender vs Actual Details' },
+  { value: 7, label: 'Tender vs Actual Topsheet' },
 ];
 
 export function LandingTableRow() {
@@ -76,16 +76,14 @@ export function LandingTableRow() {
         _pageNo,
         _pageSize
       );
-    }
-    else if (values?.status?.value === 6 || values?.status?.value === 7) {
+    } else if (values?.status?.value === 6 || values?.status?.value === 7) {
       GetTotalVsActualPagination(
         buId,
         values?.status?.value,
         setGridData,
         setLoading
       );
-    }
-    else if ([2, 3, 4, 5].includes(values?.status?.value)) {
+    } else if ([2, 3, 4, 5].includes(values?.status?.value)) {
       const statusId = values?.status?.value;
 
       const commissionURL = `/tms/LigterLoadUnload/PreDataForMotherVesselCommissionEntry?accountId=${accId}&businessUnitId=${buId}&motherVesselId=${values?.motherVessel?.value}`;
@@ -100,7 +98,7 @@ export function LandingTableRow() {
           ? revenueURL
           : [4, 5].includes(statusId)
             ? costURL
-            : "";
+            : '';
 
       getRowData(URL, (resData) => {
         const modifyData = resData?.map((item) => {
@@ -126,9 +124,9 @@ export function LandingTableRow() {
             // riverDueRate: "",
             lcRate: item?.lcrate,
             vatRate: item?.vatrate,
-            commission: "",
+            commission: '',
             others: item?.òthersAmount,
-            total: "",
+            total: '',
           };
         });
         setRowData(modifyData);
@@ -140,30 +138,29 @@ export function LandingTableRow() {
     setLandingData(pageNo, pageSize, initData);
     // getMotherVesselDDL(accId, buId, setMotherVesselDDL);
     GetDomesticPortDDL(setDomesticPortDDL);
-
   }, [accId, buId]);
 
   const commissionEntry = (values) => {
     const statusId = values?.status?.value;
     const selectedItems = rowData?.filter((item) => item?.isSelected);
     if (selectedItems?.length < 1) {
-      return toast.warn("Please select at least one row!");
+      return toast.warn('Please select at least one row!');
     }
     const billTypeId =
       statusId === 2 ? 23 : statusId === 3 ? 19 : statusId === 4 ? 24 : 0;
 
-    const totalBill = getTotal(rowData, "billAmount", "isSelected");
+    const totalBill = getTotal(rowData, 'billAmount', 'isSelected');
 
     const payload = {
       gtogHead: {
         billTypeId: billTypeId,
         accountId: accId,
         supplierId: 11841,
-        supplierName: "Bangladesh International Shipping Corporation",
+        supplierName: 'Bangladesh International Shipping Corporation',
         sbuId: 68,
         unitId: buId,
         unitName: buName,
-        billNo: "billNo",
+        billNo: 'billNo',
         billDate: _todayDate(),
         paymentDueDate: _todayDate(),
         narration: values?.narration,
@@ -179,13 +176,13 @@ export function LandingTableRow() {
           intSbuId: item?.sbuId,
           motherVesselId: item?.motherVesselId,
           actionby: userId,
-          narration: values?.narration || "",
-          challanNo: "",
+          narration: values?.narration || '',
+          challanNo: '',
           deliveryId: 0,
           quantity: item?.quantity,
           ammount: 1,
           billAmount: item?.billAmount || 0,
-          shipmentCode: "",
+          shipmentCode: '',
           lighterVesselId: 0,
           numFreightRateUSD: item?.freightRate || 0,
           numFreightRateBDT: item?.freightRateBDT || 0,
@@ -220,7 +217,7 @@ export function LandingTableRow() {
   const cnfInfoUpdate = (values) => {
     const selectedItems = rowData?.filter((item) => item?.isSelected);
     if (selectedItems?.length < 1) {
-      return toast.warn("Please select at least one row!");
+      return toast.warn('Please select at least one row!');
     }
     const payload = selectedItems?.map((item) => {
       const riverDueAmount = +item?.programQnt * +item?.riverDueRate;
@@ -275,7 +272,7 @@ export function LandingTableRow() {
   return (
     <>
       {/* Table Start */}
-      <Formik initialValues={initData} onSubmit={() => { }}>
+      <Formik initialValues={initData} onSubmit={() => {}}>
         {({ values, setFieldValue }) => (
           <>
             <form>
@@ -287,7 +284,7 @@ export function LandingTableRow() {
                     value={values?.status}
                     label="Mother Vessel Status"
                     onChange={(valueOption) => {
-                      setFieldValue("status", valueOption);
+                      setFieldValue('status', valueOption);
                       setGridData([]);
                       setRowData([]);
                     }}
@@ -301,8 +298,8 @@ export function LandingTableRow() {
                     value={values?.loadingPort}
                     label="Loading Port"
                     onChange={(valueOption) => {
-                      setFieldValue("loadingPort", valueOption);
-                      setFieldValue("motherVessel", "");
+                      setFieldValue('loadingPort', valueOption);
+                      setFieldValue('motherVessel', '');
                       getMotherVesselDDL(
                         accId,
                         buId,
@@ -316,11 +313,11 @@ export function LandingTableRow() {
                 <div className="col-lg-3">
                   <NewSelect
                     name="motherVessel"
-                    options={[{ value: 0, label: "All" }, ...motherVesselDDL]}
+                    options={[{ value: 0, label: 'All' }, ...motherVesselDDL]}
                     value={values?.motherVessel}
                     label="Mother Vessel"
                     onChange={(valueOption) => {
-                      setFieldValue("motherVessel", valueOption);
+                      setFieldValue('motherVessel', valueOption);
                     }}
                     placeholder="Mother Vessel"
                   />
@@ -382,9 +379,9 @@ export function LandingTableRow() {
                 <div className="row my-3">
                   <div className="col-lg-4">
                     <h4>
-                      Total Quantity:{" "}
+                      Total Quantity:{' '}
                       {_fixedPoint(
-                        getTotal(rowData, "quantity", "isSelected"),
+                        getTotal(rowData, 'quantity', 'isSelected'),
                         true,
                         0
                       )}
@@ -393,9 +390,9 @@ export function LandingTableRow() {
                   <div className="col-lg-4">
                     {[3, 4].includes(values?.status?.value) && (
                       <h4>
-                        Total Amount:{" "}
+                        Total Amount:{' '}
                         {_fixedPoint(
-                          getTotal(rowData, "billAmount", "isSelected"),
+                          getTotal(rowData, 'billAmount', 'isSelected'),
                           true
                         )}
                       </h4>
@@ -412,7 +409,7 @@ export function LandingTableRow() {
                       disabled={
                         !values?.narration ||
                         rowData?.filter((item) => item?.isSelected)?.length <
-                        1 ||
+                          1 ||
                         loader ||
                         loading
                       }
@@ -421,7 +418,7 @@ export function LandingTableRow() {
                     </button>
                   </div>
                 </div>
-              )}{" "}
+              )}{' '}
             {(loading || loader || isLoader) && <Loading />}
             <GeneralInfoTable
               gridData={gridData}
@@ -452,14 +449,9 @@ export function LandingTableRow() {
                 }}
               />
             )}
-
-            {
-              [6, 7].includes(values?.status?.value) && (
-                <TenderVsActualTable
-                  gridData={gridData}
-                />
-              )
-            }
+            {[6, 7].includes(values?.status?.value) && (
+              <TenderVsActualTable gridData={gridData} />
+            )}
             <AttachFile obj={{ open, setOpen, setUploadedImage }} />
           </>
         )}

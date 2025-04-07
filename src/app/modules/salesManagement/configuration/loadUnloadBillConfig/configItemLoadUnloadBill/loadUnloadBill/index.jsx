@@ -1,6 +1,6 @@
-import React from "react";
-import { UiProvider } from "../../../../../_helper/uiContextHelper";
-import { LoadUnloadBillConfigTable } from "./Table/tableHeader";
+import React from 'react';
+import { UiProvider } from '../../../../../_helper/uiContextHelper';
+import { LoadUnloadBillConfigTable } from './Table/tableHeader';
 
 function LoadUnloadBillConfigLanding({ history }) {
   const uIEvents = {

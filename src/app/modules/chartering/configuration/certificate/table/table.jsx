@@ -1,37 +1,34 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import IEdit from "../../../_chartinghelper/icons/_edit";
-import IView from "../../../_chartinghelper/icons/_view";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import PaginationSearch from "../../../_chartinghelper/_search";
-import { getCertificateDDL, getCertificateLanding } from "../helper";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import IEdit from '../../../_chartinghelper/icons/_edit';
+import IView from '../../../_chartinghelper/icons/_view';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import PaginationSearch from '../../../_chartinghelper/_search';
+import { getCertificateDDL, getCertificateLanding } from '../helper';
 
 const initData = {
-  certificateType: "",
+  certificateType: '',
 };
 
 const headers = [
-  { name: "SL" },
-  { name: "Certificate Type" },
-  { name: "Certificate Name" },
-  { name: "Action" },
+  { name: 'SL' },
+  { name: 'Certificate Type' },
+  { name: 'Certificate Name' },
+  { name: 'Action' },
 ];
 
 export default function CertificateNameTable() {
-
   const [pageNo, setPageNo] = React.useState(0);
 
   const [pageSize, setPageSize] = React.useState(15);
   const [loading, setLoading] = useState(false);
   const [rowData, setRowData] = useState([]);
   const history = useHistory();
-
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
@@ -53,7 +50,7 @@ export default function CertificateNameTable() {
   const getGridData = (values, PageNo, PageSize) => {
     getCertificateLanding(
       setRowData,
-      "CertificateLanding",
+      'CertificateLanding',
       {
         intAccountId: profileData?.accountId,
         intBusinessUnitId: selectedBusinessUnit?.value,
@@ -65,22 +62,22 @@ export default function CertificateNameTable() {
         //intVesselId: 0,
       },
       setLoading,
-      () => { }
+      () => {}
     );
   };
   useEffect(() => {
     getGridData();
-    getCertificateDDL(setCertificateTypeDDL, "CertificateTypeDDL", {
+    getCertificateDDL(setCertificateTypeDDL, 'CertificateTypeDDL', {
       intAccountId: profileData?.accountId,
       intBusinessUnitId: selectedBusinessUnit?.value,
       intCertificateTypeId: 0,
     });
   }, [profileData, selectedBusinessUnit]);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getCertificateLanding(
       setRowData,
-      "CertificateLanding",
+      'CertificateLanding',
       {
         intAccountId: profileData?.accountId,
         intBusinessUnitId: selectedBusinessUnit?.value,
@@ -92,7 +89,7 @@ export default function CertificateNameTable() {
         //intVesselId: 0,
       },
       setLoading,
-      () => { }
+      () => {}
     );
   };
   const paginationSearchHandler = (searchValue, values) => {
@@ -104,7 +101,7 @@ export default function CertificateNameTable() {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={(values) => { }}
+        onSubmit={(values) => {}}
       >
         {({
           handleSubmit,
@@ -123,10 +120,10 @@ export default function CertificateNameTable() {
                 <div>
                   <button
                     type="button"
-                    className={"btn btn-primary px-3 py-2"}
+                    className={'btn btn-primary px-3 py-2'}
                     onClick={() =>
                       history.push(
-                        "/chartering/configuration/certificate/create"
+                        '/chartering/configuration/certificate/create'
                       )
                     }
                   >
@@ -145,7 +142,7 @@ export default function CertificateNameTable() {
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.certificateType || ""}
+                      value={values?.certificateType || ''}
                       isSearchable={true}
                       options={certificateTypeDDL}
                       styles={customStyles}
@@ -153,7 +150,7 @@ export default function CertificateNameTable() {
                       placeholder="Certificate Type"
                       label="Certificate Type"
                       onChange={(valueOption) => {
-                        setFieldValue("certificateType", valueOption);
+                        setFieldValue('certificateType', valueOption);
                         getGridData({
                           ...values,
                           certificateType: valueOption,

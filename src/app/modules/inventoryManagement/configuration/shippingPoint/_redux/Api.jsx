@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 //Call GetTransportZoneDDL APi
 export function getWarehouseDDL(accId, buId) {
@@ -18,9 +18,8 @@ export function saveExtendData(data) {
 }
 
 //Call get grid data api
-export function getGridData(accId, buId, pageNo, pageSize,search) {
-
-const searchPath = search ? `searchTerm=${search}&` : "";
+export function getGridData(accId, buId, pageNo, pageSize, search) {
+  const searchPath = search ? `searchTerm=${search}&` : '';
 
   return axios.get(
     `/wms/ShipPoint/GetShipPointListSearchPagination?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`

@@ -1,35 +1,33 @@
-
-
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import InputField from "../../../../_helper/_inputField";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import InputField from '../../../../_helper/_inputField';
 import {
   getItemRequestGridData,
   getSBUDDL,
   getPlantDDL,
   getWarehouseDDL,
-} from "../helper";
-import customStyles from "../../../../selectCustomStyle";
-import ICustomCard from "../../../../_helper/_customCard";
-import { useHistory } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import NewSelect from "../../../../_helper/_select";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { setItemRequestPPRAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import IClose from "../../../../_helper/_helperIcons/_close";
-import IConfirmModal from "./../../../../_helper/_confirmModal";
-import { postItemReqCancelAction } from "../helper";
-import IViewModal from "../../../../_helper/_viewModal";
-import { ItemReqViewTableRow } from "../report/tableRow";
+} from '../helper';
+import customStyles from '../../../../selectCustomStyle';
+import ICustomCard from '../../../../_helper/_customCard';
+import { useHistory } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import PaginationSearch from '../../../../_helper/_search';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import NewSelect from '../../../../_helper/_select';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { setItemRequestPPRAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import IClose from '../../../../_helper/_helperIcons/_close';
+import IConfirmModal from './../../../../_helper/_confirmModal';
+import { postItemReqCancelAction } from '../helper';
+import IViewModal from '../../../../_helper/_viewModal';
+import { ItemReqViewTableRow } from '../report/tableRow';
 
 const statusData = [
-  { label: "Approved", value: true },
-  { label: "Pending", value: false },
+  { label: 'Approved', value: true },
+  { label: 'Pending', value: false },
 ];
 const validationSchema = Yup.object().shape({});
 
@@ -187,8 +185,8 @@ export function TableRow(props) {
         0,
         0,
         undefined,
-        "",
-        "",
+        '',
+        '',
         searchValue
       );
     }
@@ -196,7 +194,7 @@ export function TableRow(props) {
 
   const pushData = (values) => {
     history.push({
-      pathname: "/inventory-management/warehouse-management/item-request/add",
+      pathname: '/inventory-management/warehouse-management/item-request/add',
       state: values,
     });
     dispatch(setItemRequestPPRAction(values));
@@ -209,7 +207,7 @@ export function TableRow(props) {
   // approveSubmitlHandler btn submit handler
   const approveSubmitlHandler = (Ired) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to inactive this item req`,
       yesAlertFunc: () => {
         postItemReqCancelAction(Ired).then(() => cb());
@@ -220,7 +218,7 @@ export function TableRow(props) {
   };
 
   const [isShowModal, setIsShowModal] = useState(false);
-  const [currentRowData, setCurrentRowData] = useState("");
+  const [currentRowData, setCurrentRowData] = useState('');
 
   return (
     <>
@@ -235,7 +233,7 @@ export function TableRow(props) {
             {({ errors, touched, setFieldValue, isValid, values }) => (
               <>
                 <div
-                  style={{ transform: "translateY(-40px)" }}
+                  style={{ transform: 'translateY(-40px)' }}
                   className="text-right"
                 >
                   <button
@@ -254,7 +252,7 @@ export function TableRow(props) {
                 >
                   <div
                     className="row global-form"
-                    style={{ background: " #d6dadd" }}
+                    style={{ background: ' #d6dadd' }}
                   >
                     <div className="col-lg-12">
                       <div className="mt-5">
@@ -265,9 +263,9 @@ export function TableRow(props) {
                               name="privacyType"
                               checked={values?.privacyType === 2}
                               className="mr-1 pointer"
-                              style={{ position: "relative", top: "2px" }}
+                              style={{ position: 'relative', top: '2px' }}
                               onChange={(e) => {
-                                setFieldValue("privacyType", 2);
+                                setFieldValue('privacyType', 2);
                                 dispatch(setItemRequestPPRAction(values));
                                 setPageNo(0);
                                 setPageSize(20);
@@ -276,7 +274,7 @@ export function TableRow(props) {
                             Public
                           </label>
                         ) : (
-                          ""
+                          ''
                         )}
                         <label className="ml-3">
                           <input
@@ -284,9 +282,9 @@ export function TableRow(props) {
                             name="privacyType"
                             checked={values?.privacyType === 1}
                             className="mr-1 pointer"
-                            style={{ position: "relative", top: "2px" }}
+                            style={{ position: 'relative', top: '2px' }}
                             onChange={(valueOption) => {
-                              setFieldValue("privacyType", 1);
+                              setFieldValue('privacyType', 1);
                               dispatch(setItemRequestPPRAction(values));
                               setPageNo(0);
                               setPageSize(20);
@@ -303,7 +301,7 @@ export function TableRow(props) {
                         label="Select SBU"
                         value={values?.sbu}
                         onChange={(v) => {
-                          setFieldValue("sbu", v);
+                          setFieldValue('sbu', v);
                         }}
                         options={SBUDDL}
                         errors={errors}
@@ -319,13 +317,13 @@ export function TableRow(props) {
                         //value={values?.plant}
                         onChange={(v) => {
                           if (v) {
-                            setFieldValue("plant", v);
+                            setFieldValue('plant', v);
                             warehouseDLLFind(v.value);
-                            setFieldValue("wh", "");
+                            setFieldValue('wh', '');
                           } else {
-                            setFieldValue("plant", v);
+                            setFieldValue('plant', v);
                             // warehouseDLLFind(v.value);
-                            setFieldValue("wh", "");
+                            setFieldValue('wh', '');
                           }
                         }}
                         styles={customStyles}
@@ -341,7 +339,7 @@ export function TableRow(props) {
                         label="Select Warehouse"
                         value={values?.wh}
                         onChange={(v) => {
-                          setFieldValue("wh", v);
+                          setFieldValue('wh', v);
                         }}
                         styles={customStyles}
                         options={warehouse}
@@ -356,7 +354,7 @@ export function TableRow(props) {
                         value={values?.status}
                         label="Status"
                         onChange={(v) => {
-                          setFieldValue("status", v);
+                          setFieldValue('status', v);
                         }}
                         placeholder="Status"
                         errors={errors}
@@ -424,7 +422,7 @@ export function TableRow(props) {
                               return (
                                 <tr key={item?.sl}>
                                   <td
-                                    style={{ width: "30px" }}
+                                    style={{ width: '30px' }}
                                     className="text-center"
                                   >
                                     {item?.sl}
@@ -446,17 +444,17 @@ export function TableRow(props) {
                                   </td>
 
                                   <td
-                                    style={{ width: "80px" }}
+                                    style={{ width: '80px' }}
                                     className="text-center"
                                   >
                                     <div
                                       style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        justifyContent: "space-around",
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-around',
                                       }}
                                     >
-                                      {item.strApproved !== "Approved" &&
+                                      {item.strApproved !== 'Approved' &&
                                         !itemRequestPublic[0]?.isView && (
                                           <>
                                             <span
@@ -485,8 +483,8 @@ export function TableRow(props) {
                                       <IView
                                         classes={
                                           itemTableIndex === item?.itemRequestId
-                                            ? "text-primary"
-                                            : ""
+                                            ? 'text-primary'
+                                            : ''
                                         }
                                         clickHandler={(e) => {
                                           setCurrentRowData(item);
@@ -520,15 +518,7 @@ export function TableRow(props) {
                       setPageSize,
                     }}
                     rowsPerPageOptions={[
-                      5,
-                      10,
-                      20,
-                      50,
-                      100,
-                      200,
-                      300,
-                      400,
-                      500,
+                      5, 10, 20, 50, 100, 200, 300, 400, 500,
                     ]}
                   />
                 )}

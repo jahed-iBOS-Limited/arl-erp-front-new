@@ -1,13 +1,13 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import NewSelect from "../../../_helper/_select";
-import IForm from "./../../../_helper/_form";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import PowerBIReport from '../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import NewSelect from '../../../_helper/_select';
+import IForm from './../../../_helper/_form';
 const initData = {
-  partner: "",
-  shipPoint: "",
+  partner: '',
+  shipPoint: '',
 };
 export default function ShippingPointnTransportRate() {
   const [soldToPartnerDDL, getSoldToPartnerDDL] = useAxiosGet();
@@ -26,7 +26,6 @@ export default function ShippingPointnTransportRate() {
     getPermittedShipPoint(
       `/oms/ShipPoint/GetShipPointPermission?BusinessUnitId=${buId}&UserId=${userId}`
     );
-
   }, [accId, buId]);
 
   return (
@@ -52,7 +51,7 @@ export default function ShippingPointnTransportRate() {
                     value={values?.shipPoint}
                     label="Select ShipPoint"
                     onChange={(valueOption) => {
-                      setFieldValue("shipPoint", valueOption);
+                      setFieldValue('shipPoint', valueOption);
                       setShowReport(false);
                     }}
                     placeholder="Ship Point"
@@ -63,15 +62,15 @@ export default function ShippingPointnTransportRate() {
                 <div className="col-lg-3">
                   <NewSelect
                     name="partner"
-                    options={[{ value: 0, label: "All" }, ...soldToPartnerDDL]}
+                    options={[{ value: 0, label: 'All' }, ...soldToPartnerDDL]}
                     value={values?.partner}
                     label="Sold to Partner"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("partner", valueOption);
+                        setFieldValue('partner', valueOption);
                         setShowReport(false);
                       } else {
-                        setFieldValue("partner", "");
+                        setFieldValue('partner', '');
                         setShowReport(false);
                       }
                     }}
@@ -85,7 +84,7 @@ export default function ShippingPointnTransportRate() {
                     onClick={() => {
                       setShowReport(true);
                     }}
-                    style={{ marginTop: "18px" }}
+                    style={{ marginTop: '18px' }}
                     type="button"
                     disabled={!values?.shipPoint || !values?.partner}
                     class="btn btn-primary"
@@ -99,13 +98,13 @@ export default function ShippingPointnTransportRate() {
                   reportId={`ce54df06-aefd-469e-815f-1f701c8dc61b`}
                   groupId={`e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`}
                   parameterValues={[
-                    { name: "BusinessUnitId", value: `${buId}` },
+                    { name: 'BusinessUnitId', value: `${buId}` },
                     {
-                      name: "intShipPointId",
+                      name: 'intShipPointId',
                       value: `${values?.shipPoint?.value}`,
                     },
                     {
-                      name: "soldToPartnerId",
+                      name: 'soldToPartnerId',
                       value: `${values?.partner?.value}`,
                     },
                   ]}

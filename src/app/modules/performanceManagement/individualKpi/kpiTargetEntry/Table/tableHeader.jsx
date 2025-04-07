@@ -1,7 +1,7 @@
-import React from "react";
-import { ITable } from "../../../../_helper/_table";
-import { TableRow } from "./tableRow";
-import Help from "./../../../help/Help";
+import React from 'react';
+import { ITable } from '../../../../_helper/_table';
+import { TableRow } from './tableRow';
+import Help from './../../../help/Help';
 
 export function KpiTargetTable() {
   return (

@@ -1,22 +1,22 @@
-import { Formik } from "formik";
-import React, { useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICard from "../../../../_helper/_card";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { GetPartnerAllotmentLanding } from "../helper";
-import Form from "./form";
-import TableTwo from "./tableTwo";
-import TargetVsSalesChart from "./targetVsSalesChart";
-import TableOne from "./tableOne";
-import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
+import { Formik } from 'formik';
+import React, { useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICard from '../../../../_helper/_card';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { GetPartnerAllotmentLanding } from '../helper';
+import Form from './form';
+import TableTwo from './tableTwo';
+import TargetVsSalesChart from './targetVsSalesChart';
+import TableOne from './tableOne';
+import PowerBIReport from '../../../../_helper/commonInputFieldsGroups/PowerBIReport';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
   certainDate: _todayDate(),
-  reportType: { value: 1, label: "Customer Base" },
-  viewType: "",
+  reportType: { value: 1, label: 'Customer Base' },
+  viewType: '',
 };
 
 export default function OperationalSetUpBaseAchievement() {
@@ -73,7 +73,7 @@ export default function OperationalSetUpBaseAchievement() {
                   {rowDto?.length > 0 ? (
                     <div className="sta-scrollable-table scroll-table-auto">
                       <div
-                        style={{ maxHeight: "500px" }}
+                        style={{ maxHeight: '500px' }}
                         className="scroll-table _table scroll-table-auto"
                       >
                         {[2, 3, 4].includes(values?.reportType?.value) ? (
@@ -110,39 +110,39 @@ export default function OperationalSetUpBaseAchievement() {
                       groupId={`e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`}
                       parameterValues={[
                         {
-                          name: "intUnitId",
+                          name: 'intUnitId',
                           value: `${selectedBusinessUnit?.value || 0}`,
                         },
                         {
-                          name: "intPartid",
+                          name: 'intPartid',
                           value: `${values?.viewType?.value || 0}`,
                         },
                         {
-                          name: "intShipPointid",
+                          name: 'intShipPointid',
                           value: `${values?.shipPoint?.value || 0}`,
                         },
                         {
-                          name: "intChannelid",
+                          name: 'intChannelid',
                           value: `${values?.channel?.value || 0}`,
                         },
                         {
-                          name: "intRegionId",
+                          name: 'intRegionId',
                           value: `${values?.region?.value || 0}`,
                         },
                         {
-                          name: "intAreaid",
+                          name: 'intAreaid',
                           value: `${values?.area?.value || 0}`,
                         },
                         {
-                          name: "intTerritoryId",
+                          name: 'intTerritoryId',
                           value: `${values?.territory?.value || 0}`,
                         },
                         {
-                          name: "dteFromDate",
+                          name: 'dteFromDate',
                           value: values?.fromDate,
                         },
                         {
-                          name: "dteToDate",
+                          name: 'dteToDate',
                           value: values?.toDate,
                         },
                       ]}

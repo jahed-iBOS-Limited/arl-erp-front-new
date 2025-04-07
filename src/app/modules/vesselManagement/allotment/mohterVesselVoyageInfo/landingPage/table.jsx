@@ -1,48 +1,47 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   CardBody,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { Formik } from "formik";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import PaginationSearch from "../../../../_helper/_search";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import { deleteMotherVesselVoyageInfo } from "../helper";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
+} from '../../../../../../_metronic/_partials/controls';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { Formik } from 'formik';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import PaginationSearch from '../../../../_helper/_search';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import { deleteMotherVesselVoyageInfo } from '../helper';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { _monthFirstDate } from '../../../../_helper/_monthFirstDate';
 
 const initData = {
-  shipPoint: "",
+  shipPoint: '',
   fromDate: _monthFirstDate(),
   toDate: _todayDate(),
 };
 
 const headers = [
-  "SL",
-  "Voyage Code",
-  "Mother Vessel",
-  "LC No",
-  "BL Qty",
-  "ETA",
-  "Loading Port",
-  "Discharging Port",
-  "CNF",
-  "Steve Dore",
-  "Narration",
-  "Action",
+  'SL',
+  'Voyage Code',
+  'Mother Vessel',
+  'LC No',
+  'BL Qty',
+  'ETA',
+  'Loading Port',
+  'Discharging Port',
+  'CNF',
+  'Steve Dore',
+  'Narration',
+  'Action',
 ];
 
 const MotherVesselVoyageInformationTable = () => {
@@ -59,19 +58,19 @@ const MotherVesselVoyageInformationTable = () => {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const getData = (values, pageNo, pageSize, search) => {
-    const SearchTerm = search ? `SearchTerm=${search}&` : "";
+    const SearchTerm = search ? `SearchTerm=${search}&` : '';
     const url = `/tms/LigterLoadUnload/GetMotherVesselVoyageInfoPagination?${SearchTerm}AccountId=${accId}&BusinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&PageNo=${pageNo}&PageSize=${pageSize}`;
 
     getRowData(url);
   };
 
   useEffect(() => {
-    getData(initData, pageNo, pageSize, "");
+    getData(initData, pageNo, pageSize, '');
   }, [accId, buId]);
 
   // set PositionHandler
   const setPositionHandler = (pageNo, pageSize, values) => {
-    getData(values, pageNo, pageSize, "");
+    getData(values, pageNo, pageSize, '');
   };
 
   const paginationSearchHandler = (search, values) => {
@@ -80,11 +79,11 @@ const MotherVesselVoyageInformationTable = () => {
 
   const deleteHandler = (id, values) => {
     const objProps = {
-      title: "Are You Sure?",
-      message: "Are you sure you want to delete this voyage information?",
+      title: 'Are You Sure?',
+      message: 'Are you sure you want to delete this voyage information?',
       yesAlertFunc: () => {
         deleteMotherVesselVoyageInfo(id, setLoading, () => {
-          getData(values, pageNo, pageSize, "");
+          getData(values, pageNo, pageSize, '');
         });
       },
       noAlertFunc: () => {},
@@ -109,7 +108,7 @@ const MotherVesselVoyageInformationTable = () => {
                     <button
                       onClick={() => {
                         history.push(
-                          "/vessel-management/allotment/mothervesselvoyageinfo/entry"
+                          '/vessel-management/allotment/mothervesselvoyageinfo/entry'
                         );
                       }}
                       className="btn btn-primary ml-2"
@@ -155,7 +154,7 @@ const MotherVesselVoyageInformationTable = () => {
                     <table
                       id="table-to-xlsx"
                       className={
-                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                        'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                       }
                     >
                       <thead>
@@ -170,7 +169,7 @@ const MotherVesselVoyageInformationTable = () => {
                           return (
                             <tr key={index}>
                               <td
-                                style={{ width: "40px" }}
+                                style={{ width: '40px' }}
                                 className="text-center"
                               >
                                 {index + 1}
@@ -188,7 +187,7 @@ const MotherVesselVoyageInformationTable = () => {
                               <td>{item?.narration}</td>
 
                               <td
-                                style={{ width: "80px" }}
+                                style={{ width: '80px' }}
                                 className="text-center"
                               >
                                 {

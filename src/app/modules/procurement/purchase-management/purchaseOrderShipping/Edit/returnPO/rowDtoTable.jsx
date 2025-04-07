@@ -1,15 +1,14 @@
-
-import React, { useState } from "react";
-import IDelete from "../../../../../_helper/_helperIcons/_delete";
-import IView from "../../../../../_helper/_helperIcons/_view";
-import InputField from "../../../../../_helper/_inputField";
-import IViewModal from "../../../../../_helper/_viewModal";
-import ViewForm from "../../View/viewForm";
-import { updatePriceStructure } from "../../helper";
-import { toast } from "react-toastify";
-import { QuantityCheck } from "../../../../../_helper/_QuantityCheck";
-import { validateDigit } from "../../../../../_helper/validateDigit";
-import { IInput } from "../../../../../_helper/_input";
+import React, { useState } from 'react';
+import IDelete from '../../../../../_helper/_helperIcons/_delete';
+import IView from '../../../../../_helper/_helperIcons/_view';
+import InputField from '../../../../../_helper/_inputField';
+import IViewModal from '../../../../../_helper/_viewModal';
+import ViewForm from '../../View/viewForm';
+import { updatePriceStructure } from '../../helper';
+import { toast } from 'react-toastify';
+import { QuantityCheck } from '../../../../../_helper/_QuantityCheck';
+import { validateDigit } from '../../../../../_helper/validateDigit';
+import { IInput } from '../../../../../_helper/_input';
 
 const RowDtoTable = ({
   isWithoutRef,
@@ -21,7 +20,7 @@ const RowDtoTable = ({
   viewPage,
 }) => {
   const [isShowModal, setIsShowModal] = useState(false);
-  const [currentRowData, setCurrentRowData] = useState("");
+  const [currentRowData, setCurrentRowData] = useState('');
   const [currentIndex, setCurrentIndex] = useState(null);
 
   return (
@@ -33,11 +32,11 @@ const RowDtoTable = ({
               <thead>
                 <tr>
                   <th>SL</th>
-                  {isWithoutRef && <th style={{ width: "150px" }}>Ref No.</th>}
-                  <th style={{ width: "80px" }}>Item Code</th>
-                  <th style={{ width: "150px" }}>Item Name</th>
-                  <th style={{ width: "70px" }}>UoM</th>
-                  <th style={{ width: "150px" }}>Description</th>
+                  {isWithoutRef && <th style={{ width: '150px' }}>Ref No.</th>}
+                  <th style={{ width: '80px' }}>Item Code</th>
+                  <th style={{ width: '150px' }}>Item Name</th>
+                  <th style={{ width: '70px' }}>UoM</th>
+                  <th style={{ width: '150px' }}>Description</th>
                   <th>PO Qty</th>
                   <th>Received Qty</th>
                   <th className="po_custom_width">Previous Return Quantity</th>
@@ -55,7 +54,7 @@ const RowDtoTable = ({
                   <tr key={index}>
                     <td className="text-center align-middle"> {index + 1} </td>
                     {isWithoutRef && (
-                      <td className="">{item?.referenceNo?.label || "NA"}</td>
+                      <td className="">{item?.referenceNo?.label || 'NA'}</td>
                     )}
                     <td className="align-middle">{item?.item?.code}</td>
                     <td className="align-middle">{item?.item?.itemName}</td>
@@ -119,7 +118,7 @@ const RowDtoTable = ({
                             validNum = !item?.newItem ? item?.initOrderQty : 0;
                           }
 
-                          rowDtoHandler("orderQty", validNum, index);
+                          rowDtoHandler('orderQty', validNum, index);
                           // updatePriceStructure(
                           //   validNum,
                           //   item?.basicPrice,
@@ -141,7 +140,7 @@ const RowDtoTable = ({
                         onChange={(e) => {
                           let validNum = validateDigit(e.target.value);
 
-                          rowDtoHandler("basicPrice", validNum, index);
+                          rowDtoHandler('basicPrice', validNum, index);
                           // updatePriceStructure(
                           //   item?.orderQty,
                           //   validNum,
@@ -155,7 +154,7 @@ const RowDtoTable = ({
                     </td>
                     <td
                       className="text-center align-middle"
-                      style={{ width: "100px" }}
+                      style={{ width: '100px' }}
                     >
                       <IInput
                         value={rowDto[index]?.vat}
@@ -165,7 +164,7 @@ const RowDtoTable = ({
                         required
                         onChange={(e) => {
                           const validNum = validateDigit(e.target.value);
-                          rowDtoHandler("vat", validNum, index);
+                          rowDtoHandler('vat', validNum, index);
                         }}
                       />
                     </td>

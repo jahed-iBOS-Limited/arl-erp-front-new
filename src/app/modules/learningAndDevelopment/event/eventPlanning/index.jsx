@@ -1,14 +1,14 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IView from "../../../_helper/_helperIcons/_view";
-import PaginationTable from "../../../_helper/_tablePagination";
-import PaginationSearch from "../../../_helper/_search";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IView from '../../../_helper/_helperIcons/_view';
+import PaginationTable from '../../../_helper/_tablePagination';
+import PaginationSearch from '../../../_helper/_search';
 const initData = {};
 export default function EventPlanningLanding() {
   const [tableData, getTableData, tableDataLoader] = useAxiosGet();
@@ -17,7 +17,7 @@ export default function EventPlanningLanding() {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
 
-  const getData = (search = "") => {
+  const getData = (search = '') => {
     getTableData(
       `/hcm/Training/EventLanding?search=${search}&PageNo=${pageNo}&PageSize=${pageSize}`
     );
@@ -25,10 +25,9 @@ export default function EventPlanningLanding() {
 
   useEffect(() => {
     getData();
-
   }, []);
 
-  const setPositionHandler = (pageNo, pageSize, values, search = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, search = '') => {
     getTableData(
       `/hcm/Training/EventLanding?search=${search}&PageNo=${pageNo}&PageSize=${pageSize}`
     );

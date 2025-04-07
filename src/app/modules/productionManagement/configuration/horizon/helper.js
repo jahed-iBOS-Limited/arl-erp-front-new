@@ -1,16 +1,15 @@
-
-import axios from "axios";
-import { toast } from "react-toastify";
-import moment from "moment";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import moment from 'moment';
 
 export const createHorizon = async (postData) => {
   try {
     const res = await axios.post(`/mes/Horizon/CreateHorizon`, postData);
     if (res.status === 200) {
       if (res?.data?.statuscode === 401) {
-        toast.warn(res?.data?.message, { toastId: "rsf" });
+        toast.warn(res?.data?.message, { toastId: 'rsf' });
       } else {
-        toast.success(res?.data?.message, { toastId: "rsft" });
+        toast.success(res?.data?.message, { toastId: 'rsft' });
       }
     }
   } catch (error) {
@@ -34,7 +33,7 @@ export const getHorizonSearchData = async (
     setter(res?.data);
   } catch (error) {
     setter([]);
-    toast.error("Data not found");
+    toast.error('Data not found');
     //console.log(error.message);
   }
 };
@@ -110,8 +109,8 @@ export const getDaysInMonth = (months, year) => {
     yearsData.push({
       intSubHorizonId: data.intSubHorizonId,
       strPlanningHorizonName: data.strPlanningHorizonName,
-      dteEndDateTime: moment(dteEndDateTime).format("YYYY-MM-DD"),
-      dteStartDateTime: moment(dteStartDateTime).format("YYYY-MM-DD"),
+      dteEndDateTime: moment(dteEndDateTime).format('YYYY-MM-DD'),
+      dteStartDateTime: moment(dteStartDateTime).format('YYYY-MM-DD'),
     });
   });
   return yearsData;
@@ -136,9 +135,9 @@ export const getWeekInYear = (year) => {
 
     if (sDate && eDate) {
       dateArr.push({
-        dteStartDateTime: moment(sDate).format("YYYY-MM-DD"),
-        dteEndDateTime: moment(eDate).format("YYYY-MM-DD"),
-        strPlanningHorizonName: "Week" + " " + count,
+        dteStartDateTime: moment(sDate).format('YYYY-MM-DD'),
+        dteEndDateTime: moment(eDate).format('YYYY-MM-DD'),
+        strPlanningHorizonName: 'Week' + ' ' + count,
         intSubHorizonId: count,
       });
       sDate = undefined;

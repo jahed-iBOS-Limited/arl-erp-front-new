@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import {
   getGridData,
   getBeatApiDDL,
   getRouteNameDDL,
   getTerritotoryWithLevelByEmpDDL,
-} from "../helper";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
+} from '../helper';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
 
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import IView from '../../../../_helper/_helperIcons/_view';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
 
 export function TableRow() {
   const [gridData, setGridData] = useState([]);
@@ -26,11 +26,11 @@ export function TableRow() {
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
   const [territoryDDL, setTerritoryDDL] = useState([]);
-  const [territoryName, setTerritoryName] = useState("");
+  const [territoryName, setTerritoryName] = useState('');
   const [routeNameDDL, setRouteNameDDL] = useState([]);
-  const [routeName, setRrouteName] = useState("");
+  const [routeName, setRrouteName] = useState('');
   const [beatNameDDL, setBeatNameDDL] = useState([]);
-  const [beatName, setBeatName] = useState("");
+  const [beatName, setBeatName] = useState('');
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -51,7 +51,6 @@ export function TableRow() {
         setTerritoryDDL
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   //setPositionHandler
@@ -76,7 +75,7 @@ export function TableRow() {
           <button
             onClick={() =>
               history.push({
-                pathname: "/rtm-management/configuration/outletProfile/create",
+                pathname: '/rtm-management/configuration/outletProfile/create',
                 state: {
                   territoryName: territoryName,
                   routeName: routeName,
@@ -139,7 +138,7 @@ export function TableRow() {
               placeholder="Market"
             />
           </div>
-          <div className="col-lg-1" style={{ marginTop: "17px" }}>
+          <div className="col-lg-1" style={{ marginTop: '17px' }}>
             <button
               className="btn btn-primary"
               type="button"
@@ -182,7 +181,7 @@ export function TableRow() {
                   <tr>
                     <td className="text-center">{item?.sl}</td>
                     <td>
-                      <div style={{ textAlign: "left" }} className="pl-2">
+                      <div style={{ textAlign: 'left' }} className="pl-2">
                         {item?.outletName}
                       </div>
                     </td>

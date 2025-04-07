@@ -1,10 +1,7 @@
-import Axios from "axios";
+import Axios from 'axios';
 
 // getItemBasicinfoAction
-export const getItemBasicinfoAction = async (
-  itmId,
-  setter
-) => {
+export const getItemBasicinfoAction = async (itmId, setter) => {
   try {
     const res = await Axios.get(
       `/item/ItemBasic/GetItemBasicByItemId?Itemid=${itmId}`
@@ -12,7 +9,5 @@ export const getItemBasicinfoAction = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };

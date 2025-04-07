@@ -117,7 +117,7 @@ export default function FormCmp({
                           setFieldValue('bank', valueOption);
                           getBankBranchDDL_api(
                             valueOption?.value,
-                            setBranchList,
+                            setBranchList
                           );
                         }}
                         placeholder="Bank Name"

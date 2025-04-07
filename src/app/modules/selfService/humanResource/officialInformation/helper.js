@@ -5,7 +5,7 @@ import { APIUrl } from '../../../../../App';
 export const getCostCenterDDL = async (accId, buId, sbuId, setter) => {
   try {
     const res = await axios.get(
-      `/costmgmt/CostCenter/GetCostCenterDDL?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${sbuId}`,
+      `/costmgmt/CostCenter/GetCostCenterDDL?AccountId=${accId}&BusinessUnitId=${buId}&SBUId=${sbuId}`
     );
 
     if (res.status === 200 && res.data) {
@@ -27,7 +27,7 @@ export const getBusinessUnitDDL = async (setter) => {
 export const getSBUDDL = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
-      `/hcm/HCMDDL/GetSBUDDL?AccountId=${accId}&BusineessUnitId=${buId}`,
+      `/hcm/HCMDDL/GetSBUDDL?AccountId=${accId}&BusineessUnitId=${buId}`
     );
 
     if (res.status === 200 && res.data) {
@@ -108,7 +108,7 @@ export const getEmpStatusDDL = async (setter) => {
 export const getLineManagerDDL = async (accId, setter) => {
   try {
     const res = await axios.get(
-      `/hcm/HCMDDL/GetLineManagerDDL?AccountId=${accId}`,
+      `/hcm/HCMDDL/GetLineManagerDDL?AccountId=${accId}`
     );
 
     if (res.status === 200 && res.data) {
@@ -122,7 +122,7 @@ export const createEmpBasicInformation_api = async (data, cb) => {
   try {
     const res = await axios.post(
       `/hcm/EmployeeBasicInformation/CreateEmployeeBasicInformation`,
-      data,
+      data
     );
     if (res.status === 200) {
       toast.success(res?.message || 'Submitted successfully');
@@ -141,7 +141,7 @@ export const employeeBasicInformation_landing_api = async (
   setLoading,
   pageNo,
   pageSize,
-  search,
+  search
 ) => {
   setLoading(true);
   const searchPath = search ? `${search}&` : '';
@@ -151,7 +151,7 @@ export const employeeBasicInformation_landing_api = async (
     //   `/hcm/EmployeeBasicInformation/EmployeeBasicInfoLandingPasignation?${searchPath}Accountid=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     // )
     const res = await axios.get(
-      `/hcm/EmployeeBasicInformation/EmployeeBasicInfoLandingPasignation?searcTerm=${searchPath}&Accountid=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
+      `/hcm/EmployeeBasicInformation/EmployeeBasicInfoLandingPasignation?searcTerm=${searchPath}&Accountid=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
 
     if (res.status === 200 && res.data) {
@@ -187,7 +187,7 @@ export const empAttachment_action = async (attachment, cb) => {
 export const getImageFile_api = async (id) => {
   try {
     const res = await axios.get(
-      `${APIUrl}/domain/Document/DownlloadFile?id=${id}`,
+      `${APIUrl}/domain/Document/DownlloadFile?id=${id}`
     );
 
     if (res.status === 200 && res.data) {

@@ -1,17 +1,16 @@
-
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import Form from "../common/form";
-import Axios from "axios";
-import shortid from "shortid";
-import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
+} from '../../../../../../_metronic/_partials/controls';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import Form from '../common/form';
+import Axios from 'axios';
+import shortid from 'shortid';
+import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 
 export default function SbuEditForm({
   history,
@@ -20,7 +19,7 @@ export default function SbuEditForm({
   },
 }) {
   const [isDisabled, setDisabled] = useState(false);
-  const [warehouseData, setData] = useState("");
+  const [warehouseData, setData] = useState('');
   const selectedBusinessUnit = useSelector(
     (state) => state.authData.selectedBusinessUnit
   );
@@ -58,9 +57,9 @@ export default function SbuEditForm({
     };
 
     try {
-      const res = await Axios.put("/costmgmt/SBU/EditSBU", warehouseData);
+      const res = await Axios.put('/costmgmt/SBU/EditSBU', warehouseData);
       cb();
-      toast.success(res.data?.message || "Submitted successfully", {
+      toast.success(res.data?.message || 'Submitted successfully', {
         toastId: shortid(),
       });
       setDisabled(false);

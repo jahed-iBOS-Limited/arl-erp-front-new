@@ -1,21 +1,21 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import InputField from "../../../../_helper/_inputField";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import InputField from '../../../../_helper/_inputField';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   remarks: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Remarks is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Remarks is required'),
   referenceId: Yup.string()
-    .max(100, "Maximum 100 symbols")
-    .required("Reference Id is required"),
+    .max(100, 'Maximum 100 symbols')
+    .required('Reference Id is required'),
   item: Yup.object().shape({
-    label: Yup.string().required("Item is required"),
-    value: Yup.string().required("Item is required"),
+    label: Yup.string().required('Item is required'),
+    value: Yup.string().required('Item is required'),
   }),
 });
 
@@ -134,14 +134,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

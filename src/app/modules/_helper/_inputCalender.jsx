@@ -1,6 +1,6 @@
-import React from "react";
-import { Input } from "../../../_metronic/_partials/controls";
-import { Field } from "formik";
+import React from 'react';
+import { Input } from '../../../_metronic/_partials/controls';
+import { Field } from 'formik';
 
 function ICalendar(props) {
   const { value, name, label, disabled } = props;
@@ -21,4 +21,3 @@ function ICalendar(props) {
 }
 
 export default React.memo(ICalendar);
-

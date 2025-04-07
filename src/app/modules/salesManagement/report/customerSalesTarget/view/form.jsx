@@ -1,9 +1,9 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import InputField from "../../../../_helper/_inputField";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import InputField from '../../../../_helper/_inputField';
 
-import NewSelect from "../../../../_helper/_select";
-import { toast } from "react-toastify";
+import NewSelect from '../../../../_helper/_select';
+import { toast } from 'react-toastify';
 
 export default function FormCmp({
   initData,
@@ -29,7 +29,6 @@ export default function FormCmp({
     if (isEdit) {
       setRowDto(singleRowData);
     }
-
   }, [singleRowData]);
 
   return (
@@ -46,7 +45,7 @@ export default function FormCmp({
               resetForm(initData);
             });
           } else {
-            return toast.warn("Already Exists");
+            return toast.warn('Already Exists');
           }
         }}
       >
@@ -101,7 +100,7 @@ export default function FormCmp({
                       value={values?.targetMonth}
                       label="Target Month"
                       onChange={(valueOption) => {
-                        setFieldValue("targetMonth", valueOption);
+                        setFieldValue('targetMonth', valueOption);
                       }}
                       placeholder="Select"
                       errors={errors}
@@ -116,7 +115,7 @@ export default function FormCmp({
                       value={values?.targetYear}
                       label="Target Year"
                       onChange={(valueOption) => {
-                        setFieldValue("targetYear", valueOption);
+                        setFieldValue('targetYear', valueOption);
                       }}
                       placeholder="Select Target Year"
                       errors={errors}
@@ -182,19 +181,19 @@ export default function FormCmp({
                         </tr>
                       ))}
                     </tbody>
-                  </table>{" "}
+                  </table>{' '}
                 </div>
               )}
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

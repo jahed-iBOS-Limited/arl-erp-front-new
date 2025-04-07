@@ -1,4 +1,3 @@
-
 import React, { useEffect, useMemo, useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { validationSchema, initData, getRefNoDdlForServicePo } from './helper';
@@ -9,10 +8,7 @@ import RowDtoTable from './rowDtoTable';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { getPOItemForServiceItemDDLAction } from '../../_redux/Actions';
 
-import {
-  getCostCenterDDL,
-  getControllingUnitDDL,
-} from './helper';
+import { getCostCenterDDL, getControllingUnitDDL } from './helper';
 import TotalNetAmount from '../../TotalNetAmount';
 // import { purchaseOrderSlice } from "../../_redux/Slice";
 // const { actions: slice } = purchaseOrderSlice;
@@ -87,7 +83,7 @@ export default function CreateForm({
       arr = rowDto?.filter(
         (item) =>
           item.referenceNo?.value === values?.referenceNo?.value &&
-          item?.item?.value === values?.item?.value,
+          item?.item?.value === values?.item?.value
       );
     } else {
       arr = rowDto?.filter((item) => item?.item?.value === values?.item?.value);
@@ -153,13 +149,13 @@ export default function CreateForm({
     getControllingUnitDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setCuList,
+      setCuList
     );
     getCostCenterDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
       null,
-      setCostCenterListTwo,
+      setCostCenterListTwo
     );
     // getCostElementDDL(
     //   profileData?.accountId,
@@ -170,7 +166,7 @@ export default function CreateForm({
     getProfitCenterList(
       selectedBusinessUnit?.value,
       setProfitCenterListTwo,
-      setLoading,
+      setLoading
     );
   }, [profileData, selectedBusinessUnit]);
 
@@ -186,14 +182,13 @@ export default function CreateForm({
         location?.state?.warehouse?.value,
         supplierId,
         refType,
-        referenceNo,
-      ),
+        referenceNo
+      )
     );
   };
   // getRefNoDdlBySupplier
   useEffect(() => {
     getRefNoDDL();
-
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   // getRefNoDdlBySupplier
@@ -206,7 +201,7 @@ export default function CreateForm({
       location?.state?.plant?.value,
       location?.state?.warehouse?.value,
       location?.state?.refType?.label,
-      setRefNoDDL,
+      setRefNoDDL
     );
   };
 
@@ -225,7 +220,7 @@ export default function CreateForm({
 
   useEffect(() => {
     getTransferBu(
-      `/procurement/PurchaseOrder/TransferPoBusinessUnit?UnitId=${selectedBusinessUnit?.value}`,
+      `/procurement/PurchaseOrder/TransferPoBusinessUnit?UnitId=${selectedBusinessUnit?.value}`
     );
   }, [selectedBusinessUnit]);
   const getIsDisabledAddBtn = (values) => {
@@ -319,7 +314,7 @@ export default function CreateForm({
                         if (v.length < 3) return [];
                         return axios
                           .get(
-                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${location?.state?.sbu?.value}`,
+                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&SBUId=${location?.state?.sbu?.value}`
                           )
                           .then((res) => {
                             const updateList = res?.data.map((item) => ({
@@ -627,13 +622,13 @@ export default function CreateForm({
                             values,
                             setFieldValue,
                             label,
-                            valueOption,
+                            valueOption
                           ) => {
                             getCostCenterDDL(
                               profileData?.accountId,
                               valueOption?.value,
                               values?.isTransfer,
-                              setCostCenterList,
+                              setCostCenterList
                             );
                             // getCostElementDDL(
                             //   profileData?.accountId,
@@ -644,7 +639,7 @@ export default function CreateForm({
                             getProfitCenterList(
                               valueOption?.value,
                               setProfitCenterList,
-                              setLoading,
+                              setLoading
                             );
                           }}
                           errors={errors}
@@ -679,7 +674,7 @@ export default function CreateForm({
                                 values?.transferBusinessUnit?.value,
                                 profileData?.accountId,
                                 valueOption?.value,
-                                setCostElementList,
+                                setCostElementList
                               );
                             } else {
                               setFieldValue('costCenter', '');
@@ -758,7 +753,7 @@ export default function CreateForm({
                                 selectedBusinessUnit?.value,
                                 profileData?.accountId,
                                 valueOption?.value,
-                                setCostElementListTwo,
+                                setCostElementListTwo
                               );
                             } else {
                               setFieldValue('costCenterTwo', '');
@@ -804,7 +799,7 @@ export default function CreateForm({
                           getItemDDL(
                             values?.supplierName?.value,
                             location?.state?.refType?.value,
-                            valueOption?.value,
+                            valueOption?.value
                           );
                         }
                       }}
@@ -843,7 +838,7 @@ export default function CreateForm({
                                 location?.state?.warehouse?.value
                               }&RefTypeId=${
                                 location?.state?.refType?.value
-                              }&RefNoId=${0}&searchTerm=${v}`,
+                              }&RefNoId=${0}&searchTerm=${v}`
                             )
                             .then((res) => {
                               const updateList = res?.data.map((item) => ({

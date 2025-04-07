@@ -1,17 +1,16 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import IForm from "./../../../_helper/_form";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import NewSelect from "../../../_helper/_select";
-import InputField from "../../../_helper/_inputField";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { shallowEqual, useSelector } from "react-redux";
-import PaginationTable from "../../../_helper/_tablePagination";
-import Loading from "../../../_helper/_loading";
-import { excelDownload, generateSecondLevelList } from "./helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import IForm from './../../../_helper/_form';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import NewSelect from '../../../_helper/_select';
+import InputField from '../../../_helper/_inputField';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { shallowEqual, useSelector } from 'react-redux';
+import PaginationTable from '../../../_helper/_tablePagination';
+import Loading from '../../../_helper/_loading';
+import { excelDownload, generateSecondLevelList } from './helper';
 const initData = {
-  itemType: { value: 0, label: "All" },
+  itemType: { value: 0, label: 'All' },
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -29,7 +28,6 @@ export default function WarehouseWiseStockReport() {
 
   useEffect(() => {
     getItemTypeDDL(`/wms/WmsReport/GetItemTypeListDDL`);
-
   }, []);
 
   const getLandingData = (values, pageNo, pageSize) => {
@@ -38,8 +36,8 @@ export default function WarehouseWiseStockReport() {
       (res) => {
         const newList = generateSecondLevelList({
           list: res,
-          matchField: "intWarehouseId",
-          secondLevelField: "children",
+          matchField: 'intWarehouseId',
+          secondLevelField: 'children',
         });
         setRowData(newList);
         getExcelData(
@@ -91,7 +89,7 @@ export default function WarehouseWiseStockReport() {
                     value={values?.itemType}
                     label="Item Type"
                     onChange={(valueOption) => {
-                      setFieldValue("itemType", valueOption);
+                      setFieldValue('itemType', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -106,7 +104,7 @@ export default function WarehouseWiseStockReport() {
                     placeholder="From Date"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
+                      setFieldValue('fromDate', e.target.value);
                     }}
                   />
                 </div>
@@ -118,7 +116,7 @@ export default function WarehouseWiseStockReport() {
                     placeholder="Top Date"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
+                      setFieldValue('toDate', e.target.value);
                     }}
                   />
                 </div>

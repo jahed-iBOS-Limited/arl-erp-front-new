@@ -91,8 +91,6 @@ export function TableRow() {
         });
       }
     });
-
-
   }, []);
 
   const pdfExport = (fileName) => {
@@ -121,7 +119,6 @@ export function TableRow() {
   const [incomeStatementRow, setIncomeStatementRow] = useState(null);
 
   const {
-
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state.authData, shallowEqual);
 
@@ -206,7 +203,7 @@ export function TableRow() {
                           setIncomeStatement([]);
                           if (valueOption?.value) {
                             getSubDivisionDDL(
-                              `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=${accountId}&BusinessUnitGroup=${valueOption?.label}`,
+                              `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=${accountId}&BusinessUnitGroup=${valueOption?.label}`
                             );
                           }
                         }}
@@ -230,7 +227,7 @@ export function TableRow() {
                               accountId,
                               values?.enterpriseDivision?.value,
                               setBusinessUnitDDL,
-                              valueOption,
+                              valueOption
                             );
                           }
                         }}
@@ -257,9 +254,9 @@ export function TableRow() {
                                 setFieldValue('businessUnit', valueOption);
                                 setFieldValue(
                                   'profitCenter',
-                                  profitCenterDDLData?.[0] || '',
+                                  profitCenterDDLData?.[0] || ''
                                 );
-                              },
+                              }
                             );
                           }
                         }}
@@ -386,7 +383,7 @@ export function TableRow() {
                           dispatch(
                             SetReportIncomestatementAction({
                               ...values,
-                            }),
+                            })
                           );
                           getIncomeStatement_api(
                             values?.fromDate,
@@ -403,7 +400,7 @@ export function TableRow() {
                             values?.conversionRate,
                             values?.subDivision,
                             values?.reportType?.value,
-                            values?.isForecast?.value,
+                            values?.isForecast?.value
                           );
                         }}
                         disabled={
@@ -537,7 +534,7 @@ export function TableRow() {
                                           style={{
                                             textDecoration:
                                               [1]?.includes(
-                                                values?.reportType?.value,
+                                                values?.reportType?.value
                                               ) ||
                                               data?.intFSId === 0 ||
                                               data?.intFSId === 20
@@ -545,7 +542,7 @@ export function TableRow() {
                                                 : 'underline',
                                             color:
                                               [1]?.includes(
-                                                values?.reportType?.value,
+                                                values?.reportType?.value
                                               ) ||
                                               data?.intFSId === 0 ||
                                               data?.intFSId === 20
@@ -558,7 +555,7 @@ export function TableRow() {
                                               if (
                                                 !(
                                                   [1]?.includes(
-                                                    values?.reportType?.value,
+                                                    values?.reportType?.value
                                                   ) ||
                                                   data?.intFSId === 0 ||
                                                   data?.intFSId === 20
@@ -572,7 +569,7 @@ export function TableRow() {
                                             {' '}
                                             {data?.monCurrentPeriodAmount
                                               ? numberWithCommas(
-                                                  data?.monCurrentPeriodAmount.toFixed(),
+                                                  data?.monCurrentPeriodAmount.toFixed()
                                                 )
                                               : 0}
                                           </span>
@@ -580,7 +577,7 @@ export function TableRow() {
                                         <td className="text-right">
                                           {data?.monLastPeriodAmount
                                             ? numberWithCommas(
-                                                data?.monLastPeriodAmount.toFixed(),
+                                                data?.monLastPeriodAmount.toFixed()
                                               )
                                             : 0}
                                         </td>
@@ -590,7 +587,7 @@ export function TableRow() {
                                             (
                                               data?.monCurrentPeriodAmount -
                                               data?.monLastPeriodAmount
-                                            ).toFixed(),
+                                            ).toFixed()
                                           )}
                                         </td>
                                       </tr>
@@ -601,7 +598,7 @@ export function TableRow() {
                                       className="text-center d-none"
                                       colSpan={4}
                                     >{`System Generated Report - ${moment().format(
-                                      'LLLL',
+                                      'LLLL'
                                     )}`}</td>
                                   </tr>
                                 </tbody>

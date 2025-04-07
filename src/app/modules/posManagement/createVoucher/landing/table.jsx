@@ -1,29 +1,37 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import ICustomTable from "../../../_helper/_customTable";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import InputField from "../../../_helper/_inputField";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { getWareHouseDDL } from "../../salesInvoice/helper";
-import { getVoucherLandingData } from "../helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ICustomTable from '../../../_helper/_customTable';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import InputField from '../../../_helper/_inputField';
+import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { getWareHouseDDL } from '../../salesInvoice/helper';
+import { getVoucherLandingData } from '../helper';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../_metronic/_partials/controls";
-import Loading from "./../../../_helper/_loading";
+} from './../../../../../_metronic/_partials/controls';
+import Loading from './../../../_helper/_loading';
 
-const header = ["SL", "Warehouse", "Voucher No", "Narration", "Date", "Amount", "Action"];
+const header = [
+  'SL',
+  'Warehouse',
+  'Voucher No',
+  'Narration',
+  'Date',
+  'Amount',
+  'Action',
+];
 
 const initData = {
-  whName: "",
+  whName: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -84,7 +92,7 @@ const VoucherLanding = () => {
                   <button
                     onClick={() =>
                       history.push(
-                        "/pos-management/sales/create-voucher/create"
+                        '/pos-management/sales/create-voucher/create'
                       )
                     }
                     className="btn btn-primary"
@@ -102,7 +110,7 @@ const VoucherLanding = () => {
                         options={whName}
                         value={values?.whName}
                         onChange={(valueOption) => {
-                          setFieldValue("whName", valueOption);
+                          setFieldValue('whName', valueOption);
                         }}
                         placeholder="Warehouse Name"
                         errors={errors}
@@ -129,7 +137,7 @@ const VoucherLanding = () => {
                         touched={touched}
                       />
                     </div>
-                    <div style={{ marginTop: "18px" }} className="col-lg-1">
+                    <div style={{ marginTop: '18px' }} className="col-lg-1">
                       <button
                         disabled={
                           !values?.fromDate ||
@@ -161,7 +169,7 @@ const VoucherLanding = () => {
                     gridData?.data?.map((item, index) => {
                       return (
                         <tr key={index}>
-                          <td style={{ width: "30px" }} className="text-center">
+                          <td style={{ width: '30px' }} className="text-center">
                             {index + 1}
                           </td>
                           <td>
@@ -195,7 +203,7 @@ const VoucherLanding = () => {
                           <td className="text-center">
                             {item?.strAttachment ? (
                               <span
-                                style={{ cursor: "pointer" }}
+                                style={{ cursor: 'pointer' }}
                                 onClick={(e) => {
                                   dispatch(
                                     getDownlloadFileView_Action(
@@ -207,7 +215,7 @@ const VoucherLanding = () => {
                                 <OverlayTrigger
                                   overlay={
                                     <Tooltip id="cs-icon">
-                                      {"Attachment"}
+                                      {'Attachment'}
                                     </Tooltip>
                                   }
                                 >

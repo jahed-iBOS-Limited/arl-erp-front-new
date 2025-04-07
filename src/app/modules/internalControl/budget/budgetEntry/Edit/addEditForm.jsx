@@ -1,17 +1,16 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { getMonthName } from "../../../../_helper/monthIdToMonthName";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { getBudgetEntryGetById, saveBudgetUpdated } from "../helper";
-import Form from "./form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { getMonthName } from '../../../../_helper/monthIdToMonthName';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { getBudgetEntryGetById, saveBudgetUpdated } from '../helper';
+import Form from './form';
 
 let initData = {
-  month: "",
-  monthId: "",
-  yearId: "",
+  month: '',
+  monthId: '',
+  yearId: '',
 };
 
 export function BudgetEntryEdit() {

@@ -24,7 +24,7 @@ export default function FormCmp({
   const [wareHouseDDL, getwareHouseDDL] = useAxiosGet();
   const profileData = useSelector(
     (state) => state?.authData?.profileData,
-    shallowEqual,
+    shallowEqual
   );
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
@@ -33,10 +33,9 @@ export default function FormCmp({
   useEffect(() => {
     if (initData?.plantName?.value) {
       getwareHouseDDL(
-        `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${initData?.plantName?.value}&OrgUnitTypeId=8`,
+        `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${initData?.plantName?.value}&OrgUnitTypeId=8`
       );
     }
-
   }, [initData, profileData, selectedBusinessUnit]);
 
   return (
@@ -76,7 +75,6 @@ export default function FormCmp({
                     touched={touched}
                     isDisabled={isEdit}
                   />
-
                 </div>
                 <div className="col-lg-3">
                   <NewSelect
@@ -93,7 +91,6 @@ export default function FormCmp({
                     touched={touched}
                     isDisabled={isEdit}
                   />
-
                 </div>
 
                 <div className="col-lg-3">
@@ -109,7 +106,6 @@ export default function FormCmp({
                     type="date"
                     disabled={isEdit}
                   />
-
                 </div>
                 <div className="col-lg-3">
                   <NewSelect
@@ -124,7 +120,6 @@ export default function FormCmp({
                     touched={touched}
                     isDisabled={isEdit}
                   />
-
                 </div>
                 <div className="col-lg-3">
                   <InputField
@@ -135,7 +130,6 @@ export default function FormCmp({
                     type="text"
                     disabled={true}
                   />
-
                 </div>
 
                 <div className="col-lg-3">
@@ -151,7 +145,6 @@ export default function FormCmp({
                     errors={errors}
                     touched={touched}
                   />
-
                 </div>
                 {selectedBusinessUnit?.value !== 8 ? (
                   <div className="col-lg-3">
@@ -167,7 +160,6 @@ export default function FormCmp({
                       errors={errors}
                       touched={touched}
                     />
-
                   </div>
                 ) : null}
               </div>
@@ -220,7 +212,7 @@ export default function FormCmp({
                                   dataHandler(
                                     'approvedQuantity',
                                     Math.abs(e.target.value),
-                                    index,
+                                    index
                                   );
                                 }}
                                 step={'any'}

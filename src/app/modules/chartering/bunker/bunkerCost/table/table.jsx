@@ -1,25 +1,24 @@
-
-import React, { useContext, useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router";
-import { Formik } from "formik";
-import { getVesselDDL, getVoyageDDLNew } from "../../../helper";
-import { getBunkerCostLandingData } from "../helper";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import IView from "../../../_chartinghelper/icons/_view";
-import PaginationTable from "../../../_chartinghelper/_tablePagination";
-import { CharteringContext } from "../../../charteringContext";
+import React, { useContext, useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router';
+import { Formik } from 'formik';
+import { getVesselDDL, getVoyageDDLNew } from '../../../helper';
+import { getBunkerCostLandingData } from '../helper';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import IView from '../../../_chartinghelper/icons/_view';
+import PaginationTable from '../../../_chartinghelper/_tablePagination';
+import { CharteringContext } from '../../../charteringContext';
 
 const headers = [
-  { name: "SL" },
-  { name: "Vessel Name" },
-  { name: "Voyage No" },
-  { name: "Bunker Cost" },
-  { name: "Actions" },
+  { name: 'SL' },
+  { name: 'Vessel Name' },
+  { name: 'Voyage No' },
+  { name: 'Bunker Cost' },
+  { name: 'Actions' },
 ];
 
 export default function BunkerCostTable() {
@@ -93,7 +92,7 @@ export default function BunkerCostTable() {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={(values) => { }}
+        onSubmit={(values) => {}}
       >
         {({ values, errors, touched, setFieldValue }) => (
           <>
@@ -103,10 +102,10 @@ export default function BunkerCostTable() {
                 <div>
                   <button
                     type="button"
-                    className={"btn btn-primary px-3 py-2"}
+                    className={'btn btn-primary px-3 py-2'}
                     onClick={() => {
                       updateCharteringState(values);
-                      history.push("/chartering/bunker/bunkerCost/create");
+                      history.push('/chartering/bunker/bunkerCost/create');
                     }}
                     disabled={false}
                   >
@@ -118,7 +117,7 @@ export default function BunkerCostTable() {
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vesselName || ""}
+                      value={values?.vesselName || ''}
                       isSearchable={true}
                       options={vesselDDL || []}
                       styles={customStyles}
@@ -126,11 +125,11 @@ export default function BunkerCostTable() {
                       placeholder="Vessel Name"
                       label="Vessel Name"
                       onChange={(valueOption) => {
-                        setFieldValue("vesselName", valueOption);
+                        setFieldValue('vesselName', valueOption);
                         setVoyageNoDDL([]);
                         setGridData([]);
                         updateCharteringState({
-                          voyageNo: "",
+                          voyageNo: '',
                           vesselName: valueOption,
                         });
                         if (valueOption) {
@@ -144,7 +143,7 @@ export default function BunkerCostTable() {
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.voyageNo || ""}
+                      value={values?.voyageNo || ''}
                       isSearchable={true}
                       options={voyageNoDDL || []}
                       styles={customStyles}
@@ -152,7 +151,7 @@ export default function BunkerCostTable() {
                       placeholder="Voyage No"
                       label="Voyage No"
                       onChange={(valueOption) => {
-                        setFieldValue("voyageNo", valueOption);
+                        setFieldValue('voyageNo', valueOption);
                         setGridData([]);
                         updateCharteringState({
                           ...values,

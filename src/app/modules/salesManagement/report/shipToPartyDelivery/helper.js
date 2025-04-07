@@ -1,6 +1,6 @@
-import Axios from "axios";
+import Axios from 'axios';
 // import moment from "moment";
-import { toast } from "react-toastify";
+import { toast } from 'react-toastify';
 
 export const getCustomerDeliveryStatementForShiptoPartner = async (
   accountId,
@@ -20,13 +20,13 @@ export const getCustomerDeliveryStatementForShiptoPartner = async (
       `/oms/OManagementReport/GetCustomerDeliveryStatementForShiptoPartner?AccountId=${accountId}&BusinessUnitId=${businessUnitId}&FromDate=${fromDate}&ToDate=${toDate}&CustomerId=${customerId}&ShipToPartnerId=${shipPartnerId}&ShipPointId=${shipPointId}&salesOrgId=${salesOrgId}`
     );
     const unique = [
-      ...new Map(res?.data?.map((item) => [item["customerId"], item])).values(),
+      ...new Map(res?.data?.map((item) => [item['customerId'], item])).values(),
     ];
 
     if (res?.data?.[0]?.objList?.length > 0) {
       setter(unique);
     } else {
-      toast.warning("Data not found");
+      toast.warning('Data not found');
       setter([]);
     }
 
@@ -41,7 +41,7 @@ export const getCustomerNameDDL = async (accId, buId, orgId, setter) => {
     const res = await Axios.get(
       `/partner/PManagementCommonDDL/GetCustomerNameBySalesOrgDDL?AccountId=${accId}&BusinessUnitId=${buId}&SalesOrganization=${orgId}`
     );
-    const modifiedData = [{ value: 0, label: "All" }, ...res?.data];
+    const modifiedData = [{ value: 0, label: 'All' }, ...res?.data];
     setter(modifiedData);
   } catch (error) {
     setter([]);
@@ -90,7 +90,7 @@ export const getShipToParty = async (
     const res = await Axios.get(
       `/partner/BusinessPartnerBasicInfo/GetShipToParty?AccountId=${accountId}&BusinessUnitId=${businessUnitId}&SoldToPartnerId=${partnerId}`
     );
-    setter([{ value: 0, label: "All" }, ...res?.data]);
+    setter([{ value: 0, label: 'All' }, ...res?.data]);
   } catch (error) {
     setter([]);
   }
@@ -116,7 +116,7 @@ export const GetDistributorCoverage_api = async (
     if (res?.data?.length > 0) {
       setter(res?.data);
     } else {
-      toast.warning("Data not found");
+      toast.warning('Data not found');
       setter([]);
     }
 
@@ -154,7 +154,7 @@ export const GetLabourBill_api = async (
     if (res?.data?.length > 0) {
       setter(res?.data);
     } else {
-      toast.warning("Data not found");
+      toast.warning('Data not found');
       setter([]);
     }
 
@@ -183,7 +183,7 @@ export const getSupplierBaseDeliveryCustomerChallan = async (
     if (res?.data?.length) {
       setter(res?.data);
     } else {
-      toast.warn("Oops... No Data Found!");
+      toast.warn('Oops... No Data Found!');
     }
 
     setLoading(false);
@@ -212,7 +212,7 @@ export const getSupplierBaseDeliveryTransferChallan = async (
     if (res?.data?.length) {
       setter(res?.data);
     } else {
-      toast.warn("Oops... No Data Found!");
+      toast.warn('Oops... No Data Found!');
     }
 
     setLoading(false);

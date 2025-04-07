@@ -29,7 +29,7 @@ export default function VoyageLicenseFlagAttachment({
                   setAttachment(attachmentData?.[0]?.id);
                   setFieldValue(
                     'voyageFlagLicenseAtt',
-                    attachmentData?.[0]?.id,
+                    attachmentData?.[0]?.id
                   );
                 }
               }}

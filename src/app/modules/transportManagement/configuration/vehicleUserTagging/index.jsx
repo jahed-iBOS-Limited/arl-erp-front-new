@@ -1,37 +1,37 @@
-import Axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import Axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../_metronic/_partials/controls";
-import SearchAsyncSelect from "./../../../_helper/SearchAsyncSelect";
-import FormikError from "./../../../_helper/_formikError";
-import Loading from "./../../../_helper/_loading";
-import NewSelect from "./../../../_helper/_select";
-import IViewModal from "./../../../_helper/_viewModal";
+} from '../../../../../_metronic/_partials/controls';
+import SearchAsyncSelect from './../../../_helper/SearchAsyncSelect';
+import FormikError from './../../../_helper/_formikError';
+import Loading from './../../../_helper/_loading';
+import NewSelect from './../../../_helper/_select';
+import IViewModal from './../../../_helper/_viewModal';
 import {
   GetVehicleDDL,
   GetVehicleNUserInformation_api,
   UpdateVehicleTaggingEntry_api,
-} from "./helper";
-import VehicleUserTaggingUpdate from "./updateModel";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import SendMailModal from "./sendMailModal";
+} from './helper';
+import VehicleUserTaggingUpdate from './updateModel';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import SendMailModal from './sendMailModal';
 
 const initData = {
-  vehicle: "",
-  employeeName: "",
+  vehicle: '',
+  employeeName: '',
 };
 export default function VehicleUserTagging() {
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
     shallowEqual
   );
-  const [clickRowData, setClickRowData] = useState("");
+  const [clickRowData, setClickRowData] = useState('');
   const [isShowModal, setIsShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const [rowDto, setRowDto] = useState([]);
@@ -124,11 +124,11 @@ export default function VehicleUserTagging() {
         }) => (
           <>
             <Card>
-              <CardHeader title={"Vehicle User Tagging"}>
+              <CardHeader title={'Vehicle User Tagging'}>
                 <CardHeaderToolbar>
                   <button
                     type="button"
-                    className={"btn btn-primary ml-2"}
+                    className={'btn btn-primary ml-2'}
                     onClick={() => {
                       setIsShowModal(true);
                     }}
@@ -148,19 +148,19 @@ export default function VehicleUserTagging() {
                           name="reportType"
                           options={
                             [
-                              { value: 1, label: "All Fuel Log User" },
-                              { value: 2, label: "Unit Base" },
-                              { value: 3, label: "Vehicle Base" },
-                              { value: 4, label: "Employee Base" },
+                              { value: 1, label: 'All Fuel Log User' },
+                              { value: 2, label: 'Unit Base' },
+                              { value: 3, label: 'Vehicle Base' },
+                              { value: 4, label: 'Employee Base' },
                             ] || []
                           }
                           value={values?.reportType}
                           label="Report Type"
                           onChange={(valueOption) => {
                             setRowDto([]);
-                            setFieldValue("reportType", valueOption);
-                            setFieldValue("employeeName", "");
-                            setFieldValue("vehicle", "");
+                            setFieldValue('reportType', valueOption);
+                            setFieldValue('employeeName', '');
+                            setFieldValue('vehicle', '');
                           }}
                           placeholder="Report Type"
                           errors={errors}
@@ -177,7 +177,7 @@ export default function VehicleUserTagging() {
                             label="Vehicle"
                             onChange={(valueOption) => {
                               setRowDto([]);
-                              setFieldValue("vehicle", valueOption);
+                              setFieldValue('vehicle', valueOption);
                             }}
                             placeholder="Select Vehicle"
                             errors={errors}
@@ -193,7 +193,7 @@ export default function VehicleUserTagging() {
                             selectedValue={values?.employeeName}
                             handleChange={(valueOption) => {
                               setRowDto([]);
-                              setFieldValue("employeeName", valueOption);
+                              setFieldValue('employeeName', valueOption);
                             }}
                             loadOptions={loadEmployeeInfo}
                           />
@@ -211,12 +211,12 @@ export default function VehicleUserTagging() {
                             values?.reportType?.value === 3
                               ? !values?.vehicle
                               : values?.reportType?.value === 4
-                              ? !values?.employeeName
-                              : !values?.reportType
+                                ? !values?.employeeName
+                                : !values?.reportType
                           }
                           type="button"
                           className="btn btn-primary mt-5"
-                          style={{ marginLeft: "13px" }}
+                          style={{ marginLeft: '13px' }}
                           onClick={() => {
                             getViewHandelar(values);
                           }}
@@ -261,7 +261,7 @@ export default function VehicleUserTagging() {
                                         setIsShowModal(true);
                                         setClickRowData(item);
                                       }}
-                                      style={{ padding: "3px 14px" }}
+                                      style={{ padding: '3px 14px' }}
                                     >
                                       Update
                                     </button>
@@ -271,7 +271,7 @@ export default function VehicleUserTagging() {
                                       onClick={() => {
                                         deleteHandler(item, values);
                                       }}
-                                      style={{ padding: "3px 14px" }}
+                                      style={{ padding: '3px 14px' }}
                                     >
                                       Delete
                                     </button>
@@ -279,7 +279,7 @@ export default function VehicleUserTagging() {
                                       <OverlayTrigger
                                         overlay={
                                           <Tooltip id="cs-icon">
-                                            {"Send Mail"}
+                                            {'Send Mail'}
                                           </Tooltip>
                                         }
                                       >
@@ -290,10 +290,10 @@ export default function VehicleUserTagging() {
                                           }}
                                         >
                                           <i
-                                            style={{ fontSize: "22px" }}
+                                            style={{ fontSize: '22px' }}
                                             class="fa fa-envelope pointer"
                                             aria-hidden="true"
-                                          ></i>{" "}
+                                          ></i>{' '}
                                         </span>
                                       </OverlayTrigger>
                                     </span>
@@ -310,7 +310,7 @@ export default function VehicleUserTagging() {
                   <IViewModal
                     show={isShowModal}
                     onHide={() => {
-                      setClickRowData("");
+                      setClickRowData('');
                       setIsShowModal(false);
                     }}
                   >
@@ -325,13 +325,13 @@ export default function VehicleUserTagging() {
 
                   <button
                     type="submit"
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     onSubmit={() => handleSubmit()}
                   ></button>
 
                   <button
                     type="reset"
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     onSubmit={() => resetForm(initData)}
                   ></button>
                 </Form>

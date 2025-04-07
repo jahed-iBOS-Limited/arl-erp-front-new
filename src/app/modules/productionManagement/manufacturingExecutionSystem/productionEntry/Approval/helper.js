@@ -9,12 +9,12 @@ export const IssueReturnHandler = async ({
   selectedBusinessUnit,
 }) => {
   let mainAndLastProductionItem = rowData?.filter(
-    (item) => item?.isMain && item.isLastProduction,
+    (item) => item?.isMain && item.isLastProduction
   );
 
   if (mainAndLastProductionItem?.length) {
     let resData = await axios.get(
-      `/mes/ProductionEntry/GetItemListByLastProdctionorOrderId?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}&ProductionOrderId=${singleData?.productionOrder?.value}&PlantId=${singleData?.plantId}&WareHouseId=${values?.wareHouse?.value}`,
+      `/mes/ProductionEntry/GetItemListByLastProdctionorOrderId?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}&ProductionOrderId=${singleData?.productionOrder?.value}&PlantId=${singleData?.plantId}&WareHouseId=${values?.wareHouse?.value}`
     );
 
     console.log('resData', resData);
@@ -24,7 +24,7 @@ export const IssueReturnHandler = async ({
     }
 
     let restQtyGreaterThanZeroRowData = resData?.data?.filter(
-      (item) => item?.restQty > 0,
+      (item) => item?.restQty > 0
     );
 
     if (!restQtyGreaterThanZeroRowData?.length) {
@@ -99,7 +99,7 @@ export const IssueReturnHandler = async ({
 
     await axios.post(
       `/wms/InventoryTransaction/CreateInvTransectionForIssueProduction`,
-      payload,
+      payload
     );
   }
 };

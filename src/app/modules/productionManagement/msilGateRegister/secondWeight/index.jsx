@@ -1,30 +1,30 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import PaginationSearch from "../../../_helper/_search";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import IViewModal from "../../../_helper/_viewModal";
-import Report from "./report";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import PaginationSearch from '../../../_helper/_search';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import IViewModal from '../../../_helper/_viewModal';
+import Report from './report';
 
 const initData = {
-  date: "",
-  receiveType: "",
-  businessUnit: "",
-  shipPoint: "",
+  date: '',
+  receiveType: '',
+  businessUnit: '',
+  shipPoint: '',
 };
 
 function SecondWeight() {
@@ -60,14 +60,13 @@ function SecondWeight() {
             profileData?.accountId
           }&BusinessUnitId=${initData.businessUnit?.value}&shipPointId=${
             initData?.shipPoint?.value
-          }&WeightDate=${""}&WeightTypeId=2&Status=1`
+          }&WeightDate=${''}&WeightTypeId=2&Status=1`
         );
       }
     );
-
   }, [profileData, selectedBusinessUnit]);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     const weightDate = values?.date ? `&WeightDate=${values?.date}` : ``;
     getRowData(
       `/mes/WeightBridge/GetAllWeightBridgeLanding?PageNo=${pageNo}&PageSize=${pageSize}&AccountId=${profileData?.accountId}&BusinessUnitId=${values?.businessUnit?.value}&shipPointId=${values?.shipPoint?.value}&WeightTypeId=2${weightDate}&search=${searchValue}&Status=1`
@@ -89,7 +88,7 @@ function SecondWeight() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Second Weight"}>
+              <CardHeader title={'Second Weight'}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
@@ -104,20 +103,20 @@ function SecondWeight() {
                         label="Business Unit"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("businessUnit", valueOption);
+                            setFieldValue('businessUnit', valueOption);
                             setRowData([]);
                             getShipPoint(
                               `/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${valueOption?.value}&AutoId=${profileData?.userId}`,
                               (data) => {
                                 if (!Array.isArray(data) || data.length === 0) {
-                                  return toast.warn("No Ship Point Found");
+                                  return toast.warn('No Ship Point Found');
                                 }
-                                setFieldValue("shipPoint", data[0]);
+                                setFieldValue('shipPoint', data[0]);
                               }
                             );
                           } else {
-                            setFieldValue("businessUnit", "");
-                            setFieldValue("shipPoint", "");
+                            setFieldValue('businessUnit', '');
+                            setFieldValue('shipPoint', '');
                             setRowData([]);
                           }
                         }}
@@ -131,10 +130,10 @@ function SecondWeight() {
                         label="Ship Point"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("shipPoint", valueOption);
+                            setFieldValue('shipPoint', valueOption);
                             setRowData([]);
                           } else {
-                            setFieldValue("shipPoint", "");
+                            setFieldValue('shipPoint', '');
                             setRowData([]);
                           }
                         }}
@@ -147,13 +146,13 @@ function SecondWeight() {
                         name="date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("date", e.target.value);
+                          setFieldValue('date', e.target.value);
                         }}
                       />
                     </div>
                     <div>
                       <button
-                        style={{ marginTop: "18px" }}
+                        style={{ marginTop: '18px' }}
                         className="btn btn-primary"
                         disabled={!values?.businessUnit?.value}
                         onClick={() => {
@@ -183,7 +182,7 @@ function SecondWeight() {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>তারিখ</th>
                             <th>গাড়ীর নাম্বার</th>
                             <th>রেজি. নং</th>
@@ -231,15 +230,15 @@ function SecondWeight() {
                                     <OverlayTrigger
                                       overlay={
                                         <Tooltip id="cs-icon">
-                                          {"Print"}
+                                          {'Print'}
                                         </Tooltip>
                                       }
                                     >
                                       <span>
                                         <i
                                           style={{
-                                            fontSize: "15px",
-                                            cursor: "pointer",
+                                            fontSize: '15px',
+                                            cursor: 'pointer',
                                           }}
                                           className={`fa fa-print`}
                                           onClick={() => {

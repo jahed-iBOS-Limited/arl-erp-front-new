@@ -1,31 +1,31 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import Loading from "../../../../_helper/_loading";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import Loading from '../../../../_helper/_loading';
 import {
   GetSupplierAndVehicleInfo_api,
   getDistributionChannelDDL_api,
   getransportZoneDDL,
-} from "../helper";
+} from '../helper';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "./../../../../../../_metronic/_partials/controls";
-import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import InputField from "./../../../../_helper/_inputField";
-import NewSelect from "./../../../../_helper/_select";
+} from './../../../../../../_metronic/_partials/controls';
+import SearchAsyncSelect from './../../../../_helper/SearchAsyncSelect';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import InputField from './../../../../_helper/_inputField';
+import NewSelect from './../../../../_helper/_select';
 
 const initData = {
-  customer: "",
-  challan: "",
-  distributionChannel: "",
-  shipPoint: "",
-  remarks: "",
+  customer: '',
+  challan: '',
+  distributionChannel: '',
+  shipPoint: '',
+  remarks: '',
 };
 
 function TransportZoneUpdate() {
@@ -69,7 +69,7 @@ function TransportZoneUpdate() {
       values?.customer?.value,
       profileData?.userId,
       values?.transportZone?.value || 0,
-      values?.remarks || "",
+      values?.remarks || '',
       setGridData,
       setLoading,
       isUpdateMassage
@@ -83,7 +83,7 @@ function TransportZoneUpdate() {
             <Form>
               <Card>
                 {true && <ModalProgressBar />}
-                <CardHeader title={"Transport Zone Update"}>
+                <CardHeader title={'Transport Zone Update'}>
                   <CardHeaderToolbar>
                     <button
                       className="btn btn-primary ml-2"
@@ -111,8 +111,8 @@ function TransportZoneUpdate() {
                         value={values?.distributionChannel}
                         label="Distribution Channel"
                         onChange={(valueOption) => {
-                          setFieldValue("distributionChannel", valueOption);
-                          setFieldValue("customer", "");
+                          setFieldValue('distributionChannel', valueOption);
+                          setFieldValue('customer', '');
                           setGridData([]);
                         }}
                         placeholder="Distribution Channel"
@@ -127,7 +127,7 @@ function TransportZoneUpdate() {
                         <SearchAsyncSelect
                           selectedValue={values?.customer}
                           handleChange={(valueOption) => {
-                            setFieldValue("customer", valueOption);
+                            setFieldValue('customer', valueOption);
                             setGridData([]);
                           }}
                           isDisabled={!values?.distributionChannel}
@@ -151,7 +151,7 @@ function TransportZoneUpdate() {
                         value={values?.shipPoint}
                         label="Shippoint"
                         onChange={(valueOption) => {
-                          setFieldValue("shipPoint", valueOption);
+                          setFieldValue('shipPoint', valueOption);
                           setGridData([]);
                         }}
                         placeholder="Shippoint"
@@ -167,7 +167,7 @@ function TransportZoneUpdate() {
                         placeholder="Challan"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("challan", e.target.value);
+                          setFieldValue('challan', e.target.value);
                           setGridData([]);
                         }}
                       />
@@ -187,7 +187,7 @@ function TransportZoneUpdate() {
                       </button>
                     </div>
                     <div className="col-lg-12">
-                    <hr className="mb-0 mt-2"/>
+                      <hr className="mb-0 mt-2" />
                     </div>
                     <div className="col-lg-4">
                       <NewSelect
@@ -196,7 +196,7 @@ function TransportZoneUpdate() {
                         value={values?.transportZone}
                         label="Transport Zone"
                         onChange={(valueOption) => {
-                          setFieldValue("transportZone", valueOption);
+                          setFieldValue('transportZone', valueOption);
                         }}
                         placeholder="Transport Zone"
                         errors={errors}
@@ -215,39 +215,39 @@ function TransportZoneUpdate() {
                   </div>
 
                   <div className="table-responsive">
-                  <table className="table table-striped table-bordered global-table">
-                    <thead>
-                      <tr>
-                        <th>SL</th>
-                        <th>Challan No.</th>
-                        <th>Date</th>
-                        <th>Shippoint Name</th>
-                        <th>Transport Zone Name</th>
-                        <th>Sold To Partner Name</th>
-                        <th>Ship To Partner Address</th>
+                    <table className="table table-striped table-bordered global-table">
+                      <thead>
+                        <tr>
+                          <th>SL</th>
+                          <th>Challan No.</th>
+                          <th>Date</th>
+                          <th>Shippoint Name</th>
+                          <th>Transport Zone Name</th>
+                          <th>Sold To Partner Name</th>
+                          <th>Ship To Partner Address</th>
 
-                        <th>Supplier Name</th>
-                        <th>Transport Zone Rate</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {gridData?.map((item, index) => (
-                        <tr key={index}>
-                          <td> {index + 1}</td>
-                          <td> {item?.strDeliveryCode}</td>
-                          <td> {_dateFormatter(item?.dteDeliveryDate)}</td>
-                          <td> {item?.strShipPointName}</td>
-                          <td> {item?.strTransportZoneName}</td>
-                          <td> {item?.strSoldToPartnerName}</td>
-                          <td> {item?.strShipToPartnerAddress}</td>
-                          <td> {item?.strSupplierName}</td>
-                          <td className="text-right">
-                            {item?.numTransportZoneRate}
-                          </td>
+                          <th>Supplier Name</th>
+                          <th>Transport Zone Rate</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {gridData?.map((item, index) => (
+                          <tr key={index}>
+                            <td> {index + 1}</td>
+                            <td> {item?.strDeliveryCode}</td>
+                            <td> {_dateFormatter(item?.dteDeliveryDate)}</td>
+                            <td> {item?.strShipPointName}</td>
+                            <td> {item?.strTransportZoneName}</td>
+                            <td> {item?.strSoldToPartnerName}</td>
+                            <td> {item?.strShipToPartnerAddress}</td>
+                            <td> {item?.strSupplierName}</td>
+                            <td className="text-right">
+                              {item?.numTransportZoneRate}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 </CardBody>
               </Card>

@@ -1,11 +1,8 @@
-
-
-
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
-import Form from "./form";
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
+import Form from './form';
 // import { _dateFormatter } from "../../../../_helper/_dateFormate";
 import {
   CreateCustomsDuty,
@@ -20,9 +17,9 @@ import {
   GetInstrumentTypeDDL,
   GetPaidByDDL,
   getSingleData,
-} from "../helper";
+} from '../helper';
 // import { toast } from "react-toastify";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 export default function CustomDutyForm() {
   // get user profile data from store
@@ -33,35 +30,35 @@ export default function CustomDutyForm() {
   const [hsCodeInfo, setHsCodeInfo] = useState({});
 
   const initData = {
-    boeNo: "",
+    boeNo: '',
     boeDate: _todayDate(),
     paymentDate: _todayDate(),
-    invoiceAmount: "",
-    invoiceAmountBDT: "",
-    exRate: "",
-    fineBDT: "",
-    AITExemptionBDT: "",
-    docProcessFee: "",
-    CnFIncomeTax: "",
-    cnfVat: "",
-    scanning: "",
-    cnfAgencyDDL: "",
-    custom: "",
-    paidBy: "",
-    assessmentValue: "",
-    customDuty: hsCodeInfo?.cd || "",
-    regulatoryDuty: hsCodeInfo?.rd || "",
-    supplementaryDuty: hsCodeInfo?.sd || "",
-    vat: hsCodeInfo?.vat || "",
-    ait: hsCodeInfo?.ait || "",
-    advanceTradeVat: hsCodeInfo?.atv || "",
-    psi: hsCodeInfo?.psi || "",
-    at: "",
-    bank: "",
-    instrumentType: "",
-    grandTotal: hsCodeInfo?.sum || "",
-    guarantee78Amount: "",
-    is78Guarantee:false
+    invoiceAmount: '',
+    invoiceAmountBDT: '',
+    exRate: '',
+    fineBDT: '',
+    AITExemptionBDT: '',
+    docProcessFee: '',
+    CnFIncomeTax: '',
+    cnfVat: '',
+    scanning: '',
+    cnfAgencyDDL: '',
+    custom: '',
+    paidBy: '',
+    assessmentValue: '',
+    customDuty: hsCodeInfo?.cd || '',
+    regulatoryDuty: hsCodeInfo?.rd || '',
+    supplementaryDuty: hsCodeInfo?.sd || '',
+    vat: hsCodeInfo?.vat || '',
+    ait: hsCodeInfo?.ait || '',
+    advanceTradeVat: hsCodeInfo?.atv || '',
+    psi: hsCodeInfo?.psi || '',
+    at: '',
+    bank: '',
+    instrumentType: '',
+    grandTotal: hsCodeInfo?.sum || '',
+    guarantee78Amount: '',
+    is78Guarantee: false,
   };
 
   // All states
@@ -144,7 +141,7 @@ export default function CustomDutyForm() {
         state?.PoNo,
         state?.LcNo,
         state?.shipmentId,
-        state?.shipment,
+        state?.shipment
       );
     }
     // else if (hsCode?.length > customsPayment?.length) {
@@ -304,15 +301,15 @@ export default function CustomDutyForm() {
   //   setCustomsPayment(data);
   // };
 
-  let currency = hsCode?.map(item => ({
-    currencyName: item?.currencyName
-  }))
-  let currencyName = Object.assign({...currency});
+  let currency = hsCode?.map((item) => ({
+    currencyName: item?.currencyName,
+  }));
+  let currencyName = Object.assign({ ...currency });
 
   return (
     <>
       {loading && <Loading />}
-      <div className='mt-0'>
+      <div className="mt-0">
         <Form
           {...objProps}
           initData={

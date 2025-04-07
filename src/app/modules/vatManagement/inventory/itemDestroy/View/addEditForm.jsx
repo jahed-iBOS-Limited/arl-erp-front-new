@@ -1,27 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import {
-  GetItemDestroyView,
-} from "../helper";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import Form from "./form";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { GetItemDestroyView } from '../helper';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import Form from './form';
 
 const initData = {
-  branchName: "",
-  branchAddress: "",
-  transactionDate: "",
-  vatTotal: "",
-  referenceNo: "",
-  referenceDate: "",
-  sdChargeableValue: "",
-  sdTotal: "",
-  itemName: "",
-  itemType: "",
-  quantity: "",
+  branchName: '',
+  branchAddress: '',
+  transactionDate: '',
+  vatTotal: '',
+  referenceNo: '',
+  referenceDate: '',
+  sdChargeableValue: '',
+  sdTotal: '',
+  itemName: '',
+  itemType: '',
+  quantity: '',
 };
 
 export default function ItemDestroyViewForm({ id, typeId }) {
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [isDisabled, setDisabled] = useState(true);
   const [objProps, setObjprops] = useState({});
 
@@ -39,7 +37,7 @@ export default function ItemDestroyViewForm({ id, typeId }) {
 
   //single Data
   useEffect(() => {
-    if ((id && typeId)) {
+    if (id && typeId) {
       GetItemDestroyView(id, typeId, setSingleData, setRowDto);
     }
   }, [id, typeId]);

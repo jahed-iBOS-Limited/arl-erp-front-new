@@ -1,7 +1,7 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import GroupChart from "../rgl";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import GroupChart from '../rgl';
 // Validation schema
 const validationSchema = Yup.object().shape({});
 
@@ -40,7 +40,7 @@ export default function FormCmp({
         {({ values }) => (
           <>
             <Form className="form form-label-right">
-              <div style={{ marginLeft: "8px" }}></div>
+              <div style={{ marginLeft: '8px' }}></div>
               {/* {employeeBasicInfo && (
                 <div style={{ marginLeft: "9px" }}>
                   <p className="mt-3 employee_info">

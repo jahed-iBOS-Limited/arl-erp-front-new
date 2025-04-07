@@ -1,25 +1,23 @@
-
-
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { useLocation } from "react-router-dom";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { useLocation } from 'react-router-dom';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import {
   getCancelInvGridData,
   getSBUDDL,
   getPlantDDL,
   getWarehouseDDL,
-} from "../helper";
-import ICustomCard from "../../../../_helper/_customCard";
-import { useHistory } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { setCancelInvPPRAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import customStyles from "../../../../selectCustomStyle";
-import NewSelect from "../../../../_helper/_select";
+} from '../helper';
+import ICustomCard from '../../../../_helper/_customCard';
+import { useHistory } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import PaginationSearch from '../../../../_helper/_search';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { setCancelInvPPRAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import customStyles from '../../../../selectCustomStyle';
+import NewSelect from '../../../../_helper/_select';
 
 const validationSchema = Yup.object().shape({});
 
@@ -114,7 +112,7 @@ export function TableRow(props) {
   const pushData = (values) => {
     history.push({
       pathname:
-        "/inventory-management/warehouse-management/cancelInventory/add",
+        '/inventory-management/warehouse-management/cancelInventory/add',
       state: values,
     });
     dispatch(setCancelInvPPRAction(values));
@@ -147,7 +145,7 @@ export function TableRow(props) {
             {({ errors, touched, setFieldValue, isValid, values }) => (
               <>
                 <div
-                  style={{ transform: "translateY(-40px)" }}
+                  style={{ transform: 'translateY(-40px)' }}
                   className="text-right"
                 >
                   <button
@@ -166,7 +164,7 @@ export function TableRow(props) {
                 >
                   <div
                     className="row global-form"
-                    style={{ background: " #d6dadd" }}
+                    style={{ background: ' #d6dadd' }}
                   >
                     <div className="col-lg-3">
                       <NewSelect
@@ -175,7 +173,7 @@ export function TableRow(props) {
                         label="Select SBU"
                         value={values?.sbu}
                         onChange={(v) => {
-                          setFieldValue("sbu", v);
+                          setFieldValue('sbu', v);
                         }}
                         options={SBUDDL}
                         errors={errors}
@@ -190,9 +188,9 @@ export function TableRow(props) {
                         label="Select Plant"
                         //value={values?.plant}
                         onChange={(v) => {
-                          setFieldValue("plant", v);
+                          setFieldValue('plant', v);
                           warehouseDLLFind(v.value);
-                          setFieldValue("wh", "");
+                          setFieldValue('wh', '');
                         }}
                         styles={customStyles}
                         options={plant}
@@ -207,7 +205,7 @@ export function TableRow(props) {
                         label="Select Warehouse"
                         value={values?.wh}
                         onChange={(v) => {
-                          setFieldValue("wh", v);
+                          setFieldValue('wh', v);
                         }}
                         styles={customStyles}
                         options={warehouse}
@@ -254,7 +252,7 @@ export function TableRow(props) {
                               return (
                                 <tr key={index}>
                                   <td
-                                    style={{ width: "30px" }}
+                                    style={{ width: '30px' }}
                                     className="text-center"
                                   >
                                     {index + 1}
@@ -276,14 +274,14 @@ export function TableRow(props) {
                                   </td>
 
                                   <td
-                                    style={{ width: "80px" }}
+                                    style={{ width: '80px' }}
                                     className="text-center"
                                   >
                                     <div
                                       style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        justifyContent: "space-around",
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                        justifyContent: 'space-around',
                                       }}
                                     >
                                       <IView

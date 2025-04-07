@@ -1,20 +1,19 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { getMonthDDLAction } from "../_redux/Actions";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { getMonthDDLAction } from '../_redux/Actions';
 import {
   getEmployeeBasicInfoByIdAction,
   getReportAction,
   getYearDDLAction,
-} from "../../../_redux/Actions";
-import { useParams } from "react-router-dom";
+} from '../../../_redux/Actions';
+import { useParams } from 'react-router-dom';
 const initData = {
   id: undefined,
-  year: "",
-  from: "",
-  to: "",
+  year: '',
+  from: '',
+  to: '',
 };
 
 export default function PerformanceForm({
@@ -34,12 +33,13 @@ export default function PerformanceForm({
         selectedBusinessUnit: state.authData.selectedBusinessUnit,
         yearDDL: state.performanceMgt?.yearDDL,
         month: state.performanceChartTwo.monthDDL,
-        employeeBasicInfo: state?.performanceMgt?.employeeBasicInfo
+        employeeBasicInfo: state?.performanceMgt?.employeeBasicInfo,
       };
     },
     { shallowEqual }
   );
-  let { profileData, selectedBusinessUnit, yearDDL, month,employeeBasicInfo } = pmsData;
+  let { profileData, selectedBusinessUnit, yearDDL, month, employeeBasicInfo } =
+    pmsData;
 
   useEffect(() => {
     if (profileData && selectedBusinessUnit) {
@@ -47,14 +47,12 @@ export default function PerformanceForm({
         getYearDDLAction(profileData?.accountId, selectedBusinessUnit?.value)
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
     if (yearDDL.length > 0) {
       dispatch(getMonthDDLAction(yearDDL[0]?.value));
     }
-
   }, [yearDDL]);
 
   const saveHandler = async (values, cb) => {
@@ -62,7 +60,6 @@ export default function PerformanceForm({
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
     } else {
       setDisabled(false);
-
     }
   };
   const params = useParams();
@@ -70,7 +67,6 @@ export default function PerformanceForm({
 
   useEffect(() => {
     dispatch(getEmployeeBasicInfoByIdAction(empId));
-
   }, [empId]);
 
   const disableHandler = (cond) => {

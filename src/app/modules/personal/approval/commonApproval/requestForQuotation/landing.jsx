@@ -46,7 +46,6 @@ const RequestForQuotationApprovalGrid = ({
 
   useEffect(() => {
     cb();
-
   }, [activityChange]);
 
   let cb = () => {
@@ -61,7 +60,7 @@ const RequestForQuotationApprovalGrid = ({
       pageNo,
       pageSize,
       '',
-      selectedPlant?.value,
+      selectedPlant?.value
     );
   };
 
@@ -77,7 +76,7 @@ const RequestForQuotationApprovalGrid = ({
       pageNo,
       pageSize,
       '',
-      selectedPlant.value,
+      selectedPlant.value
     );
   };
 
@@ -136,7 +135,7 @@ const RequestForQuotationApprovalGrid = ({
             setBillSubmitBtn(true);
             cb();
           },
-          true,
+          true
         );
         // setBillSubmitBtn(true);
       },
@@ -156,7 +155,7 @@ const RequestForQuotationApprovalGrid = ({
       0,
       pageSize,
       value,
-      selectedPlant.value,
+      selectedPlant.value
     );
     setPageNo(0);
   };

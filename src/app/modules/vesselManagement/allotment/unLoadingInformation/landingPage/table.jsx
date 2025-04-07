@@ -1,53 +1,52 @@
-
-import { Formik } from "formik";
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Formik } from 'formik';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import IApproval from "../../../../_helper/_helperIcons/_approval";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Loading from "../../../../_helper/_loading";
-import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
-import PaginationSearch from "../../../../_helper/_search";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
-import NewSelect from "../../../../_helper/_select";
-import IViewModal from "../../../../_helper/_viewModal";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import WarehouseApproveFrom from "./approve";
-import TruckToDamApproveForm from "./truckToDamApprove";
+} from '../../../../../../_metronic/_partials/controls';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import IApproval from '../../../../_helper/_helperIcons/_approval';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
+import Loading from '../../../../_helper/_loading';
+import { _monthFirstDate } from '../../../../_helper/_monthFirstDate';
+import PaginationSearch from '../../../../_helper/_search';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import ICon from '../../../../chartering/_chartinghelper/icons/_icon';
+import NewSelect from '../../../../_helper/_select';
+import IViewModal from '../../../../_helper/_viewModal';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import WarehouseApproveFrom from './approve';
+import TruckToDamApproveForm from './truckToDamApprove';
 
 const initData = {
-  shipPoint: "",
-  status: { value: 0, label: "All" },
+  shipPoint: '',
+  status: { value: 0, label: 'All' },
   fromDate: _monthFirstDate(),
   toDate: _todayDate(),
 };
 
 const headers = [
-  "SL",
-  "Program",
-  "Ghat Name",
-  "Lighter Name",
-  "Mother Vessel Name",
-  "Received At",
-  "Unloading Start",
-  "Unloaded Qty",
-  "Unloading Complete",
-  "Action",
-  "Truck to Dam",
-  "Warehouse Approve",
+  'SL',
+  'Program',
+  'Ghat Name',
+  'Lighter Name',
+  'Mother Vessel Name',
+  'Received At',
+  'Unloading Start',
+  'Unloaded Qty',
+  'Unloading Complete',
+  'Action',
+  'Truck to Dam',
+  'Warehouse Approve',
 ];
 
 const UnLoadingInformationTable = () => {
@@ -57,7 +56,7 @@ const UnLoadingInformationTable = () => {
   const [rowData, getRowData, isLoading] = useAxiosGet();
   const [show, setShow] = useState(false);
   const [singleData, setSingleData] = useState({});
-  const [levelOfApprove, setLevelOfApprove] = useState("");
+  const [levelOfApprove, setLevelOfApprove] = useState('');
 
   // get user profile data from store
   const {
@@ -65,15 +64,17 @@ const UnLoadingInformationTable = () => {
     selectedBusinessUnit: { value: buId },
   } = useSelector((state) => state?.authData, shallowEqual);
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
 
   const getData = (values, pageNo, pageSize, searchTerm) => {
-    const searchTxt = searchTerm || "";
-    const url = `/tms/LigterLoadUnload/GetLighterUnLoadingPagination?BusinessUnitId=${buId}&ShippingPoint=${values
-      ?.shipPoint?.value || 0}&FromDate=${values?.fromDate}&ToDate=${
+    const searchTxt = searchTerm || '';
+    const url = `/tms/LigterLoadUnload/GetLighterUnLoadingPagination?BusinessUnitId=${buId}&ShippingPoint=${
+      values?.shipPoint?.value || 0
+    }&FromDate=${values?.fromDate}&ToDate=${
       values?.toDate
-    }&PageNo=${pageNo}&PageSize=${pageSize}&SearchTerm=${searchTxt}&IsInventoryApprove=${values
-      ?.status?.value || 0}`;
+    }&PageNo=${pageNo}&PageSize=${pageSize}&SearchTerm=${searchTxt}&IsInventoryApprove=${
+      values?.status?.value || 0
+    }`;
 
     getRowData(url);
   };
@@ -84,7 +85,7 @@ const UnLoadingInformationTable = () => {
 
   // set PositionHandler
   const setPositionHandler = (pageNo, pageSize, values) => {
-    getData(values, pageNo, pageSize, "");
+    getData(values, pageNo, pageSize, '');
   };
 
   let totalQuantity = 0;
@@ -93,9 +94,9 @@ const UnLoadingInformationTable = () => {
     setSearchTerm(searchValue);
     // getData(values, pageNo, pageSize, searchValue);
 
-    const url = `/tms/LigterLoadUnload/GetLighterUnLoadingPagination?BusinessUnitId=${buId}&ShippingPoint=${values
-      ?.shipPoint?.value ||
-      0}&PageNo=${pageNo}&PageSize=${pageSize}&SearchTerm=${searchValue}`;
+    const url = `/tms/LigterLoadUnload/GetLighterUnLoadingPagination?BusinessUnitId=${buId}&ShippingPoint=${
+      values?.shipPoint?.value || 0
+    }&PageNo=${pageNo}&PageSize=${pageSize}&SearchTerm=${searchValue}`;
 
     getRowData(url);
   };
@@ -128,7 +129,7 @@ const UnLoadingInformationTable = () => {
                     <button
                       onClick={() => {
                         history.push(
-                          "/vessel-management/allotment/unloadinginformation/create"
+                          '/vessel-management/allotment/unloadinginformation/create'
                         );
                       }}
                       className="btn btn-primary ml-2"
@@ -152,12 +153,12 @@ const UnLoadingInformationTable = () => {
                           label="Status"
                           placeholder="Status"
                           options={[
-                            { value: 0, label: "All" },
-                            { value: 1, label: "Pending" },
-                            { value: 2, label: "Approved" },
+                            { value: 0, label: 'All' },
+                            { value: 1, label: 'Pending' },
+                            { value: 2, label: 'Approved' },
                           ]}
                           onChange={(e) => {
-                            setFieldValue("status", e);
+                            setFieldValue('status', e);
                           }}
                         />
                       </div>
@@ -189,7 +190,7 @@ const UnLoadingInformationTable = () => {
                       <table
                         id="table-to-xlsx"
                         className={
-                          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                          'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                         }
                       >
                         <thead>
@@ -207,16 +208,16 @@ const UnLoadingInformationTable = () => {
                                 key={index}
                                 style={
                                   !item?.isInventoryApprove
-                                    ? { backgroundColor: "#FFF8DC" }
+                                    ? { backgroundColor: '#FFF8DC' }
                                     : !item?.isApproveBySupervisor
-                                    ? { backgroundColor: "#F0FFFF" }
-                                    : !item?.isDumpApproveLM
-                                    ? { backgroundColor: "#B0E0E6" }
-                                    : { backgroundColor: "#00FA9A" }
+                                      ? { backgroundColor: '#F0FFFF' }
+                                      : !item?.isDumpApproveLM
+                                        ? { backgroundColor: '#B0E0E6' }
+                                        : { backgroundColor: '#00FA9A' }
                                 }
                               >
                                 <td
-                                  style={{ width: "40px" }}
+                                  style={{ width: '40px' }}
                                   className="text-center"
                                 >
                                   {index + 1}
@@ -227,15 +228,15 @@ const UnLoadingInformationTable = () => {
                                 <td>{item?.motherVesselName}</td>
                                 <td>
                                   {item?.receivedDate
-                                    ? moment(item?.receivedDate).format("lll")
-                                    : ""}
+                                    ? moment(item?.receivedDate).format('lll')
+                                    : ''}
                                 </td>
                                 <td>
                                   {item?.unLoadingStartDate
                                     ? moment(item?.unLoadingStartDate).format(
-                                        "lll"
+                                        'lll'
                                       )
-                                    : ""}
+                                    : ''}
                                 </td>
 
                                 <td className="text-right">
@@ -245,12 +246,12 @@ const UnLoadingInformationTable = () => {
                                   {item?.unLoadingCompleteDate
                                     ? moment(
                                         item?.unLoadingCompleteDate
-                                      ).format("lll")
-                                    : ""}
+                                      ).format('lll')
+                                    : ''}
                                 </td>
 
                                 <td
-                                  style={{ width: "80px" }}
+                                  style={{ width: '80px' }}
                                   className="text-center"
                                 >
                                   <div className="d-flex justify-content-around align-items-center">
@@ -303,7 +304,7 @@ const UnLoadingInformationTable = () => {
                                       onClick={() => {
                                         setSingleData(item);
                                         setShow(true);
-                                        setLevelOfApprove("fourth");
+                                        setLevelOfApprove('fourth');
                                       }}
                                     />
                                   </span>
@@ -320,7 +321,7 @@ const UnLoadingInformationTable = () => {
                                         onClick={() => {
                                           setSingleData(item);
                                           setShow(true);
-                                          setLevelOfApprove("first");
+                                          setLevelOfApprove('first');
                                         }}
                                       />
                                     </span>
@@ -331,7 +332,7 @@ const UnLoadingInformationTable = () => {
                                         onClick={() => {
                                           setSingleData(item);
                                           setShow(true);
-                                          setLevelOfApprove("second");
+                                          setLevelOfApprove('second');
                                         }}
                                       />
                                     </span>
@@ -342,12 +343,12 @@ const UnLoadingInformationTable = () => {
                                         onClick={() => {
                                           setSingleData(item);
                                           setShow(true);
-                                          setLevelOfApprove("third");
+                                          setLevelOfApprove('third');
                                         }}
                                       />
                                     </span>
                                   ) : (
-                                    "Approved"
+                                    'Approved'
                                   )}
                                 </td>
                               </tr>
@@ -371,7 +372,7 @@ const UnLoadingInformationTable = () => {
                 )}
 
                 <IViewModal show={show} onHide={() => setShow(false)}>
-                  {levelOfApprove === "fourth" ? (
+                  {levelOfApprove === 'fourth' ? (
                     <TruckToDamApproveForm
                       preValues={values}
                       singleItem={singleData}

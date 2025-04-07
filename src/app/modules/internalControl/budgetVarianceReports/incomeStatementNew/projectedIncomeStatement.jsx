@@ -156,7 +156,7 @@ export default function ProjectedIncomeStatement({ incomeStatement, values }) {
                               {' '}
                               {/* {_formatMoney(data?.monCurrentPeriodAmount)} */}
                               {numberWithCommas(
-                                Math.round(data?.monCurrentPeriodAmount) || 0,
+                                Math.round(data?.monCurrentPeriodAmount) || 0
                               )}
                             </span>
                           </td>
@@ -182,13 +182,13 @@ export default function ProjectedIncomeStatement({ incomeStatement, values }) {
                           >
                             {/* {_formatMoney(data?.monLastPeriodAmount)} */}
                             {numberWithCommas(
-                              Math.round(data?.monLastPeriodAmount) || 0,
+                              Math.round(data?.monLastPeriodAmount) || 0
                             )}
                           </td>
                           <td className="text-right">
                             {numberWithCommas(
                               Math.round(data?.monCurrentPeriodAmount) -
-                                Math.round(data?.monLastPeriodAmount),
+                                Math.round(data?.monLastPeriodAmount)
                             )}
                           </td>
                         </tr>
@@ -199,7 +199,7 @@ export default function ProjectedIncomeStatement({ incomeStatement, values }) {
                         className="text-center d-none"
                         colSpan={4}
                       >{`System Generated Report - ${moment().format(
-                        'LLLL',
+                        'LLLL'
                       )}`}</td>
                     </tr>
                   </tbody>

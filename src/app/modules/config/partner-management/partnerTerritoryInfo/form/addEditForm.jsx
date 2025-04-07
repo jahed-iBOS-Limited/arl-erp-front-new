@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 import {
   getPartnerTerritoryInfoById,
   getTerritoryList,
   updatePartnerTerritory,
-} from "../helper";
-import Form from "./form";
-import { shallowEqual, useSelector } from "react-redux";
+} from '../helper';
+import Form from './form';
+import { shallowEqual, useSelector } from 'react-redux';
 
 const PartnerTerritoryInfoForm = ({ id, values, accId, buId, setShow }) => {
-
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);

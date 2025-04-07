@@ -1,28 +1,26 @@
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
 import {
   createDeliveryReceive,
   editDeliveryReceive,
   getDeliveryReceiveById,
   getChalanDDL,
-} from "../helper";
-import { useParams } from "react-router-dom";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import { toast } from "react-toastify";
+} from '../helper';
+import { useParams } from 'react-router-dom';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import { toast } from 'react-toastify';
 
 const initData = {
-  chalan: "",
-  inventoryTransactionId: "",
-  inventoryTransactionName: "",
+  chalan: '',
+  inventoryTransactionId: '',
+  inventoryTransactionName: '',
 };
 
 export default function PrimaryDeliveryReceiveForm() {
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState(false);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [rowData, setRowData] = useState([]);
   const [chalanDDL, setChalanDDL] = useState([]);
 
@@ -67,15 +65,15 @@ export default function PrimaryDeliveryReceiveForm() {
         let payload = {
           objheader: {
             transactionTypeId: 0,
-            transactionTypeName: "",
-            strInventoryTransactionCode: "",
+            transactionTypeName: '',
+            strInventoryTransactionCode: '',
             referenceId: values?.chalan?.value,
             referenceCode: values?.chalan?.label,
             accountId: profileData?.accountId,
             businessUnitId: selectedBusinessUnit?.value,
             businessUnitName: selectedBusinessUnit?.label,
             businessPartnerId: 0,
-            businessPartnerName: "",
+            businessPartnerName: '',
             transactionDate: _todayDate(),
             actionBy: profileData?.userId,
           },
@@ -94,7 +92,6 @@ export default function PrimaryDeliveryReceiveForm() {
         };
         createDeliveryReceive(payload, setIsLoading, cb);
       } else {
-
         let payload = {
           objheader: {
             inventoryTransactionId: values?.inventoryTransactionId,
@@ -117,7 +114,7 @@ export default function PrimaryDeliveryReceiveForm() {
         editDeliveryReceive(payload, setIsLoading);
       }
     } else {
-      toast.warning("Please add atleast one item", { toastId: 333 });
+      toast.warning('Please add atleast one item', { toastId: 333 });
     }
   };
 

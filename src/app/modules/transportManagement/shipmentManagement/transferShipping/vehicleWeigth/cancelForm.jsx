@@ -1,15 +1,15 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
-  challanNo: "",
-  reason: "",
+  challanNo: '',
+  reason: '',
 };
 
 const CancelTransferShipping = async (payload, setLoading, cb) => {

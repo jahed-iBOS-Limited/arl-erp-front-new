@@ -1,7 +1,6 @@
-
-import React, { useEffect, useState } from "react";
-import InfoCircle from "../../../../_helper/_helperIcons/_infoCircle";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
+import React, { useEffect, useState } from 'react';
+import InfoCircle from '../../../../_helper/_helperIcons/_infoCircle';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
 
 const TableForDetail = ({
   inventoryStatement,
@@ -89,40 +88,40 @@ const TableForDetail = ({
     inventoryStatement?.length > 0 && (
       <div className="react-bootstrap-table table-responsive">
         <div className="loan-scrollable-table inventory-statement-report">
-          <div style={{ maxHeight: "500px" }} className="scroll-table _table">
+          <div style={{ maxHeight: '500px' }} className="scroll-table _table">
             <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm">
               <thead>
                 <tr>
-                  <th style={{ minWidth: "30px" }}>SL</th>
+                  <th style={{ minWidth: '30px' }}>SL</th>
                   <th>Item</th>
-                  <th style={{ minWidth: "100px" }}>Item Code</th>
-                  <th style={{ minWidth: "100px" }}>UoM Name</th>
-                  <th style={{ minWidth: "100px" }}>Warehouse</th>
+                  <th style={{ minWidth: '100px' }}>Item Code</th>
+                  <th style={{ minWidth: '100px' }}>UoM Name</th>
+                  <th style={{ minWidth: '100px' }}>Warehouse</th>
                   <th>Location/Bin</th>
-                  <th style={{ minWidth: "50px" }}>Opening Qty</th>
+                  <th style={{ minWidth: '50px' }}>Opening Qty</th>
                   {/* <th style={{ minWidth: "80px" }}>Opening Value</th> */}
-                  <th style={{ minWidth: "50px" }}>Adjust Inv Qty</th>
+                  <th style={{ minWidth: '50px' }}>Adjust Inv Qty</th>
                   {/* <th style={{ minWidth: "50px" }}>Adjust Inv Value</th> */}
-                  <th style={{ minWidth: "50px" }}>Receive Inv Qty</th>
-                  <th style={{ minWidth: "50px" }}>Receive Inv Value</th>
-                  <th style={{ minWidth: "90px" }}>
+                  <th style={{ minWidth: '50px' }}>Receive Inv Qty</th>
+                  <th style={{ minWidth: '50px' }}>Receive Inv Value</th>
+                  <th style={{ minWidth: '90px' }}>
                     Received From Production Qty
                   </th>
                   {/* <th style={{ minWidth: "90px" }}>
                     Received From Production Value
                   </th> */}
-                  <th style={{ minWidth: "50px" }}>Issue Inv Qty</th>
-                  <th style={{ minWidth: "50px" }}>Issue Inv Value</th>
-                  <th style={{ minWidth: "70px" }}>Purchase Return Qty</th>
-                  <th style={{ minWidth: "70px" }}>Purchase Return Value</th>
-                  <th style={{ minWidth: "70px" }}>Transfer in Qty</th>
+                  <th style={{ minWidth: '50px' }}>Issue Inv Qty</th>
+                  <th style={{ minWidth: '50px' }}>Issue Inv Value</th>
+                  <th style={{ minWidth: '70px' }}>Purchase Return Qty</th>
+                  <th style={{ minWidth: '70px' }}>Purchase Return Value</th>
+                  <th style={{ minWidth: '70px' }}>Transfer in Qty</th>
                   {/* <th style={{ minWidth: "80px" }}>Transfer in Value</th> */}
-                  <th style={{ minWidth: "70px" }}>Transfer out Qty</th>
+                  <th style={{ minWidth: '70px' }}>Transfer out Qty</th>
                   {/* <th style={{ minWidth: "80px" }}>Transfer out Value</th> */}
-                  <th style={{ minWidth: "70px" }}>Closing Qty</th>
-                  <th style={{ minWidth: "70px" }}>Avg Rate</th>
-                  <th style={{ minWidth: "80px" }}>Closing Value</th>
-                  <th style={{ minWidth: "70px" }}>Action</th>
+                  <th style={{ minWidth: '70px' }}>Closing Qty</th>
+                  <th style={{ minWidth: '70px' }}>Avg Rate</th>
+                  <th style={{ minWidth: '80px' }}>Closing Value</th>
+                  <th style={{ minWidth: '70px' }}>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -130,7 +129,7 @@ const TableForDetail = ({
                   inventoryStatement?.map((item, index) => {
                     return (
                       <tr key={index}>
-                        <td style={{ width: "30px" }} className="text-center">
+                        <td style={{ width: '30px' }} className="text-center">
                           {item?.sl}
                         </td>
                         <td>
@@ -149,7 +148,11 @@ const TableForDetail = ({
                           <span className="pl-2">{item?.strLocation_BIN}</span>
                         </td>
                         <td className="text-right">
-                          <span>{numberWithCommas((item?.numOpenQty || 0).toFixed(2))}</span>
+                          <span>
+                            {numberWithCommas(
+                              (item?.numOpenQty || 0).toFixed(2)
+                            )}
+                          </span>
                         </td>
                         {/* <td className="text-right">
                           <span>
@@ -159,7 +162,11 @@ const TableForDetail = ({
                           </span>
                         </td> */}
                         <td className="text-right">
-                          <span>{numberWithCommas((item?.numAdjustQty || 0).toFixed(2))}</span>
+                          <span>
+                            {numberWithCommas(
+                              (item?.numAdjustQty || 0).toFixed(2)
+                            )}
+                          </span>
                         </td>
                         {/* <td className="text-right">
                           <span>
@@ -169,7 +176,11 @@ const TableForDetail = ({
                           </span>
                         </td> */}
                         <td className="text-right">
-                          <span className="pl-2">{numberWithCommas((item?.numReceiveQty || 0).toFixed(2))}</span>
+                          <span className="pl-2">
+                            {numberWithCommas(
+                              (item?.numReceiveQty || 0).toFixed(2)
+                            )}
+                          </span>
                         </td>
                         <td className="text-right">
                           <span className="pl-2">
@@ -179,7 +190,11 @@ const TableForDetail = ({
                           </span>
                         </td>
                         <td className="text-right">
-                          <span className="pl-2">{numberWithCommas((item?.numProductionQty || 0).toFixed(2))}</span>
+                          <span className="pl-2">
+                            {numberWithCommas(
+                              (item?.numProductionQty || 0).toFixed(2)
+                            )}
+                          </span>
                         </td>
                         {/* <td className="text-right">
                           <span className="pl-2">
@@ -189,7 +204,11 @@ const TableForDetail = ({
                           </span>
                         </td> */}
                         <td className="text-right">
-                          <span className="pl-2">{numberWithCommas((item?.numIssueQty || 0).toFixed(2))}</span>
+                          <span className="pl-2">
+                            {numberWithCommas(
+                              (item?.numIssueQty || 0).toFixed(2)
+                            )}
+                          </span>
                         </td>
                         <td className="text-right">
                           <span className="pl-2">
@@ -199,7 +218,11 @@ const TableForDetail = ({
                           </span>
                         </td>
                         <td className="text-right">
-                          <span className="pl-2">{numberWithCommas((item?.numPurReturnQty || 0).toFixed(2))}</span>
+                          <span className="pl-2">
+                            {numberWithCommas(
+                              (item?.numPurReturnQty || 0).toFixed(2)
+                            )}
+                          </span>
                         </td>
                         <td className="text-right">
                           <span className="pl-2">
@@ -209,7 +232,11 @@ const TableForDetail = ({
                           </span>
                         </td>
                         <td className="text-right">
-                          <span className="pl-2">{numberWithCommas((item?.numTransInQty || 0).toFixed(2))}</span>
+                          <span className="pl-2">
+                            {numberWithCommas(
+                              (item?.numTransInQty || 0).toFixed(2)
+                            )}
+                          </span>
                         </td>
                         {/* <td className="text-right">
                           <span className="pl-2">
@@ -219,7 +246,11 @@ const TableForDetail = ({
                           </span>
                         </td> */}
                         <td className="text-right">
-                          <span className="pl-2">{numberWithCommas((item?.numTransOutQty || 0).toFixed(2))}</span>
+                          <span className="pl-2">
+                            {numberWithCommas(
+                              (item?.numTransOutQty || 0).toFixed(2)
+                            )}
+                          </span>
                         </td>
                         {/* <td className="text-right">
                           <span className="pl-2">

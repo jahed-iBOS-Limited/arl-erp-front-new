@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const SaveBulkSalesTargetSetup = async (data) => {
   // setDisabled && setDisabled(true);
@@ -10,7 +10,7 @@ export const SaveBulkSalesTargetSetup = async (data) => {
     );
     if (res.status === 200 && res?.data) {
       // setDisabled && setDisabled(false);
-      toast.success("created successfully");
+      toast.success('created successfully');
     }
   } catch (error) {
     // setDisabled && setDisabled(false);

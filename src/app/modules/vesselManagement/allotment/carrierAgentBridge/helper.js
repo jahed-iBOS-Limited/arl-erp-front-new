@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getSBUListDDL = async (accId, buId, setter) => {
   try {
@@ -12,7 +12,7 @@ export const getSBUListDDL = async (accId, buId, setter) => {
   } catch (error) {}
 };
 
-export const deleteCarrierAgent = async (id,uId, setLoading, cb) => {
+export const deleteCarrierAgent = async (id, uId, setLoading, cb) => {
   setLoading && setLoading(true);
   try {
     const res = await axios.put(

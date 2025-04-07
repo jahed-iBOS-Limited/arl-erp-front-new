@@ -1,26 +1,24 @@
-
-
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams, useLocation, useHistory } from "react-router";
-import Loading from "../../../../_chartinghelper/loading/_loading";
-import { createBallastPassage } from "../helper";
-import Form from "./form";
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams, useLocation, useHistory } from 'react-router';
+import Loading from '../../../../_chartinghelper/loading/_loading';
+import { createBallastPassage } from '../helper';
+import Form from './form';
 
 const initData = {
-  vesselName: "",
-  voyageNo: "",
-  ballastStartDate: "",
-  ballastEndDate: "",
-  ballastDuration: "",
-  lsmgoperDayQty: "",
-  lsmgoballastQty: "",
-  lsmgoballastRate: "",
-  lsmgoballastAmount: "",
-  lsfoperDayQty: "",
-  lsfoballastQty: "",
-  lsfoballastRate: "",
-  lsfoballastAmount: "",
+  vesselName: '',
+  voyageNo: '',
+  ballastStartDate: '',
+  ballastEndDate: '',
+  ballastDuration: '',
+  lsmgoperDayQty: '',
+  lsmgoballastQty: '',
+  lsmgoballastRate: '',
+  lsmgoballastAmount: '',
+  lsfoperDayQty: '',
+  lsfoballastQty: '',
+  lsfoballastRate: '',
+  lsfoballastAmount: '',
 };
 
 export default function NextBallastPassageForm() {

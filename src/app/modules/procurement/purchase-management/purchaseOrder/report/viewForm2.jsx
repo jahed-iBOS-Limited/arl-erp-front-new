@@ -1,6 +1,5 @@
-
-import React, { useState, useRef } from "react";
-import { sendEmailPostApi } from "./prModalHelper";
+import React, { useState, useRef } from 'react';
+import { sendEmailPostApi } from './prModalHelper';
 
 export default function ViewForm({
   subject,
@@ -11,21 +10,21 @@ export default function ViewForm({
   setIsShowModal,
 }) {
   // const [data, setData] = useState([]);
-  const [toMail, settoMail] = useState("");
-  const [toCC, settoCC] = useState("");
-  const [toBCC, settoBCC] = useState("");
+  const [toMail, settoMail] = useState('');
+  const [toCC, settoCC] = useState('');
+  const [toBCC, settoBCC] = useState('');
 
-  const [attachment, setAttachment] = useState("");
+  const [attachment, setAttachment] = useState('');
   const imageInputRef = useRef();
 
   let cb = () => {
-    settoMail("");
-    settoCC("");
-    settoBCC("");
-    setSubject("");
-    setMessage("");
-    setAttachment("");
-    imageInputRef.current.value = "";
+    settoMail('');
+    settoCC('');
+    settoBCC('');
+    setSubject('');
+    setMessage('');
+    setAttachment('');
+    imageInputRef.current.value = '';
   };
 
   function sendEmail(e) {

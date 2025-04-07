@@ -58,12 +58,8 @@ export default function BankLetter() {
 
   const [bankList, getBankList] = useAxiosGet();
   const [templateList, getTemplateList, , setTemplateList] = useAxiosGet();
-  const [
-    bankBranchList,
-    getBankBranchList,
-    ,
-    setBankBranchList,
-  ] = useAxiosGet();
+  const [bankBranchList, getBankBranchList, , setBankBranchList] =
+    useAxiosGet();
   const printRef = useRef();
   const accountOpenRef = useRef();
   const [, onSave, loader] = useAxiosPost();
@@ -72,16 +68,11 @@ export default function BankLetter() {
   const [gridData, getGridData, loading] = useAxiosGet();
   const [singleRowItem, setSingleRowItem] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [
-    bankAccountInfo,
-    getBankAccountInfo,
-    ,
-    setBankAccountInfo,
-  ] = useAxiosGet();
+  const [bankAccountInfo, getBankAccountInfo, , setBankAccountInfo] =
+    useAxiosGet();
 
   useEffect(() => {
     getBankList(`/hcm/HCMDDL/GetBankDDL`);
-
   }, []);
 
   useEffect(() => {
@@ -104,7 +95,6 @@ export default function BankLetter() {
       handleInvoicePrint();
       setShowModal(false);
     }
-
   }, [singleRowItem]);
 
   const saveHandler = (values, cb) => {
@@ -165,7 +155,7 @@ export default function BankLetter() {
   });
   const getLandingData = (values, pageNo, pageSize, searchValue = '') => {
     getGridData(
-      `/fino/BankLetter/GetFilteredBankLetters?businessUnitId=${values?.businessUnit?.value}&pageNumber=${pageNo}&pageSize=${pageSize}`,
+      `/fino/BankLetter/GetFilteredBankLetters?businessUnitId=${values?.businessUnit?.value}&pageNumber=${pageNo}&pageSize=${pageSize}`
     );
   };
 
@@ -283,7 +273,7 @@ export default function BankLetter() {
                             if (data?.length === 1) {
                               setFieldValue('templateName', data[0]);
                             }
-                          },
+                          }
                         );
                       }
                     }}
@@ -322,7 +312,7 @@ export default function BankLetter() {
                         setBankAccountInfo([]);
                         if (valueOption) {
                           getBankBranchList(
-                            `/hcm/HCMDDL/GetBankBranchDDL?BankId=${valueOption?.value}`,
+                            `/hcm/HCMDDL/GetBankBranchDDL?BankId=${valueOption?.value}`
                           );
                           getBankAccountInfo(
                             `/fino/BankLetter/GetBankAccountList?intBusinessUnitId=${values?.businessUnit?.value}&intBankId=${valueOption?.value}`,
@@ -333,7 +323,7 @@ export default function BankLetter() {
                                 label: `${item?.strBankAccountNo}-${item?.strBankBranchName}`,
                               }));
                               setBankAccountInfo(modifyData);
-                            },
+                            }
                           );
                         }
                       }}
@@ -785,64 +775,64 @@ export default function BankLetter() {
                         <tbody>
                           <div style={{ margin: '40px 50px 0 50px' }}>
                             {[1].includes(
-                              singleRowItem?.intBankLetterTemplateId,
+                              singleRowItem?.intBankLetterTemplateId
                             ) && (
                               <AccountOpenOne singleRowItem={singleRowItem} />
                             )}
                             {[2].includes(
-                              singleRowItem?.intBankLetterTemplateId,
+                              singleRowItem?.intBankLetterTemplateId
                             ) && (
                               <AccountOpenTwo singleRowItem={singleRowItem} />
                             )}
                             {[7].includes(
-                              singleRowItem?.intBankLetterTemplateId,
+                              singleRowItem?.intBankLetterTemplateId
                             ) && <FdrONE singleRowItem={singleRowItem} />}
                             {[8].includes(
-                              singleRowItem?.intBankLetterTemplateId,
+                              singleRowItem?.intBankLetterTemplateId
                             ) && <FdrTwo singleRowItem={singleRowItem} />}
                             {[3].includes(
-                              singleRowItem?.intBankLetterTemplateId,
+                              singleRowItem?.intBankLetterTemplateId
                             ) && (
                               <AccountCloseOne singleRowItem={singleRowItem} />
                             )}
                             {[4].includes(
-                              singleRowItem?.intBankLetterTemplateId,
+                              singleRowItem?.intBankLetterTemplateId
                             ) && (
                               <AccountCloseTwo singleRowItem={singleRowItem} />
                             )}
                             {[5].includes(
-                              singleRowItem?.intBankLetterTemplateId,
+                              singleRowItem?.intBankLetterTemplateId
                             ) && (
                               <AccountCloseThree
                                 singleRowItem={singleRowItem}
                               />
                             )}
                             {[6].includes(
-                              singleRowItem?.intBankLetterTemplateId,
+                              singleRowItem?.intBankLetterTemplateId
                             ) && (
                               <AccountCloseFour singleRowItem={singleRowItem} />
                             )}
                             {[10].includes(
-                              singleRowItem?.intBankLetterTemplateId,
+                              singleRowItem?.intBankLetterTemplateId
                             ) && (
                               <AuthorizationOne singleRowItem={singleRowItem} />
                             )}
                             {[11].includes(
-                              singleRowItem?.intBankLetterTemplateId,
+                              singleRowItem?.intBankLetterTemplateId
                             ) && (
                               <SignatoryChangeOne
                                 singleRowItem={singleRowItem}
                               />
                             )}
                             {[12].includes(
-                              singleRowItem?.intBankLetterTemplateId,
+                              singleRowItem?.intBankLetterTemplateId
                             ) && (
                               <SignatoryChangeTwo
                                 singleRowItem={singleRowItem}
                               />
                             )}
                             {[13].includes(
-                              singleRowItem?.intBankLetterTemplateId,
+                              singleRowItem?.intBankLetterTemplateId
                             ) && (
                               <BankCertificateOne
                                 singleRowItem={singleRowItem}

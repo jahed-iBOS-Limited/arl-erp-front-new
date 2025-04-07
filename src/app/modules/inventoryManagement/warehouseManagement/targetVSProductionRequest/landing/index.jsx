@@ -1,25 +1,23 @@
-
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { getMonth } from "../../../../salesManagement/report/customerSalesTarget/utils";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IClose from "../../../../_helper/_helperIcons/_close";
-import IApproval from "../../../../_helper/_helperIcons/_approval";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { getMonth } from '../../../../salesManagement/report/customerSalesTarget/utils';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IClose from '../../../../_helper/_helperIcons/_close';
+import IApproval from '../../../../_helper/_helperIcons/_approval';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   acceptProductionRequest,
   getProductionRequests,
   cancelProductionRequest,
-} from "../helper";
-import IViewModal from "../../../../_helper/_viewModal";
-import CancelProductionRequest from "./cancelModal";
+} from '../helper';
+import IViewModal from '../../../../_helper/_viewModal';
+import CancelProductionRequest from './cancelModal';
 
 const initData = {
   fromDate: _todayDate(),
@@ -37,7 +35,7 @@ function TargetVSProductionRequest() {
   const [gridData, setGridData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
-  const [id, setId] = useState("");
+  const [id, setId] = useState('');
 
   const getLandingData = (values, pageNo = 0, pageSize = 15) => {
     getProductionRequests(
@@ -96,7 +94,7 @@ function TargetVSProductionRequest() {
                       placeholder="Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                         getLandingData(
                           { ...values, fromDate: e.target.value },
                           pageNo,
@@ -113,7 +111,7 @@ function TargetVSProductionRequest() {
                       placeholder="Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                         getLandingData(
                           { ...values, toDate: e.target.value },
                           pageNo,
@@ -128,7 +126,7 @@ function TargetVSProductionRequest() {
                     <table className="table table-striped table-bordered bj-table bj-table-landing">
                       <thead>
                         <tr>
-                          <th style={{ width: "30px" }}>SL</th>
+                          <th style={{ width: '30px' }}>SL</th>
                           <th>Region</th>
                           <th>Item Name</th>
                           <th>Target Year</th>

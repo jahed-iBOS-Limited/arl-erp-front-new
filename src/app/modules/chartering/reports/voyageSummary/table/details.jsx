@@ -1,33 +1,32 @@
-
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import { getVoyageDetails } from "../helper";
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import { getVoyageDetails } from '../helper';
 
 const chartererHeaders = [
-  { name: "SL" },
-  { name: "Charterer Name" },
-  { name: "Broker Name" },
-  { name: "Broker Commission" },
-  { name: "Address Commission" },
-  { name: "Total Freight" },
+  { name: 'SL' },
+  { name: 'Charterer Name' },
+  { name: 'Broker Name' },
+  { name: 'Broker Commission' },
+  { name: 'Address Commission' },
+  { name: 'Total Freight' },
 ];
 const purchaseBunkerHeaders = [
-  { name: "SL" },
-  { name: "Purchase From" },
-  { name: "Company Name" },
-  { name: "Item Name" },
-  { name: "Item Qty" },
+  { name: 'SL' },
+  { name: 'Purchase From' },
+  { name: 'Company Name' },
+  { name: 'Item Name' },
+  { name: 'Item Qty' },
 ];
 const bunkerCostHeaders = [
-  { name: "SL" },
-  { name: "Purchase From" },
-  { name: "Company Name" },
-  { name: "Item Name" },
-  { name: "Item Qty" },
+  { name: 'SL' },
+  { name: 'Purchase From' },
+  { name: 'Company Name' },
+  { name: 'Item Name' },
+  { name: 'Item Qty' },
 ];
 
 export default function VoyageDetails({ singleRow }) {
@@ -61,12 +60,8 @@ export default function VoyageDetails({ singleRow }) {
     // consumptionLsmgoqty,
   } = bunkerInfo;
 
-  const {
-    consmQtyLsfo1,
-    consmQtyLsfo2,
-    consmQtyLsmgo,
-    totalBunkerCost,
-  } = bunkerCost;
+  const { consmQtyLsfo1, consmQtyLsfo2, consmQtyLsmgo, totalBunkerCost } =
+    bunkerCost;
 
   return (
     <>
@@ -79,7 +74,7 @@ export default function VoyageDetails({ singleRow }) {
           <div className="col-md-6 ">
             <h6>
               <b>Vessel Name & Voyage No: </b>
-              {singleRow?.vesselName + " & V" + singleRow?.voyageNo}
+              {singleRow?.vesselName + ' & V' + singleRow?.voyageNo}
             </h6>
             <h6>
               <b>Ship Owner: </b>
@@ -87,7 +82,7 @@ export default function VoyageDetails({ singleRow }) {
             </h6>
             <h6>
               <b>Commence Date: </b>
-              {moment(singleRow?.voyageStartDate).format("DD-MMM-yyyy, HH:mm")}
+              {moment(singleRow?.voyageStartDate).format('DD-MMM-yyyy, HH:mm')}
             </h6>
 
             <h6>
@@ -106,7 +101,7 @@ export default function VoyageDetails({ singleRow }) {
             </h6>
             <h6>
               <b>Completion Date: </b>
-              {moment(singleRow?.voyageEndDate).format("DD-MMM-yyyy, HH:mm")}
+              {moment(singleRow?.voyageEndDate).format('DD-MMM-yyyy, HH:mm')}
             </h6>
           </div>
         </div>
@@ -114,10 +109,10 @@ export default function VoyageDetails({ singleRow }) {
       <div className="table-responsive">
         <table className="table mt-3 bj-table bj-table-landing">
           <thead>
-            <tr className="text-left" style={{ backgroundColor: "#dbeafe" }}>
+            <tr className="text-left" style={{ backgroundColor: '#dbeafe' }}>
               <td colSpan={chartererHeaders?.length}>
-                {" "}
-                <b>Charterers</b>{" "}
+                {' '}
+                <b>Charterers</b>{' '}
               </td>
             </tr>
             <tr>
@@ -145,7 +140,7 @@ export default function VoyageDetails({ singleRow }) {
             ) : (
               <tr>
                 <td colSpan={chartererHeaders.length}>
-                  <h6 className="pt-2 text-center">No Data Found</h6>{" "}
+                  <h6 className="pt-2 text-center">No Data Found</h6>{' '}
                 </td>
               </tr>
             )}
@@ -157,10 +152,10 @@ export default function VoyageDetails({ singleRow }) {
       <div className="table-responsive">
         <table className="table mt-2 bj-table bj-table-landing">
           <thead>
-            <tr className="text-left" style={{ backgroundColor: "#dbeafe" }}>
+            <tr className="text-left" style={{ backgroundColor: '#dbeafe' }}>
               <td colSpan={12}>
-                {" "}
-                <b>Bunker Information</b>{" "}
+                {' '}
+                <b>Bunker Information</b>{' '}
               </td>
             </tr>
             <tr>
@@ -213,9 +208,9 @@ export default function VoyageDetails({ singleRow }) {
       <div className="table-responsive">
         <table className="table mt-2 bj-table bj-table-landing">
           <thead>
-            <tr className="text-left" style={{ backgroundColor: "#dbeafe" }}>
+            <tr className="text-left" style={{ backgroundColor: '#dbeafe' }}>
               <td colSpan={purchaseBunkerHeaders?.length}>
-                <b>Bunker Purchase</b>{" "}
+                <b>Bunker Purchase</b>{' '}
               </td>
             </tr>
             <tr>
@@ -246,7 +241,7 @@ export default function VoyageDetails({ singleRow }) {
                 <td colSpan={purchaseBunkerHeaders.length}>
                   <h6 className="pt-2 text-center">
                     No purchases were made on this voyage
-                  </h6>{" "}
+                  </h6>{' '}
                 </td>
               </tr>
             )}
@@ -256,16 +251,16 @@ export default function VoyageDetails({ singleRow }) {
       <div className="table-responsive">
         <table className="table mt-2 bj-table bj-table-landing">
           <thead>
-            <tr className="text-left" style={{ backgroundColor: "#dbeafe" }}>
+            <tr className="text-left" style={{ backgroundColor: '#dbeafe' }}>
               <td colSpan={bunkerCostHeaders?.length}>
-                <b>Bunker Cost & Consumption</b>{" "}
+                <b>Bunker Cost & Consumption</b>{' '}
               </td>
             </tr>
             <tr>
               <th colSpan={3}> Consumption </th>
               <th rowSpan={2} className="align-middle">
-                {" "}
-                Bunker Cost{" "}
+                {' '}
+                Bunker Cost{' '}
               </th>
             </tr>
             <tr>
@@ -280,12 +275,15 @@ export default function VoyageDetails({ singleRow }) {
                 <td> {consmQtyLsmgo} </td>
                 <td> {consmQtyLsfo1} </td>
                 <td> {consmQtyLsfo2} </td>
-                <td className="text-right"> {_formatMoney(totalBunkerCost)} </td>
+                <td className="text-right">
+                  {' '}
+                  {_formatMoney(totalBunkerCost)}{' '}
+                </td>
               </tr>
             ) : (
               <tr>
                 <td colSpan={4}>
-                  <h6 className="pt-2 text-center">No Data Found</h6>{" "}
+                  <h6 className="pt-2 text-center">No Data Found</h6>{' '}
                 </td>
               </tr>
             )}

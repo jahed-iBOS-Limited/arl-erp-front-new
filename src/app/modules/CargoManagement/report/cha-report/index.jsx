@@ -38,13 +38,12 @@ export default function CHAReport() {
     const endDate = moment(values?.toDate).format('YYYY-MM-DD');
     const query = `fromDate=${startDate}&toDate=${endDate}`;
     getACLedgerforPaymentReport(
-      `${imarineBaseUrl}/domain/CHAShipment/GetACLedgerforPaymentReport?modeOfTransportId=${values?.chaType?.value}&${query}&pageNo=1&pageSize=10000`,
+      `${imarineBaseUrl}/domain/CHAShipment/GetACLedgerforPaymentReport?modeOfTransportId=${values?.chaType?.value}&${query}&pageNo=1&pageSize=10000`
     );
   };
 
   useEffect(() => {
     commonGetApi(initialValues);
-
   }, []);
 
   return (

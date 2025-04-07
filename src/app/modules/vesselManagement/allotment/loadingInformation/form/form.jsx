@@ -1,19 +1,19 @@
-import { Form, Formik } from "formik";
-import moment from "moment";
-import React from "react";
-import { useHistory, useLocation } from "react-router-dom";
+import { Form, Formik } from 'formik';
+import moment from 'moment';
+import React from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { validationSchema } from "../helper";
-import ReactHtmlTableToExcel from "react-html-table-to-excel";
+} from '../../../../../../_metronic/_partials/controls';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { validationSchema } from '../helper';
+import ReactHtmlTableToExcel from 'react-html-table-to-excel';
 
 export default function FormCmp({
   accId,
@@ -38,7 +38,7 @@ export default function FormCmp({
     return type;
   };
 
-  const view = type === "view";
+  const view = type === 'view';
 
   return (
     <>
@@ -76,28 +76,28 @@ export default function FormCmp({
                       <i className="fa fa-arrow-left"></i>
                       Back
                     </button>
-                    {type !== "view" && (
+                    {type !== 'view' && (
                       <button
                         type="reset"
                         onClick={() => {
                           resetForm(initData);
                         }}
                         className="btn btn-light ml-2"
-                        disabled={type === "view"}
+                        disabled={type === 'view'}
                       >
                         <i className="fa fa-redo"></i>
                         Reset
                       </button>
                     )}
 
-                    {type !== "view" && (
+                    {type !== 'view' && (
                       <button
                         type="submit"
                         className="btn btn-primary ml-2"
                         onClick={handleSubmit}
                         disabled={false}
                       >
-                        {type === "edit" ? "Add" : `Save`}
+                        {type === 'edit' ? 'Add' : `Save`}
                       </button>
                     )}
                   </>
@@ -119,7 +119,7 @@ export default function FormCmp({
                         value={values?.organization}
                         label="Organization"
                         onChange={(valueOption) => {
-                          setFieldValue("organization", valueOption);
+                          setFieldValue('organization', valueOption);
                         }}
                         placeholder="Organization"
                         errors={errors}
@@ -135,7 +135,7 @@ export default function FormCmp({
                         label="Port"
                         placeholder="Port"
                         onChange={(valueOption) => {
-                          setFieldValue("loadingPort", valueOption);
+                          setFieldValue('loadingPort', valueOption);
                           getVessels({
                             ...values,
                             loadingPort: valueOption,
@@ -152,7 +152,7 @@ export default function FormCmp({
                         label="Mother Vessel"
                         onChange={(e) => {
                           onChangeHandler(
-                            "motherVessel",
+                            'motherVessel',
                             values,
                             e,
                             setFieldValue
@@ -187,7 +187,7 @@ export default function FormCmp({
                     </div> */}
                     <div className="col-12 text-right mt-3">
                       <h5>
-                        Total Quantity:{" "}
+                        Total Quantity:{' '}
                         {_fixedPoint(
                           rowData
                             ?.filter((item) => item?.isSelected)
@@ -208,9 +208,9 @@ export default function FormCmp({
                           <ReactHtmlTableToExcel
                             id="test-table-xls-button-att-reports"
                             className="btn btn-primary"
-                            table={"table-to-xlsx"}
-                            filename={"Loading Information"}
-                            sheet={"Loading Information"}
+                            table={'table-to-xlsx'}
+                            filename={'Loading Information'}
+                            sheet={'Loading Information'}
                             buttonText="Export Excel"
                           />
                         </div>
@@ -218,7 +218,7 @@ export default function FormCmp({
                           <table
                             id="table-to-xlsx"
                             className={
-                              "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                              'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                             }
                           >
                             <thead>
@@ -226,7 +226,7 @@ export default function FormCmp({
                                 {!type && (
                                   <th
                                     onClick={() => allSelect(!selectedAll())}
-                                    style={{ width: "30px" }}
+                                    style={{ width: '30px' }}
                                   >
                                     <input
                                       type="checkbox"
@@ -237,15 +237,15 @@ export default function FormCmp({
                                   </th>
                                 )}
                                 {[
-                                  "SL",
-                                  "Lighter Vessel",
-                                  "Item Name",
-                                  "Boat Note",
-                                  "Side At",
-                                  "Loading Start",
-                                  "Quantity",
-                                  "Loading Complete",
-                                  "Sailing Date",
+                                  'SL',
+                                  'Lighter Vessel',
+                                  'Item Name',
+                                  'Boat Note',
+                                  'Side At',
+                                  'Loading Start',
+                                  'Quantity',
+                                  'Loading Complete',
+                                  'Sailing Date',
                                 ]?.map((th, index) => {
                                   return <th key={index}> {th} </th>;
                                 })}
@@ -259,7 +259,7 @@ export default function FormCmp({
                                       <td
                                         onClick={() => {
                                           rowDataHandler(
-                                            "isSelected",
+                                            'isSelected',
                                             index,
                                             !item.isSelected
                                           );
@@ -268,10 +268,10 @@ export default function FormCmp({
                                         style={
                                           item?.isSelected
                                             ? {
-                                                backgroundColor: "#aacae3",
-                                                width: "30px",
+                                                backgroundColor: '#aacae3',
+                                                width: '30px',
                                               }
-                                            : { width: "30px" }
+                                            : { width: '30px' }
                                         }
                                       >
                                         <input
@@ -283,14 +283,14 @@ export default function FormCmp({
                                       </td>
                                     )}
                                     <td
-                                      style={{ width: "30px" }}
+                                      style={{ width: '30px' }}
                                       className="text-center"
                                     >
                                       {index + 1}
                                     </td>
                                     <td>{item?.lighterVessel}</td>
                                     <td>{item?.itemName}</td>
-                                    <td style={{ minWidth: "70px" }}>
+                                    <td style={{ minWidth: '70px' }}>
                                       {view ? (
                                         item?.boatNote
                                       ) : (
@@ -300,7 +300,7 @@ export default function FormCmp({
                                           type="text"
                                           onChange={(e) => {
                                             rowDataHandler(
-                                              "boatNote",
+                                              'boatNote',
                                               index,
                                               e?.target?.value
                                             );
@@ -308,20 +308,20 @@ export default function FormCmp({
                                         />
                                       )}
                                     </td>
-                                    <td style={{ maxWidth: "190px" }}>
+                                    <td style={{ maxWidth: '190px' }}>
                                       {view ? (
-                                        moment(item?.sideAt).format("lll")
+                                        moment(item?.sideAt).format('lll')
                                       ) : (
                                         <InputField
                                           style={{
-                                            width: "130px",
+                                            width: '130px',
                                           }}
                                           value={item?.sideAt}
                                           name="sideAt"
                                           type="datetime-local"
                                           onChange={(e) => {
                                             rowDataHandler(
-                                              "sideAt",
+                                              'sideAt',
                                               index,
                                               e?.target?.value
                                             );
@@ -329,26 +329,26 @@ export default function FormCmp({
                                         />
                                       )}
                                     </td>
-                                    <td style={{ maxWidth: "190px" }}>
+                                    <td style={{ maxWidth: '190px' }}>
                                       {view ? (
                                         item?.loadingStart ? (
                                           moment(item?.loadingStart).format(
-                                            "lll"
+                                            'lll'
                                           )
                                         ) : (
-                                          ""
+                                          ''
                                         )
                                       ) : (
                                         <InputField
                                           style={{
-                                            width: "130px",
+                                            width: '130px',
                                           }}
                                           value={item?.loadingStart}
                                           name="loadingStart"
                                           type="datetime-local"
                                           onChange={(e) => {
                                             rowDataHandler(
-                                              "loadingStart",
+                                              'loadingStart',
                                               index,
                                               e?.target?.value
                                             );
@@ -358,7 +358,7 @@ export default function FormCmp({
                                     </td>
                                     <td
                                       className="text-right"
-                                      style={{ width: "100px" }}
+                                      style={{ width: '100px' }}
                                     >
                                       {view ? (
                                         _fixedPoint(item?.surveyQty, true)
@@ -369,7 +369,7 @@ export default function FormCmp({
                                           type="number"
                                           onChange={(e) => {
                                             rowDataHandler(
-                                              "surveyQty",
+                                              'surveyQty',
                                               index,
                                               +e?.target?.value
                                             );
@@ -377,26 +377,26 @@ export default function FormCmp({
                                         />
                                       )}
                                     </td>
-                                    <td style={{ maxWidth: "190px" }}>
+                                    <td style={{ maxWidth: '190px' }}>
                                       {view ? (
                                         item?.loadingComplete ? (
                                           moment(item?.loadingComplete).format(
-                                            "lll"
+                                            'lll'
                                           )
                                         ) : (
-                                          ""
+                                          ''
                                         )
                                       ) : (
                                         <InputField
                                           style={{
-                                            width: "130px",
+                                            width: '130px',
                                           }}
                                           value={item?.loadingComplete}
                                           name="loadingComplete"
                                           type="datetime-local"
                                           onChange={(e) => {
                                             rowDataHandler(
-                                              "loadingComplete",
+                                              'loadingComplete',
                                               index,
                                               e?.target?.value
                                             );
@@ -404,26 +404,26 @@ export default function FormCmp({
                                         />
                                       )}
                                     </td>
-                                    <td style={{ maxWidth: "190px" }}>
+                                    <td style={{ maxWidth: '190px' }}>
                                       {view ? (
                                         item?.sailingDate ? (
                                           moment(item?.sailingDate).format(
-                                            "lll"
+                                            'lll'
                                           )
                                         ) : (
-                                          ""
+                                          ''
                                         )
                                       ) : (
                                         <InputField
                                           style={{
-                                            width: "130px",
+                                            width: '130px',
                                           }}
                                           value={item?.sailingDate}
                                           name="sailingDate"
                                           type="datetime-local"
                                           onChange={(e) => {
                                             rowDataHandler(
-                                              "sailingDate",
+                                              'sailingDate',
                                               index,
                                               e?.target?.value
                                             );

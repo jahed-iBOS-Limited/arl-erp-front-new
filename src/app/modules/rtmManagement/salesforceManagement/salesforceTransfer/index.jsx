@@ -1,7 +1,6 @@
-import React from "react";
-import { UiProvider } from "../../../_helper/uiContextHelper";
-import { SalesforceTransferTable } from "./Table/tableHeader";
-
+import React from 'react';
+import { UiProvider } from '../../../_helper/uiContextHelper';
+import { SalesforceTransferTable } from './Table/tableHeader';
 
 export function SalesforceTransferLanding() {
   const uIEvents = {};
@@ -11,4 +10,4 @@ export function SalesforceTransferLanding() {
       <SalesforceTransferTable />
     </UiProvider>
   );
-};
+}

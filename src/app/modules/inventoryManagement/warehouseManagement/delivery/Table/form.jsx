@@ -66,7 +66,7 @@ export default function HeaderFormDedivery() {
         shipPointDDL: state.delivery.shipPointDDL,
       };
     },
-    { shallowEqual },
+    { shallowEqual }
   );
 
   let {
@@ -83,22 +83,18 @@ export default function HeaderFormDedivery() {
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
       getPlantDDL(
-        `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`,
+        `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
       );
       dispatch(
         getSBUDDLDelivery_Aciton(
           profileData.accountId,
-          selectedBusinessUnit.value,
-        ),
+          selectedBusinessUnit.value
+        )
       );
       dispatch(
-        GetShipPointDDLAction(
-          profileData.accountId,
-          selectedBusinessUnit.value,
-        ),
+        GetShipPointDDLAction(profileData.accountId, selectedBusinessUnit.value)
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {
@@ -116,10 +112,9 @@ export default function HeaderFormDedivery() {
         deliveryLanding?.distributionChannel?.value,
         deliveryLanding?.status?.value,
         deliveryLanding?.from,
-        deliveryLanding?.to,
+        deliveryLanding?.to
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
   //commonGridFunc
   const commonGridFunc = (
@@ -131,7 +126,7 @@ export default function HeaderFormDedivery() {
     channelId,
     status,
     fromDate,
-    toDate,
+    toDate
   ) => {
     dispatch(
       getDeliveryGridData(
@@ -146,8 +141,8 @@ export default function HeaderFormDedivery() {
         channelId,
         status,
         fromDate,
-        toDate,
-      ),
+        toDate
+      )
     );
   };
 
@@ -161,7 +156,7 @@ export default function HeaderFormDedivery() {
       values?.distributionChannel?.value,
       values?.status?.value,
       values?.from,
-      values?.to,
+      values?.to
     );
   };
 
@@ -175,7 +170,7 @@ export default function HeaderFormDedivery() {
       values?.distributionChannel?.value,
       values?.status?.value,
       values?.from,
-      values?.to,
+      values?.to
     );
   };
 
@@ -233,8 +228,8 @@ export default function HeaderFormDedivery() {
                             getDistributionChannelDDLAction(
                               profileData.accountId,
                               selectedBusinessUnit.value,
-                              valueOption?.value,
-                            ),
+                              valueOption?.value
+                            )
                           );
                         }}
                         placeholder="SBU"
@@ -286,8 +281,8 @@ export default function HeaderFormDedivery() {
                             GetWarehouseDDLAction(
                               profileData.accountId,
                               selectedBusinessUnit.value,
-                              valueOption?.value,
-                            ),
+                              valueOption?.value
+                            )
                           );
                         }}
                         placeholder="Ship Point"
@@ -415,7 +410,7 @@ export default function HeaderFormDedivery() {
                                 values?.distributionChannel?.value,
                                 values?.status?.value,
                                 values?.from,
-                                values?.to,
+                                values?.to
                               );
                             },
                           });

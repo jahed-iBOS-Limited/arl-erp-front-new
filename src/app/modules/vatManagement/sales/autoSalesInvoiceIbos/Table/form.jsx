@@ -64,7 +64,7 @@ export default function HeaderForm() {
         profileData.userId,
         profileData.accountId,
         selectedBusinessUnit?.value,
-        setTaxBranchDDL,
+        setTaxBranchDDL
       );
     }
   }, [profileData, selectedBusinessUnit]);
@@ -87,17 +87,16 @@ export default function HeaderForm() {
             shipPoint: resData[0] || '',
           };
           commonGridFunc(null, values, pageNo, pageSize);
-        },
+        }
       );
     }
-
   }, [selectedBusinessUnit, profileData, taxBranchDDL]);
 
   const commonGridFunc = (
     searchValue,
     values,
     _pageNo = pageNo,
-    _pageSize = pageSize,
+    _pageSize = pageSize
   ) => {
     setGirdData([]);
 
@@ -112,7 +111,7 @@ export default function HeaderForm() {
         setLoading,
         _pageNo,
         _pageSize,
-        searchValue,
+        searchValue
       );
     } else {
       if (values?.shipPoint?.value) {
@@ -124,7 +123,7 @@ export default function HeaderForm() {
           setLoading,
           _pageNo,
           _pageSize,
-          searchValue,
+          searchValue
         );
       }
     }
@@ -235,7 +234,7 @@ export default function HeaderForm() {
                           `/vat/TaxSalesInvoiceIbos/GetSalesInvoiceIbosSearchPagination?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&taxBranchId=${values?.branch?.value}&status=true&fromdate=${values?.fromDate}&todate=${values?.toDate}&PageNo=1&PageSize=${gridData?.totalCountForExcel}&viewOrder=desc`,
                           (data) => {
                             generateExcel(data?.data);
-                          },
+                          }
                         );
                       }}
                       disabled={!gridData?.data?.length}
@@ -266,7 +265,7 @@ export default function HeaderForm() {
                             profileData.accountId,
                             selectedBusinessUnit.value,
                             valueOption?.value,
-                            setShipPointByBranchDDL,
+                            setShipPointByBranchDDL
                           );
                           commonGridFunc(null, modifyValues, pageNo, pageSize);
 
@@ -352,7 +351,7 @@ export default function HeaderForm() {
                               null,
                               modifyValues,
                               pageNo,
-                              pageSize,
+                              pageSize
                             );
 
                             setFieldValue('status', e.target.value);
@@ -382,7 +381,7 @@ export default function HeaderForm() {
                               null,
                               modifyValues,
                               pageNo,
-                              pageSize,
+                              pageSize
                             );
 
                             setFieldValue('status', e.target.value);

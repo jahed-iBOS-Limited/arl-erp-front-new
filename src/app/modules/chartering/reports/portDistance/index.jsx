@@ -19,7 +19,6 @@ const PortDistanceReport = () => {
   useEffect(() => {
     getFromPortDDL(`/imp/ImportReport/GetFormPortDDL`);
     getToPortDDL(`/imp/ImportReport/GetToPortDDL`);
-
   }, []);
 
   return (
@@ -93,7 +92,7 @@ const PortDistanceReport = () => {
                     <button
                       onClick={() => {
                         getRowDto(
-                          `/imp/ImportReport/GetMasterPort?formPort=${values?.fromPort?.label}&toPort=${values?.toPort?.label}&InputDAYS=${values?.inputDays}`,
+                          `/imp/ImportReport/GetMasterPort?formPort=${values?.fromPort?.label}&toPort=${values?.toPort?.label}&InputDAYS=${values?.inputDays}`
                         );
                       }}
                       type="button"

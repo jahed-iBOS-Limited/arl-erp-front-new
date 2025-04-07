@@ -1,18 +1,18 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { categoryDDL, getExpenseParticularsLandingApi } from "../helper";
-import LandingTable from "./table";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { categoryDDL, getExpenseParticularsLandingApi } from '../helper';
+import LandingTable from './table';
 
 const initData = {
-  category: "",
+  category: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -33,7 +33,6 @@ const ExpenseParticularsLanding = () => {
     if (accId && buId) {
       commonGridData(pageNo, pageSize, initData);
     }
-
   }, [accId, buId]);
 
   const commonGridData = (
@@ -59,64 +58,61 @@ const ExpenseParticularsLanding = () => {
         {({ values, setFieldValue, touched, errors }) => (
           <>
             <ICustomCard
-              title='Expense Particulars'
+              title="Expense Particulars"
               createHandler={() => {
                 history.push(
                   `/ShippingAgency/Configuration/ExpenseParticulars/Create`
                 );
               }}
             >
-              <div className='row global-form my-3'>
-                <div className='col-lg-3'>
+              <div className="row global-form my-3">
+                <div className="col-lg-3">
                   <NewSelect
                     options={categoryDDL || []}
-                    name='category'
+                    name="category"
                     onChange={(valueOption) => {
-                      setFieldValue("category", valueOption);
+                      setFieldValue('category', valueOption);
                       setGridData([]);
                     }}
-                    placeholder='Category'
-                    label='Category'
+                    placeholder="Category"
+                    label="Category"
                     value={values?.category}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <label>From Date</label>
                   <InputField
                     value={values?.fromDate}
-                    name='fromDate'
-                    placeholder='From Date'
-                    type='date'
+                    name="fromDate"
+                    placeholder="From Date"
+                    type="date"
                     onChange={(e) => {
-                      setFieldValue("fromDate", e?.target?.value);
+                      setFieldValue('fromDate', e?.target?.value);
                     }}
                   />
                 </div>
-                <div className='col-lg-3'>
+                <div className="col-lg-3">
                   <label>To Date</label>
                   <InputField
                     value={values?.toDate}
-                    name='toDate'
-                    placeholder='To Date'
-                    type='date'
+                    name="toDate"
+                    placeholder="To Date"
+                    type="date"
                     onChange={(e) => {
-                      setFieldValue("toDate", e?.target?.value);
+                      setFieldValue('toDate', e?.target?.value);
                     }}
                   />
                 </div>
 
-                <div className='col d-flex align-items-end justify-content-end'>
+                <div className="col d-flex align-items-end justify-content-end">
                   <button
                     onClick={() => {
                       commonGridData(1, pageSize, values);
                     }}
-                    disabled={
-                      !values?.fromDate ||
-                      !values?.toDate
-                    }
-                    className='btn btn-primary mt-3'
+                    disabled={!values?.fromDate || !values?.toDate}
+                    className="btn btn-primary mt-3"
                   >
                     View
                   </button>

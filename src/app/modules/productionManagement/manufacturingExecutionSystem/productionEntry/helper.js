@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getGridData = async (
   accId,
@@ -13,13 +13,15 @@ export const getGridData = async (
   search,
   fromDate,
   toDate,
-  Appstatus,
+  Appstatus
 ) => {
   setLoading(true);
-  const searchPath = search ? `searchTerm=${search}&` : "";
-  const strFromDate = fromDate ? `fromDate=${fromDate}&` : "";
-  const strToDate = toDate ? `toDate=${toDate}&` : "";
-  const strAppstatus = [true, false]?.includes(Appstatus) ? `&Appstatus=${Appstatus}&` : "";
+  const searchPath = search ? `searchTerm=${search}&` : '';
+  const strFromDate = fromDate ? `fromDate=${fromDate}&` : '';
+  const strToDate = toDate ? `toDate=${toDate}&` : '';
+  const strAppstatus = [true, false]?.includes(Appstatus)
+    ? `&Appstatus=${Appstatus}&`
+    : '';
   try {
     const res = await axios.get(
       `/mes/ProductionEntry/GetProductionEntrySearchPagination?${searchPath}accountId=${accId}&businessUnitId=${buId}&PlantId=${plId}&ShopFloorId=${shopFloorId}&status=true&${strFromDate}${strToDate}PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc${strAppstatus}`
@@ -55,7 +57,7 @@ export const getShopFloorDDL = async (accId, buId, plantId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getProductionOrderDDL = async (
@@ -76,7 +78,7 @@ export const getProductionOrderDDL = async (
       setter(res.data);
       // console.log(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getItemNameDDL = async (accId, buId, plantId, setter) => {
@@ -88,7 +90,7 @@ export const getItemNameDDL = async (accId, buId, plantId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getShiftDDL = async (accId, buId, setter) => {
@@ -100,7 +102,7 @@ export const getShiftDDL = async (accId, buId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getWorkCenterDDL = async (
@@ -118,7 +120,7 @@ export const getWorkCenterDDL = async (
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const createProductionEntry = async (
@@ -134,15 +136,15 @@ export const createProductionEntry = async (
       payload
     );
     if (res.status === 200 && res.data) {
-      toast.success(res?.data?.message || "Created Successfully!", {
-        toastId: "createProductionEntry",
+      toast.success(res?.data?.message || 'Created Successfully!', {
+        toastId: 'createProductionEntry',
       });
       setDisabled(false);
       cb();
     }
   } catch (error) {
     toast.warning(error?.response?.data?.message, {
-      toastId: "createProductionEntryErr",
+      toastId: 'createProductionEntryErr',
     });
     setDisabled(false);
   }
@@ -161,15 +163,15 @@ export const createProductionEntryForBackCalculation = async (
     // console.log("payload: ", payload);
 
     if (res.status === 200 && res.data) {
-      toast.success(res?.data?.message || "Created Successfully!", {
-        toastId: "createProductionEntry",
+      toast.success(res?.data?.message || 'Created Successfully!', {
+        toastId: 'createProductionEntry',
       });
       setDisabled(false);
       cb();
     }
   } catch (error) {
     toast.warning(error?.response?.data?.message, {
-      toastId: "createProductionEntryErr",
+      toastId: 'createProductionEntryErr',
     });
     setDisabled(false);
   }
@@ -225,7 +227,7 @@ export const getSingleDataById = async (
       setter(newObj);
       setRowData(newObjRow?.filter((item, index) => index !== 0));
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 //for back calculation api
 export const getSingleDataByForBackCalculation = async (
@@ -283,7 +285,7 @@ export const getSingleDataByForBackCalculation = async (
       setTableData(newObjRow);
       // ?.filter((item, index) => index !== 0)
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 //for ------ WITHOUT ------- back calculation approve by id
@@ -339,7 +341,7 @@ export const getSingleDataByIdApprove = async (
       setter(newObj);
       setRowData(newObjRow);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 //for back calculation approve by id
@@ -392,7 +394,7 @@ export const getSingleDataByIdForBackCalculation = async (
       setter(newObj);
       setTableData(newObjRow?.filter((item, index) => index !== 0));
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const editProductionEntry = async (payload, setDisabled) => {
@@ -404,11 +406,11 @@ export const editProductionEntry = async (payload, setDisabled) => {
     );
 
     if (res.status === 200 && res.data) {
-      toast.success(res?.data?.message || "Updated Successfully!");
+      toast.success(res?.data?.message || 'Updated Successfully!');
       setDisabled(false);
     }
   } catch (error) {
-    toast.error("Sorry! Can not update now. Try again later.");
+    toast.error('Sorry! Can not update now. Try again later.');
     setDisabled(false);
   }
 };
@@ -433,7 +435,7 @@ export const editApprovalProductionEntry = async ({
     );
 
     if (res.status === 200 && res.data) {
-      toast.success(res?.data?.message || "Approved Successfully!");
+      toast.success(res?.data?.message || 'Approved Successfully!');
       setDisabled(false);
       setSaveBtnDisabled(true);
       [2]?.includes(+params?.backCalculationId) &&
@@ -468,7 +470,7 @@ export const editApprovalProductionEntryForBackCalculation = async (
     );
 
     if (res.status === 200 && res.data) {
-      toast.success(res?.data?.message || "Approved Successfully!");
+      toast.success(res?.data?.message || 'Approved Successfully!');
       setDisabled(false);
       setSaveBtnDisabled(true);
     }
@@ -488,7 +490,7 @@ export const getOtherOutputItemDDL = async (accId, buId, plantId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 // Plant DDL for Landing
@@ -521,7 +523,7 @@ export const getOrderQuantityDDL = async (
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getProductionItemQuantity = async (poId, itemId, setter) => {
@@ -533,7 +535,7 @@ export const getProductionItemQuantity = async (poId, itemId, setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const productionOrderAction = async (poId, updateRowDto, setRowDto) => {
@@ -542,7 +544,7 @@ export const productionOrderAction = async (poId, updateRowDto, setRowDto) => {
       `/mes/ProductionOrder/ProductionOrderClose?ProductionId=${poId}`
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "leave movement successfully");
+      toast.success(res.data?.message || 'leave movement successfully');
       setRowDto(updateRowDto);
     }
   } catch (error) {
@@ -560,7 +562,7 @@ export const GetMESConfigurationBusinessUnitWiseByAccountId = async (
       `/mes/BOM/GetMESConfigurationBusinessUnitWiseByAccountId?accountId=${accId}&businessUnitId=${buId}`
     );
     setter(res.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getItemListForBackCalculation = async (
@@ -582,7 +584,7 @@ export const getItemListForBackCalculation = async (
       isMain: true,
     }));
     setter(data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getRoutingToBOMDDL = async (
@@ -600,7 +602,7 @@ export const getRoutingToBOMDDL = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getWarehouseDDL = async (
@@ -618,5 +620,5 @@ export const getWarehouseDDL = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 //Call Empddl APi
 export function getDepartmentDDL(accId, buId) {
@@ -59,10 +59,20 @@ export function saveEditData(data) {
 }
 
 //Call get grid data api
-export function getGridData(accId, buId, refId, type, categoryId, isActive, pageNo, pageSize, yearId = 0) {
+export function getGridData(
+  accId,
+  buId,
+  refId,
+  type,
+  categoryId,
+  isActive,
+  pageNo,
+  pageSize,
+  yearId = 0
+) {
   // dont change this condition unless you know the business properly
-  let active = isActive !== null ? `&IsActive=${isActive}` : ""
-  let category = categoryId ? `&CategoryId=${categoryId}` : ""
+  let active = isActive !== null ? `&IsActive=${isActive}` : '';
+  let category = categoryId ? `&CategoryId=${categoryId}` : '';
   return axios.get(
     `/pms/StrategicParticulars/GetStrategicParticularsPagination?accountId=${accId}&businessUnitId=${buId}&emp_dept_sbu_Type=${type}&ReffId=${refId}${active}${category}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc&yearId=${yearId}`
   );

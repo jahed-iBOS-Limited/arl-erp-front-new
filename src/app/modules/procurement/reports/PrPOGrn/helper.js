@@ -1,5 +1,4 @@
-import Axios from "axios";
-
+import Axios from 'axios';
 
 export const getPlantList = async (userId, accId, buId, setter) => {
   try {
@@ -7,10 +6,8 @@ export const getPlantList = async (userId, accId, buId, setter) => {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
-
-
 
 export const getPOPrGRNLanding = async (
   accId,
@@ -29,13 +26,14 @@ export const getPOPrGRNLanding = async (
   search
 ) => {
   setLoading(true);
-  const SearchCode = typeCode ? `SearchCode=${typeCode}&` : "";
+  const SearchCode = typeCode ? `SearchCode=${typeCode}&` : '';
   try {
-    const res = await Axios.get(`/procurement/PurchaseRequest/GetIndentPoMRR?UnitId=${buId}&SbuId=${sbu}&WHId=${whId}&PlantId=${plantId}&FromDate=${fromDate}&ToDate=${toDate}&SearchType=${typeId}&${SearchCode}PageNo=${pageNo || 1}&PageSize=${pageSize}`);
+    const res = await Axios.get(
+      `/procurement/PurchaseRequest/GetIndentPoMRR?UnitId=${buId}&SbuId=${sbu}&WHId=${whId}&PlantId=${plantId}&FromDate=${fromDate}&ToDate=${toDate}&SearchType=${typeId}&${SearchCode}PageNo=${pageNo || 1}&PageSize=${pageSize}`
+    );
     setLoading(false);
     setter(res?.data);
   } catch (error) {
     setLoading(false);
   }
 };
-

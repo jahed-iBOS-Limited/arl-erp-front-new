@@ -1,40 +1,37 @@
-
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import ICustomCard from "../../../../_helper/_customCard";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import ICustomCard from '../../../../_helper/_customCard';
 import {
   getAssetPlantDDL,
   getassetWarehouseData,
   getGridData,
   getAssetSBUDDL,
-  exportExcel
-} from "../helper";
-import IViewModal from "../../../../_helper/_viewModal";
-import AssetListForm from "../Form/addEditForm";
-import AssetListCreateForm from "../newForm/addEditForm";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import { setAssetListTableLastAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "./../../../../_helper/_select";
-import { Formik } from "formik";
+  exportExcel,
+} from '../helper';
+import IViewModal from '../../../../_helper/_viewModal';
+import AssetListForm from '../Form/addEditForm';
+import AssetListCreateForm from '../newForm/addEditForm';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import { setAssetListTableLastAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from './../../../../_helper/_select';
+import { Formik } from 'formik';
 
 // import { CardBody } from "react-bootstrap/Card";
-import { Form } from "react-bootstrap";
+import { Form } from 'react-bootstrap';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
-
+} from './../../../../../../_metronic/_partials/controls';
 
 export function TableRow() {
   const [pageNo, setPageNo] = React.useState(0);
@@ -42,10 +39,10 @@ export function TableRow() {
   const dispatch = useDispatch();
 
   const initData = {
-    sbu: "",
-    plant: "",
-    warehouse: "",
-    searchTerm: "",
+    sbu: '',
+    plant: '',
+    warehouse: '',
+    searchTerm: '',
   };
 
   // get user profile data from store
@@ -59,14 +56,14 @@ export function TableRow() {
   }, shallowEqual);
 
   const [gridData, setGridData] = useState([]);
-  const [plantName, setPlantName] = useState("");
-  const [warehouseName, setWarehouseName] = useState("");
+  const [plantName, setPlantName] = useState('');
+  const [warehouseName, setWarehouseName] = useState('');
   const [plant, setPlant] = useState([]);
   const [warehouse, setWarehouse] = useState([]);
   const [isShowModal, setIsShowModal] = useState(false);
-  const [currentRowData, setCurrentRowData] = useState("");
+  const [currentRowData, setCurrentRowData] = useState('');
   const [isShowModalforCreate, setisShowModalforCreate] = useState(false);
-  const [sbuName, setSbuName] = useState("");
+  const [sbuName, setSbuName] = useState('');
   const [sbu, setSbu] = useState([]);
   const [loading, setLoading] = useState(false);
   // const [searchTerm, setSearchTerm] = useState("");
@@ -130,7 +127,7 @@ export function TableRow() {
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
             <Card>
-              <CardHeader title={"Asset List"}>
+              <CardHeader title={'Asset List'}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
@@ -143,7 +140,7 @@ export function TableRow() {
                         value={values?.sbu}
                         label="Select Sbu"
                         onChange={(valueOption) => {
-                          setFieldValue("sbu", valueOption);
+                          setFieldValue('sbu', valueOption);
                         }}
                         placeholder="Select SBU"
                         errors={errors}
@@ -157,7 +154,7 @@ export function TableRow() {
                         value={values?.plant}
                         label="Select Plant"
                         onChange={(valueOption) => {
-                          setFieldValue("plant", valueOption);
+                          setFieldValue('plant', valueOption);
                           getassetWarehouseData(
                             profileData?.userId,
                             profileData?.accountId,
@@ -193,7 +190,7 @@ export function TableRow() {
                         placeholder="Search"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("searchTerm", e.target.value);
+                          setFieldValue('searchTerm', e.target.value);
                           // dispatch();
                         }}
                       />
@@ -349,8 +346,8 @@ export function TableRow() {
                               <IView
                                 classes={
                                   tableAssetId === item?.assetId
-                                    ? "text-primary"
-                                    : ""
+                                    ? 'text-primary'
+                                    : ''
                                 }
                                 clickHandler={(e) => {
                                   setisShowModalforCreate(true);

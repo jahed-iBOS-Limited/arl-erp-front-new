@@ -41,11 +41,11 @@ const validationSchema = Yup.object().shape({});
 function AirOpsBookingList() {
   const { profileData } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
   const { token } = useSelector(
     (state) => state?.authData.tokenData,
-    shallowEqual,
+    shallowEqual
   );
   const [
     shipBookingReqLanding,
@@ -72,50 +72,52 @@ function AirOpsBookingList() {
 
     // Encrypt the token and userID using base64 encoding
     const encryptedToken = CryptoJS.enc.Base64.stringify(
-      CryptoJS.enc.Utf8.parse(token),
+      CryptoJS.enc.Utf8.parse(token)
     );
     // Encrypt the token and userID using base64 encoding
     const encryptedUserID = CryptoJS.enc.Base64.stringify(
-      CryptoJS.enc.Utf8.parse(userID),
+      CryptoJS.enc.Utf8.parse(userID)
     );
     const superAdmin = CryptoJS.enc.Base64.stringify(
-      CryptoJS.enc.Utf8.parse('superAdmin'),
+      CryptoJS.enc.Utf8.parse('superAdmin')
     );
     if (item?.modeOfTransportId === 5) {
       window.open(
         `${targetUrl}/edit-from-erp/${item?.bookingRequestId}?token=${encryptedToken}&userID=${encryptedUserID}&key=${superAdmin}&isAirOpsMode=true`,
-        '_blank',
+        '_blank'
       );
     } else {
       window.open(
         `${targetUrl}/edit-from-erp/${item?.bookingRequestId}?token=${encryptedToken}&userID=${encryptedUserID}&key=${superAdmin}`,
-        '_blank',
+        '_blank'
       );
     }
   };
 
   useEffect(() => {
     commonLandingApi();
-
   }, [profileData]);
 
   const commonLandingApi = (
     searchValue,
     PageNo = pageNo,
     PageSize = pageSize,
-    modeOfTransportId = 5,
+    modeOfTransportId = 5
   ) => {
     setShipBookingReqLanding([]);
     getShipBookingReqLanding(
-      `${imarineBaseUrl}/domain/ShippingService/GetAirOperationBookingRequestLanding?userId=${profileData?.userReferenceId
-      }&userTypeId=${0}&refrenceId=${profileData?.userReferenceId
-      }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search=${searchValue || ''
-      }&modeOfTransportId=${modeOfTransportId}&tradeTypeId=1`,
+      `${imarineBaseUrl}/domain/ShippingService/GetAirOperationBookingRequestLanding?userId=${
+        profileData?.userReferenceId
+      }&userTypeId=${0}&refrenceId=${
+        profileData?.userReferenceId
+      }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search=${
+        searchValue || ''
+      }&modeOfTransportId=${modeOfTransportId}&tradeTypeId=1`
     );
   };
 
   const selectedRow = shipBookingReqLanding?.data?.filter(
-    (item) => item?.isCheck,
+    (item) => item?.isCheck
   );
 
   // const [selectedRow, setSelectedRow] = useState([]);
@@ -130,7 +132,7 @@ function AirOpsBookingList() {
     if (
       selectedRow.length > 0 &&
       selectedRow?.[0]?.freightAgentReferenceId !==
-      item?.freightAgentReferenceId
+        item?.freightAgentReferenceId
     ) {
       return true;
     }
@@ -161,7 +163,7 @@ function AirOpsBookingList() {
           },
         }}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <ICustomCard
@@ -221,7 +223,7 @@ function AirOpsBookingList() {
                         null,
                         pageNo,
                         pageSize,
-                        valueOption?.value,
+                        valueOption?.value
                       );
                     }}
                     placeholder="Booking Type"
@@ -238,7 +240,7 @@ function AirOpsBookingList() {
                       searchValue,
                       1,
                       100,
-                      values?.modeOfTransport?.value,
+                      values?.modeOfTransport?.value
                     );
                   }}
                 />
@@ -449,7 +451,7 @@ function AirOpsBookingList() {
                                 <td className="text-left">{item?.hblnumber}</td>
                                 <td className="text-left">
                                   {item?.seaMasterBlCode &&
-                                    item?.airMasterBlCode ? (
+                                  item?.airMasterBlCode ? (
                                     <>
                                       {item?.seaMasterBlCode}{' '}
                                       {item?.airMasterBlCode
@@ -516,7 +518,7 @@ function AirOpsBookingList() {
                                               null,
                                               pageNo,
                                               pageSize,
-                                              values?.modeOfTransport?.value,
+                                              values?.modeOfTransport?.value
                                             );
                                           },
                                         });
@@ -635,7 +637,7 @@ function AirOpsBookingList() {
                                       }}
                                     >
                                       {['Air', 'Air-Shipment'].includes(
-                                        item?.modeOfTransport,
+                                        item?.modeOfTransport
                                       )
                                         ? 'MAWB '
                                         : 'MBL'}
@@ -718,7 +720,7 @@ function AirOpsBookingList() {
                       null,
                       pageNo,
                       pageSize,
-                      values?.modeOfTransport?.value,
+                      values?.modeOfTransport?.value
                     );
                   }}
                   values={values}
@@ -754,7 +756,7 @@ function AirOpsBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -788,7 +790,7 @@ function AirOpsBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -824,7 +826,7 @@ function AirOpsBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -877,7 +879,7 @@ function AirOpsBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -911,7 +913,7 @@ function AirOpsBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1003,7 +1005,7 @@ function AirOpsBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1037,7 +1039,7 @@ function AirOpsBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1056,7 +1058,7 @@ function AirOpsBookingList() {
                   <IViewModal
                     title={
                       ['Air', 'Air-Shipment'].includes(
-                        rowClickData?.modeOfTransport,
+                        rowClickData?.modeOfTransport
                       )
                         ? 'MAWB'
                         : 'MBL'
@@ -1076,7 +1078,7 @@ function AirOpsBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1092,12 +1094,13 @@ function AirOpsBookingList() {
               {/* HBCode GN Modal */}
               {isModalShowObj?.isHBCodeGN && (
                 <IViewModal
-                  title={`${['Air', 'Air-Shipment'].includes(
-                    rowClickData?.modeOfTransport,
-                  )
-                    ? 'HAWB'
-                    : 'HBL'
-                    } Report`}
+                  title={`${
+                    ['Air', 'Air-Shipment'].includes(
+                      rowClickData?.modeOfTransport
+                    )
+                      ? 'HAWB'
+                      : 'HBL'
+                  } Report`}
                   show={isModalShowObj?.isHBCodeGN}
                   onHide={() => {
                     setIsModalShowObj({
@@ -1114,7 +1117,7 @@ function AirOpsBookingList() {
                         null,
                         pageNo,
                         pageSize,
-                        values?.modeOfTransport?.value,
+                        values?.modeOfTransport?.value
                       );
                     }}
                   />
@@ -1142,7 +1145,7 @@ function AirOpsBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                       }}
                       isEPBInvoice={true}
@@ -1174,7 +1177,7 @@ function AirOpsBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1207,7 +1210,7 @@ function AirOpsBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1243,7 +1246,7 @@ function AirOpsBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1301,7 +1304,7 @@ function AirOpsBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,

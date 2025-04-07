@@ -1,17 +1,17 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import BankGuaranteeTable from "./bankGuaranteeTable";
-import DepositRegisterTable from "./depositRegisterTable";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { setBankGuaranteeStoreAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import IViewModal from "../../../../_helper/_viewModal";
-import BankGuaranteeView from "../view/view";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import BankGuaranteeTable from './bankGuaranteeTable';
+import DepositRegisterTable from './depositRegisterTable';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { setBankGuaranteeStoreAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import IViewModal from '../../../../_helper/_viewModal';
+import BankGuaranteeView from '../view/view';
 
 export default function BankGuaranteeLanding() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -35,10 +35,10 @@ export default function BankGuaranteeLanding() {
     getRowData(
       `/fino/CommonFino/GetBankGuaranteeSecurityRegister?businessUnitId=${
         selectedBusinessUnit?.value
-      }&type=${bankGuarantee?.type?.label ||
-        ""}&pageNo=${pageNo}&pageSize=${pageSize}`
+      }&type=${
+        bankGuarantee?.type?.label || ''
+      }&pageNo=${pageNo}&pageSize=${pageSize}`
     );
-
   }, [bankGuarantee]);
 
   //setPositionHandler
@@ -96,13 +96,13 @@ export default function BankGuaranteeLanding() {
                   <NewSelect
                     name="Type"
                     options={[
-                      { value: 1, label: "Bank Guarantee" },
-                      { value: 2, label: "Security Deposit Register" },
+                      { value: 1, label: 'Bank Guarantee' },
+                      { value: 2, label: 'Security Deposit Register' },
                     ]}
                     value={values?.type}
                     label="Type"
                     onChange={(valueOption) => {
-                      setFieldValue("type", valueOption);
+                      setFieldValue('type', valueOption);
                       setRowData([]);
                     }}
                     errors={errors}
@@ -111,7 +111,7 @@ export default function BankGuaranteeLanding() {
                 </div>
                 <div>
                   <button
-                    style={{ marginTop: "18px" }}
+                    style={{ marginTop: '18px' }}
                     className="btn btn-primary"
                     type="button"
                     disabled={!values?.type}
@@ -163,7 +163,7 @@ export default function BankGuaranteeLanding() {
               </div>
               <div>
                 <IViewModal
-                  title={"Bank Guarantee History"}
+                  title={'Bank Guarantee History'}
                   show={isShowModal}
                   onHide={() => setIsShowModal(false)}
                   modelSize="xl"

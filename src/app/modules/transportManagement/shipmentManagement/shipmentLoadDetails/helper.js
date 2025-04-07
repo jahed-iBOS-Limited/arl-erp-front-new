@@ -1,49 +1,49 @@
-import * as Yup from "yup";
-import { _monthFirstDate } from "../../../_helper/_monthFirstDate";
-import { _monthLastDate } from "../../../_helper/_monthLastDate";
+import * as Yup from 'yup';
+import { _monthFirstDate } from '../../../_helper/_monthFirstDate';
+import { _monthLastDate } from '../../../_helper/_monthLastDate';
 
 /* ====== landing page ======= */
 export const landingInitData = {
-  reportType: "",
-  shippoint: "",
-  shipment: "",
+  reportType: '',
+  shippoint: '',
+  shipment: '',
   fromDate: _monthFirstDate(),
   toDate: _monthLastDate(),
 };
 
 // report type ddl
 export const reportTypeDDL = [
-  { value: 1, label: "Details" },
-  { value: 2, label: "Top Sheet" },
+  { value: 1, label: 'Details' },
+  { value: 2, label: 'Top Sheet' },
 ];
 
 // landing validation
 export const landingValidation = Yup.object().shape({
   reportType: Yup.object({
-    value: Yup.number().required("Report type is required"),
-    label: Yup.string().required("Report type is required"),
-  }).required("Report type is required"),
+    value: Yup.number().required('Report type is required'),
+    label: Yup.string().required('Report type is required'),
+  }).required('Report type is required'),
   shippoint: Yup.object({
-    value: Yup.number().required("Shippoint is required"),
-    label: Yup.string().required("Shippoint is required"),
-  }).required("Shippoint is required"),
-  shipment: Yup.object().when("reportType", (reportType, schema) => {
-    if (reportType?.label === "Details") {
-      return schema.required("Shipment is required");
+    value: Yup.number().required('Shippoint is required'),
+    label: Yup.string().required('Shippoint is required'),
+  }).required('Shippoint is required'),
+  shipment: Yup.object().when('reportType', (reportType, schema) => {
+    if (reportType?.label === 'Details') {
+      return schema.required('Shipment is required');
     }
     return schema.notRequired();
   }),
-  fromDate: Yup.date().when("reportType", (reportType, schema) => {
-    if (reportType?.label === "Details") {
+  fromDate: Yup.date().when('reportType', (reportType, schema) => {
+    if (reportType?.label === 'Details') {
       return schema.notRequired();
     }
-    return schema.required("From date is required");
+    return schema.required('From date is required');
   }),
-  toDate: Yup.date().when("reportType", (reportType, schema) => {
-    if (reportType?.label === "Details") {
+  toDate: Yup.date().when('reportType', (reportType, schema) => {
+    if (reportType?.label === 'Details') {
       return schema.notRequired();
     }
-    return schema.required("To date is required");
+    return schema.required('To date is required');
   }),
 });
 
@@ -60,12 +60,12 @@ export function fetchShipmentDetailsData(obj) {
   const { shipment, reportType, shippoint, fromDate, toDate } = values;
 
   switch (reportType?.label) {
-    case "Details":
+    case 'Details':
       return getShipmentLoadDetails(
         `/oms/ShipmentTransfer/GetShipmentLoading?businessUnitId=${selectedBusinessUnit?.value}&shipPointId=${shippoint?.value}&shipmentId=${shipment?.value}`,
         cb
       );
-    case "Top Sheet":
+    case 'Top Sheet':
       return getShipmentLoadTopSheet(
         `/oms/ShipmentTransfer/GetShipmentLoadingTopSheet?businessUnitId=${selectedBusinessUnit?.value}&shipPointId=${shippoint?.value}&fromDate=${fromDate}&toDate=${toDate}`,
         cb
@@ -78,15 +78,15 @@ export function fetchShipmentDetailsData(obj) {
 
 /* ====== common create , edit page ======= */
 export const shiftDDL = [
-  { value: 1, label: "Shift A" },
-  { value: 2, label: "Shift B" },
-  { value: 3, label: "Shift C" },
-  { value: 4, label: "Shift D" },
+  { value: 1, label: 'Shift A' },
+  { value: 2, label: 'Shift B' },
+  { value: 3, label: 'Shift C' },
+  { value: 4, label: 'Shift D' },
 ];
 
 // is editing mode
 export function isEditingMode(params) {
-  if (params?.id && params?.type === "edit") {
+  if (params?.id && params?.type === 'edit') {
     return true;
   }
   return false;
@@ -110,7 +110,7 @@ function getShiftValue(shiftName) {
   if (regex.test(shiftName)) {
     return shiftDDL.find((item) => item?.label === shiftName);
   }
-  return "";
+  return '';
 }
 
 // set formik init data when mode is editing
@@ -160,26 +160,20 @@ const apiURLObj = {
 function generateParams(apiName, obj) {
   const { values, selectedBusinessUnit, profileData } = obj;
   switch (apiName) {
-    case "shipPoint":
+    case 'shipPoint':
       return `accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`;
-    case "shipmentLoading":
+    case 'shipmentLoading':
       return `businessUnitId=${selectedBusinessUnit?.value}&shipPointId=${values?.shippoint?.value}`;
     default:
-      return "";
+      return '';
   }
 }
 
 // fetch ddl with common function
 export function fetchCommonDDL(obj) {
   // destrcuture
-  const {
-    getApi,
-    apiName,
-    values,
-    selectedBusinessUnit,
-    profileData,
-    cb,
-  } = obj;
+  const { getApi, apiName, values, selectedBusinessUnit, profileData, cb } =
+    obj;
 
   // generate params
   const params = generateParams(apiName, {
@@ -194,33 +188,33 @@ export function fetchCommonDDL(obj) {
 
 /* ====== create page ======= */
 export const createInitData = {
-  shippoint: "",
-  shipment: "",
-  shift: "",
-  quantity: "",
-  loadingDate: "",
+  shippoint: '',
+  shipment: '',
+  shift: '',
+  quantity: '',
+  loadingDate: '',
 };
 
 /* ====== edit page ======= */
 export const validationSchema = Yup.object().shape({
   shippoint: Yup.object({
-    value: Yup.number().required("Shippoint is required"),
-    label: Yup.string().required("Shippoint is required"),
-  }).required("Shippoint is required"),
+    value: Yup.number().required('Shippoint is required'),
+    label: Yup.string().required('Shippoint is required'),
+  }).required('Shippoint is required'),
   shipment: Yup.object({
-    value: Yup.number().required("Shipment is required"),
-    label: Yup.string().required("Shipment is required"),
-  }).required("Shipment is required"),
+    value: Yup.number().required('Shipment is required'),
+    label: Yup.string().required('Shipment is required'),
+  }).required('Shipment is required'),
   shift: Yup.object({
-    value: Yup.number().required("Shift is required"),
-    label: Yup.string().required("Shift is required"),
-  }).required("Shift is required"),
+    value: Yup.number().required('Shift is required'),
+    label: Yup.string().required('Shift is required'),
+  }).required('Shift is required'),
   quantity: Yup.number()
-    .required("Quantity is required")
+    .required('Quantity is required')
     .test(
-      "Current qty should be less than remaining qty",
+      'Current qty should be less than remaining qty',
       "Current quantity can't be more than remaining quantity",
-      function(quantity) {
+      function (quantity) {
         const { shipment, isEditing, existingQuantity } = this.parent;
         if (Boolean(isEditing)) {
           if (quantity <= existingQuantity + shipment?.totalRemainingQuantity) {
@@ -236,5 +230,5 @@ export const validationSchema = Yup.object().shape({
       }
     ),
 
-  loadingDate: Yup.date().required("Loading date is required"),
+  loadingDate: Yup.date().required('Loading date is required'),
 });

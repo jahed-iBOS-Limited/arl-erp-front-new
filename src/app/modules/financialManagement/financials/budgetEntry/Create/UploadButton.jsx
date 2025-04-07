@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-
+import React, { useState } from 'react';
 
 const UploadButton = (props) => {
-  const [fileName, setFileName] = useState("");
+  const [fileName, setFileName] = useState('');
   function onFileChange(e) {
     if (e.target.files[0]) {
       setFileName(e.target.files[0].name);
@@ -10,7 +9,7 @@ const UploadButton = (props) => {
     }
   }
   return (
-    <div style={{ width: "235px" }} className="input-group">
+    <div style={{ width: '235px' }} className="input-group">
       <div>
         <input
           accept=".xlsx"

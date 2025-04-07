@@ -1,42 +1,40 @@
-
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory, useLocation, useParams } from "react-router-dom";
-import IForm from "../../../../_helper/_form";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { singleDataById } from "../helper";
-import Loading from "./../../../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation, useParams } from 'react-router-dom';
+import IForm from '../../../../_helper/_form';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { singleDataById } from '../helper';
+import Loading from './../../../../_helper/_loading';
 import {
   saveAdvanceExpJournal_Action,
   saveEditedAdvanceExpGridData,
-} from "./../_redux/Actions";
-import Form from "./form";
+} from './../_redux/Actions';
+import Form from './form';
 
 const initData = {
-  comments: "",
-  requestedAmount: "",
-  paymentType: "",
-  category: "",
-  disbursementCenter: "",
-  numRequestedAmount: "",
+  comments: '',
+  requestedAmount: '',
+  paymentType: '',
+  category: '',
+  disbursementCenter: '',
+  numRequestedAmount: '',
   dueDate: _todayDate(),
-  requestedEmp: "",
-  advExpCategoryName: "",
-  disbursementCenterName: "",
-  SBU: "",
-  approval: "",
-  expenseHead: "",
-  expenseGroup: "",
-  profitCenter: "",
-  costElement: "",
-  costCenter: "",
-  accountHead:"",
+  requestedEmp: '',
+  advExpCategoryName: '',
+  disbursementCenterName: '',
+  SBU: '',
+  approval: '',
+  expenseHead: '',
+  expenseGroup: '',
+  profitCenter: '',
+  costElement: '',
+  costCenter: '',
+  accountHead: '',
 };
 
 export default function AdvanceCreateForm() {
   const [isDisabled, setDisabled] = useState(false);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const history = useHistory();
   const location = useLocation();
   const params = useParams();
@@ -81,7 +79,7 @@ export default function AdvanceCreateForm() {
           requestDate: _todayDate(),
           dueDate: values.dueDate,
           instrumentId: 1, //values.paymentType.value,
-          instrumentName: "EFT", //values.paymentType.label,
+          instrumentName: 'EFT', //values.paymentType.label,
           disbursementCenterId: values.disbursementCenterName.value || 0,
           disbursementCenterName: selectedBusinessUnit?.label,
           numRequestedAmount: values.numRequestedAmount,
@@ -90,7 +88,7 @@ export default function AdvanceCreateForm() {
           willApproved: location?.state?.approval ? true : false,
           plantId: location?.state?.selectedPlant?.value || 0,
           // businessTransactionId: values?.expenseHead?.value || 0,
-          expenseGroup: values?.expenseGroup?.value || "",
+          expenseGroup: values?.expenseGroup?.value || '',
 
           costCenterid: values?.costCenter?.value,
           costElementid: values?.costElement?.value,
@@ -98,10 +96,9 @@ export default function AdvanceCreateForm() {
           costCenterName: values?.costCenter?.label,
           costElementName: values?.costElement?.label,
           profitCenterName: values?.profitCenter?.label,
-          businessTransactionName: "",
-          subGlaccountHeadId : values?.accountHead?.value || 0,
-          strSubGlaccountHead : values?.accountHead?.label || ""
-
+          businessTransactionName: '',
+          subGlaccountHeadId: values?.accountHead?.value || 0,
+          strSubGlaccountHead: values?.accountHead?.label || '',
         };
         dispatch(
           saveEditedAdvanceExpGridData({ data: payload, cb, setDisabled })
@@ -121,7 +118,7 @@ export default function AdvanceCreateForm() {
           requestDate: _todayDate(),
           dueDate: values.dueDate,
           instrumentId: 1, //values.paymentType.value,
-          instrumentName: "EFT", //values.paymentType.label,
+          instrumentName: 'EFT', //values.paymentType.label,
           disbursementCenterId: values.disbursementCenterName.value || 0,
           disbursementCenterName: selectedBusinessUnit?.label,
           numRequestedAmount: values.numRequestedAmount,
@@ -129,16 +126,16 @@ export default function AdvanceCreateForm() {
           actionBy: profileData?.userId,
           plantId: location?.state?.selectedPlant?.value || 0,
           // businessTransactionId: values?.expenseHead?.value || 0,
-          expenseGroup: values?.expenseGroup?.value || "",
+          expenseGroup: values?.expenseGroup?.value || '',
           costCenterid: values?.costCenter?.value,
           costElementid: values?.costElement?.value,
           profitCenterid: values?.profitCenter?.value,
           costCenterName: values?.costCenter?.label,
           costElementName: values?.costElement?.label,
           profitCenterName: values?.profitCenter?.label,
-          businessTransactionName: "",
-          subGlaccountHeadId : values?.accountHead?.value || 0,
-          strSubGlaccountHead : values?.accountHead?.label || ""
+          businessTransactionName: '',
+          subGlaccountHeadId: values?.accountHead?.value || 0,
+          strSubGlaccountHead: values?.accountHead?.label || '',
         };
         dispatch(
           saveAdvanceExpJournal_Action({ data: payload, cb, setDisabled })
@@ -152,9 +149,8 @@ export default function AdvanceCreateForm() {
   useEffect(() => {
     // if not id, that means this is for create form, then we will check this..
     if (!location?.state && (!params?.id || params?.approval)) {
-      history.push("/financial-management/expense/advance");
+      history.push('/financial-management/expense/advance');
     }
-
   }, []);
 
   const [objProps, setObjprops] = useState({});
@@ -163,12 +159,12 @@ export default function AdvanceCreateForm() {
     <IForm
       title={
         params?.approval
-          ? "Request For Advance Approval"
-          : "Request For Advance"
+          ? 'Request For Advance Approval'
+          : 'Request For Advance'
       }
       getProps={setObjprops}
       isDisabled={isDisabled}
-      submitBtnText={params?.approval ? "Approval" : "Save"}
+      submitBtnText={params?.approval ? 'Approval' : 'Save'}
     >
       {isDisabled && <Loading />}
       <Form

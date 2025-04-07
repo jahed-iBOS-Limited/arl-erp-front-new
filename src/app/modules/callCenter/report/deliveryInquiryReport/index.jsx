@@ -1,14 +1,14 @@
-import React, { useState, useRef, useEffect } from "react";
-import ICard from "./../../../_helper/_card";
-import GridTable from "./table";
-import { Formik, Form } from "formik";
-import Loading from "./../../../_helper/_loading";
-import InputField from "./../../../_helper/_inputField";
-import { _todayDate } from "./../../../_helper/_todayDate";
-import { CustomerDeliveryInquery_api } from "./helper";
-import { useSelector, shallowEqual } from "react-redux";
-import PaginationSearch from "../../../_helper/_search";
-import { values } from "lodash-es";
+import React, { useState, useRef, useEffect } from 'react';
+import ICard from './../../../_helper/_card';
+import GridTable from './table';
+import { Formik, Form } from 'formik';
+import Loading from './../../../_helper/_loading';
+import InputField from './../../../_helper/_inputField';
+import { _todayDate } from './../../../_helper/_todayDate';
+import { CustomerDeliveryInquery_api } from './helper';
+import { useSelector, shallowEqual } from 'react-redux';
+import PaginationSearch from '../../../_helper/_search';
+import { values } from 'lodash-es';
 
 const initData = {
   fromDate: _todayDate(),
@@ -36,9 +36,8 @@ function DeliveryInquiryReport() {
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      commonGridFunc(initData, "");
+      commonGridFunc(initData, '');
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   const paginationSearchHandler = (searchValue, values) => {
@@ -85,7 +84,7 @@ function DeliveryInquiryReport() {
                       placeholder="Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                       }}
                     />
                   </div>
@@ -97,7 +96,7 @@ function DeliveryInquiryReport() {
                       placeholder="Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                     />
                   </div>

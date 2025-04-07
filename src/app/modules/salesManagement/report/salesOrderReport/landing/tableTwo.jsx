@@ -1,19 +1,19 @@
-import React from "react";
-import ICustomTable from "../../../../_helper/_customTable";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import React from 'react';
+import ICustomTable from '../../../../_helper/_customTable';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
 
 const ths = [
-  "SL",
-  "SO Code",
-  "Ship To Party",
-  "Shippoint Name",
-  "Item Code",
-  "Item Name",
-  "Is Free",
-  "Quantity",
-  "Basic Price",
-  "Amount",
-  "Net Value",
+  'SL',
+  'SO Code',
+  'Ship To Party',
+  'Shippoint Name',
+  'Item Code',
+  'Item Name',
+  'Is Free',
+  'Quantity',
+  'Basic Price',
+  'Amount',
+  'Net Value',
 ];
 
 export default function TableTwo({ obj }) {
@@ -35,7 +35,7 @@ export default function TableTwo({ obj }) {
               <td>{item?.strShippointName}</td>
               <td>{item?.strItemCode}</td>
               <td>{item?.strItemName}</td>
-              <td>{item?.isFreeItem ? "Yes" : "No"}</td>
+              <td>{item?.isFreeItem ? 'Yes' : 'No'}</td>
               <td className="text-right">
                 {_fixedPoint(item?.numOrderQuantity, true, 0)}
               </td>

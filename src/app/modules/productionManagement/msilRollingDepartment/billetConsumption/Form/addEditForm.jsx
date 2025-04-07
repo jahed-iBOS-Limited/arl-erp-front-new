@@ -1,59 +1,58 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import * as Yup from "yup";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import BilletConsumptionForm from "./From";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import * as Yup from 'yup';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import BilletConsumptionForm from './From';
 
 const initData = {
-  date: "",
-  shift: "",
-  mainProductName: "",
-  billetWtKgs: "",
-  billetInPcs: "",
-  billetInKgs: "",
-  directBilletWtKgs: "",
-  directBilletConsumedInPcs: "",
-  directBilletConsumedInKgs: "",
-  totalBilletConsumedInPcs: "",
-  totalBilletConsumedInKgs: "",
+  date: '',
+  shift: '',
+  mainProductName: '',
+  billetWtKgs: '',
+  billetInPcs: '',
+  billetInKgs: '',
+  directBilletWtKgs: '',
+  directBilletConsumedInPcs: '',
+  directBilletConsumedInKgs: '',
+  totalBilletConsumedInPcs: '',
+  totalBilletConsumedInKgs: '',
 };
 
 const validationSchema = Yup.object().shape({
-  date: Yup.string().required("Date is required"),
+  date: Yup.string().required('Date is required'),
   shift: Yup.object()
     .shape({
-      label: Yup.string().required("Shift is required"),
-      value: Yup.string().required("Shift is required"),
+      label: Yup.string().required('Shift is required'),
+      value: Yup.string().required('Shift is required'),
     })
-    .typeError("Shift is required"),
+    .typeError('Shift is required'),
   mainProductName: Yup.object()
     .shape({
-      label: Yup.string().required("Main product is required"),
-      value: Yup.string().required("Main product is required"),
+      label: Yup.string().required('Main product is required'),
+      value: Yup.string().required('Main product is required'),
     })
-    .typeError("Shift is required"),
+    .typeError('Shift is required'),
   billetWtKgs: Yup.string().required(
-    "Re-Heating billet consumed Wt Kgs per billet is required"
+    'Re-Heating billet consumed Wt Kgs per billet is required'
   ),
   billetInPcs: Yup.string().required(
-    "Re-Heating Billet Consumed in pcs required"
+    'Re-Heating Billet Consumed in pcs required'
   ),
   directBilletWtKgs: Yup.string().required(
-    "Direct charging billet consumed Wt Kgs per billet is required"
+    'Direct charging billet consumed Wt Kgs per billet is required'
   ),
 });
 
 export default function BilletConsumptionCreate() {
   const [isDisabled, setDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
-  const [modifyData, setModifyData] = useState("");
+  const [modifyData, setModifyData] = useState('');
   const [productDDL, getProductDDL] = useAxiosGet();
   const [, saveData] = useAxiosPost();
   const params = useParams();
@@ -64,8 +63,9 @@ export default function BilletConsumptionCreate() {
   }, shallowEqual);
 
   useEffect(() => {
-    getProductDDL(`/mes/MSIL/GetAllMSIL?PartName=MainItemOfRolling&BusinessUnitId=${selectedBusinessUnit.value}`);
-
+    getProductDDL(
+      `/mes/MSIL/GetAllMSIL?PartName=MainItemOfRolling&BusinessUnitId=${selectedBusinessUnit.value}`
+    );
   }, []);
 
   const { profileData } = useSelector((state) => {
@@ -113,8 +113,10 @@ export default function BilletConsumptionCreate() {
         numReHeatingBilletConsumedWtKgsPerBillet: +values?.billetWtKgs,
         intReHeatingBilletConsumedInPcs: +values?.billetInPcs,
         numReHeatingBilletConsumedInKgsCal: values?.billetInKgs,
-        numDirectChargingBilletConsumedWtKgsPerBillet: +values?.directBilletWtKgs,
-        intDirectChargingBilletConsumedInPcs: +values?.directBilletConsumedInPcs,
+        numDirectChargingBilletConsumedWtKgsPerBillet:
+          +values?.directBilletWtKgs,
+        intDirectChargingBilletConsumedInPcs:
+          +values?.directBilletConsumedInPcs,
         numDirectChargingBilletConsumedInKgsCal:
           values?.directBilletConsumedInKgs,
         intTotalBilletConsumptionInPcsCal: values?.totalBilletConsumedInPcs,
@@ -124,7 +126,7 @@ export default function BilletConsumptionCreate() {
         dteInsertDateTime: _todayDate(),
         isActive: true,
       },
-      params?.id ? "" : cb,
+      params?.id ? '' : cb,
       true
     );
   };
@@ -137,8 +139,8 @@ export default function BilletConsumptionCreate() {
     <IForm
       title={
         params?.id
-          ? "Edit Billet Consumption Entry Form"
-          : "Billet Consumption Entry Form"
+          ? 'Edit Billet Consumption Entry Form'
+          : 'Billet Consumption Entry Form'
       }
       getProps={setObjprops}
       isDisabled={isDisabled}

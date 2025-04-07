@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -74,14 +72,14 @@ export default function HeaderForm() {
   const [loading, setLoading] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
   const purchaseOrgDDL = useSelector(
-    (state) => state?.commonDDL?.purchaseOrgDDL,
+    (state) => state?.commonDDL?.purchaseOrgDDL
   );
   const wareHouseDDL = useSelector((state) => state?.commonDDL?.wareHouseDDL);
   const orderTypeDDL = useSelector(
-    (state) => state.purchaseOrder?.orderTypeDDL,
+    (state) => state.purchaseOrder?.orderTypeDDL
   );
   const poReferenceTypeDDL = useSelector(
-    (state) => state?.purchaseOrder?.poReferenceTypeDDL,
+    (state) => state?.purchaseOrder?.poReferenceTypeDDL
   );
 
   let salesOrderData = useSelector(
@@ -99,7 +97,7 @@ export default function HeaderForm() {
         shipPointDDL: state.salesOrder.shipPointDDL,
       };
     },
-    { shallowEqual },
+    { shallowEqual }
   );
 
   let {
@@ -129,30 +127,29 @@ export default function HeaderForm() {
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
       dispatch(
-        getSBUDDL_Aciton(profileData.accountId, selectedBusinessUnit.value),
+        getSBUDDL_Aciton(profileData.accountId, selectedBusinessUnit.value)
       );
       dispatch(
         getPlantDDLAction(
           profileData.userId,
           profileData.accountId,
-          selectedBusinessUnit.value,
-        ),
+          selectedBusinessUnit.value
+        )
       );
       dispatch(
         getSalesOrderTypeDDL_Action(
           profileData.accountId,
-          selectedBusinessUnit.value,
-        ),
+          selectedBusinessUnit.value
+        )
       );
       dispatch(
         getShipPoint_Action(
           profileData?.userId,
           profileData?.accountId,
-          selectedBusinessUnit?.value,
-        ),
+          selectedBusinessUnit?.value
+        )
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {
@@ -169,8 +166,8 @@ export default function HeaderForm() {
           salesOrderLanding?.orderStatus?.value,
           pageNo,
           pageSize,
-          setLoading,
-        ),
+          setLoading
+        )
       );
     }
   }, [selectedBusinessUnit, profileData]);
@@ -185,8 +182,8 @@ export default function HeaderForm() {
         pageNo,
         pageSize,
         searchValue,
-        setLoading,
-      ),
+        setLoading
+      )
     );
   };
 
@@ -215,15 +212,15 @@ export default function HeaderForm() {
             getSalesOrgDDL_Action(
               profileData.accountId,
               selectedBusinessUnit.value,
-              currentValue,
-            ),
+              currentValue
+            )
           );
           dispatch(
             getDistributionChannelDDLAction(
               profileData.accountId,
               selectedBusinessUnit.value,
-              currentValue,
-            ),
+              currentValue
+            )
           );
           setter('salesOrg', '');
           setter('distributionChannel', '');
@@ -244,8 +241,8 @@ export default function HeaderForm() {
             getSalesOfficeDDL_Action(
               profileData.accountId,
               selectedBusinessUnit.value,
-              currentValue,
-            ),
+              currentValue
+            )
           );
 
           setter('salesOffice', '');
@@ -301,8 +298,8 @@ export default function HeaderForm() {
         salesOrderLanding?.orderStatus?.value,
         pageNo,
         pageSize,
-        setLoading,
-      ),
+        setLoading
+      )
     );
   };
 
@@ -323,7 +320,7 @@ export default function HeaderForm() {
         payload?.completeNarration,
         payload?.orderId,
         setLoading,
-        callBackFunc,
+        callBackFunc
       );
     }
   };
@@ -402,8 +399,8 @@ export default function HeaderForm() {
                           values?.orderStatus?.value,
                           pageNo,
                           pageSize,
-                          setLoading,
-                        ),
+                          setLoading
+                        )
                       );
                       dispatch(setSalesOrderLandingAction(values));
                     }}

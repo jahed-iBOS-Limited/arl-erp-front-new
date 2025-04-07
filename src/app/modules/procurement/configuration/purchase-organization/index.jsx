@@ -5,7 +5,7 @@ export function PurchaseOrganization({ history }) {
   const uIEvents = {
     openExtendPage: (id) => {
       history.push(
-        `/mngProcurement/purchase-configuration/purchase-organization/extend/${id}`,
+        `/mngProcurement/purchase-configuration/purchase-organization/extend/${id}`
       );
     },
   };

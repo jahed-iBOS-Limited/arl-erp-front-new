@@ -1,7 +1,7 @@
-import * as requestFromServer from "./Api";
-import { costCenterSlice } from "./Slice";
-import { toast } from "react-toastify";
-import { isArray } from "lodash";
+import * as requestFromServer from './Api';
+import { costCenterSlice } from './Slice';
+import { toast } from 'react-toastify';
+import { isArray } from 'lodash';
 const { actions: slice } = costCenterSlice;
 
 export const getEmpDDLAction = (accId, buId) => (dispatch) => {
@@ -27,13 +27,12 @@ export const saveControllingUnit = (payload) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
         payload.setDisabled(false);
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
       payload.setDisabled(false);
     });
@@ -44,8 +43,7 @@ export const saveEditedControllingUnit = (payload, setDisabled) => () => {
     .saveEditData(payload)
     .then((res) => {
       if (res.status === 200) {
-     
-        toast.success("Submitted successfully");
+        toast.success('Submitted successfully');
         setDisabled(false);
       }
     })
@@ -56,25 +54,19 @@ export const saveEditedControllingUnit = (payload, setDisabled) => () => {
     });
 };
 // Controlling unit action for get data of table
-export const getControllingUnitData = (
-  accId,
-  buId,
-  setLoading,
-  pageNo,
-  pageSize
-) => (dispatch) => {
-  setLoading(true);
-  return requestFromServer
-    .getGridData(accId, buId, pageNo, pageSize)
-    .then((res) => {
-      setLoading(false);
-      return dispatch(slice.SetGridData(res.data));
-    })
-    .catch((err) => {
-      setLoading(false);
-     
-    });
-};
+export const getControllingUnitData =
+  (accId, buId, setLoading, pageNo, pageSize) => (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .getGridData(accId, buId, pageNo, pageSize)
+      .then((res) => {
+        setLoading(false);
+        return dispatch(slice.SetGridData(res.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
 
 // getCostCenterById action for get single data by id
 export const getCostCenterById = (id, accId, buid) => (dispatch) => {
@@ -113,9 +105,7 @@ export const getCostCenterById = (id, accId, buid) => (dispatch) => {
         return dispatch(slice.SetDataById(data));
       }
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };
 // Controlling unit single to empty
 export const setControllingUnitSingleEmpty = () => async (dispatch) => {
@@ -140,26 +130,25 @@ export const getCostCenterTypeDDLAction = (accId, buId, cuId) => (dispatch) => {
       }
     });
 };
-export const getCostCenterGroupDDLAction = (accId, buId, cuId) => (
-  dispatch
-) => {
-  return requestFromServer
-    .getCostCenterGroupDDLApiData(accId, buId, cuId)
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        const ddlTemp = [];
-        data.forEach((itm) => {
-          const items = {
-            value: itm.id,
-            label: itm.name,
-          };
-          ddlTemp.push(items);
-        });
-        return dispatch(slice.SetCostCenterGroupDDL(ddlTemp));
-      }
-    });
-};
+export const getCostCenterGroupDDLAction =
+  (accId, buId, cuId) => (dispatch) => {
+    return requestFromServer
+      .getCostCenterGroupDDLApiData(accId, buId, cuId)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          const ddlTemp = [];
+          data.forEach((itm) => {
+            const items = {
+              value: itm.id,
+              label: itm.name,
+            };
+            ddlTemp.push(items);
+          });
+          return dispatch(slice.SetCostCenterGroupDDL(ddlTemp));
+        }
+      });
+  };
 export const getProfitCenterDDLAction = (accId, buId, cuId) => (dispatch) => {
   return requestFromServer
     .getProfitCenterDDLApiData(accId, buId, cuId)

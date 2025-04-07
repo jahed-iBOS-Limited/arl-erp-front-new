@@ -1,21 +1,20 @@
-import * as requestFromServer from "./Api";
-import { shipmentSlice } from "./Slice";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import * as requestFromServer from './Api';
+import { shipmentSlice } from './Slice';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 const { actions: slice } = shipmentSlice;
 
-export const getSalesOfficeDDLAction = (accId, buId, SalesOrgId) => (
-  dispatch
-) => {
-  return requestFromServer
-    .GetSalesOfficeDDLbyId(accId, buId, SalesOrgId)
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        dispatch(slice.SetSalesOfficeDDL(data));
-      }
-    });
-};
+export const getSalesOfficeDDLAction =
+  (accId, buId, SalesOrgId) => (dispatch) => {
+    return requestFromServer
+      .GetSalesOfficeDDLbyId(accId, buId, SalesOrgId)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          dispatch(slice.SetSalesOfficeDDL(data));
+        }
+      });
+  };
 
 export const getSoldToPPIdAction = (accId, buId) => (dispatch) => {
   return requestFromServer.GetSoldToPPId(accId, buId).then((res) => {
@@ -26,29 +25,27 @@ export const getSoldToPPIdAction = (accId, buId) => (dispatch) => {
   });
 };
 
-export const getBUsalesOrgIncotermDDLAction = (accId, buId, salesOrgId) => (
-  dispatch
-) => {
-  return requestFromServer
-    .GetBUsalesOrgIncotermDDL(accId, buId, salesOrgId)
-    .then((res) => {
+export const getBUsalesOrgIncotermDDLAction =
+  (accId, buId, salesOrgId) => (dispatch) => {
+    return requestFromServer
+      .GetBUsalesOrgIncotermDDL(accId, buId, salesOrgId)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          dispatch(slice.SetBUsalesOrgIncotermDDL(data));
+        }
+      });
+  };
+
+export const getPaymentTermsDDLAction =
+  (accId, buId, salesOrgId) => (dispatch) => {
+    return requestFromServer.GetPaymentTermsDDL().then((res) => {
       const { status, data } = res;
       if (status === 200 && data) {
-        dispatch(slice.SetBUsalesOrgIncotermDDL(data));
+        dispatch(slice.SetPaymentTermsDDL(data));
       }
     });
-};
-
-export const getPaymentTermsDDLAction = (accId, buId, salesOrgId) => (
-  dispatch
-) => {
-  return requestFromServer.GetPaymentTermsDDL().then((res) => {
-    const { status, data } = res;
-    if (status === 200 && data) {
-      dispatch(slice.SetPaymentTermsDDL(data));
-    }
-  });
-};
+  };
 
 export const GetVehicleDDLAction = (accId, buId) => (dispatch) => {
   return requestFromServer.GetVehicleDDLApi(accId, buId).then((res) => {
@@ -95,31 +92,29 @@ export const GetShipmentTypeDDLAction = () => (dispatch) => {
   });
 };
 
-export const GetPendingDeliveryDDLAction = (routeId, buId, accId) => (
-  dispatch
-) => {
-  return requestFromServer
-    .getPendingDeliveryapi(routeId, buId, accId)
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        dispatch(slice.SetPendingDeliveryDDL(data));
-      }
-    });
-};
+export const GetPendingDeliveryDDLAction =
+  (routeId, buId, accId) => (dispatch) => {
+    return requestFromServer
+      .getPendingDeliveryapi(routeId, buId, accId)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          dispatch(slice.SetPendingDeliveryDDL(data));
+        }
+      });
+  };
 
-export const getLoadingPointDDLAction = (accId, buId, pointId) => (
-  dispatch
-) => {
-  return requestFromServer
-    .getLoadingPointDDL(accId, buId, pointId)
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        dispatch(slice.SetLoadingPointDDL(data));
-      }
-    });
-};
+export const getLoadingPointDDLAction =
+  (accId, buId, pointId) => (dispatch) => {
+    return requestFromServer
+      .getLoadingPointDDL(accId, buId, pointId)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          dispatch(slice.SetLoadingPointDDL(data));
+        }
+      });
+  };
 
 export const getDeliveryeDatabyId = (id, zoneId) => (dispatch) => {
   return requestFromServer
@@ -135,29 +130,25 @@ export const getDeliveryeDatabyId = (id, zoneId) => (dispatch) => {
     });
 };
 
-export const getVehicleSingleDatabyVehicleIdAction = (
-  id,
-  accId,
-  buId,
-  setter
-) => (dispatch) => {
-  return requestFromServer
-    .getVehicleInfoByVehicleIdAPI(id, accId, buId)
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        if (setter) {
-          setter("driverId", data[0]?.driverId);
-          setter("driverName", data[0]?.driverName);
-          setter("driverContactNo", data[0]?.driverContact);
-          setter("vehicleId", data[0]?.vehicleId);
-          setter("unloadVehicleWeight", data[0]?.weight);
-          setter("unloadVehicleVolume", data[0]?.volume);
+export const getVehicleSingleDatabyVehicleIdAction =
+  (id, accId, buId, setter) => (dispatch) => {
+    return requestFromServer
+      .getVehicleInfoByVehicleIdAPI(id, accId, buId)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          if (setter) {
+            setter('driverId', data[0]?.driverId);
+            setter('driverName', data[0]?.driverName);
+            setter('driverContactNo', data[0]?.driverContact);
+            setter('vehicleId', data[0]?.vehicleId);
+            setter('unloadVehicleWeight', data[0]?.weight);
+            setter('unloadVehicleVolume', data[0]?.volume);
+          }
+          dispatch(slice.SetVehicleSingleData(data[0]));
         }
-        dispatch(slice.SetVehicleSingleData(data[0]));
-      }
-    });
-};
+      });
+  };
 
 export const getDeliveryItemVolumeInfoAction = (id) => (dispatch) => {
   return requestFromServer
@@ -169,27 +160,26 @@ export const getDeliveryItemVolumeInfoAction = (id) => (dispatch) => {
       }
     })
     .catch((err) => {
-      dispatch(slice.SetDeliveryItemVolumeInfo(""));
+      dispatch(slice.SetDeliveryItemVolumeInfo(''));
     });
 };
-export const GetItemWeightInfo_action = (ShipmentCode, setLoading) => (
-  dispatch
-) => {
-  setLoading(true);
-  return requestFromServer
-    .GetItemWeightInfo(ShipmentCode)
-    .then((res) => {
-      const { status, data } = res;
-      setLoading(false);
-      if (status === 200 && data) {
-        dispatch(slice.setItemWeightInfo(data?.[0]));
-      }
-    })
-    .catch((err) => {
-      dispatch(slice.setItemWeightInfo(""));
-      setLoading(false);
-    });
-};
+export const GetItemWeightInfo_action =
+  (ShipmentCode, setLoading) => (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .GetItemWeightInfo(ShipmentCode)
+      .then((res) => {
+        const { status, data } = res;
+        setLoading(false);
+        if (status === 200 && data) {
+          dispatch(slice.setItemWeightInfo(data?.[0]));
+        }
+      })
+      .catch((err) => {
+        dispatch(slice.setItemWeightInfo(''));
+        setLoading(false);
+      });
+  };
 
 // action for save created data
 export const saveShipment = (payload, setDisabled) => () => {
@@ -198,7 +188,7 @@ export const saveShipment = (payload, setDisabled) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
         payload.setDisabled(false);
       }
@@ -217,7 +207,7 @@ export const saveEditedShipment = (payload, setDisabled, cb) => () => {
     .saveEditData(payload)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         cb(); // Called PendingList DDL Again
         setDisabled(false);
       }
@@ -230,61 +220,64 @@ export const saveEditedShipment = (payload, setDisabled, cb) => () => {
 };
 
 // action for get grid data
-export const getSalesContactGridData = (
-  accId,
-  buId,
-  ShipmentId,
-  reportTypeId,
-  fromDate,
-  toDate,
-  setLoading,
-  pageNo,
-  pageSize
-) => (dispatch) => {
-  setLoading(true);
-  return requestFromServer
-    .getGridData(
-      accId,
-      buId,
-      ShipmentId,
-      reportTypeId,
-      fromDate,
-      toDate,
-      pageNo,
-      pageSize
-    )
-    .then((res) => {
-      setLoading(false);
-      return dispatch(slice.SetGridData(res?.data));
-    })
-    .catch((err) => {
-      setLoading(false);
-      //
-    });
-};
+export const getSalesContactGridData =
+  (
+    accId,
+    buId,
+    ShipmentId,
+    reportTypeId,
+    fromDate,
+    toDate,
+    setLoading,
+    pageNo,
+    pageSize
+  ) =>
+  (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .getGridData(
+        accId,
+        buId,
+        ShipmentId,
+        reportTypeId,
+        fromDate,
+        toDate,
+        pageNo,
+        pageSize
+      )
+      .then((res) => {
+        setLoading(false);
+        return dispatch(slice.SetGridData(res?.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+        //
+      });
+  };
 
 // action for get grid data
-export const getSalesContactIncompleteGridData = (
-  accId,
-  buId,
-  ShipmentId,
-  tillDate,
-  setLoading,
-  pageNo,
-  pageSize
-) => (dispatch) => {
-  setLoading(true);
-  return requestFromServer
-    .getIncompleteGridData(accId, buId, ShipmentId, tillDate, pageNo, pageSize)
-    .then((res) => {
-      setLoading(false);
-      return dispatch(slice.SetIncompleteGridData(res?.data));
-    })
-    .catch((err) => {
-      setLoading(false);
-      //
-    });
-};
+export const getSalesContactIncompleteGridData =
+  (accId, buId, ShipmentId, tillDate, setLoading, pageNo, pageSize) =>
+  (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .getIncompleteGridData(
+        accId,
+        buId,
+        ShipmentId,
+        tillDate,
+        pageNo,
+        pageSize
+      )
+      .then((res) => {
+        setLoading(false);
+        return dispatch(slice.SetIncompleteGridData(res?.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+        //
+      });
+  };
 
 // action for get data by id single
 export const getSalesContactById = (accId, buId, id) => (dispatch) => {
@@ -332,7 +325,7 @@ export const getSalesContactById = (accId, buId, id) => (dispatch) => {
                   value: item?.shipmentHeader?.supplierId,
                   label: item?.shipmentHeader?.supplierName,
                 }
-              : "",
+              : '',
             lastDistance: item?.shipmentHeader?.lastDestinationKm,
             shipmentdate: item?.shipmentHeader?.shipmentDate,
             estimatedTimeofArrival: _dateFormatter(
@@ -341,7 +334,7 @@ export const getSalesContactById = (accId, buId, id) => (dispatch) => {
             planedLoadingTime: _dateFormatter(
               item?.shipmentHeader?.planedLoadingTime
             ),
-            driverContactNo:item?.shipmentHeader?.driverContact,
+            driverContactNo: item?.shipmentHeader?.driverContact,
             gateEntryCode: {
               value: item?.shipmentHeader?.veichleEntryId,
               label: item?.shipmentHeader?.veichleEntryCode,
@@ -355,7 +348,7 @@ export const getSalesContactById = (accId, buId, id) => (dispatch) => {
                   value: item?.shipmentHeader?.laborSupplierId,
                   label: item?.shipmentHeader?.laborSupplierName,
                 }
-              : "",
+              : '',
             pendingDelivery: {
               value: item?.shipmentRowList[0]?.deliveryId,
               label: item?.shipmentRowList[0]?.deliveryCode,
@@ -388,60 +381,49 @@ export const GetShipPointDDLAction = (accId, buId) => (dispatch) => {
   });
 };
 //getStockStatusOnShipment
-export const getStockStatusOnShipmentAction = (deliveryId, buId) => (
-  dispatch
-) => {
-  return requestFromServer
-    .getStockStatusOnShipment(deliveryId, buId)
-    .then((res) => {
-      const { status, data } = res;
-      if (status === 200 && data) {
-        dispatch(slice.SetStockStatusOnShipment(data));
-      }
-    })
-    .catch((err) => {
-      toast.error(err?.response?.data?.message);
-      dispatch(slice.SetStockStatusOnShipment(false));
-    });
-};
+export const getStockStatusOnShipmentAction =
+  (deliveryId, buId) => (dispatch) => {
+    return requestFromServer
+      .getStockStatusOnShipment(deliveryId, buId)
+      .then((res) => {
+        const { status, data } = res;
+        if (status === 200 && data) {
+          dispatch(slice.SetStockStatusOnShipment(data));
+        }
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message);
+        dispatch(slice.SetStockStatusOnShipment(false));
+      });
+  };
 
 // action for save created data
-export const saveShipmentId_action = (
-  payload,
-  userId,
-  viewBtnClickHandler,
-  values,
-  pageNo,
-  pageSize
-) => () => {
-  return requestFromServer
-    .saveShipmentId(payload)
-    .then((res) => {
-      if (res.status === 200) {
-        toast.success(res.data?.message || "Complete successfully");
-        viewBtnClickHandler(values, pageNo, pageSize);
-      }
-    })
-    .catch((err) => {
-      toast.error(err?.response?.data?.message);
-    });
-};
+export const saveShipmentId_action =
+  (payload, userId, viewBtnClickHandler, values, pageNo, pageSize) => () => {
+    return requestFromServer
+      .saveShipmentId(payload)
+      .then((res) => {
+        if (res.status === 200) {
+          toast.success(res.data?.message || 'Complete successfully');
+          viewBtnClickHandler(values, pageNo, pageSize);
+        }
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message);
+      });
+  };
 
-export const SaveVehicleWeight = (
-  ShipmentId,
-  loadedWeight,
-  UnloadedWeight,
-  cb
-) => () => {
-  return requestFromServer
-    .saveVehicleWeight(ShipmentId, loadedWeight, UnloadedWeight)
-    .then((res) => {
-      if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
-        cb();
-      }
-    })
-    .catch((err) => {
-      toast.error(err?.response?.data?.message);
-    });
-};
+export const SaveVehicleWeight =
+  (ShipmentId, loadedWeight, UnloadedWeight, cb) => () => {
+    return requestFromServer
+      .saveVehicleWeight(ShipmentId, loadedWeight, UnloadedWeight)
+      .then((res) => {
+        if (res.status === 200) {
+          toast.success(res.data?.message || 'Submitted successfully');
+          cb();
+        }
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message);
+      });
+  };

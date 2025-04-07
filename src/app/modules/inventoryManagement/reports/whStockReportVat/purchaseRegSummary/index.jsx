@@ -1,5 +1,5 @@
-import React, { useMemo } from "react";
-import { _fixedPointVat } from "../../../../_helper/_fixedPointVat";
+import React, { useMemo } from 'react';
+import { _fixedPointVat } from '../../../../_helper/_fixedPointVat';
 const PurchaseRegSummary = ({ rowDto }) => {
   const totalSum = useMemo(() => {
     if (rowDto?.length > 0) {
@@ -37,98 +37,107 @@ const PurchaseRegSummary = ({ rowDto }) => {
             <div className="d-flex">
               <div className="left mr-4">
                 <p className="mb-0">
-                  <span style={{ width: "150px", display: "inline-block" }}>
+                  <span style={{ width: '150px', display: 'inline-block' }}>
                     Total opening quantity
                   </span>
                   : <b>{_fixedPointVat(rowDto?.[0]?.OpeningQty, 3, true)}</b>
                 </p>
 
                 <p className="mb-0">
-                  <span style={{ width: "150px", display: "inline-block" }}>
+                  <span style={{ width: '150px', display: 'inline-block' }}>
                     Total purchased quantity
                   </span>
                   : <b>{_fixedPointVat(totalSum.RcvQty, 3, true)}</b>
                 </p>
 
                 <p className="mb-0">
-                  <span style={{ width: "150px", display: "inline-block" }}>
+                  <span style={{ width: '150px', display: 'inline-block' }}>
                     Total stock quantity
                   </span>
-                  :{" "}
+                  :{' '}
                   <b>
                     {_fixedPointVat(
                       rowDto?.[0]?.OpeningQty + totalSum.RcvQty,
-                      3, true
+                      3,
+                      true
                     )}
                   </b>
                 </p>
 
                 <p className="mb-0">
-                  <span style={{ width: "150px", display: "inline-block" }}>
+                  <span style={{ width: '150px', display: 'inline-block' }}>
                     Total Issue quantity
                   </span>
                   : <b>{_fixedPointVat(totalSum.IssueQty, 3, true)}</b>
                 </p>
 
                 <p className="mb-0">
-                  <span style={{ width: "150px", display: "inline-block" }}>
+                  <span style={{ width: '150px', display: 'inline-block' }}>
                     Total closing quantity
                   </span>
-                  :{" "}
+                  :{' '}
                   <b>
                     {_fixedPointVat(
                       rowDto?.[0]?.OpeningQty +
                         totalSum.RcvQty -
                         totalSum.IssueQty,
-                      3, true
+                      3,
+                      true
                     )}
                   </b>
                 </p>
               </div>
               <div className="right">
                 <p className="mb-0">
-                  <span style={{ width: "150px", display: "inline-block" }}>
+                  <span style={{ width: '150px', display: 'inline-block' }}>
                     Total opening value
                   </span>
-                  : <b>{_fixedPointVat(rowDto?.[0]?.OpeningVal, null , true)}</b>
+                  : <b>{_fixedPointVat(rowDto?.[0]?.OpeningVal, null, true)}</b>
                 </p>
 
                 <p className="mb-0">
-                  <span style={{ width: "150px", display: "inline-block" }}>
+                  <span style={{ width: '150px', display: 'inline-block' }}>
                     Total purchased value
                   </span>
-                  : <b>{_fixedPointVat(totalSum.WithoutSDvatValue, null , true)}</b>
+                  :{' '}
+                  <b>
+                    {_fixedPointVat(totalSum.WithoutSDvatValue, null, true)}
+                  </b>
                 </p>
 
                 <p className="mb-0">
-                  <span style={{ width: "150px", display: "inline-block" }}>
+                  <span style={{ width: '150px', display: 'inline-block' }}>
                     Total stock value
                   </span>
-                  :{" "}
+                  :{' '}
                   <b>
                     {_fixedPointVat(
-                      rowDto?.[0]?.OpeningVal + totalSum.WithoutSDvatValue,null , true
+                      rowDto?.[0]?.OpeningVal + totalSum.WithoutSDvatValue,
+                      null,
+                      true
                     )}
                   </b>
                 </p>
 
                 <p className="mb-0">
-                  <span style={{ width: "150px", display: "inline-block" }}>
+                  <span style={{ width: '150px', display: 'inline-block' }}>
                     Total Issue value
                   </span>
-                  : <b>{_fixedPointVat(totalSum.IssueVal, null , true)}</b>
+                  : <b>{_fixedPointVat(totalSum.IssueVal, null, true)}</b>
                 </p>
 
                 <p className="mb-0">
-                  <span style={{ width: "150px", display: "inline-block" }}>
+                  <span style={{ width: '150px', display: 'inline-block' }}>
                     Total closing value
                   </span>
-                  :{" "}
+                  :{' '}
                   <b>
                     {_fixedPointVat(
                       rowDto?.[0]?.OpeningVal +
                         totalSum.WithoutSDvatValue -
-                        totalSum.IssueVal, null , true
+                        totalSum.IssueVal,
+                      null,
+                      true
                     )}
                   </b>
                 </p>

@@ -1,42 +1,40 @@
-
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { IInput } from "../../../../_helper/_input";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import ICalendar from "../../../../_helper/_inputCalender";
-import ICustomTable from "../../../../_helper/_customTable";
-import toArray from "lodash/toArray";
-import {  getRFQSupplierNameDDLAction } from "../_redux/Actions"
-import { getSupplierItemRowNameDDLAction } from "../_redux/Actions"
-
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { IInput } from '../../../../_helper/_input';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import ICalendar from '../../../../_helper/_inputCalender';
+import ICustomTable from '../../../../_helper/_customTable';
+import toArray from 'lodash/toArray';
+import { getRFQSupplierNameDDLAction } from '../_redux/Actions';
+import { getSupplierItemRowNameDDLAction } from '../_redux/Actions';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   supplierName: Yup.object().shape({
-    label: Yup.string().required("Supplier name is required"),
-    value: Yup.string().required("Supplier name is required"),
+    label: Yup.string().required('Supplier name is required'),
+    value: Yup.string().required('Supplier name is required'),
   }),
   supplierRef: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Supplier reference is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Supplier reference is required'),
   supplierDate: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Date is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Date is required'),
 });
 
 const ths = [
-  "SL",
-  "Item Code",
-  "Item Name",
-  "UoM",
-  "Purchase Description",
-  "RFQ Qty.",
-  "Rate",
-  "Value",
-  "Comments",
+  'SL',
+  'Item Code',
+  'Item Name',
+  'UoM',
+  'Purchase Description',
+  'RFQ Qty.',
+  'Rate',
+  'Value',
+  'Comments',
 ];
 
 export default function FormCmp({
@@ -51,15 +49,19 @@ export default function FormCmp({
   supplierDDL,
   rowDtoHandler,
   profileData,
-  selectedBusinessUnit
+  selectedBusinessUnit,
 }) {
-  const [supplierNameDDL, setsupplierNameDDL] = useState([])
+  const [supplierNameDDL, setsupplierNameDDL] = useState([]);
 
   useEffect(() => {
     // getSupplierNameDDLAction(profileData?.accountId, selectedBusinessUnit?.value,usersDDLdata?.sbu?.value,setsupplierNameDDL)
-    getRFQSupplierNameDDLAction(profileData?.accountId, selectedBusinessUnit?.value, id, setsupplierNameDDL)
-
-  }, [profileData?.accountId, selectedBusinessUnit?.value])
+    getRFQSupplierNameDDLAction(
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      id,
+      setsupplierNameDDL
+    );
+  }, [profileData?.accountId, selectedBusinessUnit?.value]);
   return (
     <>
       <Formik
@@ -94,11 +96,15 @@ export default function FormCmp({
                     name="supplierName"
                     errors={errors}
                     touched={touched}
-                    onChange={selected => {
-                      resetForm()
-                      setFieldValue("supplierName", selected)
-                      getSupplierItemRowNameDDLAction(selected?.rfqId, setRowDto, setFieldValue)
-                      console.log(values)
+                    onChange={(selected) => {
+                      resetForm();
+                      setFieldValue('supplierName', selected);
+                      getSupplierItemRowNameDDLAction(
+                        selected?.rfqId,
+                        setRowDto,
+                        setFieldValue
+                      );
+                      console.log(values);
                     }}
                   />
                 </div>
@@ -119,7 +125,7 @@ export default function FormCmp({
                 <div className="col-lg">
                   <button
                     type="button"
-                    style={{ marginTop: "24px" }}
+                    style={{ marginTop: '24px' }}
                     className="btn btn-primary ml-2"
                   >
                     Attachment
@@ -145,22 +151,22 @@ export default function FormCmp({
                           min="0"
                           required
                           onChange={(e) =>
-                            rowDtoHandler("rate", e.target.value, index)
+                            rowDtoHandler('rate', e.target.value, index)
                           }
                           name="rate"
                         />
                       </td>
                       <td>
-                        {" "}
+                        {' '}
                         {rowDto[index]?.rfqQty && rowDto[index]?.rate
                           ? +rowDto[index]?.rfqQty * +rowDto[index]?.rate
-                          : 0}{" "}
+                          : 0}{' '}
                       </td>
                       <td className="disable-border disabled-feedback">
                         <IInput
                           value={rowDto[index]?.comments}
                           onChange={(e) =>
-                            rowDtoHandler("comments", e.target.value, index)
+                            rowDtoHandler('comments', e.target.value, index)
                           }
                           name="comments"
                         />
@@ -172,14 +178,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

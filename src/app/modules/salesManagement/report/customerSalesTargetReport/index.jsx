@@ -1,30 +1,30 @@
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { Form } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import ICustomCard from "../../../_helper/_customCard";
-import IApproval from "../../../_helper/_helperIcons/_approval";
-import IClose from "../../../_helper/_helperIcons/_close";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import FromDateToDateForm from "../../../_helper/commonInputFieldsGroups/dateForm";
-import RATForm from "../../../_helper/commonInputFieldsGroups/ratForm";
-import IButton from "../../../_helper/iButton";
-import { getMonth } from "../customerSalesTarget/utils";
-import { _dateFormatter } from "./../../../_helper/_dateFormate";
-import { _fixedPoint } from "./../../../_helper/_fixedPoint";
-import PaginationTable from "./../../../_helper/_tablePagination";
-import { _todayDate } from "./../../../_helper/_todayDate";
-import { editSalesTarget, getCustomersSalesTarget_Api } from "./helper";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { Form } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICustomCard from '../../../_helper/_customCard';
+import IApproval from '../../../_helper/_helperIcons/_approval';
+import IClose from '../../../_helper/_helperIcons/_close';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import FromDateToDateForm from '../../../_helper/commonInputFieldsGroups/dateForm';
+import RATForm from '../../../_helper/commonInputFieldsGroups/ratForm';
+import IButton from '../../../_helper/iButton';
+import { getMonth } from '../customerSalesTarget/utils';
+import { _dateFormatter } from './../../../_helper/_dateFormate';
+import { _fixedPoint } from './../../../_helper/_fixedPoint';
+import PaginationTable from './../../../_helper/_tablePagination';
+import { _todayDate } from './../../../_helper/_todayDate';
+import { editSalesTarget, getCustomersSalesTarget_Api } from './helper';
 
 const initData = {
-  reportType: { value: 1, label: "Details" },
-  channel: "",
-  region: "",
-  area: "",
-  territory: "",
+  reportType: { value: 1, label: 'Details' },
+  channel: '',
+  region: '',
+  area: '',
+  territory: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -79,15 +79,15 @@ const CustomerSalesTargetReport = () => {
                       <NewSelect
                         name="reportType"
                         options={[
-                          { value: 1, label: "Details" },
-                          { value: 2, label: "Region" },
-                          { value: 3, label: "Area" },
+                          { value: 1, label: 'Details' },
+                          { value: 2, label: 'Region' },
+                          { value: 3, label: 'Area' },
                         ]}
                         value={values?.reportType}
                         label="Report Type"
                         onChange={(valueOption) => {
                           setRowDto([]);
-                          setFieldValue("reportType", valueOption);
+                          setFieldValue('reportType', valueOption);
                         }}
                         placeholder="Report Type"
                         errors={errors}
@@ -128,7 +128,7 @@ const CustomerSalesTargetReport = () => {
                   <table className="table table-striped table-bordered global-table">
                     <thead>
                       <tr>
-                        <th style={{ width: "30px" }}>SL</th>
+                        <th style={{ width: '30px' }}>SL</th>
                         {values?.reportType?.value === 1 && (
                           <>
                             <th>Partner Code</th>
@@ -150,7 +150,7 @@ const CustomerSalesTargetReport = () => {
                               <th>Target End Date</th>
                             </>
                           )}
-                        <th style={{ width: "150px" }}>Target Quantity</th>
+                        <th style={{ width: '150px' }}>Target Quantity</th>
                         <th>Addition Qty</th>
                         <th>Deduction Qty</th>
                         <th>isApprove</th>
@@ -226,7 +226,7 @@ const CustomerSalesTargetReport = () => {
                                   type="number"
                                   onChange={(e) => {
                                     rowDataHandler(
-                                      "editedTargetQuantity",
+                                      'editedTargetQuantity',
                                       index,
                                       e.target.value
                                     );
@@ -245,7 +245,7 @@ const CustomerSalesTargetReport = () => {
                           </td>
                           <td>
                             <div className="pl-2">
-                              {td?.isApprove ? "Yes" : "No"}
+                              {td?.isApprove ? 'Yes' : 'No'}
                             </div>
                           </td>
                           <td className="text-center">
@@ -253,7 +253,7 @@ const CustomerSalesTargetReport = () => {
                               <span
                                 className="cursor-pointer"
                                 onClick={() => {
-                                  rowDataHandler("isEdit", index, true);
+                                  rowDataHandler('isEdit', index, true);
                                 }}
                               >
                                 <IEdit />
@@ -263,7 +263,7 @@ const CustomerSalesTargetReport = () => {
                                 <span
                                   className="cursor-pointer"
                                   onClick={() => {
-                                    rowDataHandler("isEdit", index, false);
+                                    rowDataHandler('isEdit', index, false);
                                   }}
                                 >
                                   <IClose title="Cancel" />
@@ -303,7 +303,7 @@ const CustomerSalesTargetReport = () => {
                                           pageNo,
                                           pageSize
                                         );
-                                        rowDataHandler("isEdit", index, false);
+                                        rowDataHandler('isEdit', index, false);
                                       }
                                     );
                                   }}
@@ -315,7 +315,7 @@ const CustomerSalesTargetReport = () => {
                           </td>
                         </tr>
                       ))}
-                      <tr style={{ fontWeight: "bold" }}>
+                      <tr style={{ fontWeight: 'bold' }}>
                         <td
                           className="text-right"
                           colSpan={
@@ -323,11 +323,11 @@ const CustomerSalesTargetReport = () => {
                             selectedBusinessUnit?.value !== 4
                               ? 11
                               : values?.reportType?.value === 1 &&
-                                selectedBusinessUnit?.value === 4
-                              ? 9
-                              : values?.reportType?.value === 3
-                              ? 5
-                              : 4
+                                  selectedBusinessUnit?.value === 4
+                                ? 9
+                                : values?.reportType?.value === 3
+                                  ? 5
+                                  : 4
                           }
                         >
                           Total
@@ -347,7 +347,7 @@ const CustomerSalesTargetReport = () => {
                         <td colSpan={2}></td>
                       </tr>
                     </tbody>
-                  </table>{" "}
+                  </table>{' '}
                 </div>
               )}
               {rowDto?.objdata?.length > 0 && (

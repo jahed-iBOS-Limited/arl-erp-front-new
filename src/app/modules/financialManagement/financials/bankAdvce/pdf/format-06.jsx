@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { dateFormatWithMonthName } from '../../../../_helper/_dateFormate';
 import numberWithCommas from '../../../../_helper/_numberWithCommas';
@@ -224,7 +223,7 @@ export const FormatSix = ({
                     numberWithCommas(
                       adviceReportData
                         ?.reduce((acc, item) => acc + item?.numAmount, 0)
-                        ?.toFixed(2),
+                        ?.toFixed(2)
                     )}
                 </div>
               </td>

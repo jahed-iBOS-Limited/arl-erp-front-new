@@ -1,14 +1,14 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import moment from "moment";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import {
   _todaysEndTime,
   _todaysStartTime,
-} from "../../../../_helper/_currentTime";
-import InputField from "../../../../_helper/_inputField";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import Loading from "./../../../../_helper/_loading";
+} from '../../../../_helper/_currentTime';
+import InputField from '../../../../_helper/_inputField';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import Loading from './../../../../_helper/_loading';
 import {
   getAreaDDL,
   getDistributionChannelDDL,
@@ -16,26 +16,26 @@ import {
   GetSoldToPartyDDL,
   getTerritoryDDL,
   getPendingShippingReportLandingData,
-} from "../helper";
-import GridView from "./girdView";
-import NewSelect from "./../../../../_helper/_select";
+} from '../helper';
+import GridView from './girdView';
+import NewSelect from './../../../../_helper/_select';
 import {
   getSBUDDLDelivery_Aciton,
   GetShipPointDDLAction,
   // GetWarehouseDDLAction,
-} from "../../../warehouseManagement/delivery/_redux/Actions";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import ICard from "../../../../_helper/_card";
+} from '../../../warehouseManagement/delivery/_redux/Actions';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import ICard from '../../../../_helper/_card';
 
 const initData = {
-  sbu: "",
-  shippingPoint: "",
-  distributionChannel: "",
-  region: "",
-  area: "",
-  territory: "",
+  sbu: '',
+  shippingPoint: '',
+  distributionChannel: '',
+  region: '',
+  area: '',
+  territory: '',
   // warehouse: "",
-  soldToParty: "",
+  soldToParty: '',
   fromDate: _todayDate(),
   fromTime: _todaysStartTime(),
   toDate: _todayDate(),
@@ -50,7 +50,7 @@ const PendingShippingReportTable = () => {
   const [territoryDDL, setTerritoryDDL] = useState([]);
   const [soldToPartyDDL, setSoldToPartyDDL] = useState([]);
   const [loading, setLoading] = useState(false);
-  const obj = { value: 0, label: "All" };
+  const obj = { value: 0, label: 'All' };
 
   const dispatch = useDispatch();
 
@@ -83,15 +83,14 @@ const PendingShippingReportTable = () => {
         GetShipPointDDLAction(profileData.accountId, selectedBusinessUnit.value)
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const getGridDataHandler = (values) => {
     const fromDate = moment(`${values?.fromDate} ${values?.fromTime}`).format(
-      "YYYY-MM-DDTHH:mm:ss"
+      'YYYY-MM-DDTHH:mm:ss'
     );
     const toDate = moment(`${values?.toDate} ${values?.toTime}`).format(
-      "YYYY-MM-DDTHH:mm:ss"
+      'YYYY-MM-DDTHH:mm:ss'
     );
 
     getPendingShippingReportLandingData(
@@ -143,10 +142,10 @@ const PendingShippingReportTable = () => {
                       setValues({
                         ...values,
                         sbu: valueOption,
-                        distributionChannel: "",
-                        region: "",
-                        area: "",
-                        territory: "",
+                        distributionChannel: '',
+                        region: '',
+                        area: '',
+                        territory: '',
                       });
                       getDistributionChannelDDL(
                         profileData?.accountId,
@@ -169,7 +168,7 @@ const PendingShippingReportTable = () => {
                     errors={errors}
                     touched={touched}
                     onChange={(valueOption) => {
-                      setFieldValue("shippingPoint", valueOption);
+                      setFieldValue('shippingPoint', valueOption);
                       // setFieldValue("warehouse", "");
                       // dispatch(
                       //   GetWarehouseDDLAction(
@@ -195,12 +194,12 @@ const PendingShippingReportTable = () => {
                       }}
                     />
                   </div> */}
-                {console.log("Values", values)}
+                {console.log('Values', values)}
                 <div className="col-lg-2">
                   <NewSelect
                     label="Select Distribution Channel"
                     options={
-                      [{ value: 0, label: "All" }, ...distributionChannelDDL] ||
+                      [{ value: 0, label: 'All' }, ...distributionChannelDDL] ||
                       []
                     }
                     value={values?.distributionChannel}
@@ -214,10 +213,10 @@ const PendingShippingReportTable = () => {
                       setValues({
                         ...values,
                         distributionChannel: valueOption,
-                        region: ifAllSect ? obj : "",
-                        area: ifAllSect ? obj : "",
-                        territory: ifAllSect ? obj : "",
-                        soldToParty: ifAllSect ? obj : "",
+                        region: ifAllSect ? obj : '',
+                        area: ifAllSect ? obj : '',
+                        territory: ifAllSect ? obj : '',
+                        soldToParty: ifAllSect ? obj : '',
                       });
                       getRegionDDL(
                         profileData?.accountId,
@@ -233,7 +232,7 @@ const PendingShippingReportTable = () => {
                 <div className="col-lg-2">
                   <NewSelect
                     label="Select Region"
-                    options={[{ value: 0, label: "All" }, ...regionDDL] || []}
+                    options={[{ value: 0, label: 'All' }, ...regionDDL] || []}
                     value={values?.region}
                     name="region"
                     setFieldValue={setFieldValue}
@@ -244,9 +243,9 @@ const PendingShippingReportTable = () => {
                       setValues({
                         ...values,
                         region: valueOption,
-                        area: ifAllSect ? obj : "",
-                        territory: ifAllSect ? obj : "",
-                        soldToParty: ifAllSect ? obj : "",
+                        area: ifAllSect ? obj : '',
+                        territory: ifAllSect ? obj : '',
+                        soldToParty: ifAllSect ? obj : '',
                       });
                       getAreaDDL(
                         profileData?.accountId,
@@ -263,7 +262,7 @@ const PendingShippingReportTable = () => {
                 <div className="col-lg-2">
                   <NewSelect
                     label="Select Area"
-                    options={[{ value: 0, label: "All" }, ...areaDDL] || []}
+                    options={[{ value: 0, label: 'All' }, ...areaDDL] || []}
                     value={values?.area}
                     name="area"
                     setFieldValue={setFieldValue}
@@ -273,8 +272,8 @@ const PendingShippingReportTable = () => {
                       setValues({
                         ...values,
                         area: valueOption,
-                        territory: ifAllSect ? obj : "",
-                        soldToParty: ifAllSect ? obj : "",
+                        territory: ifAllSect ? obj : '',
+                        soldToParty: ifAllSect ? obj : '',
                       });
                       getTerritoryDDL(
                         profileData?.accountId,
@@ -292,19 +291,19 @@ const PendingShippingReportTable = () => {
                   <NewSelect
                     label="Select Territory"
                     options={
-                      [{ value: 0, label: "All" }, ...territoryDDL] || []
+                      [{ value: 0, label: 'All' }, ...territoryDDL] || []
                     }
                     value={values?.territory}
                     name="territory"
                     setFieldValue={setFieldValue}
                     onChange={(valueOption) => {
-                      setFieldValue("territory", valueOption);
-                      setFieldValue("soldToParty", "");
+                      setFieldValue('territory', valueOption);
+                      setFieldValue('soldToParty', '');
                       const ifAllSect = valueOption?.value === 0;
                       setValues({
                         ...values,
                         territory: valueOption,
-                        soldToParty: ifAllSect ? obj : "",
+                        soldToParty: ifAllSect ? obj : '',
                       });
                       GetSoldToPartyDDL(
                         profileData?.accountId,
@@ -321,7 +320,7 @@ const PendingShippingReportTable = () => {
                   <NewSelect
                     label="Select Sold To Party"
                     options={
-                      [{ value: 0, label: "All" }, ...soldToPartyDDL] || []
+                      [{ value: 0, label: 'All' }, ...soldToPartyDDL] || []
                     }
                     value={values?.soldToParty}
                     name="soldToParty"
@@ -329,7 +328,7 @@ const PendingShippingReportTable = () => {
                     errors={errors}
                     touched={touched}
                     onChange={(valueOption) => {
-                      setFieldValue("soldToParty", valueOption);
+                      setFieldValue('soldToParty', valueOption);
                     }}
                   />
                 </div>
@@ -385,15 +384,14 @@ const PendingShippingReportTable = () => {
                   </button>
                   <div className="pl-1">
                     <ReactHTMLTableToExcel
-                    id="test-table-xls-button-att-reports"
-                    className="btn btn-primary"
-                    table="table-to-xlsx"
-                    filename="Pending Shipping Report"
-                    sheet="Pending Shipping Report"
-                    buttonText="Export Excel"
-                  />
+                      id="test-table-xls-button-att-reports"
+                      className="btn btn-primary"
+                      table="table-to-xlsx"
+                      filename="Pending Shipping Report"
+                      sheet="Pending Shipping Report"
+                      buttonText="Export Excel"
+                    />
                   </div>
-
                 </div>
               </div>
             </form>

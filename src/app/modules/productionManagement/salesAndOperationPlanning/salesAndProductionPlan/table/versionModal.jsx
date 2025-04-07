@@ -1,14 +1,16 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { getLogVersionDDL, getVersionGridData } from "../../../../_helper/_commonApi";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import {
+  getLogVersionDDL,
+  getVersionGridData,
+} from '../../../../_helper/_commonApi';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
 
 const initData = {
-  log: "",
+  log: '',
 };
 
 const VersionModal = ({ versionModalData }) => {
@@ -39,15 +41,9 @@ const VersionModal = ({ versionModalData }) => {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
-        {({
-          handleSubmit,
-          values,
-          errors,
-          touched,
-          setFieldValue,
-        }) => (
+        {({ handleSubmit, values, errors, touched, setFieldValue }) => (
           <>
             {loading && <Loading />}
 
@@ -63,7 +59,7 @@ const VersionModal = ({ versionModalData }) => {
                   label="Log Version"
                   placeholder="Log Version"
                   onChange={(valueOption) => {
-                    setFieldValue("log", valueOption);
+                    setFieldValue('log', valueOption);
                     getVersionGridData(
                       versionModalData?.salesPlanId,
                       valueOption?.value,
@@ -85,8 +81,8 @@ const VersionModal = ({ versionModalData }) => {
                       <th>SL</th>
                       <th>Item Name</th>
                       <th>UoM Name</th>
-                      <th style={{ width: "100px" }}>Plan Quantity</th>
-                      <th style={{ width: "100px" }}>Entry Plan Quantity</th>
+                      <th style={{ width: '100px' }}>Plan Quantity</th>
+                      <th style={{ width: '100px' }}>Entry Plan Quantity</th>
                     </tr>
                   </thead>
                   <tbody>

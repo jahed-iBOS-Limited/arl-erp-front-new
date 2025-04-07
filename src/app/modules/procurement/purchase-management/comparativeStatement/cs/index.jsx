@@ -32,13 +32,13 @@ function ShippingComparativeStatement() {
   // get user profile data from store
   const profileData = useSelector(
     (state) => state.authData.profileData,
-    shallowEqual,
+    shallowEqual
   );
 
   // get selected business unit from store
   const selectedBusinessUnit = useSelector(
     (state) => state.authData.selectedBusinessUnit,
-    shallowEqual,
+    shallowEqual
   );
   const plantDDL = useSelector((state) => state?.purchaseOrder?.plantDDL);
 
@@ -48,9 +48,8 @@ function ShippingComparativeStatement() {
         profileData?.accountId
       }&BusinessUnitId=${
         selectedBusinessUnit?.value
-      }&SBUId=80&RequestTypeId=1&PurchaseOrganizationId=11&Status=true&ViewOrder=DESC&PageNo=${pageNo}&PageSize=${pageSize}&PlantId=${0}`,
+      }&SBUId=80&RequestTypeId=1&PurchaseOrganizationId=11&Status=true&ViewOrder=DESC&PageNo=${pageNo}&PageSize=${pageSize}&PlantId=${0}`
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -65,7 +64,7 @@ function ShippingComparativeStatement() {
         selectedBusinessUnit?.value
       }&SBUId=80&RequestTypeId=1&PurchaseOrganizationId=11&Status=true&ViewOrder=DESC&PageNo=${pageNo}&PageSize=${pageSize}&PlantId=${
         values?.plant?.value || 0
-      }${fromDate}${toDate}${search}`,
+      }${fromDate}${toDate}${search}`
     );
   };
 
@@ -152,7 +151,7 @@ function ShippingComparativeStatement() {
                               selectedBusinessUnit?.value
                             }&SBUId=80&RequestTypeId=1&PurchaseOrganizationId=11&Status=true&ViewOrder=DESC&PageNo=${pageNo}&PageSize=${pageSize}&PlantId=${
                               values?.plant?.value || 0
-                            }${fromDate}${toDate}${search}`,
+                            }${fromDate}${toDate}${search}`
                           );
                         }}
                       >

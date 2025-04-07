@@ -1,21 +1,20 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   saveTransportZone,
   saveEditedTransportZone,
   getTransportZoneById,
   setTransportZoneSingleEmpty,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
   id: undefined,
-  transportZoneName: "",
-  divisionName: "",
-  districtName: "",
+  transportZoneName: '',
+  divisionName: '',
+  districtName: '',
 };
 
 export default function TransportZoneForm({
@@ -24,7 +23,6 @@ export default function TransportZoneForm({
     params: { id },
   },
 }) {
-
   const [isDisabled, setDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
   // get user profile data from store
@@ -34,7 +32,6 @@ export default function TransportZoneForm({
 
   // get selected business unit from store
   const selectedBusinessUnit = useSelector((state) => {
-
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
@@ -50,7 +47,6 @@ export default function TransportZoneForm({
     } else {
       dispatch(setTransportZoneSingleEmpty());
     }
-
   }, [id]);
 
   const saveHandler = async (values, cb) => {
@@ -61,7 +57,6 @@ export default function TransportZoneForm({
           transportZoneName: values.transportZoneName,
           actionBy: profileData.userId,
           districtId: values?.districtName?.value || 0,
-
         };
         dispatch(saveEditedTransportZone(payload, setDisabled));
       } else {
@@ -71,12 +66,10 @@ export default function TransportZoneForm({
           actionBy: profileData.userId,
           accountId: profileData.accountId,
           districtId: values?.districtName?.value || 0,
-
         };
         dispatch(saveTransportZone({ data: payload, cb }, setDisabled));
       }
     } else {
-
     }
   };
   // const disableHandler = (cond) => {
@@ -84,7 +77,7 @@ export default function TransportZoneForm({
   // };
   return (
     <IForm
-      title={id ? "Edit Transport Zone" : "Create Transport Zone"}
+      title={id ? 'Edit Transport Zone' : 'Create Transport Zone'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

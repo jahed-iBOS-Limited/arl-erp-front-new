@@ -22,20 +22,19 @@ export default function RawMaterialAutoPRNewModalView({
   // reducer
   const [commonItemDetailsState, commonItemDetailsDispatch] = useReducer(
     commonItemReducer,
-    commonItemInitialState,
+    commonItemInitialState
   );
 
   const [autoRawMaterialData, getAutoRawMaterialData, loader] = useAxiosGet();
 
   const getData = () => {
     getAutoRawMaterialData(
-      `/procurement/MRPFromProduction/MrpfromProductionScheduleRowLanding?MrpfromProductionScheduleHeaderId=${singleRowDataFromParent?.mrpfromProductionHeaderId}`,
+      `/procurement/MRPFromProduction/MrpfromProductionScheduleRowLanding?MrpfromProductionScheduleHeaderId=${singleRowDataFromParent?.mrpfromProductionHeaderId}`
     );
   };
 
   useEffect(() => {
     getData();
-
   }, []);
 
   return (

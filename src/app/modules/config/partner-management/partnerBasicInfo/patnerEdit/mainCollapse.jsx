@@ -58,7 +58,6 @@ export default function MainCollapsePanel() {
     } else if (state?.checkBox === 'SalesInformation') {
       setExpanded('panel4');
     }
-
   }, [state]);
 
   return (

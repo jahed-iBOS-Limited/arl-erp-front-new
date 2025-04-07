@@ -1,16 +1,15 @@
-
-import React, { useEffect } from "react";
-import { Formik, Form, Field } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import Axios from "axios";
-import { reason, validationSchema } from "../helper";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import FormikError from "../../../../_helper/_formikError";
-import { useLocation } from "react-router-dom";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
+import React, { useEffect } from 'react';
+import { Formik, Form, Field } from 'formik';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import Axios from 'axios';
+import { reason, validationSchema } from '../helper';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import FormikError from '../../../../_helper/_formikError';
+import { useLocation } from 'react-router-dom';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../../_helper/_loading';
 
 export default function FormCmp({
   initData,
@@ -79,8 +78,8 @@ export default function FormCmp({
                 <div className="row">
                   <div className="col-lg-4">
                     <label>
-                      <span className="mr-1">Date:</span>{" "}
-                      <span className="mr-2" style={{ color: "red" }}>
+                      <span className="mr-1">Date:</span>{' '}
+                      <span className="mr-2" style={{ color: 'red' }}>
                         *
                       </span>
                     </label>
@@ -98,7 +97,7 @@ export default function FormCmp({
                   <div className="col-lg-4">
                     <label>
                       From Address:
-                      <span style={{ color: "red" }}>*</span>
+                      <span style={{ color: 'red' }}>*</span>
                     </label>
                     <InputField
                       value={pId ? initData?.fromAddress : warehouse?.address}
@@ -119,7 +118,7 @@ export default function FormCmp({
                   {values?.others ? (
                     <div className="col-lg-6">
                       <label>
-                        To Address: <span style={{ color: "red" }}>*</span>
+                        To Address: <span style={{ color: 'red' }}>*</span>
                       </label>
                       <InputField
                         value={values?.toAddress}
@@ -140,7 +139,7 @@ export default function FormCmp({
                         selectedValue={values?.toAddress}
                         isSearchIcon={true}
                         handleChange={(valueOption) => {
-                          setFieldValue("toAddress", valueOption);
+                          setFieldValue('toAddress', valueOption);
                         }}
                         loadOptions={loadPartsList}
                         isDisabled={
@@ -159,15 +158,15 @@ export default function FormCmp({
 
                   <div className="col-lg-2">
                     <div
-                      style={{ marginTop: "19px" }}
+                      style={{ marginTop: '19px' }}
                       className="d-flex justify-content-center align-items-center col-lg-2"
                     >
                       <label className="d-flex justify-content-center align-items-center">
                         <Field
                           onClick={() => {
-                            setFieldValue("toAddress", "");
+                            setFieldValue('toAddress', '');
                           }}
-                          style={{ marginRight: "5px" }}
+                          style={{ marginRight: '5px' }}
                           type="checkbox"
                           name="others"
                           checked={values?.others}
@@ -186,8 +185,8 @@ export default function FormCmp({
                 <div className="row">
                   <div className="col-lg-4">
                     <label>
-                      Driver/Receiver Name:{" "}
-                      <span style={{ color: "red" }}>*</span>
+                      Driver/Receiver Name:{' '}
+                      <span style={{ color: 'red' }}>*</span>
                     </label>
                     <InputField
                       value={values?.receiversName}
@@ -209,15 +208,15 @@ export default function FormCmp({
                         label="Vehicle"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("vehicle", valueOption);
-                            setFieldValue("item", valueOption?.strItemName);
+                            setFieldValue('vehicle', valueOption);
+                            setFieldValue('item', valueOption?.strItemName);
                             setFieldValue(
-                              "intVehicleEntryId",
+                              'intVehicleEntryId',
                               valueOption?.intVehicleEntryId
                             );
                           } else {
-                            setFieldValue("vehicle", "");
-                            setFieldValue("item", "");
+                            setFieldValue('vehicle', '');
+                            setFieldValue('item', '');
                           }
                         }}
                         // isDisabled={
@@ -242,7 +241,7 @@ export default function FormCmp({
                   )}
                   {/* checkbox for from gate entry */}
                   <div
-                    style={{ marginTop: "19px" }}
+                    style={{ marginTop: '19px' }}
                     className="col-lg-4 text-left"
                   >
                     <label className="d-flex justify-content-left">
@@ -250,21 +249,21 @@ export default function FormCmp({
                         onClick={(e) => {
                           if (e.target.checked) {
                             setFieldValue(
-                              "fromGateEntry",
+                              'fromGateEntry',
                               values?.fromGateEntry
                             );
                             getVehicleDDL(
                               `/mes/MSIL/GetAllMSIL?PartName=GetGatePassVehicleDDL&BusinessUnitId=${selectedBusinessUnit.value}`
                             );
                           } else {
-                            setFieldValue("vehicle", "");
+                            setFieldValue('vehicle', '');
                             setFieldValue(
-                              "fromGateEntry",
+                              'fromGateEntry',
                               values?.fromGateEntry
                             );
                           }
                         }}
-                        style={{ marginRight: "5px" }}
+                        style={{ marginRight: '5px' }}
                         type="checkbox"
                         name="fromGateEntry"
                         checked={
@@ -282,7 +281,7 @@ export default function FormCmp({
                 <div className="row">
                   <div className="col-lg-4">
                     <label>
-                      Contact No: <span style={{ color: "red" }}>*</span>
+                      Contact No: <span style={{ color: 'red' }}>*</span>
                     </label>
                     <InputField
                       value={values?.contactNo}
@@ -302,7 +301,7 @@ export default function FormCmp({
                       value={values?.reason}
                       label="Reason"
                       onChange={(valueOption) => {
-                        setFieldValue("reason", valueOption);
+                        setFieldValue('reason', valueOption);
                       }}
                       placeholder="Select Reason"
                       errors={errors}
@@ -317,7 +316,7 @@ export default function FormCmp({
                 <div className="row">
                   <div className="col-lg-4">
                     <label>
-                      Remarks: <span style={{ color: "red" }}>*</span>
+                      Remarks: <span style={{ color: 'red' }}>*</span>
                     </label>
                     <Field
                       className="form-control"
@@ -342,16 +341,16 @@ export default function FormCmp({
                 </div>
                 <hr
                   style={{
-                    background: "hsl(0, 0%, 80%)",
-                    margin: "0",
-                    marginTop: "10px",
+                    background: 'hsl(0, 0%, 80%)',
+                    margin: '0',
+                    marginTop: '10px',
                   }}
                 />
                 <div className="row">
                   <div className="col-lg-3">
                     <label>
                       Item List
-                      <span style={{ color: "red" }}>*</span>
+                      <span style={{ color: 'red' }}>*</span>
                     </label>
                     <InputField
                       value={values?.item}
@@ -366,7 +365,7 @@ export default function FormCmp({
                   </div>
                   <div className="col-lg-2">
                     <label>
-                      UoM <span style={{ color: "red" }}>*</span>
+                      UoM <span style={{ color: 'red' }}>*</span>
                     </label>
                     <InputField
                       value={values?.uom}
@@ -382,7 +381,7 @@ export default function FormCmp({
 
                   <div className="col-lg-2">
                     <label>
-                      Quantity <span style={{ color: "red" }}>*</span>
+                      Quantity <span style={{ color: 'red' }}>*</span>
                     </label>
                     <InputField
                       value={values?.quantity}
@@ -409,7 +408,7 @@ export default function FormCmp({
                     <label className="d-flex justify-content-center align-items-center mr-2">
                       <Field
                         onClick={() => {}}
-                        style={{ marginRight: "5px" }}
+                        style={{ marginRight: '5px' }}
                         type="checkbox"
                         name="returnable"
                         checked={values?.returnable}
@@ -455,7 +454,7 @@ export default function FormCmp({
                   <tbody>
                     {rowDto?.map((item, index) => (
                       <tr key={index}>
-                        {console.log("item", item)}
+                        {console.log('item', item)}
                         <td>{index + 1}</td>
                         <td>
                           {item?.item?.label ? item?.item?.label : item?.item}
@@ -469,8 +468,8 @@ export default function FormCmp({
                           {item.returnStatus
                             ? item.returnStatus
                             : item?.returnable
-                            ? "Returnable"
-                            : "Non-Returnable"}
+                              ? 'Returnable'
+                              : 'Non-Returnable'}
                         </td>
                         <td className="text-center">
                           <IDelete remover={remover} id={index} />
@@ -483,14 +482,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

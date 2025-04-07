@@ -1,9 +1,8 @@
-
 // update price structure when user changes order qty and basic price
-import axios from "axios";
-import Axios from "axios";
-import { isArray } from "lodash-es";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import Axios from 'axios';
+import { isArray } from 'lodash-es';
+import { toast } from 'react-toastify';
 
 export const lastPriceFunc = (arr) => {
   if (!isArray(arr)) return 0;
@@ -57,7 +56,7 @@ export const updatePriceStructure = (
 
       let currentValue = item?.value;
 
-      if (item?.valueType === "amount") {
+      if (item?.valueType === 'amount') {
         item?.mannual === false && (data[index].value = +currentValue);
         data[index].amount = data[index].factor * +currentValue;
       } else {
@@ -111,7 +110,7 @@ export const updateCalculatedValueForPriceStructureModal = (
 
         let currentValue = item?.value;
 
-        if (item?.valueType === "amount") {
+        if (item?.valueType === 'amount') {
           item?.mannual === false && (newData[index].value = +currentValue);
           newData[index].amount = newData[index].factor * +currentValue;
         } else {
@@ -155,7 +154,7 @@ export const findSumFromAndSumTo = (priceStructureData, sumFromSl, sumToSl) => {
 
       let currentValue = item?.value;
 
-      if (item?.valueType === "amount") {
+      if (item?.valueType === 'amount') {
         sumFromAndSumToTotal =
           item?.factor === 1
             ? sumFromAndSumToTotal + +currentValue
@@ -350,18 +349,18 @@ export const sendEmailPostApi = async (values) => {
     sendToBCC: checkBCCMail ? values?.toBCC : bccMail,
     mailSubject: values?.subject,
     mailBody: values?.message,
-    strAttachment: "",
+    strAttachment: '',
     isHtmlFormat: false,
   };
 
   try {
     let res = await axios.post(`/domain/MailSender/SendEMail`, payload);
 
-    toast.success("Mail Send Successfully");
+    toast.success('Mail Send Successfully');
     return res;
   } catch (error) {
     toast.error(
-      error?.response?.data?.message || "Mail cant not send successfully"
+      error?.response?.data?.message || 'Mail cant not send successfully'
     );
   }
 };
@@ -377,11 +376,11 @@ export const postPoApprovalLandingDataAction = async (
     );
     if (res.status === 200) {
       //setter(res?.data);
-      toast.success("Cancel Successfully");
+      toast.success('Cancel Successfully');
       //setLoading(false);
     }
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Cancel Failed");
+    toast.error(error?.response?.data?.message || 'Cancel Failed');
   }
 };
 

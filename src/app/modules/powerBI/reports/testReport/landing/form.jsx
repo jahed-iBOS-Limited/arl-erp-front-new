@@ -1,21 +1,21 @@
-import axios from "axios";
-import { Formik } from "formik";
-import { models } from "powerbi-client";
-import { PowerBIEmbed } from "powerbi-client-react";
-import React, { useEffect, useState } from "react";
-import { confirmAlert } from "react-confirm-alert"; // Import
-import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import { useDispatch, useSelector } from "react-redux";
+import axios from 'axios';
+import { Formik } from 'formik';
+import { models } from 'powerbi-client';
+import { PowerBIEmbed } from 'powerbi-client-react';
+import React, { useEffect, useState } from 'react';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { SetPowerBiAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import "./style.css";
+} from '../../../../../../_metronic/_partials/controls';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { SetPowerBiAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import './style.css';
 
 const initData = {};
 
@@ -51,7 +51,7 @@ const TestReport = () => {
               datasets: [
                 {
                   id: res?.data?.datasetId,
-                  xmlaPermissions: "ReadOnly",
+                  xmlaPermissions: 'ReadOnly',
                 },
               ],
               reports: [
@@ -90,24 +90,23 @@ const TestReport = () => {
 
   useEffect(() => {
     getData();
-
   }, []);
 
   const generateTokenPoppup = () => {
     confirmAlert({
-      title: "Generate Token",
-      message: "Token excess timeout please generate token",
+      title: 'Generate Token',
+      message: 'Token excess timeout please generate token',
       buttons: [
         {
-          label: "Submit",
+          label: 'Submit',
           onClick: () => {
             dispatch(
               SetPowerBiAction({
-                testReportToken: "",
-                reportId: "",
-                datasetId: "",
-                generateToken: "",
-                embedUrl: "",
+                testReportToken: '',
+                reportId: '',
+                datasetId: '',
+                generateToken: '',
+                embedUrl: '',
               })
             );
             window.location.reload();
@@ -121,11 +120,11 @@ const TestReport = () => {
   setTimeout(() => {
     dispatch(
       SetPowerBiAction({
-        testReportToken: "",
-        reportId: "",
-        datasetId: "",
-        generateToken: "",
-        embedUrl: "",
+        testReportToken: '',
+        reportId: '',
+        datasetId: '',
+        generateToken: '',
+        embedUrl: '',
       })
     );
     generateTokenPoppup();
@@ -153,7 +152,7 @@ const TestReport = () => {
                     <PowerBIEmbed
                       embedConfig={{
                         id: localStorageData?.reportId,
-                        type: "report",
+                        type: 'report',
                         embedUrl: localStorageData?.embedUrl,
                         accessToken: localStorageData?.generateToken,
                         tokenType: models.TokenType.Embed,
@@ -170,19 +169,19 @@ const TestReport = () => {
                       eventHandlers={
                         new Map([
                           [
-                            "loaded",
+                            'loaded',
                             // function () {
                             // //  console.log("Report loaded");
                             // },
                           ],
                           [
-                            "rendered",
+                            'rendered',
                             // function () {
                             //   console.log("Report rendered");
                             // },
                           ],
                           [
-                            "error",
+                            'error',
                             // function (event) {
                             //   console.log(event.detail);
                             // },
@@ -192,7 +191,7 @@ const TestReport = () => {
                       getEmbeddedComponent={(embeddedReport) => {
                         window.report = embeddedReport;
                       }}
-                      cssClassName={"powerbi-report-style-class"}
+                      cssClassName={'powerbi-report-style-class'}
                     />
                   )}
                 </form>

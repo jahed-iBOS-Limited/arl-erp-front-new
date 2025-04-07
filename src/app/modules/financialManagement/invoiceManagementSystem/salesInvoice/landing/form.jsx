@@ -1,9 +1,8 @@
-
-import React from "react";
-import NewSelect from "../../../../_helper/_select";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import IButton from "../../../../_helper/iButton";
+import React from 'react';
+import NewSelect from '../../../../_helper/_select';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import IButton from '../../../../_helper/iButton';
 
 function SalesInvoiceLandingForm({ obj }) {
   const {
@@ -27,11 +26,11 @@ function SalesInvoiceLandingForm({ obj }) {
               label="Type"
               placeholder="Type"
               options={[
-                { value: 1, label: "Details" },
-                { value: 2, label: "Top Sheet" },
+                { value: 1, label: 'Details' },
+                { value: 2, label: 'Top Sheet' },
               ]}
               onChange={(valueOption) => {
-                setFieldValue("type", valueOption);
+                setFieldValue('type', valueOption);
                 setRowDto([]);
                 setTopSheetData([]);
               }}
@@ -68,12 +67,12 @@ function SalesInvoiceLandingForm({ obj }) {
                 label="Status"
                 placeholder="Status"
                 options={[
-                  { value: 1, label: "Complete" },
-                  { value: 2, label: "Pending" },
-                  { value: 3, label: "Canceled" },
+                  { value: 1, label: 'Complete' },
+                  { value: 2, label: 'Pending' },
+                  { value: 3, label: 'Canceled' },
                 ]}
                 onChange={(valueOption) => {
-                  setFieldValue("status", valueOption);
+                  setFieldValue('status', valueOption);
                   setRowDto([]);
                   setTopSheetData([]);
                 }}

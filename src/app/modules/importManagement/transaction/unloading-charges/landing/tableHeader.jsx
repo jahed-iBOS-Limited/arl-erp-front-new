@@ -1,12 +1,12 @@
-import React from 'react'
-import TableRow from './tableRow'
+import React from 'react';
+import TableRow from './tableRow';
 
 const UnloadingCharges = () => {
   return (
     <div>
-      <TableRow/>
+      <TableRow />
     </div>
-  )
-}
+  );
+};
 
-export default UnloadingCharges
+export default UnloadingCharges;

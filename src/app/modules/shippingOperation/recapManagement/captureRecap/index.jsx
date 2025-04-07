@@ -39,13 +39,12 @@ export default function CaptureRecapCreate() {
       ? `&voyageNo=${values?.voyageNo?.label}`
       : '';
     getGridData(
-      `${imarineBaseUrl}/domain/VesselNomination/GetVesselNominationRecapeData?${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`,
+      `${imarineBaseUrl}/domain/VesselNomination/GetVesselNominationRecapeData?${shipTypeSTR}${voyageTypeSTR}${vesselNameSTR}${voyageNoSTR}`
     );
   };
 
   useEffect(() => {
     getData();
-
   }, []);
 
   const getVoyageDDL = (values) => {
@@ -97,7 +96,7 @@ export default function CaptureRecapCreate() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        '/shippingOperation/recap-management/capture-recap/create',
+                        '/shippingOperation/recap-management/capture-recap/create'
                       );
                     }}
                   >
@@ -133,7 +132,7 @@ export default function CaptureRecapCreate() {
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
                           setVesselDDL,
-                          valueOption?.value === 2 ? 2 : '',
+                          valueOption?.value === 2 ? 2 : ''
                         );
                       } else {
                         getData();
@@ -372,7 +371,7 @@ export default function CaptureRecapCreate() {
                                   return;
                                 }
                                 history.push(
-                                  `/shippingOperation/recap-management/capture-recap/view/${item?.intId}`,
+                                  `/shippingOperation/recap-management/capture-recap/view/${item?.intId}`
                                 );
                               }}
                             >

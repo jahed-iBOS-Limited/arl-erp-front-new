@@ -1,27 +1,27 @@
-import React, { useRef, useState } from "react";
-import { Formik, Form } from "formik";
-import { Modal } from "react-bootstrap";
-import * as Yup from "yup";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import ISpinner from "../../../../_helper/_spinner";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { dateToDigit } from "./digitToWord";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
+import React, { useRef, useState } from 'react';
+import { Formik, Form } from 'formik';
+import { Modal } from 'react-bootstrap';
+import * as Yup from 'yup';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import ISpinner from '../../../../_helper/_spinner';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { dateToDigit } from './digitToWord';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
 
 const initData = {
-  invoiceAmount: "",
-  pendingAmount: "",
+  invoiceAmount: '',
+  pendingAmount: '',
   cash: false,
   bank: false,
-  advanceReceive: "",
-  advanceAmount: "",
-  balanceAmount: "",
+  advanceReceive: '',
+  advanceAmount: '',
+  balanceAmount: '',
 
-  currentLadger: "",
-  adjustAmount: "",
+  currentLadger: '',
+  adjustAmount: '',
 };
 
 // Validation schema
@@ -86,7 +86,7 @@ export default function ChequePrintModal({ show, onHide, isShow, item }) {
                         <Modal.Title className="w-100">
                           <div className="d-flex justify-content-between px-4 py-2">
                             <div className="title">
-                              {"Cheque Print Preview"}
+                              {'Cheque Print Preview'}
                             </div>
                             <div className="d-flex">
                               <div className="mr-4">
@@ -110,8 +110,8 @@ export default function ChequePrintModal({ show, onHide, isShow, item }) {
                                     >
                                       <img
                                         style={{
-                                          width: "25px",
-                                          paddingRight: "5px",
+                                          width: '25px',
+                                          paddingRight: '5px',
                                         }}
                                         src={printIcon}
                                         alt="print-icon"
@@ -184,7 +184,7 @@ export default function ChequePrintModal({ show, onHide, isShow, item }) {
                                   Taka {item?.amountInWords} Only.
                                 </div>
                                 <div className="chequePrint-amount">
-                                  <span style={{ marginRight: "-60px" }}>
+                                  <span style={{ marginRight: '-60px' }}>
                                     =&nbsp;
                                     {numberWithCommas(
                                       item?.numAmount?.toFixed(2)
@@ -196,8 +196,8 @@ export default function ChequePrintModal({ show, onHide, isShow, item }) {
                               <div className="chequePrint-businessUnit">
                                 <div
                                   style={{
-                                    display: "inline-block",
-                                    textAlign: "left",
+                                    display: 'inline-block',
+                                    textAlign: 'left',
                                   }}
                                 >
                                   For {selectedBusinessUnit?.label}

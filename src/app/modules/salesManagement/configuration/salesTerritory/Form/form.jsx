@@ -3,24 +3,24 @@
  * Des: Remove Country, District, Division, Thana from create, edit, view
  */
 
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
 // import Select from "react-select";
 // import customStyles from "../../../../selectCustomStyle";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import { IInput } from "../../../../_helper/_input";
-import { getParentTerritoryDDL } from "../helper";
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import { IInput } from '../../../../_helper/_input';
+import { getParentTerritoryDDL } from '../helper';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   territoryTypeName: Yup.object().shape({
-    label: Yup.string().required("Territory type name is required"),
-    value: Yup.string().required("Territory type name is required"),
+    label: Yup.string().required('Territory type name is required'),
+    value: Yup.string().required('Territory type name is required'),
   }),
   parentTerritoryName: Yup.object().shape({
-    label: Yup.string().required("Parent territory name is required"),
-    value: Yup.string().required("Parent territory name is required"),
+    label: Yup.string().required('Parent territory name is required'),
+    value: Yup.string().required('Parent territory name is required'),
   }),
 
   // countryName: Yup.object().shape({
@@ -40,17 +40,17 @@ const validationSchema = Yup.object().shape({
   //   value: Yup.string().required("Thana is required"),
   // }),
   territoryName: Yup.string()
-    .min(1, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Territory name is required"),
+    .min(1, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Territory name is required'),
   territoryCode: Yup.string()
-    .min(1, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Territory code is required"),
+    .min(1, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Territory code is required'),
   address: Yup.string()
-    .min(1, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Address is required"),
+    .min(1, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Address is required'),
 });
 
 export default function FormCmp({
@@ -138,8 +138,8 @@ export default function FormCmp({
                     value={values.parentTerritoryTypeName}
                     name="parentTerritoryTypeName"
                     onChange={(valueOption) => {
-                      setFieldValue("parentTerritoryName", "");
-                      setFieldValue("parentTerritoryTypeName", valueOption);
+                      setFieldValue('parentTerritoryName', '');
+                      setFieldValue('parentTerritoryTypeName', valueOption);
                       getParentTerritoryDDL(
                         accountId,
                         selectedBusinessUnit?.value,
@@ -340,14 +340,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

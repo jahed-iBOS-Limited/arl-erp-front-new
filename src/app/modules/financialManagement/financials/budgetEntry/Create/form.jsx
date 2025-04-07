@@ -1,32 +1,32 @@
-import React, { useMemo } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import ICustomTable from "../../../../_helper/_customTable";
-import NewSelect from "../../../../_helper/_select";
-import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import UploadButton from "./UploadButton";
-import { downloadFile } from "../../../../_helper/downloadFile";
-import { getMonthlyDataAction } from "../helper";
-import RowComp from "./RowComp";
+import React, { useMemo } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import ICustomTable from '../../../../_helper/_customTable';
+import NewSelect from '../../../../_helper/_select';
+import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import UploadButton from './UploadButton';
+import { downloadFile } from '../../../../_helper/downloadFile';
+import { getMonthlyDataAction } from '../helper';
+import RowComp from './RowComp';
 
 const validationSchema = Yup.object().shape({
   sbu: Yup.object().shape({
-    value: Yup.string().required("SBU is required"),
-    label: Yup.string().required("SBU is required"),
+    value: Yup.string().required('SBU is required'),
+    label: Yup.string().required('SBU is required'),
   }),
   // gl: Yup.object().shape({
   //   value: Yup.string().required("General ledger is required"),
   //   label: Yup.string().required("General ledger is required"),
   // }),
   type: Yup.object().shape({
-    value: Yup.string().required("Type is required"),
-    label: Yup.string().required("Type is required"),
+    value: Yup.string().required('Type is required'),
+    label: Yup.string().required('Type is required'),
   }),
   financialYear: Yup.object().shape({
-    value: Yup.string().required("Financial Year is required"),
-    label: Yup.string().required("Financial Year is required"),
+    value: Yup.string().required('Financial Year is required'),
+    label: Yup.string().required('Financial Year is required'),
   }),
 });
 
@@ -55,24 +55,24 @@ export default function FormCmp({
   sbuId,
   singleData,
 }) {
-  let ths = ["SL", "From Date", "To Date", "Amount"];
-  let thsTwo = ["SL", "GL Code", "GL Name", "Amount", "Action"];
+  let ths = ['SL', 'From Date', 'To Date', 'Amount'];
+  let thsTwo = ['SL', 'GL Code', 'GL Name', 'Amount', 'Action'];
   let thsTwoView = [
-    "SL",
-    "GL Code",
-    "GL Name",
-    "From Date",
-    "To Date",
-    "Amount",
+    'SL',
+    'GL Code',
+    'GL Name',
+    'From Date',
+    'To Date',
+    'Amount',
   ];
   let thsTwoEdit = [
-    "SL",
-    "GL Code",
-    "GL Name",
-    "From Date",
-    "To Date",
-    "Amount",
-    "Action",
+    'SL',
+    'GL Code',
+    'GL Name',
+    'From Date',
+    'To Date',
+    'Amount',
+    'Action',
   ];
 
   const totalAmountRowDtoTwo = useMemo(
@@ -83,13 +83,13 @@ export default function FormCmp({
   const addDataToRowDto = (setFieldValue, valueOption, values) => {
     setRowDto([]);
     setRowDtoTwo([]);
-    setFieldValue("fromDate", "");
-    setFieldValue("toDate", "");
-    setFieldValue("type", valueOption);
-    if (valueOption?.label === "Yearly by Month") {
+    setFieldValue('fromDate', '');
+    setFieldValue('toDate', '');
+    setFieldValue('type', valueOption);
+    if (valueOption?.label === 'Yearly by Month') {
       setRowDto(monthlyData);
     } else if (
-      valueOption?.label === "Custom" &&
+      valueOption?.label === 'Custom' &&
       values?.fromDate &&
       values?.toDate
     ) {
@@ -105,13 +105,13 @@ export default function FormCmp({
 
   const confirmToChangeType = (setFieldValue, valueOption, values) => {
     let confirmObject = {
-      title: "Are you sure?",
-      message: "If you change this, all added data will be lost",
+      title: 'Are you sure?',
+      message: 'If you change this, all added data will be lost',
       yesAlertFunc: async () => {
         addDataToRowDto(setFieldValue, valueOption, values);
       },
       noAlertFunc: () => {
-        setFieldValue("type", values?.type);
+        setFieldValue('type', values?.type);
       },
     };
     IConfirmModal(confirmObject);
@@ -154,7 +154,7 @@ export default function FormCmp({
                       options={SBUDDL}
                       value={values?.sbu}
                       onChange={(valueOption) => {
-                        setFieldValue("sbu", valueOption);
+                        setFieldValue('sbu', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -169,7 +169,7 @@ export default function FormCmp({
                       options={finYear}
                       value={values?.financialYear}
                       onChange={(valueOption) => {
-                        setFieldValue("financialYear", valueOption);
+                        setFieldValue('financialYear', valueOption);
                         getMonthlyDataAction(valueOption, setMonthlyData);
                       }}
                       errors={errors}
@@ -239,7 +239,7 @@ export default function FormCmp({
                   {!monthId && (
                     <div className="text-right mt-2">
                       <ButtonStyleOne
-                        style={{ padding: "6px 8px" }}
+                        style={{ padding: '6px 8px' }}
                         label="Add"
                         type="button"
                         onClick={() => {
@@ -256,7 +256,7 @@ export default function FormCmp({
                           <td>{index + 1}</td>
                           <td className="text-center">{item?.fromDate}</td>
                           <td className="text-center">{item?.toDate}</td>
-                          <td style={{ width: "100px" }}>
+                          <td style={{ width: '100px' }}>
                             <input
                               placeholder="Amount"
                               type="number"
@@ -264,7 +264,7 @@ export default function FormCmp({
                               value={item?.amount}
                               required
                               onChange={(e) =>
-                                rowDtoHandler("amount", index, e.target.value)
+                                rowDtoHandler('amount', index, e.target.value)
                               }
                             />
                           </td>
@@ -276,7 +276,7 @@ export default function FormCmp({
                           <td
                             className="text-right font-weight-bold"
                             colspan="3"
-                            style={{ width: "100px" }}
+                            style={{ width: '100px' }}
                           >
                             Total : {totalAmount}
                           </td>
@@ -285,18 +285,18 @@ export default function FormCmp({
                     </ICustomTable>
                   )}
                 </div>
-                <div className={sbuId || sbuIdView ? "col-lg-12" : "col-lg-6"}>
+                <div className={sbuId || sbuIdView ? 'col-lg-12' : 'col-lg-6'}>
                   {!monthId && (
                     <div className="d-flex justify-content-between mt-2">
                       <ButtonStyleOne
                         label="Download Excel"
-                        style={{ padding: "6px 8px" }}
+                        style={{ padding: '6px 8px' }}
                         type="button"
                         onClick={() => {
                           downloadFile(
                             `/fino/BudgetFinancial/BudgetFinancialTempletDownload`,
-                            "Budget Entry",
-                            "xlsx"
+                            'Budget Entry',
+                            'xlsx'
                           );
                         }}
                       />
@@ -334,7 +334,10 @@ export default function FormCmp({
                         <td></td>
                         <td></td>
                         <td>
-                        {console.log("totalAmountRowDtoTwo",totalAmountRowDtoTwo)}
+                          {console.log(
+                            'totalAmountRowDtoTwo',
+                            totalAmountRowDtoTwo
+                          )}
                           <div className="d-flex justify-content-between">
                             <b>Total Amount</b>
                             <b>{(totalAmountRowDtoTwo || 0)?.toFixed(2)}</b>
@@ -350,14 +353,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

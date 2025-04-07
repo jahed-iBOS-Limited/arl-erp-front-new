@@ -1,20 +1,19 @@
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import Loading from "./../../../../_helper/_loading";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import Loading from './../../../../_helper/_loading';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
-import InputField from "./../../../../_helper/_inputField";
-import { rejectBillRegister_api } from "../helper"
-
+} from './../../../../../../_metronic/_partials/controls';
+import InputField from './../../../../_helper/_inputField';
+import { rejectBillRegister_api } from '../helper';
 
 const initData = {
-  remarks: "",
+  remarks: '',
 };
 
 const validationSchema = Yup.object().shape({
@@ -29,28 +28,21 @@ function RejectModel({
   gridItem,
   setIsReject,
   laingValues,
-  profileData, 
+  profileData,
   cb,
-  selectedBusinessUnit
+  selectedBusinessUnit,
 }) {
-
   const rejectSaveHandler = (values, setDisabled) => {
-      const payload = {
-        accountId: profileData?.accountId,
-        businessUnitId: selectedBusinessUnit?.value,
-        typeId: 2,
-        remarks: values?.remarks,
-        billIds: gridItem?.billRegisterId,
-        actionById: profileData?.userId
-      }
+    const payload = {
+      accountId: profileData?.accountId,
+      businessUnitId: selectedBusinessUnit?.value,
+      typeId: 2,
+      remarks: values?.remarks,
+      billIds: gridItem?.billRegisterId,
+      actionById: profileData?.userId,
+    };
 
-    rejectBillRegister_api(
-      payload,
-      setDisabled,
-      cb,
-      laingValues,
-      setIsReject
-    );
+    rejectBillRegister_api(payload, setDisabled, cb, laingValues, setIsReject);
   };
 
   const [disabled, setDisabled] = useState(false);
@@ -81,7 +73,7 @@ function RejectModel({
               {disabled && <Loading />}
               <Card>
                 {true && <ModalProgressBar />}
-                <CardHeader title={"Bill Register Reject"}>
+                <CardHeader title={'Bill Register Reject'}>
                   <CardHeaderToolbar>
                     <button
                       onClick={handleSubmit}

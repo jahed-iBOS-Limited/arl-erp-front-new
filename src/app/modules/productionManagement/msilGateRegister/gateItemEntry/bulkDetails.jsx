@@ -1,18 +1,18 @@
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import Loading from "../../../_helper/_loading";
-import { _timeFormatter } from "../../../_helper/_timeFormatter";
-import { _todayDate } from "../../../_helper/_todayDate";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import Loading from '../../../_helper/_loading';
+import { _timeFormatter } from '../../../_helper/_timeFormatter';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 function BulkDetails({ item, landingData, setIsShowModel, landingValues }) {
   const [, saveData] = useAxiosPost();
@@ -38,7 +38,7 @@ function BulkDetails({ item, landingData, setIsShowModel, landingValues }) {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Bulk Create"}>
+              <CardHeader title={'Bulk Create'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
@@ -51,28 +51,28 @@ function BulkDetails({ item, landingData, setIsShowModel, landingValues }) {
                           intBusinessUnitId: selectedBusinessUnit?.value,
                           dteDate: values?.date,
                           intSupplierId: 0,
-                          strSupplierName: "",
+                          strSupplierName: '',
                           intVehicleId: 0,
-                          strTruckNumber: "",
-                          strDriverName: "",
-                          strDriverMobileNo: "",
-                          strInvoiceNumber: "",
-                          tmInTime: "",
+                          strTruckNumber: '',
+                          strDriverName: '',
+                          strDriverMobileNo: '',
+                          strInvoiceNumber: '',
+                          tmInTime: '',
                           // tmOutTime: values?.outTime,
-                          intShiftIncharge: "",
-                          strShiftIncharge: "",
-                          strRemarks: "",
+                          intShiftIncharge: '',
+                          strShiftIncharge: '',
+                          strRemarks: '',
                           intActionBy: profileData?.userId,
                           dteInsertDate: _todayDate(),
                           isActive: true,
                           intItemId: 0,
-                          strItemName: "",
+                          strItemName: '',
                           intUoMid: 0,
-                          strUoMname: "",
+                          strUoMname: '',
                           isScalable: 0,
                           intClientTypeId: 0,
-                          strClientTypeName: "",
-                          strVatChallanNo: "",
+                          strClientTypeName: '',
+                          strVatChallanNo: '',
                         },
                         () => {
                           landingData(landingValues);
@@ -102,7 +102,7 @@ function BulkDetails({ item, landingData, setIsShowModel, landingValues }) {
                           name="isBulk"
                           checked={isBulk}
                           className="mr-1 pointer ml-3"
-                          style={{ position: "relative", top: "2px" }}
+                          style={{ position: 'relative', top: '2px' }}
                           onChange={(valueOption) => {
                             setIsBulk(true);
                           }}
@@ -115,7 +115,7 @@ function BulkDetails({ item, landingData, setIsShowModel, landingValues }) {
                           name="isBulk"
                           checked={!isBulk}
                           className="mr-1 pointer"
-                          style={{ position: "relative", top: "2px" }}
+                          style={{ position: 'relative', top: '2px' }}
                           onChange={(e) => {
                             setIsBulk(false);
                           }}
@@ -129,41 +129,41 @@ function BulkDetails({ item, landingData, setIsShowModel, landingValues }) {
                       <div className="table-responsive">
                         <table className="weight-report-details-left-table">
                           <tr>
-                            <td style={{ minWidth: "125px" }} class="bold">
+                            <td style={{ minWidth: '125px' }} class="bold">
                               Date
                             </td>
                             <td>: </td>
-                            <td style={{ width: "300px" }}>
-                              {_dateFormatter(item?.dteDate?.split("T"))}
+                            <td style={{ width: '300px' }}>
+                              {_dateFormatter(item?.dteDate?.split('T'))}
                             </td>
                             <td class="bold">Reg. No</td>
                             <td>: </td>
                             <td>{item?.strEntryCode}</td>
                           </tr>
                           <tr>
-                            <td style={{ minWidth: "125px" }} class="bold">
+                            <td style={{ minWidth: '125px' }} class="bold">
                               Gate Entry
                             </td>
                             <td>: </td>
-                            <td style={{ width: "300px" }}>
-                              {_timeFormatter(item?.tmInTime || "")}
+                            <td style={{ width: '300px' }}>
+                              {_timeFormatter(item?.tmInTime || '')}
                             </td>
 
                             <td class="bold">Gate Out</td>
                             <td>: </td>
-                            <td>{_timeFormatter(item?.tmOutTime || "")}</td>
+                            <td>{_timeFormatter(item?.tmOutTime || '')}</td>
                           </tr>
 
                           <tr>
-                            <td class="bold" style={{ minWidth: "125px" }}>
-                              {"Customer"}
+                            <td class="bold" style={{ minWidth: '125px' }}>
+                              {'Customer'}
                             </td>
                             <td>: </td>
                             <td colSpan={4}>{item?.strSupplierName}</td>
                           </tr>
 
                           <tr>
-                            <td style={{ minWidth: "125px" }} class="bold">
+                            <td style={{ minWidth: '125px' }} class="bold">
                               Item Name
                             </td>
                             <td>: </td>
@@ -171,11 +171,11 @@ function BulkDetails({ item, landingData, setIsShowModel, landingValues }) {
                           </tr>
 
                           <tr>
-                            <td style={{ minWidth: "125px" }} class="bold">
+                            <td style={{ minWidth: '125px' }} class="bold">
                               Challan No
                             </td>
                             <td>: </td>
-                            <td style={{ width: "300px" }}>
+                            <td style={{ width: '300px' }}>
                               {item?.strInvoiceNumber}
                             </td>
 
@@ -185,11 +185,11 @@ function BulkDetails({ item, landingData, setIsShowModel, landingValues }) {
                           </tr>
 
                           <tr>
-                            <td style={{ minWidth: "125px" }} class="bold">
+                            <td style={{ minWidth: '125px' }} class="bold">
                               Driver Name
                             </td>
                             <td>: </td>
-                            <td style={{ width: "300px" }}>
+                            <td style={{ width: '300px' }}>
                               {item?.strDriverName}
                             </td>
 
@@ -199,7 +199,7 @@ function BulkDetails({ item, landingData, setIsShowModel, landingValues }) {
                           </tr>
 
                           <tr>
-                            <td style={{ minWidth: "125px" }} class="bold">
+                            <td style={{ minWidth: '125px' }} class="bold">
                               Vehicle No
                             </td>
                             <td>: </td>

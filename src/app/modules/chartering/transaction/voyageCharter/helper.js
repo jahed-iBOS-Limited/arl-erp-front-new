@@ -11,13 +11,13 @@ export const getVoyageCharterTransactionLandingData = async (
   pageNo,
   pageSize,
   setter,
-  setLoading,
+  setLoading
 ) => {
   setLoading(true);
   // const voyageNoStr = voyageId ? `` : "";
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/FreightInvoice/GetFreightInvoiceLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
+      `${imarineBaseUrl}/domain/FreightInvoice/GetFreightInvoiceLanding?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     setter(res?.data);
     setLoading(false);
@@ -32,7 +32,7 @@ export const saveVoyageCharterTransaction = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/FreightInvoice/CreateFreightInvoice`,
-      data,
+      data
     );
     cb();
     toast.success(res?.data?.message, { toastId: 123 });
@@ -46,13 +46,13 @@ export const saveVoyageCharterTransaction = async (data, setLoading, cb) => {
 export const saveVoyageCharterTransactionIntermidiate = async (
   data,
   setLoading,
-  cb,
+  cb
 ) => {
   setLoading(true);
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/FreightInvoice/CreateFreightInvoiceIntermidiate`,
-      data,
+      data
     );
     cb();
     toast.success(res?.data?.message, { toastId: 123 });
@@ -68,7 +68,7 @@ export const editVoyageCharterTransaction = async (data, setLoading) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/VoyageCharter/EditVoyageCharter`,
-      data,
+      data
     );
     toast.success(res?.data?.message);
     setLoading(false);
@@ -82,12 +82,12 @@ export const getVoyageChartererTransactionById = async (
   id,
   setLoading,
   setRowData,
-  setter,
+  setter
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/FreightInvoice/GetFreightInvoiceById?FreightInvoiceId=${id}`,
+      `${imarineBaseUrl}/domain/FreightInvoice/GetFreightInvoiceById?FreightInvoiceId=${id}`
     );
 
     setter(res?.data?.objHeader);
@@ -97,7 +97,7 @@ export const getVoyageChartererTransactionById = async (
           ...item,
           isChecked: true,
         };
-      }),
+      })
     );
     setLoading(false);
   } catch (err) {
@@ -114,13 +114,13 @@ export const getIntermidiateInvoiceData = async (
   charterId,
   setLoading,
   setRowData,
-  setter,
+  setter
 ) => {
   setLoading(true);
 
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/FreightInvoice/GetFrightInvIntermidiateInfo?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&StatementNo=${statementId}&CharterId=${charterId}`,
+      `${imarineBaseUrl}/domain/FreightInvoice/GetFrightInvIntermidiateInfo?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&StatementNo=${statementId}&CharterId=${charterId}`
     );
 
     const header = res?.data?.objHeaderDTO;
@@ -129,13 +129,13 @@ export const getIntermidiateInvoiceData = async (
     const rows =
       res?.data?.objList?.length > 0
         ? res?.data?.objList?.map((item, index) => {
-          return {
-            ...item,
-            sl: index,
-            isFixed: true,
-            isChecked: true,
-          };
-        })
+            return {
+              ...item,
+              sl: index,
+              isFixed: true,
+              isChecked: true,
+            };
+          })
         : [];
 
     const initialRowForCreate =
@@ -143,163 +143,166 @@ export const getIntermidiateInvoiceData = async (
         ? []
         : statementId === 3
           ? [
-            {
-              freightInvoiceId: 0,
-              sl: 0,
-              particulars: 'LOAD PORT DEMURRAGE',
-              cargoQty: 0,
-              freightRate: 0,
-              debit: header?.loadPortDem || 0,
-              credit: 0,
+              {
+                freightInvoiceId: 0,
+                sl: 0,
+                particulars: 'LOAD PORT DEMURRAGE',
+                cargoQty: 0,
+                freightRate: 0,
+                debit: header?.loadPortDem || 0,
+                credit: 0,
 
-              isLocalPortDebit: true,
-              isChecked: true,
-            },
-            {
-              freightInvoiceId: 0,
-              sl: 0,
-              particulars: 'DISCHARGE PORT DEMURRAGE',
-              cargoQty: 0,
-              freightRate: 0,
-              debit: header?.disChargePortDem || 0,
-              credit: 0,
+                isLocalPortDebit: true,
+                isChecked: true,
+              },
+              {
+                freightInvoiceId: 0,
+                sl: 0,
+                particulars: 'DISCHARGE PORT DEMURRAGE',
+                cargoQty: 0,
+                freightRate: 0,
+                debit: header?.disChargePortDem || 0,
+                credit: 0,
 
-              isLocalPortDebit: true,
-              isChecked: true,
-            },
-            {
-              freightInvoiceId: 0,
-              sl: 0,
-              particulars: 'LOAD PORT DESPATCH',
-              cargoQty: 0,
-              freightRate: 0,
-              debit: 0,
-              credit: header?.loadPortDispatch || 0,
+                isLocalPortDebit: true,
+                isChecked: true,
+              },
+              {
+                freightInvoiceId: 0,
+                sl: 0,
+                particulars: 'LOAD PORT DESPATCH',
+                cargoQty: 0,
+                freightRate: 0,
+                debit: 0,
+                credit: header?.loadPortDispatch || 0,
 
-              isLocalPortCredit: true,
-              isChecked: true,
-            },
-            {
-              freightInvoiceId: 0,
-              sl: 0,
-              particulars: 'DISCHARGE PORT DESPATCH',
-              cargoQty: 0,
-              freightRate: 0,
-              debit: 0,
-              credit: header?.dischargePortDispatch || 0,
+                isLocalPortCredit: true,
+                isChecked: true,
+              },
+              {
+                freightInvoiceId: 0,
+                sl: 0,
+                particulars: 'DISCHARGE PORT DESPATCH',
+                cargoQty: 0,
+                freightRate: 0,
+                debit: 0,
+                credit: header?.dischargePortDispatch || 0,
 
-              isLocalPortCredit: true,
-              isChecked: true,
-            },
-            {
-              freightInvoiceId: 0,
-              sl: 0,
-              particulars: 'GRAND TOTAL',
-              cargoQty: 0,
-              freightRate: 0,
-              debit: 0,
-              credit: 0,
+                isLocalPortCredit: true,
+                isChecked: true,
+              },
+              {
+                freightInvoiceId: 0,
+                sl: 0,
+                particulars: 'GRAND TOTAL',
+                cargoQty: 0,
+                freightRate: 0,
+                debit: 0,
+                credit: 0,
 
-              isGrandTotal: true,
-            },
-            {
-              freightInvoiceId: 0,
-              sl: 0,
-              particulars: `Less ${header?.brokerCommission}% BROKERAGE COMMISSION ON 100% FREIGHT`,
-              cargoQty: 0,
-              freightRate: 0,
-              debit: 0,
-              credit: 0,
+                isGrandTotal: true,
+              },
+              {
+                freightInvoiceId: 0,
+                sl: 0,
+                particulars: `Less ${header?.brokerCommission}% BROKERAGE COMMISSION ON 100% FREIGHT`,
+                cargoQty: 0,
+                freightRate: 0,
+                debit: 0,
+                credit: 0,
 
-              parcentageValue: header?.brokerCommission,
-              isBrokerCom: true,
-            },
-            {
-              freightInvoiceId: 0,
-              sl: 0,
-              particulars: `Less ${header?.addressCommission}% ADDRESS COMMISSION ON 100% FREIGHT`,
-              cargoQty: 0,
-              freightRate: 0,
-              debit: 0,
-              credit: 0,
+                parcentageValue: header?.brokerCommission,
+                isBrokerCom: true,
+              },
+              {
+                freightInvoiceId: 0,
+                sl: 0,
+                particulars: `Less ${header?.addressCommission}% ADDRESS COMMISSION ON 100% FREIGHT`,
+                cargoQty: 0,
+                freightRate: 0,
+                debit: 0,
+                credit: 0,
 
-              parcentageValue: header?.addressCommission,
-              isAddCom: true,
-            },
-            {
-              freightInvoiceId: 0,
-              sl: 0,
-              particulars: `AMOUNT RECEIVED BEFORE (${header?.freightPercentage
+                parcentageValue: header?.addressCommission,
+                isAddCom: true,
+              },
+              {
+                freightInvoiceId: 0,
+                sl: 0,
+                particulars: `AMOUNT RECEIVED BEFORE (${
+                  header?.freightPercentage
                 }% FREIGHT ON ${_dateFormatter(header?.dteInvoiceDate)})`,
-              cargoQty: 0,
-              freightRate: 0,
-              debit: 0,
-              credit: header?.totalNetPayble || 0,
+                cargoQty: 0,
+                freightRate: 0,
+                debit: 0,
+                credit: header?.totalNetPayble || 0,
 
-              prevReceive: true,
-              isChecked: true,
-              isFixed: true,
-            },
-          ]
+                prevReceive: true,
+                isChecked: true,
+                isFixed: true,
+              },
+            ]
           : /* Initial Statement */
-          [
-            {
-              freightInvoiceId: 0,
-              sl: 0,
-              particulars: `${header?.freightPercentage || 0}% FREIGHT`,
-              cargoQty: 0,
-              freightRate: 0,
-              debit: 0,
-              credit: 0,
+            [
+              {
+                freightInvoiceId: 0,
+                sl: 0,
+                particulars: `${header?.freightPercentage || 0}% FREIGHT`,
+                cargoQty: 0,
+                freightRate: 0,
+                debit: 0,
+                credit: 0,
 
-              parcentageValue: header?.freightPercentage || 0,
-              is95Parcentage: true,
-            },
-            {
-              freightInvoiceId: 0,
-              sl: 0,
-              particulars: `${header?.brokerCommission || 0
+                parcentageValue: header?.freightPercentage || 0,
+                is95Parcentage: true,
+              },
+              {
+                freightInvoiceId: 0,
+                sl: 0,
+                particulars: `${
+                  header?.brokerCommission || 0
                 }% BROKER COMMISSION ON 100% FREIGHT`,
-              cargoQty: 0,
-              freightRate: 0,
-              debit: 0,
-              credit: 0,
+                cargoQty: 0,
+                freightRate: 0,
+                debit: 0,
+                credit: 0,
 
-              isBrokerCom: true,
-              parcentageValue: header?.brokerCommission || 0,
-            },
-            {
-              freightInvoiceId: 0,
-              sl: 0,
-              particulars: `${header?.addressCommission || 0
+                isBrokerCom: true,
+                parcentageValue: header?.brokerCommission || 0,
+              },
+              {
+                freightInvoiceId: 0,
+                sl: 0,
+                particulars: `${
+                  header?.addressCommission || 0
                 }% ADDRESS COMMISSION ON 100% FREIGHT`,
-              cargoQty: 0,
-              freightRate: 0,
-              debit: 0,
-              credit: 0,
+                cargoQty: 0,
+                freightRate: 0,
+                debit: 0,
+                credit: 0,
 
-              isAddCom: true,
-              parcentageValue: header?.addressCommission || 0,
-              isChecked: true,
-              isAction: true,
-            },
-          ];
+                isAddCom: true,
+                parcentageValue: header?.addressCommission || 0,
+                isChecked: true,
+                isAction: true,
+              },
+            ];
 
     header?.freightInvoiceId > 0
       ? setRowData([...rows])
       : setRowData([
-        ...rows?.map((item) => {
-          if (statementId === 3) {
-            return {
-              ...item,
-              debit: item?.cargoQty * item?.freightRate || 0,
-            };
-          } else {
-            return item;
-          }
-        }),
-        ...initialRowForCreate,
-      ]);
+          ...rows?.map((item) => {
+            if (statementId === 3) {
+              return {
+                ...item,
+                debit: item?.cargoQty * item?.freightRate || 0,
+              };
+            } else {
+              return item;
+            }
+          }),
+          ...initialRowForCreate,
+        ]);
 
     setLoading(false);
   } catch (err) {
@@ -317,13 +320,13 @@ export const getInvoiceData = async (
   setLoading,
   setRowData,
   setter,
-  cargoId,
+  cargoId
 ) => {
   setLoading(true);
 
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/FreightInvoice/GetFrightInvInfo?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&StatementNo=${statementId}&CharterId=${charterId}&CargoRowId=${cargoId}`,
+      `${imarineBaseUrl}/domain/FreightInvoice/GetFrightInvInfo?AccountId=${accId}&BusinessUnitId=${buId}&VesselId=${vesselId}&VoyageId=${voyageId}&StatementNo=${statementId}&CharterId=${charterId}&CargoRowId=${cargoId}`
     );
 
     const header = res?.data?.objHeaderDTO;
@@ -332,13 +335,13 @@ export const getInvoiceData = async (
     const rows =
       res?.data?.objList?.length > 0
         ? res?.data?.objList?.map((item, index) => {
-          return {
-            ...item,
-            sl: index,
-            isFixed: true,
-            isChecked: true,
-          };
-        })
+            return {
+              ...item,
+              sl: index,
+              isFixed: true,
+              isChecked: true,
+            };
+          })
         : [];
 
     const initialRowForCreate =
@@ -346,165 +349,167 @@ export const getInvoiceData = async (
         ? []
         : statementId === 2
           ? [
-            {
-              freightInvoiceId: 0,
-              sl: 0,
-              particulars: 'LOAD PORT DEMURRAGE',
-              cargoQty: 0,
-              freightRate: 0,
-              debit: header?.loadPortDem || 0,
-              credit: 0,
+              {
+                freightInvoiceId: 0,
+                sl: 0,
+                particulars: 'LOAD PORT DEMURRAGE',
+                cargoQty: 0,
+                freightRate: 0,
+                debit: header?.loadPortDem || 0,
+                credit: 0,
 
-              isLocalPortDebit: true,
-              isChecked: true,
-            },
-            {
-              freightInvoiceId: 0,
-              sl: 0,
-              particulars: 'DISCHARGE PORT DEMURRAGE',
-              cargoQty: 0,
-              freightRate: 0,
-              debit: header?.disChargePortDem || 0,
-              credit: 0,
+                isLocalPortDebit: true,
+                isChecked: true,
+              },
+              {
+                freightInvoiceId: 0,
+                sl: 0,
+                particulars: 'DISCHARGE PORT DEMURRAGE',
+                cargoQty: 0,
+                freightRate: 0,
+                debit: header?.disChargePortDem || 0,
+                credit: 0,
 
-              isLocalPortDebit: true,
-              isChecked: true,
-            },
-            {
-              freightInvoiceId: 0,
-              sl: 0,
-              particulars: 'LOAD PORT DESPATCH',
-              cargoQty: 0,
-              freightRate: 0,
-              debit: 0,
-              credit: header?.loadPortDispatch || 0,
+                isLocalPortDebit: true,
+                isChecked: true,
+              },
+              {
+                freightInvoiceId: 0,
+                sl: 0,
+                particulars: 'LOAD PORT DESPATCH',
+                cargoQty: 0,
+                freightRate: 0,
+                debit: 0,
+                credit: header?.loadPortDispatch || 0,
 
-              isLocalPortCredit: true,
-              isChecked: true,
-            },
-            {
-              freightInvoiceId: 0,
-              sl: 0,
-              particulars: 'DISCHARGE PORT DESPATCH',
-              cargoQty: 0,
-              freightRate: 0,
-              debit: 0,
-              credit: header?.dischargePortDispatch || 0,
+                isLocalPortCredit: true,
+                isChecked: true,
+              },
+              {
+                freightInvoiceId: 0,
+                sl: 0,
+                particulars: 'DISCHARGE PORT DESPATCH',
+                cargoQty: 0,
+                freightRate: 0,
+                debit: 0,
+                credit: header?.dischargePortDispatch || 0,
 
-              isLocalPortCredit: true,
-              isChecked: true,
-            },
-            {
-              freightInvoiceId: 0,
-              sl: 0,
-              particulars: 'GRAND TOTAL',
-              cargoQty: 0,
-              freightRate: 0,
-              debit: 0,
-              credit: 0,
+                isLocalPortCredit: true,
+                isChecked: true,
+              },
+              {
+                freightInvoiceId: 0,
+                sl: 0,
+                particulars: 'GRAND TOTAL',
+                cargoQty: 0,
+                freightRate: 0,
+                debit: 0,
+                credit: 0,
 
-              isGrandTotal: true,
-            },
-            {
-              freightInvoiceId: 0,
-              sl: 0,
-              particulars: `Less ${header?.brokerCommission}% BROKERAGE COMMISSION ON 100% FREIGHT`,
-              cargoQty: 0,
-              freightRate: 0,
-              debit: 0,
-              credit: 0,
+                isGrandTotal: true,
+              },
+              {
+                freightInvoiceId: 0,
+                sl: 0,
+                particulars: `Less ${header?.brokerCommission}% BROKERAGE COMMISSION ON 100% FREIGHT`,
+                cargoQty: 0,
+                freightRate: 0,
+                debit: 0,
+                credit: 0,
 
-              parcentageValue: header?.brokerCommission,
-              isBrokerCom: true,
-            },
-            {
-              freightInvoiceId: 0,
-              sl: 0,
-              particulars: `Less ${header?.addressCommission}% ADDRESS COMMISSION ON 100% FREIGHT`,
-              cargoQty: 0,
-              freightRate: 0,
-              debit: 0,
-              credit: 0,
+                parcentageValue: header?.brokerCommission,
+                isBrokerCom: true,
+              },
+              {
+                freightInvoiceId: 0,
+                sl: 0,
+                particulars: `Less ${header?.addressCommission}% ADDRESS COMMISSION ON 100% FREIGHT`,
+                cargoQty: 0,
+                freightRate: 0,
+                debit: 0,
+                credit: 0,
 
-              parcentageValue: header?.addressCommission,
-              isAddCom: true,
-            },
-            {
-              freightInvoiceId: 0,
-              sl: 0,
-              // particulars: `AMOUNT RECEIVED BEFORE (${
-              //   header?.freightPercentage
-              // }% FREIGHT ON ${_dateFormatter(header?.dteInvoiceDate)})`,
-              particulars: header?.totalNetPaybleDescription || '',
-              cargoQty: 0,
-              freightRate: 0,
-              debit: 0,
-              credit: header?.totalNetPayble || 0,
+                parcentageValue: header?.addressCommission,
+                isAddCom: true,
+              },
+              {
+                freightInvoiceId: 0,
+                sl: 0,
+                // particulars: `AMOUNT RECEIVED BEFORE (${
+                //   header?.freightPercentage
+                // }% FREIGHT ON ${_dateFormatter(header?.dteInvoiceDate)})`,
+                particulars: header?.totalNetPaybleDescription || '',
+                cargoQty: 0,
+                freightRate: 0,
+                debit: 0,
+                credit: header?.totalNetPayble || 0,
 
-              prevReceive: true,
-              isChecked: true,
-              isFixed: true,
-            },
-          ]
+                prevReceive: true,
+                isChecked: true,
+                isFixed: true,
+              },
+            ]
           : /* Initial Statement */
-          [
-            {
-              freightInvoiceId: 0,
-              sl: 0,
-              particulars: `${header?.freightPercentage || 0}% FREIGHT`,
-              cargoQty: 0,
-              freightRate: 0,
-              debit: 0,
-              credit: 0,
+            [
+              {
+                freightInvoiceId: 0,
+                sl: 0,
+                particulars: `${header?.freightPercentage || 0}% FREIGHT`,
+                cargoQty: 0,
+                freightRate: 0,
+                debit: 0,
+                credit: 0,
 
-              parcentageValue: header?.freightPercentage || 0,
-              is95Parcentage: true,
-            },
-            {
-              freightInvoiceId: 0,
-              sl: 0,
-              particulars: `${header?.brokerCommission || 0
+                parcentageValue: header?.freightPercentage || 0,
+                is95Parcentage: true,
+              },
+              {
+                freightInvoiceId: 0,
+                sl: 0,
+                particulars: `${
+                  header?.brokerCommission || 0
                 }% BROKER COMMISSION ON 100% FREIGHT`,
-              cargoQty: 0,
-              freightRate: 0,
-              debit: 0,
-              credit: 0,
+                cargoQty: 0,
+                freightRate: 0,
+                debit: 0,
+                credit: 0,
 
-              isBrokerCom: true,
-              parcentageValue: header?.brokerCommission || 0,
-            },
-            {
-              freightInvoiceId: 0,
-              sl: 0,
-              particulars: `${header?.addressCommission || 0
+                isBrokerCom: true,
+                parcentageValue: header?.brokerCommission || 0,
+              },
+              {
+                freightInvoiceId: 0,
+                sl: 0,
+                particulars: `${
+                  header?.addressCommission || 0
                 }% ADDRESS COMMISSION ON 100% FREIGHT`,
-              cargoQty: 0,
-              freightRate: 0,
-              debit: 0,
-              credit: 0,
+                cargoQty: 0,
+                freightRate: 0,
+                debit: 0,
+                credit: 0,
 
-              isAddCom: true,
-              parcentageValue: header?.addressCommission || 0,
-              isChecked: true,
-              isAction: true,
-            },
-          ];
+                isAddCom: true,
+                parcentageValue: header?.addressCommission || 0,
+                isChecked: true,
+                isAction: true,
+              },
+            ];
 
     header?.freightInvoiceId > 0
       ? setRowData([...rows])
       : setRowData([
-        ...rows?.map((item) => {
-          if (statementId === 2) {
-            return {
-              ...item,
-              debit: item?.cargoQty * item?.freightRate || 0,
-            };
-          } else {
-            return item;
-          }
-        }),
-        ...initialRowForCreate,
-      ]);
+          ...rows?.map((item) => {
+            if (statementId === 2) {
+              return {
+                ...item,
+                debit: item?.cargoQty * item?.freightRate || 0,
+              };
+            } else {
+              return item;
+            }
+          }),
+          ...initialRowForCreate,
+        ]);
 
     setLoading(false);
   } catch (err) {
@@ -519,7 +524,7 @@ export const createJournalForVoyageCharter = async (
   freightInvoiceId,
   NetPayable,
   setLoading,
-  cb,
+  cb
 ) => {
   setLoading(true);
   const payload = getPayload(
@@ -527,12 +532,12 @@ export const createJournalForVoyageCharter = async (
     selectedBusinessUnit,
     values,
     freightInvoiceId,
-    NetPayable,
+    NetPayable
   );
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/VoyageCharter/CreateVoyageCharterJournal`,
-      payload,
+      payload
     );
     toast.success(res?.data?.message, { toastId: 234 });
     cb();
@@ -551,7 +556,7 @@ const getPayload = (
   selectedBusinessUnit,
   values,
   freightInvoiceId,
-  NetPayable,
+  NetPayable
 ) => {
   return {
     accountId: profileData?.accountId,
@@ -568,12 +573,12 @@ const getPayload = (
 export const getAccDDL = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
-      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${buId}`,
+      `/costmgmt/BankAccount/GetBankAccountDDL?AccountId=${accId}&BusinssUnitId=${buId}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 // {
@@ -589,7 +594,7 @@ export const voyageCharterBRApi = async (payload, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(
-      `${imarineBaseUrl}/domain/VoyageCharter/VoyageCharterBRNew?VoyageCharterId=${payload?.voyageCharterId}&businessUnitId=${payload?.unitId}&accountId=${payload?.accountId}&charterId=${payload?.charterId}&receiveAmount=${payload?.receiveAmount}&bankAccountId=${payload?.bankAccountId}&ReceiveDate=${payload?.receiveDate}&HireNo=${payload?.hireNo}`,
+      `${imarineBaseUrl}/domain/VoyageCharter/VoyageCharterBRNew?VoyageCharterId=${payload?.voyageCharterId}&businessUnitId=${payload?.unitId}&accountId=${payload?.accountId}&charterId=${payload?.charterId}&receiveAmount=${payload?.receiveAmount}&bankAccountId=${payload?.bankAccountId}&ReceiveDate=${payload?.receiveDate}&HireNo=${payload?.hireNo}`
     );
     toast.success(res?.data?.message, { toastId: 234 });
     cb();

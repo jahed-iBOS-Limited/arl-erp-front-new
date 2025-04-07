@@ -1,5 +1,4 @@
-
-import axios from "axios";
+import axios from 'axios';
 
 //Call ordertype ddl APi
 export function getOrderTypeListDDL(accId, buId) {
@@ -79,7 +78,7 @@ export function getServicePOItemDDL(
 }
 
 export function getStandradPOItemDDL(
- // odId,
+  // odId,
   accId,
   buId,
   sbuId,
@@ -239,53 +238,67 @@ export function getGridData(
   searchValue,
   isClose
 ) {
-  const isCloseCheck = isClose ? (isClose === "Close" ? true : false) : false;
-  const isStatus = status === "Close" ? false: status
-  const searchPath = searchValue ? `&searchTerm=${searchValue}` : "";
+  const isCloseCheck = isClose ? (isClose === 'Close' ? true : false) : false;
+  const isStatus = status === 'Close' ? false : status;
+  const searchPath = searchValue ? `&searchTerm=${searchValue}` : '';
   const pageNo = searchValue ? 0 : PageNo;
 
   const requestUrl =
-  isStatus !== undefined && fromDate && toDate
-      ? `/procurement/PurchaseOrder/GetPurchaseOrderInformationPasignation?AccountId=${accId}&UnitId=${buId}&Sbu=${sbuId ||
-          0}&Plant=${plantId || 0}&WearHouse=${whId ||
-          0}&PurchaseOrderTypeId=${poTypeId ||
-          0}&PurchaseOrganizationId=${pOrgId ||
-          0}&ReferenceTypeId=${refTypeId ||
-          0}&isApproved=${isStatus}&fromDate=${fromDate}&toDate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${searchPath}&isClose=${isCloseCheck}`
+    isStatus !== undefined && fromDate && toDate
+      ? `/procurement/PurchaseOrder/GetPurchaseOrderInformationPasignation?AccountId=${accId}&UnitId=${buId}&Sbu=${
+          sbuId || 0
+        }&Plant=${plantId || 0}&WearHouse=${whId || 0}&PurchaseOrderTypeId=${
+          poTypeId || 0
+        }&PurchaseOrganizationId=${pOrgId || 0}&ReferenceTypeId=${
+          refTypeId || 0
+        }&isApproved=${isStatus}&fromDate=${fromDate}&toDate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${searchPath}&isClose=${isCloseCheck}`
       : fromDate && toDate
-      ? `/procurement/PurchaseOrder/GetPurchaseOrderInformationPasignation?AccountId=${accId}&UnitId=${buId}&Sbu=${sbuId ||
-          0}&Plant=${plantId || 0}&WearHouse=${whId ||
-          0}&PurchaseOrderTypeId=${poTypeId ||
-          0}&PurchaseOrganizationId=${pOrgId ||
-          0}&ReferenceTypeId=${refTypeId ||
-          0}&fromDate=${fromDate}&toDate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${searchPath}&isClose=${isCloseCheck}`
-      : fromDate
-      ? `/procurement/PurchaseOrder/GetPurchaseOrderInformationPasignation?AccountId=${accId}&UnitId=${buId}&Sbu=${sbuId ||
-          0}&Plant=${plantId || 0}&WearHouse=${whId ||
-          0}&PurchaseOrderTypeId=${poTypeId ||
-          0}&PurchaseOrganizationId=${pOrgId ||
-          0}&ReferenceTypeId=${refTypeId ||
-          0}&fromDate=${fromDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${searchPath}&isClose=${isCloseCheck}`
-      : toDate
-      ? `/procurement/PurchaseOrder/GetPurchaseOrderInformationPasignation?AccountId=${accId}&UnitId=${buId}&Sbu=${sbuId ||
-          0}&Plant=${plantId || 0}&WearHouse=${whId ||
-          0}&PurchaseOrderTypeId=${poTypeId ||
-          0}&PurchaseOrganizationId=${pOrgId ||
-          0}&ReferenceTypeId=${refTypeId ||
-          0}&toDate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${searchPath}&isClose=${isCloseCheck}`
-      : isStatus !== undefined
-      ? `/procurement/PurchaseOrder/GetPurchaseOrderInformationPasignation?AccountId=${accId}&UnitId=${buId}&Sbu=${sbuId ||
-          0}&Plant=${plantId || 0}&WearHouse=${whId ||
-          0}&PurchaseOrderTypeId=${poTypeId ||
-          0}&PurchaseOrganizationId=${pOrgId ||
-          0}&ReferenceTypeId=${refTypeId ||
-          0}&isApproved=${isStatus}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${searchPath}&isClose=${isCloseCheck}`
-      : `/procurement/PurchaseOrder/GetPurchaseOrderInformationPasignation?AccountId=${accId}&UnitId=${buId}&Sbu=${sbuId ||
-          0}&Plant=${plantId || 0}&WearHouse=${whId ||
-          0}&PurchaseOrderTypeId=${poTypeId ||
-          0}&PurchaseOrganizationId=${pOrgId ||
-          0}&ReferenceTypeId=${refTypeId ||
-          0}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${searchPath}&isClose=${isCloseCheck}`;
+        ? `/procurement/PurchaseOrder/GetPurchaseOrderInformationPasignation?AccountId=${accId}&UnitId=${buId}&Sbu=${
+            sbuId || 0
+          }&Plant=${plantId || 0}&WearHouse=${whId || 0}&PurchaseOrderTypeId=${
+            poTypeId || 0
+          }&PurchaseOrganizationId=${pOrgId || 0}&ReferenceTypeId=${
+            refTypeId || 0
+          }&fromDate=${fromDate}&toDate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${searchPath}&isClose=${isCloseCheck}`
+        : fromDate
+          ? `/procurement/PurchaseOrder/GetPurchaseOrderInformationPasignation?AccountId=${accId}&UnitId=${buId}&Sbu=${
+              sbuId || 0
+            }&Plant=${plantId || 0}&WearHouse=${
+              whId || 0
+            }&PurchaseOrderTypeId=${poTypeId || 0}&PurchaseOrganizationId=${
+              pOrgId || 0
+            }&ReferenceTypeId=${
+              refTypeId || 0
+            }&fromDate=${fromDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${searchPath}&isClose=${isCloseCheck}`
+          : toDate
+            ? `/procurement/PurchaseOrder/GetPurchaseOrderInformationPasignation?AccountId=${accId}&UnitId=${buId}&Sbu=${
+                sbuId || 0
+              }&Plant=${plantId || 0}&WearHouse=${
+                whId || 0
+              }&PurchaseOrderTypeId=${poTypeId || 0}&PurchaseOrganizationId=${
+                pOrgId || 0
+              }&ReferenceTypeId=${
+                refTypeId || 0
+              }&toDate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${searchPath}&isClose=${isCloseCheck}`
+            : isStatus !== undefined
+              ? `/procurement/PurchaseOrder/GetPurchaseOrderInformationPasignation?AccountId=${accId}&UnitId=${buId}&Sbu=${
+                  sbuId || 0
+                }&Plant=${plantId || 0}&WearHouse=${
+                  whId || 0
+                }&PurchaseOrderTypeId=${poTypeId || 0}&PurchaseOrganizationId=${
+                  pOrgId || 0
+                }&ReferenceTypeId=${
+                  refTypeId || 0
+                }&isApproved=${isStatus}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${searchPath}&isClose=${isCloseCheck}`
+              : `/procurement/PurchaseOrder/GetPurchaseOrderInformationPasignation?AccountId=${accId}&UnitId=${buId}&Sbu=${
+                  sbuId || 0
+                }&Plant=${plantId || 0}&WearHouse=${
+                  whId || 0
+                }&PurchaseOrderTypeId=${poTypeId || 0}&PurchaseOrganizationId=${
+                  pOrgId || 0
+                }&ReferenceTypeId=${
+                  refTypeId || 0
+                }&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${searchPath}&isClose=${isCloseCheck}`;
 
   return axios.get(requestUrl);
 }

@@ -1,93 +1,92 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import { getProfitCenterList } from "../../../../procurement/purchase-management/purchaseOrder/Form/assetStandardPo/helper";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import { GetCountryDDL } from "../../../helper";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import { getProfitCenterList } from '../../../../procurement/purchase-management/purchaseOrder/Form/assetStandardPo/helper';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import { GetCountryDDL } from '../../../helper';
 import {
   getCostCenterList,
   getRevenueCenterList,
   getSBUList,
-} from "../../../lighterVessel/lighterVesselInfo/helper";
+} from '../../../lighterVessel/lighterVesselInfo/helper';
 import {
   CreateVessel,
   GetOwnerDDL,
   GetVesselById,
   UpdateVessel,
-} from "../helper";
-import Form from "./form";
+} from '../helper';
+import Form from './form';
 
 const initData = {
-  vesselName: "",
-  ownerName: "",
-  flag: "",
-  deadWeight: "",
-  imono: "",
+  vesselName: '',
+  ownerName: '',
+  flag: '',
+  deadWeight: '',
+  imono: '',
   isOwnVessel: false,
   isOtherInfo: false,
   isVesselMasterData: true,
-  yearOfBuilt: "",
-  shipYard: "",
-  callSign: "",
-  className: "",
-  piclub: "",
-  grt: "",
-  nrt: "",
-  loa: "",
-  lbp: "",
-  beam: "",
-  depth: "",
-  tpconSummerFreeBoard: "",
-  actual: "",
-  holdCubicGrain: "",
-  holdCubicBale: "",
-  holdsLengthBreadth: "",
-  upperDeckStrength: "",
-  hatchCover: "",
-  hatchCoverLengthBreadth: "",
-  hatchCoverStrength: "",
-  cranes: "",
-  grabs: "",
-  speedAndConsumptionAtSea: "",
-  ecoAndConsumptionAtSea: "",
-  inPortWorking: "",
-  remarks: "",
+  yearOfBuilt: '',
+  shipYard: '',
+  callSign: '',
+  className: '',
+  piclub: '',
+  grt: '',
+  nrt: '',
+  loa: '',
+  lbp: '',
+  beam: '',
+  depth: '',
+  tpconSummerFreeBoard: '',
+  actual: '',
+  holdCubicGrain: '',
+  holdCubicBale: '',
+  holdsLengthBreadth: '',
+  upperDeckStrength: '',
+  hatchCover: '',
+  hatchCoverLengthBreadth: '',
+  hatchCoverStrength: '',
+  cranes: '',
+  grabs: '',
+  speedAndConsumptionAtSea: '',
+  ecoAndConsumptionAtSea: '',
+  inPortWorking: '',
+  remarks: '',
 
-  sbu: "",
-  revenueCenter: "",
-  costCenter: "",
-  profitCenter: "",
+  sbu: '',
+  revenueCenter: '',
+  costCenter: '',
+  profitCenter: '',
 
   // ! isEditing true/false mode for create and edit mode handle
   isEditing: false,
   // Vessel Master Data
-  vessel: "",
-  strImono: "",
-  strParticulars: "",
-  strVesselParticulars: "",
-  strMasterEmail: "",
-  numBallastEcoSpeed: "",
-  numBallastMaxSpeed: "",
-  numBallastVlsfoconsumptionMtPerday: "",
-  numBallastLsmgoconsumptionMtPerday: "",
-  numLadenEcoSpeed: "",
-  numLadenMaxSpeed: "",
-  numLadenVlsfoconsumptionMtPerday: "",
-  numLadenLsmgoconsumptionMtPerday: "",
-  numPortWorkingVlsfoperDay: "",
-  numPortWorkingLsmgoperDay: "",
-  numPortIdleVlsfoperDay: "",
-  numPortIdleLsmgoperDay: "",
-  numSummerDisplacementDraftMts: "",
-  numSummerLightShipMts: "",
-  numWinterDisplacementDraftMts: "",
-  numWinterLightShipMts: "",
-  numTropicalDisplacementDraftMts: "",
-  numTropicalLightShipMts: "",
-  intHoldNumber: "",
-  numMaxBallastVlsfoconsumptionMtPerday: "",
-  numMaxBallastLsmgoconsumptionMtPerday: "",
+  vessel: '',
+  strImono: '',
+  strParticulars: '',
+  strVesselParticulars: '',
+  strMasterEmail: '',
+  numBallastEcoSpeed: '',
+  numBallastMaxSpeed: '',
+  numBallastVlsfoconsumptionMtPerday: '',
+  numBallastLsmgoconsumptionMtPerday: '',
+  numLadenEcoSpeed: '',
+  numLadenMaxSpeed: '',
+  numLadenVlsfoconsumptionMtPerday: '',
+  numLadenLsmgoconsumptionMtPerday: '',
+  numPortWorkingVlsfoperDay: '',
+  numPortWorkingLsmgoperDay: '',
+  numPortIdleVlsfoperDay: '',
+  numPortIdleLsmgoperDay: '',
+  numSummerDisplacementDraftMts: '',
+  numSummerLightShipMts: '',
+  numWinterDisplacementDraftMts: '',
+  numWinterLightShipMts: '',
+  numTropicalDisplacementDraftMts: '',
+  numTropicalLightShipMts: '',
+  intHoldNumber: '',
+  numMaxBallastVlsfoconsumptionMtPerday: '',
+  numMaxBallastLsmgoconsumptionMtPerday: '',
 };
 
 export default function VesselForm() {
@@ -108,7 +107,7 @@ export default function VesselForm() {
   }, shallowEqual);
 
   useEffect(() => {
-    if (!type || type !== "view") {
+    if (!type || type !== 'view') {
       GetCountryDDL(setCountryDDL);
       GetOwnerDDL(setOwnerDDL);
       getRevenueCenterList(selectedBusinessUnit?.value, setRevenueCenterDDL);
@@ -144,7 +143,6 @@ export default function VesselForm() {
     if (id && singleData?.vesselId && singleData?.sbuId) {
       getCostCenter(singleData?.sbuId);
     }
-
   }, [singleData]);
 
   const saveHandler = (values, cb) => {
@@ -302,11 +300,11 @@ export default function VesselForm() {
       {loading && <Loading />}
       <Form
         title={
-          type === "edit"
-            ? "Edit Vessel"
-            : type === "view"
-            ? "View Vessel"
-            : "Create Vessel"
+          type === 'edit'
+            ? 'Edit Vessel'
+            : type === 'view'
+              ? 'View Vessel'
+              : 'Create Vessel'
         }
         initData={id ? singleData : initData}
         saveHandler={saveHandler}

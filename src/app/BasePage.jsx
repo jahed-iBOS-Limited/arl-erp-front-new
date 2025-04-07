@@ -8,109 +8,109 @@ import useMenuTracking from './modules/_helper/customHooks/useMenuTracking';
 import TokenExpiredPopUp from './TokenExpiredPopUp';
 import MobileFirstAlert from './modules/_helper/mobileFirstAlert/index.jsx';
 
-const ShippingOperaionPages = lazy(() =>
-  import('./modules/shippingOperation/shippingOperationPages'),
+const ShippingOperaionPages = lazy(
+  () => import('./modules/shippingOperation/shippingOperationPages')
 );
-const procurementPages = lazy(() =>
-  import('./modules/procurement/procurementPages'),
+const procurementPages = lazy(
+  () => import('./modules/procurement/procurementPages')
 );
-const SafetyComplianceMainPages = lazy(() =>
-  import('./modules/safetyCompliance/SafetyComplianceMainPages'),
+const SafetyComplianceMainPages = lazy(
+  () => import('./modules/safetyCompliance/SafetyComplianceMainPages')
 );
 const TrustMgmtPages = lazy(() => import('./modules/trustMgmt/TrustMgmtPages'));
 const configPages = lazy(() => import('./modules/config/configPages'));
-const financialManagementPages = lazy(() =>
-  import('./modules/financialManagement/financialManagementPages'),
+const financialManagementPages = lazy(
+  () => import('./modules/financialManagement/financialManagementPages')
 );
-const inventoryManagementPages = lazy(() =>
-  import('./modules/inventoryManagement/inventoryManagementPages'),
+const inventoryManagementPages = lazy(
+  () => import('./modules/inventoryManagement/inventoryManagementPages')
 );
-const HumanCapitalManagementPages = lazy(() =>
-  import('./modules/humanCapitalManagement/humanCapitalManagementPages'),
-);
-
-const LearningAndDevelopmentPages = lazy(() =>
-  import('./modules/learningAndDevelopment/learningAndDevelopmentPages'),
+const HumanCapitalManagementPages = lazy(
+  () => import('./modules/humanCapitalManagement/humanCapitalManagementPages')
 );
 
-const productionPages = lazy(() =>
-  import('./modules/productionManagement/productionPages'),
+const LearningAndDevelopmentPages = lazy(
+  () => import('./modules/learningAndDevelopment/learningAndDevelopmentPages')
 );
-const SalesManagementPages = lazy(() =>
-  import('./modules/salesManagement/salesManagementPages'),
+
+const productionPages = lazy(
+  () => import('./modules/productionManagement/productionPages')
 );
-const InternalControlPages = lazy(() =>
-  import('./modules/internalControl/internalControlPages'),
+const SalesManagementPages = lazy(
+  () => import('./modules/salesManagement/salesManagementPages')
+);
+const InternalControlPages = lazy(
+  () => import('./modules/internalControl/internalControlPages')
 );
 
 const PersonalPages = lazy(() => import('./modules/personal/personalPages'));
 
-const TransportManagementPages = lazy(() =>
-  import('./modules/transportManagement/transportManagementPages'),
+const TransportManagementPages = lazy(
+  () => import('./modules/transportManagement/transportManagementPages')
 );
 
-const AssetManagementPages = lazy(() =>
-  import('./modules/assetManagement/AssetManagementPages'),
+const AssetManagementPages = lazy(
+  () => import('./modules/assetManagement/AssetManagementPages')
 );
-const PerformanceMgtPages = lazy(() =>
-  import('./modules/performanceManagement/performanceMgtPages'),
+const PerformanceMgtPages = lazy(
+  () => import('./modules/performanceManagement/performanceMgtPages')
 );
-const VatManagementPages = lazy(() =>
-  import('./modules/vatManagement/vatManagementPages'),
+const VatManagementPages = lazy(
+  () => import('./modules/vatManagement/vatManagementPages')
 );
-const TransPortManagementPages = lazy(() =>
-  import('./modules/transportManagement/transportManagementPages'),
+const TransPortManagementPages = lazy(
+  () => import('./modules/transportManagement/transportManagementPages')
 );
-const RtmManagementPages = lazy(() =>
-  import('./modules/rtmManagement/rtmManagementPages'),
-);
-
-const ImportManagementPages = lazy(() =>
-  import('./modules/importManagement/importManagementPages'),
+const RtmManagementPages = lazy(
+  () => import('./modules/rtmManagement/rtmManagementPages')
 );
 
-const AttachmentViewer = lazy(() =>
-  import('./modules/_helper/attachmentViewer.jsx'),
-);
-const MultipleAttachmentViewer = lazy(() =>
-  import('./modules/_helper/multipleAttachmentViewer.jsx'),
-);
-const PosManagementPages = lazy(() =>
-  import('./modules/posManagement/posManagementPages'),
+const ImportManagementPages = lazy(
+  () => import('./modules/importManagement/importManagementPages')
 );
 
-const CallCenterPages = lazy(() =>
-  import('./modules/callCenter/callCenterPages'),
+const AttachmentViewer = lazy(
+  () => import('./modules/_helper/attachmentViewer.jsx')
 );
-const VesselManagementPages = lazy(() =>
-  import('./modules/vesselManagement/vesselManagementPages'),
+const MultipleAttachmentViewer = lazy(
+  () => import('./modules/_helper/multipleAttachmentViewer.jsx')
+);
+const PosManagementPages = lazy(
+  () => import('./modules/posManagement/posManagementPages')
 );
 
-const CharteringPages = lazy(() =>
-  import('./modules/chartering/charteringPages'),
+const CallCenterPages = lazy(
+  () => import('./modules/callCenter/callCenterPages')
+);
+const VesselManagementPages = lazy(
+  () => import('./modules/vesselManagement/vesselManagementPages')
 );
 
-const HashPerformanceMgtPages = lazy(() =>
-  import('./modules/hashPerformanceManagement/HashPerformanceMgtPages'),
+const CharteringPages = lazy(
+  () => import('./modules/chartering/charteringPages')
 );
-const ExportManagementPages = lazy(() =>
-  import('./modules/exportManagement/exportmanagementPages'),
+
+const HashPerformanceMgtPages = lazy(
+  () => import('./modules/hashPerformanceManagement/HashPerformanceMgtPages')
+);
+const ExportManagementPages = lazy(
+  () => import('./modules/exportManagement/exportmanagementPages')
 );
 const PowerBIPages = lazy(() => import('./modules/powerBI/powerBIPages'));
-const ShippingAgencyPages = lazy(() =>
-  import('./modules/shippingAgency/shippingAgencyPages'),
+const ShippingAgencyPages = lazy(
+  () => import('./modules/shippingAgency/shippingAgencyPages')
 );
-const CargoManagementPages = lazy(() =>
-  import('./modules/CargoManagement/cargoManagementPages'),
+const CargoManagementPages = lazy(
+  () => import('./modules/CargoManagement/cargoManagementPages')
 );
-const SelfServicePages = lazy(() =>
-  import('./modules/selfService/SelfServicePages'),
+const SelfServicePages = lazy(
+  () => import('./modules/selfService/SelfServicePages')
 );
 const PaymentPages = lazy(() => import('./modules/payment/PaymentPages'));
 const BasePage = () => {
   const { isExpiredToken, isAuth, isExpiredPassword } = useSelector(
     (state) => state?.authData,
-    shallowEqual,
+    shallowEqual
   );
   useMenuTracking(); // logs for page visited
 

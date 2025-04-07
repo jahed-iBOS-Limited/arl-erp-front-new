@@ -1,12 +1,12 @@
-import React from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
-import { fetchBADCMOPRowsDataForPrintPage, selectEditId } from "../helper";
+import React from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import ICon from '../../../../chartering/_chartinghelper/icons/_icon';
+import { fetchBADCMOPRowsDataForPrintPage, selectEditId } from '../helper';
 
 const BADCMOPTable = ({
   accountId,
@@ -24,13 +24,13 @@ const BADCMOPTable = ({
       <table
         id="table-to-xlsx"
         className={
-          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm global-table"
+          'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm global-table'
         }
       >
         <thead>
           <tr className="cursor-pointer">
             <th>SL</th>
-            <th style={{ width: "150px" }}>Business Partner</th>
+            <th style={{ width: '150px' }}>Business Partner</th>
             <th>Enquiry No</th>
             <th>Submission Date</th>
             <th>Status</th>
@@ -41,23 +41,23 @@ const BADCMOPTable = ({
           {submittedTenderLists?.data?.map((item, index) => {
             return (
               <tr key={index}>
-                <td style={{ width: "40px" }} className="text-center">
+                <td style={{ width: '40px' }} className="text-center">
                   {index + 1}
                 </td>
                 <td>{item?.businessPartnerName}</td>
                 <td>{item?.mopInvoiceId}</td>
                 <td>{_dateFormatter(item?.submissionDate)}</td>
-                <td style={{ width: "70px" }}>
+                <td style={{ width: '70px' }}>
                   {item?.isAccept
-                    ? "Approved"
+                    ? 'Approved'
                     : item?.isReject
-                    ? "Reject"
-                    : item?.isPending
-                    ? "Pending"
-                    : "NA"}
+                      ? 'Reject'
+                      : item?.isPending
+                        ? 'Pending'
+                        : 'NA'}
                 </td>
-                <td style={{ width: "120px" }} className="text-center">
-                  <div className="d-flex" style={{ columnGap: "5px" }}>
+                <td style={{ width: '120px' }} className="text-center">
+                  <div className="d-flex" style={{ columnGap: '5px' }}>
                     {item?.isAccept !== true && (
                       <span>
                         <IEdit
@@ -83,7 +83,7 @@ const BADCMOPTable = ({
                           item?.mopTenderId,
                           getTenderDetails,
                           handleTenderPrint,
-                          "initReport",
+                          'initReport',
                           1 // chittagong port id
                         );
                         // Set 1 for ctg port & show Annexure A & description on print head
@@ -96,7 +96,7 @@ const BADCMOPTable = ({
                         }
                       >
                         <i
-                          style={{ fontSize: "16px" }}
+                          style={{ fontSize: '16px' }}
                           class="fa fa-print cursor-pointer"
                           aria-hidden="true"
                         ></i>
@@ -111,7 +111,7 @@ const BADCMOPTable = ({
                           item?.mopTenderId,
                           getTenderDetails,
                           handleTenderPrint,
-                          "initReport",
+                          'initReport',
                           4 // mangla port id
                         );
                         // Set 1 for mangla port & show Annexure B &  description on print head
@@ -122,7 +122,7 @@ const BADCMOPTable = ({
                         overlay={<Tooltip id="cs-icon">Print Mangla</Tooltip>}
                       >
                         <i
-                          style={{ fontSize: "16px" }}
+                          style={{ fontSize: '16px' }}
                           class="fa fa-print cursor-pointer"
                           aria-hidden="true"
                         ></i>
@@ -136,7 +136,7 @@ const BADCMOPTable = ({
                           item?.mopTenderId,
                           getTenderDetails,
                           handleTenderPrint,
-                          "finalReport"
+                          'finalReport'
                         );
                         // Set 0 for hide Annexure description on print head
                         setTenderPrintId(0);
@@ -146,7 +146,7 @@ const BADCMOPTable = ({
                         overlay={<Tooltip id="cs-icon">Print Final</Tooltip>}
                       >
                         <i
-                          style={{ fontSize: "16px" }}
+                          style={{ fontSize: '16px' }}
                           class="fa fa-print cursor-pointer"
                           aria-hidden="true"
                         ></i>

@@ -1,16 +1,16 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import IButton from "../../../../_helper/iButton";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import IButton from '../../../../_helper/iButton';
 
 const reportTypes = [
-  { value: 1, label: "Customer Base" },
-  { value: 2, label: "Territory Base" },
-  { value: 3, label: "Area Base" },
-  { value: 4, label: "Region Base" },
-  { value: 5, label: "Ship to Partner Order and Challan Info" },
+  { value: 1, label: 'Customer Base' },
+  { value: 2, label: 'Territory Base' },
+  { value: 3, label: 'Area Base' },
+  { value: 4, label: 'Region Base' },
+  { value: 5, label: 'Ship to Partner Order and Challan Info' },
 ];
 
 export default function Form({ obj }) {
@@ -36,7 +36,7 @@ export default function Form({ obj }) {
               label="Report Type"
               onChange={(valueOption) => {
                 setRowDto([]);
-                setFieldValue("reportType", valueOption);
+                setFieldValue('reportType', valueOption);
                 setShowPowerBIReport(false);
               }}
               placeholder="Report Type"
@@ -48,14 +48,14 @@ export default function Form({ obj }) {
                 <NewSelect
                   name="viewType"
                   options={[
-                    { value: 1, label: "Sales Order Base" },
-                    { value: 2, label: "Challan Base" },
+                    { value: 1, label: 'Sales Order Base' },
+                    { value: 2, label: 'Challan Base' },
                   ]}
                   value={values?.viewType}
                   label="View Type"
                   onChange={(valueOption) => {
                     setRowDto([]);
-                    setFieldValue("viewType", valueOption);
+                    setFieldValue('viewType', valueOption);
                     setShowPowerBIReport(false);
                   }}
                   placeholder="Ship Point"
@@ -69,7 +69,7 @@ export default function Form({ obj }) {
                   label="Ship Point"
                   onChange={(valueOption) => {
                     setRowDto([]);
-                    setFieldValue("shipPoint", valueOption);
+                    setFieldValue('shipPoint', valueOption);
                     setShowPowerBIReport(false);
                   }}
                   placeholder="Ship Point"
@@ -82,9 +82,9 @@ export default function Form({ obj }) {
               value={values?.fromDate}
               label="From Date"
               name="fromDate"
-              type={"date"}
+              type={'date'}
               onChange={(e) => {
-                setFieldValue("fromDate", e?.target?.value);
+                setFieldValue('fromDate', e?.target?.value);
               }}
             />
           </div>
@@ -93,9 +93,9 @@ export default function Form({ obj }) {
               value={values?.toDate}
               label="To Date"
               name="toDate"
-              type={"date"}
+              type={'date'}
               onChange={(e) => {
-                setFieldValue("toDate", e?.target?.value);
+                setFieldValue('toDate', e?.target?.value);
               }}
             />
           </div>
@@ -107,7 +107,7 @@ export default function Form({ obj }) {
                 name="certaindate"
                 type="date"
                 onChange={(e) => {
-                  setFieldValue("certaindate", e?.target?.value);
+                  setFieldValue('certaindate', e?.target?.value);
                 }}
               />
             </div>

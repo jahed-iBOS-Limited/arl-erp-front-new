@@ -22,7 +22,7 @@ const initData = {
 
 const validationSchema = Yup.object().shape({
   strVesselNominationCode: Yup.string().required(
-    'Vessel Nomination Code is required',
+    'Vessel Nomination Code is required'
   ),
   strName: Yup.string().required('Name is required'),
   strEmail: Yup.string()
@@ -44,10 +44,9 @@ export default function VesselNominationAcceptanceCreate() {
   useEffect(() => {
     if (paramId) {
       getVesselNominationData(
-        `${imarineBaseUrl}/domain/VesselNomination/GetByIdVesselNomination?VesselNominationId=${paramId}`,
+        `${imarineBaseUrl}/domain/VesselNomination/GetByIdVesselNomination?VesselNominationId=${paramId}`
       );
     }
-
   }, [paramId]);
 
   const saveHandler = async (values, cb) => {
@@ -75,7 +74,7 @@ export default function VesselNominationAcceptanceCreate() {
       `${imarineBaseUrl}/domain/VesselNomination/CreateVesselNominationAcceptance`,
       payload,
       cb,
-      true,
+      true
     );
   };
 
@@ -217,7 +216,7 @@ export default function VesselNominationAcceptanceCreate() {
                     onChange={(e) =>
                       setFieldValue(
                         'isVesselNominationAccept',
-                        e.target.checked,
+                        e.target.checked
                       )
                     }
                     className="form-check-input"

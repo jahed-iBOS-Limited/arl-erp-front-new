@@ -1,40 +1,40 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { empAttachment_action } from "../../../../../../../_helper/attachmentUpload";
-import Loading from "./../../../../../../../_helper/_loading";
-import Form from "./form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { empAttachment_action } from '../../../../../../../_helper/attachmentUpload';
+import Loading from './../../../../../../../_helper/_loading';
+import Form from './form';
 import {
   EditEmployeeBasicInformation,
   getEmployeeBasicInfoById_api,
-} from "./helper";
+} from './helper';
 
 const initData = {
   id: undefined,
-  firstName: "",
-  middleName: "",
-  lastName: "",
-  businessUnit: "",
-  SBUName: "",
-  costCenter: "",
-  functionalDepartment: "",
-  HRposition: "",
-  designation: "",
-  employeeGrade: "",
-  workplaceGroup: "",
-  lineManager: "",
-  employeeCode: "",
-  employmentType: "",
-  employeeStatus: "",
-  nanagerInfo: "",
-  joiningDate: "",
-  empLavel: "",
-  empProfileImage: "",
+  firstName: '',
+  middleName: '',
+  lastName: '',
+  businessUnit: '',
+  SBUName: '',
+  costCenter: '',
+  functionalDepartment: '',
+  HRposition: '',
+  designation: '',
+  employeeGrade: '',
+  workplaceGroup: '',
+  lineManager: '',
+  employeeCode: '',
+  employmentType: '',
+  employeeStatus: '',
+  nanagerInfo: '',
+  joiningDate: '',
+  empLavel: '',
+  empProfileImage: '',
 };
 export default function BasicEmployeeInformation() {
   // iamge attachment
   const [fileObjects, setFileObjects] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [edit, setEdit] = useState(false);
   const [isDisabled, setDisabled] = useState(false);
   // get user profile data from store
@@ -49,7 +49,6 @@ export default function BasicEmployeeInformation() {
 
   useEffect(() => {
     getEmployeeBasicInfoById_api(headerData?.employeeId, setSingleData);
-
   }, []);
   const saveHandler = async (values, cb) => {
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
@@ -59,7 +58,7 @@ export default function BasicEmployeeInformation() {
         middleName: values?.middleName,
         lastName: values?.lastName,
         employeeFullName:
-          values?.firstName + " " + values?.middleName + " " + values?.lastName,
+          values?.firstName + ' ' + values?.middleName + ' ' + values?.lastName,
         sbuid: values.SBUName.value,
         departmentId: values?.functionalDepartment?.value,
         designationId: values?.designation?.value,
@@ -79,14 +78,14 @@ export default function BasicEmployeeInformation() {
         empAttachment_action(fileObjects).then((data) => {
           const modifyPlyload = {
             ...payload,
-            empProfileImage: data[0]?.id || "",
+            empProfileImage: data[0]?.id || '',
           };
           EditEmployeeBasicInformation(modifyPlyload, setDisabled);
         });
       } else {
         const modifyPlyload = {
           ...payload,
-          empProfileImage: "",
+          empProfileImage: '',
         };
         EditEmployeeBasicInformation(modifyPlyload, setDisabled);
       }

@@ -97,14 +97,14 @@ export default function MeetingTab({ data }) {
           cb();
         }
       },
-      'save',
+      'save'
     );
   };
   const invitedAttendeesDDL = (v) => {
     if (v?.length < 2) return [];
     return axios
       .get(
-        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}&search=${v}`,
+        `/hcm/HCMDDL/GetEmployeeDDLSearchByBU?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}&search=${v}`
       )
       .then((res) => {
         return res?.data;
@@ -113,7 +113,6 @@ export default function MeetingTab({ data }) {
   // get all ddl
   React.useEffect(() => {
     getScheduleTypeDDL(`/oms/SalesQuotation/GetFollowUpActivityTypeDDL`);
-
   }, []);
   return (
     <ICustomCard
@@ -332,7 +331,7 @@ export default function MeetingTab({ data }) {
                         type="button"
                         onClick={() => {
                           dispatch(
-                            getDownlloadFileView_Action(values?.documentFileId),
+                            getDownlloadFileView_Action(values?.documentFileId)
                           );
                         }}
                       >
@@ -356,7 +355,7 @@ export default function MeetingTab({ data }) {
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name,
+                  (item) => item.file.name !== deleteFileObj.file.name
                 );
                 setFileObjects(newData);
               }}

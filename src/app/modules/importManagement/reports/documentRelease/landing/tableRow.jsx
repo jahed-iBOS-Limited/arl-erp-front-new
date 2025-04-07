@@ -1,24 +1,22 @@
-
-
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { Formik } from "formik";
-import { Form } from "react-bootstrap";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import { GetBankDDLForDocReleaseReport, GetDocReleaseReport } from "../helper";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { Formik } from 'formik';
+import { Form } from 'react-bootstrap';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import { GetBankDDLForDocReleaseReport, GetDocReleaseReport } from '../helper';
 // import axios from "axios";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { useEffect } from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { useRef } from "react";
-import { getReportHeaderInfo } from "../../costSummary/helper";
-import { _firstDateofMonth } from "./../../../../_helper/_firstDateOfCurrentMonth";
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { useEffect } from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { useRef } from 'react';
+import { getReportHeaderInfo } from '../../costSummary/helper';
+import { _firstDateofMonth } from './../../../../_helper/_firstDateOfCurrentMonth';
 
 const TableRow = () => {
   const [rowDto, setRowDto] = useState([]);
@@ -34,7 +32,7 @@ const TableRow = () => {
   const initData = {
     fromDate: _firstDateofMonth(),
     toDate: _todayDate(),
-    bank: "",
+    bank: '',
   };
 
   useEffect(() => {
@@ -51,7 +49,7 @@ const TableRow = () => {
       );
       GetDocReleaseReport(
         selectedBusinessUnit?.value,
-        "",
+        '',
         initData?.fromDate,
         initData?.toDate,
         setRowDto,
@@ -75,87 +73,87 @@ const TableRow = () => {
 
   const header = [
     {
-      name: "SL",
+      name: 'SL',
       style: {
-        minWidth: "50px",
+        minWidth: '50px',
       },
     },
     {
-      name: "Bank",
+      name: 'Bank',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "	LC No",
+      name: '	LC No',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Date",
+      name: 'Date',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "LC Type",
+      name: 'LC Type',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Doc R. Date by Bank",
+      name: 'Doc R. Date by Bank',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Last S. Date",
+      name: 'Last S. Date',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Expire Date",
+      name: 'Expire Date',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Supplier",
+      name: 'Supplier',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Item",
+      name: 'Item',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "PI Amount",
+      name: 'PI Amount',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Currency",
+      name: 'Currency',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Policy No",
+      name: 'Policy No',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Amount (BDT)",
+      name: 'Amount (BDT)',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     // {
@@ -187,7 +185,7 @@ const TableRow = () => {
               trigger={() => (
                 <button className="btn btn-primary">
                   <img
-                    style={{ width: "25px", paddingRight: "5px" }}
+                    style={{ width: '25px', paddingRight: '5px' }}
                     src={printIcon}
                     alt="print-icon"
                   />
@@ -241,7 +239,7 @@ const TableRow = () => {
                       value={values?.bank}
                       label="Bank"
                       onChange={(valueOption) => {
-                        setFieldValue("bank", valueOption);
+                        setFieldValue('bank', valueOption);
                       }}
                       placeholder="Bank"
                       errors={errors}
@@ -263,7 +261,7 @@ const TableRow = () => {
                 </div>
                 {/* Table Start */}
                 <div
-                  style={{ maxHeight: "500px" }}
+                  style={{ maxHeight: '500px' }}
                   className="scroll-table-auto"
                 >
                   <div ref={printRef}>
@@ -276,7 +274,7 @@ const TableRow = () => {
                     )}
                     <div className="react-bootstrap-table table-responsive">
                       <table className="table table-striped table-bordered bj-table bj-table-landing">
-                        <thead style={{ position: "sticky", top: "0" }}>
+                        <thead style={{ position: 'sticky', top: '0' }}>
                           <tr>
                             {header?.length > 0 &&
                               header?.map((item, index) => (

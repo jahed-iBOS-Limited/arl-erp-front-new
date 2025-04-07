@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { toast } from "react-toastify";
-import IAdd from "../../../_helper/_helperIcons/_add";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import NewIcon from "../../../_helper/_helperIcons/newIcon";
-import IViewModal from "../../../_helper/_viewModal";
-import CommentModal from "./commentModal";
-import HeaderTable from "./headerTable";
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import IAdd from '../../../_helper/_helperIcons/_add';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import NewIcon from '../../../_helper/_helperIcons/newIcon';
+import IViewModal from '../../../_helper/_viewModal';
+import CommentModal from './commentModal';
+import HeaderTable from './headerTable';
 
 export default function GrandParentTableBody({
   grandParentIndex,
@@ -28,7 +28,7 @@ export default function GrandParentTableBody({
           <span
             onClick={() => {
               if (!grandParentItem?.vehicleNo) {
-                toast.warn("Input Gate Entry First");
+                toast.warn('Input Gate Entry First');
                 return;
               }
               handleAdd(grandParentIndex, grandParentItem);
@@ -47,7 +47,7 @@ export default function GrandParentTableBody({
             value={grandParentItem?.entryCode}
             name="entryCode"
             type="text"
-            style={{ maxWidth: "80px" }}
+            style={{ maxWidth: '80px' }}
             onChange={(e) => {
               handleGetEntryCode(e, grandParentIndex);
             }}
@@ -60,21 +60,21 @@ export default function GrandParentTableBody({
           />
         </td>
         <td className="text-center">
-          {grandParentItem?.vehicleNo ? grandParentItem?.vehicleNo : ""}
+          {grandParentItem?.vehicleNo ? grandParentItem?.vehicleNo : ''}
         </td>
         <td className="text-center">
-          {grandParentItem?.vehicleNo ? grandParentItem?.netWeight : ""}
+          {grandParentItem?.vehicleNo ? grandParentItem?.netWeight : ''}
         </td>
         <td className="text-center">
           {grandParentItem?.bagWeightDeductQuantity
             ? grandParentItem?.netWeightWithoutBag
-            : ""}
+            : ''}
         </td>
         <td className="text-center">
           {grandParentItem?.vehicleNo ? (
             <input
-              style={{ maxWidth: "30px" }}
-              value={grandParentItem?.qcQtyBeg || ""}
+              style={{ maxWidth: '30px' }}
+              value={grandParentItem?.qcQtyBeg || ''}
               min={0}
               name="qcQtyBeg"
               type="number"
@@ -83,14 +83,14 @@ export default function GrandParentTableBody({
               }}
             />
           ) : (
-            ""
+            ''
           )}
         </td>
         <td className="text-center">
           {grandParentItem?.vehicleNo ? (
             <input
-              style={{ maxWidth: "50px" }}
-              value={grandParentItem?.qcQty || ""}
+              style={{ maxWidth: '50px' }}
+              value={grandParentItem?.qcQty || ''}
               min={0}
               name="qcQty"
               type="number"
@@ -99,11 +99,11 @@ export default function GrandParentTableBody({
               }}
             />
           ) : (
-            0 || ""
+            0 || ''
           )}
         </td>
         <td className="text-center">
-          {grandParentItem?.vehicleNo ? grandParentItem?.totalQcQty : 0 || ""}
+          {grandParentItem?.vehicleNo ? grandParentItem?.totalQcQty : 0 || ''}
         </td>
         <td className="text-center">
           {grandParentItem?.entryCode ? grandParentItem?.deductionQuantity : 0}
@@ -116,8 +116,8 @@ export default function GrandParentTableBody({
         <td>
           {grandParentItem?.vehicleNo ? (
             <input
-              style={{ maxWidth: "50px" }}
-              value={grandParentItem?.bagWeightDeductQuantity || ""}
+              style={{ maxWidth: '50px' }}
+              value={grandParentItem?.bagWeightDeductQuantity || ''}
               // disabled={true}
               min={0}
               name="bagWeightDeductQuantity"
@@ -129,7 +129,7 @@ export default function GrandParentTableBody({
               }}
             />
           ) : (
-            ""
+            ''
           )}
         </td>
         <td className="text-center">
@@ -145,18 +145,18 @@ export default function GrandParentTableBody({
               <option value={false}>Reject</option>
             </select>
           ) : (
-            ""
+            ''
           )}
         </td>
         <td
-          style={{ gap: "5px", border: "none", marginTop: "5px" }}
+          style={{ gap: '5px', border: 'none', marginTop: '5px' }}
           className="text-center d-flex"
         >
           <span onClick={() => handleHeaderRowDelete(grandParentIndex)}>
             <IDelete />
           </span>
           <span onClick={() => setShowModal(true)}>
-            <NewIcon iconName={"fa fa-commenting"} />
+            <NewIcon iconName={'fa fa-commenting'} />
           </span>
         </td>
       </tr>

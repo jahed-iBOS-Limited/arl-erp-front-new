@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
 import {
   createSecondaryDelivery_api,
   GetSecondaryDeliveryById,
@@ -9,49 +9,49 @@ import {
   EditSecondaryDelivery_api,
   getSalesCenterDDL,
   GetAllotmentDetailInfo,
-} from "../helper";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import { useLocation, useParams, useHistory } from "react-router-dom";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+} from '../helper';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import { useLocation, useParams, useHistory } from 'react-router-dom';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 const initData = {
   id: undefined,
-  sbu: "",
-  shippoint: "",
-  commission: "",
-  soldToParty: "",
-  supplierName: "",
+  sbu: '',
+  shippoint: '',
+  commission: '',
+  soldToParty: '',
+  supplierName: '',
   supplierDate: _todayDate(),
-  itemName: "",
-  itemPrice: "",
-  quantity: "0",
-  totalPrice: "",
-  supplierCountry: "",
-  deliveryAddress: "",
-  lcNo: "",
+  itemName: '',
+  itemPrice: '',
+  quantity: '0',
+  totalPrice: '',
+  supplierCountry: '',
+  deliveryAddress: '',
+  lcNo: '',
   lcDate: _todayDate(),
-  bankName: "",
-  permissionNumber: "",
-  govtPrice: "",
+  bankName: '',
+  permissionNumber: '',
+  govtPrice: '',
   permissionDate: _todayDate(),
   challanDate: _todayDate(),
-  shipName: "",
-  color: "",
-  district: "",
-  upazila: "",
-  salesCenter: "",
-  accOfPartner: "",
+  shipName: '',
+  color: '',
+  district: '',
+  upazila: '',
+  salesCenter: '',
+  accOfPartner: '',
   isAccOfPartner: true,
 };
 
 export default function PartnerAllotmentChallanForm({ deliveryLandingData }) {
-  console.log("object",deliveryLandingData);
+  console.log('object', deliveryLandingData);
   const { allotmentId } = useParams();
   const history = useHistory();
   const [deliveryItemInfo, setDeliveryItemInfo] = useState([]);
   const [getAllotmentDetailInfo, setGetAllotmentDetailInfo] = useState();
-  const [secondaryDeliveryById, setSecondaryDeliveryById] = useState("");
+  const [secondaryDeliveryById, setSecondaryDeliveryById] = useState('');
   const [isDisabled, setDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
   const [salesCenterDDL, setSalesCenterDDL] = useState([]);
@@ -92,9 +92,9 @@ export default function PartnerAllotmentChallanForm({ deliveryLandingData }) {
           itemName: values?.itemName?.label,
           numQuantity: +values?.quantity,
           uoMid: values?.fUomId,
-          uoMname: values?.fUomName || "",
+          uoMname: values?.fUomName || '',
           secondaryUoMid: values?.sUomId,
-          secondaryUoMname: values?.sUomName || "",
+          secondaryUoMname: values?.sUomName || '',
           numFirstPrice: +values?.itemPrice,
           numSecondPrice: 0,
           numTotalPrice: +values?.totalPrice,
@@ -108,7 +108,7 @@ export default function PartnerAllotmentChallanForm({ deliveryLandingData }) {
           supplierName: selectedBusinessUnit?.label,
           supplierAddress: selectedBusinessUnit?.address,
           accOfPartnerId: values?.accOfPartner?.value || 0,
-          accOfParnterName: values?.accOfPartner?.label || "",
+          accOfParnterName: values?.accOfPartner?.label || '',
         };
         EditSecondaryDelivery_api({
           setDisabled,
@@ -131,9 +131,9 @@ export default function PartnerAllotmentChallanForm({ deliveryLandingData }) {
           bankName: values?.bankName,
           numQuantity: +values?.quantity,
           uoMid: values?.fUomId,
-          uoMname: values?.fUomName || "",
+          uoMname: values?.fUomName || '',
           secondaryUoMid: values?.sUomId,
-          secondaryUoMname: values?.sUomName || "",
+          secondaryUoMname: values?.sUomName || '',
           numFirstPrice: +values?.itemPrice,
           numSecondPrice: 0,
           numTotalPrice: +values?.totalPrice,
@@ -157,7 +157,7 @@ export default function PartnerAllotmentChallanForm({ deliveryLandingData }) {
           supplierAddress: selectedBusinessUnit?.address,
           salesCenterId: values?.salesCenter?.value,
           accOfPartnerId: values?.accOfPartner?.value || 0,
-          accOfParnterName: values?.accOfPartner?.label || "",
+          accOfParnterName: values?.accOfPartner?.label || '',
           actionBy: profileData?.userId,
         };
         createSecondaryDelivery_api({
@@ -193,7 +193,6 @@ export default function PartnerAllotmentChallanForm({ deliveryLandingData }) {
       selectedBusinessUnit?.value,
       setSalesCenterDDL
     );
-
   }, [profileData, selectedBusinessUnit, allotmentId]);
 
   // If user delivery landing Allotment Challan btn click
@@ -206,12 +205,11 @@ export default function PartnerAllotmentChallanForm({ deliveryLandingData }) {
         setSecondaryDeliveryById
       );
     }
-
   }, [deliveryLandingData]);
 
   return (
     <IForm
-      title={"Create Partner Allotment Challan"}
+      title={'Create Partner Allotment Challan'}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenBack={deliveryLandingData?.isBackBtn || false}
@@ -229,26 +227,26 @@ export default function PartnerAllotmentChallanForm({ deliveryLandingData }) {
                   value: deliveryItemInfo?.itemId,
                   label: deliveryItemInfo?.itemName,
                 }
-              : "",
+              : '',
             totalPrice: +deliveryItemInfo?.itemPrice * +initData?.quantity,
 
             /* Last Added */
-            supplierCountry: getAllotmentDetailInfo?.supplierCountry || "",
-            lcNo: getAllotmentDetailInfo?.lcNo || "",
-            lcDate: _dateFormatter(getAllotmentDetailInfo?.lcDate) || "",
+            supplierCountry: getAllotmentDetailInfo?.supplierCountry || '',
+            lcNo: getAllotmentDetailInfo?.lcNo || '',
+            lcDate: _dateFormatter(getAllotmentDetailInfo?.lcDate) || '',
             bankName:
               (getAllotmentDetailInfo?.bankName &&
                 getAllotmentDetailInfo?.bankName +
-                  ", " +
-                  (getAllotmentDetailInfo?.branchName || "")) ||
-              "",
-            permissionNumber: getAllotmentDetailInfo?.permissionNo || "",
+                  ', ' +
+                  (getAllotmentDetailInfo?.branchName || '')) ||
+              '',
+            permissionNumber: getAllotmentDetailInfo?.permissionNo || '',
             permissionDate:
-              _dateFormatter(getAllotmentDetailInfo?.permissionDate) || "",
-            shipName: getAllotmentDetailInfo?.shipName || "",
-            color: getAllotmentDetailInfo?.color || "",
-            district: getAllotmentDetailInfo?.district || "",
-            upazila: getAllotmentDetailInfo?.upazilla || "",
+              _dateFormatter(getAllotmentDetailInfo?.permissionDate) || '',
+            shipName: getAllotmentDetailInfo?.shipName || '',
+            color: getAllotmentDetailInfo?.color || '',
+            district: getAllotmentDetailInfo?.district || '',
+            upazila: getAllotmentDetailInfo?.upazilla || '',
           }
         }
         saveHandler={saveHandler}

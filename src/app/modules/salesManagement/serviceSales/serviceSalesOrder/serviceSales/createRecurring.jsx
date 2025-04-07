@@ -68,24 +68,20 @@ export default function ServiceSalesCreateRecurring({
   const [salesOrgList, getSalesOrgList, salesOrgListLoader] = useAxiosGet();
   const [channelDDL, getChannelDDL, channelDDLloader] = useAxiosGet();
   const [accountManagerList, getAccountManagerList] = useAxiosGet();
-  const [
-    agreementDatesForRecuuring,
-    ,
-    loading,
-    setAgreementDatesForRecuuring,
-  ] = useAxiosGet();
+  const [agreementDatesForRecuuring, , loading, setAgreementDatesForRecuuring] =
+    useAxiosGet();
 
   useEffect(() => {
     if (itemList?.length) {
       // let amount = (itemList[0]?.qty || 0) * (itemList[0]?.rate || 0);
       const amount = itemList.reduce(
         (sum, item) => sum + (item?.qty || 0) * (item?.rate || 0),
-        0,
+        0
       );
       // let vat = itemList[0]?.vat || 0;
       const vat = itemList.reduce(
         (sum, item) => sum + (item?.vatAmount || 0),
-        0,
+        0
       );
       let netAmount = amount + (amount * vat) / 100;
       setActualAmount(amount);
@@ -98,22 +94,21 @@ export default function ServiceSalesCreateRecurring({
 
   useEffect(() => {
     getChannelDDL(
-      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}`,
+      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}`
     );
     getSalesOrgList(
-      `/oms/BusinessUnitSalesOrganization/GetBUSalesOrgDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}&SBUId=0`,
+      `/oms/BusinessUnitSalesOrganization/GetBUSalesOrgDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}&SBUId=0`
     );
 
     getCustomerList(
-      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
+      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
     );
     getItemDDL(
-      `/oms/SalesOrder/GetgetServiceItemList?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
+      `/oms/SalesOrder/GetgetServiceItemList?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
     );
     getAccountManagerList(
-      `/domain/EmployeeBasicInformation/GetEmployeeDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
+      `/domain/EmployeeBasicInformation/GetEmployeeDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -142,7 +137,7 @@ export default function ServiceSalesCreateRecurring({
           schedule.numScheduleVatAmount === 0
             ? 0
             : (schedule.numScheduleVatAmount / schedule.numScheduleAmount) *
-            100,
+              100,
         vatAmount: schedule?.numScheduleVatAmount,
         remarks: schedule.strRemarks || '',
         isInvoiceComplete: schedule.isInvoiceComplete,
@@ -163,7 +158,7 @@ export default function ServiceSalesCreateRecurring({
     if (scheduleList?.length < 0) return toast.warn('Add Schedule');
     let totalPercentage = scheduleListFOneTime.reduce(
       (accumulator, currentValue) => accumulator + currentValue['percentage'],
-      0,
+      0
     );
     if (values?.paymentType?.label === 'One Time' && +totalPercentage !== 100) {
       return toast.warn('Total percentage should be 100');
@@ -318,14 +313,14 @@ export default function ServiceSalesCreateRecurring({
           header: header,
         },
         cb,
-        true,
+        true
       );
     } else {
       saveHandlerFunc(
         `oms/ServiceSales/createServiceSalesOrder`,
         payload,
         cb,
-        true,
+        true
       );
     }
   };
@@ -346,86 +341,86 @@ export default function ServiceSalesCreateRecurring({
       initialValues={
         isEdit || isView
           ? {
-            ...initData,
-            paymentType: {
-              value: singleData?.strPaymentType === 'One Time' ? 2 : 1,
-              label: singleData?.strPaymentType,
-            },
-            scheduleType:
-              singleData?.strScheduleTypeName === 'Monthly'
-                ? { value: 1, label: 'Monthly', range: 1 }
-                : singleData?.strScheduleTypeName === 'Quarterly'
-                  ? { value: 2, label: 'Quarterly', range: 3 }
-                  : singleData?.strScheduleTypeName === 'Yearly'
-                    ? { value: 3, label: 'Yearly', range: 12 }
-                    : { value: 1, label: 'Monthly', range: 1 },
-            salesOrg: {
-              value: singleData?.intSalesTypeId,
-              label: singleData?.strSalesTypeName,
-            },
-            distributionChannel: {
-              value: singleData?.intDistributionChannelId,
-              label: singleData?.strDistributionChannelName,
-            },
-            accountManager: {
-              value: singleData?.intAccountManagerEnroll,
-              label: singleData?.strAccountManagerName,
-            },
-            billToParty: singleData?.strCustomerName,
-            numScheduleAmount: singleData?.numScheduleAmount,
-            numServerAmount: singleData?.numServerAmount,
+              ...initData,
+              paymentType: {
+                value: singleData?.strPaymentType === 'One Time' ? 2 : 1,
+                label: singleData?.strPaymentType,
+              },
+              scheduleType:
+                singleData?.strScheduleTypeName === 'Monthly'
+                  ? { value: 1, label: 'Monthly', range: 1 }
+                  : singleData?.strScheduleTypeName === 'Quarterly'
+                    ? { value: 2, label: 'Quarterly', range: 3 }
+                    : singleData?.strScheduleTypeName === 'Yearly'
+                      ? { value: 3, label: 'Yearly', range: 12 }
+                      : { value: 1, label: 'Monthly', range: 1 },
+              salesOrg: {
+                value: singleData?.intSalesTypeId,
+                label: singleData?.strSalesTypeName,
+              },
+              distributionChannel: {
+                value: singleData?.intDistributionChannelId,
+                label: singleData?.strDistributionChannelName,
+              },
+              accountManager: {
+                value: singleData?.intAccountManagerEnroll,
+                label: singleData?.strAccountManagerName,
+              },
+              billToParty: singleData?.strCustomerName,
+              numScheduleAmount: singleData?.numScheduleAmount,
+              numServerAmount: singleData?.numServerAmount,
 
-            customer: {
-              value: singleData?.intCustomerId,
-              label: singleData?.strCustomerName,
-            },
-            item: {
-              value: singleData?.intItemId || '',
-              label: singleData?.strItemName || '',
-            },
-            agreementStartDate: moment(singleData?.dteStartDateTime).format(
-              'YYYY-MM-DD',
-            ),
-            agreementEndDate: moment(singleData?.dteEndDateTime).format(
-              'YYYY-MM-DD',
-            ),
-            validFrom: moment(singleData?.dteStartDateTime).format(
-              'YYYY-MM-DD',
-            ),
-            validTo: moment(singleData?.dteEndDateTime).format('YYYY-MM-DD'),
-            intWarrantyMonth: singleData?.intWarrantyMonth,
-            dteWarrantyEndDate: dateFormatterForInput(
-              singleData?.dteWarrantyEndDate || '',
-            ),
-            dteActualLiveDate: dateFormatterForInput(
-              singleData?.dteActualLiveDate || '',
-            ),
-            status: singleData?.strStatus
-              ? { value: singleData?.strStatus, label: singleData?.strStatus }
-              : '',
-          }
-          : {
-            ...initData,
-            status:
-              !isEdit && !isView
-                ? { value: 'Running', label: 'Running' }
+              customer: {
+                value: singleData?.intCustomerId,
+                label: singleData?.strCustomerName,
+              },
+              item: {
+                value: singleData?.intItemId || '',
+                label: singleData?.strItemName || '',
+              },
+              agreementStartDate: moment(singleData?.dteStartDateTime).format(
+                'YYYY-MM-DD'
+              ),
+              agreementEndDate: moment(singleData?.dteEndDateTime).format(
+                'YYYY-MM-DD'
+              ),
+              validFrom: moment(singleData?.dteStartDateTime).format(
+                'YYYY-MM-DD'
+              ),
+              validTo: moment(singleData?.dteEndDateTime).format('YYYY-MM-DD'),
+              intWarrantyMonth: singleData?.intWarrantyMonth,
+              dteWarrantyEndDate: dateFormatterForInput(
+                singleData?.dteWarrantyEndDate || ''
+              ),
+              dteActualLiveDate: dateFormatterForInput(
+                singleData?.dteActualLiveDate || ''
+              ),
+              status: singleData?.strStatus
+                ? { value: singleData?.strStatus, label: singleData?.strStatus }
                 : '',
-            salesOrg: {
-              value: singleData?.intSalesTypeId,
-              label: singleData?.strSalesTypeName,
-            },
-            distributionChannel: {
-              value: singleData?.intDistributionChannelId,
-              label: singleData?.strDistributionChannelName,
-            },
-            customer: {
-              value: singleData?.intCustomerId,
-              label: singleData?.strCustomerName,
-            },
-            rate:
-              (+singleData?.numScheduleAmount || 0) +
-              (+singleData?.numServerAmount || 0),
-          }
+            }
+          : {
+              ...initData,
+              status:
+                !isEdit && !isView
+                  ? { value: 'Running', label: 'Running' }
+                  : '',
+              salesOrg: {
+                value: singleData?.intSalesTypeId,
+                label: singleData?.strSalesTypeName,
+              },
+              distributionChannel: {
+                value: singleData?.intDistributionChannelId,
+                label: singleData?.strDistributionChannelName,
+              },
+              customer: {
+                value: singleData?.intCustomerId,
+                label: singleData?.strCustomerName,
+              },
+              rate:
+                (+singleData?.numScheduleAmount || 0) +
+                (+singleData?.numServerAmount || 0),
+            }
       }
       onSubmit={(values, { setSubmitting, resetForm }) => {
         saveHandler(values, () => {
@@ -456,8 +451,9 @@ export default function ServiceSalesCreateRecurring({
             customerListLoader ||
             itemDDLloader) && <Loading />}
           <IForm
-            title={`${isEdit ? 'Edit' : isView ? 'View' : 'Create'
-              } Re-Curring Sales Order`}
+            title={`${
+              isEdit ? 'Edit' : isView ? 'View' : 'Create'
+            } Re-Curring Sales Order`}
             getProps={setObjprops}
             isHiddenBack={isView}
             isHiddenReset={isView}
@@ -623,7 +619,7 @@ export default function ServiceSalesCreateRecurring({
                             +values?.invoiceDay
                           ) {
                             return toast.warn(
-                              `Selected Date should be ${values?.invoiceDay} `,
+                              `Selected Date should be ${values?.invoiceDay} `
                             );
                           }
 
@@ -643,7 +639,7 @@ export default function ServiceSalesCreateRecurring({
                         disabled={isEdit || isView}
                         min={addMonthsToDate(
                           values?.validFrom || _todayDate(),
-                          values?.scheduleType?.range || 1,
+                          values?.scheduleType?.range || 1
                         )}
                         onChange={(e) => {
                           if (
@@ -651,7 +647,7 @@ export default function ServiceSalesCreateRecurring({
                             +values?.invoiceDay
                           ) {
                             return toast.warn(
-                              `Selected Date should be ${values?.invoiceDay} `,
+                              `Selected Date should be ${values?.invoiceDay} `
                             );
                           }
                           setFieldValue('validTo', e.target.value);
@@ -710,8 +706,8 @@ export default function ServiceSalesCreateRecurring({
                           ) {
                             return toast.warn(
                               `Selected Date should be ${+values?.agreementStartDate?.split(
-                                '-',
-                              )[2]} `,
+                                '-'
+                              )[2]} `
                             );
                           }
                           setFieldValue('agreementEndDate', e.target.value);
@@ -731,11 +727,11 @@ export default function ServiceSalesCreateRecurring({
                           if (date && values.intWarrantyMonth) {
                             const warrantyEndDate = addMonthsToDate(
                               date,
-                              values.intWarrantyMonth,
+                              values.intWarrantyMonth
                             );
                             setFieldValue(
                               'dteWarrantyEndDate',
-                              warrantyEndDate,
+                              warrantyEndDate
                             );
                           } else {
                             setFieldValue('dteWarrantyEndDate', ''); // Clear warranty end date if live date or warranty month is absent
@@ -761,11 +757,11 @@ export default function ServiceSalesCreateRecurring({
                           if (values.dteActualLiveDate) {
                             const warrantyEndDate = addMonthsToDate(
                               values.dteActualLiveDate,
-                              warrantyMonth,
+                              warrantyMonth
                             );
                             setFieldValue(
                               'dteWarrantyEndDate',
-                              warrantyEndDate,
+                              warrantyEndDate
                             );
                           }
                         }}
@@ -880,7 +876,7 @@ export default function ServiceSalesCreateRecurring({
                         onClick={() => {
                           setSheduleList([]);
                           let isExist = itemList?.some(
-                            (item) => item.label === values?.item?.label,
+                            (item) => item.label === values?.item?.label
                           );
                           if (isExist) return toast.warn('Already exist');
                           setItemList((prev) => [
@@ -919,13 +915,13 @@ export default function ServiceSalesCreateRecurring({
                             const n =
                               +calculateMonthDifference(
                                 values?.validFrom,
-                                values?.validTo,
+                                values?.validTo
                               ) / +values?.scheduleType?.range;
                             for (let i = 0; i < n; i++) {
                               list.push({
                                 dueDate: addMonthsToDate(
                                   values?.validFrom,
-                                  i === 0 ? 0 : i * values?.scheduleType?.range,
+                                  i === 0 ? 0 : i * values?.scheduleType?.range
                                 ),
                                 percentage: 0,
                                 amountWithoutVat:
@@ -974,7 +970,7 @@ export default function ServiceSalesCreateRecurring({
                           onClick={() => {
                             setSheduleList([]);
                             let isExist = itemList?.some(
-                              (item) => item.label === values?.item?.label,
+                              (item) => item.label === values?.item?.label
                             );
                             if (isExist) return toast.warn('Already exist');
                             setItemList((prev) => [
@@ -1073,7 +1069,7 @@ export default function ServiceSalesCreateRecurring({
                                     style={{ fontSize: '16px' }}
                                     remover={(index) => {
                                       let data = itemList.filter(
-                                        (item, i) => i !== index,
+                                        (item, i) => i !== index
                                       );
                                       setItemList(data);
                                       setSheduleList([]);
@@ -1178,21 +1174,18 @@ export default function ServiceSalesCreateRecurring({
                                     type="number"
                                     onChange={(e) => {
                                       const newValue = +e.target.value;
-                                      let totalPercentage = getTotalPersecentage(
-                                        newValue,
-                                        index,
-                                      );
+                                      let totalPercentage =
+                                        getTotalPersecentage(newValue, index);
                                       if (totalPercentage > 100) {
                                         return toast.warn(
-                                          'Total percentage should be 100',
+                                          'Total percentage should be 100'
                                         );
                                       }
                                       let updatedScheduleList = [
                                         ...scheduleListFOneTime,
                                       ];
-                                      updatedScheduleList[
-                                        index
-                                      ].percentage = newValue;
+                                      updatedScheduleList[index].percentage =
+                                        newValue;
                                       updatedScheduleList[index].amount =
                                         ((newValue || 0) / 100) *
                                         (actualAmount || 0);
@@ -1203,7 +1196,7 @@ export default function ServiceSalesCreateRecurring({
                                         actualVatAmount * (newValue / 100) || 0;
 
                                       setSheduleListFOneTime(
-                                        updatedScheduleList,
+                                        updatedScheduleList
                                       );
                                     }}
                                   />
@@ -1227,7 +1220,7 @@ export default function ServiceSalesCreateRecurring({
                                         e.target.value;
 
                                       setSheduleListFOneTime(
-                                        updatedScheduleList,
+                                        updatedScheduleList
                                       );
                                     }}
                                   />
@@ -1249,29 +1242,32 @@ export default function ServiceSalesCreateRecurring({
                                           onClick={() => {
                                             const newValue =
                                               scheduleListFOneTime[index][
-                                              'percentage'
+                                                'percentage'
                                               ];
 
                                             if (!newValue) {
                                               return toast.warn(
-                                                'Please add percentage',
+                                                'Please add percentage'
                                               );
                                             }
 
-                                            let totalPercentage = scheduleListFOneTime.reduce(
-                                              (acc, curr, currIndex) => {
-                                                if (currIndex === index) {
-                                                  return acc + newValue;
-                                                } else {
-                                                  return acc + curr.percentage;
-                                                }
-                                              },
-                                              0,
-                                            );
+                                            let totalPercentage =
+                                              scheduleListFOneTime.reduce(
+                                                (acc, curr, currIndex) => {
+                                                  if (currIndex === index) {
+                                                    return acc + newValue;
+                                                  } else {
+                                                    return (
+                                                      acc + curr.percentage
+                                                    );
+                                                  }
+                                                },
+                                                0
+                                              );
 
                                             if (totalPercentage >= 100) {
                                               return toast.warn(
-                                                'Total percentage already 100',
+                                                'Total percentage already 100'
                                               );
                                             }
 
@@ -1297,11 +1293,12 @@ export default function ServiceSalesCreateRecurring({
                                       style={{ fontSize: '16px' }}
                                       id={index}
                                       remover={(index) => {
-                                        let updatedScheduleList = scheduleListFOneTime?.filter(
-                                          (schedule, i) => i !== index,
-                                        );
+                                        let updatedScheduleList =
+                                          scheduleListFOneTime?.filter(
+                                            (schedule, i) => i !== index
+                                          );
                                         setSheduleListFOneTime(
-                                          updatedScheduleList,
+                                          updatedScheduleList
                                         );
                                       }}
                                     />

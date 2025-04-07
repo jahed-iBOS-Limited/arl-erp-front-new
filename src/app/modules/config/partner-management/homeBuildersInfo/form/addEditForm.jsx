@@ -1,29 +1,28 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import Loading from "../../../../_helper/_loading";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import Form from "./form";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
+import Loading from '../../../../_helper/_loading';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import Form from './form';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 const initData = {
-  channel: "",
-  region: "",
-  area: "",
-  territory: "",
-  type: { value: 3, label: "IHB" },
-  name: "",
-  address: "",
-  contactNumber: "",
-  email: "",
-  nidNumber: "",
-  birthDate: "",
-  projectStatus: "",
-  storiedType: "",
-  startDate: "",
-  approximateEndDate: "",
-  usingBrand: "",
+  channel: '',
+  region: '',
+  area: '',
+  territory: '',
+  type: { value: 3, label: 'IHB' },
+  name: '',
+  address: '',
+  contactNumber: '',
+  email: '',
+  nidNumber: '',
+  birthDate: '',
+  projectStatus: '',
+  storiedType: '',
+  startDate: '',
+  approximateEndDate: '',
+  usingBrand: '',
 };
 
 export default function HomeBuildersInfoEntryForm() {
@@ -86,28 +85,28 @@ export default function HomeBuildersInfoEntryForm() {
             value: employeeInfo?.empChannelId,
             label: employeeInfo?.empChannelName,
           }
-        : "",
+        : '',
     region:
       employeeInfo?.empLevelId === 7
         ? {
             value: employeeInfo?.regionId,
             label: employeeInfo?.regionName,
           }
-        : "",
+        : '',
     area:
       employeeInfo?.empLevelId === 7
         ? {
             value: employeeInfo?.areaId,
             label: employeeInfo?.areaName,
           }
-        : "",
+        : '',
     territory:
       employeeInfo?.empLevelId === 7
         ? {
             value: employeeInfo?.territoryInfoId,
             label: employeeInfo?.territoryInfoName,
           }
-        : "",
+        : '',
   };
 
   return (

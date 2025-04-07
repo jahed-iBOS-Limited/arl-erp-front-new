@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import Form from './form';
@@ -66,12 +65,11 @@ export default function SalesOrganizationForm({
   useEffect(() => {
     if (id) {
       dispatch(
-        getSalesOrganizationById(profileData?.accountId, id, setDisabled),
+        getSalesOrganizationById(profileData?.accountId, id, setDisabled)
       );
     } else {
       dispatch(setControllingUnitSingleEmpty());
     }
-
   }, [id]);
 
   useEffect(() => {

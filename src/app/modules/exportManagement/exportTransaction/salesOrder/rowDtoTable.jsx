@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import Loading from "../../../_helper/_loading";
-import InputField from "../../../_helper/_inputField";
+import React, { useState } from 'react';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import Loading from '../../../_helper/_loading';
+import InputField from '../../../_helper/_inputField';
 
 const SalesOrderRowTable = ({
   //rowDto,
@@ -102,14 +102,14 @@ const SalesOrderRowTable = ({
         <div>
           <InputField
             name="modifyCiPercentage"
-            value={values?.modifyCiPercentage || ""}
+            value={values?.modifyCiPercentage || ''}
             placeholder="Modify CI Percentage"
             type="number"
             className="form-control"
             disabled={!salesQuotationDetails?.Data?.RowData?.length}
             onChange={(e) => {
               if (+e.target.value < 0 || +e.target.value > 100) return;
-              setFieldValue("modifyCiPercentage", e.target.value || "");
+              setFieldValue('modifyCiPercentage', e.target.value || '');
               const modifyData = salesQuotationDetails?.Data?.RowData?.map(
                 (item) => {
                   let numericTotalAmount =
@@ -184,21 +184,21 @@ const SalesOrderRowTable = ({
                   <td className="text-right">
                     {item?.FobRatePerPieceBDT
                       ? _formatMoney(item?.FobRatePerPieceBDT)
-                      : ""}
+                      : ''}
                   </td>
                   <td className="text-right">
                     {item?.TotalFobAmountBDT
                       ? _formatMoney(item?.TotalFobAmountBDT)
-                      : ""}
+                      : ''}
                   </td>
                   <td className="text-right">
                     <input
                       type="number"
-                      value={item?.cogs || ""}
+                      value={item?.cogs || ''}
                       onChange={(e) => {
                         const updatedData = { ...salesQuotationDetails };
                         updatedData.Data.RowData[index].cogs =
-                          e.target.value || "";
+                          e.target.value || '';
                         setSalesQuotationDetails(updatedData);
                       }}
                     />
@@ -211,7 +211,7 @@ const SalesOrderRowTable = ({
                       onChange={(e) => {
                         const updatedData = { ...salesQuotationDetails };
                         updatedData.Data.RowData[index].ciRate =
-                          e.target.value || "";
+                          e.target.value || '';
                         updatedData.Data.RowData[index].ciValue =
                           e.target.value * item?.TotalPieces;
                         setSalesQuotationDetails(updatedData);
@@ -219,7 +219,7 @@ const SalesOrderRowTable = ({
                     />
                   </td>
                   <td className="text-right">
-                    {item?.ciRate ? _formatMoney(item?.ciValue) : ""}
+                    {item?.ciRate ? _formatMoney(item?.ciValue) : ''}
                   </td>
                 </tr>
               ))}
@@ -234,7 +234,7 @@ const SalesOrderRowTable = ({
                 <td className="text-right font-weight-bold">
                   {totalFOBValue(salesQuotationDetails?.Data, 2)}
                 </td>
-                <td>{""}</td>
+                <td>{''}</td>
                 <td className="text-right font-weight-bold">
                   {totalFOBValue(salesQuotationDetails?.Data, 4)}
                 </td>
@@ -252,7 +252,7 @@ const SalesOrderRowTable = ({
                         salesQuotationDetails?.Data?.HeaderData
                           ?.FreightAmountBDT
                       )
-                    : ""}
+                    : ''}
                 </td>
               </tr>
 

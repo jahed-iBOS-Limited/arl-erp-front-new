@@ -1,13 +1,13 @@
-import React from "react";
-import { Formik, Form } from "formik";
+import React from 'react';
+import { Formik, Form } from 'formik';
 import {
   Card,
   CardBody,
   CardHeader,
   ModalProgressBar,
-} from "../../../../../../../_metronic/_partials/controls";
-import NewSelect from "../../../../../_helper/_select";
-import InputField from "../../../../../_helper/_inputField";
+} from '../../../../../../../_metronic/_partials/controls';
+import NewSelect from '../../../../../_helper/_select';
+import InputField from '../../../../../_helper/_inputField';
 
 export default function ViewModal({ initData }) {
   return (
@@ -28,7 +28,7 @@ export default function ViewModal({ initData }) {
                         value={values?.shippoint}
                         label="Shippoint"
                         onChange={(valueOption) => {
-                          setFieldValue("shippoint", valueOption);
+                          setFieldValue('shippoint', valueOption);
                         }}
                         placeholder="Shippoint"
                         errors={errors}
@@ -65,7 +65,7 @@ export default function ViewModal({ initData }) {
                         value={values?.itemName}
                         label="Item Name"
                         onChange={(valueOption) => {
-                          setFieldValue("itemName", valueOption);
+                          setFieldValue('itemName', valueOption);
                         }}
                         placeholder="Item Name"
                         errors={errors}
@@ -91,9 +91,9 @@ export default function ViewModal({ initData }) {
                         placeholder="Quantity"
                         type="number"
                         onChange={(e) => {
-                          setFieldValue("quantity", e.target.value);
+                          setFieldValue('quantity', e.target.value);
                           setFieldValue(
-                            "totalPrice",
+                            'totalPrice',
                             +values?.itemPrice * +e.target.value
                           );
                         }}

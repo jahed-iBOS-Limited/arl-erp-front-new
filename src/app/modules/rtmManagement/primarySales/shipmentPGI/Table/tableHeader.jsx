@@ -1,13 +1,12 @@
-
-import React, { useEffect, useState } from "react";
-import { TableRow } from "./tableRow";
-import { ITable } from "../../../../_helper/_table";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { getIsPGICheck_Action } from "../../../../salesManagement/orderManagement/pgi/_redux/Actions";
-import { saveShipmentId_action } from "../_redux/Actions";
+import React, { useEffect, useState } from 'react';
+import { TableRow } from './tableRow';
+import { ITable } from '../../../../_helper/_table';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { getIsPGICheck_Action } from '../../../../salesManagement/orderManagement/pgi/_redux/Actions';
+import { saveShipmentId_action } from '../_redux/Actions';
 
 const initialData = {
-  pgiShippoint: "",
+  pgiShippoint: '',
 };
 
 const initData = {
@@ -49,8 +48,6 @@ export function ShipmentTable() {
         getIsPGICheck_Action(profileData.accountId, selectedBusinessUnit.value)
       );
     }
-
-
   }, [selectedBusinessUnit, profileData]);
 
   useEffect(() => {
@@ -60,8 +57,6 @@ export function ShipmentTable() {
     }));
 
     setRowDto(modifyGridData);
-
-
   }, [gridData]);
 
   const savePgiData = (id, gridRefresh) => {

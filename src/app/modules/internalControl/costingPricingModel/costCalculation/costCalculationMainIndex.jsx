@@ -1,19 +1,19 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import Loading from "../../../_helper/_loading";
-import PaginationTable from "../../../_helper/_tablePagination";
-import InputField from "../../../_helper/_inputField";
+} from '../../../../../_metronic/_partials/controls';
+import Loading from '../../../_helper/_loading';
+import PaginationTable from '../../../_helper/_tablePagination';
+import InputField from '../../../_helper/_inputField';
 
 function CostCalculationLanding() {
   const history = useHistory();
@@ -29,11 +29,10 @@ function CostCalculationLanding() {
     getRowData(
       `/costmgmt/Precosting/ProductPrecostingLanding?businessUnitId=${selectedBusinessUnit?.value}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
-
   }, []);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
-    const date = values?.date ? `&date=${values?.date}` : "";
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
+    const date = values?.date ? `&date=${values?.date}` : '';
     getRowData(
       `/costmgmt/Precosting/ProductPrecostingLanding?businessUnitId=${selectedBusinessUnit?.value}${date}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
@@ -50,7 +49,7 @@ function CostCalculationLanding() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Cost Calculation"}>
+              <CardHeader title={'Cost Calculation'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
@@ -77,19 +76,19 @@ function CostCalculationLanding() {
                         name="date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("date", e.target.value);
+                          setFieldValue('date', e.target.value);
                         }}
                       />
                     </div>
                     <div>
                       <button
-                        style={{ marginTop: "18px" }}
+                        style={{ marginTop: '18px' }}
                         className="btn btn-primary ml-2"
                         disabled={false}
                         onClick={() => {
                           const date = values?.date
                             ? `&date=${values?.date}`
-                            : "";
+                            : '';
                           getRowData(
                             `/costmgmt/Precosting/ProductPrecostingLanding?businessUnitId=${selectedBusinessUnit?.value}${date}&pageNo=${pageNo}&pageSize=${pageSize}`
                           );
@@ -112,7 +111,7 @@ function CostCalculationLanding() {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>Product Name</th>
                             <th>Item Name</th>
                             <th>Partner Name</th>

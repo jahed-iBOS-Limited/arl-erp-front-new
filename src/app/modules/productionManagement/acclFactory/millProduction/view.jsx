@@ -1,8 +1,8 @@
-import { Formik } from "formik";
-import React from "react";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
+import { Formik } from 'formik';
+import React from 'react';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import Loading from '../../../_helper/_loading';
 
 export default function RowDetails({ row }) {
   return (
@@ -35,7 +35,7 @@ export default function RowDetails({ row }) {
                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                       <thead>
                         <tr>
-                          <th style={{ width: "30px" }}>SL</th>
+                          <th style={{ width: '30px' }}>SL</th>
                           <th>Breakdown Type</th>
                           <th>Breakdown Details</th>
                           <th>Breakdown Hour</th>

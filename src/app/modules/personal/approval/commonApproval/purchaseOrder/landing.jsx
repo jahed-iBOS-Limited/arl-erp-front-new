@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 // import { useHistory } from "react-router-dom";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { Formik } from "formik";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { Form } from "react-bootstrap";
-import IConfirmModal from "./../../../../_helper/_confirmModal";
-import { getPurchaseOrderGridData, approvalApi } from "./helper";
-import { setPoApprovalId } from "../../../../_helper/reduxForLocalStorage/Actions";
-import PaginationSearch from "./../../../../_helper/_search";
-import IViewModal from "../../../../_helper/_viewModal";
-import { PurchaseOrderViewTableRow } from "../../../../procurement/purchase-management/purchaseOrder/report/tableRow";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import IClose from "../../../../_helper/_helperIcons/_close";
-import { toast } from "react-toastify";
-import AttachmentView from "./attachmentView";
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { Formik } from 'formik';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
+import IConfirmModal from './../../../../_helper/_confirmModal';
+import { getPurchaseOrderGridData, approvalApi } from './helper';
+import { setPoApprovalId } from '../../../../_helper/reduxForLocalStorage/Actions';
+import PaginationSearch from './../../../../_helper/_search';
+import IViewModal from '../../../../_helper/_viewModal';
+import { PurchaseOrderViewTableRow } from '../../../../procurement/purchase-management/purchaseOrder/report/tableRow';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import IClose from '../../../../_helper/_helperIcons/_close';
+import { toast } from 'react-toastify';
+import AttachmentView from './attachmentView';
 
 let initData = {};
 
@@ -35,9 +35,9 @@ const PurchaseOrderApprovalGrid = ({
   const [billSubmitBtn, setBillSubmitBtn] = useState(true);
   const dispatch = useDispatch();
   const [isShowModal, setIsShowModal] = useState(false);
-  const [currentItem, setCurrentItem] = useState("");
+  const [currentItem, setCurrentItem] = useState('');
   const [showAttachmentModal, setShowAttachmentModal] = useState(false);
-  const [attachmentModalInfo, setAttachmentModalInfo] = useState("");
+  const [attachmentModalInfo, setAttachmentModalInfo] = useState('');
 
   // custom Hooks
   const [, postData, postDataLoading] = useAxiosPost();
@@ -57,7 +57,6 @@ const PurchaseOrderApprovalGrid = ({
 
   useEffect(() => {
     cb();
-
   }, [activityChange]);
 
   let cb = () => {
@@ -70,7 +69,7 @@ const PurchaseOrderApprovalGrid = ({
       setLoader,
       pageNo,
       pageSize,
-      "",
+      '',
       selectedPlant?.value
     );
   };
@@ -118,7 +117,7 @@ const PurchaseOrderApprovalGrid = ({
   // approveSubmitlHandler btn submit handler
   const approveSubmitlHandler = (values) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to post the selected approve submit`,
       yesAlertFunc: () => {
         const filterSelectedData = rowDto?.data?.filter(
@@ -159,7 +158,7 @@ const PurchaseOrderApprovalGrid = ({
       setLoader,
       pageNo,
       pageSize,
-      "",
+      '',
       selectedPlant?.value
     );
   };
@@ -175,7 +174,7 @@ const PurchaseOrderApprovalGrid = ({
       0,
       pageSize,
       value,
-      "",
+      '',
       selectedPlant?.value
     );
     setPageNo(0);
@@ -188,7 +187,7 @@ const PurchaseOrderApprovalGrid = ({
       `/procurement/PurchaseOrder/CancelPurchaseOrder?BusinessUnitId=${selectedBusinessUnit?.value}&PurchaseOrderId=${poId}&ActivityTypeId=${activityName?.value}&ActionBy=${profileData?.userId}`,
       null,
       (res) => {
-        toast.success(res?.message || "Canceled successfully");
+        toast.success(res?.message || 'Canceled successfully');
         cb();
       }
     );
@@ -197,8 +196,8 @@ const PurchaseOrderApprovalGrid = ({
   // create confirmation obj
   const getConfirmObject = (poId) => {
     return {
-      title: "Are you sure you want to close this PO?",
-      message: "",
+      title: 'Are you sure you want to close this PO?',
+      message: '',
       yesAlertFunc: async () => {
         cancelApproveAction(poId);
       },
@@ -213,7 +212,7 @@ const PurchaseOrderApprovalGrid = ({
         enableReinitialize={true}
         initialValues={{
           ...initData,
-          applicationType: { value: 1, label: "Pending Application" },
+          applicationType: { value: 1, label: 'Pending Application' },
         }}
         // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -266,66 +265,66 @@ const PurchaseOrderApprovalGrid = ({
             </Form>
             {/* Table Start */}
             {rowDto?.data?.length ? (
-             <div className="table-responsive">
-               <table className="table table-striped table-bordered global-table">
-                <thead>
-                  <tr>
-                    <th style={{ width: "20px" }}>
-                      <input
-                        type="checkbox"
-                        id="parent"
-                        onChange={(event) => {
-                          allGridCheck(event.target.checked);
-                        }}
-                      />
-                    </th>
-                    <th>SL</th>
-                    <th>Reff Code</th>
-                    <th>Warehouse Name</th>
-                    <th>Request By</th>
-                    <th>Supplier</th>
-                    <th>Transaction Date</th>
-                    {/* <th>Due Date</th> */}
-                    <th>Amount</th>
-                    <th>Quantity</th>
-                    <th>Description</th>
-                    <th className="text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rowDto?.data?.map((item, i) => (
-                    <tr key={i}>
-                      <td>
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered global-table">
+                  <thead>
+                    <tr>
+                      <th style={{ width: '20px' }}>
                         <input
-                          id="isSelect"
                           type="checkbox"
-                          value={item?.isSelect}
-                          checked={item?.isSelect}
-                          onChange={(e) => {
-                            itemSlectedHandler(e.target.checked, i);
+                          id="parent"
+                          onChange={(event) => {
+                            allGridCheck(event.target.checked);
                           }}
                         />
-                      </td>
-                      <td className="text-center">{item?.sl}</td>
-                      <td>
-                        <span className="pl-2">{item.strCode}</span>
-                      </td>
-                      <td>
-                        <span className="pl-2">{item.whName}</span>
-                      </td>
-                      <td>{item.requestBy}</td>
-                      <td>{item.supplyer}</td>
-                      <td className="text-center">
-                        {_dateFormatter(item.transectionDate)}
-                      </td>
-                      {/* <td className="text-center">
+                      </th>
+                      <th>SL</th>
+                      <th>Reff Code</th>
+                      <th>Warehouse Name</th>
+                      <th>Request By</th>
+                      <th>Supplier</th>
+                      <th>Transaction Date</th>
+                      {/* <th>Due Date</th> */}
+                      <th>Amount</th>
+                      <th>Quantity</th>
+                      <th>Description</th>
+                      <th className="text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rowDto?.data?.map((item, i) => (
+                      <tr key={i}>
+                        <td>
+                          <input
+                            id="isSelect"
+                            type="checkbox"
+                            value={item?.isSelect}
+                            checked={item?.isSelect}
+                            onChange={(e) => {
+                              itemSlectedHandler(e.target.checked, i);
+                            }}
+                          />
+                        </td>
+                        <td className="text-center">{item?.sl}</td>
+                        <td>
+                          <span className="pl-2">{item.strCode}</span>
+                        </td>
+                        <td>
+                          <span className="pl-2">{item.whName}</span>
+                        </td>
+                        <td>{item.requestBy}</td>
+                        <td>{item.supplyer}</td>
+                        <td className="text-center">
+                          {_dateFormatter(item.transectionDate)}
+                        </td>
+                        {/* <td className="text-center">
                       {_dateFormatter(item.dueDate)}
                     </td> */}
-                      <td className="text-center">{item.grandTotalAmount}</td>
-                      <td className="text-center">{item.quantity}</td>
-                      <td className="text-center">{item.strNarration}</td>
-                      <td className="text-center">
-                        {/* <span
+                        <td className="text-center">{item.grandTotalAmount}</td>
+                        <td className="text-center">{item.quantity}</td>
+                        <td className="text-center">{item.strNarration}</td>
+                        <td className="text-center">
+                          {/* <span
                       className="mr-2"
                       onClick={(e) => singleApprovalndler(item.transectionId)}
                     >
@@ -333,70 +332,72 @@ const PurchaseOrderApprovalGrid = ({
                       <IApproval />
                     </span> */}
 
-                        <div className="d-flex align-items-center justify-content-center">
-                          <span
-                            onClick={(e) => {
-                              setCurrentItem(item);
-                              setIsShowModal(true);
-                              dispatch(setPoApprovalId(item?.transectionId));
-                            }}
-                          >
-                            <OverlayTrigger
-                              overlay={<Tooltip id="cs-icon">{"View"}</Tooltip>}
-                            >
-                              <span style={{ cursor: "pointer" }}>
-                                <i
-                                  className={`fas fa-eye ${
-                                    lastPOApprovalId === item?.transectionId
-                                      ? "text-primary"
-                                      : ""
-                                  }`}
-                                  aria-hidden="true"
-                                ></i>
-                              </span>
-                            </OverlayTrigger>
-                          </span>
-                          <span className="ml-2">
-                            <IClose
-                              closer={() => {
-                                const confirmObject = getConfirmObject(
-                                  item?.transectionId
-                                );
-                                IConfirmModal(confirmObject);
-                              }}
-                              title="Close"
-                            />
-                          </span>
-                          {item?.isAttatchmentFound && (
+                          <div className="d-flex align-items-center justify-content-center">
                             <span
-                              role="button"
-                              className="ml-2"
-                              onClick={() => {
-                                setShowAttachmentModal(true);
-                                setAttachmentModalInfo({
-                                  purchaseOrderId: item?.transectionId,
-                                  orderTypeId: item?.purchaseOrderTypeId,
-                                });
+                              onClick={(e) => {
+                                setCurrentItem(item);
+                                setIsShowModal(true);
+                                dispatch(setPoApprovalId(item?.transectionId));
                               }}
                             >
                               <OverlayTrigger
                                 overlay={
-                                  <Tooltip id="cs-icon">Attachment</Tooltip>
+                                  <Tooltip id="cs-icon">{'View'}</Tooltip>
                                 }
                               >
-                                <i class="far fa-file-image"></i>
+                                <span style={{ cursor: 'pointer' }}>
+                                  <i
+                                    className={`fas fa-eye ${
+                                      lastPOApprovalId === item?.transectionId
+                                        ? 'text-primary'
+                                        : ''
+                                    }`}
+                                    aria-hidden="true"
+                                  ></i>
+                                </span>
                               </OverlayTrigger>
                             </span>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-             </div>
+                            <span className="ml-2">
+                              <IClose
+                                closer={() => {
+                                  const confirmObject = getConfirmObject(
+                                    item?.transectionId
+                                  );
+                                  IConfirmModal(confirmObject);
+                                }}
+                                title="Close"
+                              />
+                            </span>
+                            {item?.isAttatchmentFound && (
+                              <span
+                                role="button"
+                                className="ml-2"
+                                onClick={() => {
+                                  setShowAttachmentModal(true);
+                                  setAttachmentModalInfo({
+                                    purchaseOrderId: item?.transectionId,
+                                    orderTypeId: item?.purchaseOrderTypeId,
+                                  });
+                                }}
+                              >
+                                <OverlayTrigger
+                                  overlay={
+                                    <Tooltip id="cs-icon">Attachment</Tooltip>
+                                  }
+                                >
+                                  <i class="far fa-file-image"></i>
+                                </OverlayTrigger>
+                              </span>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             ) : (
-              ""
+              ''
             )}
             {rowDto?.data?.length > 0 && (
               <PaginationTable

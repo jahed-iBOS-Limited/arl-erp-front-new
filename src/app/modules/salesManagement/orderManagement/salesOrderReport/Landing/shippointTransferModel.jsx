@@ -1,20 +1,20 @@
-import React from "react";
-import { Formik, Form as FormikForm } from "formik";
-import * as Yup from "yup";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "./../../../../_helper/_select";
-import { saveShippointTransfer } from "../helper";
-import { useSelector, shallowEqual } from "react-redux";
+import React from 'react';
+import { Formik, Form as FormikForm } from 'formik';
+import * as Yup from 'yup';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from './../../../../_helper/_select';
+import { saveShippointTransfer } from '../helper';
+import { useSelector, shallowEqual } from 'react-redux';
 
 const initData = {
-  shippoint: "",
-  curentShippoint: "",
+  shippoint: '',
+  curentShippoint: '',
 };
 
 const validationSchema = Yup.object().shape({
   shippoint: Yup.object().shape({
-    label: Yup.string().required("shippoint is required"),
-    value: Yup.string().required("shippoint is required"),
+    label: Yup.string().required('shippoint is required'),
+    value: Yup.string().required('shippoint is required'),
   }),
 });
 
@@ -23,7 +23,7 @@ export default function ShippointTransferModel({
   shipPointDDL,
   clickRowData,
   setIsTransferModel,
-  callBackFuncGridData
+  callBackFuncGridData,
 }) {
   const [loading, setLoading] = React.useState(false);
 
@@ -44,7 +44,7 @@ export default function ShippointTransferModel({
       cb: cb,
       setLoading,
       setIsTransferModel,
-      callBackFuncGridData
+      callBackFuncGridData,
     };
     saveShippointTransfer(obj);
   };
@@ -76,9 +76,9 @@ export default function ShippointTransferModel({
               <div className="form-card">
                 <div
                   style={{
-                    justifyContent: "space-between",
-                    display: "flex",
-                    padding: "10px 0",
+                    justifyContent: 'space-between',
+                    display: 'flex',
+                    padding: '10px 0',
                   }}
                 >
                   <p></p>
@@ -98,7 +98,7 @@ export default function ShippointTransferModel({
                       value={values?.curentShippoint}
                       label="Curent Shippoint"
                       onChange={(valueOption) => {
-                        setFieldValue("curentShippoint", valueOption);
+                        setFieldValue('curentShippoint', valueOption);
                       }}
                       placeholder="Curent Shippoint"
                       errors={errors}
@@ -113,7 +113,7 @@ export default function ShippointTransferModel({
                       value={values?.shippoint}
                       label="Shippoint"
                       onChange={(valueOption) => {
-                        setFieldValue("shippoint", valueOption);
+                        setFieldValue('shippoint', valueOption);
                       }}
                       placeholder="Shippoint"
                       errors={errors}

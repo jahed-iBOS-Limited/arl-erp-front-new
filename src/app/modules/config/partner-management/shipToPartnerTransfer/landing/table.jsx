@@ -1,36 +1,36 @@
-import axios from "axios";
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import ICard from "../../../../_helper/_card";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import IButton from "../../../../_helper/iButton";
+import axios from 'axios';
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import ICard from '../../../../_helper/_card';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import IButton from '../../../../_helper/iButton';
 import {
   getShipToPartnerInfo,
   getTransportZoneDDL,
   shipToPartnerInfoUpdate,
   shipToPartnerTransfer_api,
   shipToTransferZone_api,
-} from "../helper";
-import IView from "../../../../_helper/_helperIcons/_view";
-import NationalIdViewModal from "./modals/NationalIdViewModal";
-import TradeLicenceModal from "./modals/TradeLicenceModal";
+} from '../helper';
+import IView from '../../../../_helper/_helperIcons/_view';
+import NationalIdViewModal from './modals/NationalIdViewModal';
+import TradeLicenceModal from './modals/TradeLicenceModal';
 
 const initData = {
-  channel: "",
-  preCustomer: "",
-  nextCustomer: "",
-  type: "",
-  transportZone: "",
-  region: "",
-  area: "",
-  territory: "",
-  status: { value: 0, label: "All" },
+  channel: '',
+  preCustomer: '',
+  nextCustomer: '',
+  type: '',
+  transportZone: '',
+  region: '',
+  area: '',
+  territory: '',
+  status: { value: 0, label: 'All' },
 };
 
 export function ShipToPartnerTransfer() {
@@ -40,8 +40,8 @@ export function ShipToPartnerTransfer() {
   const [tempData, setTempData] = useState([]);
   const [showNIDModal, setShowNIDModal] = useState(false);
   const [showTradeLicenceModal, setShowTradeLicenceModal] = useState(false);
-  const [nidImg, setNidImg] = useState("");
-  const [transactionImg, setTransactionImg] = useState("");
+  const [nidImg, setNidImg] = useState('');
+  const [transactionImg, setTransactionImg] = useState('');
 
   // get user profile data from store
   const {
@@ -71,7 +71,7 @@ export function ShipToPartnerTransfer() {
     const allGridCheckList = gridData?.filter((itm) => itm?.itemCheck);
 
     if (allGridCheckList?.length === 0)
-      return toast.warning("You must have to select atleast one item");
+      return toast.warning('You must have to select atleast one item');
     const payload = {
       currentPartnerId: values?.preCustomer?.value,
       updatedPartnerId: values?.nextCustomer?.value,
@@ -85,7 +85,7 @@ export function ShipToPartnerTransfer() {
     const allGridCheckList = gridData?.filter((itm) => itm?.itemCheck);
 
     if (allGridCheckList?.length === 0)
-      return toast.warning("You must have to select atleast one item");
+      return toast.warning('You must have to select atleast one item');
 
     const payload = allGridCheckList?.map((data) => {
       return {
@@ -102,7 +102,7 @@ export function ShipToPartnerTransfer() {
   const updateHandler = () => {
     const selectedItems = gridData?.filter((item) => item?.itemCheck);
     if (selectedItems?.length < 1) {
-      return toast.warn("Please select at least one item!");
+      return toast.warn('Please select at least one item!');
     }
 
     const payload = selectedItems?.map((element) => ({
@@ -114,8 +114,8 @@ export function ShipToPartnerTransfer() {
       partnerShippingAddress: element?.shipToPartnerAddress,
       partnerShippingContact: element?.shipToPartnerContact,
       updateBy: userId,
-      remarks: "",
-      active:element?.isActive
+      remarks: '',
+      active: element?.isActive,
     }));
     shipToPartnerInfoUpdate(payload, setLoading);
   };
@@ -167,9 +167,9 @@ export function ShipToPartnerTransfer() {
                     values,
                     setFieldValue,
                     onChange: (allValues, fieldName) => {
-                      if (fieldName === "channel") {
-                        setFieldValue("preCustomer", "");
-                        setFieldValue("nextCustomer", "");
+                      if (fieldName === 'channel') {
+                        setFieldValue('preCustomer', '');
+                        setFieldValue('nextCustomer', '');
                         setGridData([]);
                       }
                     },
@@ -182,8 +182,8 @@ export function ShipToPartnerTransfer() {
                     <SearchAsyncSelect
                       selectedValue={values?.preCustomer}
                       handleChange={(valueOption) => {
-                        setFieldValue("preCustomer", valueOption);
-                        setFieldValue("nextCustomer", "");
+                        setFieldValue('preCustomer', valueOption);
+                        setFieldValue('nextCustomer', '');
                         setGridData([]);
                       }}
                       isDisabled={!values?.channel}
@@ -204,14 +204,14 @@ export function ShipToPartnerTransfer() {
                   <NewSelect
                     name="status"
                     options={[
-                      { value: 0, label: "All" },
-                      { value: 1, label: "Pending" },
-                      { value: 2, label: "Approve" },
+                      { value: 0, label: 'All' },
+                      { value: 1, label: 'Pending' },
+                      { value: 2, label: 'Approve' },
                     ]}
                     value={values?.status}
                     label="Status"
                     onChange={(valueOption) => {
-                      setFieldValue("status", valueOption);
+                      setFieldValue('status', valueOption);
                     }}
                     placeholder="Status"
                     errors={errors}
@@ -232,15 +232,15 @@ export function ShipToPartnerTransfer() {
                   <NewSelect
                     name="type"
                     options={[
-                      { value: 1, label: "Shop Transfer" },
-                      { value: 2, label: "Transport Zone Change" },
-                      { value: 3, label: "Update Ship to Partner Info" },
+                      { value: 1, label: 'Shop Transfer' },
+                      { value: 2, label: 'Transport Zone Change' },
+                      { value: 3, label: 'Update Ship to Partner Info' },
                     ]}
                     value={values?.type}
                     label="Type"
                     onChange={(valueOption) => {
                       setGridData([...tempData]);
-                      setFieldValue("type", valueOption);
+                      setFieldValue('type', valueOption);
                     }}
                     placeholder="Type"
                     errors={errors}
@@ -257,7 +257,7 @@ export function ShipToPartnerTransfer() {
                         <SearchAsyncSelect
                           selectedValue={values?.nextCustomer}
                           handleChange={(valueOption) => {
-                            setFieldValue("nextCustomer", valueOption);
+                            setFieldValue('nextCustomer', valueOption);
                           }}
                           isDisabled={!values?.channel}
                           placeholder="Search Customer"
@@ -295,7 +295,7 @@ export function ShipToPartnerTransfer() {
                         value={values?.transportZone}
                         label="Transport Zone"
                         onChange={(valueOption) => {
-                          setFieldValue("transportZone", valueOption);
+                          setFieldValue('transportZone', valueOption);
                         }}
                         placeholder="Transport Zone"
                         errors={errors}
@@ -317,7 +317,7 @@ export function ShipToPartnerTransfer() {
                   </>
                 ) : values?.type?.value === 3 ? (
                   <IButton
-                    colSize={"col-lg-3"}
+                    colSize={'col-lg-3'}
                     onClick={() => {
                       updateHandler();
                     }}
@@ -339,7 +339,7 @@ export function ShipToPartnerTransfer() {
                     <thead>
                       <tr>
                         <th
-                          style={{ width: "25px" }}
+                          style={{ width: '25px' }}
                           onClick={() => allSelect(!selectedAll())}
                         >
                           <input
@@ -370,7 +370,7 @@ export function ShipToPartnerTransfer() {
                           <td
                             onClick={() => {
                               rowDataHandler(
-                                "itemCheck",
+                                'itemCheck',
                                 index,
                                 !item.itemCheck
                               );
@@ -378,10 +378,10 @@ export function ShipToPartnerTransfer() {
                             style={
                               item?.itemCheck
                                 ? {
-                                    backgroundColor: "#aacae3",
-                                    width: "30px",
+                                    backgroundColor: '#aacae3',
+                                    width: '30px',
                                   }
-                                : { width: "30px" }
+                                : { width: '30px' }
                             }
                           >
                             <input
@@ -400,7 +400,7 @@ export function ShipToPartnerTransfer() {
                           <td
                             onClick={() => {
                               const data = [...gridData];
-                              data[index]["isActive"] = !item?.isActive;
+                              data[index]['isActive'] = !item?.isActive;
                               setGridData(data);
                             }}
                           >
@@ -419,7 +419,7 @@ export function ShipToPartnerTransfer() {
                                 value={item?.shipToPartnerAddress}
                                 onChange={(e) => {
                                   rowDataHandler(
-                                    "shipToPartnerAddress",
+                                    'shipToPartnerAddress',
                                     index,
                                     e?.target?.value
                                   );
@@ -436,7 +436,7 @@ export function ShipToPartnerTransfer() {
                                 value={item?.shipToPartnerContact}
                                 onChange={(e) => {
                                   rowDataHandler(
-                                    "shipToPartnerContact",
+                                    'shipToPartnerContact',
                                     index,
                                     e?.target?.value
                                   );
@@ -454,8 +454,8 @@ export function ShipToPartnerTransfer() {
                               setNidImg(item?.nationalId);
                             }}
                           >
-                            {" "}
-                            <IView />{" "}
+                            {' '}
+                            <IView />{' '}
                           </td>
                           <td className="text-center">
                             {/* <a href={item?.facebookLink}  target="_blank"> <InsertLinkIcon /> </a> */}
@@ -468,8 +468,8 @@ export function ShipToPartnerTransfer() {
                               setTransactionImg(item?.tradeLicenseImg);
                             }}
                           >
-                            {" "}
-                            <IView />{" "}
+                            {' '}
+                            <IView />{' '}
                           </td>
                         </tr>
                       ))}

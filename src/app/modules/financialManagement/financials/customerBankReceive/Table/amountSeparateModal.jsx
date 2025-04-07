@@ -1,13 +1,13 @@
-import React, { useEffect } from "react";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import { Formik, Form, Field } from "formik";
+import React, { useEffect } from 'react';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { Formik, Form, Field } from 'formik';
 import {
   customerBankReconcileNSalesInvoiceApi,
   getInvoiceByPartnerApi,
-} from "../helper";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+} from '../helper';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 
 function AmountSeparateModal({ selectedItem, separateModalCB }) {
   let { selectedBusinessUnit, profileData } = useSelector(
@@ -82,7 +82,6 @@ function AmountSeparateModal({ selectedItem, separateModalCB }) {
         setLoading
       );
     }
-
   }, [selectedItem]);
 
   const saveHandler = () => {
@@ -91,14 +90,14 @@ function AmountSeparateModal({ selectedItem, separateModalCB }) {
       0
     );
     if (receviedAmountSum === 0) {
-      return toast.warning("Please enter received amount");
+      return toast.warning('Please enter received amount');
     }
     const payload = {
       jsonString: {
         statementId: selectedItem?.bankStatementId || 0,
         customerId: selectedItem?.customerList?.value || 0,
-        customerName: selectedItem?.customerList?.label || "",
-        narration: "",
+        customerName: selectedItem?.customerList?.label || '',
+        narration: '',
         actionById: profileData?.userId,
         sbuId: 0,
       },
@@ -111,9 +110,9 @@ function AmountSeparateModal({ selectedItem, separateModalCB }) {
           dueAmount: +itm?.dueAmount || 0,
           advanceAmount: +itm?.advanceAmount || 0,
           customerId: selectedItem?.customerList?.value || 0,
-          customerName: selectedItem?.customerList?.label || "",
-          particulars: selectedItem?.particulars || "",
-          chequeNumber: selectedItem?.chequeNo || "",
+          customerName: selectedItem?.customerList?.label || '',
+          particulars: selectedItem?.particulars || '',
+          chequeNumber: selectedItem?.chequeNo || '',
         };
       }),
     };
@@ -148,8 +147,8 @@ function AmountSeparateModal({ selectedItem, separateModalCB }) {
             <div
               className="mt-5"
               style={{
-                display: "flex",
-                justifyContent: "space-between",
+                display: 'flex',
+                justifyContent: 'space-between',
               }}
             >
               <div>
@@ -191,10 +190,10 @@ function AmountSeparateModal({ selectedItem, separateModalCB }) {
                       <th>
                         <div
                           style={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            gap: "6px",
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            gap: '6px',
                           }}
                         >
                           <Field
@@ -209,7 +208,7 @@ function AmountSeparateModal({ selectedItem, separateModalCB }) {
                                 name="isAutoAmount"
                                 onChange={(e) => {
                                   setFieldValue(
-                                    "isAutoAmount",
+                                    'isAutoAmount',
                                     e.target.checked
                                   );
                                   autoAmountHandelar(e.target.checked);

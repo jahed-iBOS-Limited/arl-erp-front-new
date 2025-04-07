@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { getEmployeeDDLAction, getYearDDL, getBscDDLAction } from "../helper";
-import Help from "./../../../help/Help";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { getEmployeeDDLAction, getYearDDL, getBscDDLAction } from '../helper';
+import Help from './../../../help/Help';
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 let initData = {
-  employee: "",
-  year: "",
-  category: "",
-  description: "",
+  employee: '',
+  year: '',
+  category: '',
+  description: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  task: "",
+  task: '',
 };
 
 export function IndividualInitiativeForm({
@@ -66,7 +66,7 @@ export function IndividualInitiativeForm({
 
   return (
     <IForm
-      title={"Action Plan"}
+      title={'Action Plan'}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenReset={true}

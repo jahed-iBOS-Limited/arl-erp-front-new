@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import Form from './form';
@@ -37,7 +35,7 @@ export default function ProductionOrderViewForm() {
   const getViewData = async (productionOrderId, setter) => {
     try {
       const res = await axios.get(
-        `/mes/ProductionOrder/GetProductionOrderById?ProductionOrderById=${productionOrderId}`,
+        `/mes/ProductionOrder/GetProductionOrderById?ProductionOrderById=${productionOrderId}`
       );
       if (res.status === 200 && res?.data) {
         const index = res?.data[0];

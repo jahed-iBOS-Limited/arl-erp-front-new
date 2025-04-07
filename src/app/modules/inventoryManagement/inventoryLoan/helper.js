@@ -1,32 +1,32 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 
 // Validation schema
 export const SaveInventoryLoanValidationSchema = Yup.object().shape({
   partner: Yup.object().shape({
-    label: Yup.string().required("Partner is required"),
-    value: Yup.string().required("Partner is required"),
+    label: Yup.string().required('Partner is required'),
+    value: Yup.string().required('Partner is required'),
   }),
 
-  issueFrom: Yup.object().when("createType", {
+  issueFrom: Yup.object().when('createType', {
     is: 1,
     then: Yup.object()
       .shape({
-        value: Yup.string().required("This field is required"),
-        label: Yup.string().required("This field is required"),
+        value: Yup.string().required('This field is required'),
+        label: Yup.string().required('This field is required'),
       })
-      .typeError("This Field is required"),
+      .typeError('This Field is required'),
     otherwise: Yup.object(),
   }),
-  warehouse: Yup.object().when("createType", {
+  warehouse: Yup.object().when('createType', {
     is: 2,
-    then:Yup.object().shape({
-    value: Yup.string().required("Warehouse is required"),
-    label: Yup.string().required("Warehouse is required"),
+    then: Yup.object().shape({
+      value: Yup.string().required('Warehouse is required'),
+      label: Yup.string().required('Warehouse is required'),
+    }),
+    otherwise: Yup.object().nullable(),
   }),
-  otherwise: Yup.object().nullable(),
-}),
   // warehouse: Yup.object().when("issueFrom", (issueFrom) => {
   //   console.log("Issue From validation", issueFrom);
   //   if (+issueFrom?.value === 1) {
@@ -39,11 +39,11 @@ export const SaveInventoryLoanValidationSchema = Yup.object().shape({
   //   }
   // }),
 
-  shipPoint: Yup.object().when("issueFrom", (issueFrom) => {
+  shipPoint: Yup.object().when('issueFrom', (issueFrom) => {
     if (+issueFrom?.value === 2) {
       return Yup.object().shape({
-        value: Yup.string().required("Ship point is required"),
-        label: Yup.string().required("Ship point is required"),
+        value: Yup.string().required('Ship point is required'),
+        label: Yup.string().required('Ship point is required'),
       });
     } else {
       return Yup.string();
@@ -51,14 +51,14 @@ export const SaveInventoryLoanValidationSchema = Yup.object().shape({
   }),
 
   item: Yup.object().shape({
-    label: Yup.string().required("Item is required"),
-    value: Yup.string().required("Item is required"),
+    label: Yup.string().required('Item is required'),
+    value: Yup.string().required('Item is required'),
   }),
-  quantity: Yup.number().required("Quantity is required"),
+  quantity: Yup.number().required('Quantity is required'),
   // rate: Yup.number().required("Rate is required"),
-  rate: Yup.number().when("createType", {
+  rate: Yup.number().when('createType', {
     is: 2,
-    then: Yup.number().required("Rate is required"),
+    then: Yup.number().required('Rate is required'),
     otherwise: Yup.number().nullable(),
   }),
 });

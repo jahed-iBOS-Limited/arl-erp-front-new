@@ -1,5 +1,4 @@
-
-import React from "react";
+import React from 'react';
 
 function Form({ menuListArray, editMode, onChangeFiledHandler, menuFormData }) {
   return (

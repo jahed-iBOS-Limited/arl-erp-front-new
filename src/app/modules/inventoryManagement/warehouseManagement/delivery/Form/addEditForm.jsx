@@ -1,7 +1,6 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   GetShipPointDDLAction,
   GetWarehouseDDLAction,
@@ -14,45 +13,45 @@ import {
   setDeliverySingleEmpty,
   getSoldToPartner_Action,
   GetCategoryDDLAction,
-} from "../_redux/Actions";
+} from '../_redux/Actions';
 import {
   getPartnerBalance_action,
   getUndeliveryValues_action,
   getAvailableBalance_Action,
   SetAvailableBalanceEmpty_Action,
   GetSalesConfigurationBalanceCheck_acion,
-} from "./../../../../salesManagement/orderManagement/salesOrder/_redux/Actions";
-import IForm from "../../../../_helper/_form";
-import { toast } from "react-toastify";
-import { isUniq } from "../../../../_helper/uniqChecker";
-import { SetPartnerBalanceEmpty_Action } from "./../../../../salesManagement/orderManagement/salesOrder/_redux/Actions";
-import { SetUndeliveryValuesEmpty_Action } from "./../../../../salesManagement/orderManagement/salesOrder/_redux/Actions";
-import { useLocation } from "react-router";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import Loading from "./../../../../_helper/_loading";
-import moment from "moment";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import { GetDeliveryApprroximateDateTimeApi } from "../utils";
+} from './../../../../salesManagement/orderManagement/salesOrder/_redux/Actions';
+import IForm from '../../../../_helper/_form';
+import { toast } from 'react-toastify';
+import { isUniq } from '../../../../_helper/uniqChecker';
+import { SetPartnerBalanceEmpty_Action } from './../../../../salesManagement/orderManagement/salesOrder/_redux/Actions';
+import { SetUndeliveryValuesEmpty_Action } from './../../../../salesManagement/orderManagement/salesOrder/_redux/Actions';
+import { useLocation } from 'react-router';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import Loading from './../../../../_helper/_loading';
+import moment from 'moment';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import { GetDeliveryApprroximateDateTimeApi } from '../utils';
 
 const initData = {
   id: undefined,
-  shipPoint: "",
-  warehouse: "",
-  soldToParty: "",
-  shipToParty: "",
-  salesOrder: "",
-  deliveryType: { value: 3, label: "Sales Delivery" },
-  deliveryQty: "",
-  location: "",
-  mode: "",
-  carType: "",
-  bagType: "",
-  deliveryMode: "",
-  category: "",
+  shipPoint: '',
+  warehouse: '',
+  soldToParty: '',
+  shipToParty: '',
+  salesOrder: '',
+  deliveryType: { value: 3, label: 'Sales Delivery' },
+  deliveryQty: '',
+  location: '',
+  mode: '',
+  carType: '',
+  bagType: '',
+  deliveryMode: '',
+  category: '',
   deliveryDate: _todayDate(),
   itemLists: [],
-  shipmentType: "",
-  requestTime: `${moment().format("YYYY-MM-DD HH:mm:ss")}`,
+  shipmentType: '',
+  requestTime: `${moment().format('YYYY-MM-DD HH:mm:ss')}`,
 };
 
 export default function DeliveryForm({
@@ -64,7 +63,7 @@ export default function DeliveryForm({
   const [isDisabled, setDisabled] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
-  const [responseData, setresponseData] = useState("");
+  const [responseData, setresponseData] = useState('');
 
   const { state: headerData } = useLocation();
   const pendingDeliveryReportitemList = headerData?.itemLists;
@@ -73,14 +72,17 @@ export default function DeliveryForm({
     return state.authData;
   }, shallowEqual);
 
-  const { partnerBalance, availableBalance, undeliveryValues, isBalanceCheck } = useSelector((state) => {
-    return state.salesOrder;
-  }, shallowEqual);
+  const { partnerBalance, availableBalance, undeliveryValues, isBalanceCheck } =
+    useSelector((state) => {
+      return state.salesOrder;
+    }, shallowEqual);
 
   const businessUnitId = selectedBusinessUnit?.value;
   const isWorkable = businessUnitId === 138 || businessUnitId === 186;
 
-  const is_BalanceCheck = isBalanceCheck?.balanceCheckOnDelivery && !isBalanceCheck?.balanceCheckOnOrder;
+  const is_BalanceCheck =
+    isBalanceCheck?.balanceCheckOnDelivery &&
+    !isBalanceCheck?.balanceCheckOnOrder;
 
   // get shipPointDDL ddl from store
   const {
@@ -107,21 +109,36 @@ export default function DeliveryForm({
     } else {
       dispatch(setDeliverySingleEmpty());
     }
-
   }, [id]);
 
   //initial Load ShipPointDDL & DeliveryType dispatch
   useEffect(() => {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
-      dispatch(GetSoldToPartyDDLAction(profileData.accountId, selectedBusinessUnit.value));
-      dispatch(GetCategoryDDLAction(profileData.accountId, selectedBusinessUnit.value));
+      dispatch(
+        GetSoldToPartyDDLAction(
+          profileData.accountId,
+          selectedBusinessUnit.value
+        )
+      );
+      dispatch(
+        GetCategoryDDLAction(profileData.accountId, selectedBusinessUnit.value)
+      );
       if (!id) {
-        dispatch(GetShipPointDDLAction(profileData.accountId, selectedBusinessUnit.value));
+        dispatch(
+          GetShipPointDDLAction(
+            profileData.accountId,
+            selectedBusinessUnit.value
+          )
+        );
         dispatch(GetDeliveryTypeAction());
       }
-      dispatch(GetSalesConfigurationBalanceCheck_acion(profileData?.accountId, selectedBusinessUnit?.value));
+      dispatch(
+        GetSalesConfigurationBalanceCheck_acion(
+          profileData?.accountId,
+          selectedBusinessUnit?.value
+        )
+      );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const responseDataCB = (deliveryCode) => {
@@ -137,25 +154,32 @@ export default function DeliveryForm({
         if (!list) {
           return false;
         }
-        const arraysWithChecked = list?.filter((itm) => itm?.isItWithCurrentPurchaseOrder || itm?.isCheck);
-        console.log("arraysWithChecked", arraysWithChecked);
-        console.log("_deliveryQty", _deliveryQty);
+        const arraysWithChecked = list?.filter(
+          (itm) => itm?.isItWithCurrentPurchaseOrder || itm?.isCheck
+        );
+        console.log('arraysWithChecked', arraysWithChecked);
+        console.log('_deliveryQty', _deliveryQty);
         if (list?.length > 0 && _deliveryQty !== arraysWithChecked?.length) {
           return true;
         }
         return false;
       });
 
-      if (hasEqual) return toast.warn("Delivery qty must equal to the length of serial checked list !");
+      if (hasEqual)
+        return toast.warn(
+          'Delivery qty must equal to the length of serial checked list !'
+        );
     }
 
     if (values && profileData?.accountId && selectedBusinessUnit?.value) {
-      let requestDeliveryDate = "";
+      let requestDeliveryDate = '';
       //curent date compare with request date
       if (moment(values?.requestTime).isBefore(moment())) {
-        requestDeliveryDate = moment().format("YYYY-MM-DDTHH:mm:ss");
+        requestDeliveryDate = moment().format('YYYY-MM-DDTHH:mm:ss');
       } else {
-        requestDeliveryDate = moment(values?.requestTime).format("YYYY-MM-DDTHH:mm:ss");
+        requestDeliveryDate = moment(values?.requestTime).format(
+          'YYYY-MM-DDTHH:mm:ss'
+        );
       }
       let list = [];
       if (values?.itemLists?.length > 0) {
@@ -172,8 +196,10 @@ export default function DeliveryForm({
       }
       const rowData = list?.map((itm) => {
         const list = itm?.scannedItemSerialList;
-        const filteredItem = list?.filter((item) => item?.isCheck || item?.isItWithCurrentPurchaseOrder);
-        const payloadKey = id ? "autoID" : "serialNumber";
+        const filteredItem = list?.filter(
+          (item) => item?.isCheck || item?.isItWithCurrentPurchaseOrder
+        );
+        const payloadKey = id ? 'autoID' : 'serialNumber';
         const payloadValue = id
           ? filteredItem?.map((el) => el?.autoID)
           : filteredItem?.map((el) => ({
@@ -187,33 +213,36 @@ export default function DeliveryForm({
           salesOrderId: itm?.salesOrderId || itm?.rowId || 0,
           salesOrderRowId: itm?.salesOrderRowId || 0,
           itemId: itm?.itemId || 0,
-          itemCode: itm?.itemCode || "",
-          itemName: itm?.itemName || "",
+          itemCode: itm?.itemCode || '',
+          itemName: itm?.itemName || '',
           intUomId: itm?.uomId || 0,
-          uomName: itm.uomName || "",
+          uomName: itm.uomName || '',
           quantity: +itm.deliveryQty || 0,
           locationId: itm?.selectLocation?.value || 0,
-          locationName: itm?.selectLocation?.label || "",
+          locationName: itm?.selectLocation?.label || '',
           transportRate: itm?.transportRate || 0,
           salesOrder: itm?.salesOrder,
-          specification: itm?.specification || "",
+          specification: itm?.specification || '',
           vatAmount: itm?.vatAmount || 0,
           [payloadKey]: payloadValue,
-          shipmentExtraAmount: (+itm?.extraRate || 0) * (+itm?.deliveryQty || 0),
+          shipmentExtraAmount:
+            (+itm?.extraRate || 0) * (+itm?.deliveryQty || 0),
           shipmentExtraRate: +itm?.extraRate || 0,
         };
       });
 
       if (rowData?.length === 0) {
-        return toast.warning("You must have to add at least one item");
+        return toast.warning('You must have to add at least one item');
       }
 
       if (id) {
         const payload = {
           headerData: {
             deliveryId: singleData?.objDeliveryHeaderLandingDTO?.deliveryId,
-            shipToPartyId: singleData?.objDeliveryHeaderLandingDTO?.shipToPartnerId,
-            shipToPartyName: singleData?.objDeliveryHeaderLandingDTO?.shipToPartnerName,
+            shipToPartyId:
+              singleData?.objDeliveryHeaderLandingDTO?.shipToPartnerId,
+            shipToPartyName:
+              singleData?.objDeliveryHeaderLandingDTO?.shipToPartnerName,
             shipPointId: singleData?.objDeliveryHeaderLandingDTO?.shipPointId,
             actionBy: profileData.userId,
             lastActionDateTime: _todayDate(),
@@ -236,7 +265,7 @@ export default function DeliveryForm({
             warehouseId: values.warehouse.value,
             businessUnitId: selectedBusinessUnit?.value,
             shipmentTypeId: values?.shipmentType?.value || 0,
-            shipmentType: values?.shipmentType?.label || "",
+            shipmentType: values?.shipmentType?.label || '',
             requestDeliveryDate: requestDeliveryDate,
             territoryId: values?.soldToParty?.terriToryId || 0,
             plantId: headerData?.plant?.value,
@@ -247,16 +276,19 @@ export default function DeliveryForm({
             deliveryDate: values?.deliveryDate,
             mode: values?.mode?.label,
             carType: values?.carType?.label,
-            bagType: values?.bagType?.label || "",
+            bagType: values?.bagType?.label || '',
             category: values?.category?.label,
             deliveryMode: values?.deliveryMode?.label,
             strRequestNo: rowData?.[rowData?.length - 1]?.salesOrder,
-            vehicleNo: "",
+            vehicleNo: '',
           },
         };
 
         if ([4].includes(selectedBusinessUnit?.value)) {
-          const totalQty = rowData?.reduce((acc, cur) => (acc += +cur?.quantity || 0), 0);
+          const totalQty = rowData?.reduce(
+            (acc, cur) => (acc += +cur?.quantity || 0),
+            0
+          );
           GetDeliveryApprroximateDateTimeApi(
             selectedBusinessUnit?.value,
             headerData?.shipPoint?.value,
@@ -267,10 +299,10 @@ export default function DeliveryForm({
             setDisabled,
             (apprroximateDate) => {
               let confirmObject = {
-                title: "Notice",
+                title: 'Notice',
                 message: `Your Approximate Delivery Will be \n
-                From ${moment().format("DD-MM-YYYY hh:mm A")} \n
-                To ResponseTime ${moment(apprroximateDate).format("DD-MM-YYYY hh:mm A")}`,
+                From ${moment().format('DD-MM-YYYY hh:mm A')} \n
+                To ResponseTime ${moment(apprroximateDate).format('DD-MM-YYYY hh:mm A')}`,
                 yesAlertFunc: async () => {
                   dispatch(
                     saveCreateDelivery({
@@ -282,7 +314,7 @@ export default function DeliveryForm({
                   );
                 },
                 noAlertFunc: () => {
-                  "";
+                  '';
                 },
               };
               IConfirmModal(confirmObject);
@@ -309,23 +341,33 @@ export default function DeliveryForm({
     if (payload) {
       dispatch(getPartnerBalance_action(payload));
       dispatch(getUndeliveryValues_action(payload));
-      dispatch(GetSalesOrderListDDLAction(selectedBusinessUnit.value, payload, 0));
+      dispatch(
+        GetSalesOrderListDDLAction(selectedBusinessUnit.value, payload, 0)
+      );
     }
   };
 
   useEffect(() => {
     if (id && singleData?.objDeliveryHeaderLandingDTO?.soldToPartnerId) {
-      const { soldToPartnerId, shipToPartnerId } = singleData?.objDeliveryHeaderLandingDTO;
+      const { soldToPartnerId, shipToPartnerId } =
+        singleData?.objDeliveryHeaderLandingDTO;
       dispatch(getPartnerBalance_action(soldToPartnerId));
       dispatch(getUndeliveryValues_action(soldToPartnerId));
       dispatch(GetDeliveryTypeAction());
-      dispatch(GetSalesOrderListDDLAction(selectedBusinessUnit.value, soldToPartnerId, shipToPartnerId));
+      dispatch(
+        GetSalesOrderListDDLAction(
+          selectedBusinessUnit.value,
+          soldToPartnerId,
+          shipToPartnerId
+        )
+      );
 
       // Available Balance api call
-      const orderIdList = singleData?.objListDeliveryRowDetailsDTO?.map((itm) => itm?.salesOrderId);
+      const orderIdList = singleData?.objListDeliveryRowDetailsDTO?.map(
+        (itm) => itm?.salesOrderId
+      );
       dispatch(getAvailableBalance_Action(soldToPartnerId, orderIdList, 2));
     }
-
   }, [id, singleData]);
 
   //Add rowdto handler with oder no
@@ -339,15 +381,16 @@ export default function DeliveryForm({
             warehouse: values?.warehouse?.label,
             warehouseId: values?.warehouse?.value,
             shipToParty: values?.shipToParty?.label,
-            deliveryQty: ele?.objRowData?.pendingQty || "",
+            deliveryQty: ele?.objRowData?.pendingQty || '',
             salesOrderId: values?.salesOrder?.value,
             salesOrder: values?.salesOrder?.label,
             salesOrderRowId: ele.objRowData.rowId,
             objLocation: ele?.objLocation,
             amount: ele.objRowData.numItemPrice * ele.objRowData.pendingQty,
             specification: ele.objRowData.specification,
-            selectLocation: ele?.objLocation?.[0] || "",
-            vatAmount: ele?.objRowData?.vatItemPrice * ele?.objRowData?.pendingQty,
+            selectLocation: ele?.objLocation?.[0] || '',
+            vatAmount:
+              ele?.objRowData?.vatItemPrice * ele?.objRowData?.pendingQty,
             isItemShow: true,
             extraRate: +values?.shipmentType?.extraRate || 0,
             scannedItemSerialList: ele?.rowItemSerialList,
@@ -357,7 +400,8 @@ export default function DeliveryForm({
               (i) => i?.itemId === ele?.objRowData?.itemAgainstOffer
             );
             if (itemFindIdx !== -1) {
-              const prvOffer = modifiedSalesOrderList[itemFindIdx]?.offerItemList || [];
+              const prvOffer =
+                modifiedSalesOrderList[itemFindIdx]?.offerItemList || [];
               modifiedSalesOrderList[itemFindIdx] = {
                 ...modifiedSalesOrderList[itemFindIdx],
                 offerItemList: [...prvOffer, obj],
@@ -369,20 +413,28 @@ export default function DeliveryForm({
         });
       }
 
-      if (isUniq("salesOrderId", values?.salesOrder?.value, values?.itemLists)) {
+      if (
+        isUniq('salesOrderId', values?.salesOrder?.value, values?.itemLists)
+      ) {
         const itemList = [...values?.itemLists, ...modifiedSalesOrderList];
         setValues({
           ...values,
           itemLists: itemList,
         });
         const orderIdList = itemList?.map((itm) => itm?.salesOrderId);
-        dispatch(getAvailableBalance_Action(values?.soldToParty?.value, orderIdList, 2));
         dispatch(
-          GetSalesOrderListDDLAction(selectedBusinessUnit.value, values?.soldToParty?.value, values?.shipToParty?.value)
+          getAvailableBalance_Action(values?.soldToParty?.value, orderIdList, 2)
+        );
+        dispatch(
+          GetSalesOrderListDDLAction(
+            selectedBusinessUnit.value,
+            values?.soldToParty?.value,
+            values?.shipToParty?.value
+          )
         );
       }
     } else {
-      toast.warning("Data not found");
+      toast.warning('Data not found');
     }
   };
   // row remove
@@ -393,7 +445,9 @@ export default function DeliveryForm({
       itemLists: ccdata,
     });
     const orderIdList = ccdata?.map((itm) => itm?.salesOrderId);
-    dispatch(getAvailableBalance_Action(values?.soldToParty?.value, orderIdList, 2));
+    dispatch(
+      getAvailableBalance_Action(values?.soldToParty?.value, orderIdList, 2)
+    );
   };
   useEffect(() => {
     return () => {
@@ -402,11 +456,14 @@ export default function DeliveryForm({
       dispatch(SetUndeliveryValuesEmpty_Action());
       dispatch(setDeliverySingleEmpty());
     };
-
   }, []);
 
   useEffect(() => {
-    if (headerData?.sbu?.value && headerData?.shipPoint?.value && headerData?.distributionChannel?.value) {
+    if (
+      headerData?.sbu?.value &&
+      headerData?.shipPoint?.value &&
+      headerData?.distributionChannel?.value
+    ) {
       dispatch(
         getSoldToPartner_Action(
           profileData?.accountId,
@@ -416,22 +473,27 @@ export default function DeliveryForm({
           headerData?.distributionChannel?.value
         )
       );
-      dispatch(GetWarehouseDDLAction(profileData.accountId, selectedBusinessUnit.value, headerData?.shipPoint?.value));
+      dispatch(
+        GetWarehouseDDLAction(
+          profileData.accountId,
+          selectedBusinessUnit.value,
+          headerData?.shipPoint?.value
+        )
+      );
       // if user Pending "Order menu" crate btn click
       if (headerData?.soldToParty?.value) {
         shipToPartyDispatcher(headerData?.soldToParty?.value);
       }
     } else {
       if (!id) {
-        history.push("/inventory-management/warehouse-management/delivery");
+        history.push('/inventory-management/warehouse-management/delivery');
       }
     }
-
   }, [headerData]);
 
   return (
     <IForm
-      title={id ? "Edit Delivery" : "Create Delivery"}
+      title={id ? 'Edit Delivery' : 'Create Delivery'}
       getProps={setObjprops}
       isDisabled={isDisabled || btnDisabled}
     >
@@ -441,8 +503,12 @@ export default function DeliveryForm({
         initData={
           singleData || {
             ...initData,
-            warehouse: headerData?.warehouse?.value ? headerData?.warehouse : "",
-            soldToParty: headerData?.soldToParty?.value ? headerData?.soldToParty : "",
+            warehouse: headerData?.warehouse?.value
+              ? headerData?.warehouse
+              : '',
+            soldToParty: headerData?.soldToParty?.value
+              ? headerData?.soldToParty
+              : '',
             itemLists: pendingDeliveryReportitemList || [],
             businessUnitId: selectedBusinessUnit?.value,
           }

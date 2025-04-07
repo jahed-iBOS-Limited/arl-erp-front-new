@@ -1,4 +1,3 @@
-
 import { Formik } from 'formik';
 import React, { useEffect, useRef, useState } from 'react';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
@@ -101,7 +100,7 @@ const PumpFoodingBillLanding = () => {
       (data) => {
         const DDL = [{ value: 0, label: 'All' }, ...data];
         setWorkplaceDDL(DDL);
-      },
+      }
     );
 
     //get warehouse DDL
@@ -110,7 +109,7 @@ const PumpFoodingBillLanding = () => {
       (data) => {
         const DDL = [{ value: 0, label: 'All' }, ...data];
         setWareHouseDDL(DDL);
-      },
+      }
     );
   }, [accId, buId, userId]);
 
@@ -201,7 +200,7 @@ const PumpFoodingBillLanding = () => {
             isCreteBtn={true}
             createHandler={() => {
               history.push(
-                `/human-capital-management/overtime-management/pumpfoodingbill/entry`,
+                `/human-capital-management/overtime-management/pumpfoodingbill/entry`
               );
             }}
           >
@@ -336,12 +335,12 @@ const PumpFoodingBillLanding = () => {
                             style={
                               item?.approveAmount > 0
                                 ? {
-                                    backgroundColor: "#63dc64ab",
-                                    width: "30px",
+                                    backgroundColor: '#63dc64ab',
+                                    width: '30px',
                                   }
                                 : {
-                                    width: "30px",
-                                    backgroundColor: "#d3e95eab",
+                                    width: '30px',
+                                    backgroundColor: '#d3e95eab',
                                   }
                             }
                           >
@@ -349,7 +348,7 @@ const PumpFoodingBillLanding = () => {
                               <td
                                 onClick={() => {
                                   rowDataHandler(
-                                    "isSelected",
+                                    'isSelected',
                                     index,
                                     !item.isSelected
                                   );
@@ -358,10 +357,10 @@ const PumpFoodingBillLanding = () => {
                                 style={
                                   item?.isSelected
                                     ? {
-                                        backgroundColor: "#aacae3",
-                                        width: "30px",
+                                        backgroundColor: '#aacae3',
+                                        width: '30px',
                                       }
-                                    : { width: "30px" }
+                                    : { width: '30px' }
                                 }
                               >
                                 <input
@@ -373,7 +372,7 @@ const PumpFoodingBillLanding = () => {
                               </td>
                             )}
                             <td
-                              style={{ width: "40px" }}
+                              style={{ width: '40px' }}
                               className="text-center"
                             >
                               {index + 1}
@@ -394,7 +393,7 @@ const PumpFoodingBillLanding = () => {
                             <td>{item?.remarks}</td>
                             <td>{item?.billId}</td>
                             <td
-                              style={{ width: "80px" }}
+                              style={{ width: '80px' }}
                               className="text-center"
                             >
                               <div className="d-flex justify-content-around">

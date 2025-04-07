@@ -30,9 +30,8 @@ const AuditPlanViewAndPrint = () => {
     if (auditReportData?.intAuditScheduleId)
       getSingleScheduleDataHandler(
         auditReportData?.intAuditScheduleId,
-        getAuditReportDataById,
+        getAuditReportDataById
       );
-
   }, []);
 
   return (

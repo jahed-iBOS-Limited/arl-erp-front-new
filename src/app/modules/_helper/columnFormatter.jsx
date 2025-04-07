@@ -1,6 +1,6 @@
-import React from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import IDelete from "./_helperIcons/_delete";
+import React from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import IDelete from './_helperIcons/_delete';
 
 export const TableAction = (
   cellContent,
@@ -26,24 +26,24 @@ export const TableAction = (
 ) => {
   return (
     <div className="d-flex justify-content-center">
-      <div className={isEdit ? "" : "d-none"}>
+      <div className={isEdit ? '' : 'd-none'}>
         <OverlayTrigger
           overlay={<Tooltip id="products-edit-tooltip">Edit product</Tooltip>}
         >
           <span
             onClick={() => openEditPage(row[key])}
-            style={{ paddingRight: "15px", cursor: "pointer" }}
+            style={{ paddingRight: '15px', cursor: 'pointer' }}
           >
             <i className="far fa-edit"></i>
           </span>
         </OverlayTrigger>
       </div>
 
-      <div className={isView ? "" : "d-none"}>
+      <div className={isView ? '' : 'd-none'}>
         <OverlayTrigger
           overlay={
             <Tooltip id="products-delete-tooltip">
-              {isViewEditText ? "View/Edit" : "View"}
+              {isViewEditText ? 'View/Edit' : 'View'}
             </Tooltip>
           }
         >
@@ -58,7 +58,7 @@ export const TableAction = (
         </OverlayTrigger>
       </div>
       <div
-        className={isDelete ? "" : "d-none"}
+        className={isDelete ? '' : 'd-none'}
         onClick={() => {
           deleteHandler(row);
         }}
@@ -66,7 +66,7 @@ export const TableAction = (
         <IDelete />
       </div>
 
-      <div className={isExtend ? "" : "d-none"}>
+      <div className={isExtend ? '' : 'd-none'}>
         <OverlayTrigger
           overlay={<Tooltip id="products-delete-tooltip">Extend</Tooltip>}
         >
@@ -79,7 +79,7 @@ export const TableAction = (
       </div>
 
       {/* Chart Icon */}
-      <div className={isChart ? "" : "d-none"}>
+      <div className={isChart ? '' : 'd-none'}>
         <OverlayTrigger
           overlay={<Tooltip id="chart-tooltip">Dashboard Setup</Tooltip>}
         >

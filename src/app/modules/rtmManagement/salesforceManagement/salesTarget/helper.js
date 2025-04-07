@@ -1,9 +1,9 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const getRouteByterritoryId = async (accId, buId, tId, setter) => {
-      //  `/rtm/RTMDDL/RouteByTerritoryIdDDL?AccountId=${accId}&BusinessUnitId=${172}&TerritoryId=${451}`
+  //  `/rtm/RTMDDL/RouteByTerritoryIdDDL?AccountId=${accId}&BusinessUnitId=${172}&TerritoryId=${451}`
   try {
     let res = await axios.get(
       `/rtm/RTMDDL/RouteByTerritoryIdDDL?AccountId=${accId}&BusinessUnitId=${buId}&TerritoryId=${tId}`
@@ -28,8 +28,8 @@ export const getTargetDateByMonth = async (
       `/rtm/DamageConfiguration/GetDamageMonthConfigurationsByMonth?AccountId=${accId}&BusinessUnitId=${buId}&MonthId=${monthId}&YearId=${yearId}`
     );
     if (res?.status === 200) {
-      setFieldValue("fromDate", _dateFormatter(res?.data?.startDate));
-      setFieldValue("toDate", _dateFormatter(res?.data?.endDate));
+      setFieldValue('fromDate', _dateFormatter(res?.data?.startDate));
+      setFieldValue('toDate', _dateFormatter(res?.data?.endDate));
     }
   } catch (err) {
     toast.warning(err?.response?.data?.message);
@@ -40,7 +40,7 @@ export const createSalesTargetSetup = async (payload, cb) => {
   try {
     let res = await axios.post(`/rtm/SalesTarget/CreateSalesTarget`, payload);
     if (res?.status === 200) {
-      toast.success(res?.data?.message || "Data saved successfully");
+      toast.success(res?.data?.message || 'Data saved successfully');
       cb();
     }
   } catch (err) {
@@ -52,7 +52,7 @@ export const editSalesTargetSetup = async (payload) => {
   try {
     let res = await axios.put(`/rtm/SalesTarget/EditSalesTarget`, payload);
     if (res?.status === 200) {
-      toast.success(res?.data?.message || "Data saved successfully");
+      toast.success(res?.data?.message || 'Data saved successfully');
     }
   } catch (err) {
     toast.warning(err?.response?.data?.message);
@@ -81,8 +81,8 @@ export const getPerentTerritoryInfo = async (
     let res = await axios.get(
       `/rtm/RTMDDL/GetTerritoryInfoById?AccountId=${accId}&BusinessUnitId=${buId}&TerritoryId=${ttId}`
     );
-    setFieldValue("parentTerritory", res?.data?.parentTerritoryName);
-    setFieldValue("parentTerritoryId", res?.data?.parentTerritoryId);
+    setFieldValue('parentTerritory', res?.data?.parentTerritoryName);
+    setFieldValue('parentTerritoryId', res?.data?.parentTerritoryId);
     setParentTerritory(res?.data?.parentTerritoryName);
   } catch (err) {
     toast.warning(err?.response?.data?.message);

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import IViewModal from "../../../../_helper/_viewModal";
-import EditForm from "../editFrom";
-import AdjustmentJournalTable from "./adjustmentJournal";
-import BankJournalTable from "./bankJournal";
-import CashJournalTable from "./cashJournal";
-import { BankJournalViewTableRow } from "./viewModal";
+import React, { useState } from 'react';
+import IViewModal from '../../../../_helper/_viewModal';
+import EditForm from '../editFrom';
+import AdjustmentJournalTable from './adjustmentJournal';
+import BankJournalTable from './bankJournal';
+import CashJournalTable from './cashJournal';
+import { BankJournalViewTableRow } from './viewModal';
 
 export default function Table({
   values,
@@ -15,9 +15,9 @@ export default function Table({
 }) {
   const [isShowModal, setIsShowModal] = useState(false);
   const [show, setShow] = useState(false);
-  const [viewData, setViewData] = useState("");
-  const [journalId, setJournalId] = useState("");
-  const [journalTypeId, setJournalTypeId] = useState("");
+  const [viewData, setViewData] = useState('');
+  const [journalId, setJournalId] = useState('');
+  const [journalTypeId, setJournalTypeId] = useState('');
   return (
     <>
       {[1, 2, 3].includes(values?.journalType?.value) && (

@@ -1,33 +1,33 @@
-import React, { useState } from "react";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import IView from "../../../../_helper/_helperIcons/_view";
-import IViewModal from "../../../../_helper/_viewModal";
-import CommonTable from "../../../../_helper/commonTable";
-import FuelLogPringModal from "../modalView/fuelLogPringModal";
-import TripExpenseModal from "../modalView/tripExpenseModal";
+import React, { useState } from 'react';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import IView from '../../../../_helper/_helperIcons/_view';
+import IViewModal from '../../../../_helper/_viewModal';
+import CommonTable from '../../../../_helper/commonTable';
+import FuelLogPringModal from '../modalView/fuelLogPringModal';
+import TripExpenseModal from '../modalView/tripExpenseModal';
 
 const EmployeeWiseFuelCostTbl = ({ rowData, values }) => {
   const [isShowModal, setIsShowModal] = useState(false);
   const [isShowTripExpenseModal, setShowTripExpenseModal] = useState(false);
   const [item, setItem] = useState(null);
   const headersData = [
-    { title: "SL", style: { minWidth: "59px !important" } },
-    "Used By Employee",
-    "Designation",
-    { title: "Personal KM Ceiling", style: { minWidth: "95px" } },
-    { title: "Total Mileage (KM)", style: { minWidth: "95px" } },
-    { title: "Total Personal Mileage (KM)", style: { minWidth: "95px" } },
-    { title: "Fuel Cash", style: { minWidth: "90px" } },
-    { title: "Fuel Credit", style: { minWidth: "95px" } },
-    { title: "Total Fuel Cost (Tk)", style: { minWidth: "80px" } },
-    { title: "Total Toll Cost (Tk)", style: { minWidth: "80px" } },
-    { title: "Total Route Cost", style: { minWidth: "80px" } },
-    { title: "Total Other Expenses (Tk)", style: { minWidth: "96px" } },
-    { title: "Total Cost", style: { minWidth: "80px" } },
-    { title: "Per KM Cost", style: { minWidth: "80px" } },
-    { title: "Personal Cost Deduct", style: { minWidth: "95px" } },
-    { title: "Net Payable", style: { minWidth: "80px" } },
-    { title: "Action", style: { minWidth: "80px" }}
+    { title: 'SL', style: { minWidth: '59px !important' } },
+    'Used By Employee',
+    'Designation',
+    { title: 'Personal KM Ceiling', style: { minWidth: '95px' } },
+    { title: 'Total Mileage (KM)', style: { minWidth: '95px' } },
+    { title: 'Total Personal Mileage (KM)', style: { minWidth: '95px' } },
+    { title: 'Fuel Cash', style: { minWidth: '90px' } },
+    { title: 'Fuel Credit', style: { minWidth: '95px' } },
+    { title: 'Total Fuel Cost (Tk)', style: { minWidth: '80px' } },
+    { title: 'Total Toll Cost (Tk)', style: { minWidth: '80px' } },
+    { title: 'Total Route Cost', style: { minWidth: '80px' } },
+    { title: 'Total Other Expenses (Tk)', style: { minWidth: '96px' } },
+    { title: 'Total Cost', style: { minWidth: '80px' } },
+    { title: 'Per KM Cost', style: { minWidth: '80px' } },
+    { title: 'Personal Cost Deduct', style: { minWidth: '95px' } },
+    { title: 'Net Payable', style: { minWidth: '80px' } },
+    { title: 'Action', style: { minWidth: '80px' } },
   ];
   //table total calculation
   let grandTotalNumCilingKM = 0;
@@ -49,10 +49,10 @@ const EmployeeWiseFuelCostTbl = ({ rowData, values }) => {
         <strong>Employee Wise Fuel Report</strong>
       </h4>
       <CommonTable
-      headersData={headersData}
-      isScrollable={true}
-      tableStyles={{maxHeight: "550px"}}
-      columnSticky={3}
+        headersData={headersData}
+        isScrollable={true}
+        tableStyles={{ maxHeight: '550px' }}
+        columnSticky={3}
       >
         {
           <tbody>
@@ -64,7 +64,9 @@ const EmployeeWiseFuelCostTbl = ({ rowData, values }) => {
               const totalCost = totalRouteCost + item?.otherExpanse;
               const perKMCost = totalRouteCost / (item?.totalKM || 1);
               const personalCostDeduction =
-              ( (totalPersonalKM - item?.numCeilingKM>0 && totalPersonalKM - item?.numCeilingKM) || 0) * (perKMCost || 0);
+                ((totalPersonalKM - item?.numCeilingKM > 0 &&
+                  totalPersonalKM - item?.numCeilingKM) ||
+                  0) * (perKMCost || 0);
               const netPayable =
                 totalCost - item?.fuelCredit - personalCostDeduction;
 
@@ -89,51 +91,51 @@ const EmployeeWiseFuelCostTbl = ({ rowData, values }) => {
                     {index + 1}
                   </td>
                   <td
-                    style={{ minWidth: "180px" }}
+                    style={{ minWidth: '180px' }}
                   >{`${item?.strEmployeeName} [${item?.vehicelUserEnroll}]`}</td>
                   <td> {item?.strDesignation} </td>
-                  <td style={{ textAlign: "right" }}>
+                  <td style={{ textAlign: 'right' }}>
                     {parseInt(_formatMoney(item?.numCeilingKM))}
                   </td>
-                  <td style={{ textAlign: "right" }}>
-                    {" "}
+                  <td style={{ textAlign: 'right' }}>
+                    {' '}
                     {_formatMoney(item?.totalKM)}
                   </td>
-                  <td style={{ textAlign: "right" }}>
+                  <td style={{ textAlign: 'right' }}>
                     {_formatMoney(totalPersonalKM)}
                   </td>
-                  <td style={{ textAlign: "right" }}>
-                    {_formatMoney(item?.fuelCash)}{" "}
+                  <td style={{ textAlign: 'right' }}>
+                    {_formatMoney(item?.fuelCash)}{' '}
                   </td>
-                  <td style={{ textAlign: "right" }}>
+                  <td style={{ textAlign: 'right' }}>
                     {_formatMoney(item?.fuelCredit)}
                   </td>
-                  <td style={{ textAlign: "right" }}>
+                  <td style={{ textAlign: 'right' }}>
                     {_formatMoney(totalFuelCost)}
                   </td>
-                  <td style={{ textAlign: "right" }}>
+                  <td style={{ textAlign: 'right' }}>
                     {_formatMoney(item?.numTollAmount)}
                   </td>
-                  <td style={{ textAlign: "right" }}>
-                    {" "}
-                    {_formatMoney(totalRouteCost)}{" "}
+                  <td style={{ textAlign: 'right' }}>
+                    {' '}
+                    {_formatMoney(totalRouteCost)}{' '}
                   </td>
-                  <td style={{ textAlign: "right" }}>
+                  <td style={{ textAlign: 'right' }}>
                     {_formatMoney(item?.otherExpanse)}
                   </td>
-                  <td style={{ textAlign: "right" }}>
-                    {_formatMoney(totalCost)}{" "}
+                  <td style={{ textAlign: 'right' }}>
+                    {_formatMoney(totalCost)}{' '}
                   </td>
-                  <td style={{ textAlign: "right" }}>
-                    {" "}
+                  <td style={{ textAlign: 'right' }}>
+                    {' '}
                     {_formatMoney(perKMCost)}
                   </td>
-                  <td style={{ textAlign: "right" }}>
+                  <td style={{ textAlign: 'right' }}>
                     {_formatMoney(personalCostDeduction)}
                   </td>
-                  <td style={{ textAlign: "right" }}>
-                    {" "}
-                    {_formatMoney(netPayable)}{" "}
+                  <td style={{ textAlign: 'right' }}>
+                    {' '}
+                    {_formatMoney(netPayable)}{' '}
                   </td>
                   <td className="text-center">
                     <IView
@@ -142,10 +144,10 @@ const EmployeeWiseFuelCostTbl = ({ rowData, values }) => {
                         setIsShowModal(true);
                       }}
                     />
-                    <span style={{ marginLeft: "5px" }}>
+                    <span style={{ marginLeft: '5px' }}>
                       <IView
                         title="View Trip Expense"
-                        classes={"fa-regular fa-file"}
+                        classes={'fa-regular fa-file'}
                         clickHandler={() => {
                           setItem(item);
                           setShowTripExpenseModal(true);
@@ -160,43 +162,43 @@ const EmployeeWiseFuelCostTbl = ({ rowData, values }) => {
               <td colSpan={3}>
                 <strong>Total</strong>
               </td>
-              <td style={{ textAlign: "right", fontWeight: "bold" }}>
+              <td style={{ textAlign: 'right', fontWeight: 'bold' }}>
                 {_formatMoney(grandTotalNumCilingKM)}
               </td>
-              <td style={{ textAlign: "right", fontWeight: "bold" }}>
+              <td style={{ textAlign: 'right', fontWeight: 'bold' }}>
                 {_formatMoney(grandTotalTotalKM)}
               </td>
-              <td style={{ textAlign: "right", fontWeight: "bold" }}>
+              <td style={{ textAlign: 'right', fontWeight: 'bold' }}>
                 {_formatMoney(grandTotalPersonalKM)}
               </td>
-              <td style={{ textAlign: "right", fontWeight: "bold" }}>
+              <td style={{ textAlign: 'right', fontWeight: 'bold' }}>
                 {_formatMoney(grandTotalFuelCash)}
               </td>
-              <td style={{ textAlign: "right", fontWeight: "bold" }}>
+              <td style={{ textAlign: 'right', fontWeight: 'bold' }}>
                 {_formatMoney(grandTotalFuelCredit)}
               </td>
-              <td style={{ textAlign: "right", fontWeight: "bold" }}>
+              <td style={{ textAlign: 'right', fontWeight: 'bold' }}>
                 {_formatMoney(grandTotalFuelCost)}
               </td>
-              <td style={{ textAlign: "right", fontWeight: "bold" }}>
+              <td style={{ textAlign: 'right', fontWeight: 'bold' }}>
                 {_formatMoney(grandTotalNumTollAmount)}
               </td>
-              <td style={{ textAlign: "right", fontWeight: "bold" }}>
+              <td style={{ textAlign: 'right', fontWeight: 'bold' }}>
                 {_formatMoney(grandTotalRouteCost)}
               </td>
-              <td style={{ textAlign: "right", fontWeight: "bold" }}>
+              <td style={{ textAlign: 'right', fontWeight: 'bold' }}>
                 {_formatMoney(grandTotalOtherExpanse)}
               </td>
-              <td style={{ textAlign: "right", fontWeight: "bold" }}>
+              <td style={{ textAlign: 'right', fontWeight: 'bold' }}>
                 {_formatMoney(grandTotalCost)}
               </td>
-              <td style={{ textAlign: "right", fontWeight: "bold" }}>
+              <td style={{ textAlign: 'right', fontWeight: 'bold' }}>
                 {_formatMoney(grandTotalPerKMCost)}
               </td>
-              <td style={{ textAlign: "right", fontWeight: "bold" }}>
+              <td style={{ textAlign: 'right', fontWeight: 'bold' }}>
                 {_formatMoney(grandTotalPersonalCostDeduction)}
               </td>
-              <td style={{ textAlign: "right", fontWeight: "bold" }}>
+              <td style={{ textAlign: 'right', fontWeight: 'bold' }}>
                 {_formatMoney(grandTotalNetPayable)}
               </td>
             </tr>
@@ -204,11 +206,14 @@ const EmployeeWiseFuelCostTbl = ({ rowData, values }) => {
         }
       </CommonTable>
       <IViewModal show={isShowModal} onHide={() => setIsShowModal(false)}>
-            <FuelLogPringModal item={item} values={values} />
-          </IViewModal>
-          <IViewModal show={isShowTripExpenseModal} onHide={() => setShowTripExpenseModal(false)}>
-            <TripExpenseModal item={item} values={values} />
-          </IViewModal>
+        <FuelLogPringModal item={item} values={values} />
+      </IViewModal>
+      <IViewModal
+        show={isShowTripExpenseModal}
+        onHide={() => setShowTripExpenseModal(false)}
+      >
+        <TripExpenseModal item={item} values={values} />
+      </IViewModal>
     </div>
   );
 };

@@ -1,37 +1,37 @@
-import { Formik, Form } from "formik";
-import React, { useEffect, useState } from "react";
+import { Formik, Form } from 'formik';
+import React, { useEffect, useState } from 'react';
 import {
   useSelector,
   shallowEqual,
   // useDispatch
-} from "react-redux";
+} from 'react-redux';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
-} from "../../../../../../_metronic/_partials/controls";
+} from '../../../../../../_metronic/_partials/controls';
 import {
   getPartnerLedgerReport,
   //   getRegisterReportAction,
   getSbuDDLAction,
-} from "../helper";
+} from '../helper';
 // import { setRegisterReportAction } from "../../../_helper/reduxForLocalStorage/Actions";
-import Table from "./table";
-import { getDistributionChannels } from "../helper";
-import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
-import NewSelect from "../../../../_helper/_select";
-import { fromDateFromApi } from "../../../../_helper/_formDateFromApi";
+import Table from './table';
+import { getDistributionChannels } from '../helper';
+import { _firstDateofMonth } from '../../../../_helper/_firstDateOfCurrentMonth';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
+import NewSelect from '../../../../_helper/_select';
+import { fromDateFromApi } from '../../../../_helper/_formDateFromApi';
 
 const initData = {
   fromDate: _firstDateofMonth(),
   toDate: _todayDate(),
-  sbu: "",
-  channel: "",
+  sbu: '',
+  channel: '',
 };
 export function PartnerLedger() {
   const { profileData, selectedBusinessUnit } = useSelector(
@@ -49,11 +49,10 @@ export function PartnerLedger() {
   const [channelDDL, setChannelDDL] = useState([]);
   const [rowDto, setRowDto] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [fromDateFApi, setFromDateFApi] = useState("");
-
+  const [fromDateFApi, setFromDateFApi] = useState('');
 
   useEffect(() => {
-    fromDateFromApi(selectedBusinessUnit?.value, setFromDateFApi)
+    fromDateFromApi(selectedBusinessUnit?.value, setFromDateFApi);
 
     getSbuDDLAction(
       profileData?.accountId,
@@ -70,7 +69,6 @@ export function PartnerLedger() {
       //     setLoading
       //   );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   const getLadingData = (values) => {
@@ -90,7 +88,11 @@ export function PartnerLedger() {
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={{ ...initData, ...registerReport, fromDate: fromDateFApi }}
+        initialValues={{
+          ...initData,
+          ...registerReport,
+          fromDate: fromDateFApi,
+        }}
         onSubmit={() => {}}
       >
         {({ errors, touched, setFieldValue, values }) => (
@@ -110,7 +112,7 @@ export function PartnerLedger() {
                         value={values?.sbu}
                         label="SBU"
                         onChange={(valueOption) => {
-                          setFieldValue("sbu", valueOption);
+                          setFieldValue('sbu', valueOption);
                           getDistributionChannels(
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
@@ -131,7 +133,7 @@ export function PartnerLedger() {
                         value={values?.channel}
                         label="Distribution Channel"
                         onChange={(valueOption) => {
-                          setFieldValue("channel", valueOption);
+                          setFieldValue('channel', valueOption);
                         }}
                         placeholder="Distribution Channel"
                         errors={errors}
@@ -147,7 +149,7 @@ export function PartnerLedger() {
                         name="fromDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("fromDate", e?.target?.value);
+                          setFieldValue('fromDate', e?.target?.value);
                           //   setRowDto([]);
                         }}
                       />
@@ -160,7 +162,7 @@ export function PartnerLedger() {
                         name="toDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("toDate", e?.target?.value);
+                          setFieldValue('toDate', e?.target?.value);
                           //   setRowDto([]);
                         }}
                       />
@@ -173,7 +175,7 @@ export function PartnerLedger() {
                           getLadingData(values);
                           //   dispatch(setRegisterReportAction(values));
                         }}
-                        style={{ marginTop: "19px" }}
+                        style={{ marginTop: '19px' }}
                         disabled={!values?.sbu || !values?.channel}
                       />
                     </div>

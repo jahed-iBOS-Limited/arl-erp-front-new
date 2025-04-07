@@ -1,16 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Formik, Form } from "formik";
-import { IInput } from "../../../../_helper/_input";
-import { shallowEqual, useSelector } from "react-redux";
-import { getOvertimeReport } from "../helper";
-import Loading from "../../../../_helper/_loading";
-import ReactToPrint from "react-to-print";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import IViewModal from "../../../../_helper/_viewModal";
-import ViewModal from "./View";
-import IView from "../../../../_helper/_helperIcons/_view";
-import NewSelect from "../../../../_helper/_select";
-import { getWorkplaceDDL_api } from "../../../../_helper/_commonApi";
+import React, { useEffect, useRef, useState } from 'react';
+import { Formik, Form } from 'formik';
+import { IInput } from '../../../../_helper/_input';
+import { shallowEqual, useSelector } from 'react-redux';
+import { getOvertimeReport } from '../helper';
+import Loading from '../../../../_helper/_loading';
+import ReactToPrint from 'react-to-print';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import IViewModal from '../../../../_helper/_viewModal';
+import ViewModal from './View';
+import IView from '../../../../_helper/_helperIcons/_view';
+import NewSelect from '../../../../_helper/_select';
+import { getWorkplaceDDL_api } from '../../../../_helper/_commonApi';
 
 export default function FormCmp({ initData, btnRef, resetBtnRef }) {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -30,16 +30,16 @@ export default function FormCmp({ initData, btnRef, resetBtnRef }) {
 
   const printRef = useRef();
   const [show, setShow] = useState(false);
-  const [currentItem, setCurrentItem] = useState("");
+  const [currentItem, setCurrentItem] = useState('');
 
   const onClose = () => {
     setShow(!show);
   };
 
   const applicationTypeDDL = [
-    { value: 1, label: "Pending Application" },
-    { value: 2, label: "Approved Application" },
-    { value: 3, label: "Rejected Application" },
+    { value: 1, label: 'Pending Application' },
+    { value: 2, label: 'Approved Application' },
+    { value: 3, label: 'Rejected Application' },
   ];
 
   return (
@@ -47,7 +47,7 @@ export default function FormCmp({ initData, btnRef, resetBtnRef }) {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({
           handleSubmit,
@@ -60,21 +60,21 @@ export default function FormCmp({ initData, btnRef, resetBtnRef }) {
         }) => (
           <>
             <Form className="form form-label-right">
-              {console.log("values", values)}
+              {console.log('values', values)}
               {loading && <Loading />}
               <div className="form-group row global-form">
                 <div className="col-lg-3">
                   <NewSelect
                     name="viewAs"
                     options={[
-                      { value: 0, label: "Admin" },
-                      { value: 1, label: "Supervisor" },
-                      { value: 2, label: "Line Manager" },
+                      { value: 0, label: 'Admin' },
+                      { value: 1, label: 'Supervisor' },
+                      { value: 2, label: 'Line Manager' },
                     ]}
                     value={values?.viewAs}
                     label="View As"
                     onChange={(valueOption) => {
-                      setFieldValue("viewAs", valueOption);
+                      setFieldValue('viewAs', valueOption);
                     }}
                     placeholder="View As"
                     errors={errors}
@@ -88,7 +88,7 @@ export default function FormCmp({ initData, btnRef, resetBtnRef }) {
                     value={values?.applicationType}
                     label="Application Type"
                     onChange={(valueOption) => {
-                      setFieldValue("applicationType", valueOption);
+                      setFieldValue('applicationType', valueOption);
                     }}
                     placeholder="Application Type"
                     isSearchable={true}
@@ -98,20 +98,18 @@ export default function FormCmp({ initData, btnRef, resetBtnRef }) {
                 </div>
                 <div className="col-lg-3">
                   <NewSelect
-                    options={
-                      [
-                        {
-                          value: 0,
-                          label: "All",
-                        },
-                        ...workPlaceDDL,
-                      ]
-                    }
+                    options={[
+                      {
+                        value: 0,
+                        label: 'All',
+                      },
+                      ...workPlaceDDL,
+                    ]}
                     label="Work Place"
                     placeholder="Work Place"
                     value={values?.workPlace}
                     onChange={(valueOption) => {
-                      setFieldValue("workPlace", valueOption);
+                      setFieldValue('workPlace', valueOption);
                     }}
                   />
                 </div>
@@ -131,7 +129,7 @@ export default function FormCmp({ initData, btnRef, resetBtnRef }) {
                     type="date"
                   />
                 </div>
-                <div style={{ marginTop: "14px" }} className="col-lg d-flex">
+                <div style={{ marginTop: '14px' }} className="col-lg d-flex">
                   <button
                     onClick={(e) =>
                       getOvertimeReport(
@@ -167,11 +165,11 @@ export default function FormCmp({ initData, btnRef, resetBtnRef }) {
                   <button type="button" className="btn btn-primary">
                     <ReactToPrint
                       pageStyle={
-                        "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                        '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
                       }
                       trigger={() => (
                         <i
-                          style={{ fontSize: "18px" }}
+                          style={{ fontSize: '18px' }}
                           className="fas fa-print"
                         ></i>
                       )}
@@ -288,14 +286,14 @@ export default function FormCmp({ initData, btnRef, resetBtnRef }) {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

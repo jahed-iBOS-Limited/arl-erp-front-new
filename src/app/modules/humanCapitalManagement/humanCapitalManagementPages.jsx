@@ -1,8 +1,8 @@
-import React, { Suspense } from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute, LayoutSplashScreen } from "../../../_metronic/layout";
-import { OverTimeManagementPages } from "./overTimeManagement/overTimeManagementPages";
-import { ReportPages } from "./report/ReportPages";
+import React, { Suspense } from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute, LayoutSplashScreen } from '../../../_metronic/layout';
+import { OverTimeManagementPages } from './overTimeManagement/overTimeManagementPages';
+import { ReportPages } from './report/ReportPages';
 export function HumanCapitalManagementPages() {
   return (
     <Suspense fallback={<LayoutSplashScreen />}>

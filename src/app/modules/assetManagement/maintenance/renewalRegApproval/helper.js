@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 // export const getRenewalRegistrationSummary = async (
 //   {
@@ -45,17 +45,14 @@ export const renewalRegistrationApproval = async (payload, setLoading, cb) => {
   }
 };
 
-
-export const getRenewalRegistrationApprovalDetails = async (
-  {
-    serviceId,
-    assetId,
-    fromDate,
-    toDate,
-    setter,
-    setLoading,
-  }
-) => {
+export const getRenewalRegistrationApprovalDetails = async ({
+  serviceId,
+  assetId,
+  fromDate,
+  toDate,
+  setter,
+  setLoading,
+}) => {
   setLoading(true);
   try {
     const res = await axios.get(

@@ -32,7 +32,7 @@ const RegisterDetailsModal = ({ tableItem, landingValues }) => {
   const dispatch = useDispatch();
   const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
-    shallowEqual,
+    shallowEqual
   );
 
   const pdfExport = (fileName) => {
@@ -78,7 +78,7 @@ const RegisterDetailsModal = ({ tableItem, landingValues }) => {
                           SetFinancialManagementReportRegisterAction({
                             ...values,
                             fromDate: e.target.value,
-                          }),
+                          })
                         );
                         setRowDto([]);
                       }}
@@ -99,7 +99,7 @@ const RegisterDetailsModal = ({ tableItem, landingValues }) => {
                           SetFinancialManagementReportRegisterAction({
                             ...values,
                             toDate: e.target.value,
-                          }),
+                          })
                         );
                         setRowDto([]);
                       }}
@@ -115,7 +115,7 @@ const RegisterDetailsModal = ({ tableItem, landingValues }) => {
                           values?.fromDate,
                           values?.toDate,
                           setLoading,
-                          setRowDto,
+                          setRowDto
                         );
                       }}
                     />
@@ -245,7 +245,7 @@ const RegisterDetailsModal = ({ tableItem, landingValues }) => {
                               {_formatMoney(
                                 rowDto
                                   ?.reduce((a, b) => a + Number(b?.numDebit), 0)
-                                  ?.toFixed(2),
+                                  ?.toFixed(2)
                               )}
                             </td>
                             <td className="text-right">
@@ -253,16 +253,16 @@ const RegisterDetailsModal = ({ tableItem, landingValues }) => {
                                 rowDto
                                   ?.reduce(
                                     (a, b) => a + Number(b?.numCredit),
-                                    0,
+                                    0
                                   )
-                                  ?.toFixed(2),
+                                  ?.toFixed(2)
                               )}
                             </td>
                             <td className="text-right">
                               {_formatMoney(
                                 Number(
-                                  rowDto[rowDto?.length - 1]?.numBalance,
-                                )?.toFixed(2),
+                                  rowDto[rowDto?.length - 1]?.numBalance
+                                )?.toFixed(2)
                               )}
                             </td>
                           </tr>
@@ -271,7 +271,7 @@ const RegisterDetailsModal = ({ tableItem, landingValues }) => {
                               className="text-center d-none"
                               colSpan={4}
                             >{`System Generated Report - ${moment().format(
-                              'LLLL',
+                              'LLLL'
                             )}`}</td>
                           </tr>
                         </tbody>

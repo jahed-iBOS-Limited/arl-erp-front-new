@@ -1,32 +1,32 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import { useParams } from "react-router-dom";
-import { EditTransportZoneRate, getZoneCostReportById } from "../helper";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import { useParams } from 'react-router-dom';
+import { EditTransportZoneRate, getZoneCostReportById } from '../helper';
 
 const initData = {
-  checkPostName: "",
-  zone: "",
-  shipPoint: "",
-  num1TonRate: "",
-  num1point5TonRate: "",
-  num2TonRate: "",
-  num3tonRate: "",
-  num5tonRate: "",
-  num7tonRate: "",
-  num14TonRate: "",
-  num20TonRate: "",
-  distanceKm: "",
-  additionalAmount: "",
-  handlingCost: "",
-  labourCost: "",
+  checkPostName: '',
+  zone: '',
+  shipPoint: '',
+  num1TonRate: '',
+  num1point5TonRate: '',
+  num2TonRate: '',
+  num3tonRate: '',
+  num5tonRate: '',
+  num7tonRate: '',
+  num14TonRate: '',
+  num20TonRate: '',
+  distanceKm: '',
+  additionalAmount: '',
+  handlingCost: '',
+  labourCost: '',
   isAmountBase: false, // Checkbox
 };
 
 export default function TransportZoneRateReportForm() {
   const [loading, setLoading] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [objProps] = useState({});
   const params = useParams();
 
@@ -45,7 +45,6 @@ export default function TransportZoneRateReportForm() {
         setLoading
       );
     }
-
   }, [params]);
 
   const saveHandler = async (values) => {

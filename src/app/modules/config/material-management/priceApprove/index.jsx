@@ -1,26 +1,26 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import InputField from "../../../_helper/_inputField";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import IViewModal from "../../../_helper/_viewModal";
-import ApprovalModal from "./approvalModal";
-import { _todayDate } from "../../../_helper/_todayDate";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import InputField from '../../../_helper/_inputField';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import IViewModal from '../../../_helper/_viewModal';
+import ApprovalModal from './approvalModal';
+import { _todayDate } from '../../../_helper/_todayDate';
 const initData = {
-  conditionType: "",
-  soldToPatner: "",
-  item: "",
-  startDate: "",
+  conditionType: '',
+  soldToPatner: '',
+  item: '',
+  startDate: '',
   endDate: _todayDate(),
   status: {
     value: 2,
-    label: "Pending",
+    label: 'Pending',
   },
 };
 export default function PriceApprove() {
@@ -40,17 +40,10 @@ export default function PriceApprove() {
   const [cehckedItems, setCheckedItems] = useState([]);
 
   const [itemListDDL, getItemListDDL, loadingOnItemListDDL] = useAxiosGet();
-  const [
-    tableData,
-    getTableData,
-    tableDataLoader,
-    setTableData,
-  ] = useAxiosGet();
-  const [
-    conditionTypeDDL,
-    getConditionTypeDDL,
-    conditionTypeDDLloader,
-  ] = useAxiosGet();
+  const [tableData, getTableData, tableDataLoader, setTableData] =
+    useAxiosGet();
+  const [conditionTypeDDL, getConditionTypeDDL, conditionTypeDDLloader] =
+    useAxiosGet();
 
   useEffect(() => {
     getConditionTypeDDL(
@@ -59,7 +52,6 @@ export default function PriceApprove() {
     getItemListDDL(
       `/item/ItemSales/GetItemSalesDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, []);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -141,10 +133,10 @@ export default function PriceApprove() {
                       label="Condition Type"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("conditionType", valueOption);
+                          setFieldValue('conditionType', valueOption);
                           setTableData([]);
                         } else {
-                          setFieldValue("conditionType", "");
+                          setFieldValue('conditionType', '');
                           setTableData([]);
                         }
                       }}
@@ -161,10 +153,10 @@ export default function PriceApprove() {
                       label="Item"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("item", valueOption);
+                          setFieldValue('item', valueOption);
                           setTableData([]);
                         } else {
-                          setFieldValue("item", "");
+                          setFieldValue('item', '');
                           setTableData([]);
                         }
                       }}
@@ -180,7 +172,7 @@ export default function PriceApprove() {
                       placeholder="Start Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("startDate", e?.target?.value);
+                        setFieldValue('startDate', e?.target?.value);
                       }}
                     />
                   </div>
@@ -192,7 +184,7 @@ export default function PriceApprove() {
                       placeholder="End Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("endDate", e?.target?.value);
+                        setFieldValue('endDate', e?.target?.value);
                       }}
                     />
                   </div>
@@ -202,21 +194,21 @@ export default function PriceApprove() {
                       options={[
                         {
                           value: 1,
-                          label: "Approved",
+                          label: 'Approved',
                         },
                         {
                           value: 2,
-                          label: "Pending",
+                          label: 'Pending',
                         },
                       ]}
                       value={values?.status}
                       label="Status"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("status", valueOption);
+                          setFieldValue('status', valueOption);
                           setTableData([]);
                         } else {
-                          setFieldValue("status", "");
+                          setFieldValue('status', '');
                           setTableData([]);
                         }
                       }}
@@ -226,7 +218,7 @@ export default function PriceApprove() {
                   </div>
                   <div
                     style={{
-                      marginTop: "18px",
+                      marginTop: '18px',
                     }}
                     className="col-lg-1"
                   >
@@ -249,7 +241,7 @@ export default function PriceApprove() {
                   <div
                     className="col-lg-8 text-right"
                     style={{
-                      marginTop: "18px",
+                      marginTop: '18px',
                     }}
                   >
                     <button
@@ -317,8 +309,8 @@ export default function PriceApprove() {
                                 name="isChecked"
                                 checked={item?.isChecked}
                                 onChange={(e) => {
-                                  console.log("tabledata", tableData);
-                                  console.log("item", item);
+                                  console.log('tabledata', tableData);
+                                  console.log('item', item);
                                   setTableData({
                                     ...tableData,
                                     data: tableData?.data?.map((i, idx) => {

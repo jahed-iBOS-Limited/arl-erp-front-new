@@ -1,4 +1,3 @@
-
 import { Form, Formik } from 'formik';
 import React, { useEffect, useState } from 'react';
 import { shallowEqual, useSelector } from 'react-redux';
@@ -53,7 +52,7 @@ function VehicleFuelCostReport() {
         values?.fuelType?.value,
         values?.shipPoint?.value,
         setGridData,
-        setLoading,
+        setLoading
       );
     }
   };
@@ -63,7 +62,7 @@ function VehicleFuelCostReport() {
     getSupplierDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setSupplierDDL,
+      setSupplierDDL
     );
   }, []);
   let totalCredit = 0;
@@ -106,7 +105,7 @@ function VehicleFuelCostReport() {
                           valueOption?.value,
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
-                          setFuelStationDDL,
+                          setFuelStationDDL
                         );
                         setFieldValue('fuelStationName', '');
                       }}

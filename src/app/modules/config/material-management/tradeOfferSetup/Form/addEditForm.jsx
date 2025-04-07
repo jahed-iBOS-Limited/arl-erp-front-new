@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import Form from './form';
@@ -114,16 +113,14 @@ export default function TradeOfferForm({
     dispatch(getRoundingTypeDDLAction());
     dispatch(getConditionTypeDDLAction());
     dispatch(
-      getAllDDLAction(profileData.accountId, selectedBusinessUnit.value),
+      getAllDDLAction(profileData.accountId, selectedBusinessUnit.value)
     );
-
   }, [profileData, conditionType]);
 
   useEffect(() => {
     dispatch(
-      getUomDDLAction(profileData.accountId, selectedBusinessUnit.value),
+      getUomDDLAction(profileData.accountId, selectedBusinessUnit.value)
     );
-
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
   useEffect(() => {
@@ -140,7 +137,6 @@ export default function TradeOfferForm({
       default:
         setItemDDL([]);
     }
-
   }, [conditionType.queryOne]);
 
   useEffect(() => {
@@ -160,7 +156,6 @@ export default function TradeOfferForm({
       default:
         setPartnerDDL([]);
     }
-
   }, [conditionType.queryTwo]);
 
   const saveHandler = async (values, cb) => {

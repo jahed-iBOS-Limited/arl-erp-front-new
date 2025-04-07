@@ -1,13 +1,12 @@
-
 import {
   ModalProgressBar,
   Card,
-} from "../../../../../../_metronic/_partials/controls";
-import React, { useState, useEffect } from "react";
-import CalendarHeader from "./CalendarHeader";
-import "./style.css";
-import moment from "moment";
-import CalendarFooter from "./CalendarFooter";
+} from '../../../../../../_metronic/_partials/controls';
+import React, { useState, useEffect } from 'react';
+import CalendarHeader from './CalendarHeader';
+import './style.css';
+import moment from 'moment';
+import CalendarFooter from './CalendarFooter';
 
 function DailyAttendanceLanding() {
   const [value, setValue] = useState(moment());
@@ -15,11 +14,7 @@ function DailyAttendanceLanding() {
 
   // Generate 1 month all day's
   useEffect(() => {
-    const endDay = Number(
-      moment(value)
-        .endOf("month")
-        .format("D")
-    );
+    const endDay = Number(moment(value).endOf('month').format('D'));
     let finalDayList = [...(Array(endDay) + 1)]?.map((item, index) => {
       if (index + 1 < 10) {
         return `0${index + 1}`;

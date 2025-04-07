@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Formik, Form as FormikForm } from 'formik';
 import { _formatMoney } from '../../../../_helper/_formatMoney';
@@ -25,14 +24,14 @@ export function BankJournalViewTableRow({ viewData, journalType }) {
       getBankJournalView(
         `/fino/CommonFino/GetJournalViewReport?JournalId=${viewData?.cashJournalId}&AccountingJournalTypeId=${viewData?.accountingJournalTypeId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
         setbankJournalReport,
-        setLoading,
+        setLoading
       );
     }
     if ([4, 5, 6].includes(journalType)) {
       getBankJournalView(
         `/fino/CommonFino/GetBankJournalReport?JournalId=${viewData?.bankJournalId}&AccountingJournalTypeId=${viewData?.accountingJournalTypeId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
         setbankJournalReport,
-        setLoading,
+        setLoading
       );
     }
 
@@ -41,10 +40,9 @@ export function BankJournalViewTableRow({ viewData, journalType }) {
         `/fino/AdjustmentJournal/GetAdjustmentJournalByIdForReport?adjustmentJournalId=${viewData?.adjustmentJournalId}&accountingJournalTypeId=${viewData?.accountingJournalTypeId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
         setbankJournalReport,
         setLoading,
-        'adjustment',
+        'adjustment'
       );
     }
-
   }, [viewData]);
 
   useEffect(() => {
@@ -102,10 +100,10 @@ export function BankJournalViewTableRow({ viewData, journalType }) {
                             {[1, 2, 3].includes(journalType)
                               ? 'Cash Journal'
                               : [4, 5, 6].includes(journalType)
-                              ? 'Bank Journal'
-                              : [7].includes(journalType)
-                              ? 'Adjustment Journal'
-                              : ''}
+                                ? 'Bank Journal'
+                                : [7].includes(journalType)
+                                  ? 'Adjustment Journal'
+                                  : ''}
                           </span>
                           <span>
                             Bank Name And A/C NO.{' '}
@@ -134,7 +132,7 @@ export function BankJournalViewTableRow({ viewData, journalType }) {
                             Cheque Date :
                             <sapn className="font-weight-bold ml-1">
                               {_dateFormatter(
-                                bankJournalReport?.objHeader?.chequeDate,
+                                bankJournalReport?.objHeader?.chequeDate
                               )}
                             </sapn>
                           </div>
@@ -169,7 +167,7 @@ export function BankJournalViewTableRow({ viewData, journalType }) {
                             Voucher Date :
                             <sapn className="font-weight-bold ml-1">
                               {_dateFormatter(
-                                bankJournalReport?.objHeader?.journalDate,
+                                bankJournalReport?.objHeader?.journalDate
                               )}
                             </sapn>
                           </div>
@@ -199,9 +197,9 @@ export function BankJournalViewTableRow({ viewData, journalType }) {
                                     {data.debit
                                       ? _formatMoney(Math.abs(data?.debit))
                                       : data?.amount
-                                      ? data?.amount > 0 &&
-                                        _formatMoney(Math.abs(data?.amount))
-                                      : ''}
+                                        ? data?.amount > 0 &&
+                                          _formatMoney(Math.abs(data?.amount))
+                                        : ''}
                                   </div>
                                 </td>
                                 <td>
@@ -209,9 +207,9 @@ export function BankJournalViewTableRow({ viewData, journalType }) {
                                     {data.credit
                                       ? _formatMoney(Math.abs(data?.credit))
                                       : data?.amount
-                                      ? data?.amount < 0 &&
-                                        _formatMoney(Math.abs(data?.amount))
-                                      : ''}
+                                        ? data?.amount < 0 &&
+                                          _formatMoney(Math.abs(data?.amount))
+                                        : ''}
                                   </div>
                                 </td>
                               </tr>
@@ -230,8 +228,8 @@ export function BankJournalViewTableRow({ viewData, journalType }) {
                               >
                                 {_formatMoney(
                                   Math.abs(
-                                    bankJournalReport?.objHeader?.numAmount,
-                                  ),
+                                    bankJournalReport?.objHeader?.numAmount
+                                  )
                                 )}
                               </td>
                               <td
@@ -240,8 +238,8 @@ export function BankJournalViewTableRow({ viewData, journalType }) {
                               >
                                 {_formatMoney(
                                   Math.abs(
-                                    bankJournalReport?.objHeader?.numAmount,
-                                  ),
+                                    bankJournalReport?.objHeader?.numAmount
+                                  )
                                 )}
                               </td>
                             </tr>

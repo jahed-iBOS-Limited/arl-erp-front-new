@@ -1,5 +1,4 @@
-import Axios from "axios";
-
+import Axios from 'axios';
 
 export const getPlantList = async (userId, accId, buId, setter) => {
   try {
@@ -7,7 +6,7 @@ export const getPlantList = async (userId, accId, buId, setter) => {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getPORegisterLanding = async (
@@ -27,7 +26,7 @@ export const getPORegisterLanding = async (
   pageSize
 ) => {
   setLoading(true);
-  const SearchText = sercId ? `SearchText=${sercId}&` : "";
+  const SearchText = sercId ? `SearchText=${sercId}&` : '';
   try {
     const res = await Axios.get(
       //`/procurement/PurchaseOrder/PORegisterLandingPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Sbu=${sbu}&PurchaseOrganizationId=${poId}&Plant=${plantId}&WearHouse=${whId}&fromDate=${fromDate}&toDate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
@@ -39,4 +38,3 @@ export const getPORegisterLanding = async (
     setLoading(false);
   }
 };
-

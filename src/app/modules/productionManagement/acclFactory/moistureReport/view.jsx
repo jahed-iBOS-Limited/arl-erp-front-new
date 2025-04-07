@@ -1,18 +1,17 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "./../../../_helper/_form";
-import InputField from "./../../../_helper/_inputField";
-import Loading from "./../../../_helper/_loading";
-import NewSelect from "./../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from './../../../_helper/_form';
+import InputField from './../../../_helper/_inputField';
+import Loading from './../../../_helper/_loading';
+import NewSelect from './../../../_helper/_select';
 
 export default function MoistureDataView({ viewShift, viewDate, viewRemarks }) {
-  console.log("viewShift", viewShift);
+  console.log('viewShift', viewShift);
   const [modifyData, setmodifyData] = useState();
   const [objProps, setObjprops] = useState({});
   const { id } = useParams();
@@ -38,10 +37,10 @@ export default function MoistureDataView({ viewShift, viewDate, viewRemarks }) {
           const updatedData = data?.data?.map((itm) => {
             return {
               ...itm,
-              createdAt: "",
-              createdby: "",
-              qcParameterName: "",
-              qcTestType: "MoistureTest",
+              createdAt: '',
+              createdby: '',
+              qcParameterName: '',
+              qcTestType: 'MoistureTest',
             };
           });
           setTableData(updatedData);
@@ -53,7 +52,6 @@ export default function MoistureDataView({ viewShift, viewDate, viewRemarks }) {
       shift: { value: viewShift, label: viewShift },
       remarks: viewRemarks,
     });
-
   }, []);
 
   return (
@@ -79,7 +77,7 @@ export default function MoistureDataView({ viewShift, viewDate, viewRemarks }) {
             isHiddenReset
             isHiddenBack
             isHiddenSave
-            title={"View Moisture Data"}
+            title={'View Moisture Data'}
             getProps={setObjprops}
           >
             <Form>
@@ -91,7 +89,7 @@ export default function MoistureDataView({ viewShift, viewDate, viewRemarks }) {
                     name="date"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("date", e.target.value);
+                      setFieldValue('date', e.target.value);
                     }}
                     disabled={true}
                   />
@@ -100,14 +98,14 @@ export default function MoistureDataView({ viewShift, viewDate, viewRemarks }) {
                   <NewSelect
                     name="shift"
                     options={[
-                      { value: 1, label: "A" },
-                      { value: 2, label: "B" },
-                      { value: 3, label: "C" },
+                      { value: 1, label: 'A' },
+                      { value: 2, label: 'B' },
+                      { value: 3, label: 'C' },
                     ]}
                     value={values?.shift}
                     label="Shift"
                     onChange={(valueOption) => {
-                      setFieldValue("shift", valueOption);
+                      setFieldValue('shift', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -121,7 +119,7 @@ export default function MoistureDataView({ viewShift, viewDate, viewRemarks }) {
                     name="remarks"
                     type="text"
                     onChange={(e) => {
-                      setFieldValue("remarks", e.target.value);
+                      setFieldValue('remarks', e.target.value);
                     }}
                     disabled={true}
                   />
@@ -148,7 +146,7 @@ export default function MoistureDataView({ viewShift, viewDate, viewRemarks }) {
                             <td>{itm?.itemTypeName}</td>
                             <td>{itm?.itemName}</td>
                             <td>
-                              {itm?.itemTypeName === "Finished Products" ? (
+                              {itm?.itemTypeName === 'Finished Products' ? (
                                 <NewSelect
                                   options={machineDDL}
                                   value={{
@@ -165,7 +163,7 @@ export default function MoistureDataView({ viewShift, viewDate, viewRemarks }) {
                                     } else {
                                       const data = [...tableData];
                                       data[idx].machineId = 0;
-                                      data[idx].machineName = "";
+                                      data[idx].machineName = '';
                                       setTableData(data);
                                     }
                                   }}
@@ -198,13 +196,13 @@ export default function MoistureDataView({ viewShift, viewDate, viewRemarks }) {
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm()}
               ></button>

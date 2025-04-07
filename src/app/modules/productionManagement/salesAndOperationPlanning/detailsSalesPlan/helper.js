@@ -1,6 +1,6 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 const uniqueData = (data) => {
   var unique = [];
@@ -21,7 +21,7 @@ export const getSalesPlanYearDDL = async (accId, buId, plantId, setter) => {
     );
     const yearData = await uniqueData(res?.data);
     setter(yearData);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getSalesPlanLanding = async (
@@ -45,7 +45,6 @@ export const getSalesPlanLanding = async (
   }
 };
 
-
 export const editSalesPlanning = async (data) => {
   try {
     const res = await axios.post(
@@ -57,7 +56,6 @@ export const editSalesPlanning = async (data) => {
     toast.warning(err?.response?.data?.message || err?.message);
   }
 };
-
 
 // Plant Item DDL
 export const getItemListSalesPlanDDL = async (
@@ -73,13 +71,13 @@ export const getItemListSalesPlanDDL = async (
       `/mes/SalesPlanning/GetSalesPlanItemsAll?AccountId=${accId}&BusinessUnitId=${buId}&plantId=${plantId}&PageNo=${pageNo}&PageSize=${pageSize}`
     );
     res.data.data.forEach((item) => {
-      item["itemPlanQty"] = "";
-      item["bom"] =
+      item['itemPlanQty'] = '';
+      item['bom'] =
         item?.objBOMList?.filter((nestedItem) => nestedItem?.isStandard)[0] ||
-        "";
+        '';
     });
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 // create
@@ -162,18 +160,18 @@ export const getSalesPlanById = async (
       profitCenter: {
         value: res?.data?.objHeader?.intProfitCenterId,
         label: res?.data?.objHeader?.strProfitCenterName,
-      }
+      },
     };
 
     setterHeader(newHeader);
     setterRow(newRowData);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const createProductionEntry = async (data, cb) => {
   try {
     await axios.post(`/mes/ProductionPlanning/CreateProductionPlanning`, data);
-    toast.success("Submitted successfully");
+    toast.success('Submitted successfully');
     cb();
   } catch (error) {
     toast.error(error?.response?.data?.message);
@@ -231,5 +229,3 @@ export const getProductionPlanning = async (
     console.log(error.message);
   }
 };
-
-

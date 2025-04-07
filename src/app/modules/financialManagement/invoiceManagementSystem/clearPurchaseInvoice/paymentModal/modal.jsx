@@ -1,37 +1,34 @@
-import React, { useRef, useState, useEffect } from "react";
-import IViewModal from "../../../../_helper/_viewModal";
-import { Formik, Form } from "formik";
-import { CashForm } from "./cashForm";
-import { BankForm } from "./bankForm";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import {
-  getInstrumentTypeDDL,
-  createBankCashPayment,
-} from "../helper";
-import { toast } from "react-toastify";
-import { getGridData } from "../helper";
-import { getPurchaseClearPagination_api } from "./../helper";
-import { getBusinessTransactionDDL } from "../../../../_helper/_commonApi";
+import React, { useRef, useState, useEffect } from 'react';
+import IViewModal from '../../../../_helper/_viewModal';
+import { Formik, Form } from 'formik';
+import { CashForm } from './cashForm';
+import { BankForm } from './bankForm';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import { getInstrumentTypeDDL, createBankCashPayment } from '../helper';
+import { toast } from 'react-toastify';
+import { getGridData } from '../helper';
+import { getPurchaseClearPagination_api } from './../helper';
+import { getBusinessTransactionDDL } from '../../../../_helper/_commonApi';
 
 const initData = {
-  type: "cash",
+  type: 'cash',
   // Cash Form
-  cashGl: "",
-  amount: "",
-  paidTo: "",
+  cashGl: '',
+  amount: '',
+  paidTo: '',
   date: _todayDate(),
 
   // Bank Form
-  instumentType: "",
-  instumentNo: "",
+  instumentType: '',
+  instumentNo: '',
   instumentDate: _todayDate(),
-  bank: "",
+  bank: '',
 
-  transaction: "",
-  transactionAmount: "",
+  transaction: '',
+  transactionAmount: '',
 
   currentDate: _todayDate(),
 };
@@ -78,14 +75,14 @@ export default function PaymentModal({
     getInstrumentTypeDDL(setInstumentType);
   }, []);
 
-  const rowTotal = claculator(rowDto, "amount") * Math.sign(-1);
+  const rowTotal = claculator(rowDto, 'amount') * Math.sign(-1);
 
   const setter = (values, cb) => {
     const arr = rowDto?.filter(
       (item) => item?.value === values?.transaction?.value
     );
     if (arr?.length > 0) {
-      toast.warn("Not allowed to duplicate items");
+      toast.warn('Not allowed to duplicate items');
     } else {
       const selectedTransaction = values?.transaction;
       const item = {
@@ -120,78 +117,78 @@ export default function PaymentModal({
     const row = rowDto.map((item, idx) => ({
       amountTypeId: 0,
       bankAccountId: values?.bank?.value || 0,
-      bankAccNo: values?.bank ? values?.bank?.label.split(" ")[0] : "",
+      bankAccNo: values?.bank ? values?.bank?.label.split(' ')[0] : '',
       businessTransactionId: item.value || 0,
-      businessTransactionCode: item.businessTransactionCode || "",
-      businessTransactionName: item.label || "",
+      businessTransactionCode: item.businessTransactionCode || '',
+      businessTransactionName: item.label || '',
       generalLedgerId: item.generalLedgerId || 0,
-      generalLedgerCode: item.generalLedgerName || "",
-      generalLedgerName: item.generalLedgerName || "",
+      generalLedgerCode: item.generalLedgerName || '',
+      generalLedgerName: item.generalLedgerName || '',
       deductionAmount: item.amount || 0,
-      narration: "",
+      narration: '',
     }));
 
     const grid = glGridData.map((item, index) => ({
       amountTypeId: 0,
       bankAccountId: values?.bank?.value || 0,
-      bankAccNo: values?.bank ? values?.bank?.label.split(" ")[0] : "",
+      bankAccNo: values?.bank ? values?.bank?.label.split(' ')[0] : '',
       businessTransactionId: item.glId || 0,
-      businessTransactionCode: item.glCode || "",
-      businessTransactionName: item.glName || "",
+      businessTransactionCode: item.glCode || '',
+      businessTransactionName: item.glName || '',
       generalLedgerId: item.generalLedgerId || 0,
-      generalLedgerCode: item.generalLedgerName || "",
-      generalLedgerName: item.generalLedgerName || "",
+      generalLedgerCode: item.generalLedgerName || '',
+      generalLedgerName: item.generalLedgerName || '',
       deductionAmount:
         index === 0
           ? values?.amount
           : -Math.abs(calculateTotalAmount(values.amount)),
-      narration: "",
+      narration: '',
     }));
 
     const payload = {
       objPay: {
         intSupplierInvoiceId: selectedPurchase?.supplierInvoiceId,
-        paymentProcessType: values?.type === "cash" ? 1 : 0,
-        invoiceCode: selectedPurchase?.invoiceCode || "",
-        journalDate: "2020-12-27T08:29:58.817Z",
+        paymentProcessType: values?.type === 'cash' ? 1 : 0,
+        invoiceCode: selectedPurchase?.invoiceCode || '',
+        journalDate: '2020-12-27T08:29:58.817Z',
         accountId: profileData?.accountId,
         businessUnitId: selectedBusinessUnit?.value,
         sbuid: selectedPurchase?.sbuId || 0,
-        receiveFrom: "",
-        transferTo: "",
-        paidTo: values?.paidTo || "",
+        receiveFrom: '',
+        transferTo: '',
+        paidTo: values?.paidTo || '',
         // payAmount: +values?.amount || 0,
         payAmount: -Math.abs(values?.amount) || 0,
-        narration: "",
+        narration: '',
         businessPartnerId: selectedPurchase?.partnerId || 0,
-        businessPartnerCode: "",
-        businessPartnerName: "",
+        businessPartnerCode: '',
+        businessPartnerName: '',
         generalLedgerId: values?.cashGl?.value || 0,
-        generalLedgerCode: values?.cashGl?.generalLedgerCode || "",
-        generalLedgerName: values?.cashGl?.label || "",
+        generalLedgerCode: values?.cashGl?.generalLedgerCode || '',
+        generalLedgerName: values?.cashGl?.label || '',
         actionBy: 0,
         bankId: values?.bank?.bankId || 0,
-        bankName: values?.bank?.bankName || "",
+        bankName: values?.bank?.bankName || '',
         bankBranchId: values?.bank?.bankBranch_Id || 0,
-        bankBranchName: values?.bank?.bankBranchName || "",
+        bankBranchName: values?.bank?.bankBranchName || '',
         bankAccountId: values?.bank?.value || 0,
         bankAccountNumber: values?.bank
-          ? values?.bank?.label.split(" ")[0]
-          : "",
+          ? values?.bank?.label.split(' ')[0]
+          : '',
         isPlacedInBank: true,
-        placingDate: "2020-12-27T08:29:58.817Z",
-        completeDateTime: "2020-12-27T08:29:58.817Z",
+        placingDate: '2020-12-27T08:29:58.817Z',
+        completeDateTime: '2020-12-27T08:29:58.817Z',
         instrumentId: values?.instumentType?.value || 0,
-        instrumentName: values?.instumentType?.label || "",
-        instrumentNo: values.instumentNo || "",
-        instrumentDate: values.instumentDate || "2020-12-27T08:29:58.817Z",
+        instrumentName: values?.instumentType?.label || '',
+        instrumentNo: values.instumentNo || '',
+        instrumentDate: values.instumentDate || '2020-12-27T08:29:58.817Z',
       },
 
       objList: [...grid, ...row],
     };
 
     if (rowTotal > values?.amount) {
-      toast.warn("Must be less than zero");
+      toast.warn('Must be less than zero');
     } else {
       const customCallback = () => {
         cb();
@@ -220,7 +217,7 @@ export default function PaymentModal({
           setRowDto([]);
           setGlGridData([]);
         }}
-        title={"Payment"}
+        title={'Payment'}
         btnText="Close"
         componentRef={printRef}
       >
@@ -229,15 +226,15 @@ export default function PaymentModal({
           initialValues={{
             ...initData,
             cashGl: {
-              value: cashGlDDL ? cashGlDDL[0]?.value : "",
-              label: cashGlDDL ? cashGlDDL[0]?.label : "",
+              value: cashGlDDL ? cashGlDDL[0]?.value : '',
+              label: cashGlDDL ? cashGlDDL[0]?.label : '',
             },
             bank: {
-              value: bankAcDDL ? bankAcDDL[0]?.value : "",
-              label: bankAcDDL ? bankAcDDL[0]?.label : "",
+              value: bankAcDDL ? bankAcDDL[0]?.value : '',
+              label: bankAcDDL ? bankAcDDL[0]?.label : '',
             },
-            paidTo: selectedPurchase ? selectedPurchase?.partnerName : "",
-            amount: selectedPurchase ? selectedPurchase?.invoiceAmount : "",
+            paidTo: selectedPurchase ? selectedPurchase?.partnerName : '',
+            amount: selectedPurchase ? selectedPurchase?.invoiceAmount : '',
           }}
           // validationSchema={validationSchema}
           onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -259,7 +256,7 @@ export default function PaymentModal({
                 <div className="text-right">
                   <button
                     className="btn btn-primary"
-                    style={{ marginTop: "14px" }}
+                    style={{ marginTop: '14px' }}
                     type="submit"
                   >
                     Save
@@ -272,7 +269,7 @@ export default function PaymentModal({
                   </div>
                   <div className="col-lg-2">
                     <label>
-                      {" "}
+                      {' '}
                       Ledger Balance : {selectedPurchase.ledgerBalance}
                     </label>
                   </div>
@@ -284,7 +281,7 @@ export default function PaymentModal({
                   </div>
                   <div className="col-lg-2">
                     <label>
-                      {" "}
+                      {' '}
                       Invoice Amount : {selectedPurchase.invoiceAmount}
                     </label>
                   </div>
@@ -293,18 +290,18 @@ export default function PaymentModal({
                 <div className="global-form">
                   <div
                     style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      marginBottom: "15px",
+                      display: 'flex',
+                      flexDirection: 'row',
+                      marginBottom: '15px',
                     }}
                   >
                     <label className="checkbox-inline mr-2">
                       <input
                         type="radio"
-                        style={{ marginRight: "10px" }}
+                        style={{ marginRight: '10px' }}
                         name="type"
-                        checked={values.type === "cash"}
-                        onChange={(e) => setFieldValue("type", "cash")}
+                        checked={values.type === 'cash'}
+                        onChange={(e) => setFieldValue('type', 'cash')}
                         className="mr-2"
                       />
                       Cash
@@ -314,15 +311,15 @@ export default function PaymentModal({
                       <input
                         type="radio"
                         name=""
-                        checked={values.type === "bank"}
-                        onChange={(e) => setFieldValue("type", "bank")}
+                        checked={values.type === 'bank'}
+                        onChange={(e) => setFieldValue('type', 'bank')}
                         className="mr-2"
                       />
                       Bank
                     </label>
                   </div>
 
-                  {values.type === "cash" ? (
+                  {values.type === 'cash' ? (
                     <CashForm
                       errors={errors}
                       touched={touched}
@@ -336,9 +333,9 @@ export default function PaymentModal({
                           selectedBusinessUnit.value,
                           selectedPurchase.sbuId || 0,
                           selectedPurchase.partnerId || 0,
-                          values.type === "cash" ? values.cashGl.value : 0,
+                          values.type === 'cash' ? values.cashGl.value : 0,
                           amount,
-                          values.type === "bank" ? values.bank.value : 0,
+                          values.type === 'bank' ? values.bank.value : 0,
                           setGlGridData
                         );
                       }}
@@ -359,9 +356,9 @@ export default function PaymentModal({
                           selectedBusinessUnit.value,
                           selectedPurchase.sbuId || 0,
                           selectedPurchase.partnerId || 0,
-                          values.type === "cash" ? values.cashGl.value : 0,
+                          values.type === 'cash' ? values.cashGl.value : 0,
                           amount,
-                          values.type === "bank" ? values.bank.value : 0,
+                          values.type === 'bank' ? values.bank.value : 0,
                           setGlGridData
                         );
                       }}
@@ -373,7 +370,7 @@ export default function PaymentModal({
 
                   <div
                     className="row custom_space"
-                    style={{ marginTop: "18px" }}
+                    style={{ marginTop: '18px' }}
                   >
                     <div className="col-lg-2">
                       <NewSelect
@@ -382,7 +379,7 @@ export default function PaymentModal({
                         value={values?.transaction}
                         label="Deduction Header"
                         onChange={(valueOption) => {
-                          setFieldValue("transaction", valueOption);
+                          setFieldValue('transaction', valueOption);
                         }}
                         placeholder="Deduction Header"
                         errors={errors}
@@ -399,7 +396,7 @@ export default function PaymentModal({
                         name="transactionAmount"
                         placeholder="Deduction Amount"
                         onChange={(e) => {
-                          setFieldValue("transactionAmount", +e.target.value);
+                          setFieldValue('transactionAmount', +e.target.value);
                         }}
                         min="0"
                       />
@@ -407,7 +404,7 @@ export default function PaymentModal({
                     <div className="col-lg-2">
                       <button
                         className="btn btn-primary"
-                        style={{ marginTop: "14px" }}
+                        style={{ marginTop: '14px' }}
                         type="button"
                         disabled={
                           !values.transaction ||
@@ -418,8 +415,8 @@ export default function PaymentModal({
                         }
                         onClick={(e) => {
                           setter(values, () => {
-                            setFieldValue("transactionAmount", "");
-                            setFieldValue("transaction", "");
+                            setFieldValue('transactionAmount', '');
+                            setFieldValue('transaction', '');
                           });
                         }}
                       >
@@ -434,11 +431,11 @@ export default function PaymentModal({
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                     <thead>
                       <tr>
-                        <th style={{ width: "70px" }}>GL Code</th>
-                        <th style={{ width: "70px" }}>GL Name</th>
-                        <th style={{ width: "85px" }}>Transaction</th>
-                        <th style={{ width: "60px" }}>Amount</th>
-                        <th style={{ width: "60px" }}>Action</th>
+                        <th style={{ width: '70px' }}>GL Code</th>
+                        <th style={{ width: '70px' }}>GL Name</th>
+                        <th style={{ width: '85px' }}>Transaction</th>
+                        <th style={{ width: '60px' }}>Amount</th>
+                        <th style={{ width: '60px' }}>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -487,7 +484,7 @@ export default function PaymentModal({
                           </td>
                           <td>
                             <div className="text-right pr-2">
-                              {item.amount}{" "}
+                              {item.amount}{' '}
                             </div>
                           </td>
                           <td>

@@ -1,6 +1,6 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { getMonth } from "../../report/salesanalytics/utils";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { getMonth } from '../../report/salesanalytics/utils';
 
 export const getMonthlyCollectionPlanData = async (
   typeId,
@@ -22,12 +22,12 @@ export const getMonthlyCollectionPlanData = async (
       area: values?.areaName,
       territory: values?.territoryName,
       od: (item?.overDue / item?.dueAmount) * 100,
-      week1: "",
-      week2: "",
-      week3: "",
-      week4: "",
-      total: "",
-      percent: "",
+      week1: '',
+      week2: '',
+      week3: '',
+      week4: '',
+      total: '',
+      percent: '',
       isSelected: false,
     }));
     const data = typeId === 1 ? modifyData : res?.data;

@@ -1,19 +1,17 @@
-
-
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import ICard from "../../../../_helper/_card";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import ICard from '../../../../_helper/_card';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
 import {
   GetDistributionChannelDDL,
   getPartnerProductPrice,
   GetSbuDDL,
-} from "../helper";
+} from '../helper';
 
 export default function ProductPrice() {
   // get user profile data from store
@@ -27,10 +25,10 @@ export default function ProductPrice() {
   }, shallowEqual);
 
   const initData = {
-    reportType: "",
-    customerName: "",
-    channelName: "",
-    sbu: "",
+    reportType: '',
+    customerName: '',
+    channelName: '',
+    sbu: '',
   };
 
   const [allData, setAllData] = useState([]);
@@ -70,9 +68,9 @@ export default function ProductPrice() {
   const printRef = useRef();
 
   const reportTypeDDL = [
-    { value: 0, label: "All" },
-    { value: 1, label: "Channel Base" },
-    { value: 2, label: "Customer Base" },
+    { value: 0, label: 'All' },
+    { value: 1, label: 'Channel Base' },
+    { value: 2, label: 'Customer Base' },
   ];
 
   return (
@@ -104,7 +102,7 @@ export default function ProductPrice() {
                       value={values?.reportType}
                       label="Report Type"
                       onChange={(valueOption) => {
-                        setFieldValue("reportType", valueOption);
+                        setFieldValue('reportType', valueOption);
                       }}
                       placeholder="Report Type"
                       errors={errors}
@@ -120,8 +118,8 @@ export default function ProductPrice() {
                           value={values?.sbu}
                           label="SBU"
                           onChange={(valueOption) => {
-                            setFieldValue("sbu", valueOption);
-                            setFieldValue("channelName", "");
+                            setFieldValue('sbu', valueOption);
+                            setFieldValue('channelName', '');
                             setDistributionChannelDDL([]);
                             GetDistributionChannelDDL(
                               profileData?.accountId,
@@ -142,7 +140,7 @@ export default function ProductPrice() {
                           value={values?.channelName}
                           label="Channel Name"
                           onChange={(valueOption) => {
-                            setFieldValue("channelName", valueOption);
+                            setFieldValue('channelName', valueOption);
                           }}
                           placeholder="Channel Name"
                           errors={errors}
@@ -158,7 +156,7 @@ export default function ProductPrice() {
                         <SearchAsyncSelect
                           selectedValue={values?.customerName}
                           handleChange={(valueOption) => {
-                            setFieldValue("customerName", valueOption);
+                            setFieldValue('customerName', valueOption);
                           }}
                           placeholder="Search By Code Number"
                           loadOptions={loadCustomerList}
@@ -183,7 +181,7 @@ export default function ProductPrice() {
                   <div className="product-wise-shipment-report">
                     <div className="loan-scrollable-table scroll-table-auto">
                       <div
-                        style={{ maxHeight: "540px" }}
+                        style={{ maxHeight: '540px' }}
                         className="scroll-table _table scroll-table-auto"
                       >
                         <div className="productPriceTable">
@@ -194,18 +192,18 @@ export default function ProductPrice() {
                           >
                             <thead>
                               <tr>
-                                <th style={{ minWidth: "30px" }}>SL</th>
-                                <th style={{ minWidth: "130px" }}>
+                                <th style={{ minWidth: '30px' }}>SL</th>
+                                <th style={{ minWidth: '130px' }}>
                                   Partner Name
                                 </th>
                                 <th>Region</th>
-                                <th style={{ minWidth: "85px" }}>Area</th>
+                                <th style={{ minWidth: '85px' }}>Area</th>
                                 <th>Territory</th>
                                 <th>Sales Office</th>
                                 {headers?.map((item) => (
                                   <th> {item?.itemName} </th>
                                 ))}
-                                <th style={{ minWidth: "65px" }}>
+                                <th style={{ minWidth: '65px' }}>
                                   Insert Date
                                 </th>
                                 <th>Insert By</th>
@@ -253,7 +251,7 @@ export default function ProductPrice() {
                                   <tr
                                     style={
                                       !isValid
-                                        ? { backgroundColor: "red" }
+                                        ? { backgroundColor: 'red' }
                                         : null
                                     }
                                     key={i}
@@ -270,7 +268,7 @@ export default function ProductPrice() {
                                           className="text-right"
                                           style={
                                             inx > headers.length - 1
-                                              ? { display: "none" }
+                                              ? { display: 'none' }
                                               : null
                                           }
                                         >
@@ -280,7 +278,7 @@ export default function ProductPrice() {
                                     })}
 
                                     <td>
-                                      {_dateFormatter(itm?.insertedDate)}{" "}
+                                      {_dateFormatter(itm?.insertedDate)}{' '}
                                     </td>
                                     <td>{itm?.insertedBy} </td>
                                     {(prices = [])}

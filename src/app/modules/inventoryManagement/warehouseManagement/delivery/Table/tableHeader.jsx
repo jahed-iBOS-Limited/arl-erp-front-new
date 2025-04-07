@@ -1,5 +1,5 @@
-import React from 'react'
-import HeaderFormDedivery from './form'
+import React from 'react';
+import HeaderFormDedivery from './form';
 
 export function DeliveryTable() {
   return (
@@ -10,5 +10,5 @@ export function DeliveryTable() {
     //   <TableRow />
     // </ITable>
     <HeaderFormDedivery />
-  )
+  );
 }

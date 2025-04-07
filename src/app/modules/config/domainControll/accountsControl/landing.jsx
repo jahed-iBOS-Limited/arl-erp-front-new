@@ -1,12 +1,11 @@
-
-import { Form, Formik } from "formik";
-import React, { useState, useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IConfirmModal from "../../../chartering/_chartinghelper/_confirmModal";
-import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
-import { getAccountsControl, setAccountsControl } from "./helper";
-import { IToggleButton } from "./IToggleButton";
+import { Form, Formik } from 'formik';
+import React, { useState, useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IConfirmModal from '../../../chartering/_chartinghelper/_confirmModal';
+import IForm from '../../../_helper/_form';
+import Loading from '../../../_helper/_loading';
+import { getAccountsControl, setAccountsControl } from './helper';
+import { IToggleButton } from './IToggleButton';
 
 const initData = {
   isActive: false,
@@ -27,7 +26,7 @@ const AccountsControlLanding = () => {
 
   const confirmHandler = (value) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: ``,
       yesAlertFunc: () => {
         setAccountsControl(profileData?.userId, value, () => {
@@ -40,7 +39,7 @@ const AccountsControlLanding = () => {
   };
   return (
     <IForm
-      title={"Accounts Control"}
+      title={'Accounts Control'}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenBack={true}
@@ -67,7 +66,7 @@ const AccountsControlLanding = () => {
             <>
               <Form className="form form-label-right">
                 <div>
-                  <div style={{ marginTop: "150px" }} className="col-12">
+                  <div style={{ marginTop: '150px' }} className="col-12">
                     <div className="d-flex justify-content-center">
                       <label>Accounts Control</label>
                     </div>

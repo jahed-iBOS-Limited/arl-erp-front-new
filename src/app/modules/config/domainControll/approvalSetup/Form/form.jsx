@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import NewSelect from "../../../../_helper/_select";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import Axios from "axios";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import InputField from "../../../../_helper/_inputField";
-import { getActivityDDLByModule, getModuleDDL } from "../helper";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import NewSelect from '../../../../_helper/_select';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import Axios from 'axios';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import InputField from '../../../../_helper/_inputField';
+import { getActivityDDLByModule, getModuleDDL } from '../helper';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  groupName: Yup.string().required("Group Name is required"),
+  groupName: Yup.string().required('Group Name is required'),
 });
 
 export default function FormCmp({
@@ -42,7 +42,7 @@ export default function FormCmp({
     return list;
   };
 
-  console.log(rowDto)
+  console.log(rowDto);
 
   const getActivityListData = async () => {
     try {
@@ -128,8 +128,8 @@ export default function FormCmp({
                           valueOption?.value,
                           setActivityList
                         );
-                        setFieldValue("activityName", "");
-                        setFieldValue("moduleName", valueOption);
+                        setFieldValue('activityName', '');
+                        setFieldValue('moduleName', valueOption);
                       }}
                       isSearchable={true}
                       options={moduleNameDDL}
@@ -145,7 +145,7 @@ export default function FormCmp({
                       label="Activity Name"
                       isDisabled={isDisabled}
                       onChange={(valueOption) => {
-                        setFieldValue("activityName", valueOption);
+                        setFieldValue('activityName', valueOption);
                       }}
                       placeholder="Activity Name"
                       errors={errors}
@@ -156,32 +156,32 @@ export default function FormCmp({
                     <NewSelect
                       name="approvalOrder"
                       options={[
-                        { value: "Any Order", label: "Any Order" },
-                        { value: "In Sequence", label: "In Sequence" },
-                        { value: "Any Person", label: "Any Person" },
+                        { value: 'Any Order', label: 'Any Order' },
+                        { value: 'In Sequence', label: 'In Sequence' },
+                        { value: 'Any Person', label: 'Any Person' },
                       ]}
                       value={values?.approvalOrder}
                       isDisabled={isDisabled}
                       label="Approval Order"
                       onChange={(valueOption) => {
-                        setFieldValue("any", "");
-                        setFieldValue("approvalOrder", valueOption);
+                        setFieldValue('any', '');
+                        setFieldValue('approvalOrder', valueOption);
                       }}
                       placeholder="Approval Order"
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-                  {values?.approvalOrder?.label === "Any Person" && (
+                  {values?.approvalOrder?.label === 'Any Person' && (
                     <div className="col-lg-2">
                       <NewSelect
                         name="any"
                         options={generateAnyList()}
-                        value={values?.any || {value:1, label:1}}
+                        value={values?.any || { value: 1, label: 1 }}
                         isDisabled={isDisabled}
                         label="Any"
                         onChange={(valueOption) => {
-                          setFieldValue("any", valueOption);
+                          setFieldValue('any', valueOption);
                         }}
                         placeholder="Any"
                         errors={errors}
@@ -210,7 +210,7 @@ export default function FormCmp({
                       selectedValue={values?.userName}
                       isDisabled={isDisabled}
                       handleChange={(valueOption) => {
-                        setFieldValue("userName", valueOption);
+                        setFieldValue('userName', valueOption);
                       }}
                       loadOptions={loadUserList}
                     />
@@ -227,7 +227,7 @@ export default function FormCmp({
                       min="0"
                     />
                   </div> */}
-                  <div style={{ marginTop: "15px" }} className="col-lg-2">
+                  <div style={{ marginTop: '15px' }} className="col-lg-2">
                     <button
                       onClick={() => setter(values)}
                       className="btn btn-primary"
@@ -250,7 +250,7 @@ export default function FormCmp({
                         <th>User Name</th>
                         {/* <th>Is Threshold</th> */}
                         {/* isDisbled means this field is for view page */}
-                        <th className={isDisabled ? "d-none" : ""}>Action</th>
+                        <th className={isDisabled ? 'd-none' : ''}>Action</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -260,7 +260,7 @@ export default function FormCmp({
                           <td>{item?.userName?.label}</td>
                           {/* <td className="text-center">{item?.isThreshold}</td> */}
                           {/* isDisbled means this field is for view page */}
-                          <td className={isDisabled ? "d-none" : "text-center"}>
+                          <td className={isDisabled ? 'd-none' : 'text-center'}>
                             {/* <IDelete
                             remover={remover}
                             id={item?.userName?.value}
@@ -275,7 +275,7 @@ export default function FormCmp({
                                   <i
                                     onClick={() => {
                                       remover(item?.userName?.value);
-                                      setFieldValue("any", "");
+                                      setFieldValue('any', '');
                                     }}
                                     className="fa fa-trash deleteBtn text-danger"
                                     aria-hidden="true"
@@ -293,14 +293,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

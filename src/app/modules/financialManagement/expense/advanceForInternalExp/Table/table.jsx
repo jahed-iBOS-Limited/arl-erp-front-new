@@ -1,42 +1,42 @@
-import axios from "axios";
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import Select from "react-select";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import ICard from "../../../../_helper/_card";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import FormikError from "../../../../_helper/_formikError";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import IViewModal from "../../../../_helper/_viewModal";
-import { setAdvanceForInternalExpLandingAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import customStyles from "../../../../selectCustomStyle";
+import axios from 'axios';
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import Select from 'react-select';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import ICard from '../../../../_helper/_card';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import FormikError from '../../../../_helper/_formikError';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
+import IViewModal from '../../../../_helper/_viewModal';
+import { setAdvanceForInternalExpLandingAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import customStyles from '../../../../selectCustomStyle';
 import {
   SetGridDataEmpty_action,
   getAdvanceExpGridData,
   setSelectedSBU_action,
-} from "../_redux/Actions";
+} from '../_redux/Actions';
 import {
   getCURRENCY,
   getEMP,
   getExpensePlantDDLAction,
   validationSchema,
-} from "../helper";
-import Loading from "./../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import ViewRowItem from "./modal";
-import { getSBU } from "../../../../_helper/_commonApi";
+} from '../helper';
+import Loading from './../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import ViewRowItem from './modal';
+import { getSBU } from '../../../../_helper/_commonApi';
 
 const initData = {
   checkPublic: false,
-  selectedEmp: "",
-  plant: "",
-  sbu: "",
-  currency: "",
+  selectedEmp: '',
+  plant: '',
+  sbu: '',
+  currency: '',
   approval: false,
 };
 
@@ -73,7 +73,7 @@ const AdvanceForInternalExpLanding = () => {
   } = storeData;
 
   useEffect(() => {
-    if ((profileData?.accountId && selectedBusinessUnit?.value)) {
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
       getSBU(profileData.accountId, selectedBusinessUnit.value, setSbu);
     }
   }, [profileData, selectedBusinessUnit]);
@@ -86,12 +86,8 @@ const AdvanceForInternalExpLanding = () => {
   useEffect(() => {
     if (selectedBusinessUnit.value) {
       getCURRENCY(selectedBusinessUnit.value, setCurrency);
-      getExpensePlantDDLAction(
-        selectedBusinessUnit.value,
-        setPlantDDL
-      );
+      getExpensePlantDDLAction(selectedBusinessUnit.value, setPlantDDL);
     }
-
   }, [selectedBusinessUnit]);
 
   const viewHandler = (values, approval, pageNo, pageSize) => {
@@ -131,8 +127,6 @@ const AdvanceForInternalExpLanding = () => {
         )
       );
     }
-
-
   }, [profileData, selectedBusinessUnit]);
 
   //setPositionHandler
@@ -145,7 +139,7 @@ const AdvanceForInternalExpLanding = () => {
       getEMP(profileData.accountId, selectedBusinessUnit.value, setEmp);
     } else {
       setEmp([]);
-      setFieldValue("selectedEmp", expenseBy_Default);
+      setFieldValue('selectedEmp', expenseBy_Default);
     }
   };
 
@@ -170,12 +164,12 @@ const AdvanceForInternalExpLanding = () => {
           ...advanceForInternalExpLanding,
           selectedEmp:
             advanceForInternalExpLanding?.selectedEmp || expenseBy_Default,
-          sbu: advanceForInternalExpLanding?.sbu || sbu[0] || "",
-          currency: advanceForInternalExpLanding?.currency || currency[0] || "",
-          plant: plantDDL?.[0] || "",
+          sbu: advanceForInternalExpLanding?.sbu || sbu[0] || '',
+          currency: advanceForInternalExpLanding?.currency || currency[0] || '',
+          plant: plantDDL?.[0] || '',
         }}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
@@ -192,7 +186,7 @@ const AdvanceForInternalExpLanding = () => {
                     type="checkbox"
                     name="toggle"
                     onChange={(e) => {
-                      setFieldValue("checkPublic", e.target.checked);
+                      setFieldValue('checkPublic', e.target.checked);
                       handleChangePublic(e.target.checked, setFieldValue);
                       dispatch(SetGridDataEmpty_action());
                     }}
@@ -204,7 +198,7 @@ const AdvanceForInternalExpLanding = () => {
                   <SearchAsyncSelect
                     selectedValue={values?.selectedEmp}
                     handleChange={(valueOption) => {
-                      setFieldValue("selectedEmp", valueOption);
+                      setFieldValue('selectedEmp', valueOption);
                       dispatch(SetGridDataEmpty_action());
                     }}
                     loadOptions={ddlData}
@@ -251,7 +245,7 @@ const AdvanceForInternalExpLanding = () => {
                   <label>Select SBU</label>
                   <Select
                     onChange={(valueOption) => {
-                      setFieldValue("sbu", valueOption);
+                      setFieldValue('sbu', valueOption);
                       dispatch(SetGridDataEmpty_action());
                     }}
                     value={values?.sbu}
@@ -266,7 +260,7 @@ const AdvanceForInternalExpLanding = () => {
                   <label>Select Currency</label>
                   <Select
                     onChange={(valueOption) => {
-                      setFieldValue("currency", valueOption);
+                      setFieldValue('currency', valueOption);
                       dispatch(SetGridDataEmpty_action());
                     }}
                     value={values?.currency}
@@ -286,10 +280,10 @@ const AdvanceForInternalExpLanding = () => {
                           approval: false,
                         })
                       );
-                      setPageNo(0)
-                      setPageSize(20)
+                      setPageNo(0);
+                      setPageSize(20);
                       viewHandler(values, false, 0, 20);
-                      setFieldValue("approval", false);
+                      setFieldValue('approval', false);
                     }}
                     disabled={
                       !values?.selectedEmp ||
@@ -307,8 +301,7 @@ const AdvanceForInternalExpLanding = () => {
                         setAdvanceForInternalExpLandingAction({ ...values })
                       );
                       history.push({
-                        pathname:
-                          `${window.location.pathname}/create`,
+                        pathname: `${window.location.pathname}/create`,
                         state: {
                           selectedSbu: values?.sbu,
                           selectedEmp: values?.selectedEmp,
@@ -333,10 +326,10 @@ const AdvanceForInternalExpLanding = () => {
 
               <div
                 style={{
-                  paddingBottom: "4px",
-                  marginLeft: "-13px",
-                  paddingLeft: ".50rem",
-                  paddingRight: ".50rem",
+                  paddingBottom: '4px',
+                  marginLeft: '-13px',
+                  paddingLeft: '.50rem',
+                  paddingRight: '.50rem',
                 }}
                 className="d-flex bank-journal bank-journal-custom"
               >
@@ -355,15 +348,10 @@ const AdvanceForInternalExpLanding = () => {
                       name="approval"
                       checked={values?.approval}
                       onChange={(event) => {
-                        setFieldValue("approval", event.target.checked);
-                        setPageNo(0)
-                        setPageSize(20)
-                        viewHandler(
-                          values,
-                          event.target.checked,
-                          0,
-                          20
-                        );
+                        setFieldValue('approval', event.target.checked);
+                        setPageNo(0);
+                        setPageSize(20);
+                        viewHandler(values, event.target.checked, 0, 20);
                       }}
                     />
                   </div>
@@ -377,23 +365,23 @@ const AdvanceForInternalExpLanding = () => {
                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm global-table">
                       <thead>
                         <tr>
-                          <th style={{ width: "40px" }}>SL</th>
-                          <th style={{ width: "100px" }}>Request Code</th>
-                          <th style={{ width: "57px" }}>Request Date</th>
+                          <th style={{ width: '40px' }}>SL</th>
+                          <th style={{ width: '100px' }}>Request Code</th>
+                          <th style={{ width: '57px' }}>Request Date</th>
                           {/* <th style={{ width: "57px" }}>Due Date</th> */}
-                          <th style={{ width: "80px" }}>Payment Type</th>
-                          <th style={{ width: "80px" }}>Exp. Group</th>
-                          <th style={{ width: "100px" }}>Requested Amount</th>
-                          <th style={{ width: "100px" }}>Approved Amount</th>
-                          <th style={{ width: "100px" }}>Bill Code</th>
-                          <th style={{ width: "100px" }}>Journal Code</th>
-                          <th style={{ width: "100px" }}>Paid Amount</th>
+                          <th style={{ width: '80px' }}>Payment Type</th>
+                          <th style={{ width: '80px' }}>Exp. Group</th>
+                          <th style={{ width: '100px' }}>Requested Amount</th>
+                          <th style={{ width: '100px' }}>Approved Amount</th>
+                          <th style={{ width: '100px' }}>Bill Code</th>
+                          <th style={{ width: '100px' }}>Journal Code</th>
+                          <th style={{ width: '100px' }}>Paid Amount</th>
                           {/* <th style={{ width: "100px" }}>
                             Disbursement Center
                           </th> */}
-                          <th style={{ width: "100px" }}>Comments</th>
+                          <th style={{ width: '100px' }}>Comments</th>
                           {/* new changes for miraj bhai */}
-                          <th style={{ width: "85px" }}>Actions</th>
+                          <th style={{ width: '85px' }}>Actions</th>
                         </tr>
                       </thead>
                       <tbody className="advanceInternalExp_table">
@@ -451,10 +439,10 @@ const AdvanceForInternalExpLanding = () => {
                               <div className="d-flex justify-content-around">
                                 <span>
                                   <IView
-                                    title={"View"}
+                                    title={'View'}
                                     clickHandler={() => {
-                                      setCurrentRow(item)
-                                      setViewModalShow(true)
+                                      setCurrentRow(item);
+                                      setViewModalShow(true);
                                     }}
                                   />
                                 </span>
@@ -489,14 +477,14 @@ const AdvanceForInternalExpLanding = () => {
                                     <OverlayTrigger
                                       overlay={
                                         <Tooltip id="cs-icon">
-                                          {"Approval"}
+                                          {'Approval'}
                                         </Tooltip>
                                       }
                                     >
                                       <span>
                                         <i
                                           class="far fa-check-circle pointer approval"
-                                          style={{ fontSize: "14px" }}
+                                          style={{ fontSize: '14px' }}
                                         ></i>
                                       </span>
                                     </OverlayTrigger>
@@ -521,15 +509,7 @@ const AdvanceForInternalExpLanding = () => {
                       }}
                       values={values}
                       rowsPerPageOptions={[
-                        5,
-                        10,
-                        20,
-                        50,
-                        100,
-                        200,
-                        300,
-                        400,
-                        500,
+                        5, 10, 20, 50, 100, 200, 300, 400, 500,
                       ]}
                     />
                   )}
@@ -538,7 +518,7 @@ const AdvanceForInternalExpLanding = () => {
               <IViewModal
                 show={viewModalShow}
                 onHide={() => setViewModalShow(false)}
-              // title="Advance For Internal Expense"
+                // title="Advance For Internal Expense"
               >
                 <ViewRowItem children={currentRow} />
               </IViewModal>

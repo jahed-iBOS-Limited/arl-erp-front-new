@@ -1,23 +1,23 @@
-import React, {useMemo} from "react";
-import {Link} from "react-router-dom";
-import objectPath from "object-path";
-import SVG from "react-inlinesvg";
-import {useHtmlClassService} from "../../_core/MetronicLayout";
-import {toAbsoluteUrl} from "../../../_helpers";
-import SelectUnit from "../aside/aside-menu/SelectUnit";
+import React, { useMemo } from 'react';
+import { Link } from 'react-router-dom';
+import objectPath from 'object-path';
+import SVG from 'react-inlinesvg';
+import { useHtmlClassService } from '../../_core/MetronicLayout';
+import { toAbsoluteUrl } from '../../../_helpers';
+import SelectUnit from '../aside/aside-menu/SelectUnit';
 
 export function Brand() {
   const uiService = useHtmlClassService();
 
   const layoutProps = useMemo(() => {
     return {
-      brandClasses: uiService.getClasses("brand", true),
+      brandClasses: uiService.getClasses('brand', true),
       asideSelfMinimizeToggle: objectPath.get(
-          uiService.config,
-          "aside.self.minimize.toggle"
+        uiService.config,
+        'aside.self.minimize.toggle'
       ),
       headerLogo: uiService.getLogo(),
-      headerStickyLogo: uiService.getStickyLogo()
+      headerStickyLogo: uiService.getStickyLogo(),
     };
   }, [uiService]);
 
@@ -25,31 +25,40 @@ export function Brand() {
     <>
       {/* begin::Brand */}
       <div
-          className={`brand flex-column-auto ${layoutProps.brandClasses}`}
-          id="kt_brand"
+        className={`brand flex-column-auto ${layoutProps.brandClasses}`}
+        id="kt_brand"
       >
         {/* begin::Logo */}
         <Link to="" className="brand-logo d-block">
-          <img alt="logo" src={layoutProps.headerLogo}/>
+          <img alt="logo" src={layoutProps.headerLogo} />
         </Link>
-        
+
         {/* end::Logo */}
 
         {layoutProps.asideSelfMinimizeToggle && (
           <>
             {/* begin::Toggle */}
-            <button className="brand-toggle btn btn-sm px-0" id="kt_aside_toggle">
+            <button
+              className="brand-toggle btn btn-sm px-0"
+              id="kt_aside_toggle"
+            >
               <span className="svg-icon svg-icon-xl">
-                  <SVG src={toAbsoluteUrl("/media/svg/icons/Navigation/Angle-double-left.svg")}/>
+                <SVG
+                  src={toAbsoluteUrl(
+                    '/media/svg/icons/Navigation/Angle-double-left.svg'
+                  )}
+                />
               </span>
             </button>
             {/* end::Toolbar */}
-            </>
+          </>
         )}
       </div>
-      <div className="d-block mx-5"><SelectUnit /></div>
+      <div className="d-block mx-5">
+        <SelectUnit />
+      </div>
 
       {/* end::Brand */}
-      </>
+    </>
   );
 }

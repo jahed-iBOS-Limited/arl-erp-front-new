@@ -1,47 +1,47 @@
-import React, { useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { DropzoneDialogBase } from "react-mui-dropzone";
-import { useDispatch } from "react-redux";
-import axios from "axios";
+import React, { useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { DropzoneDialogBase } from 'react-mui-dropzone';
+import { useDispatch } from 'react-redux';
+import axios from 'axios';
 
-import { toast } from "react-toastify";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import FormikError from "../../../../_helper/_formikError";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { getShippingGRNDDL, GetShippingSupplierAmountInfo } from "../helper";
-import IViewModal from "../../../../_helper/_viewModal";
-import AttachmentComponent from "./AttachmentComponent";
-import { InventoryTransactionReportViewTableRow } from "../../../../inventoryManagement/warehouseManagement/invTransaction/report/tableRow";
-import { PurchaseOrderViewTableRow } from "../../../../procurement/purchase-management/purchaseOrderShipping/report/tableRow";
+import { toast } from 'react-toastify';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import FormikError from '../../../../_helper/_formikError';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import { getShippingGRNDDL, GetShippingSupplierAmountInfo } from '../helper';
+import IViewModal from '../../../../_helper/_viewModal';
+import AttachmentComponent from './AttachmentComponent';
+import { InventoryTransactionReportViewTableRow } from '../../../../inventoryManagement/warehouseManagement/invTransaction/report/tableRow';
+import { PurchaseOrderViewTableRow } from '../../../../procurement/purchase-management/purchaseOrderShipping/report/tableRow';
 
 const validationSchema = Yup.object().shape({
   invoiceNumber: Yup.string()
-    .min(1, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Bill No. is required"),
+    .min(1, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Bill No. is required'),
   purchaseOrder: Yup.object().shape({
-    label: Yup.string().required("Purchase Order is required"),
-    value: Yup.string().required("Purchase Order is required"),
+    label: Yup.string().required('Purchase Order is required'),
+    value: Yup.string().required('Purchase Order is required'),
   }),
   purchaseOrg: Yup.object().shape({
-    label: Yup.string().required("Purchase Org is required"),
-    value: Yup.string().required("Purchase Org is required"),
+    label: Yup.string().required('Purchase Org is required'),
+    value: Yup.string().required('Purchase Org is required'),
   }),
 
   grossInvoiceAmount: Yup.number()
     .positive()
-    .min(0, "Invoice Amount must be Positive Numbers")
-    .required("Invoice Amount Required"),
+    .min(0, 'Invoice Amount must be Positive Numbers')
+    .required('Invoice Amount Required'),
 
-  invoiceDate: Yup.date().required("Invoice Date Required"),
-  paymentDueDate: Yup.date().required("Payment Due Date Required"),
+  invoiceDate: Yup.date().required('Invoice Date Required'),
+  paymentDueDate: Yup.date().required('Payment Due Date Required'),
 });
 
 export default function FormCmp({
@@ -69,9 +69,9 @@ export default function FormCmp({
   const [isShowModal, setIsShowModal] = useState(false);
   const [isShowModalTwo, setIsShowModalTwo] = useState(false);
   const [isShowModalThree, setIsShowModalThree] = useState(false);
-  const [currentItem, setCurrentItem] = useState("");
+  const [currentItem, setCurrentItem] = useState('');
 
-  const [supplierAmountInfo, setSupplierAmountInfo] = React.useState("");
+  const [supplierAmountInfo, setSupplierAmountInfo] = React.useState('');
   const dispatch = useDispatch();
 
   const getDiff = () => {
@@ -116,7 +116,7 @@ export default function FormCmp({
                         value={values?.purchaseOrg}
                         label="Select Purchase Organization"
                         onChange={(valueOption) => {
-                          setFieldValue("purchaseOrg", valueOption);
+                          setFieldValue('purchaseOrg', valueOption);
                         }}
                         placeholder="Select Purchase Organization"
                         errors={errors}
@@ -131,7 +131,7 @@ export default function FormCmp({
                         value={values?.warehouse}
                         label="Select Warehouse"
                         onChange={(valueOption) => {
-                          setFieldValue("warehouse", valueOption);
+                          setFieldValue('warehouse', valueOption);
                         }}
                         placeholder="Select Warehouse"
                         errors={errors}
@@ -161,7 +161,7 @@ export default function FormCmp({
                     <div className="col-lg-6 pb-3">
                       {/* <label>Invoice Amount</label> */}
                       <InputField
-                        style={{ border: "none" }}
+                        style={{ border: 'none' }}
                         value={values?.grossInvoiceAmount}
                         label="Bill Amount"
                         placeholder="Bill Amount"
@@ -175,15 +175,15 @@ export default function FormCmp({
                           //   e.target.value === "" ||
                           //   re.test(e.target.value)
                           // ) {
-                          setFieldValue("grossInvoiceAmount", number);
+                          setFieldValue('grossInvoiceAmount', number);
                           if (
                             Number(supplierAmountInfo?.poPendingAdjustment) >=
                             number
                           ) {
-                            setFieldValue("new_Adv_Adjustment", number);
+                            setFieldValue('new_Adv_Adjustment', number);
                           } else {
                             setFieldValue(
-                              "new_Adv_Adjustment",
+                              'new_Adv_Adjustment',
                               Number(supplierAmountInfo?.poPendingAdjustment)
                             );
                           }
@@ -264,7 +264,7 @@ export default function FormCmp({
                               0
                             ) {
                               setFieldValue(
-                                "new_Adv_Adjustment",
+                                'new_Adv_Adjustment',
                                 e?.target?.value
                               );
                             }
@@ -279,8 +279,8 @@ export default function FormCmp({
                             getDiff() -
                               Number(values?.new_Adv_Adjustment || 0) >
                             0
-                              ? { color: "red" }
-                              : { color: "green" }
+                              ? { color: 'red' }
+                              : { color: 'green' }
                           }
                         >
                           {getDiff() - Number(values?.new_Adv_Adjustment || 0)}
@@ -300,7 +300,7 @@ export default function FormCmp({
                     </div> */}
                     <div
                       className={
-                        "col-lg-6 d-flex align-items-center justify-content-start pb-1 "
+                        'col-lg-6 d-flex align-items-center justify-content-start pb-1 '
                       }
                     >
                       <button
@@ -361,7 +361,7 @@ export default function FormCmp({
                       <div className="space-between small">
                         <div>
                           <span className="customLable">
-                            Total Ledger Balance:{" "}
+                            Total Ledger Balance:{' '}
                           </span>
                           {supplierAmountInfo?.ledgerBalance}
                         </div>
@@ -396,7 +396,7 @@ export default function FormCmp({
                           <span
                             style={
                               supplierAmountInfo?.poPendingAdjustment > 0
-                                ? { color: "red" }
+                                ? { color: 'red' }
                                 : {}
                             }
                           >
@@ -421,37 +421,37 @@ export default function FormCmp({
                   <div className="row global-form m-0">
                     <div className="col-lg-4 pb-3">
                       <label>
-                        Select PO Number{" "}
+                        Select PO Number{' '}
                         <span
                           onClick={() => {
                             if (!values?.purchaseOrder)
-                              return toast.warn("Please select PO Number");
+                              return toast.warn('Please select PO Number');
                             setIsShowModalThree(true);
                           }}
                           className="text-primary pointer"
                         >
                           (View)
-                        </span>{" "}
+                        </span>{' '}
                       </label>
                       <SearchAsyncSelect
                         selectedValue={values?.purchaseOrder}
                         handleChange={(valueOption) => {
-                          setFieldValue("selectGRN", "");
-                          setFieldValue("purchaseOrder", valueOption);
+                          setFieldValue('selectGRN', '');
+                          setFieldValue('purchaseOrder', valueOption);
                           setgrnGridData([]);
                           // setFieldValue("warehouse", {
                           //   value: valueOption?.warehouseId,
                           //   label: valueOption?.warehouseName,
                           // });
 
-                          setFieldValue("purchaseOrg", {
+                          setFieldValue('purchaseOrg', {
                             value: valueOption?.purchaseOrganizationId,
                             label: valueOption?.purchaseOrganizationName,
                           });
-                          setFieldValue("grossInvoiceAmount", "");
-                          setFieldValue("new_Adv_Adjustment", "");
+                          setFieldValue('grossInvoiceAmount', '');
+                          setFieldValue('new_Adv_Adjustment', '');
                           setFieldValue(
-                            "totalGRNAmount",
+                            'totalGRNAmount',
                             valueOption?.totalGRNAmount
                           );
 
@@ -473,7 +473,7 @@ export default function FormCmp({
 
                           if (!valueOption) {
                             setSupplierAmountInfo({});
-                            setFieldValue("poAdvanceAmount", "");
+                            setFieldValue('poAdvanceAmount', '');
                           }
                         }}
                         loadOptions={(v) => {
@@ -532,7 +532,7 @@ export default function FormCmp({
                             setFieldValue,
                             supplierAmountInfo
                           );
-                          setFieldValue("selectGRN", "");
+                          setFieldValue('selectGRN', '');
                         }}
                         type="button"
                         disabled={
@@ -552,7 +552,7 @@ export default function FormCmp({
                           <thead className="bg-secondary">
                             <tr>
                               <th>SL</th>
-                              <th style={{ width: "55%" }}>GRN No.</th>
+                              <th style={{ width: '55%' }}>GRN No.</th>
                               <th>Challan No.</th>
                               <th>GRN Amount</th>
                               <th>Action</th>
@@ -572,7 +572,7 @@ export default function FormCmp({
                                   className="align-middle"
                                 >
                                   <div
-                                    style={{ textDecoration: "underline" }}
+                                    style={{ textDecoration: 'underline' }}
                                     className="pl-2 text-primary pointer"
                                   >
                                     {item?.referenceName}
@@ -586,7 +586,7 @@ export default function FormCmp({
                                   className="align-middle"
                                 >
                                   <div
-                                    style={{ textDecoration: "underline" }}
+                                    style={{ textDecoration: 'underline' }}
                                     className="pl-2 text-primary pointer"
                                   >
                                     {item?.challanNo}
@@ -607,7 +607,7 @@ export default function FormCmp({
                                         supplierAmountInfo
                                       );
                                       setFieldValue(
-                                        "grossInvoiceAmount",
+                                        'grossInvoiceAmount',
                                         totalGrn -
                                           grnGridData[index].referenceAmount ||
                                           0
@@ -671,23 +671,23 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
               <DropzoneDialogBase
                 filesLimit={5}
-                acceptedFiles={["image/*", "application/pdf"]}
+                acceptedFiles={['image/*', 'application/pdf']}
                 fileObjects={fileObjects}
-                cancelButtonText={"cancel"}
-                submitButtonText={"submit"}
+                cancelButtonText={'cancel'}
+                submitButtonText={'submit'}
                 maxFileSize={100000000000000}
                 open={open}
                 onAdd={(newFileObjs) => {

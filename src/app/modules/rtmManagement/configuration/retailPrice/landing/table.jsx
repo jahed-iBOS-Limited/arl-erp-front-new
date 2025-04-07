@@ -1,21 +1,20 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import Loading from "./../../../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import Loading from './../../../../_helper/_loading';
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   CardBody,
-} from "./../../../../../../_metronic/_partials/controls";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import Select from "react-select";
-import customStyles from "./../../../../selectCustomStyle";
+} from './../../../../../../_metronic/_partials/controls';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import Select from 'react-select';
+import customStyles from './../../../../selectCustomStyle';
 import {
   getDistributionChannelDDL,
   getRetailPriceLandingData,
-} from "./../helper";
+} from './../helper';
 
 const RetailPriceLanding = () => {
   const history = useHistory();
@@ -23,7 +22,7 @@ const RetailPriceLanding = () => {
   const [gridData, setGridData] = useState();
   const [isloading, setIsLoading] = useState(false);
   const [distributionChannelDDL, setDistributionChannelDDL] = useState([]);
-  const [distributionChannel, setDistributionChannel] = useState("");
+  const [distributionChannel, setDistributionChannel] = useState('');
 
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
@@ -77,7 +76,7 @@ const RetailPriceLanding = () => {
             </button>
             <button
               onClick={() =>
-                history.push("/rtm-management/configuration/itemRate/create")
+                history.push('/rtm-management/configuration/itemRate/create')
               }
               className="btn btn-primary"
             >
@@ -129,7 +128,7 @@ const RetailPriceLanding = () => {
                 gridData?.data?.map((item, index) => {
                   return (
                     <tr key={index}>
-                      <td style={{ width: "30px" }} className="text-center">
+                      <td style={{ width: '30px' }} className="text-center">
                         {index + 1}
                       </td>
                       <td>
@@ -137,7 +136,7 @@ const RetailPriceLanding = () => {
                       </td>
                       <td>
                         <span className="pl-2">
-                          {item?.itemCode ? item?.itemCode : "-"}
+                          {item?.itemCode ? item?.itemCode : '-'}
                         </span>
                       </td>
                       <td>

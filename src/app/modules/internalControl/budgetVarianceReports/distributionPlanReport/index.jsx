@@ -1,14 +1,14 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _getCurrentMonthYearForInput } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _getCurrentMonthYearForInput } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 const initData = {
-  businessUnit: "",
+  businessUnit: '',
   monthYear: _getCurrentMonthYearForInput(),
 };
 export default function DistributionPlanReport() {
@@ -19,7 +19,7 @@ export default function DistributionPlanReport() {
   const saveHandler = (values, cb) => {};
 
   const getData = (values) => {
-    const splitMonthYear = values?.monthYear.split("-");
+    const splitMonthYear = values?.monthYear.split('-');
     const yearId = +splitMonthYear[0];
     const monthId = +splitMonthYear[1];
     setRowDta(
@@ -77,11 +77,11 @@ export default function DistributionPlanReport() {
                     <div className="col-lg-3">
                       <NewSelect
                         label="Business Unit"
-                        options={businessUnitList || ""}
+                        options={businessUnitList || ''}
                         value={values?.businessUnit}
                         name="businessUnit"
                         onChange={(valueOption) => {
-                          setFieldValue("businessUnit", valueOption);
+                          setFieldValue('businessUnit', valueOption);
                         }}
                         //   errors={errors}
                         //   touched={touched}
@@ -95,7 +95,7 @@ export default function DistributionPlanReport() {
                         placeholder="From Date"
                         type="month"
                         onChange={(e) => {
-                          setFieldValue("monthYear", e?.target?.value);
+                          setFieldValue('monthYear', e?.target?.value);
                         }}
                       />
                     </div>
@@ -103,7 +103,7 @@ export default function DistributionPlanReport() {
                       <button
                         type="button"
                         className="btn btn-primary"
-                        style={{ marginTop: "18px" }}
+                        style={{ marginTop: '18px' }}
                         onClick={() => {
                           getData(values);
                         }}
@@ -149,23 +149,23 @@ export default function DistributionPlanReport() {
                                 <td>{row?.strAreaName}</td>
                                 <td>{row?.srtRegionName}</td>
                                 <td>{row?.strTerritoryName}</td>
-                                <td style={{ textAlign: "right" }}>
+                                <td style={{ textAlign: 'right' }}>
                                   {row?.DirectShipmentQty}
                                 </td>
-                                <td style={{ textAlign: "right" }}>
+                                <td style={{ textAlign: 'right' }}>
                                   {row?.ViaShipmentQty}
                                 </td>
-                                <td style={{ textAlign: "right" }}>
+                                <td style={{ textAlign: 'right' }}>
                                   {row?.actDirectShipmentQty}
                                 </td>
-                                <td style={{ textAlign: "right" }}>
+                                <td style={{ textAlign: 'right' }}>
                                   {row?.actViaShipmentQty}
                                 </td>
-                                <td style={{ textAlign: "right" }}>
+                                <td style={{ textAlign: 'right' }}>
                                   {(row?.DirectShipmentQty || 0) -
                                     (row?.actDirectShipmentQty || 0)}
                                 </td>
-                                <td style={{ textAlign: "right" }}>
+                                <td style={{ textAlign: 'right' }}>
                                   {(row?.ViaShipmentQty || 0) -
                                     (row?.actViaShipmentQty || 0)}
                                 </td>

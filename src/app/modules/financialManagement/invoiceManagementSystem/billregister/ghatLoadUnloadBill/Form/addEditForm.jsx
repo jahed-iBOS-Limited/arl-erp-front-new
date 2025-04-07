@@ -1,27 +1,27 @@
-import React, { useState } from "react";
-import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
-import IForm from "../../../../../_helper/_form";
-import Loading from "../../../../../_helper/_loading";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import IWarningModal from "../../../../../_helper/_warningModal";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import { createG2GCustomizeBill } from "../../helper";
-import Form from "./form";
+import React, { useState } from 'react';
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IForm from '../../../../../_helper/_form';
+import Loading from '../../../../../_helper/_loading';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import IWarningModal from '../../../../../_helper/_warningModal';
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
+import { createG2GCustomizeBill } from '../../helper';
+import Form from './form';
 
 const initData = {
-  supplier: "",
-  billNo: "",
+  supplier: '',
+  billNo: '',
   billDate: _todayDate(),
   paymentDueDate: new Date(new Date().setDate(new Date().getDate() + 15)),
-  narration: "",
-  billAmount: "",
+  narration: '',
+  billAmount: '',
   toDate: _todayDate(),
   fromDate: _todayDate(),
-  port: "",
-  motherVessel: "",
+  port: '',
+  motherVessel: '',
 };
 
 export default function GhatLoadUnloadBill() {
@@ -38,12 +38,11 @@ export default function GhatLoadUnloadBill() {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const getData = (values, searchTerm) => {
-    const search = searchTerm ? `&searchTerm=${searchTerm}` : "";
+    const search = searchTerm ? `&searchTerm=${searchTerm}` : '';
     getGridData(
-      `/tms/LigterLoadUnload/GetShipPointLighterUnloadLabourBill?accountId=${accId}&businessUnitId=${buId}&supplierId=${values
-        ?.supplier?.value || 0}&fromDate=${values?.fromDate}&todate=${
-        values?.toDate
-      }${search}`,
+      `/tms/LigterLoadUnload/GetShipPointLighterUnloadLabourBill?accountId=${accId}&businessUnitId=${buId}&supplierId=${
+        values?.supplier?.value || 0
+      }&fromDate=${values?.fromDate}&todate=${values?.toDate}${search}`,
       (resData) => {
         const modifyData = resData?.map((item) => {
           return {
@@ -60,13 +59,13 @@ export default function GhatLoadUnloadBill() {
 
   const saveHandler = async (values, cb) => {
     if (uploadedImage?.length < 1) {
-      return toast.warn("Please attach a document");
+      return toast.warn('Please attach a document');
     }
     try {
       const selectedRow = gridData?.filter((item) => item?.isSelected);
 
       if (selectedRow.length === 0) {
-        toast.warning("Please select at least one");
+        toast.warning('Please select at least one');
       } else {
         const totalAmount = selectedRow?.reduce(
           (total, cur) => (total += +cur?.billAmount),

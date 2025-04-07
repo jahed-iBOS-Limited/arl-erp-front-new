@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { Input } from "../../../../../../_metronic/_partials/controls";
-import Axios from "axios";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { Input } from '../../../../../../_metronic/_partials/controls';
+import Axios from 'axios';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
   attribute: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Item Attribute is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Item Attribute is required'),
   itemTypeName: Yup.object().shape({
-    label: Yup.string().required("Item Type is required"),
-    value: Yup.string().required("Item Type is required"),
+    label: Yup.string().required('Item Type is required'),
+    value: Yup.string().required('Item Type is required'),
   }),
   itemCategoryName: Yup.object().shape({
-    label: Yup.string().required("Item Type is required"),
-    value: Yup.string().required("Item Type is required"),
+    label: Yup.string().required('Item Type is required'),
+    value: Yup.string().required('Item Type is required'),
   }),
   uom: Yup.object().shape({
-    label: Yup.string().required("UoM is required"),
-    value: Yup.string().required("UoM is required"),
+    label: Yup.string().required('UoM is required'),
+    value: Yup.string().required('UoM is required'),
   }),
 });
 
@@ -38,10 +38,10 @@ export default function FormCmp({
 }) {
   // console.log(product)
 
-  const [itemTypeList, setItemTypeList] = useState("");
+  const [itemTypeList, setItemTypeList] = useState('');
   const [itemTypeOption, setItemTypeOption] = useState([]);
   const [itemCategoryOption, setItemCategoryOption] = useState([]);
-  const [itemCategoryList, setItemCategoryList] = useState("");
+  const [itemCategoryList, setItemCategoryList] = useState('');
   // update
   const [uomDDL, setUomDDL] = useState([]);
   useEffect(() => {
@@ -55,18 +55,14 @@ export default function FormCmp({
         `/item/ItemUOM/GetItemUOMDDL?AccountId=${accId}&BusinessUnitId=${buId}`
       );
       setUomDDL(res.data);
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
   //
   const getInfoData = async () => {
     try {
-      const res = await Axios.get("/item/ItemCategory/GetItemTypeListDDL");
+      const res = await Axios.get('/item/ItemCategory/GetItemTypeListDDL');
       setItemTypeList(res.data);
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -148,7 +144,7 @@ export default function FormCmp({
                         placeholder="Uom"
                         value={values.uom}
                         onChange={(valueOption) => {
-                          setFieldValue("uom", valueOption);
+                          setFieldValue('uom', valueOption);
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -160,10 +156,10 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
@@ -181,9 +177,9 @@ export default function FormCmp({
                         placeholder="Select Itemss Type"
                         value={values.itemTypeName}
                         onChange={(valueOption) => {
-                          setFieldValue("itemTypeName", valueOption);
+                          setFieldValue('itemTypeName', valueOption);
                           categoryApiCaller(valueOption?.value);
-                          setFieldValue("itemCategoryName", "");
+                          setFieldValue('itemCategoryName', '');
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -195,10 +191,10 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
@@ -215,7 +211,7 @@ export default function FormCmp({
                         placeholder="Select Item Category"
                         value={values.itemCategoryName}
                         onChange={(valueOption) => {
-                          setFieldValue("itemCategoryName", valueOption);
+                          setFieldValue('itemCategoryName', valueOption);
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -226,10 +222,10 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
@@ -238,21 +234,21 @@ export default function FormCmp({
                     touched &&
                     touched.itemCategory
                       ? errors.itemCategory.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
               </div>
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(product)}
               ></button>

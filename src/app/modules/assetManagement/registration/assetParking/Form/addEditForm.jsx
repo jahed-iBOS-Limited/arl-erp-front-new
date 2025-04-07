@@ -1,6 +1,3 @@
-
-
-
 import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import Form from './form';
@@ -106,13 +103,13 @@ export default function AssetParkingForm({ currentRowData, setIsShowModal }) {
       currentRowData.assetReceiveId,
       currentRowData.itemId,
       setAssetDetais,
-      initData,
+      initData
     );
     getDepartmenttDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
       profileData.userId,
-      setDepartment,
+      setDepartment
     );
     getBrtaDDL(setbrtaList);
     getProfitCenterDDL(
@@ -124,7 +121,7 @@ export default function AssetParkingForm({ currentRowData, setIsShowModal }) {
           return itm;
         });
         setProfitCenterDDL(newData);
-      },
+      }
     );
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
@@ -134,13 +131,13 @@ export default function AssetParkingForm({ currentRowData, setIsShowModal }) {
         profileData?.accountId,
         selectedBusinessUnit?.value,
         assetDetais.sbuid,
-        setAssignTo,
+        setAssignTo
       );
       getresponsiblePersonDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         assetDetais.sbuid,
-        setResponsiblePerson,
+        setResponsiblePerson
       );
     }
   }, [assetDetais]);

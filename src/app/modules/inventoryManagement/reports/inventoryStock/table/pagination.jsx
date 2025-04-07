@@ -1,8 +1,7 @@
-
-import TablePagination from "@mui/material/TablePagination";
-import React, { useState } from "react";
-import TablePaginationActions from "../../../../_helper/_tablePagination";
-import SearchFormInventoryStatement from "./search";
+import TablePagination from '@mui/material/TablePagination';
+import React, { useState } from 'react';
+import TablePaginationActions from '../../../../_helper/_tablePagination';
+import SearchFormInventoryStatement from './search';
 
 export default function CustomPaginationActionsTable({
   inventoryStatement,
@@ -73,7 +72,7 @@ export default function CustomPaginationActionsTable({
           rowsPerPage={rowsPerPage}
           page={page}
           SelectProps={{
-            inputProps: { "aria-label": "rows per page" },
+            inputProps: { 'aria-label': 'rows per page' },
             native: true,
           }}
           onChangePage={handleChangePage}

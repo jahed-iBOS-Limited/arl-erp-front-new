@@ -1,5 +1,5 @@
-import React from "react";
-import { TableRow } from "./tableRow";
+import React from 'react';
+import { TableRow } from './tableRow';
 
 export function AssetReceiveReportView({
   history,
@@ -7,7 +7,5 @@ export function AssetReceiveReportView({
     params: { Asid },
   },
 }) {
-  return (
-      <TableRow Asid ={Asid}/>
-  );
+  return <TableRow Asid={Asid} />;
 }

@@ -1,14 +1,13 @@
-
-import React, { useState } from "react";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import Form from "./form";
+import React, { useState } from 'react';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import Form from './form';
 
 const initData = {
-  controllingUnit: "",
-  profitCenterGroup: "",
-  profitCenter: "",
+  controllingUnit: '',
+  profitCenterGroup: '',
+  profitCenter: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -19,7 +18,7 @@ export function ProfitCenterReport() {
 
   return (
     <IForm
-      title={"Profit Center Report"}
+      title={'Profit Center Report'}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenSave

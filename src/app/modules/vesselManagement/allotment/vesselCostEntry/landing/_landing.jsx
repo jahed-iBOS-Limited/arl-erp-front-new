@@ -1,44 +1,43 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IButton from "../../../../_helper/iButton";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { GetDomesticPortDDL } from "../../generalInformation/helper";
-import { GetVesselCostData, getMotherVesselDDL } from "../helper";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IButton from '../../../../_helper/iButton';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { GetDomesticPortDDL } from '../../generalInformation/helper';
+import { GetVesselCostData, getMotherVesselDDL } from '../helper';
 
 const initData = {
-  type: { label: "Details", value: 1 },
-  port: { label: "All", value: 0 },
-  motherVessel: { label: "All", value: 0 },
+  type: { label: 'Details', value: 1 },
+  port: { label: 'All', value: 0 },
+  motherVessel: { label: 'All', value: 0 },
 };
 const headers1 = [
-  "SL",
-  "Mother Vessel",
-  "Survey Qty",
-  "Challan Qty (Ton)",
-  "Challan Bag Qty (Bag)",
-  "Action",
+  'SL',
+  'Mother Vessel',
+  'Survey Qty',
+  'Challan Qty (Ton)',
+  'Challan Bag Qty (Bag)',
+  'Action',
 ];
 
 const headers2 = [
-  "SL",
-  "Mother Vessel",
-  "Godown Name",
-  "Qty (ton)",
-  "Qty (bag)",
-  "Rate (tk)",
-  "Rate ($)",
-  "VAT & TAX",
-  "Demurrage",
-  "Others",
+  'SL',
+  'Mother Vessel',
+  'Godown Name',
+  'Qty (ton)',
+  'Qty (bag)',
+  'Rate (tk)',
+  'Rate ($)',
+  'VAT & TAX',
+  'Demurrage',
+  'Others',
 ];
 
 const getHeaders = (values) => {
@@ -77,8 +76,9 @@ const VesselCostEntry = () => {
       );
     } else {
       getGridData(
-        `/wms/FertilizerOperation/ViewVesselCostTopSheetDetails?type=2&MotherVesselId=${values
-          ?.motherVessel?.value || 0}`,
+        `/wms/FertilizerOperation/ViewVesselCostTopSheetDetails?type=2&MotherVesselId=${
+          values?.motherVessel?.value || 0
+        }`,
         (resData) => {
           setGridData(resData);
         }
@@ -89,7 +89,6 @@ const VesselCostEntry = () => {
   useEffect(() => {
     setLandingData(initData);
     GetDomesticPortDDL(setPortDDL);
-
   }, [accId, buId]);
 
   let totalSurveyQty = 0;
@@ -119,15 +118,15 @@ const VesselCostEntry = () => {
                     <NewSelect
                       name="type"
                       options={[
-                        { label: "Details", value: 1 },
-                        { label: "Top Sheet", value: 2 },
+                        { label: 'Details', value: 1 },
+                        { label: 'Top Sheet', value: 2 },
                       ]}
                       value={values?.type}
                       label="Type"
                       onChange={(valueOption) => {
-                        setFieldValue("type", valueOption);
-                        setFieldValue("motherVessel", "");
-                        setFieldValue("port", "");
+                        setFieldValue('type', valueOption);
+                        setFieldValue('motherVessel', '');
+                        setFieldValue('port', '');
                         setGridData([]);
                       }}
                       placeholder="Select Type"
@@ -136,12 +135,12 @@ const VesselCostEntry = () => {
                   <div className="col-lg-3">
                     <NewSelect
                       name="port"
-                      options={[{ label: "All", value: 0 }, ...portDDL] || []}
+                      options={[{ label: 'All', value: 0 }, ...portDDL] || []}
                       value={values?.port}
                       label="Loading Port"
                       onChange={(valueOption) => {
-                        setFieldValue("port", valueOption);
-                        setFieldValue("motherVessel", "");
+                        setFieldValue('port', valueOption);
+                        setFieldValue('motherVessel', '');
                         getMotherVesselDDL(
                           accId,
                           buId,
@@ -155,11 +154,11 @@ const VesselCostEntry = () => {
                   <div className="col-lg-3">
                     <NewSelect
                       name="motherVessel"
-                      options={[{ label: "All", value: 0 }, ...motherVesselDDL]}
+                      options={[{ label: 'All', value: 0 }, ...motherVesselDDL]}
                       value={values?.motherVessel}
                       label="Mother Vessel"
                       onChange={(valueOption) => {
-                        setFieldValue("motherVessel", valueOption);
+                        setFieldValue('motherVessel', valueOption);
                       }}
                       placeholder="Mother Vessel"
                     />
@@ -175,7 +174,7 @@ const VesselCostEntry = () => {
                     <table
                       id="table-to-xlsx"
                       className={
-                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                        'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                       }
                     >
                       <thead>
@@ -223,7 +222,7 @@ const VesselCostEntry = () => {
                                         });
                                       }}
                                     >
-                                      <IEdit title={"Rate Entry"} />
+                                      <IEdit title={'Rate Entry'} />
                                     </span>
                                   </div>
                                 </td>
@@ -231,7 +230,7 @@ const VesselCostEntry = () => {
                             );
                           })}
                           {gridData?.length > 0 && (
-                            <tr style={{ fontWeight: "bold" }}>
+                            <tr style={{ fontWeight: 'bold' }}>
                               <td className="text-right" colSpan={2}>
                                 Total
                               </td>
@@ -286,7 +285,7 @@ const VesselCostEntry = () => {
                             );
                           })}
                           {gridData?.length > 0 && (
-                            <tr style={{ fontWeight: "bold" }}>
+                            <tr style={{ fontWeight: 'bold' }}>
                               <td className="text-right" colSpan={3}>
                                 Total
                               </td>

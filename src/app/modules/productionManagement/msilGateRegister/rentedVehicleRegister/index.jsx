@@ -1,23 +1,23 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IEdit from "../../../_helper/_helperIcons/_edit";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import PaginationSearch from "../../../_helper/_search";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _timeFormatter } from "../../../_helper/_timeFormatter";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IEdit from '../../../_helper/_helperIcons/_edit';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import PaginationSearch from '../../../_helper/_search';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _timeFormatter } from '../../../_helper/_timeFormatter';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
 
 function RentedVehicleRegisterLanding() {
   const history = useHistory();
@@ -33,14 +33,15 @@ function RentedVehicleRegisterLanding() {
     getRowData(
       `/mes/MSIL/GetRentalVehicleRegister?intBusinessUnitId=${selectedBusinessUnit?.value}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
-
   }, []);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getRowData(
-      `/mes/MSIL/GetRentalVehicleRegister?intBusinessUnitId=${selectedBusinessUnit?.value
-      }&pageNo=${pageNo}&pageSize=${pageSize}&search=${searchValue}&date=${values?.date ||
-      ""}`
+      `/mes/MSIL/GetRentalVehicleRegister?intBusinessUnitId=${
+        selectedBusinessUnit?.value
+      }&pageNo=${pageNo}&pageSize=${pageSize}&search=${searchValue}&date=${
+        values?.date || ''
+      }`
     );
   };
 
@@ -54,13 +55,13 @@ function RentedVehicleRegisterLanding() {
         enableReinitialize={true}
         initialValues={{}}
         //validationSchema={{}}
-        onSubmit={() => { }}
+        onSubmit={() => {}}
       >
         {({ values, setFieldValue }) => (
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Rented Vehicle Register"}>
+              <CardHeader title={'Rented Vehicle Register'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
@@ -87,19 +88,21 @@ function RentedVehicleRegisterLanding() {
                         name="date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("date", e.target.value);
+                          setFieldValue('date', e.target.value);
                         }}
                       />
                     </div>
                     <div>
                       <button
-                        style={{ marginTop: "18px" }}
+                        style={{ marginTop: '18px' }}
                         className="btn btn-primary ml-2"
                         disabled={false}
                         onClick={() => {
                           getRowData(
-                            `/mes/MSIL/GetRentalVehicleRegister?intBusinessUnitId=${selectedBusinessUnit?.value
-                            }&pageNo=${pageNo}&pageSize=${pageSize}&search=${""}&date=${values?.date
+                            `/mes/MSIL/GetRentalVehicleRegister?intBusinessUnitId=${
+                              selectedBusinessUnit?.value
+                            }&pageNo=${pageNo}&pageSize=${pageSize}&search=${''}&date=${
+                              values?.date
                             }`
                           );
                         }}
@@ -121,7 +124,7 @@ function RentedVehicleRegisterLanding() {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>তারিখ</th>
                             <th>ড্রাইভারের নাম</th>
                             <th>ড্রাইভার মোবাইল নাম্বার</th>
@@ -131,7 +134,7 @@ function RentedVehicleRegisterLanding() {
                             <th>বহির্গমনের সময়(লাঞ্চের আগে)</th>
                             <th>প্রবেশের সময়(লাঞ্চের পরে)</th>
                             <th>বহির্গমনের সময়(লাঞ্চের পরে)</th>
-                            <th style={{ width: "50px" }}>Action</th>
+                            <th style={{ width: '50px' }}>Action</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -150,22 +153,22 @@ function RentedVehicleRegisterLanding() {
                                 </td>
                                 <td className="text-center">
                                   {_timeFormatter(
-                                    item?.tmInTimeBeforeLunch || ""
+                                    item?.tmInTimeBeforeLunch || ''
                                   )}
                                 </td>
                                 <td className="text-center">
                                   {_timeFormatter(
-                                    item?.tmOutTimeBeforeLunch || ""
+                                    item?.tmOutTimeBeforeLunch || ''
                                   )}
                                 </td>
                                 <td className="text-center">
                                   {_timeFormatter(
-                                    item?.tmInTimeAfterLunch || ""
+                                    item?.tmInTimeAfterLunch || ''
                                   )}
                                 </td>
                                 <td className="text-center">
                                   {_timeFormatter(
-                                    item?.tmOutTimeAfterLunch || ""
+                                    item?.tmOutTimeAfterLunch || ''
                                   )}
                                 </td>
                                 <td className="text-center">

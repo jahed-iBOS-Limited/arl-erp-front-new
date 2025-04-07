@@ -1,25 +1,24 @@
-
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { Formik, Form } from "formik";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import { Formik, Form } from 'formik';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
 import {
   getShopfloorDDL,
   getBOMItemDDL,
   getPoStatusReport,
   getProductionCodeDDL,
-} from "../helper";
-import { getPlantNameDDL_api } from "../../../../_helper/_commonApi";
+} from '../helper';
+import { getPlantNameDDL_api } from '../../../../_helper/_commonApi';
 
 const initData = {
-  plant: "",
-  shopFloor: "",
-  itemDDL: "",
+  plant: '',
+  shopFloor: '',
+  itemDDL: '',
 };
 
 function PoStatusReportLanding() {
@@ -78,10 +77,10 @@ function PoStatusReportLanding() {
                       value={values?.plant}
                       label="Select Plant"
                       onChange={(valueOption) => {
-                        setFieldValue("item", "");
-                        setFieldValue("shopFloor", "");
+                        setFieldValue('item', '');
+                        setFieldValue('shopFloor', '');
                         setGridData([]);
-                        setFieldValue("plant", valueOption);
+                        setFieldValue('plant', valueOption);
                         getShopfloorDDL(
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
@@ -101,9 +100,9 @@ function PoStatusReportLanding() {
                       value={values?.shopFloor}
                       label="Select Shop Floor"
                       onChange={(valueOption) => {
-                        setFieldValue("item", "");
+                        setFieldValue('item', '');
                         setGridData([]);
-                        setFieldValue("shopFloor", valueOption);
+                        setFieldValue('shopFloor', valueOption);
                         getBOMItemDDL(
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
@@ -124,7 +123,7 @@ function PoStatusReportLanding() {
                       value={values?.item}
                       label="Select Item"
                       onChange={(valueOption) => {
-                        setFieldValue("item", valueOption);
+                        setFieldValue('item', valueOption);
                         getProductionCodeDDL(
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
@@ -144,14 +143,14 @@ function PoStatusReportLanding() {
                       value={values?.productionCode}
                       label="Select Production Code"
                       onChange={(valueOption) => {
-                        setFieldValue("productionCode", valueOption);
+                        setFieldValue('productionCode', valueOption);
                       }}
                       placeholder="Production Code"
                       errors={errors}
                       touched={touched}
                     />
                   </div>
-                  <div style={{ marginTop: "17px" }} className="col-lg-1">
+                  <div style={{ marginTop: '17px' }} className="col-lg-1">
                     <button
                       type="button"
                       className="btn btn-primary"
@@ -170,7 +169,7 @@ function PoStatusReportLanding() {
                   </div>
                   {gridData?.length > 0 && (
                     <div
-                      style={{ marginTop: "15px" }}
+                      style={{ marginTop: '15px' }}
                       className="col-lg d-flex justify-content-end"
                     >
                       <ReactToPrint
@@ -180,7 +179,7 @@ function PoStatusReportLanding() {
                             className="btn btn-primary px-4 py-1"
                           >
                             <img
-                              style={{ width: "25px", paddingRight: "5px" }}
+                              style={{ width: '25px', paddingRight: '5px' }}
                               src={printIcon}
                               alt="print-icon"
                             />
@@ -219,25 +218,25 @@ function PoStatusReportLanding() {
                               item?.parentItemid,
                               gridData[index - 1]?.parentItemid
                             ) && (
-                                <>
-                                  <tr>
-                                    <td
-                                      colSpan={6}
-                                      align="left"
-                                      style={{ backgroundColor: "#FEF3C7" }}
-                                    >
-                                      <div className="text-left pl-2">
-                                        {yellowMaker(
-                                          item?.itemLv,
-                                          index,
-                                          item?.parentItemid,
-                                          gridData[index - 1]?.parentItemid
-                                        )}
-                                      </div>
-                                    </td>
-                                  </tr>
-                                </>
-                              )}
+                              <>
+                                <tr>
+                                  <td
+                                    colSpan={6}
+                                    align="left"
+                                    style={{ backgroundColor: '#FEF3C7' }}
+                                  >
+                                    <div className="text-left pl-2">
+                                      {yellowMaker(
+                                        item?.itemLv,
+                                        index,
+                                        item?.parentItemid,
+                                        gridData[index - 1]?.parentItemid
+                                      )}
+                                    </div>
+                                  </td>
+                                </tr>
+                              </>
+                            )}
 
                             <tr key={index}>
                               <td className="text-center">
@@ -265,7 +264,7 @@ function PoStatusReportLanding() {
                               </td>
                               <td>
                                 <div className="pl-2">
-                                  {item?.poStatus ? "true" : "false"}
+                                  {item?.poStatus ? 'true' : 'false'}
                                 </div>
                               </td>
                             </tr>

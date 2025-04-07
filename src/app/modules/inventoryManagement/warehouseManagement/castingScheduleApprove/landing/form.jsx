@@ -1,9 +1,9 @@
-import React from "react";
-import { Form } from "formik";
-import Loading from "../../../../_helper/_loading";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React from 'react';
+import { Form } from 'formik';
+import Loading from '../../../../_helper/_loading';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 export default function FormCmp({
   btnRef,
@@ -34,7 +34,7 @@ export default function FormCmp({
               placeholder="Date"
               type="date"
               onChange={(e) => {
-                setFieldValue("fromDate", e.target.value);
+                setFieldValue('fromDate', e.target.value);
               }}
             />
           </div>
@@ -47,7 +47,7 @@ export default function FormCmp({
               placeholder="Date"
               type="date"
               onChange={(e) => {
-                setFieldValue("toDate", e.target.value);
+                setFieldValue('toDate', e.target.value);
               }}
             />
           </div>
@@ -60,7 +60,7 @@ export default function FormCmp({
               label="Ship Point"
               onChange={(valueOption) => {
                 setRowData([]);
-                setFieldValue("shipPoint", valueOption);
+                setFieldValue('shipPoint', valueOption);
               }}
               placeholder="Ship Point"
               errors={errors}
@@ -91,7 +91,7 @@ export default function FormCmp({
                   <tr>
                     <th
                       className="text-center cursor-pointer"
-                      style={{ width: "30px" }}
+                      style={{ width: '30px' }}
                     >
                       <input
                         type="checkbox"
@@ -100,13 +100,13 @@ export default function FormCmp({
                         onChange={() => allSelect(!selectedAll())}
                       />
                     </th>
-                    <th style={{ width: "30px" }}>SL</th>
-                    <th style={{ width: "100px" }}>Client Name</th>
-                    <th style={{ width: "70px" }}>Demand Date</th>
-                    <th style={{ width: "70px" }}>Type of work</th>
-                    <th style={{ width: "220px" }}>Item/Qty</th>
-                    <th style={{ width: "195px" }}>Casting Date/Time</th>
-                    <th style={{ width: "100px" }}>Remarks</th>
+                    <th style={{ width: '30px' }}>SL</th>
+                    <th style={{ width: '100px' }}>Client Name</th>
+                    <th style={{ width: '70px' }}>Demand Date</th>
+                    <th style={{ width: '70px' }}>Type of work</th>
+                    <th style={{ width: '220px' }}>Item/Qty</th>
+                    <th style={{ width: '195px' }}>Casting Date/Time</th>
+                    <th style={{ width: '100px' }}>Remarks</th>
                     <th>Marketing Concern</th>
                   </tr>
                 </thead>
@@ -121,7 +121,7 @@ export default function FormCmp({
                           onChange={() => {
                             dataChangeHandler(
                               index,
-                              "isSelected",
+                              'isSelected',
                               !td.isSelected
                             );
                           }}
@@ -138,11 +138,11 @@ export default function FormCmp({
                               <tr>
                                 <td
                                   className="text-left"
-                                  style={{ border: "none", width: "65%" }}
+                                  style={{ border: 'none', width: '65%' }}
                                 >
                                   {item?.strItem}
                                 </td>
-                                <td style={{ border: "none", width: "35%" }}>
+                                <td style={{ border: 'none', width: '35%' }}>
                                   <InputField
                                     value={item?.numQuantity}
                                     name="numQuantity"
@@ -151,7 +151,7 @@ export default function FormCmp({
                                     onChange={(e) => {
                                       dataChangeHandler(
                                         index,
-                                        "numQuantity",
+                                        'numQuantity',
                                         e?.target?.value,
                                         nestedIndex?.toString()
                                       );
@@ -165,7 +165,7 @@ export default function FormCmp({
                       </td>
                       <td>
                         <input
-                          style={{ width: "195px" }}
+                          style={{ width: '195px' }}
                           value={td?.dteCastingDate}
                           name="dteCastingDate"
                           type="datetime-local"
@@ -173,7 +173,7 @@ export default function FormCmp({
                           onChange={(e) => {
                             dataChangeHandler(
                               index,
-                              "dteCastingDate",
+                              'dteCastingDate',
                               e?.target?.value
                             );
                           }}
@@ -188,7 +188,7 @@ export default function FormCmp({
                           onChange={(e) => {
                             dataChangeHandler(
                               index,
-                              "strRemarks",
+                              'strRemarks',
                               e?.target?.value
                             );
                           }}
@@ -215,7 +215,7 @@ export default function FormCmp({
 
         <button
           type="submit"
-          style={{ display: "none" }}
+          style={{ display: 'none' }}
           ref={btnRef}
           onSubmit={() => handleSubmit()}
         ></button>

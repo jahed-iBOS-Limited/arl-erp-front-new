@@ -1,31 +1,31 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 
-import axios from "axios";
-import CommonTable from "../../../_helper/commonTable";
-import GrandParentTableBody from "./grandParentTableBody";
+import axios from 'axios';
+import CommonTable from '../../../_helper/commonTable';
+import GrandParentTableBody from './grandParentTableBody';
 import {
   gateEntry,
   getRowWithItemId,
   grandParentTableHeaders,
   grandParentTotalSum,
-} from "./helper";
-import { QcManagementContext } from "./qcManagementContext";
-import { toast } from "react-toastify";
+} from './helper';
+import { QcManagementContext } from './qcManagementContext';
+import { toast } from 'react-toastify';
 const initData = {
-  po: "",
-  poType: "",
-  plant: "",
-  warehouse: "",
-  poNo: "",
+  po: '',
+  poType: '',
+  plant: '',
+  warehouse: '',
+  poNo: '',
 };
 export default function QualityCheckCreateForm() {
   const {
@@ -38,12 +38,8 @@ export default function QualityCheckCreateForm() {
   const [poDDL, getPoDDL] = useAxiosGet();
   const [poTypeDDL, getPoTypeDDL] = useAxiosGet();
   const [, saveQcItem, loadQcITem] = useAxiosPost();
-  const [
-    headerData,
-    getHeaderData,
-    loadHeaderData,
-    setHeaderData,
-  ] = useAxiosGet([]);
+  const [headerData, getHeaderData, loadHeaderData, setHeaderData] =
+    useAxiosGet([]);
 
   //general handler
   const handleHeaderData = (values) => {
@@ -69,7 +65,7 @@ export default function QualityCheckCreateForm() {
       const rowData = await getRowWithItemId(buId, itemId);
       const updatedHeaderData = [...headerData];
       const parentSingleData =
-        updatedHeaderData[grandParentIndex]["headersList"][parentIndex];
+        updatedHeaderData[grandParentIndex]['headersList'][parentIndex];
       parentSingleData.rowList = rowData;
       setHeaderData(updatedHeaderData);
     } catch (error) {
@@ -136,7 +132,7 @@ export default function QualityCheckCreateForm() {
         deductionQuantity: 0,
         actualQuantity: 0,
         unloadedDeductionQuantity: 0,
-        remarks: "",
+        remarks: '',
         rowList: [],
       },
     ];
@@ -168,7 +164,7 @@ export default function QualityCheckCreateForm() {
 
     const challanQtyDeviedResult =
       grandParentItem?.netWeightWithoutBag / grandParentItem?.qcQtyBeg;
-    const parentSingleData = grandParentItem["headersList"][parentIndex];
+    const parentSingleData = grandParentItem['headersList'][parentIndex];
     parentSingleData.qcQuantityBag = +e.target.value;
     parentSingleData.qcQuantity = challanQtyDeviedResult * +e.target.value;
     //calculate actual value and deduction qty
@@ -197,7 +193,7 @@ export default function QualityCheckCreateForm() {
   const handleQcQtyForParent = (e, grandParentIndex, parentIndex) => {
     const updatedHeaderData = [...headerData];
     const grandParentSingleItem = updatedHeaderData[grandParentIndex];
-    const parentSingleData = grandParentSingleItem["headersList"][parentIndex];
+    const parentSingleData = grandParentSingleItem['headersList'][parentIndex];
     parentSingleData.qcQuantity = +e.target.value;
     //calculate actual value and deduction qty
     parentSingleData.deductionPercentage = parentSingleData.rowList.reduce(
@@ -226,7 +222,7 @@ export default function QualityCheckCreateForm() {
   const handleUnloadDeductForParent = (e, grandParentIndex, parentIndex) => {
     const updatedHeaderData = [...headerData];
     const grandParentSingleItem = updatedHeaderData[grandParentIndex];
-    const parentSingleData = grandParentSingleItem["headersList"][parentIndex];
+    const parentSingleData = grandParentSingleItem['headersList'][parentIndex];
     parentSingleData.unloadedDeductionQuantity = +e.target.value;
     //calculate actual value and deduction qty
     parentSingleData.deductionPercentage = parentSingleData.rowList.reduce(
@@ -262,14 +258,14 @@ export default function QualityCheckCreateForm() {
   const handleRemarksForParent = (e, grandParentIndex, parentIndex) => {
     const updatedHeaderData = [...headerData];
     const parentSingleData =
-      updatedHeaderData[grandParentIndex]["headersList"][parentIndex];
+      updatedHeaderData[grandParentIndex]['headersList'][parentIndex];
     parentSingleData.remarks = e.target.value;
     setHeaderData(updatedHeaderData);
   };
   const handleHeaderRowDeleteFromParent = (grandParentIndex, parentIndex) => {
     const updatedHeaderData = [...headerData];
     const grandParentSingleItem = updatedHeaderData[grandParentIndex];
-    updatedHeaderData[grandParentIndex]["headersList"].splice(parentIndex, 1);
+    updatedHeaderData[grandParentIndex]['headersList'].splice(parentIndex, 1);
     const grandTotalSum = grandParentTotalSum(
       grandParentSingleItem?.headersList
     );
@@ -300,8 +296,8 @@ export default function QualityCheckCreateForm() {
   const actualValueHandler = (e, grandParentIndex, parentIndex, childIndex) => {
     const updatedHeaderData = [...headerData];
     const childRowItem =
-      updatedHeaderData[grandParentIndex]["headersList"][parentIndex][
-        "rowList"
+      updatedHeaderData[grandParentIndex]['headersList'][parentIndex][
+        'rowList'
       ][childIndex];
 
     const inputValue = +e.target?.value;
@@ -334,8 +330,8 @@ export default function QualityCheckCreateForm() {
   ) => {
     const updatedHeaderData = [...headerData];
     const grandParentSingleItem = updatedHeaderData[grandParentIndex];
-    const parentItem = grandParentSingleItem["headersList"][parentIndex];
-    const childRowItem = parentItem["rowList"][childIndex];
+    const parentItem = grandParentSingleItem['headersList'][parentIndex];
+    const childRowItem = parentItem['rowList'][childIndex];
     childRowItem.manualDeduction = +e.target?.value;
     //calculate deduction qty value and actual value
     parentItem.deductionPercentage = parentItem.rowList.reduce((acc, item) => {
@@ -360,8 +356,8 @@ export default function QualityCheckCreateForm() {
   const handleRemarks = (e, grandParentIndex, parentIndex, childIndex) => {
     const updatedHeaderData = [...headerData];
     const childRowItem =
-      updatedHeaderData[grandParentIndex]["headersList"][parentIndex][
-        "rowList"
+      updatedHeaderData[grandParentIndex]['headersList'][parentIndex][
+        'rowList'
       ][childIndex];
     childRowItem.remarks = e.target?.value;
     setHeaderData(updatedHeaderData);
@@ -369,9 +365,9 @@ export default function QualityCheckCreateForm() {
   const handleRowItemDelete = (grandParentIndex, parentIndex, childIndex) => {
     const updatedHeaderData = [...headerData];
     const grandParentSingleItem = updatedHeaderData[grandParentIndex];
-    const parentItem = grandParentSingleItem["headersList"][parentIndex];
-    updatedHeaderData[grandParentIndex]["headersList"][parentIndex][
-      "rowList"
+    const parentItem = grandParentSingleItem['headersList'][parentIndex];
+    updatedHeaderData[grandParentIndex]['headersList'][parentIndex][
+      'rowList'
     ].splice(childIndex, 1);
     //calculate deduction qty value and actual value
     parentItem.deductionPercentage = parentItem.rowList.reduce((acc, item) => {
@@ -399,7 +395,7 @@ export default function QualityCheckCreateForm() {
   const saveHandler = (values, cb) => {
     const isqcQtyNullable = headerData?.some((item) => !item?.qcQty);
     if (isqcQtyNullable) {
-      return toast.warn("Challan Qty must be input first");
+      return toast.warn('Challan Qty must be input first');
     }
     const payload = headerData?.map((item) => ({
       headerObject: {
@@ -424,7 +420,7 @@ export default function QualityCheckCreateForm() {
         deductionQuantity: item?.deductionQuantity,
         unloadedDeductionQuantity: item?.unloadDeduct || 0,
         isReceived: item?.isReceived,
-        warehouseComment: item?.warehouseComment || "",
+        warehouseComment: item?.warehouseComment || '',
         challanQuantityBag: item?.qcQtyBeg,
         bagWeightDeductQuantity: item?.bagWeightDeductQuantity || 0,
       },
@@ -452,7 +448,6 @@ export default function QualityCheckCreateForm() {
     getPoDDL(
       `/procurement/BUPurchaseOrganization/GetBUPurchaseOrganizationDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
-
   }, [accId, buId]);
   return (
     <Formik
@@ -485,7 +480,7 @@ export default function QualityCheckCreateForm() {
                     value={values?.po}
                     label="Purchase Organization"
                     onChange={(valueOption) => {
-                      setFieldValue("po", valueOption);
+                      setFieldValue('po', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -498,7 +493,7 @@ export default function QualityCheckCreateForm() {
                     value={values?.poType}
                     label="PO Type"
                     onChange={(valueOption) => {
-                      setFieldValue("poType", valueOption);
+                      setFieldValue('poType', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -512,8 +507,8 @@ export default function QualityCheckCreateForm() {
                     value={values?.plant}
                     label="Plant"
                     onChange={(valueOption) => {
-                      setFieldValue("warehouse", "");
-                      setFieldValue("plant", valueOption);
+                      setFieldValue('warehouse', '');
+                      setFieldValue('plant', valueOption);
                       if (!valueOption) return;
                       getWarehouseDDL(
                         `/wms/ItemPlantWarehouse/GetWareHouseItemPlantWareHouseDDL?accountId=${accId}&businessUnitId=${buId}&PlantId=${valueOption?.value}`
@@ -530,7 +525,7 @@ export default function QualityCheckCreateForm() {
                     value={values?.warehouse}
                     label="Warehouse"
                     onChange={(valueOption) => {
-                      setFieldValue("warehouse", valueOption);
+                      setFieldValue('warehouse', valueOption);
                     }}
                     isDisabled={!values?.plant}
                     errors={errors}
@@ -542,7 +537,7 @@ export default function QualityCheckCreateForm() {
                   <SearchAsyncSelect
                     selectedValue={values?.poNo}
                     handleChange={(valueOption) => {
-                      setFieldValue("poNo", valueOption);
+                      setFieldValue('poNo', valueOption);
                     }}
                     placeholder="Search PO No"
                     loadOptions={(v) => {
@@ -572,15 +567,15 @@ export default function QualityCheckCreateForm() {
               {headerData?.length > 0 && (
                 <div
                   style={{
-                    justifyContent: "flex-end",
-                    gap: "20px",
-                    marginTop: "20px",
+                    justifyContent: 'flex-end',
+                    gap: '20px',
+                    marginTop: '20px',
                   }}
                   className="d-flex"
                 >
                   <div>
                     <strong>
-                      PO-Validity Date :{" "}
+                      PO-Validity Date :{' '}
                       {_dateFormatter(headerData[0]?.poValidityDate)}
                     </strong>
                   </div>
@@ -635,14 +630,14 @@ export default function QualityCheckCreateForm() {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

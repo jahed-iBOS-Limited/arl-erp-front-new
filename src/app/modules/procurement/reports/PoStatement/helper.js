@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from 'axios';
 export const getAssetReceiveReportData = async (
   accId,
   buId,
@@ -10,10 +10,12 @@ export const getAssetReceiveReportData = async (
   pageSize,
   search
 ) => {
-  const searchPath = search ? `searchTearm=${search}&` : "";
+  const searchPath = search ? `searchTearm=${search}&` : '';
   setLoading(true);
   try {
-    const res = await Axios.get(`/asset/Asset/GetAssetReportForEmployee?AccountId=${accId}&UnitId=${buId}&ActionBy=${userId}&Type=${value}&${searchPath}PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`)
+    const res = await Axios.get(
+      `/asset/Asset/GetAssetReportForEmployee?AccountId=${accId}&UnitId=${buId}&ActionBy=${userId}&Type=${value}&${searchPath}PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
+    );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
       setLoading(false);
@@ -29,7 +31,7 @@ export const getOrderTypeList = async (setter) => {
       `/procurement/PurchaseOrder/GetOrderTypeListDDL`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getRefferenceTypeList = async (orderTypeId, setter) => {
@@ -38,7 +40,7 @@ export const getRefferenceTypeList = async (orderTypeId, setter) => {
       `/procurement/PurchaseOrder/getPOReferenceType?PoTypeId=${orderTypeId}`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getPlantList = async (userId, accId, buId, setter) => {
@@ -47,7 +49,7 @@ export const getPlantList = async (userId, accId, buId, setter) => {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getPOStatementLanding = async (
@@ -69,9 +71,11 @@ export const getPOStatementLanding = async (
   search
 ) => {
   setLoading(true);
-  const searchPath = search ? `searchTerm=${search}&` : "";
+  const searchPath = search ? `searchTerm=${search}&` : '';
   try {
-    const res = await Axios.get(`/procurement/PurchaseOrder/GetPurchaseOrderStatement?${searchPath}AccountId=${accId}&UnitId=${buId}&Sbu=${sbu}&Plant=${plantId}&WearHouse=${whId}&PurchaseOrderTypeId=${ordId}&PurchaseOrganizationId=${poId}&ReferenceTypeId=${refId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}&isApproved=${status}&showBoth=false&fromDate=${fromDate}&toDate=${toDate}`);
+    const res = await Axios.get(
+      `/procurement/PurchaseOrder/GetPurchaseOrderStatement?${searchPath}AccountId=${accId}&UnitId=${buId}&Sbu=${sbu}&Plant=${plantId}&WearHouse=${whId}&PurchaseOrderTypeId=${ordId}&PurchaseOrganizationId=${poId}&ReferenceTypeId=${refId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}&isApproved=${status}&showBoth=false&fromDate=${fromDate}&toDate=${toDate}`
+    );
     setLoading(false);
     setter(res?.data);
   } catch (error) {

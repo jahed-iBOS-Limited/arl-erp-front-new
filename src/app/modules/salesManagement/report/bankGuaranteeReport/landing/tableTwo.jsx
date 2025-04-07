@@ -1,18 +1,18 @@
-import React from "react";
-import ICustomTable from "../../../../_helper/_customTable";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import React from 'react';
+import ICustomTable from '../../../../_helper/_customTable';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
 
 const ths_2 = [
-  "Sl",
-  "Partner Name",
-  "Existing Mortgage Amount",
-  "Updated Mortgage Amount",
-  "Existing Bank Name",
-  "Updated Bank Name",
-  "Branch Name",
-  "Issue Date",
-  "Expire Date",
-  "Remarks",
+  'Sl',
+  'Partner Name',
+  'Existing Mortgage Amount',
+  'Updated Mortgage Amount',
+  'Existing Bank Name',
+  'Updated Bank Name',
+  'Branch Name',
+  'Issue Date',
+  'Expire Date',
+  'Remarks',
 ];
 
 const TableTwo = ({ obj }) => {

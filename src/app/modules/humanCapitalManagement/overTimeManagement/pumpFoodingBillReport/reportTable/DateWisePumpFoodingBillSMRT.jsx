@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { modifyDataset } from "../helper";
+import React, { useEffect, useState } from 'react';
+import { modifyDataset } from '../helper';
 
 export default function DateWisePumpFoodingBillSMRT({ rowData, values }) {
   const [modifidRowDto, setModifidRowDto] = useState([]);
@@ -21,7 +21,7 @@ export default function DateWisePumpFoodingBillSMRT({ rowData, values }) {
           <table
             id=""
             className={
-              "table table-striped table-bordered global-table table-font-size-sm"
+              'table table-striped table-bordered global-table table-font-size-sm'
             }
           >
             <thead>

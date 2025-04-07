@@ -1,42 +1,48 @@
 import { lazy } from 'react';
-const EDPALoadPortCreate = lazy(() =>
-  import('./modules/shippingOperation/epdaManagement/loadPort/create'),
+const EDPALoadPortCreate = lazy(
+  () => import('./modules/shippingOperation/epdaManagement/loadPort/create')
 );
-const CreateonHireBunkerAndContionalSurvey = lazy(() =>
-  import(
-    './modules/shippingOperation/hireBunkerAndContionalSurvey/onHireBunkerACS/create'
-  ),
+const CreateonHireBunkerAndContionalSurvey = lazy(
+  () =>
+    import(
+      './modules/shippingOperation/hireBunkerAndContionalSurvey/onHireBunkerACS/create'
+    )
 );
-const VesselNominationAcceptanceCreate = lazy(() =>
-  import(
-    './modules/shippingOperation/vesselNomination/vesselNominationResponse/create'
-  ),
+const VesselNominationAcceptanceCreate = lazy(
+  () =>
+    import(
+      './modules/shippingOperation/vesselNomination/vesselNominationResponse/create'
+    )
 );
-const DeadWeightCreate = lazy(() =>
-  import(
-    './modules/shippingOperation/deadWeightPreStowagePlanning/deadWeightPreStowagePlanningChild/create'
-  ),
+const DeadWeightCreate = lazy(
+  () =>
+    import(
+      './modules/shippingOperation/deadWeightPreStowagePlanning/deadWeightPreStowagePlanningChild/create'
+    )
 );
-const CreateDischargePort = lazy(() =>
-  import('./modules/shippingOperation/departureDocuments/dischargePort/create'),
+const CreateDischargePort = lazy(
+  () =>
+    import(
+      './modules/shippingOperation/departureDocuments/dischargePort/create'
+    )
 );
-const EDPADischargePortCreate = lazy(() =>
-  import('./modules/shippingOperation/epdaManagement/dischargePort/create'),
+const EDPADischargePortCreate = lazy(
+  () =>
+    import('./modules/shippingOperation/epdaManagement/dischargePort/create')
 );
-const CreateLoadPort = lazy(() =>
-  import('./modules/shippingOperation/departureDocuments/loadPort/create'),
+const CreateLoadPort = lazy(
+  () => import('./modules/shippingOperation/departureDocuments/loadPort/create')
 );
-const SuccessMessageComponent = lazy(() =>
-  import('./modules/publicRouteComponents/success'),
+const SuccessMessageComponent = lazy(
+  () => import('./modules/publicRouteComponents/success')
 );
-const ErrorMessageComponent = lazy(() =>
-  import('./modules/publicRouteComponents/error'),
+const ErrorMessageComponent = lazy(
+  () => import('./modules/publicRouteComponents/error')
 );
 
 export const publicRouteList = [
   {
-    path:
-      '/chartering/operation/vesselNominationAcceptance/accept/:paramId/:paramCode',
+    path: '/chartering/operation/vesselNominationAcceptance/accept/:paramId/:paramCode',
     component: VesselNominationAcceptanceCreate,
     exact: true,
   },
@@ -51,26 +57,22 @@ export const publicRouteList = [
     exact: true,
   },
   {
-    path:
-      '/chartering/operation/pre-stowagePlanning/create/:paramId/:paramCode',
+    path: '/chartering/operation/pre-stowagePlanning/create/:paramId/:paramCode',
     component: DeadWeightCreate,
     exact: true,
   },
   {
-    path:
-      '/chartering/operation/onHireBunkerAndContionalSurvey/create/:paramId/:paramCode',
+    path: '/chartering/operation/onHireBunkerAndContionalSurvey/create/:paramId/:paramCode',
     component: CreateonHireBunkerAndContionalSurvey,
     exact: true,
   },
   {
-    path:
-      '/chartering/operation/dischargePortDepartureDocuments/create/:paramId/:paramCode',
+    path: '/chartering/operation/dischargePortDepartureDocuments/create/:paramId/:paramCode',
     component: CreateDischargePort,
     exact: true,
   },
   {
-    path:
-      '/chartering/operation/loadPortDepartureDocuments/create/:paramId/:paramCode',
+    path: '/chartering/operation/loadPortDepartureDocuments/create/:paramId/:paramCode',
     component: CreateLoadPort,
     exact: true,
   },

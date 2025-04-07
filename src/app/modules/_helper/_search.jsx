@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
 function PaginationSearch({
   placeholder,
@@ -8,12 +8,18 @@ function PaginationSearch({
   isDisabledFiled,
   setter,
   classes,
-  secondClasses
+  secondClasses,
 }) {
-  const [fieldValue, setFieldValues] = useState("");
+  const [fieldValue, setFieldValues] = useState('');
   return (
-    <div className={classes ? `paginationSearch ${classes}` : "paginationSearch"}>
-      <div className={secondClasses ? `input-group ${secondClasses}` : "input-group"}>
+    <div
+      className={classes ? `paginationSearch ${classes}` : 'paginationSearch'}
+    >
+      <div
+        className={
+          secondClasses ? `input-group ${secondClasses}` : 'input-group'
+        }
+      >
         <input
           type="text"
           disabled={isDisabledFiled}

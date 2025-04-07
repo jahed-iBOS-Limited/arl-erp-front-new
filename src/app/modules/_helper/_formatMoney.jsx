@@ -1,14 +1,14 @@
 export const _formatMoney = (
   amount,
   decimalCount = 2,
-  decimal = ".",
-  thousands = ","
+  decimal = '.',
+  thousands = ','
 ) => {
   try {
     decimalCount = Math.abs(decimalCount);
     decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
 
-    const negativeSign = amount < 0 ? "-" : "";
+    const negativeSign = amount < 0 ? '-' : '';
 
     let i = parseInt(
       (amount = Math.abs(Number(amount) || 0).toFixed(decimalCount))
@@ -17,14 +17,14 @@ export const _formatMoney = (
 
     return (
       negativeSign +
-      (j ? i.substr(0, j) + thousands : "") +
-      i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) +
+      (j ? i.substr(0, j) + thousands : '') +
+      i.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + thousands) +
       (decimalCount
         ? decimal +
-        Math.abs(amount - i)
-          .toFixed(decimalCount)
-          .slice(2)
-        : "")
+          Math.abs(amount - i)
+            .toFixed(decimalCount)
+            .slice(2)
+        : '')
     );
   } catch (e) {
     console.log(e);

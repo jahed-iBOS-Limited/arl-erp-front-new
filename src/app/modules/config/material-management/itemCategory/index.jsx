@@ -1,10 +1,10 @@
-import React from "react";
-import { ItemCategoryandingCard } from "./ItemCategoryTable/ItemCategoryLandingCard";
+import React from 'react';
+import { ItemCategoryandingCard } from './ItemCategoryTable/ItemCategoryLandingCard';
 
 export default function Sbu({ history }) {
-    return (
-        <div>
-            <ItemCategoryandingCard />
-        </div>
-    );
-};
+  return (
+    <div>
+      <ItemCategoryandingCard />
+    </div>
+  );
+}

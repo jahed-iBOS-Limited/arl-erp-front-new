@@ -1,32 +1,30 @@
-
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { onGetRowDataOfQcAndWeighment } from "./helper";
-import IViewModal from "../../../../_helper/_viewModal";
-import WeighmentEditOnAdministration from "./WeighmentEditOnAdministration";
+} from '../../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import { onGetRowDataOfQcAndWeighment } from './helper';
+import IViewModal from '../../../../_helper/_viewModal';
+import WeighmentEditOnAdministration from './WeighmentEditOnAdministration';
 const initialValues = {
-  businessUnit: "",
-  shipPoint: "",
-  date: "",
+  businessUnit: '',
+  shipPoint: '',
+  date: '',
 };
 const AdministrationForWeighment = () => {
   const { profileData, businessUnitList, selectedBusinessUnit } = useSelector(
@@ -49,7 +47,8 @@ const AdministrationForWeighment = () => {
       getShipPointDDL(
         `/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${theBusinessUnit?.value}&AutoId=${profileData?.userId}`,
         (data) => {
-          if (Array.isArray(data) && data?.length === 0) return toast.warn("No Ship Point Found");
+          if (Array.isArray(data) && data?.length === 0)
+            return toast.warn('No Ship Point Found');
           initialValues.shipPoint = data[0];
           onGetRowDataOfQcAndWeighment({
             accountId: profileData?.accountId,
@@ -88,7 +87,7 @@ const AdministrationForWeighment = () => {
             <Form>
               <Card>
                 {true && <ModalProgressBar />}
-                <CardHeader title={"Administration"}>
+                <CardHeader title={'Administration'}>
                   <CardHeaderToolbar></CardHeaderToolbar>
                 </CardHeader>
                 <CardBody>
@@ -103,16 +102,16 @@ const AdministrationForWeighment = () => {
                           value={values?.businessUnit}
                           label="Business Unit"
                           onChange={(valueOption) => {
-                            setFieldValue("businessUnit", valueOption);
-                            setFieldValue("shipPoint", "");
+                            setFieldValue('businessUnit', valueOption);
+                            setFieldValue('shipPoint', '');
 
                             if (valueOption) {
                               getShipPointDDL(
                                 `/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${valueOption?.value}&AutoId=${profileData?.userId}`,
                                 (data) => {
                                   if (data?.length === 0)
-                                    return toast.warn("No Ship Point Found");
-                                  setFieldValue("shipPoint", data[0]);
+                                    return toast.warn('No Ship Point Found');
+                                  setFieldValue('shipPoint', data[0]);
                                 }
                               );
                             }
@@ -126,7 +125,7 @@ const AdministrationForWeighment = () => {
                           value={values?.shipPoint}
                           label="Ship Point"
                           onChange={(valueOption) => {
-                            setFieldValue("shipPoint", valueOption);
+                            setFieldValue('shipPoint', valueOption);
                           }}
                         />
                       </div>
@@ -137,13 +136,13 @@ const AdministrationForWeighment = () => {
                           name="date"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("date", e.target.value);
+                            setFieldValue('date', e.target.value);
                           }}
                         />
                       </div>
                       <div>
                         <button
-                          style={{ marginTop: "18px" }}
+                          style={{ marginTop: '18px' }}
                           className="btn btn-primary"
                           disabled={!values?.businessUnit || !values?.shipPoint}
                           onClick={handleSubmit}
@@ -187,7 +186,7 @@ const AdministrationForWeighment = () => {
                           <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                             <thead>
                               <tr>
-                                <th style={{ width: "30px" }}>SL</th>
+                                <th style={{ width: '30px' }}>SL</th>
                                 <th>তারিখ</th>
                                 <th>গাড়ীর নাম্বার</th>
                                 <th>রেজি. নং</th>
@@ -217,7 +216,7 @@ const AdministrationForWeighment = () => {
                                         ? _dateFormatter(
                                             item?.dteLastWeightDateTime
                                           )
-                                        : "N/A"}
+                                        : 'N/A'}
                                     </td>
                                     <td>{item?.strTruckNumber}</td>
                                     <td className="text-center">

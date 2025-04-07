@@ -1,22 +1,21 @@
-
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { useSelector, shallowEqual } from "react-redux";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import Form from "../common/form";
-import Axios from "axios";
-import { toast } from "react-toastify";
-import shortid from "shortid";
-import Loading from "../../../../_helper/_loading";
+} from '../../../../../../_metronic/_partials/controls';
+import { useSelector, shallowEqual } from 'react-redux';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import Form from '../common/form';
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
+import Loading from '../../../../_helper/_loading';
 const initProduct = {
   id: undefined,
-  itemCategoryName: "",
-  itemTypeName: "",
+  itemCategoryName: '',
+  itemTypeName: '',
 };
 
 export default function ItemCategoryAddForm({
@@ -38,7 +37,7 @@ export default function ItemCategoryAddForm({
   }, shallowEqual);
 
   const saveItemCategory = async (values, cb) => {
-    console.log("mm m", values, id, profileData);
+    console.log('mm m', values, id, profileData);
     setDisabled(true);
     if (!id && values && profileData) {
       // const warehouseData = {
@@ -57,20 +56,20 @@ export default function ItemCategoryAddForm({
         sl: 0,
         itemMasterCategoryId: 0,
         accountId: profileData?.accountId,
-        itemMasterCategoryCode: "",
+        itemMasterCategoryCode: '',
         itemMasterCategoryName: values?.itemCategoryName || '',
         itemMasterTypeId: values?.itemTypeName?.value || 0,
         actionBy: profileData?.userId,
-      }
+      };
 
       try {
         setDisabled(true);
         const res = await Axios.post(
-          "/item/MasterCategory/CreateItemMasterCategory",
+          '/item/MasterCategory/CreateItemMasterCategory',
           itemCategoryCreatePayload
         );
         cb(initProduct);
-        toast.success(res.data?.message || "Submitted successfully", {
+        toast.success(res.data?.message || 'Submitted successfully', {
           toastId: shortid(),
         });
         setDisabled(false);

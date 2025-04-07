@@ -1,34 +1,33 @@
-
-import axios from "axios";
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import axios from 'axios';
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { getMonth } from "../../../../salesManagement/report/customerSalesTarget/utils";
+} from '../../../../../../_metronic/_partials/controls';
+import { getMonth } from '../../../../salesManagement/report/customerSalesTarget/utils';
 // import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
 // import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import FormikError from "../../../../_helper/_formikError";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { GetDomesticPortDDL } from "../../generalInformation/helper";
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import FormikError from '../../../../_helper/_formikError';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { GetDomesticPortDDL } from '../../generalInformation/helper';
 // import { GetShipPointDDL } from "../../generalInformation/helper";
-import { getSBUListDDL } from "../helper";
+import { getSBUListDDL } from '../helper';
 
 const initData = {
-  sbu: "",
-  port: "",
-  carrierAgent: "",
-  address: "",
-  supplierContact: "",
+  sbu: '',
+  port: '',
+  carrierAgent: '',
+  address: '',
+  supplierContact: '',
 };
 
 const GudamAllotmentForm = ({
@@ -59,7 +58,7 @@ const GudamAllotmentForm = ({
   }, [accId, buId]);
 
   const getInitData = () => {
-    if (formType === "edit") {
+    if (formType === 'edit') {
       return {
         soldToPartner: {
           value: singleItem?.soldToPartnerId,
@@ -93,7 +92,7 @@ const GudamAllotmentForm = ({
   };
 
   const saveHandler = (values) => {
-    if (formType === "edit") {
+    if (formType === 'edit') {
     } else {
       postData(
         `/wms/FertilizerOperation/CreateLighterCarrierAgent`,
@@ -165,7 +164,7 @@ const GudamAllotmentForm = ({
                           value={values?.sbu}
                           label="SBU"
                           onChange={(valueOption) => {
-                            setFieldValue("sbu", valueOption);
+                            setFieldValue('sbu', valueOption);
                           }}
                           placeholder="SBU"
                           errors={errors}
@@ -179,7 +178,7 @@ const GudamAllotmentForm = ({
                           value={values?.port}
                           label="Port"
                           onChange={(valueOption) => {
-                            setFieldValue("port", valueOption);
+                            setFieldValue('port', valueOption);
                           }}
                           placeholder="Port"
                           errors={errors}
@@ -192,13 +191,13 @@ const GudamAllotmentForm = ({
                           name="carrierAgent"
                           selectedValue={values?.carrierAgent}
                           handleChange={(valueOption) => {
-                            setFieldValue("carrierAgent", valueOption);
+                            setFieldValue('carrierAgent', valueOption);
                             setFieldValue(
-                              "address",
+                              'address',
                               valueOption?.supplierAddress
                             );
                             setFieldValue(
-                              "supplierContact",
+                              'supplierContact',
                               valueOption?.supplierContact
                             );
                           }}
@@ -229,7 +228,7 @@ const GudamAllotmentForm = ({
                               name="address"
                               type="text"
                               onChange={(e) => {
-                                setFieldValue("address", e.target.value);
+                                setFieldValue('address', e.target.value);
                               }}
                             />
                           </div>
@@ -243,7 +242,7 @@ const GudamAllotmentForm = ({
                               type="text"
                               onChange={(e) => {
                                 setFieldValue(
-                                  "supplierContact",
+                                  'supplierContact',
                                   e.target.value
                                 );
                               }}
@@ -252,7 +251,7 @@ const GudamAllotmentForm = ({
                         </>
                       )}
 
-                      {formType !== "edit" && (
+                      {formType !== 'edit' && (
                         <div className="col-12 text-right mt-5">
                           <button
                             className="btn btn-primary"
@@ -269,23 +268,23 @@ const GudamAllotmentForm = ({
                     </div>
                   </div>
                 </form>
-                {formType !== "edit" && (
+                {formType !== 'edit' && (
                   <div className="table-responsive">
                     <table
                       id="table-to-xlsx"
                       className={
-                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                        'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                       }
                     >
                       <thead>
                         <tr className="cursor-pointer">
                           {[
-                            "SL",
-                            "Port",
-                            "Carrier Agent",
+                            'SL',
+                            'Port',
+                            'Carrier Agent',
                             // "Address",
-                            "Number",
-                            "Action",
+                            'Number',
+                            'Action',
                           ]?.map((th, index) => {
                             return <th key={index}> {th} </th>;
                           })}
@@ -296,7 +295,7 @@ const GudamAllotmentForm = ({
                           return (
                             <tr key={index}>
                               <td
-                                style={{ width: "40px" }}
+                                style={{ width: '40px' }}
                                 className="text-center"
                               >
                                 {index + 1}
@@ -306,7 +305,7 @@ const GudamAllotmentForm = ({
                               {/* <td>{item?.address}</td> */}
                               <td>{item?.phone}</td>
                               <td
-                                style={{ width: "80px" }}
+                                style={{ width: '80px' }}
                                 className="text-center"
                               >
                                 <div className="d-flex justify-content-around">

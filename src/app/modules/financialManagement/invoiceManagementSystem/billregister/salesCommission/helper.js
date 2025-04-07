@@ -1,7 +1,7 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 export const GetShipPointDDL = async (accId, buId, setter) => {
   try {
@@ -86,36 +86,36 @@ export const GetSalesCommissionById = async (deliveryId, setter) => {
       } = res?.data;
       const modified = {
         ...res?.data,
-        sbu: "",
+        sbu: '',
         shippoint: shippointId
           ? { value: shippointId, label: shippointName }
-          : "",
+          : '',
         commission: numComission || 0,
         soldToParty: soldToPartnerId
           ? { value: soldToPartnerId, label: soldToPartnerName }
-          : "",
+          : '',
         supplierName: supplierId
           ? { value: supplierId, label: supplierName }
-          : "",
+          : '',
         supplierDate: _dateFormatter(supplierDate) || _todayDate(),
-        itemName: itemId ? { value: itemId, label: itemName } : "",
+        itemName: itemId ? { value: itemId, label: itemName } : '',
         itemPrice: itemRate || 0,
         quantity: numQuantity || 0,
         totalPrice: numTotalPrice || 0,
-        supplierCountry: fromCountryName || "",
-        deliveryAddress: deliveryAddress || "",
-        lcNo: lcnumber || "",
+        supplierCountry: fromCountryName || '',
+        deliveryAddress: deliveryAddress || '',
+        lcNo: lcnumber || '',
         lcDate: _dateFormatter(dteLcdate) || _todayDate(),
-        bankName: bankName || "",
-        permissionNumber: permissionNumber || "",
+        bankName: bankName || '',
+        permissionNumber: permissionNumber || '',
         govtPrice: govtRate || 0,
         permissionDate: _dateFormatter(dtePermissionDate) || _todayDate(),
         challanDate: _dateFormatter(deliveryDate) || _todayDate(),
-        shipName: shipName || "",
+        shipName: shipName || '',
         maxQuantity: 100000000,
-        color: color || "",
-        district: zilaName || "",
-        upazila: upzilaName || "",
+        color: color || '',
+        district: zilaName || '',
+        upazila: upzilaName || '',
       };
       setter(modified);
     }

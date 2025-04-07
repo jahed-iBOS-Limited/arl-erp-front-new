@@ -1,18 +1,17 @@
-
-import React from "react";
+import React from 'react';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import ICustomTable from "../../../../_helper/_customTable";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
-import { useEffect } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+} from '../../../../../../_metronic/_partials/controls';
+import ICustomTable from '../../../../_helper/_customTable';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../../_helper/_loading';
+import { useEffect } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 
 const Attachments = ({ clickRowData }) => {
   const { profileData, selectedBusinessUnit } = useSelector(
@@ -40,7 +39,7 @@ const Attachments = ({ clickRowData }) => {
       <CardBody>
         <div className="row">
           <div className="col-md-12">
-            <ICustomTable ths={["SL", "Reference Code", "Document"]}>
+            <ICustomTable ths={['SL', 'Reference Code', 'Document']}>
               {Array.isArray(attachments) &&
                 attachments.map((item, index) => (
                   <tr>
@@ -53,7 +52,7 @@ const Attachments = ({ clickRowData }) => {
                             getDownlloadFileView_Action(item?.strDocumentId)
                           );
                         }}
-                        style={{ color: "blue" }}
+                        style={{ color: 'blue' }}
                         className="pointer"
                       >
                         {item?.strDocumentId}

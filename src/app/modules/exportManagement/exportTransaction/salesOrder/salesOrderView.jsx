@@ -1,15 +1,14 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { convertNumberToWords } from "../../../_helper/_convertMoneyToWord";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import Loading from "../../../_helper/_loading";
-import essentialLogo from "./assets/essentialLogo.png";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { convertNumberToWords } from '../../../_helper/_convertMoneyToWord';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import Loading from '../../../_helper/_loading';
+import essentialLogo from './assets/essentialLogo.png';
 const initData = {};
 
 export default function SalesOrderView({ salesQuotationId }) {
@@ -43,7 +42,6 @@ export default function SalesOrderView({ salesQuotationId }) {
         }
       );
     }
-
   }, [profileData, selectedBusinessUnit, salesQuotationId]);
 
   const totalFOBValue = (soRow, type) => {
@@ -117,7 +115,7 @@ export default function SalesOrderView({ salesQuotationId }) {
                 <div>
                   <ReactToPrint
                     pageStyle={
-                      "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important;margin-top: 2cm ! important;}}"
+                      '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important;margin-top: 2cm ! important;}}'
                     }
                     trigger={() => (
                       <button type="button" className="btn btn-primary ml-3">
@@ -134,7 +132,7 @@ export default function SalesOrderView({ salesQuotationId }) {
             <Form>
               <div componentRef={printRef} ref={printRef}>
                 <img
-                  style={{ width: "130px", height: "60px" }}
+                  style={{ width: '130px', height: '60px' }}
                   src={essentialLogo}
                   alt="logo"
                 />
@@ -158,8 +156,8 @@ export default function SalesOrderView({ salesQuotationId }) {
                       )}
                     >
                       SALES CONTRACT NO:
-                      {salesOrderData?.HeaderData?.SalesContractNo.toUpperCase()}{" "}
-                      DATE:{" "}
+                      {salesOrderData?.HeaderData?.SalesContractNo.toUpperCase()}{' '}
+                      DATE:{' '}
                       {_dateFormatter(salesOrderData?.HeaderData?.PricingDate)}
                     </td>
                     <td
@@ -168,9 +166,9 @@ export default function SalesOrderView({ salesQuotationId }) {
                         (salesOrderData?.Head?.length + 7) / 2
                       )}
                     >
-                      SALES TERM:{" "}
-                      {salesOrderData?.HeaderData?.SalesTerm.toUpperCase()}{" "}
-                      Country Of Origin:{" "}
+                      SALES TERM:{' '}
+                      {salesOrderData?.HeaderData?.SalesTerm.toUpperCase()}{' '}
+                      Country Of Origin:{' '}
                       {salesOrderData?.HeaderData?.CountryOfOrigin.toUpperCase()}
                     </td>
                   </tr>
@@ -229,7 +227,7 @@ export default function SalesOrderView({ salesQuotationId }) {
                         (salesOrderData?.Head?.length + 7) / 2
                       )}
                     >
-                      MODE OF SHIPMENT:{" "}
+                      MODE OF SHIPMENT:{' '}
                       {salesOrderData?.HeaderData?.ModeofShipment.toUpperCase()}
                     </td>
                   </tr>
@@ -251,19 +249,19 @@ export default function SalesOrderView({ salesQuotationId }) {
                         (salesOrderData?.Head?.length + 7) / 2
                       )}
                     >
-                      PLACE OF LOADING:{" "}
-                      {salesOrderData?.HeaderData?.SalesOfficeName?.toUpperCase()}{" "}
+                      PLACE OF LOADING:{' '}
+                      {salesOrderData?.HeaderData?.SalesOfficeName?.toUpperCase()}{' '}
                       <br />
-                      PORT OF DISCHARGE:{" "}
-                      {salesOrderData?.HeaderData?.PortofDishcharge?.toUpperCase()}{" "}
+                      PORT OF DISCHARGE:{' '}
+                      {salesOrderData?.HeaderData?.PortofDishcharge?.toUpperCase()}{' '}
                       <br />
-                      DESTINATION COUNTRY:{" "}
-                      {salesOrderData?.HeaderData?.ToCountryName?.toUpperCase()}{" "}
+                      DESTINATION COUNTRY:{' '}
+                      {salesOrderData?.HeaderData?.ToCountryName?.toUpperCase()}{' '}
                       <br />
-                      FINAL DESTINATION:{" "}
-                      {salesOrderData?.HeaderData?.FinalDestination?.toUpperCase()}{" "}
+                      FINAL DESTINATION:{' '}
+                      {salesOrderData?.HeaderData?.FinalDestination?.toUpperCase()}{' '}
                       <br />
-                      ERC NO:{" "}
+                      ERC NO:{' '}
                       {salesOrderData?.HeaderData?.ExPortRegNo?.toUpperCase()}
                     </td>
                   </tr>
@@ -292,12 +290,12 @@ export default function SalesOrderView({ salesQuotationId }) {
                       <td className="text-right">
                         {item?.FobRatePerPieceBDT
                           ? _formatMoney(item?.FobRatePerPieceBDT)
-                          : ""}
+                          : ''}
                       </td>
                       <td className="text-right">
                         {item?.TotalFobAmountBDT
                           ? _formatMoney(item?.TotalFobAmountBDT)
-                          : ""}
+                          : ''}
                       </td>
                     </tr>
                   ))}
@@ -312,7 +310,7 @@ export default function SalesOrderView({ salesQuotationId }) {
                     <td className="text-right font-weight-bold">
                       {totalFOBValue(salesOrderData, 2)}
                     </td>
-                    <td>{""}</td>
+                    <td>{''}</td>
                     <td className="text-right font-weight-bold">
                       {totalFOBValue(salesOrderData, 4)}
                     </td>
@@ -329,7 +327,7 @@ export default function SalesOrderView({ salesQuotationId }) {
                         ? _formatMoney(
                             salesOrderData?.HeaderData?.FreightAmountBDT
                           )
-                        : ""}
+                        : ''}
                     </td>
                   </tr>
 
@@ -349,10 +347,10 @@ export default function SalesOrderView({ salesQuotationId }) {
                       className="font-weight-bold"
                       colSpan={salesOrderData?.Head?.length + 7}
                     >
-                      TOTAL AMOUNT (BDT):{" "}
+                      TOTAL AMOUNT (BDT):{' '}
                       {convertNumberToWords(
                         totalFOBValue(salesOrderData, 6)
-                      )?.toUpperCase()}{" "}
+                      )?.toUpperCase()}{' '}
                       TAKA
                     </td>
                   </tr>

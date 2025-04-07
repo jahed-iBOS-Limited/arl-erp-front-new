@@ -1,36 +1,36 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useHistory } from "react-router-dom";
-import Loading from "./../../../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import Loading from './../../../../_helper/_loading';
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   CardBody,
-} from "./../../../../../../_metronic/_partials/controls";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import ICustomTable from "../../../../_helper/_customTable";
-import { Formik } from "formik";
-import IView from "../../../../_helper/_helperIcons/_view";
-import FormikError from "../../../../_helper/_formikError";
-import axios from "axios";
-import { GetLandingData } from "../helper";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+} from './../../../../../../_metronic/_partials/controls';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import ICustomTable from '../../../../_helper/_customTable';
+import { Formik } from 'formik';
+import IView from '../../../../_helper/_helperIcons/_view';
+import FormikError from '../../../../_helper/_formikError';
+import axios from 'axios';
+import { GetLandingData } from '../helper';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 // import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
 
 // Table headers
-const header = ["SL", "PO No", "LC No", "Shipping Charge", "Action"];
+const header = ['SL', 'PO No', 'LC No', 'Shipping Charge', 'Action'];
 
 const initData = {
-  shipment: "",
+  shipment: '',
 };
 
 const ShippingChargesLanding = () => {
   const history = useHistory();
   const [gridData, setGridData] = useState();
-  const [isloading,] = useState(false);
-   // Get LC DDL
+  const [isloading] = useState(false);
+  // Get LC DDL
   useEffect(() => {
     // GetLetterOfCreditDDL(setLetterOfCreditDDL);
   }, []);
@@ -107,7 +107,7 @@ const ShippingChargesLanding = () => {
                     selectedValue={values?.shipment}
                     isSearchIcon={true}
                     handleChange={(valueOption) => {
-                      setFieldValue("shipment", valueOption);
+                      setFieldValue('shipment', valueOption);
                       paginationSearchHandler(valueOption?.label);
                     }}
                     loadOptions={shipmentOptions}
@@ -125,7 +125,7 @@ const ShippingChargesLanding = () => {
                   gridData?.data?.map((item, index) => {
                     return (
                       <tr key={index}>
-                        <td style={{ width: "30px" }} className="text-center">
+                        <td style={{ width: '30px' }} className="text-center">
                           {index + 1}
                         </td>
                         <td className="text-center">
@@ -138,7 +138,7 @@ const ShippingChargesLanding = () => {
                           <span className="pl-2">{`${item?.totalAmount}`}</span>
                         </td>
 
-                        <td style={{ width: "150px" }} className="text-center">
+                        <td style={{ width: '150px' }} className="text-center">
                           <span
                             className="edit p-1"
                             onClick={(e) =>

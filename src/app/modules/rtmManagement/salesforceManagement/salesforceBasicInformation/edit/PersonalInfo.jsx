@@ -1,18 +1,10 @@
+import React, { useState, useEffect } from 'react';
+import NewSelect from './../../../../_helper/_select';
+import InputField from './../../../../_helper/_inputField';
+import { useSelector, shallowEqual } from 'react-redux';
+import { getBloodGroupDDL } from '../helper';
 
-import React, { useState, useEffect } from "react";
-import NewSelect from "./../../../../_helper/_select";
-import InputField from "./../../../../_helper/_inputField";
-import { useSelector, shallowEqual } from "react-redux";
-import {
-  getBloodGroupDDL,
-} from "../helper";
-
-export const PersonalInfo = ({
-  values,
-  setFieldValue,
-  errors,
-  touched
-}) => {
+export const PersonalInfo = ({ values, setFieldValue, errors, touched }) => {
   // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -23,11 +15,10 @@ export const PersonalInfo = ({
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-  const [bloodGroupDDL, setBloodGroupDDL] = useState("");
+  const [bloodGroupDDL, setBloodGroupDDL] = useState('');
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-
       getBloodGroupDDL(setBloodGroupDDL);
       // Employee Lavel DDL is static
     }
@@ -97,7 +88,7 @@ export const PersonalInfo = ({
             value={values?.bloodGroup}
             label="Blood Group (Optional)"
             onChange={(valueOption) => {
-              setFieldValue("bloodGroup", valueOption);
+              setFieldValue('bloodGroup', valueOption);
             }}
             placeholder="Blood Group"
             errors={errors}

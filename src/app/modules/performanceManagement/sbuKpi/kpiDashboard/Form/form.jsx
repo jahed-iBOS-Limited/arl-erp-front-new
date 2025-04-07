@@ -124,7 +124,7 @@ export default function FormCmp({
                               dependencyFunc={(
                                 value,
                                 valuess,
-                                setFieldValue,
+                                setFieldValue
                               ) => {
                                 dispatch(
                                   getReportAction(
@@ -135,15 +135,15 @@ export default function FormCmp({
                                     values.to.value,
                                     true,
                                     3,
-                                    values?.section?.value,
-                                  ),
+                                    values?.section?.value
+                                  )
                                 );
                                 dispatch(
                                   getUnFavDepSbuDDLAction(
                                     selectedBusinessUnit?.value,
                                     value,
-                                    values.year?.value,
-                                  ),
+                                    values.year?.value
+                                  )
                                 );
                                 setFieldValue('unpavorite', '');
                               }}
@@ -162,7 +162,7 @@ export default function FormCmp({
                               dependencyFunc={(
                                 value,
                                 valuess,
-                                setFieldValue,
+                                setFieldValue
                               ) => {
                                 dispatch(
                                   getReportAction(
@@ -173,8 +173,8 @@ export default function FormCmp({
                                     values.to.value,
                                     true,
                                     3,
-                                    values?.section?.value,
-                                  ),
+                                    values?.section?.value
+                                  )
                                 );
                                 setFieldValue('unpavorite', '');
                               }}
@@ -193,7 +193,7 @@ export default function FormCmp({
                               dependencyFunc={(
                                 value,
                                 valuess,
-                                setFieldValue,
+                                setFieldValue
                               ) => {
                                 dispatch(
                                   getReportAction(
@@ -204,8 +204,8 @@ export default function FormCmp({
                                     values.to.value,
                                     true,
                                     3,
-                                    values?.section?.value,
-                                  ),
+                                    values?.section?.value
+                                  )
                                 );
                               }}
                               setFieldValue={setFieldValue}
@@ -225,7 +225,7 @@ export default function FormCmp({
                               dependencyFunc={(
                                 value,
                                 values,
-                                setFieldValue,
+                                setFieldValue
                               ) => {
                                 dispatch(
                                   getReportAction(
@@ -236,8 +236,8 @@ export default function FormCmp({
                                     value,
                                     true,
                                     3,
-                                    values?.section?.value,
-                                  ),
+                                    values?.section?.value
+                                  )
                                 );
                               }}
                               setFieldValue={setFieldValue}
@@ -259,7 +259,7 @@ export default function FormCmp({
                               dependencyFunc={(
                                 value,
                                 valuess,
-                                setFieldValue,
+                                setFieldValue
                               ) => {
                                 setFieldValue('unpavorite', '');
                                 dispatch(
@@ -273,17 +273,17 @@ export default function FormCmp({
                                         values.to?.value,
                                         true,
                                         3,
-                                        values?.section?.value,
-                                      ),
+                                        values?.section?.value
+                                      )
                                     );
                                     dispatch(
                                       getUnFavDepSbuDDLAction(
                                         selectedBusinessUnit?.value,
                                         3,
-                                        values?.year?.value,
-                                      ),
+                                        values?.year?.value
+                                      )
                                     );
-                                  }),
+                                  })
                                 );
                               }}
                             />
@@ -302,7 +302,7 @@ export default function FormCmp({
                               dependencyFunc={(
                                 value,
                                 valuess,
-                                setFieldValue,
+                                setFieldValue
                               ) => {
                                 dispatch(
                                   getReportAction(
@@ -313,8 +313,8 @@ export default function FormCmp({
                                     values.to.value,
                                     true,
                                     3,
-                                    value,
-                                  ),
+                                    value
+                                  )
                                 );
                               }}
                               setFieldValue={setFieldValue}

@@ -1,13 +1,13 @@
-import React from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
-import ConsigneeTable from "./consignee/table/table";
-import InvoiceForm from "./invoice/Form/addEditForm";
-import InvoiceTable from "./invoice/table/table";
-import LighterVesselInfo from "./lighterVesselInfo/table/table";
-import LighterVesselReportPages from "./reports/reportPages";
-import SurveyVesselTable from "./surveyVessel/table/table";
-import TripForm from "./trip/Form/_addEditForm";
-import TripLanding from "./trip/table/table";
+import React from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import ConsigneeTable from './consignee/table/table';
+import InvoiceForm from './invoice/Form/addEditForm';
+import InvoiceTable from './invoice/table/table';
+import LighterVesselInfo from './lighterVesselInfo/table/table';
+import LighterVesselReportPages from './reports/reportPages';
+import SurveyVesselTable from './surveyVessel/table/table';
+import TripForm from './trip/Form/_addEditForm';
+import TripLanding from './trip/table/table';
 
 export function LighterVesselPages() {
   return (
@@ -37,9 +37,9 @@ export function LighterVesselPages() {
         path="/chartering/lighterVessel/lighterVesselVoyage"
         component={TripLanding}
       />
-      
+
       {/* Survey Vessel */}
-     <Route
+      <Route
         path="/chartering/lighterVessel/surveyVessel"
         component={SurveyVesselTable}
       />

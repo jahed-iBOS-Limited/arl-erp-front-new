@@ -1,25 +1,22 @@
-
-
-
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { _dateFormatter } from "../../../../../../_helper/_dateFormate";
-import { useLocation } from "react-router-dom";
-import Form from "./form";
-import { toast } from "react-toastify";
-import Loading from "../../../../../../_helper/_loading";
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { _dateFormatter } from '../../../../../../_helper/_dateFormate';
+import { useLocation } from 'react-router-dom';
+import Form from './form';
+import { toast } from 'react-toastify';
+import Loading from '../../../../../../_helper/_loading';
 import {
   createPacking,
   getPackingTypeDDL,
   getPackingListByShipmentId,
   deletePackingById,
-} from "../helper";
+} from '../helper';
 
 const initData = {
-  packingType: "",
-  quantity: "",
-  insideDescription: "",
-  blno: "",
+  packingType: '',
+  quantity: '',
+  insideDescription: '',
+  blno: '',
   bldate: _dateFormatter(new Date()),
   dueDate: _dateFormatter(new Date()),
 };
@@ -34,7 +31,7 @@ export default function PackingForm({ shipmentId }) {
   const [gridData, setGridData] = useState([]);
   // const [poNumber, setPoNumber] = useState("");
   // const [lcNumber, setLcNumber] = useState("");
-  const [shipmentCode, setShipmentCode] = useState("");
+  const [shipmentCode, setShipmentCode] = useState('');
 
   // const history = useHistory();
   const location = useLocation();
@@ -86,7 +83,7 @@ export default function PackingForm({ shipmentId }) {
 
   const setter = (values, successCB) => {
     if (!shipmentId) {
-      return toast.warn("Please Select Shipment No");
+      return toast.warn('Please Select Shipment No');
     } else {
       // successCB();
       const payload = {
@@ -108,13 +105,13 @@ export default function PackingForm({ shipmentId }) {
       };
       // setRowDto([...rowDto, payload]);
       console.log('gridData: ', gridData);
-      console.log('totalQuantity: ', totalQuantity + values?.quantity)
+      console.log('totalQuantity: ', totalQuantity + values?.quantity);
 
       var totalGridQuantity = 0;
       for (let i = 0; i < gridData.length; i++) {
-        totalGridQuantity = totalGridQuantity + gridData[i].quantity
+        totalGridQuantity = totalGridQuantity + gridData[i].quantity;
       }
-      console.log('total', totalGridQuantity)
+      console.log('total', totalGridQuantity);
 
       if (
         location?.state?.item?.shippedQty >=
@@ -122,7 +119,7 @@ export default function PackingForm({ shipmentId }) {
       ) {
         return setRowDto([...rowDto, payload]);
       } else {
-        return toast.warn("Quantity Can Not Greater Than Remaining Quantity");
+        return toast.warn('Quantity Can Not Greater Than Remaining Quantity');
       }
     }
   };
@@ -138,7 +135,7 @@ export default function PackingForm({ shipmentId }) {
         setGridData
       );
     } else {
-      toast.warn("Packing Data is Empty");
+      toast.warn('Packing Data is Empty');
     }
   };
 
@@ -161,7 +158,7 @@ export default function PackingForm({ shipmentId }) {
     <>
       {isDisabled && <Loading />}
       {/* {data && ( */}
-      <div className='mt-0'>
+      <div className="mt-0">
         <Form
           {...objProps}
           initData={{ ...initData, blno: location?.state?.item?.blNo }}

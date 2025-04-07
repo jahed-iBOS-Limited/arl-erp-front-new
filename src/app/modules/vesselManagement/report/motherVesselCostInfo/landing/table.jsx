@@ -1,15 +1,15 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import ICard from "../../../../_helper/_card";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { GetCarrierDDL } from "../helper";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import ICard from '../../../../_helper/_card';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { GetCarrierDDL } from '../helper';
 
 export default function MotherVesselCostInfo() {
   const [rowData, getRowData, isLoading] = useAxiosGet();
@@ -22,7 +22,6 @@ export default function MotherVesselCostInfo() {
 
   useEffect(() => {
     GetCarrierDDL(accId, buId, 0, setCarrierDDL);
-
   }, [accId, buId]);
 
   const setLandingData = (values) => {
@@ -38,7 +37,7 @@ export default function MotherVesselCostInfo() {
   const initData = {
     fromDate: _todayDate(),
     toDate: _todayDate(),
-    port: { value: 0, label: "All" },
+    port: { value: 0, label: 'All' },
   };
 
   return (
@@ -55,17 +54,17 @@ export default function MotherVesselCostInfo() {
                     options={[
                       {
                         value: 1,
-                        label: "Carrier Bill Check",
+                        label: 'Carrier Bill Check',
                       },
                       {
                         value: 2,
-                        label: "Cost Report",
+                        label: 'Cost Report',
                       },
                     ]}
                     value={values?.part}
                     label="Part"
                     onChange={(valueOption) => {
-                      setFieldValue("part", valueOption);
+                      setFieldValue('part', valueOption);
                     }}
                     placeholder="Part"
                   />
@@ -77,8 +76,8 @@ export default function MotherVesselCostInfo() {
                     options={carrierDDL || []}
                     label="Carrier Name"
                     onChange={(valueOption) => {
-                      setFieldValue("lighterVessel", "");
-                      setFieldValue("carrier", valueOption);
+                      setFieldValue('lighterVessel', '');
+                      setFieldValue('carrier', valueOption);
                     }}
                     placeholder="Carrier Name"
                   />
@@ -91,7 +90,7 @@ export default function MotherVesselCostInfo() {
                     name="lighterVessel"
                     selectedValue={values?.lighterVessel}
                     handleChange={(valueOption) => {
-                      setFieldValue("lighterVessel", valueOption);
+                      setFieldValue('lighterVessel', valueOption);
                     }}
                     placeholder="Search Lighter Vessel"
                     loadOptions={(v) => {
@@ -99,8 +98,9 @@ export default function MotherVesselCostInfo() {
                       if (searchValue?.length < 3) return [];
                       return axios
                         .get(
-                          `/wms/FertilizerOperation/GetLighterVesselByCarrierDDL?${searchValue}&CarrierId=${values
-                            ?.carrier?.value || 0}&BusinessUnitId=${buId}`
+                          `/wms/FertilizerOperation/GetLighterVesselByCarrierDDL?${searchValue}&CarrierId=${
+                            values?.carrier?.value || 0
+                          }&BusinessUnitId=${buId}`
                         )
                         .then((res) => {
                           return res?.data?.map((item) => ({
@@ -120,7 +120,7 @@ export default function MotherVesselCostInfo() {
                     onClick={() => {
                       setLandingData(values);
                     }}
-                    disabled={values?.fromDate === "" || values?.toDate === ""}
+                    disabled={values?.fromDate === '' || values?.toDate === ''}
                   >
                     View
                   </button>
@@ -133,7 +133,7 @@ export default function MotherVesselCostInfo() {
                     <table className="table table-striped table-bordered global-table">
                       <thead>
                         <tr>
-                          <th style={{ width: "40px" }}>SL</th>
+                          <th style={{ width: '40px' }}>SL</th>
                           <th>Ship Point</th>
                           <th>Quantity</th>
                           <th>Rate</th>
@@ -182,7 +182,7 @@ export default function MotherVesselCostInfo() {
                             </tr>
                           </>
                         ) : (
-                          ""
+                          ''
                         )}
                       </tbody>
                     </table>

@@ -1,22 +1,22 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IForm from "../../../_helper/_form";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../_helper/images/print-icon.png";
-import "./style.scss";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IForm from '../../../_helper/_form';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../_helper/images/print-icon.png';
+import './style.scss';
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
   reportType: {
     value: 1,
-    label: "TDS",
+    label: 'TDS',
   },
 };
 export default function TdsVdsStatement() {
@@ -26,19 +26,14 @@ export default function TdsVdsStatement() {
     (state) => state?.authData,
     shallowEqual
   );
-  const [
-    tableData,
-    getTableData,
-    tableDataLoader,
-    setTableData,
-  ] = useAxiosGet();
+  const [tableData, getTableData, tableDataLoader, setTableData] =
+    useAxiosGet();
 
   useEffect(() => {
     getTableData(
       `/oms/SalesInformation/GetTDSVDSStatement?businessUnitId=${selectedBusinessUnit?.value}&fromDate=${initData?.fromDate}&toDate=${initData?.toDate}&type=1&nbrSubmitType=${initData?.reportType?.value}
       `
     );
-
   }, []);
 
   const handleAllChecked = (e) => {
@@ -71,7 +66,6 @@ export default function TdsVdsStatement() {
     } else {
       setSelectRowDto([]);
     }
-
   }, [tableData]);
 
   return (
@@ -105,7 +99,7 @@ export default function TdsVdsStatement() {
                 <div>
                   <ReactToPrint
                     pageStyle={
-                      "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                      '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
                     }
                     trigger={() => (
                       <button
@@ -113,7 +107,7 @@ export default function TdsVdsStatement() {
                         className="btn btn-primary px-1 py-1 my-0"
                       >
                         <img
-                          style={{ width: "25px", paddingRight: "5px" }}
+                          style={{ width: '25px', paddingRight: '5px' }}
                           src={printIcon}
                           alt="print-icon"
                         />
@@ -135,18 +129,18 @@ export default function TdsVdsStatement() {
                       options={[
                         {
                           value: 1,
-                          label: "TDS",
+                          label: 'TDS',
                         },
                         {
                           value: 2,
-                          label: "VDS",
+                          label: 'VDS',
                         },
                       ]}
                       value={values?.reportType}
                       name="reportType"
                       onChange={(valueOption) => {
                         setTableData([]);
-                        setFieldValue("reportType", valueOption);
+                        setFieldValue('reportType', valueOption);
                       }}
                       placeholder="Report Type"
                     />
@@ -159,7 +153,7 @@ export default function TdsVdsStatement() {
                       placeholder="From Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e?.target?.value);
+                        setFieldValue('fromDate', e?.target?.value);
                         setTableData([]);
                       }}
                     />
@@ -172,7 +166,7 @@ export default function TdsVdsStatement() {
                       placeholder="To Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e?.target?.value);
+                        setFieldValue('toDate', e?.target?.value);
                         setTableData([]);
                       }}
                     />
@@ -180,7 +174,7 @@ export default function TdsVdsStatement() {
                   <div className="col-lg-3">
                     <button
                       style={{
-                        marginTop: "18px",
+                        marginTop: '18px',
                       }}
                       className="btn btn-primary"
                       type="button"
@@ -240,7 +234,13 @@ export default function TdsVdsStatement() {
   );
 }
 
-const TableData = ({ tableData, handleAllChecked, values, handleCheckBox, isPrintTable }) => {
+const TableData = ({
+  tableData,
+  handleAllChecked,
+  values,
+  handleCheckBox,
+  isPrintTable,
+}) => {
   return (
     <>
       <div className="table-responsive">
@@ -249,7 +249,7 @@ const TableData = ({ tableData, handleAllChecked, values, handleCheckBox, isPrin
             <tr>
               <th
                 style={{
-                  width: "50px",
+                  width: '50px',
                 }}
                 className="printSectionNone"
               >
@@ -292,7 +292,7 @@ const TableData = ({ tableData, handleAllChecked, values, handleCheckBox, isPrin
                         checked={item?.isCheck || item?.purchaseRequestId}
                         disabled={item?.purchaseRequestId}
                         onChange={(e) =>
-                          handleCheckBox("isCheck", e.target.checked, index)
+                          handleCheckBox('isCheck', e.target.checked, index)
                         }
                       />
                     </label>
@@ -312,12 +312,12 @@ const TableData = ({ tableData, handleAllChecked, values, handleCheckBox, isPrin
                 </tr>
               ))}
             <tr>
-              <td colSpan={isPrintTable ? 3: 4}>
+              <td colSpan={isPrintTable ? 3 : 4}>
                 <b>Total</b>
               </td>
               <td className="text-right">
                 <b>
-                  {" "}
+                  {' '}
                   {_formatMoney(
                     tableData?.reduce(
                       (prev, curr) =>

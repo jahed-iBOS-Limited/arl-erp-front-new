@@ -63,11 +63,11 @@ export default function CreateForm({
     dispatch(
       getBusinessPartnerDDLAction(
         profileData.accountId,
-        selectedBusinessUnit.value,
-      ),
+        selectedBusinessUnit.value
+      )
     );
     dispatch(
-      getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value),
+      getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value)
     );
     // dispatch(
     //   getItemDDLAction(
@@ -83,8 +83,8 @@ export default function CreateForm({
         profileData.accountId,
         selectedBusinessUnit.value,
         landingData?.plant?.value,
-        landingData?.warehouse?.value,
-      ),
+        landingData?.warehouse?.value
+      )
     );
     return () => {
       dispatch(slice.setItemDDL([]));
@@ -92,7 +92,6 @@ export default function CreateForm({
       dispatch(slice.setreferenceNoDDL([]));
       dispatch(slice.setTransactionTypeDDL([]));
     };
-
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
   const onChaneForRefType = (refTyp) => {
@@ -104,12 +103,12 @@ export default function CreateForm({
           selectedBusinessUnit.value,
           landingData?.sbu?.value,
           landingData?.plant?.value,
-          landingData?.warehouse?.value,
-        ),
+          landingData?.warehouse?.value
+        )
       );
     }
     dispatch(
-      getTransactionTypeDDLAction(landingData?.transGrup?.value, refTyp.value),
+      getTransactionTypeDDLAction(landingData?.transGrup?.value, refTyp.value)
     );
     // if (refTyp.label === 'NA (Without Reference)') {
     //   dispatch(
@@ -251,8 +250,8 @@ export default function CreateForm({
               saveInventoryTransactionForAdjustInv(
                 { data: modifyPlyload, cb },
                 setRowDto,
-                setDisabled,
-              ),
+                setDisabled
+              )
             );
           });
         } else {
@@ -260,8 +259,8 @@ export default function CreateForm({
             saveInventoryTransactionForAdjustInv(
               { data: payload, cb },
               setRowDto,
-              setDisabled,
-            ),
+              setDisabled
+            )
           );
         }
       }
@@ -412,7 +411,7 @@ export default function CreateForm({
                       if (v?.length < 3) return [];
                       return axios
                         .get(
-                          `/wms/InventoryTransaction/GetItemForAdjustInventory?accountId=${profileData.accountId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${landingData?.plant?.value}&whId=${landingData?.warehouse?.value}&searchTerm=${v}`,
+                          `/wms/InventoryTransaction/GetItemForAdjustInventory?accountId=${profileData.accountId}&businessUnitId=${selectedBusinessUnit?.value}&plantId=${landingData?.plant?.value}&whId=${landingData?.warehouse?.value}&searchTerm=${v}`
                         )
                         .then((res) => {
                           const updateList = res?.data.map((item) => ({
@@ -471,7 +470,7 @@ export default function CreateForm({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

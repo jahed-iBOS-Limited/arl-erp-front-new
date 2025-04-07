@@ -57,10 +57,9 @@ const DiffEmailSender = ({ emailEditorProps }) => {
             email_list: data?.email?.length ? data?.email : [],
           });
         },
-        false,
+        false
       );
     }
-
   }, [intId]);
 
   // Regular expression to validate a single email address
@@ -185,7 +184,7 @@ const DiffEmailSender = ({ emailEditorProps }) => {
         }`,
         payload,
         cb,
-        true,
+        true
       );
     }
   };
@@ -218,7 +217,9 @@ const DiffEmailSender = ({ emailEditorProps }) => {
               style={emailTemplateStyles.input}
             />
           </div>
-          {errors.to && <div style={emailTemplateStyles.error}>{errors.to}</div>}
+          {errors.to && (
+            <div style={emailTemplateStyles.error}>{errors.to}</div>
+          )}
 
           <div style={emailTemplateStyles.field}>
             <label style={emailTemplateStyles.label}>Cc:</label>
@@ -245,7 +246,9 @@ const DiffEmailSender = ({ emailEditorProps }) => {
               style={emailTemplateStyles.input}
             />
           </div>
-          {errors.subject && <div style={emailTemplateStyles.error}>{errors.subject}</div>}
+          {errors.subject && (
+            <div style={emailTemplateStyles.error}>{errors.subject}</div>
+          )}
         </div>
 
         <div className="text-right mb-5">
@@ -269,7 +272,9 @@ const DiffEmailSender = ({ emailEditorProps }) => {
             onChange={handleBodyChange}
             style={emailTemplateStyles.quill}
           />
-          {errors.body && <div style={emailTemplateStyles.bodyError}>{errors.body}</div>}
+          {errors.body && (
+            <div style={emailTemplateStyles.bodyError}>{errors.body}</div>
+          )}
         </div>
 
         <div style={emailTemplateStyles.footer}>

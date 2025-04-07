@@ -1,25 +1,24 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
 // import * as Yup from "yup";
-import axios from "axios";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import IForm from "../../../../_helper/_form";
-import FormikError from "../../../../_helper/_formikError";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import axios from 'axios';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import IForm from '../../../../_helper/_form';
+import FormikError from '../../../../_helper/_formikError';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 
 const initData = {
-  businessUnit: "",
-  issueType: "",
-  user: "",
-  process: "",
+  businessUnit: '',
+  issueType: '',
+  user: '',
+  process: '',
 };
 
 export default function ComplainAssignConfigCreateEdit() {
@@ -46,7 +45,7 @@ export default function ComplainAssignConfigCreateEdit() {
         item?.issueTypeId === values?.issueType?.value
     );
     if (duplicateRowData) {
-      toast.warn("Duplicate data is not allowed");
+      toast.warn('Duplicate data is not allowed');
       return;
     }
     setRowData([
@@ -98,14 +97,14 @@ export default function ComplainAssignConfigCreateEdit() {
         issueTypeId: i?.issueTypeId,
         issueTypeName: i?.issueTypeName,
         businessUnitId: i?.businessUnitId,
-        process: i?.process || "Assign",
+        process: i?.process || 'Assign',
         employeeId: i?.userId,
         employeeName: i?.userName,
       }));
       saveComplaintAssign(
         `/oms/CustomerPoint/CreateComplaintAssign`,
         payload,
-        () => { },
+        () => {},
         true
       );
     }
@@ -118,7 +117,6 @@ export default function ComplainAssignConfigCreateEdit() {
     getBusinessUnitDDL(
       `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${accId}`
     );
-
   }, [buId, accId]);
   useEffect(() => {
     if (id) {
@@ -153,7 +151,7 @@ export default function ComplainAssignConfigCreateEdit() {
       //   validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         if (!rowData?.length > 0) {
-          toast.warn("Add minimum one issue type");
+          toast.warn('Add minimum one issue type');
           return;
         } else {
           saveHandler(values, () => {
@@ -183,7 +181,7 @@ export default function ComplainAssignConfigCreateEdit() {
                   <SearchAsyncSelect
                     selectedValue={values?.user}
                     handleChange={(valueOption) => {
-                      setFieldValue("user", valueOption);
+                      setFieldValue('user', valueOption);
                     }}
                     // loadOptions={(v) => loadUserList(accId, buId, v)}
                     loadOptions={(v) => {
@@ -207,7 +205,7 @@ export default function ComplainAssignConfigCreateEdit() {
                   <FormikError errors={errors} name="user" touched={touched} />
                 </div>
                 <div
-                  style={{ alignItems: "center", gap: "3px" }}
+                  style={{ alignItems: 'center', gap: '3px' }}
                   className="col-lg-3 d-flex"
                 >
                   <NewSelect
@@ -216,14 +214,14 @@ export default function ComplainAssignConfigCreateEdit() {
                     value={values?.businessUnit}
                     label="Assign Business Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("businessUnit", valueOption || "");
+                      setFieldValue('businessUnit', valueOption || '');
                     }}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
                 <div
-                  style={{ alignItems: "center", gap: "3px" }}
+                  style={{ alignItems: 'center', gap: '3px' }}
                   className="col-lg-3 d-flex"
                 >
                   <NewSelect
@@ -232,7 +230,7 @@ export default function ComplainAssignConfigCreateEdit() {
                     value={values?.issueType}
                     label="Issue Type"
                     onChange={(valueOption) => {
-                      setFieldValue("issueType", valueOption || "");
+                      setFieldValue('issueType', valueOption || '');
                     }}
                     errors={errors}
                     touched={touched}
@@ -240,16 +238,16 @@ export default function ComplainAssignConfigCreateEdit() {
                 </div>
 
                 <div
-                  style={{ alignItems: "center", gap: "3px" }}
+                  style={{ alignItems: 'center', gap: '3px' }}
                   className="col-lg-3 d-flex"
                 >
                   <NewSelect
                     name="process"
-                    options={[{ value: 1, label: "Assign" }]}
+                    options={[{ value: 1, label: 'Assign' }]}
                     value={values?.process}
                     label="Process"
                     onChange={(valueOption) => {
-                      setFieldValue("process", valueOption);
+                      setFieldValue('process', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -263,7 +261,7 @@ export default function ComplainAssignConfigCreateEdit() {
                       handleAddRowData(values, resetForm);
                     }}
                     className="btn btn-primary btn-sm"
-                    style={{ marginTop: "18px" }}
+                    style={{ marginTop: '18px' }}
                     disabled={
                       !values?.user || !values?.issueType || !values?.process
                     }
@@ -311,14 +309,14 @@ export default function ComplainAssignConfigCreateEdit() {
 
               <button
                 type="submit"
-                style={{ display: "none", padding: 0 }}
+                style={{ display: 'none', padding: 0 }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

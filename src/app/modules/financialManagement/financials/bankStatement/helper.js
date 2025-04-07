@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 // import { toast } from "react-toastify";
-import { _dateFormatter } from "./../../../_helper/_dateFormate";
-import { toast } from "react-toastify";
+import { _dateFormatter } from './../../../_helper/_dateFormate';
+import { toast } from 'react-toastify';
 
 export const savebankStatement = async (
   accId,
@@ -17,7 +17,7 @@ export const savebankStatement = async (
     );
     if (res.status === 200) {
       cb();
-      toast.success(res?.data?.message || "Submitted successfully");
+      toast.success(res?.data?.message || 'Submitted successfully');
       setDisabled(false);
       setIsUpload(false);
     }
@@ -34,31 +34,33 @@ export const uploadBankStatement = async (
   setDisabled,
   setFileObject
 ) => {
-  const payload = filteredFileData?.filter((data)=> _dateFormatter(data?.trDate) !== "NaN-NaN-NaN").map((item) => ({
-    bankAccountId: values?.bankAccountNo?.value,
-    date: `${_dateFormatter(item?.trDate)}` || "",
-    particulars: `${item?.particulars}` || "",
-    instrumentNo: `${item?.instrumentNo}` || "",
-    debit: item?.debit || 0,
-    credit: item?.credit || 0,
-    balance: item?.balance || 0,
-    insertBy: profileData?.userId,
-  }));
+  const payload = filteredFileData
+    ?.filter((data) => _dateFormatter(data?.trDate) !== 'NaN-NaN-NaN')
+    .map((item) => ({
+      bankAccountId: values?.bankAccountNo?.value,
+      date: `${_dateFormatter(item?.trDate)}` || '',
+      particulars: `${item?.particulars}` || '',
+      instrumentNo: `${item?.instrumentNo}` || '',
+      debit: item?.debit || 0,
+      credit: item?.credit || 0,
+      balance: item?.balance || 0,
+      insertBy: profileData?.userId,
+    }));
   setDisabled(true);
   try {
     await axios.put(
-      "/fino/BusinessTransaction/UploadTempBankStatement",
+      '/fino/BusinessTransaction/UploadTempBankStatement',
       payload
     );
     setDisabled(false);
-    setFileObject("")
+    setFileObject('');
     //no msg will be shown as far requirement of Said vai
     // toast.success(res?.data?.message || "Submitted successfully");
   } catch (error) {
     console.log(error.message);
     setDisabled(false);
-    setFileObject("")
-    toast.error(error?.response?.data?.message || "Something went wrong");
+    setFileObject('');
+    toast.error(error?.response?.data?.message || 'Something went wrong');
   }
 };
 
@@ -85,13 +87,18 @@ export const getBankAccountOtherInfoDDL = async (
       `/fino/FinancialStatement/GetFinancialStatementRunningBalance?AccountId=${accId}&BusinessUnitId=${buId}&BankAccountId=${bankAccId}`
     );
     setter(res?.data);
-    setFieldValue("lastCollected",_dateFormatter(res?.data[0]?.lastCollectedDateTime))
-    setFieldValue("runningBalance",res?.data[0]?.runningBalance)
+    setFieldValue(
+      'lastCollected',
+      _dateFormatter(res?.data[0]?.lastCollectedDateTime)
+    );
+    setFieldValue('runningBalance', res?.data[0]?.runningBalance);
 
     //empty check
-    setFieldValue("openingDate",_dateFormatter(res?.data[0]?.lastCollectedDateTime))
-    setFieldValue("openingBalance",res?.data[0]?.runningBalance)
-
+    setFieldValue(
+      'openingDate',
+      _dateFormatter(res?.data[0]?.lastCollectedDateTime)
+    );
+    setFieldValue('openingBalance', res?.data[0]?.runningBalance);
   } catch (err) {
     console.log(err);
   }

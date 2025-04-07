@@ -1,34 +1,33 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import IView from "../../../../_helper/_helperIcons/_view";
-import * as Yup from "yup";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import IView from '../../../../_helper/_helperIcons/_view';
+import * as Yup from 'yup';
 import {
   GetTransferOutPagination,
   GetItemDDLForLanding,
   getBranchName_api,
-} from "../helper";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import customStyles from "../../../../selectCustomStyle";
-import Select from "react-select";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
+} from '../helper';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import customStyles from '../../../../selectCustomStyle';
+import Select from 'react-select';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import PaginationSearch from '../../../../_helper/_search';
 import {
   Card,
   CardHeader,
   ModalProgressBar,
   CardHeaderToolbar,
   CardBody,
-} from "../../../../../../_metronic/_partials/controls";
-import { useHistory } from "react-router-dom";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import IViewModal from "./../../../../_helper/_viewModal";
-import TransferOutViewForm from "../../transferOut/viewModal";
-import { _fixedPointVat } from "./../../../../_helper/_fixedPointVat";
-import InputField from "./../../../../_helper/_inputField";
-import { _todayDate } from "./../../../../_helper/_todayDate";
+} from '../../../../../../_metronic/_partials/controls';
+import { useHistory } from 'react-router-dom';
+import { Formik, Form } from 'formik';
+import NewSelect from '../../../../_helper/_select';
+import IViewModal from './../../../../_helper/_viewModal';
+import TransferOutViewForm from '../../transferOut/viewModal';
+import { _fixedPointVat } from './../../../../_helper/_fixedPointVat';
+import InputField from './../../../../_helper/_inputField';
+import { _todayDate } from './../../../../_helper/_todayDate';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -44,12 +43,11 @@ export function TableRow() {
   const [taxbranchDDL, setTaxBranchDDL] = useState([]);
   const [ItemType, setItemType] = useState([]);
   const [modelView, setModelView] = useState(false);
-  const [viewClick, setViewClick] = useState("");
+  const [viewClick, setViewClick] = useState('');
 
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
-
 
   const transferoutLandingInitData = useSelector(
     (state) => state.localStorage.transferOutTaxbranchDDL
@@ -164,7 +162,7 @@ export function TableRow() {
                         value={values?.branch}
                         label="Tax Branch Name"
                         onChange={(valueOption) => {
-                          setFieldValue("branch", valueOption);
+                          setFieldValue('branch', valueOption);
                         }}
                         placeholder="Tax Branch Name"
                         errors={errors}
@@ -176,7 +174,7 @@ export function TableRow() {
                         <label>Item Type</label>
                         <Select
                           onChange={(valueOption) => {
-                            setFieldValue("itemType", valueOption);
+                            setFieldValue('itemType', valueOption);
                           }}
                           value={values?.itemType}
                           options={ItemType || []}
@@ -194,7 +192,7 @@ export function TableRow() {
                         placeholder="Date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("fromDate", e.target.value);
+                          setFieldValue('fromDate', e.target.value);
                         }}
                       />
                     </div>
@@ -206,7 +204,7 @@ export function TableRow() {
                         placeholder="Date"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("toDate", e.target.value);
+                          setFieldValue('toDate', e.target.value);
                         }}
                       />
                     </div>
@@ -237,18 +235,18 @@ export function TableRow() {
                         <table className="table table-striped table-bordered mt-3 global-table">
                           <thead>
                             <tr>
-                              <th style={{ width: "30px" }}>SL</th>
-                              <th style={{ width: "50px" }}>Branch Name</th>
-                              <th style={{ width: "50px" }}>Branch Address</th>
-                              <th style={{ width: "50px" }}>Transfer To</th>
-                              <th style={{ width: "50px" }}>Transfer No</th>
-                              <th style={{ width: "50px" }}>Address</th>
-                              <th style={{ width: "70px" }}>Vehicle No</th>
-                              <th style={{ width: "98px" }}>
+                              <th style={{ width: '30px' }}>SL</th>
+                              <th style={{ width: '50px' }}>Branch Name</th>
+                              <th style={{ width: '50px' }}>Branch Address</th>
+                              <th style={{ width: '50px' }}>Transfer To</th>
+                              <th style={{ width: '50px' }}>Transfer No</th>
+                              <th style={{ width: '50px' }}>Address</th>
+                              <th style={{ width: '70px' }}>Vehicle No</th>
+                              <th style={{ width: '98px' }}>
                                 Transaction Date
                               </th>
-                              <th style={{ width: "53px" }}>Quantity</th>
-                              <th style={{ width: "50px" }}>Action</th>
+                              <th style={{ width: '53px' }}>Quantity</th>
+                              <th style={{ width: '50px' }}>Action</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -331,7 +329,7 @@ export function TableRow() {
                   onHide={() => {
                     setModelView(false);
                   }}
-                  title={"Transfer Out"}
+                  title={'Transfer Out'}
                   btnText="Close"
                 >
                   <TransferOutViewForm

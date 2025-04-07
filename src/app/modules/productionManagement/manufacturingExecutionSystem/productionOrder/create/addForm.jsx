@@ -1,45 +1,43 @@
-
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { useParams } from "react-router-dom";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { useParams } from 'react-router-dom';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   createProductionOrder,
   editProductionOrder,
   getPlantDDL_api,
   getProductionOrderById,
-} from "../helper";
-import Loading from "../../../../_helper/_loading";
+} from '../helper';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
-  plantName: "",
-  itemName: "",
-  workCenter: "",
-  bomName: "",
-  salesOrderId: "",
-  numOrderQty: "",
+  plantName: '',
+  itemName: '',
+  workCenter: '',
+  bomName: '',
+  salesOrderId: '',
+  numOrderQty: '',
   startDate: _todayDate(),
-  startTime: "",
+  startTime: '',
   endDateTime: _todayDate(),
-  endTime: "",
-  prtNumber: "",
+  endTime: '',
+  prtNumber: '',
   isSOUseOnProductionOrderTest: false,
-  boex: "",
-  shopFloor: "",
-  baseUomName: "",
+  boex: '',
+  shopFloor: '',
+  baseUomName: '',
   // bomVersion: "",
 };
 export default function ProductionOrderCreateForm() {
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [objProps, setObjprops] = useState({});
   const [productionOrderSFG, setProductionOrderSFG] = useState([]);
-  const [productionId, setProductionId]= useState([]);
-  const [subPo, setSubPo]= useState([]);
+  const [productionId, setProductionId] = useState([]);
+  const [subPo, setSubPo] = useState([]);
   const params = useParams();
 
   const storeData = useSelector((state) => {
@@ -56,7 +54,6 @@ export default function ProductionOrderCreateForm() {
     }
   }, [params]);
 
-
   // useEffect(()=>{
   //   getPlantDDL_api(
   //     profileData?.userId,
@@ -65,7 +62,6 @@ export default function ProductionOrderCreateForm() {
   //     setPlantName
   //   );
   // }, [profileData, selectedBusinessUnit])
-
 
   const saveHandler = async (values, cb) => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
@@ -102,14 +98,23 @@ export default function ProductionOrderCreateForm() {
           itemIdTools: +values?.prtNumber?.value || 0,
           actionBy: +profileData?.userId,
         };
-        createProductionOrder(payload, cb, setDisabled,profileData.accountId , selectedBusinessUnit.value, setProductionOrderSFG,setProductionId, setSubPo);
+        createProductionOrder(
+          payload,
+          cb,
+          setDisabled,
+          profileData.accountId,
+          selectedBusinessUnit.value,
+          setProductionOrderSFG,
+          setProductionId,
+          setSubPo
+        );
       }
     }
   };
 
   return (
     <IForm
-      title={"Create Production Order"}
+      title={'Create Production Order'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

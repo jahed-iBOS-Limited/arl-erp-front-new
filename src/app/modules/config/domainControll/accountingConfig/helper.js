@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getGLDDLAction = async (accId, buId, setter) => {
   try {
@@ -18,7 +18,9 @@ export const getGLDDLAction = async (accId, buId, setter) => {
 };
 export const getPartnerTypeDDLFromAccoutingConfig = async (setter) => {
   try {
-    const res = await axios.get(`/fino/AccountingConfig/GetAccountingConfigTypeDDL`);
+    const res = await axios.get(
+      `/fino/AccountingConfig/GetAccountingConfigTypeDDL`
+    );
     setter(res?.data);
   } catch (error) {
     setter([]);
@@ -38,10 +40,10 @@ export const saveAccountingConfigAction = async (
     );
     setRowDto([]);
     setDisabled(false);
-    toast.success(res?.data?.message || "Submitted successfully");
+    toast.success(res?.data?.message || 'Submitted successfully');
   } catch (error) {
     setDisabled(false);
-    toast.error(error?.response?.data?.message || "Please try again");
+    toast.error(error?.response?.data?.message || 'Please try again');
   }
 };
 

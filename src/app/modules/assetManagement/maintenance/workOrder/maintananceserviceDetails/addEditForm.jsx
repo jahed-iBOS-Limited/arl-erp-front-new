@@ -1,12 +1,9 @@
-
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import ICustomCard from "../../../../_helper/_customCard";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import ICustomCard from '../../../../_helper/_customCard';
 import {
   getWarehouseDDL,
   getServiceDDL,
@@ -20,21 +17,21 @@ import {
   saveSubTaskforEdit,
   deleteSubTaskData,
   getSubTaskListDDL,
-} from "./helper";
+} from './helper';
 
 const initData = {
-  warehouse: "",
-  parts: "",
-  quantity: "",
-  remarks: "",
-  stockQuantity: "",
-  value: "",
-  serviceName: "",
-  serviceCost: "",
-  descriptionSub: "",
-  costCenter: "",
-  costElement: "",
-  narration: "",
+  warehouse: '',
+  parts: '',
+  quantity: '',
+  remarks: '',
+  stockQuantity: '',
+  value: '',
+  serviceName: '',
+  serviceCost: '',
+  descriptionSub: '',
+  costCenter: '',
+  costElement: '',
+  narration: '',
 };
 
 export default function MaintananceServiceDetailsForm({
@@ -120,7 +117,7 @@ export default function MaintananceServiceDetailsForm({
       wareHouseId: values?.warehouse?.value,
       wareHouseName: values?.warehouse?.label,
       itemRequestId: 0,
-      itemRequestCode: "",
+      itemRequestCode: '',
       description: values?.narration,
       actionBy: profileData?.userId,
       intCostElementId: values?.costElement?.value,

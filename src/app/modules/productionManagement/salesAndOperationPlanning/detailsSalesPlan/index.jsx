@@ -1,21 +1,18 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import {
-  getSalesPlanLanding,
-  getSalesPlanYearDDL,
-} from "./helper";
-import { shallowEqual, useSelector } from "react-redux";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
-import { getLandingPlantDDL } from "../../../_helper/_commonApi";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { getSalesPlanLanding, getSalesPlanYearDDL } from './helper';
+import { shallowEqual, useSelector } from 'react-redux';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
+import { getLandingPlantDDL } from '../../../_helper/_commonApi';
 
 const initData = {
-  plant: "",
-  year: "",
+  plant: '',
+  year: '',
 };
 export default function MonthlySalesPlanLanding() {
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -36,7 +33,7 @@ export default function MonthlySalesPlanLanding() {
     );
   }, [profileData, selectedBusinessUnit]);
 
-  const saveHandler = (values, cb) => { };
+  const saveHandler = (values, cb) => {};
   return (
     <Formik
       enableReinitialize={true}
@@ -74,7 +71,7 @@ export default function MonthlySalesPlanLanding() {
                     value={values?.plant}
                     label="Plant"
                     onChange={(valueOption) => {
-                      setFieldValue("plant", valueOption);
+                      setFieldValue('plant', valueOption);
                       getSalesPlanYearDDL(
                         profileData?.accountId,
                         selectedBusinessUnit?.value,
@@ -95,7 +92,7 @@ export default function MonthlySalesPlanLanding() {
                     value={values?.year}
                     label="Year"
                     onChange={(valueOption) => {
-                      setFieldValue("year", valueOption);
+                      setFieldValue('year', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -114,7 +111,7 @@ export default function MonthlySalesPlanLanding() {
                         setLoading
                       );
                     }}
-                    style={{ marginTop: "18px" }}
+                    style={{ marginTop: '18px' }}
                     className="btn btn-primary"
                     disabled={!values?.plant || !values?.year}
                   >
@@ -152,7 +149,7 @@ export default function MonthlySalesPlanLanding() {
                                 <OverlayTrigger
                                   overlay={
                                     <Tooltip id="cs-icon">
-                                      {"Create Details Sales Plan"}
+                                      {'Create Details Sales Plan'}
                                     </Tooltip>
                                   }
                                 >

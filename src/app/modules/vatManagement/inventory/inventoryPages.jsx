@@ -10,7 +10,7 @@ import TransferOutIbosCreateForm from './transfer-out-ibos/create/addForm';
 export default function InventoryPages() {
   const userRole = useSelector(
     (state) => state?.authData?.userRole,
-    shallowEqual,
+    shallowEqual
   );
 
   const transferOutIbos = userRole[findIndex(userRole, 'Transfer Out (IBOS)')];

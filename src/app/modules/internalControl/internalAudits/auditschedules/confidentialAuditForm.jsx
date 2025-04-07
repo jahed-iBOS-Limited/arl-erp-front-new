@@ -1,14 +1,14 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
-import AttachmentUploaderNew from "../../../_helper/attachmentUploaderNew";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import ICon from "../../../chartering/_chartinghelper/icons/_icon";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
+import AttachmentUploaderNew from '../../../_helper/attachmentUploaderNew';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import ICon from '../../../chartering/_chartinghelper/icons/_icon';
 import {
   auditFormInitData,
   calculateDaysDifference,
@@ -16,8 +16,8 @@ import {
   generateConfidentialInitData,
   getSingleScheduleDataHandler,
   handleConfidentialAuditSubmit,
-  loadEmployeeInfo
-} from "./helper";
+  loadEmployeeInfo,
+} from './helper';
 
 const ConfidentialAuditForm = ({ objProps }) => {
   // obj props
@@ -39,18 +39,14 @@ const ConfidentialAuditForm = ({ objProps }) => {
     setSingleConfidentialAuditData,
   ] = useAxiosGet();
   // axios post
-  const [
-    ,
-    submitConfidentialAuditData,
-    submitConfidentialAuditDataLoading,
-  ] = useAxiosPost();
+  const [, submitConfidentialAuditData, submitConfidentialAuditDataLoading] =
+    useAxiosPost();
 
   useEffect(() => {
     getSingleScheduleDataHandler(
       singleAuditData?.intAuditScheduleId || 0,
       getSingleConfidentialData
     );
-
   }, []);
 
   const auditForm = (
@@ -66,7 +62,7 @@ const ConfidentialAuditForm = ({ objProps }) => {
           value={values?.auditObservation}
           name="auditObservation"
           onChange={(e) => {
-            setFieldValue("auditObservation", e.target.value);
+            setFieldValue('auditObservation', e.target.value);
           }}
         />
       </td>
@@ -75,7 +71,7 @@ const ConfidentialAuditForm = ({ objProps }) => {
           value={values?.financialImpact}
           name="financialImpact"
           onChange={(e) => {
-            setFieldValue("financialImpact", e.target.value);
+            setFieldValue('financialImpact', e.target.value);
           }}
         />
       </td>
@@ -84,12 +80,12 @@ const ConfidentialAuditForm = ({ objProps }) => {
           selectedValue={values?.responsibleEmployee}
           isSearchIcon={true}
           handleChange={(valueOption) => {
-            setFieldValue("responsibleEmployee", valueOption);
+            setFieldValue('responsibleEmployee', valueOption);
           }}
           loadOptions={(searchInput) =>
             loadEmployeeInfo(profileData?.accountId, searchInput)
           }
-          name={"responsibleEmployee"}
+          name={'responsibleEmployee'}
         />
       </td>
       <td className="d-flex flex-row justify-content-between">
@@ -103,7 +99,7 @@ const ConfidentialAuditForm = ({ objProps }) => {
               if (Array.isArray(attachmentData)) {
                 setSingleConfidentialAuditData((prevState) => ({
                   ...prevState,
-                  strAuditEmpEvidenceAttastment: attachmentData[0]?.id || "",
+                  strAuditEmpEvidenceAttastment: attachmentData[0]?.id || '',
                 }));
               }
             }}
@@ -126,15 +122,13 @@ const ConfidentialAuditForm = ({ objProps }) => {
           </span>
         )}
       </td>
-      <td>
-        {singleConfidentialAuditData?.strManagementFeedBack}
-      </td>
+      <td>{singleConfidentialAuditData?.strManagementFeedBack}</td>
       <td>
         <InputField
           value={values?.strAuditRecommendation}
           name="strAuditRecommendation"
           onChange={(e) => {
-            setFieldValue("strAuditRecommendation", e.target.value);
+            setFieldValue('strAuditRecommendation', e.target.value);
           }}
         />
       </td>
@@ -212,7 +206,7 @@ const ConfidentialAuditForm = ({ objProps }) => {
                           <td>: {strAuditEngagementName}</td>
                           <td>Period</td>
                           <td>
-                            :{" "}
+                            :{' '}
                             {calculateDaysDifference(dteStartDate, dteEndDate)}
                           </td>
                         </tr>

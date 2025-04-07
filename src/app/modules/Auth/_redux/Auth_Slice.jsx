@@ -1,31 +1,31 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initAuthState = {
   isLoading: false,
   isAuth: false,
-  error: "",
-  msg: "",
+  error: '',
+  msg: '',
   haveBusinessUnit: false,
   profileData: {},
-  selectedBusinessUnit: { label: "", value: "" },
+  selectedBusinessUnit: { label: '', value: '' },
   businessUnitList: [],
   menu: [],
-  chatAppInfo: "",
-  tokenData: "",
+  chatAppInfo: '',
+  tokenData: '',
   isExpiredToken: false,
   isExpiredPassword: false,
   isForceLogout: false,
   userRole: [],
   email: null,
-  peopledeskApiURL: "",
+  peopledeskApiURL: '',
 };
 export const callTypes = {
-  list: "list",
-  action: "action",
+  list: 'list',
+  action: 'action',
 };
 
 export const authSlice = createSlice({
-  name: "authData",
+  name: 'authData',
   initialState: initAuthState,
   reducers: {
     setUserRole: (state, action) => {
@@ -42,7 +42,7 @@ export const authSlice = createSlice({
     },
 
     catchError: (state, action) => {
-      state.msg = { color: "error", msg: "Login Failed" };
+      state.msg = { color: 'error', msg: 'Login Failed' };
       // state.isAuth = false;
       state.isLoading = false;
       state.isLoading = false;
@@ -58,7 +58,7 @@ export const authSlice = createSlice({
     LoginFetched: (state, action) => {
       const { isAuth, tokenData } = action.payload;
       state.isAuth = isAuth;
-      state.msg = { color: "success", msg: "Login Successful" };
+      state.msg = { color: 'success', msg: 'Login Successful' };
       state.tokenData = tokenData;
       state.isLoading = false;
       state.isExpiredToken = false;
@@ -72,7 +72,7 @@ export const authSlice = createSlice({
       return initAuthState;
     },
     SetBusinessUnitTrue: (state) => {
-      state.msg = "";
+      state.msg = '';
       state.isAuth = true;
       state.haveBusinessUnit = true;
     },

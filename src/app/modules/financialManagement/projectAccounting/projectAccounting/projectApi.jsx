@@ -1,6 +1,6 @@
-import axios from "axios";
-import Axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getEmployeeDDL = async (accId, BuId, setter) => {
   try {
@@ -44,7 +44,7 @@ export const createProjectDescription = (
         setProject(res?.data);
       },
       true,
-      "Project Description Updated"
+      'Project Description Updated'
     );
   } else {
     const CreatePayload = {
@@ -67,7 +67,7 @@ export const createProjectDescription = (
         setProject(data);
       },
       true,
-      "Project Description Created"
+      'Project Description Created'
     );
   }
 };
@@ -106,7 +106,7 @@ export const createRole = (
   axios
     .post(`/fino/ProjectAccounting/CreateRole`, payload)
     .then((res) => {
-      setNewRole("");
+      setNewRole('');
       getRoleDDLAfterCreate(
         profileData?.accountId,
         selectedBusinessUnit.value,
@@ -114,8 +114,8 @@ export const createRole = (
       );
 
       setAddRole(false);
-      setNewRole("");
-      toast.success("Role Created Successfully");
+      setNewRole('');
+      toast.success('Role Created Successfully');
     })
     .catch((error) => {});
 };
@@ -139,11 +139,11 @@ export const onAddItemRequestForProject = (
     values?.quantity <= 0 ||
     values?.price <= 0
   ) {
-    if (!values?.item) setFieldError("item", "Item is required");
+    if (!values?.item) setFieldError('item', 'Item is required');
     if (!values?.quantity || !values?.quantity <= 0)
-      setFieldError("quantity", "Quantity is required");
+      setFieldError('quantity', 'Quantity is required');
     if (!values?.price || !values?.price <= 0)
-      setFieldError("price", "Price is required");
+      setFieldError('price', 'Price is required');
     return;
   }
 
@@ -166,7 +166,7 @@ export const onAddItemRequestForProject = (
     strUom: values?.item?.uom,
   };
   setItemList((prev) => [...prev, newItem]);
-  setValues({ item: {}, price: "", quantity: "" });
+  setValues({ item: {}, price: '', quantity: '' });
 };
 export const getCostElementDDL = async (BuId, setter) => {
   try {
@@ -257,7 +257,7 @@ export const saveTeam = (
         setProject((prev) => ({ ...prev }));
       },
       true,
-      "Team Update Successful"
+      'Team Update Successful'
     );
   } else {
     postData(
@@ -267,7 +267,7 @@ export const saveTeam = (
         setProject((prev) => ({ ...prev }));
       },
       true,
-      "Team Created Successfully"
+      'Team Created Successfully'
     );
   }
   // const responsible=allTeam.map(item=>{return {label:item?.name,value:item?.intTeamId}})
@@ -349,7 +349,7 @@ export const saveExpense = (
       finalPayLoad,
       () => {},
       true,
-      "Expense Update Successful"
+      'Expense Update Successful'
     );
   } else {
     postData(
@@ -357,7 +357,7 @@ export const saveExpense = (
       finalPayLoad,
       () => {},
       true,
-      "Expense Created Successfully"
+      'Expense Created Successfully'
     );
   }
   // console.log("final ", finalPayLoad);

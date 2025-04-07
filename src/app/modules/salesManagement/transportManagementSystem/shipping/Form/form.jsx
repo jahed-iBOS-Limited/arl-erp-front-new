@@ -1,82 +1,82 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import { IInput } from "../../../../_helper/_input";
-import ICalendar from "../../../../_helper/_inputCalender";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import { IInput } from '../../../../_helper/_input';
+import ICalendar from '../../../../_helper/_inputCalender';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import { useDispatch } from 'react-redux';
 import {
   getDeliveryItemVolumeInfoAction,
   GetPendingDeliveryDDLAction,
   GetTransportZoneDDLAction,
-} from "../_redux/Actions";
-import { getDeliveryeDatabyId } from "../_redux/Actions";
-import { Input } from "../../../../../../_metronic/_partials/controls";
-import { getLoadingPointDDLAction } from "./../_redux/Actions";
-import { _numberValidation } from "../../../../_helper/_numberValidation";
+} from '../_redux/Actions';
+import { getDeliveryeDatabyId } from '../_redux/Actions';
+import { Input } from '../../../../../../_metronic/_partials/controls';
+import { getLoadingPointDDLAction } from './../_redux/Actions';
+import { _numberValidation } from '../../../../_helper/_numberValidation';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   lastDistance: Yup.number()
-    .min(1, "Minimum 2 strings")
-    .max(1000000, "Maximum 1000000 strings")
-    .required("Last Distance is required"),
+    .min(1, 'Minimum 2 strings')
+    .max(1000000, 'Maximum 1000000 strings')
+    .required('Last Distance is required'),
 
   Vehicle: Yup.object().shape({
-    label: Yup.string().required("Vehicle is required"),
-    value: Yup.string().required("Vehicle is required"),
+    label: Yup.string().required('Vehicle is required'),
+    value: Yup.string().required('Vehicle is required'),
   }),
   route: Yup.object().shape({
-    label: Yup.string().required("route is required"),
-    value: Yup.string().required("route is required"),
+    label: Yup.string().required('route is required'),
+    value: Yup.string().required('route is required'),
   }),
 
   transportZone: Yup.object().shape({
-    label: Yup.string().required("Transport Zone is required"),
-    value: Yup.string().required("Transport Zone is required"),
+    label: Yup.string().required('Transport Zone is required'),
+    value: Yup.string().required('Transport Zone is required'),
   }),
   shipPoint: Yup.object().shape({
-    label: Yup.string().required("Ship Point is required"),
-    value: Yup.string().required("Ship Point is required"),
+    label: Yup.string().required('Ship Point is required'),
+    value: Yup.string().required('Ship Point is required'),
   }),
 
   loadingPoint: Yup.object().shape({
-    label: Yup.string().required("Loading Point is required"),
-    value: Yup.string().required("Loading Point is required"),
+    label: Yup.string().required('Loading Point is required'),
+    value: Yup.string().required('Loading Point is required'),
   }),
   pendingDelivery: Yup.object().shape({
-    label: Yup.string().required("Pending Delivery is required"),
-    value: Yup.string().required("Pending Delivery is required"),
+    label: Yup.string().required('Pending Delivery is required'),
+    value: Yup.string().required('Pending Delivery is required'),
   }),
 
-  shipmentdate: Yup.date().required("Shipment Date required"),
+  shipmentdate: Yup.date().required('Shipment Date required'),
 
   estimatedTimeofArrival: Yup.date().required(
-    "Estimated Time of Arrival required"
+    'Estimated Time of Arrival required'
   ),
 });
 const validationSchemaEdit = Yup.object().shape({
   lastDistance: Yup.number()
-    .min(1, "Minimum 2 strings")
-    .max(1000000, "Maximum 1000000 strings")
-    .required("Last Distance is required"),
+    .min(1, 'Minimum 2 strings')
+    .max(1000000, 'Maximum 1000000 strings')
+    .required('Last Distance is required'),
 
   Vehicle: Yup.object().shape({
-    label: Yup.string().required("Vehicle is required"),
-    value: Yup.string().required("Vehicle is required"),
+    label: Yup.string().required('Vehicle is required'),
+    value: Yup.string().required('Vehicle is required'),
   }),
   route: Yup.object().shape({
-    label: Yup.string().required("route is required"),
-    value: Yup.string().required("route is required"),
+    label: Yup.string().required('route is required'),
+    value: Yup.string().required('route is required'),
   }),
 
-  shipmentdate: Yup.date().required("Shipment Date required"),
+  shipmentdate: Yup.date().required('Shipment Date required'),
 
   estimatedTimeofArrival: Yup.date().required(
-    "Estimated Time of Arrival required"
+    'Estimated Time of Arrival required'
   ),
   // planedLoadingTime: Yup.date().required("Planned Loading Time required"),
 });
@@ -120,8 +120,8 @@ export default function FormCmp({
   useEffect(() => {
     setControls([
       {
-        label: "Select Ship Point",
-        name: "shipPoint",
+        label: 'Select Ship Point',
+        name: 'shipPoint',
         options: ShippointDDL,
         defaultValue: initData.shipPoint,
         isDisabled: false,
@@ -140,12 +140,12 @@ export default function FormCmp({
               currentValue
             )
           );
-          setter("loadingPoint", "");
+          setter('loadingPoint', '');
         },
       },
       {
-        label: "Select Vehicle",
-        name: "Vehicle",
+        label: 'Select Vehicle',
+        name: 'Vehicle',
         options: vehicleDDL,
         defaultValue: initData.Vehicle,
         dependencyFunc: (currentValue, values, setter, label) => {
@@ -158,8 +158,8 @@ export default function FormCmp({
         },
       },
       {
-        label: "Select Route",
-        name: "route",
+        label: 'Select Route',
+        name: 'route',
         options: RouteListDDL,
         defaultValue: initData.salesOrg,
         isDisabled: true,
@@ -168,21 +168,21 @@ export default function FormCmp({
           dispatch(
             GetTransportZoneDDLAction(currentValue, selectedBusinessUnit?.value)
           );
-          setter("salesOffice", "");
-          setter("BUsalesOrgIncoterm", "");
-          setter("transportZone", "");
+          setter('salesOffice', '');
+          setter('BUsalesOrgIncoterm', '');
+          setter('transportZone', '');
         },
       },
       {
-        label: "Transport Zone",
-        name: "transportZone",
+        label: 'Transport Zone',
+        name: 'transportZone',
         options: TransportZoneDDL,
         defaultValue: initData.transportZone,
         isDisabled: false,
       },
       {
-        label: "Select Loading Point",
-        name: "loadingPoint",
+        label: 'Select Loading Point',
+        name: 'loadingPoint',
         options: loadingPointDDL,
         defaultValue: initData.loadingPoint,
         isDisabled: false,
@@ -195,7 +195,6 @@ export default function FormCmp({
       //   isDisabled: false,
       // }
     ]);
-
   }, [
     ShippointDDL,
     vehicleDDL,
@@ -239,7 +238,7 @@ export default function FormCmp({
                 <div className="col-lg-12">
                   <div
                     className="row bank-journal bank-journal-custom bj-left"
-                    style={{ paddingBottom: "10px" }}
+                    style={{ paddingBottom: '10px' }}
                   >
                     <>
                       {controls.map((itm) => {
@@ -267,9 +266,9 @@ export default function FormCmp({
                           label="Last Distance"
                           name="lastDistance"
                           type="tel"
-                          defaultValue={lastDistance || ""}
+                          defaultValue={lastDistance || ''}
                           onChange={(e) => {
-                            setFieldValue("lastDistance", _numberValidation(e));
+                            setFieldValue('lastDistance', _numberValidation(e));
                           }}
                         />
                       </div>
@@ -278,7 +277,7 @@ export default function FormCmp({
                         <label>Estimated of Arrival Date </label>
                         <ICalendar
                           value={_dateFormatter(
-                            values.estimatedTimeofArrival || ""
+                            values.estimatedTimeofArrival || ''
                           )}
                           name="estimatedTimeofArrival"
                         />
@@ -286,13 +285,13 @@ export default function FormCmp({
                       <div className="col-lg-2">
                         <label>Planned Loading Time </label>
                         <ICalendar
-                          value={_dateFormatter(values.planedLoadingTime || "")}
+                          value={_dateFormatter(values.planedLoadingTime || '')}
                           name="planedLoadingTime"
                         />
                       </div>
                       <div className="col-lg-2">
                         <Field
-                          value={values.driverName || ""}
+                          value={values.driverName || ''}
                           placeholder="Driver Name"
                           name="driverName"
                           label="Driver Name"
@@ -303,7 +302,7 @@ export default function FormCmp({
                       </div>
                       <div className="col-lg-2">
                         <Field
-                          value={values.driverContactNo || ""}
+                          value={values.driverContactNo || ''}
                           placeholder="Driver Contact No"
                           name="driverContactNo"
                           label="Driver Contact No"
@@ -312,9 +311,9 @@ export default function FormCmp({
                           disabled
                         />
                       </div>
-                      <div className="col-lg-2" style={{ display: "none" }}>
+                      <div className="col-lg-2" style={{ display: 'none' }}>
                         <Field
-                          value={values.driverId || ""}
+                          value={values.driverId || ''}
                           placeholder="Driver Id"
                           name="driverId"
                           label="Driver Id"
@@ -329,17 +328,17 @@ export default function FormCmp({
                           component={() => (
                             <Select
                               options={
-                                PendingDeliveryDDL || { value: "", label: "" }
+                                PendingDeliveryDDL || { value: '', label: '' }
                               }
                               placeholder="Select Delivery List"
                               defaultValue={
                                 values.pendingDelivery || {
-                                  value: "",
-                                  label: "",
+                                  value: '',
+                                  label: '',
                                 }
                               }
                               onChange={(valueOption) => {
-                                setFieldValue("pendingDelivery", valueOption);
+                                setFieldValue('pendingDelivery', valueOption);
                                 dispatch(
                                   getDeliveryItemVolumeInfoAction(
                                     valueOption?.value
@@ -376,43 +375,43 @@ export default function FormCmp({
                         </button>
                       </div>
                       <div className="col-lg-12"></div>
-                      <div className="col-lg-3" style={{ marginTop: "10px" }}>
+                      <div className="col-lg-3" style={{ marginTop: '10px' }}>
                         <b className="mr-2">
-                          Weight Capacity :{" "}
+                          Weight Capacity :{' '}
                           {rowDto?.length
                             ? values?.unloadVehicleWeight ||
                               vehicleSingleData?.weight
-                            : 0}{" "}
+                            : 0}{' '}
                           Ton
                         </b>
                         <b>
-                          Net Weight :{" "}
+                          Net Weight :{' '}
                           {rowDto?.length
                             ? values.itemTotalNetWeight ||
                               deliveryItemVolumeInfo.netWeight
                             : 0}
                         </b>
                       </div>
-                      <div className="col-lg-3" style={{ marginTop: "10px" }}>
+                      <div className="col-lg-3" style={{ marginTop: '10px' }}>
                         <b className="mr-2">
-                          Volume Capacity :{" "}
+                          Volume Capacity :{' '}
                           {rowDto?.length
                             ? values?.unloadVehicleVolume ||
                               vehicleSingleData?.volume
-                            : 0}{" "}
+                            : 0}{' '}
                           FT3
                         </b>
                         <b>
-                          Volume :{" "}
+                          Volume :{' '}
                           {rowDto?.length
                             ? values.itemTotalVolume ||
                               deliveryItemVolumeInfo.volume
                             : 0}
                         </b>
                       </div>
-                      <div className="col-lg-3" style={{ marginTop: "10px" }}>
+                      <div className="col-lg-3" style={{ marginTop: '10px' }}>
                         <b className="mr-2">
-                          Gross Weight :{" "}
+                          Gross Weight :{' '}
                           {rowDto?.length
                             ? values?.itemTotalGrowssWeight ||
                               deliveryItemVolumeInfo.grossWeight
@@ -433,7 +432,7 @@ export default function FormCmp({
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
                         <thead>
                           <tr>
-                            <th style={{ width: "35px" }}>SL</th>
+                            <th style={{ width: '35px' }}>SL</th>
                             <th>Delivery Id</th>
                             <th>Delivery No</th>
                             <th>Ship To Party Name</th>
@@ -505,13 +504,13 @@ export default function FormCmp({
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -1,8 +1,8 @@
 //
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
 import {
   getItemNameDDL_api,
   // GetSalesTargetView,
@@ -12,22 +12,22 @@ import {
   saveSalesTarget,
   GetSalesTargetRtmView,
   getCustomerNameDDL_api,
-} from "../helper";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import Loading from "../../../../_helper/_loading";
+} from '../helper';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
-  territoryName: "",
-  customerName: "",
-  month: "",
-  year: "",
-  totalAmount: "",
-  startDate: "",
-  endDate: "",
-  itemName: "",
-  rate: "",
-  quantity: "",
+  territoryName: '',
+  customerName: '',
+  month: '',
+  year: '',
+  totalAmount: '',
+  startDate: '',
+  endDate: '',
+  itemName: '',
+  rate: '',
+  quantity: '',
 };
 
 export default function SalesTargetCreateForm({
@@ -40,7 +40,7 @@ export default function SalesTargetCreateForm({
   const [objProps, setObjprops] = useState({});
   const [territoryDDL, setTerritoryDDL] = useState([]);
   const [transactionType, setTransactionType] = useState([]);
-  const [itemNameDDL, setItemNameDDL] = useState("");
+  const [itemNameDDL, setItemNameDDL] = useState('');
   const [rowDto, setRowDto] = useState([]);
   const params = useParams();
   const location = useLocation();
@@ -81,7 +81,7 @@ export default function SalesTargetCreateForm({
   }, [profileData, selectedBusinessUnit]);
 
   //SingleData to view
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   useEffect(() => {
     if (params?.id) {
       GetSalesTargetRtmView(
@@ -100,12 +100,10 @@ export default function SalesTargetCreateForm({
         setCustomerNameDDL
       );
     }
-
   }, [params]);
 
   // // Show when in edit mode, rowData
   useEffect(() => {
-
     const newData = singleData?.row?.map((item) => ({
       itemId: item?.itemId,
       itemName: item?.itemName,
@@ -120,7 +118,6 @@ export default function SalesTargetCreateForm({
     } else {
       setRowDto([]);
     }
-
   }, [singleData]);
 
   const saveHandler = async (values, cb) => {
@@ -142,7 +139,7 @@ export default function SalesTargetCreateForm({
             targetYear: location?.state?.values?.year?.value,
             territoryId: location?.state?.values?.territoryName?.value,
             actionBy: profileData?.userId,
-            currentDate: "2021-01-13T11:49:00.509Z",
+            currentDate: '2021-01-13T11:49:00.509Z',
             fromDate: values?.startDate,
             toDate: values?.endDate,
           },
@@ -150,7 +147,7 @@ export default function SalesTargetCreateForm({
         };
         editSalesTarget(payload, setDisabled);
         if (rowDto?.length === 0) {
-          toast.warn("Please add transaction");
+          toast.warn('Please add transaction');
         } else {
         }
       } else {
@@ -169,21 +166,20 @@ export default function SalesTargetCreateForm({
             targetYear: location?.state?.values?.year?.value,
             territoryId: location?.state?.values?.territoryName?.value,
             actionBy: profileData?.userId,
-            currentDate: "2021-01-12T09:07:59.892Z",
+            currentDate: '2021-01-12T09:07:59.892Z',
             fromDate: values?.startDate,
             toDate: values?.endDate,
           },
           objCreateRowList: newRowDto,
         };
         if (rowDto?.length === 0) {
-          toast.warn("Please add transaction");
+          toast.warn('Please add transaction');
         } else {
           saveSalesTarget(payload, cb, setDisabled);
         }
       }
     } else {
       setDisabled(false);
-
     }
   };
 

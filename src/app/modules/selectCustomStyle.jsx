@@ -21,76 +21,103 @@ export const createCustomSelectStyles = ({
 } = {}) => {
   const styles = {
     control: (provided, state) =>
-      control({
-        ...provided,
-        minHeight,
-        height: isAutoHeight ? 'auto' : height,
-      }, state),
+      control(
+        {
+          ...provided,
+          minHeight,
+          height: isAutoHeight ? 'auto' : height,
+        },
+        state
+      ),
 
     valueContainer: (provided, state) =>
-      valueContainer({
-        ...provided,
-        height: isAutoHeight ? 'auto' : height,
-        padding: '0 6px',
-      }, state),
+      valueContainer(
+        {
+          ...provided,
+          height: isAutoHeight ? 'auto' : height,
+          padding: '0 6px',
+        },
+        state
+      ),
 
     input: (provided, state) =>
-      input({
-        ...provided,
-        margin: '0px',
-      }, state),
+      input(
+        {
+          ...provided,
+          margin: '0px',
+        },
+        state
+      ),
 
     indicatorSeparator: () => ({
       display: 'none',
     }),
 
     indicatorsContainer: (provided, state) =>
-      indicatorsContainer({
-        ...provided,
-        height: indicatorsHeight,
-      }, state),
+      indicatorsContainer(
+        {
+          ...provided,
+          height: indicatorsHeight,
+        },
+        state
+      ),
 
     clearIndicator: (provided, state) =>
-      clearIndicator({
-        ...provided,
-        paddingRight: 2,
-      }, state),
+      clearIndicator(
+        {
+          ...provided,
+          paddingRight: 2,
+        },
+        state
+      ),
 
     dropdownIndicator: (provided, state) =>
-      dropdownIndicator({
-        ...provided,
-        paddingLeft: 0,
-      }, state),
+      dropdownIndicator(
+        {
+          ...provided,
+          paddingLeft: 0,
+        },
+        state
+      ),
 
     option: (provided, state) =>
-      option({
-        ...provided,
-        padding: 1,
-        fontSize: 12.5,
-        zIndex: 99999999,
-        paddingLeft: 7,
-        ...(isOptionPaddingRight ? { paddingRight: 7 } : {}),
-      }, state),
+      option(
+        {
+          ...provided,
+          padding: 1,
+          fontSize: 12.5,
+          zIndex: 99999999,
+          paddingLeft: 7,
+          ...(isOptionPaddingRight ? { paddingRight: 7 } : {}),
+        },
+        state
+      ),
 
     placeholder: (provided, state) =>
-      placeholder({
-        ...provided,
-        fontSize: 11.5,
-        textOverflow: 'ellipsis',
-        maxWidth: '95%',
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-      }, state),
+      placeholder(
+        {
+          ...provided,
+          fontSize: 11.5,
+          textOverflow: 'ellipsis',
+          maxWidth: '95%',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+        },
+        state
+      ),
 
     menu: (provided, state) =>
-      menu({
-        ...provided,
-        backgroundColor: '#ffffff',
-        minWidth: 'max-content',
-        width: '100%',
-        borderRadius: '2px',
-        zIndex: 99999999999999,
-      }, state),
+      menu(
+        {
+          ...provided,
+          backgroundColor: '#ffffff',
+          minWidth: 'max-content',
+          width: '100%',
+          borderRadius: '2px',
+          zIndex: 99999999999999,
+        },
+        state
+      ),
   };
 
   if (isMulti) {
@@ -110,9 +137,6 @@ export const createCustomSelectStyles = ({
   return styles;
 };
 
-
-
-const customStyles = createCustomSelectStyles({})
-
+const customStyles = createCustomSelectStyles({});
 
 export default customStyles;

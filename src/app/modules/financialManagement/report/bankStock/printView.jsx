@@ -1,7 +1,7 @@
-import React from "react";
-import { getLastDateOfMonth } from "./helper";
-import { getMonth } from "../../../salesManagement/report/customerSalesTarget/utils";
-import { _formatMoney } from "../../../_helper/_formatMoney";
+import React from 'react';
+import { getLastDateOfMonth } from './helper';
+import { getMonth } from '../../../salesManagement/report/customerSalesTarget/utils';
+import { _formatMoney } from '../../../_helper/_formatMoney';
 
 const PrintView = ({ reportData, values, totalAmount }) => {
   return (
@@ -9,7 +9,7 @@ const PrintView = ({ reportData, values, totalAmount }) => {
       <div contentEditable={true} className="content-wrapper">
         <div>
           <h1 className="text-center">
-            <span style={{ borderBottom: "1px solid" }}>
+            <span style={{ borderBottom: '1px solid' }}>
               To Whom It May Concern
             </span>
           </h1>
@@ -20,14 +20,14 @@ const PrintView = ({ reportData, values, totalAmount }) => {
               <tr>
                 <th colspan="6">
                   <h3>
-                    Schedule of Closing Stocks as of{" "}
-                    {getMonth(values?.monthYear?.split("-")[1])}{" "}
+                    Schedule of Closing Stocks as of{' '}
+                    {getMonth(values?.monthYear?.split('-')[1])}{' '}
                     {
                       getLastDateOfMonth(
-                        values?.monthYear?.split("-")[1]
-                      ).split("-")[2]
+                        values?.monthYear?.split('-')[1]
+                      ).split('-')[2]
                     }
-                    , {values?.monthYear?.split("-")[0]}
+                    , {values?.monthYear?.split('-')[0]}
                   </h3>
                 </th>
               </tr>
@@ -51,17 +51,17 @@ const PrintView = ({ reportData, values, totalAmount }) => {
                     <td className="text-center">{item?.strItemName}</td>
                     <td className="text-right pr-2 min_width">
                       {/spare parts/i.test(item?.strItemName)
-                        ? ""
+                        ? ''
                         : item?.numCloseQty}
                     </td>
                     <td className="text-center" min_width>
                       {/spare parts/i.test(item?.strItemName)
-                        ? ""
+                        ? ''
                         : item?.strBaseUOM}
                     </td>
                     <td className="text-right pr-2 min_width">
                       {/spare parts/i.test(item?.strItemName)
-                        ? ""
+                        ? ''
                         : (
                             (item?.numClosingValue || 0) /
                             (item?.numCloseQty || 0)
@@ -92,14 +92,14 @@ const PrintView = ({ reportData, values, totalAmount }) => {
             </tbody>
           </table>
         </div>
-        <div style={{ margin: "10px 40px" }}>
+        <div style={{ margin: '10px 40px' }}>
           <h5>
-            Accounts Receivable Balance Date{" "}
-            {getLastDateOfMonth(values?.monthYear?.split("-")[1])}, Amount of
+            Accounts Receivable Balance Date{' '}
+            {getLastDateOfMonth(values?.monthYear?.split('-')[1])}, Amount of
             tk. {_formatMoney(totalAmount[0]?.ReceableAmount?.toFixed(2))}
           </h5>
           <p>We hereby confirm that:</p>
-          <ul style={{ listStyle: "none" }}>
+          <ul style={{ listStyle: 'none' }}>
             <li>
               a) All assets have been included in this statement and that the
               description and valuation thereof is correct. The Stock figures do
@@ -143,7 +143,7 @@ const PrintView = ({ reportData, values, totalAmount }) => {
         </div>
         <div>
           <h3>For, {values?.businessUnit?.label}</h3>
-          <div style={{ marginTop: "80px", display: "flex", gap: "70px" }}>
+          <div style={{ marginTop: '80px', display: 'flex', gap: '70px' }}>
             <p>Authorized Signature</p>
             <p>Authorized Signature</p>
           </div>

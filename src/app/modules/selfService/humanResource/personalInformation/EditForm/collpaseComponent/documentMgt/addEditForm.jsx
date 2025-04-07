@@ -1,23 +1,21 @@
-
-
-import React, { useState, useEffect } from "react";
-import Form from "./form";
-import { _todayDate } from "./../../../../../../_helper/_todayDate";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import Form from './form';
+import { _todayDate } from './../../../../../../_helper/_todayDate';
+import { useLocation } from 'react-router-dom';
 import {
   getDocumentAttachmentByEmployeeId_api,
   getImageFile_API,
-} from "./helper";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { toast } from "react-toastify";
-import { editDocManagement_api } from "./helper";
-import { saveDocManagement_api } from "./helper";
-import Loading from "./../../../../../../_helper/_loading";
-import "./style.css";
+} from './helper';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import { toast } from 'react-toastify';
+import { editDocManagement_api } from './helper';
+import { saveDocManagement_api } from './helper';
+import Loading from './../../../../../../_helper/_loading';
+import './style.css';
 
 const initData = {
-  docType: "",
+  docType: '',
   effectiveDate: _todayDate(),
   createdDateTime: _todayDate(),
 };
@@ -28,12 +26,12 @@ export default function DocumentManagement() {
   const [edit, setEdit] = useState(false);
   const [fileObjects, setFileObjects] = useState([]);
   const [isDisabled, setDisabled] = useState(false);
-  const [uploadImage, setUploadImage] = useState("");
+  const [uploadImage, setUploadImage] = useState('');
   const { state: headerData } = useLocation();
   const [editClick, setEditClick] = useState(false);
-  const [editBtnIndex, setEditBtnIndex] = useState("");
+  const [editBtnIndex, setEditBtnIndex] = useState('');
 
-  console.log(rowDto, "rowDto");
+  console.log(rowDto, 'rowDto');
   // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -48,12 +46,12 @@ export default function DocumentManagement() {
     const obj = {
       intDocTypeId: values?.docType?.value,
       strDocType: values?.docType?.label,
-      intDocumentId: uploadImage[0]?.id || "",
+      intDocumentId: uploadImage[0]?.id || '',
       intEmployeeId: headerData?.employeeId,
       strEmployeeCode: headerData?.employeeCode,
       intAccountId: profileData?.accountId,
       intBusinessunitId: selectedBusinessUnit?.value,
-      strComments: "string",
+      strComments: 'string',
       createdByName: profileData?.userName,
       intActionBy: profileData?.userId,
       effectiveDate: values?.effectiveDate,
@@ -65,7 +63,7 @@ export default function DocumentManagement() {
   //rowDataAddHandler
   const rowDataAddHandler = (values) => {
     setRowDto([...rowDto, singleRowdtoFunc(values)]);
-    setUploadImage("");
+    setUploadImage('');
   };
 
   //remover row dto
@@ -79,7 +77,6 @@ export default function DocumentManagement() {
       headerData?.employeeId,
       setSingleData
     );
-
   }, []);
 
   const getDocAttachMentById = () => {
@@ -120,8 +117,8 @@ export default function DocumentManagement() {
             documentPath: uploadImage[0]?.id
               ? uploadImage[0]?.id
               : values?.documentPath
-              ? values?.documentPath
-              : "",
+                ? values?.documentPath
+                : '',
           };
           editDocManagement_api(copyRodto, cb, setDisabled).then((data) => {
             getDocumentAttachmentByEmployeeId_api(
@@ -131,7 +128,7 @@ export default function DocumentManagement() {
             setEditClick(false);
           });
         } else {
-          toast.warn("Please add at least one");
+          toast.warn('Please add at least one');
         }
       } else {
         // edit btn false
@@ -145,7 +142,7 @@ export default function DocumentManagement() {
             }
           );
         } else {
-          toast.warn("Please add at least one");
+          toast.warn('Please add at least one');
         }
       }
     } else {
@@ -158,7 +155,7 @@ export default function DocumentManagement() {
           );
         });
       } else {
-        toast.warn("Please add at least one");
+        toast.warn('Please add at least one');
       }
     }
   };
@@ -170,12 +167,12 @@ export default function DocumentManagement() {
         intAttachmentId: 0,
         intDocTypeId: itm?.docType?.value,
         strDocType: itm?.docType?.label,
-        intDocumentId: uploadImage[0]?.id || "",
+        intDocumentId: uploadImage[0]?.id || '',
         intEmployeeId: headerData?.employeeId,
         strEmployeeCode: headerData?.employeeCode,
         intAccountId: profileData?.accountId,
         intBusinessunitId: selectedBusinessUnit?.value,
-        strComments: "string",
+        strComments: 'string',
         intActionBy: profileData?.userId,
         effectiveDate: itm?.effectiveDate,
       },

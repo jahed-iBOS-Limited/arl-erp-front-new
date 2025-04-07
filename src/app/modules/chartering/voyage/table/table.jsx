@@ -1,36 +1,35 @@
-
-import { Formik } from "formik";
-import moment from "moment";
-import React, { useContext, useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import { getVesselDDL, getVoyageDDLNew } from "../../helper";
-import VoyageDetails from "../../reports/voyageSummary/table/details";
-import FormikSelect from "../../_chartinghelper/common/formikSelect";
-import customStyles from "../../_chartinghelper/common/selectCustomStyle";
-import IEdit from "../../_chartinghelper/icons/_edit";
-import ICon from "../../_chartinghelper/icons/_icon";
-import IView from "../../_chartinghelper/icons/_view";
-import Loading from "../../_chartinghelper/loading/_loading";
-import ICustomTable from "../../_chartinghelper/_customTable";
-import PaginationTable from "../../_chartinghelper/_tablePagination";
-import IViewModal from "../../_chartinghelper/_viewModal";
-import { getVoyageCompletionChecklist, getVoyageLandingData } from "../helper";
-import CompleteConfirmation from "./completeConfirmation";
-import { CharteringContext } from "../../charteringContext";
+import { Formik } from 'formik';
+import moment from 'moment';
+import React, { useContext, useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import { getVesselDDL, getVoyageDDLNew } from '../../helper';
+import VoyageDetails from '../../reports/voyageSummary/table/details';
+import FormikSelect from '../../_chartinghelper/common/formikSelect';
+import customStyles from '../../_chartinghelper/common/selectCustomStyle';
+import IEdit from '../../_chartinghelper/icons/_edit';
+import ICon from '../../_chartinghelper/icons/_icon';
+import IView from '../../_chartinghelper/icons/_view';
+import Loading from '../../_chartinghelper/loading/_loading';
+import ICustomTable from '../../_chartinghelper/_customTable';
+import PaginationTable from '../../_chartinghelper/_tablePagination';
+import IViewModal from '../../_chartinghelper/_viewModal';
+import { getVoyageCompletionChecklist, getVoyageLandingData } from '../helper';
+import CompleteConfirmation from './completeConfirmation';
+import { CharteringContext } from '../../charteringContext';
 
 const headers = [
-  { name: "SL" },
-  { name: "Ship Type" },
-  { name: "Vessel Name" },
-  { name: "Voyage No" },
-  { name: "Voyage Type" },
-  { name: "Voyage Start Date" },
-  { name: "Voyage Completion Date" },
-  { name: "Voyage Duration" },
-  { name: "Status" },
-  { name: "Actions" },
+  { name: 'SL' },
+  { name: 'Ship Type' },
+  { name: 'Vessel Name' },
+  { name: 'Voyage No' },
+  { name: 'Voyage Type' },
+  { name: 'Voyage Start Date' },
+  { name: 'Voyage Completion Date' },
+  { name: 'Voyage Duration' },
+  { name: 'Status' },
+  { name: 'Actions' },
 ];
 
 export default function VoyageTable() {
@@ -100,7 +99,7 @@ export default function VoyageTable() {
     viewGridData(initData);
   }, [profileData, selectedBusinessUnit]);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getVoyageLandingData(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -118,11 +117,11 @@ export default function VoyageTable() {
     let total = 0;
     if (item?.voyageTypeId === 1) {
       const timeCharter = [
-        "lastActionDateBallastPassage",
-        "lastActionDateBunkerInfo",
-        "lastActionDateExpense",
-        "lastActionDateInvoice",
-        "lastActionDateOffHire",
+        'lastActionDateBallastPassage',
+        'lastActionDateBunkerInfo',
+        'lastActionDateExpense',
+        'lastActionDateInvoice',
+        'lastActionDateOffHire',
       ];
 
       for (let i = 0; i < timeCharter?.length; i++) {
@@ -132,11 +131,11 @@ export default function VoyageTable() {
       }
     } else {
       const voyageCharter = [
-        "lastActionDateBunkerCost",
-        "lastActionDateBunkerInfo",
-        "lastActionDateExpense",
-        "lastActionDateInvoice",
-        "lastActionDateLayTime",
+        'lastActionDateBunkerCost',
+        'lastActionDateBunkerInfo',
+        'lastActionDateExpense',
+        'lastActionDateInvoice',
+        'lastActionDateLayTime',
       ];
 
       for (let i = 0; i < voyageCharter?.length; i++) {
@@ -165,10 +164,10 @@ export default function VoyageTable() {
                 <div>
                   <button
                     type="button"
-                    className={"btn btn-primary px-3 py-2"}
+                    className={'btn btn-primary px-3 py-2'}
                     onClick={() => {
                       updateCharteringState(values);
-                      history.push("/chartering/voyage/create");
+                      history.push('/chartering/voyage/create');
                     }}
                   >
                     Create
@@ -179,7 +178,7 @@ export default function VoyageTable() {
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vesselName || ""}
+                      value={values?.vesselName || ''}
                       isSearchable={true}
                       options={vesselDDL || []}
                       styles={customStyles}
@@ -190,19 +189,19 @@ export default function VoyageTable() {
                         setGridData([]);
 
                         setVoyageNoDDL([]);
-                        setFieldValue("vesselName", valueOption);
+                        setFieldValue('vesselName', valueOption);
                         if (valueOption) {
                           getVoyageDDL({ ...values, vesselName: valueOption });
                         }
                         updateCharteringState({
-                          voyageNo: "",
+                          voyageNo: '',
                           vesselName: valueOption,
                         });
 
                         viewGridData({
                           ...values,
                           vesselName: valueOption,
-                          voyageNo: "",
+                          voyageNo: '',
                         });
                       }}
                       errors={errors}
@@ -212,7 +211,7 @@ export default function VoyageTable() {
 
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.voyageNo || ""}
+                      value={values?.voyageNo || ''}
                       isSearchable={true}
                       options={voyageNoDDL || []}
                       styles={customStyles}
@@ -221,7 +220,7 @@ export default function VoyageTable() {
                       label="Voyage No"
                       onChange={(valueOption) => {
                         setGridData([]);
-                        setFieldValue("voyageNo", valueOption);
+                        setFieldValue('voyageNo', valueOption);
                         updateCharteringState({
                           ...values,
                           voyageNo: valueOption,
@@ -239,12 +238,12 @@ export default function VoyageTable() {
 
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.status || ""}
+                      value={values?.status || ''}
                       isSearchable={true}
                       options={[
-                        { value: 0, label: "All" },
-                        { value: 1, label: "Complete" },
-                        { value: 2, label: "InComplete" },
+                        { value: 0, label: 'All' },
+                        { value: 1, label: 'Complete' },
+                        { value: 2, label: 'InComplete' },
                       ]}
                       styles={customStyles}
                       name="status"
@@ -252,7 +251,7 @@ export default function VoyageTable() {
                       label="Status"
                       onChange={(valueOption) => {
                         setGridData([]);
-                        setFieldValue("status", valueOption);
+                        setFieldValue('status', valueOption);
                         updateCharteringState({
                           ...values,
                           status: valueOption,
@@ -278,15 +277,15 @@ export default function VoyageTable() {
                     <td>{item?.voyageTypeName}</td>
                     <td>
                       {moment(item?.voyageStartDate).format(
-                        "DD-MMM-yyyy, HH:mm"
+                        'DD-MMM-yyyy, HH:mm'
                       )}
                     </td>
                     <td>
-                      {moment(item?.voyageEndDate).format("DD-MMM-yyyy, HH:mm")}
+                      {moment(item?.voyageEndDate).format('DD-MMM-yyyy, HH:mm')}
                     </td>
                     <td>{item?.voyageDurrition}</td>
 
-                    <td style={{ width: "100px" }} className="text-center">
+                    <td style={{ width: '100px' }} className="text-center">
                       {!item?.isComplete ? (
                         <OverlayTrigger
                           overlay={
@@ -310,16 +309,16 @@ export default function VoyageTable() {
                               // setShow(true);
                             }}
                             style={{
-                              cursor: "pointer",
+                              cursor: 'pointer',
                             }}
                           >
                             <div
                               className="progress"
                               style={{
-                                cursor: "pointer",
-                                height: "1.2rem",
-                                position: "relative",
-                                backgroundColor: "#e2e8f0",
+                                cursor: 'pointer',
+                                height: '1.2rem',
+                                position: 'relative',
+                                backgroundColor: '#e2e8f0',
                               }}
                             >
                               <div
@@ -327,7 +326,7 @@ export default function VoyageTable() {
                                 role="progressbar"
                                 style={{
                                   width: `${percentageMaker(item)}%`,
-                                  backgroundColor: "#4ade80",
+                                  backgroundColor: '#4ade80',
                                 }}
                                 aria-valuenow="25"
                                 aria-valuemin="0"
@@ -336,11 +335,11 @@ export default function VoyageTable() {
                             </div>
                             <span
                               style={{
-                                color: "#0f172a",
-                                position: "absolute",
+                                color: '#0f172a',
+                                position: 'absolute',
                                 zIndex: 10,
-                                marginTop: "-15px",
-                                marginLeft: "-10px",
+                                marginTop: '-15px',
+                                marginLeft: '-10px',
                               }}
                             >
                               <strong>{percentageMaker(item)}%</strong>
@@ -363,24 +362,24 @@ export default function VoyageTable() {
                               }}
                               className="progress"
                               style={{
-                                cursor: "pointer",
-                                height: "1.2rem",
+                                cursor: 'pointer',
+                                height: '1.2rem',
                               }}
                             >
                               <div
                                 className="progress-bar"
                                 role="progressbar"
                                 style={{
-                                  width: "100%",
-                                  backgroundColor: "#4ade80",
+                                  width: '100%',
+                                  backgroundColor: '#4ade80',
                                 }}
                                 aria-valuenow="100"
                                 aria-valuemin="0"
                                 aria-valuemax="100"
                               >
-                                <strong style={{ color: "#0f172a" }}>
+                                <strong style={{ color: '#0f172a' }}>
                                   <i
-                                    style={{ color: "#0f172a" }}
+                                    style={{ color: '#0f172a' }}
                                     className="fa fa-check-circle mr-1"
                                   />
                                   100%
@@ -391,7 +390,7 @@ export default function VoyageTable() {
                         </>
                       )}
                     </td>
-                    <td style={{ minWidth: "70px" }} className="text-center">
+                    <td style={{ minWidth: '70px' }} className="text-center">
                       <div className="d-flex justify-content-center">
                         <IView
                           clickHandler={() => {

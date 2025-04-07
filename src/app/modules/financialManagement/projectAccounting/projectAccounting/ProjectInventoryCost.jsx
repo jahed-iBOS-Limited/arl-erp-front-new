@@ -32,7 +32,7 @@ const ProjectInventoryCost = ({
 }) => {
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state.authData,
-    shallowEqual,
+    shallowEqual
   );
   const [itemList, setItemList] = useState([]);
   const [
@@ -53,7 +53,6 @@ const ProjectInventoryCost = ({
       }));
       setItemList(modifiedList);
     }
-
   }, [isEdit, inventoryItemList, profileData]);
 
   return (
@@ -69,7 +68,7 @@ const ProjectInventoryCost = ({
           setFieldError,
           itemList,
           setItemList,
-          setValues,
+          setValues
         );
       }}
     >
@@ -110,7 +109,7 @@ const ProjectInventoryCost = ({
                     `/fino/ProjectAccounting/SaveProjectCostingInventory`,
                     itemList,
                     null,
-                    true,
+                    true
                   );
                 }}
               />
@@ -130,7 +129,7 @@ const ProjectInventoryCost = ({
                         if (value?.length < 2) return [];
                         return axios
                           .get(
-                            `/fino/ProjectAccounting/ProjectCostingInventoryItemDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${value}`,
+                            `/fino/ProjectAccounting/ProjectCostingInventoryItemDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${value}`
                           )
                           .then((response) => {
                             return response.data;
@@ -286,7 +285,7 @@ const ProjectInventoryCost = ({
                                                   itemList.filter(
                                                     (nestedItem) =>
                                                       nestedItem?.strItemCode !==
-                                                      item?.strItemCode,
+                                                      item?.strItemCode
                                                   );
                                                 setItemList(modifiedItemList);
                                               } else {
@@ -298,7 +297,7 @@ const ProjectInventoryCost = ({
                                                           ...nestedItem,
                                                           isActive: false,
                                                         }
-                                                      : nestedItem,
+                                                      : nestedItem
                                                 );
                                                 setItemList(modifiedItemList);
                                               }
@@ -308,7 +307,7 @@ const ProjectInventoryCost = ({
                                       </div>
                                     </td>
                                   </tr>
-                                ) : null,
+                                ) : null
                               )}
                             </tbody>
                           </table>

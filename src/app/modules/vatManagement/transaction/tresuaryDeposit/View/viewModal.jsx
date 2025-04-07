@@ -1,32 +1,32 @@
-import React, { useEffect, useState } from "react";
-import { Form, Formik } from "formik";
-import Select from "react-select";
-import { IInput } from "../../../../_helper/_input";
-import customStyles from "../../../../selectCustomStyle";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import { singleDataById } from "../helper";
-import InputField from "../../../../_helper/_inputField";
+import React, { useEffect, useState } from 'react';
+import { Form, Formik } from 'formik';
+import Select from 'react-select';
+import { IInput } from '../../../../_helper/_input';
+import customStyles from '../../../../selectCustomStyle';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import { singleDataById } from '../helper';
+import InputField from '../../../../_helper/_inputField';
 
 const initData = {
-  branchName: "",
-  branchAddress: "",
-  depositeType: "",
-  depositAmount: "",
+  branchName: '',
+  branchAddress: '',
+  depositeType: '',
+  depositAmount: '',
   depositDate: _todayDate(),
-  challanNo: "",
+  challanNo: '',
   challanDate: _todayDate(),
-  instrumentNo: "",
+  instrumentNo: '',
   instrumentDate: _todayDate(),
-  bankName: "",
-  bankBranch: "",
-  divisionName: "",
-  districtName: "",
-  depositorName: "",
+  bankName: '',
+  bankBranch: '',
+  divisionName: '',
+  districtName: '',
+  depositorName: '',
 };
 
 export default function ViewForm({ id, show, onHide }) {
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   useEffect(() => {
     if (id) {
@@ -41,7 +41,7 @@ export default function ViewForm({ id, show, onHide }) {
         onHide={onHide}
         isShow={false}
         title="View Treasury Deposit Request"
-        style={{ fontSize: "1.2rem !important" }}
+        style={{ fontSize: '1.2rem !important' }}
       >
         <>
           <Formik

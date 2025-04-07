@@ -1,27 +1,27 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import InputField from "../../../../_helper/_inputField";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import Axios from "axios";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import InputField from '../../../../_helper/_inputField';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import Axios from 'axios';
 // import IDelete from "../../../../_helper/_helperIcons/_delete";
 // import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  manuName: Yup.string().required("Request Date is required"),
-  countryOrigin: Yup.string().required("Valid Till Date is required"),
-  location: Yup.string().required("Due Date is required"),
+  manuName: Yup.string().required('Request Date is required'),
+  countryOrigin: Yup.string().required('Valid Till Date is required'),
+  location: Yup.string().required('Due Date is required'),
   // manuSerialNumber: Yup.string().required("Manufacturer Serial Number is required"),
   category: Yup.object().shape({
-    label: Yup.string().required("Category is required"),
-    value: Yup.string().required("Category is required"),
+    label: Yup.string().required('Category is required'),
+    value: Yup.string().required('Category is required'),
   }),
-  assetName: Yup.string().required("Asset Name is required"),
+  assetName: Yup.string().required('Asset Name is required'),
   profitCenter: Yup.object().shape({
-    label: Yup.string().required("Profit Center is required"),
-    value: Yup.string().required("Profit Center is required"),
+    label: Yup.string().required('Profit Center is required'),
+    value: Yup.string().required('Profit Center is required'),
   }),
 });
 
@@ -94,8 +94,8 @@ export default function FormCmp({
                     value={values?.category}
                     label="Category"
                     onChange={(valueOption) => {
-                      setFieldValue("brtaType", "");
-                      setFieldValue("category", valueOption);
+                      setFieldValue('brtaType', '');
+                      setFieldValue('category', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -137,7 +137,7 @@ export default function FormCmp({
                       value={values?.brtaType}
                       label="BRTA Vehicle Type"
                       onChange={(valueOption) => {
-                        setFieldValue("brtaType", valueOption);
+                        setFieldValue('brtaType', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -264,8 +264,8 @@ export default function FormCmp({
                   <ISelect
                     label="Select Usage Type"
                     options={[
-                      { label: "Individual", value: 1 },
-                      { label: "Company", value: 2 },
+                      { label: 'Individual', value: 1 },
+                      { label: 'Company', value: 2 },
                     ]}
                     value={values?.usageType}
                     name="usageType"
@@ -279,7 +279,7 @@ export default function FormCmp({
                   <SearchAsyncSelect
                     selectedValue={values?.assignTo}
                     handleChange={(valueOption) => {
-                      setFieldValue("assignTo", valueOption);
+                      setFieldValue('assignTo', valueOption);
                     }}
                     loadOptions={loadUserList}
                   />
@@ -301,7 +301,7 @@ export default function FormCmp({
                   <SearchAsyncSelect
                     selectedValue={values?.resPerson}
                     handleChange={(valueOption) => {
-                      setFieldValue("resPerson", valueOption);
+                      setFieldValue('resPerson', valueOption);
                     }}
                     loadOptions={loadUserList}
                   />
@@ -334,9 +334,9 @@ export default function FormCmp({
                     min="0"
                     onChange={(e) => {
                       if (e.target.value < 0) {
-                        return setFieldValue("lifeTimeYear", "");
+                        return setFieldValue('lifeTimeYear', '');
                       } else {
-                        setFieldValue("lifeTimeYear", e.target.value);
+                        setFieldValue('lifeTimeYear', e.target.value);
                       }
                     }}
                   />
@@ -351,9 +351,9 @@ export default function FormCmp({
                     min="0"
                     onChange={(e) => {
                       if (e.target.value < 0) {
-                        return setFieldValue("depRunRate", "");
+                        return setFieldValue('depRunRate', '');
                       } else {
-                        setFieldValue("depRunRate", e.target.value);
+                        setFieldValue('depRunRate', e.target.value);
                       }
                     }}
                   />
@@ -406,14 +406,14 @@ export default function FormCmp({
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

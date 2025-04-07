@@ -1,8 +1,8 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import NewSelect from "./../../../../../../../_helper/_select";
-import InputField from "./../../../../../../../_helper/_inputField";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import NewSelect from './../../../../../../../_helper/_select';
+import InputField from './../../../../../../../_helper/_inputField';
 
 const validationSchema = Yup.object().shape({
   // firstName: Yup.string()
@@ -44,27 +44,28 @@ export default function FormCmp({
           isValid,
         }) => (
           <>
-
             <Form className="form form-label-right">
               <div className="row global-form">
                 {singleProfileList?.objAttrbt?.map((itm, indx) => {
                   //input type generator
                   const type =
-                    itm?.controlerTypeName === "TextBox"
-                      ? "text"
-                      : itm?.controlerTypeName === "Number"
-                      ? "number"
-                      : "date";
+                    itm?.controlerTypeName === 'TextBox'
+                      ? 'text'
+                      : itm?.controlerTypeName === 'Number'
+                        ? 'number'
+                        : 'date';
                   return (
                     <>
-                      {itm?.controlerTypeName === "DDL" ? (
+                      {itm?.controlerTypeName === 'DDL' ? (
                         <div className="col-lg-3">
                           <NewSelect
                             name={indx}
-                            options={itm?.objDetailList?.map((itm) => ({
-                              value: itm?.attributeValueId,
-                              label: itm?.attributeValue,
-                            })) || []}
+                            options={
+                              itm?.objDetailList?.map((itm) => ({
+                                value: itm?.attributeValueId,
+                                label: itm?.attributeValue,
+                              })) || []
+                            }
                             value={values?.[indx]}
                             label={itm?.attributeName}
                             onChange={(valueOption) => {
@@ -94,14 +95,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onClick={() => {
                   resetForm(initData);

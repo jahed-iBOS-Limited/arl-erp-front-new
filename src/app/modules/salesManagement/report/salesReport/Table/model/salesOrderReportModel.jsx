@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import { GetSalesOrderReportByItem } from "./../../helper";
-import Loading from "./../../../../../_helper/_loading";
-import { _dateFormatter } from "./../../../../../_helper/_dateFormate";
-import SalesOrderView from "../../../../orderManagement/salesOrder/View/viewModal";
+import React, { useEffect, useState } from 'react';
+import { GetSalesOrderReportByItem } from './../../helper';
+import Loading from './../../../../../_helper/_loading';
+import { _dateFormatter } from './../../../../../_helper/_dateFormate';
+import SalesOrderView from '../../../../orderManagement/salesOrder/View/viewModal';
 function SalesOrderReportModel({ rowDataDeliveryDetailsClick }) {
   const [salesOrderReport, setSalesOrderReport] = useState([]);
   const [loading, setLoading] = useState(false);
   const [isOrderModel, setIsOrderModel] = useState(false);
-  const [rowDataClick, setRowDataClick] = useState("");
+  const [rowDataClick, setRowDataClick] = useState('');
   useEffect(() => {
     if (rowDataDeliveryDetailsClick) {
       GetSalesOrderReportByItem(

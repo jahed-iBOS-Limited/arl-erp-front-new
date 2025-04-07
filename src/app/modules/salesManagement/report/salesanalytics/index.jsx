@@ -1,60 +1,60 @@
-import { Form, Formik } from "formik";
-import React, { useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICard from "../../../_helper/_card";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
+import { Form, Formik } from 'formik';
+import React, { useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICard from '../../../_helper/_card';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
 import {
   getCommissionCalculationData,
   getNeedToCompany_api,
   getSalesDelivaryCost_api,
   getTargetVSSaelsAchievement_api,
-} from "./helper";
-import "./style.css";
-import NewSelect from "./../../../_helper/_select";
-import { YearDDL } from "./../../../_helper/_yearDDL";
-import { monthDDL } from "./utils";
-import TargetVSSaelsAchievementTable from "./targetVSSaelsAchievement/table";
-import SalesforcePerformanceAnalysisTable from "./salesforcePerformanceAnalysis/table";
-import CustomerLedgerTable from "./customerLedger/table";
-import NetToCompanyTable from "./netToCompany/table";
-import PaginationTable from "./../../../_helper/_tablePagination";
-import SalesReportTable from "./salesReport/table";
-import LiftingPlanVsActualDeliveryTable from "./liftingPlanVsActualDelivery/table";
-import DeliveryReportTable from "./deliveryReport/table";
-import SalesContactReportTable from "./salesContactReport/table";
-import FactoryProductionVsDeliveryTable from "./factoryProductionVsDelivery/table";
-import CommissionCalculationForm from "./commissionCalculation";
-import CommissionCalculationTable from "./commissionCalculation/table";
-import RATForm from "../../../_helper/commonInputFieldsGroups/ratForm";
-import YearMonthForm from "../../../_helper/commonInputFieldsGroups/yearMonthForm";
-import FromDateToDateForm from "../../../_helper/commonInputFieldsGroups/dateForm";
+} from './helper';
+import './style.css';
+import NewSelect from './../../../_helper/_select';
+import { YearDDL } from './../../../_helper/_yearDDL';
+import { monthDDL } from './utils';
+import TargetVSSaelsAchievementTable from './targetVSSaelsAchievement/table';
+import SalesforcePerformanceAnalysisTable from './salesforcePerformanceAnalysis/table';
+import CustomerLedgerTable from './customerLedger/table';
+import NetToCompanyTable from './netToCompany/table';
+import PaginationTable from './../../../_helper/_tablePagination';
+import SalesReportTable from './salesReport/table';
+import LiftingPlanVsActualDeliveryTable from './liftingPlanVsActualDelivery/table';
+import DeliveryReportTable from './deliveryReport/table';
+import SalesContactReportTable from './salesContactReport/table';
+import FactoryProductionVsDeliveryTable from './factoryProductionVsDelivery/table';
+import CommissionCalculationForm from './commissionCalculation';
+import CommissionCalculationTable from './commissionCalculation/table';
+import RATForm from '../../../_helper/commonInputFieldsGroups/ratForm';
+import YearMonthForm from '../../../_helper/commonInputFieldsGroups/yearMonthForm';
+import FromDateToDateForm from '../../../_helper/commonInputFieldsGroups/dateForm';
 
 const newDate = new Date();
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  year: "",
-  month: "",
-  channel: "",
-  customer: "",
-  shipPoint: "",
-  region: "",
-  area: "",
-  territory: "",
+  year: '',
+  month: '',
+  channel: '',
+  customer: '',
+  shipPoint: '',
+  region: '',
+  area: '',
+  territory: '',
 };
 
 const reportTypes = [
-  { value: 1, label: "Target VS Sales Achievement" },
-  { value: 2, label: "Salesforce Performance Analysis" },
-  { value: 3, label: "Customer Ledger" },
+  { value: 1, label: 'Target VS Sales Achievement' },
+  { value: 2, label: 'Salesforce Performance Analysis' },
+  { value: 3, label: 'Customer Ledger' },
   // { value: 4, label: "Net to Company" }, commented according to ikbal vi
-  { value: 5, label: "Sales Report" },
-  { value: 6, label: "Lifting Plan Vs Actual Delivery" },
-  { value: 7, label: "Delivery Report" },
-  { value: 8, label: "Sales Contact Report" },
-  { value: 9, label: "Factory Production Vs Delivery" },
+  { value: 5, label: 'Sales Report' },
+  { value: 6, label: 'Lifting Plan Vs Actual Delivery' },
+  { value: 7, label: 'Delivery Report' },
+  { value: 8, label: 'Sales Contact Report' },
+  { value: 9, label: 'Factory Production Vs Delivery' },
   // { value: 10, label: "Commission Calculation" },
 ];
 
@@ -202,9 +202,9 @@ export default function Salesanalytics() {
       ...initData,
       reportType: currentValue,
       month:
-        monthDDL.find((itm) => +itm?.value === newDate.getMonth() + 1) || "",
+        monthDDL.find((itm) => +itm?.value === newDate.getMonth() + 1) || '',
       year:
-        YearDDL().find((itm) => +itm?.value === newDate.getFullYear()) || "",
+        YearDDL().find((itm) => +itm?.value === newDate.getFullYear()) || '',
     });
   };
 
@@ -257,7 +257,7 @@ export default function Salesanalytics() {
                           value={values?.reportType}
                           label="Report Type"
                           onChange={(valueOption) => {
-                            setFieldValue("reportType", valueOption);
+                            setFieldValue('reportType', valueOption);
                             resetFormFunc(setValues, valueOption);
                             setGridData([]);
                           }}

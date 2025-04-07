@@ -1,10 +1,10 @@
-import React from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import React from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 export default function InfoCircle({ title, clickHandler, classes }) {
   return (
     <OverlayTrigger
-      overlay={<Tooltip id="cs-icon">{title || "Info Details"}</Tooltip>}
+      overlay={<Tooltip id="cs-icon">{title || 'Info Details'}</Tooltip>}
     >
       <span onClick={() => clickHandler && clickHandler()}>
         <i

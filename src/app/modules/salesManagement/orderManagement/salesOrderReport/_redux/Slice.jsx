@@ -1,9 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
-  error: "",
-  msg: "",
+  error: '',
+  msg: '',
   SBUDDL: [],
   salesOrgDDL: [],
   distributionChannelDDL: [],
@@ -20,26 +20,26 @@ const initState = {
   itemPlantDDL: [],
   referenceNo: [],
   itemUOMDDL: [],
-  referenceItemDetailsById: "",
+  referenceItemDetailsById: '',
   referenceWithItemListById: [],
-  priceForInternalUse: "",
-  partnerBalance: "",
-  undeliveryValues: "",
+  priceForInternalUse: '',
+  partnerBalance: '',
+  undeliveryValues: '',
   priceStructureCheck: true,
   discountStructureCheck: true,
-  availableBalance: "",
+  availableBalance: '',
   gridData: [],
   uoMitemPlantWarehouseDDL: [],
-  singleData: "",
-  salesDiscount: "",
+  singleData: '',
+  salesDiscount: '',
   salesOrderApproveCheck: false,
-  creditLimitForInternalUser: "",
+  creditLimitForInternalUser: '',
   alotementDDL: [],
   isBalanceCheck: {},
 };
 
 export const salesOrderSlice = createSlice({
-  name: "salesOrder",
+  name: 'salesOrder',
   initialState: initState,
   reducers: {
     SetSBUDDL: (state, action) => {
@@ -164,26 +164,26 @@ export const salesOrderSlice = createSlice({
     },
     //slice empty
     SetSingleStoreEmpty: (state) => {
-      state.singleData = "";
+      state.singleData = '';
     },
     SetGridDataEmpty: (state) => {
       state.gridData = [];
     },
     SetPartnerBalanceEmpty: (state, action) => {
-      state.partnerBalance = "";
+      state.partnerBalance = '';
     },
     SetAvailableBalanceEmpty: (state, action) => {
-      state.availableBalance = "";
+      state.availableBalance = '';
     },
     SetUndeliveryValuesEmpty: (state, action) => {
-      state.undeliveryValues = "";
+      state.undeliveryValues = '';
     },
     SetSalesDiscount: (state, action) => {
       const { payload } = action;
       state.salesDiscount = payload;
     },
     SetSalesDiscountEmpty: (state, action) => {
-      state.salesDiscount = "";
+      state.salesDiscount = '';
     },
     setSalesOrderApproveCheck: (state, action) => {
       const { payload } = action;

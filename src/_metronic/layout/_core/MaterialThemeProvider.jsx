@@ -48,7 +48,7 @@ const theme = createTheme(
         elevation: 1,
       },
     },
-  },
+  }
 );
 
 export function MaterialThemeProvider(props) {

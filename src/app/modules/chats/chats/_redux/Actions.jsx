@@ -1,5 +1,5 @@
 // import * as requestFromServer from "./Api";
-import { chatAppSlice } from "./Slice";
+import { chatAppSlice } from './Slice';
 const { actions: slice } = chatAppSlice;
 
 export const setCurrentChatUserAction = (payload) => (dispatch) => {

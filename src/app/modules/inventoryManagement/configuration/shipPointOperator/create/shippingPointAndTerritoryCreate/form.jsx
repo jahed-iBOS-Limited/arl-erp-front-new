@@ -23,12 +23,8 @@ const ShippingPointAndTerritoryCreateForm = () => {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const [channelDDL, getChannelDDL, isChannelDDLLoading] = useAxiosGet();
-  const [
-    regionDDL,
-    getRegionDDL,
-    isRegionDDLLoading,
-    setRegionDDL,
-  ] = useAxiosGet();
+  const [regionDDL, getRegionDDL, isRegionDDLLoading, setRegionDDL] =
+    useAxiosGet();
   const [areaDDL, getAreaDDL, isAreaDDLLoading, setAreaDDL] = useAxiosGet();
   const [shipPointDDL, getShipPointDDL, shipPointDDLLoading] = useAxiosGet();
   const [, saveShipPointAndTerritory] = useAxiosPost();
@@ -43,7 +39,7 @@ const ShippingPointAndTerritoryCreateForm = () => {
         }));
 
         setRegionDDL(ddl);
-      },
+      }
     );
   };
 
@@ -56,23 +52,21 @@ const ShippingPointAndTerritoryCreateForm = () => {
           label: item.areaName,
         }));
         setAreaDDL(ddl);
-      },
+      }
     );
   };
 
   //on-mount ddl loading
   useEffect(() => {
     getChannelDDL(
-      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`,
+      `/oms/DistributionChannel/GetDistributionChannelDDL?AccountId=${accId}&BUnitId=${buId}`
     );
-
   }, [buId, accId]);
 
   useEffect(() => {
     getShipPointDDL(
-      `/wms/ShipPoint/GetShipPointDDL?accountId=${accId}&businessUnitId=${buId}`,
+      `/wms/ShipPoint/GetShipPointDDL?accountId=${accId}&businessUnitId=${buId}`
     );
-
   }, [buId, accId]);
 
   const saveHandler = (values, cb) => {
@@ -88,7 +82,7 @@ const ShippingPointAndTerritoryCreateForm = () => {
       `/wms/ShipPoint/SaveShippingPointNTerritoryBridge?actionBy=${userId}`,
       payload,
       null,
-      true,
+      true
     );
   };
 
@@ -100,8 +94,7 @@ const ShippingPointAndTerritoryCreateForm = () => {
       isHiddenReset
     >
       <div className="mt-0">
-        {(
-          isChannelDDLLoading ||
+        {(isChannelDDLLoading ||
           isRegionDDLLoading ||
           shipPointDDLLoading ||
           isAreaDDLLoading) && <Loading />}
@@ -167,7 +160,7 @@ const ShippingPointAndTerritoryCreateForm = () => {
                           setFieldValue('area', '');
                           handleGetAreaDDL(
                             values.channel?.value,
-                            valueOption.value,
+                            valueOption.value
                           );
                         }
                       }}

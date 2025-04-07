@@ -1,18 +1,18 @@
-import moment from "moment";
-import Select from "react-select";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { amountToWords } from "../../../../_helper/_ConvertnumberToWord";
-import Loading from "../../../../_helper/_loading";
-import { getEstimatePDAById } from "../helper";
-import "./viewInvoice.css";
-import customStyles from "../../../../selectCustomStyle";
+import moment from 'moment';
+import Select from 'react-select';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { amountToWords } from '../../../../_helper/_ConvertnumberToWord';
+import Loading from '../../../../_helper/_loading';
+import { getEstimatePDAById } from '../helper';
+import './viewInvoice.css';
+import customStyles from '../../../../selectCustomStyle';
 function PrintRef({ componentRef, estimatePdaid }) {
   const [loading, setLoading] = React.useState(false);
   const [singleData, setSingleData] = React.useState({});
   const [viewType, setViewType] = React.useState({
-    value: "actualAmount",
-    label: "Actual Amount",
+    value: 'actualAmount',
+    label: 'Actual Amount',
   });
 
   const { selectedBusinessUnit } = useSelector(
@@ -29,11 +29,11 @@ function PrintRef({ componentRef, estimatePdaid }) {
 
   return (
     <>
-      <div className='row printSectionNone'>
-        <div className='col-lg-3 offset-lg-9'>
+      <div className="row printSectionNone">
+        <div className="col-lg-3 offset-lg-9">
           <label>Report Type</label>
           <Select
-            placeholder='Select Renewal Type'
+            placeholder="Select Renewal Type"
             value={viewType}
             onChange={(value) => {
               setViewType(value);
@@ -42,16 +42,16 @@ function PrintRef({ componentRef, estimatePdaid }) {
             isSearchable={true}
             options={[
               {
-                value: "estimatedAmount",
-                label: "Estimated Amount",
+                value: 'estimatedAmount',
+                label: 'Estimated Amount',
               },
               {
-                value: "customerFinalAmount",
-                label: "Customer Final Amount",
+                value: 'customerFinalAmount',
+                label: 'Customer Final Amount',
               },
               {
-                value: "actualAmount",
-                label: "Actual Amount",
+                value: 'actualAmount',
+                label: 'Actual Amount',
               },
             ]}
           />
@@ -59,14 +59,14 @@ function PrintRef({ componentRef, estimatePdaid }) {
       </div>
       {loading && <Loading />}
       <div ref={componentRef}>
-        <div className='EstimatePDAView'>
-          <div className='EstimatePDAViewTopBar'>
+        <div className="EstimatePDAView">
+          <div className="EstimatePDAViewTopBar">
             <h1>{selectedBusinessUnit?.label}</h1>
             <h6>Final Port Disbursement Account</h6>
           </div>
 
-          <div className='EstimatePDAheaderInfo'>
-            <div className='left'>
+          <div className="EstimatePDAheaderInfo">
+            <div className="left">
               <p>
                 <b>Working Port:</b> {singleData?.workingPortName}
               </p>
@@ -77,12 +77,12 @@ function PrintRef({ componentRef, estimatePdaid }) {
                 <b>Customer:</b> {singleData?.customerName}
               </p>
             </div>
-            <div className='right'>
+            <div className="right">
               <p>
-                <b>Date:</b>{" "}
+                <b>Date:</b>{' '}
                 {singleData?.lastActionDateTime
-                  ? moment(singleData?.lastActionDateTime).format("YYYY-MM-DD")
-                  : "N/A"}
+                  ? moment(singleData?.lastActionDateTime).format('YYYY-MM-DD')
+                  : 'N/A'}
               </p>
               <p>
                 <b>Vessel:</b> {singleData?.vesselName}
@@ -90,33 +90,33 @@ function PrintRef({ componentRef, estimatePdaid }) {
               <p>
                 <div
                   style={{
-                    display: "flex",
+                    display: 'flex',
                   }}
                 >
                   <p>
-                    <b>Arrived On:</b>{" "}
+                    <b>Arrived On:</b>{' '}
                     {singleData?.arrivedDateTime &&
-                      moment(singleData?.arrivedDateTime).format("YYYY-MM-DD")}
+                      moment(singleData?.arrivedDateTime).format('YYYY-MM-DD')}
                   </p>
                   <span
                     style={{
-                      display: "inline-block",
-                      padding: "0 5px",
+                      display: 'inline-block',
+                      padding: '0 5px',
                     }}
                   >
                     |
                   </span>
                   <p>
-                    <b>Sailed On:</b>{" "}
+                    <b>Sailed On:</b>{' '}
                     {singleData?.sailedDateTime &&
-                      moment(singleData?.sailedDateTime).format("YYYY-MM-DD")}
+                      moment(singleData?.sailedDateTime).format('YYYY-MM-DD')}
                   </p>
                 </div>
               </p>
               <p>
                 <div
                   style={{
-                    display: "flex",
+                    display: 'flex',
                   }}
                 >
                   <p>
@@ -124,24 +124,24 @@ function PrintRef({ componentRef, estimatePdaid }) {
                   </p>
                   <span
                     style={{
-                      display: "inline-block",
-                      padding: "0 5px",
+                      display: 'inline-block',
+                      padding: '0 5px',
                     }}
                   >
                     |
                   </span>
                   <p>
-                    <b>Exch. Rate:</b>{" "}
+                    <b>Exch. Rate:</b>{' '}
                     {singleData?.exchangeRate
                       ? singleData?.exchangeRate
-                      : "N/A"}
+                      : 'N/A'}
                   </p>
                 </div>
               </p>
             </div>
           </div>
-          <div className='table'>
-            <table className='table table-striped table-bordered global-table'>
+          <div className="table">
+            <table className="table table-striped table-bordered global-table">
               <thead>
                 <tr>
                   <th>SL</th>
@@ -154,18 +154,18 @@ function PrintRef({ componentRef, estimatePdaid }) {
                   ?.filter((i) => i?.[`${viewType?.value}`])
                   .map((item, index) => (
                     <tr key={index}>
-                      <td className='text-center'> {index + 1}</td>
+                      <td className="text-center"> {index + 1}</td>
                       <td>{item?.particularName}</td>
-                      <td className='text-right'>
+                      <td className="text-right">
                         {item?.[`${viewType?.value}`]}
                       </td>
                     </tr>
                   ))}
                 <tr>
-                  <td colSpan={2} className='text-right'>
+                  <td colSpan={2} className="text-right">
                     <b>Total</b>
                   </td>
-                  <td className='text-right'>
+                  <td className="text-right">
                     <b>
                       {singleData?.shippingAgencyEstimatePdarowDtos?.reduce(
                         (acc, curr) =>
@@ -178,14 +178,14 @@ function PrintRef({ componentRef, estimatePdaid }) {
               </tbody>
             </table>
           </div>
-          <div className='footer'>
-            <div className='left'>
+          <div className="footer">
+            <div className="left">
               <p
                 style={{
-                  textTransform: "capitalize",
+                  textTransform: 'capitalize',
                 }}
               >
-                <b>In Word</b> :{" "}
+                <b>In Word</b> :{' '}
                 {amountToWords(
                   singleData?.shippingAgencyEstimatePdarowDtos?.reduce(
                     (acc, curr) => acc + (+curr?.[`${viewType?.value}`] || 0),

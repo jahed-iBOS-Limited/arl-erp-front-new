@@ -57,8 +57,8 @@ const GodownsWiseDeliveryReport = ({
                       e.stopPropagation();
                       dispatch(
                         getDownlloadFileView_Action(
-                          values?.godownsEntryAttachment,
-                        ),
+                          values?.godownsEntryAttachment
+                        )
                       );
                     }}
                     className="ml-2"
@@ -105,7 +105,8 @@ const GodownsWiseDeliveryReport = ({
               <h4 className="m-0">{buUnName}</h4>
               <p>
                 <span>
-                  {values?.organization?.label} Godown: {values?.godown?.label}{' '}
+                  {values?.organization?.label} Godown:{' '}
+                  {values?.godown?.label}{' '}
                 </span>
                 <br />
                 <span>
@@ -183,7 +184,7 @@ const GodownsWiseDeliveryReport = ({
                         {_fixedPoint(
                           gridData?.reduce((acc, cur) => {
                             return (acc += +cur?.totalDeliveryQuantityTon || 0);
-                          }, 0),
+                          }, 0)
                         )}
                       </b>
                     </td>
@@ -192,7 +193,7 @@ const GodownsWiseDeliveryReport = ({
                         {_fixedPoint(
                           gridData?.reduce((acc, cur) => {
                             return (acc += +cur?.totalDeliveryQuantityBag || 0);
-                          }, 0),
+                          }, 0)
                         )}
                       </b>
                     </td>
@@ -201,7 +202,7 @@ const GodownsWiseDeliveryReport = ({
                         {_fixedPoint(
                           gridData?.reduce((acc, cur) => {
                             return (acc += +cur?.emptyBag || 0);
-                          }, 0),
+                          }, 0)
                         )}
                       </b>
                     </td>
@@ -226,7 +227,7 @@ const GodownsWiseDeliveryReport = ({
         }}
         onDelete={(deleteFileObj) => {
           const newData = fileObjects.filter(
-            (item) => item.file.name !== deleteFileObj.file.name,
+            (item) => item.file.name !== deleteFileObj.file.name
           );
           setFileObjects(newData);
         }}

@@ -11,10 +11,7 @@ import {
 } from '../../../../../../_metronic/_partials/controls';
 import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 import Form from '../common/form';
-import {
-  createPartnerBasic_api,
-  getDistrictUpzillaStatus
-} from '../helper';
+import { createPartnerBasic_api, getDistrictUpzillaStatus } from '../helper';
 import Loading from './../../../../_helper/_loading';
 const initProduct = {
   cargoType: '',
@@ -46,7 +43,7 @@ export default function PartnerAddForm({
   },
 }) {
   const selectedBusinessUnit = useSelector(
-    (state) => state.authData.selectedBusinessUnit,
+    (state) => state.authData.selectedBusinessUnit
   );
   const profileData = useSelector((state) => state.authData.profileData);
   const [isDisabled, setDisabled] = useState(false);
@@ -59,9 +56,8 @@ export default function PartnerAddForm({
     getDistrictUpzillaStatus(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setIsDistrictUpzillaStatus,
+      setIsDistrictUpzillaStatus
     );
-
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   const saveWarehouse = async (values, cb) => {

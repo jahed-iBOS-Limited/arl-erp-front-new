@@ -1,21 +1,18 @@
-
-
-
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import Loading from "../../../_helper/_loading";
-import { useHistory } from "react-router";
-import {createVoucher, getVoucherById} from "../helper";
-import { useLocation, useParams } from "react-router-dom";
-import { getWareHouseDDL } from "../../salesInvoice/helper";
-import { _todayDate } from "../../../_helper/_todayDate";
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import Loading from '../../../_helper/_loading';
+import { useHistory } from 'react-router';
+import { createVoucher, getVoucherById } from '../helper';
+import { useLocation, useParams } from 'react-router-dom';
+import { getWareHouseDDL } from '../../salesInvoice/helper';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 const initData = {
-  warehouse: "",
-  voucherNo: "",
+  warehouse: '',
+  voucherNo: '',
   dteDate: _todayDate(),
-  numAmount: ""
+  numAmount: '',
 };
 
 export default function CreateVoucherForm() {
@@ -27,24 +24,27 @@ export default function CreateVoucherForm() {
   const [supplierListDDL, setSupplierListDDL] = useState([]);
   const [bankListDDL, setBankListDDL] = useState([]);
   const [businessPartnerTypeDDL, setBusinessPartnerTypeDDL] = useState([]);
-  const [singleData, setSingleData] = useState([])
-  const [cnfRowDto, setCnfRow] = useState([])
-  const [attachmentFile, setAttachmentFile] = useState("");
+  const [singleData, setSingleData] = useState([]);
+  const [cnfRowDto, setCnfRow] = useState([]);
+  const [attachmentFile, setAttachmentFile] = useState('');
 
-  const [whName, setWhName] = useState([])
+  const [whName, setWhName] = useState([]);
 
   const setterForCnfAgency = (values) => {
-      const obj =  {...values,numFromAmount:values?.from,numToAmount:values.to,numRate:values.rate}
-      const data = [...cnfRowDto]
-      data.push(obj)
-      if(Array.isArray(data)){
-        setCnfRow(data);
-      }
-
+    const obj = {
+      ...values,
+      numFromAmount: values?.from,
+      numToAmount: values.to,
+      numRate: values.rate,
+    };
+    const data = [...cnfRowDto];
+    data.push(obj);
+    if (Array.isArray(data)) {
+      setCnfRow(data);
+    }
   };
 
-
-  console.log(id)
+  console.log(id);
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -56,39 +56,43 @@ export default function CreateVoucherForm() {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-  useEffect(()=>{
-    if(id){
-      getVoucherById(id, setSingleData)
+  useEffect(() => {
+    if (id) {
+      getVoucherById(id, setSingleData);
     }
-  }, [id])
+  }, [id]);
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getWareHouseDDL(profileData?.accountId, selectedBusinessUnit?.value, profileData?.userId, setWhName);
+      getWareHouseDDL(
+        profileData?.accountId,
+        selectedBusinessUnit?.value,
+        profileData?.userId,
+        setWhName
+      );
     }
-  }, [profileData, selectedBusinessUnit])
+  }, [profileData, selectedBusinessUnit]);
 
   const saveHandler = async (values, cb) => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
       const payload = {
-        "intid": id || 0,
-        "intWhid": values?.warehouse?.value,
-        "intAccountId": profileData?.accountId,
-        "numAmount": values?.numAmount,
-        "intActionBy": profileData?.userId,
-        "dteDate": values?.dteDate,
-        "strVoucherNo": values?.voucherNo,
-        "strAttachment": attachmentFile
+        intid: id || 0,
+        intWhid: values?.warehouse?.value,
+        intAccountId: profileData?.accountId,
+        numAmount: values?.numAmount,
+        intActionBy: profileData?.userId,
+        dteDate: values?.dteDate,
+        strVoucherNo: values?.voucherNo,
+        strAttachment: attachmentFile,
       };
-      createVoucher(payload, setDisabled, ()=>{
-        cb()
-        if(id){
-          getVoucherById(id, setSingleData)
+      createVoucher(payload, setDisabled, () => {
+        cb();
+        if (id) {
+          getVoucherById(id, setSingleData);
         }
-      })
+      });
     }
   };
-
 
   const history = useHistory();
   // console.log(cnfRowDto)

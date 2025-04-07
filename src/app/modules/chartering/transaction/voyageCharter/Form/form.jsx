@@ -1,15 +1,15 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import { useLocation, useParams } from "react-router-dom";
-import TextArea from "../../../../_helper/TextArea";
-import { getChartererByVoyageId, getVoyageDDLNew } from "../../../helper";
-import { getCargoDDLbyChartererIdForInvoice } from "../../../voyage/shipper/helper";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import { getSalesOrgList } from "../../timeCharter/helper";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import { useLocation, useParams } from 'react-router-dom';
+import TextArea from '../../../../_helper/TextArea';
+import { getChartererByVoyageId, getVoyageDDLNew } from '../../../helper';
+import { getCargoDDLbyChartererIdForInvoice } from '../../../voyage/shipper/helper';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import { getSalesOrgList } from '../../timeCharter/helper';
 import {
   createJournalForVoyageCharter,
   getAccDDL,
@@ -17,11 +17,11 @@ import {
   getInvoiceData,
   getVoyageChartererTransactionById,
   voyageCharterBRApi,
-} from "../helper";
-import FinalInvoice from "../invoice/finalInvoice/finalInvoice";
-import FinalInvoiceCharterer from "../invoice/finalInvoice/finalInvoiceCharterer";
-import InitialInvoice from "../invoice/initialInvoice/initialInvoice";
-import { vslAndVoyNoValidationSchema } from "../../../../_helper/_validationSchema";
+} from '../helper';
+import FinalInvoice from '../invoice/finalInvoice/finalInvoice';
+import FinalInvoiceCharterer from '../invoice/finalInvoice/finalInvoiceCharterer';
+import InitialInvoice from '../invoice/initialInvoice/initialInvoice';
+import { vslAndVoyNoValidationSchema } from '../../../../_helper/_validationSchema';
 
 export default function FormCmp({
   title,
@@ -65,13 +65,10 @@ export default function FormCmp({
         setInvoiceHireData
       );
     }
-
-
   }, [id]);
 
   useEffect(() => {
     getAccDDL(profileData?.accountId, selectedBusinessUnit?.value, setAccNoDDL);
-
   }, [profileData]);
 
   return (
@@ -108,29 +105,29 @@ export default function FormCmp({
                     type="button"
                     onClick={() => {
                       if (preData?.vesselName?.label) {
-                        history.push("/");
+                        history.push('/');
                       } else {
                         history.goBack();
                       }
                     }}
-                    className={"btn btn-secondary px-3 py-2"}
+                    className={'btn btn-secondary px-3 py-2'}
                   >
                     <i className="fa fa-arrow-left pr-1"></i>
                     Back
                   </button>
-                  {viewType !== "view" && (
+                  {viewType !== 'view' && (
                     <button
                       type="button"
                       onClick={() => resetForm(initData)}
-                      className={"btn btn-info px-3 py-2 reset-btn ml-2"}
+                      className={'btn btn-info px-3 py-2 reset-btn ml-2'}
                     >
                       Reset
                     </button>
                   )}
-                  {viewType !== "view" && !invoiceHireData?.freightInvoiceId ? (
+                  {viewType !== 'view' && !invoiceHireData?.freightInvoiceId ? (
                     <button
                       type="submit"
-                      className={"btn btn-primary px-3 py-2 ml-2"}
+                      className={'btn btn-primary px-3 py-2 ml-2'}
                       onClick={handleSubmit}
                       disabled={false}
                     >
@@ -143,7 +140,7 @@ export default function FormCmp({
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vesselName || ""}
+                      value={values?.vesselName || ''}
                       isSearchable={true}
                       options={vesselDDL || []}
                       styles={customStyles}
@@ -151,15 +148,15 @@ export default function FormCmp({
                       placeholder="Vessel Name"
                       label="Vessel Name"
                       onChange={(valueOption) => {
-                        setFieldValue("voyageNo", "");
-                        setFieldValue("statement", "");
-                        setFieldValue("charterer", "");
-                        setFieldValue("hireTypeName", "");
-                        setFieldValue("beneficiary", {
+                        setFieldValue('voyageNo', '');
+                        setFieldValue('statement', '');
+                        setFieldValue('charterer', '');
+                        setFieldValue('hireTypeName', '');
+                        setFieldValue('beneficiary', {
                           value: valueOption?.ownerId,
                           label: valueOption?.ownerName,
                         });
-                        setFieldValue("vesselName", valueOption);
+                        setFieldValue('vesselName', valueOption);
                         getVoyageDDLNew({
                           accId: profileData?.accountId,
                           buId: selectedBusinessUnit?.value,
@@ -178,7 +175,7 @@ export default function FormCmp({
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.voyageNo || ""}
+                      value={values?.voyageNo || ''}
                       isSearchable={true}
                       options={voyageNoDDL || []}
                       styles={customStyles}
@@ -186,14 +183,14 @@ export default function FormCmp({
                       placeholder="Voyage No"
                       label="Voyage No"
                       onChange={(valueOption) => {
-                        setFieldValue("hireTypeName", "");
-                        setFieldValue("charterer", "");
-                        setFieldValue("statement", "");
-                        setFieldValue("hireTypeName", {
+                        setFieldValue('hireTypeName', '');
+                        setFieldValue('charterer', '');
+                        setFieldValue('statement', '');
+                        setFieldValue('hireTypeName', {
                           value: valueOption?.hireTypeId,
                           label: valueOption?.hireTypeName,
                         });
-                        setFieldValue("voyageNo", valueOption);
+                        setFieldValue('voyageNo', valueOption);
                         getChartererByVoyageId(
                           valueOption?.value,
                           setChartererDDL,
@@ -209,7 +206,7 @@ export default function FormCmp({
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.charterer || ""}
+                      value={values?.charterer || ''}
                       isSearchable={true}
                       options={chartererDDL || []}
                       styles={customStyles}
@@ -219,8 +216,8 @@ export default function FormCmp({
                       onChange={(valueOption) => {
                         setRowData([]);
                         setInvoiceHireData([]);
-                        setFieldValue("statement", "");
-                        setFieldValue("cargo", "");
+                        setFieldValue('statement', '');
+                        setFieldValue('cargo', '');
 
                         if (values?.voyageNo?.value && valueOption?.value) {
                           getCargoDDLbyChartererIdForInvoice(
@@ -230,7 +227,7 @@ export default function FormCmp({
                           );
                         }
 
-                        setFieldValue("charterer", valueOption);
+                        setFieldValue('charterer', valueOption);
                       }}
                       isDisabled={viewType}
                       errors={errors}
@@ -240,7 +237,7 @@ export default function FormCmp({
 
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.cargo || ""}
+                      value={values?.cargo || ''}
                       isSearchable={true}
                       options={cargoDDL || []}
                       styles={customStyles}
@@ -250,8 +247,8 @@ export default function FormCmp({
                       onChange={(valueOption) => {
                         setRowData([]);
                         setInvoiceHireData([]);
-                        setFieldValue("cargo", valueOption);
-                        setFieldValue("statement", "");
+                        setFieldValue('cargo', valueOption);
+                        setFieldValue('statement', '');
                       }}
                       isDisabled={viewType}
                       errors={errors}
@@ -262,7 +259,7 @@ export default function FormCmp({
                   {values?.hireTypeName?.value ? (
                     <div className="col-lg-3">
                       <FormikSelect
-                        value={values?.hireTypeName || ""}
+                        value={values?.hireTypeName || ''}
                         isSearchable={true}
                         options={[]}
                         styles={customStyles}
@@ -270,7 +267,7 @@ export default function FormCmp({
                         placeholder="Ship Type"
                         label="Ship Type"
                         onChange={(valueOption) => {
-                          setFieldValue("hireTypeName", valueOption);
+                          setFieldValue('hireTypeName', valueOption);
                         }}
                         isDisabled={true}
                         errors={errors}
@@ -281,26 +278,22 @@ export default function FormCmp({
 
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.statement || ""}
+                      value={values?.statement || ''}
                       isSearchable={true}
                       options={[
-                        { value: 1, label: "Initial Invoice" },
+                        { value: 1, label: 'Initial Invoice' },
                         // { value: 3, label: "Intermidiate Invoice" },
-                        { value: 2, label: "Final Invoice" },
+                        { value: 2, label: 'Final Invoice' },
                       ]}
                       styles={customStyles}
                       name="statement"
                       placeholder="Invoice"
                       label="Invoice"
                       onChange={async (valueOption) => {
-                        const {
-                          cargo,
-                          charterer,
-                          vesselName,
-                          voyageNo,
-                        } = values;
+                        const { cargo, charterer, vesselName, voyageNo } =
+                          values;
 
-                        setFieldValue("statement", valueOption);
+                        setFieldValue('statement', valueOption);
                         setRowData([]);
 
                         if (valueOption?.value === 3) {
@@ -337,7 +330,7 @@ export default function FormCmp({
                           }
                         }
                       }}
-                      isDisabled={viewType === "view"}
+                      isDisabled={viewType === 'view'}
                       errors={errors}
                       touched={touched}
                     />
@@ -352,15 +345,15 @@ export default function FormCmp({
                       type="date"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view"}
+                      disabled={viewType === 'view'}
                     />
                   </div>
 
                   {invoiceHireData?.objHeaderDTO?.freightInvoiceId === 0 ||
-                    invoiceHireData?.freightInvoiceId === 0 ? (
+                  invoiceHireData?.freightInvoiceId === 0 ? (
                     <div className="col-lg-3">
                       <FormikSelect
-                        value={values?.beneficiary || ""}
+                        value={values?.beneficiary || ''}
                         isSearchable={true}
                         options={beneficiaryDDL}
                         styles={customStyles}
@@ -368,7 +361,7 @@ export default function FormCmp({
                         placeholder="Beneficiary Name"
                         label="Beneficiary Name"
                         onChange={(valueOption) => {
-                          setFieldValue("beneficiary", valueOption);
+                          setFieldValue('beneficiary', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -379,16 +372,16 @@ export default function FormCmp({
                 </div>
               </div>
               {values?.statement &&
-                // invoiceHireData?.objHeaderDTO?.freightInvoiceId
-                invoiceHireData?.freightInvoiceId &&
-                !viewType ? (
+              // invoiceHireData?.objHeaderDTO?.freightInvoiceId
+              invoiceHireData?.freightInvoiceId &&
+              !viewType ? (
                 <>
                   <div className="marine-form-card-content">
                     <h5>Journal</h5>
                     <div className="row">
                       <div className="col-lg-3">
                         <FormikSelect
-                          value={values?.sbu || ""}
+                          value={values?.sbu || ''}
                           isSearchable={true}
                           options={sbuList || []}
                           styles={customStyles}
@@ -396,8 +389,8 @@ export default function FormCmp({
                           placeholder="SBU"
                           label="SBU"
                           onChange={(valueOption) => {
-                            setFieldValue("sbu", valueOption);
-                            setFieldValue("salesOrg", "");
+                            setFieldValue('sbu', valueOption);
+                            setFieldValue('salesOrg', '');
                             if (valueOption) {
                               getSalesOrgList(
                                 profileData?.accountId,
@@ -415,7 +408,7 @@ export default function FormCmp({
                       </div>
                       <div className="col-lg-3">
                         <FormikSelect
-                          value={values?.salesOrg || ""}
+                          value={values?.salesOrg || ''}
                           isSearchable={true}
                           options={salesOrgList || []}
                           styles={customStyles}
@@ -423,7 +416,7 @@ export default function FormCmp({
                           placeholder="Sales Organization"
                           label="Sales Organization"
                           onChange={(valueOption) => {
-                            setFieldValue("salesOrg", valueOption);
+                            setFieldValue('salesOrg', valueOption);
                           }}
                           isDisabled={!values?.sbu}
                           errors={errors}
@@ -439,7 +432,7 @@ export default function FormCmp({
                           type="date"
                           errors={errors}
                           touched={touched}
-                          disabled={viewType === "view"}
+                          disabled={viewType === 'view'}
                         />
                       </div>
                       <div className="col-lg-6">
@@ -450,7 +443,7 @@ export default function FormCmp({
                           placeholder="Narration"
                           rows="3"
                           onChange={(e) =>
-                            setFieldValue("narration", e.target.value)
+                            setFieldValue('narration', e.target.value)
                           }
                           max={1000}
                           errors={errors}
@@ -476,16 +469,16 @@ export default function FormCmp({
                               });
                               window.setTimeout(() => {
                                 setErrors({
-                                  sbu: !values?.sbu && "SBU is required",
+                                  sbu: !values?.sbu && 'SBU is required',
                                   salesOrg:
                                     !values?.salesOrg &&
-                                    "Sales Organization is required",
+                                    'Sales Organization is required',
                                   narration:
                                     !values?.narration &&
-                                    "Narration is required",
+                                    'Narration is required',
                                   journalDate:
                                     !values?.journalDate &&
-                                    "Journal Date is required",
+                                    'Journal Date is required',
                                 });
                               }, 50);
                             } else {
@@ -497,9 +490,9 @@ export default function FormCmp({
                                 invoiceHireData?.totalNetPayble,
                                 setLoading,
                                 () => {
-                                  setFieldValue("sbu", "");
-                                  setFieldValue("salesOrg", "");
-                                  setFieldValue("narration", "");
+                                  setFieldValue('sbu', '');
+                                  setFieldValue('salesOrg', '');
+                                  setFieldValue('narration', '');
                                 }
                               );
                             }
@@ -517,7 +510,7 @@ export default function FormCmp({
                         <div className="col-lg-3">
                           <label>Receive Amount</label>
                           <FormikInput
-                            value={values?.receiveAmount || ""}
+                            value={values?.receiveAmount || ''}
                             name="receiveAmount"
                             placeholder="Receive Amount"
                             type="number"
@@ -527,7 +520,7 @@ export default function FormCmp({
                         </div>
                         <div className="col-lg-3">
                           <FormikSelect
-                            value={values?.bankAccNo || ""}
+                            value={values?.bankAccNo || ''}
                             isSearchable={true}
                             options={accNoDDL || []}
                             styles={customStyles}
@@ -535,7 +528,7 @@ export default function FormCmp({
                             placeholder="Bank Account No"
                             label="Bank Account No"
                             onChange={(valueOption) => {
-                              setFieldValue("bankAccNo", valueOption);
+                              setFieldValue('bankAccNo', valueOption);
                             }}
                             errors={errors}
                             touched={touched}
@@ -545,13 +538,13 @@ export default function FormCmp({
                         <div className="col-lg-3">
                           <label>Receive Date</label>
                           <FormikInput
-                            value={values?.receivedDate || ""}
+                            value={values?.receivedDate || ''}
                             name="receivedDate"
                             placeholder="Receive Date"
                             type="date"
                             errors={errors}
                             touched={touched}
-                            disabled={viewType === "view"}
+                            disabled={viewType === 'view'}
                           />
                         </div>
                         <div className="col-lg-3 mt-5">
@@ -570,16 +563,16 @@ export default function FormCmp({
                                 receiveDate: values?.receivedDate || new Date(),
                                 hireNo:
                                   values?.statement?.value === 1
-                                    ? "Initial"
-                                    : "Final",
+                                    ? 'Initial'
+                                    : 'Final',
                               };
                               voyageCharterBRApi(payload, setLoading, () => {
-                                setFieldValue("receiveAmount", "");
-                                setFieldValue("bankAccNo", "");
-                                setFieldValue("receivedDate", "");
+                                setFieldValue('receiveAmount', '');
+                                setFieldValue('bankAccNo', '');
+                                setFieldValue('receivedDate', '');
                               });
                             }}
-                            type={"button"}
+                            type={'button'}
                             className="btn btn-primary px-3 py-2"
                             disabled={
                               !values?.receiveAmount ||
@@ -618,7 +611,7 @@ export default function FormCmp({
                   ) : null}
 
                   {values?.statement?.value === 2 ||
-                    values?.statement?.value === 3 ? (
+                  values?.statement?.value === 3 ? (
                     <FinalInvoice
                       formikprops={{
                         handleSubmit,
@@ -661,7 +654,7 @@ export default function FormCmp({
                   ) : null}
 
                   {values?.statement?.value === 2 ||
-                    values?.statement?.value === 3 ? (
+                  values?.statement?.value === 3 ? (
                     <FinalInvoiceCharterer
                       formikprops={{
                         handleSubmit,

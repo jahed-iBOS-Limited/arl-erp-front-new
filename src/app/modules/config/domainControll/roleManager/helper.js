@@ -1,6 +1,6 @@
 // For Communication with external API's , for example ... get data, post data etc
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getPermissionTypeDDL = async (setter, setDisabled) => {
   setDisabled(true);
@@ -170,7 +170,7 @@ export const getLandingData = async (
   search
 ) => {
   setDisabled(true);
-  const searchPath = search ? `Search=${search}&` : "";
+  const searchPath = search ? `Search=${search}&` : '';
   try {
     let res = await axios.get(
       `/domain/CreateRoleManager/GetRoleManagerSearchLandingPasignation?${searchPath}AccountId=${accId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
@@ -193,14 +193,14 @@ export const createRoleManager = async (payload, setDisabled, cb) => {
       payload
     );
     if (res?.status === 200) {
-      console.log("Success Data", res?.data);
-      toast.success("Submit Successfully", { toastId: "createRoleManager" });
+      console.log('Success Data', res?.data);
+      toast.success('Submit Successfully', { toastId: 'createRoleManager' });
       setDisabled(false);
       cb();
     }
   } catch (err) {
     toast.warning(err?.response?.data?.message, {
-      toastId: "createRoleManagerError",
+      toastId: 'createRoleManagerError',
     });
     setDisabled(false);
   }
@@ -214,12 +214,12 @@ export const editRoleManager = async (payload, setDisabled) => {
       payload
     );
     if (res?.status === 200) {
-      toast.success(res?.data?.message, { toastId: "editRoleManager" });
+      toast.success(res?.data?.message, { toastId: 'editRoleManager' });
       setDisabled(false);
     }
   } catch (err) {
     toast.warning(err?.response?.data?.message, {
-      toastId: "editRoleManagerError",
+      toastId: 'editRoleManagerError',
     });
     setDisabled(false);
   }
@@ -257,7 +257,7 @@ export const getRoleManagerById = async (
           value: res?.data?.objHeader[0]?.moduleId,
           label: res?.data?.objHeader[0]?.moduleName,
         },
-        feature: "",
+        feature: '',
         featureGroup: {
           value: res?.data?.objHeader[0]?.featureReferenceId,
           label: res?.data?.objHeader[0]?.featureReferenceName,
@@ -281,7 +281,6 @@ export const getRoleManagerById = async (
             };
           })
         );
-        
       }
     }
   } catch (err) {

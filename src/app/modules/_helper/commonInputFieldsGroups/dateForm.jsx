@@ -1,5 +1,5 @@
-import React from "react";
-import InputField from "../_inputField";
+import React from 'react';
+import InputField from '../_inputField';
 
 function FromDateToDateForm({ obj }) {
   const {
@@ -18,19 +18,19 @@ function FromDateToDateForm({ obj }) {
   const col = colSize ? colSize : `col-lg-3`;
   return (
     <>
-      <div className={`${col} ${time && "d-flex"}`}>
+      <div className={`${col} ${time && 'd-flex'}`}>
         <InputField
           step={step}
           label="From Date"
           value={values?.fromDate}
           name="fromDate"
           placeholder="Date"
-          type={`${type ? type : "date"}`}
+          type={`${type ? type : 'date'}`}
           onChange={(e) => {
             setGridData && setGridData([]);
-            setFieldValue("fromDate", e.target.value);
+            setFieldValue('fromDate', e.target.value);
             onChange &&
-              onChange({ ...values, fromDate: e?.target?.value }, "fromDate");
+              onChange({ ...values, fromDate: e?.target?.value }, 'fromDate');
             cb && cb();
           }}
           disabled={disabled}
@@ -42,27 +42,27 @@ function FromDateToDateForm({ obj }) {
             name="fromTime"
             label="From Time"
             onChange={(e) => {
-              setFieldValue("fromTime", e.target.value);
+              setFieldValue('fromTime', e.target.value);
               onChange &&
-                onChange({ ...values, fromTime: e?.target?.value }, "fromTime");
+                onChange({ ...values, fromTime: e?.target?.value }, 'fromTime');
             }}
             disabled={disabled}
           />
         )}
       </div>
-      <div className={`${col} ${time && "d-flex"}`}>
+      <div className={`${col} ${time && 'd-flex'}`}>
         <InputField
           step={step}
           label="To Date"
           value={values?.toDate}
           name="toDate"
           placeholder="Date"
-          type={`${type ? type : "date"}`}
+          type={`${type ? type : 'date'}`}
           onChange={(e) => {
             setGridData && setGridData([]);
-            setFieldValue("toDate", e.target.value);
+            setFieldValue('toDate', e.target.value);
             onChange &&
-              onChange({ ...values, toDate: e?.target?.value }, "toDate");
+              onChange({ ...values, toDate: e?.target?.value }, 'toDate');
             cb && cb();
           }}
           disabled={disabled}
@@ -74,9 +74,9 @@ function FromDateToDateForm({ obj }) {
             name="toTime"
             label="To Time"
             onChange={(e) => {
-              setFieldValue("toTime", e.target.value);
+              setFieldValue('toTime', e.target.value);
               onChange &&
-                onChange({ ...values, toTime: e?.target?.value }, "toTime");
+                onChange({ ...values, toTime: e?.target?.value }, 'toTime');
             }}
             disabled={disabled}
           />

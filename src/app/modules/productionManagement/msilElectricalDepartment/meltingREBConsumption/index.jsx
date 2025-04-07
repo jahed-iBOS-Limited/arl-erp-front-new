@@ -1,15 +1,14 @@
-
-import { Form, Formik } from "formik";
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import ICustomCard from "../../../_helper/_customCard";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import { _timeFormatter } from "../../../_helper/_timeFormatter";
-import { _todayDate } from "../../../_helper/_todayDate";
-import "./style.css";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import ICustomCard from '../../../_helper/_customCard';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import { _timeFormatter } from '../../../_helper/_timeFormatter';
+import { _todayDate } from '../../../_helper/_todayDate';
+import './style.css';
 
 const initData = {
   date: _todayDate(),
@@ -26,7 +25,7 @@ export default function MeltingREBConsumption() {
     // console.log("values", values);
   };
 
-  console.log("landingData", landingData);
+  console.log('landingData', landingData);
 
   const pushData = () => {
     const modifiedArray = landingData.map((item) => {
@@ -41,7 +40,7 @@ export default function MeltingREBConsumption() {
     saveData(
       `/mes/MSIL/CreateEditElectricalMeltingRebConsumption`,
       modifiedArray,
-      "",
+      '',
       true
     );
   };
@@ -168,7 +167,7 @@ export default function MeltingREBConsumption() {
                     />
                   </div>
 
-                  <div style={{ marginTop: "15px" }} className="col-lg-1">
+                  <div style={{ marginTop: '15px' }} className="col-lg-1">
                     <button
                       type="button"
                       onClick={() => {
@@ -186,7 +185,7 @@ export default function MeltingREBConsumption() {
                   </div>
                 </div>
 
-                <div style={{ marginTop: "15px" }}>
+                <div style={{ marginTop: '15px' }}>
                   <div className="reb-consumption-report-table">
                     {landingData.length > 0 && (
                       <div className="table-responsive">
@@ -199,7 +198,7 @@ export default function MeltingREBConsumption() {
                               <th rowSpan={2}>Grand Total REB Used</th>
                             </tr>
                             <tr>
-                              <th style={{ minWidth: "25px" }}>SL</th>
+                              <th style={{ minWidth: '25px' }}>SL</th>
                               <th>Heat No</th>
                               <th>M. Panel No</th>
                               <th>Curcible No</th>
@@ -239,23 +238,23 @@ export default function MeltingREBConsumption() {
                                 </td>
                                 <td className="text-center">
                                   {item?.tmTotalHeatTime &&
-                                    item?.tmTotalHeatTime?.split(":")?.[0] +
-                                      "H"}{" "}
+                                    item?.tmTotalHeatTime?.split(':')?.[0] +
+                                      'H'}{' '}
                                   {item?.tmTotalHeatTime &&
-                                    item?.tmTotalHeatTime?.split(":")?.[1] +
-                                      "M"}
+                                    item?.tmTotalHeatTime?.split(':')?.[1] +
+                                      'M'}
                                 </td>
                                 <td className="text-center">
                                   <div className="text-center">
                                     <input
                                       onChange={(e) => {
                                         dataHandler(
-                                          "numMeltingPanelStartKwh",
+                                          'numMeltingPanelStartKwh',
                                           Math.abs(e.target.value),
                                           index
                                         );
                                       }}
-                                      step={"any"}
+                                      step={'any'}
                                       min="0"
                                       required
                                       className="form-control"
@@ -264,7 +263,7 @@ export default function MeltingREBConsumption() {
                                       defaultValue={
                                         item?.numMeltingPanelStartKwh >= 0
                                           ? item?.numMeltingPanelStartKwh
-                                          : ""
+                                          : ''
                                       }
                                     />
                                   </div>
@@ -274,12 +273,12 @@ export default function MeltingREBConsumption() {
                                     <input
                                       onChange={(e) => {
                                         dataHandler(
-                                          "numMeltingPanelEndKwh",
+                                          'numMeltingPanelEndKwh',
                                           Math.abs(e.target.value),
                                           index
                                         );
                                       }}
-                                      step={"any"}
+                                      step={'any'}
                                       min="0"
                                       className="form-control"
                                       type="number"
@@ -287,7 +286,7 @@ export default function MeltingREBConsumption() {
                                       defaultValue={
                                         item?.numMeltingPanelEndKwh >= 0
                                           ? item?.numMeltingPanelEndKwh
-                                          : ""
+                                          : ''
                                       }
                                     />
                                   </div>
@@ -298,7 +297,7 @@ export default function MeltingREBConsumption() {
                                     item?.numMeltingPanelEndKwh,
                                     item?.numMeltingPanelStartKwh,
                                     index,
-                                    "numMeltingPanelTotalKwhcal"
+                                    'numMeltingPanelTotalKwhcal'
                                   )}
                                 </td>
                                 <td>
@@ -306,12 +305,12 @@ export default function MeltingREBConsumption() {
                                     <input
                                       onChange={(e) => {
                                         dataHandler(
-                                          "numSinteringPanelStartKwh",
+                                          'numSinteringPanelStartKwh',
                                           Math.abs(e.target.value),
                                           index
                                         );
                                       }}
-                                      step={"any"}
+                                      step={'any'}
                                       min="0"
                                       required
                                       className="form-control"
@@ -320,7 +319,7 @@ export default function MeltingREBConsumption() {
                                       defaultValue={
                                         item?.numSinteringPanelStartKwh >= 0
                                           ? item?.numSinteringPanelStartKwh
-                                          : ""
+                                          : ''
                                       }
                                     />
                                   </div>
@@ -330,12 +329,12 @@ export default function MeltingREBConsumption() {
                                     <input
                                       onChange={(e) => {
                                         dataHandler(
-                                          "numSinteringPanelEndKwh",
+                                          'numSinteringPanelEndKwh',
                                           Math.abs(e.target.value),
                                           index
                                         );
                                       }}
-                                      step={"any"}
+                                      step={'any'}
                                       min="0"
                                       required
                                       className="form-control"
@@ -344,7 +343,7 @@ export default function MeltingREBConsumption() {
                                       defaultValue={
                                         item?.numSinteringPanelEndKwh >= 0
                                           ? item?.numSinteringPanelEndKwh
-                                          : ""
+                                          : ''
                                       }
                                     />
                                   </div>
@@ -355,7 +354,7 @@ export default function MeltingREBConsumption() {
                                     item?.numSinteringPanelEndKwh,
                                     item?.numSinteringPanelStartKwh,
                                     index,
-                                    "numSinteringPanelTotalKwhcal"
+                                    'numSinteringPanelTotalKwhcal'
                                   )}
                                 </td>
                                 <td className="text-center">
@@ -366,7 +365,7 @@ export default function MeltingREBConsumption() {
                                     item?.numSinteringPanelEndKwh,
                                     item?.numSinteringPanelStartKwh,
                                     index,
-                                    "numGrandTotalRebUsedKwhcal"
+                                    'numGrandTotalRebUsedKwhcal'
                                   )}
                                 </td>
                               </tr>

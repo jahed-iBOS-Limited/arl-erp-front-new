@@ -1,10 +1,9 @@
-
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { IInput } from "../../../../_helper/_input";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { IInput } from '../../../../_helper/_input';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
 
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({});
@@ -45,7 +44,7 @@ export default function FormCmp({
               <div className="form-group row">
                 <div className="col-lg-3">
                   <IInput
-                    value={values?.checkPostName || ""}
+                    value={values?.checkPostName || ''}
                     label="Check Post Name"
                     name="checkPostName"
                     disabled={true}
@@ -55,14 +54,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

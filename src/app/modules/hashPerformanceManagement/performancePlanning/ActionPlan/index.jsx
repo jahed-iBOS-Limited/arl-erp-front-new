@@ -61,11 +61,11 @@ export default function ActionPlan() {
     if (id) {
       if (id === 1) {
         getTypeReferenceDDL(
-          `/pms/CommonDDL/ObjectiveDDL?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit}&StrategicParticularsTypeId=1&emp_dept_sbu_Type=1&yearId=${year}`,
+          `/pms/CommonDDL/ObjectiveDDL?AccountId=${accountId}&BusinessUnitId=${selectedBusinessUnit}&StrategicParticularsTypeId=1&emp_dept_sbu_Type=1&yearId=${year}`
         );
       } else if (id === 2) {
         getTypeReferenceDDL(
-          `/pms/KPI/GetKPIMasterDataDDL?accountId=${accountId}&bscId=2`,
+          `/pms/KPI/GetKPIMasterDataDDL?accountId=${accountId}&bscId=2`
         );
       } else if (id === 3) {
         setTypeReferenceDDL([
@@ -77,7 +77,7 @@ export default function ActionPlan() {
         ]);
       } else if (id === 4) {
         getTypeReferenceDDL(
-          `/pms/PerformanceMgmt/GetEisenHowerActionPlanDDL?EmployeeId=${employeeId}&YearId=${year}&QuarterId=${quater}`,
+          `/pms/PerformanceMgmt/GetEisenHowerActionPlanDDL?EmployeeId=${employeeId}&YearId=${year}&QuarterId=${quater}`
         );
       } else {
         setTypeReferenceDDL([]);
@@ -130,7 +130,7 @@ export default function ActionPlan() {
       `/pms/PerformanceMgmt/PMSActionPlanCreateAndEdit`,
       payload,
       null,
-      true,
+      true
     );
   };
 
@@ -202,15 +202,14 @@ export default function ActionPlan() {
         });
         setFieldValue('currentResult', data?.currentResult || 0);
         setFieldValue('desiredResult', data?.desiredResult || 0);
-      },
+      }
     );
   };
 
   useEffect(() => {
     getYearData(
-      `/pms/CommonDDL/YearDDL?AccountId=${accountId}&BusinessUnitId=4`,
+      `/pms/CommonDDL/YearDDL?AccountId=${accountId}&BusinessUnitId=4`
     );
-
   }, [accountId, selectedBusinessUnit]);
 
   const pdfData = { rowData };
@@ -220,7 +219,7 @@ export default function ActionPlan() {
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        onSubmit={() => { }}
+        onSubmit={() => {}}
       >
         {({ values, setFieldValue, errors, touched }) => (
           <>
@@ -322,7 +321,7 @@ export default function ActionPlan() {
                               employeeId,
                               values?.year?.value,
                               valueOption?.value,
-                              setFieldValue,
+                              setFieldValue
                             );
                             setFieldValue('quater', valueOption);
                           } else {
@@ -369,7 +368,7 @@ export default function ActionPlan() {
                             getReferenceTypeByActionType(
                               valueOption?.value,
                               values?.year?.value,
-                              values.quater.value,
+                              values.quater.value
                             );
                           } else {
                             setFieldValue('actionPlanType', '');

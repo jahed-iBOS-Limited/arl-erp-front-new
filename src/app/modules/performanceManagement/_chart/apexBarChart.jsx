@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import Chart from "react-apexcharts";
+import React, { Component } from 'react';
+import Chart from 'react-apexcharts';
 
 class ApexBarChart extends Component {
   constructor(props) {
@@ -8,17 +8,17 @@ class ApexBarChart extends Component {
     this.state = {
       options: {
         chart: {
-          id: "apexchart-example",
-          type: "bar",
+          id: 'apexchart-example',
+          type: 'bar',
         },
 
         xaxis: {
-          categories: ["Target", "Actual"],
+          categories: ['Target', 'Actual'],
         },
       },
       series: [
         {
-          name: "",
+          name: '',
           data: [this.props.itm?.numTarget, this.props.itm?.numAchivement],
         },
       ],

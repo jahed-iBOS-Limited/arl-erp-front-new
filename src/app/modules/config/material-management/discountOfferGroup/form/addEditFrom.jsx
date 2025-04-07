@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
-import Form from "./form";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
+import Form from './form';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { toast } from 'react-toastify';
 
 const initData = {
-  offerGroupName: "",
-  itemName: "",
-  groupName: "",
+  offerGroupName: '',
+  itemName: '',
+  groupName: '',
 };
 
 export default function DiscountOfferGroupForm() {
@@ -35,7 +35,6 @@ export default function DiscountOfferGroupForm() {
     getItemList(
       `/item/ItemSales/GetItemSalesDDL?AccountId=${accId}&BUnitId=${buId}`
     );
-
   }, [accId, buId]);
 
   const createOfferGroup = (values) => {
@@ -66,7 +65,7 @@ export default function DiscountOfferGroupForm() {
         item?.discountGroupId === values?.offerGroupName?.value
     );
     if (isExist) {
-      return toast.warn("Item already added to this group!");
+      return toast.warn('Item already added to this group!');
     } else {
       const newItem = {
         discountGroupId: values?.offerGroupName?.value,
@@ -97,7 +96,7 @@ export default function DiscountOfferGroupForm() {
         true
       );
     } else {
-      return toast.warn("Please add at least one item!");
+      return toast.warn('Please add at least one item!');
     }
   };
 

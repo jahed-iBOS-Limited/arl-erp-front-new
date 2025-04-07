@@ -1,14 +1,13 @@
-
-import { Form, Formik } from "formik";
-import React from "react";
-import { useHistory } from "react-router-dom";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import IButton from "../../../../_helper/iButton";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import PaginationSearch from "../../../../_helper/_search";
-import NewSelect from "../../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import IButton from '../../../../_helper/iButton';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import PaginationSearch from '../../../../_helper/_search';
+import NewSelect from '../../../../_helper/_select';
 
 export default function FormCmp({
   soDDL,
@@ -60,7 +59,7 @@ export default function FormCmp({
         }) => (
           <>
             <ICustomCard
-              title={"Bulk KPI Entry"}
+              title={'Bulk KPI Entry'}
               backHandler={() => history.goBack()}
               resetHandler={() => {
                 resetForm(initData);
@@ -80,7 +79,7 @@ export default function FormCmp({
                         value={values?.SO}
                         label="Sales Organization"
                         onChange={(e) => {
-                          setFieldValue("SO", e);
+                          setFieldValue('SO', e);
                         }}
                         placeholder="Sales Organization"
                         errors={errors}
@@ -95,11 +94,11 @@ export default function FormCmp({
                     <div className="col-lg-3">
                       <NewSelect
                         name="employee"
-                        options={[{ value: 0, label: "All" }, ...employeeList]}
+                        options={[{ value: 0, label: 'All' }, ...employeeList]}
                         value={values?.employee}
                         label="Employee Name"
                         onChange={(e) => {
-                          setFieldValue("employee", e);
+                          setFieldValue('employee', e);
                         }}
                         placeholder="Employee Name"
                         errors={errors}
@@ -128,14 +127,14 @@ export default function FormCmp({
                 <table
                   id="table-to-xlsx"
                   className={
-                    "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                    'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                   }
                 >
                   <thead>
                     <tr className="cursor-pointer">
                       <th
                         onClick={() => allSelect(!selectedAll())}
-                        style={{ width: "30px" }}
+                        style={{ width: '30px' }}
                       >
                         <input
                           type="checkbox"
@@ -146,17 +145,17 @@ export default function FormCmp({
                       </th>
 
                       {[
-                        "SL",
-                        "Employee Name",
-                        "Enroll",
-                        "Department",
-                        "Designation",
-                        "BSC Perspective",
-                        "KPI Master Name",
-                        "KPI Master Code",
-                        "Month",
-                        "Target",
-                        "Achievement",
+                        'SL',
+                        'Employee Name',
+                        'Enroll',
+                        'Department',
+                        'Designation',
+                        'BSC Perspective',
+                        'KPI Master Name',
+                        'KPI Master Code',
+                        'Month',
+                        'Target',
+                        'Achievement',
                       ]?.map((th, index) => {
                         return <th key={index}> {th} </th>;
                       })}
@@ -170,7 +169,7 @@ export default function FormCmp({
                             <td
                               onClick={() => {
                                 rowDataHandler(
-                                  "isSelected",
+                                  'isSelected',
                                   index,
                                   !item.isSelected
                                 );
@@ -179,10 +178,10 @@ export default function FormCmp({
                               style={
                                 item?.isSelected
                                   ? {
-                                      backgroundColor: "#aacae3",
-                                      width: "30px",
+                                      backgroundColor: '#aacae3',
+                                      width: '30px',
                                     }
-                                  : { width: "30px" }
+                                  : { width: '30px' }
                               }
                             >
                               <input
@@ -193,7 +192,7 @@ export default function FormCmp({
                               />
                             </td>
                             <td
-                              style={{ width: "40px" }}
+                              style={{ width: '40px' }}
                               className="text-center"
                             >
                               {index + 1}
@@ -214,7 +213,7 @@ export default function FormCmp({
                                   value={item?.numAchivement}
                                   onChange={(e) => {
                                     rowDataHandler(
-                                      "numAchivement",
+                                      'numAchivement',
                                       index,
                                       e?.target?.value
                                     );
@@ -228,13 +227,13 @@ export default function FormCmp({
                             rowData?.length - 1 !== index && (
                               <tr
                                 style={{
-                                  height: "5px",
+                                  height: '5px',
                                 }}
                               >
                                 <td
                                   colSpan={12}
                                   style={{
-                                    backgroundColor: "rgb(141 143 145)",
+                                    backgroundColor: 'rgb(141 143 145)',
                                   }}
                                 ></td>
                               </tr>

@@ -1,35 +1,34 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
 
+import FormikError from './../../../../_helper/_formikError';
+import NewSelect from './../../../../_helper/_select';
+import InputField from './../../../../_helper/_inputField';
+import { getBusinessTypeDDL, getRouteNameDDL } from '../helper';
 
-import FormikError from "./../../../../_helper/_formikError";
-import NewSelect from "./../../../../_helper/_select";
-import InputField from "./../../../../_helper/_inputField";
-import { getBusinessTypeDDL, getRouteNameDDL } from "../helper";
-
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { getBeatApiDDL } from "../helper";
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { getBeatApiDDL } from '../helper';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   businessType: Yup.object().shape({
-    label: Yup.string().required("Business Type is required"),
-    value: Yup.number().required("Business Type is required"),
+    label: Yup.string().required('Business Type is required'),
+    value: Yup.number().required('Business Type is required'),
   }),
   routeName: Yup.object().shape({
-    label: Yup.string().required("Route Name is required"),
-    value: Yup.number().required("Route Name is required"),
+    label: Yup.string().required('Route Name is required'),
+    value: Yup.number().required('Route Name is required'),
   }),
   beatName: Yup.object().shape({
-    label: Yup.string().required("Market Name is required"),
-    value: Yup.number().required("Market Name is required"),
+    label: Yup.string().required('Market Name is required'),
+    value: Yup.number().required('Market Name is required'),
   }),
-  outletName: Yup.string().required("Outlet Name is required"),
-  outletAddress: Yup.string().required("Outlet Address is required"),
-  ownerName: Yup.string().required("Ower Name is required"),
-  mobileNumber: Yup.number().required("Mobile Number is required"),
-  isColler: Yup.bool().required("Is Coller is required"),
+  outletName: Yup.string().required('Outlet Name is required'),
+  outletAddress: Yup.string().required('Outlet Address is required'),
+  ownerName: Yup.string().required('Ower Name is required'),
+  mobileNumber: Yup.number().required('Mobile Number is required'),
+  isColler: Yup.bool().required('Is Coller is required'),
 });
 
 export default function FormCmp({
@@ -46,13 +45,11 @@ export default function FormCmp({
   state,
   collerCompanyDDL,
 }) {
-
-
   const [businessTypeDDL, setBusinessDDL] = useState([]);
   const [routeNameDDL, setRouteNameDDL] = useState([]);
 
   useEffect(() => {
-    if ((profileData?.accountId && selectedBusinessUnit?.value)) {
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
       getBusinessTypeDDL(
         profileData.accountId,
         selectedBusinessUnit.value,
@@ -104,7 +101,7 @@ export default function FormCmp({
                     options={routeNameDDL}
                     value={values?.routeName}
                     onChange={(valueOption) => {
-                      setFieldValue("routeName", valueOption);
+                      setFieldValue('routeName', valueOption);
                       getBeatApiDDL(valueOption?.value, setBeatNameDDL);
                     }}
                     placeholder="Select Route Name"
@@ -120,7 +117,7 @@ export default function FormCmp({
                     options={beatNameDDL}
                     value={values?.beatName}
                     onChange={(valueOption) => {
-                      setFieldValue("beatName", valueOption);
+                      setFieldValue('beatName', valueOption);
                     }}
                     placeholder="Select Market Name"
                     isDisabled={true}
@@ -146,7 +143,7 @@ export default function FormCmp({
                     options={businessTypeDDL}
                     value={values?.businessType}
                     onChange={(valueOption) => {
-                      setFieldValue("businessType", valueOption);
+                      setFieldValue('businessType', valueOption);
                     }}
                     placeholder="Outlet Type"
                     errors={errors}
@@ -212,21 +209,21 @@ export default function FormCmp({
                     disabled={true}
                   />
                 </div>
-                <div className="col-lg-1 d-flex" style={{ marginTop: "20px" }}>
+                <div className="col-lg-1 d-flex" style={{ marginTop: '20px' }}>
                   <input
                     style={{
-                      width: "15px",
-                      height: "15px",
-                      position: "relative",
-                      top: "3px",
+                      width: '15px',
+                      height: '15px',
+                      position: 'relative',
+                      top: '3px',
                     }}
                     name="isColler"
                     checked={values?.isColler}
                     className=" mr-2"
                     type="checkbox"
                     onChange={(e) => {
-                      setFieldValue("collerCompany", "");
-                      setFieldValue("isColler", e.target.checked);
+                      setFieldValue('collerCompany', '');
+                      setFieldValue('isColler', e.target.checked);
                     }}
                   />
                   <label>Is Coller</label>
@@ -239,7 +236,7 @@ export default function FormCmp({
                       value={values?.collerCompany}
                       label="Coller Company"
                       onChange={(valueOption) => {
-                        setFieldValue("collerCompany", valueOption);
+                        setFieldValue('collerCompany', valueOption);
                       }}
                       placeholder="Coller Company"
                       errors={errors}
@@ -251,14 +248,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

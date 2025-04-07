@@ -1,25 +1,24 @@
-
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import Form from "../common/form";
-import Axios from "axios";
-import shortid from "shortid";
-import { toast } from "react-toastify";
-import Loading from "../../../../_helper/_loading";
+} from '../../../../../../_metronic/_partials/controls';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import Form from '../common/form';
+import Axios from 'axios';
+import shortid from 'shortid';
+import { toast } from 'react-toastify';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
   id: undefined,
-  businessUnitName: "....",
-  businessUnitCode: "....",
-  languageName: "....",
-  currencyName: "....",
-  businessUnitAddress: "....",
+  businessUnitName: '....',
+  businessUnitCode: '....',
+  languageName: '....',
+  currencyName: '....',
+  businessUnitAddress: '....',
 };
 
 export default function ItemSubCategoryEditForm({
@@ -29,18 +28,18 @@ export default function ItemSubCategoryEditForm({
   },
 }) {
   const [isDisabled, setDisabled] = useState(false);
-  const [businessUnitData, setData] = useState("");
-  const [lngConfigId, setLngConfigId] = useState("");
-  const [crncConfigId, setCrncgConfigId] = useState("");
+  const [businessUnitData, setData] = useState('');
+  const [lngConfigId, setLngConfigId] = useState('');
+  const [crncConfigId, setCrncgConfigId] = useState('');
   useEffect(() => {
     getBusinessUnitById(id);
-
   }, []);
 
   const getBusinessUnitById = async (id, accountId) => {
     const res = await Axios.get(
-      `/domain/BusinessUnitDomain/GetBusinessunitDomainByID?AccountId=${accountId ||
-        1}&BusinessUnitId=${id}`
+      `/domain/BusinessUnitDomain/GetBusinessunitDomainByID?AccountId=${
+        accountId || 1
+      }&BusinessUnitId=${id}`
     );
     const { data, status } = res;
     if (status === 200) {
@@ -70,7 +69,6 @@ export default function ItemSubCategoryEditForm({
 
   // save business unit data to DB
   const saveBusinessUnit = async (values, cb) => {
-
     setDisabled(true);
     const businessData = {
       objEditBusinessUnitDTO: {
@@ -99,18 +97,17 @@ export default function ItemSubCategoryEditForm({
     try {
       setDisabled(true);
       const res = await Axios.put(
-        "/domain/BusinessUnitDomain/EditBusinessunitDomain",
+        '/domain/BusinessUnitDomain/EditBusinessunitDomain',
         businessData
       );
       cb(initData);
-      toast.success(res.data?.message || "Submitted successfully", {
+      toast.success(res.data?.message || 'Submitted successfully', {
         toastId: shortid(),
       });
       setDisabled(false);
       backHandler();
       setData(initData);
     } catch (error) {
-
       toast.error(error?.response?.data?.message, { toastId: shortid() });
       setDisabled(false);
     }
@@ -173,7 +170,7 @@ export default function ItemSubCategoryEditForm({
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody>
-        {isDisabled && <Loading/>}
+        {isDisabled && <Loading />}
         <div className="mt-0">
           <Form
             product={businessUnitData || initData}

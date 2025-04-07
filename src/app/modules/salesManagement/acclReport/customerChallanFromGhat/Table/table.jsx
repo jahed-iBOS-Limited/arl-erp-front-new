@@ -1,23 +1,21 @@
-
-
-import { Form, Formik } from "formik";
-import React, { useState, useEffect, useRef } from "react";
-import BootstrapTable from "react-bootstrap-table-next";
-import { useSelector, shallowEqual } from "react-redux";
-import ICard from "../../../../_helper/_card";
+import { Form, Formik } from 'formik';
+import React, { useState, useEffect, useRef } from 'react';
+import BootstrapTable from 'react-bootstrap-table-next';
+import { useSelector, shallowEqual } from 'react-redux';
+import ICard from '../../../../_helper/_card';
 import {
   _todaysEndTime,
   _todaysStartTime,
-} from "../../../../_helper/_currentTime";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
+} from '../../../../_helper/_currentTime';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
 import {
   GetCustomerChallanFromGhat,
   GetCustomerChallanFromGhatDetails,
-} from "../helper";
-import CustomerChallanFromGhatDetails from "./details";
+} from '../helper';
+import CustomerChallanFromGhatDetails from './details';
 
 export default function CustomerChallanFromGhat() {
   // get user profile data from store
@@ -31,7 +29,7 @@ export default function CustomerChallanFromGhat() {
   }, shallowEqual);
 
   const initData = {
-    shipPoint: "",
+    shipPoint: '',
     fromDate: _todayDate(),
     fromTime: _todaysStartTime(),
     toDate: _todayDate(),
@@ -112,7 +110,7 @@ export default function CustomerChallanFromGhat() {
                       type="date"
                       name="fromDate"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e?.target?.value);
+                        setFieldValue('fromDate', e?.target?.value);
                       }}
                     />
                     {/* <InputField
@@ -128,7 +126,7 @@ export default function CustomerChallanFromGhat() {
                       type="date"
                       name="toDate"
                       onChange={(e) => {
-                        setFieldValue("toDate", e?.target?.value);
+                        setFieldValue('toDate', e?.target?.value);
                       }}
                     />
                     {/* <InputField
@@ -141,11 +139,11 @@ export default function CustomerChallanFromGhat() {
                   <div className="col-lg-3">
                     <NewSelect
                       name="shipPoint"
-                      options={[{ value: 0, label: "All" }, ...shipPintDDL]}
+                      options={[{ value: 0, label: 'All' }, ...shipPintDDL]}
                       value={values?.shipPoint}
                       label="ShipPoint"
                       onChange={(valueOption) => {
-                        setFieldValue("shipPoint", valueOption);
+                        setFieldValue('shipPoint', valueOption);
                       }}
                       placeholder="ShipPoint"
                       errors={errors}
@@ -164,7 +162,7 @@ export default function CustomerChallanFromGhat() {
                 <div className="product-wise-shipment-report">
                   <div className="loan-scrollable-table scroll-table-auto">
                     <div
-                      style={{ maxHeight: "540px" }}
+                      style={{ maxHeight: '540px' }}
                       className="scroll-table _table scroll-table-auto"
                     >
                       <table
@@ -175,12 +173,12 @@ export default function CustomerChallanFromGhat() {
                         <thead>
                           <tr>
                             {gridData?.head?.length && (
-                              <th style={{ minWidth: "30px" }}>SL</th>
+                              <th style={{ minWidth: '30px' }}>SL</th>
                             )}
                             {gridData?.head?.map((item, index) => (
                               <React.Fragment key={index}>
                                 {index < 4 ? (
-                                  <th style={{ minWidth: "100px" }}>{item}</th>
+                                  <th style={{ minWidth: '100px' }}>{item}</th>
                                 ) : (
                                   <th>{item}</th>
                                 )}
@@ -189,8 +187,8 @@ export default function CustomerChallanFromGhat() {
                             {gridData?.head?.length && (
                               <th
                                 style={{
-                                  minWidth: "90px",
-                                  maxWidth: "90px !important",
+                                  minWidth: '90px',
+                                  maxWidth: '90px !important',
                                 }}
                               >
                                 Action
@@ -206,30 +204,30 @@ export default function CustomerChallanFromGhat() {
                                 style={
                                   !itm?.toShipPoint
                                     ? {
-                                        fontWeight: "bold",
+                                        fontWeight: 'bold',
                                       }
-                                    : { fontWeight: "normal" }
+                                    : { fontWeight: 'normal' }
                                 }
                                 key={i}
                               >
                                 <td className="text-center">
-                                  {" "}
-                                  {`${itm?.toShipPoint ? i + 1 : ""}`}
+                                  {' '}
+                                  {`${itm?.toShipPoint ? i + 1 : ''}`}
                                 </td>
                                 {itm?.row?.map((singleRow, index) => {
                                   return (
                                     <td
                                       className={`${
-                                        index < 1 ? "text-left" : "text-right"
+                                        index < 1 ? 'text-left' : 'text-right'
                                       }`}
                                       key={index}
                                     >
-                                      {" "}
+                                      {' '}
                                       <span
                                         className={`${
                                           index === itm?.row?.length - 1
-                                            ? "pr-3"
-                                            : "pr-0"
+                                            ? 'pr-3'
+                                            : 'pr-0'
                                         }`}
                                       >
                                         {makeInt(singleRow)}
@@ -249,7 +247,7 @@ export default function CustomerChallanFromGhat() {
                                       Details
                                     </button>
                                   ) : (
-                                    ""
+                                    ''
                                   )}
                                 </td>
                               </tr>

@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 //landingGridData
 //Get landingGridData
@@ -91,7 +91,7 @@ export const editSingleData = async (editData, setDisabled) => {
   try {
     const res = await Axios.put(`/mes/ShopFloor/EditShopFloor`, editData);
     if (res?.status === 200) {
-      toast.success(res?.data?.message || "Edit Successfully");
+      toast.success(res?.data?.message || 'Edit Successfully');
       setDisabled(false);
     }
   } catch (err) {
@@ -106,7 +106,7 @@ export const saveShopFloor = async (createData, cb, setDisabled) => {
   try {
     const res = await Axios.post(`/mes/ShopFloor/CreateShopFloor`, createData);
     if (res?.status === 200 && res?.data) {
-      toast.success(res?.data?.message || "Save Successfully");
+      toast.success(res?.data?.message || 'Save Successfully');
       cb();
       setDisabled(false);
     }

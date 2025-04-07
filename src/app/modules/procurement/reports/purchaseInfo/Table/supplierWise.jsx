@@ -1,6 +1,6 @@
-import React from "react";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import React from 'react';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
 
 function SupplierWise({ gridData }) {
   let numReceiveQty = 0,
@@ -15,7 +15,7 @@ function SupplierWise({ gridData }) {
               <table className="table table-striped table-bordered global-table table-font-size-sm">
                 <thead>
                   <tr>
-                    <th style={{ width: "30px" }}>SL</th>
+                    <th style={{ width: '30px' }}>SL</th>
                     <th>Purchase Order No</th>
                     <th>Purchase Order Date</th>
                     <th>Purchase Organization</th>

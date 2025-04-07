@@ -1,34 +1,30 @@
-
-import React, { useState, useEffect } from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import { useSelector, shallowEqual } from "react-redux";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { Formik } from "formik";
-import { Form } from "react-bootstrap";
-import {
-  getNewApplicationData,
-  approveAll,
-} from "../helper";
-import NewSelect from "../../../../_helper/_select";
-import Loading from "../../../../_helper/_loading";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import { toast } from "react-toastify";
-import { downloadFile } from "../../../../_helper/downloadFile";
-import { IInput } from "../../../../_helper/_input";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { getWorkplaceDDL_api } from "../../../../_helper/_commonApi";
+import React, { useState, useEffect } from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import { useSelector, shallowEqual } from 'react-redux';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { Formik } from 'formik';
+import { Form } from 'react-bootstrap';
+import { getNewApplicationData, approveAll } from '../helper';
+import NewSelect from '../../../../_helper/_select';
+import Loading from '../../../../_helper/_loading';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import { toast } from 'react-toastify';
+import { downloadFile } from '../../../../_helper/downloadFile';
+import { IInput } from '../../../../_helper/_input';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { getWorkplaceDDL_api } from '../../../../_helper/_commonApi';
 const initData = {
-  viewAs: "",
-  applicationType: "",
-  workPlace: "",
+  viewAs: '',
+  applicationType: '',
+  workPlace: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
 
 const applicationTypeDDL = [
-  { value: 1, label: "Pending Application" },
-  { value: 2, label: "Approved Application" },
-  { value: 3, label: "Rejected Application" },
+  { value: 1, label: 'Pending Application' },
+  { value: 2, label: 'Approved Application' },
+  { value: 3, label: 'Rejected Application' },
 ];
 
 const OvertimeRequisitionApprovalLanding = () => {
@@ -65,7 +61,7 @@ const OvertimeRequisitionApprovalLanding = () => {
   // // approveSubmitlHandler btn submit handler
   const approveRejectSubmitlHandler = (values, isApproved) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       yesAlertFunc: () => {
         let data = [];
         rowDto.forEach((item) => {
@@ -81,13 +77,13 @@ const OvertimeRequisitionApprovalLanding = () => {
             data.push(obj);
           }
         });
-        if (data.length === 0) return toast.warn("Select atleast one row");
+        if (data.length === 0) return toast.warn('Select atleast one row');
         approveAll(data, setLoader, () => {
           setAllSelect(false);
           getDataForApproval(values);
         });
       },
-      noAlertFunc: () => { },
+      noAlertFunc: () => {},
     };
     IConfirmModal(confirmObject);
   };
@@ -128,12 +124,7 @@ const OvertimeRequisitionApprovalLanding = () => {
             resetForm(initData);
           }}
         >
-          {({
-            values,
-            errors,
-            touched,
-            setFieldValue,
-          }) => (
+          {({ values, errors, touched, setFieldValue }) => (
             <>
               {loader && <Loading />}
               <Form className="form form-label-right">
@@ -142,14 +133,14 @@ const OvertimeRequisitionApprovalLanding = () => {
                     <NewSelect
                       name="viewAs"
                       options={[
-                        { value: 1, label: "Supervisor" },
-                        { value: 2, label: "Line Manager" },
+                        { value: 1, label: 'Supervisor' },
+                        { value: 2, label: 'Line Manager' },
                       ]}
                       value={values?.viewAs}
                       label="View As"
                       onChange={(valueOption) => {
                         setRowDto([]);
-                        setFieldValue("viewAs", valueOption);
+                        setFieldValue('viewAs', valueOption);
                       }}
                       placeholder="View As"
                       errors={errors}
@@ -164,7 +155,7 @@ const OvertimeRequisitionApprovalLanding = () => {
                       label="Application Type"
                       onChange={(valueOption) => {
                         setRowDto([]);
-                        setFieldValue("applicationType", valueOption);
+                        setFieldValue('applicationType', valueOption);
                       }}
                       placeholder="Application Type"
                       isSearchable={true}
@@ -179,7 +170,7 @@ const OvertimeRequisitionApprovalLanding = () => {
                       placeholder="Work Place"
                       value={values?.workPlace}
                       onChange={(valueOption) => {
-                        setFieldValue("workPlace", valueOption);
+                        setFieldValue('workPlace', valueOption);
                       }}
                     />
                   </div>
@@ -199,7 +190,7 @@ const OvertimeRequisitionApprovalLanding = () => {
                       type="date"
                     />
                   </div>
-                  <div style={{ marginTop: "14px" }} className="ml-5">
+                  <div style={{ marginTop: '14px' }} className="ml-5">
                     <button
                       type="button"
                       className="btn btn-primary mr-1"
@@ -218,7 +209,7 @@ const OvertimeRequisitionApprovalLanding = () => {
                       View
                     </button>
                   </div>
-                  <div style={{ marginTop: "14px" }} className="ml-4">
+                  <div style={{ marginTop: '14px' }} className="ml-4">
                     {rowDto?.length > 0 && (
                       <button
                         className="btn btn-primary"
@@ -226,8 +217,8 @@ const OvertimeRequisitionApprovalLanding = () => {
                         onClick={(e) =>
                           downloadFile(
                             `/hcm/HCMOvertimeRequisition/GetOvertimeListForApproveDownload?adminTypeId=${values?.viewAs?.value}&viewTypeId=${values?.applicationType?.value}&employeeId=${profileData?.employeeId}&workplaceId=${values?.workPlace?.value}&fromDate=${values?.fromDate}&todate=${values?.toDate}`,
-                            "Overtime Requisition Approval",
-                            "xlsx"
+                            'Overtime Requisition Approval',
+                            'xlsx'
                           )
                         }
                       >
@@ -238,7 +229,7 @@ const OvertimeRequisitionApprovalLanding = () => {
                   {values?.applicationType?.value === 1 &&
                     overtimeRequisitionApprove?.isCreate && (
                       <>
-                        <div style={{ marginTop: "14px" }}>
+                        <div style={{ marginTop: '14px' }}>
                           <button
                             type="button"
                             className="btn btn-primary ml-4 mr-1"
@@ -250,7 +241,7 @@ const OvertimeRequisitionApprovalLanding = () => {
                             Approve
                           </button>
                         </div>
-                        <div style={{ marginTop: "14px" }} className="ml-4">
+                        <div style={{ marginTop: '14px' }} className="ml-4">
                           <button
                             type="button"
                             className="btn btn-primary"
@@ -273,7 +264,7 @@ const OvertimeRequisitionApprovalLanding = () => {
                     <thead>
                       <tr>
                         {values?.applicationType?.value === 1 && (
-                          <th style={{ width: "20px" }}>
+                          <th style={{ width: '20px' }}>
                             <input
                               type="checkbox"
                               id="parent"

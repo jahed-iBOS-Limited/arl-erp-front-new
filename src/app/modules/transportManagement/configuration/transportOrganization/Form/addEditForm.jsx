@@ -1,19 +1,18 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
 import {
   editTransportOrganization,
   getTransportOrganizationView,
   saveTransportOrganization,
-} from "../helper";
-import { useParams } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
+} from '../helper';
+import { useParams } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
-  transportOrganizationName: "",
-  code: "",
+  transportOrganizationName: '',
+  code: '',
 };
 
 export default function TransportOrganizationCreateForm({
@@ -40,11 +39,9 @@ export default function TransportOrganizationCreateForm({
     if (id) {
       getTransportOrganizationView(id, setSingleData);
     }
-
   }, [params]);
 
-
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   const saveHandler = async (values, cb) => {
     setDisabled(true);
@@ -66,7 +63,6 @@ export default function TransportOrganizationCreateForm({
       }
     } else {
       setDisabled(false);
-
     }
   };
 

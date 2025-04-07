@@ -108,7 +108,7 @@ export default function FormCmp({
   const loadUserList = (v) => {
     if (v?.length < 3) return [];
     return Axios.get(
-      `/hcm/HCMDDL/GetLineManagerDDLSearch?AccountId=${profileData?.accountId}&Search=${v}`,
+      `/hcm/HCMDDL/GetLineManagerDDLSearch?AccountId=${profileData?.accountId}&Search=${v}`
     ).then((res) => res?.data);
   };
 
@@ -414,7 +414,7 @@ export default function FormCmp({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

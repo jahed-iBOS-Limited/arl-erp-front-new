@@ -60,13 +60,11 @@ export default function FormCmp({
         }
       });
     }
-
   }, [fileObject]);
 
   const handleClick = (event) => {
     hiddenFileInput.current.click();
   };
-
 
   return (
     <div>
@@ -76,12 +74,15 @@ export default function FormCmp({
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             getRowDto(
-              `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${profileData?.accountId
-              }&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${values?.plant?.value
-              }&yearId=${values?.horizon?.monthId > 6
-                ? values?.fiscalYear?.value
-                : values?.fiscalYear?.value + 1
-              }&monthId=${values?.horizon?.monthId}`,
+              `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${
+                profileData?.accountId
+              }&businessUnitId=${selectedBusinessUnit?.value}&PlantId=${
+                values?.plant?.value
+              }&yearId=${
+                values?.horizon?.monthId > 6
+                  ? values?.fiscalYear?.value
+                  : values?.fiscalYear?.value + 1
+              }&monthId=${values?.horizon?.monthId}`
             );
           });
         }}
@@ -118,7 +119,7 @@ export default function FormCmp({
                               selectedBusinessUnit?.value,
                               valueOption?.value,
                               valueOption?.value,
-                              setHorizonDDL,
+                              setHorizonDDL
                             );
                           }
                         } else {
@@ -148,7 +149,7 @@ export default function FormCmp({
                             selectedBusinessUnit?.value,
                             values?.plant?.value,
                             valueOption?.value,
-                            setHorizonDDL,
+                            setHorizonDDL
                           );
                         } else {
                           setHorizonDDL([]);
@@ -168,21 +169,24 @@ export default function FormCmp({
                       onChange={(valueOption) => {
                         setRowDto([]);
                         getRowDto(
-                          `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${profileData?.accountId
-                          }&businessUnitId=${selectedBusinessUnit?.value
-                          }&PlantId=${values?.plant?.value}&yearId=${valueOption?.monthId > 6
-                            ? values?.fiscalYear?.value
-                            : values?.fiscalYear?.value + 1
-                          }&monthId=${valueOption?.monthId}`,
+                          `/fino/BudgetFinancial/GetMaterialRequirementPlanningByMonth?accountId=${
+                            profileData?.accountId
+                          }&businessUnitId=${
+                            selectedBusinessUnit?.value
+                          }&PlantId=${values?.plant?.value}&yearId=${
+                            valueOption?.monthId > 6
+                              ? values?.fiscalYear?.value
+                              : values?.fiscalYear?.value + 1
+                          }&monthId=${valueOption?.monthId}`
                         );
                         setFieldValue('horizon', valueOption);
                         setFieldValue(
                           'startDate',
-                          _dateFormatter(valueOption?.startdatetime),
+                          _dateFormatter(valueOption?.startdatetime)
                         );
                         setFieldValue(
                           'endDate',
-                          _dateFormatter(valueOption?.enddatetime),
+                          _dateFormatter(valueOption?.enddatetime)
                         );
                       }}
                       errors={errors}
@@ -284,18 +288,18 @@ export default function FormCmp({
                               onChange={(e) => {
                                 if (+e.target.value < 0) {
                                   return toast.warn(
-                                    'Purchase quantity can"t be negative',
+                                    'Purchase quantity can"t be negative'
                                   );
                                 } else {
                                   dataHandler(
                                     'purchaseQty',
                                     index,
-                                    +e.target.value,
+                                    +e.target.value
                                   );
                                 }
                               }}
                               className="quantity-field form-control"
-                            // disabled={item?.numMRPQty < 0}
+                              // disabled={item?.numMRPQty < 0}
                             />
                           </td>
                           <td

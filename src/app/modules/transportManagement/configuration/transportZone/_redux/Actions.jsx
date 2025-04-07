@@ -1,7 +1,7 @@
-import * as requestFromServer from "./Api";
-import { transportZoneSlice } from "./Slice";
-import { toast } from "react-toastify";
-import { isArray } from "lodash";
+import * as requestFromServer from './Api';
+import { transportZoneSlice } from './Slice';
+import { toast } from 'react-toastify';
+import { isArray } from 'lodash';
 const { actions: slice } = transportZoneSlice;
 
 // action for save created data
@@ -12,12 +12,11 @@ export const saveTransportZone = (payload, setDisabled) => () => {
     .then((res) => {
       if (res.status === 200) {
         setDisabled(false);
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
       }
     })
     .catch((err) => {
-
       setDisabled(false);
       toast.error(err?.response?.data?.message);
     });
@@ -31,7 +30,7 @@ export const saveEditedTransportZone = (payload, setDisabled) => () => {
       if (res.status === 200) {
         console.log(res.data);
         setDisabled(false);
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
       }
     })
     .catch((err) => {
@@ -41,25 +40,19 @@ export const saveEditedTransportZone = (payload, setDisabled) => () => {
     });
 };
 // action for get grid data
-export const getTransportZoneGridData = (
-  accId,
-  buId,
-  setLoading,
-  pageNo,
-  pageSize
-) => (dispatch) => {
-  setLoading(true);
-  return requestFromServer
-    .getGridData(accId, buId, pageNo, pageSize)
-    .then((res) => {
-      setLoading(false);
-      return dispatch(slice.SetGridData(res?.data));
-    })
-    .catch((err) => {
-      setLoading(false);
-
-    });
-};
+export const getTransportZoneGridData =
+  (accId, buId, setLoading, pageNo, pageSize) => (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .getGridData(accId, buId, pageNo, pageSize)
+      .then((res) => {
+        setLoading(false);
+        return dispatch(slice.SetGridData(res?.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
 
 // action for get data by id single
 export const getTransportZoneById = (id) => (dispatch) => {
@@ -72,24 +65,21 @@ export const getTransportZoneById = (id) => (dispatch) => {
           ...item,
           divisionName: item?.divisionId
             ? {
-              value: item?.divisionId || 0,
-              label: item?.divisionName || "",
-            }
-            : "",
+                value: item?.divisionId || 0,
+                label: item?.divisionName || '',
+              }
+            : '',
           districtName: item?.divisionId
             ? {
-              value: item?.divisionId || 0,
-              label: item?.districtName || "",
-            }
-            : "",
-
+                value: item?.divisionId || 0,
+                label: item?.districtName || '',
+              }
+            : '',
         };
         return dispatch(slice.SetDataById(data));
       }
     })
-    .catch((err) => {
-
-    });
+    .catch((err) => {});
 };
 // set single store empty
 export const setTransportZoneSingleEmpty = () => async (dispatch) => {

@@ -1,7 +1,7 @@
-import React from "react";
-import { ItemRequestTable } from "./Table/tableHeader";
-import { UiProvider } from "../../../_helper/uiContextHelper";
-import './purchaseInvoice.css'
+import React from 'react';
+import { ItemRequestTable } from './Table/tableHeader';
+import { UiProvider } from '../../../_helper/uiContextHelper';
+import './purchaseInvoice.css';
 
 export function ItemRequest({ history }) {
   const uIEvents = {
@@ -10,7 +10,7 @@ export function ItemRequest({ history }) {
     },
     openViewDialog: (id) => {
       history.push(`/self-service/store-requisition/view/${id}`);
-    }
+    },
   };
 
   return (
@@ -18,4 +18,4 @@ export function ItemRequest({ history }) {
       <ItemRequestTable />
     </UiProvider>
   );
-};
+}

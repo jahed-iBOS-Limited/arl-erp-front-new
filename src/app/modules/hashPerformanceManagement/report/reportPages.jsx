@@ -1,10 +1,9 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import PerformanceDialogReport from "./performanceDialogReport/landing/table";
-
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
+import PerformanceDialogReport from './performanceDialogReport/landing/table';
 
 export function ReportPages() {
   const { userRole } = useSelector((state) => state?.authData, shallowEqual);
@@ -24,14 +23,17 @@ export function ReportPages() {
         from="/MgmtOfPerformance/Report"
         to="/MgmtOfPerformance/Report"
       />
-      
 
       {/* Performance dialog report */}
-      
+
       <ContentRoute
         from="/MgmtOfPerformance/Report/PerformanceDialogReport"
-        component={performanceDialogReport?.isView ? PerformanceDialogReport : NotPermittedPage}
-      />      
+        component={
+          performanceDialogReport?.isView
+            ? PerformanceDialogReport
+            : NotPermittedPage
+        }
+      />
     </Switch>
   );
 }

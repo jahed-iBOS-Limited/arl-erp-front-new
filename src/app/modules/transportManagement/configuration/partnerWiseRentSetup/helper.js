@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getDDL = async (api, setter) => {
   try {
@@ -33,7 +33,6 @@ export const getPartnerWiseRentSetupLanding = async (
   }
 };
 
-
 export const getPartnerWiseRentSetupById = async (
   accId,
   buId,
@@ -56,7 +55,7 @@ export const getPartnerWiseRentSetupById = async (
   }
 };
 
-// 
+//
 
 export const createPartnerWiseRentSetup = async (data, cb, setDisabled) => {
   setDisabled(true);
@@ -66,7 +65,7 @@ export const createPartnerWiseRentSetup = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -84,7 +83,7 @@ export const ExtendPartnerWiseRentSetup = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Extended successfully");
+      toast.success(res.data?.message || 'Extended successfully');
       cb();
       setDisabled(false);
     }
@@ -110,9 +109,9 @@ export const ExtendPartnerById = async (id, setter) => {
           value: singleData.intVehicleId,
           label: singleData.intVehicleId,
         },
-        rent: "",
-        additionalRent: "",
-        reason: "",
+        rent: '',
+        additionalRent: '',
+        reason: '',
       };
       setter(newdata);
     }

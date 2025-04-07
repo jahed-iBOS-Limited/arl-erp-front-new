@@ -1,23 +1,22 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   GetSBUListDDLAction,
   saveDistributionChannel,
   saveEditedDistributionChannel,
   getDistributionChannelById,
   setDistributionChannelSingleEmpty,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
   id: undefined,
-  distributionChannelCode: "",
-  distributionChannelName: "",
-  SBU: "",
-  salesOrderValidityDays: "",
+  distributionChannelCode: '',
+  distributionChannelName: '',
+  SBU: '',
+  salesOrderValidityDays: '',
 };
 
 export default function DistributionChannelForm({
@@ -56,7 +55,6 @@ export default function DistributionChannelForm({
     } else {
       dispatch(setDistributionChannelSingleEmpty());
     }
-
   }, [id]);
 
   //Dispatch Get emplist action for get emplist ddl
@@ -66,8 +64,6 @@ export default function DistributionChannelForm({
         GetSBUListDDLAction(profileData.accountId, selectedBusinessUnit.value)
       );
     }
-
-
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {
@@ -104,7 +100,7 @@ export default function DistributionChannelForm({
   // };
   return (
     <IForm
-      title={id ? "Edit Distribution Channel" : "Create Distribution Channel"}
+      title={id ? 'Edit Distribution Channel' : 'Create Distribution Channel'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

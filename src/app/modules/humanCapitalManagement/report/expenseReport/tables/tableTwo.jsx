@@ -1,6 +1,6 @@
-import React from "react"; 
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import React from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
 
 function TableTwo({ gridData, values }) {
   const bgStyleFunc = (item) => {
@@ -8,13 +8,13 @@ function TableTwo({ gridData, values }) {
       (item?.numSupervisorAmount || 0) === 0 ||
       (item?.numLineManagerAmount || 0) === 0
     ) {
-      return { backgroundColor: "#fbfb0054" };
+      return { backgroundColor: '#fbfb0054' };
     } else if (
       item?.numSupervisorAmount > item?.numApplicantAmount ||
       item?.numLineManagerAmount > item?.numApplicantAmount ||
       item?.numNetPayable > item?.numApplicantAmount
     ) {
-      return { backgroundColor: "#ff000052" };
+      return { backgroundColor: '#ff000052' };
     } else {
       return;
     }
@@ -29,7 +29,7 @@ function TableTwo({ gridData, values }) {
     <>
       <div className="loan-scrollable-table">
         <div
-          style={{ maxHeight: "400px" }}
+          style={{ maxHeight: '400px' }}
           className="scroll-table _table scroll-table-auto react-bootstrap-table table-responsive"
         >
           <table
@@ -38,32 +38,32 @@ function TableTwo({ gridData, values }) {
           >
             <thead>
               <tr>
-                <th style={{ minWidth: "30px" }}>SL</th>
-                <th style={{ minWidth: "70px" }}>Enroll</th>
-                <th style={{ minWidth: "100px" }}>Employee Name</th>
-                <th style={{ minWidth: "100px" }}>Designation</th>
-                <th style={{ minWidth: "100px" }}>Expense Code</th>
-                <th style={{ minWidth: "100px" }}>Expense Date</th>
-                <th style={{ minWidth: "100px" }}>Expense Location</th>
-                <th style={{ minWidth: "100px" }}>Status</th>
-                <th style={{ minWidth: "100px" }}>Email</th>
-                <th style={{ minWidth: "100px" }}>Contact Number</th>
-                <th style={{ minWidth: "100px" }}>Supervisor</th>
+                <th style={{ minWidth: '30px' }}>SL</th>
+                <th style={{ minWidth: '70px' }}>Enroll</th>
+                <th style={{ minWidth: '100px' }}>Employee Name</th>
+                <th style={{ minWidth: '100px' }}>Designation</th>
+                <th style={{ minWidth: '100px' }}>Expense Code</th>
+                <th style={{ minWidth: '100px' }}>Expense Date</th>
+                <th style={{ minWidth: '100px' }}>Expense Location</th>
+                <th style={{ minWidth: '100px' }}>Status</th>
+                <th style={{ minWidth: '100px' }}>Email</th>
+                <th style={{ minWidth: '100px' }}>Contact Number</th>
+                <th style={{ minWidth: '100px' }}>Supervisor</th>
 
                 {[5, 6, 7].includes(values?.reportType?.value) ? (
-                  <th style={{ minWidth: "100px" }}>Supervisor Phone Number</th>
+                  <th style={{ minWidth: '100px' }}>Supervisor Phone Number</th>
                 ) : null}
 
-                <th style={{ minWidth: "100px" }}>Workplace Name</th>
-                <th style={{ minWidth: "100px" }}>Advance Amount</th>
-                <th style={{ minWidth: "100px" }}>Applicant Amount</th>
-                <th style={{ minWidth: "100px" }}>Apprve By Suppervisor</th>
-                <th style={{ minWidth: "100px" }}>Apporve By HR</th>
-                <th style={{ minWidth: "100px" }}>Net Payable</th>
+                <th style={{ minWidth: '100px' }}>Workplace Name</th>
+                <th style={{ minWidth: '100px' }}>Advance Amount</th>
+                <th style={{ minWidth: '100px' }}>Applicant Amount</th>
+                <th style={{ minWidth: '100px' }}>Apprve By Suppervisor</th>
+                <th style={{ minWidth: '100px' }}>Apporve By HR</th>
+                <th style={{ minWidth: '100px' }}>Net Payable</th>
                 {values?.reportType?.value === 9 && (
-                  <th style={{ minWidth: "50px" }}>Expense Group</th>
+                  <th style={{ minWidth: '50px' }}>Expense Group</th>
                 )}
-                <th style={{ minWidth: "100px" }}>Bill ID</th>
+                <th style={{ minWidth: '100px' }}>Bill ID</th>
               </tr>
             </thead>
             <tbody>
@@ -92,7 +92,7 @@ function TableTwo({ gridData, values }) {
                     <td>{item?.strSupervisorName}</td>
 
                     {[5, 6, 7].includes(values?.reportType?.value) ? (
-                      <td>{item?.supervisorPhone || ""}</td>
+                      <td>{item?.supervisorPhone || ''}</td>
                     ) : null}
 
                     <td>{item?.strWorkplaceName}</td>
@@ -113,7 +113,7 @@ function TableTwo({ gridData, values }) {
                     </td>
                     {values?.reportType?.value === 9 && (
                       <td
-                        style={{ backgroundColor: "rgba(251, 251, 0, 0.33)" }}
+                        style={{ backgroundColor: 'rgba(251, 251, 0, 0.33)' }}
                       >
                         {item?.strExpenseGroup}
                       </td>
@@ -126,7 +126,7 @@ function TableTwo({ gridData, values }) {
                 <td></td>
                 <td
                   colSpan={
-                    [5, 6, 7].includes(values?.reportType?.value) ? "12" : "11"
+                    [5, 6, 7].includes(values?.reportType?.value) ? '12' : '11'
                   }
                   className="text-right"
                 >

@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getGodownDDL = async (buId, partnerId, setter, setLoading) => {
   setLoading && setLoading(true);
@@ -16,7 +16,7 @@ export const getGodownDDL = async (buId, partnerId, setter, setLoading) => {
   }
 };
 
-export const radioStyle = { height: "25px", width: "25px" };
+export const radioStyle = { height: '25px', width: '25px' };
 
 export const getTotal = (array, key, filterBy) => {
   const newArray = filterBy

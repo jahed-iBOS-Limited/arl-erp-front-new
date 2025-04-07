@@ -1,10 +1,9 @@
-
-import React, { useEffect, useState } from "react";
-import IView from "../../../../_helper/_helperIcons/_view";
+import React, { useEffect, useState } from 'react';
+import IView from '../../../../_helper/_helperIcons/_view';
 // import InfoCircle from "../../../../_helper/_helperIcons/_infoCircle";
-import { getWarehouseDDL, getGridData, getPlantDDL } from "../helper";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
+import { getWarehouseDDL, getGridData, getPlantDDL } from '../helper';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
 
 import {
   Card,
@@ -12,22 +11,22 @@ import {
   ModalProgressBar,
   CardHeaderToolbar,
   CardBody,
-} from "../../../../../../_metronic/_partials/controls";
-import { useHistory } from "react-router-dom";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { shallowEqual, useSelector } from "react-redux";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import InputField from "../../../../_helper/_inputField";
-import PaginationSearch from "./../../../../_helper/_search";
-import IViewModal from "./../../../../_helper/_viewModal";
-import ViewReport from "../View/viewReport";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { useDispatch } from "react-redux";
-import { setGatePassLandingAction } from "./../../../../_helper/reduxForLocalStorage/Actions";
-import ReturnableModal from "../View/viewReturnable";
-import ReceiveIcon from "../../../../_helper/_helperIcons/_receive";
+} from '../../../../../../_metronic/_partials/controls';
+import { useHistory } from 'react-router-dom';
+import { Formik, Form } from 'formik';
+import NewSelect from '../../../../_helper/_select';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import InputField from '../../../../_helper/_inputField';
+import PaginationSearch from './../../../../_helper/_search';
+import IViewModal from './../../../../_helper/_viewModal';
+import ViewReport from '../View/viewReport';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { useDispatch } from 'react-redux';
+import { setGatePassLandingAction } from './../../../../_helper/reduxForLocalStorage/Actions';
+import ReturnableModal from '../View/viewReturnable';
+import ReceiveIcon from '../../../../_helper/_helperIcons/_receive';
 
 export function TableRow() {
   const [gridData, setGridData] = useState({});
@@ -36,7 +35,7 @@ export function TableRow() {
   const [, setWarehouseListId] = useState({});
   const [, setPlantListId] = useState({});
   const [plantList, setPlantList] = useState([]);
-  const [gridDataId, setGridDataId] = useState("");
+  const [gridDataId, setGridDataId] = useState('');
   //paginationState
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
@@ -88,8 +87,8 @@ export function TableRow() {
           landingData
             ? landingData
             : {
-                warehouse: "",
-                plant: "",
+                warehouse: '',
+                plant: '',
                 fromDate: _todayDate(),
                 toDate: _todayDate(),
               }
@@ -132,8 +131,8 @@ export function TableRow() {
                         onChange={(valueOption) => {
                           setGridData(null);
                           setWarehouseList([]);
-                          setFieldValue("warehouse", "");
-                          setFieldValue("plant", valueOption);
+                          setFieldValue('warehouse', '');
+                          setFieldValue('plant', valueOption);
                           setPlantListId(valueOption);
                           if (valueOption) {
                             getWarehouseDDL(
@@ -158,9 +157,9 @@ export function TableRow() {
                         isDisabled={!values?.plant}
                         onChange={(valueOption) => {
                           setGridData(null);
-                          setFieldValue("formAddress", valueOption?.address);
+                          setFieldValue('formAddress', valueOption?.address);
                           setWarehouseListId(valueOption);
-                          setFieldValue("warehouse", valueOption);
+                          setFieldValue('warehouse', valueOption);
                         }}
                         placeholder="Warehouse"
                         errors={errors}
@@ -172,7 +171,7 @@ export function TableRow() {
                       <InputField
                         onChange={(e) => {
                           setGridData(null);
-                          setFieldValue("fromDate", e.target.value);
+                          setFieldValue('fromDate', e.target.value);
                         }}
                         value={values?.fromDate}
                         name="fromDate"
@@ -185,7 +184,7 @@ export function TableRow() {
                       <InputField
                         onChange={(e) => {
                           setGridData(null);
-                          setFieldValue("toDate", e.target.value);
+                          setFieldValue('toDate', e.target.value);
                         }}
                         value={values?.toDate}
                         name="toDate"
@@ -236,13 +235,13 @@ export function TableRow() {
                         <table className="table table-striped table-bordered global-table">
                           <thead>
                             <tr>
-                              <th style={{ width: "20px" }}>SL</th>
-                              <th style={{ width: "50px" }}>Gate Pass Code</th>
-                              <th style={{ width: "50px" }}>Date</th>
-                              <th style={{ width: "50px" }}>Remarks</th>
-                              <th style={{ width: "50px" }}>To Address</th>
-                              <th style={{ width: "50px" }}>Status</th>
-                              <th style={{ width: "50px" }}>Action</th>
+                              <th style={{ width: '20px' }}>SL</th>
+                              <th style={{ width: '50px' }}>Gate Pass Code</th>
+                              <th style={{ width: '50px' }}>Date</th>
+                              <th style={{ width: '50px' }}>Remarks</th>
+                              <th style={{ width: '50px' }}>To Address</th>
+                              <th style={{ width: '50px' }}>Status</th>
+                              <th style={{ width: '50px' }}>Action</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -295,8 +294,8 @@ export function TableRow() {
                                           }}
                                         />
                                       </span>
-                                      {item?.status !== "Approved" &&
-                                        item?.status !== "Rejected" && (
+                                      {item?.status !== 'Approved' &&
+                                        item?.status !== 'Rejected' && (
                                           <span
                                             className="ml-3 edit"
                                             onClick={() => {

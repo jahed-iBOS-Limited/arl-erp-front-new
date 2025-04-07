@@ -1,26 +1,26 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 
 const validationSchema = Yup.object().shape({
   plantName: Yup.object().shape({
-    label: Yup.string().required("Plant Name  is required"),
-    value: Yup.string().required("Plant Name  is required"),
+    label: Yup.string().required('Plant Name  is required'),
+    value: Yup.string().required('Plant Name  is required'),
   }),
   productionLine: Yup.object().shape({
-    label: Yup.string().required("Production Line  is required"),
-    value: Yup.string().required("Production Line  is required"),
+    label: Yup.string().required('Production Line  is required'),
+    value: Yup.string().required('Production Line  is required'),
   }),
   shopFloorId: Yup.object().shape({
-    label: Yup.string().required("Shop Floor is required"),
-    value: Yup.string().required("Shop Floor  is required"),
+    label: Yup.string().required('Shop Floor is required'),
+    value: Yup.string().required('Shop Floor  is required'),
   }),
-  workcenterName: Yup.string().required("Work Center Name is required"),
-  workcenterCode: Yup.string().required("Work Center Code is required"),
+  workcenterName: Yup.string().required('Work Center Name is required'),
+  workcenterCode: Yup.string().required('Work Center Code is required'),
 });
 
 export default function FormCmp({
@@ -47,7 +47,6 @@ export default function FormCmp({
     if (isEdit) {
       setRowDto(singleRowData);
     }
-
   }, [singleRowData]);
 
   const rowDataAddHandler = (values) => {
@@ -55,8 +54,8 @@ export default function FormCmp({
       (item) => values?.itemName?.value === item?.itemId
     );
     if (foundData?.length > 0) {
-      return toast.warn("Item Already Exists", {
-        toastId: "rowDataAddHandlerForWorkCenter",
+      return toast.warn('Item Already Exists', {
+        toastId: 'rowDataAddHandlerForWorkCenter',
       });
     } else {
       setRowDto([
@@ -112,11 +111,11 @@ export default function FormCmp({
                       onChangeForItem(valueOption);
                       onChangeForShopFloor(valueOption);
                       onChangeForAssetId(valueOption);
-                      setFieldValue("plantName", valueOption);
-                      setFieldValue("itemName", "");
-                      setFieldValue("shopFloorId", "");
-                      setFieldValue("assetId", "");
-                      setFieldValue("itemName", "");
+                      setFieldValue('plantName', valueOption);
+                      setFieldValue('itemName', '');
+                      setFieldValue('shopFloorId', '');
+                      setFieldValue('assetId', '');
+                      setFieldValue('itemName', '');
                       // setFieldValue("productionLine", "");
                     }}
                     placeholder="Plant Name"
@@ -133,8 +132,8 @@ export default function FormCmp({
                     label="Shop Floor"
                     onChange={(valueOption) => {
                       onChangeForProductionLine(valueOption);
-                      setFieldValue("shopFloorId", valueOption);
-                      setFieldValue("productionLine", "");
+                      setFieldValue('shopFloorId', valueOption);
+                      setFieldValue('productionLine', '');
                     }}
                     placeholder="Shop Floor"
                     errors={errors}
@@ -148,7 +147,7 @@ export default function FormCmp({
                     value={values?.productionLine}
                     label="Production Line"
                     onChange={(valueOption) => {
-                      setFieldValue("productionLine", valueOption);
+                      setFieldValue('productionLine', valueOption);
                     }}
                     placeholder="Production Line"
                     errors={errors}
@@ -183,9 +182,9 @@ export default function FormCmp({
                     placeholder="Work Center Capacity"
                     onChange={(e) => {
                       if (e.target.value >= 0) {
-                        setFieldValue("workCenterCapacity", e.target.value);
+                        setFieldValue('workCenterCapacity', e.target.value);
                       } else {
-                        setFieldValue("workCenterCapacity", "");
+                        setFieldValue('workCenterCapacity', '');
                       }
                     }}
                   />
@@ -199,7 +198,7 @@ export default function FormCmp({
                     placeholder="Setup Time"
                     onChange={(e) => {
                       if (e.target.value >= 0) {
-                        setFieldValue("setupTime", e.target.value);
+                        setFieldValue('setupTime', e.target.value);
                       }
                       // else {
                       //   setFieldValue("setupTime", "");
@@ -236,14 +235,14 @@ export default function FormCmp({
                     placeholder="Labor Qty"
                     onChange={(e) => {
                       if (e.target.value >= 0) {
-                        setFieldValue("laborQty", e.target.value);
+                        setFieldValue('laborQty', e.target.value);
                         if (values?.machineTime) {
                           const labourTime =
                             e.target.value * values?.machineTime;
-                          setFieldValue("laborTime", labourTime);
+                          setFieldValue('laborTime', labourTime);
                         }
                       } else {
-                        setFieldValue("laborQty", "");
+                        setFieldValue('laborQty', '');
                       }
                     }}
                   />
@@ -282,7 +281,7 @@ export default function FormCmp({
                     label="Asset"
                     onChange={(valueOption) => {
                       onChangeForAssetId(valueOption);
-                      setFieldValue("assetId", valueOption);
+                      setFieldValue('assetId', valueOption);
                     }}
                     placeholder="Asset Id"
                     errors={errors}
@@ -296,7 +295,7 @@ export default function FormCmp({
                     value={values?.employeeId}
                     label="Employee"
                     onChange={(valueOption) => {
-                      setFieldValue("employeeId", valueOption);
+                      setFieldValue('employeeId', valueOption);
                     }}
                     placeholder="Employee Id"
                     errors={errors}
@@ -306,7 +305,7 @@ export default function FormCmp({
                 <div className="col-lg-12 mt-6">
                   <p
                     className="font-weight-bold"
-                    style={{ marginBottom: "0", fontSize: "15px" }}
+                    style={{ marginBottom: '0', fontSize: '15px' }}
                   >
                     Add Item
                   </p>
@@ -318,9 +317,9 @@ export default function FormCmp({
                     value={values?.itemName}
                     label="Item Name"
                     onChange={(valueOption) => {
-                      setFieldValue("itemName", valueOption);
-                      setFieldValue("itemCode", valueOption?.code);
-                      setFieldValue("rowItemUOM", {
+                      setFieldValue('itemName', valueOption);
+                      setFieldValue('itemCode', valueOption?.code);
+                      setFieldValue('rowItemUOM', {
                         value: valueOption?.baseUomid,
                         label: valueOption?.baseUomName,
                       });
@@ -338,7 +337,7 @@ export default function FormCmp({
                     value={values?.rowItemUOM}
                     label="UoM Name"
                     onChange={(valueOption) => {
-                      setFieldValue("rowItemUOM", valueOption);
+                      setFieldValue('rowItemUOM', valueOption);
                     }}
                     placeholder="UoM Name"
                     errors={errors}
@@ -364,9 +363,9 @@ export default function FormCmp({
                         UomId: values?.itemName?.baseUomid,
                         UomName: values?.itemName?.baseUomName,
                       });
-                      setFieldValue("itemCode", "");
-                      setFieldValue("itemName", "");
-                      setFieldValue("rowItemUOM", "");
+                      setFieldValue('itemCode', '');
+                      setFieldValue('itemName', '');
+                      setFieldValue('rowItemUOM', '');
                     }}
                     className="btn btn-primary ml-2 mt-7"
                     type="button"
@@ -379,14 +378,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
@@ -415,7 +414,9 @@ export default function FormCmp({
                                 <div className="pl-2">{itm?.itemName}</div>
                               </td>
                               {/* <td className="text-center">{itm?.itemCode}</td> */}
-                              <td className="text-center">{itm?.UomName || itm?.uomName}</td>
+                              <td className="text-center">
+                                {itm?.UomName || itm?.uomName}
+                              </td>
                               <td
                                 className="text-center"
                                 onClick={() => removeHandler(index)}

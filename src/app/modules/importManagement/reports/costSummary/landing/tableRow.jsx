@@ -1,24 +1,24 @@
-import axios from "axios";
-import { Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { Form } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import IViewModal from "../../../../_helper/_viewModal";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { PurchaseOrderViewTableRow } from "../../../../procurement/purchase-management/purchaseOrder/report/tableRow";
+import axios from 'axios';
+import { Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { Form } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import IViewModal from '../../../../_helper/_viewModal';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { PurchaseOrderViewTableRow } from '../../../../procurement/purchase-management/purchaseOrder/report/tableRow';
 import {
   getCostingSummary,
   getReportHeaderInfo,
   getShipmentDDL,
-} from "../helper";
-import Print from "./Print";
-import ShipmenmtQuantityModal from "./shipmentQuantityModal";
+} from '../helper';
+import Print from './Print';
+import ShipmenmtQuantityModal from './shipmentQuantityModal';
 
 const TableRow = ({ formCommonApproval }) => {
   const [rowDto, setRowDto] = useState([]);
@@ -38,15 +38,15 @@ const TableRow = ({ formCommonApproval }) => {
   }, shallowEqual);
 
   const header = [
-    "SL",
-    "Particulars",
-    "Estimated Amount (BDT)",
-    "Actual Amount (BDT)",
-    "Variance (BDT)",
+    'SL',
+    'Particulars',
+    'Estimated Amount (BDT)',
+    'Actual Amount (BDT)',
+    'Variance (BDT)',
   ];
 
   const initData = {
-    shipment: { value: 0, label: "All" },
+    shipment: { value: 0, label: 'All' },
   };
 
   const loadPoLc = (v) => {
@@ -153,7 +153,7 @@ const TableRow = ({ formCommonApproval }) => {
                 trigger={() => (
                   <button className="btn btn-primary">
                     <img
-                      style={{ width: "25px", paddingRight: "5px" }}
+                      style={{ width: '25px', paddingRight: '5px' }}
                       src={printIcon}
                       alt="print-icon"
                     />
@@ -186,14 +186,14 @@ const TableRow = ({ formCommonApproval }) => {
                     <SearchAsyncSelect
                       selectedValue={values?.poLc}
                       handleChange={(valueOption) => {
-                        setFieldValue("poLc", valueOption);
+                        setFieldValue('poLc', valueOption);
                         setPOLCNO(valueOption);
                         getShipment(valueOption?.label);
                         if (!valueOption) {
                           setRowDto([]);
                           setPOLCNO({});
                         }
-                        setFieldValue("shipment", "");
+                        setFieldValue('shipment', '');
                       }}
                       loadOptions={loadPoLc || []}
                       disabled={true}
@@ -205,7 +205,7 @@ const TableRow = ({ formCommonApproval }) => {
                       options={shipmentDDL || []}
                       value={values?.shipment}
                       onChange={(valueOption) => {
-                        setFieldValue("shipment", valueOption);
+                        setFieldValue('shipment', valueOption);
                         setShipment(valueOption || {});
                         if (valueOption) {
                           setRowDto([]);
@@ -269,7 +269,7 @@ const TableRow = ({ formCommonApproval }) => {
                 >
                   <ShipmenmtQuantityModal
                     shipmentId={values?.shipment?.value}
-                    checkbox={"shipmentInformation"}
+                    checkbox={'shipmentInformation'}
                     poNo={values?.poLc?.label}
                     lcNo={values?.poLc?.lcNumber}
                   />

@@ -1,41 +1,41 @@
-import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
-import { useSelector, shallowEqual } from "react-redux";
-import { Formik } from "formik";
-import * as Yup from "yup";
-import { Form } from "react-bootstrap";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import ICheckout from "../../../../_helper/_helperIcons/_checkout";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useSelector, shallowEqual } from 'react-redux';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+import { Form } from 'react-bootstrap';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import ICheckout from '../../../../_helper/_helperIcons/_checkout';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 import {
   getLoanData,
   getEmployeeDDL,
   loanApproveAction,
   loanRejectedAction,
-} from "./helper";
-import "./loanApprove.css";
-import { _todayDate } from "../../../../_helper/_todayDate";
+} from './helper';
+import './loanApprove.css';
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 const initData = {
-  employee: "",
-  approveLoanAmount: "",
-  approveNumberOfinstallment: "",
+  employee: '',
+  approveLoanAmount: '',
+  approveNumberOfinstallment: '',
   dteEffectiveDate: _todayDate(),
 };
 
 // Validation schema
 const LoanApproveSchema = Yup.object().shape({
   approveLoanAmount: Yup.number()
-    .min(1, "Minimum 0 range")
-    .required("Approve Loan Amount is required"),
+    .min(1, 'Minimum 0 range')
+    .required('Approve Loan Amount is required'),
   approveNumberOfinstallment: Yup.number()
-    .min(1, "Minimum 0 range")
-    .required("Approve Installment Amount is required"),
-  dteEffectiveDate: Yup.date().required("Effective Date required"),
+    .min(1, 'Minimum 0 range')
+    .required('Approve Installment Amount is required'),
+  dteEffectiveDate: Yup.date().required('Effective Date required'),
 });
 
 const LoanApprovalGrid = () => {
@@ -63,7 +63,6 @@ const LoanApprovalGrid = () => {
         setLoader
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const singleLoanApproveHandler = (
@@ -82,7 +81,7 @@ const LoanApprovalGrid = () => {
     if (index && profileData?.accountId && selectedBusinessUnit?.value) {
       const loanApproveObj = rowDto.filter((itm) => itm?.intLoanID === index);
       let confirmObject = {
-        title: "Are you sure?",
+        title: 'Are you sure?',
         yesAlertFunc: async () => {
           if (loanApproveObj) {
             loanApproveAction(
@@ -100,7 +99,7 @@ const LoanApprovalGrid = () => {
           }
         },
         noAlertFunc: () => {
-          history.push("/personal/approval/commonapproval");
+          history.push('/personal/approval/commonapproval');
         },
       };
       IConfirmModal(confirmObject);
@@ -114,7 +113,7 @@ const LoanApprovalGrid = () => {
     if (index && profileData?.accountId && selectedBusinessUnit?.value) {
       const loanRejectedObj = rowDto.filter((itm) => itm?.intLoanID === index);
       let confirmObject = {
-        title: "Are you sure?",
+        title: 'Are you sure?',
         yesAlertFunc: async () => {
           if (loanRejectedObj) {
             const modifyFilterRowDto = rowDto.filter(
@@ -124,12 +123,12 @@ const LoanApprovalGrid = () => {
           }
         },
         noAlertFunc: () => {
-          history.push("/personal/approval/commonapproval");
+          history.push('/personal/approval/commonapproval');
         },
       };
       IConfirmModal(confirmObject);
     } else {
-      console.log(" ");
+      console.log(' ');
       // setDisabled(false);
     }
   };
@@ -163,7 +162,7 @@ const LoanApprovalGrid = () => {
                           value={values?.employee}
                           label="Employee"
                           onChange={(valueOption) => {
-                            setFieldValue("employee", valueOption);
+                            setFieldValue('employee', valueOption);
 
                             getLoanData(
                               valueOption?.value,
@@ -284,21 +283,21 @@ const LoanApprovalGrid = () => {
                               </td>
                               <td>
                                 <div className="d-flex justify-content-center align-items-center">
-                                  {data?.strApprove === "Pending" ? (
+                                  {data?.strApprove === 'Pending' ? (
                                     <>
                                       <button
                                         className="btn p-0 mt-2"
                                         style={{
-                                          background: "tranparent!important",
-                                          border: "none!important",
+                                          background: 'tranparent!important',
+                                          border: 'none!important',
                                         }}
                                         type="button"
                                       >
                                         <span
                                           className="view mr-2"
                                           style={{
-                                            cursor: "pointer",
-                                            width: "30px!important",
+                                            cursor: 'pointer',
+                                            width: '30px!important',
                                           }}
                                         >
                                           <ICheckout
@@ -316,7 +315,7 @@ const LoanApprovalGrid = () => {
                                                 _dateFormatter(
                                                   data?.dteEffectiveDate
                                                 ),
-                                                "Approved"
+                                                'Approved'
                                               );
                                               getLoanData(
                                                 values?.employee?.value,
@@ -331,8 +330,8 @@ const LoanApprovalGrid = () => {
                                       <button
                                         className="btn p-0"
                                         style={{
-                                          background: "tranparent!important",
-                                          border: "none!important",
+                                          background: 'tranparent!important',
+                                          border: 'none!important',
                                         }}
                                         type="button"
                                       >

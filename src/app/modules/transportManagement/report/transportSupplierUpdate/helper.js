@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getDistributionChannelDDL_api = async (accId, buId, setter) => {
   try {
@@ -24,7 +24,7 @@ export const GetSupplierAndVehicleInfo_api = async (
     let res = await Axios.get(
       `/tms/Shipment/GetSupplierAndVehicleInfo?AccountId=${accId}&BusinessUnitId=${buId}&DeliveryCode=${code}`
     );
-    if (res?.data?.length === 0) toast.warning("Data Not Found");
+    if (res?.data?.length === 0) toast.warning('Data Not Found');
     setter(res?.data);
     setLoading(false);
   } catch (err) {
@@ -46,9 +46,9 @@ export const EditVehicleAndSupplierInfo_api = async (
     );
     cb();
     setLoading(false);
-    toast.success(res?.data?.message || "Successfully");
+    toast.success(res?.data?.message || 'Successfully');
   } catch (error) {
     setLoading(false);
-    toast.error(error?.response?.data?.message || "Something went wrong");
+    toast.error(error?.response?.data?.message || 'Something went wrong');
   }
 };

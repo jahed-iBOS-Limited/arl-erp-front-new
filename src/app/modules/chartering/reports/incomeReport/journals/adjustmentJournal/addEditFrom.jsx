@@ -1,29 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { confirmAlert } from "react-confirm-alert";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import { getPartnerTypeDDL } from "../../../../../_helper/_commonApi";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import Loading from "../../../../../_helper/_loading";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import { saveAdjustmentJournal } from "../../../../../financialManagement/financials/adjustmentJournal/_redux/Actions";
-import Form from "./form";
+import React, { useEffect, useState } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { getPartnerTypeDDL } from '../../../../../_helper/_commonApi';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import Loading from '../../../../../_helper/_loading';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import { saveAdjustmentJournal } from '../../../../../financialManagement/financials/adjustmentJournal/_redux/Actions';
+import Form from './form';
 
 const initData = {
   id: undefined,
-  sbu: "",
+  sbu: '',
   transactionDate: _todayDate(),
-  headerNarration: "",
-  transaction: "",
-  debitCredit: "",
-  amount: "",
-  partnerType: "",
-  revenueElement: "",
-  revenueCenter: "",
-  costCenter: "",
-  costElement: "",
-  attachment: "",
+  headerNarration: '',
+  transaction: '',
+  debitCredit: '',
+  amount: '',
+  partnerType: '',
+  revenueElement: '',
+  revenueCenter: '',
+  costCenter: '',
+  costElement: '',
+  attachment: '',
 };
 
 export default function AdjustmentJournalCreateForm({ preData, setShow }) {
@@ -58,7 +58,7 @@ export default function AdjustmentJournalCreateForm({ preData, setShow }) {
       message: message,
       buttons: [
         {
-          label: "Ok",
+          label: 'Ok',
           onClick: () => noAlertFunc(),
         },
       ],
@@ -67,7 +67,7 @@ export default function AdjustmentJournalCreateForm({ preData, setShow }) {
 
   const debitCalc = () => {
     const debit = rowDto
-      .filter((itm) => itm.debitCredit === "Debit")
+      .filter((itm) => itm.debitCredit === 'Debit')
       .map((itm) => Math.abs(itm.amount))
       .reduce((sum, curr) => {
         return (sum += curr);
@@ -77,7 +77,7 @@ export default function AdjustmentJournalCreateForm({ preData, setShow }) {
 
   const creditCalc = () => {
     let credit = rowDto
-      .filter((itm) => itm.debitCredit === "Credit")
+      .filter((itm) => itm.debitCredit === 'Credit')
       .map((itm) => Math.abs(itm.amount))
       .reduce((sum, curr) => {
         return (sum += curr);
@@ -86,13 +86,13 @@ export default function AdjustmentJournalCreateForm({ preData, setShow }) {
   };
 
   const saveHandler = async (values, cb) => {
-    if (!values?.headerNarration) return toast.warn("Narration is required");
+    if (!values?.headerNarration) return toast.warn('Narration is required');
     if (!rowDto?.length)
-      return toast.warn("Please add at least one transaction");
+      return toast.warn('Please add at least one transaction');
 
     let newData = rowDto.map((item) => ({
       ...item,
-      amount: item?.debitCredit === "Credit" ? item?.amount : +item?.amount,
+      amount: item?.debitCredit === 'Credit' ? item?.amount : +item?.amount,
     }));
 
     /*  if (values?.profitCenter && !values?.costRevenue) {
@@ -203,27 +203,27 @@ export default function AdjustmentJournalCreateForm({ preData, setShow }) {
           return {
             rowId: 0,
             generalLedgerId: itm?.gl?.value || 0,
-            generalLedgerCode: itm?.gl?.code || "",
-            generalLedgerName: itm?.gl?.label || "",
+            generalLedgerCode: itm?.gl?.code || '',
+            generalLedgerName: itm?.gl?.label || '',
             narration: itm?.headerNarration,
             amount:
-              itm?.debitCredit === "Credit" ? -1 * itm?.amount : +itm?.amount,
+              itm?.debitCredit === 'Credit' ? -1 * itm?.amount : +itm?.amount,
             businessTransactionId: itm?.transaction?.value || 0,
-            businessTransactionCode: itm?.transaction?.code || "",
-            businessTransactionName: itm?.transaction?.label || "",
+            businessTransactionCode: itm?.transaction?.code || '',
+            businessTransactionName: itm?.transaction?.label || '',
             businessPartnerId:
-              itm?.partnerType?.label === "Others"
+              itm?.partnerType?.label === 'Others'
                 ? 0
                 : itm?.transaction?.value,
             businessPartnerCode:
-              itm?.partnerType?.label === "Others"
-                ? ""
+              itm?.partnerType?.label === 'Others'
+                ? ''
                 : itm?.transaction?.code,
             businessPartnerName:
-              itm?.partnerType?.label === "Others"
-                ? ""
+              itm?.partnerType?.label === 'Others'
+                ? ''
                 : itm?.transaction?.label,
-            partnerTypeName: itm?.partnerType?.label || "",
+            partnerTypeName: itm?.partnerType?.label || '',
             partnerTypeId: itm?.partnerType?.reffPrtTypeId || 0,
             subGLId: itm?.transaction?.value,
             subGlCode: itm?.transaction?.code,
@@ -231,15 +231,15 @@ export default function AdjustmentJournalCreateForm({ preData, setShow }) {
             subGLTypeId: itm?.partnerType?.reffPrtTypeId,
             subGLTypeName: itm?.partnerType?.label,
             profitCenterId: itm?.profitCenterId || 0,
-            costRevenueName: itm?.costRevenueName || "",
+            costRevenueName: itm?.costRevenueName || '',
             costRevenueId: itm?.costRevenueId || 0,
-            elementName: itm?.elementName || "",
+            elementName: itm?.elementName || '',
             elementId: itm?.elementId || 0,
-            controlType: itm?.controlType || "",
+            controlType: itm?.controlType || '',
           };
         });
         if (debitCalc() !== creditCalc())
-          return toast.warning("Debit & Credit must be equal");
+          return toast.warning('Debit & Credit must be equal');
 
         const saveAdjustmentJournalData = {
           objHeader: {
@@ -253,21 +253,21 @@ export default function AdjustmentJournalCreateForm({ preData, setShow }) {
             accountingJournalTypeId: 7,
             directPosting: true,
             actionBy: userId,
-            controlType: values?.costRevenue || "",
+            controlType: values?.costRevenue || '',
             costRevenueName:
-              values?.costRevenue === "revenue"
+              values?.costRevenue === 'revenue'
                 ? values?.revenueCenter?.label
-                : values?.costCenter?.label || "",
+                : values?.costCenter?.label || '',
             costRevenueId:
-              values?.costRevenue === "revenue"
+              values?.costRevenue === 'revenue'
                 ? values?.revenueCenter?.value
                 : values?.costCenter?.value || 0,
             elementName:
-              values?.costRevenue === "revenue"
+              values?.costRevenue === 'revenue'
                 ? values?.revenueElement?.label
-                : values?.costElement?.label || "",
+                : values?.costElement?.label || '',
             elementId:
-              values?.costRevenue === "revenue"
+              values?.costRevenue === 'revenue'
                 ? values?.revenueElement?.value
                 : values?.costElement?.value || 0,
             ProfitCenterId: values?.profitCenter?.value,
@@ -303,16 +303,16 @@ export default function AdjustmentJournalCreateForm({ preData, setShow }) {
     data.push({
       ...payload,
       adjustmentJournalId: 0,
-      adjustmentJournalCode: "string",
+      adjustmentJournalCode: 'string',
       // new field add row
-      controlType: payload?.costRevenue || "",
+      controlType: payload?.costRevenue || '',
       profitCenterId: payload?.profitCenter?.value || 0,
       costRevenueName:
-        payload?.revenueCenter?.label || payload?.costCenter?.label || "",
+        payload?.revenueCenter?.label || payload?.costCenter?.label || '',
       costRevenueId:
         payload?.revenueCenter?.value || payload?.costCenter?.value || 0,
       elementName:
-        payload?.revenueElement?.label || payload?.costElement?.label || "",
+        payload?.revenueElement?.label || payload?.costElement?.label || '',
       elementId:
         payload?.revenueElement?.value || payload?.costElement?.value || 0,
     });

@@ -1,33 +1,32 @@
-
-import React, { useState } from "react";
-import { Formik } from "formik";
-import { useSelector, shallowEqual } from "react-redux";
+import React, { useState } from 'react';
+import { Formik } from 'formik';
+import { useSelector, shallowEqual } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { useEffect } from "react";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { toast } from "react-toastify";
-import { editLighterVessel } from "../helper";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
+} from '../../../../../../_metronic/_partials/controls';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { useEffect } from 'react';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { toast } from 'react-toastify';
+import { editLighterVessel } from '../helper';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
 
 const initData = {
-  port: "",
-  lighterVesselName: "",
-  motherVessel: "",
-  capacity: "",
-  carrierName: "",
-  contactNo: "",
-  carrierRate: "",
+  port: '',
+  lighterVesselName: '',
+  motherVessel: '',
+  capacity: '',
+  carrierName: '',
+  contactNo: '',
+  carrierRate: '',
 };
 const LighterVesselCreateForm = ({
   setShow,
@@ -37,12 +36,8 @@ const LighterVesselCreateForm = ({
   singleItem,
 }) => {
   const [, postData, loader] = useAxiosPost();
-  const [
-    motherVesselDDL,
-    getMotherVesselDDL,
-    ,
-    setMotherVesselDDL,
-  ] = useAxiosGet();
+  const [motherVesselDDL, getMotherVesselDDL, , setMotherVesselDDL] =
+    useAxiosGet();
   const [rows, setRows] = useState([]);
   const [portDDL, getPortDDL] = useAxiosGet();
   // const [lighterCarrierDDL, getLighterCarrierDDL] = useAxiosGet();
@@ -57,7 +52,7 @@ const LighterVesselCreateForm = ({
 
   useEffect(() => {
     getPortDDL(`/wms/FertilizerOperation/GetDomesticPortDDL`);
-    if (formType === "edit") {
+    if (formType === 'edit') {
       // getLighterCarrierDDL(
       //   `/wms/FertilizerOperation/GetLighterCarrierDDL?BusinessUnitId=${buId}&PortId=${SI?.portId}`
       // );
@@ -72,13 +67,13 @@ const LighterVesselCreateForm = ({
       return (
         item?.portId === values?.port?.value &&
         item?.motherVesselId === values?.motherVessel?.value &&
-        item?.lighterVesselName?.replace(/\s/g, "").toLowerCase() ===
-          values?.lighterVesselName?.replace(/\s/g, "").toLowerCase()
+        item?.lighterVesselName?.replace(/\s/g, '').toLowerCase() ===
+          values?.lighterVesselName?.replace(/\s/g, '').toLowerCase()
       );
     });
     if (isExist) {
       return toast.warn(
-        "Port, Mother Vessel Name & Lighter Vessel Name are already exist"
+        'Port, Mother Vessel Name & Lighter Vessel Name are already exist'
       );
     }
 
@@ -121,11 +116,11 @@ const LighterVesselCreateForm = ({
     };
 
     const callBack = () => {
-      getData("", 0, 15, preValues);
+      getData('', 0, 15, preValues);
       setShow(false);
     };
 
-    if (formType === "create") {
+    if (formType === 'create') {
       postData(
         `/wms/FertilizerOperation/CreateLighterVessel`,
         rows,
@@ -133,7 +128,7 @@ const LighterVesselCreateForm = ({
         true
       );
     }
-    if (formType === "edit") {
+    if (formType === 'edit') {
       editLighterVessel(payload, setLoading, callBack);
     }
   };
@@ -177,7 +172,7 @@ const LighterVesselCreateForm = ({
     <>
       <Formik
         enableReinitialize={true}
-        initialValues={formType === "edit" ? modifiedSingleItem : initData}
+        initialValues={formType === 'edit' ? modifiedSingleItem : initData}
         onSubmit={() => {}}
       >
         {({ values, setFieldValue }) => (
@@ -192,7 +187,7 @@ const LighterVesselCreateForm = ({
                       }}
                       className="btn btn-primary ml-2"
                       disabled={
-                        loading || (formType === "create" && !rows?.length)
+                        loading || (formType === 'create' && !rows?.length)
                       }
                     >
                       Save
@@ -214,8 +209,8 @@ const LighterVesselCreateForm = ({
                           options={portDDL || []}
                           onChange={(e) => {
                             if (e) {
-                              setFieldValue("port", e);
-                              setFieldValue("motherVessel", "");
+                              setFieldValue('port', e);
+                              setFieldValue('motherVessel', '');
                               getMotherVesselDDL(
                                 `/wms/FertilizerOperation/GetMotherVesselProgramInfo?PortId=${e.value}&businessUnitId=${buId}`
                               );
@@ -223,8 +218,8 @@ const LighterVesselCreateForm = ({
                               //   `/wms/FertilizerOperation/GetLighterCarrierDDL?BusinessUnitId=${buId}&PortId=${e?.value}`
                               // );
                             } else {
-                              setFieldValue("port", "");
-                              setFieldValue("motherVessel", "");
+                              setFieldValue('port', '');
+                              setFieldValue('motherVessel', '');
                               setMotherVesselDDL([]);
                             }
                           }}
@@ -239,7 +234,7 @@ const LighterVesselCreateForm = ({
                           name="motherVessel"
                           options={motherVesselDDL || []}
                           onChange={(e) => {
-                            setFieldValue("motherVessel", e);
+                            setFieldValue('motherVessel', e);
                           }}
                           isDisabled={false}
                         />
@@ -288,9 +283,9 @@ const LighterVesselCreateForm = ({
                         <SearchAsyncSelect
                           selectedValue={values?.carrierName}
                           handleChange={(valueOption) => {
-                            setFieldValue("carrierName", valueOption);
+                            setFieldValue('carrierName', valueOption);
                           }}
-                          placeholder={"Search Carrier Name"}
+                          placeholder={'Search Carrier Name'}
                           loadOptions={loadOptions}
                         />
                       </div>
@@ -301,7 +296,7 @@ const LighterVesselCreateForm = ({
                           name="carrierRate"
                           type="text"
                           onChange={(e) => {
-                            setFieldValue("carrierRate", e.target.value);
+                            setFieldValue('carrierRate', e.target.value);
                           }}
                           placeholder="Carrier Rate"
                         />
@@ -313,19 +308,19 @@ const LighterVesselCreateForm = ({
                           name="contactNo"
                           type="text"
                           onChange={(e) => {
-                            setFieldValue("contactNo", e.target.value);
+                            setFieldValue('contactNo', e.target.value);
                           }}
                           placeholder="Lighter Master Contact No"
                         />
                       </div>
-                      {formType === "create" && (
+                      {formType === 'create' && (
                         <div className="col-12 mt-3 text-right">
                           <button
                             className="btn btn-primary"
                             type="button"
                             onClick={() => {
                               const callBack = () => {
-                                setFieldValue("lighterVesselName", "");
+                                setFieldValue('lighterVesselName', '');
                               };
                               addRow(values, callBack);
                             }}
@@ -349,20 +344,20 @@ const LighterVesselCreateForm = ({
                       <table
                         id="table-to-xlsx"
                         className={
-                          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                          'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                         }
                       >
                         <thead>
                           <tr className="cursor-pointer">
                             {[
-                              "SL",
-                              "Mother Vessel",
-                              "Lighter Vessel",
-                              "Capacity",
-                              "Carrier Name",
-                              "Carrier Rate",
-                              "Contact No.",
-                              "Action",
+                              'SL',
+                              'Mother Vessel',
+                              'Lighter Vessel',
+                              'Capacity',
+                              'Carrier Name',
+                              'Carrier Rate',
+                              'Contact No.',
+                              'Action',
                             ]?.map((th, index) => {
                               return <th key={index}> {th} </th>;
                             })}
@@ -371,11 +366,11 @@ const LighterVesselCreateForm = ({
                         <tbody>
                           {/* {console.log(rows)} */}
                           {rows?.map((item, index) => {
-                            console.log("item", item);
+                            console.log('item', item);
                             return (
                               <tr key={index}>
                                 <td
-                                  style={{ width: "40px" }}
+                                  style={{ width: '40px' }}
                                   className="text-center"
                                 >
                                   {index + 1}

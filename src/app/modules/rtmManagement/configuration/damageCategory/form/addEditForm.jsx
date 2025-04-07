@@ -1,27 +1,26 @@
-
-import React, { useEffect, useState } from "react";
-import Form from "./form";
-import { useSelector, shallowEqual } from "react-redux";
-import { useParams } from "react-router-dom";
-import Loading from "./../../../../_helper/_loading";
-import IForm from "./../../../../_helper/_form";
+import React, { useEffect, useState } from 'react';
+import Form from './form';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import Loading from './../../../../_helper/_loading';
+import IForm from './../../../../_helper/_form';
 import {
   createDamageCategory,
   editDamageType,
   getDamageCategoryById,
   getDamageTypeDDL,
-} from "../helper";
+} from '../helper';
 
 const initData = {
-  damageType: "",
-  categoryName: "",
+  damageType: '',
+  categoryName: '',
 };
 
 const DamageCategoryForm = () => {
-  const { id,view } = useParams();
+  const { id, view } = useParams();
   const [isDisabled, setDisabled] = useState(false);
-  const [singleData, setSingleData] = useState("");
-  const [damageTypeDDL, setDamageTypeDDL] = useState([])
+  const [singleData, setSingleData] = useState('');
+  const [damageTypeDDL, setDamageTypeDDL] = useState([]);
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -52,36 +51,42 @@ const DamageCategoryForm = () => {
     }
   }, [id]);
 
- // Save & Edit Handler
- const saveHandler = (values, cb) => {
-  if (!id) {
-    let payload = {
-      damageTypeId: values?.damageType?.value,
-      damageTypeName: values?.damageType?.label,
-      accountId: profileData?.accountId,
-      businessUnitId: selectedBusinessUnit?.value,
-      dmgCatagoryName: values?.categoryName,
-      actionBy: profileData.userId,
-    };
-    createDamageCategory(payload, setDisabled, cb);
-  } else {
-    let payload = {
-      dmgCatagoryId: +id,
-      damageTypeId: values?.damageType?.value,
-      damageTypeName: values?.damageType?.label,
-      dmgCatagoryName: values?.categoryName,
-      actionBy:  profileData.userId,
-    };
-    editDamageType(payload, setDisabled);
-  }
-};
+  // Save & Edit Handler
+  const saveHandler = (values, cb) => {
+    if (!id) {
+      let payload = {
+        damageTypeId: values?.damageType?.value,
+        damageTypeName: values?.damageType?.label,
+        accountId: profileData?.accountId,
+        businessUnitId: selectedBusinessUnit?.value,
+        dmgCatagoryName: values?.categoryName,
+        actionBy: profileData.userId,
+      };
+      createDamageCategory(payload, setDisabled, cb);
+    } else {
+      let payload = {
+        dmgCatagoryId: +id,
+        damageTypeId: values?.damageType?.value,
+        damageTypeName: values?.damageType?.label,
+        dmgCatagoryName: values?.categoryName,
+        actionBy: profileData.userId,
+      };
+      editDamageType(payload, setDisabled);
+    }
+  };
 
   const [objProps, setObjprops] = useState({});
 
   return (
     <>
       <IForm
-        title={view ? "Damage Category" : !id ? "Create Damage Category" : "Edit Damage Category"}
+        title={
+          view
+            ? 'Damage Category'
+            : !id
+              ? 'Create Damage Category'
+              : 'Edit Damage Category'
+        }
         getProps={setObjprops}
         isDisabled={isDisabled}
         isHiddenReset={view}

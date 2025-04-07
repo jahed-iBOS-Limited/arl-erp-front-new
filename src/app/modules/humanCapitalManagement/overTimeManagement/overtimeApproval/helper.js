@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getNewApplicationData = async (
   adminTypeId,
@@ -28,14 +28,16 @@ export const getNewApplicationData = async (
 export const approveAll = async (payload, setLoader, cb) => {
   try {
     setLoader(true);
-    const res = await axios.put(`/hcm/HCMOverTime/OvertimeEntryApprove`, payload);
+    const res = await axios.put(
+      `/hcm/HCMOverTime/OvertimeEntryApprove`,
+      payload
+    );
     setLoader(false);
     // res?.data means success message
-    toast.success(res?.data || "Success");
+    toast.success(res?.data || 'Success');
     cb();
   } catch (error) {
     setLoader(false);
-    toast.error(error?.response?.data?.message || "Something went wrong");
+    toast.error(error?.response?.data?.message || 'Something went wrong');
   }
 };
-

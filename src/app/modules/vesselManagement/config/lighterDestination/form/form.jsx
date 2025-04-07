@@ -1,14 +1,13 @@
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import ICustomCard from '../../../../_helper/_customCard';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
 
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import ICustomCard from "../../../../_helper/_customCard";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-
-const initData = { destinationName: "" };
+const initData = { destinationName: '' };
 
 const StevedoreCreateForm = ({ setShow, getData, formType, singleData }) => {
   const [, postData, isLoading] = useAxiosPost();
@@ -36,9 +35,9 @@ const StevedoreCreateForm = ({ setShow, getData, formType, singleData }) => {
   };
 
   const saveHandler = (values) => {
-    if (formType === "create") {
+    if (formType === 'create') {
       const cb = () => {
-        getData("", 0, 15);
+        getData('', 0, 15);
         setShow(false);
       };
       postData(
@@ -68,7 +67,7 @@ const StevedoreCreateForm = ({ setShow, getData, formType, singleData }) => {
       <Formik
         enableReinitialize={true}
         initialValues={
-          formType === "edit"
+          formType === 'edit'
             ? {
                 destinationName: singleData?.destinationName,
               }
@@ -80,12 +79,12 @@ const StevedoreCreateForm = ({ setShow, getData, formType, singleData }) => {
           <>
             <ICustomCard
               title={`${
-                formType === "edit" ? "Edit" : "Create"
+                formType === 'edit' ? 'Edit' : 'Create'
               } Lighter Destination`}
               resetHandler={() => resetForm(initData)}
               saveHandler={() => saveHandler(values)}
               saveDisabled={
-                formType === "create"
+                formType === 'create'
                   ? rows?.length < 1
                   : !values?.destinationName
               }
@@ -103,7 +102,7 @@ const StevedoreCreateForm = ({ setShow, getData, formType, singleData }) => {
                         type="text"
                       />
                     </div>
-                    {formType === "create" && (
+                    {formType === 'create' && (
                       <div className="col-12 mt-3 text-right">
                         <button
                           className="btn btn-primary"
@@ -120,17 +119,17 @@ const StevedoreCreateForm = ({ setShow, getData, formType, singleData }) => {
                     )}
                   </div>
                 </div>
-                {rows?.length > 0 && formType === "create" && (
+                {rows?.length > 0 && formType === 'create' && (
                   <div className="table-responsive">
                     <table
                       id="table-to-xlsx"
                       className={
-                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                        'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                       }
                     >
                       <thead>
                         <tr className="cursor-pointer">
-                          {["SL", "Lighter Destination Name", "Action"]?.map(
+                          {['SL', 'Lighter Destination Name', 'Action']?.map(
                             (th, index) => {
                               return <th key={index}> {th} </th>;
                             }
@@ -142,7 +141,7 @@ const StevedoreCreateForm = ({ setShow, getData, formType, singleData }) => {
                           return (
                             <tr key={index}>
                               <td
-                                style={{ width: "40px" }}
+                                style={{ width: '40px' }}
                                 className="text-center"
                               >
                                 {index + 1}

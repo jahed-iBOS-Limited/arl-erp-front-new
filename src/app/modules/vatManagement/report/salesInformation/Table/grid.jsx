@@ -1,10 +1,10 @@
-import React, { useRef } from "react";
-import { withRouter } from "react-router-dom";
-import Loading from "./../../../../_helper/_loading";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { _fixedPointVat } from "../../../../_helper/_fixedPointVat";
+import React, { useRef } from 'react';
+import { withRouter } from 'react-router-dom';
+import Loading from './../../../../_helper/_loading';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { _fixedPointVat } from '../../../../_helper/_fixedPointVat';
 const GridData = ({ rowDto, loading, headerData }) => {
   const printRef = useRef();
   const total = {
@@ -23,12 +23,12 @@ const GridData = ({ rowDto, loading, headerData }) => {
                 <button
                   type="button"
                   className="btn btn-primary"
-                  style={{ padding: "2px 5px" }}
+                  style={{ padding: '2px 5px' }}
                 >
                   <img
                     style={{
-                      width: "25px",
-                      paddingRight: "5px",
+                      width: '25px',
+                      paddingRight: '5px',
                     }}
                     src={printIcon}
                     alt="print-icon"
@@ -61,23 +61,23 @@ const GridData = ({ rowDto, loading, headerData }) => {
             <table className="table table-striped table-bordered mt-3 slaesInformaitionPrint">
               <thead>
                 <tr>
-                  <th style={{ width: "26px" }} rowspan="2">
+                  <th style={{ width: '26px' }} rowspan="2">
                     SL
                   </th>
-                  <th style={{ width: "749px" }} colspan="9">
+                  <th style={{ width: '749px' }} colspan="9">
                     Sales
                   </th>
                 </tr>
                 <tr>
-                  <th style={{ width: "121px" }}>Invoice No</th>
-                  <th style={{ width: "106px" }}>Date of Issue</th>
-                  <th style={{ width: "106px" }}>Quantity</th>
-                  <th style={{ width: "101px" }}>Value</th>
-                  <th style={{ width: "101px" }}>SD</th>
-                  <th style={{ width: "101px" }}>VAT</th>
-                  <th style={{ width: "116px" }}>Name of Purchaser</th>
-                  <th style={{ width: "128px" }}>Address of Purchaser</th>
-                  <th style={{ width: "150px" }}>
+                  <th style={{ width: '121px' }}>Invoice No</th>
+                  <th style={{ width: '106px' }}>Date of Issue</th>
+                  <th style={{ width: '106px' }}>Quantity</th>
+                  <th style={{ width: '101px' }}>Value</th>
+                  <th style={{ width: '101px' }}>SD</th>
+                  <th style={{ width: '101px' }}>VAT</th>
+                  <th style={{ width: '116px' }}>Name of Purchaser</th>
+                  <th style={{ width: '128px' }}>Address of Purchaser</th>
+                  <th style={{ width: '150px' }}>
                     BIN of Purchaser/National Id No
                   </th>
                 </tr>
@@ -112,7 +112,7 @@ const GridData = ({ rowDto, loading, headerData }) => {
                     </tr>
                   );
                 })}
-                <tr className="text-right" style={{ fontWeight: "bold" }}>
+                <tr className="text-right" style={{ fontWeight: 'bold' }}>
                   <td colSpan="3" className="text-right">
                     Total
                   </td>

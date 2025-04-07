@@ -1,25 +1,23 @@
-
-
-import { Form, Formik } from "formik";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { Form, Formik } from 'formik';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { generateExcel, getInventoryAgingLanding } from '../helper';
 import {
-  generateExcel,
-  getInventoryAgingLanding,
-} from "../helper";
-import { businessUnitPlant_api, wearhouse_api } from "../../../../_helper/_commonApi";
+  businessUnitPlant_api,
+  wearhouse_api,
+} from '../../../../_helper/_commonApi';
 const initData = {
-  plant: "",
-  wh: "",
+  plant: '',
+  wh: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -33,18 +31,18 @@ function InventoryAgingLanding() {
   const [pageSize, setPageSize] = useState(20);
   const printRef = useRef();
   const monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
   ];
 
   //get number in date
@@ -68,14 +66,14 @@ function InventoryAgingLanding() {
   const printDocument = () => {
     const input = printRef.current;
     html2canvas(input).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
+      const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF({
-        orientation: "landscape",
-        unit: "px",
+        orientation: 'landscape',
+        unit: 'px',
         format: [600, 400],
       });
-      pdf.addImage(imgData, "JPEG", 0, 0);
-      pdf.save("Up4-receipt.pdf");
+      pdf.addImage(imgData, 'JPEG', 0, 0);
+      pdf.save('Up4-receipt.pdf');
     });
   };
 
@@ -126,7 +124,7 @@ function InventoryAgingLanding() {
                   <ReactToPrint
                     trigger={() => (
                       <i
-                        style={{ fontSize: "18px" }}
+                        style={{ fontSize: '18px' }}
                         className="fas fa-print"
                       ></i>
                     )}
@@ -149,75 +147,75 @@ function InventoryAgingLanding() {
                         generateExcel(
                           [
                             {
-                              text: "SL",
+                              text: 'SL',
                               fontSize: 9,
-                              border: "all 000000 thin",
-                              alignment: "center",
-                              textFormat: "text",
+                              border: 'all 000000 thin',
+                              alignment: 'center',
+                              textFormat: 'text',
                               bold: true,
                             },
                             {
-                              text: "Code",
+                              text: 'Code',
                               fontSize: 9,
-                              border: "all 000000 thin",
-                              alignment: "center",
-                              textFormat: "text",
+                              border: 'all 000000 thin',
+                              alignment: 'center',
+                              textFormat: 'text',
                               bold: true,
                             },
                             {
-                              text: "Name",
+                              text: 'Name',
                               fontSize: 9,
-                              border: "all 000000 thin",
-                              alignment: "center",
-                              textFormat: "text",
+                              border: 'all 000000 thin',
+                              alignment: 'center',
+                              textFormat: 'text',
                               bold: true,
                             },
                             {
-                              text: "Uom",
+                              text: 'Uom',
                               fontSize: 9,
-                              border: "all 000000 thin",
-                              alignment: "center",
-                              textFormat: "text",
+                              border: 'all 000000 thin',
+                              alignment: 'center',
+                              textFormat: 'text',
                               bold: true,
                             },
                             {
-                              text: "Stock Qty",
+                              text: 'Stock Qty',
                               fontSize: 9,
-                              border: "all 000000 thin",
-                              alignment: "center",
-                              textFormat: "text",
+                              border: 'all 000000 thin',
+                              alignment: 'center',
+                              textFormat: 'text',
                               bold: true,
                             },
                             {
-                              text: "Stock Cover Day",
+                              text: 'Stock Cover Day',
                               fontSize: 9,
-                              border: "all 000000 thin",
-                              alignment: "center",
-                              textFormat: "text",
+                              border: 'all 000000 thin',
+                              alignment: 'center',
+                              textFormat: 'text',
                               bold: true,
                             },
                             {
-                              text: "Avg Use Day",
+                              text: 'Avg Use Day',
                               fontSize: 9,
-                              border: "all 000000 thin",
-                              alignment: "center",
-                              textFormat: "text",
+                              border: 'all 000000 thin',
+                              alignment: 'center',
+                              textFormat: 'text',
                               bold: true,
                             },
                             {
-                              text: "Last Issue Day",
+                              text: 'Last Issue Day',
                               fontSize: 9,
-                              border: "all 000000 thin",
-                              alignment: "center",
-                              textFormat: "text",
+                              border: 'all 000000 thin',
+                              alignment: 'center',
+                              textFormat: 'text',
                               bold: true,
                             },
                             {
-                              text: "Lead Time",
+                              text: 'Lead Time',
                               fontSize: 9,
-                              border: "all 000000 thin",
-                              alignment: "center",
-                              textFormat: "text",
+                              border: 'all 000000 thin',
+                              alignment: 'center',
+                              textFormat: 'text',
                               bold: true,
                             },
                           ],
@@ -243,8 +241,8 @@ function InventoryAgingLanding() {
                       value={values?.plant}
                       label="Plant"
                       onChange={(valueOption) => {
-                        setFieldValue("plant", valueOption);
-                        setFieldValue("wh", "");
+                        setFieldValue('plant', valueOption);
+                        setFieldValue('wh', '');
                         wearhouse_api(
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
@@ -265,7 +263,7 @@ function InventoryAgingLanding() {
                       value={values?.wh}
                       label="WareHouse"
                       onChange={(valueOption) => {
-                        setFieldValue("wh", valueOption);
+                        setFieldValue('wh', valueOption);
                       }}
                       placeholder="WareHouse"
                       errors={errors}
@@ -280,7 +278,7 @@ function InventoryAgingLanding() {
                       placeholder="Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                       }}
                     />
                   </div>
@@ -292,12 +290,12 @@ function InventoryAgingLanding() {
                       placeholder="Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                       }}
                     />
                   </div>
 
-                  <div style={{ marginTop: "17px" }} className="col-lg">
+                  <div style={{ marginTop: '17px' }} className="col-lg">
                     <button
                       type="button"
                       className="btn btn-primary"

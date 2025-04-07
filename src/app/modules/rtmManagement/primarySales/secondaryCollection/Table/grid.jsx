@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { useHistory, withRouter } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { SecondaryCollectionLanding } from "../helper";
+import React, { useState } from 'react';
+import { useHistory, withRouter } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { SecondaryCollectionLanding } from '../helper';
 
-import IView from "../../../../_helper/_helperIcons/_view";
+import IView from '../../../../_helper/_helperIcons/_view';
 const GridData = ({
   gridData,
   pageNo,
@@ -52,11 +52,11 @@ const GridData = ({
             <table className="table table-striped table-bordered global-table">
               <thead>
                 <tr>
-                  <th style={{ width: "35px" }}>SL</th>
-                  <th style={{ width: "35px" }}>OutletName</th>
-                  <th style={{ width: "35px" }}>Total Amount</th>
-                  <th style={{ width: "35px" }}>Total Qty</th>
-                  <th style={{ width: "35px" }}>Action</th>
+                  <th style={{ width: '35px' }}>SL</th>
+                  <th style={{ width: '35px' }}>OutletName</th>
+                  <th style={{ width: '35px' }}>Total Amount</th>
+                  <th style={{ width: '35px' }}>Total Qty</th>
+                  <th style={{ width: '35px' }}>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -65,8 +65,8 @@ const GridData = ({
                     <td> {index + 1} </td>
                     <td> {tableData?.strOutletName} </td>
                     <td className="text-right p-4">
-                      {" "}
-                      {tableData?.totalAmount}{" "}
+                      {' '}
+                      {tableData?.totalAmount}{' '}
                     </td>
                     <td className="text-right">
                       <span className="pr-2">{tableData?.totalQty}</span>

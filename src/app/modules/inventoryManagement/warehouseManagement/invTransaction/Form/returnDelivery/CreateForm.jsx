@@ -65,11 +65,11 @@ export default function CreateForm({
     dispatch(
       getBusinessPartnerDDLAction(
         profileData.accountId,
-        selectedBusinessUnit.value,
-      ),
+        selectedBusinessUnit.value
+      )
     );
     dispatch(
-      getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value),
+      getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value)
     );
     // dispatch(getItemDDLAction(profileData.accountId,selectedBusinessUnit.value,landingData?.plant?.value,landingData?.warehouse?.value))
     dispatch(getStockDDLAction());
@@ -78,11 +78,10 @@ export default function CreateForm({
         profileData.accountId,
         selectedBusinessUnit.value,
         landingData?.plant?.value,
-        landingData?.warehouse?.value,
-      ),
+        landingData?.warehouse?.value
+      )
     );
     return () => dispatch(slice.setItemDDL([]));
-
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
   const onChaneForRefType = (refTyp) => {
@@ -94,11 +93,11 @@ export default function CreateForm({
         selectedBusinessUnit.value,
         landingData?.sbu?.value,
         landingData?.plant?.value,
-        landingData?.warehouse?.value,
-      ),
+        landingData?.warehouse?.value
+      )
     );
     dispatch(
-      getTransactionTypeDDLAction(landingData?.transGrup?.value, refTyp.value),
+      getTransactionTypeDDLAction(landingData?.transGrup?.value, refTyp.value)
     );
     if (refTyp.label === 'NA (Without Reference)') {
       dispatch(
@@ -106,8 +105,8 @@ export default function CreateForm({
           profileData.accountId,
           selectedBusinessUnit.value,
           landingData?.plant?.value,
-          landingData?.warehouse?.value,
-        ),
+          landingData?.warehouse?.value
+        )
       );
     }
   };
@@ -117,8 +116,8 @@ export default function CreateForm({
       getItemReturnInvAction(
         values?.refType?.value,
         values.refType.label,
-        refNo.value,
-      ),
+        refNo.value
+      )
     );
   };
 
@@ -194,7 +193,7 @@ export default function CreateForm({
     } else {
       if (values && profileData?.accountId && selectedBusinessUnit?.value) {
         let findStock = rowDto.filter(
-          (data) => data?.quantity > data?.currentStock,
+          (data) => data?.quantity > data?.currentStock
         );
 
         if (findStock.length > 0)
@@ -270,8 +269,8 @@ export default function CreateForm({
               saveInventoryTransactionForPurchaseReturn(
                 { data: modifyPlyload, cb },
                 setRowDto,
-                setDisabled,
-              ),
+                setDisabled
+              )
             );
           });
         } else {
@@ -279,8 +278,8 @@ export default function CreateForm({
             saveInventoryTransactionForPurchaseReturn(
               { data: payload, cb },
               setRowDto,
-              setDisabled,
-            ),
+              setDisabled
+            )
           );
         }
       } else {
@@ -510,7 +509,7 @@ export default function CreateForm({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

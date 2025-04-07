@@ -1,14 +1,13 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
+import { Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
 // import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import { getVesselDDL, getVoyageDDLNew } from "../../../helper";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import { ExportPDF } from "../../../_chartinghelper/exportPdf";
-import Loading from "../../../_chartinghelper/loading/_loading";
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import { getVesselDDL, getVoyageDDLNew } from '../../../helper';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import { ExportPDF } from '../../../_chartinghelper/exportPdf';
+import Loading from '../../../_chartinghelper/loading/_loading';
 import {
   getAdditionalCostById,
   // getIncomeStatement,
@@ -16,14 +15,14 @@ import {
   getIncomeStatementNew,
   GetTransactionDetailsForStatement,
   GetVesselBunkerInvInfo,
-} from "../helper";
-import TimeCharterStatement from "./timeStatement";
-import VoyageCharterStatement from "./voyageStatement";
+} from '../helper';
+import TimeCharterStatement from './timeStatement';
+import VoyageCharterStatement from './voyageStatement';
 
 const initData = {
-  vesselName: "",
-  voyageNo: "",
-  voyageType: "",
+  vesselName: '',
+  voyageNo: '',
+  voyageType: '',
 };
 
 export default function StatementTable() {
@@ -136,7 +135,7 @@ export default function StatementTable() {
                   </button>
                   <ReactToPrint
                     pageStyle={
-                      "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                      '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
                     }
                     trigger={() => (
                       <button
@@ -144,7 +143,7 @@ export default function StatementTable() {
                         className="btn btn-primary px-3 py-2 sales_invoice_btn ml-2"
                       >
                         <i
-                          style={{ fontSize: "10px" }}
+                          style={{ fontSize: '10px' }}
                           className="fas fa-print mr-1"
                         ></i>
                         Print
@@ -158,7 +157,7 @@ export default function StatementTable() {
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vesselName || ""}
+                      value={values?.vesselName || ''}
                       isSearchable={true}
                       options={vesselDDL || []}
                       styles={customStyles}
@@ -166,11 +165,11 @@ export default function StatementTable() {
                       placeholder="Vessel Name"
                       label="Vessel Name"
                       onChange={(valueOption) => {
-                        setFieldValue("vesselName", valueOption);
-                        setFieldValue("voyageNo", "");
+                        setFieldValue('vesselName', valueOption);
+                        setFieldValue('voyageNo', '');
                         setVoyageNoDDL([]);
-                        setFieldValue("voyageType", "");
-                        setFieldValue("hireType", "");
+                        setFieldValue('voyageType', '');
+                        setFieldValue('hireType', '');
                         if (valueOption) {
                           getVoyageDDLNew({
                             accId: profileData?.accountId,
@@ -190,7 +189,7 @@ export default function StatementTable() {
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.voyageNo || ""}
+                      value={values?.voyageNo || ''}
                       isSearchable={true}
                       options={voyageNoDDL || []}
                       styles={customStyles}
@@ -198,24 +197,24 @@ export default function StatementTable() {
                       placeholder="Voyage No"
                       label="Voyage No"
                       onChange={(valueOption) => {
-                        setFieldValue("voyageNo", valueOption);
+                        setFieldValue('voyageNo', valueOption);
 
                         if (valueOption) {
                           getIncomeStatementData({
                             ...values,
                             voyageNo: valueOption,
                           });
-                          setFieldValue("voyageType", {
+                          setFieldValue('voyageType', {
                             value: valueOption?.voyageTypeID,
                             label: valueOption?.voyageTypeName,
                           });
-                          setFieldValue("shipType", {
+                          setFieldValue('shipType', {
                             value: valueOption?.hireTypeId,
                             label: valueOption?.hireTypeName,
                           });
                         } else {
-                          setFieldValue("voyageType", "");
-                          setFieldValue("shipType", "");
+                          setFieldValue('voyageType', '');
+                          setFieldValue('shipType', '');
                         }
                       }}
                       isDisabled={!values?.vesselName}
@@ -225,7 +224,7 @@ export default function StatementTable() {
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.shipType || ""}
+                      value={values?.shipType || ''}
                       isSearchable={true}
                       options={[]}
                       styles={customStyles}
@@ -239,7 +238,7 @@ export default function StatementTable() {
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.voyageType || ""}
+                      value={values?.voyageType || ''}
                       isSearchable={true}
                       options={[]}
                       styles={customStyles}
@@ -254,8 +253,8 @@ export default function StatementTable() {
                 </div>
               </div>
 
-              {values?.voyageNo?.voyageTypeName === "Voyage Charter" &&
-                values?.voyageNo?.hireTypeName !== "Charterer Ship" && (
+              {values?.voyageNo?.voyageTypeName === 'Voyage Charter' &&
+                values?.voyageNo?.hireTypeName !== 'Charterer Ship' && (
                   <VoyageCharterStatement
                     voyageCharterData={voyageCharterData}
                     printRef={printRef}
@@ -263,8 +262,8 @@ export default function StatementTable() {
                     additionalCostList={additionalCostList}
                   ></VoyageCharterStatement>
                 )}
-              {values?.voyageNo?.voyageTypeName === "Time Charter" &&
-                values?.voyageNo?.hireTypeName !== "Charterer Ship" && (
+              {values?.voyageNo?.voyageTypeName === 'Time Charter' &&
+                values?.voyageNo?.hireTypeName !== 'Charterer Ship' && (
                   <TimeCharterStatement
                     timeCharterData={timeCharterData}
                     values={values}

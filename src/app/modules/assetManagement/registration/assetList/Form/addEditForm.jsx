@@ -1,9 +1,6 @@
-
-
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IForm from "../../../../_helper/_form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IForm from '../../../../_helper/_form';
 import {
   getAssetCategoryList,
   getAssignToDDL,
@@ -15,12 +12,12 @@ import {
   getSupplierDDLforCreate,
   getresponsiblePersonDDL,
   saveAssetListEdit,
-} from "../helper";
-import Form from "./form";
+} from '../helper';
+import Form from './form';
 
-import { useLocation } from "react-router-dom";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import "../assetList.css";
+import { useLocation } from 'react-router-dom';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import '../assetList.css';
 
 export default function AssetListForm({ currentRowData }) {
   const location = useLocation();
@@ -43,20 +40,15 @@ export default function AssetListForm({ currentRowData }) {
   const [itemList, setItemList] = useState([]);
   const [supplierList, setSupplierList] = useState([]);
   const [itemAttribute, setItemAttribute] = useState([]);
-  const [categoryDDL, setCategoryDDL] = useState([])
+  const [categoryDDL, setCategoryDDL] = useState([]);
   const [brtaList, setbrtaList] = useState([]);
-  const [
-    profitCenterDDL,
-    getProfitCenterDDL,
-    ,
-    setProfitCenterDDL,
-  ] = useAxiosGet();
+  const [profitCenterDDL, getProfitCenterDDL, , setProfitCenterDDL] =
+    useAxiosGet();
 
-
-  console.log(singleData, 'singleData')
+  console.log(singleData, 'singleData');
   useEffect(() => {
-    getAssetCategoryList(setCategoryDDL)
-  },[])
+    getAssetCategoryList(setCategoryDDL);
+  }, []);
 
   useEffect(() => {
     getProfitCenterDDL(
@@ -112,7 +104,7 @@ export default function AssetListForm({ currentRowData }) {
     //   selectedBusinessUnit?.value,
     //   setItemAttribute
     // );
-    getBrtaDDL(setbrtaList)
+    getBrtaDDL(setbrtaList);
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   const onChangeForItem = (item) => {
@@ -130,25 +122,25 @@ export default function AssetListForm({ currentRowData }) {
       // console.log(values)
       const payload = {
         assetId: currentRowData.assetId || 0,
-        assetDescription: values.assetDes || "",
+        assetDescription: values.assetDes || '',
         accountId: profileData?.accountId,
         plantId: currentRowData.plantId || 0,
-        plantName: currentRowData.plantName || "",
+        plantName: currentRowData.plantName || '',
         businessUnitId: selectedBusinessUnit?.value,
         businessUnitName: selectedBusinessUnit?.label,
         sbuId: currentRowData.sbuId || 0,
-        sbuName: currentRowData.sbuName || "",
+        sbuName: currentRowData.sbuName || '',
         warehouseId: currentRowData.warehouseId || 0,
-        warehouseName: currentRowData.warehouseName || "",
+        warehouseName: currentRowData.warehouseName || '',
         itemId: values.itemName.value || 0,
-        itemCode: values.itemName.code || "",
-        itemName: values.itemName.label || "",
-        nameManufacturer: values.manuName || "",
-        countryOrigin: values.countryOrigin || "",
+        itemCode: values.itemName.code || '',
+        itemName: values.itemName.label || '',
+        nameManufacturer: values.manuName || '',
+        countryOrigin: values.countryOrigin || '',
         supplierId: values.businessPartnerName.value || 0,
-        supplierName: values.businessPartnerName.label || "",
+        supplierName: values.businessPartnerName.label || '',
         poId: 0,
-        poNo: values.referenceCode || "",
+        poNo: values.referenceCode || '',
         acquisitionDate: values.transactionDate,
         numInvoiceValue: +values.transactionValue || 0,
         numOtherCost: 0,
@@ -157,28 +149,28 @@ export default function AssetListForm({ currentRowData }) {
         numTotalDepValue: +values.depriValue || 0,
         depRunDate: values.depriRunDate,
         warrentyEndDate: values.warrentyEnd,
-        location: values.location || "",
+        location: values.location || '',
         useTypeId: values.usageType.value || 0,
-        useTypeName: values.usageType.label ||"",
+        useTypeName: values.usageType.label || '',
         useStatusId: 0,
         usingEmployeeId: values.assignTo.value || 0,
-        usingEmployeName: values.assignTo.label || "",
+        usingEmployeName: values.assignTo.label || '',
         usingDepartmentId: values.departnemt.value || 0,
-        departmentName: values.departnemt.label || "",
+        departmentName: values.departnemt.label || '',
         responsibleEmployeeId: values.resPerson.value || 0,
-        responsibleEmpName: values.resPerson.label || "",
+        responsibleEmpName: values.resPerson.label || '',
         actionBy: profileData.userId,
         serialNo: values.strManufacturerSerialNo,
-        assetName: values?.assetName || "",
+        assetName: values?.assetName || '',
         assetCategoryId: values?.category?.value || 0,
-        assetCategoryName: values?.category?.label || "",
+        assetCategoryName: values?.category?.label || '',
         brtaVehicelTypeId: values?.brtaType?.value,
         inventoryTransectionId: 0,
         depRate: 0,
-        assetTypeName: "",
+        assetTypeName: '',
         quantity: 0,
-        profitCenterId : values?.profitCenter?.value || 0,
-        profitCenterName : values?.profitCenter?.label || "",
+        profitCenterId: values?.profitCenter?.value || 0,
+        profitCenterName: values?.profitCenter?.label || '',
       };
       saveAssetListEdit(payload, setDisabled);
     } else {

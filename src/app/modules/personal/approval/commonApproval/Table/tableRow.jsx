@@ -77,7 +77,7 @@ export function TableRow(props) {
       getModuleNameDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        setModuleNameDDL,
+        setModuleNameDDL
       );
     }
   }, [profileData, selectedBusinessUnit]);
@@ -107,7 +107,7 @@ export function TableRow(props) {
         profileData?.userId,
         profileData?.accountId,
         selectedBusinessUnit?.value,
-        setPlantDDL,
+        setPlantDDL
       );
     }
   }, [profileData, selectedBusinessUnit]);
@@ -120,7 +120,6 @@ export function TableRow(props) {
     ) {
       commonBillOfMaterialGridFunc(pageNo, pageSize);
     }
-
   }, [profileData, selectedBusinessUnit, activityName]);
 
   //setPositionHandler
@@ -132,7 +131,7 @@ export function TableRow(props) {
       setGridData,
       setLoading,
       pageNo,
-      pageSize,
+      pageSize
     );
   };
 
@@ -145,7 +144,6 @@ export function TableRow(props) {
       getActivityDDL(activity?.moduleName?.value, setActivity);
       setSelectedPlant(activity?.selectedPlant || '');
     }
-
   }, []);
 
   useEffect(() => {
@@ -213,7 +211,7 @@ export function TableRow(props) {
       pageNo,
       pageSize,
       setLoading,
-      setTableData,
+      setTableData
     );
   };
 
@@ -228,7 +226,7 @@ export function TableRow(props) {
       message: `Do you want to post the selected approve submit`,
       yesAlertFunc: () => {
         const filterSelectedData = rowDto?.data?.filter(
-          (item) => item?.isSelect,
+          (item) => item?.isSelect
         );
         const payload = filterSelectedData?.map((item) => {
           return {
@@ -241,7 +239,7 @@ export function TableRow(props) {
         // Bill Of Material
         if (activityName?.label === 'Bill Of Material') {
           const filterSelectedData = tableData?.data?.filter(
-            (item) => item?.isSelected,
+            (item) => item?.isSelected
           );
           const billofmaterialpayload = filterSelectedData?.map((itm) => ({
             billOfMaterialId: itm?.billOfMaterialId || 0,
@@ -255,7 +253,7 @@ export function TableRow(props) {
         }
         setBillSubmitBtn(true);
       },
-      noAlertFunc: () => { },
+      noAlertFunc: () => {},
     };
     IConfirmModal(confirmObject);
   };
@@ -302,7 +300,7 @@ export function TableRow(props) {
           activityName: peopleDeskFeature,
           moduleName: peopleDeskModule,
           selectedPlant: peopleDeskPlant,
-        }),
+        })
       );
       if (activityName?.label === 'Bill Of Material') {
         BOMApprovalLanding(
@@ -313,11 +311,10 @@ export function TableRow(props) {
           pageNo,
           pageSize,
           setLoading,
-          setTableData,
+          setTableData
         );
       }
     }
-
   }, []);
   return (
     <>
@@ -369,7 +366,7 @@ export function TableRow(props) {
                     activityName: valueOption || '',
                     moduleName: selectedModule || '',
                     selectedPlant: selectedPlant || '',
-                  }),
+                  })
                 );
                 if (valueOption?.label === 'Bill Of Material') {
                   commonBillOfMaterialGridFunc(pageNo, pageSize);
@@ -383,17 +380,17 @@ export function TableRow(props) {
           </div>
 
           {activityName?.label === 'Inventory Adjustment' ||
-            activityName?.label === 'Loan Approval' ||
-            activityName?.label === 'Movement Approval' ||
-            activityName?.label === 'Leave Approval' ||
-            activityName?.label === 'Purchase Order' ||
-            activityName?.label === 'Purchase Request' ||
-            activityName?.label === 'Item Request' ||
-            activityName?.label === 'Purchase Return' ||
-            activityName?.label === 'Cash Journal' ||
-            activityName?.label === 'Bank Journal' ||
-            activityName?.label === 'Adjustment Journal' ||
-            activityName?.label === 'Gate Pass' ? null : (
+          activityName?.label === 'Loan Approval' ||
+          activityName?.label === 'Movement Approval' ||
+          activityName?.label === 'Leave Approval' ||
+          activityName?.label === 'Purchase Order' ||
+          activityName?.label === 'Purchase Request' ||
+          activityName?.label === 'Item Request' ||
+          activityName?.label === 'Purchase Return' ||
+          activityName?.label === 'Cash Journal' ||
+          activityName?.label === 'Bank Journal' ||
+          activityName?.label === 'Adjustment Journal' ||
+          activityName?.label === 'Gate Pass' ? null : (
             <div className="col-lg-3 mt-4 offset-3 d-flex justify-content-end">
               <button
                 type="button"
@@ -408,7 +405,7 @@ export function TableRow(props) {
         </div>
 
         {['Commercial Management'].includes(selectedModule?.label) &&
-          ['LC Cost Sheet']?.includes(activityName?.label) ? (
+        ['LC Cost Sheet']?.includes(activityName?.label) ? (
           <div className="mt-5">
             <ImportedTableRow formCommonApproval={true} />
           </div>
@@ -416,14 +413,14 @@ export function TableRow(props) {
 
         {/* All Grid */}
         {activityName?.label === 'Loan Approval' ||
-          activityName?.label === 'Movement Approval' ||
-          activityName?.label === 'Leave Approval' ||
-          activityName?.label === 'Purchase Order' ||
-          activityName?.label === 'Purchase Request' ||
-          activityName?.label === 'Request For Quotation' ||
-          activityName?.label === 'Item Request' ||
-          activityName?.label === 'Purchase Return' ||
-          activityName?.label === 'Gate Pass' ? (
+        activityName?.label === 'Movement Approval' ||
+        activityName?.label === 'Leave Approval' ||
+        activityName?.label === 'Purchase Order' ||
+        activityName?.label === 'Purchase Request' ||
+        activityName?.label === 'Request For Quotation' ||
+        activityName?.label === 'Item Request' ||
+        activityName?.label === 'Purchase Return' ||
+        activityName?.label === 'Gate Pass' ? (
           <>
             {activityName?.label === 'Leave Approval' && <LeaveApprovalGrid />}
             {activityName?.label === 'Movement Approval' && (
@@ -438,7 +435,7 @@ export function TableRow(props) {
                 selectedPlant={selectedPlant}
               />
             )}
-            { }
+            {}
             {activityName?.label === 'Purchase Request' && (
               <PurchaseRequestApprovalGrid
                 onChangeForActivity={onChangeForActivity}
@@ -542,7 +539,7 @@ export function TableRow(props) {
                           <span
                             onClick={(e) => {
                               history.push(
-                                `/mngProcurement/purchase-management/purchase-request/view/${item?.transectionId}/viewType`,
+                                `/mngProcurement/purchase-management/purchase-request/view/${item?.transectionId}/viewType`
                               );
                             }}
                           >
@@ -585,7 +582,7 @@ export function TableRow(props) {
                           <span
                             onClick={(e) => {
                               history.push(
-                                `/inventory-management/warehouse-management/item-request/view/${item?.transectionId}`,
+                                `/inventory-management/warehouse-management/item-request/view/${item?.transectionId}`
                               );
                             }}
                           >

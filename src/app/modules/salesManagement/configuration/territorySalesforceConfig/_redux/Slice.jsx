@@ -1,21 +1,20 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
   error: '',
-  msg: "",
+  msg: '',
   empDDL: [],
   territoryTypeDDL: [],
   territoryDDL: [],
   gridData: [],
-  singleData: "",
+  singleData: '',
 };
 
 export const saleForceTerriotryConfigSlice = createSlice({
-  name: "salesForceTerritoryConig",
+  name: 'salesForceTerritoryConig',
   initialState: initState,
   reducers: {
-
     SetEmpDDL: (state, action) => {
       const { payload } = action;
       state.empDDL = payload;
@@ -38,10 +37,8 @@ export const saleForceTerriotryConfigSlice = createSlice({
       const { payload } = action;
       state.singleData = payload;
     },
-    SetSingleStoreEmpty: state => {
-      state.singleData = "";
+    SetSingleStoreEmpty: (state) => {
+      state.singleData = '';
     },
-
-  }
+  },
 });
-

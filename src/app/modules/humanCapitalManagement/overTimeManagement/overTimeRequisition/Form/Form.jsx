@@ -1,16 +1,15 @@
-
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { IInput } from "../../../../_helper/_input";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import { loadUserListAction } from "../helper";
-import NewSelect from "../../../../_helper/_select";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { IInput } from '../../../../_helper/_input';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import { loadUserListAction } from '../helper';
+import NewSelect from '../../../../_helper/_select';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
-  reqDate: Yup.string().required("Requested date is required"),
+  reqDate: Yup.string().required('Requested date is required'),
   // reqDepartment: Yup.object().shape({
   //   value: Yup.string().required("Requested department is required"),
   //   label: Yup.string().required("Requested department is required"),
@@ -70,7 +69,7 @@ export default function FormCmp({ btnRef, resetBtnRef, obj }) {
         }) => (
           <>
             <Form className="form form-label-right">
-              {console.log("values", values)}
+              {console.log('values', values)}
               {/* Section One Start */}
               <div className="form-group row global-form">
                 <div className="col-lg-3">
@@ -81,7 +80,7 @@ export default function FormCmp({ btnRef, resetBtnRef, obj }) {
                     name="reqDepartment"
                     placeholder="Requested Department"
                     onChange={(valueOption) => {
-                      setFieldValue("reqDepartment", valueOption || "");
+                      setFieldValue('reqDepartment', valueOption || '');
                     }}
                     errors={errors}
                     touched={touched}
@@ -103,7 +102,7 @@ export default function FormCmp({ btnRef, resetBtnRef, obj }) {
                     value={values?.costCenter}
                     name="costCenter"
                     onChange={(valueOption) => {
-                      setFieldValue("costCenter", valueOption || "");
+                      setFieldValue('costCenter', valueOption || '');
                     }}
                     errors={errors}
                     touched={touched}
@@ -117,15 +116,14 @@ export default function FormCmp({ btnRef, resetBtnRef, obj }) {
                     placeholder="Requested Workplace"
                     value={values?.workplace}
                     onChange={(valueOption) => {
-                      setFieldValue("workplace", valueOption || "");
+                      setFieldValue('workplace', valueOption || '');
                     }}
                     errors={errors}
                     touched={touched}
                   />
                 </div>
 
-              {/* Section One End */}
-
+                {/* Section One End */}
 
                 <div className="col-lg-3">
                   <label>Employee/Enroll</label>
@@ -133,7 +131,7 @@ export default function FormCmp({ btnRef, resetBtnRef, obj }) {
                     selectedValue={values?.employee}
                     isSearchIcon={true}
                     handleChange={(valueOption) => {
-                      setFieldValue("employee", valueOption || "");
+                      setFieldValue('employee', valueOption || '');
                     }}
                     loadOptions={loadUser}
                   />
@@ -152,7 +150,7 @@ export default function FormCmp({ btnRef, resetBtnRef, obj }) {
                     placeholder="Requested OT Shift"
                     value={values?.reqOtShift}
                     onChange={(valueOption) => {
-                      setFieldValue("reqOtShift", valueOption || "");
+                      setFieldValue('reqOtShift', valueOption || '');
                     }}
                   />
                 </div>
@@ -195,9 +193,7 @@ export default function FormCmp({ btnRef, resetBtnRef, obj }) {
                     </div>
                   </div>
                 </div>
-                </div>
-
-
+              </div>
 
               {/* Table Start */}
               <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table mr-1">
@@ -222,9 +218,15 @@ export default function FormCmp({ btnRef, resetBtnRef, obj }) {
                   {rowDto?.map((item, index) => (
                     <tr key={index}>
                       <td>{index + 1}</td>
-                      <td style={{minWidth:"100px"}} className="text-center">{item?.employee?.value}</td>
-                      <td style={{minWidth:"100px"}} className="text-center">{item?.employee?.erpemployeeId}</td>
-                      <td style={{minWidth:"100px"}} className="text-center">{item?.employee?.code}</td>
+                      <td style={{ minWidth: '100px' }} className="text-center">
+                        {item?.employee?.value}
+                      </td>
+                      <td style={{ minWidth: '100px' }} className="text-center">
+                        {item?.employee?.erpemployeeId}
+                      </td>
+                      <td style={{ minWidth: '100px' }} className="text-center">
+                        {item?.employee?.code}
+                      </td>
                       <td>{item?.employee?.label}</td>
                       <td>{item?.reqDepartment?.label}</td>
                       <td>{item?.workplace?.label}</td>
@@ -233,8 +235,8 @@ export default function FormCmp({ btnRef, resetBtnRef, obj }) {
                       <td>{item?.employee?.employeeCalenderName}</td>
                       <td>{item?.reqOtShift?.label}</td>
                       <td className="text-center">{`${item?.hour}:${
-                        item?.minutes.toString().length === 1 ? "0" : ""
-                      }${item?.minutes || "0"}`}</td>
+                        item?.minutes.toString().length === 1 ? '0' : ''
+                      }${item?.minutes || '0'}`}</td>
                       <td className="text-center">
                         <IDelete remover={remover} id={index} />
                       </td>
@@ -246,14 +248,14 @@ export default function FormCmp({ btnRef, resetBtnRef, obj }) {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

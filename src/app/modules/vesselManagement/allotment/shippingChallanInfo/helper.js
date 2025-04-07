@@ -1,6 +1,6 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const getLandingDataForConfirmation = async (
   accId,
@@ -16,18 +16,20 @@ export const getLandingDataForConfirmation = async (
   try {
     const soldToPartnerId =
       buId === 94
-        ? values?.type === "badc"
+        ? values?.type === 'badc'
           ? 73244
-          : values?.type === "bcic"
-          ? 73245
-          : 0
+          : values?.type === 'bcic'
+            ? 73245
+            : 0
         : values?.organization?.value;
 
     const url = `/tms/LigterLoadUnload/GetLighterChallanInfo?status=${
       values?.status?.value
-    }&accountId=${accId}&businessUnitId=${buId}&soldToPartnerId=${soldToPartnerId}&shipPointId=${values
-      ?.shipPoint?.value || 0}&shipToPartnerId=${values?.shipToPartner?.value ||
-      0}&motherVesselId=${values?.motherVessel?.value}&fromDate=${
+    }&accountId=${accId}&businessUnitId=${buId}&soldToPartnerId=${soldToPartnerId}&shipPointId=${
+      values?.shipPoint?.value || 0
+    }&shipToPartnerId=${
+      values?.shipToPartner?.value || 0
+    }&motherVesselId=${values?.motherVessel?.value}&fromDate=${
       values?.fromDate
     }&toDate=${values?.toDate}&pageNo=${pageNo}&pageSize=${pageSize}`;
 
@@ -124,8 +126,9 @@ export const GetDomesticPortDDL = async (setter) => {
 export const getMotherVesselDDL = async (accId, buId, portId, setter) => {
   try {
     const res = await axios.get(
-      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${portId ||
-        0}`
+      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${
+        portId || 0
+      }`
     );
     setter(res.data);
   } catch (error) {

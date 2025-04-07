@@ -1,32 +1,31 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import IEdit from "../../../_chartinghelper/icons/_edit";
-import IView from "../../../_chartinghelper/icons/_view";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import PaginationSearch from "../../../_chartinghelper/_search";
-import PaginationTable from "../../../_chartinghelper/_tablePagination";
-import { activeInactiveVessel, GetVesselLandingData } from "../helper";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import IEdit from '../../../_chartinghelper/icons/_edit';
+import IView from '../../../_chartinghelper/icons/_view';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import PaginationSearch from '../../../_chartinghelper/_search';
+import PaginationTable from '../../../_chartinghelper/_tablePagination';
+import { activeInactiveVessel, GetVesselLandingData } from '../helper';
 
 const initData = {
-  filterBy: "",
-  status: "",
+  filterBy: '',
+  status: '',
 };
 
 const headers = [
-  { name: "SL" },
-  { name: "Vessel Name" },
-  { name: "Owner Name" },
-  { name: "Flag" },
-  { name: "Dead Weight" },
-  { name: "Status" },
-  { name: "Actions" },
+  { name: 'SL' },
+  { name: 'Vessel Name' },
+  { name: 'Owner Name' },
+  { name: 'Flag' },
+  { name: 'Dead Weight' },
+  { name: 'Status' },
+  { name: 'Actions' },
 ];
 
 export default function VesselTable() {
@@ -41,17 +40,27 @@ export default function VesselTable() {
   }, shallowEqual);
 
   useEffect(() => {
-    GetVesselLandingData(profileData?.accountId,
-      selectedBusinessUnit?.value,pageNo, pageSize, "", "", 0, setLoading, setGridData);
+    GetVesselLandingData(
+      profileData?.accountId,
+      selectedBusinessUnit?.value,
+      pageNo,
+      pageSize,
+      '',
+      '',
+      0,
+      setLoading,
+      setGridData
+    );
   }, [profileData, selectedBusinessUnit]);
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
-    GetVesselLandingData(profileData?.accountId,
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
+    GetVesselLandingData(
+      profileData?.accountId,
       selectedBusinessUnit?.value,
       pageNo,
       pageSize,
       searchValue,
-      values?.status?.value || "",
+      values?.status?.value || '',
       values?.filterBy?.value || 0,
       setLoading,
       setGridData
@@ -64,12 +73,13 @@ export default function VesselTable() {
 
   const changeStatus = (id, status, values) => {
     activeInactiveVessel(id, status, setLoading, () => {
-      GetVesselLandingData(profileData?.accountId,
+      GetVesselLandingData(
+        profileData?.accountId,
         selectedBusinessUnit?.value,
         pageNo,
         pageSize,
-        "",
-        values?.status ? values?.status?.value : "",
+        '',
+        values?.status ? values?.status?.value : '',
         values?.filterBy ? values?.filterBy?.value : 0,
         setLoading,
         setGridData
@@ -122,9 +132,9 @@ export default function VesselTable() {
                 <div>
                   <button
                     type="button"
-                    className={"btn btn-primary px-3 py-2"}
+                    className={'btn btn-primary px-3 py-2'}
                     onClick={() =>
-                      history.push("/chartering/configuration/vessel/create")
+                      history.push('/chartering/configuration/vessel/create')
                     }
                     disabled={false}
                   >
@@ -144,25 +154,26 @@ export default function VesselTable() {
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.status || ""}
+                      value={values?.status || ''}
                       isSearchable={true}
                       options={[
-                        { value: "", label: "All" },
-                        { value: true, label: "Active" },
-                        { value: false, label: "Inactive" },
+                        { value: '', label: 'All' },
+                        { value: true, label: 'Active' },
+                        { value: false, label: 'Inactive' },
                       ]}
                       styles={customStyles}
                       name="status"
                       placeholder="Status"
                       label="Status"
                       onChange={(valueOption) => {
-                        setFieldValue("status", valueOption);
-                        GetVesselLandingData(profileData?.accountId,
+                        setFieldValue('status', valueOption);
+                        GetVesselLandingData(
+                          profileData?.accountId,
                           selectedBusinessUnit?.value,
                           pageNo,
                           pageSize,
-                          "",
-                          valueOption ? valueOption?.value : "",
+                          '',
+                          valueOption ? valueOption?.value : '',
                           values?.filterBy?.value || 0,
                           setLoading,
                           setGridData
@@ -175,25 +186,26 @@ export default function VesselTable() {
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.filterBy || ""}
+                      value={values?.filterBy || ''}
                       isSearchable={true}
                       options={[
-                        { value: 0, label: "All" },
-                        { value: 1, label: "Own Vessels" },
-                        { value: 2, label: "Other Vessels" },
+                        { value: 0, label: 'All' },
+                        { value: 1, label: 'Own Vessels' },
+                        { value: 2, label: 'Other Vessels' },
                       ]}
                       styles={customStyles}
                       name="filterBy"
                       placeholder="Filter By"
                       label="Filter By"
                       onChange={(valueOption) => {
-                        setFieldValue("filterBy", valueOption);
-                        GetVesselLandingData(profileData?.accountId,
+                        setFieldValue('filterBy', valueOption);
+                        GetVesselLandingData(
+                          profileData?.accountId,
                           selectedBusinessUnit?.value,
                           pageNo,
                           pageSize,
-                          "",
-                          values?.status?.value || "",
+                          '',
+                          values?.status?.value || '',
                           valueOption?.value || 0,
                           setLoading,
                           setGridData
@@ -210,19 +222,19 @@ export default function VesselTable() {
               <ICustomTable ths={headers}>
                 {gridData?.data?.map((item, index) => (
                   <tr key={index}>
-                    <td style={{ width: "40px" }} className="text-center">
+                    <td style={{ width: '40px' }} className="text-center">
                       {index + 1}
                     </td>
                     <td>{item?.vesselName}</td>
                     <td>{item?.ownerName}</td>
                     <td>{item?.flag}</td>
                     <td>{item?.deadWeight}</td>
-                    <td style={{ width: "80px" }} className="text-center">
+                    <td style={{ width: '80px' }} className="text-center">
                       {item?.active ? (
                         <OverlayTrigger
                           overlay={
                             <Tooltip id="cs-icon">
-                              {"Click here to Inactive"}
+                              {'Click here to Inactive'}
                             </Tooltip>
                           }
                         >
@@ -242,7 +254,7 @@ export default function VesselTable() {
                         <OverlayTrigger
                           overlay={
                             <Tooltip id="cs-icon">
-                              {"Click here to Active"}
+                              {'Click here to Active'}
                             </Tooltip>
                           }
                         >
@@ -260,7 +272,7 @@ export default function VesselTable() {
                         </OverlayTrigger>
                       )}
                     </td>
-                    <td style={{ width: "50px" }} className="text-center">
+                    <td style={{ width: '50px' }} className="text-center">
                       <div className="d-flex justify-content-around">
                         <IView
                           clickHandler={() => {

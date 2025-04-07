@@ -1,14 +1,12 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 export const GetItemTypeDDL_api = async (setter) => {
   try {
     const res = await axios.get(`/vat/TaxDDL/GetTaxItemTypeDDL`);
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const GetItemNameDDL_api = async (accId, buId, typeId, setter) => {
@@ -19,9 +17,7 @@ export const GetItemNameDDL_api = async (accId, buId, typeId, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const getVatBranches_api = async (userId, accid, buid, setter) => {
@@ -32,9 +28,7 @@ export const getVatBranches_api = async (userId, accid, buid, setter) => {
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };
 
 export const PurchaseRegister_Report_api = async (
@@ -54,11 +48,9 @@ export const PurchaseRegister_Report_api = async (
       if (res?.data?.length > 0) {
         setter(res?.data);
       } else {
-        toast.warning("Data Not Found");
+        toast.warning('Data Not Found');
         setter([]);
       }
     }
-  } catch (error) {
-    
-  }
+  } catch (error) {}
 };

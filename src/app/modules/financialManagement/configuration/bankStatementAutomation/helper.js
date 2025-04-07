@@ -1,6 +1,6 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const getBankStatmentAttachmentLanding = async (
   accId,
@@ -86,22 +86,22 @@ export const dataModify = ({ formikRef, setRowDto, resData }) => {
             value: resData?.headerDTO?.bankId,
             label: resData?.headerDTO?.bankName,
           }
-        : "",
+        : '',
       acDDL: resData?.headerDTO?.bankAccountId
         ? {
             value: resData?.headerDTO?.bankAccountId,
             label: resData?.headerDTO?.bankAccountNo,
           }
-        : "",
-      fileName: resData?.headerDTO?.fileName || "",
-      fileUID: resData?.headerDTO?.fileUid || "",
-      emailUId: resData?.headerDTO?.emailUid || "",
-      senderAddress: resData?.headerDTO?.senderAddress || "",
-      emailHeader: resData?.headerDTO?.emailHeader || "",
+        : '',
+      fileName: resData?.headerDTO?.fileName || '',
+      fileUID: resData?.headerDTO?.fileUid || '',
+      emailUId: resData?.headerDTO?.emailUid || '',
+      senderAddress: resData?.headerDTO?.senderAddress || '',
+      emailHeader: resData?.headerDTO?.emailHeader || '',
       emailDate: resData?.headerDTO?.emailDateTime
         ? _dateFormatter(resData?.headerDTO?.emailDateTime)
-        : "",
-      statusMessage: resData?.headerDTO?.statusMessage || "",
+        : '',
+      statusMessage: resData?.headerDTO?.statusMessage || '',
     });
   }
 
@@ -110,7 +110,7 @@ export const dataModify = ({ formikRef, setRowDto, resData }) => {
       ...itm,
       transactionDate: itm?.transactionDate
         ? _dateFormatter(itm?.transactionDate)
-        : "",
+        : '',
       isEdit: false,
     })) || []
   );
@@ -124,7 +124,7 @@ export const editBankStatmentAttachment = async (payload, setDisabled, cb) => {
       payload
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }

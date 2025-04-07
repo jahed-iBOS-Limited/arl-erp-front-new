@@ -1,43 +1,42 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
+} from '../../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
 // import { deleteCarrierAgent } from "../helper";
-import CreatePermissionForm from "../_form/_form";
+import CreatePermissionForm from '../_form/_form';
 
 const headers = [
-  "SL",
-  "User Name",
-  "Unit Name",
-  "Ghat Info",
-  "Transporter Info",
-  "Item Info",
-  "SO Inactive",
-  "Chalan Info",
-  "Bill Info",
-  "Territory Info",
-  "FuelCash Nexpense Rpt",
-  "Target",
-  "OverDue Request",
-  "G2G Configuration",
-  "G2G Operation",
-  "Hologram Print",
-  "Address Change",
-  "Challan Rollback",
-  "Pump Fooding Bill",
+  'SL',
+  'User Name',
+  'Unit Name',
+  'Ghat Info',
+  'Transporter Info',
+  'Item Info',
+  'SO Inactive',
+  'Chalan Info',
+  'Bill Info',
+  'Territory Info',
+  'FuelCash Nexpense Rpt',
+  'Target',
+  'OverDue Request',
+  'G2G Configuration',
+  'G2G Operation',
+  'Hologram Print',
+  'Address Change',
+  'Challan Rollback',
+  'Pump Fooding Bill',
   // "Action",
 ];
 
@@ -51,7 +50,7 @@ const PermissionForModification = () => {
   const [pageSize, setPageSize] = useState(15);
   const [rowData, getRowData, isLoading] = useAxiosGet();
   const [show, setShow] = useState(false);
-  const [formType, setFormType] = useState("");
+  const [formType, setFormType] = useState('');
 
   // get user data from store
   const {
@@ -93,7 +92,7 @@ const PermissionForModification = () => {
                   <div className="d-flex justify-content-end">
                     <button
                       onClick={() => {
-                        setFormType("create");
+                        setFormType('create');
                         setShow(true);
                       }}
                       className="btn btn-primary ml-2"
@@ -119,7 +118,7 @@ const PermissionForModification = () => {
                       <table
                         id=""
                         className={
-                          "table table-striped table-bordered global-table table-font-size-sm"
+                          'table table-striped table-bordered global-table table-font-size-sm'
                         }
                       >
                         <thead>
@@ -134,7 +133,7 @@ const PermissionForModification = () => {
                             return (
                               <tr key={index}>
                                 <td
-                                  style={{ width: "20px" }}
+                                  style={{ width: '20px' }}
                                   className="text-center"
                                 >
                                   {index + 1}

@@ -19,8 +19,8 @@ export default function RoleExForm({
   rowDto,
   itemSlectedHandler,
 }) {
-  const [bankDataListDDL, setorgtypeListDDL] = useState("");
-  const [orgnameListDDL, setorgnameListDDL] = useState("");
+  const [bankDataListDDL, setorgtypeListDDL] = useState('');
+  const [orgnameListDDL, setorgnameListDDL] = useState('');
 
   useEffect(() => {
     getEmployeeData(accountId, selectedBusinessUnit.value);
@@ -32,7 +32,7 @@ export default function RoleExForm({
   const getBankData = async () => {
     try {
       const res = await Axios.get(
-        "/partner/BusinessPartnerBankInfo/GetBankInfo"
+        '/partner/BusinessPartnerBankInfo/GetBankInfo'
       );
       const { status, data } = res;
       if (status === 200 && data.length) {
@@ -47,9 +47,7 @@ export default function RoleExForm({
           });
         setorgtypeListDDL(ItemType);
       }
-    } catch (error) {
-
-    }
+    } catch (error) { }
   };
 
   const getEmployeeData = async (accId, buId) => {
@@ -70,9 +68,7 @@ export default function RoleExForm({
           });
         // setpartnerListDDL(ItemType);
       }
-    } catch (error) {
-
-    }
+    } catch (error) { }
   };
 
   const getOrgNameData = async (id) => {
@@ -94,9 +90,7 @@ export default function RoleExForm({
           });
         setorgnameListDDL(ItemType);
       }
-    } catch (error) {
-
-    }
+    } catch (error) { }
   };
 
   return (
@@ -143,7 +137,7 @@ export default function RoleExForm({
                         placeholder="Select Bank List"
                         value={values.bankName}
                         onChange={(selectedOption) => {
-                          setFieldValue("bankName", selectedOption);
+                          setFieldValue('bankName', selectedOption);
                           getOrgNameData(selectedOption?.value);
                         }}
                         isSearchable={true}
@@ -165,10 +159,10 @@ export default function RoleExForm({
                         value={values.branchName}
                         onChange={(selectedOption) => {
                           setFieldValue(
-                            "routingNo",
+                            'routingNo',
                             selectedOption?.strRoutingNo
                           );
-                          setFieldValue("branchName", selectedOption);
+                          setFieldValue('branchName', selectedOption);
                           // branchInfo();
                         }}
                         isSearchable={true}
@@ -251,7 +245,7 @@ export default function RoleExForm({
 
                                 <td
                                   className="text-center"
-                                  style={{ verticalAlign: "middle" }}
+                                  style={{ verticalAlign: 'middle' }}
                                 >
                                   <input
                                     id="isDefaultAccount"
@@ -271,13 +265,13 @@ export default function RoleExForm({
 
                                 <td
                                   className="text-center"
-                                  style={{ verticalAlign: "middle" }}
+                                  style={{ verticalAlign: 'middle' }}
                                 >
                                   <span
                                     className="pointer alterUomDeleteIcon"
                                     style={{
-                                      width: "50%",
-                                      marginTop: "3px",
+                                      width: '50%',
+                                      marginTop: '3px',
                                     }}
                                   >
                                     <i
@@ -288,7 +282,7 @@ export default function RoleExForm({
                                       aria-hidden="true"
                                       style={
                                         itm?.configId === 0
-                                          ? { color: "red" }
+                                          ? { color: 'red' }
                                           : null
                                       }
                                     ></i>
@@ -305,7 +299,7 @@ export default function RoleExForm({
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
               ></button>
             </Form>

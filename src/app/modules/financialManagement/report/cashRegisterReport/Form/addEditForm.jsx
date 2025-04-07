@@ -1,12 +1,11 @@
-
-import React, { useState } from "react";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import Form from "./form";
+import React, { useState } from 'react';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import Form from './form';
 
 const initData = {
-  businessUnit: "",
+  businessUnit: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -17,7 +16,7 @@ export function CashRegisterReport() {
 
   return (
     <IForm
-      title={"Cash Register Report"}
+      title={'Cash Register Report'}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenSave

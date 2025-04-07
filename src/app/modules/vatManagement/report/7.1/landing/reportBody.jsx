@@ -1,7 +1,7 @@
-import React, { useRef } from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import ReactToPrint from "react-to-print";
+import React, { useRef } from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import ReactToPrint from 'react-to-print';
 
 function ReportBody({ gridData, gridDataTwo }) {
   const printRef = useRef();
@@ -21,12 +21,12 @@ function ReportBody({ gridData, gridDataTwo }) {
             <button
               type="button"
               className="btn btn-primary"
-              style={{ padding: "2px 5px" }}
+              style={{ padding: '2px 5px' }}
             >
               <img
                 style={{
-                  width: "25px",
-                  paddingRight: "5px",
+                  width: '25px',
+                  paddingRight: '5px',
                 }}
                 src={printIcon}
                 alt="print-icon"
@@ -88,8 +88,8 @@ function ReportBody({ gridData, gridDataTwo }) {
                 <tr key={key}>
                   <td>
                     <div className="pl-2">
-                      {item?.businessUnitName}{" "}
-                      {item?.binNo ? <> [{item?.binNo}] </> : ""}
+                      {item?.businessUnitName}{' '}
+                      {item?.binNo ? <> [{item?.binNo}] </> : ''}
                     </div>
                   </td>
                   <td>
@@ -151,7 +151,7 @@ function ReportBody({ gridData, gridDataTwo }) {
                 <th rowSpan="2">সরবারহকৃত পণ্য বা সেবার পরিমাণ</th>
                 <th rowSpan="2">সরবারহকৃত পণ্য বা সেবার কর ব্যতীত মূল্য</th>
                 <th colSpan="4" rowSpan="1">
-                  সরবারহকৃত পণ্য বা সেবার ক্ষেত্রে প্রযোজ্য করের পরিমাণ{" "}
+                  সরবারহকৃত পণ্য বা সেবার ক্ষেত্রে প্রযোজ্য করের পরিমাণ{' '}
                 </th>
               </tr>
               <tr>
@@ -187,8 +187,8 @@ function ReportBody({ gridData, gridDataTwo }) {
                   <tr key={key}>
                     <td>
                       <div className="pl-2">
-                        {item?.businessUnitName}{" "}
-                        {item?.binNo ? <> [{item?.binNo}] </> : ""}
+                        {item?.businessUnitName}{' '}
+                        {item?.binNo ? <> [{item?.binNo}] </> : ''}
                       </div>
                     </td>
                     <td>
@@ -228,9 +228,9 @@ function ReportBody({ gridData, gridDataTwo }) {
                   </tr>
                 );
               })}
-              <tr style={{ fontWeight: "bold" }}>
+              <tr style={{ fontWeight: 'bold' }}>
                 <td colSpan="6" className="text-right">
-                  {" "}
+                  {' '}
                   Total
                 </td>
                 <td className="text-center">{total?.numQuantity.toFixed(2)}</td>

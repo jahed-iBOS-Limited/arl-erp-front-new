@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { Input } from "../../../../../../../../_metronic/_partials/controls";
-import Axios from "axios";
-import Select from "react-select";
-import customStyles from "../../../../../../selectCustomStyle";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { Input } from '../../../../../../../../_metronic/_partials/controls';
+import Axios from 'axios';
+import Select from 'react-select';
+import customStyles from '../../../../../../selectCustomStyle';
 
 import { dataValidationSchema } from '../../../../../../_helper/_validationSchema'
 
 const intiValue = {
-  attribute: "",
-  uom: "",
-  value: "",
+  attribute: '',
+  uom: '',
+  value: '',
 };
 
 export default function FormCmp({
@@ -28,7 +28,7 @@ export default function FormCmp({
   businessUnitId,
   actionBy,
 }) {
-  const [attributeList, setAttributeList] = useState("");
+  const [attributeList, setAttributeList] = useState('');
   const [baseUomList, setBaseUomList] = useState([]);
   const [attributeOption, setAttributeOption] = useState([]);
 
@@ -43,9 +43,7 @@ export default function FormCmp({
           ]);
           setAttributeList(res.data);
           // setBaseUomList(res2.data);
-        } catch (error) {
-
-        }
+        } catch (error) { }
       };
       getInfoData();
     }
@@ -58,11 +56,9 @@ export default function FormCmp({
           `/item/ItemBasic/GetItemattibuteUomByAttributeId?AttributeId=${attributeId}`
         ),
       ]);
-      setFieldValue("uom", res2[0]?.data);
+      setFieldValue('uom', res2[0]?.data);
       setBaseUomList([res2[0]?.data]);
-    } catch (error) {
-
-    }
+    } catch (error) { }
   };
 
   useEffect(() => {
@@ -104,109 +100,114 @@ export default function FormCmp({
           <>
             {disableHandler(!isValid)}
             <Form className="form form-label-right">
-              {!isViewPage && (<div className="form-group row">
-                <div className="col-lg-3">
-                  <label>Select Attribute</label>
-                  <Field
-                    name="attribute"
-                    component={() => (
-                      <Select
-                        options={attributeOption}
-                        value={values?.attribute}
-                        placeholder="Select Attribute"
-                        onChange={(valueOption) => {
-                          setFieldValue("attribute", valueOption);
-                          getInfoDataTwo(valueOption?.value, setFieldValue);
-                        }}
-                        isSearchable={true}
-                        styles={customStyles}
-                        name="attribute"
-                      />
-                    )}
-                  />
-                  <p
-                    style={{
-                      fontSize: "0.9rem",
-                      fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
-                    }}
-                    className="text-danger"
-                  >
-                    {errors && errors.attribute && touched && touched.attribute
-                      ? errors.attribute.value
-                      : ""}
-                  </p>
+              {!isViewPage && (
+                <div className="form-group row">
+                  <div className="col-lg-3">
+                    <label>Select Attribute</label>
+                    <Field
+                      name="attribute"
+                      component={() => (
+                        <Select
+                          options={attributeOption}
+                          value={values?.attribute}
+                          placeholder="Select Attribute"
+                          onChange={(valueOption) => {
+                            setFieldValue('attribute', valueOption);
+                            getInfoDataTwo(valueOption?.value, setFieldValue);
+                          }}
+                          isSearchable={true}
+                          styles={customStyles}
+                          name="attribute"
+                        />
+                      )}
+                    />
+                    <p
+                      style={{
+                        fontSize: '0.9rem',
+                        fontWeight: 400,
+                        width: '100%',
+                        marginTop: '0.25rem',
+                      }}
+                      className="text-danger"
+                    >
+                      {errors &&
+                        errors.attribute &&
+                        touched &&
+                        touched.attribute
+                        ? errors.attribute.value
+                        : ''}
+                    </p>
+                  </div>
+                  <div className="col-lg-3">
+                    <label>Select UoM</label>
+                    <Field
+                      name="uom"
+                      component={() => (
+                        <Select
+                          options={baseUomList}
+                          value={values?.uom}
+                          onChange={(valueOption) => {
+                            setFieldValue('uom', valueOption);
+                          }}
+                          isSearchable={true}
+                          styles={customStyles}
+                          name="uom"
+                          placeholder="Select UoM"
+                        />
+                      )}
+                    />
+                    <p
+                      style={{
+                        fontSize: '0.9rem',
+                        fontWeight: 400,
+                        width: '100%',
+                        marginTop: '0.25rem',
+                      }}
+                      className="text-danger"
+                    >
+                      {errors && errors.uom && touched && touched.uom
+                        ? errors.uom.value
+                        : ''}
+                    </p>
+                  </div>
+                  <div className="col-lg-3">
+                    <Field
+                      value={values.value || ''}
+                      name="value"
+                      component={Input}
+                      placeholder="Value"
+                      label="Value"
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <button
+                      disabled={
+                        !values.attribute?.value || !values.value || !values.uom
+                      }
+                      type="button"
+                      onClick={() => {
+                        const obj = {
+                          attributeValue: values.value,
+                          attributeUom: values.uom.label,
+                          attributeUomId: values.uom.value,
+                          attributeName: values.attribute.label,
+                          attributeId: values.attribute.value,
+                          itemId: +itemId,
+                          accountId: accountId,
+                          actionBy,
+                          businessUnitId,
+                          isActive: true,
+                        };
+                        setDataToState(obj);
+                      }}
+                      style={{ marginTop: '25px' }}
+                      className="btn btn-info"
+                    >
+                      Add
+                    </button>
+                  </div>
                 </div>
-                <div className="col-lg-3">
-                  <label>Select UoM</label>
-                  <Field
-                    name="uom"
-                    component={() => (
-                      <Select
-                        options={baseUomList}
-                        value={values?.uom}
-                        onChange={(valueOption) => {
-                          setFieldValue("uom", valueOption);
-                        }}
-                        isSearchable={true}
-                        styles={customStyles}
-                        name="uom"
-                        placeholder="Select UoM"
-                      />
-                    )}
-                  />
-                  <p
-                    style={{
-                      fontSize: "0.9rem",
-                      fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
-                    }}
-                    className="text-danger"
-                  >
-                    {errors && errors.uom && touched && touched.uom
-                      ? errors.uom.value
-                      : ""}
-                  </p>
-                </div>
-                <div className="col-lg-3">
-                  <Field
-                    value={values.value || ""}
-                    name="value"
-                    component={Input}
-                    placeholder="Value"
-                    label="Value"
-                  />
-                </div>
-                <div className="col-lg-3">
-                  <button
-                    disabled={
-                      !values.attribute?.value || !values.value || !values.uom
-                    }
-                    type="button"
-                    onClick={() => {
-                      const obj = {
-                        attributeValue: values.value,
-                        attributeUom: values.uom.label,
-                        attributeUomId: values.uom.value,
-                        attributeName: values.attribute.label,
-                        attributeId: values.attribute.value,
-                        itemId: +itemId,
-                        accountId: accountId,
-                        actionBy,
-                        businessUnitId,
-                        isActive: true,
-                      };
-                      setDataToState(obj);
-                    }}
-                    style={{ marginTop: "25px" }}
-                    className="btn btn-info"
-                  >
-                    Add
-                  </button>
-                </div>
-              </div>)}
+              )}
               <div className="table-responsive">
                 <table className="table table-striped table-bordered">
                   <thead>
@@ -253,14 +254,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={saveBtnRef}
-                onSubmit={() => alert("Testing")}
+                onSubmit={() => alert('Testing')}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(intiValue)}
               ></button>

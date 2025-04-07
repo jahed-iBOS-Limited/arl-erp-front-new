@@ -1,6 +1,5 @@
-
-import React from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import React from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 
 export const ActionsColumnFormatter = (
   cellContent,
@@ -8,7 +7,6 @@ export const ActionsColumnFormatter = (
   rowIndex,
   { openEditUserPage, openViewPage }
 ) => (
-
   // <>
   //   <OverlayTrigger
   //     overlay={<Tooltip userId="products-edit-tooltip">Edit User </Tooltip>}
@@ -28,19 +26,16 @@ export const ActionsColumnFormatter = (
   //     </a>
   //   </OverlayTrigger>
 
-     <>
+  <>
     {/* </> */}
     <OverlayTrigger
       overlay={<Tooltip userId="products-view-tooltip">View User</Tooltip>}
     >
-      <a
-        className="view-icon"
-        onClick={() => openViewPage(row.userId)}
-      >
+      <a className="view-icon" onClick={() => openViewPage(row.userId)}>
         <span className="svg-icon svg-icon-md svg-icon-success">
-            <i className="view_fa fa fa-eye view_fa" aria-hidden="true"></i>
-          </span>
-        </a>
+          <i className="view_fa fa fa-eye view_fa" aria-hidden="true"></i>
+        </span>
+      </a>
     </OverlayTrigger>
   </>
 );

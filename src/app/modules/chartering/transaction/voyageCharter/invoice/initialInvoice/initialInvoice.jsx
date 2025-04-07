@@ -1,22 +1,21 @@
-
-import React, { useEffect, useRef, useState } from "react";
-import ReactToPrint from "react-to-print";
-import { ToWords } from "to-words";
-import { getOwnerBankInfoDetailsByStakeHolderId } from "../../../../helper";
+import React, { useEffect, useRef, useState } from 'react';
+import ReactToPrint from 'react-to-print';
+import { ToWords } from 'to-words';
+import { getOwnerBankInfoDetailsByStakeHolderId } from '../../../../helper';
 // import akijShippingLogo from "../../../../_chartinghelper/assets/images/logos/akijShippingText.svg";
-import { shallowEqual, useSelector } from "react-redux";
-import { _dateFormatter } from "../../../../_chartinghelper/_dateFormatter";
+import { shallowEqual, useSelector } from 'react-redux';
+import { _dateFormatter } from '../../../../_chartinghelper/_dateFormatter';
 import {
   _formatMoneyWithDoller,
   _formatMoneyWithDollerZero,
-} from "../../../../_chartinghelper/_formatMoney";
-import FormikInput from "../../../../_chartinghelper/common/formikInput";
-import { BankInfoComponent } from "../BankInfoComponent";
-import "../style.css";
-import { commonGetLetterHead } from "../../../../../_helper/letterHead/commonGetLetterHead";
+} from '../../../../_chartinghelper/_formatMoney';
+import FormikInput from '../../../../_chartinghelper/common/formikInput';
+import { BankInfoComponent } from '../BankInfoComponent';
+import '../style.css';
+import { commonGetLetterHead } from '../../../../../_helper/letterHead/commonGetLetterHead';
 
 const toWords = new ToWords({
-  localeCode: "en-US",
+  localeCode: 'en-US',
   converterOptions: {
     currency: true,
     ignoreDecimal: false,
@@ -71,7 +70,10 @@ export const totalNetPayableInitialInvoice = (rowData) => {
 function InitialInvoice({ invoiceHireData, formikprops, rowData, setRowData }) {
   const [bankInfoData, setBankInfoData] = useState();
   const { values, errors, touched, setFieldValue } = formikprops;
-  const {selectedBusinessUnit}=useSelector(state=>state?.authData,shallowEqual)
+  const { selectedBusinessUnit } = useSelector(
+    (state) => state?.authData,
+    shallowEqual
+  );
 
   /* For View Only */
   const viewType = invoiceHireData?.freightInvoiceId;
@@ -98,9 +100,7 @@ function InitialInvoice({ invoiceHireData, formikprops, rowData, setRowData }) {
   ]);
 
   useEffect(() => {
-    setFieldValue("beneficiary", { ...values?.beneficiary, ...bankInfoData });
-
-
+    setFieldValue('beneficiary', { ...values?.beneficiary, ...bankInfoData });
   }, [bankInfoData]);
 
   const rowDataHandler = (index, name, value, item) => {
@@ -114,7 +114,7 @@ function InitialInvoice({ invoiceHireData, formikprops, rowData, setRowData }) {
     copy.splice(index + 1, 0, {
       freightInvoiceId: 0,
       sl: index + 1,
-      particulars: "",
+      particulars: '',
       cargoQty: 0,
       freightRate: 0,
       debit: 0,
@@ -146,7 +146,7 @@ function InitialInvoice({ invoiceHireData, formikprops, rowData, setRowData }) {
         <div className="d-flex justify-content-end my-2">
           <ReactToPrint
             pageStyle={
-              "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+              '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
             }
             trigger={() => (
               <button type="button" className="btn btn-primary px-3 py-2">
@@ -163,23 +163,23 @@ function InitialInvoice({ invoiceHireData, formikprops, rowData, setRowData }) {
         className="p-4 voyageChartererInvoice"
         style={{
           backgroundImage: `url(${commonGetLetterHead({
-                          buId: selectedBusinessUnit?.value,
-                        })})`,
-          backgroundRepeat: "no-repeat",
+            buId: selectedBusinessUnit?.value,
+          })})`,
+          backgroundRepeat: 'no-repeat',
           // backgroundPosition: "center",
-          backgroundPosition: "50% 50%",
-          backgroundSize: "cover",
-          width: "100%",
-          height: "100%",
+          backgroundPosition: '50% 50%',
+          backgroundSize: 'cover',
+          width: '100%',
+          height: '100%',
         }}
       >
         {/* <div className="timeCharterLogo">
           <img src={akijShippingLogo} alt={akijShippingLogo} />
         </div> */}
-        <div style={{ margin: "0 30px" }}>
-          {" "}
+        <div style={{ margin: '0 30px' }}>
+          {' '}
           <h5
-            style={{ marginBottom: "3rem" }}
+            style={{ marginBottom: '3rem' }}
             className="text-center mb-6 statementTitle uppercase"
           >
             {`Freight Invoice For ${values?.vesselName?.label} CP Date
@@ -188,7 +188,7 @@ function InitialInvoice({ invoiceHireData, formikprops, rowData, setRowData }) {
           {/* First Column Header */}
           <div
             className="column-header-section"
-            style={{ alignItems: "flex-start" }}
+            style={{ alignItems: 'flex-start' }}
           >
             {/* left */}
             <div>
@@ -211,14 +211,14 @@ function InitialInvoice({ invoiceHireData, formikprops, rowData, setRowData }) {
                       {invoiceHireData?.fromName}
                       {invoiceHireData?.fromAddress
                         ? ` ${invoiceHireData?.fromAddress}`
-                        : ""}
+                        : ''}
                     </>
                   ) : (
                     <>
                       {invoiceHireData?.toName}
                       {invoiceHireData?.toAdress
                         ? ` ${invoiceHireData?.toAdress} `
-                        : ""}
+                        : ''}
                     </>
                   )}
                 </div>
@@ -231,14 +231,14 @@ function InitialInvoice({ invoiceHireData, formikprops, rowData, setRowData }) {
                       {invoiceHireData?.fromName}
                       {invoiceHireData?.fromAddress
                         ? ` ${invoiceHireData?.fromAddress}`
-                        : ""}
+                        : ''}
                     </>
                   ) : (
                     <>
                       {invoiceHireData?.toName}
                       {invoiceHireData?.toAdress
                         ? ` ${invoiceHireData?.toAdress} `
-                        : ""}
+                        : ''}
                     </>
                   )}
                 </div>
@@ -256,7 +256,7 @@ function InitialInvoice({ invoiceHireData, formikprops, rowData, setRowData }) {
                   {invoiceHireData?.vesselname}
                   {invoiceHireData?.voyageNo
                     ? ` & V${invoiceHireData?.voyageNo}`
-                    : ""}
+                    : ''}
                 </div>
               </div>
               <div className="headerWrapper">
@@ -279,7 +279,7 @@ function InitialInvoice({ invoiceHireData, formikprops, rowData, setRowData }) {
                   <>
                     <div className="headerKey">INVOICE REF :</div>
                     <div className="headerValue">
-                      {invoiceHireData?.invoiceRef || ""}
+                      {invoiceHireData?.invoiceRef || ''}
                     </div>
                   </>
                 ) : null}
@@ -288,243 +288,243 @@ function InitialInvoice({ invoiceHireData, formikprops, rowData, setRowData }) {
           </div>
           {/* First Section Header */}
           <div className="headerWrapper">
-          <div className="table-responsive">
-          <table className="table mt-1 bj-table bj-table-landing mt-3">
-              <thead>
-                <tr
-                  style={{ borderTop: "1px solid #d6d6d6" }}
-                  className="text-center"
-                >
-                  <th>SL</th>
-                  <th>PARTICULARS</th>
-                  <th>CARGO QTY MT</th>
-                  <th>FREIGHT RATE USD/PMT</th>
-                  <th>TOTAL AMOUNT</th>
-                  {!viewType ? <th>ACTION</th> : null}
-                </tr>
-              </thead>
+            <div className="table-responsive">
+              <table className="table mt-1 bj-table bj-table-landing mt-3">
+                <thead>
+                  <tr
+                    style={{ borderTop: '1px solid #d6d6d6' }}
+                    className="text-center"
+                  >
+                    <th>SL</th>
+                    <th>PARTICULARS</th>
+                    <th>CARGO QTY MT</th>
+                    <th>FREIGHT RATE USD/PMT</th>
+                    <th>TOTAL AMOUNT</th>
+                    {!viewType ? <th>ACTION</th> : null}
+                  </tr>
+                </thead>
 
-              <>
-                {!viewType ? (
-                  <>
-                    <tbody>
-                      {rowData?.map((item, index) => (
-                        <tr key={index}>
-                          <td
-                            style={{ width: "40px" }}
-                            className={`${
-                              !item?.isChecked ? "isCheckedFalse" : ""
-                            } text-center`}
-                          >
-                            {index + 1}
-                          </td>
+                <>
+                  {!viewType ? (
+                    <>
+                      <tbody>
+                        {rowData?.map((item, index) => (
+                          <tr key={index}>
+                            <td
+                              style={{ width: '40px' }}
+                              className={`${
+                                !item?.isChecked ? 'isCheckedFalse' : ''
+                              } text-center`}
+                            >
+                              {index + 1}
+                            </td>
 
-                          {/* Particulers */}
-                          <td
-                            className={`${
-                              !item?.isChecked ? "isCheckedFalse" : ""
-                            }`}
-                          >
-                            {!item?.isNew ? (
-                              <>{item?.particulars}</>
-                            ) : (
-                              <>
-                                <FormikInput
-                                  className="mr-2"
-                                  onChange={(e) =>
-                                    rowDataHandler(
-                                      index,
-                                      "particulars",
-                                      e.target.value,
-                                      item
-                                    )
-                                  }
-                                  value={item?.particulars}
-                                  name={`${index}particulars${values?.statement?.value}`}
-                                  type="text"
-                                  errors={errors}
-                                  touched={touched}
-                                  disabled={!item?.isChecked}
-                                />
-                              </>
-                            )}
-                          </td>
-
-                          {/* Quantity */}
-                          <td
-                            className={`${
-                              !item?.isChecked ? "isCheckedFalse" : ""
-                            } text-right`}
-                          >
-                            {item?.cargoQty || ""}
-                          </td>
-
-                          {/* Rate */}
-                          <td
-                            className={`${
-                              !item?.isChecked ? "isCheckedFalse" : ""
-                            } text-right`}
-                          >
-                            <>
-                              {/* For View Manage */}
-                              {index > rowData.length - 3
-                                ? ""
-                                : _formatMoneyWithDoller(
-                                    item?.freightRate?.toFixed(2)
-                                  ) || ""}
-                            </>
-                          </td>
-
-                          {/* Total */}
-                          <td
-                            className={`${
-                              !item?.isChecked ? "isCheckedFalse" : ""
-                            } text-right`}
-                          >
-                            {viewType ? (
-                              /* For View */
-                              <>
-                                {index !== rowData?.length - 2 &&
-                                  index !== rowData.length - 1 &&
-                                  _formatMoneyWithDollerZero(
-                                    (
-                                      item?.cargoQty * item?.freightRate || 0
-                                    )?.toFixed(2)
-                                  )}
-                              </>
-                            ) : (
-                              /* For Create */
-                              <>
-                                {item?.isNew ? (
+                            {/* Particulers */}
+                            <td
+                              className={`${
+                                !item?.isChecked ? 'isCheckedFalse' : ''
+                              }`}
+                            >
+                              {!item?.isNew ? (
+                                <>{item?.particulars}</>
+                              ) : (
+                                <>
                                   <FormikInput
                                     className="mr-2"
                                     onChange={(e) =>
                                       rowDataHandler(
                                         index,
-                                        "credit",
+                                        'particulars',
                                         e.target.value,
                                         item
                                       )
                                     }
-                                    value={item?.credit}
-                                    name={`${index}credit${values?.statement?.value}`}
-                                    type="number"
+                                    value={item?.particulars}
+                                    name={`${index}particulars${values?.statement?.value}`}
+                                    type="text"
                                     errors={errors}
                                     touched={touched}
                                     disabled={!item?.isChecked}
                                   />
-                                ) : (
-                                  <>
-                                    {item?.parcentageValue
-                                      ? (
-                                          (item?.parcentageValue * total) /
-                                          100
-                                        ).toFixed(2)
-                                      : _formatMoneyWithDollerZero(
-                                          (
-                                            item?.cargoQty *
-                                              item?.freightRate || 0
-                                          )?.toFixed(2)
-                                        )}
-                                  </>
-                                )}
-                              </>
-                            )}
-                          </td>
-
-                          {viewType ? null : (
-                            <td
-                              className="text-center"
-                              style={{ width: "80px" }}
-                            >
-                              {!item?.isAction ? null : (
-                                <>
-                                  <span
-                                    onClick={() => {
-                                      addHandler(index);
-                                    }}
-                                  >
-                                    <i
-                                      style={{ fontSize: "16px" }}
-                                      className="fa fa-plus-square text-primary mr-2"
-                                    />
-                                  </span>
-                                  <span>
-                                    <input
-                                      disabled={item?.isFixed}
-                                      type="checkbox"
-                                      checked={item?.isChecked}
-                                      onChange={(e) => {
-                                        rowDataHandler(
-                                          index,
-                                          "isChecked",
-                                          e.target.checked,
-                                          item
-                                        );
-                                      }}
-                                    />
-                                  </span>
-
-                                  {item?.isNew ? (
-                                    <>
-                                      <span
-                                        onClick={() => {
-                                          deleteHandler(index);
-                                        }}
-                                      >
-                                        <i
-                                          style={{ fontSize: "14px" }}
-                                          className="fa fa-trash text-danger ml-2"
-                                        />
-                                      </span>
-                                    </>
-                                  ) : null}
                                 </>
                               )}
                             </td>
-                          )}
-                        </tr>
-                      ))}
 
-                      <tr>
-                        <td colSpan={4} className="text-right">
-                          <strong>NET PAYABLE TO OWNERS</strong>
-                        </td>
+                            {/* Quantity */}
+                            <td
+                              className={`${
+                                !item?.isChecked ? 'isCheckedFalse' : ''
+                              } text-right`}
+                            >
+                              {item?.cargoQty || ''}
+                            </td>
 
-                        <td className="text-right">
-                          <strong>
-                            {_formatMoneyWithDollerZero(
-                              totalNetPayableInitialInvoice(rowData)
+                            {/* Rate */}
+                            <td
+                              className={`${
+                                !item?.isChecked ? 'isCheckedFalse' : ''
+                              } text-right`}
+                            >
+                              <>
+                                {/* For View Manage */}
+                                {index > rowData.length - 3
+                                  ? ''
+                                  : _formatMoneyWithDoller(
+                                      item?.freightRate?.toFixed(2)
+                                    ) || ''}
+                              </>
+                            </td>
+
+                            {/* Total */}
+                            <td
+                              className={`${
+                                !item?.isChecked ? 'isCheckedFalse' : ''
+                              } text-right`}
+                            >
+                              {viewType ? (
+                                /* For View */
+                                <>
+                                  {index !== rowData?.length - 2 &&
+                                    index !== rowData.length - 1 &&
+                                    _formatMoneyWithDollerZero(
+                                      (
+                                        item?.cargoQty * item?.freightRate || 0
+                                      )?.toFixed(2)
+                                    )}
+                                </>
+                              ) : (
+                                /* For Create */
+                                <>
+                                  {item?.isNew ? (
+                                    <FormikInput
+                                      className="mr-2"
+                                      onChange={(e) =>
+                                        rowDataHandler(
+                                          index,
+                                          'credit',
+                                          e.target.value,
+                                          item
+                                        )
+                                      }
+                                      value={item?.credit}
+                                      name={`${index}credit${values?.statement?.value}`}
+                                      type="number"
+                                      errors={errors}
+                                      touched={touched}
+                                      disabled={!item?.isChecked}
+                                    />
+                                  ) : (
+                                    <>
+                                      {item?.parcentageValue
+                                        ? (
+                                            (item?.parcentageValue * total) /
+                                            100
+                                          ).toFixed(2)
+                                        : _formatMoneyWithDollerZero(
+                                            (
+                                              item?.cargoQty *
+                                                item?.freightRate || 0
+                                            )?.toFixed(2)
+                                          )}
+                                    </>
+                                  )}
+                                </>
+                              )}
+                            </td>
+
+                            {viewType ? null : (
+                              <td
+                                className="text-center"
+                                style={{ width: '80px' }}
+                              >
+                                {!item?.isAction ? null : (
+                                  <>
+                                    <span
+                                      onClick={() => {
+                                        addHandler(index);
+                                      }}
+                                    >
+                                      <i
+                                        style={{ fontSize: '16px' }}
+                                        className="fa fa-plus-square text-primary mr-2"
+                                      />
+                                    </span>
+                                    <span>
+                                      <input
+                                        disabled={item?.isFixed}
+                                        type="checkbox"
+                                        checked={item?.isChecked}
+                                        onChange={(e) => {
+                                          rowDataHandler(
+                                            index,
+                                            'isChecked',
+                                            e.target.checked,
+                                            item
+                                          );
+                                        }}
+                                      />
+                                    </span>
+
+                                    {item?.isNew ? (
+                                      <>
+                                        <span
+                                          onClick={() => {
+                                            deleteHandler(index);
+                                          }}
+                                        >
+                                          <i
+                                            style={{ fontSize: '14px' }}
+                                            className="fa fa-trash text-danger ml-2"
+                                          />
+                                        </span>
+                                      </>
+                                    ) : null}
+                                  </>
+                                )}
+                              </td>
                             )}
-                          </strong>
-                        </td>
-                        {viewType ? null : <td></td>}
-                      </tr>
+                          </tr>
+                        ))}
 
-                      {true ? (
                         <tr>
-                          <td colSpan="7" className="text-center">
-                            <div>
-                              <strong>
-                                {`(In Word USD) ${toWords.convert(
-                                  totalNetPayableInitialInvoice(rowData)
-                                )}`}
-                              </strong>
-                            </div>
+                          <td colSpan={4} className="text-right">
+                            <strong>NET PAYABLE TO OWNERS</strong>
                           </td>
+
+                          <td className="text-right">
+                            <strong>
+                              {_formatMoneyWithDollerZero(
+                                totalNetPayableInitialInvoice(rowData)
+                              )}
+                            </strong>
+                          </td>
+                          {viewType ? null : <td></td>}
                         </tr>
-                      ) : null}
-                    </tbody>
-                  </>
-                ) : (
-                  <TableForView
-                    rowData={rowData}
-                    invoiceHireData={invoiceHireData}
-                  />
-                )}
-              </>
-            </table>
-          </div>
+
+                        {true ? (
+                          <tr>
+                            <td colSpan="7" className="text-center">
+                              <div>
+                                <strong>
+                                  {`(In Word USD) ${toWords.convert(
+                                    totalNetPayableInitialInvoice(rowData)
+                                  )}`}
+                                </strong>
+                              </div>
+                            </td>
+                          </tr>
+                        ) : null}
+                      </tbody>
+                    </>
+                  ) : (
+                    <TableForView
+                      rowData={rowData}
+                      invoiceHireData={invoiceHireData}
+                    />
+                  )}
+                </>
+              </table>
+            </div>
           </div>
           {/* Bank Info Section */}
           {bankInfoData?.bankName ? (
@@ -536,7 +536,7 @@ function InitialInvoice({ invoiceHireData, formikprops, rowData, setRowData }) {
                 For And Behalf Of {invoiceHireData?.fromName}
                 {invoiceHireData?.fromAddress
                   ? ` ${invoiceHireData?.fromAddress}`
-                  : ""}
+                  : ''}
               </strong>
             </p>
           </div>
@@ -552,7 +552,7 @@ const TableForView = ({ rowData, invoiceHireData }) => {
       {rowData?.map((item, index) => (
         <>
           <tr key={index}>
-            <td style={{ width: "40px" }} className={`text-center`}>
+            <td style={{ width: '40px' }} className={`text-center`}>
               {index + 1}
             </td>
 
@@ -560,11 +560,11 @@ const TableForView = ({ rowData, invoiceHireData }) => {
             <td>{item?.particulars}</td>
 
             {/* Quantity */}
-            <td className={`text-right`}>{item?.cargoQty || ""}</td>
+            <td className={`text-right`}>{item?.cargoQty || ''}</td>
 
             {/* Rate */}
             <td className={`text-right`}>
-              <>{!item?.cargoQty ? "" : item?.freightRate?.toFixed(2)}</>
+              <>{!item?.cargoQty ? '' : item?.freightRate?.toFixed(2)}</>
             </td>
 
             {/* Total */}

@@ -1,7 +1,7 @@
-import React from "react";
-import ExistingTransportPolicyLanding from "./landing";
-import { useSelector, shallowEqual } from "react-redux";
-import TransportZoneRateReport from "./../../transportZoneRate/landing/index";
+import React from 'react';
+import ExistingTransportPolicyLanding from './landing';
+import { useSelector, shallowEqual } from 'react-redux';
+import TransportZoneRateReport from './../../transportZoneRate/landing/index';
 function ExistingTransportPolicy() {
   const { selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;

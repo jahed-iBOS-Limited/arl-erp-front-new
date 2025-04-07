@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import ICard from "../../../../../_helper/_card";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import "../../style.css";
-import { _fixedPoint } from "../../../../../_helper/_fixedPoint";
-import { ToWords } from "to-words";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
+import React, { useEffect, useRef } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import ICard from '../../../../../_helper/_card';
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
+import '../../style.css';
+import { _fixedPoint } from '../../../../../_helper/_fixedPoint';
+import { ToWords } from 'to-words';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
 
 export default function ForeingSalesInvoicePrint({ landingData }) {
   const printRef = useRef();
@@ -16,7 +16,7 @@ export default function ForeingSalesInvoicePrint({ landingData }) {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const toWords = new ToWords({
-    localeCode: "en-US",
+    localeCode: 'en-US',
     converterOptions: {
       currency: true,
       ignoreDecimal: false,
@@ -38,7 +38,6 @@ export default function ForeingSalesInvoicePrint({ landingData }) {
       `/wms/Delivery/ViewForeignDeliveryInvoice?deliveryId=${deliveryId}&accountId=${accId}&businessUnitId=${buId}`
       // `/wms/Delivery/ViewForeignDeliveryInvoice?deliveryId=${deliveryId}&accountId=${accId}&businessUnitId=${buId}`
     );
-
   }, [accId, buId, deliveryId]);
 
   let totalAmountUSD = 0;
@@ -52,7 +51,7 @@ export default function ForeingSalesInvoicePrint({ landingData }) {
         isShowPrintBtn={true}
         componentRef={printRef}
         pageStyle={
-          "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+          '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
         }
       >
         <div ref={printRef}>
@@ -70,14 +69,14 @@ export default function ForeingSalesInvoicePrint({ landingData }) {
                 <table className="table delivery_challan_top_table mt-8">
                   <tbody>
                     <tr>
-                      <td style={{ width: "107px" }}>
+                      <td style={{ width: '107px' }}>
                         <b>Invoice No</b>
                       </td>
                       <td>:</td>
                       <td>
                         <b>{headerData?.deliveryCode}</b>
                       </td>
-                      <td style={{ width: "120px" }}>
+                      <td style={{ width: '120px' }}>
                         <b>Customer Code</b>
                       </td>
                       <td>:</td>
@@ -89,7 +88,7 @@ export default function ForeingSalesInvoicePrint({ landingData }) {
                       <td>Invoice Date</td>
                       <td>:</td>
                       <td>{_dateFormatter(headerData?.deliveryDate)}</td>
-                      <td style={{ width: "120px" }}>Name</td>
+                      <td style={{ width: '120px' }}>Name</td>
                       <td>:</td>
                       <td>{headerData?.soldToPartnerName}</td>
                     </tr>
@@ -131,11 +130,11 @@ export default function ForeingSalesInvoicePrint({ landingData }) {
                 <table className="table table-striped table-bordered  global-table">
                   <thead>
                     <tr>
-                      <th style={{ width: "35px" }} rowSpan={2}>
+                      <th style={{ width: '35px' }} rowSpan={2}>
                         SL
                       </th>
-                      <th style={{ width: "220px" }} rowSpan={2}>
-                        {" "}
+                      <th style={{ width: '220px' }} rowSpan={2}>
+                        {' '}
                         Description
                       </th>
                       <th rowSpan={2}>Qty/Carton</th>
@@ -169,19 +168,21 @@ export default function ForeingSalesInvoicePrint({ landingData }) {
                             }
                           </td>
                           <td className="text-right">
-                            {item?.totalCarton * item?.pieceInCTN
-                            // item?.headings?.find(
-                            //   (element) => element?.headerName === "PCS In CTN"
-                            // )?.headerValue
+                            {
+                              item?.totalCarton * item?.pieceInCTN
+                              // item?.headings?.find(
+                              //   (element) => element?.headerName === "PCS In CTN"
+                              // )?.headerValue
                             }
                           </td>
                           <td className="text-right">0</td>
                           <td className="text-right">0</td>
                           <td className="text-right">
-                            {item?.totalCarton * item?.pieceInCTN
-                            // item?.headings?.find(
-                            //   (element) => element?.headerName === "PCS In CTN"
-                            // )?.headerValue
+                            {
+                              item?.totalCarton * item?.pieceInCTN
+                              // item?.headings?.find(
+                              //   (element) => element?.headerName === "PCS In CTN"
+                              // )?.headerValue
                             }
                           </td>
                           <td className="text-right">{item?.totalCarton}</td>
@@ -201,7 +202,7 @@ export default function ForeingSalesInvoicePrint({ landingData }) {
                     <tr>
                       <td colSpan={8} rowSpan={2}>
                         <p>
-                          USD In Words:{" "}
+                          USD In Words:{' '}
                           {toWords.convert(totalAmountUSD.toFixed(0))}
                         </p>
                       </td>
@@ -247,20 +248,20 @@ export default function ForeingSalesInvoicePrint({ landingData }) {
               <section>
                 <div
                   className="d-flex justify-content-between"
-                  style={{ margin: "80px 0 0" }}
+                  style={{ margin: '80px 0 0' }}
                 >
                   <div>
-                    <b style={{ borderTop: "1px solid", padding: "5px 0 0" }}>
+                    <b style={{ borderTop: '1px solid', padding: '5px 0 0' }}>
                       Customer's Signature & Seal
                     </b>
                   </div>
                   <div>
-                    <b style={{ borderTop: "1px solid", padding: "5px 0 0" }}>
+                    <b style={{ borderTop: '1px solid', padding: '5px 0 0' }}>
                       Driver's Signature
                     </b>
                   </div>
                   <div>
-                    <b style={{ borderTop: "1px solid", padding: "5px 0 0" }}>
+                    <b style={{ borderTop: '1px solid', padding: '5px 0 0' }}>
                       For Akij Essentials Ltd.
                     </b>
                   </div>

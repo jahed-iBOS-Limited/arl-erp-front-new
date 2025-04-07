@@ -1,11 +1,10 @@
-
-import React, { useEffect, useState } from "react";
-import BootstrapTable from "react-bootstrap-table-next";
-import Axios from "axios";
-import { useSelector, shallowEqual } from "react-redux";
-import Loading from "./../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
+import React, { useEffect, useState } from 'react';
+import BootstrapTable from 'react-bootstrap-table-next';
+import Axios from 'axios';
+import { useSelector, shallowEqual } from 'react-redux';
+import Loading from './../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import PaginationSearch from '../../../../_helper/_search';
 
 export function PlantTable() {
   const [products, setProducts] = useState(null);
@@ -25,9 +24,9 @@ export function PlantTable() {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-  const dispatchProduct = async (accId, buId, pageNo, pageSize,search) => {
+  const dispatchProduct = async (accId, buId, pageNo, pageSize, search) => {
     setLoading(true);
-    const searchPath = search ? `searchTerm=${search}&` : "";
+    const searchPath = search ? `searchTerm=${search}&` : '';
     try {
       const res = await Axios.get(
         `/item/ItemUOM/GetItemUOMByAccountIdBusinessUnitIdSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
@@ -35,7 +34,6 @@ export function PlantTable() {
       setProducts(res?.data);
       setLoading(false);
     } catch (error) {
-
       setLoading(false);
     }
   };
@@ -65,22 +63,22 @@ export function PlantTable() {
   // Table columns
   const columns = [
     {
-      dataField: "sl",
-      text: "SL",
+      dataField: 'sl',
+      text: 'SL',
     },
     {
-      dataField: "uomName",
-      text: "Unit Of Measurement",
+      dataField: 'uomName',
+      text: 'Unit Of Measurement',
     },
     {
-      dataField: "uomCode",
-      text: "Unit Of Measurement Code",
+      dataField: 'uomCode',
+      text: 'Unit Of Measurement Code',
     },
   ];
 
-  const paginationSearchHandler =(searchValue)=>{
-    setPositionHandler(pageNo, pageSize, searchValue)
-  }
+  const paginationSearchHandler = (searchValue) => {
+    setPositionHandler(pageNo, pageSize, searchValue);
+  };
 
   return (
     <>

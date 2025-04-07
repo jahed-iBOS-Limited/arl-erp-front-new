@@ -1,8 +1,8 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import shortid from "shortid";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import { _fixedPoint } from './../../../../_helper/_fixedPoint';
 
 export const rowDtoCalculationFunc = (arr) => {
   // obj row
@@ -58,7 +58,7 @@ export const createPurchase = async (payload, cb, setDisabled) => {
     setDisabled(true);
     const res = await Axios.post(`/vat/TaxPurchase/CreateTaxPurchase`, payload);
     if (res.status === 200 && res?.data) {
-      toast.success("Submitted Successfully", {
+      toast.success('Submitted Successfully', {
         toastId: shortid(),
       });
       cb();
@@ -75,7 +75,7 @@ export const editPurchase = async (payload, setDisabled) => {
     setDisabled(true);
     const res = await Axios.put(`/vat/TaxPurchase/EditTaxPurchase`, payload);
     if (res.status === 200 && res?.data) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       // cb();
       setDisabled(false);
     }
@@ -286,68 +286,68 @@ export const getSinglePurchaseview = async (
               value: taxPurchase?.supplierId,
               label: `${taxPurchase?.supplierName}(${taxPurchase?.supplierBin})`,
             }
-          : "",
-        address: taxPurchase?.supplierAddress || "",
+          : '',
+        address: taxPurchase?.supplierAddress || '',
         transactionDate: taxPurchase?.purchaseDateTime
           ? _dateFormatter(taxPurchase?.purchaseDateTime)
-          : "",
+          : '',
         tradeType: taxPurchase?.tradeTypeId
           ? {
               value: taxPurchase?.tradeTypeId,
               label: taxPurchase?.tradeTypeName,
             }
-          : "",
+          : '',
         port: taxPurchase?.portId
           ? {
               value: taxPurchase?.portId,
               label: taxPurchase?.portName,
             }
-          : "",
+          : '',
         paymentTerm: taxPurchase?.paymentTerms
           ? {
               value: taxPurchase?.paymentTerms,
               label: taxPurchase?.paymentTermsName,
             }
-          : "",
-        vehicalInfo: { value: 1, label: taxPurchase?.vehicleNo || "" },
-        refferenceNo: taxPurchase?.referanceNo || "",
+          : '',
+        vehicalInfo: { value: 1, label: taxPurchase?.vehicleNo || '' },
+        refferenceNo: taxPurchase?.referanceNo || '',
         refferenceDate: taxPurchase?.referanceDate
           ? _dateFormatter(taxPurchase?.referanceDate)
-          : "",
+          : '',
         totalTdsAmount: taxPurchase?.tdstotal || 0,
         totalVdsAmount: taxPurchase?.vdstotal || 0,
         totalAtv: taxPurchase?.atvtotal || 0,
         totalAit: taxPurchase?.aittotal || 0,
-        selectedItem: "",
-        selectedUom: "",
-        quantity: "",
-        rate: "",
+        selectedItem: '',
+        selectedUom: '',
+        quantity: '',
+        rate: '',
         purchaseType: taxPurchase?.purchaseType
           ? { value: 10, label: taxPurchase?.purchaseType }
-          : "",
-        lcDate: taxPurchase?.lcdate ? _dateFormatter(taxPurchase?.lcdate) : "",
+          : '',
+        lcDate: taxPurchase?.lcdate ? _dateFormatter(taxPurchase?.lcdate) : '',
         customsHouse: taxPurchase?.customHouseId
           ? {
               value: taxPurchase?.customHouseId,
               label: taxPurchase?.customHouseName,
               code: taxPurchase?.customHouseCode,
             }
-          : "",
-        CustomsHouseCode: taxPurchase?.customHouseCode || "",
+          : '',
+        CustomsHouseCode: taxPurchase?.customHouseCode || '',
         country: taxPurchase?.orginCountryId
           ? {
               value: taxPurchase?.orginCountryId,
               label: taxPurchase?.orginCountryName,
             }
-          : "",
+          : '',
         CPCCode: taxPurchase?.cpcCode
           ? {
               value: taxPurchase?.cpcID,
               label: taxPurchase?.cpcCode,
               details: taxPurchase?.cpcDetails,
             }
-          : "",
-        numberOfItem: taxPurchase?.noItem || "",
+          : '',
+        numberOfItem: taxPurchase?.noItem || '',
       };
       setSingleData(objHeader);
       const objRow = res?.data?.objListRowDTO;
@@ -396,7 +396,7 @@ export const getSinglePurchaseview = async (
           at: atTotal,
           totalAmount: totalAmount,
           amount: +amount,
-          supplyTypeName: item.supplyTypeName || "",
+          supplyTypeName: item.supplyTypeName || '',
           supplyTypeId: item?.supplyTypeId || 0,
         };
       });
@@ -430,70 +430,70 @@ export const getSinglePurchase = async (
               value: taxPurchase?.supplierId,
               label: `${taxPurchase?.supplierName}(${taxPurchase?.supplierBin})`,
             }
-          : "",
-        address: taxPurchase?.supplierAddress || "",
+          : '',
+        address: taxPurchase?.supplierAddress || '',
         transactionDate: taxPurchase?.purchaseDateTime
           ? _dateFormatter(taxPurchase?.purchaseDateTime)
-          : "",
+          : '',
         tradeType: taxPurchase?.tradeTypeId
           ? {
               value: taxPurchase?.tradeTypeId,
               label: taxPurchase?.tradeTypeName,
             }
-          : "",
+          : '',
         port: taxPurchase?.portId
           ? {
               value: taxPurchase?.portId,
               label: taxPurchase?.portName,
             }
-          : "",
+          : '',
         paymentTerm: taxPurchase?.paymentTerms
           ? {
               value: taxPurchase?.paymentTerms,
               label: taxPurchase?.paymentTermsName,
             }
-          : "",
+          : '',
         vehicalInfo: taxPurchase?.vehicleNo
-          ? { value: 1, label: taxPurchase?.vehicleNo || "" }
-          : "",
-        refferenceNo: taxPurchase?.referanceNo || "",
+          ? { value: 1, label: taxPurchase?.vehicleNo || '' }
+          : '',
+        refferenceNo: taxPurchase?.referanceNo || '',
         refferenceDate: taxPurchase?.referanceDate
           ? _dateFormatter(taxPurchase?.referanceDate)
-          : "",
+          : '',
         totalTdsAmount: taxPurchase?.tdstotal || 0,
         totalVdsAmount: taxPurchase?.vdstotal || 0,
         totalAtv: taxPurchase?.atvtotal || 0,
         totalAit: taxPurchase?.aittotal || 0,
-        selectedItem: "",
-        selectedUom: "",
-        quantity: "",
-        rate: "",
+        selectedItem: '',
+        selectedUom: '',
+        quantity: '',
+        rate: '',
         purchaseType: taxPurchase?.purchaseType
           ? { value: 10, label: taxPurchase?.purchaseType }
-          : "",
-        lcDate: taxPurchase?.lcdate ? _dateFormatter(taxPurchase?.lcdate) : "",
+          : '',
+        lcDate: taxPurchase?.lcdate ? _dateFormatter(taxPurchase?.lcdate) : '',
         customsHouse: taxPurchase?.customHouseId
           ? {
               value: taxPurchase?.customHouseId,
               label: taxPurchase?.customHouseName,
               code: taxPurchase?.customHouseCode,
             }
-          : "",
-        CustomsHouseCode: taxPurchase?.customHouseCode || "",
+          : '',
+        CustomsHouseCode: taxPurchase?.customHouseCode || '',
         country: taxPurchase?.orginCountryId
           ? {
               value: taxPurchase?.orginCountryId,
               label: taxPurchase?.orginCountryName,
             }
-          : "",
+          : '',
         CPCCode: taxPurchase?.cpcCode
           ? {
               value: taxPurchase?.cpcID,
               label: taxPurchase?.cpcCode,
               details: taxPurchase?.cpcDetails,
             }
-          : "",
-        numberOfItem: taxPurchase?.noItem || "",
+          : '',
+        numberOfItem: taxPurchase?.noItem || '',
       };
       setSingleData(objHeader);
       const objRow = res?.data?.objListRowDTO;
@@ -542,7 +542,7 @@ export const getSinglePurchase = async (
           at: atTotal,
           totalAmount: totalAmount,
           amount: +amount,
-          supplyTypeName: item.supplyTypeName || "",
+          supplyTypeName: item.supplyTypeName || '',
           supplyTypeId: item?.supplyTypeId || 0,
         };
       });
@@ -613,18 +613,18 @@ export const getVehicleDDL = async (accId, buId, setter) => {
 export const purchaseAttachment_action = async (attachment, setUploadImage) => {
   let formData = new FormData();
   attachment.forEach((file) => {
-    formData.append("files", file?.file);
+    formData.append('files', file?.file);
   });
   try {
-    let { data } = await Axios.post("/vat/Document/UploadFile", formData, {
+    let { data } = await Axios.post('/vat/Document/UploadFile', formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
     });
-    toast.success("Upload  successfully");
+    toast.success('Upload  successfully');
     setUploadImage(data);
   } catch (error) {
-    toast.error("Document not upload");
+    toast.error('Document not upload');
   }
 };
 
@@ -652,7 +652,7 @@ export const GetItemVatInfoByHsCodeImport_api = async (
     setter(res?.data);
   } catch (error) {
     setDisabled(false);
-    setter("");
+    setter('');
   }
 };
 export const GetItemVatInfoByHsCodeLocal = async (
@@ -670,7 +670,7 @@ export const GetItemVatInfoByHsCodeLocal = async (
     setter(res?.data);
   } catch (error) {
     setDisabled(false);
-    setter("");
+    setter('');
   }
 };
 
@@ -730,7 +730,7 @@ export const GetItemInfoByItemHs_api = async (accId, buId, code, setter) => {
       setter(res?.data);
     }
   } catch (error) {
-    setter("");
+    setter('');
   }
 };
 
@@ -756,68 +756,68 @@ export const GetPurchaseLogDetails_api = async (
               value: taxPurchase?.supplierId,
               label: `${taxPurchase?.supplierName}(${taxPurchase?.supplierBin})`,
             }
-          : "",
-        address: taxPurchase?.supplierAddress || "",
+          : '',
+        address: taxPurchase?.supplierAddress || '',
         transactionDate: taxPurchase?.purchaseDateTime
           ? _dateFormatter(taxPurchase?.purchaseDateTime)
-          : "",
+          : '',
         tradeType: taxPurchase?.tradeTypeId
           ? {
               value: taxPurchase?.tradeTypeId,
               label: taxPurchase?.tradeTypeName,
             }
-          : "",
+          : '',
         port: taxPurchase?.portId
           ? {
               value: taxPurchase?.portId,
               label: taxPurchase?.portName,
             }
-          : "",
+          : '',
         paymentTerm: taxPurchase?.paymentTerms
           ? {
               value: taxPurchase?.paymentTerms,
               label: taxPurchase?.paymentTermsName,
             }
-          : "",
-        vehicalInfo: { value: 1, label: taxPurchase?.vehicleNo || "" },
-        refferenceNo: taxPurchase?.referanceNo || "",
+          : '',
+        vehicalInfo: { value: 1, label: taxPurchase?.vehicleNo || '' },
+        refferenceNo: taxPurchase?.referanceNo || '',
         refferenceDate: taxPurchase?.referanceDate
           ? _dateFormatter(taxPurchase?.referanceDate)
-          : "",
+          : '',
         totalTdsAmount: taxPurchase?.tdstotal || 0,
         totalVdsAmount: taxPurchase?.vdstotal || 0,
         totalAtv: taxPurchase?.atvtotal || 0,
         totalAit: taxPurchase?.aittotal || 0,
-        selectedItem: "",
-        selectedUom: "",
-        quantity: "",
-        rate: "",
+        selectedItem: '',
+        selectedUom: '',
+        quantity: '',
+        rate: '',
         purchaseType: taxPurchase?.purchaseType
           ? { value: 10, label: taxPurchase?.purchaseType }
-          : "",
-        lcDate: taxPurchase?.lcdate ? _dateFormatter(taxPurchase?.lcdate) : "",
+          : '',
+        lcDate: taxPurchase?.lcdate ? _dateFormatter(taxPurchase?.lcdate) : '',
         customsHouse: taxPurchase?.customHouseId
           ? {
               value: taxPurchase?.customHouseId,
               label: taxPurchase?.customHouseName,
               code: taxPurchase?.customHouseCode,
             }
-          : "",
-        CustomsHouseCode: taxPurchase?.customHouseCode || "",
+          : '',
+        CustomsHouseCode: taxPurchase?.customHouseCode || '',
         country: taxPurchase?.orginCountryId
           ? {
               value: taxPurchase?.orginCountryId,
               label: taxPurchase?.orginCountryName,
             }
-          : "",
+          : '',
         CPCCode: taxPurchase?.cpcCode
           ? {
               value: taxPurchase?.cpcID,
               label: taxPurchase?.cpcCode,
               details: taxPurchase?.cpcDetails,
             }
-          : "",
-        numberOfItem: taxPurchase?.noItem || "",
+          : '',
+        numberOfItem: taxPurchase?.noItem || '',
       };
       setSingleData(objHeader);
       const objRow = res?.data?.objListRowDTO;
@@ -866,7 +866,7 @@ export const GetPurchaseLogDetails_api = async (
           at: atTotal,
           totalAmount: totalAmount,
           amount: +amount,
-          supplyTypeName: item.supplyTypeName || "",
+          supplyTypeName: item.supplyTypeName || '',
           supplyTypeId: item?.supplyTypeId || 0,
         };
       });

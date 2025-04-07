@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 // Plant DDL Call
 export const getPlantDDL = async (userId, accId, buId, setter) => {
   try {
@@ -34,12 +34,11 @@ export const GetBillRegister_api = async (
   setter,
   setDisabled,
   userId,
-  search,
-
+  search
 ) => {
   setDisabled(true);
   try {
-    const searchPath = search ? `&Search=${search}` : "";
+    const searchPath = search ? `&Search=${search}` : '';
     const pageNo = search ? 0 : PageNo;
     const res = await Axios.get(
       `/fino/PaymentRequest/GetBillRegister?AccountId=${accId}&BusinessUnitId=${buId}&PlantId=${plantId}&SBUId=${sbu}&TypeId=${typeId}&ApprovalType=${approvalType}&PageSize=${pageSize}&PageNo=${pageNo}&ViewOrder=desc${searchPath}&fromDate=${
@@ -73,8 +72,8 @@ export const CreatePaymentRequest_api = async (
     );
     if (res.status === 200) {
       setDisabled(false);
-      toast.success(res?.data?.message || "Submitted successfully", {
-        toastId: "CreatePaymentRequest",
+      toast.success(res?.data?.message || 'Submitted successfully', {
+        toastId: 'CreatePaymentRequest',
       });
       girdDataFunc(values);
       setModalShow && setModalShow(false);
@@ -82,7 +81,7 @@ export const CreatePaymentRequest_api = async (
   } catch (error) {
     setDisabled(false);
     toast.error(error?.response?.data?.message, {
-      toastId: "CreatePaymentRequest",
+      toastId: 'CreatePaymentRequest',
     });
   }
 };
@@ -103,8 +102,8 @@ export const BillApproved_api = async (
     );
     if (res.status === 200) {
       setDisabled(false);
-      toast.success(res?.data?.message || "Submitted successfully", {
-        toastId: "BillApproved",
+      toast.success(res?.data?.message || 'Submitted successfully', {
+        toastId: 'BillApproved',
       });
       girdDataFunc(values);
       setModalShow && setModalShow(false);
@@ -112,7 +111,7 @@ export const BillApproved_api = async (
   } catch (error) {
     setDisabled(false);
     toast.error(error?.response?.data?.message, {
-      toastId: "BillApproved",
+      toastId: 'BillApproved',
     });
   }
 };
@@ -128,8 +127,8 @@ export const rejectBillRegister_api = async (
     const res = await Axios.post(`/fino/BillRegister/RejectBillRegister`, data);
     if (res.status === 200) {
       setDisabled(false);
-      toast.success(res?.data?.message || "Submitted successfully", {
-        toastId: "RejectBillRegister",
+      toast.success(res?.data?.message || 'Submitted successfully', {
+        toastId: 'RejectBillRegister',
       });
       girdDataFunc(values);
       setIsReject(false);
@@ -137,7 +136,7 @@ export const rejectBillRegister_api = async (
   } catch (error) {
     setDisabled(false);
     toast.error(error?.response?.data?.message, {
-      toastId: "RejectBillRegister",
+      toastId: 'RejectBillRegister',
     });
   }
 };
@@ -258,7 +257,7 @@ export const getSbuDDL = async (accId, buId, setter, cb) => {
     );
 
     setter(res?.data);
-    cb&& cb(res?.data)
+    cb && cb(res?.data);
   } catch (err) {
     toast.warning(err?.response?.data?.message);
   }

@@ -1,62 +1,62 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import * as Yup from "yup";
-import { IInput } from "../../../../_helper/_input";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import InputField from "../../../../_helper/_inputField";
-import { NegetiveCheck } from "../../../../_helper/_negitiveCheck";
-import IViewModal from "../../../../_helper/_viewModal";
-import SearchAsyncSelect from "./../../../../_helper/SearchAsyncSelect";
-import NewSelect from "./../../../../_helper/_select";
-import VehicleNoAddForm from "./vehicleNoAddForm/vehicleNoAddForm";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import * as Yup from 'yup';
+import { IInput } from '../../../../_helper/_input';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import InputField from '../../../../_helper/_inputField';
+import { NegetiveCheck } from '../../../../_helper/_negitiveCheck';
+import IViewModal from '../../../../_helper/_viewModal';
+import SearchAsyncSelect from './../../../../_helper/SearchAsyncSelect';
+import NewSelect from './../../../../_helper/_select';
+import VehicleNoAddForm from './vehicleNoAddForm/vehicleNoAddForm';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   vehicleNo: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Vehicle No is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Vehicle No is required'),
   weight: Yup.number()
-    .min(0, "Minimum 0 range")
-    .max(100000, "Maximum 100000 range")
-    .required("Weight is required"),
+    .min(0, 'Minimum 0 range')
+    .max(100000, 'Maximum 100000 range')
+    .required('Weight is required'),
   volume: Yup.number()
-    .min(0, "Minimum 0 range")
-    .max(100000, "Maximum 100000 range")
-    .required("Volume is required"),
+    .min(0, 'Minimum 0 range')
+    .max(100000, 'Maximum 100000 range')
+    .required('Volume is required'),
   vehicleType: Yup.object().shape({
-    label: Yup.string().required("Vehicle is required"),
-    value: Yup.string().required("Vehicle is required"),
+    label: Yup.string().required('Vehicle is required'),
+    value: Yup.string().required('Vehicle is required'),
   }),
   ownerType: Yup.object().shape({
-    label: Yup.string().required("Owner is required"),
-    value: Yup.string().required("Owner is required"),
+    label: Yup.string().required('Owner is required'),
+    value: Yup.string().required('Owner is required'),
   }),
   contact: Yup.string()
-    .max(11, "Invalid Contact Number")
-    .min(11, "Invalid Contact Number")
-    .required("Contact is Required"),
+    .max(11, 'Invalid Contact Number')
+    .min(11, 'Invalid Contact Number')
+    .required('Contact is Required'),
   transportmode: Yup.object().shape({
-    label: Yup.string().required("Transport mode required"),
-    value: Yup.string().required("Transport mode required"),
+    label: Yup.string().required('Transport mode required'),
+    value: Yup.string().required('Transport mode required'),
   }),
   vehicleUsePurpose: Yup.object().shape({
-    label: Yup.string().required("Vehicle use purpose required"),
-    value: Yup.string().required("Vehicle use purpose required"),
+    label: Yup.string().required('Vehicle use purpose required'),
+    value: Yup.string().required('Vehicle use purpose required'),
   }),
   fuelType: Yup.object().shape({
-    label: Yup.string().required("Fuel Type required"),
-    value: Yup.string().required("Fuel Type required"),
+    label: Yup.string().required('Fuel Type required'),
+    value: Yup.string().required('Fuel Type required'),
   }),
   vehicleCapacity: Yup.object().shape({
-    label: Yup.string().required("Vehicle Capacity required"),
-    value: Yup.string().required("Vehicle Capacity required"),
+    label: Yup.string().required('Vehicle Capacity required'),
+    value: Yup.string().required('Vehicle Capacity required'),
   }),
   costPerKM: Yup.string()
-    .min(1, "Minimum 1 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Vehicle No is required"),
+    .min(1, 'Minimum 1 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Vehicle No is required'),
   //   fuelAllowanceLocalKM: Yup.string()
   //   .when('vehicleType', {
   //     is: { label: 'Company' },
@@ -136,7 +136,7 @@ export default function FormCmp({
                     value={values?.shipPoint}
                     label="Ship Point"
                     onChange={(valueOption) => {
-                      setFieldValue("shipPoint", valueOption);
+                      setFieldValue('shipPoint', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -149,8 +149,8 @@ export default function FormCmp({
                     value={values?.vehicleType}
                     label="Vehicle Type"
                     onChange={(valueOption) => {
-                      setFieldValue("vehicleType", valueOption);
-                      setFieldValue("vehicleNo", "");
+                      setFieldValue('vehicleType', valueOption);
+                      setFieldValue('vehicleNo', '');
                     }}
                     placeholder="Vehicle Type"
                     errors={errors}
@@ -158,10 +158,10 @@ export default function FormCmp({
                   />
                 </div>
                 <div className="col-lg-3 d-flex">
-                  <div style={{ width: "100%" }}>
+                  <div style={{ width: '100%' }}>
                     <label className="d-block">Vehicle No</label>
                     <InputField
-                      value={values?.vehicleNo || ""}
+                      value={values?.vehicleNo || ''}
                       name="vehicleNo"
                       placeholder="Vehicle No"
                       type="text"
@@ -182,7 +182,7 @@ export default function FormCmp({
                       }}
                     >
                       <i
-                        style={{ fontSize: "15px", color: "#3699FF" }}
+                        style={{ fontSize: '15px', color: '#3699FF' }}
                         className="fa pointer fa-plus-circle"
                         aria-hidden="true"
                       ></i>
@@ -197,7 +197,7 @@ export default function FormCmp({
                     label="Weight Capacity(KG)"
                     name="weight"
                     onChange={(e) => {
-                      NegetiveCheck(e.target.value, setFieldValue, "weight");
+                      NegetiveCheck(e.target.value, setFieldValue, 'weight');
                     }}
                     // disabled={isEdit}
                   />
@@ -210,7 +210,7 @@ export default function FormCmp({
                     label="Volume(KG)"
                     name="volume"
                     onChange={(e) => {
-                      NegetiveCheck(e.target.value, setFieldValue, "volume");
+                      NegetiveCheck(e.target.value, setFieldValue, 'volume');
                     }}
                     // disabled={isEdit}
                   />
@@ -220,9 +220,9 @@ export default function FormCmp({
                   <ISelect
                     label="Owner Type"
                     options={[
-                      { value: 1, label: "Company" },
-                      { value: 2, label: "Rental" },
-                      { value: 3, label: "Customer" },
+                      { value: 1, label: 'Company' },
+                      { value: 2, label: 'Rental' },
+                      { value: 3, label: 'Customer' },
                     ]}
                     value={values?.ownerType}
                     name="ownerType"
@@ -245,22 +245,22 @@ export default function FormCmp({
                     />
                   </div>
                 )} */}
-                {values.ownerType.label === "Company" && (
+                {values.ownerType.label === 'Company' && (
                   <div className="col-md-3">
                     <label>Driver Name</label>
                     <SearchAsyncSelect
                       selectedValue={values?.employeeName}
                       isSearchIcon={true}
                       handleChange={(valueOption) => {
-                        setFieldValue("employeeName", valueOption);
+                        setFieldValue('employeeName', valueOption);
                       }}
                       loadOptions={loadUserList}
                     />
                   </div>
                 )}
 
-                {(values.ownerType.label === "Rental" ||
-                  values.ownerType.label === "Customer") && (
+                {(values.ownerType.label === 'Rental' ||
+                  values.ownerType.label === 'Customer') && (
                   <div className="col-lg-3">
                     <IInput
                       type="text"
@@ -305,14 +305,16 @@ export default function FormCmp({
                     touched={touched}
                   />
                 </div>
-                {["Office", "Standby"].includes(values?.vehicleUsePurpose?.label) && (
+                {['Office', 'Standby'].includes(
+                  values?.vehicleUsePurpose?.label
+                ) && (
                   <div className="col-md-3">
                     <label>User Enroll & Name</label>
                     <SearchAsyncSelect
                       selectedValue={values?.user}
                       isSearchIcon={true}
                       handleChange={(valueOption) => {
-                        setFieldValue("user", valueOption);
+                        setFieldValue('user', valueOption);
                       }}
                       loadOptions={loadUserList}
                     />
@@ -349,12 +351,12 @@ export default function FormCmp({
                     // disabled={isEdit}
                   />
                 </div>
-                {values.ownerType.label === "Company" && (
+                {values.ownerType.label === 'Company' && (
                   <>
                     <div className="col-lg-3">
                       <IInput
                         type="text"
-                        value={values?.fuelAllowanceLocalKM ?? ""}
+                        value={values?.fuelAllowanceLocalKM ?? ''}
                         label="Fuel Allowance (Local KM)"
                         name="fuelAllowanceLocalKM"
                         // disabled={isEdit}
@@ -363,7 +365,7 @@ export default function FormCmp({
                     <div className="col-lg-3">
                       <IInput
                         type="text"
-                        value={values?.fuelAllowanceOuterKM ?? ""}
+                        value={values?.fuelAllowanceOuterKM ?? ''}
                         label="Fuel Allowance (Outer KM)"
                         name="fuelAllowanceOuterKM"
                         // disabled={isEdit}
@@ -374,7 +376,7 @@ export default function FormCmp({
                 <div className="col-lg-3">
                   <IInput
                     type="number"
-                    value={values?.capacityInBag ?? ""}
+                    value={values?.capacityInBag ?? ''}
                     label="Capacity In Bag"
                     name="capacityInBag"
                     // disabled={isEdit}
@@ -398,14 +400,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

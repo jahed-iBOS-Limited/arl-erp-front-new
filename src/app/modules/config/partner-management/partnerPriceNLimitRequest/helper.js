@@ -1,16 +1,16 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
 
 export const validationSchema = Yup.object().shape({
-  customer: Yup.string().required("Customer Name is required"),
-  address: Yup.string().required("Address is required"),
-  contactPerson: Yup.string().required("Contact Person is required"),
-  contactNumber: Yup.string().required("Contact Number is required"),
-  paymentMode: Yup.string().required("Payment Mode is required"),
+  customer: Yup.string().required('Customer Name is required'),
+  address: Yup.string().required('Address is required'),
+  contactPerson: Yup.string().required('Contact Person is required'),
+  contactNumber: Yup.string().required('Contact Number is required'),
+  paymentMode: Yup.string().required('Payment Mode is required'),
   creditLimitType: Yup.object().shape({
-    value: Yup.string().required("Credit Limit Type is required"),
-    label: Yup.string().required("Credit Limit Type is required"),
+    value: Yup.string().required('Credit Limit Type is required'),
+    label: Yup.string().required('Credit Limit Type is required'),
   }),
 });
 

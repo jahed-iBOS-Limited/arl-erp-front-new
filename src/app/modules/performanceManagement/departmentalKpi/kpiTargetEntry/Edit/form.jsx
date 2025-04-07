@@ -1,56 +1,54 @@
-
-
-import React, { useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { IInput } from "../../../../_helper/_input";
-import { useState } from "react";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import KpiEntryGrid from "./kpiEntryGrid";
-import { setParticullersGridEmpty } from "../../../_redux/Actions";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import KpiReportTable from "./reportTable";
-import { getPmsReportAction } from "../../../_helper/getReportAction";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import React, { useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { IInput } from '../../../../_helper/_input';
+import { useState } from 'react';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import KpiEntryGrid from './kpiEntryGrid';
+import { setParticullersGridEmpty } from '../../../_redux/Actions';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import KpiReportTable from './reportTable';
+import { getPmsReportAction } from '../../../_helper/getReportAction';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   department: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Department is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Department is required'),
   kpiname: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(300, "Maximum 300 symbols")
-    .required("Kpi Name is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(300, 'Maximum 300 symbols')
+    .required('Kpi Name is required'),
   bscPerspective: Yup.object().shape({
-    label: Yup.string().required("Bscperspective is required"),
-    value: Yup.string().required("Bscperspective is required"),
+    label: Yup.string().required('Bscperspective is required'),
+    value: Yup.string().required('Bscperspective is required'),
   }),
   kpiformat: Yup.object().shape({
-    label: Yup.string().required("Kpi format is required"),
-    value: Yup.string().required("Kpi format is required"),
+    label: Yup.string().required('Kpi format is required'),
+    value: Yup.string().required('Kpi format is required'),
   }),
   // weight: Yup.object().shape({
   //   label: Yup.string().required("Weight is required"),
   //   value: Yup.string().required("Weight is required"),
   // }),
   maxiMini: Yup.object().shape({
-    label: Yup.string().required("Field is required"),
-    value: Yup.string().required("Field is required"),
+    label: Yup.string().required('Field is required'),
+    value: Yup.string().required('Field is required'),
   }),
   dataSource: Yup.object().shape({
-    label: Yup.string().required("Data Source is required"),
-    value: Yup.string().required("Data Source is required"),
+    label: Yup.string().required('Data Source is required'),
+    value: Yup.string().required('Data Source is required'),
   }),
 
   targetFrequency: Yup.object().shape({
-    label: Yup.string().required("Target Frequency is required"),
-    value: Yup.string().required("Target Frequency is required"),
+    label: Yup.string().required('Target Frequency is required'),
+    value: Yup.string().required('Target Frequency is required'),
   }),
   aggregationType: Yup.object().shape({
-    label: Yup.string().required("Aggregation Type is required"),
-    value: Yup.string().required("Aggregation Type is required"),
+    label: Yup.string().required('Aggregation Type is required'),
+    value: Yup.string().required('Aggregation Type is required'),
   }),
 });
 
@@ -79,74 +77,77 @@ export default function FormCmp({
   const [objRowTargetAchivment, setObjRowTargetAchivment] = useState({});
   const [allValue, setAllValue] = useState(0);
   const dispatch = useDispatch();
-  const [year, setYear] = useState("");
+  const [year, setYear] = useState('');
   const [kpiDDL, getKpiDDL, loader, setKpiDDL] = useAxiosGet();
   const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
 
-
   const kpiDetails = (values) => {
     return [
       {
-        label: "Select Objective",
-        name: "objective",
+        label: 'Select Objective',
+        name: 'objective',
         options: objectiveDDL,
         isDisabled: !values.department?.value,
         dependencyFunc: (currentValue, values, setter) => {
-          if(currentValue){
+          if (currentValue) {
             getBscPerspectiveDefaultValue(currentValue).then((res) => {
-              getKpiDDL(`/pms/KPI/GetKPIMasterDataDDL?accountId=${profileData?.accountId}&bscId=${res.data[0]?.value}`);
-              setter("bscPerspective", res.data[0]);
-              setter("kpiname","");
+              getKpiDDL(
+                `/pms/KPI/GetKPIMasterDataDDL?accountId=${profileData?.accountId}&bscId=${res.data[0]?.value}`
+              );
+              setter('bscPerspective', res.data[0]);
+              setter('kpiname', '');
             });
           }
-          if(!currentValue){
-            setter("bscPerspective", "");
-            setter("kpiname","");
+          if (!currentValue) {
+            setter('bscPerspective', '');
+            setter('kpiname', '');
             setKpiDDL([]);
           }
         },
       },
 
       {
-        label: "Select BSC Perspective",
-        name: "bscPerspective",
+        label: 'Select BSC Perspective',
+        name: 'bscPerspective',
         options: bscPerspectiveDDL,
         dependencyFunc: (currentValue, values, setter) => {
-          if(currentValue){
-            getKpiDDL(`/pms/KPI/GetKPIMasterDataDDL?accountId=${profileData?.accountId}&bscId=${currentValue}`)
-            setter("kpiname","");
+          if (currentValue) {
+            getKpiDDL(
+              `/pms/KPI/GetKPIMasterDataDDL?accountId=${profileData?.accountId}&bscId=${currentValue}`
+            );
+            setter('kpiname', '');
           }
-          if(!currentValue){
-            setter("kpiname","");
-            setKpiDDL([])
+          if (!currentValue) {
+            setter('kpiname', '');
+            setKpiDDL([]);
           }
-        }
+        },
         // value: values.bscPerspective?.value
         //   ? values.bscPerspective
         //   : bscPerspectiveDefaultValue,
       },
       {
-        label: "KPI Name",
-        name: "kpiname",
+        label: 'KPI Name',
+        name: 'kpiname',
         options: kpiDDL || [],
         defaultValue: values.kpiname,
         // isInput: true,
       },
       {
-        label: "Select KPI Format",
-        name: "kpiformat",
+        label: 'Select KPI Format',
+        name: 'kpiformat',
         options: [
-          { label: "% of", value: "% of" },
-          { label: "# of", value: "# of" },
+          { label: '% of', value: '% of' },
+          { label: '# of', value: '# of' },
           {
-            label: "Amount",
-            value: "BDT",
+            label: 'Amount',
+            value: 'BDT',
           },
           {
-            label: "Amount ($)",
-            value: "$",
+            label: 'Amount ($)',
+            value: '$',
           },
         ],
         defaultValue: values.kpiformat,
@@ -158,32 +159,32 @@ export default function FormCmp({
       //   defaultValue: values.weight,
       // },
       {
-        label: "Select Data Source",
-        name: "dataSource",
+        label: 'Select Data Source',
+        name: 'dataSource',
         options: dataSourceDDL,
         defaultValue: values.dataSource,
       },
       {
-        label: "Select Max/Mini",
-        name: "maxiMini",
+        label: 'Select Max/Mini',
+        name: 'maxiMini',
         options: [
-          { label: "Maximization", value: 1 },
-          { label: "Minimization", value: 2 },
+          { label: 'Maximization', value: 1 },
+          { label: 'Minimization', value: 2 },
         ],
         defaultValue: values.maxiMini,
       },
       {
-        label: "Select Aggregation Type",
+        label: 'Select Aggregation Type',
         defaultValue: values.aggregationType,
-        name: "aggregationType",
+        name: 'aggregationType',
         options: [
           {
-            label: "Avarage",
-            value: "avarage",
+            label: 'Avarage',
+            value: 'avarage',
           },
           {
-            label: "Sum",
-            value: "sum",
+            label: 'Sum',
+            value: 'sum',
           },
         ],
       },
@@ -203,7 +204,7 @@ export default function FormCmp({
 
   useEffect(() => {
     const size = initData?.objRowTargetAchive?.length;
-    const key = frequencyId === 2 ? "monthId" : "quarterId";
+    const key = frequencyId === 2 ? 'monthId' : 'quarterId';
     if (size) {
       const tempObj = {};
       initData.objRowTargetAchive.forEach((itm, idx) => {
@@ -223,7 +224,7 @@ export default function FormCmp({
             {
               ...objRowTargetAchivment[i],
               target: +allValue,
-              actualEndDate: "2020-09-27T12:37:16.694Z",
+              actualEndDate: '2020-09-27T12:37:16.694Z',
             },
           ])
         )
@@ -294,7 +295,7 @@ export default function FormCmp({
                           label: yearDDL[0]?.label,
                         },
                       });
-                      setter("department", {
+                      setter('department', {
                         value: currentValue,
                         label: label,
                       });
@@ -329,9 +330,9 @@ export default function FormCmp({
                       resetForm({
                         ...initData,
                       });
-                      setter("year", { value, label });
+                      setter('year', { value, label });
                       if (values.department?.value) {
-                        setter("department", {
+                        setter('department', {
                           value: values.department?.value,
                           label: values.department?.label,
                         });
@@ -427,7 +428,7 @@ export default function FormCmp({
                     strategicParticularsGrid={initData?.objRowTargetAchive}
                   />
                 ) : (
-                  ""
+                  ''
                 )}
               </div>
 
@@ -435,14 +436,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

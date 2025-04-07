@@ -13,9 +13,8 @@ export default function BankDetailsModal({
   const [bankAddressById, GetBankAddressById, isLoading] = useAxiosGet();
   React.useEffect(() => {
     GetBankAddressById(
-      `${imarineBaseUrl}/domain/ShippingService/GetGlobalBankById?bankId=${selectedItem?.bankId}`,
+      `${imarineBaseUrl}/domain/ShippingService/GetGlobalBankById?bankId=${selectedItem?.bankId}`
     );
-
   }, [selectedItem]);
   return (
     <IViewModal

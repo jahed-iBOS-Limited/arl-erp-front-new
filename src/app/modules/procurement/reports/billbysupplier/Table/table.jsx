@@ -1,49 +1,48 @@
-
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 // import PaginationSearch from './../../../../_helper/_search'
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
 ///approvebillregister/supplerInvoiceView
 import // setIndentStatementAction,
 
-  //setIndentTableIndexAction
-  "../../../../_helper/reduxForLocalStorage/Actions";
+//setIndentTableIndexAction
+'../../../../_helper/reduxForLocalStorage/Actions';
 // import { useHistory } from 'react-router-dom'
-import { Form, Formik } from "formik";
-import { useDispatch, useSelector } from "react-redux";
-import * as Yup from "yup";
-import NewSelect from "../../../../_helper/_select";
-import ILoader from "../../../../_helper/loader/_loader";
-import {
-  getbillbysupplierLanding,
-  getissuerList,
-} from "../helper";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import PaginationTable from "./../../../../_helper/_tablePagination";
+import { Form, Formik } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+import NewSelect from '../../../../_helper/_select';
+import ILoader from '../../../../_helper/loader/_loader';
+import { getbillbysupplierLanding, getissuerList } from '../helper';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import PaginationTable from './../../../../_helper/_tablePagination';
 // import IView from '../../../../_helper/_helperIcons/_view';
-import axios from "axios";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import { getPurchaseOrganizationDDL, getSBU } from "../../../../_helper/_commonApi";
-import FormikError from "../../../../_helper/_formikError";
-import IView from "../../../../_helper/_helperIcons/_view";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { SetReportBillBySupplierAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import AdvForInternalView from "../../../../financialManagement/invoiceManagementSystem/approvebillregister/advForInternal";
-import ExpenseView from "../../../../financialManagement/invoiceManagementSystem/approvebillregister/expenseView";
-import SupplerInvoiceView from "../../../../financialManagement/invoiceManagementSystem/approvebillregister/supplerInvoiceView";
-import SupplierAdvanceView from "../../../../financialManagement/invoiceManagementSystem/approvebillregister/supplierAdvanceView";
-import ViewFuelBill from "../../../../financialManagement/invoiceManagementSystem/billregister/fuelBill/view/viewBillRegister";
-import ViewLabourBill from "../../../../financialManagement/invoiceManagementSystem/billregister/labourBill/view/viewBillRegister";
-import ViewSalesCommission from "../../../../financialManagement/invoiceManagementSystem/billregister/salesCommission/view/viewSalesCommission";
-import ViewTransportBill from "../../../../financialManagement/invoiceManagementSystem/billregister/transportBill/view/viewBillRegister";
-import ViewInternalTransportBill from "./../../../../financialManagement/invoiceManagementSystem/billregister/internalTransportBill/view/viewBillRegister";
+import axios from 'axios';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import {
+  getPurchaseOrganizationDDL,
+  getSBU,
+} from '../../../../_helper/_commonApi';
+import FormikError from '../../../../_helper/_formikError';
+import IView from '../../../../_helper/_helperIcons/_view';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { SetReportBillBySupplierAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import AdvForInternalView from '../../../../financialManagement/invoiceManagementSystem/approvebillregister/advForInternal';
+import ExpenseView from '../../../../financialManagement/invoiceManagementSystem/approvebillregister/expenseView';
+import SupplerInvoiceView from '../../../../financialManagement/invoiceManagementSystem/approvebillregister/supplerInvoiceView';
+import SupplierAdvanceView from '../../../../financialManagement/invoiceManagementSystem/approvebillregister/supplierAdvanceView';
+import ViewFuelBill from '../../../../financialManagement/invoiceManagementSystem/billregister/fuelBill/view/viewBillRegister';
+import ViewLabourBill from '../../../../financialManagement/invoiceManagementSystem/billregister/labourBill/view/viewBillRegister';
+import ViewSalesCommission from '../../../../financialManagement/invoiceManagementSystem/billregister/salesCommission/view/viewSalesCommission';
+import ViewTransportBill from '../../../../financialManagement/invoiceManagementSystem/billregister/transportBill/view/viewBillRegister';
+import ViewInternalTransportBill from './../../../../financialManagement/invoiceManagementSystem/billregister/internalTransportBill/view/viewBillRegister';
 
 const validationSchema = Yup.object().shape({
-  toDate: Yup.string().when("fromDate", (fromDate, Schema) => {
-    if (fromDate) return Schema.required("To date is required");
+  toDate: Yup.string().when('fromDate', (fromDate, Schema) => {
+    if (fromDate) return Schema.required('To date is required');
   }),
 });
 
@@ -51,13 +50,13 @@ const BillbySupplierReportTable = () => {
   const { reportBillBySupplier } = useSelector((state) => state?.localStorage);
 
   let initData = {
-    sbu: reportBillBySupplier?.sbu || "",
-    plant: reportBillBySupplier?.plant || { value: 0, label: "All" },
-    warehouse: reportBillBySupplier?.warehouse || { value: 0, label: "All" },
-    issuer: reportBillBySupplier?.issuer || "",
-    partner: reportBillBySupplier?.partner || "",
-    po: reportBillBySupplier?.po || "",
-    status: reportBillBySupplier?.status || "",
+    sbu: reportBillBySupplier?.sbu || '',
+    plant: reportBillBySupplier?.plant || { value: 0, label: 'All' },
+    warehouse: reportBillBySupplier?.warehouse || { value: 0, label: 'All' },
+    issuer: reportBillBySupplier?.issuer || '',
+    partner: reportBillBySupplier?.partner || '',
+    po: reportBillBySupplier?.po || '',
+    status: reportBillBySupplier?.status || '',
     fromDate: reportBillBySupplier?.fromDate || _todayDate(),
     toDate: reportBillBySupplier?.toDate || _todayDate(),
   };
@@ -66,15 +65,14 @@ const BillbySupplierReportTable = () => {
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(20);
   const [mdalShow, setModalShow] = useState(false);
-  const [gridItem, setGridItem] = useState("");
+  const [gridItem, setGridItem] = useState('');
 
   const dispatch = useDispatch();
 
   // ddl state
-  const [sbuList, setSbuList] = useState("");
-  const [poList, setPoList] = useState("");
-  const [plantList, setPlantList] = useState("");
-
+  const [sbuList, setSbuList] = useState('');
+  const [poList, setPoList] = useState('');
+  const [plantList, setPlantList] = useState('');
 
   const [plantListddl, getPlantListddl] = useAxiosGet();
   const [wareHouseddl, getWareHouseddl] = useAxiosGet();
@@ -94,14 +92,18 @@ const BillbySupplierReportTable = () => {
   });
 
   useEffect(() => {
-    getPlantListddl(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`)
+    getPlantListddl(
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
+    );
 
     if (initData?.plant) {
-      getWareHouseddl(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId
-        }&AccId=${profileData?.accountId
-        }&BusinessUnitId=${selectedBusinessUnit?.value
-        }&PlantId=${initData?.plant?.value
-        }&OrgUnitTypeId=8`)
+      getWareHouseddl(
+        `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${
+          profileData?.userId
+        }&AccId=${profileData?.accountId}&BusinessUnitId=${
+          selectedBusinessUnit?.value
+        }&PlantId=${initData?.plant?.value}&OrgUnitTypeId=8`
+      );
     }
     if (initData?.po) {
       getissuerList(
@@ -116,18 +118,13 @@ const BillbySupplierReportTable = () => {
 
   useEffect(() => {
     if (profileData?.accountId && selectedBusinessUnit?.value) {
-      getSBU(
-        profileData?.accountId,
-        selectedBusinessUnit?.value,
-        setSbuList
-      );
+      getSBU(profileData?.accountId, selectedBusinessUnit?.value, setSbuList);
       getPurchaseOrganizationDDL(
         profileData?.accountId,
         selectedBusinessUnit?.value,
         setPoList
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   // //setPositionHandler
@@ -145,7 +142,7 @@ const BillbySupplierReportTable = () => {
       pageNo,
       pageSize,
       values?.plant?.value,
-      values?.warehouse?.value,
+      values?.warehouse?.value
     );
   };
 
@@ -163,7 +160,7 @@ const BillbySupplierReportTable = () => {
       pageNo,
       pageSize,
       values?.plant?.value,
-      values?.warehouse?.value,
+      values?.warehouse?.value
     );
   };
 
@@ -174,7 +171,7 @@ const BillbySupplierReportTable = () => {
           enableReinitialize={true}
           validationSchema={validationSchema}
           initialValues={initData}
-          onSubmit={(values, { setSubmitting, resetForm }) => { }}
+          onSubmit={(values, { setSubmitting, resetForm }) => {}}
         >
           {({
             handleSubmit,
@@ -189,7 +186,7 @@ const BillbySupplierReportTable = () => {
               <Form className="form form-label-left">
                 <div
                   className="row global-form"
-                  style={{ background: " #d6dadd" }}
+                  style={{ background: ' #d6dadd' }}
                 >
                   <div className="col-lg-2">
                     <NewSelect
@@ -201,32 +198,33 @@ const BillbySupplierReportTable = () => {
                         dispatch(
                           SetReportBillBySupplierAction({ ...values, sbu: v })
                         );
-                        setFieldValue("sbu", v);
+                        setFieldValue('sbu', v);
                       }}
                       placeholder="SBU"
                       errors={errors}
                       touched={touched}
-                    />{" "}
+                    />{' '}
                   </div>
                   <div className="col-lg-2">
                     <NewSelect
                       name="plant"
-                      options={[
-                        { value: 0, label: "All" },
-                        ...plantListddl
-                      ] || []}
+                      options={
+                        [{ value: 0, label: 'All' }, ...plantListddl] || []
+                      }
                       value={values?.plant}
                       label="Plant"
                       onChange={(v) => {
                         dispatch(
                           SetReportBillBySupplierAction({ ...values, plant: v })
                         );
-                        setFieldValue("plant", v);
-                        getWareHouseddl(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId
-                          }&AccId=${profileData?.accountId
-                          }&BusinessUnitId=${selectedBusinessUnit?.value
-                          }&PlantId=${v?.value
-                          }&OrgUnitTypeId=8`)
+                        setFieldValue('plant', v);
+                        getWareHouseddl(
+                          `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${
+                            profileData?.userId
+                          }&AccId=${profileData?.accountId}&BusinessUnitId=${
+                            selectedBusinessUnit?.value
+                          }&PlantId=${v?.value}&OrgUnitTypeId=8`
+                        );
                       }}
                       placeholder="Plant"
                       errors={errors}
@@ -236,17 +234,19 @@ const BillbySupplierReportTable = () => {
                   <div className="col-lg-2">
                     <NewSelect
                       name="warehouse"
-                      options={[
-                        { value: 0, label: "All" },
-                        ...wareHouseddl
-                      ] || []}
+                      options={
+                        [{ value: 0, label: 'All' }, ...wareHouseddl] || []
+                      }
                       value={values?.warehouse}
                       label="Warehouse"
                       onChange={(v) => {
                         dispatch(
-                          SetReportBillBySupplierAction({ ...values, warehouse: v })
+                          SetReportBillBySupplierAction({
+                            ...values,
+                            warehouse: v,
+                          })
                         );
-                        setFieldValue("warehouse", v);
+                        setFieldValue('warehouse', v);
                       }}
                       placeholder="Warehouse"
                       errors={errors}
@@ -263,7 +263,7 @@ const BillbySupplierReportTable = () => {
                         dispatch(
                           SetReportBillBySupplierAction({ ...values, po: v })
                         );
-                        setFieldValue("po", v);
+                        setFieldValue('po', v);
                         getissuerList(
                           selectedBusinessUnit?.value,
                           v?.value,
@@ -279,7 +279,7 @@ const BillbySupplierReportTable = () => {
                     <label>From Date</label>
                     <div className="d-flex">
                       <InputField
-                        style={{ width: "100%" }}
+                        style={{ width: '100%' }}
                         value={values?.fromDate}
                         name="fromDate"
                         placeholder="From date"
@@ -299,7 +299,7 @@ const BillbySupplierReportTable = () => {
                     <label>To Date</label>
                     <div className="d-flex">
                       <InputField
-                        style={{ width: "100%" }}
+                        style={{ width: '100%' }}
                         value={values?.toDate}
                         name="toDate"
                         placeholder="To date"
@@ -326,11 +326,11 @@ const BillbySupplierReportTable = () => {
                           SetReportBillBySupplierAction({
                             ...values,
                             issuer: v,
-                            partner: "",
+                            partner: '',
                           })
                         );
-                        setFieldValue("issuer", v);
-                        setFieldValue("partner", "");
+                        setFieldValue('issuer', v);
+                        setFieldValue('partner', '');
                       }}
                       placeholder="PO Issuer"
                       errors={errors}
@@ -361,8 +361,8 @@ const BillbySupplierReportTable = () => {
                     <SearchAsyncSelect
                       selectedValue={values.partner}
                       handleChange={(valueOption) => {
-                        setFieldValue("partner", valueOption);
-                        setFieldValue("issuer", "");
+                        setFieldValue('partner', valueOption);
+                        setFieldValue('issuer', '');
                       }}
                       loadOptions={(v) => {
                         if (v.length < 3) return [];
@@ -391,9 +391,7 @@ const BillbySupplierReportTable = () => {
                       type="submit"
                       className="btn btn-primary"
                       disabled={
-                        !values?.po ||
-                        !values?.fromDate ||
-                        !values?.toDate
+                        !values?.po || !values?.fromDate || !values?.toDate
                       }
                       onClick={() => {
                         viewPurchaseOrderData(values);
@@ -444,7 +442,9 @@ const BillbySupplierReportTable = () => {
                               <td>{item?.strBusinessPartnerCode}</td>
                               <td>{item?.strBusinessPartnerName}</td>
                               <td>{item?.strBillRef}</td>
-                              <td>{_dateFormatter(item?.dteBillRegisterDate)}</td>
+                              <td>
+                                {_dateFormatter(item?.dteBillRegisterDate)}
+                              </td>
                               <td>
                                 {numberWithCommas(
                                   (item?.monTotalAmount || 0).toFixed(2)
@@ -470,7 +470,7 @@ const BillbySupplierReportTable = () => {
                                 {_dateFormatter(item?.dtePayComplete)}
                               </td>
                               <td className="text-center">
-                                {item?.isAdvicePrint ? "Yes" : "No"}
+                                {item?.isAdvicePrint ? 'Yes' : 'No'}
                               </td>
                               <td className="text-center">
                                 <IView
@@ -518,8 +518,8 @@ const BillbySupplierReportTable = () => {
                         laingValues={{
                           ...values,
                           status: {
-                            value: gridItem?.billStatus === "Approved" ? 2 : 1,
-                            label: "",
+                            value: gridItem?.billStatus === 'Approved' ? 2 : 1,
+                            label: '',
                           },
                         }}
                         setModalShow={setModalShow}
@@ -531,8 +531,8 @@ const BillbySupplierReportTable = () => {
                         laingValues={{
                           ...values,
                           status: {
-                            value: gridItem?.billStatus === "Approved" ? 2 : 1,
-                            label: "",
+                            value: gridItem?.billStatus === 'Approved' ? 2 : 1,
+                            label: '',
                           },
                         }}
                         setModalShow={setModalShow}
@@ -557,11 +557,11 @@ const BillbySupplierReportTable = () => {
                     )}
                     {(gridItem?.billType === 9 ||
                       gridItem?.billType === 10) && (
-                        <ViewLabourBill
-                          landingValues={values}
-                          gridItem={gridItem}
-                        />
-                      )}
+                      <ViewLabourBill
+                        landingValues={values}
+                        gridItem={gridItem}
+                      />
+                    )}
                     {gridItem?.billType === 13 && (
                       <ViewInternalTransportBill
                         landingValues={values}

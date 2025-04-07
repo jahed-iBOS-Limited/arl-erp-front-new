@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { getSalesReturnPreData } from "../helper";
-import Form from "./form";
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { getSalesReturnPreData } from '../helper';
+import Form from './form';
 
 const initData = {
-  channel: "",
-  customer: "",
+  channel: '',
+  customer: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -39,9 +39,9 @@ function RecevingChallanAttachmentEntryFrom() {
     getSalesReturnPreData(urlTwo, setLoading, (resData) => {
       const modifyData = resData?.data?.map((item) => ({
         ...item,
-        attatchment:'',
+        attatchment: '',
         isSelected: false,
-        rowData: item?.rowData?.map((elem) => ({ ...elem, returnQty: "" })),
+        rowData: item?.rowData?.map((elem) => ({ ...elem, returnQty: '' })),
       }));
 
       setGridData(modifyData);
@@ -66,12 +66,11 @@ function RecevingChallanAttachmentEntryFrom() {
   const saveHandler = (values) => {
     const selectedItems = gridData?.filter((item) => item.isSelected);
     if (selectedItems?.length === 0) {
-      toast.warn("Please select at least one item");
+      toast.warn('Please select at least one item');
       return;
     }
 
     const rows = selectedItems;
-
 
     const payloadForPartialReturn = rows?.map((header) => {
       const totalQty = header?.rowData?.reduce((a, b) => (a += b?.quantity), 0);
@@ -97,11 +96,11 @@ function RecevingChallanAttachmentEntryFrom() {
         row: header?.rowData?.map((row) => {
           return {
             referenceId: 0,
-            referenceCode: "string",
+            referenceCode: 'string',
             itemId: row?.itemId,
             itemName: row?.itemName,
             uoMId: 0,
-            uoMName: "string",
+            uoMName: 'string',
             issueQty: 0,
             // returnQty: row?.returnQty,
             returnQty: 0,
@@ -114,7 +113,7 @@ function RecevingChallanAttachmentEntryFrom() {
         }),
 
         img: {
-          attatchment: header?.attatchment|| "",
+          attatchment: header?.attatchment || '',
         },
       };
     });

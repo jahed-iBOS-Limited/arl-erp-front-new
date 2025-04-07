@@ -1,21 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { GetSalesReportDateRangeByItem } from "./../../helper";
-import { _dateFormatter } from "./../../../../../_helper/_dateFormate";
-import Loading from "./../../../../../_helper/_loading";
-import IViewModal from "./../../../../../_helper/_viewModal";
-import DeliveryReportTable from "./../../../../../inventoryManagement/warehouseManagement/delivery/View/Table/table";
-import SalesOrderReportModel from "./salesOrderReportModel";
+import React, { useEffect, useState } from 'react';
+import { GetSalesReportDateRangeByItem } from './../../helper';
+import { _dateFormatter } from './../../../../../_helper/_dateFormate';
+import Loading from './../../../../../_helper/_loading';
+import IViewModal from './../../../../../_helper/_viewModal';
+import DeliveryReportTable from './../../../../../inventoryManagement/warehouseManagement/delivery/View/Table/table';
+import SalesOrderReportModel from './salesOrderReportModel';
 
 function QtyClickModel({ viewClickRowData }) {
   const [salesReport, setSalesReport] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [
-    rowDataDeliveryDetailsClick,
-    setRowDataDeliveryDetailsClick,
-  ] = useState("");
-  const [isDeliveryCodeClickModel, setIsDeliveryCodeClickModel] = useState(
-    false
-  );
+  const [rowDataDeliveryDetailsClick, setRowDataDeliveryDetailsClick] =
+    useState('');
+  const [isDeliveryCodeClickModel, setIsDeliveryCodeClickModel] =
+    useState(false);
   const [isDeliveryDtsClickModel, setIsDeliveryDtsClickModel] = useState(false);
 
   useEffect(() => {

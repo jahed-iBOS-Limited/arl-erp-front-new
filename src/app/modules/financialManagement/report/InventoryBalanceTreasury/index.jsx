@@ -1,20 +1,20 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import ICard from "../../../_helper/_card";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import ICard from '../../../_helper/_card';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import PowerBIReport from '../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
 
 const initData = {
   date: _todayDate(),
-  itemType: "",
-  reportType: "",
-  businessUnit: "",
-  plant: "",
-  warehouse: "",
+  itemType: '',
+  reportType: '',
+  businessUnit: '',
+  plant: '',
+  warehouse: '',
 };
 
 function InventoryBalanceTreasury() {
@@ -30,19 +30,18 @@ function InventoryBalanceTreasury() {
   useEffect(() => {
     getItemTypeList(`/wms/WmsReport/GetItemTypeListDDL`);
     getBuDDL(`/hcm/HCMDDL/GetBusinessunitDDL`);
-
   }, []);
 
-  const groupId = "e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a";
-  const reportId = "9fe6b313-c031-41cb-ac5c-b4c8a8d156f4";
+  const groupId = 'e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a';
+  const reportId = '9fe6b313-c031-41cb-ac5c-b4c8a8d156f4';
 
   const parameterValues = (values) => {
     return [
-      { name: "dteToDate", value: `${values?.date}` },
-      { name: "intUnit", value: `${values?.businessUnit?.value}` },
-      { name: "intItemTypeId", value: `${values?.itemType?.value}` },
-      { name: "reportType", value: `${values?.reportType?.value}` },
-      { name: "intWarehouseId", value: `${values?.warehouse?.value || 0}` },
+      { name: 'dteToDate', value: `${values?.date}` },
+      { name: 'intUnit', value: `${values?.businessUnit?.value}` },
+      { name: 'intItemTypeId', value: `${values?.itemType?.value}` },
+      { name: 'reportType', value: `${values?.reportType?.value}` },
+      { name: 'intWarehouseId', value: `${values?.warehouse?.value || 0}` },
     ];
   };
 
@@ -61,9 +60,9 @@ function InventoryBalanceTreasury() {
                     label="Business Unit"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("businessUnit", valueOption);
-                        setFieldValue("plant", "");
-                        setFieldValue("warehouse", "");
+                        setFieldValue('businessUnit', valueOption);
+                        setFieldValue('plant', '');
+                        setFieldValue('warehouse', '');
                         setShowReport(false);
 
                         getPlantDDL(
@@ -76,9 +75,9 @@ function InventoryBalanceTreasury() {
                       } else {
                         setShowReport(false);
 
-                        setFieldValue("businessUnit", "");
-                        setFieldValue("plant", "");
-                        setFieldValue("warehouse", "");
+                        setFieldValue('businessUnit', '');
+                        setFieldValue('plant', '');
+                        setFieldValue('warehouse', '');
                         setPlantDDL([]);
                         setWareHouseDDL([]);
                       }
@@ -95,14 +94,14 @@ function InventoryBalanceTreasury() {
                     label="Plant"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("plant", valueOption);
-                        setFieldValue("warehouse", "");
+                        setFieldValue('plant', valueOption);
+                        setFieldValue('warehouse', '');
                         getWareHouseDDL(
                           `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${values?.businessUnit?.value}&PlantId=${valueOption?.value}&OrgUnitTypeId=8`
                         );
                       } else {
-                        setFieldValue("plant", valueOption);
-                        setFieldValue("warehouse", "");
+                        setFieldValue('plant', valueOption);
+                        setFieldValue('warehouse', '');
                         setWareHouseDDL([]);
                       }
                     }}
@@ -115,12 +114,12 @@ function InventoryBalanceTreasury() {
                   <NewSelect
                     name="warehouse"
                     options={
-                      [{ value: 0, label: "All" }, ...wareHouseDDL] || []
+                      [{ value: 0, label: 'All' }, ...wareHouseDDL] || []
                     }
                     value={values?.warehouse}
                     label="WareHouse"
                     onChange={(valueOption) => {
-                      setFieldValue("warehouse", valueOption);
+                      setFieldValue('warehouse', valueOption);
                     }}
                     placeholder="WareHouse"
                     errors={errors}
@@ -131,13 +130,13 @@ function InventoryBalanceTreasury() {
                   <NewSelect
                     name="reportType"
                     options={[
-                      { value: 0, label: "Summary" },
-                      { value: 1, label: "Details" },
+                      { value: 0, label: 'Summary' },
+                      { value: 1, label: 'Details' },
                     ]}
                     value={values?.reportType}
                     label="Report Type"
                     onChange={(valueOption) => {
-                      setFieldValue("reportType", valueOption);
+                      setFieldValue('reportType', valueOption);
                       setShowReport(false);
                     }}
                     errors={errors}
@@ -151,7 +150,7 @@ function InventoryBalanceTreasury() {
                     value={values?.itemType}
                     label="Item Type"
                     onChange={(valueOption) => {
-                      setFieldValue("itemType", valueOption);
+                      setFieldValue('itemType', valueOption);
                       setShowReport(false);
                     }}
                     errors={errors}
@@ -165,7 +164,7 @@ function InventoryBalanceTreasury() {
                     type="date"
                     name="date"
                     onChange={(e) => {
-                      setFieldValue("date", e.target.value);
+                      setFieldValue('date', e.target.value);
                       setShowReport(false);
                     }}
                   />

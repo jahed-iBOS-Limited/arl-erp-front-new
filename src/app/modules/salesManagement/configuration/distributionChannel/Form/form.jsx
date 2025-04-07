@@ -1,22 +1,22 @@
-import React from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { Input } from "../../../../../../_metronic/_partials/controls";
-import { ISelect } from "../../../../_helper/_inputDropDown";
+import React from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { Input } from '../../../../../../_metronic/_partials/controls';
+import { ISelect } from '../../../../_helper/_inputDropDown';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   distributionChannelCode: Yup.string()
-    .min(1, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Code is required"),
+    .min(1, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Code is required'),
   distributionChannelName: Yup.string()
-    .min(1, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Channel Name is required"),
+    .min(1, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Channel Name is required'),
   SBU: Yup.object().shape({
-    label: Yup.string().required("SBU Person is required"),
-    value: Yup.string().required("SBU Person is required"),
+    label: Yup.string().required('SBU Person is required'),
+    value: Yup.string().required('SBU Person is required'),
   }),
 });
 
@@ -101,13 +101,13 @@ export default function From({
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

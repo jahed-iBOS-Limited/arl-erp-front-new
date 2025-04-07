@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { useHistory } from "react-router-dom";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { getSecondaryOrderLanding } from "../helper";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import { useHistory } from 'react-router-dom';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { getSecondaryOrderLanding } from '../helper';
 
 export function TableRow() {
-
   const [loading, setLoading] = useState(false);
   const history = useHistory();
 
@@ -16,7 +15,7 @@ export function TableRow() {
   const [pageSize, setPageSize] = useState(15);
   const [gridData, setGridData] = useState([]);
 
-  console.log(gridData, "gridData")
+  console.log(gridData, 'gridData');
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -39,7 +38,6 @@ export function TableRow() {
         setGridData
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   //setPositionHandler
@@ -81,16 +79,22 @@ export function TableRow() {
                       <div className="pl-2">{item?.outletName}</div>
                     </td>
                     <td>
-                      <div className="text-right pr-2">{item?.orderQuantity}</div>
+                      <div className="text-right pr-2">
+                        {item?.orderQuantity}
+                      </div>
                     </td>
                     <td>
-                      <div className="text-right pr-2">{item?.deliveryQuantity}</div>
+                      <div className="text-right pr-2">
+                        {item?.deliveryQuantity}
+                      </div>
                     </td>
                     <td>
                       <div className="text-right pr-2">{item?.orderAmount}</div>
                     </td>
                     <td>
-                      <div className="text-right pr-2">{item?.deliveryAmount}</div>
+                      <div className="text-right pr-2">
+                        {item?.deliveryAmount}
+                      </div>
                     </td>
                     <td>
                       <div className="d-flex justify-content-around">

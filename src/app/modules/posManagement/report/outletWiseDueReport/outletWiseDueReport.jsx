@@ -1,31 +1,31 @@
-import { Formik, Form } from "formik";
-import React, { useState, useRef, useEffect } from "react";
+import { Formik, Form } from 'formik';
+import React, { useState, useRef, useEffect } from 'react';
 // import { useSelector, shallowEqual } from "react-redux";
-import { _todayDate } from "../../../_helper/_todayDate";
+import { _todayDate } from '../../../_helper/_todayDate';
 
-import ReactToPrint from "react-to-print";
-import { useSelector } from "react-redux";
+import ReactToPrint from 'react-to-print';
+import { useSelector } from 'react-redux';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../_metronic/_partials/controls";
-import printIcon from "../../../_helper/images/print-icon.png";
-import ICustomTable from "../../../_helper/_customTable";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { generateJsonToExcel } from "../../../_helper/excel/jsonToExcel";
-import { getOutletWiseDueReport, getWarehouseDDL } from "../helper";
-import InputField from "../../../_helper/_inputField";
+} from '../../../../../_metronic/_partials/controls';
+import printIcon from '../../../_helper/images/print-icon.png';
+import ICustomTable from '../../../_helper/_customTable';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { generateJsonToExcel } from '../../../_helper/excel/jsonToExcel';
+import { getOutletWiseDueReport, getWarehouseDDL } from '../helper';
+import InputField from '../../../_helper/_inputField';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  wareHouse: "",
-  fromMonthYear: "",
-  toMonthYear: "",
+  wareHouse: '',
+  fromMonthYear: '',
+  toMonthYear: '',
 };
 
 export default function OutletWiseDueReport() {
@@ -34,13 +34,13 @@ export default function OutletWiseDueReport() {
   const [loading, setLoading] = useState(false);
 
   const headers = [
-    "SL",
-    "Customer Name",
-    "Enroll",
-    "Bussiness Unit",
-    "Department",
-    "Designation",
-    "Due Amount",
+    'SL',
+    'Customer Name',
+    'Enroll',
+    'Bussiness Unit',
+    'Department',
+    'Designation',
+    'Due Amount',
   ];
 
   const printRef = useRef();
@@ -71,40 +71,40 @@ export default function OutletWiseDueReport() {
   const generateExcel = (data) => {
     const header = [
       {
-        text: "Customer Name",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "strEmployeeName",
+        text: 'Customer Name',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'strEmployeeName',
       },
       {
-        text: "Enroll",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "intWHEnrollNo",
+        text: 'Enroll',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'intWHEnrollNo',
       },
       {
-        text: "Bussiness Unit",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "strUnit",
+        text: 'Bussiness Unit',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'strUnit',
       },
       {
-        text: "Department",
-        textFormat: "text",
-        key: "strDepatrment",
-        alignment: "center:middle",
+        text: 'Department',
+        textFormat: 'text',
+        key: 'strDepatrment',
+        alignment: 'center:middle',
       },
       {
-        text: "Designation",
-        textFormat: "text",
-        key: "strdesignation",
-        alignment: "center:middle",
+        text: 'Designation',
+        textFormat: 'text',
+        key: 'strdesignation',
+        alignment: 'center:middle',
       },
       {
-        text: "Due Amount",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "amount",
+        text: 'Due Amount',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'amount',
       },
     ];
     const _data = data.map((item, index) => {
@@ -123,17 +123,17 @@ export default function OutletWiseDueReport() {
         enableReinitialize={true}
         initialValues={initData}
         //validationSchema={validationSchema}
-        onSubmit={() => { }}
+        onSubmit={() => {}}
       >
         {({ setFieldValue, values }) => (
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Warehouse Wise Due Report"}>
+              <CardHeader title={'Warehouse Wise Due Report'}>
                 <CardHeaderToolbar>
                   <ReactToPrint
                     pageStyle={
-                      "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                      '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
                     }
                     trigger={() => (
                       <button
@@ -141,7 +141,7 @@ export default function OutletWiseDueReport() {
                         className="btn btn-sm btn-primary sales_invoice_btn ml-3"
                       >
                         <img
-                          style={{ width: "20px", paddingRight: "5px" }}
+                          style={{ width: '20px', paddingRight: '5px' }}
                           src={printIcon}
                           alt="print-icon"
                         />
@@ -163,7 +163,7 @@ export default function OutletWiseDueReport() {
                         label="Warehouse"
                         options={outletDDL}
                         onChange={(valueOption) => {
-                          setFieldValue("outlet", valueOption);
+                          setFieldValue('outlet', valueOption);
                         }}
                         placeholder="Warehouse"
                       />
@@ -176,7 +176,7 @@ export default function OutletWiseDueReport() {
                         placeholder="From Date"
                         value={values?.fromMonthYear}
                         onChange={(e) => {
-                          setFieldValue("fromMonthYear", e?.target?.value);
+                          setFieldValue('fromMonthYear', e?.target?.value);
                         }}
                       />
                     </div>
@@ -188,14 +188,14 @@ export default function OutletWiseDueReport() {
                         placeholder="From Date"
                         value={values?.toMonthYear}
                         onChange={(e) => {
-                          setFieldValue("toMonthYear", e?.target?.value);
+                          setFieldValue('toMonthYear', e?.target?.value);
                         }}
                       />
                     </div>
                     <div className="col-lg-1">
                       <button
                         className="btn btn-primary mr-1"
-                        style={{ marginTop: "18px" }}
+                        style={{ marginTop: '18px' }}
                         type="button"
                         onClick={() => {
                           getGridData(values);
@@ -231,7 +231,9 @@ export default function OutletWiseDueReport() {
                         return (
                           <tr key={index}>
                             <td>
-                              <p className="text-center mb-0">{index + 1}</p>{" "}
+                              <p className="text-center mb-0">
+                                {index + 1}
+                              </p>{' '}
                             </td>
                             <td>{item?.strEmployeeName}</td>
                             <td>{item?.intWHEnrollNo}</td>
@@ -246,10 +248,10 @@ export default function OutletWiseDueReport() {
                         <td colSpan={6}>
                           <p
                             className="text-right mb-0"
-                            style={{ fontWeight: "bold" }}
+                            style={{ fontWeight: 'bold' }}
                           >
-                            {"Total"}
-                          </p>{" "}
+                            {'Total'}
+                          </p>{' '}
                         </td>
                         <td className="text-right">{toatalDueAmount}</td>
                       </tr>

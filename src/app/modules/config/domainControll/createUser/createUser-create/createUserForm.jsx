@@ -1,40 +1,40 @@
-import React from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { Input } from "../../../../../../_metronic/_partials/controls";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import * as actions from "../_redux/createUserActions";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
+import React from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { Input } from '../../../../../../_metronic/_partials/controls';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import * as actions from '../_redux/createUserActions';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
 
-import Loading from "./../../../../_helper/_loading";
+import Loading from './../../../../_helper/_loading';
 import {
   getCountryDropdown,
   getUserTypeDropdown,
   getReferenceDropdown,
-} from "../DroupDownList";
+} from '../DroupDownList';
 // Validation schema
 const validationSchema = Yup.object().shape({
   name: Yup.string()
-    .min(2, "Minimum 2 symbols")
+    .min(2, 'Minimum 2 symbols')
     // .max(50, "Maximum 50 symbols")
-    .required("Code is required"),
-  email: Yup.string().required("Email/Code is required"),
+    .required('Code is required'),
+  email: Yup.string().required('Email/Code is required'),
   country: Yup.object().shape({
-    label: Yup.string().required("country is required"),
-    value: Yup.string().required("country is required"),
+    label: Yup.string().required('country is required'),
+    value: Yup.string().required('country is required'),
   }),
   type: Yup.object().shape({
-    label: Yup.string().required("type is required"),
-    value: Yup.string().required("type is required"),
+    label: Yup.string().required('type is required'),
+    value: Yup.string().required('type is required'),
   }),
   contactnumber: Yup.string()
-    .min(11, "Invalid Phone Number")
-    .max(11, "Invalid Phone Number")
-    .required("Contact Number is required"),
+    .min(11, 'Invalid Phone Number')
+    .max(11, 'Invalid Phone Number')
+    .required('Contact Number is required'),
   reference: Yup.object().shape({
-    label: Yup.string().required("reference is required"),
-    value: Yup.string().required("reference is required"),
+    label: Yup.string().required('reference is required'),
+    value: Yup.string().required('reference is required'),
   }),
 });
 export default function FormCmp({
@@ -59,28 +59,28 @@ export default function FormCmp({
 
   const dispatch = useDispatch();
   const onHandleUserChange = (selectvalues, values) => {
-    if (selectvalues.label === "Employee") {
+    if (selectvalues.label === 'Employee') {
       dispatch(
         actions.EmployeeList(
           profileData?.accountId,
           selectedBusinessUnit?.value
         )
       );
-    } else if (selectvalues.label === "Customer") {
+    } else if (selectvalues.label === 'Customer') {
       dispatch(
         actions.CustomerList(
           profileData?.accountId,
           selectedBusinessUnit?.value
         )
       );
-    } else if (selectvalues.label === "Supplier") {
+    } else if (selectvalues.label === 'Supplier') {
       dispatch(
         actions.SupplierList(
           profileData?.accountId,
           selectedBusinessUnit?.value
         )
       );
-    } else if (selectvalues.label === "Others") {
+    } else if (selectvalues.label === 'Others') {
       dispatch(actions.OthersList());
     }
   };
@@ -131,10 +131,10 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
@@ -143,7 +143,7 @@ export default function FormCmp({
                     touched &&
                     touched.businessunit
                       ? errors.businessunit.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
 
@@ -158,8 +158,8 @@ export default function FormCmp({
                         value={values.type}
                         isDisabled={v}
                         onChange={(selectedOption) => {
-                          setFieldValue("type", selectedOption);
-                          setFieldValue("reference", "");
+                          setFieldValue('type', selectedOption);
+                          setFieldValue('reference', '');
                           onHandleUserChange(selectedOption, values);
                         }}
                         isSearchable={true}
@@ -171,16 +171,16 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
                     {errors && errors.type && touched && touched.type
                       ? errors.type.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
 
@@ -197,15 +197,15 @@ export default function FormCmp({
                         onChange={(selectedOption) => {
                           let name;
                           name =
-                            selectedOption?.label?.split("[")[0] ||
+                            selectedOption?.label?.split('[')[0] ||
                             selectedOption?.name;
 
                           setFieldValue(
-                            "contactnumber",
+                            'contactnumber',
                             selectedOption?.contactNumber
                           );
-                          setFieldValue("name", name);
-                          setFieldValue("reference", selectedOption);
+                          setFieldValue('name', name);
+                          setFieldValue('reference', selectedOption);
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -215,16 +215,16 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
                     {errors && errors.reference && touched && touched.reference
                       ? errors.reference.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
 
@@ -233,7 +233,7 @@ export default function FormCmp({
                     name="name"
                     component={Input}
                     placeholder="Name"
-                    disabled={values?.type?.label === "Employee" || v}
+                    disabled={values?.type?.label === 'Employee' || v}
                     label="Name"
                   />
                 </div>
@@ -257,7 +257,7 @@ export default function FormCmp({
                         value={values?.country}
                         isDisabled={v}
                         onChange={(selectedOption) => {
-                          setFieldValue("country", selectedOption);
+                          setFieldValue('country', selectedOption);
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -268,16 +268,16 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
                     {errors && errors.country && touched && touched.country
                       ? errors.country.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
                 <div className="col-lg-4">
@@ -293,7 +293,7 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
                 // disabled={true}
@@ -301,7 +301,7 @@ export default function FormCmp({
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(users)}
               ></button>

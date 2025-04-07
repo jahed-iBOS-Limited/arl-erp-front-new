@@ -1,32 +1,24 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import axios from "axios";
-import { shallowEqual, useSelector } from "react-redux";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _formatMoney } from "../../../_helper/_formatMoney";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import IForm from '../../../_helper/_form';
+import Loading from '../../../_helper/_loading';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
+import { shallowEqual, useSelector } from 'react-redux';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _formatMoney } from '../../../_helper/_formatMoney';
 const initData = {
-  poLc: "",
-  shipment: "",
-  partner: "",
+  poLc: '',
+  shipment: '',
+  partner: '',
 };
 export default function LcCostSheetPartnerWise() {
   const [shipmentDdl, getShipmentDdl, shipmentDdlLoader] = useAxiosGet();
-  const [
-    partnerDdl,
-    getPartnerDdl,
-    partnerDdlLoader,
-    setPartnerDdl,
-  ] = useAxiosGet();
-  const [
-    tableData,
-    getTableData,
-    tableDataLoader,
-    setTableData,
-  ] = useAxiosGet();
+  const [partnerDdl, getPartnerDdl, partnerDdlLoader, setPartnerDdl] =
+    useAxiosGet();
+  const [tableData, getTableData, tableDataLoader, setTableData] =
+    useAxiosGet();
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
@@ -78,15 +70,15 @@ export default function LcCostSheetPartnerWise() {
                   <SearchAsyncSelect
                     selectedValue={values?.poLc}
                     handleChange={(valueOption) => {
-                      setFieldValue("poLc", valueOption);
+                      setFieldValue('poLc', valueOption);
                       if (valueOption) {
                         getShipmentDdl(
                           `/imp/ImportCommonDDL/GetInfoFromPoLcDDL?accId=${profileData?.accountId}&buId=${selectedBusinessUnit?.value}&searchTerm=${valueOption?.label}`
                         );
                         setTableData([]);
                       } else {
-                        setFieldValue("shipment", "");
-                        setFieldValue("partner", "");
+                        setFieldValue('shipment', '');
+                        setFieldValue('partner', '');
                         setTableData([]);
                       }
                     }}
@@ -102,19 +94,19 @@ export default function LcCostSheetPartnerWise() {
                     onChange={(valueOption) => {
                       if (valueOption) {
                         setTableData([]);
-                        setFieldValue("shipment", valueOption);
+                        setFieldValue('shipment', valueOption);
                         getPartnerDdl(
                           `/imp/ImportCommonDDL/GetPartnerDDLShipmentWise?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PurchaseOrderId=${values?.poLc?.value}&ShipmentId=${valueOption?.value}`,
                           (data) => {
                             setPartnerDdl([
-                              { value: 0, label: "All" },
+                              { value: 0, label: 'All' },
                               ...data,
                             ]);
                           }
                         );
                       } else {
-                        setFieldValue("shipment", "");
-                        setFieldValue("partner", "");
+                        setFieldValue('shipment', '');
+                        setFieldValue('partner', '');
                         setTableData([]);
                       }
                     }}
@@ -130,11 +122,11 @@ export default function LcCostSheetPartnerWise() {
                     value={values?.partner}
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("partner", valueOption);
+                        setFieldValue('partner', valueOption);
                         setTableData([]);
                       } else {
-                        setFieldValue("shipment", "");
-                        setFieldValue("partner", "");
+                        setFieldValue('shipment', '');
+                        setFieldValue('partner', '');
                         setTableData([]);
                       }
                     }}
@@ -146,7 +138,7 @@ export default function LcCostSheetPartnerWise() {
                 <div className="col-lg-3">
                   <button
                     type="button"
-                    style={{ marginTop: "17px" }}
+                    style={{ marginTop: '17px' }}
                     onClick={() => {
                       getTableData(
                         `/imp/ImportCommonDDL/GetLCCostPartnerWiseReport?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PurchaseOrderId=${values?.poLc?.value}&ShipmentId=${values?.shipment?.value}&PartnerId=${values?.partner?.value}`
@@ -168,7 +160,7 @@ export default function LcCostSheetPartnerWise() {
                     <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                       <thead>
                         <tr>
-                          <th style={{ width: "30px" }}>SL</th>
+                          <th style={{ width: '30px' }}>SL</th>
                           <th>Particulars</th>
                           <th>Estimated VAT</th>
                           <th>Estimated Amount</th>

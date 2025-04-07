@@ -34,9 +34,8 @@ export default function CustomerViewModal({
 
   useEffect(() => {
     getSingleData(
-      `/fino/OthersBillEntry/CustomerRefundGetById?billId=${gridItem?.billRegisterId}`,
+      `/fino/OthersBillEntry/CustomerRefundGetById?billId=${gridItem?.billRegisterId}`
     );
-
   }, [gridItem]);
   return (
     <>
@@ -177,7 +176,7 @@ export default function CustomerViewModal({
                             <p>
                               <b>Bill Date: </b>
                               {_dateFormatter(
-                                singleData?.header?.dteBillRegisterDate,
+                                singleData?.header?.dteBillRegisterDate
                               )}
                             </p>
                           </div>
@@ -194,10 +193,10 @@ export default function CustomerViewModal({
                                   getMultipleFileView_Action(
                                     singleData?.image?.length > 0
                                       ? singleData?.image?.map(
-                                          (item) => item?.strAttatchment,
+                                          (item) => item?.strAttatchment
                                         )
-                                      : [],
-                                  ),
+                                      : []
+                                  )
                                 );
                               }}
                             >

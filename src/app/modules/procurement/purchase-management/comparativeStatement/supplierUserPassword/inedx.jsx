@@ -1,20 +1,20 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import PaginationTable from "../../../../_helper/_tablePagination";
+} from '../../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import PaginationTable from '../../../../_helper/_tablePagination';
 
 const initData = {
-  search: "",
+  search: '',
 };
 
 const SupplierUserPassword = () => {
@@ -31,7 +31,6 @@ const SupplierUserPassword = () => {
     getRowData(
       `/hcm/Report/GetSupplierCredential?AccountId=${profileData?.accountId}&BusinessUnitId=102&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
     );
-
   }, [profileData]);
 
   //setPositionHandler
@@ -39,8 +38,9 @@ const SupplierUserPassword = () => {
     getRowData(
       `/hcm/Report/GetSupplierCredential?AccountId=${
         profileData?.accountId
-      }&BusinessUnitId=102&Search=${searchValue ||
-        ""}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
+      }&BusinessUnitId=102&Search=${
+        searchValue || ''
+      }&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
     );
   };
 
@@ -67,7 +67,7 @@ const SupplierUserPassword = () => {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Supplier User List"}>
+              <CardHeader title={'Supplier User List'}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
@@ -112,7 +112,7 @@ const SupplierUserPassword = () => {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>User Name</th>
                             <th>Email</th>
                             <th>Login Id</th>

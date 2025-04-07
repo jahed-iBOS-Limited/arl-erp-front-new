@@ -1,8 +1,7 @@
 // For Communication with external API's , for example ... get data, post data etc
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _todayDate } from "./../../_helper/_todayDate";
-
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _todayDate } from './../../_helper/_todayDate';
 
 export const getWareHouseDDL = async (accId, buId, setter) => {
   try {
@@ -26,9 +25,16 @@ export const getItemDDL = async (accId, buId, whId, setter) => {
   }
 };
 
-export const damageEntryLandingData= async (accId, buId, isLoading, setter, pageNo, pageSize)=>{
+export const damageEntryLandingData = async (
+  accId,
+  buId,
+  isLoading,
+  setter,
+  pageNo,
+  pageSize
+) => {
   try {
-    isLoading(true)
+    isLoading(true);
     const res = await axios.get(
       `/oms/POSDamageEntry/GetDamageEntryLandingPasignation?accountId=${accId}&businessUnitId=${buId}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=asc`
     );
@@ -38,50 +44,48 @@ export const damageEntryLandingData= async (accId, buId, isLoading, setter, page
     setter([]);
     isLoading(false);
   }
-}
+};
 
 export const getDamageItemById = async (damageEntryId, setHeader, setRow) => {
   try {
     const res = await axios.get(
       `/oms/POSDamageEntry/GetDamageEntryById?damageEntryId=${damageEntryId}`
     );
-    const header=res?.data?.objheader
-    const resHeader={
-      whName:{
-        label:header?.warehouseName,
-        value:header?.warehouseId
+    const header = res?.data?.objheader;
+    const resHeader = {
+      whName: {
+        label: header?.warehouseName,
+        value: header?.warehouseId,
       },
       dteDamageEntryDate: _todayDate(header?.dteDamageEntryDate),
-      ...header
-    }
+      ...header,
+    };
     setHeader(resHeader);
     setRow(res?.data?.objrow);
+  } catch (error) {}
+};
+
+export const saveSalesDamage = async (payload) => {
+  try {
+    const res = await axios.post(
+      '/oms/POSDamageEntry/CreateDamageEntry',
+      payload
+    );
+    if (res?.status === 200) {
+      toast.success(res?.data?.message);
+    }
   } catch (error) {
+    toast.error(error?.response?.data?.message);
   }
 };
 
-export const saveSalesDamage= async (payload) => {
-  try{
-    const res=await axios.post("/oms/POSDamageEntry/CreateDamageEntry", payload)
-    if(res?.status=== 200){
+export const editSalesDamage = async (payload) => {
+  try {
+    const res = await axios.put('/oms/POSDamageEntry/EditDamageEntry', payload);
+    if (res?.status === 200) {
       toast.success(res?.data?.message);
     }
-  }catch (error) {
-    toast.error(
-      error?.response?.data?.message
-    );
+  } catch (error) {
+    toast.error(error?.response?.data?.message);
   }
-}
-
-export const editSalesDamage= async (payload) => {
-  try{
-    const res=await axios.put("/oms/POSDamageEntry/EditDamageEntry", payload)
-    if(res?.status=== 200){
-      toast.success(res?.data?.message);
-    }
-  }catch (error) {
-    toast.error(
-      error?.response?.data?.message
-    );
-  }
-}
+};

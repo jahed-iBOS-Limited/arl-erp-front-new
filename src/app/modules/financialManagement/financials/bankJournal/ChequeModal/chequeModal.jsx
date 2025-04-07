@@ -1,15 +1,13 @@
-
-
-import React, { useEffect, useState } from "react";
-import IViewModal from "../../../../_helper/_viewModal";
-import { Form, Formik } from "formik";
-import InputField from "../../../../_helper/_inputField";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { getBankJournalGridData } from "../_redux/Actions";
-import { changeChequeBookSave } from "../../../../_helper/_commonApi";
+import React, { useEffect, useState } from 'react';
+import IViewModal from '../../../../_helper/_viewModal';
+import { Form, Formik } from 'formik';
+import InputField from '../../../../_helper/_inputField';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { getBankJournalGridData } from '../_redux/Actions';
+import { changeChequeBookSave } from '../../../../_helper/_commonApi';
 
 const initData = {
-  checkNo: "",
+  checkNo: '',
 };
 
 export default function ChequeModal({
@@ -82,7 +80,7 @@ export default function ChequeModal({
         isModalFooterActive={false}
         // isShow={rowDto && false}
         title="Change Cheque Number"
-        style={{ fontSize: "1.2rem !important" }}
+        style={{ fontSize: '1.2rem !important' }}
       >
         <Formik
           enableReinitialize={true}
@@ -121,7 +119,7 @@ export default function ChequeModal({
                       <button
                         type="submit"
                         className="btn btn-primary"
-                        style={{ marginTop: "14px" }}
+                        style={{ marginTop: '14px' }}
                       >
                         Save
                       </button>

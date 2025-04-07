@@ -1,29 +1,28 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
 import {
   getSalesOrderInActiveLandingData,
   getSalesOrderInactiveViewData,
   getDistributionChannelDDL,
   getCustomerDDL,
-} from "../helper";
-import { Formik } from "formik";
-import { Form } from "formik";
+} from '../helper';
+import { Formik } from 'formik';
+import { Form } from 'formik';
 
-import { _todayDate } from "../../../../_helper/_todayDate";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import InputField from "../../../../_helper/_inputField";
-import IView from "../../../../_helper/_helperIcons/_view";
-import SalesOrderReportModal from "./salesOrderReportModal";
-import NewSelect from "./../../../../_helper/_select";
+import { _todayDate } from '../../../../_helper/_todayDate';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import InputField from '../../../../_helper/_inputField';
+import IView from '../../../../_helper/_helperIcons/_view';
+import SalesOrderReportModal from './salesOrderReportModal';
+import NewSelect from './../../../../_helper/_select';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  distributionChannel: "",
-  customer: "",
+  distributionChannel: '',
+  customer: '',
 };
 
 function SalesOrderInActiveLanding() {
@@ -88,8 +87,8 @@ function SalesOrderInActiveLanding() {
                       value={values?.distributionChannel}
                       label="Dist. Channel"
                       onChange={(valueOption) => {
-                        setFieldValue("distributionChannel", valueOption);
-                        setFieldValue("customer", "");
+                        setFieldValue('distributionChannel', valueOption);
+                        setFieldValue('customer', '');
                         getCustomerDDL(
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
@@ -110,7 +109,7 @@ function SalesOrderInActiveLanding() {
                       value={values?.customer}
                       label="Customer"
                       onChange={(valueOption) => {
-                        setFieldValue("customer", valueOption);
+                        setFieldValue('customer', valueOption);
                         setGridData([]);
                       }}
                       placeholder="Customer"
@@ -141,7 +140,7 @@ function SalesOrderInActiveLanding() {
                       />
                     </div>
                   </div>
-                  <div style={{ marginTop: "17px" }} className="col-lg">
+                  <div style={{ marginTop: '17px' }} className="col-lg">
                     <button
                       type="button"
                       className="btn btn-primary"
@@ -166,7 +165,7 @@ function SalesOrderInActiveLanding() {
                           <th>SL</th>
                           <th>Sales Order</th>
                           <th>Partner Name</th>
-                          <th style={{ width: "120px" }}>
+                          <th style={{ width: '120px' }}>
                             Undelivery Quantity
                           </th>
                           <th>Action</th>
@@ -229,7 +228,7 @@ function SalesOrderInActiveLanding() {
                 }}
                 onHide={() => setModalShow(false)}
                 setLoading={setLoading}
-                isSaveWork ={true}
+                isSaveWork={true}
               />
             </>
           )}

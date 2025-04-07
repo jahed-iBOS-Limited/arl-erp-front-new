@@ -1,29 +1,35 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { attachmentUpload } from "../../../../../_helper/attachmentUpload";
-import placeholderImg from "../../../../../_helper/images/placeholderImg.png";
-import { ISelect } from "../../../../../_helper/_inputDropDown";
-import InputField from "../../../../../_helper/_inputField";
-import Loading from "../../../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
-import { getPlantDDL, getWareForTransferDDL } from "../../helper";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { attachmentUpload } from '../../../../../_helper/attachmentUpload';
+import placeholderImg from '../../../../../_helper/images/placeholderImg.png';
+import { ISelect } from '../../../../../_helper/_inputDropDown';
+import InputField from '../../../../../_helper/_inputField';
+import Loading from '../../../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actions';
+import { getPlantDDL, getWareForTransferDDL } from '../../helper';
 import {
-  getBusinessPartnerDDLAction, getLocationTypeDDLAction, getpersonnelDDLAction,
+  getBusinessPartnerDDLAction,
+  getLocationTypeDDLAction,
+  getpersonnelDDLAction,
   // getItemForTransferInvInInvDDLAction,
-  getreferenceNoForTransferInInvDDLAction, getreferenceTypeDDLAction, getStockDDLAction, getTransactionTypeDDLAction, saveInventoryTransactionForTransferInv
-} from "../../_redux/Actions";
-import { invTransactionSlice } from "../../_redux/Slice";
-import SearchAsyncSelect from "./../../../../../_helper/SearchAsyncSelect";
-import FormikError from "./../../../../../_helper/_formikError";
-import { initData, validationSchema } from "./helper";
-import RowDtoTable from "./rowDtoTable";
-import "./style.css";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import { debounce } from "lodash";
+  getreferenceNoForTransferInInvDDLAction,
+  getreferenceTypeDDLAction,
+  getStockDDLAction,
+  getTransactionTypeDDLAction,
+  saveInventoryTransactionForTransferInv,
+} from '../../_redux/Actions';
+import { invTransactionSlice } from '../../_redux/Slice';
+import SearchAsyncSelect from './../../../../../_helper/SearchAsyncSelect';
+import FormikError from './../../../../../_helper/_formikError';
+import { initData, validationSchema } from './helper';
+import RowDtoTable from './rowDtoTable';
+import './style.css';
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
+import { debounce } from 'lodash';
 
 const { actions: slice } = invTransactionSlice;
 
@@ -48,7 +54,7 @@ export default function TransferInvCreateForm({
     return state?.localStorage;
   }, shallowEqual);
 
-  console.log("invTransaction", invTransaction);
+  console.log('invTransaction', invTransaction);
 
   // redux store data
   const {
@@ -60,7 +66,7 @@ export default function TransferInvCreateForm({
     locationTypeDDL,
   } = useSelector((state) => state?.invTransa);
 
-  const [attachmentFile, setAttachmentFile] = useState("");
+  const [attachmentFile, setAttachmentFile] = useState('');
 
   const inputAttachFile = useRef(null);
   const onButtonAttachmentClick = () => {
@@ -94,16 +100,15 @@ export default function TransferInvCreateForm({
         landingData?.warehouse?.value
       )
     );
-    onChaneForRefType({ value: 11, label: "NA (Without Reference)" });
+    onChaneForRefType({ value: 11, label: 'NA (Without Reference)' });
     return () => dispatch(slice.setItemDDL([]));
-
   }, [profileData, selectedBusinessUnit]);
 
   const onChaneForRefType = (refTyp) => {
     dispatch(
       getTransactionTypeDDLAction(landingData?.transGrup?.value, refTyp.value)
     );
-    if (refTyp.label !== "NA (Without Reference)") {
+    if (refTyp.label !== 'NA (Without Reference)') {
       dispatch(
         getreferenceNoForTransferInInvDDLAction(
           refTyp?.value,
@@ -129,22 +134,28 @@ export default function TransferInvCreateForm({
     //dispatch(slice.setItemDDL([]))
   };
 
-  const [, getItemStockQty, itemStockQtyLoader] = useAxiosGet()
-  const [, getItemCurrentRate, itemCurrentRateLoader] = useAxiosGet()
+  const [, getItemStockQty, itemStockQtyLoader] = useAxiosGet();
+  const [, getItemCurrentRate, itemCurrentRateLoader] = useAxiosGet();
   //add row Dto Data
   const addRowDtoData = (values) => {
-    getItemStockQty(`/wms/InventoryTransaction/sprRuningQty?businessUnitId=${selectedBusinessUnit?.value
-      }&whId=${invTransaction?.warehouse?.value
-      }&itemId=${values.item?.value}`, (resQty) => {
+    getItemStockQty(
+      `/wms/InventoryTransaction/sprRuningQty?businessUnitId=${
+        selectedBusinessUnit?.value
+      }&whId=${invTransaction?.warehouse?.value}&itemId=${values.item?.value}`,
+      (resQty) => {
         // Previous api
         // `/wms/InventoryTransaction/sprRuningRate?businessUnitId=${selectedBusinessUnit?.value
         //   }&whId=${invTransaction?.warehouse?.value
         //   }&itemId=${values.item?.value}`
-        getItemCurrentRate(`/wms/InventoryLoan/GetItemRate?ItemId=${values.item?.value}&BusinessUnitId=${selectedBusinessUnit?.value}`, (resRate) => {
+        getItemCurrentRate(
+          `/wms/InventoryLoan/GetItemRate?ItemId=${values.item?.value}&BusinessUnitId=${selectedBusinessUnit?.value}`,
+          (resRate) => {
             if (values.isAllItem === false) {
-              let data = rowDto?.find((data) => data?.itemName === values?.item?.label);
+              let data = rowDto?.find(
+                (data) => data?.itemName === values?.item?.label
+              );
               if (data) {
-                alert("Item Already added");
+                alert('Item Already added');
               } else {
                 setRowDto([
                   ...rowDto,
@@ -157,17 +168,17 @@ export default function TransferInvCreateForm({
                     baseValue: resRate,
                     availableStock: resQty,
                     refQty:
-                      values.refType.label === "NA (Without Reference)"
+                      values.refType.label === 'NA (Without Reference)'
                         ? 0
                         : values?.item?.refQty || 0,
                     restQty:
-                      values.refType.label === "NA (Without Reference)"
+                      values.refType.label === 'NA (Without Reference)'
                         ? 0
                         : values?.item?.restQty || 0,
-                    location: "",
-                    stockType: { value: 1, label: "Open Stock" },
+                    location: '',
+                    stockType: { value: 1, label: 'Open Stock' },
                     fromLocation: values?.item?.locationBasedStock[0],
-                    fromStock: { value: 1, label: "Open Stock" },
+                    fromStock: { value: 1, label: 'Open Stock' },
                     quantity: 0,
                     transferDDl: values?.item?.locationBasedStock,
                     transferToLocation: values.item.transferToLocation,
@@ -178,7 +189,7 @@ export default function TransferInvCreateForm({
               let data = itemDDL?.map((data) => {
                 return {
                   itemId: data?.value,
-                  itemName: data.label.split("[")[0].trim(),
+                  itemName: data.label.split('[')[0].trim(),
                   uoMid: data.baseUoMId,
                   uoMname: data.baseUoMName,
                   itemCode: data.code,
@@ -186,16 +197,17 @@ export default function TransferInvCreateForm({
                   availableStock: resQty,
                   refQty: data.availableStock || 0,
                   restQty: data.restQty || 0,
-                  location: "",
-                  stockType: "",
+                  location: '',
+                  stockType: '',
                   quantity: 0,
                 };
               });
               setRowDto(data);
             }
-          })
-      })
-
+          }
+        );
+      }
+    );
   };
 
   // remove single data from rowDto
@@ -208,7 +220,7 @@ export default function TransferInvCreateForm({
   const rowDtoHandler = (name, value, sl) => {
     let data = [...rowDto];
     let _sl = data[sl];
-    if (name === "quantity") {
+    if (name === 'quantity') {
       _sl[name] = +value;
     } else {
       _sl[name] = value;
@@ -217,9 +229,8 @@ export default function TransferInvCreateForm({
   };
 
   const saveHandler = async (values, cb) => {
-
     if (rowDto.length === 0) {
-      toast.error("Please Add Item");
+      toast.error('Please Add Item');
     } else {
       if (values && profileData?.accountId && selectedBusinessUnit?.value) {
         let rowDataformet = rowDto
@@ -234,14 +245,14 @@ export default function TransferInvCreateForm({
               inventoryLocationId: data.fromLocation.value,
               inventoryLocationName: data.fromLocation.label,
               batchId: 0,
-              batchNumber: "",
+              batchNumber: '',
               inventoryStockTypeId: data.fromStock.value,
               inventoryStockTypeName: data.fromStock.label,
               toInventoryLocationId: 0, //data.location.value,
-              toInventoryLocationName: "", //data.location.label,
+              toInventoryLocationName: '', //data.location.label,
               toInventoryStockTypeId: data.stockType.value,
               toInventoryStockTypeName: data.stockType.label,
-              strBinNo: data?.fromLocation?.binNumber || "",
+              strBinNo: data?.fromLocation?.binNumber || '',
             };
           })
           .filter((data) => data.numTransactionQuantity > 0);
@@ -254,7 +265,7 @@ export default function TransferInvCreateForm({
             referenceTypeId: values?.refType.value,
             referenceTypeName: values?.refType.label,
             referenceId: values?.refNo.value || 1,
-            referenceCode: values.refNo.label || "NA",
+            referenceCode: values.refNo.label || 'NA',
             accountId: profileData?.accountId,
             accountName: profileData?.accountName,
             businessUnitId: selectedBusinessUnit?.value,
@@ -268,41 +279,41 @@ export default function TransferInvCreateForm({
             businessPartnerId: values?.busiPartner?.value || -1, //61
             parsonnelId: values?.personnel?.value || -1,
             costCenterId: values?.costCenter?.value || -1,
-            costCenterCode: values?.costCenter?.code || "",
-            costCenterName: values?.costCenter?.label || "",
+            costCenterCode: values?.costCenter?.code || '',
+            costCenterName: values?.costCenter?.label || '',
             projectId: values?.projName?.value || -1,
-            projectCode: values?.projName?.code || "",
-            projectName: values?.projName?.label || "",
-            comments: values?.remarks || "",
+            projectCode: values?.projName?.code || '',
+            projectName: values?.projName?.label || '',
+            comments: values?.remarks || '',
             actionBy: profileData.userId,
-            documentId: "",
-            businessPartnerName: values?.busiPartner?.label || "",
-            gateEntryNo: values?.getEntryn || "",
+            documentId: '',
+            businessPartnerName: values?.busiPartner?.label || '',
+            gateEntryNo: values?.getEntryn || '',
           },
           objRow: rowDataformet,
           objtransfer: {
             fromPlantId:
-              values.refType.label === "NA (Without Reference)"
+              values.refType.label === 'NA (Without Reference)'
                 ? landingData?.plant?.value
                 : values.transplant.value,
             fromWhid:
-              values.refType.label === "NA (Without Reference)"
+              values.refType.label === 'NA (Without Reference)'
                 ? landingData?.warehouse?.value
                 : values.transWare.value,
             toPlantId:
-              values.refType.label === "NA (Without Reference)"
+              values.refType.label === 'NA (Without Reference)'
                 ? values.transplant.value
                 : landingData?.plant?.value,
             toPlantName:
-              values.refType.label === "NA (Without Reference)"
+              values.refType.label === 'NA (Without Reference)'
                 ? values.transplant.label
                 : landingData?.plant?.label,
             toWhid:
-              values.refType.label === "NA (Without Reference)"
+              values.refType.label === 'NA (Without Reference)'
                 ? values.transWare.value
                 : landingData?.warehouse?.value,
             toWhName:
-              values.refType.label === "NA (Without Reference)"
+              values.refType.label === 'NA (Without Reference)'
                 ? values.transWare.label
                 : landingData?.warehouse?.label,
           },
@@ -312,7 +323,7 @@ export default function TransferInvCreateForm({
           const modifyPlyload = {
             objHeader: {
               ...payload?.objHeader,
-              documentId: attachmentFile || "",
+              documentId: attachmentFile || '',
             },
             objRow: payload.objRow,
             // objtransfer: {}, cemmenting and change value of objtransfer requirment of Ziaul Islam (Backend)
@@ -358,7 +369,7 @@ export default function TransferInvCreateForm({
             CB: () => {
               saveHandler(values, () => {
                 resetForm(initData);
-                setAttachmentFile("");
+                setAttachmentFile('');
               });
             },
           });
@@ -387,10 +398,10 @@ export default function TransferInvCreateForm({
                     name="refType"
                     isDisabled
                     onChange={(value) => {
-                      setFieldValue("refType", value);
+                      setFieldValue('refType', value);
                       onChaneForRefType(value);
-                      setFieldValue("refNo", "");
-                      setFieldValue("transType", "");
+                      setFieldValue('refNo', '');
+                      setFieldValue('transType', '');
                       setRowDto([]);
                     }}
                     errors={errors}
@@ -412,22 +423,22 @@ export default function TransferInvCreateForm({
                 <div className="col-lg-2">
                   <ISelect
                     label={
-                      values.refType.label === "NA (Without Reference)"
-                        ? "Select To (Plant)"
-                        : "Select From (Plant)"
+                      values.refType.label === 'NA (Without Reference)'
+                        ? 'Select To (Plant)'
+                        : 'Select From (Plant)'
                     }
                     options={plantDDL}
                     value={values?.transplant}
                     name="transplant"
                     onChange={(value) => {
-                      setFieldValue("transplant", value);
+                      setFieldValue('transplant', value);
                       onChangeforPlant(value);
-                      setFieldValue("transWare", "");
-                      setFieldValue("item", "");
+                      setFieldValue('transWare', '');
+                      setFieldValue('item', '');
                       setRowDto([]);
                     }}
                     isDisabled={
-                      values.refType.label !== "NA (Without Reference)"
+                      values.refType.label !== 'NA (Without Reference)'
                     }
                     errors={errors}
                     touched={touched}
@@ -436,20 +447,20 @@ export default function TransferInvCreateForm({
                 <div className="col-lg-2">
                   <ISelect
                     label={
-                      values.refType.label === "NA (Without Reference)"
-                        ? "Select To (Warehouse)"
-                        : "Select From (Warehouse)"
+                      values.refType.label === 'NA (Without Reference)'
+                        ? 'Select To (Warehouse)'
+                        : 'Select From (Warehouse)'
                     }
                     options={warehouseDDL}
                     value={values?.transWare}
                     name="transWare"
                     onChange={(value) => {
-                      setFieldValue("transWare", value);
-                      setFieldValue("item", "");
+                      setFieldValue('transWare', value);
+                      setFieldValue('item', '');
                       setRowDto([]);
                     }}
                     isDisabled={
-                      values.refType.label !== "NA (Without Reference)"
+                      values.refType.label !== 'NA (Without Reference)'
                     }
                     errors={errors}
                     touched={touched}
@@ -468,14 +479,14 @@ export default function TransferInvCreateForm({
                   <div
                     className={
                       attachmentFile
-                        ? "image-upload-box with-img"
-                        : "image-upload-box"
+                        ? 'image-upload-box with-img'
+                        : 'image-upload-box'
                     }
                     onClick={onButtonAttachmentClick}
                     style={{
-                      cursor: "pointer",
-                      position: "relative",
-                      height: "35px",
+                      cursor: 'pointer',
+                      position: 'relative',
+                      height: '35px',
                     }}
                   >
                     <input
@@ -486,19 +497,19 @@ export default function TransferInvCreateForm({
                               setAttachmentFile(data?.[0]?.id);
                             })
                             .catch((error) => {
-                              setAttachmentFile("");
+                              setAttachmentFile('');
                             });
                         }
                       }}
                       type="file"
                       ref={inputAttachFile}
                       id="file"
-                      style={{ display: "none" }}
+                      style={{ display: 'none' }}
                     />
                     <div>
                       {!attachmentFile && (
                         <img
-                          style={{ maxWidth: "50px" }}
+                          style={{ maxWidth: '50px' }}
                           src={placeholderImg}
                           className="img-fluid"
                           alt="Upload or drag documents"
@@ -509,35 +520,31 @@ export default function TransferInvCreateForm({
                       <div className="d-flex align-items-center">
                         <p
                           style={{
-                            fontSize: "12px",
-                            fontWeight: "500",
-                            color: "#0072E5",
-                            cursor: "pointer",
-                            margin: "0px",
+                            fontSize: '12px',
+                            fontWeight: '500',
+                            color: '#0072E5',
+                            cursor: 'pointer',
+                            margin: '0px',
                           }}
                         >
                           {attachmentFile}
                         </p>
                         <OverlayTrigger
                           overlay={
-                            <Tooltip id="cs-icon">
-                              View Attachment
-                            </Tooltip>
+                            <Tooltip id="cs-icon">View Attachment</Tooltip>
                           }
                         >
                           <span
                             onClick={(e) => {
                               e.stopPropagation();
                               dispatch(
-                                getDownlloadFileView_Action(
-                                  attachmentFile
-                                )
+                                getDownlloadFileView_Action(attachmentFile)
                               );
                             }}
                             className="ml-2"
                           >
                             <i
-                              style={{ fontSize: "16px" }}
+                              style={{ fontSize: '16px' }}
                               className={`fa pointer fa-eye`}
                               aria-hidden="true"
                             ></i>
@@ -549,13 +556,13 @@ export default function TransferInvCreateForm({
                 </div>
               </div>
               <div className="form-group row global-form">
-                {values.refType.label === "NA (Without Reference)" ? (
+                {values.refType.label === 'NA (Without Reference)' ? (
                   <div className="col-lg-3">
                     <label>Item</label>
                     <SearchAsyncSelect
                       selectedValue={values.item}
                       handleChange={(valueOption) => {
-                        setFieldValue("item", valueOption);
+                        setFieldValue('item', valueOption);
                       }}
                       loadOptions={(v) => {
                         if (v?.length < 3) return [];
@@ -591,7 +598,7 @@ export default function TransferInvCreateForm({
                       name="item"
                       setFieldValue={setFieldValue}
                       isDisabled={
-                        values.isAllItem === true || values.refType === ""
+                        values.isAllItem === true || values.refType === ''
                       }
                       isOptionSelected={(option, selectValue) =>
                         selectValue.some((i) => i === option)
@@ -604,10 +611,10 @@ export default function TransferInvCreateForm({
                 <div className="col-lg-1">
                   <button
                     type="button"
-                    style={{ marginTop: "18px" }}
+                    style={{ marginTop: '18px' }}
                     className="btn btn-primary ml-2"
                     onClick={() => addRowDtoData(values)}
-                    disabled={values.item === "" && values.isAllItem === false}
+                    disabled={values.item === '' && values.isAllItem === false}
                   >
                     Add
                   </button>
@@ -627,14 +634,14 @@ export default function TransferInvCreateForm({
               />
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
                 onClick={() => {

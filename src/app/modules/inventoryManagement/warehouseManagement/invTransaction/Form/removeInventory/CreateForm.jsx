@@ -64,11 +64,11 @@ export default function CreateForm({
     dispatch(
       getBusinessPartnerDDLAction(
         profileData.accountId,
-        selectedBusinessUnit.value,
-      ),
+        selectedBusinessUnit.value
+      )
     );
     dispatch(
-      getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value),
+      getpersonnelDDLAction(profileData.accountId, selectedBusinessUnit.value)
     );
     // dispatch(getItemDDLAction(profileData.accountId,selectedBusinessUnit.value,landingData?.plant?.value,landingData?.warehouse?.value))
     dispatch(getStockDDLAction());
@@ -77,11 +77,10 @@ export default function CreateForm({
         profileData.accountId,
         selectedBusinessUnit.value,
         landingData?.plant?.value,
-        landingData?.warehouse?.value,
-      ),
+        landingData?.warehouse?.value
+      )
     );
     return () => dispatch(slice.setItemDDL([]));
-
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
   const onChaneForRefType = (refTyp) => {
@@ -92,11 +91,11 @@ export default function CreateForm({
         selectedBusinessUnit.value,
         landingData?.sbu?.value,
         landingData?.plant?.value,
-        landingData?.warehouse?.value,
-      ),
+        landingData?.warehouse?.value
+      )
     );
     dispatch(
-      getTransactionTypeDDLAction(landingData?.transGrup?.value, refTyp.value),
+      getTransactionTypeDDLAction(landingData?.transGrup?.value, refTyp.value)
     );
     // if(refTyp.label === "NA (Without Reference)"){
     //   dispatch(
@@ -121,8 +120,8 @@ export default function CreateForm({
         selectedBusinessUnit.value,
         landingData?.plant?.value,
         landingData?.warehouse?.value,
-        transTyp.label,
-      ),
+        transTyp.label
+      )
     );
   };
 
@@ -248,8 +247,8 @@ export default function CreateForm({
               saveInventoryTransactionForRemoveInventory(
                 { data: modifyPlyload, cb },
                 setRowDto,
-                setDisabled,
-              ),
+                setDisabled
+              )
             );
           });
         } else {
@@ -257,8 +256,8 @@ export default function CreateForm({
             saveInventoryTransactionForRemoveInventory(
               { data: payload, cb },
               setRowDto,
-              setDisabled,
-            ),
+              setDisabled
+            )
           );
         }
       } else {
@@ -439,7 +438,7 @@ export default function CreateForm({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}

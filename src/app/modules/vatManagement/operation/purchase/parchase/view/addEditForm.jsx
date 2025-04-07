@@ -1,30 +1,30 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import { getSinglePurchaseview, GetPurchaseLogDetails_api } from "./../helper";
-import moment from "moment";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import { getSinglePurchaseview, GetPurchaseLogDetails_api } from './../helper';
+import moment from 'moment';
 const initData = {
-  supplier: "",
-  address: "",
+  supplier: '',
+  address: '',
   transactionDate: _todayDate(),
-  tradeType: "",
-  paymentTerm: "",
-  vehicalInfo: "",
-  refferenceNo: "",
+  tradeType: '',
+  paymentTerm: '',
+  vehicalInfo: '',
+  refferenceNo: '',
   refferenceDate: _todayDate(),
-  totalTdsAmount: "",
-  totalVdsAmount: "",
-  selectedItem: "",
-  selectedUom: "",
-  quantity: "",
-  rate: "",
-  totalAtv: "",
-  totalAit: "",
+  totalTdsAmount: '',
+  totalVdsAmount: '',
+  selectedItem: '',
+  selectedUom: '',
+  quantity: '',
+  rate: '',
+  totalAtv: '',
+  totalAit: '',
 };
 
 export default function PurchaseView({ viewClick, redirectAuditLogPage }) {
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [isDisabled, setDisabled] = useState(true);
   const [
     objProps,
@@ -59,8 +59,6 @@ export default function PurchaseView({ viewClick, redirectAuditLogPage }) {
         );
       }
     }
-
-
   }, []);
 
   return (
@@ -68,12 +66,12 @@ export default function PurchaseView({ viewClick, redirectAuditLogPage }) {
       {redirectAuditLogPage?.logId && (
         <div className="mt-8">
           <p className="p-0 m-0">
-            <b>Activity</b>: {singleData?.activity}{" "}
+            <b>Activity</b>: {singleData?.activity}{' '}
           </p>
           <p className="p-0 m-0">
-            <b>Action Date/Time</b>:{" "}
+            <b>Action Date/Time</b>:{' '}
             {moment(singleData?.auditLog?.activityTime).format(
-              "DD-MMM-YY, LTS"
+              'DD-MMM-YY, LTS'
             )}
           </p>
         </div>

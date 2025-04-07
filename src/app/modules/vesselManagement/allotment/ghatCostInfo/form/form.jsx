@@ -1,34 +1,34 @@
-import axios from "axios";
-import { Field, Form, Formik } from "formik";
-import React from "react";
-import { toast } from "react-toastify";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import ICustomCard from "../../../../_helper/_customCard";
-import FormikError from "../../../../_helper/_formikError";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
-import IButton from "../../../../_helper/iButton";
-import Select from "react-select";
-import { createCustomSelectStyles } from "../../../../selectCustomStyle";
+import axios from 'axios';
+import { Field, Form, Formik } from 'formik';
+import React from 'react';
+import { toast } from 'react-toastify';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import ICustomCard from '../../../../_helper/_customCard';
+import FormikError from '../../../../_helper/_formikError';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import YearMonthForm from '../../../../_helper/commonInputFieldsGroups/yearMonthForm';
+import IButton from '../../../../_helper/iButton';
+import Select from 'react-select';
+import { createCustomSelectStyles } from '../../../../selectCustomStyle';
 
 const customStyles = createCustomSelectStyles({
   control: (provided, state) => ({
     ...provided,
-    minHeight: "30px",
-    height: "auto",
+    minHeight: '30px',
+    height: 'auto',
   }),
   valueContainer: (provided, state) => ({
     ...provided,
-    height: "auto",
-    padding: "0 6px",
+    height: 'auto',
+    padding: '0 6px',
   }),
   indicatorsContainer: (provided, state) => ({
     ...provided,
-    height: "26px",
+    height: '26px',
   }),
-})
+});
 
 export default function FormCmp({
   type,
@@ -93,14 +93,14 @@ export default function FormCmp({
               history.goBack();
             }}
             resetHandler={
-              type === "view"
+              type === 'view'
                 ? false
                 : () => {
                     resetForm(initData);
                   }
             }
             saveHandler={
-              type === "view"
+              type === 'view'
                 ? false
                 : () => {
                     if (values?.reportType?.value === 1) {
@@ -116,7 +116,7 @@ export default function FormCmp({
                       ) {
                         shipPointSaveHandler(shipPointData, values);
                       } else {
-                        toast.warn("Select minimum one row");
+                        toast.warn('Select minimum one row');
                       }
                     }
                   }
@@ -128,13 +128,13 @@ export default function FormCmp({
                   <NewSelect
                     name="reportType"
                     options={[
-                      { label: "Ghat Cost Information", value: 1 },
-                      { label: "Vehicle Demand Info", value: 2 },
+                      { label: 'Ghat Cost Information', value: 1 },
+                      { label: 'Vehicle Demand Info', value: 2 },
                     ]}
                     value={values?.reportType}
                     label="Report Type"
                     onChange={(valueOption) => {
-                      setFieldValue("reportType", valueOption);
+                      setFieldValue('reportType', valueOption);
                       setShipPointData([]);
                       if (valueOption?.value) {
                         getSupplierDDL(
@@ -157,14 +157,14 @@ export default function FormCmp({
                         label="Lighter Destination"
                         onChange={(e) => {
                           onChangeHandler(
-                            "destination",
+                            'destination',
                             values,
                             e,
                             setFieldValue
                           );
                         }}
                         placeholder="Lighter Destination"
-                        isDisabled={type === "view"}
+                        isDisabled={type === 'view'}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -174,7 +174,7 @@ export default function FormCmp({
                         value={values?.port}
                         label="Port"
                         onChange={(e) => {
-                          onChangeHandler("port", values, e, setFieldValue);
+                          onChangeHandler('port', values, e, setFieldValue);
                         }}
                         placeholder="Port"
                         errors={errors}
@@ -189,7 +189,7 @@ export default function FormCmp({
                         label="Mother Vessel"
                         onChange={(e) => {
                           onChangeHandler(
-                            "motherVessel",
+                            'motherVessel',
                             values,
                             e,
                             setFieldValue
@@ -199,7 +199,7 @@ export default function FormCmp({
                         errors={errors}
                         touched={touched}
                         isDisabled={
-                          type === "view" ||
+                          type === 'view' ||
                           !values?.port ||
                           !values?.destination
                         }
@@ -214,7 +214,7 @@ export default function FormCmp({
                         label="Lighter Vessel"
                         onChange={(e) => {
                           onChangeHandler(
-                            "lighterVessel",
+                            'lighterVessel',
                             values,
                             e,
                             setFieldValue
@@ -223,7 +223,7 @@ export default function FormCmp({
                         placeholder="Lighter"
                         errors={errors}
                         touched={touched}
-                        isDisabled={type === "view" || !values?.motherVessel}
+                        isDisabled={type === 'view' || !values?.motherVessel}
                       />
                     </div>
                     <div className="col-lg-3">
@@ -231,7 +231,7 @@ export default function FormCmp({
                       <SearchAsyncSelect
                         selectedValue={values?.supplier}
                         handleChange={(valueOption) => {
-                          setFieldValue("supplier", valueOption);
+                          setFieldValue('supplier', valueOption);
                         }}
                         loadOptions={loadOptions}
                       />
@@ -249,7 +249,7 @@ export default function FormCmp({
                         label="Ship Point"
                         onChange={(e) => {
                           onChangeHandler(
-                            "shipPoint",
+                            'shipPoint',
                             values,
                             e,
                             setFieldValue
@@ -258,7 +258,7 @@ export default function FormCmp({
                         placeholder="Ship Point"
                         errors={errors}
                         touched={touched}
-                        isDisabled={type === "view"}
+                        isDisabled={type === 'view'}
                       />
                     </div>
                     <YearMonthForm obj={{ values, setFieldValue }} />
@@ -285,7 +285,7 @@ export default function FormCmp({
                             placeholder="Select Supplier Name"
                             value={values.supplier}
                             onChange={(valueOption) => {
-                              setFieldValue("supplier", valueOption);
+                              setFieldValue('supplier', valueOption);
                             }}
                             styles={customStyles}
                             name="supplier"
@@ -310,7 +310,7 @@ export default function FormCmp({
                     <div>
                       <button
                         type="button"
-                        style={{ marginTop: "20px" }}
+                        style={{ marginTop: '20px' }}
                         className="btn btn-primary ml-2"
                         disabled={
                           !values?.demandDate || !values?.supplier?.length
@@ -328,7 +328,7 @@ export default function FormCmp({
                 )}
               </div>
 
-              {!type === "view" && (
+              {!type === 'view' && (
                 <div className="row global-form global-form-custom">
                   <div className="col-lg-3">
                     <NewSelect
@@ -337,25 +337,25 @@ export default function FormCmp({
                       value={values?.type}
                       label="Type"
                       onChange={(e) => {
-                        onChangeHandler("type", values, e, setFieldValue);
+                        onChangeHandler('type', values, e, setFieldValue);
                       }}
                       placeholder="Type"
                       errors={errors}
                       touched={touched}
-                      isDisabled={type === "view"}
+                      isDisabled={type === 'view'}
                     />
                   </div>
                   <div className="col-lg-2">
                     <NewSelect
                       name="soldToPartner"
                       options={[
-                        { value: 73244, label: "G2G BADC" },
-                        { value: 73245, label: "G2G BCIC" },
+                        { value: 73244, label: 'G2G BADC' },
+                        { value: 73245, label: 'G2G BCIC' },
                       ]}
                       value={values?.soldToPartner}
                       label="Business Partner"
                       onChange={(e) => {
-                        setFieldValue("soldToPartner", e);
+                        setFieldValue('soldToPartner', e);
                       }}
                       placeholder="Business Partner"
                     />
@@ -365,7 +365,7 @@ export default function FormCmp({
                     <SearchAsyncSelect
                       selectedValue={values?.item}
                       handleChange={(valueOption) => {
-                        setFieldValue("item", valueOption);
+                        setFieldValue('item', valueOption);
                       }}
                       placeholder="Search Item"
                       loadOptions={(v) => {
@@ -404,14 +404,14 @@ export default function FormCmp({
                     />
                   </div>
                   <IButton
-                    colSize={"col-lg-1"}
+                    colSize={'col-lg-1'}
                     onClick={() => {
                       addRow(values, () => {
-                        setFieldValue("item", "");
-                        setFieldValue("quantity", "");
-                        setFieldValue("rate", "");
-                        setFieldValue("type", "");
-                        setFieldValue("soldToPartner", "");
+                        setFieldValue('item', '');
+                        setFieldValue('quantity', '');
+                        setFieldValue('rate', '');
+                        setFieldValue('type', '');
+                        setFieldValue('soldToPartner', '');
                       });
                     }}
                     disabled={
@@ -430,7 +430,7 @@ export default function FormCmp({
                         <table className="table table-striped table-bordered global-table mt-0">
                           <thead>
                             <tr>
-                              <th style={{ width: "30px" }}>SL</th>
+                              <th style={{ width: '30px' }}>SL</th>
                               <th>Description</th>
                               <th>Item</th>
                               <th>Quantity</th>
@@ -467,76 +467,76 @@ export default function FormCmp({
                     <>
                       <div className="row mt-4">
                         <div
-                          style={{ display: "flex", gap: "10px" }}
+                          style={{ display: 'flex', gap: '10px' }}
                           className="col-lg-12"
                         >
                           <div
-                            style={{ fontSize: "13px", fontWeight: "bold" }}
+                            style={{ fontSize: '13px', fontWeight: 'bold' }}
                             className="text-bold"
                           >
                             <span>
-                              Total Demand Vehicle :{" "}
-                              <span style={{ color: "red" }}>
+                              Total Demand Vehicle :{' '}
+                              <span style={{ color: 'red' }}>
                                 {toatlData?.toatlValueDemandVehicle}
                               </span>
                             </span>
                           </div>
                           <div
-                            style={{ fontSize: "13px", fontWeight: "bold" }}
+                            style={{ fontSize: '13px', fontWeight: 'bold' }}
                             className="text-bold"
                           >
                             <span>
-                              Total PackingMt :{" "}
-                              <span style={{ color: "red" }}>
-                                {" "}
+                              Total PackingMt :{' '}
+                              <span style={{ color: 'red' }}>
+                                {' '}
                                 {toatlData?.toatlValuePackingMt}
                               </span>
                             </span>
                           </div>
                           <div
-                            style={{ fontSize: "13px", fontWeight: "bold" }}
+                            style={{ fontSize: '13px', fontWeight: 'bold' }}
                             className="text-bold"
                           >
                             <span>
-                              Total Dump Qty Ton :{" "}
-                              <span style={{ color: "red" }}>
-                                {" "}
+                              Total Dump Qty Ton :{' '}
+                              <span style={{ color: 'red' }}>
+                                {' '}
                                 {toatlData?.toatlValueBufferQty}
                               </span>
                             </span>
                           </div>
                           <div
-                            style={{ fontSize: "13px", fontWeight: "bold" }}
+                            style={{ fontSize: '13px', fontWeight: 'bold' }}
                             className="text-bold"
                           >
                             <span>
-                              Total LabourRequirement :{" "}
-                              <span style={{ color: "red" }}>
-                                {" "}
+                              Total LabourRequirement :{' '}
+                              <span style={{ color: 'red' }}>
+                                {' '}
                                 {toatlData?.toatlValueLabourRequirement}
                               </span>
                             </span>
                           </div>
                           <div
-                            style={{ fontSize: "13px", fontWeight: "bold" }}
+                            style={{ fontSize: '13px', fontWeight: 'bold' }}
                             className="text-bold"
                           >
                             <span>
-                              Total LabourPresent :{" "}
-                              <span style={{ color: "red" }}>
-                                {" "}
+                              Total LabourPresent :{' '}
+                              <span style={{ color: 'red' }}>
+                                {' '}
                                 {toatlData?.toatlValueLabourPresent}
                               </span>
                             </span>
                           </div>
                           <div
-                            style={{ fontSize: "13px", fontWeight: "bold" }}
+                            style={{ fontSize: '13px', fontWeight: 'bold' }}
                             className="text-bold"
                           >
                             <span>
-                              Total Lighter Waiting :{" "}
-                              <span style={{ color: "red" }}>
-                                {" "}
+                              Total Lighter Waiting :{' '}
+                              <span style={{ color: 'red' }}>
+                                {' '}
                                 {toatlData?.toatlValueLighterWaiting}
                               </span>
                             </span>
@@ -547,7 +547,7 @@ export default function FormCmp({
                             <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                               <thead>
                                 <tr>
-                                  <th style={{ width: "20px" }}>Sl</th>
+                                  <th style={{ width: '20px' }}>Sl</th>
                                   <th>
                                     <input
                                       type="checkbox"
@@ -592,7 +592,7 @@ export default function FormCmp({
                                           checked={item?.isSelected}
                                           onChange={(e) => {
                                             const data = [...shipPointData];
-                                            data[index]["isSelected"] =
+                                            data[index]['isSelected'] =
                                               e.target.checked;
                                             setShipPointData(data);
                                           }}
@@ -605,8 +605,8 @@ export default function FormCmp({
                                           min="0"
                                           onChange={(e) => {
                                             const data = [...shipPointData];
-                                            data[index]["demandVehicle"] = +e
-                                              .target.value;
+                                            data[index]['demandVehicle'] =
+                                              +e.target.value;
                                             setShipPointData(data);
                                           }}
                                         />
@@ -641,8 +641,8 @@ export default function FormCmp({
                                           min="0"
                                           onChange={(e) => {
                                             const data = [...shipPointData];
-                                            data[index]["packingMt"] = +e.target
-                                              .value;
+                                            data[index]['packingMt'] =
+                                              +e.target.value;
                                             setShipPointData(data);
                                           }}
                                         />
@@ -653,8 +653,8 @@ export default function FormCmp({
                                           min="0"
                                           onChange={(e) => {
                                             const data = [...shipPointData];
-                                            data[index]["bufferQty"] = +e.target
-                                              .value;
+                                            data[index]['bufferQty'] =
+                                              +e.target.value;
                                             setShipPointData(data);
                                           }}
                                         />
@@ -665,8 +665,8 @@ export default function FormCmp({
                                           min="0"
                                           onChange={(e) => {
                                             const data = [...shipPointData];
-                                            data[index]["labourRequired"] = +e
-                                              .target.value;
+                                            data[index]['labourRequired'] =
+                                              +e.target.value;
                                             setShipPointData(data);
                                           }}
                                         />
@@ -677,8 +677,8 @@ export default function FormCmp({
                                           min="0"
                                           onChange={(e) => {
                                             const data = [...shipPointData];
-                                            data[index]["labourPresent"] = +e
-                                              .target.value;
+                                            data[index]['labourPresent'] =
+                                              +e.target.value;
                                             setShipPointData(data);
                                           }}
                                         />
@@ -689,8 +689,8 @@ export default function FormCmp({
                                           min="0"
                                           onChange={(e) => {
                                             const data = [...shipPointData];
-                                            data[index]["lighterWaiting"] = +e
-                                              .target.value;
+                                            data[index]['lighterWaiting'] =
+                                              +e.target.value;
                                             setShipPointData(data);
                                           }}
                                         />

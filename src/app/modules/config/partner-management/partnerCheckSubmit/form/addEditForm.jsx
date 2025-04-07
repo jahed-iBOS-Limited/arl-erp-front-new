@@ -1,32 +1,31 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { useParams, useLocation } from "react-router";
-import { getEmployeeList } from "../../../../financialManagement/invoiceManagementSystem/salesInvoice/helper";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import Loading from "../../../../_helper/_loading";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { useParams, useLocation } from 'react-router';
+import { getEmployeeList } from '../../../../financialManagement/invoiceManagementSystem/salesInvoice/helper';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import Loading from '../../../../_helper/_loading';
 import {
   editORDeletePartnerChequeSubmit,
   getPartnerCheckSubmitById,
-} from "../helper";
-import Form from "./form";
+} from '../helper';
+import Form from './form';
 
 const initData = {
-  customer: "",
-  channel: "",
-  chequeDate: "",
-  amount: "",
-  advance: "",
-  previous: "",
-  bankName: "",
-  branchName: "",
-  remarks: "",
+  customer: '',
+  channel: '',
+  chequeDate: '',
+  amount: '',
+  advance: '',
+  previous: '',
+  bankName: '',
+  branchName: '',
+  remarks: '',
 
-  chequeBearer: "",
-  chequeNo: "",
+  chequeBearer: '',
+  chequeNo: '',
 
-  companyBankName: "",
+  companyBankName: '',
 };
 
 export default function PartnerCheckSubmitForm() {
@@ -49,7 +48,7 @@ export default function PartnerCheckSubmitForm() {
   const [empList, setEmpList] = useState([]);
 
   useEffect(() => {
-    if (!type || type === "edit") {
+    if (!type || type === 'edit') {
       getBankList(`/partner/BusinessPartnerBankInfo/GetBankInfo`);
     }
     if (!type) {

@@ -1,14 +1,13 @@
-
-import React from "react";
-import { useLocation } from "react-router";
-import { NavLink } from "react-router-dom";
-import SVG from "react-inlinesvg";
-import { toAbsoluteUrl, checkIsActive } from "../../../../_helpers";
+import React from 'react';
+import { useLocation } from 'react-router';
+import { NavLink } from 'react-router-dom';
+import SVG from 'react-inlinesvg';
+import { toAbsoluteUrl, checkIsActive } from '../../../../_helpers';
 
 export function HeaderMenu({ layoutProps, logoutClick }) {
   const location = useLocation();
   const getMenuItemActive = (url) => {
-    return checkIsActive(location, url) ? "menu-item-active" : "";
+    return checkIsActive(location, url) ? 'menu-item-active' : '';
   };
 
   return (
@@ -18,7 +17,6 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
       {...layoutProps.headerMenuAttributes}
     >
       <div className="d-flex">
-
         {/* <button
                 className="btn btn-light-primary btn-bold"
                 onClick={() => window.location.reload()}
@@ -28,7 +26,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
       </div>
       {/*begin::Header Nav*/}
       <ul className={`menu-nav ${layoutProps.ulClasses}`}>
-      <button
+        <button
           className="btn btn-light-primary btn-bold mr-1 mt-5 ml-2"
           onClick={logoutClick}
         >
@@ -37,7 +35,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
         {/*begin::1 Level*/}
         <li
           className={`menu-item menu-item-rel ${getMenuItemActive(
-            "/dashboard"
+            '/dashboard'
           )}`}
         >
           <NavLink className="menu-link" to="/dashboard">
@@ -54,7 +52,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
           data-menu-toggle={layoutProps.menuDesktopToggle}
           aria-haspopup="true"
           className={`menu-item menu-item-submenu menu-item-rel ${getMenuItemActive(
-            "/procurement"
+            '/procurement'
           )}`}
         >
           <NavLink className="menu-link menu-toggle" to="/procurement">
@@ -66,7 +64,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
               {/*begin::2 Level*/}
               <li
                 className={`menu-item menu-item-submenu ${getMenuItemActive(
-                  "/procurement/purchase-management"
+                  '/procurement/purchase-management'
                 )}`}
                 data-menu-toggle="hover"
                 aria-haspopup="true"
@@ -78,7 +76,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                   <span className="svg-icon menu-icon">
                     <SVG
                       src={toAbsoluteUrl(
-                        "/media/svg/icons/Design/PenAndRuller.svg"
+                        '/media/svg/icons/Design/PenAndRuller.svg'
                       )}
                     />
                   </span>
@@ -92,7 +90,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/procurement/purchase-management/purchase-request"
+                        '/procurement/purchase-management/purchase-request'
                       )}`}
                     >
                       <NavLink
@@ -110,7 +108,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/procurement/purchase-management/purchase-organization"
+                        '/procurement/purchase-management/purchase-organization'
                       )}`}
                     >
                       <NavLink
@@ -128,7 +126,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/procurement/purchase-management/supplier-item-assignment"
+                        '/procurement/purchase-management/supplier-item-assignment'
                       )}`}
                     >
                       <NavLink
@@ -148,7 +146,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/procurement/purchase-management/configpotype-itemtype"
+                        '/procurement/purchase-management/configpotype-itemtype'
                       )}`}
                     >
                       <NavLink
@@ -168,7 +166,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/procurement/purchase-management/purchaseorder"
+                        '/procurement/purchase-management/purchaseorder'
                       )}`}
                     >
                       <NavLink
@@ -186,7 +184,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/procurement/purchase-management/rfq"
+                        '/procurement/purchase-management/rfq'
                       )}`}
                     >
                       <NavLink
@@ -204,7 +202,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/procurement/purchase-management/maintain-rfq"
+                        '/procurement/purchase-management/maintain-rfq'
                       )}`}
                     >
                       <NavLink
@@ -222,7 +220,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/procurement/purchase-management/comparative-statement"
+                        '/procurement/purchase-management/comparative-statement'
                       )}`}
                     >
                       <NavLink
@@ -252,7 +250,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
           data-menu-toggle={layoutProps.menuDesktopToggle}
           aria-haspopup="true"
           className={`menu-item menu-item-submenu menu-item-rel ${getMenuItemActive(
-            "/financial-management"
+            '/financial-management'
           )}`}
         >
           <NavLink className="menu-link menu-toggle" to="/financial-management">
@@ -264,7 +262,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
               {/*begin::2 Level*/}
               <li
                 className={`menu-item menu-item-submenu ${getMenuItemActive(
-                  "/financial-management/financials"
+                  '/financial-management/financials'
                 )}`}
                 data-menu-toggle="hover"
                 aria-haspopup="true"
@@ -276,7 +274,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                   <span className="svg-icon menu-icon">
                     <SVG
                       src={toAbsoluteUrl(
-                        "/media/svg/icons/Design/PenAndRuller.svg"
+                        '/media/svg/icons/Design/PenAndRuller.svg'
                       )}
                     />
                   </span>
@@ -290,7 +288,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/financial-management/financials/sbu"
+                        '/financial-management/financials/sbu'
                       )}`}
                     >
                       <NavLink
@@ -312,7 +310,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
               {/*begin::2 Level*/}
               <li
                 className={`menu-item menu-item-submenu ${getMenuItemActive(
-                  "/financial-management/configuration"
+                  '/financial-management/configuration'
                 )}`}
                 data-menu-toggle="hover"
                 aria-haspopup="true"
@@ -324,7 +322,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                   <span className="svg-icon menu-icon">
                     <SVG
                       src={toAbsoluteUrl(
-                        "/media/svg/icons/Design/PenAndRuller.svg"
+                        '/media/svg/icons/Design/PenAndRuller.svg'
                       )}
                     />
                   </span>
@@ -338,7 +336,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/financial-management/configuration/general-ladger"
+                        '/financial-management/configuration/general-ladger'
                       )}`}
                     >
                       <NavLink
@@ -360,7 +358,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
               {/*begin::2 Level*/}
               <li
                 className={`menu-item menu-item-submenu ${getMenuItemActive(
-                  "/financial-management/invoicemanagement-system"
+                  '/financial-management/invoicemanagement-system'
                 )}`}
                 data-menu-toggle="hover"
                 aria-haspopup="true"
@@ -372,7 +370,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                   <span className="svg-icon menu-icon">
                     <SVG
                       src={toAbsoluteUrl(
-                        "/media/svg/icons/Design/PenAndRuller.svg"
+                        '/media/svg/icons/Design/PenAndRuller.svg'
                       )}
                     />
                   </span>
@@ -386,7 +384,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/financial-management/invoicemanagement-system/purchaseinvoice"
+                        '/financial-management/invoicemanagement-system/purchaseinvoice'
                       )}`}
                     >
                       <NavLink
@@ -404,7 +402,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/financial-management/invoicemanagement-system/postpurchaseinvoice"
+                        '/financial-management/invoicemanagement-system/postpurchaseinvoice'
                       )}`}
                     >
                       <NavLink
@@ -422,7 +420,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/financial-management/invoicemanagement-system/reconsilepurchase-invoicewith-advance"
+                        '/financial-management/invoicemanagement-system/reconsilepurchase-invoicewith-advance'
                       )}`}
                     >
                       <NavLink
@@ -446,7 +444,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
               {/*begin::2 Level*/}
               <li
                 className={`menu-item menu-item-submenu ${getMenuItemActive(
-                  "/financial-management/cost-controlling"
+                  '/financial-management/cost-controlling'
                 )}`}
                 data-menu-toggle="hover"
                 aria-haspopup="true"
@@ -458,7 +456,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                   <span className="svg-icon menu-icon">
                     <SVG
                       src={toAbsoluteUrl(
-                        "/media/svg/icons/Design/PenAndRuller.svg"
+                        '/media/svg/icons/Design/PenAndRuller.svg'
                       )}
                     />
                   </span>
@@ -472,7 +470,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/financial-management/financials/controlling-unit"
+                        '/financial-management/financials/controlling-unit'
                       )}`}
                     >
                       <NavLink
@@ -490,7 +488,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/financial-management/financials/profit-center-group"
+                        '/financial-management/financials/profit-center-group'
                       )}`}
                     >
                       <NavLink
@@ -508,7 +506,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/financial-management/financials/profitcenter"
+                        '/financial-management/financials/profitcenter'
                       )}`}
                     >
                       <NavLink
@@ -525,7 +523,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/financial-management/financials/costcenter-group"
+                        '/financial-management/financials/costcenter-group'
                       )}`}
                     >
                       <NavLink
@@ -542,7 +540,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/financial-management/financials/costcenter-type"
+                        '/financial-management/financials/costcenter-type'
                       )}`}
                     >
                       <NavLink
@@ -559,7 +557,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/financial-management/financials/cost_center"
+                        '/financial-management/financials/cost_center'
                       )}`}
                     >
                       <NavLink
@@ -576,7 +574,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/financial-management/financials/costelement"
+                        '/financial-management/financials/costelement'
                       )}`}
                     >
                       <NavLink
@@ -606,7 +604,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
           data-menu-toggle={layoutProps.menuDesktopToggle}
           aria-haspopup="true"
           className={`menu-item menu-item-submenu menu-item-rel ${getMenuItemActive(
-            "/inventory-management"
+            '/inventory-management'
           )}`}
         >
           <NavLink className="menu-link menu-toggle" to="/inventory-management">
@@ -618,7 +616,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
               {/*begin::2 Level*/}
               <li
                 className={`menu-item menu-item-submenu ${getMenuItemActive(
-                  "/inventory-management/configuration"
+                  '/inventory-management/configuration'
                 )}`}
                 data-menu-toggle="hover"
                 aria-haspopup="true"
@@ -630,7 +628,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                   <span className="svg-icon menu-icon">
                     <SVG
                       src={toAbsoluteUrl(
-                        "/media/svg/icons/Design/PenAndRuller.svg"
+                        '/media/svg/icons/Design/PenAndRuller.svg'
                       )}
                     />
                   </span>
@@ -644,7 +642,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/inventory-management/configuration/plant"
+                        '/inventory-management/configuration/plant'
                       )}`}
                     >
                       <NavLink
@@ -662,7 +660,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/inventory-management/configuration/warehouse"
+                        '/inventory-management/configuration/warehouse'
                       )}`}
                     >
                       <NavLink
@@ -679,7 +677,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/inventory-management/configuration/conf-plant-warehouse"
+                        '/inventory-management/configuration/conf-plant-warehouse'
                       )}`}
                     >
                       <NavLink
@@ -698,7 +696,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/inventory-management/configuration/inventory-location"
+                        '/inventory-management/configuration/inventory-location'
                       )}`}
                     >
                       <NavLink
@@ -720,7 +718,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
               {/*begin::2 Level*/}
               <li
                 className={`menu-item menu-item-submenu ${getMenuItemActive(
-                  "/inventory-management/warehouse-management"
+                  '/inventory-management/warehouse-management'
                 )}`}
                 data-menu-toggle="hover"
                 aria-haspopup="true"
@@ -732,7 +730,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                   <span className="svg-icon menu-icon">
                     <SVG
                       src={toAbsoluteUrl(
-                        "/media/svg/icons/Design/PenAndRuller.svg"
+                        '/media/svg/icons/Design/PenAndRuller.svg'
                       )}
                     />
                   </span>
@@ -746,7 +744,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/inventory-management/configuration/inventorytransaction"
+                        '/inventory-management/configuration/inventorytransaction'
                       )}`}
                     >
                       <NavLink
@@ -776,7 +774,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
           data-menu-toggle={layoutProps.menuDesktopToggle}
           aria-haspopup="true"
           className={`menu-item menu-item-submenu menu-item-rel ${getMenuItemActive(
-            "/config"
+            '/config'
           )}`}
         >
           <NavLink className="menu-link menu-toggle" to="/config">
@@ -788,7 +786,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
               {/*begin::2 Level*/}
               <li
                 className={`menu-item menu-item-submenu ${getMenuItemActive(
-                  "/config/domain-controll"
+                  '/config/domain-controll'
                 )}`}
                 data-menu-toggle="hover"
                 aria-haspopup="true"
@@ -800,7 +798,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                   <span className="svg-icon menu-icon">
                     <SVG
                       src={toAbsoluteUrl(
-                        "/media/svg/icons/Design/PenAndRuller.svg"
+                        '/media/svg/icons/Design/PenAndRuller.svg'
                       )}
                     />
                   </span>
@@ -814,7 +812,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/config/domain-controll/business-unit"
+                        '/config/domain-controll/business-unit'
                       )}`}
                     >
                       <NavLink
@@ -831,7 +829,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/config/domain-controll/create-user"
+                        '/config/domain-controll/create-user'
                       )}`}
                     >
                       <NavLink
@@ -848,7 +846,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/config/domain-controll/user-group"
+                        '/config/domain-controll/user-group'
                       )}`}
                     >
                       <NavLink
@@ -865,7 +863,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/config/domain-controll/activity-group"
+                        '/config/domain-controll/activity-group'
                       )}`}
                     >
                       <NavLink
@@ -882,7 +880,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/config/domain-controll/role-manager"
+                        '/config/domain-controll/role-manager'
                       )}`}
                     >
                       <NavLink
@@ -899,7 +897,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/config/domain-controll/role-extension"
+                        '/config/domain-controll/role-extension'
                       )}`}
                     >
                       <NavLink
@@ -921,7 +919,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
               {/*begin::2 Level*/}
               <li
                 className={`menu-item menu-item-submenu ${getMenuItemActive(
-                  "/config/material-management"
+                  '/config/material-management'
                 )}`}
                 data-menu-toggle="hover"
                 aria-haspopup="true"
@@ -933,7 +931,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                   <span className="svg-icon menu-icon">
                     <SVG
                       src={toAbsoluteUrl(
-                        "/media/svg/icons/Navigation/Arrow-from-left.svg"
+                        '/media/svg/icons/Navigation/Arrow-from-left.svg'
                       )}
                     />
                   </span>
@@ -947,7 +945,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/config/material-management/item-basic-info"
+                        '/config/material-management/item-basic-info'
                       )}`}
                     >
                       <NavLink
@@ -965,7 +963,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/config/material-management/item-category"
+                        '/config/material-management/item-category'
                       )}`}
                     >
                       <NavLink
@@ -983,7 +981,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/config/material-management/item-sub-category"
+                        '/config/material-management/item-sub-category'
                       )}`}
                     >
                       <NavLink
@@ -1001,7 +999,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/config/material-management/item-attribute"
+                        '/config/material-management/item-attribute'
                       )}`}
                     >
                       <NavLink
@@ -1019,7 +1017,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/config/material-management/unit-of-measurement"
+                        '/config/material-management/unit-of-measurement'
                       )}`}
                     >
                       <NavLink
@@ -1037,7 +1035,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/config/material-management/config-item-type-gl"
+                        '/config/material-management/config-item-type-gl'
                       )}`}
                     >
                       <NavLink
@@ -1055,7 +1053,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/config/material-management/price-component"
+                        '/config/material-management/price-component'
                       )}`}
                     >
                       <NavLink
@@ -1073,7 +1071,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/config/material-management/price-structure"
+                        '/config/material-management/price-structure'
                       )}`}
                     >
                       <NavLink
@@ -1095,7 +1093,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
               {/*begin::2 Level*/}
               <li
                 className={`menu-item menu-item-submenu ${getMenuItemActive(
-                  "/config/partner-management"
+                  '/config/partner-management'
                 )}`}
                 data-menu-toggle="hover"
                 aria-haspopup="true"
@@ -1107,7 +1105,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                   <span className="svg-icon menu-icon">
                     <SVG
                       src={toAbsoluteUrl(
-                        "/media/svg/icons/Layout/Layout-left-panel-1.svg"
+                        '/media/svg/icons/Layout/Layout-left-panel-1.svg'
                       )}
                     />
                   </span>
@@ -1121,7 +1119,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/config/partner-management/partner-basic-info"
+                        '/config/partner-management/partner-basic-info'
                       )}`}
                     >
                       <NavLink
@@ -1139,7 +1137,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/config/partner-management/partner-purchase-info"
+                        '/config/partner-management/partner-purchase-info'
                       )}`}
                     >
                       <NavLink
@@ -1156,7 +1154,7 @@ export function HeaderMenu({ layoutProps, logoutClick }) {
                     {/*begin::3 Level*/}
                     <li
                       className={`menu-item ${getMenuItemActive(
-                        "/config/partner-management/partner-bank-info"
+                        '/config/partner-management/partner-bank-info'
                       )}`}
                     >
                       <NavLink

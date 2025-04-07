@@ -1,26 +1,29 @@
-import { Form, Formik } from "formik";
-import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import ICard from "../../../../_helper/_card";
-import InputField from "../../../../_helper/_inputField";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import ILoader from "../../../../_helper/loader/_loader";
-import { getBusinessUnitYearConfigData, getTrailBalanceReport } from "../helper";
-import numberWithCommas from "./../../../../_helper/_numberWithCommas";
-import { fromDateFromApi } from "../../../../_helper/_formDateFromApi";
+import { Form, Formik } from 'formik';
+import moment from 'moment';
+import React, { useEffect, useRef, useState } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import ICard from '../../../../_helper/_card';
+import InputField from '../../../../_helper/_inputField';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import ILoader from '../../../../_helper/loader/_loader';
+import {
+  getBusinessUnitYearConfigData,
+  getTrailBalanceReport,
+} from '../helper';
+import numberWithCommas from './../../../../_helper/_numberWithCommas';
+import { fromDateFromApi } from '../../../../_helper/_formDateFromApi';
 
 const ReportHeader = () => {
   const printRef = useRef();
   const [trailBalanceReportData, setTrailBalanceReportData] = useState([]);
   const [date, setDate] = useState({});
-  const [fromDateFApi, setFromDateFApi] = useState("");
+  const [fromDateFApi, setFromDateFApi] = useState('');
   const [loading, setLoading] = useState(false);
   const [initData, setInitData] = useState({
-    balanceType: "3",
-    fromDate: "",
+    balanceType: '3',
+    fromDate: '',
     toDate: _todayDate(),
   });
 
@@ -40,8 +43,8 @@ const ReportHeader = () => {
         selectedBusinessUnit?.value,
         setInitData
       );
-      
-      fromDateFromApi(selectedBusinessUnit?.value, setFromDateFApi)
+
+      fromDateFromApi(selectedBusinessUnit?.value, setFromDateFApi);
     }
   }, [profileData, selectedBusinessUnit]);
   const debitTotal = trailBalanceReportData.reduce((total, data) => {
@@ -99,7 +102,7 @@ const ReportHeader = () => {
                 <div className="col-lg-3">
                   <label>From Date</label>
                   <InputField
-                    value={values?.fromDate ? values?.fromDate : ""}
+                    value={values?.fromDate ? values?.fromDate : ''}
                     name="fromDate"
                     placeholder="From Date"
                     type="date"
@@ -109,7 +112,7 @@ const ReportHeader = () => {
                 <div className="col-lg-3">
                   <label>To Date</label>
                   <InputField
-                    value={values?.toDate ? values?.toDate : ""}
+                    value={values?.toDate ? values?.toDate : ''}
                     name="toDate"
                     placeholder="To Date"
                     type="date"
@@ -137,7 +140,7 @@ const ReportHeader = () => {
                 {trailBalanceReportData.length > 0 && (
                   <div
                     className="col-lg-auto d-flex"
-                    style={{ marginTop: "25px" }}
+                    style={{ marginTop: '25px' }}
                   >
                     <ReactHTMLTableToExcel
                       id="test-table-xls-button"
@@ -149,7 +152,7 @@ const ReportHeader = () => {
                     />
                     <ReactToPrint
                       pageStyle={
-                        "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                        '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
                       }
                       trigger={() => (
                         <button
@@ -170,9 +173,9 @@ const ReportHeader = () => {
                     <input
                       type="radio"
                       name="balanceType"
-                      checked={values?.balanceType === "1"}
+                      checked={values?.balanceType === '1'}
                       className="mr-1 pointer"
-                      style={{ position: "relative", top: "2px" }}
+                      style={{ position: 'relative', top: '2px' }}
                       onChange={(valueOption) => {
                         getTrailBalanceReport(
                           profileData?.accountId,
@@ -183,7 +186,7 @@ const ReportHeader = () => {
                           setTrailBalanceReportData,
                           setLoading
                         );
-                        setFieldValue("balanceType", "1");
+                        setFieldValue('balanceType', '1');
                       }}
                     />
                     Account Class
@@ -192,9 +195,9 @@ const ReportHeader = () => {
                     <input
                       type="radio"
                       name="balanceType"
-                      checked={values?.balanceType === "2"}
+                      checked={values?.balanceType === '2'}
                       className="mr-1 pointer"
-                      style={{ position: "relative", top: "2px" }}
+                      style={{ position: 'relative', top: '2px' }}
                       onChange={(e) => {
                         getTrailBalanceReport(
                           profileData?.accountId,
@@ -205,7 +208,7 @@ const ReportHeader = () => {
                           setTrailBalanceReportData,
                           setLoading
                         );
-                        setFieldValue("balanceType", "2");
+                        setFieldValue('balanceType', '2');
                       }}
                     />
                     Account Category
@@ -214,9 +217,9 @@ const ReportHeader = () => {
                     <input
                       type="radio"
                       name="balanceType"
-                      checked={values?.balanceType === "3"}
+                      checked={values?.balanceType === '3'}
                       className="mr-1 pointer"
-                      style={{ position: "relative", top: "2px" }}
+                      style={{ position: 'relative', top: '2px' }}
                       onChange={(e) => {
                         getTrailBalanceReport(
                           profileData?.accountId,
@@ -227,7 +230,7 @@ const ReportHeader = () => {
                           setTrailBalanceReportData,
                           setLoading
                         );
-                        setFieldValue("balanceType", "3");
+                        setFieldValue('balanceType', '3');
                       }}
                     />
                     General Ledger
@@ -246,7 +249,7 @@ const ReportHeader = () => {
                       <div className="col-12 text-center">
                         <h3>{selectedBusinessUnit?.label}</h3>
                         <p>
-                          From <span>{date?.fromDate}</span> To{" "}
+                          From <span>{date?.fromDate}</span> To{' '}
                           <span>{date?.toDate}</span>
                         </p>
                       </div>
@@ -254,7 +257,7 @@ const ReportHeader = () => {
                     <table
                       id="table-to-xlsx"
                       className="table table-striped table-bordered global-table table-font-size-sm"
-                      style={{ width: "100%" }}
+                      style={{ width: '100%' }}
                     >
                       <thead>
                         <tr>
@@ -283,7 +286,7 @@ const ReportHeader = () => {
                                   ? numberWithCommas(
                                       Math.round(data?.debit) || 0
                                     )
-                                  : " "}
+                                  : ' '}
                               </div>
                             </td>
                             <td>
@@ -292,7 +295,7 @@ const ReportHeader = () => {
                                   ? numberWithCommas(
                                       Math.round(data?.credit) || 0
                                     )
-                                  : " "}
+                                  : ' '}
                               </div>
                             </td>
                           </tr>
@@ -301,7 +304,7 @@ const ReportHeader = () => {
                           <>
                             <tr>
                               <td></td>
-                              <td style={{ textAlign: "right" }}>Total</td>
+                              <td style={{ textAlign: 'right' }}>Total</td>
                               <td>
                                 <div className="text-right pr-2">
                                   {numberWithCommas(

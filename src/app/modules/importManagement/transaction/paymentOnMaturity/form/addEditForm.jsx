@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Loading from "./../../../../_helper/_loading";
-import Form from "./form";
-import { getPaymentOnMaturity } from "../helper";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Loading from './../../../../_helper/_loading';
+import Form from './form';
+import { getPaymentOnMaturity } from '../helper';
 // import { getDays } from "../../documentRelease/helper";
 
-
 const initData = {
-  exchangeRate: "",
-  liborRate: "",
-  bankRate: "",
-  totalAmount: "",
-  vatAmount: "",
+  exchangeRate: '',
+  liborRate: '',
+  bankRate: '',
+  totalAmount: '',
+  vatAmount: '',
 };
 
 export default function AddEditFrom({
@@ -20,7 +19,7 @@ export default function AddEditFrom({
   setIsShowModal,
 }) {
   const [isDisabled, setDisabled] = useState(false);
-  const [objProps, ] = useState({});
+  const [objProps] = useState({});
   const [gridData, setGridData] = useState([]);
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -50,7 +49,6 @@ export default function AddEditFrom({
 
   useEffect(() => {
     getGrid && getGrid();
-
   }, []);
   const getGrid = () => {
     getPaymentOnMaturity(
@@ -83,7 +81,8 @@ export default function AddEditFrom({
   const setRowAmount = (key, index, amount, gridData, setGridData) => {
     let data = [...gridData];
     data[index][key] = amount;
-    data[index]['totalAmount'] = data[index]['netPayAmount'] * data[index]['exchangeRate']
+    data[index]['totalAmount'] =
+      data[index]['netPayAmount'] * data[index]['exchangeRate'];
     // if (key !== "vatAmount" && key !== "totalAmount") {
     //   calculationData(data, index);
     // }

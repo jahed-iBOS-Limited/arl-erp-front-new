@@ -1,10 +1,10 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { IInput } from "../../../_helper/_input";
-import ICustomTable from "../../../_helper/_customTable";
-import { useHistory } from "react-router-dom";
-const headers = ["SL", "Dimension Type", "Weight"];
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { IInput } from '../../../_helper/_input';
+import ICustomTable from '../../../_helper/_customTable';
+import { useHistory } from 'react-router-dom';
+const headers = ['SL', 'Dimension Type', 'Weight'];
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -21,7 +21,6 @@ export default function FormCmp({
 }) {
   const history = useHistory();
   return (
-
     <>
       <Formik
         enableReinitialize={true}
@@ -30,7 +29,7 @@ export default function FormCmp({
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);
-            history.push("/performance-management/configuration/pms-dimension")
+            history.push('/performance-management/configuration/pms-dimension');
           });
         }}
       >
@@ -53,7 +52,7 @@ export default function FormCmp({
                       return (
                         <tr key={index}>
                           <td
-                            style={{ width: "100px" }}
+                            style={{ width: '100px' }}
                             className="align-middle"
                           >
                             {index + 1}
@@ -66,7 +65,7 @@ export default function FormCmp({
                               value={rowDto[index]?.weight}
                               required
                               onChange={(e) => {
-                                rowDtoHandler("weight", e.target.value, index);
+                                rowDtoHandler('weight', e.target.value, index);
                               }}
                               type="number"
                               min="0"
@@ -87,14 +86,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

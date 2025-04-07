@@ -1,18 +1,17 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../../_metronic/layout";
-import SubSchedule from "./registerReports/SubSchedule";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../../_metronic/layout';
+import SubSchedule from './registerReports/SubSchedule';
 import NotPermittedPage from './../../../_helper/notPermitted/NotPermittedPage';
 import CashAtBank from './registerReports/CashAtBank';
 import Customer from './registerReports/Customer';
-import InvestmentPartner from "./registerReports/InvestmentPartner";
+import InvestmentPartner from './registerReports/InvestmentPartner';
 import Employee from './registerReports/Employee';
 import Supplier from './registerReports/Supplier';
-import BankStateMentSummary from "./registerReports/BankStatementSummary";
+import BankStateMentSummary from './registerReports/BankStatementSummary';
 
 export function RegisterReportPages() {
-
   const { userRole } = useSelector((state) => state?.authData, shallowEqual);
 
   let subSch = null;
@@ -22,7 +21,6 @@ export function RegisterReportPages() {
   let employee = null;
   let investmentPartner = null;
   let bankStatementSummaryPermission = null;
-
 
   for (let i = 0; i < userRole.length; i++) {
     if (userRole[i]?.intFeatureId === 1052) {
@@ -76,11 +74,17 @@ export function RegisterReportPages() {
       />
       <ContentRoute
         from="/financial-management/register/investment-partner"
-        component={investmentPartner?.isView ? InvestmentPartner : NotPermittedPage}
+        component={
+          investmentPartner?.isView ? InvestmentPartner : NotPermittedPage
+        }
       />
       <ContentRoute
         from="/financial-management/register/bank-statement-summary"
-        component={bankStatementSummaryPermission?.isView ? BankStateMentSummary : NotPermittedPage}
+        component={
+          bankStatementSummaryPermission?.isView
+            ? BankStateMentSummary
+            : NotPermittedPage
+        }
       />
     </Switch>
   );

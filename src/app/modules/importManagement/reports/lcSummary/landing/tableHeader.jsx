@@ -1,12 +1,12 @@
-import React from 'react'
-import TableRow from './tableRow'
+import React from 'react';
+import TableRow from './tableRow';
 
 const LCSummary = () => {
   return (
     <div>
-      <TableRow/>
+      <TableRow />
     </div>
-  )
-}
+  );
+};
 
-export default LCSummary
+export default LCSummary;

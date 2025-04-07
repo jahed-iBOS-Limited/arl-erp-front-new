@@ -115,8 +115,8 @@ export default function FamilyInformation({ identificationTypeDDL }) {
             identificationDocLink: uploadImage[0]?.id
               ? uploadImage[0]?.id
               : values?.identificationDocLink
-              ? values?.identificationDocLink
-              : '',
+                ? values?.identificationDocLink
+                : '',
           };
           editFamilyInfo_api(copyRodto, setDisabled).then((data) => {
             getFamilyInfoById_api(headerData?.employeeId, setSingleData);
@@ -166,7 +166,6 @@ export default function FamilyInformation({ identificationTypeDDL }) {
 
   useEffect(() => {
     getFamilyInfoById();
-
   }, []);
 
   useEffect(() => {

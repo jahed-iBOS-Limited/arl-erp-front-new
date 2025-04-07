@@ -1,15 +1,12 @@
-import React, { useEffect } from "react";
-import RowTable from "../create/rowTable";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React, { useEffect } from 'react';
+import RowTable from '../create/rowTable';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../../_helper/_loading';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 function MarketCompetitorPriceView({ clickedRow }) {
-  const [
-    competitorPriceById,
-    setCompetitorPriceById,
-    loadingGetBy,
-  ] = useAxiosGet();
+  const [competitorPriceById, setCompetitorPriceById, loadingGetBy] =
+    useAxiosGet();
 
   useEffect(() => {
     if (+clickedRow?.intCompetitorPriceHeaderId) {
@@ -18,7 +15,6 @@ function MarketCompetitorPriceView({ clickedRow }) {
         (resData) => {}
       );
     }
-
   }, [clickedRow?.intCompetitorPriceHeaderId]);
 
   const {
@@ -35,9 +31,9 @@ function MarketCompetitorPriceView({ clickedRow }) {
       <div>
         <div
           style={{
-            display: "flex",
-            gap: "38px",
-            marginTop: "17px",
+            display: 'flex',
+            gap: '38px',
+            marginTop: '17px',
           }}
         >
           <p>
@@ -67,7 +63,7 @@ function MarketCompetitorPriceView({ clickedRow }) {
               return {
                 ...itm,
                 strDisplayName:
-                  itm?.strDisplayName || itm?.strProductDisplayName || "",
+                  itm?.strDisplayName || itm?.strProductDisplayName || '',
               };
             }) || [],
           values: {
@@ -77,7 +73,7 @@ function MarketCompetitorPriceView({ clickedRow }) {
                   value: competitorPriceById?.objHeader?.intCompetitorChannelId,
                   label: competitorPriceById?.objHeader?.strChannelName,
                 }
-              : "",
+              : '',
           },
           isView: true,
         }}

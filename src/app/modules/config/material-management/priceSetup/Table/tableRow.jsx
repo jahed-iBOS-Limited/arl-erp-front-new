@@ -1,24 +1,24 @@
-import axios from "axios";
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import BootstrapTable from "react-bootstrap-table-next";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import IDate from "../../../../_helper/_date";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import { getPriceSetupGridData } from "../_redux/Actions";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import IButton from "../../../../_helper/iButton";
+import axios from 'axios';
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import BootstrapTable from 'react-bootstrap-table-next';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import IDate from '../../../../_helper/_date';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import { getPriceSetupGridData } from '../_redux/Actions';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import PowerBIReport from '../../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import IButton from '../../../../_helper/iButton';
 
 const initData = {
-  type: { value: 2, label: "Details" },
-  channel: "",
-  customer: "",
+  type: { value: 2, label: 'Details' },
+  channel: '',
+  customer: '',
   date: _todayDate(),
 };
 
@@ -62,17 +62,16 @@ export function TableRow() {
         )
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const groupId = `e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a`;
   const reportId = `f475cec0-ba66-4f10-a062-dc9d567c30be`;
   const parameterValues = (values) => {
     return [
-      { name: "intSoldToPartnerId", value: `${values?.customer?.value}` },
-      { name: "intDistributionChannel", value: `${values?.channel?.value}` },
-      { name: "BusinessUnitId", value: `${selectedBusinessUnit?.value}` },
-      { name: "dteLastActionDateTime", value: `${values?.date}` },
+      { name: 'intSoldToPartnerId', value: `${values?.customer?.value}` },
+      { name: 'intDistributionChannel', value: `${values?.channel?.value}` },
+      { name: 'BusinessUnitId', value: `${selectedBusinessUnit?.value}` },
+      { name: 'dteLastActionDateTime', value: `${values?.date}` },
     ];
   };
 
@@ -92,40 +91,40 @@ export function TableRow() {
   // Table columns
   const columns = [
     {
-      dataField: "sl",
-      text: "SL",
+      dataField: 'sl',
+      text: 'SL',
     },
     {
-      dataField: "conditionTypeName",
-      text: "Condition type",
+      dataField: 'conditionTypeName',
+      text: 'Condition type',
     },
     {
-      dataField: "channlname",
-      text: "Channel Name",
+      dataField: 'channlname',
+      text: 'Channel Name',
     },
     {
-      dataField: "itemName",
-      text: "Item Name",
+      dataField: 'itemName',
+      text: 'Item Name',
     },
     {
-      dataField: "price",
-      text: "Price",
+      dataField: 'price',
+      text: 'Price',
     },
 
     {
-      dataField: "startDate",
-      text: "Start Date",
+      dataField: 'startDate',
+      text: 'Start Date',
       formatter: IDate,
       formatExtraData: {
-        key: "startDate",
+        key: 'startDate',
       },
     },
     {
-      dataField: "endDate",
-      text: "End Date",
+      dataField: 'endDate',
+      text: 'End Date',
       formatter: IDate,
       formatExtraData: {
-        key: "endDate",
+        key: 'endDate',
       },
     },
   ];
@@ -147,13 +146,13 @@ export function TableRow() {
                   <NewSelect
                     name="type"
                     options={[
-                      { value: 1, label: "Top Sheet" },
-                      { value: 2, label: "Details" },
+                      { value: 1, label: 'Top Sheet' },
+                      { value: 2, label: 'Details' },
                     ]}
                     value={values?.type}
                     label="Type"
                     onChange={(valueOption) => {
-                      setFieldValue("type", valueOption);
+                      setFieldValue('type', valueOption);
                       setShowReport(false);
                     }}
                   />
@@ -177,22 +176,22 @@ export function TableRow() {
                       <SearchAsyncSelect
                         selectedValue={values?.customer}
                         handleChange={(valueOption) => {
-                          setFieldValue("customer", valueOption);
+                          setFieldValue('customer', valueOption);
                           setShowReport(false);
                         }}
                         isDisabled={!values?.channel}
                         placeholder="Sold to Partner"
                         loadOptions={async (v) => {
-                          await [{ value: 0, label: "All" }];
+                          await [{ value: 0, label: 'All' }];
                           const searchValue = v.trim();
                           if (searchValue?.length < 3 || !searchValue)
-                            return [{ value: 0, label: "All" }];
+                            return [{ value: 0, label: 'All' }];
                           return await axios
                             .get(
                               `/partner/PManagementCommonDDL/GetCustomerNameDDLByChannelId?SearchTerm=${searchValue}&AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&ChannelId=${values?.channel?.value}`
                             )
                             .then((res) => [
-                              { value: 0, label: "All" },
+                              { value: 0, label: 'All' },
                               ...res?.data,
                             ]);
                         }}
@@ -237,7 +236,7 @@ export function TableRow() {
                 data={gridData?.data || []}
                 columns={columns}
               ></BootstrapTable>
-            )}{" "}
+            )}{' '}
             {/* Pagination Code */}
             {gridData?.data?.length > 0 && values?.type?.value === 2 && (
               <PaginationTable

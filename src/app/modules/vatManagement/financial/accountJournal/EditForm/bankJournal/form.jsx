@@ -58,7 +58,7 @@ export default function FormCmp({
         profileData.accountId,
         selectedBusinessUnit.value,
         3,
-        setSendToGLBank,
+        setSendToGLBank
       );
     }
     getPartnerTypeDDL(setPartnerTypeDDL);
@@ -70,10 +70,13 @@ export default function FormCmp({
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${profileData?.accountId
-        }&BusinessUnitId=${selectedBusinessUnit?.value
-        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${partnerType?.reffPrtTypeId
-        }`,
+        `/partner/BusinessPartnerPurchaseInfo/GetTransactionByTypeSearchDDL?AccountId=${
+          profileData?.accountId
+        }&BusinessUnitId=${
+          selectedBusinessUnit?.value
+        }&Search=${v}&PartnerTypeName=${''}&RefferanceTypeId=${
+          partnerType?.reffPrtTypeId
+        }`
       )
       .then((res) => {
         return res?.data;
@@ -140,7 +143,7 @@ export default function FormCmp({
                                 valueOption?.bankBranch_Id,
                                 valueOption?.value,
                                 setFieldValue,
-                                'instrumentNo',
+                                'instrumentNo'
                               );
                             }
                           }
@@ -229,7 +232,7 @@ export default function FormCmp({
                               if (jorunalType === 4) {
                                 setFieldValue(
                                   'receiveFrom',
-                                  valueOption?.label,
+                                  valueOption?.label
                                 );
                               } else if (jorunalType === 5) {
                                 setFieldValue('paidTo', valueOption?.label);
@@ -495,13 +498,13 @@ export default function FormCmp({
                                   values?.bankAcc?.bankBranch_Id,
                                   values?.bankAcc?.value,
                                   setFieldValue,
-                                  'instrumentNo',
+                                  'instrumentNo'
                                 );
                               }
                             } else {
                               generateAdviceNo(
                                 selectedBusinessUnit?.value,
-                                setFieldValue,
+                                setFieldValue
                               );
                             }
                           }

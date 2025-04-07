@@ -1,10 +1,9 @@
-
-import React, { useState, useEffect, useRef } from "react";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import { Formik, Form } from "formik";
-import Loading from "../../../../_helper/_loading";
-import InputField from "../../../../_helper/_inputField";
+import React, { useState, useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import { Formik, Form } from 'formik';
+import Loading from '../../../../_helper/_loading';
+import InputField from '../../../../_helper/_inputField';
 import {
   getPoBaseReport,
   getShopFloorDDL,
@@ -12,28 +11,28 @@ import {
   getItemBaseReport,
   getAllItemBaseReport,
   getItemDDL,
-} from "../helper";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import NewSelect from "../../../../_helper/_select";
-import "./style.css";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
+} from '../helper';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import NewSelect from '../../../../_helper/_select';
+import './style.css';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
 import {
   Card,
   CardHeader,
   CardHeaderToolbar,
   CardBody,
-} from "../../../../../../_metronic/_partials/controls/Card";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
+} from '../../../../../../_metronic/_partials/controls/Card';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
 
 const initData = {
-  plant: "",
-  shopFloor: "",
+  plant: '',
+  shopFloor: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  productionOrder: "",
-  item: "",
-  reportType: "",
+  productionOrder: '',
+  item: '',
+  reportType: '',
 };
 
 // Dummy Data set For Test
@@ -119,7 +118,7 @@ function CostSheetReportLanding() {
     let uniqueCostTypeArray = [];
     let finalBillOfExpenseList = [];
     const billOfExpense = gridData?.filter(
-      (item) => item?.type !== "Bill Of Material"
+      (item) => item?.type !== 'Bill Of Material'
     );
     for (let i = 0; i < billOfExpense.length; i++) {
       if (
@@ -155,7 +154,7 @@ function CostSheetReportLanding() {
         {({ values, setFieldValue, touched, errors }) => (
           <Card>
             {true && <ModalProgressBar />}
-            <CardHeader title={"Cost Sheet Report"}>
+            <CardHeader title={'Cost Sheet Report'}>
               <CardHeaderToolbar>
                 {gridData?.length > 0 && (
                   <ReactToPrint
@@ -166,8 +165,8 @@ function CostSheetReportLanding() {
                       >
                         <img
                           style={{
-                            width: "25px",
-                            paddingRight: "5px",
+                            width: '25px',
+                            paddingRight: '5px',
                           }}
                           src={printIcon}
                           alt="print-icon"
@@ -182,7 +181,7 @@ function CostSheetReportLanding() {
             </CardHeader>
             <CardBody>
               <>
-                {console.log("Values", values)}
+                {console.log('Values', values)}
                 <Form>
                   <div className="row global-form">
                     <div className="col-lg-12 row m-0 p-0">
@@ -190,18 +189,18 @@ function CostSheetReportLanding() {
                         <NewSelect
                           name="reportType"
                           options={[
-                            { label: "Production Order", value: 1 },
-                            { label: "Item", value: 2 },
-                            { label: "All Item", value: 3 },
+                            { label: 'Production Order', value: 1 },
+                            { label: 'Item', value: 2 },
+                            { label: 'All Item', value: 3 },
                           ]}
                           value={values?.reportType}
                           onChange={(valueOption) => {
-                            setFieldValue("plant", "");
-                            setFieldValue("shopFloor", "");
-                            setFieldValue("item", "");
+                            setFieldValue('plant', '');
+                            setFieldValue('shopFloor', '');
+                            setFieldValue('item', '');
                             setGridData([]);
 
-                            setFieldValue("reportType", valueOption);
+                            setFieldValue('reportType', valueOption);
                           }}
                           errors={errors}
                           touched={touched}
@@ -216,7 +215,7 @@ function CostSheetReportLanding() {
                           options={plantDDL}
                           value={values?.plant}
                           onChange={(valueOption) => {
-                            setFieldValue("plant", valueOption);
+                            setFieldValue('plant', valueOption);
                             getShopFloorDDL(
                               profileData?.accountId,
                               selectedBusinessUnit?.value,
@@ -236,7 +235,7 @@ function CostSheetReportLanding() {
                           options={shopFloorDDL}
                           value={values?.shopFloor}
                           onChange={(valueOption) => {
-                            setFieldValue("shopFloor", valueOption);
+                            setFieldValue('shopFloor', valueOption);
                             getItemDDL(
                               profileData?.accountId,
                               selectedBusinessUnit?.value,
@@ -273,7 +272,7 @@ function CostSheetReportLanding() {
                             options={itemDDL}
                             value={values?.item}
                             onChange={(valueOption) => {
-                              setFieldValue("item", valueOption);
+                              setFieldValue('item', valueOption);
                             }}
                             errors={errors}
                             touched={touched}
@@ -309,7 +308,7 @@ function CostSheetReportLanding() {
                       )}
 
                       {values?.reportType?.value && (
-                        <div style={{ marginTop: "15px" }} className="col-lg-1">
+                        <div style={{ marginTop: '15px' }} className="col-lg-1">
                           <button
                             disabled={
                               !values?.plant?.value || !values?.shopFloor?.value
@@ -384,7 +383,7 @@ function CostSheetReportLanding() {
                                   <>
                                     {gridData?.map((item) => (
                                       <>
-                                        {item?.type === "Bill Of Material" && (
+                                        {item?.type === 'Bill Of Material' && (
                                           <>
                                             <tr className="cost-sheet-report-table-tbody-tr">
                                               <td>
@@ -405,7 +404,7 @@ function CostSheetReportLanding() {
                                     ))}
                                     <tr
                                       style={{
-                                        borderTop: "1px solid grey",
+                                        borderTop: '1px solid grey',
                                       }}
                                       className="cost-sheet-report-table-tbody-tr"
                                     >
@@ -422,7 +421,7 @@ function CostSheetReportLanding() {
                                               gridData?.filter(
                                                 (item) =>
                                                   item?.type ===
-                                                  "Bill Of Material"
+                                                  'Bill Of Material'
                                               )
                                             ).toFixed(2)}
                                           </strong>
@@ -433,11 +432,11 @@ function CostSheetReportLanding() {
                                       <>
                                         <tr
                                           style={{
-                                            borderBottom: "1px solid grey",
+                                            borderBottom: '1px solid grey',
                                           }}
                                           className="cost-sheet-report-table-tbody-tr"
                                         >
-                                          <td style={{ height: "30px" }}>
+                                          <td style={{ height: '30px' }}>
                                             <div className="text-left pl-2 ">
                                               <strong>Add: {item?.type}</strong>
                                             </div>
@@ -473,7 +472,7 @@ function CostSheetReportLanding() {
                                       </>
                                     ))}
                                     <tr
-                                      style={{ height: "50px" }}
+                                      style={{ height: '50px' }}
                                       className="cost-sheet-report-table-tbody-tr"
                                     >
                                       <td className="pt-4">

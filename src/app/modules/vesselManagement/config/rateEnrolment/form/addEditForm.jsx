@@ -1,16 +1,15 @@
-
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Form from "./form";
-import { toast } from "react-toastify";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import Form from './form';
+import { toast } from 'react-toastify';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 
 const initData = {
-  businessPartner: "",
-  port: "",
-  motherVessel: "",
-  year: "",
+  businessPartner: '',
+  port: '',
+  motherVessel: '',
+  year: '',
 };
 
 export function splitNumber(number) {
@@ -44,24 +43,24 @@ const RateEnrolmentForm = () => {
         return {
           ...item,
           descriptionOfRoute: item?.shipToParterName,
-          distance: "",
-          from0To100: "",
-          from101To200: "",
-          from201To300: "",
-          from301To400: "",
-          from401To500: "",
-          totalRate: "",
-          taxAndVat: "",
+          distance: '',
+          from0To100: '',
+          from101To200: '',
+          from201To300: '',
+          from301To400: '',
+          from401To500: '',
+          totalRate: '',
+          taxAndVat: '',
           invoice: 10,
-          labourBill: "",
-          transportCost: "",
-          additionalCost: "",
-          totalCost: "",
-          totalReceived: "",
-          quantity: "",
-          billAmount: "",
-          costAmount: "",
-          profitAmount: "",
+          labourBill: '',
+          transportCost: '',
+          additionalCost: '',
+          totalCost: '',
+          totalReceived: '',
+          quantity: '',
+          billAmount: '',
+          costAmount: '',
+          profitAmount: '',
         };
       });
       setRowData({
@@ -74,7 +73,7 @@ const RateEnrolmentForm = () => {
   const saveHandler = (values) => {
     const selectedItems = rowData?.data?.filter((item) => item?.isSelected);
     if (selectedItems?.length < 1) {
-      return toast.warn("Please select at least one item");
+      return toast.warn('Please select at least one item');
     }
     const payload = selectedItems?.map((item) => {
       const totalRate =
@@ -100,7 +99,7 @@ const RateEnrolmentForm = () => {
         businessUnitId: buId,
         businessUnitName: buName,
         mvesselId: values?.motherVessel?.value || 0,
-        mvesselName: values?.motherVessel?.label || "",
+        mvesselName: values?.motherVessel?.label || '',
         routeDescription: item?.descriptionOfRoute,
         distance: +item?.distance,
         distance1to100: distanceSlabs[0] || 0,
@@ -145,13 +144,13 @@ const RateEnrolmentForm = () => {
   const rowDataHandler = (name, index, value) => {
     let _data = [...rowData?.data];
     _data[index][name] = value;
-    if (name === "distance") {
+    if (name === 'distance') {
       const distanceSlabs = splitNumber(value);
-      _data[index].from0To100 = distanceSlabs[0] * 10 || "";
-      _data[index].from101To200 = distanceSlabs[1] * 3 || "";
-      _data[index].from201To300 = distanceSlabs[2] * 1.5 || "";
-      _data[index].from301To400 = distanceSlabs[3] * 1.5 || "";
-      _data[index].from401To500 = distanceSlabs[4] * 1.3 || "";
+      _data[index].from0To100 = distanceSlabs[0] * 10 || '';
+      _data[index].from101To200 = distanceSlabs[1] * 3 || '';
+      _data[index].from201To300 = distanceSlabs[2] * 1.5 || '';
+      _data[index].from301To400 = distanceSlabs[3] * 1.5 || '';
+      _data[index].from401To500 = distanceSlabs[4] * 1.3 || '';
     }
 
     setRowData({ ...rowData, data: _data });

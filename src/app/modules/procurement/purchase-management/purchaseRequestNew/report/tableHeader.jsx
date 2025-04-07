@@ -1,5 +1,5 @@
-import React from "react";
-import { ItemReqViewTableRow } from "./tableRow";
+import React from 'react';
+import { ItemReqViewTableRow } from './tableRow';
 
 export function PurchaseRequestReport({
   history,
@@ -7,7 +7,5 @@ export function PurchaseRequestReport({
     params: { prId },
   },
 }) {
-  return (
-      <ItemReqViewTableRow prId ={prId}/>
-  );
+  return <ItemReqViewTableRow prId={prId} />;
 }

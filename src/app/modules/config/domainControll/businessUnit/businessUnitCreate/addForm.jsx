@@ -1,27 +1,26 @@
-
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { isObject } from "lodash";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import Form from "../common/form";
-import Axios from "axios";
-import { toast } from "react-toastify";
-import shortid from "shortid";
-import { useSelector, shallowEqual } from "react-redux";
-import Loading from "../../../../_helper/_loading";
+} from '../../../../../../_metronic/_partials/controls';
+import { isObject } from 'lodash';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import Form from '../common/form';
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
+import { useSelector, shallowEqual } from 'react-redux';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
   id: undefined,
-  businessUnitName: "",
-  businessUnitCode: "",
-  languageName: "",
-  currencyName: "",
-  businessUnitAddress: "",
+  businessUnitName: '',
+  businessUnitCode: '',
+  languageName: '',
+  currencyName: '',
+  businessUnitAddress: '',
 };
 
 export default function AddForm({
@@ -50,7 +49,7 @@ export default function AddForm({
           businessUnitName: values.businessUnitName,
           businessUnitAddress: values.businessUnitAddress,
           actionBy: userId,
-          image:values?.imageId || ""
+          image: values?.imageId || '',
         },
         objCreateBusinessUnitCurrencyDTO: {
           currencyId: values.currencyName.value,
@@ -68,21 +67,20 @@ export default function AddForm({
       try {
         setDisabled(true);
         const res = await Axios.post(
-          "/domain/BusinessUnitDomain/CreateBusinessUnit",
+          '/domain/BusinessUnitDomain/CreateBusinessUnit',
           businessData
         );
         cb(initData);
-        toast.success(res.data?.message || "Submitted successfully", {
+        toast.success(res.data?.message || 'Submitted successfully', {
           toastId: shortid(),
         });
         setDisabled(false);
-        setFileObjects([])
+        setFileObjects([]);
       } catch (error) {
         toast.error(error?.response?.data?.message, { toastId: shortid() });
         setDisabled(false);
       }
     } else {
-
     }
   };
 

@@ -1,12 +1,12 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
-import { withRouter } from "react-router-dom";
-import { getDisbursementcenterPasignation_api } from "../helper";
-import IEdit from "./../../../../_helper/_helperIcons/_edit";
-import Loading from "./../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import { getDisbursementcenterPasignation_api } from '../helper';
+import IEdit from './../../../../_helper/_helperIcons/_edit';
+import Loading from './../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
 
 const GridData = ({
   rowDto,
@@ -50,11 +50,11 @@ const GridData = ({
             <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
               <thead>
                 <tr>
-                  <th style={{ width: "30px" }}>SL</th>
-                  <th style={{ width: "30px" }}>Disbursement Center Code</th>
-                  <th style={{ width: "30px" }}>Disbursement Center Name</th>
-                  <th style={{ width: "30px" }}>SBU</th>
-                  <th style={{ width: "30px" }}>Action</th>
+                  <th style={{ width: '30px' }}>SL</th>
+                  <th style={{ width: '30px' }}>Disbursement Center Code</th>
+                  <th style={{ width: '30px' }}>Disbursement Center Name</th>
+                  <th style={{ width: '30px' }}>SBU</th>
+                  <th style={{ width: '30px' }}>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -67,9 +67,9 @@ const GridData = ({
                     <td className=""> {item?.sbuname}</td>
                     <td
                       className=""
-                      style={{ verticalAlign: "middle", textAlign: "center" }}
+                      style={{ verticalAlign: 'middle', textAlign: 'center' }}
                     >
-                      {" "}
+                      {' '}
                       <span
                         onClick={() =>
                           history.push({

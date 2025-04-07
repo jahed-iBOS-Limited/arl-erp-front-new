@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 import { _todayDate } from './../../../../_helper/_todayDate';
 import { _dateFormatter } from './../../../../_helper/_dateFormate';
 
@@ -25,13 +25,10 @@ export const createPurchaseOrder = async (
   try {
     // console.log(obj)
     setDisabled(true);
-    const res = await axios.post(
-      `/imp/PurchaseOrder/CreatePurchaseOrder`,
-      obj
-    );
+    const res = await axios.post(`/imp/PurchaseOrder/CreatePurchaseOrder`, obj);
     setDisabled(false);
     cb && cb();
-    toast.success(res?.data?.message || "Create successfully");
+    toast.success(res?.data?.message || 'Create successfully');
     return res;
   } catch (error) {
     setDisabled(false);
@@ -58,9 +55,9 @@ const createPayloadChange = (
       plantName: proformaInvoiceValue?.plantName,
       purchaseOrganizationId: 0,
       warehouseId: values?.warehouseId || 0,
-      warehouseName: "",
+      warehouseName: '',
       supplyingWarehouseId: 0,
-      supplyingWarehouseName: "",
+      supplyingWarehouseName: '',
       purchaseOrderTypeId: 0,
       referenceTypeId: 2,
       businessPartnerId: values?.supplierName?.value,
@@ -76,7 +73,7 @@ const createPayloadChange = (
       supplierReference: values?.supplierReference,
       referenceDate: values?.PIDate,
       poValidityDate: values?.lastShipmentDate,
-      otherTerms: values?.otherTerms || "",
+      otherTerms: values?.otherTerms || '',
       actionBy: userId,
       priceStructureId: 0,
       creditPercent: values?.castAdvance || 0,
@@ -89,12 +86,12 @@ const createPayloadChange = (
     objRowListDTO: rowDto?.map((data) => ({
       referenceQty: 0,
       controllingUnitId: 0,
-      controllingUnitName: "",
+      controllingUnitName: '',
       costCenterId: 0,
-      costCenterName: "",
+      costCenterName: '',
       costElementId: 0,
-      costElementName: "",
-      purchaseDescription: "",
+      costElementName: '',
+      purchaseDescription: '',
       lastActionDateTime: _todayDate(),
       discount: 0,
       itemId: data?.value,
@@ -102,7 +99,7 @@ const createPayloadChange = (
       uoMid: data?.uom?.value,
       uoMname: data?.uom?.label,
       referenceId: values?.purchaseRequestId,
-      referenceCode: values?.purchaseRequestNo || "",
+      referenceCode: values?.purchaseRequestNo || '',
       orderQty: +data?.quantity,
       basePrice: +data?.rate,
       finalPrice: +data?.totalAmount,
@@ -158,7 +155,7 @@ export const getSingleData = async (id, setter, setDisabled) => {
 export const getPaymentTermDDL = async (setter) => {
   try {
     let res = await axios.get(
-      "/procurement/PurchaseOrder/GetPaymentTermsListDDL"
+      '/procurement/PurchaseOrder/GetPaymentTermsListDDL'
     );
     setter(res?.data);
   } catch (error) {

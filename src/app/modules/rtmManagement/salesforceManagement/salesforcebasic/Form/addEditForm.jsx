@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import IForm from "../../../../_helper/_form";
-import Form from "./form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import IForm from '../../../../_helper/_form';
+import Form from './form';
 
-import { empAttachment_action } from "../../../../_helper/attachmentUpload";
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 import {
   createEmpBasicInformation_api,
   getBusinessUnitDDL,
@@ -19,29 +19,29 @@ import {
   getLineManagerDDL,
   getSBUDDL,
   getWorkplaceDDL_api,
-} from "../helper";
+} from '../helper';
 
 const initData = {
   id: undefined,
-  firstName: "",
-  middleName: "",
-  lastName: "",
-  businessUnit: "",
-  SBUName: "",
-  costCenter: "",
-  functionalDepartment: "",
-  HRposition: "",
-  designation: "",
-  employeeGrade: "",
-  workplace: "",
-  lineManager: "",
-  employeeCode: "",
-  employmentType: "",
-  employeeStatus: "",
-  nanagerInfo: "",
-  joiningDate: "",
-  empLavel: "",
-  empProfileImage: "",
+  firstName: '',
+  middleName: '',
+  lastName: '',
+  businessUnit: '',
+  SBUName: '',
+  costCenter: '',
+  functionalDepartment: '',
+  HRposition: '',
+  designation: '',
+  employeeGrade: '',
+  workplace: '',
+  lineManager: '',
+  employeeCode: '',
+  employmentType: '',
+  employeeStatus: '',
+  nanagerInfo: '',
+  joiningDate: '',
+  empLavel: '',
+  empProfileImage: '',
 };
 
 export default function SalesForceElmployeeInformationForm({
@@ -75,7 +75,7 @@ export default function SalesForceElmployeeInformationForm({
         middleName: values?.middleName,
         lastName: values?.lastName,
         employeeFullName:
-          values?.firstName + " " + values?.middleName + " " + values?.lastName,
+          values?.firstName + ' ' + values?.middleName + ' ' + values?.lastName,
         accountId: profileData?.accountId,
         businessunitId: selectedBusinessUnit?.value,
         sbuid: values?.SBUName?.value,
@@ -98,14 +98,14 @@ export default function SalesForceElmployeeInformationForm({
         empAttachment_action(fileObjects).then((data) => {
           const modifyPlyload = {
             ...payload,
-            empProfileImage: data[0]?.id || "",
+            empProfileImage: data[0]?.id || '',
           };
           createEmpBasicInformation_api(modifyPlyload, cb, setDisabled);
         });
       } else {
         const modifyPlyload = {
           ...payload,
-          empProfileImage: "",
+          empProfileImage: '',
         };
         createEmpBasicInformation_api(modifyPlyload, cb, setDisabled);
       }
@@ -129,7 +129,7 @@ export default function SalesForceElmployeeInformationForm({
   const [employeeTypeDDL, setEmployeeTypeDDL] = useState([]);
   const [employeeStatusDDL, setEmployeeStatusDDL] = useState([]);
   const [lineManagerDDl, setLineManagerDDl] = useState([]);
-  const [lineManager, setLineManagerValue] = useState("");
+  const [lineManager, setLineManagerValue] = useState('');
   const [empLavelDDL, SetempLavelDDL] = useState([]);
 
   useEffect(() => {
@@ -163,7 +163,6 @@ export default function SalesForceElmployeeInformationForm({
         setEmployeeTypeDDL
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const subOnChangeHandler = (sbuId) => {
@@ -180,7 +179,7 @@ export default function SalesForceElmployeeInformationForm({
   };
   return (
     <IForm
-      title={"Create Sales Force Profile"}
+      title={'Create Sales Force Profile'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

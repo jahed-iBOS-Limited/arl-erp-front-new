@@ -1,10 +1,10 @@
-import React, { Suspense } from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute, LayoutSplashScreen } from "../../../_metronic/layout";
-import { AssetRentManagementPages } from "./assetRentManagement/assetRentManagement";
-import { MaintenancePages } from "./maintenance/MaintenancePages";
-import { RegistrationPages } from "./registration/Registration";
-import { ReportsPages } from "./reports/reportsPages";
+import React, { Suspense } from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute, LayoutSplashScreen } from '../../../_metronic/layout';
+import { AssetRentManagementPages } from './assetRentManagement/assetRentManagement';
+import { MaintenancePages } from './maintenance/MaintenancePages';
+import { RegistrationPages } from './registration/Registration';
+import { ReportsPages } from './reports/reportsPages';
 
 export function AssetManagementPages() {
   return (

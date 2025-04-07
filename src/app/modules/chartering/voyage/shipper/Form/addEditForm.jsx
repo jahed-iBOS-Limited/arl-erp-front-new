@@ -1,15 +1,15 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import { createShipper, editShipper, getSingleData } from "../helper";
-import Form from "./form";
+import React from 'react';
+import { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import { createShipper, editShipper, getSingleData } from '../helper';
+import Form from './form';
 
 const initData = {
-  charterer: "",
-  shipper: "",
-  cargo: "",
+  charterer: '',
+  shipper: '',
+  cargo: '',
 };
 
 export default function ShipperForm({ modalData, callLandingApi }) {
@@ -32,11 +32,11 @@ export default function ShipperForm({ modalData, callLandingApi }) {
 
   const saveHandler = (values, cb) => {
     if (cargoList?.length === 0) {
-      return toast.warning("Please add at least one cargo");
+      return toast.warning('Please add at least one cargo');
     }
 
     if (cargoList?.filter((e) => e?.cargoQty < 1)?.length) {
-      toast.warn("Please fill up all cargo info");
+      toast.warn('Please fill up all cargo info');
       return;
     }
 
@@ -96,11 +96,11 @@ export default function ShipperForm({ modalData, callLandingApi }) {
   };
 
   const title =
-    formType === "View"
-      ? "View Shipper"
-      : formType === "Edit"
-      ? "Edit Shipper"
-      : "Create Shipper";
+    formType === 'View'
+      ? 'View Shipper'
+      : formType === 'Edit'
+        ? 'Edit Shipper'
+        : 'Create Shipper';
 
   return (
     <>

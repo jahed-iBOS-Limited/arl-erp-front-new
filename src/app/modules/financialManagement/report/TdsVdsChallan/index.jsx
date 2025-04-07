@@ -29,19 +29,18 @@ export default function TdsVdsChallan() {
   const [, tdsvdschallanPost, tdsvdschallanIsLoading] = useAxiosPost();
   const { selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
-    shallowEqual,
+    shallowEqual
   );
   const [tableData, getTableData, tableDataLoader, setTableData] =
     useAxiosGet();
 
   const commonGetGridData = (values) => {
     getTableData(
-      `/fino/SupplierInvoiceInfo/TreasuryChallanAttachmentLanding?businessUnitId=${selectedBusinessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
+      `/fino/SupplierInvoiceInfo/TreasuryChallanAttachmentLanding?businessUnitId=${selectedBusinessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
     );
   };
   useEffect(() => {
     commonGetGridData(initData);
-
   }, []);
 
   console.log(tableData, 'tableData');
@@ -69,7 +68,7 @@ export default function TdsVdsChallan() {
               strSupplierName: row?.strSupplierName || '',
               strTinBinNo: row?.strTinBinNo || '',
             };
-          },
+          }
         );
         tdsvdschallanPost(
           `https://automation.ibos.io/emailservice/tdsvdschallan`,
@@ -77,10 +76,10 @@ export default function TdsVdsChallan() {
           () => {
             commonGetGridData(initData);
           },
-          true,
+          true
         );
       },
-      true,
+      true
     );
   };
   return (
@@ -237,8 +236,8 @@ export default function TdsVdsChallan() {
                                       onClick={() => {
                                         dispatch(
                                           getDownlloadFileView_Action(
-                                            item?.strChallanAttached,
-                                          ),
+                                            item?.strChallanAttached
+                                          )
                                         );
                                       }}
                                     >
@@ -346,7 +345,7 @@ export default function TdsVdsChallan() {
                               <td>{item?.strTinBinNo}</td>
                               <td>{_formatMoney(item?.numAmount)}</td>
                             </tr>
-                          ),
+                          )
                         )}
                       <tr>
                         <td colSpan="5" className="text-right">
@@ -357,8 +356,8 @@ export default function TdsVdsChallan() {
                             {_formatMoney(
                               clickRowData?.tdsvdschallanDetails?.reduce(
                                 (acc, cur) => acc + (+cur?.numAmount || 0),
-                                0,
-                              ),
+                                0
+                              )
                             )}
                           </strong>
                         </td>
@@ -382,7 +381,7 @@ export default function TdsVdsChallan() {
             }}
             onDelete={(deleteFileObj) => {
               const newData = fileObjects.filter(
-                (item) => item.file.name !== deleteFileObj.file.name,
+                (item) => item.file.name !== deleteFileObj.file.name
               );
               setFileObjects(newData);
             }}
@@ -397,7 +396,7 @@ export default function TdsVdsChallan() {
               attachmentUpload(fileObjects, setDisabled, (data) => {
                 const copyData = [...tableData];
                 const index = copyData.findIndex(
-                  (item) => item?.intId === clickRowData?.intId,
+                  (item) => item?.intId === clickRowData?.intId
                 );
 
                 if (index > -1) {

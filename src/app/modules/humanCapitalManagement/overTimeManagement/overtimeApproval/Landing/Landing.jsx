@@ -1,32 +1,28 @@
-
-import React, { useState, useEffect } from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import { useSelector, shallowEqual } from "react-redux";
-import { Formik } from "formik";
-import { Form } from "react-bootstrap";
-import {
-  getNewApplicationData,
-  approveAll,
-} from "../helper";
-import NewSelect from "../../../../_helper/_select";
-import Loading from "../../../../_helper/_loading";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import { toast } from "react-toastify";
-import { IInput } from "../../../../_helper/_input";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { getWorkplaceDDL_api } from "../../../../_helper/_commonApi";
+import React, { useState, useEffect } from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import { useSelector, shallowEqual } from 'react-redux';
+import { Formik } from 'formik';
+import { Form } from 'react-bootstrap';
+import { getNewApplicationData, approveAll } from '../helper';
+import NewSelect from '../../../../_helper/_select';
+import Loading from '../../../../_helper/_loading';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import { toast } from 'react-toastify';
+import { IInput } from '../../../../_helper/_input';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { getWorkplaceDDL_api } from '../../../../_helper/_commonApi';
 const initData = {
-  viewAs: "",
-  applicationType: "",
-  workPlace: "",
+  viewAs: '',
+  applicationType: '',
+  workPlace: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
 
 const applicationTypeDDL = [
-  { value: 1, label: "Pending Application" },
-  { value: 2, label: "Approved Application" },
-  { value: 3, label: "Rejected Application" },
+  { value: 1, label: 'Pending Application' },
+  { value: 2, label: 'Approved Application' },
+  { value: 3, label: 'Rejected Application' },
 ];
 
 const OvertimeApprovalLanding = () => {
@@ -63,7 +59,7 @@ const OvertimeApprovalLanding = () => {
   // // approveSubmitlHandler btn submit handler
   const approveRejectSubmitlHandler = (values, isApproved) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       yesAlertFunc: () => {
         let data = [];
         rowDto.forEach((item) => {
@@ -79,13 +75,13 @@ const OvertimeApprovalLanding = () => {
             data.push(obj);
           }
         });
-        if (data.length === 0) return toast.warn("Select at least one row");
+        if (data.length === 0) return toast.warn('Select at least one row');
         approveAll(data, setLoader, () => {
           setAllSelect(false);
           getDataForApproval(values);
         });
       },
-      noAlertFunc: () => { },
+      noAlertFunc: () => {},
     };
     IConfirmModal(confirmObject);
   };
@@ -143,14 +139,14 @@ const OvertimeApprovalLanding = () => {
                     <NewSelect
                       name="viewAs"
                       options={[
-                        { value: 1, label: "Supervisor" },
-                        { value: 2, label: "Line Manager" },
+                        { value: 1, label: 'Supervisor' },
+                        { value: 2, label: 'Line Manager' },
                       ]}
                       value={values?.viewAs}
                       label="View As"
                       onChange={(valueOption) => {
                         setRowDto([]);
-                        setFieldValue("viewAs", valueOption);
+                        setFieldValue('viewAs', valueOption);
                       }}
                       placeholder="View As"
                       errors={errors}
@@ -165,7 +161,7 @@ const OvertimeApprovalLanding = () => {
                       label="Application Type"
                       onChange={(valueOption) => {
                         setRowDto([]);
-                        setFieldValue("applicationType", valueOption);
+                        setFieldValue('applicationType', valueOption);
                       }}
                       placeholder="Application Type"
                       isSearchable={true}
@@ -180,7 +176,7 @@ const OvertimeApprovalLanding = () => {
                       placeholder="Work Place"
                       value={values?.workPlace}
                       onChange={(valueOption) => {
-                        setFieldValue("workPlace", valueOption);
+                        setFieldValue('workPlace', valueOption);
                       }}
                     />
                   </div>
@@ -200,7 +196,7 @@ const OvertimeApprovalLanding = () => {
                       type="date"
                     />
                   </div>
-                  <div style={{ marginTop: "14px" }} className="ml-5">
+                  <div style={{ marginTop: '14px' }} className="ml-5">
                     <button
                       type="button"
                       className="btn btn-primary mr-1"
@@ -223,7 +219,7 @@ const OvertimeApprovalLanding = () => {
                   {values?.applicationType?.value === 1 &&
                     overtimeApprove?.isCreate && (
                       <>
-                        <div style={{ marginTop: "14px" }}>
+                        <div style={{ marginTop: '14px' }}>
                           <button
                             type="button"
                             className="btn btn-primary ml-4 mr-1"
@@ -235,7 +231,7 @@ const OvertimeApprovalLanding = () => {
                             Approve
                           </button>
                         </div>
-                        <div style={{ marginTop: "14px" }} className="ml-4">
+                        <div style={{ marginTop: '14px' }} className="ml-4">
                           <button
                             type="button"
                             className="btn btn-primary"
@@ -258,7 +254,7 @@ const OvertimeApprovalLanding = () => {
                     <thead>
                       <tr>
                         {values?.applicationType?.value === 1 && (
-                          <th style={{ width: "20px" }}>
+                          <th style={{ width: '20px' }}>
                             <input
                               type="checkbox"
                               id="parent"

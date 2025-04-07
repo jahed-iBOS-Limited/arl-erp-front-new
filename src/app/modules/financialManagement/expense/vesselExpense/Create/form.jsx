@@ -1,4 +1,3 @@
-
 import Axios from 'axios';
 import { Field, Form, Formik } from 'formik';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
@@ -27,9 +26,12 @@ import IView from './../../../../_helper/_helperIcons/_view';
 import InputField from './../../../../_helper/_inputField';
 import NewSelect from './../../../../_helper/_select';
 import { YearDDL } from './../../../../_helper/_yearDDL';
-import { empAttachment_action } from "../../../../_helper/attachmentUpload";
+import { empAttachment_action } from '../../../../_helper/attachmentUpload';
 
-import { getBusTransDDLForExpense, getProfitCenterDDL } from '../../../../_helper/_commonApi';
+import {
+  getBusTransDDLForExpense,
+  getProfitCenterDDL,
+} from '../../../../_helper/_commonApi';
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({
   paymentType: Yup.object().shape({
@@ -93,25 +95,25 @@ export default function FormCmp({
       getCostElementDDL(
         selectedBusinessUnit.value,
         profileData.accountId,
-        setCostElementDDL,
+        setCostElementDDL
       );
       getProfitCenterDDL(selectedBusinessUnit.value, setProfitCenterDDL);
       getBusTransDDLForExpense(
         profileData.accountId,
         selectedBusinessUnit.value,
-        setTransaction,
+        setTransaction
       );
       getCategory(
         profileData.accountId,
         selectedBusinessUnit.value,
         sbu?.value,
-        setCategory,
+        setCategory
       );
       getCostCenter(
         profileData.accountId,
         selectedBusinessUnit.value,
         sbu?.value,
-        setCostCenter,
+        setCostCenter
       );
       getPaymentType(setPaymentType);
 
@@ -119,26 +121,25 @@ export default function FormCmp({
         profileData.accountId,
         selectedBusinessUnit.value,
         sbu?.value,
-        setDisbustmentCenter,
+        setDisbustmentCenter
       );
       getProjectName(
         profileData.accountId,
         selectedBusinessUnit.value,
-        setProjectName,
+        setProjectName
       );
       getVehicleDDL(
         profileData.accountId,
         selectedBusinessUnit.value,
-        setVehicleDDL,
+        setVehicleDDL
       );
     }
-
   }, [profileData, sbu?.value, selectedBusinessUnit]);
 
   const loadUserList = (v) => {
     if (v?.length < 2) return [];
     return Axios.get(
-      `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Search=${v}`,
+      `/hcm/HCMDDL/EmployeeInfoDDLSearch?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&Search=${v}`
     )
       .then((res) => {
         return res?.data;
@@ -167,19 +168,19 @@ export default function FormCmp({
           isEdit
             ? initData
             : {
-              ...initData,
-              vehicle: {
-                value: vehicleDDL[0]?.value,
-                label: vehicleDDL[0]?.label,
-              },
-              disbursmentCenter:
-                disbustmentCenter?.length > 0
-                  ? {
-                    value: disbustmentCenter[0]?.value,
-                    label: disbustmentCenter[0]?.label,
-                  }
-                  : "",
-            }
+                ...initData,
+                vehicle: {
+                  value: vehicleDDL[0]?.value,
+                  label: vehicleDDL[0]?.label,
+                },
+                disbursmentCenter:
+                  disbustmentCenter?.length > 0
+                    ? {
+                        value: disbustmentCenter[0]?.value,
+                        label: disbustmentCenter[0]?.label,
+                      }
+                    : '',
+              }
         }
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -227,8 +228,8 @@ export default function FormCmp({
                           setFieldValue(
                             'expenseTo',
                             _dateFormatter(
-                              moment(newDate).endOf('month').format(),
-                            ),
+                              moment(newDate).endOf('month').format()
+                            )
                           );
                           setFieldValue('expenseDate', '');
                         }}
@@ -255,8 +256,8 @@ export default function FormCmp({
                           setFieldValue(
                             'expenseTo',
                             _dateFormatter(
-                              moment(newDate).endOf('month').format(),
-                            ),
+                              moment(newDate).endOf('month').format()
+                            )
                           );
                           setFieldValue('expenseDate', '');
                         }}
@@ -299,7 +300,7 @@ export default function FormCmp({
                             .format();
                           setFieldValue(
                             'expenseTo',
-                            _dateFormatter(endOfMonth),
+                            _dateFormatter(endOfMonth)
                           );
                           setFieldValue('expenseDate', '');
                         }}
@@ -308,13 +309,13 @@ export default function FormCmp({
                         min={
                           dateSetFunction(
                             values?.month?.value,
-                            values?.year?.value,
+                            values?.year?.value
                           )?.firstDate
                         }
                         max={
                           dateSetFunction(
                             values?.month?.value,
-                            values?.year?.value,
+                            values?.year?.value
                           )?.lestDate
                         }
                       />
@@ -334,13 +335,13 @@ export default function FormCmp({
                         min={
                           dateSetFunction(
                             values?.month?.value,
-                            values?.year?.value,
+                            values?.year?.value
                           )?.firstDate
                         }
                         max={
                           dateSetFunction(
                             values?.month?.value,
-                            values?.year?.value,
+                            values?.year?.value
                           )?.lestDate
                         }
                       />
@@ -456,11 +457,14 @@ export default function FormCmp({
                   </div>
                 </div>
                 <div className="col-lg-9">
-                  <div className={"row bank-journal-custom bj-right"} style={{
-                    marginLeft: "0px",
-                    marginRight: "0px",
-                    marginTop: "5px",
-                  }}>
+                  <div
+                    className={'row bank-journal-custom bj-right'}
+                    style={{
+                      marginLeft: '0px',
+                      marginRight: '0px',
+                      marginTop: '5px',
+                    }}
+                  >
                     <div className="col-lg-3">
                       <label>Expense Date</label>
                       <InputField
@@ -650,20 +654,20 @@ export default function FormCmp({
                           disabled={
                             values?.driverExp
                               ? !values?.expenseDate ||
-                              !values?.transaction ||
-                              !values?.expenseAmount ||
-                              !values?.location ||
-                              !values?.userNmae ||
-                              !values?.profitCenter ||
-                              !values?.costCenter ||
-                              !values?.costElement
+                                !values?.transaction ||
+                                !values?.expenseAmount ||
+                                !values?.location ||
+                                !values?.userNmae ||
+                                !values?.profitCenter ||
+                                !values?.costCenter ||
+                                !values?.costElement
                               : !values?.expenseDate ||
-                              !values?.transaction ||
-                              !values?.expenseAmount ||
-                              !values?.location ||
-                              !values?.profitCenter ||
-                              !values?.costCenter ||
-                              !values?.costElement
+                                !values?.transaction ||
+                                !values?.expenseAmount ||
+                                !values?.location ||
+                                !values?.profitCenter ||
+                                !values?.costCenter ||
+                                !values?.costElement
                           }
                           className="btn btn-primary"
                           onClick={() => {
@@ -687,35 +691,35 @@ export default function FormCmp({
                   <div className="row">
                     <div className="col-lg-12 pr-0">
                       <div className="table-responsive">
-                        <table className={"table mt-1 bj-table"}>
-                          <thead className={rowDto.length < 1 && "d-none"}>
+                        <table className={'table mt-1 bj-table'}>
+                          <thead className={rowDto.length < 1 && 'd-none'}>
                             <tr>
-                              <th style={{ width: "20px" }}>SL</th>
-                              <th style={{ width: "120px" }}>Expense Date</th>
-                              <th style={{ width: "100px" }}>Expense Group</th>
-                              <th style={{ width: "100px" }}>Expense Place</th>
-                              <th style={{ width: "200px" }}>Expense Amount</th>
-                              <th style={{ width: "200px" }}>
+                              <th style={{ width: '20px' }}>SL</th>
+                              <th style={{ width: '120px' }}>Expense Date</th>
+                              <th style={{ width: '100px' }}>Expense Group</th>
+                              <th style={{ width: '100px' }}>Expense Place</th>
+                              <th style={{ width: '200px' }}>Expense Amount</th>
+                              <th style={{ width: '200px' }}>
                                 Expense Description
                               </th>
-                              <th style={{ width: "200px" }}>Element</th>
+                              <th style={{ width: '200px' }}>Element</th>
                               <th
                                 style={{
                                   width: rowDto?.some((i) => i?.driverName)
-                                    ? "200px"
-                                    : "50px",
+                                    ? '200px'
+                                    : '50px',
                                 }}
                               >
                                 Driver Name
                               </th>
-                              <th style={{ width: "100px" }}>Attachments</th>
-                              <th style={{ width: "50px" }}>Actions</th>
-                            </tr >
-                          </thead >
+                              <th style={{ width: '100px' }}>Attachments</th>
+                              <th style={{ width: '50px' }}>Actions</th>
+                            </tr>
+                          </thead>
                           <tbody>
                             {rowDto?.map((item, index) => {
                               const isFuelLogCash =
-                                item?.comments2 === "Fuel Log Cash";
+                                item?.comments2 === 'Fuel Log Cash';
                               return (
                                 <tr key={index}>
                                   <td>{index + 1}</td>
@@ -747,7 +751,7 @@ export default function FormCmp({
                                           if (
                                             location?.state?.isApproval &&
                                             e.target.value >
-                                            item?.prvExpenseAmount
+                                              item?.prvExpenseAmount
                                           ) {
                                             return false;
                                           }
@@ -770,12 +774,12 @@ export default function FormCmp({
                                   </td>
                                   <td>
                                     <div className="text-left pl-2">
-                                      {item?.costCenterName || ""}
+                                      {item?.costCenterName || ''}
                                       {item?.costElementName
-                                        ? `, ${item?.costElementName || ""}`
-                                        : ""}
-                                    </div >
-                                  </td >
+                                        ? `, ${item?.costElementName || ''}`
+                                        : ''}
+                                    </div>
+                                  </td>
                                   <td>
                                     <div className="text-left pl-2">
                                       {item?.driverName}
@@ -802,23 +806,23 @@ export default function FormCmp({
                                       <IDelete remover={remover} id={index} />
                                     )}
                                   </td>
-                                </tr >
+                                </tr>
                               );
                             })}
-                          </tbody >
-                        </table >
-                      </div >
-                    </div >
-                  </div >
-                </div >
-              </div >
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               {/* Row Dto Table End */}
-              < button
+              <button
                 type="submit"
                 style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
-              ></button >
+              ></button>
               <button
                 type="reset"
                 style={{ display: 'none' }}
@@ -839,7 +843,7 @@ export default function FormCmp({
                 }}
                 onDelete={(deleteFileObj) => {
                   const newData = fileObjects.filter(
-                    (item) => item.file.name !== deleteFileObj.file.name,
+                    (item) => item.file.name !== deleteFileObj.file.name
                   );
                   setFileObjects(newData);
                 }}
@@ -853,10 +857,10 @@ export default function FormCmp({
                 showPreviews={true}
                 showFileNamesInPreview={true}
               />
-            </Form >
+            </Form>
           </>
         )}
-      </Formik >
+      </Formik>
     </>
   );
 }

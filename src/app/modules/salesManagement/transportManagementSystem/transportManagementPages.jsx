@@ -1,9 +1,9 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import Shipping from "./shipping";
-import ShipmentForm from "./shipping/Form/addEditForm";
-import { AvailableVehicle } from "./vehicleAvailableReport/Table/tableHeader";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import Shipping from './shipping';
+import ShipmentForm from './shipping/Form/addEditForm';
+import { AvailableVehicle } from './vehicleAvailableReport/Table/tableHeader';
 
 export function TransportManagementPages() {
   return (

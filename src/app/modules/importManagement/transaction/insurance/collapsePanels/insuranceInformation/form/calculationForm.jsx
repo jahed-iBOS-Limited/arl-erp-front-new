@@ -1,13 +1,12 @@
-
-import React from "react";
-import { Formik } from "formik";
+import React from 'react';
+import { Formik } from 'formik';
 import {
   Card,
   CardHeader,
   CardBody,
-} from "../../../../../../../../_metronic/_partials/controls";
+} from '../../../../../../../../_metronic/_partials/controls';
 // import InputField from "../../../../../../_helper/_inputField";
-import numberWithCommas from "../../../../../../_helper/_numberWithCommas";
+import numberWithCommas from '../../../../../../_helper/_numberWithCommas';
 
 const CalculationForm = ({ initData }) => {
   return (
@@ -22,7 +21,7 @@ const CalculationForm = ({ initData }) => {
           <>
             <Card>
               <CardHeader title="Insurance Service Break Down"></CardHeader>
-              <CardBody style={{ background: "#dde3e8", paddingTop: "20px" }}>
+              <CardBody style={{ background: '#dde3e8', paddingTop: '20px' }}>
                 <div className="react-bootstrap-table table-responsive">
                   <table className="table table-striped table-bordered mt-3 global-table insurance-table">
                     <tbody>
@@ -37,13 +36,13 @@ const CalculationForm = ({ initData }) => {
                         {/* <td></td> */}
                         <td
                           style={{
-                            width: "50%",
-                            textAlign: "right !important",
+                            width: '50%',
+                            textAlign: 'right !important',
                           }}
                         >
-                          {"Insured Amount (+" +
+                          {'Insured Amount (+' +
                             values?.insuredAddRate * 100 +
-                            "%)"}
+                            '%)'}
                         </td>
                         <td className="text-center">
                           {numberWithCommas(values?.insuredAmount)}
@@ -52,7 +51,7 @@ const CalculationForm = ({ initData }) => {
                       <tr>
                         <td
                           style={{
-                            width: "50%",
+                            width: '50%',
                           }}
                         >
                           Premium
@@ -64,7 +63,7 @@ const CalculationForm = ({ initData }) => {
                       <tr>
                         <td
                           style={{
-                            width: "50%",
+                            width: '50%',
                           }}
                         >
                           Stamp
@@ -76,7 +75,7 @@ const CalculationForm = ({ initData }) => {
                       <tr>
                         <td
                           style={{
-                            width: "50%",
+                            width: '50%',
                           }}
                         >
                           VAT
@@ -88,8 +87,8 @@ const CalculationForm = ({ initData }) => {
                       <tr>
                         <td
                           style={{
-                            width: "50%",
-                            fontWeight: "bold",
+                            width: '50%',
+                            fontWeight: 'bold',
                           }}
                         >
                           Total
@@ -105,7 +104,7 @@ const CalculationForm = ({ initData }) => {
                       <tr>
                         <td
                           style={{
-                            width: "50%",
+                            width: '50%',
                           }}
                         >
                           Discount On Commision
@@ -117,8 +116,8 @@ const CalculationForm = ({ initData }) => {
                       <tr>
                         <td
                           style={{
-                            width: "50%",
-                            fontWeight: "bold",
+                            width: '50%',
+                            fontWeight: 'bold',
                           }}
                         >
                           Net Paid

@@ -1,33 +1,31 @@
-
-
-import { Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import * as Yup from "yup";
-import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import TextArea from "../../../../_helper/TextArea";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import { CreateJournalVoucher, getStoreExpense } from "../helper";
+import { Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import * as Yup from 'yup';
+import { _firstDateofMonth } from '../../../../_helper/_firstDateOfCurrentMonth';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import TextArea from '../../../../_helper/TextArea';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import { CreateJournalVoucher, getStoreExpense } from '../helper';
 
 const headers = [
-  { name: "SL" },
-  { name: "Lighter Name" },
-  { name: "JV Code" },
-  { name: "Amount" },
+  { name: 'SL' },
+  { name: 'Lighter Name' },
+  { name: 'JV Code' },
+  { name: 'Amount' },
 ];
 
 const validationSchema = Yup.object().shape({
-  narration: Yup.string().required("Narration is required"),
+  narration: Yup.string().required('Narration is required'),
 });
 
 const initData = {
   date: _firstDateofMonth(),
-  narration: "",
+  narration: '',
 };
 
 export default function StoreExpenseReport() {
@@ -59,7 +57,7 @@ export default function StoreExpenseReport() {
         validationSchema={validationSchema}
         onSubmit={(values, { resetForm }) => {
           CreateJournalVoucher(
-            "storeExp",
+            'storeExp',
             profileData?.accountId,
             selectedBusinessUnit?.value,
             new Date(values?.date).getMonth(),
@@ -85,7 +83,7 @@ export default function StoreExpenseReport() {
                       placeholder="Narration"
                       rows="3"
                       onChange={(e) =>
-                        setFieldValue("narration", e.target.value)
+                        setFieldValue('narration', e.target.value)
                       }
                       max={1000}
                       errors={errors}
@@ -109,7 +107,7 @@ export default function StoreExpenseReport() {
                       placeholder="Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("date", e.target.value);
+                        setFieldValue('date', e.target.value);
                         getStoreExpense(
                           profileData?.accountId,
                           selectedBusinessUnit?.value,
@@ -133,7 +131,7 @@ export default function StoreExpenseReport() {
                     />
                     <ReactToPrint
                       pageStyle={
-                        "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                        '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
                       }
                       trigger={() => (
                         <button
@@ -153,14 +151,14 @@ export default function StoreExpenseReport() {
                 </div>
               </div>
               <div ref={printRef}>
-                <div className="text-center" style={{ margin: "15px 0" }}>
+                <div className="text-center" style={{ margin: '15px 0' }}>
                   <h4>{selectedBusinessUnit?.label}</h4>
                   <p>{selectedBusinessUnit?.address}</p>
                 </div>
 
                 <ICustomTable id="table-to-xlsx" ths={headers}>
                   <div className="d-none">
-                    <div style={{ textAlign: "center" }}>
+                    <div style={{ textAlign: 'center' }}>
                       <h4>{selectedBusinessUnit?.label}</h4>
                       <p>{selectedBusinessUnit?.address}</p>
                     </div>
@@ -170,7 +168,7 @@ export default function StoreExpenseReport() {
                     return (
                       <>
                         <tr key={index}>
-                          <td className="text-center" style={{ width: "40px" }}>
+                          <td className="text-center" style={{ width: '40px' }}>
                             {index + 1}
                           </td>
                           <td>{item?.lighterVesselName}</td>
@@ -182,7 +180,7 @@ export default function StoreExpenseReport() {
                   })}
 
                   {gridData?.length > 0 && (
-                    <tr style={{ fontWeight: "bold" }}>
+                    <tr style={{ fontWeight: 'bold' }}>
                       <td className="text-right" colSpan="3">
                         Total
                       </td>

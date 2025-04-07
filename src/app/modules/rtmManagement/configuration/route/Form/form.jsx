@@ -1,29 +1,29 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import NewSelect from "../../../../_helper/_select";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import NewSelect from '../../../../_helper/_select';
 import {
   getOutletInfoDDL,
   getTerritoryDDL,
   getLandingDataForRouteCreate,
-} from "../helper";
-import InputField from "./../../../../_helper/_inputField";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import { _todayDate } from "./../../../../_helper/_todayDate";
+} from '../helper';
+import InputField from './../../../../_helper/_inputField';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import { _todayDate } from './../../../../_helper/_todayDate';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   routeName: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(1000000, "Maximum 1000000 symbols")
-    .required("Route Name is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(1000000, 'Maximum 1000000 symbols')
+    .required('Route Name is required'),
   territoryName: Yup.object().shape({
-    label: Yup.string().required("Territory Name is required"),
-    value: Yup.string().required("Territory Name is required"),
+    label: Yup.string().required('Territory Name is required'),
+    value: Yup.string().required('Territory Name is required'),
   }),
   territoryType: Yup.object().shape({
-    label: Yup.string().required("Territory Type is required"),
-    value: Yup.string().required("Territory Type is required"),
+    label: Yup.string().required('Territory Type is required'),
+    value: Yup.string().required('Territory Type is required'),
   }),
 });
 
@@ -70,7 +70,6 @@ export default function FormCmp({
         setGridData
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   //setPositionHandler
@@ -142,8 +141,8 @@ export default function FormCmp({
                           valueOption?.value,
                           setTerritoryNameDDL
                         );
-                        setFieldValue("territoryName", "");
-                        setFieldValue("territoryType", valueOption);
+                        setFieldValue('territoryName', '');
+                        setFieldValue('territoryType', valueOption);
                       }}
                       placeholder="Territory Type"
                       errors={errors}
@@ -157,7 +156,7 @@ export default function FormCmp({
                       value={values?.territoryName}
                       label="Territory Name"
                       onChange={(valueOption) => {
-                        setFieldValue("territoryName", valueOption);
+                        setFieldValue('territoryName', valueOption);
                       }}
                       placeholder="Territory Name"
                       errors={errors}
@@ -171,7 +170,7 @@ export default function FormCmp({
                       value={values?.startOutlateName}
                       label="Start Outlet Name"
                       onChange={(valueOption) => {
-                        setFieldValue("startOutlateName", valueOption);
+                        setFieldValue('startOutlateName', valueOption);
                       }}
                       placeholder="Start Outlet Name"
                       errors={errors}
@@ -185,7 +184,7 @@ export default function FormCmp({
                       value={values?.endOutlateName}
                       label="End Outlet Name"
                       onChange={(valueOption) => {
-                        setFieldValue("endOutlateName", valueOption);
+                        setFieldValue('endOutlateName', valueOption);
                       }}
                       placeholder="End Outlet Name"
                       errors={errors}
@@ -251,14 +250,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -18,14 +18,14 @@ export const getPortLandingData = async (
   portName,
   countryName,
   setLoading,
-  setter,
+  setter
 ) => {
   setLoading(true);
   const country = countryName ? `&searchByCountry=${countryName}` : '';
   const port = portName ? `&searchByPortName=${portName}` : '';
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/Port/GetPortLandingPagination?viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${port}${country}`,
+      `${imarineBaseUrl}/domain/Port/GetPortLandingPagination?viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${port}${country}`
     );
     setter(res?.data);
     setLoading(false);
@@ -40,7 +40,7 @@ export const createPort = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/Port/CreatePort`,
-      data,
+      data
     );
     toast.success(res?.data?.message);
     cb();
@@ -67,7 +67,7 @@ export const deletePort = async (id, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.delete(
-      `${imarineBaseUrl}/domain/Port/DeletePort?porteId=${id}`,
+      `${imarineBaseUrl}/domain/Port/DeletePort?porteId=${id}`
     );
     toast.success(res?.data?.message);
     cb();
@@ -82,7 +82,7 @@ export const activeInactivePort = async (id, status, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `${imarineBaseUrl}/domain/Port/ActiveOrInActive?porteId=${id}&activeOrInActive=${status}`,
+      `${imarineBaseUrl}/domain/Port/ActiveOrInActive?porteId=${id}&activeOrInActive=${status}`
     );
     toast.success(res?.data?.message);
     cb();

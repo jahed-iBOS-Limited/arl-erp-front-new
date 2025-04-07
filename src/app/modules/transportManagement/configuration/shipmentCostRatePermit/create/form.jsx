@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { getEmployeeDDL } from "../helper";
-import NewSelect from "./../../../../_helper/_select";
-import { GetAllowModificationEmployeeInfo_api } from "./../helper";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { getEmployeeDDL } from '../helper';
+import NewSelect from './../../../../_helper/_select';
+import { GetAllowModificationEmployeeInfo_api } from './../helper';
 
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({
   employeeName: Yup.object().shape({
-    label: Yup.string().required("EmployeeName is required"),
-    value: Yup.string().required("EmployeeName is required"),
+    label: Yup.string().required('EmployeeName is required'),
+    value: Yup.string().required('EmployeeName is required'),
   }),
 });
 
@@ -32,7 +32,6 @@ export default function FormCmp({
         setEmployeeDDL
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
   return (
     <>
@@ -56,7 +55,7 @@ export default function FormCmp({
           setValues,
         }) => (
           <>
-          {console.log(values)}
+            {console.log(values)}
             <Form className="global-form from-label-right">
               <div className="form-group row align-items-center">
                 <div className="col-lg-3">
@@ -66,7 +65,7 @@ export default function FormCmp({
                     value={values?.employeeName}
                     label="EmployeeName"
                     onChange={(valueOption) => {
-                      setFieldValue("employeeName", valueOption);
+                      setFieldValue('employeeName', valueOption);
                       const modifyValues = {
                         ...values,
                         employeeName: valueOption,
@@ -92,7 +91,7 @@ export default function FormCmp({
                     className="checkbox ml-3"
                     checked={values?.ysnGhatInfo}
                     onChange={(e) => {
-                      setFieldValue("ysnGhatInfo", e.target.checked);
+                      setFieldValue('ysnGhatInfo', e.target.checked);
                     }}
                     id="ysnGhatInfo"
                   />
@@ -107,7 +106,7 @@ export default function FormCmp({
                     className="checkbox ml-3"
                     checked={values?.ysnTransportZoneInfo}
                     onChange={(e) => {
-                      setFieldValue("ysnTransportZoneInfo", e.target.checked);
+                      setFieldValue('ysnTransportZoneInfo', e.target.checked);
                     }}
                     id="ysnTransportZoneInfo"
                   />
@@ -120,7 +119,7 @@ export default function FormCmp({
                     className="checkbox ml-3"
                     checked={values?.ysnItemInfo}
                     onChange={(e) => {
-                      setFieldValue("ysnItemInfo", e.target.checked);
+                      setFieldValue('ysnItemInfo', e.target.checked);
                     }}
                     id="ysnItemInfo"
                   />
@@ -128,14 +127,14 @@ export default function FormCmp({
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

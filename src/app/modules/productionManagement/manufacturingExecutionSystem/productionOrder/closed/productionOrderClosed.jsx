@@ -1,15 +1,15 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { validateDigit } from "../../../../_helper/validateDigit";
-import IForm from "../../../../_helper/_form";
-import { IInput } from "../../../../_helper/_input";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { validateDigit } from '../../../../_helper/validateDigit';
+import IForm from '../../../../_helper/_form';
+import { IInput } from '../../../../_helper/_input';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 const initData = {
   transDate: _todayDate(),
@@ -27,17 +27,12 @@ export default function ProductionOrderClosed() {
   //const { id } = useParams();
   const location = useLocation();
   //const [modifyData, setModifyData] = useState(initData);
-  const {
-    productionOrderId,
-    itemName,
-    workCenterName,
-    orderQty,
-  } = location?.state;
+  const { productionOrderId, itemName, workCenterName, orderQty } =
+    location?.state;
 
   const { profileData } = useSelector((state) => {
     return state.authData;
   }, shallowEqual);
-
 
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
@@ -47,7 +42,6 @@ export default function ProductionOrderClosed() {
     getProductionOrderList(
       `/mes/ProductionOrder/GetProductionOrderForClose?productionOrderId=${productionOrderId}`
     );
-
   }, [productionOrderId]);
 
   const saveHandler = async (values, cb) => {
@@ -172,7 +166,7 @@ export default function ProductionOrderClosed() {
                             <th className="text-left">Item Name </th>
                             <th className="text-left">UoM </th>
                             <th className="text-center">Issue Quantity</th>
-                            <th className="" style={{ width: "140px" }}>
+                            <th className="" style={{ width: '140px' }}>
                               Return Quantity
                             </th>
                           </tr>
@@ -192,7 +186,7 @@ export default function ProductionOrderClosed() {
                                   </td>
                                   <td
                                     className="disabled-feedback disable-border"
-                                    style={{ width: "100px" }}
+                                    style={{ width: '100px' }}
                                   >
                                     <IInput
                                       value={
@@ -212,7 +206,7 @@ export default function ProductionOrderClosed() {
                                         //     validNum = "";
                                         //   }
                                         rowDtoHandler(
-                                          "returnQuantity",
+                                          'returnQuantity',
                                           index,
                                           validNum
                                         );
@@ -230,14 +224,14 @@ export default function ProductionOrderClosed() {
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

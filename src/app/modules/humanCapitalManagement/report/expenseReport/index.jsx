@@ -1,66 +1,64 @@
-import axios from "axios";
-import { Formik } from "formik";
-import moment from "moment";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
-import ICard from "../../../_helper/_card";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "./../../../_helper/_dateFormate";
-import InputField from "./../../../_helper/_inputField";
-import { _todayDate } from "./../../../_helper/_todayDate";
-import { YearDDL } from "./../../../_helper/_yearDDL";
+import axios from 'axios';
+import { Formik } from 'formik';
+import moment from 'moment';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
+import ICard from '../../../_helper/_card';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from './../../../_helper/_dateFormate';
+import InputField from './../../../_helper/_inputField';
+import { _todayDate } from './../../../_helper/_todayDate';
+import { YearDDL } from './../../../_helper/_yearDDL';
 import {
   exportExpenseReport,
   GetExpenseReport_api,
   usePrintHandler,
-} from "./helper";
-import PrintableTable from "./tables/printableTable";
-import Table from "./tables/table";
-import TableFour from "./tables/tableFour";
-import TableThree from "./tables/tableThree";
-import TableTwo from "./tables/tableTwo";
+} from './helper';
+import PrintableTable from './tables/printableTable';
+import Table from './tables/table';
+import TableFour from './tables/tableFour';
+import TableThree from './tables/tableThree';
+import TableTwo from './tables/tableTwo';
 
 const monthDDL = [
-  { value: 1, label: "January" },
-  { value: 2, label: "February" },
-  { value: 3, label: "March" },
-  { value: 4, label: "April" },
-  { value: 5, label: "May" },
-  { value: 6, label: "June" },
-  { value: 7, label: "July" },
-  { value: 8, label: "August" },
-  { value: 9, label: "September" },
-  { value: 10, label: "October" },
-  { value: 11, label: "November" },
-  { value: 12, label: "December" },
+  { value: 1, label: 'January' },
+  { value: 2, label: 'February' },
+  { value: 3, label: 'March' },
+  { value: 4, label: 'April' },
+  { value: 5, label: 'May' },
+  { value: 6, label: 'June' },
+  { value: 7, label: 'July' },
+  { value: 8, label: 'August' },
+  { value: 9, label: 'September' },
+  { value: 10, label: 'October' },
+  { value: 11, label: 'November' },
+  { value: 12, label: 'December' },
 ];
 
 const reportTypes = [
-  { value: 1, label: "All Unit" },
-  { value: 2, label: "Single Unit" },
-  { value: 3, label: "Specific Employee" },
-  { value: 4, label: "Specific Employee Details" },
-  { value: 5, label: "Bill Submit Pending" },
-  { value: 6, label: "Supervisor Aprv Pending" },
-  { value: 7, label: "Line Manager Aprv Pending" },
-  { value: 8, label: "Bill Register  Pending" },
-  { value: 9, label: "Bill Register  By Code" },
-  { value: 10, label: "Status Check" },
-  { value: 12, label: "Comparison Report" },
-  { value: 14, label: "Expense Top Sheet (HR)" },
+  { value: 1, label: 'All Unit' },
+  { value: 2, label: 'Single Unit' },
+  { value: 3, label: 'Specific Employee' },
+  { value: 4, label: 'Specific Employee Details' },
+  { value: 5, label: 'Bill Submit Pending' },
+  { value: 6, label: 'Supervisor Aprv Pending' },
+  { value: 7, label: 'Line Manager Aprv Pending' },
+  { value: 8, label: 'Bill Register  Pending' },
+  { value: 9, label: 'Bill Register  By Code' },
+  { value: 10, label: 'Status Check' },
+  { value: 12, label: 'Comparison Report' },
+  { value: 14, label: 'Expense Top Sheet (HR)' },
 ];
 
-const startOfMonth = moment(_todayDate())
-  .startOf("month")
-  .format();
+const startOfMonth = moment(_todayDate()).startOf('month').format();
 const ExpenceReport = () => {
   const initData = {
-    status: { value: true, label: "Complete" },
-    employeeName: "",
-    reportType: "",
+    status: { value: true, label: 'Complete' },
+    employeeName: '',
+    reportType: '',
     fromDate: _dateFormatter(startOfMonth),
     toDate: _todayDate(),
     year: {
@@ -68,8 +66,8 @@ const ExpenceReport = () => {
       label: `${new Date().getFullYear()}`,
     },
     month: monthDDL[new Date().getMonth()],
-    expenseCode: "",
-    expenceGroup: { value: 1, label: "TaDa" },
+    expenseCode: '',
+    expenceGroup: { value: 1, label: 'TaDa' },
   };
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
@@ -94,12 +92,12 @@ const ExpenceReport = () => {
             ...item,
             sl: index + 1,
             dteSupervisorAprvdate: moment(item?.dteSupervisorAprvdate).format(
-              "YYYY-MM-DD, LT"
+              'YYYY-MM-DD, LT'
             ),
             dteLineManagerAprvdate: moment(item?.dteLineManagerAprvdate).format(
-              "YYYY-MM-DD, LT"
+              'YYYY-MM-DD, LT'
             ),
-            dteExpenseDate: moment(item?.dteExpenseDate).format("YYYY-MM-DD"),
+            dteExpenseDate: moment(item?.dteExpenseDate).format('YYYY-MM-DD'),
           }));
           setGridData(updatedData);
         }
@@ -151,18 +149,10 @@ const ExpenceReport = () => {
 
   const dateSetFunction = (month, year) => {
     var newDate = moment();
-    newDate.set("month", month - 1);
-    newDate.set("year", year);
-    const firstDate = _dateFormatter(
-      moment(newDate)
-        .startOf("month")
-        .format()
-    );
-    const lestDate = _dateFormatter(
-      moment(newDate)
-        .endOf("month")
-        .format()
-    );
+    newDate.set('month', month - 1);
+    newDate.set('year', year);
+    const firstDate = _dateFormatter(moment(newDate).startOf('month').format());
+    const lestDate = _dateFormatter(moment(newDate).endOf('month').format());
     return { lestDate, firstDate };
   };
 
@@ -201,9 +191,9 @@ const ExpenceReport = () => {
                       value={values?.reportType}
                       label="Report Type"
                       onChange={(valueOption) => {
-                        setFieldValue("reportType", valueOption);
-                        setFieldValue("employeeName", "");
-                        setFieldValue("expenseCode", "");
+                        setFieldValue('reportType', valueOption);
+                        setFieldValue('employeeName', '');
+                        setFieldValue('expenseCode', '');
                         setGridData([]);
                       }}
                       placeholder="Report Type"
@@ -220,7 +210,7 @@ const ExpenceReport = () => {
                       <SearchAsyncSelect
                         selectedValue={values?.employeeName}
                         handleChange={(valueOption) => {
-                          setFieldValue("employeeName", valueOption);
+                          setFieldValue('employeeName', valueOption);
                           setGridData([]);
                         }}
                         loadOptions={employeeList || []}
@@ -232,13 +222,13 @@ const ExpenceReport = () => {
                       <NewSelect
                         name="status"
                         options={[
-                          { value: true, label: "Complete" },
-                          { value: false, label: "InComplete" },
+                          { value: true, label: 'Complete' },
+                          { value: false, label: 'InComplete' },
                         ]}
                         value={values?.status}
                         label="Status"
                         onChange={(valueOption) => {
-                          setFieldValue("status", valueOption);
+                          setFieldValue('status', valueOption);
                           setGridData([]);
                         }}
                         placeholder="Status"
@@ -259,17 +249,15 @@ const ExpenceReport = () => {
                           value={values?.year}
                           onChange={(valueOption) => {
                             setGridData([]);
-                            setFieldValue("year", valueOption);
+                            setFieldValue('year', valueOption);
                             var newDate = moment();
-                            newDate.set("month", values?.month?.value - 1);
-                            newDate.set("year", valueOption?.value);
-                            setFieldValue("toDate", _dateFormatter(newDate));
+                            newDate.set('month', values?.month?.value - 1);
+                            newDate.set('year', valueOption?.value);
+                            setFieldValue('toDate', _dateFormatter(newDate));
                             setFieldValue(
-                              "fromDate",
+                              'fromDate',
                               _dateFormatter(
-                                moment(newDate)
-                                  .startOf("month")
-                                  .format()
+                                moment(newDate).startOf('month').format()
                               )
                             );
                           }}
@@ -287,16 +275,16 @@ const ExpenceReport = () => {
                           value={values?.month}
                           onChange={(valueOption) => {
                             setGridData([]);
-                            setFieldValue("month", valueOption);
+                            setFieldValue('month', valueOption);
                             var newDate = moment();
-                            newDate.set("month", valueOption?.value - 1);
-                            newDate.set("year", values?.year?.value);
-                            setFieldValue("toDate", _dateFormatter(newDate));
+                            newDate.set('month', valueOption?.value - 1);
+                            newDate.set('year', values?.year?.value);
+                            setFieldValue('toDate', _dateFormatter(newDate));
                             setFieldValue(
-                              "fromDate",
-                              _dateFormatter(newDate.startOf("month").format())
+                              'fromDate',
+                              _dateFormatter(newDate.startOf('month').format())
                             );
-                            newDate.set("date", new Date(newDate).getDate());
+                            newDate.set('date', new Date(newDate).getDate());
 
                             // const modifyDate = new Date();
                             // modifyDate.setMonth(valueOption?.value - 1);
@@ -329,7 +317,7 @@ const ExpenceReport = () => {
                           placeholder="Date"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("fromDate", e.target.value);
+                            setFieldValue('fromDate', e.target.value);
                           }}
                           min={
                             dateSetFunction(
@@ -353,7 +341,7 @@ const ExpenceReport = () => {
                           placeholder="Date"
                           type="date"
                           onChange={(e) => {
-                            setFieldValue("toDate", e.target.value);
+                            setFieldValue('toDate', e.target.value);
                           }}
                           min={
                             dateSetFunction(
@@ -381,7 +369,7 @@ const ExpenceReport = () => {
                         type="text"
                         onChange={(e) => {
                           setGridData([]);
-                          setFieldValue("expenseCode", e.target.value);
+                          setFieldValue('expenseCode', e.target.value);
                         }}
                       />
                     </div>
@@ -393,13 +381,13 @@ const ExpenceReport = () => {
                       <NewSelect
                         name="expenceGroup"
                         options={[
-                          { value: 1, label: "TaDa" },
-                          { value: 2, label: "Other" },
+                          { value: 1, label: 'TaDa' },
+                          { value: 2, label: 'Other' },
                         ]}
                         value={values?.expenceGroup}
                         label="Expence Group"
                         onChange={(valueOption) => {
-                          setFieldValue("expenceGroup", valueOption);
+                          setFieldValue('expenceGroup', valueOption);
                         }}
                         placeholder="Expence Group"
                         errors={errors}
@@ -440,7 +428,7 @@ const ExpenceReport = () => {
                   girdDataFunc={girdDataFunc}
                 />
               </>
-            )}{" "}
+            )}{' '}
             {printableData?.length > 0 && (
               <PrintableTable gridData={printableData} printRef={printRef} />
             )}

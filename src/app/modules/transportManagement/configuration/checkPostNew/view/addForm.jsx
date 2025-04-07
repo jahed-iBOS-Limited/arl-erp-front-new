@@ -1,21 +1,19 @@
-
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import { useHistory } from "react-router-dom";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { getCheckPostListById } from "../helper";
-import ICard from "../../../../_helper/_card";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import { useHistory } from 'react-router-dom';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { getCheckPostListById } from '../helper';
+import ICard from '../../../../_helper/_card';
 
 const initData = {
-  checkPostName: "",
+  checkPostName: '',
 };
 
 export default function CheckPostNewViewForm({ id }) {
   const [isDisabled, setDisabled] = useState(true);
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [objProps, setObjprops] = useState({});
   const history = useHistory();
 
@@ -45,7 +43,7 @@ export default function CheckPostNewViewForm({ id }) {
     <ICard
       getProps={setObjprops}
       isDisabled={isDisabled}
-      title={"View Check Post List"}
+      title={'View Check Post List'}
     >
       <Form
         {...objProps}

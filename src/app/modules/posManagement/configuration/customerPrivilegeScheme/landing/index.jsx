@@ -1,24 +1,24 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
   GetConditionTypeDDL_api,
   GetPrivilegeSchemeLanding_api,
   getWareHouseDDL,
   UpdateStatusPreviledgeSchemeById_api,
-} from "../helper";
-import IConfirmModal from "./../../../../_helper/_confirmModal";
-import ICustomCard from "./../../../../_helper/_customCard";
-import Loading from "./../../../../_helper/_loading";
-import NewSelect from "./../../../../_helper/_select";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import GridTable from "./table";
+} from '../helper';
+import IConfirmModal from './../../../../_helper/_confirmModal';
+import ICustomCard from './../../../../_helper/_customCard';
+import Loading from './../../../../_helper/_loading';
+import NewSelect from './../../../../_helper/_select';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import GridTable from './table';
 
 const initData = {
-  outletName: "",
-  status: { value: true, label: "Active " },
-  conditionType: "",
+  outletName: '',
+  status: { value: true, label: 'Active ' },
+  conditionType: '',
 };
 
 function CustomerPrivilegeScheme() {
@@ -57,7 +57,6 @@ function CustomerPrivilegeScheme() {
       );
       GetConditionTypeDDL_api(setConditionTypeDDL);
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -69,8 +68,9 @@ function CustomerPrivilegeScheme() {
   };
   const acitveOnclickFunc = (values) => {
     let confirmObject = {
-      title: `Are you sure "${values?.status?.value ? "Active" : "In-Active"
-        }"?`,
+      title: `Are you sure "${
+        values?.status?.value ? 'Active' : 'In-Active'
+      }"?`,
       yesAlertFunc: () => {
         UpdateStatusPreviledgeSchemeById_api(
           values?.customersPrivilegeSchemeId,
@@ -79,7 +79,7 @@ function CustomerPrivilegeScheme() {
           values
         );
       },
-      noAlertFunc: () => { },
+      noAlertFunc: () => {},
     };
     IConfirmModal(confirmObject);
   };
@@ -88,24 +88,14 @@ function CustomerPrivilegeScheme() {
       title="Customers Privilege Scheme "
       createHandler={() => {
         history.push(
-          "/pos-management/configuration/setupPrivilegeScheme/create"
+          '/pos-management/configuration/setupPrivilegeScheme/create'
         );
       }}
     >
       <>
         {loading && <Loading />}
-        <Formik
-          enableReinitialize={true}
-          initialValues={initData}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            setFieldValue,
-            isValid,
-            setValues,
-          }) => (
+        <Formik enableReinitialize={true} initialValues={initData}>
+          {({ values, errors, touched, setFieldValue, isValid, setValues }) => (
             <>
               <Form className="form form-label-right Demand_Analysis_Wrapper">
                 <div className="row global-form">
@@ -116,7 +106,7 @@ function CustomerPrivilegeScheme() {
                       value={values?.outletName}
                       label="Outlet Name"
                       onChange={(valueOption) => {
-                        setFieldValue("outletName", valueOption);
+                        setFieldValue('outletName', valueOption);
                         setRowDto([]);
                       }}
                       placeholder="Outlet Name"
@@ -128,12 +118,12 @@ function CustomerPrivilegeScheme() {
                     <NewSelect
                       name="conditionType"
                       options={
-                        [{ value: 0, label: "All" }, ...conditionTypeDDL] || []
+                        [{ value: 0, label: 'All' }, ...conditionTypeDDL] || []
                       }
                       value={values?.conditionType}
                       label="Condition Type"
                       onChange={(valueOption) => {
-                        setFieldValue("conditionType", valueOption);
+                        setFieldValue('conditionType', valueOption);
                         setRowDto([]);
                       }}
                       placeholder="Condition Type"
@@ -146,13 +136,13 @@ function CustomerPrivilegeScheme() {
                       name="status"
                       placeholder="Status"
                       options={[
-                        { value: true, label: "Active " },
-                        { value: false, label: "In-Active " },
+                        { value: true, label: 'Active ' },
+                        { value: false, label: 'In-Active ' },
                       ]}
                       value={values?.status}
                       label="Status"
                       onChange={(valueOption) => {
-                        setFieldValue("status", valueOption);
+                        setFieldValue('status', valueOption);
                         setRowDto([]);
                       }}
                       errors={errors}

@@ -1,14 +1,14 @@
-import React from "react";
-import { useParams } from "react-router";
-import { useHistory } from "react-router-dom";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { Tab, Tabs } from "react-bootstrap";
-import HistoryTab from "./HistoryTab";
-import CallTab from "./CallTab";
-import EmailTab from "./EmailTab";
-import MeetingTab from "./MeetingTab";
+import React from 'react';
+import { useParams } from 'react-router';
+import { useHistory } from 'react-router-dom';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { Tab, Tabs } from 'react-bootstrap';
+import HistoryTab from './HistoryTab';
+import CallTab from './CallTab';
+import EmailTab from './EmailTab';
+import MeetingTab from './MeetingTab';
 
 export default function FollowUp() {
   let history = useHistory();
@@ -21,7 +21,6 @@ export default function FollowUp() {
         `/oms/SalesQuotation/GetCustomerAcquisitionById?customerAcquisitionId=${id}`
       );
     }
-
   }, [id]);
   return (
     <ICustomCard
@@ -31,14 +30,14 @@ export default function FollowUp() {
       }}
     >
       {isLoadingCustomerLeadById && <Loading />}
-      <div style={{ display: "grid", gap: "10px", paddingTop: "10px" }}>
+      <div style={{ display: 'grid', gap: '10px', paddingTop: '10px' }}>
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr 1fr",
-            padding: "10px",
-            border: "1px solid #ECF0F3",
-            borderRadius: "5px",
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr 1fr',
+            padding: '10px',
+            border: '1px solid #ECF0F3',
+            borderRadius: '5px',
           }}
         >
           <div>
@@ -69,7 +68,7 @@ export default function FollowUp() {
             <b>Current Stage:</b> {data?.currentStage}
           </div>
           <div>
-            <b>Status:</b> {data?.isRejected ? "Rejected" : "Active"}
+            <b>Status:</b> {data?.isRejected ? 'Rejected' : 'Active'}
           </div>
         </div>
         <div>

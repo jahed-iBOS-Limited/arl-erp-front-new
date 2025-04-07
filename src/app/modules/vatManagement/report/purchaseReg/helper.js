@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 export const GetItemTypeDDL_api = async (setter) => {
   try {
     const res = await axios.get(`/vat/TaxDDL/GetTaxItemTypeDDL`);
@@ -52,7 +52,7 @@ export const PurchaseRegister_Report_api = async (
       if (res?.data?.length > 0) {
         setter(res?.data);
       } else {
-        toast.warning("Data Not Found");
+        toast.warning('Data Not Found');
         setter([]);
       }
     }

@@ -1,7 +1,7 @@
-import * as requestFromServer from "./Api";
-import { generalLedgerSlice } from "./Slice";
-import { toast } from "react-toastify";
-import { isArray } from "lodash";
+import * as requestFromServer from './Api';
+import { generalLedgerSlice } from './Slice';
+import { toast } from 'react-toastify';
+import { isArray } from 'lodash';
 const { actions: slice } = generalLedgerSlice;
 
 export const getGroupDDLAction = () => (dispatch) => {
@@ -44,12 +44,11 @@ export const saveGeneralLedger = (payload) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
     });
 };
@@ -61,7 +60,7 @@ export const editGeneralLedger = (payload) => () => {
     .then((res) => {
       if (res.status === 200) {
         console.log(res.data);
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
       }
     })
     .catch((err) => {
@@ -85,36 +84,28 @@ export const saveExtendGeneralLedger = (payload) => () => {
     .saveExtendData(payload)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         // payload.cb();
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
     });
 };
 // action for call grid data api
-export const getGeneralLedgerGridData = (
-  accId,
-  buId,
-  setLoading,
-  pageNo,
-  pageSize,
-  search
-) => (dispatch) => {
-  setLoading(true);
-  return requestFromServer
-    .getGridData(accId, buId, pageNo, pageSize,search)
-    .then((res) => {
-      setLoading(false);
-      return dispatch(slice.SetGridData(res.data));
-    })
-    .catch((err) => {
-      setLoading(false);
-     
-    });
-};
+export const getGeneralLedgerGridData =
+  (accId, buId, setLoading, pageNo, pageSize, search) => (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .getGridData(accId, buId, pageNo, pageSize, search)
+      .then((res) => {
+        setLoading(false);
+        return dispatch(slice.SetGridData(res.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
 
 // action for get extend data by id
 export const getGeneralLedgeExtendById = (id) => (dispatch) => {
@@ -123,9 +114,7 @@ export const getGeneralLedgeExtendById = (id) => (dispatch) => {
     .then((res) => {
       return dispatch(slice.SetExtendData(res.data[0]));
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };
 
 // action for get data by id single
@@ -142,13 +131,11 @@ export const getGeneralLedgerById = (id) => (dispatch) => {
             label: item.accountCategoryName,
           },
         };
-        console.log("res.data", res.data);
+        console.log('res.data', res.data);
         return dispatch(slice.SetDataById(data));
       }
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };
 
 // Controlling unit single to empty
@@ -163,35 +150,27 @@ export const getAccountClassPagination_action = (accId, buId) => (dispatch) => {
     .then((res) => {
       return dispatch(slice.SetAccountClass(res.data?.data));
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };
 
 // action for call getAccountCategoryPasignation_Action
-export const getAccountCategoryPasignation_action = (accId, buId) => (
-  dispatch
-) => {
-  return requestFromServer
-    .getAccountCategoryPasignation(accId, buId)
-    .then((res) => {
-      return dispatch(slice.SetAccountCategory(res.data?.data));
-    })
-    .catch((err) => {
-     
-    });
-};
+export const getAccountCategoryPasignation_action =
+  (accId, buId) => (dispatch) => {
+    return requestFromServer
+      .getAccountCategoryPasignation(accId, buId)
+      .then((res) => {
+        return dispatch(slice.SetAccountCategory(res.data?.data));
+      })
+      .catch((err) => {});
+  };
 
 // action for call getAccountCategoryPasignation_Action
-export const getGeneralLedgerPasignation_action = (accId, buId) => (
-  dispatch
-) => {
-  return requestFromServer
-    .getGeneralLedgerPasignation(accId, buId)
-    .then((res) => {
-      return dispatch(slice.SetGeneralLedger(res.data?.data));
-    })
-    .catch((err) => {
-     
-    });
-};
+export const getGeneralLedgerPasignation_action =
+  (accId, buId) => (dispatch) => {
+    return requestFromServer
+      .getGeneralLedgerPasignation(accId, buId)
+      .then((res) => {
+        return dispatch(slice.SetGeneralLedger(res.data?.data));
+      })
+      .catch((err) => {});
+  };

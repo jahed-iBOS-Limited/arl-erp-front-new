@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import moment from "moment";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import moment from 'moment';
 
 export const getSalesReportData = async (
   whId,
@@ -66,7 +66,7 @@ export const getDeliveryReportData = async (
       if (res?.data?.length > 0) {
         setter(res?.data);
       } else {
-        toast.warning("No Data Found");
+        toast.warning('No Data Found');
       }
       setLoading(false);
     }
@@ -91,14 +91,14 @@ export const getDateWiseDeliveryReportData = async (
     if (res.status === 200 && res?.data) {
       const responseData = await res?.data.map((itm) => {
         return {
-          deliveryDates: moment(itm?.deliveryDate).format("L"),
+          deliveryDates: moment(itm?.deliveryDate).format('L'),
           ...itm,
         };
       });
       if (res?.data?.length > 0) {
         setter(responseData);
       } else {
-        toast.warning("No Data Found");
+        toast.warning('No Data Found');
       }
       setLoading(false);
     }
@@ -142,7 +142,7 @@ export const getDamageReportData = async (
       if (res?.data?.length > 0) {
         setter(res?.data);
       } else {
-        toast.warning("No Data Found");
+        toast.warning('No Data Found');
       }
       setLoading(false);
     }
@@ -173,8 +173,10 @@ export const getMonthlySalesReport = async (reportType, payload, setter) => {
 };
 
 const getFormattedDate = (year, month, isEnd = false) => {
-  const date = isEnd ? new Date(Date.UTC(year, month, 0)) : new Date(Date.UTC(year, month - 1, 1));
-  return date.toISOString().split("T")[0];
+  const date = isEnd
+    ? new Date(Date.UTC(year, month, 0))
+    : new Date(Date.UTC(year, month - 1, 1));
+  return date.toISOString().split('T')[0];
 };
 
 export const getOutletWiseDueReport = async (
@@ -184,10 +186,12 @@ export const getOutletWiseDueReport = async (
   fromMonthYear,
   toMonthYear
 ) => {
-  const [fromYear = 0, fromMonth = 0] = (fromMonthYear || "").split("-").map(Number);
+  const [fromYear = 0, fromMonth = 0] = (fromMonthYear || '')
+    .split('-')
+    .map(Number);
   const fromFormattedStartDate = getFormattedDate(fromYear, fromMonth);
 
-  const [toYear = 0, toMonth = 0] = (toMonthYear || "").split("-").map(Number);
+  const [toYear = 0, toMonth = 0] = (toMonthYear || '').split('-').map(Number);
   const toFormattedEndDate = getFormattedDate(toYear, toMonth, true);
 
   setLoading(true);
@@ -202,7 +206,6 @@ export const getOutletWiseDueReport = async (
     setLoading(false);
   }
 };
-
 
 export const getWarehouseDDL = async (
   accountId,

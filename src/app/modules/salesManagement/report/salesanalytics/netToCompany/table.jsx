@@ -1,5 +1,5 @@
-import React from "react";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
+import React from 'react';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
 
 function NetToCompanyTable({ obj }) {
   const { gridData, printRef, values } = obj;
@@ -8,7 +8,7 @@ function NetToCompanyTable({ obj }) {
       <div className="react-bootstrap-table table-responsive pendingDeliveryReport">
         <div className="sta-scrollable-table scroll-table-auto">
           <div
-            style={{ maxHeight: "500px" }}
+            style={{ maxHeight: '500px' }}
             className="scroll-table _table scroll-table-auto"
           >
             <table
@@ -51,7 +51,7 @@ function NetToCompanyTable({ obj }) {
                       <td className="">{item?.teriitory}</td>
                       <td className="">{item?.distributionChannel}</td>
                       <td className="">{item?.channelType}</td>
-               
+
                       <td className="">{item?.customerID}</td>
                       <td className="">{item?.customerCode}</td>
                       <td className="">{item?.customerName}</td>

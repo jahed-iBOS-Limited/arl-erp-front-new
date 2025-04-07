@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const rateEnrollmentUpdate = async (payload, setLoading, cb) => {
   setLoading(true);

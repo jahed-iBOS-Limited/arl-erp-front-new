@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import NewSelect from "./../../../../_helper/_select";
-import InputField from "./../../../../_helper/_inputField";
-import { useSelector, shallowEqual } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import NewSelect from './../../../../_helper/_select';
+import InputField from './../../../../_helper/_inputField';
+import { useSelector, shallowEqual } from 'react-redux';
 import {
   getDesignationDDL,
   getSbuDDL,
   getDepartmentDDL,
   getWorkplaceGroupDDL,
   getHrPostionDDL,
-} from "../helper";
+} from '../helper';
 
 export const BasicInfo = ({ values, setFieldValue, errors, touched }) => {
   // get user profile data from store
@@ -21,11 +21,11 @@ export const BasicInfo = ({ values, setFieldValue, errors, touched }) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-  const [desinationDDL, setDesinationDDL] = useState("");
-  const [sbuDDL, setSbuDDL] = useState("");
-  const [departmentDDL, setDepartmentDDL] = useState("");
-  const [workplaceGroupDDL, setWorkplaceGroupDDL] = useState("");
-  const [hrPostionDDL, setHrPostionDDL] = useState("");
+  const [desinationDDL, setDesinationDDL] = useState('');
+  const [sbuDDL, setSbuDDL] = useState('');
+  const [departmentDDL, setDepartmentDDL] = useState('');
+  const [workplaceGroupDDL, setWorkplaceGroupDDL] = useState('');
+  const [hrPostionDDL, setHrPostionDDL] = useState('');
 
   // Fetch All DDL
   useEffect(() => {
@@ -37,7 +37,6 @@ export const BasicInfo = ({ values, setFieldValue, errors, touched }) => {
       getHrPostionDDL(setHrPostionDDL);
       // Employee Lavel DDL is static
     }
-
   }, [profileData?.accountId && selectedBusinessUnit?.value]);
 
   return (
@@ -77,7 +76,7 @@ export const BasicInfo = ({ values, setFieldValue, errors, touched }) => {
             value={values?.designation}
             label="Designation"
             onChange={(valueOption) => {
-              setFieldValue("designation", valueOption);
+              setFieldValue('designation', valueOption);
             }}
             placeholder="Designation"
             errors={errors}
@@ -91,7 +90,7 @@ export const BasicInfo = ({ values, setFieldValue, errors, touched }) => {
             value={values?.sbu}
             label="SBU Name"
             onChange={(valueOption) => {
-              setFieldValue("sbu", valueOption);
+              setFieldValue('sbu', valueOption);
             }}
             placeholder="SBU Name"
             errors={errors}
@@ -106,7 +105,7 @@ export const BasicInfo = ({ values, setFieldValue, errors, touched }) => {
             value={values?.department}
             label="Department"
             onChange={(valueOption) => {
-              setFieldValue("department", valueOption);
+              setFieldValue('department', valueOption);
             }}
             placeholder="Department"
             errors={errors}
@@ -120,7 +119,7 @@ export const BasicInfo = ({ values, setFieldValue, errors, touched }) => {
             value={values?.workplaceGroup}
             label="Workplace Group"
             onChange={(valueOption) => {
-              setFieldValue("workplaceGroup", valueOption);
+              setFieldValue('workplaceGroup', valueOption);
             }}
             placeholder="Workplace Group"
             errors={errors}
@@ -134,7 +133,7 @@ export const BasicInfo = ({ values, setFieldValue, errors, touched }) => {
             value={values?.hrPostion}
             label="HR Postion"
             onChange={(valueOption) => {
-              setFieldValue("hrPostion", valueOption);
+              setFieldValue('hrPostion', valueOption);
             }}
             placeholder="HR Postion"
             errors={errors}

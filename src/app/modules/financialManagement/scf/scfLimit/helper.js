@@ -1,4 +1,4 @@
-import * as Yup from "yup";
+import * as Yup from 'yup';
 
 //===Common Page===//
 
@@ -6,18 +6,18 @@ import * as Yup from "yup";
 export const landingInitData = {};
 
 export const scfLimitLandingTableHeader = [
-  "SL",
-  "Supplier",
-  "Bank Name",
-  "Acc No",
-  "Limit",
-  "Utilize Amount",
-  "Tenor Days",
-  "Transaction Ref",
-  "Limit Expiry Date",
-  "Interest Rate",
-  "Remarks",
-  "Actions",
+  'SL',
+  'Supplier',
+  'Bank Name',
+  'Acc No',
+  'Limit',
+  'Utilize Amount',
+  'Tenor Days',
+  'Transaction Ref',
+  'Limit Expiry Date',
+  'Interest Rate',
+  'Remarks',
+  'Actions',
 ];
 
 // fetch scf limit data
@@ -35,36 +35,36 @@ export const fetchSCFLimitData = ({
 //===Create Page===//
 // init data
 export const createInitData = {
-  supplier: "",
-  bankAccountNo: "",
-  disbursementType: "",
-  limit: "",
-  tenorDays: "",
-  transactionRef: "",
-  limitExpiryDate: "",
-  interestRate: "",
-  remarks: "",
+  supplier: '',
+  bankAccountNo: '',
+  disbursementType: '',
+  limit: '',
+  tenorDays: '',
+  transactionRef: '',
+  limitExpiryDate: '',
+  interestRate: '',
+  remarks: '',
 };
 
 // disbursement type ddl
 export const disbursementTypeDDL = [
   {
-    value: "Individual",
-    label: "Individual",
+    value: 'Individual',
+    label: 'Individual',
   },
-  { value: "Consolidated", label: "Consolidated" },
+  { value: 'Consolidated', label: 'Consolidated' },
 ];
 
 // validation
 export const createValidationSchema = Yup.object().shape({
   item: Yup.object()
     .shape({
-      label: Yup.string().required("Item is required"),
-      value: Yup.string().required("Item is required"),
+      label: Yup.string().required('Item is required'),
+      value: Yup.string().required('Item is required'),
     })
-    .typeError("Item is required"),
+    .typeError('Item is required'),
 
-  remarks: Yup.string().required("Remarks is required"),
-  amount: Yup.number().required("Amount is required"),
-  date: Yup.date().required("Date is required"),
+  remarks: Yup.string().required('Remarks is required'),
+  amount: Yup.number().required('Amount is required'),
+  date: Yup.date().required('Date is required'),
 });

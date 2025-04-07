@@ -1,9 +1,9 @@
-import React from "react";
-import { Formik, Form } from "formik";
+import React from 'react';
+import { Formik, Form } from 'formik';
 // import * as Yup from "yup";
 
 // import Axios from "axios";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
+import { _formatMoney } from '../../../../_helper/_formatMoney';
 // import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
 // Validation schema
@@ -27,12 +27,9 @@ export default function FormCmp({
   remover,
   rowDto,
 }) {
-
   // const [rateForm, setRateForm] = useState("");
 
-  const saveHandler  = () => {
-
-  }
+  const saveHandler = () => {};
   return (
     <>
       <Formik
@@ -67,21 +64,21 @@ export default function FormCmp({
                     <div
                       className="col-lg-12"
                       style={{
-                        marginLeft: "-4px",
-                        marginRight: "0px",
+                        marginLeft: '-4px',
+                        marginRight: '0px',
                       }}
                     >
-                      <table className={"table mt-1 bj-table"}>
+                      <table className={'table mt-1 bj-table'}>
                         <thead>
                           {/* className={rowDto?.length < 1 && "d-none"} */}
                           <tr>
-                            <th style={{ width: "50px" }}>SL</th>
-                            <th style={{ width: "100px" }}>Item Name</th>
-                            <th style={{ width: "100px" }}>UoM</th>
-                            <th style={{ width: "100px" }}>Qty</th>
-                            <th style={{ width: "100px" }}>Rate</th>
-                            <th style={{ width: "100px" }}>Received Amount</th>
-                            <th style={{ width: "100px" }}>Status</th>
+                            <th style={{ width: '50px' }}>SL</th>
+                            <th style={{ width: '100px' }}>Item Name</th>
+                            <th style={{ width: '100px' }}>UoM</th>
+                            <th style={{ width: '100px' }}>Qty</th>
+                            <th style={{ width: '100px' }}>Rate</th>
+                            <th style={{ width: '100px' }}>Received Amount</th>
+                            <th style={{ width: '100px' }}>Status</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -117,7 +114,7 @@ export default function FormCmp({
                               </td>
                               <td>
                                 <div className="text-center">
-                                  {item?.orderStatus ? "true" : "false"}
+                                  {item?.orderStatus ? 'true' : 'false'}
                                 </div>
                               </td>
                               {/* <td className="text-center">

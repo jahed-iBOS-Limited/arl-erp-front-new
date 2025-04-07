@@ -1,17 +1,16 @@
-
-import React, { useState, useEffect } from "react";
-import IForm from "../../../../_helper/_form";
-import ReceiveInventory from "./receiveInventory/createForm";
-import { IQueryParser } from "../../../../_helper/_queryParser";
-import { useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import IForm from '../../../../_helper/_form';
+import ReceiveInventory from './receiveInventory/createForm';
+import { IQueryParser } from '../../../../_helper/_queryParser';
+import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export function ForminvTransImport() {
   const [isDisabled, setDisabled] = useState(true);
   const [title, setTitle] = useState(null);
   const [InvForm, setInvForm] = useState(<></>);
 
-  const potype = IQueryParser("potype");
+  const potype = IQueryParser('potype');
   const location = useLocation();
 
   const lastInvData = useSelector((state) => state?.localStorage?.lastInvData);
@@ -30,10 +29,8 @@ export function ForminvTransImport() {
       />
     );
     setTitle(
-      `Create Inventory Transaction Import ${lastInvData ? lastInvData : ""}`
+      `Create Inventory Transaction Import ${lastInvData ? lastInvData : ''}`
     );
-
-
   }, [potype, objProps, lastInvData]);
 
   return (

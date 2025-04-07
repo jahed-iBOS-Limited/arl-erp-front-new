@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
-import IViewModal from "./../../../../_helper/_viewModal";
-import PurchaseView from "../../../operation/purchase/parchase/view/addEditForm";
-import document from "./document.svg";
-import MultipleViewPrchase from "./multipleView/multipleViewPrchase";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import IView from "../../../../_helper/_helperIcons/_view";
+import React, { useState } from 'react';
+import { _fixedPoint } from './../../../../_helper/_fixedPoint';
+import IViewModal from './../../../../_helper/_viewModal';
+import PurchaseView from '../../../operation/purchase/parchase/view/addEditForm';
+import document from './document.svg';
+import MultipleViewPrchase from './multipleView/multipleViewPrchase';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import IView from '../../../../_helper/_helperIcons/_view';
 import { _dateFormatter } from './../../../../_helper/_dateFormate';
 const PurchaseModel = ({ rowDto, parentRowClickData }) => {
   const [modelShow, setModelShow] = useState(false);
@@ -14,20 +14,20 @@ const PurchaseModel = ({ rowDto, parentRowClickData }) => {
   return (
     <>
       <OverlayTrigger
-        overlay={<Tooltip id="cs-icon">{"Details All Log"}</Tooltip>}
+        overlay={<Tooltip id="cs-icon">{'Details All Log'}</Tooltip>}
       >
         <img
           src={document}
-          alt={"document"}
+          alt={'document'}
           onClick={() => {
             setModelShowAll(true);
           }}
           style={{
-            width: "18px",
-            position: "absolute",
-            top: "1px",
-            right: "22px",
-            cursor: "pointer",
+            width: '18px',
+            position: 'absolute',
+            top: '1px',
+            right: '22px',
+            cursor: 'pointer',
           }}
         />
       </OverlayTrigger>
@@ -38,8 +38,8 @@ const PurchaseModel = ({ rowDto, parentRowClickData }) => {
             <table className="table table-striped table-bordered mt-3">
               <thead>
                 <tr>
-                  <th style={{ width: "35px" }}>S/N</th>
-                  <th style={{ width: "150px" }}>Purchase Code</th>
+                  <th style={{ width: '35px' }}>S/N</th>
+                  <th style={{ width: '150px' }}>Purchase Code</th>
                   <th>Purchase Date</th>
                   <th>SD Total</th>
                   <th>VAT Total</th>
@@ -58,16 +58,16 @@ const PurchaseModel = ({ rowDto, parentRowClickData }) => {
                       <td> {tableData?.purchaseCode} </td>
                       <td> {_dateFormatter(tableData?.purchaseDate)} </td>
                       <td className="text-right">
-                        {" "}
-                        {_fixedPoint(tableData?.sdTotal)}{" "}
+                        {' '}
+                        {_fixedPoint(tableData?.sdTotal)}{' '}
                       </td>
                       <td className="text-right">
-                        {" "}
-                        {_fixedPoint(tableData?.vatTotal)}{" "}
+                        {' '}
+                        {_fixedPoint(tableData?.vatTotal)}{' '}
                       </td>
                       <td className="text-right">
-                        {" "}
-                        {_fixedPoint(tableData?.grandTotal)}{" "}
+                        {' '}
+                        {_fixedPoint(tableData?.grandTotal)}{' '}
                       </td>
                       <td> {tableData?.createdBy} </td>
                       <td> {tableData?.activity} </td>

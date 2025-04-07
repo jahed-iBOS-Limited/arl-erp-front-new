@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 // Save created data
 export function saveCreateData(data) {
   return axios.post(`/tms/TransportZone/CreateTransportZone`, data);

@@ -1,6 +1,6 @@
-import * as requestFromServer from "./Api";
-import { salesQuotationSlice } from "./Slice";
-import { toast } from "react-toastify";
+import * as requestFromServer from './Api';
+import { salesQuotationSlice } from './Slice';
+import { toast } from 'react-toastify';
 const { actions: slice } = salesQuotationSlice;
 
 // action for get data by id single
@@ -33,7 +33,7 @@ export const getSalesQuotationById = (id, setDisabled) => (dispatch) => {
             },
             quotationCode: item.objHeader?.quotationCode,
             isSpecification: false,
-            remark: item?.objHeader?.remark || "",
+            remark: item?.objHeader?.remark || '',
             salesContract: item.objHeader?.salesContract,
             salesTerm: item.objHeader?.salesTerm,
             modeOfShipment: item.objHeader?.modeOfShipment,
@@ -43,13 +43,13 @@ export const getSalesQuotationById = (id, setDisabled) => (dispatch) => {
             countryOfOrigin: item.objHeader?.countryOfOrigin,
             contractFor: item.objHeader?.contractFor,
             freightCharge: item.objHeader?.freightCharge,
-            termsAndConditions: "",
+            termsAndConditions: '',
             currency: {
               value: item.objHeader?.currencyId,
               label: item.objHeader?.currencyName,
             },
-            quantity: "",
-            strCoraseAggregate:  item.objHeader?.strCoraseAggregate || '',
+            quantity: '',
+            strCoraseAggregate: item.objHeader?.strCoraseAggregate || '',
             strFineAggregate: item.objHeader?.strFineAggregate || '',
             strUsesOfCement: item.objHeader?.strUsesOfCement || '',
             paymentMode: item.objHeader?.paymentMode || '',
@@ -99,7 +99,7 @@ export const saveSalesquotation = (payload) => () => {
     .then((res) => {
       if (res.status === 200) {
         payload.setDisabled(false);
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb(res?.data);
       }
     })
@@ -118,7 +118,7 @@ export const saveEditedSalesquotation = (payload, setLoading) => () => {
       if (res.status === 200) {
         // console.log(res.data);
         setLoading(false);
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
       }
     })
     .catch((err) => {
@@ -128,63 +128,61 @@ export const saveEditedSalesquotation = (payload, setLoading) => () => {
     });
 };
 // action for get grid data
-export const getSalesquotationGridData = (
-  accId,
-  buId,
-  setLoading,
-  pageNo,
-  pageSize,
-  searchValue,
-  status,
-  fromDate,
-  toDate
-) => (dispatch) => {
-  setLoading(true);
-  return requestFromServer
-    .getGridData(
-      accId,
-      buId,
-      pageNo,
-      pageSize,
-      searchValue,
-      status,
-      fromDate,
-      toDate
-    )
-    .then((res) => {
-      setLoading(false);
-      return dispatch(slice.SetGridData(res?.data));
-    })
-    .catch((err) => {
-      setLoading(false);
-      //
-    });
-};
+export const getSalesquotationGridData =
+  (
+    accId,
+    buId,
+    setLoading,
+    pageNo,
+    pageSize,
+    searchValue,
+    status,
+    fromDate,
+    toDate
+  ) =>
+  (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .getGridData(
+        accId,
+        buId,
+        pageNo,
+        pageSize,
+        searchValue,
+        status,
+        fromDate,
+        toDate
+      )
+      .then((res) => {
+        setLoading(false);
+        return dispatch(slice.SetGridData(res?.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+        //
+      });
+  };
 
 // set single store empty
 export const setSalesQuotationSingleEmpty = () => async (dispatch) => {
   return dispatch(slice.SetSingleStoreEmpty());
 };
 // action for save edited data
-export const editSalesQuotationStatusAction = (
-  QId,
-  actionBy,
-  setLoading,
-  history
-) => () => {
-  setLoading(true);
-  return requestFromServer
-    .editSalesQuotationStatus(QId, actionBy)
-    .then((res) => {
-      if (res.status === 200) {
+export const editSalesQuotationStatusAction =
+  (QId, actionBy, setLoading, history) => () => {
+    setLoading(true);
+    return requestFromServer
+      .editSalesQuotationStatus(QId, actionBy)
+      .then((res) => {
+        if (res.status === 200) {
+          setLoading(false);
+          toast.success(res.data?.message || 'Submitted successfully');
+          history.push('/sales-management/ordermanagement/salesquotation');
+        }
+      })
+      .catch((err) => {
+        // console.log(err?.response);
         setLoading(false);
-        toast.success(res.data?.message || "Submitted successfully");
-        history.push("/sales-management/ordermanagement/salesquotation");
-      }
-    })
-    .catch((err) => {
-      // console.log(err?.response);
-      setLoading(false);
-      toast.error(err?.response?.data?.message);
-    });
-};
+        toast.error(err?.response?.data?.message);
+      });
+  };

@@ -1,5 +1,5 @@
-import React from "react";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
+import React from 'react';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
 
 export default function TimeCharterer({
   values,
@@ -13,7 +13,7 @@ export default function TimeCharterer({
     <>
       <div className="marine-form-card-content">
         <div className="row">
-        <div className="col-lg-3">
+          <div className="col-lg-3">
             <label>LSFO Price/MT</label>
             <FormikInput
               value={values?.lsifoPrice}
@@ -22,7 +22,7 @@ export default function TimeCharterer({
               type="number"
               errors={errors}
               touched={touched}
-              disabled={viewType === "view"}
+              disabled={viewType === 'view'}
             />
           </div>
           <div className="col-lg-3">
@@ -34,9 +34,9 @@ export default function TimeCharterer({
               type="number"
               errors={errors}
               touched={touched}
-              disabled={viewType === "view"}
+              disabled={viewType === 'view'}
             />
-          </div>         
+          </div>
           <div className="col-lg-3">
             <label>Daily Hire</label>
             <FormikInput
@@ -46,9 +46,9 @@ export default function TimeCharterer({
               type="number"
               errors={errors}
               touched={touched}
-              disabled={viewType === "view"}
+              disabled={viewType === 'view'}
               onChange={(e) => {
-                setFieldValue("dailyHire", e?.target?.value);
+                setFieldValue('dailyHire', e?.target?.value);
 
                 /* Func For Total Amount Value Handler */
                 // setTotalAmountHandler(
@@ -71,7 +71,7 @@ export default function TimeCharterer({
               type="number"
               errors={errors}
               touched={touched}
-              disabled={viewType === "view"}
+              disabled={viewType === 'view'}
             />
           </div>
 
@@ -84,7 +84,7 @@ export default function TimeCharterer({
               type="text"
               errors={errors}
               touched={touched}
-              disabled={viewType === "view"}
+              disabled={viewType === 'view'}
             />
           </div>
 
@@ -97,7 +97,7 @@ export default function TimeCharterer({
               type="number"
               errors={errors}
               touched={touched}
-              disabled={viewType === "view"}
+              disabled={viewType === 'view'}
             />
           </div>
 
@@ -110,7 +110,7 @@ export default function TimeCharterer({
               type="number"
               errors={errors}
               touched={touched}
-              disabled={viewType === "view"}
+              disabled={viewType === 'view'}
             />
           </div>
 

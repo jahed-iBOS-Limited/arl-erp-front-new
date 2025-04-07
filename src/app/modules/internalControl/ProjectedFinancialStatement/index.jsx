@@ -73,11 +73,8 @@ export default function ProjectedFinancialStatement() {
     loadingOnBusinessUnitBySubDivisionDDL,
   ] = useAxiosGet();
 
-  const [
-    fiscalYearDDL,
-    getFiscalYearDDL,
-    loadingOnFiscalYearDDL,
-  ] = useAxiosGet();
+  const [fiscalYearDDL, getFiscalYearDDL, loadingOnFiscalYearDDL] =
+    useAxiosGet();
 
   const [profitCenterDDL, setProfitCenterDDL] = useState([]);
   const [ratioTableState, setRatioTableState] = useState([]);
@@ -112,9 +109,8 @@ export default function ProjectedFinancialStatement() {
 
   useEffect(() => {
     getEnterpriseDivisionDDL(
-      `/hcm/HCMDDL/GetBusinessUnitGroupByAccountDDL?AccountId=${profileData?.accountId}`,
+      `/hcm/HCMDDL/GetBusinessUnitGroupByAccountDDL?AccountId=${profileData?.accountId}`
     );
-
   }, [profileData]);
 
   useEffect(() => {
@@ -128,9 +124,8 @@ export default function ProjectedFinancialStatement() {
           };
         });
         setBuDDL(newData);
-      },
+      }
     );
-
   }, []);
 
   return (
@@ -377,9 +372,9 @@ export default function ProjectedFinancialStatement() {
                                 // setFieldValue("businessUnit", valueOption);
                                 setFieldValue(
                                   'profitCenter',
-                                  profitCenterDDLData?.[0] || '',
+                                  profitCenterDDLData?.[0] || ''
                                 );
-                              },
+                              }
                             );
                           }
                           if (
@@ -387,7 +382,7 @@ export default function ProjectedFinancialStatement() {
                             valueOption?.value !== 'profitCenter'
                           ) {
                             getTradeAndDivisionDDL(
-                              `/fino/CostSheet/ProfitCenterDivisionChannelDDL?BUId=${values?.businessUnit?.value}&Type=${valueOption?.value}`,
+                              `/fino/CostSheet/ProfitCenterDivisionChannelDDL?BUId=${values?.businessUnit?.value}&Type=${valueOption?.value}`
                             );
                           }
 
@@ -510,11 +505,11 @@ export default function ProjectedFinancialStatement() {
                             (resData) => {
                               const filteredData = resData.filter(
                                 (item) =>
-                                  !(item.label === 'All' && item.value === 0),
+                                  !(item.label === 'All' && item.value === 0)
                               );
                               setbuddl(filteredData);
                               console.log('filteredData', filteredData);
-                            },
+                            }
                           );
                         }}
                       />
@@ -597,7 +592,7 @@ export default function ProjectedFinancialStatement() {
                         onChange={(valueOption) => {
                           setFieldValue(
                             'reportTypeCashFlowIndirect',
-                            valueOption,
+                            valueOption
                           );
                         }}
                         placeholder="View Type"
@@ -722,7 +717,7 @@ export default function ProjectedFinancialStatement() {
                             setFieldValue('subDivision', '');
                             setFieldValue('subDivisionBusinessUnit', '');
                             getSubDivisionDDL(
-                              `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=1&BusinessUnitGroup=${valueOption?.label}`,
+                              `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=1&BusinessUnitGroup=${valueOption?.label}`
                             );
                           } else {
                             setFieldValue('enterpriseDivision', '');
@@ -805,7 +800,7 @@ export default function ProjectedFinancialStatement() {
                             setFieldValue('subDivisionBusinessUnit', '');
                             getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
                             getSubDivisionDDL(
-                              `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=1&BusinessUnitGroup=${valueOption?.label}`,
+                              `/hcm/HCMDDL/GetBusinessUnitSubGroup?AccountId=1&BusinessUnitGroup=${valueOption?.label}`
                             );
                           } else {
                             setRowData([]);
@@ -847,7 +842,7 @@ export default function ProjectedFinancialStatement() {
                           if (valueOption) {
                             setFieldValue(
                               'subDivisionBusinessUnit',
-                              valueOption,
+                              valueOption
                             );
                             setRowData([]);
                           } else {
@@ -901,7 +896,7 @@ export default function ProjectedFinancialStatement() {
                     onClick={() => {
                       if ([1]?.includes(values?.reportType?.value)) {
                         getRowData(
-                          `/fino/Report/GetTrailBalanceProjected?businessUnitId=${values?.businessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
+                          `/fino/Report/GetTrailBalanceProjected?businessUnitId=${values?.businessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
                         );
                       }
                       if ([2]?.includes(values?.reportType?.value)) {
@@ -927,9 +922,9 @@ export default function ProjectedFinancialStatement() {
                             values?.productDivision?.value
                               ? values?.productDivision?.value
                               : values?.profitCenter?.value
-                              ? values?.profitCenter?.label
-                              : values?.tradeType?.value,
-                            values?.subDivision?.label,
+                                ? values?.profitCenter?.label
+                                : values?.tradeType?.value,
+                            values?.subDivision?.label
                           );
                         } else {
                           setShow(true);
@@ -943,23 +938,24 @@ export default function ProjectedFinancialStatement() {
                             values?.enterpriseDivision?.value
                           }&BusinessUnitId=${
                             values?.businessUnit?.value
-                          }&SubGroup=${values?.subDivision?.label ||
-                            ''}&AsOnDate=${values?.date}&ConvertionRate=${
+                          }&SubGroup=${
+                            values?.subDivision?.label || ''
+                          }&AsOnDate=${values?.date}&ConvertionRate=${
                             values?.conversionRate
                           }&isForecast=${values?.isForecast?.value}`,
                           (data) => {
                             setRowData(manageBalanceData(data));
-                          },
+                          }
                         );
                       }
                       if ([4]?.includes(values?.reportType?.value)) {
                         getRowData(
-                          `/fino/Report/GetCashFlowStatementProjected?BusinessUnitGroup=${values?.enterpriseDivision?.value}&businessUnitId=${values?.businessUnit?.value}&sbuId=0&fromDate=${values?.fromDate}&toDate=${values?.toDate}&ConvertionRate=${values?.conversionRate}`,
+                          `/fino/Report/GetCashFlowStatementProjected?BusinessUnitGroup=${values?.enterpriseDivision?.value}&businessUnitId=${values?.businessUnit?.value}&sbuId=0&fromDate=${values?.fromDate}&toDate=${values?.toDate}&ConvertionRate=${values?.conversionRate}`
                         );
                       }
                       if ([5]?.includes(values?.reportType?.value)) {
                         getRowData(
-                          `/fino/Report/GetTrailBalanceProjectedMultiColumn?businessUnitId=${values?.businessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`,
+                          `/fino/Report/GetTrailBalanceProjectedMultiColumn?businessUnitId=${values?.businessUnit?.value}&fromDate=${values?.fromDate}&toDate=${values?.toDate}`
                         );
                       }
                       if ([6]?.includes(values?.reportType?.value)) {
@@ -986,12 +982,12 @@ export default function ProjectedFinancialStatement() {
                                 for (const item of financialRatioTableForLastPeriodResponse) {
                                   lastPeriodMap.set(
                                     item.strRarioName,
-                                    item.numRatio,
+                                    item.numRatio
                                   );
                                 }
                                 for (const item of financialRatioTableResponse) {
                                   const lastPeriodValue = lastPeriodMap.get(
-                                    item.strRarioName,
+                                    item.strRarioName
                                   );
                                   item.lastPeriod =
                                     typeof lastPeriodValue === 'number'
@@ -1004,9 +1000,9 @@ export default function ProjectedFinancialStatement() {
                                 setRatioTableState([
                                   ...financialRatioTableResponse,
                                 ]);
-                              },
+                              }
                             );
-                          },
+                          }
                         );
                         getFinancialRatioComponentTable(
                           `/fino/BudgetFinancial/GetFinancialRatioProjectd?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${values?.fromDate}&Todate=${values?.toDate}&Type=1&isForecast=${values?.isForecast?.value}`,
@@ -1014,18 +1010,18 @@ export default function ProjectedFinancialStatement() {
                             getFinancialRatioComponentTableForLastPeriod(
                               `/fino/CostSheet/GetFinancialRatio?BusinessUnitId=${values?.businessUnit?.value}&FromDate=${fromDateStr}&Todate=${toDateStr}&Type=1&isForecast=${values?.isForecast?.value}`,
                               (
-                                financialRatioComponentTableForLastPeriodResponse,
+                                financialRatioComponentTableForLastPeriodResponse
                               ) => {
                                 const lastPeriodMap = new Map();
                                 for (const item of financialRatioComponentTableForLastPeriodResponse) {
                                   lastPeriodMap.set(
                                     item.strComName,
-                                    item.numAmount,
+                                    item.numAmount
                                   );
                                 }
                                 for (const item of finanCialRatioComponentResponse) {
                                   const lastPeriodValue = lastPeriodMap.get(
-                                    item.strComName,
+                                    item.strComName
                                   );
                                   item.numLastPeriod =
                                     typeof lastPeriodValue === 'number'
@@ -1040,19 +1036,19 @@ export default function ProjectedFinancialStatement() {
                                 setComponentTableState([
                                   ...finanCialRatioComponentResponse,
                                 ]);
-                              },
+                              }
                             );
-                          },
+                          }
                         );
                       }
                       if ([7]?.includes(values?.reportType?.value)) {
                         getRowData(
-                          `/fino/Report/GetAssetSchedulePlanned?accountId=${profileData?.accountId}&businessUnitId=${values?.subDivisionBusinessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`,
+                          `/fino/Report/GetAssetSchedulePlanned?accountId=${profileData?.accountId}&businessUnitId=${values?.subDivisionBusinessUnit?.value}&dteFromDate=${values?.fromDate}&dteToDate=${values?.toDate}`
                         );
                       }
                       if ([8]?.includes(values?.reportType?.value)) {
                         getRowData(
-                          `/fino/Report/GetPlannedFundRequirement?businessUnitId=${values?.subDivisionBusinessUnit?.value}&strYear=${values?.year?.label}&businessUnitGroup=${values?.enterpriseDivision?.value}&subGroup=${values?.subDivision?.value}`,
+                          `/fino/Report/GetPlannedFundRequirement?businessUnitId=${values?.subDivisionBusinessUnit?.value}&strYear=${values?.year?.label}&businessUnitGroup=${values?.enterpriseDivision?.value}&subGroup=${values?.subDivision?.value}`
                         );
                       }
                       // if ([9]?.includes(values?.reportType?.value)) {

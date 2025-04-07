@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
@@ -97,11 +96,11 @@ const validationSchema = Yup.object().shape({
   }),
   waterProofRate: Yup.number().moreThan(
     0,
-    'Input value must be greater than zero',
+    'Input value must be greater than zero'
   ),
   pumpChargeRate: Yup.number().moreThan(
     0,
-    'Input value must be greater than zero',
+    'Input value must be greater than zero'
   ),
 
   // shipToPartnerContactNo: Yup.number()
@@ -166,7 +165,7 @@ export default function FormCmp({
   collectionDays,
   getCommissionRatesForEssential,
   brokerDDL,
-  objDiscount
+  objDiscount,
 }) {
   const dispatch = useDispatch();
   const debounce = useDebounce();
@@ -185,9 +184,9 @@ export default function FormCmp({
   const isBUICommodities = selectedBusinessUnit?.value === 221;
   const channelBulk = headerData?.distributionChannel?.value === 67;
   const objDiscountGrandTotal =
-  selectedBusinessUnit?.value === 232 && isEdit && objDiscount?.length > 0
-    ? objDiscount?.reduce((acc, item) => (acc += item?.numDiscountAmount), 0)
-    : 0;
+    selectedBusinessUnit?.value === 232 && isEdit && objDiscount?.length > 0
+      ? objDiscount?.reduce((acc, item) => (acc += item?.numDiscountAmount), 0)
+      : 0;
 
   return (
     <>
@@ -247,7 +246,7 @@ export default function FormCmp({
                             value,
                             setter,
                             label,
-                            valueOptions,
+                            valueOptions
                           ) => {
                             setter('shipToParty', '');
                             setter('numItemPrice', '');
@@ -262,20 +261,18 @@ export default function FormCmp({
                               getShipToPartner_Action(
                                 accountId,
                                 selectedBusinessUnit.value,
-                                currentValue,
-                              ),
+                                currentValue
+                              )
                             );
                             dispatch(getPartnerBalance_action(currentValue));
                             dispatch(getUndeliveryValues_action(currentValue));
                             dispatch(
-                              getPriceStructureCheck_Acion(currentValue, 1),
+                              getPriceStructureCheck_Acion(currentValue, 1)
                             );
 
                             dispatch(getAvailableBalance_Action(currentValue));
                             dispatch(
-                              getCreditLimitForInternalUser_action(
-                                currentValue,
-                              ),
+                              getCreditLimitForInternalUser_action(currentValue)
                             );
                             dispatch(
                               getTotalPendingQuantityAction(
@@ -284,8 +281,8 @@ export default function FormCmp({
                                 {
                                   ...values,
                                   soldtoParty: valueOptions,
-                                },
-                              ),
+                                }
+                              )
                             );
                           }}
                         />
@@ -305,19 +302,19 @@ export default function FormCmp({
                             values,
                             setter,
                             label,
-                            optionValue,
+                            optionValue
                           ) => {
                             setter(
                               'shipToPartnerContactNo',
-                              optionValue?.contactNumber || '',
+                              optionValue?.contactNumber || ''
                             );
                             setter(
                               'shiptoPartnerAddress',
-                              optionValue?.shiptoPartnerAddress || '',
+                              optionValue?.shiptoPartnerAddress || ''
                             );
 
                             const transportZoneMetch = transportZoneDDL?.find(
-                              (itm) => itm?.value === optionValue?.upozilaId,
+                              (itm) => itm?.value === optionValue?.upozilaId
                             );
                             setter('transportZone', transportZoneMetch || '');
                           }}
@@ -351,8 +348,8 @@ export default function FormCmp({
                                 {
                                   ...values,
                                   pricingDate: e.target.value,
-                                },
-                              ),
+                                }
+                              )
                             );
                           }}
                         />
@@ -471,7 +468,7 @@ export default function FormCmp({
                                     onChange={(e) => {
                                       setFieldValue(
                                         'isTransshipment',
-                                        e.target.checked,
+                                        e.target.checked
                                       );
                                     }}
                                   />
@@ -501,7 +498,7 @@ export default function FormCmp({
                                     onChange={(e) => {
                                       setFieldValue(
                                         'isPartialShipment',
-                                        e.target.checked,
+                                        e.target.checked
                                       );
                                     }}
                                   />
@@ -599,8 +596,8 @@ export default function FormCmp({
                                   getAllocateItemDDLAction(
                                     accountId,
                                     selectedBusinessUnit.value,
-                                    valueOption?.value,
-                                  ),
+                                    valueOption?.value
+                                  )
                                 );
                               }}
                               placeholder="Alotement"
@@ -739,7 +736,7 @@ export default function FormCmp({
                             onChange={(valueOption) => {
                               setFieldValue(
                                 'isUnloadLabourByCompany',
-                                valueOption,
+                                valueOption
                               );
                             }}
                             errors={errors}
@@ -758,7 +755,7 @@ export default function FormCmp({
                               if (Array.isArray(attachmentData)) {
                                 setFieldValue(
                                   'attachment',
-                                  attachmentData?.[0]?.id,
+                                  attachmentData?.[0]?.id
                                 );
                               }
                             }}
@@ -813,7 +810,7 @@ export default function FormCmp({
                             setFieldValue('emlployeeReferral', '');
                             setFieldValue(
                               'isEmlployeeReferralObj',
-                              valueOption,
+                              valueOption
                             );
                           }}
                           errors={errors}
@@ -833,7 +830,7 @@ export default function FormCmp({
                               if (v?.length < 2) return [];
                               return axios
                                 .get(
-                                  `/oms/SalesInformation/GetNonSalesForceEmployeeDDL?partName=NonSalesForceEmployeeDDL&accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${v}`,
+                                  `/oms/SalesInformation/GetNonSalesForceEmployeeDDL?partName=NonSalesForceEmployeeDDL&accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}&search=${v}`
                                 )
                                 .then((res) => {
                                   return res?.data;
@@ -872,7 +869,7 @@ export default function FormCmp({
                                   setDisabled,
                                   () => {
                                     setShow(true);
-                                  },
+                                  }
                                 );
                               }}
                             >
@@ -882,7 +879,7 @@ export default function FormCmp({
                             {_formatMoney(availableBalance)},
                             <b className="ml-2">Undelivered Amount: </b>
                             {_formatMoney(
-                              undeliveryValues?.unlideliveredValues,
+                              undeliveryValues?.unlideliveredValues
                             )}
                             <b className="ml-2">Pending Qty: </b>
                             {_formatMoney(partnerBalance?.pendingQty)}{' '}
@@ -899,7 +896,7 @@ export default function FormCmp({
                                   setDisabled,
                                   () => {
                                     setShow(true);
-                                  },
+                                  }
                                 );
                               }}
                             >
@@ -920,7 +917,7 @@ export default function FormCmp({
                                   setDisabled,
                                   () => {
                                     setShow(true);
-                                  },
+                                  }
                                 );
                               }}
                             >
@@ -971,30 +968,21 @@ export default function FormCmp({
                               dispatch(
                                 getReferenceItemlistById_Action(
                                   currentValue,
-                                  values.refType.value,
-                                ),
+                                  values.refType.value
+                                )
                               );
                               dispatch(
                                 getReferenceWithItemListById_Action(
                                   values?.refType?.value,
-                                  currentValue,
-                                ),
+                                  currentValue
+                                )
                               );
                             }}
                           />
                         </div>
                         <div className="col-lg-3">
                           {[
-                            144,
-                            178,
-                            180,
-                            181,
-                            182,
-                            183,
-                            209,
-                            212,
-                            216,
-                            221,
+                            144, 178, 180, 181, 182, 183, 209, 212, 216, 221,
                           ].includes(selectedBusinessUnit?.value) &&
                             values?.item?.value && (
                               <>
@@ -1026,14 +1014,14 @@ export default function FormCmp({
                               setFieldValue('uom', '');
                               setFieldValue(
                                 'customerItemName',
-                                valueOption?.label || '',
+                                valueOption?.label || ''
                               );
                               setFieldValue('item', valueOption);
                               if (valueOption?.value) {
                                 itemOnChangeHandler(
                                   valueOption?.value,
                                   values,
-                                  setFieldValue,
+                                  setFieldValue
                                 );
                               }
                             }}
@@ -1134,7 +1122,7 @@ export default function FormCmp({
                                 onChange={(e) => {
                                   setFieldValue(
                                     'allCheckbox',
-                                    e.target.checked,
+                                    e.target.checked
                                   );
                                 }}
                                 disabled={!values.referenceNo}
@@ -1152,7 +1140,7 @@ export default function FormCmp({
                                 !values?.waterProofRate
                               )
                                 return toast.warn(
-                                  'Please give water proof rate',
+                                  'Please give water proof rate'
                                 );
 
                               if (
@@ -1160,7 +1148,7 @@ export default function FormCmp({
                                 !values?.pumpChargeRate
                               )
                                 return toast.warn(
-                                  'Please give pump charge rate',
+                                  'Please give pump charge rate'
                                 );
 
                               setter(values);
@@ -1190,37 +1178,30 @@ export default function FormCmp({
 
                     {/* If the bussiness unit is agro feed 232 & approved mode than show below content */}
 
-                    {
-                      selectedBusinessUnit?.value===232 && isEdit && objDiscount?.length>0 ?
-
-
+                    {selectedBusinessUnit?.value === 232 &&
+                    isEdit &&
+                    objDiscount?.length > 0 ? (
                       <div class="col-lg-6 offset-md-3">
-
-
-                      <p className="my-2 text-center bg-primary">
-                       {objDiscount.map((item)=>(
-                         <>
-                         <strong className='text-white p-1'>{item?.commissionTypeName}: </strong>
-                         {" "}
-                         <strong  className='bg-white p-1'>{item?.numDiscountAmount}</strong>
-                         {" "}
-                         </>
-                       ))}
-
-                        <strong className='text-white p-1'>Grand Total: </strong>
-                         {" "}
-                         <strong className='bg-white p-1'>{objDiscountGrandTotal}</strong>
-                         {" "}
-                      </p>
-
-
+                        <p className="my-2 text-center bg-primary">
+                          {objDiscount.map((item) => (
+                            <>
+                              <strong className="text-white p-1">
+                                {item?.commissionTypeName}:{' '}
+                              </strong>{' '}
+                              <strong className="bg-white p-1">
+                                {item?.numDiscountAmount}
+                              </strong>{' '}
+                            </>
+                          ))}
+                          <strong className="text-white p-1">
+                            Grand Total:{' '}
+                          </strong>{' '}
+                          <strong className="bg-white p-1">
+                            {objDiscountGrandTotal}
+                          </strong>{' '}
+                        </p>
                       </div>
-
-
-                    :null
-                    }
-
-
+                    ) : null}
 
                     <div className="offset-lg-2 col-lg-5 d-flex justify-content-lg-end">
                       <div className="right mt-4">
@@ -1273,7 +1254,7 @@ export default function FormCmp({
                                   itmList,
                                   _todayDate(),
                                   setTradeOffersList,
-                                  setDisabled,
+                                  setDisabled
                                 );
                                 setOfferDetailsModel(true);
                               }}
@@ -1427,7 +1408,7 @@ export default function FormCmp({
                                         index,
                                         itm.numOrderValue,
                                         itm.numDiscountValue,
-                                        itm.numItemPrice,
+                                        itm.numItemPrice
                                       );
                                     }}
                                   />
@@ -1446,7 +1427,7 @@ export default function FormCmp({
                                 128, // B2B Lube Oil
                                 129, // B2C Lube Oil
                               ].includes(
-                                headerData?.distributionChannel?.value,
+                                headerData?.distributionChannel?.value
                               ) ? (
                                 <td
                                   className="align-middle"
@@ -1471,7 +1452,7 @@ export default function FormCmp({
                                           itm.numOrderValue,
                                           itm.numDiscountValue,
                                           itm.numItemPrice,
-                                          itm?.transportRate,
+                                          itm?.transportRate
                                         );
                                       }
                                     }}
@@ -1482,7 +1463,7 @@ export default function FormCmp({
                                         itm.numOrderValue,
                                         itm.numDiscountValue,
                                         itm.numItemPrice,
-                                        itm?.transportRate,
+                                        itm?.transportRate
                                       );
                                       debounce(() => {});
                                     }}
@@ -1523,7 +1504,7 @@ export default function FormCmp({
                                             itm.numOrderValue,
                                             itm.numDiscountValue,
                                             itm.numItemPrice,
-                                            itm?.transportRate,
+                                            itm?.transportRate
                                           )
                                         }
                                       />
@@ -1600,8 +1581,8 @@ export default function FormCmp({
                                         step="any"
                                         onChange={(e) => {
                                           let _data = [...rowDto];
-                                          _data[index].commissionAgentRate = +e
-                                            ?.target?.value;
+                                          _data[index].commissionAgentRate =
+                                            +e?.target?.value;
                                           setRowDto(_data);
                                         }}
                                       />
@@ -1660,10 +1641,10 @@ export default function FormCmp({
                   tableType === 'order'
                     ? 'Pending Order Details'
                     : tableType === 'delivery'
-                    ? 'Pending Delivery Details'
-                    : tableType === 'unBilled'
-                    ? 'UnBilled Amount Details'
-                    : ''
+                      ? 'Pending Delivery Details'
+                      : tableType === 'unBilled'
+                        ? 'UnBilled Amount Details'
+                        : ''
                 }`}
                 show={show}
                 onHide={() => setShow(false)}

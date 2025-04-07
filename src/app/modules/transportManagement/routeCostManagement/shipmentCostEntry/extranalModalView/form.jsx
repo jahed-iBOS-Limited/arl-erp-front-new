@@ -1,9 +1,9 @@
-import { Form, Formik } from "formik";
-import React from "react";
+import { Form, Formik } from 'formik';
+import React from 'react';
 // import * as Yup from "yup";
-import { IInput } from "../../../../_helper/_input";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+import { IInput } from '../../../../_helper/_input';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 // import { updateDistanceKM, updateRentVehicle } from "./helper";
 // import { useLocation } from "react-router";
 
@@ -75,12 +75,12 @@ export default function FormCmp({
                       placeholder="Addition"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("additionalCost", e.target.value);
+                        setFieldValue('additionalCost', e.target.value);
                         const netPayable =
                           +values?.rentAmount +
                           +e.target.value -
                           +values?.deductionCost;
-                        setFieldValue("netPayable", netPayable);
+                        setFieldValue('netPayable', netPayable);
                       }}
                       disabled
                     />
@@ -105,12 +105,12 @@ export default function FormCmp({
                       placeholder="deduction"
                       type="number"
                       onChange={(e) => {
-                        setFieldValue("deductionCost", e.target.value);
+                        setFieldValue('deductionCost', e.target.value);
                         const netPayable =
                           +values?.rentAmount +
                           +values?.additionalCost -
                           +e.target.value;
-                        setFieldValue("netPayable", netPayable);
+                        setFieldValue('netPayable', netPayable);
                       }}
                       disabled
                     />
@@ -134,7 +134,7 @@ export default function FormCmp({
                       value={values?.supplier}
                       label="Vehicle Supplier Name"
                       onChange={(valueOption) => {
-                        setFieldValue("supplier", valueOption);
+                        setFieldValue('supplier', valueOption);
                       }}
                       placeholder="Vehicle Supplier Name"
                       errors={errors}
@@ -153,49 +153,49 @@ export default function FormCmp({
               <div className="col-md-10">
                 <h4>Distance KM</h4>
                 <div className="table-responsive">
-                <table className="table table-striped table-bordered global-table">
-                  <thead>
-                    <tr>
-                      <th>SL</th>
-                      <th>Customer Name</th>
-                      <th>Address</th>
-                      <th style={{ width: "150px" }}>Distance KM</th>
-                      {/* <th style={{ width: "100px" }}>Action</th> */}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {distanceKM?.map((item, index) => (
-                      <tr key={index}>
-                        <td> {index + 1}</td>
-                        <td>
-                          <div className="pl-2">
-                            {item?.strPartnerShippingName}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="pl-2">
-                            {item?.strPartnerShippingAddress}
-                          </div>
-                        </td>
+                  <table className="table table-striped table-bordered global-table">
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th>Customer Name</th>
+                        <th>Address</th>
+                        <th style={{ width: '150px' }}>Distance KM</th>
+                        {/* <th style={{ width: "100px" }}>Action</th> */}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {distanceKM?.map((item, index) => (
+                        <tr key={index}>
+                          <td> {index + 1}</td>
+                          <td>
+                            <div className="pl-2">
+                              {item?.strPartnerShippingName}
+                            </div>
+                          </td>
+                          <td>
+                            <div className="pl-2">
+                              {item?.strPartnerShippingAddress}
+                            </div>
+                          </td>
 
-                        <td>
-                          <IInput
-                            disabled
-                            value={item?.numDistanceKM}
-                            name="numDistanceKM"
-                            type="number"
-                            min={1}
-                            onChange={(e) => {
-                              distanceRowDtoHandler(
-                                "numDistanceKM",
-                                +e.target.value,
-                                index
-                              );
-                            }}
-                          />
-                          {/* <div className="pl-2">{item?.numDistanceKM}</div> */}
-                        </td>
-                        {/* <td>
+                          <td>
+                            <IInput
+                              disabled
+                              value={item?.numDistanceKM}
+                              name="numDistanceKM"
+                              type="number"
+                              min={1}
+                              onChange={(e) => {
+                                distanceRowDtoHandler(
+                                  'numDistanceKM',
+                                  +e.target.value,
+                                  index
+                                );
+                              }}
+                            />
+                            {/* <div className="pl-2">{item?.numDistanceKM}</div> */}
+                          </td>
+                          {/* <td>
                           <div className="pl-2">
                             <button
                               type="button"
@@ -221,59 +221,59 @@ export default function FormCmp({
                             </button>
                           </div>
                         </td> */}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
 
-              <div className="col-md-10" style={{ marginTop: "20px" }}>
+              <div className="col-md-10" style={{ marginTop: '20px' }}>
                 <h4>Vehicle Rent</h4>
                 <div className="table-responsive">
-                <table className="table table-striped table-bordered global-table">
-                  <thead>
-                    <tr>
-                      <th>SL</th>
-                      <th>Customer Name</th>
-                      <th>Address</th>
-                      <th style={{ width: "150px" }}>Rent Amount</th>
-                      {/* <th style={{ width: "100px" }}>Action</th> */}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {shippingInfo?.map((item, index) => (
-                      <tr key={index}>
-                        <td> {index + 1}</td>
-                        <td>
-                          <div className="pl-2">
-                            {item?.partnerShippingName}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="pl-2">
-                            {item?.partnerShippingAddress}
-                          </div>
-                        </td>
+                  <table className="table table-striped table-bordered global-table">
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th>Customer Name</th>
+                        <th>Address</th>
+                        <th style={{ width: '150px' }}>Rent Amount</th>
+                        {/* <th style={{ width: "100px" }}>Action</th> */}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {shippingInfo?.map((item, index) => (
+                        <tr key={index}>
+                          <td> {index + 1}</td>
+                          <td>
+                            <div className="pl-2">
+                              {item?.partnerShippingName}
+                            </div>
+                          </td>
+                          <td>
+                            <div className="pl-2">
+                              {item?.partnerShippingAddress}
+                            </div>
+                          </td>
 
-                        <td>
-                          <IInput
-                            disabled
-                            value={item?.rentAmount}
-                            name="rentAmount"
-                            type="number"
-                            min={1}
-                            onChange={(e) => {
-                              shippingRowDtoHandler(
-                                "rentAmount",
-                                +e.target.value,
-                                index
-                              );
-                            }}
-                          />
-                          {/* <div className="pl-2">{item?.rentAmount}</div> */}
-                        </td>
-                        {/* <td>
+                          <td>
+                            <IInput
+                              disabled
+                              value={item?.rentAmount}
+                              name="rentAmount"
+                              type="number"
+                              min={1}
+                              onChange={(e) => {
+                                shippingRowDtoHandler(
+                                  'rentAmount',
+                                  +e.target.value,
+                                  index
+                                );
+                              }}
+                            />
+                            {/* <div className="pl-2">{item?.rentAmount}</div> */}
+                          </td>
+                          {/* <td>
                           <div className="pl-2">
                             <button
                               type="button"
@@ -308,66 +308,66 @@ export default function FormCmp({
                             </button>
                           </div>
                         </td> */}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
 
-              <div className="col-md-10" style={{ marginTop: "20px" }}>
+              <div className="col-md-10" style={{ marginTop: '20px' }}>
                 <h4>Chalan Info</h4>
                 <div className="table-responsive">
-                <table className="table table-striped table-bordered global-table">
-                  <thead>
-                    <tr>
-                      <th>SL</th>
-                      <th>DeliveryCode</th>
-                      <th>Partner ShippingName</th>
-                      <th>Partner ShippingAddress</th>
-                      <th>Total Delivery Quantity</th>
-                    </tr>
-                  </thead>
-                  {/* {chalanInfo} */}
-                  <tbody>
-                    {chalanInfo?.map((item, index) => (
-                      <tr key={index}>
-                        <td> {index + 1}</td>
-                        <td>
-                          <div className="pl-2">{item?.deliveryCode}</div>
-                        </td>
-                        <td>
-                          <div className="pl-2">
-                            {item?.partnerShippingName}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="pl-2">
-                            {item?.partnerShippingAddress}
-                          </div>
-                        </td>
-                        <td>
-                          <div className="pl-2">
-                            {item?.totalDeliveryQuantity}
-                          </div>
-                        </td>
+                  <table className="table table-striped table-bordered global-table">
+                    <thead>
+                      <tr>
+                        <th>SL</th>
+                        <th>DeliveryCode</th>
+                        <th>Partner ShippingName</th>
+                        <th>Partner ShippingAddress</th>
+                        <th>Total Delivery Quantity</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    {/* {chalanInfo} */}
+                    <tbody>
+                      {chalanInfo?.map((item, index) => (
+                        <tr key={index}>
+                          <td> {index + 1}</td>
+                          <td>
+                            <div className="pl-2">{item?.deliveryCode}</div>
+                          </td>
+                          <td>
+                            <div className="pl-2">
+                              {item?.partnerShippingName}
+                            </div>
+                          </td>
+                          <td>
+                            <div className="pl-2">
+                              {item?.partnerShippingAddress}
+                            </div>
+                          </td>
+                          <td>
+                            <div className="pl-2">
+                              {item?.totalDeliveryQuantity}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -1,5 +1,5 @@
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _todayDate } from "../../../_helper/_todayDate";
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _todayDate } from '../../../_helper/_todayDate';
 import { _firstDateofMonth } from './../../../_helper/_firstDateOfCurrentMonth';
 
 export const setDataToGridData = (key, index, value, grid, setter, label) => {
@@ -9,10 +9,10 @@ export const setDataToGridData = (key, index, value, grid, setter, label) => {
 };
 
 export const initData = {
-  costTypeDDL: "",
+  costTypeDDL: '',
   fromDate: _dateFormatter(_firstDateofMonth()),
   toDate: _todayDate(),
-  dueDate: "",
+  dueDate: '',
 };
 
 export function removeDaysToDate(date, days) {

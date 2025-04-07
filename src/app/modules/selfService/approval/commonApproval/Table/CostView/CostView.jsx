@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react";
-import { CostForBOMLanding } from "../../helper";
-import ICustomCard from "./../../../../../_helper/_customCard";
-import Loading from "./../../../../../_helper/_loading";
+import React, { useState, useEffect } from 'react';
+import { CostForBOMLanding } from '../../helper';
+import ICustomCard from './../../../../../_helper/_customCard';
+import Loading from './../../../../../_helper/_loading';
 
 export default function CostViewTable({ item }) {
-  const [bomTotalCost, setBomTotalCost] = useState("");
-  const [isDisabled, setIsDisabled] = useState("");
+  const [bomTotalCost, setBomTotalCost] = useState('');
+  const [isDisabled, setIsDisabled] = useState('');
   console.log(bomTotalCost);
 
   let accountId = item?.accountId;
@@ -25,7 +25,7 @@ export default function CostViewTable({ item }) {
     );
   }, [accountId, businessUnitId, shopFloorId, itemId]);
   return (
-    <ICustomCard title={"View of BOM Info"} isDisabled={isDisabled}>
+    <ICustomCard title={'View of BOM Info'} isDisabled={isDisabled}>
       {isDisabled && <Loading />}
       <div className="table-responsive">
         <table className="table table-striped table-bordered global-table">

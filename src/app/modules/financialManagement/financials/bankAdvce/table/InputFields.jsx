@@ -1,35 +1,31 @@
-import React, { useEffect, useState } from "react";
-import InputField from "../../../../_helper/_inputField";
-import { adviceMailCreate, advicePrintCount, getAdviceReport } from "../helper";
-import NewSelect from "./../../../../_helper/_select";
-import IViewModal from "../../../../_helper/_viewModal";
-import ViewData from "./ViewPrint";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { moneyInWord } from "../../../../_helper/_convertMoneyToWord";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { SetFinancialsBankAdviceAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import IConfirmModal from "../../../../chartering/_chartinghelper/_confirmModal";
-import EmailViewForm from "./emailForm";
-import { generateExcel } from "./excelReportGenarate";
-import SendOtpToEmailModal from "../email/sendOtpModal";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
+import React, { useEffect, useState } from 'react';
+import InputField from '../../../../_helper/_inputField';
+import { adviceMailCreate, advicePrintCount, getAdviceReport } from '../helper';
+import NewSelect from './../../../../_helper/_select';
+import IViewModal from '../../../../_helper/_viewModal';
+import ViewData from './ViewPrint';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { moneyInWord } from '../../../../_helper/_convertMoneyToWord';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { SetFinancialsBankAdviceAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import IConfirmModal from '../../../../chartering/_chartinghelper/_confirmModal';
+import EmailViewForm from './emailForm';
+import { generateExcel } from './excelReportGenarate';
+import SendOtpToEmailModal from '../email/sendOtpModal';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
 
 const InputFields = ({ obj }) => {
   const { userRole } = useSelector((state) => state?.authData, shallowEqual);
-  const [isView, setIsView] = useState("");
+  const [isView, setIsView] = useState('');
   const [mdalShow, setModalShow] = useState(false);
   const [scbModalShow, setSCBModalShow] = useState(false);
   const [isShowModal, setIsShowModal] = useState(false);
   const [total, setTotal] = useState(0);
   const [, setTotalInWords] = useState(0);
-  const [
-    adviceDDL,
-    getAdviceDDL,
-    loadingOnGetAdviceDDL,
-    setAdviceDDL,
-  ] = useAxiosGet();
+  const [adviceDDL, getAdviceDDL, loadingOnGetAdviceDDL, setAdviceDDL] =
+    useAxiosGet();
 
   const dispatch = useDispatch();
   let {
@@ -49,11 +45,11 @@ const InputFields = ({ obj }) => {
 
   const getData = () => {
     let data = [];
-    if (values?.advice?.info === "below36Character") {
+    if (values?.advice?.info === 'below36Character') {
       data = adviceReportData?.filter(
         (item) => item.checked && item.strPayee?.length < 36
       );
-    } else if (values?.advice?.info === "above36Character") {
+    } else if (values?.advice?.info === 'above36Character') {
       data = adviceReportData?.filter(
         (item) => item.checked && item.strPayee?.length >= 36
       );
@@ -80,7 +76,6 @@ const InputFields = ({ obj }) => {
         `/costmgmt/BankAccount/GetAdviceFormatByBankId?bankId=${values?.bankAccountNo?.bankId}`
       );
     }
-
   }, [values?.bankAccountNo]);
 
   useEffect(() => {
@@ -103,11 +98,11 @@ const InputFields = ({ obj }) => {
 
   const initDataforEmail = {
     toMail: [],
-    toCC: "",
+    toCC: '',
     toBCC: [],
     subject: ``,
     message: ``,
-    attachment: "",
+    attachment: '',
   };
 
   // Salary Advice advice report data checking is a single data is selected or not
@@ -136,7 +131,7 @@ const InputFields = ({ obj }) => {
       },
       () => setSCBModalShow(true),
       true,
-      "OTP Has been send",
+      'OTP Has been send',
       "OTP couldn't be send",
       () => setSCBModalShow(false)
     );
@@ -159,7 +154,7 @@ const InputFields = ({ obj }) => {
               value={values?.sbuUnit}
               label="SBU"
               onChange={(valueOption) => {
-                setFieldValue("sbuUnit", valueOption);
+                setFieldValue('sbuUnit', valueOption);
                 dispatch(
                   SetFinancialsBankAdviceAction({
                     ...values,
@@ -175,7 +170,7 @@ const InputFields = ({ obj }) => {
           <div className="col-lg-2">
             <label>Date</label>
             <InputField
-              value={values?.dateTime || ""}
+              value={values?.dateTime || ''}
               name="dateTime"
               placeholder="Date"
               type="date"
@@ -195,12 +190,12 @@ const InputFields = ({ obj }) => {
               options={bankAccountDDL || []}
               name="bankAccountNo"
               placeholder="Bank Account No"
-              value={values?.bankAccountNo || ""}
+              value={values?.bankAccountNo || ''}
               onChange={(valueOption) => {
-                setFieldValue("bankAccountNo", valueOption);
+                setFieldValue('bankAccountNo', valueOption);
                 setAdviceDDL([]);
                 if (valueOption) {
-                  setFieldValue("advice", "");
+                  setFieldValue('advice', '');
                 }
                 dispatch(
                   SetFinancialsBankAdviceAction({
@@ -220,9 +215,9 @@ const InputFields = ({ obj }) => {
               options={adviceTypeDDL || []}
               name="adviceType"
               placeholder="Instrument Type"
-              value={values?.adviceType || ""}
+              value={values?.adviceType || ''}
               onChange={(valueOption) => {
-                setFieldValue("adviceType", valueOption);
+                setFieldValue('adviceType', valueOption);
                 dispatch(
                   SetFinancialsBankAdviceAction({
                     ...values,
@@ -240,9 +235,9 @@ const InputFields = ({ obj }) => {
               options={adviceDDL || []}
               name="advice"
               placeholder="Advice"
-              value={values?.advice || ""}
+              value={values?.advice || ''}
               onChange={(valueOption) => {
-                setFieldValue("advice", valueOption);
+                setFieldValue('advice', valueOption);
                 setAdviceReportData([]);
               }}
               errors={errors}
@@ -252,7 +247,7 @@ const InputFields = ({ obj }) => {
         </div>
         <div
           className="d-flex align-items-center justify-content-end"
-          style={{ marginTop: "8px", flexWrap: "wrap", gap: "10px" }}
+          style={{ marginTop: '8px', flexWrap: 'wrap', gap: '10px' }}
         >
           {/* Show only user has permission & salary advice & bank is scb */}
           {scbDisbursementBtnPermission?.isEdit &&
@@ -324,8 +319,8 @@ const InputFields = ({ obj }) => {
                   JournalId: itm?.intJournalId || 0,
                 }));
                 IConfirmModal({
-                  title: "Send Email",
-                  message: "Are you sure you want to email ?",
+                  title: 'Send Email',
+                  message: 'Are you sure you want to email ?',
                   yesAlertFunc: () => {
                     adviceMailCreate(filterArr, setLoading);
                   },
@@ -404,12 +399,12 @@ const InputFields = ({ obj }) => {
                 })
               );
               const adviceName =
-                values?.advice?.label === "IBBL"
-                  ? "IBBL_ONLINE"
-                  : values?.advice?.label === "IBBL-BEFTN"
-                  ? "IBBL_BEFTN"
-                  : values?.advice?.label;
-              const dateFormat = values?.dateTime?.split("/").join("_");
+                values?.advice?.label === 'IBBL'
+                  ? 'IBBL_ONLINE'
+                  : values?.advice?.label === 'IBBL-BEFTN'
+                    ? 'IBBL_BEFTN'
+                    : values?.advice?.label;
+              const dateFormat = values?.dateTime?.split('/').join('_');
               const fileName = `${selectedBusinessUnit?.buShortName}_${
                 total ? total : 0
               }_${adviceName}_${dateFormat}`;
@@ -417,12 +412,12 @@ const InputFields = ({ obj }) => {
                 data,
                 values,
                 0,
-                "",
+                '',
                 selectedBusinessUnit,
                 false,
                 null,
                 fileName,
-                "isOldExcelDownload"
+                'isOldExcelDownload'
               );
               // }
             }}
@@ -441,7 +436,7 @@ const InputFields = ({ obj }) => {
             className="btn btn-primary mr-2"
             onClick={() => {
               if (
-                ["above36Character", "below36Character"].includes(
+                ['above36Character', 'below36Character'].includes(
                   values?.advice?.info
                 )
               ) {
@@ -472,7 +467,7 @@ const InputFields = ({ obj }) => {
       {/* SCB Bank Advice Modal Show For Send OTP */}
       <IViewModal
         // title="Send OTP"
-        modelSize={"xl"}
+        modelSize={'xl'}
         show={scbModalShow}
         onHide={() => setSCBModalShow(false)}
       >

@@ -1,20 +1,18 @@
+import React, { useState } from 'react';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
 
-
-import React, { useState } from "react";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import Loading from "./../../../../_helper/_loading";
-import { createAccountingClosing } from "./../helper";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import Loading from './../../../../_helper/_loading';
+import { createAccountingClosing } from './../helper';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  businessUnit: "",
+  businessUnit: '',
 };
 
 export default function AccountClosingCreateForm() {

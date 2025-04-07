@@ -1,8 +1,7 @@
-
-import React, { useEffect } from "react";
-import IViewModal from "../../../../_helper/_viewModal";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { getTradeItemGroupById } from "../_redux/Actions";
+import React, { useEffect } from 'react';
+import IViewModal from '../../../../_helper/_viewModal';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { getTradeItemGroupById } from '../_redux/Actions';
 
 export default function ViewForm({ id, show, onHide }) {
   // get user profile data from store
@@ -33,32 +32,32 @@ export default function ViewForm({ id, show, onHide }) {
       <IViewModal
         show={show}
         onHide={onHide}
-        title={singleData?.objHeaderDTO?.tradeOfferItemGroupName || ""}
+        title={singleData?.objHeaderDTO?.tradeOfferItemGroupName || ''}
         isShow={singleData && false}
       >
         {singleData ? (
           <div className="mt-3">
             {singleData?.objListRowDTO?.length ? (
-             <div className="table-responsive">
-               <table className="table table-striped table-bordered">
-                <thead>
-                  <tr>
-                    <th>Group Name</th>
-                    <th>#Of Items</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {singleData?.objListRowDTO?.map((itm, idx) => (
-                    <tr key={itm?.itemId}>
-                      <td>
-                        {singleData?.objHeaderDTO?.tradeOfferItemGroupName}
-                      </td>
-                      <td>{itm?.itemName}</td>
+              <div className="table-responsive">
+                <table className="table table-striped table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Group Name</th>
+                      <th>#Of Items</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-             </div>
+                  </thead>
+                  <tbody>
+                    {singleData?.objListRowDTO?.map((itm, idx) => (
+                      <tr key={itm?.itemId}>
+                        <td>
+                          {singleData?.objHeaderDTO?.tradeOfferItemGroupName}
+                        </td>
+                        <td>{itm?.itemName}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             ) : (
               <h5>No data found</h5>
             )}

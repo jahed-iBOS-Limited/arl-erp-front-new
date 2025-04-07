@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   supplierNameDDL: [],
@@ -12,17 +12,17 @@ const initState = {
   plantDDL: [],
   wareHouseDDL: [],
   gridData: [],
-  singleData: "",
+  singleData: '',
 };
 
 export const purchaseOrderSlice = createSlice({
-  name: "purchaseOrder",
+  name: 'purchaseOrder',
   initialState: initState,
   reducers: {
     SetSupplierNameDDL: (state, action) => {
       const { payload } = action;
-      state.supplierNameDDL = payload.map((item)=>{
-        return {label: item.labelValue, value: item.value}
+      state.supplierNameDDL = payload.map((item) => {
+        return { label: item.labelValue, value: item.value };
       });
     },
     setPlantDDL: (state, action) => {

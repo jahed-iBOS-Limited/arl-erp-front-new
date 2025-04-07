@@ -1,12 +1,12 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { PlantWarehouseTable } from "./plantWarehouseTableCard";
+} from '../../../../../../_metronic/_partials/controls';
+import { PlantWarehouseTable } from './plantWarehouseTableCard';
 
 export function ConfigItemTypeGLLandingCard() {
   let history = useHistory();
@@ -19,7 +19,7 @@ export function ConfigItemTypeGLLandingCard() {
             className="btn btn-primary"
             onClick={() =>
               history.push(
-                "/config/material-management/config-item-type-gl/add"
+                '/config/material-management/config-item-type-gl/add'
               )
             }
           >

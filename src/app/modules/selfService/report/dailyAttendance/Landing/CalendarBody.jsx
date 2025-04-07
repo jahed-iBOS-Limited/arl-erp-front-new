@@ -1,12 +1,11 @@
-
-import React, { Fragment } from "react";
-import moment from "moment";
-import { colorList } from "./helper";
+import React, { Fragment } from 'react';
+import moment from 'moment';
+import { colorList } from './helper';
 
 function CalendarBody({ value, attendanceListDate, allDayList }) {
   // Color Render Function
   const checkStatusAndChangeColor = (date, index) => {
-    if (attendanceListDate[index]?.presentStatus.toLowerCase() === "present") {
+    if (attendanceListDate[index]?.presentStatus.toLowerCase() === 'present') {
       return (
         <div
           style={colorList.preset.backgroundColor}
@@ -19,7 +18,7 @@ function CalendarBody({ value, attendanceListDate, allDayList }) {
         </div>
       );
     } else if (
-      attendanceListDate[index]?.presentStatus.toLowerCase() === "offday"
+      attendanceListDate[index]?.presentStatus.toLowerCase() === 'offday'
     ) {
       return (
         <div
@@ -33,7 +32,7 @@ function CalendarBody({ value, attendanceListDate, allDayList }) {
         </div>
       );
     } else if (
-      attendanceListDate[index]?.presentStatus.toLowerCase() === "leave"
+      attendanceListDate[index]?.presentStatus.toLowerCase() === 'leave'
     ) {
       return (
         <div
@@ -47,7 +46,7 @@ function CalendarBody({ value, attendanceListDate, allDayList }) {
         </div>
       );
     } else if (
-      attendanceListDate[index]?.presentStatus.toLowerCase() === "holiday"
+      attendanceListDate[index]?.presentStatus.toLowerCase() === 'holiday'
     ) {
       return (
         <div
@@ -61,7 +60,7 @@ function CalendarBody({ value, attendanceListDate, allDayList }) {
         </div>
       );
     } else if (
-      attendanceListDate[index]?.presentStatus.toLowerCase() === "late"
+      attendanceListDate[index]?.presentStatus.toLowerCase() === 'late'
     ) {
       return (
         <div
@@ -75,7 +74,7 @@ function CalendarBody({ value, attendanceListDate, allDayList }) {
         </div>
       );
     } else if (
-      attendanceListDate[index]?.presentStatus.toLowerCase() === "unprocessed"
+      attendanceListDate[index]?.presentStatus.toLowerCase() === 'unprocessed'
     ) {
       return (
         <div
@@ -89,7 +88,7 @@ function CalendarBody({ value, attendanceListDate, allDayList }) {
         </div>
       );
     } else if (
-      attendanceListDate[index]?.presentStatus.toLowerCase() === "absent"
+      attendanceListDate[index]?.presentStatus.toLowerCase() === 'absent'
     ) {
       return (
         <div
@@ -103,7 +102,7 @@ function CalendarBody({ value, attendanceListDate, allDayList }) {
         </div>
       );
     } else if (
-      attendanceListDate[index]?.presentStatus.toLowerCase() === "movement"
+      attendanceListDate[index]?.presentStatus.toLowerCase() === 'movement'
     ) {
       return (
         <div
@@ -133,13 +132,7 @@ function CalendarBody({ value, attendanceListDate, allDayList }) {
       <div className="allCalendarDays">
         {/* First Week Blank Days start */}
         {[
-          ...Array(
-            Number(
-              moment(value)
-                .startOf("month")
-                .format("day")[0]
-            )
-          ),
+          ...Array(Number(moment(value).startOf('month').format('day')[0])),
         ].map((item, index) => {
           return (
             <div
@@ -164,14 +157,7 @@ function CalendarBody({ value, attendanceListDate, allDayList }) {
 
         {/* Last Week Blank Days start */}
         {[
-          ...Array(
-            Number(
-              6 -
-                moment(value)
-                  .endOf("month")
-                  .format("day")[0]
-            )
-          ),
+          ...Array(Number(6 - moment(value).endOf('month').format('day')[0])),
         ].map((item, index) => {
           return (
             <div

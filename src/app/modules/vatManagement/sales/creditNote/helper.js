@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import shortid from "shortid";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
 
 export const GetCreditNotePasignation = async (
   accId,
@@ -16,7 +16,7 @@ export const GetCreditNotePasignation = async (
 ) => {
   try {
     setLoading(true);
-    const searchPath = search ? `searchTerm=${search}&` : "";
+    const searchPath = search ? `searchTerm=${search}&` : '';
     const res = await Axios.get(
       `/vat/CreditNote/CreditNoteLandingSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&TaxBranchId=${branchId}&fromDate=${fromDate}&toDate=${toDate}&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
     );
@@ -95,7 +95,7 @@ export const saveCreditNote = async (data, cb, setDisabled) => {
   try {
     const res = await Axios.post(`/vat/CreditNote/CreateCreditNote`, data);
     if (res.status === 200) {
-      toast.success("Submitted Successfully", {
+      toast.success('Submitted Successfully', {
         toastId: shortid(),
       });
       cb();
@@ -112,7 +112,7 @@ export const editCreditNote = async (data, setDisabled) => {
   try {
     const res = await Axios.put(`/vat/CreditNote/EditCreditNote`, data);
     if (res.status === 200) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       setDisabled(false);
     }
   } catch (error) {
@@ -212,14 +212,14 @@ export const getAmountSdVat = async (grpId, codeValue, setter) => {
     );
     if (res.status === 200 && res?.data) {
       if (res?.data?.length > 0) {
-        setter("salesAmount", res?.data[0]?.grandTotal);
-        setter("salesSd", res?.data[0]?.sdtotal);
-        setter("salesVat", res?.data[0]?.vatTotal);
-        setter("uomid", res?.data[0]?.uomid);
-        setter("uomname", res?.data[0]?.uomname);
-        setter("quantity", res?.data[0]?.quantity);
+        setter('salesAmount', res?.data[0]?.grandTotal);
+        setter('salesSd', res?.data[0]?.sdtotal);
+        setter('salesVat', res?.data[0]?.vatTotal);
+        setter('uomid', res?.data[0]?.uomid);
+        setter('uomname', res?.data[0]?.uomname);
+        setter('quantity', res?.data[0]?.quantity);
       } else {
-        toast.warning("Data not found");
+        toast.warning('Data not found');
       }
     }
   } catch (error) {}

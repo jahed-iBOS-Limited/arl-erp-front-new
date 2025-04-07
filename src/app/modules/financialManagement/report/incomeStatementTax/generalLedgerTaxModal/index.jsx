@@ -1,12 +1,10 @@
-
-
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import ReactToPrint from "react-to-print";
-import SubGeneralLedgerTaxModalForIncomeStatement from "../subGeneralLedgerTax";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import IViewModal from "../../../../_helper/_viewModal";
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import ReactToPrint from 'react-to-print';
+import SubGeneralLedgerTaxModalForIncomeStatement from '../subGeneralLedgerTax';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import IViewModal from '../../../../_helper/_viewModal';
 
 const GeneralLedgerTaxModalForIncomeStatement = ({
   values,
@@ -43,9 +41,8 @@ const GeneralLedgerTaxModalForIncomeStatement = ({
   }, [incomeStatementRow?.intFSId]);
 
   const [generalLedgerRow, setGeneralLedgerRow] = useState(null);
-  const [showSubGeneralLedgerTaxModal, setShowSubGeneralLedgerTaxModal] = useState(
-    false
-  );
+  const [showSubGeneralLedgerTaxModal, setShowSubGeneralLedgerTaxModal] =
+    useState(false);
 
   return (
     <>
@@ -70,8 +67,8 @@ const GeneralLedgerTaxModalForIncomeStatement = ({
                 <div className="d-flex flex-column justify-content-center align-items-center my-2">
                   <span
                     style={{
-                      fontSize: "22px",
-                      fontWeight: "bold",
+                      fontSize: '22px',
+                      fontWeight: 'bold',
                     }}
                   >
                     {values?.businessUnit?.value === 0
@@ -91,7 +88,7 @@ const GeneralLedgerTaxModalForIncomeStatement = ({
                     <></>
                   )}
                   <span>
-                    Particulars :{" "}
+                    Particulars :{' '}
                     <b>{incomeStatementRow?.strFSComponentName}</b>
                   </span>
                 </div>
@@ -100,7 +97,7 @@ const GeneralLedgerTaxModalForIncomeStatement = ({
               <div className="loan-scrollable-table">
                 <div
                   className="scroll-table _table"
-                  style={{ maxHeight: "540px", overflowX: "hidden" }}
+                  style={{ maxHeight: '540px', overflowX: 'hidden' }}
                 >
                   <table
                     className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-2"
@@ -108,16 +105,16 @@ const GeneralLedgerTaxModalForIncomeStatement = ({
                   >
                     <thead>
                       <tr>
-                        <th style={{ minWidth: "60px" }}>SL</th>
+                        <th style={{ minWidth: '60px' }}>SL</th>
                         <th>GL Code</th>
                         <th>
-                          <div style={{ textAlign: "left", marginLeft: "5px" }}>
+                          <div style={{ textAlign: 'left', marginLeft: '5px' }}>
                             GL Name
                           </div>
                         </th>
                         <th>
                           <div
-                            style={{ textAlign: "right", marginRight: "5px" }}
+                            style={{ textAlign: 'right', marginRight: '5px' }}
                           >
                             Amount
                           </div>
@@ -132,12 +129,12 @@ const GeneralLedgerTaxModalForIncomeStatement = ({
                               <td>{index + 1}</td>
 
                               <td className="text-center">
-                                {item?.strGeneralLedgerCode || "N/A"}
+                                {item?.strGeneralLedgerCode || 'N/A'}
                               </td>
                               <td
-                                style={{ textAlign: "left", marginLeft: "5px" }}
+                                style={{ textAlign: 'left', marginLeft: '5px' }}
                               >
-                                {item?.strGeneralLedgerName || "N/A"}
+                                {item?.strGeneralLedgerName || 'N/A'}
                               </td>
                               <td
                                 onClick={() => {
@@ -145,11 +142,11 @@ const GeneralLedgerTaxModalForIncomeStatement = ({
                                   setShowSubGeneralLedgerTaxModal(true);
                                 }}
                                 style={{
-                                  textDecoration: "underline",
-                                  color: "blue",
-                                  cursor: "pointer",
-                                  textAlign: "right",
-                                  marginRight: "5px",
+                                  textDecoration: 'underline',
+                                  color: 'blue',
+                                  cursor: 'pointer',
+                                  textAlign: 'right',
+                                  marginRight: '5px',
                                 }}
                               >
                                 {item?.numAmount}
@@ -166,9 +163,9 @@ const GeneralLedgerTaxModalForIncomeStatement = ({
                           colspan="3"
                           className="text-center ml-1"
                           style={{
-                            fontWeight: "bold",
-                            textAlign: "right",
-                            marginRight: "5px",
+                            fontWeight: 'bold',
+                            textAlign: 'right',
+                            marginRight: '5px',
                           }}
                         >
                           Total
@@ -176,7 +173,7 @@ const GeneralLedgerTaxModalForIncomeStatement = ({
 
                         <td
                           className="text-right pr-2"
-                          style={{ fontWeight: "bold" }}
+                          style={{ fontWeight: 'bold' }}
                         >
                           {totalAmount || 0}
                         </td>
@@ -193,7 +190,7 @@ const GeneralLedgerTaxModalForIncomeStatement = ({
       <IViewModal
         show={showSubGeneralLedgerTaxModal}
         onHide={() => {
-         setShowSubGeneralLedgerTaxModal(false);
+          setShowSubGeneralLedgerTaxModal(false);
           setGeneralLedgerRow(null);
         }}
       >
@@ -212,4 +209,3 @@ const GeneralLedgerTaxModalForIncomeStatement = ({
 };
 
 export default GeneralLedgerTaxModalForIncomeStatement;
-

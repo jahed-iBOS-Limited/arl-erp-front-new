@@ -1,24 +1,23 @@
-
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { IInput } from "../../../../_helper/_input";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import NewSelect from "../../../../_helper/_select";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import ICustomCard from "../../../../_helper/_customCard";
-import { useHistory } from "react-router-dom";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { IInput } from '../../../../_helper/_input';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import NewSelect from '../../../../_helper/_select';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import ICustomCard from '../../../../_helper/_customCard';
+import { useHistory } from 'react-router-dom';
 
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({
   shipPoint: Yup.object().shape({
-    value: Yup.string().required("Ship Point is required"),
-    label: Yup.string().required("Ship Point is required"),
+    value: Yup.string().required('Ship Point is required'),
+    label: Yup.string().required('Ship Point is required'),
   }),
   area: Yup.object().shape({
-    value: Yup.string().required("Area is required"),
-    label: Yup.string().required("Area is required"),
+    value: Yup.string().required('Area is required'),
+    label: Yup.string().required('Area is required'),
   }),
 });
 
@@ -58,7 +57,7 @@ export default function FormCmp({
         onSubmit={(values, { setFieldValue }) => {
           setValid(false);
           saveHandler(values, () => {
-            setFieldValue("area", "");
+            setFieldValue('area', '');
           });
         }}
       >
@@ -72,7 +71,7 @@ export default function FormCmp({
         }) => (
           <>
             <ICustomCard
-              title={"Shippoint & Territory Configure"}
+              title={'Shippoint & Territory Configure'}
               backHandler={() => {
                 history.goBack();
               }}
@@ -90,7 +89,7 @@ export default function FormCmp({
                       value={values?.shipPoint}
                       label="Select Shippoint"
                       onChange={(valueOption) => {
-                        setFieldValue("shipPoint", valueOption);
+                        setFieldValue('shipPoint', valueOption);
                       }}
                       placeholder="Select Shippoint"
                       errors={errors}
@@ -105,7 +104,7 @@ export default function FormCmp({
                       value={values?.channel}
                       label="Distribution Channel"
                       onChange={(valueOption) => {
-                        setFieldValue("channel", valueOption);
+                        setFieldValue('channel', valueOption);
                         getRegionDDL(
                           `/oms/TerritoryInfo/GetRegionListByChannelId?DistributionChannelId=${valueOption?.value}`
                         );
@@ -123,7 +122,7 @@ export default function FormCmp({
                       value={values?.region}
                       label="Select Region"
                       onChange={(valueOption) => {
-                        setFieldValue("region", valueOption);
+                        setFieldValue('region', valueOption);
                         getAreaDDL(
                           `/oms/TerritoryInfo/GetAreaListByRegionId?DistributionChannelId=${values?.channel?.value}&RegionId=${valueOption?.value}`
                         );
@@ -142,9 +141,9 @@ export default function FormCmp({
                       label="Select Area"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("area", valueOption);
+                          setFieldValue('area', valueOption);
                         } else {
-                          setFieldValue("area", "");
+                          setFieldValue('area', '');
                         }
                       }}
                       placeholder="Select Area"

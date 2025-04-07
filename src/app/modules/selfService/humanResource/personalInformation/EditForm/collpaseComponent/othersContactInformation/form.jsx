@@ -65,7 +65,7 @@ export default function FormCmp({
       countryId,
       divisionId,
       districtId,
-      setPoliceStationDDL,
+      setPoliceStationDDL
     );
   };
 
@@ -75,7 +75,7 @@ export default function FormCmp({
       value?.countryId,
       value?.divisionId,
       value?.districtId,
-      setPoliceStationDDL,
+      setPoliceStationDDL
     );
   };
 
@@ -208,7 +208,7 @@ export default function FormCmp({
                             setFieldValue('stateDivision', '');
                             getDivisionDDL_api(
                               valueOption?.value,
-                              setDivisionDDLLocal,
+                              setDivisionDDLLocal
                             );
 
                             if (valueOption?.value !== 18) {
@@ -249,7 +249,7 @@ export default function FormCmp({
                                 getDistrictDDL_api(
                                   values?.country?.value,
                                   valueOption?.value,
-                                  setDistrictDDL,
+                                  setDistrictDDL
                                 );
                               }}
                               placeholder="State/Division"
@@ -271,7 +271,7 @@ export default function FormCmp({
                                 cityDistrictOnChangeHandler(
                                   values?.country?.value,
                                   values?.stateDivision?.value,
-                                  valueOption?.value,
+                                  valueOption?.value
                                 );
                               }}
                               placeholder="City/District"
@@ -462,7 +462,7 @@ export default function FormCmp({
                                                 editBtnHandler(
                                                   index,
                                                   itm,
-                                                  setValues,
+                                                  setValues
                                                 );
                                                 ddlForEdit(itm);
                                               }}
@@ -502,7 +502,7 @@ export default function FormCmp({
                     }}
                     onDelete={(deleteFileObj) => {
                       const newData = fileObjects.filter(
-                        (item) => item.file.name !== deleteFileObj.file.name,
+                        (item) => item.file.name !== deleteFileObj.file.name
                       );
                       setFileObjects(newData);
                     }}

@@ -1,16 +1,16 @@
-import React from "react";
-import { Formik } from "formik";
-import { useEffect, useState } from "react";
-import { getChartererByVoyageId } from "../../../helper";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
+import React from 'react';
+import { Formik } from 'formik';
+import { useEffect, useState } from 'react';
+import { getChartererByVoyageId } from '../../../helper';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
 import {
   getCargoDDLbyChartererId,
   getShipperDDLbyVoyageId,
   validationSchema,
-} from "../helper";
-import CargoTable, { addCargoShipper } from "./cargoTable";
+} from '../helper';
+import CargoTable, { addCargoShipper } from './cargoTable';
 
 export default function FormCmp({
   modalData,
@@ -33,7 +33,6 @@ export default function FormCmp({
       getChartererByVoyageId(landingData?.voyageId, setChartererDDL, null);
       getShipperDDLbyVoyageId(landingData?.voyageId, setShipperDDL, null);
     }
-
   }, [landingData?.voyageId]);
 
   useEffect(() => {
@@ -45,7 +44,6 @@ export default function FormCmp({
         setLoading
       );
     }
-
   }, [initData?.charterer?.value]);
 
   return (
@@ -72,24 +70,24 @@ export default function FormCmp({
           setTouched,
         }) => (
           <>
-            <form style={{ border: "0px" }} className="marine-modal-form-card">
+            <form style={{ border: '0px' }} className="marine-modal-form-card">
               <div className="marine-form-card-heading">
                 <p>{title}</p>
                 <div>
-                  {viewType !== "View" && (
+                  {viewType !== 'View' && (
                     <button
                       type="button"
                       onClick={() => resetForm(initData)}
-                      className={"btn btn-info reset-btn ml-2 px-3 py-2"}
+                      className={'btn btn-info reset-btn ml-2 px-3 py-2'}
                     >
                       Reset
                     </button>
                   )}
 
-                  {viewType !== "View" && (
+                  {viewType !== 'View' && (
                     <button
                       type="submit"
-                      className={"btn btn-success ml-2 px-3 py-2"}
+                      className={'btn btn-success ml-2 px-3 py-2'}
                       onClick={handleSubmit}
                       disabled={false}
                     >
@@ -103,7 +101,7 @@ export default function FormCmp({
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.charterer || ""}
+                      value={values?.charterer || ''}
                       isSearchable={true}
                       options={chartererDDL || []}
                       styles={customStyles}
@@ -112,19 +110,19 @@ export default function FormCmp({
                       label="Charterer Name"
                       onChange={(valueOption) => {
                         setFieldValue(
-                          "demurrageRate",
+                          'demurrageRate',
                           valueOption?.demurrageRate
                         );
                         setFieldValue(
-                          "despatchRate",
+                          'despatchRate',
                           valueOption?.dispatchRate
                         );
                         setFieldValue(
-                          "deadFreightDetention",
+                          'deadFreightDetention',
                           valueOption?.deadFreight
                         );
 
-                        setFieldValue("charterer", valueOption);
+                        setFieldValue('charterer', valueOption);
                         setCargoList([]);
 
                         getCargoDDLbyChartererId(
@@ -134,14 +132,14 @@ export default function FormCmp({
                           setLoading
                         );
                       }}
-                      isDisabled={viewType === "View" || viewType === "Edit"}
+                      isDisabled={viewType === 'View' || viewType === 'Edit'}
                       errors={errors}
                       touched={touched}
                     />
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.shipper || ""}
+                      value={values?.shipper || ''}
                       isSearchable={true}
                       options={shipperDDL || []}
                       styles={customStyles}
@@ -149,9 +147,9 @@ export default function FormCmp({
                       placeholder="Shipper"
                       label="Shipper"
                       onChange={(valueOption) => {
-                        setFieldValue("shipper", valueOption);
+                        setFieldValue('shipper', valueOption);
                       }}
-                      isDisabled={viewType === "View"}
+                      isDisabled={viewType === 'View'}
                       errors={errors}
                       touched={touched}
                     />
@@ -183,7 +181,7 @@ export default function FormCmp({
                     />
                   </div>
 
-                  <div className={"col-lg-2"}>
+                  <div className={'col-lg-2'}>
                     <label>Dead Freight</label>
                     <FormikInput
                       value={values?.deadFreightDetention}
@@ -196,11 +194,11 @@ export default function FormCmp({
                     />
                   </div>
 
-                  {viewType !== "View" ? (
+                  {viewType !== 'View' ? (
                     <>
                       <div className="col-lg-3">
                         <FormikSelect
-                          value={values?.cargo || ""}
+                          value={values?.cargo || ''}
                           isSearchable={true}
                           options={cargoDDL || []}
                           styles={customStyles}
@@ -208,9 +206,9 @@ export default function FormCmp({
                           placeholder="Cargo Name"
                           label="Cargo Name"
                           onChange={(valueOption) => {
-                            setFieldValue("cargo", valueOption);
+                            setFieldValue('cargo', valueOption);
                           }}
-                          isDisabled={viewType === "View"}
+                          isDisabled={viewType === 'View'}
                           errors={errors}
                           touched={touched}
                         />
@@ -227,7 +225,7 @@ export default function FormCmp({
                               });
                               setTimeout(() => {
                                 setErrors({
-                                  cargo: "Cargo is required",
+                                  cargo: 'Cargo is required',
                                 });
                               }, 50);
                             } else {

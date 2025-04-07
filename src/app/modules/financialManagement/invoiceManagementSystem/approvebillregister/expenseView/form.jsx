@@ -1,46 +1,45 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import Loading from "./../../../../_helper/_loading";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import React, { useState, useEffect, useRef } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import Loading from './../../../../_helper/_loading';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
+} from './../../../../../../_metronic/_partials/controls';
 import {
   BillApproved_api,
   getExpanseBillDetail,
   GetExpensesByBill_api,
-} from "../helper";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import InputField from "./../../../../_helper/_inputField";
-import IView from "./../../../../_helper/_helperIcons/_view";
-import ClearExpenseViewModel from "./../../billregister/internalExpense/clearExpenseViewModel";
-import { getMultipleFileView_Action } from "../../../../_helper/_redux/Actions";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { IInput } from "../../../../_helper/_input";
-import { toast } from "react-toastify";
+} from '../helper';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import InputField from './../../../../_helper/_inputField';
+import IView from './../../../../_helper/_helperIcons/_view';
+import ClearExpenseViewModel from './../../billregister/internalExpense/clearExpenseViewModel';
+import { getMultipleFileView_Action } from '../../../../_helper/_redux/Actions';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { IInput } from '../../../../_helper/_input';
+import { toast } from 'react-toastify';
 const initData = {
-  approveAmount: "",
-  approveAmountMax: "",
-  remarks: "",
+  approveAmount: '',
+  approveAmountMax: '',
+  remarks: '',
 };
 
 const validationSchema = Yup.object().shape({
   approveAmount: Yup.number()
-    .min(0, "Minimum 0 number")
-    .required("Approve amount required")
-    // .test("approveAmount", "invalid number ", function(value) {
-    //   return this.parent.approveAmountMax >= value;
-    // })
-    ,
-    // netAmount: Yup.number()
-    // .min(0, "Minimum 0 number")
-    // .required("Net amount required"),
+    .min(0, 'Minimum 0 number')
+    .required('Approve amount required'),
+  // .test("approveAmount", "invalid number ", function(value) {
+  //   return this.parent.approveAmountMax >= value;
+  // })
+  // netAmount: Yup.number()
+  // .min(0, "Minimum 0 number")
+  // .required("Net amount required"),
 });
 function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
   const profileData = useSelector((state) => {
@@ -52,7 +51,7 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
   }, shallowEqual);
   const [disabled, setDisabled] = useState(false);
   const [singleData, setSingleData] = useState([]);
-  const [expGridItem, setExpGridItem] = useState("");
+  const [expGridItem, setExpGridItem] = useState('');
   const [expModalShow, setExpModalShow] = useState(false);
   // const [total, setTotal] = useState(0);
   const [expanseBillDetail, setExpanseBillDetail] = useState(null);
@@ -73,15 +72,14 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
       setter: setExpanseBillDetail,
       setLoading: setDisabled,
     });
-
   }, [profileData, selectedBusinessUnit, gridItem]);
 
   const saveHandler = (values) => {
     if (values?.approveAmount < 0) {
-      return toast.warning("Net amount Invalid amount ");
+      return toast.warning('Net amount Invalid amount ');
     }
     if (+values?.approveAmount > gridItem?.monTotalAmount) {
-      return toast.warning("Invalid amount");
+      return toast.warning('Invalid amount');
     }
     const modifyGridData = {
       bill: [
@@ -91,7 +89,7 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
           billTypeId: gridItem?.billType,
           approvedAmount:
             +values?.approveAmount - (gridItem?.adjustmentAmount || 0),
-          remarks: values?.remarks || "",
+          remarks: values?.remarks || '',
         },
       ],
       row: expanseBillDetail.map((itm) => ({
@@ -99,7 +97,7 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
         headerId: itm?.expenseId,
         requestAmount: itm?.requestAmount || 0,
         approvedAmount: +itm?.lineManagerAmount || 0,
-        remarks: "",
+        remarks: '',
       })),
     };
     const payload = modifyGridData;
@@ -136,14 +134,18 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
   // rowdto handler for catch data from row's input field in rowTable
   const rowDtoHandler = (name, value, sl, setFieldValue, item) => {
     let data = [...expanseBillDetail];
-    if(+value < (+item?.adjustmentAmount || 0)){
-      return toast.warn("Line Manager amount can not be less than Adjustment amount");
+    if (+value < (+item?.adjustmentAmount || 0)) {
+      return toast.warn(
+        'Line Manager amount can not be less than Adjustment amount'
+      );
     }
-    if(+value > (+item?.lineManagerAmountForCondition || 0)){
-      return toast.warn("Line Manager amount can not be greater than Line Manager Approval amount");
+    if (+value > (+item?.lineManagerAmountForCondition || 0)) {
+      return toast.warn(
+        'Line Manager amount can not be greater than Line Manager Approval amount'
+      );
     }
     if (+value > item?.requestAmount) {
-      return toast.warning("Invalid amount", { toastId: "requestAmount" });
+      return toast.warning('Invalid amount', { toastId: 'requestAmount' });
     }
     let _sl = data[sl];
     _sl[name] = +value;
@@ -151,7 +153,7 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
       (acc, cur) => (acc += +cur?.lineManagerAmount || 0),
       0
     );
-    setFieldValue("approveAmount", lineManagerAmount);
+    setFieldValue('approveAmount', lineManagerAmount);
     setExpanseBillDetail(data);
   };
   const netAmount =
@@ -187,7 +189,7 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
               {disabled && <Loading />}
               <Card>
                 {true && <ModalProgressBar />}
-                <CardHeader title={"Expense View (Approve Bill)"}>
+                <CardHeader title={'Expense View (Approve Bill)'}>
                   <CardHeaderToolbar>
                     {laingValues?.status?.value !== 2 && (
                       <button
@@ -256,17 +258,17 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                       <div className="col-lg-12 ">
                         <div
                           className="text-center "
-                          style={{ position: "relative" }}
+                          style={{ position: 'relative' }}
                         >
                           <h2>{selectedBusinessUnit?.label}</h2>
                           <h5>{selectedBusinessUnit?.address} </h5>
                           <h3>Internal Expense</h3>
                           <button
                             style={{
-                              padding: "4px 4px",
-                              position: "absolute",
-                              top: "2px",
-                              right: "70px",
+                              padding: '4px 4px',
+                              position: 'absolute',
+                              top: '2px',
+                              right: '70px',
                             }}
                             onClick={() => {
                               dispatch(
@@ -282,23 +284,23 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                           </button>
                           <ReactToPrint
                             pageStyle={
-                              "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}"
+                              '@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}'
                             }
                             trigger={() => (
                               <button
                                 type="button"
                                 className="btn btn-primary printSectionNone"
                                 style={{
-                                  padding: "2px 5px",
-                                  position: "absolute",
-                                  top: "0",
-                                  right: "0",
+                                  padding: '2px 5px',
+                                  position: 'absolute',
+                                  top: '0',
+                                  right: '0',
                                 }}
                               >
                                 <img
                                   style={{
-                                    width: "25px",
-                                    paddingRight: "5px",
+                                    width: '25px',
+                                    paddingRight: '5px',
                                   }}
                                   src={printIcon}
                                   alt="print-icon"
@@ -318,7 +320,7 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                             <b>Bill Code:</b> {singleData?.[0]?.billCode}
                           </p>
                           <p className="m-0">
-                            <b>Bill Date:</b>{" "}
+                            <b>Bill Date:</b>{' '}
                             {_dateFormatter(gridItem?.billRegisterDate)}
                           </p>
                         </div>
@@ -326,24 +328,24 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                           <table className="table table-striped table-bordered mt-3 global-table">
                             <thead>
                               <tr>
-                                <th style={{ width: "25px" }}>Sl</th>
-                                <th style={{ width: "150px" }}>Code</th>
-                                <th style={{ width: "150px" }}>For Name</th>
-                                <th style={{ width: "150px" }}>From Date</th>
-                                <th style={{ width: "150px" }}>To Date</th>
-                                <th style={{ width: "150px" }}>
+                                <th style={{ width: '25px' }}>Sl</th>
+                                <th style={{ width: '150px' }}>Code</th>
+                                <th style={{ width: '150px' }}>For Name</th>
+                                <th style={{ width: '150px' }}>From Date</th>
+                                <th style={{ width: '150px' }}>To Date</th>
+                                <th style={{ width: '150px' }}>
                                   Disbursement Center
                                 </th>
-                                <th style={{ width: "150px" }}>Payment Type</th>
+                                <th style={{ width: '150px' }}>Payment Type</th>
 
-                                <th style={{ width: "150px" }}>
+                                <th style={{ width: '150px' }}>
                                   Total Expense
                                 </th>
-                                <th style={{ width: "150px" }}>
+                                <th style={{ width: '150px' }}>
                                   Adjust Amount
                                 </th>
                                 <th
-                                  style={{ width: "150px" }}
+                                  style={{ width: '150px' }}
                                   className="printSectionNone"
                                 >
                                   Actions
@@ -406,7 +408,7 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                           </table>
                           {laingValues?.status?.value === 2 && (
                             <p className="mt-2 text-right">
-                              <b>Bill Approved Amount:</b>{" "}
+                              <b>Bill Approved Amount:</b>{' '}
                               {singleData?.[0]?.numTotalApprovedAmount}
                             </p>
                           )}
@@ -420,27 +422,27 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                           <table className="table table-striped table-bordered mt-3 global-table">
                             <thead>
                               <tr>
-                                <th style={{ width: "25px" }}>Sl</th>
-                                <th style={{ width: "150px" }}>Code</th>
-                                <th style={{ width: "150px" }}>
+                                <th style={{ width: '25px' }}>Sl</th>
+                                <th style={{ width: '150px' }}>Code</th>
+                                <th style={{ width: '150px' }}>
                                   Business Transaction Name
                                 </th>
-                                <th style={{ width: "150px" }}>Employee</th>
-                                <th style={{ width: "150px" }}>
+                                <th style={{ width: '150px' }}>Employee</th>
+                                <th style={{ width: '150px' }}>
                                   Expense Group
                                 </th>
-                                <th style={{ width: "150px" }}>
+                                <th style={{ width: '150px' }}>
                                   Line Manager Req. Amount
                                 </th>
-                                <th style={{ width: "150px" }}>
+                                <th style={{ width: '150px' }}>
                                   Adjustment Amount
                                 </th>
-                                <th style={{ width: "150px" }}>
+                                <th style={{ width: '150px' }}>
                                   Line Manager Amount
                                 </th>
-                                <th style={{ width: "150px" }}>Remarks</th>
+                                <th style={{ width: '150px' }}>Remarks</th>
                                 <th
-                                  style={{ width: "150px" }}
+                                  style={{ width: '150px' }}
                                   className="printSectionNone"
                                 >
                                   Actions
@@ -466,7 +468,7 @@ function FormCmp({ gridItem, laingValues, girdDataFunc, setModalShow }) {
                                       required
                                       onChange={(e) => {
                                         rowDtoHandler(
-                                          "lineManagerAmount",
+                                          'lineManagerAmount',
                                           e.target.value,
                                           index,
                                           setFieldValue,

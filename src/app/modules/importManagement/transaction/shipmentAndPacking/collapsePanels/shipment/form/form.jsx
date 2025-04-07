@@ -1,4 +1,3 @@
-
 import { Form, Formik } from 'formik';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
 import React, { useEffect, useState } from 'react';
@@ -82,8 +81,8 @@ export default function FormCmp({
     setFieldValue(
       'invoiceAmount',
       getTotalAmount(data, 'shippedQuantity') +
-      Number(values?.freightCharge) +
-      Number(values?.packingCharge),
+        Number(values?.freightCharge) +
+        Number(values?.packingCharge)
     );
     setRowDto([...data]);
   };
@@ -131,7 +130,6 @@ export default function FormCmp({
               >
                 <CardHeaderToolbar>
                   <>
-
                     {type === 'view' ? (
                       false
                     ) : (
@@ -265,13 +263,13 @@ export default function FormCmp({
                             onChange={(e) => {
                               setFieldValue(
                                 'packingCharge',
-                                e.target.value ? Number(e.target.value) : '',
+                                e.target.value ? Number(e.target.value) : ''
                               );
                               setFieldValue(
                                 'invoiceAmount',
                                 getTotalAmount(rowDto, 'shippedQuantity') +
-                                Number(values?.freightCharge) +
-                                Number(e.target.value),
+                                  Number(values?.freightCharge) +
+                                  Number(e.target.value)
                               );
                             }}
                           />
@@ -287,13 +285,13 @@ export default function FormCmp({
                             onChange={(e) => {
                               setFieldValue(
                                 'freightCharge',
-                                e.target.value ? Number(e.target.value) : '',
+                                e.target.value ? Number(e.target.value) : ''
                               );
                               setFieldValue(
                                 'invoiceAmount',
                                 getTotalAmount(rowDto, 'shippedQuantity') +
-                                Number(e.target.value) +
-                                Number(values?.packingCharge),
+                                  Number(e.target.value) +
+                                  Number(values?.packingCharge)
                               );
                             }}
                             min="0"
@@ -373,7 +371,7 @@ export default function FormCmp({
                             onChange={(e) => {
                               setFieldValue(
                                 'numberOfContainer',
-                                e.target.value,
+                                e.target.value
                               );
                             }}
                             disabled={type === 'view'}
@@ -404,7 +402,7 @@ export default function FormCmp({
                               onDelete={(deleteFileObj) => {
                                 const newData = fileObjects.filter(
                                   (item) =>
-                                    item.file.name !== deleteFileObj.file.name,
+                                    item.file.name !== deleteFileObj.file.name
                                 );
                                 setFileObjects(newData);
                               }}
@@ -414,7 +412,7 @@ export default function FormCmp({
                                 empAttachment_action(fileObjects).then(
                                   (data) => {
                                     setUploadImage(data);
-                                  },
+                                  }
                                 );
                               }}
                               showPreviews={true}
@@ -433,8 +431,8 @@ export default function FormCmp({
                               onClick={() => {
                                 dispatch(
                                   getDownlloadFileView_Action(
-                                    values?.shipmentDocumentId,
-                                  ),
+                                    values?.shipmentDocumentId
+                                  )
                                 );
                               }}
                               label="View"
@@ -535,7 +533,7 @@ export default function FormCmp({
                                           e,
                                           index,
                                           values,
-                                          setFieldValue,
+                                          setFieldValue
                                         );
                                       }}
                                     />
@@ -557,7 +555,6 @@ export default function FormCmp({
                                 )}
                               </tr>
                             ))}
-
                         </tbody>
                       </table>
                     </div>
@@ -605,7 +602,7 @@ export default function FormCmp({
                             style={{ fontWeight: 'bold' }}
                           >
                             {numberWithCommas(
-                              getTotalAmount(rowDto, 'addedQuantity'),
+                              getTotalAmount(rowDto, 'addedQuantity')
                             )}
                           </div>{' '}
                         </>
@@ -626,8 +623,8 @@ export default function FormCmp({
                               getTotalShippedAmount(
                                 rowDto,
                                 values,
-                                'addedQuantity',
-                              ),
+                                'addedQuantity'
+                              )
                             )}
                           </div>
                         </>
@@ -649,8 +646,8 @@ export default function FormCmp({
                             getTotalShippedAmount(
                               rowDto,
                               values,
-                              'shippedQuantity',
-                            ),
+                              'shippedQuantity'
+                            )
                           )}
                         </div>
                       )}

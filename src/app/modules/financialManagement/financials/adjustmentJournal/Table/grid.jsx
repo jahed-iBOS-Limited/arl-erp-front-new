@@ -1,23 +1,23 @@
-import React, { useCallback, useState } from "react";
-import { withRouter } from "react-router-dom";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import IApproval from "./../../../../_helper/_helperIcons/_approval";
-import IDelete from "./../../../../_helper/_helperIcons/_delete";
-import Loading from "./../../../../_helper/_loading";
+import React, { useCallback, useState } from 'react';
+import { withRouter } from 'react-router-dom';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import IApproval from './../../../../_helper/_helperIcons/_approval';
+import IDelete from './../../../../_helper/_helperIcons/_delete';
+import Loading from './../../../../_helper/_loading';
 // import PaginationTable from "./../../../../_helper/_tablePagination";
-import { Modal, OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { checkTwoFactorApproval } from "../../../../_helper/_commonApi";
-import findIndex from "../../../../_helper/_findIndex";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import IHistory from "../../../../_helper/_helperIcons/_history";
-import IViewModal from "../../../../_helper/_viewModal";
-import { dynamicSerial } from "../../utils";
-import HistoryModal from "../adjustmentJournalHistory";
-import { AdjustmentJournalViewTableRow } from "../report/tableRow";
+import { Modal, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { checkTwoFactorApproval } from '../../../../_helper/_commonApi';
+import findIndex from '../../../../_helper/_findIndex';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import IHistory from '../../../../_helper/_helperIcons/_history';
+import IViewModal from '../../../../_helper/_viewModal';
+import { dynamicSerial } from '../../utils';
+import HistoryModal from '../adjustmentJournalHistory';
+import { AdjustmentJournalViewTableRow } from '../report/tableRow';
 
 const GridData = ({
   history,
@@ -38,13 +38,9 @@ const GridData = ({
   pageNo,
   pageSize,
 }) => {
-
-  let { userRole } = useSelector(
-    (state) => state?.authData,
-    { shallowEqual }
-  );
-  const [currentItem, setCurrentItem] = useState("");
-  const [historyItem, setHistoryItem] = useState("");
+  let { userRole } = useSelector((state) => state?.authData, { shallowEqual });
+  const [currentItem, setCurrentItem] = useState('');
+  const [historyItem, setHistoryItem] = useState('');
   const [isShowModal, setIsShowModal] = useState(false);
   const [isHistoryModal, setIsHistoryModal] = useState(false);
   const [disabledModalButton, setDisabledModalButton] = useState(false);
@@ -63,10 +59,10 @@ const GridData = ({
     });
   };
 
-  const userPermission = userRole[findIndex(userRole, "Adjustment Journal")];
+  const userPermission = userRole[findIndex(userRole, 'Adjustment Journal')];
 
   const canCreate = userPermission?.isCreate;
-  const canEdit = userPermission?.isEdit
+  const canEdit = userPermission?.isEdit;
 
   return (
     <>
@@ -84,8 +80,8 @@ const GridData = ({
             <table className="table table-striped table-bordered mt-0 bj-table bj-table-landing table-font-size-sm">
               <thead>
                 <tr>
-                  {type === "notComplated" ? (
-                    <th style={{ width: "23px" }}>
+                  {type === 'notComplated' ? (
+                    <th style={{ width: '23px' }}>
                       <input
                         type="checkbox"
                         id="parent"
@@ -95,20 +91,22 @@ const GridData = ({
                       />
                     </th>
                   ) : null}
-                  <th style={{ minWidth: "30px" }} className="positionSticky">SL</th>
-                  <th style={{ width: "100px" }}>Transaction Date</th>
-                  <th style={{ width: "120px" }}>Journal Code</th>
-                  <th style={{ width: "100px" }}>Complete Date</th>
-                  <th style={{ width: "120px" }}>Amount</th>
+                  <th style={{ minWidth: '30px' }} className="positionSticky">
+                    SL
+                  </th>
+                  <th style={{ width: '100px' }}>Transaction Date</th>
+                  <th style={{ width: '120px' }}>Journal Code</th>
+                  <th style={{ width: '100px' }}>Complete Date</th>
+                  <th style={{ width: '120px' }}>Amount</th>
                   <th>Header Narration</th>
-                  <th style={{ width: "125px" }}>Actions</th>
+                  <th style={{ width: '125px' }}>Actions</th>
                 </tr>
               </thead>
               <tbody>
                 {loading && <Loading />}
                 {rowDto?.map((item, index) => (
                   <tr key={index}>
-                    {type === "notComplated" ? (
+                    {type === 'notComplated' ? (
                       <td>
                         <input
                           id="itemCheck"
@@ -126,7 +124,7 @@ const GridData = ({
                     ) : null}
 
                     <td className="text-center positionSticky">
-                      {" "}
+                      {' '}
                       {dynamicSerial(pageNo, pageSize, index)}
                     </td>
                     <td>
@@ -139,8 +137,8 @@ const GridData = ({
                     </td>
                     <td>
                       <div className="pl-2 text-center">
-                        {type === "notComplated"
-                          ? "N/A"
+                        {type === 'notComplated'
+                          ? 'N/A'
                           : _dateFormatter(item?.completeDate)}
                       </div>
                     </td>
@@ -168,43 +166,54 @@ const GridData = ({
                             }}
                           />
                         </span>
-                        {type === "notComplated" ? (
+                        {type === 'notComplated' ? (
                           <>
-                            {canEdit && (<span
-                              className="edit ml-2"
-                              onClick={() => {
-                                history.push(
-                                  `${window.location.pathname}/edit/${item.journlaId}`
-                                );
-                              }}
-                            >
-                              <IEdit />
-                            </span>)}
-                            {(canCreate && item?.isApproved && item?.isManual) && (<span
-                              className="approval ml-2"
-                              onClick={() => {
-                                if (
-                                  completeDate < _dateFormatter(item?.journaldate)
-                                )
-                                  return toast.warn(
-                                    "Complete date should be greater than or equal to journal date"
+                            {canEdit && (
+                              <span
+                                className="edit ml-2"
+                                onClick={() => {
+                                  history.push(
+                                    `${window.location.pathname}/edit/${item.journlaId}`
                                   );
-                                singleApprovalndler(index, completeDate);
-                              }}
-                            >
-                              <IApproval />
-                            </span>)}
-                            {canCreate && (<span
-                              className="delete ml-2"
-                              onClick={() => remover(index)}
-                            >
-                              <IDelete />
-                            </span>)}
+                                }}
+                              >
+                                <IEdit />
+                              </span>
+                            )}
+                            {canCreate &&
+                              item?.isApproved &&
+                              item?.isManual && (
+                                <span
+                                  className="approval ml-2"
+                                  onClick={() => {
+                                    if (
+                                      completeDate <
+                                      _dateFormatter(item?.journaldate)
+                                    )
+                                      return toast.warn(
+                                        'Complete date should be greater than or equal to journal date'
+                                      );
+                                    singleApprovalndler(index, completeDate);
+                                  }}
+                                >
+                                  <IApproval />
+                                </span>
+                              )}
+                            {canCreate && (
+                              <span
+                                className="delete ml-2"
+                                onClick={() => remover(index)}
+                              >
+                                <IDelete />
+                              </span>
+                            )}
                           </>
                         ) : null}
-                        {type === "complated" && (
+                        {type === 'complated' && (
                           <OverlayTrigger
-                            overlay={<Tooltip id="cs-icon">{"Reverse"}</Tooltip>}
+                            overlay={
+                              <Tooltip id="cs-icon">{'Reverse'}</Tooltip>
+                            }
                           >
                             <span
                               className={`iconActive ml-2`}
@@ -213,7 +222,7 @@ const GridData = ({
                                   isShow: true,
                                   data: item,
                                   index,
-                                  otp: "",
+                                  otp: '',
                                 });
                               }}
                             >
@@ -230,7 +239,7 @@ const GridData = ({
                 ))}
                 {rowDto.length > 0 && (
                   <tr>
-                    {type === "notComplated" && <td></td>}
+                    {type === 'notComplated' && <td></td>}
                     <td></td>
                     <td></td>
                     <td></td>
@@ -238,7 +247,9 @@ const GridData = ({
                       <b className="pl-2">Total</b>
                     </td>
                     <td className="text-right">
-                      <div className="pr-2">{(totalAmount || 0).toFixed(2)}</div>
+                      <div className="pr-2">
+                        {(totalAmount || 0).toFixed(2)}
+                      </div>
                     </td>
                     <td></td>
                     <td></td>
@@ -255,7 +266,10 @@ const GridData = ({
             show={isHistoryModal}
             onHide={() => setIsHistoryModal(false)}
           >
-            <HistoryModal adjustmentJournalId={historyItem?.journlaId} landingItem={historyItem} />
+            <HistoryModal
+              adjustmentJournalId={historyItem?.journlaId}
+              landingItem={historyItem}
+            />
           </IViewModal>
         </div>
       </div>
@@ -308,7 +322,7 @@ const GridData = ({
                   checkTwoFactorApproval(
                     2,
                     selectedBusinessUnit?.value,
-                    "Journal",
+                    'Journal',
                     reverseModalShowState?.data?.journlaId,
                     reverseModalShowState?.data?.code,
                     7,
@@ -331,18 +345,18 @@ const GridData = ({
                   checkTwoFactorApproval(
                     1,
                     selectedBusinessUnit?.value,
-                    "Journal",
+                    'Journal',
                     reverseModalShowState?.data?.journlaId,
                     reverseModalShowState?.data?.code,
                     7,
                     profileData?.userId,
-                    "",
+                    '',
                     1,
                     setDisabledModalButton,
                     () => {
                       setReverseModalShowState({
                         ...reverseModalShowState,
-                        otp: "",
+                        otp: '',
                         isOtpGenerate: true,
                       });
                     }
@@ -352,17 +366,17 @@ const GridData = ({
               disabled={disabledModalButton}
             >
               {disabledModalButton
-                ? "Processing"
+                ? 'Processing'
                 : reverseModalShowState?.isOtpGenerate
-                  ? "Send"
-                  : "Yes"}
+                  ? 'Send'
+                  : 'Yes'}
             </button>
             <button
               className="btn btn-secondary"
               onClick={handleClose}
-            // disabled={disabledModalButton}
+              // disabled={disabledModalButton}
             >
-              {reverseModalShowState?.isOtpGenerate ? "Cancel" : "No"}
+              {reverseModalShowState?.isOtpGenerate ? 'Cancel' : 'No'}
             </button>
           </div>
         </Modal.Body>

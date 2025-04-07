@@ -1,6 +1,3 @@
-
-
-
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { Formik, Form as FormikForm } from 'formik';
@@ -51,13 +48,13 @@ export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
       poId,
       orId,
       selectedBusinessUnit?.value,
-      setPurchaseOrderReport,
+      setPurchaseOrderReport
     );
   }, [poId]);
 
   let totalSum = purchaseOrderReport?.objRowListDTO?.reduce(
     (acc, sum) => sum?.totalValue + acc,
-    0,
+    0
   );
 
   const printRef = useRef();
@@ -133,7 +130,7 @@ export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
               className="btn btn-primary ml-2"
               onClick={(e) =>
                 pdfExport(
-                  `${purchaseOrderReport?.objHeaderDTO?.purchaseOrderNo}`,
+                  `${purchaseOrderReport?.objHeaderDTO?.purchaseOrderNo}`
                 )
               }
             >
@@ -232,7 +229,7 @@ export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
                         Order Date:{' '}
                         {_dateFormatter(
                           purchaseOrderReport?.objHeaderDTO
-                            ?.purchaseOrderDateTime,
+                            ?.purchaseOrderDateTime
                         )}{' '}
                         Status:{' '}
                         <span className="mr-2">
@@ -279,7 +276,9 @@ export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
                             </p>
                             <p style={{ lineHeight: '5px' }} className="mt-2">
                               Bin No.{' '}
-                              {purchaseOrderReport?.objHeaderDTO?.companyBinNo}{' '}
+                              {
+                                purchaseOrderReport?.objHeaderDTO?.companyBinNo
+                              }{' '}
                             </p>
                             <p style={{ lineHeight: '5px' }}>
                               {' '}
@@ -348,7 +347,7 @@ export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
                                     {data?.totalValue}
                                   </td>
                                 </tr>
-                              ),
+                              )
                             )}
                             <tr>
                               {/* <td></td>
@@ -428,7 +427,7 @@ export function PurchaseOrderViewTableRow({ poId, orId, isHiddenBackBtn }) {
                                 <td>
                                   {_dateFormatter(
                                     purchaseOrderReport?.objHeaderDTO
-                                      ?.lastShipmentDate,
+                                      ?.lastShipmentDate
                                   )}
                                 </td>
                                 <td>

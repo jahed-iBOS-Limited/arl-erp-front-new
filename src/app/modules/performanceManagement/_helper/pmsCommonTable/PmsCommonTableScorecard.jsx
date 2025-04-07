@@ -1,23 +1,22 @@
-import React from "react";
-import PmsCommonTable from "./PmsCommonTable";
-import IView from "../../../_helper/_helperIcons/_view";
-
+import React from 'react';
+import PmsCommonTable from './PmsCommonTable';
+import IView from '../../../_helper/_helperIcons/_view';
 
 // this table is used in 8 places, before changing this table, please discuss with responsible person
 const PmsCommonTableScorecard = ({ report, actionHandler }) => {
   let arr = [
-    { name: "BSC" },
-    { name: "Objective" },
-    { name: "KPI" },
-    { name: "SRF" },
-    { name: "Weight" },
-    { name: "Target" },
-    { name: "Achievement" },
-    { name: "Progress" },
+    { name: 'BSC' },
+    { name: 'Objective' },
+    { name: 'KPI' },
+    { name: 'SRF' },
+    { name: 'Weight' },
+    { name: 'Target' },
+    { name: 'Achievement' },
+    { name: 'Progress' },
   ];
 
   if (actionHandler) {
-    arr.push({ name: "Action", style: { width: "50px" } });
+    arr.push({ name: 'Action', style: { width: '50px' } });
   }
 
   return (
@@ -36,8 +35,8 @@ const PmsCommonTableScorecard = ({ report, actionHandler }) => {
               )}
               {item?.isParent && (
                 <td className="obj" rowspan={item?.numberOfChild}>
-                  {" "}
-                  {item?.parentName}{" "}
+                  {' '}
+                  {item?.parentName}{' '}
                 </td>
               )}
               <td> {item?.label} </td>
@@ -48,7 +47,7 @@ const PmsCommonTableScorecard = ({ report, actionHandler }) => {
               <td>
                 {indx !== report?.infoList.length - 1 && (
                   <div className="text-right">
-                    {item?.progress}%{" "}
+                    {item?.progress}%{' '}
                     <i
                       className={`ml-2 fas fa-arrow-alt-${item?.arrowText}`}
                     ></i>

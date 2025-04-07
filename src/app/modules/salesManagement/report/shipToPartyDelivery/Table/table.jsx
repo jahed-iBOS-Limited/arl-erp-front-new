@@ -1,22 +1,22 @@
-import axios from "axios";
-import { Formik } from "formik";
-import moment from "moment";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { generateJsonToExcel } from "../../../../_helper/excel/jsonToExcel";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import ICard from "../../../../_helper/_card";
-import { dateFormatWithMonthName } from "../../../../_helper/_dateFormate";
-import { _firstDateofMonth } from "../../../../_helper/_firstDateOfCurrentMonth";
-import FormikError from "../../../../_helper/_formikError";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import axios from 'axios';
+import { Formik } from 'formik';
+import moment from 'moment';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { generateJsonToExcel } from '../../../../_helper/excel/jsonToExcel';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import ICard from '../../../../_helper/_card';
+import { dateFormatWithMonthName } from '../../../../_helper/_dateFormate';
+import { _firstDateofMonth } from '../../../../_helper/_firstDateOfCurrentMonth';
+import FormikError from '../../../../_helper/_formikError';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   CreateSupplierBaseDeliveryExcel,
   CreateSupplierBaseDeliveryTransferExcel,
-} from "../excel/excel";
+} from '../excel/excel';
 import {
   getCustomerDeliveryStatementForShiptoPartner,
   getCustomerNameDDL,
@@ -28,32 +28,32 @@ import {
   getShipToParty,
   getSupplierBaseDeliveryCustomerChallan,
   getSupplierBaseDeliveryTransferChallan,
-} from "../helper";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import TableGird from "./gird";
-import TableGirdFive from "./girdFive";
-import TableGirdFour from "./girdFour";
-import TableGirdThree from "./girdThree";
-import TableGirdTwo from "./girdTwo";
-import TableGirdEight from "./gridEight";
-import TableGirdSeven from "./gridSeven";
-import TableGirdSix from "./gridSix";
+} from '../helper';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import TableGird from './gird';
+import TableGirdFive from './girdFive';
+import TableGirdFour from './girdFour';
+import TableGirdThree from './girdThree';
+import TableGirdTwo from './girdTwo';
+import TableGirdEight from './gridEight';
+import TableGirdSeven from './gridSeven';
+import TableGirdSix from './gridSix';
 
 const initData = {
   fromDate: _firstDateofMonth(),
   // fromTime: _todaysStartTime(),
-  fromTime: "00:00",
+  fromTime: '00:00',
   toDate: _todayDate(),
   // toTime: _todaysEndTime(),
-  toTime: "00:00",
-  shippointDDL: "",
-  customerNameDDL: "",
-  salesOrg: "",
-  distributionChannel: "",
-  supplierName: "",
+  toTime: '00:00',
+  shippointDDL: '',
+  customerNameDDL: '',
+  salesOrg: '',
+  distributionChannel: '',
+  supplierName: '',
   reportType: {
     value: 1,
-    label: "Top Sheet",
+    label: 'Top Sheet',
   },
 };
 
@@ -66,21 +66,21 @@ export default function ShipToPartyDelivery() {
   const [shipToPartyDDL, setShipToPartyDDL] = useState([]);
   const [distributionChannelDDL, setDistributionChannelDDL] = useState([]);
   const [reportTypeDDL] = useState([
-    { value: 1, label: "Top Sheet" },
-    { value: 2, label: "Detail" },
-    { value: 3, label: "Distributor Coverage Report" },
-    { value: 4, label: "Retailer Sales For All Distributor" },
-    { value: 5, label: "Retailer Sales For Single Distributor" },
-    { value: 6, label: "Retailer No Sales For Single Distributor" },
-    { value: 7, label: "Labour Bill Details " },
-    { value: 8, label: "Labour Bill Category basic" },
-    { value: 9, label: "Vehicle Catg  & Day Basis" },
-    { value: 10, label: "Only Day Basis" },
-    { value: 11, label: "Supplier Base Delivery (Customer Challan - Details)" },
-    { value: 12, label: "Supplier Base Delivery (Transfer Challan)" },
+    { value: 1, label: 'Top Sheet' },
+    { value: 2, label: 'Detail' },
+    { value: 3, label: 'Distributor Coverage Report' },
+    { value: 4, label: 'Retailer Sales For All Distributor' },
+    { value: 5, label: 'Retailer Sales For Single Distributor' },
+    { value: 6, label: 'Retailer No Sales For Single Distributor' },
+    { value: 7, label: 'Labour Bill Details ' },
+    { value: 8, label: 'Labour Bill Category basic' },
+    { value: 9, label: 'Vehicle Catg  & Day Basis' },
+    { value: 10, label: 'Only Day Basis' },
+    { value: 11, label: 'Supplier Base Delivery (Customer Challan - Details)' },
+    { value: 12, label: 'Supplier Base Delivery (Transfer Challan)' },
     {
       value: 13,
-      label: "Supplier Base Delivery (Customer Challan - Top Sheet)",
+      label: 'Supplier Base Delivery (Customer Challan - Top Sheet)',
     },
   ]);
 
@@ -109,96 +109,95 @@ export default function ShipToPartyDelivery() {
         setDistributionChannelDDL
       );
     }
-
   }, [profileData]);
   const generateExcel = (values, row) => {
     let header = [
       {
-        text: "SL",
-        textFormat: "number",
-        alignment: "center:middle",
-        key: "sl",
+        text: 'SL',
+        textFormat: 'number',
+        alignment: 'center:middle',
+        key: 'sl',
       },
       {
-        text: "Ship To Party",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "shipToPartnerName",
+        text: 'Ship To Party',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'shipToPartnerName',
       },
       {
-        text: "Ship To Party Id",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "shipToPartnerId",
+        text: 'Ship To Party Id',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'shipToPartnerId',
       },
       {
-        text: "Sold To Party",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "customerName",
+        text: 'Sold To Party',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'customerName',
       },
       {
-        text: "Region",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "region",
+        text: 'Region',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'region',
       },
       {
-        text: "Area",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "area",
+        text: 'Area',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'area',
       },
       {
-        text: "Territory",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "territory",
+        text: 'Territory',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'territory',
       },
       {
-        text: "Ship Point",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "shipPointName",
+        text: 'Ship Point',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'shipPointName',
       },
       {
-        text: "UoM",
-        textFormat: "text",
-        alignment: "center:middle",
-        key: "uomName",
+        text: 'UoM',
+        textFormat: 'text',
+        alignment: 'center:middle',
+        key: 'uomName',
       },
       {
-        text: "Quantity",
-        textFormat: "number",
-        alignment: "center:middle",
-        key: "deliveryQty",
+        text: 'Quantity',
+        textFormat: 'number',
+        alignment: 'center:middle',
+        key: 'deliveryQty',
       },
       {
-        text: "Rate",
-        textFormat: "money",
-        alignment: "center:middle",
-        key: "itemRate",
+        text: 'Rate',
+        textFormat: 'money',
+        alignment: 'center:middle',
+        key: 'itemRate',
       },
       {
-        text: "Amount",
-        textFormat: "money",
-        alignment: "center:middle",
-        key: "deliveryValue",
+        text: 'Amount',
+        textFormat: 'money',
+        alignment: 'center:middle',
+        key: 'deliveryValue',
       },
     ];
     if (values?.reportType?.value === 2) {
       header.push(
         {
-          text: "Delivery Date",
-          textFormat: "date",
-          alignment: "center:middle",
-          key: "deliveryDate",
+          text: 'Delivery Date',
+          textFormat: 'date',
+          alignment: 'center:middle',
+          key: 'deliveryDate',
         },
         {
-          text: "Product Name",
-          textFormat: "text",
-          alignment: "center:middle",
-          key: "itemName",
+          text: 'Product Name',
+          textFormat: 'text',
+          alignment: 'center:middle',
+          key: 'itemName',
         }
       );
     }
@@ -215,82 +214,82 @@ export default function ShipToPartyDelivery() {
     if ([3, 4, 5, 6].includes(values?.reportType?.value)) {
       header = [
         {
-          text: "SL",
-          textFormat: "number",
-          alignment: "center:middle",
-          key: "sl",
+          text: 'SL',
+          textFormat: 'number',
+          alignment: 'center:middle',
+          key: 'sl',
         },
         {
-          text: "Partner Code",
-          textFormat: "text",
-          alignment: "center:middle",
-          key: "strBusinessPartnerCode",
+          text: 'Partner Code',
+          textFormat: 'text',
+          alignment: 'center:middle',
+          key: 'strBusinessPartnerCode',
         },
         {
-          text: "Partner Name",
-          textFormat: "text",
-          alignment: "center:middle",
-          key: "strBusinessPartnerName",
+          text: 'Partner Name',
+          textFormat: 'text',
+          alignment: 'center:middle',
+          key: 'strBusinessPartnerName',
         },
         {
-          text: "Partner Address",
-          textFormat: "text",
-          alignment: "center:middle",
-          key: "strBusinessPartnerAddress",
+          text: 'Partner Address',
+          textFormat: 'text',
+          alignment: 'center:middle',
+          key: 'strBusinessPartnerAddress',
         },
         {
-          text: "Ship To Partner Name",
-          textFormat: "text",
-          alignment: "center:middle",
-          key: "strshiptopartnername",
+          text: 'Ship To Partner Name',
+          textFormat: 'text',
+          alignment: 'center:middle',
+          key: 'strshiptopartnername',
         },
         {
-          text: "Region",
-          textFormat: "text",
-          alignment: "center:middle",
-          key: "nl5",
+          text: 'Region',
+          textFormat: 'text',
+          alignment: 'center:middle',
+          key: 'nl5',
         },
         {
-          text: "Area",
-          textFormat: "text",
-          alignment: "center:middle",
-          key: "nl6",
+          text: 'Area',
+          textFormat: 'text',
+          alignment: 'center:middle',
+          key: 'nl6',
         },
         {
-          text: "Territory",
-          textFormat: "text",
-          alignment: "center:middle",
-          key: "nl7",
+          text: 'Territory',
+          textFormat: 'text',
+          alignment: 'center:middle',
+          key: 'nl7',
         },
         {
-          text: "Coverage Percentage",
-          textFormat: "money",
-          alignment: "center:middle",
-          key: "coveragepercentage",
+          text: 'Coverage Percentage',
+          textFormat: 'money',
+          alignment: 'center:middle',
+          key: 'coveragepercentage',
         },
         {
-          text: "Total Shop",
-          textFormat: "money",
-          alignment: "center:middle",
-          key: "totalSHop",
+          text: 'Total Shop',
+          textFormat: 'money',
+          alignment: 'center:middle',
+          key: 'totalSHop',
         },
         {
-          text: "Sold Ship to Partner",
-          textFormat: "money",
-          alignment: "center:middle",
-          key: "soldshiptopartner",
+          text: 'Sold Ship to Partner',
+          textFormat: 'money',
+          alignment: 'center:middle',
+          key: 'soldshiptopartner',
         },
         {
-          text: "Sales Quantity",
-          textFormat: "money",
-          alignment: "center:middle",
-          key: "numSalesQuantity",
+          text: 'Sales Quantity',
+          textFormat: 'money',
+          alignment: 'center:middle',
+          key: 'numSalesQuantity',
         },
         {
-          text: "Sales Amount",
-          textFormat: "money",
-          alignment: "center:middle",
-          key: "Salesamount",
+          text: 'Sales Amount',
+          textFormat: 'money',
+          alignment: 'center:middle',
+          key: 'Salesamount',
         },
       ];
       const _data = row?.map((item, index) => {
@@ -304,70 +303,70 @@ export default function ShipToPartyDelivery() {
     if ([7].includes(values?.reportType?.value)) {
       header = [
         {
-          text: "SL",
-          textFormat: "number",
-          alignment: "center:middle",
-          key: "sl",
+          text: 'SL',
+          textFormat: 'number',
+          alignment: 'center:middle',
+          key: 'sl',
         },
         {
-          text: "Delivery Code",
-          textFormat: "text",
-          alignment: "center:middle",
-          key: "strDeliveryCode",
+          text: 'Delivery Code',
+          textFormat: 'text',
+          alignment: 'center:middle',
+          key: 'strDeliveryCode',
         },
         {
-          text: "Shipment Code",
-          textFormat: "text",
-          alignment: "center:middle",
-          key: "strShipmentCode",
+          text: 'Shipment Code',
+          textFormat: 'text',
+          alignment: 'center:middle',
+          key: 'strShipmentCode',
         },
         {
-          text: "Labor Supplier Name",
-          textFormat: "text",
-          alignment: "center:middle",
-          key: "strLaborSupplierName",
+          text: 'Labor Supplier Name',
+          textFormat: 'text',
+          alignment: 'center:middle',
+          key: 'strLaborSupplierName',
         },
         {
-          text: "ShipPoint Name",
-          textFormat: "text",
-          alignment: "center:middle",
-          key: "strShipPointName",
+          text: 'ShipPoint Name',
+          textFormat: 'text',
+          alignment: 'center:middle',
+          key: 'strShipPointName',
         },
         {
-          text: "Vehicle Name",
-          textFormat: "text",
-          alignment: "center:middle",
-          key: "strVehicleName",
+          text: 'Vehicle Name',
+          textFormat: 'text',
+          alignment: 'center:middle',
+          key: 'strVehicleName',
         },
         {
-          text: "SoldToPartner Name",
-          textFormat: "text",
-          alignment: "center:middle",
-          key: "strSoldToPartnerName",
+          text: 'SoldToPartner Name',
+          textFormat: 'text',
+          alignment: 'center:middle',
+          key: 'strSoldToPartnerName',
         },
         {
-          text: "ShipToPartner Name",
-          textFormat: "text",
-          alignment: "center:middle",
-          key: "strShipToPartnerName",
+          text: 'ShipToPartner Name',
+          textFormat: 'text',
+          alignment: 'center:middle',
+          key: 'strShipToPartnerName',
         },
         {
-          text: "Quantity",
-          textFormat: "money",
-          alignment: "center:middle",
-          key: "numQuantity",
+          text: 'Quantity',
+          textFormat: 'money',
+          alignment: 'center:middle',
+          key: 'numQuantity',
         },
         {
-          text: "Labour Cost",
-          textFormat: "money",
-          alignment: "center:middle",
-          key: "numLabourCost",
+          text: 'Labour Cost',
+          textFormat: 'money',
+          alignment: 'center:middle',
+          key: 'numLabourCost',
         },
         {
-          text: "Labour Rate",
-          textFormat: "money",
-          alignment: "center:middle",
-          key: "numLabourRate",
+          text: 'Labour Rate',
+          textFormat: 'money',
+          alignment: 'center:middle',
+          key: 'numLabourRate',
         },
       ];
       const _data = row?.map((item, index) => {
@@ -382,107 +381,107 @@ export default function ShipToPartyDelivery() {
     if ([8].includes(values?.reportType?.value)) {
       header = [
         {
-          text: "SL",
-          textFormat: "number",
-          alignment: "center:middle",
-          key: "sl",
+          text: 'SL',
+          textFormat: 'number',
+          alignment: 'center:middle',
+          key: 'sl',
         },
         {
-          text: "Vehicle Capacity Name",
-          textFormat: "text",
-          alignment: "center:middle",
-          key: "strVehicleCapacityName",
+          text: 'Vehicle Capacity Name',
+          textFormat: 'text',
+          alignment: 'center:middle',
+          key: 'strVehicleCapacityName',
         },
 
         {
-          text: "Vehicle No",
-          textFormat: "text",
-          alignment: "center:middle",
-          key: "strVehicleNo",
+          text: 'Vehicle No',
+          textFormat: 'text',
+          alignment: 'center:middle',
+          key: 'strVehicleNo',
         },
         {
-          text: "Driver Name",
-          textFormat: "text",
-          alignment: "center:middle",
-          key: "strDriverName",
+          text: 'Driver Name',
+          textFormat: 'text',
+          alignment: 'center:middle',
+          key: 'strDriverName',
         },
         {
-          text: "Driver Contact",
-          textFormat: "text",
-          alignment: "center:middle",
-          key: "strDriverContact",
+          text: 'Driver Contact',
+          textFormat: 'text',
+          alignment: 'center:middle',
+          key: 'strDriverContact',
         },
         {
-          text: "Seven Ton Labour Cost",
-          textFormat: "money",
-          alignment: "center:middle",
-          key: "SeventonLabourCost",
+          text: 'Seven Ton Labour Cost',
+          textFormat: 'money',
+          alignment: 'center:middle',
+          key: 'SeventonLabourCost',
         },
         {
-          text: "Seven Ton Quantity",
-          textFormat: "money",
-          alignment: "center:middle",
-          key: "SeventonnumQuantity",
+          text: 'Seven Ton Quantity',
+          textFormat: 'money',
+          alignment: 'center:middle',
+          key: 'SeventonnumQuantity',
         },
         {
-          text: "Five Ton Labour Cost",
-          textFormat: "money",
-          alignment: "center:middle",
-          key: "FivetonLabourCost",
+          text: 'Five Ton Labour Cost',
+          textFormat: 'money',
+          alignment: 'center:middle',
+          key: 'FivetonLabourCost',
         },
         {
-          text: "Five Ton Quantity",
-          textFormat: "money",
-          alignment: "center:middle",
-          key: "FivetonQuantity",
+          text: 'Five Ton Quantity',
+          textFormat: 'money',
+          alignment: 'center:middle',
+          key: 'FivetonQuantity',
         },
         {
-          text: "Three Ton Labour Cost",
-          textFormat: "money",
-          alignment: "center:middle",
-          key: "ThreetonLabourCost",
+          text: 'Three Ton Labour Cost',
+          textFormat: 'money',
+          alignment: 'center:middle',
+          key: 'ThreetonLabourCost',
         },
         {
-          text: "Three Ton Quantity",
-          textFormat: "money",
-          alignment: "center:middle",
-          key: "ThreetonQuantity",
+          text: 'Three Ton Quantity',
+          textFormat: 'money',
+          alignment: 'center:middle',
+          key: 'ThreetonQuantity',
         },
         {
-          text: "OneHalf Labour Cost",
-          textFormat: "money",
-          alignment: "center:middle",
-          key: "OneHalfLabourCost",
+          text: 'OneHalf Labour Cost',
+          textFormat: 'money',
+          alignment: 'center:middle',
+          key: 'OneHalfLabourCost',
         },
         {
-          text: "OneHalf Quantity",
-          textFormat: "money",
-          alignment: "center:middle",
-          key: "OneHalfQuantity",
+          text: 'OneHalf Quantity',
+          textFormat: 'money',
+          alignment: 'center:middle',
+          key: 'OneHalfQuantity',
         },
         {
-          text: "Fourteen Ton Labour Cost",
-          textFormat: "money",
-          alignment: "center:middle",
-          key: "FourteenTonLabourCost",
+          text: 'Fourteen Ton Labour Cost',
+          textFormat: 'money',
+          alignment: 'center:middle',
+          key: 'FourteenTonLabourCost',
         },
         {
-          text: "Fourteen Ton Quantity",
-          textFormat: "money",
-          alignment: "center:middle",
-          key: "FourteenTonQuantity",
+          text: 'Fourteen Ton Quantity',
+          textFormat: 'money',
+          alignment: 'center:middle',
+          key: 'FourteenTonQuantity',
         },
         {
-          text: "Twenty Ton Labour Cost",
-          textFormat: "money",
-          alignment: "center:middle",
-          key: "TwentyTonLabourCost",
+          text: 'Twenty Ton Labour Cost',
+          textFormat: 'money',
+          alignment: 'center:middle',
+          key: 'TwentyTonLabourCost',
         },
         {
-          text: "Twenty Ton Quantity",
-          textFormat: "money",
-          alignment: "center:middle",
-          key: "TwentyTonQuantity",
+          text: 'Twenty Ton Quantity',
+          textFormat: 'money',
+          alignment: 'center:middle',
+          key: 'TwentyTonQuantity',
         },
       ];
       const _data = row?.map((item, index) => {
@@ -496,35 +495,35 @@ export default function ShipToPartyDelivery() {
     if ([9, 10].includes(values?.reportType?.value)) {
       header = [
         {
-          text: "SL",
-          textFormat: "number",
-          alignment: "center:middle",
-          key: "sl",
+          text: 'SL',
+          textFormat: 'number',
+          alignment: 'center:middle',
+          key: 'sl',
         },
         {
-          text: "Date",
-          textFormat: "text",
-          alignment: "center:middle",
-          key: "dteServerDateTime",
+          text: 'Date',
+          textFormat: 'text',
+          alignment: 'center:middle',
+          key: 'dteServerDateTime',
         },
 
         {
-          text: "Vehicle Capacity Name",
-          textFormat: "text",
-          alignment: "center:middle",
-          key: "strVehicleCapacityName",
+          text: 'Vehicle Capacity Name',
+          textFormat: 'text',
+          alignment: 'center:middle',
+          key: 'strVehicleCapacityName',
         },
         {
-          text: "Labour Cost",
-          textFormat: "money",
-          alignment: "center:middle",
-          key: "numLabourCost",
+          text: 'Labour Cost',
+          textFormat: 'money',
+          alignment: 'center:middle',
+          key: 'numLabourCost',
         },
         {
-          text: "Quantity",
-          textFormat: "money",
-          alignment: "center:middle",
-          key: "numQuantity",
+          text: 'Quantity',
+          textFormat: 'money',
+          alignment: 'center:middle',
+          key: 'numQuantity',
         },
       ];
       const _data = row?.map((item, index) => {
@@ -541,8 +540,8 @@ export default function ShipToPartyDelivery() {
         values,
         rowDto,
         selectedBusinessUnit,
-        "Supplier Base Delivery (Customer Challan)",
-        "Supplier Base Delivery (Customer Challan)"
+        'Supplier Base Delivery (Customer Challan)',
+        'Supplier Base Delivery (Customer Challan)'
       );
     }
     if ([12].includes(values?.reportType?.value)) {
@@ -550,8 +549,8 @@ export default function ShipToPartyDelivery() {
         values,
         rowDto,
         selectedBusinessUnit,
-        "Supplier Base Delivery (Transfer Challan)",
-        "Supplier Base Delivery (Transfer Challan)"
+        'Supplier Base Delivery (Transfer Challan)',
+        'Supplier Base Delivery (Transfer Challan)'
       );
     }
   };
@@ -560,9 +559,9 @@ export default function ShipToPartyDelivery() {
     setRowDto([]);
     const fromDateTime = moment(
       `${values?.fromDate} ${values?.fromTime}`
-    ).format("YYYY-MM-DDTHH:mm:ss");
+    ).format('YYYY-MM-DDTHH:mm:ss');
     const toDateTime = moment(`${values?.toDate} ${values?.toTime}`).format(
-      "YYYY-MM-DDTHH:mm:ss"
+      'YYYY-MM-DDTHH:mm:ss'
     );
     const reportType = [1, 2].includes(values?.reportType?.value);
     const reportTypeTwo = [3, 4, 5, 6].includes(values?.reportType?.value);
@@ -667,7 +666,7 @@ export default function ShipToPartyDelivery() {
                             value={values?.reportType}
                             label="Report Type"
                             onChange={(valueOption) => {
-                              setFieldValue("reportType", valueOption);
+                              setFieldValue('reportType', valueOption);
                               setRowDto([]);
                             }}
                             placeholder="Report Type"
@@ -687,7 +686,7 @@ export default function ShipToPartyDelivery() {
                                   type="date"
                                   name="fromDate"
                                   onChange={(e) => {
-                                    setFieldValue("fromDate", e?.target?.value);
+                                    setFieldValue('fromDate', e?.target?.value);
                                     setRowDto([]);
                                   }}
                                 />
@@ -718,7 +717,7 @@ export default function ShipToPartyDelivery() {
                                   type="date"
                                   name="toDate"
                                   onChange={(e) => {
-                                    setFieldValue("toDate", e?.target?.value);
+                                    setFieldValue('toDate', e?.target?.value);
                                     setRowDto([]);
                                   }}
                                 />
@@ -749,8 +748,8 @@ export default function ShipToPartyDelivery() {
                                 value={values?.salesOrg}
                                 label="Sales Org"
                                 onChange={(valueOption) => {
-                                  setFieldValue("salesOrg", valueOption);
-                                  setFieldValue("customerNameDDL", "");
+                                  setFieldValue('salesOrg', valueOption);
+                                  setFieldValue('customerNameDDL', '');
                                   setRowDto([]);
                                   setCustomerNameDDL([]);
                                   getCustomerNameDDL(
@@ -777,7 +776,7 @@ export default function ShipToPartyDelivery() {
                                   label="Distribution Channel"
                                   onChange={(valueOption) => {
                                     setFieldValue(
-                                      "distributionChannel",
+                                      'distributionChannel',
                                       valueOption
                                     );
                                     setRowDto([]);
@@ -799,10 +798,10 @@ export default function ShipToPartyDelivery() {
                                   label="Customer Name"
                                   onChange={(valueOption) => {
                                     setFieldValue(
-                                      "customerNameDDL",
+                                      'customerNameDDL',
                                       valueOption
                                     );
-                                    setFieldValue("shipToParty", "");
+                                    setFieldValue('shipToParty', '');
                                     setShipToPartyDDL([]);
                                     getShipToParty(
                                       profileData?.accountId,
@@ -827,7 +826,7 @@ export default function ShipToPartyDelivery() {
                                   selectedValue={values.supplierName}
                                   handleChange={(valueOption) => {
                                     // setGridData([]);
-                                    setFieldValue("supplierName", valueOption);
+                                    setFieldValue('supplierName', valueOption);
                                   }}
                                   loadOptions={(v) => {
                                     if (v.length < 3) return [];
@@ -866,7 +865,7 @@ export default function ShipToPartyDelivery() {
                                   value={values?.shipToParty}
                                   label="Ship To Party"
                                   onChange={(valueOption) => {
-                                    setFieldValue("shipToParty", valueOption);
+                                    setFieldValue('shipToParty', valueOption);
                                   }}
                                   placeholder="Ship To Party"
                                   errors={errors}
@@ -885,13 +884,13 @@ export default function ShipToPartyDelivery() {
                             <NewSelect
                               name="shippointDDL"
                               options={
-                                [{ value: 0, label: "All" }, ...shippointDDL] ||
+                                [{ value: 0, label: 'All' }, ...shippointDDL] ||
                                 []
                               }
                               value={values?.shippointDDL}
                               label="Shippoint"
                               onChange={(valueOption) => {
-                                setFieldValue("shippointDDL", valueOption);
+                                setFieldValue('shippointDDL', valueOption);
                                 setRowDto([]);
                               }}
                               placeholder="ShipPoint"

@@ -1,36 +1,36 @@
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import { IInput } from "../../../../_helper/_input";
-import customStyles from "../../../../selectCustomStyle";
-import { branchListAPiCaller, getBankAccountDDL } from "../helper";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import { IInput } from '../../../../_helper/_input';
+import customStyles from '../../../../selectCustomStyle';
+import { branchListAPiCaller, getBankAccountDDL } from '../helper';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   bank: Yup.object().shape({
-    label: Yup.string().required("Bank is required"),
-    value: Yup.string().required("Bank is required"),
+    label: Yup.string().required('Bank is required'),
+    value: Yup.string().required('Bank is required'),
   }),
   branch: Yup.object().shape({
-    label: Yup.string().required("Branch is required"),
-    value: Yup.string().required("Branch is required"),
+    label: Yup.string().required('Branch is required'),
+    value: Yup.string().required('Branch is required'),
   }),
   bankAccount: Yup.object().shape({
-    label: Yup.string().required("Bank Account is required"),
-    value: Yup.string().required("Bank Account is required"),
+    label: Yup.string().required('Bank Account is required'),
+    value: Yup.string().required('Bank Account is required'),
   }),
   accountNumber: Yup.string()
-    .min(8, "Minimum 8 symbols")
-    .max(1000, "Maximum 1000 symbols")
-    .required("Account Number is required"),
-  prefix: Yup.string().max(10, "Maximum 10 symbols"),
+    .min(8, 'Minimum 8 symbols')
+    .max(1000, 'Maximum 1000 symbols')
+    .required('Account Number is required'),
+  prefix: Yup.string().max(10, 'Maximum 10 symbols'),
   startNo: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .required("Start No is required"),
+    .min(2, 'Minimum 2 symbols')
+    .required('Start No is required'),
   endNo: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .required("End No is required"),
+    .min(2, 'Minimum 2 symbols')
+    .required('End No is required'),
 });
 
 export default function FormCmp({
@@ -81,8 +81,8 @@ export default function FormCmp({
                     touched={touched}
                     onChange={(valueOption) => {
                       branchListAPiCaller(valueOption?.value, setBranchList);
-                      setFieldValue("branch", "");
-                      setFieldValue("bank", valueOption);
+                      setFieldValue('branch', '');
+                      setFieldValue('bank', valueOption);
                     }}
                     isSearchable={true}
                   />
@@ -93,7 +93,7 @@ export default function FormCmp({
                     label="Select Branch"
                     options={branchList || []}
                     placeholder="Select Branch"
-                    value={values?.branch || ""}
+                    value={values?.branch || ''}
                     name="branch"
                     onChange={(valueOption) => {
                       getBankAccountDDL(
@@ -103,8 +103,8 @@ export default function FormCmp({
                         valueOption?.value,
                         setBankAccountDDL
                       );
-                      setFieldValue("bankAccount", "");
-                      setFieldValue("branch", valueOption);
+                      setFieldValue('bankAccount', '');
+                      setFieldValue('branch', valueOption);
                     }}
                     isDisabled={!branchList}
                     style={customStyles}
@@ -117,13 +117,13 @@ export default function FormCmp({
                     label="Select Bank Account"
                     options={bankAccountDDL || []}
                     placeholder="Select Bank Account"
-                    value={values?.bankAccount || ""}
+                    value={values?.bankAccount || ''}
                     name="bankAccount"
                     errors={errors}
                     touched={touched}
                     onChange={(valueOption) => {
-                      setFieldValue("accountNumber", valueOption?.label);
-                      setFieldValue("bankAccount", valueOption);
+                      setFieldValue('accountNumber', valueOption?.label);
+                      setFieldValue('bankAccount', valueOption);
                     }}
                     isSearchable={true}
                     style={customStyles}
@@ -133,7 +133,7 @@ export default function FormCmp({
                 <div className="col-lg-4">
                   <IInput
                     type="text"
-                    value={values?.accountNumber || ""}
+                    value={values?.accountNumber || ''}
                     label="Account Number"
                     name="accountNumber"
                     disabled
@@ -151,13 +151,13 @@ export default function FormCmp({
                 <div className="col-lg-4">
                   <IInput
                     type="text"
-                    value={values?.startNo || ""}
+                    value={values?.startNo || ''}
                     label="Start No"
                     name="startNo"
                     onChange={(e) => {
                       const validNumber = /^[0-9]+$/.test(e.target.value);
-                      if (validNumber || e.target.value === "") {
-                        setFieldValue("startNo", e.target.value);
+                      if (validNumber || e.target.value === '') {
+                        setFieldValue('startNo', e.target.value);
                       }
                     }}
                   />
@@ -165,13 +165,13 @@ export default function FormCmp({
                 <div className="col-lg-4">
                   <IInput
                     type="text"
-                    value={values?.endNo || ""}
+                    value={values?.endNo || ''}
                     label="End No"
                     name="endNo"
                     onChange={(e) => {
                       const validNumber = /^[0-9]+$/.test(e.target.value);
-                      if (validNumber || e.target.value === "") {
-                        setFieldValue("endNo", e.target.value);
+                      if (validNumber || e.target.value === '') {
+                        setFieldValue('endNo', e.target.value);
                       }
                     }}
                   />
@@ -180,14 +180,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

@@ -1,42 +1,38 @@
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import ICustomCard from "../../../../_helper/_customCard";
-import { getSingleData } from "../helper";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import ICustomCard from '../../../../_helper/_customCard';
+import { getSingleData } from '../helper';
 import { useParams } from 'react-router';
 import { useHistory } from 'react-router';
 
 const initData = {
-  SBU: "",
-  purchaseOrg: "",
-  plant: "",
-  warehouse: "",
-  supplierName: "",
-  purchaseOrder: "",
-  invoiceNumber: "",
+  SBU: '',
+  purchaseOrg: '',
+  plant: '',
+  warehouse: '',
+  supplierName: '',
+  purchaseOrder: '',
+  invoiceNumber: '',
   invoiceDate: _todayDate(),
-  comments: "",
-  selectGRN: "",
+  comments: '',
+  selectGRN: '',
   checked: false,
-  ginvoiceAmount: "",
-  deducationAmount: "",
+  ginvoiceAmount: '',
+  deducationAmount: '',
 };
 
 export default function ViewPurchaseInvoiceForm() {
-  const history = useHistory()
-  const {id} = useParams();
+  const history = useHistory();
+  const { id } = useParams();
   const [isDisabled, setDisabled] = useState(true);
 
   const [singleData, setSingleData] = useState({});
 
-
   useEffect(() => {
     getSingleData(id, setSingleData);
   }, [id]);
-
 
   const disableHandler = (cond) => {
     setDisabled(cond);
@@ -47,7 +43,7 @@ export default function ViewPurchaseInvoiceForm() {
   return (
     <div className="purchaseInvoice">
       <ICustomCard
-        title= {`Purchase Invoice [${singleData?.objHeaderDTO?.supplierInvoiceCode}]`}
+        title={`Purchase Invoice [${singleData?.objHeaderDTO?.supplierInvoiceCode}]`}
         backHandler={() => {
           history.goBack();
         }}

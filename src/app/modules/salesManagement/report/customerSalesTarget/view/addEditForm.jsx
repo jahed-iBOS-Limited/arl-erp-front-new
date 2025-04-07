@@ -1,27 +1,26 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
 // import IForm from "../../../../_helper/_form";
-import { useLocation } from "react-router-dom";
-import { isUniq } from "../../../../_helper/uniqChecker";
-import { getSalesTargetById } from "../helper";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import ICustomCard from "../../../../_helper/_customCard";
+import { useLocation } from 'react-router-dom';
+import { isUniq } from '../../../../_helper/uniqChecker';
+import { getSalesTargetById } from '../helper';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import ICustomCard from '../../../../_helper/_customCard';
 
 const monthDDL = [
-  { value: 1, label: "January" },
-  { value: 2, label: "February" },
-  { value: 3, label: "March" },
-  { value: 4, label: "April" },
-  { value: 5, label: "May" },
-  { value: 6, label: "June" },
-  { value: 7, label: "July" },
-  { value: 8, label: "August" },
-  { value: 9, label: "Sepetember" },
-  { value: 10, label: "October" },
-  { value: 11, label: "November" },
-  { value: 12, label: "December" },
+  { value: 1, label: 'January' },
+  { value: 2, label: 'February' },
+  { value: 3, label: 'March' },
+  { value: 4, label: 'April' },
+  { value: 5, label: 'May' },
+  { value: 6, label: 'June' },
+  { value: 7, label: 'July' },
+  { value: 8, label: 'August' },
+  { value: 9, label: 'Sepetember' },
+  { value: 10, label: 'October' },
+  { value: 11, label: 'November' },
+  { value: 12, label: 'December' },
 ];
 
 var date = new Date(),
@@ -40,22 +39,21 @@ export function CustomerSalesTargetViewForm({
     params: { viewid },
   },
 }) {
-
   const location = useLocation();
 
   let initData = {
     targetStartDate: _todayDate(),
     targetEndDate: _todayDate(),
-    item: "",
-    uom: "",
-    quantity: "",
-    itemName: "",
-    itemCode: "",
+    item: '',
+    uom: '',
+    quantity: '',
+    itemName: '',
+    itemCode: '',
   };
 
   const [isDisabled, setDisabled] = useState(true);
   const [generalLedgerRowDto, setGeneralLedgerRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [singleRowData, setSingleRowData] = useState([]);
 
   // get user profile data from store
@@ -70,12 +68,11 @@ export function CustomerSalesTargetViewForm({
 
   useEffect(() => {
     getSalesTargetById(setSingleData, setSingleRowData, viewid, setDisabled);
-
   }, [getSalesTargetById]);
 
   const setter = (payload) => {
     if (
-      isUniq("generalLedgerId", payload.generalLedgerId, generalLedgerRowDto)
+      isUniq('generalLedgerId', payload.generalLedgerId, generalLedgerRowDto)
     ) {
       const { accountId, userId: actionBy } = profileData;
       const { value: businessunitid } = selectedBusinessUnit;

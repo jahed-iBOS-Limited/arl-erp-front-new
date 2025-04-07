@@ -1,32 +1,32 @@
-import { Formik, Form } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
+import { Formik, Form } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
+} from '../../../../../../_metronic/_partials/controls';
 import {
   getAccRcvAnalysisLandingData,
   getDistributionChannels,
-} from "../helper";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
+} from '../helper';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
-import NewSelect from "../../../../_helper/_select";
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
+import NewSelect from '../../../../_helper/_select';
 
-import AccRcvAnalysisTable from "./table/accRcvAnalysisTable";
-import ReactToPrint from "react-to-print";
+import AccRcvAnalysisTable from './table/accRcvAnalysisTable';
+import ReactToPrint from 'react-to-print';
 
 const initData = {
   reportDate: _todayDate(),
-  reportType: { value: 1, label: "Accounts Receivable Analysis" },
-  channel: "",
+  reportType: { value: 1, label: 'Accounts Receivable Analysis' },
+  channel: '',
 };
 
 export function PartnerAccAnalysisLanding() {
@@ -91,12 +91,12 @@ export function PartnerAccAnalysisLanding() {
                     className={
                       rowDto?.length > 0
                         ? `d-flex align-items-center`
-                        : "d-none"
+                        : 'd-none'
                     }
                   >
                     <ReactToPrint
                       pageStyle={
-                        "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                        '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
                       }
                       trigger={() => (
                         <button type="button" className="btn btn-primary mr-2">
@@ -111,7 +111,7 @@ export function PartnerAccAnalysisLanding() {
                       <ReactHTMLTableToExcel
                         id="test-table-xls-button-att-reports"
                         className="btn btn-primary"
-                        table={"table-to-xlsx"}
+                        table={'table-to-xlsx'}
                         filename="Account Receivable Analysis"
                         sheet="Account Receivable Analysis"
                         buttonText="Export Excel"
@@ -144,13 +144,13 @@ export function PartnerAccAnalysisLanding() {
                       <NewSelect
                         name="channel"
                         options={
-                          [{ value: 0, label: "All" }, ...channelDDL] || []
+                          [{ value: 0, label: 'All' }, ...channelDDL] || []
                         }
                         value={values?.channel}
                         label="Distribution Channel"
                         onChange={(valueOption) => {
                           setRowDto([]);
-                          setFieldValue("channel", valueOption);
+                          setFieldValue('channel', valueOption);
                         }}
                         placeholder="Distribution Channel"
                         errors={errors}
@@ -165,7 +165,7 @@ export function PartnerAccAnalysisLanding() {
                         name="reportDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("reportDate", e?.target?.value);
+                          setFieldValue('reportDate', e?.target?.value);
                         }}
                       />
                     </div>
@@ -176,7 +176,7 @@ export function PartnerAccAnalysisLanding() {
                         onClick={() => {
                           getLadingData(values);
                         }}
-                        style={{ marginTop: "19px" }}
+                        style={{ marginTop: '19px' }}
                         disabled={!values?.channel}
                       />
                     </div>

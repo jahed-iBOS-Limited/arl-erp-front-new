@@ -12,7 +12,7 @@ export const createMotherVessel = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/LighterVessel/CreateLighterMotherVessel`,
-      data,
+      data
     );
     toast.success(res?.data?.message);
     cb();
@@ -29,7 +29,7 @@ export const saveMasterBankInformation = async (data, setLoading, cb) => {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/LighterVessel/CRUDLighterVesselMastersBankInfo`,
       // `${imarineBaseUrl}/domain/LighterVessel/CreateLighterVesselMastersBankInfo`,
-      data,
+      data
     );
     toast.success(res?.data?.message);
     cb();
@@ -45,14 +45,14 @@ export const saveEditedMasterBankInformation = async (data, setLoading, cb) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/LighterVessel/EditLighterVesselMastersBankInfo`,
-      data,
+      data
     );
     toast.success(res?.data?.message);
     cb();
     setLoading(false);
   } catch (error) {
     toast.error(
-      error?.response?.data?.message || 'An error occurred while updating!',
+      error?.response?.data?.message || 'An error occurred while updating!'
     );
     setLoading(false);
   }
@@ -61,12 +61,12 @@ export const saveEditedMasterBankInformation = async (data, setLoading, cb) => {
 export const getMasterBankInformation = async (
   vesselId,
   setter,
-  setLoading,
+  setLoading
 ) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/LighterVessel/GetLighterVesselMastersBankInfoByid?LighterVesselId=${vesselId}`,
+      `${imarineBaseUrl}/domain/LighterVessel/GetLighterVesselMastersBankInfoByid?LighterVesselId=${vesselId}`
     );
     // const data = res?.data.map((item) => ({
     //   ...item,
@@ -92,14 +92,14 @@ export const editMasterBankInformation = async (data, setLoading, cb) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/LighterVessel/EditLighterVesselMastersBankInfo`,
-      data,
+      data
     );
     toast.success(res?.data?.message);
     cb();
     setLoading(false);
   } catch (error) {
     toast.error(
-      error?.response?.data?.message || 'An error occurred while updating!',
+      error?.response?.data?.message || 'An error occurred while updating!'
     );
     setLoading(false);
   }
@@ -109,14 +109,14 @@ export const changeBankInfoStatus = async (id, value, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.put(
-      `${imarineBaseUrl}/domain/LighterVessel/ActiveOrInActive?Id=${id}&activeOrInActive=${value}`,
+      `${imarineBaseUrl}/domain/LighterVessel/ActiveOrInActive?Id=${id}&activeOrInActive=${value}`
     );
     toast.success(res?.data?.message);
     cb();
     setLoading(false);
   } catch (error) {
     toast.error(
-      error?.response?.data?.message || 'An error occurred while updating!',
+      error?.response?.data?.message || 'An error occurred while updating!'
     );
     setLoading(false);
   }

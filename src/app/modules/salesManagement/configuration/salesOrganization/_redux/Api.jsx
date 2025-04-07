@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 // Save Sales Organization
 export function saveCreateData(data) {

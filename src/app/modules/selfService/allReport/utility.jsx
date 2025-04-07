@@ -20,19 +20,19 @@ export const searchMatch = (list, searchValue) => {
 
 // Process Match
 const processMatch = (list, searchValue) => {
-  const _searchValue = (searchValue || "").trim().toLowerCase();
+  const _searchValue = (searchValue || '').trim().toLowerCase();
   const _list = list.filter((item) => {
-    const _keys = (item?.process || "").trim().toLowerCase();
+    const _keys = (item?.process || '').trim().toLowerCase();
     return _keys === _searchValue;
   });
   return _list;
 };
 //standard Report Name Match
 const standardReportNameMatch = (list, searchValue) => {
-  const _searchValue = (searchValue || "").trim().toLowerCase();
+  const _searchValue = (searchValue || '').trim().toLowerCase();
   const _list = list.filter((item) => {
     let key = `standardreportname`;
-    const _keys = (item?.[`${key}`] || "").trim().toLowerCase();
+    const _keys = (item?.[`${key}`] || '').trim().toLowerCase();
     return _keys.includes(_searchValue);
   });
   return _list;
@@ -40,11 +40,11 @@ const standardReportNameMatch = (list, searchValue) => {
 
 // all object key match
 const allObjectKeyMatch = (list, searchValue) => {
-  const _searchValue = (searchValue || "").trim().toLowerCase();
+  const _searchValue = (searchValue || '').trim().toLowerCase();
   const _list = list.filter((item) => {
     const _keys = Object.keys(item);
     const _match = _keys.filter((key) => {
-      const _key = (key || "").trim().toLowerCase();
+      const _key = (key || '').trim().toLowerCase();
       return _key.includes(_searchValue);
     });
     return _match?.length > 0;
@@ -53,13 +53,13 @@ const allObjectKeyMatch = (list, searchValue) => {
 };
 
 export function convertKeysSpace(obj) {
-  if (!obj || typeof obj !== "object") {
+  if (!obj || typeof obj !== 'object') {
     return obj;
   }
   const newObj = {}; // Create a new object to store the result
   for (const key in obj) {
     if (Object.hasOwnProperty.call(obj, key)) {
-      const stringWithoutSpaces = key.replace(/\s/g, "");
+      const stringWithoutSpaces = key.replace(/\s/g, '');
       const newKey = stringWithoutSpaces.toLowerCase();
       newObj[newKey] = obj[key];
     }

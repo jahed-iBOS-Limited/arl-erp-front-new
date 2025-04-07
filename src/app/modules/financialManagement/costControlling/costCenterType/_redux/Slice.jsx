@@ -1,24 +1,23 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
   error: '',
-  msg: "",
+  msg: '',
   gridData: [],
-  singleData: "",
+  singleData: '',
 };
 export const callTypes = {
-  list: "list",
-  action: "action"
-
+  list: 'list',
+  action: 'action',
 };
 
 export const costCenterTypeSlice = createSlice({
-  name: "costCenterType",
+  name: 'costCenterType',
   initialState: initState,
   reducers: {
     catchError: (state, action) => {
-      state.msg = { color: "error", msg: "Login Failed" };
+      state.msg = { color: 'error', msg: 'Login Failed' };
       state.isLoading = false;
     },
 
@@ -31,9 +30,8 @@ export const costCenterTypeSlice = createSlice({
       const { payload } = action;
       state.singleData = payload;
     },
-    SetSingleStoreEmpty: state => {
-      state.singleData = "";
+    SetSingleStoreEmpty: (state) => {
+      state.singleData = '';
     },
-  }
+  },
 });
-

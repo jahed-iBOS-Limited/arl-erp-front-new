@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 // get selected business unit from store
 
@@ -14,8 +14,7 @@ export const getPurchaseReqGridData = async (
   search,
   plantId
 ) => {
-
-  const Search = search ? `&Search=${search}` : "";
+  const Search = search ? `&Search=${search}` : '';
 
   try {
     setLoading(true);
@@ -32,14 +31,13 @@ export const getPurchaseReqGridData = async (
         totalCount: res?.data[0]?.totalRows,
         currentPage: res?.data?.currentPage,
         pageSize: res?.data?.pageSize,
-      })
+      });
       // console.log(res.data)
       // setter(res?.data);
       setLoading(false);
     }
   } catch (error) {
-    setter([])
+    setter([]);
     setLoading(false);
   }
 };
-

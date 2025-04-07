@@ -35,7 +35,7 @@ const MasterHBAWModal = ({
   const [, SaveShipMasterHAWB, SaveShipMasterHAWBLoading] = useAxiosPost();
   const { profileData } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
   const [incoterms, setIncoterms] = useState('');
   const [isPrintViewMode] = useState(isPrintView || false);
@@ -135,7 +135,7 @@ const MasterHBAWModal = ({
         if (data) {
           CB();
         }
-      },
+      }
     );
   };
   const GetAirMasterHAWBByIdApi = () => {
@@ -226,7 +226,7 @@ const MasterHBAWModal = ({
           });
           setIncoterms(data?.issuingCarrierAgentNameAndCity);
         }
-      },
+      }
     );
   };
   const componentRef = useRef();
@@ -269,7 +269,6 @@ const MasterHBAWModal = ({
           //
           const iatacode = [];
 
-
           hbawRestData?.forEach((item, index) => {
             const transportPlanningAir =
               item?.transportPlanning?.find((i) => {
@@ -290,11 +289,11 @@ const MasterHBAWModal = ({
               const rows = item?.rowsData || [];
               const packageSubtotal = rows?.reduce(
                 (sum, row) => sum + (row?.totalNumberOfPackages || 0),
-                0,
+                0
               );
               return subtotal + packageSubtotal;
             },
-            0,
+            0
           );
           const prepaidNatureAndQuantityOfGoods = hbawRestData
             ?.map((item) =>
@@ -313,14 +312,14 @@ const MasterHBAWModal = ({
                     .join(',')}`;
                   return `${description}\n ${hsCode}\n ${poNumbers}\n ${styles}\n ${colors}\n`;
                 })
-                .join('\n'),
+                .join('\n')
             )
             .join('\n');
           const subtotalGrossWeight = hbawRestData?.reduce((subtotal, item) => {
             const rows = item?.rowsData || [];
             const weightSubtotal = rows?.reduce(
               (sum, row) => sum + (row?.totalGrossWeightKG || 0),
-              0,
+              0
             );
             return subtotal + weightSubtotal;
           }, 0);
@@ -376,26 +375,26 @@ const MasterHBAWModal = ({
               strConsignee += ', ' + firstIndex?.deliveryAgentDtl?.address;
             }
           }
-          const totalVolumetricWeight = hbawRestData?.reduce((subtotal, item) => {
-            const rows = item?.rowsData || [];
-            const weightSubtotal = rows?.reduce(
-              (sum, row) => sum + (row?.totalVolumetricWeight || 0),
-              0,
-            );
-            return subtotal + weightSubtotal;
-          }
-            , 0);
+          const totalVolumetricWeight = hbawRestData?.reduce(
+            (subtotal, item) => {
+              const rows = item?.rowsData || [];
+              const weightSubtotal = rows?.reduce(
+                (sum, row) => sum + (row?.totalVolumetricWeight || 0),
+                0
+              );
+              return subtotal + weightSubtotal;
+            },
+            0
+          );
           const totalGrossWeightKG = hbawRestData?.reduce((subtotal, item) => {
             const rows = item?.rowsData || [];
             console.log('rows', rows);
             const weightSubtotal = rows?.reduce(
               (sum, row) => sum + (row?.totalGrossWeightKG || 0),
-              0,
+              0
             );
             return subtotal + weightSubtotal;
-          }
-            , 0);
-
+          }, 0);
 
           const obj = {
             // missing items
@@ -409,24 +408,28 @@ const MasterHBAWModal = ({
             shipperNameAndAddress: `Akij Logistics Limited \nHouse - 5, Road - 6, Sector 1, Uttara, Dhaka`,
             agentIatacode: `${transportPlanningAir?.iatanumber || ''}`,
             noOfPiecesRcp: `${totalNumberOfPackages || ''}`,
-            prepaidNatureAndQuantityOfGoods: `${prepaidNatureAndQuantityOfGoods || ''
-              }`,
+            prepaidNatureAndQuantityOfGoods: `${
+              prepaidNatureAndQuantityOfGoods || ''
+            }`,
             currency: `${firstIndex?.currency || ''}`,
-            declaredValueForCustoms: `${firstIndex?.invoiceValue
-              ? firstIndex?.invoiceValue
-              : 'AS PER INVOICE'
-              }`,
-            airportOfDestination: ` ${transportPlanningAir?.airTransportRow?.[
-              transportPlanningAir?.airTransportRow?.length - 1
-            ]?.toPort ?? ''
-              }`,
-            airportOfDepartureAndRouting: `${transportPlanningAir?.airLineOrShippingLine ?? ''
-              } \n ${airportOfDepartureAndRouting ?? ''} `,
+            declaredValueForCustoms: `${
+              firstIndex?.invoiceValue
+                ? firstIndex?.invoiceValue
+                : 'AS PER INVOICE'
+            }`,
+            airportOfDestination: ` ${
+              transportPlanningAir?.airTransportRow?.[
+                transportPlanningAir?.airTransportRow?.length - 1
+              ]?.toPort ?? ''
+            }`,
+            airportOfDepartureAndRouting: `${
+              transportPlanningAir?.airLineOrShippingLine ?? ''
+            } \n ${airportOfDepartureAndRouting ?? ''} `,
             requestedFlightDate: `${moment(requestedFlightDate).format(
-              'YYYY-DD-MM',
+              'YYYY-DD-MM'
             )} `,
             requestedFlightDate2: `${moment(requestedFlightDate).format(
-              'YYYY-DD-MM',
+              'YYYY-DD-MM'
             )} `,
             grossWeightKgLb: '',
             byFirstCarrierRoutingAndDestination: '',
@@ -437,7 +440,7 @@ const MasterHBAWModal = ({
             declaredValueForCarriage: '',
             signatureOfIssuingCarrierOrAgent: `${firstIndex?.shipperName}`,
             executedOnDate: moment(firstIndex?.confirmDate).format(
-              'YYYY-DD-MM',
+              'YYYY-DD-MM'
             ),
 
             amountOfInsurance: '', // can't get initial value
@@ -476,17 +479,15 @@ const MasterHBAWModal = ({
           Object.keys(obj).forEach((key) => {
             formikRef.current.setFieldValue(key, obj[key]);
           });
-        },
+        }
       );
     }
-
   }, []);
 
   React.useEffect(() => {
     getMasterBLDDL(
-      `${imarineBaseUrl}/domain/ShippingService/GetMasterBLDDL?typeId=1&tradeTypeId=${tradeTypeId}`,
+      `${imarineBaseUrl}/domain/ShippingService/GetMasterBLDDL?typeId=1&tradeTypeId=${tradeTypeId}`
     );
-
   }, []);
 
   return (
@@ -584,15 +585,15 @@ const MasterHBAWModal = ({
                                   </p>
                                   {values?.shipperNameAndAddress
                                     ? values?.shipperNameAndAddress
-                                      ?.split('\n')
-                                      .map((item, index) => {
-                                        return (
-                                          <p>
-                                            {item}
-                                            <br />
-                                          </p>
-                                        );
-                                      })
+                                        ?.split('\n')
+                                        .map((item, index) => {
+                                          return (
+                                            <p>
+                                              {item}
+                                              <br />
+                                            </p>
+                                          );
+                                        })
                                     : ''}
                                 </div>
                               </div>
@@ -612,15 +613,15 @@ const MasterHBAWModal = ({
                                     <p>
                                       {values?.consigneeNameAndAddress
                                         ? values?.consigneeNameAndAddress
-                                          ?.split('\n')
-                                          .map((item, index) => {
-                                            return (
-                                              <>
-                                                {item}
-                                                <br />
-                                              </>
-                                            );
-                                          })
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
                                         : ''}
                                     </p>
                                   ) : (
@@ -632,7 +633,7 @@ const MasterHBAWModal = ({
                                       onChange={(e) => {
                                         setFieldValue(
                                           'consigneeNameAndAddress',
-                                          e.target.value,
+                                          e.target.value
                                         );
                                       }}
                                     />
@@ -654,15 +655,15 @@ const MasterHBAWModal = ({
                                     <p>
                                       {values?.gsaName
                                         ? values?.gsaName
-                                          ?.split('\n')
-                                          .map((item, index) => {
-                                            return (
-                                              <>
-                                                {item}
-                                                <br />
-                                              </>
-                                            );
-                                          })
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
                                         : ''}
                                     </p>
                                   </>
@@ -674,7 +675,7 @@ const MasterHBAWModal = ({
                                       onChange={(e) => {
                                         setFieldValue(
                                           'gsaName',
-                                          e.target.value,
+                                          e.target.value
                                         );
                                       }}
                                     />
@@ -709,17 +710,17 @@ const MasterHBAWModal = ({
                                             value={
                                               values?.agentIatacode
                                                 ? {
-                                                  value: 0,
-                                                  label:
-                                                    values?.agentIatacode,
-                                                }
+                                                    value: 0,
+                                                    label:
+                                                      values?.agentIatacode,
+                                                  }
                                                 : ''
                                             }
                                             label=""
                                             onChange={(valueOption) => {
                                               setFieldValue(
                                                 'agentIatacode',
-                                                valueOption?.label,
+                                                valueOption?.label
                                               );
                                             }}
                                             errors={errors}
@@ -746,17 +747,17 @@ const MasterHBAWModal = ({
                                             value={
                                               values?.accountNumber
                                                 ? {
-                                                  value: 0,
-                                                  label:
-                                                    values?.accountNumber,
-                                                }
+                                                    value: 0,
+                                                    label:
+                                                      values?.accountNumber,
+                                                  }
                                                 : ''
                                             }
                                             label=""
                                             onChange={(valueOption) => {
                                               setFieldValue(
                                                 'accountNumber',
-                                                valueOption?.label,
+                                                valueOption?.label
                                               );
                                             }}
                                             errors={errors}
@@ -784,7 +785,7 @@ const MasterHBAWModal = ({
                                   <b>
                                     {values?.masterBlNo?.label &&
                                       ' MBL Number: ' +
-                                      values?.masterBlNo?.label}
+                                        values?.masterBlNo?.label}
                                   </b>
                                 </p>
                                 <img src={logisticsLogo} alt="barcode" />
@@ -831,19 +832,19 @@ const MasterHBAWModal = ({
                                   <h2>
                                     FREIGHT{' '}
                                     {['exw'].includes(
-                                      hbawListData?.[0]?.incoterms,
+                                      hbawListData?.[0]?.incoterms
                                     ) && 'COLLECT EXW'}
                                     {['fca', 'fob'].includes(
-                                      hbawListData?.[0]?.incoterms,
+                                      hbawListData?.[0]?.incoterms
                                     ) && 'COLLECT'}
                                     {['cif', 'cpt', 'cfr'].includes(
-                                      hbawListData?.[0]?.incoterms,
+                                      hbawListData?.[0]?.incoterms
                                     ) && 'PREPAID'}
                                     {['dap', 'ddp', 'ddu'].includes(
-                                      hbawListData?.[0]?.incoterms,
+                                      hbawListData?.[0]?.incoterms
                                     ) && 'COLLECT DAP/DDP/DDU'}
                                     {['other'].includes(
-                                      hbawListData?.[0]?.incoterms,
+                                      hbawListData?.[0]?.incoterms
                                     ) && 'COLLECT'}
                                   </h2>
                                   <br />
@@ -870,15 +871,15 @@ const MasterHBAWModal = ({
                                   <p>
                                     {values?.airportOfDepartureAndRouting
                                       ? values?.airportOfDepartureAndRouting
-                                        ?.split('\n')
-                                        .map((item, index) => {
-                                          return (
-                                            <>
-                                              {item}
-                                              <br />
-                                            </>
-                                          );
-                                        })
+                                          ?.split('\n')
+                                          .map((item, index) => {
+                                            return (
+                                              <>
+                                                {item}
+                                                <br />
+                                              </>
+                                            );
+                                          })
                                       : ''}
                                   </p>
                                 </>
@@ -894,7 +895,7 @@ const MasterHBAWModal = ({
                                       onChange={(e) => {
                                         setFieldValue(
                                           'airportOfDepartureAndRouting',
-                                          e.target.value,
+                                          e.target.value
                                         );
                                       }}
                                     />
@@ -927,7 +928,7 @@ const MasterHBAWModal = ({
                                       onChange={(e) => {
                                         setFieldValue(
                                           'referenceNumber',
-                                          e.target.value,
+                                          e.target.value
                                         );
                                       }}
                                     />
@@ -944,15 +945,15 @@ const MasterHBAWModal = ({
                                   <p>
                                     {values?.optionalShippingInformation
                                       ? values?.optionalShippingInformation
-                                        ?.split('\n')
-                                        .map((item, index) => {
-                                          return (
-                                            <>
-                                              {item}
-                                              <br />
-                                            </>
-                                          );
-                                        })
+                                          ?.split('\n')
+                                          .map((item, index) => {
+                                            return (
+                                              <>
+                                                {item}
+                                                <br />
+                                              </>
+                                            );
+                                          })
                                       : ''}
                                   </p>
                                 </>
@@ -968,7 +969,7 @@ const MasterHBAWModal = ({
                                       onChange={(e) => {
                                         setFieldValue(
                                           'optionalShippingInformation',
-                                          e.target.value,
+                                          e.target.value
                                         );
                                       }}
                                     />
@@ -1002,15 +1003,15 @@ const MasterHBAWModal = ({
                                       <p>
                                         {values?.strTo
                                           ? values?.strTo
-                                            ?.split('\n')
-                                            .map((item, index) => {
-                                              return (
-                                                <>
-                                                  {item}
-                                                  <br />
-                                                </>
-                                              );
-                                            })
+                                              ?.split('\n')
+                                              .map((item, index) => {
+                                                return (
+                                                  <>
+                                                    {item}
+                                                    <br />
+                                                  </>
+                                                );
+                                              })
                                           : ''}
                                       </p>
                                     </>
@@ -1022,14 +1023,14 @@ const MasterHBAWModal = ({
                                         onChange={(e) => {
                                           setFieldValue(
                                             'strTo',
-                                            e.target.value,
+                                            e.target.value
                                           );
                                         }}
                                         style={{
                                           minWidth: '40px',
                                         }}
-                                      //  rows={3}
-                                      // cols={40}
+                                        //  rows={3}
+                                        // cols={40}
                                       />
                                     </>
                                   )}
@@ -1042,15 +1043,15 @@ const MasterHBAWModal = ({
                                         <p>
                                           {values?.byFirstCarrierRoutingAndDestination
                                             ? values?.byFirstCarrierRoutingAndDestination
-                                              ?.split('\n')
-                                              .map((item, index) => {
-                                                return (
-                                                  <>
-                                                    {item}
-                                                    <br />
-                                                  </>
-                                                );
-                                              })
+                                                ?.split('\n')
+                                                .map((item, index) => {
+                                                  return (
+                                                    <>
+                                                      {item}
+                                                      <br />
+                                                    </>
+                                                  );
+                                                })
                                             : ''}
                                         </p>
                                       </>
@@ -1066,7 +1067,7 @@ const MasterHBAWModal = ({
                                             onChange={(e) => {
                                               setFieldValue(
                                                 'byFirstCarrierRoutingAndDestination',
-                                                e.target.value,
+                                                e.target.value
                                               );
                                             }}
                                           />
@@ -1089,15 +1090,15 @@ const MasterHBAWModal = ({
                                       <p>
                                         {values?.to1
                                           ? values?.to1
-                                            ?.split('\n')
-                                            .map((item, index) => {
-                                              return (
-                                                <>
-                                                  {item}
-                                                  <br />
-                                                </>
-                                              );
-                                            })
+                                              ?.split('\n')
+                                              .map((item, index) => {
+                                                return (
+                                                  <>
+                                                    {item}
+                                                    <br />
+                                                  </>
+                                                );
+                                              })
                                           : ''}
                                       </p>
                                     </>
@@ -1112,8 +1113,8 @@ const MasterHBAWModal = ({
                                         style={{
                                           minWidth: '40px',
                                         }}
-                                      //  rows={3}
-                                      // cols={40}
+                                        //  rows={3}
+                                        // cols={40}
                                       />
                                     </>
                                   )}
@@ -1125,15 +1126,15 @@ const MasterHBAWModal = ({
                                       <p>
                                         {values?.by1
                                           ? values?.by1
-                                            ?.split('\n')
-                                            .map((item, index) => {
-                                              return (
-                                                <>
-                                                  {item}
-                                                  <br />
-                                                </>
-                                              );
-                                            })
+                                              ?.split('\n')
+                                              .map((item, index) => {
+                                                return (
+                                                  <>
+                                                    {item}
+                                                    <br />
+                                                  </>
+                                                );
+                                              })
                                           : ''}
                                       </p>
                                     </>
@@ -1149,8 +1150,8 @@ const MasterHBAWModal = ({
                                         style={{
                                           minWidth: '40px',
                                         }}
-                                      //  rows={3}
-                                      // cols={40}
+                                        //  rows={3}
+                                        // cols={40}
                                       />
                                     </>
                                   )}
@@ -1162,15 +1163,15 @@ const MasterHBAWModal = ({
                                       <p>
                                         {values?.to2
                                           ? values?.to2
-                                            ?.split('\n')
-                                            .map((item, index) => {
-                                              return (
-                                                <>
-                                                  {item}
-                                                  <br />
-                                                </>
-                                              );
-                                            })
+                                              ?.split('\n')
+                                              .map((item, index) => {
+                                                return (
+                                                  <>
+                                                    {item}
+                                                    <br />
+                                                  </>
+                                                );
+                                              })
                                           : ''}
                                       </p>
                                     </>
@@ -1186,8 +1187,8 @@ const MasterHBAWModal = ({
                                         style={{
                                           minWidth: '40px',
                                         }}
-                                      //  rows={3}
-                                      // cols={40}
+                                        //  rows={3}
+                                        // cols={40}
                                       />
                                     </>
                                   )}
@@ -1199,15 +1200,15 @@ const MasterHBAWModal = ({
                                       <p>
                                         {values?.by2
                                           ? values?.by2
-                                            ?.split('\n')
-                                            .map((item, index) => {
-                                              return (
-                                                <>
-                                                  {item}
-                                                  <br />
-                                                </>
-                                              );
-                                            })
+                                              ?.split('\n')
+                                              .map((item, index) => {
+                                                return (
+                                                  <>
+                                                    {item}
+                                                    <br />
+                                                  </>
+                                                );
+                                              })
                                           : ''}
                                       </p>
                                     </>
@@ -1223,8 +1224,8 @@ const MasterHBAWModal = ({
                                         style={{
                                           minWidth: '40px',
                                         }}
-                                      //  rows={3}
-                                      // cols={40}
+                                        //  rows={3}
+                                        // cols={40}
                                       />
                                     </>
                                   )}
@@ -1247,15 +1248,15 @@ const MasterHBAWModal = ({
                                           <p>
                                             {values?.currency
                                               ? values?.currency
-                                                ?.split('\n')
-                                                .map((item, index) => {
-                                                  return (
-                                                    <>
-                                                      {item}
-                                                      <br />
-                                                    </>
-                                                  );
-                                                })
+                                                  ?.split('\n')
+                                                  .map((item, index) => {
+                                                    return (
+                                                      <>
+                                                        {item}
+                                                        <br />
+                                                      </>
+                                                    );
+                                                  })
                                               : ''}
                                           </p>
                                         </>
@@ -1267,14 +1268,14 @@ const MasterHBAWModal = ({
                                             onChange={(e) => {
                                               setFieldValue(
                                                 'currency',
-                                                e.target.value,
+                                                e.target.value
                                               );
                                             }}
                                             style={{
                                               minWidth: '50px',
                                             }}
-                                          //  rows={3}
-                                          // cols={40}
+                                            //  rows={3}
+                                            // cols={40}
                                           />
                                         </>
                                       )}
@@ -1286,15 +1287,15 @@ const MasterHBAWModal = ({
                                           <p>
                                             {values?.cghscode
                                               ? values?.cghscode
-                                                ?.split('\n')
-                                                .map((item, index) => {
-                                                  return (
-                                                    <>
-                                                      {item}
-                                                      <br />
-                                                    </>
-                                                  );
-                                                })
+                                                  ?.split('\n')
+                                                  .map((item, index) => {
+                                                    return (
+                                                      <>
+                                                        {item}
+                                                        <br />
+                                                      </>
+                                                    );
+                                                  })
                                               : ''}
                                           </p>
                                         </>
@@ -1306,14 +1307,14 @@ const MasterHBAWModal = ({
                                             onChange={(e) => {
                                               setFieldValue(
                                                 'cghscode',
-                                                e.target.value,
+                                                e.target.value
                                               );
                                             }}
                                             style={{
                                               minWidth: '50px',
                                             }}
-                                          //  rows={3}
-                                          // cols={40}
+                                            //  rows={3}
+                                            // cols={40}
                                           />
                                         </>
                                       )}
@@ -1342,7 +1343,7 @@ const MasterHBAWModal = ({
                                           }}
                                         >
                                           {['cif', 'cpt', 'cfr'].includes(
-                                            hbawListData?.[0]?.incoterms,
+                                            hbawListData?.[0]?.incoterms
                                           )
                                             ? 'PPD'
                                             : ''}
@@ -1354,7 +1355,7 @@ const MasterHBAWModal = ({
                                           }}
                                         >
                                           {['cif', 'cpt', 'cfr'].includes(
-                                            hbawListData?.[0]?.incoterms,
+                                            hbawListData?.[0]?.incoterms
                                           )
                                             ? ''
                                             : 'CCX'}
@@ -1386,7 +1387,7 @@ const MasterHBAWModal = ({
                                         }}
                                       >
                                         {['cif', 'cpt', 'cfr'].includes(
-                                          hbawListData?.[0]?.incoterms,
+                                          hbawListData?.[0]?.incoterms
                                         )
                                           ? 'PPD'
                                           : ''}
@@ -1398,7 +1399,7 @@ const MasterHBAWModal = ({
                                         }}
                                       >
                                         {['cif', 'cpt', 'cfr'].includes(
-                                          hbawListData?.[0]?.incoterms,
+                                          hbawListData?.[0]?.incoterms
                                         )
                                           ? ''
                                           : 'CCX'}
@@ -1428,15 +1429,15 @@ const MasterHBAWModal = ({
                                       <p>
                                         {values?.declaredValueForCarriage
                                           ? values?.declaredValueForCarriage
-                                            ?.split('\n')
-                                            .map((item, index) => {
-                                              return (
-                                                <>
-                                                  {item}
-                                                  <br />
-                                                </>
-                                              );
-                                            })
+                                              ?.split('\n')
+                                              .map((item, index) => {
+                                                return (
+                                                  <>
+                                                    {item}
+                                                    <br />
+                                                  </>
+                                                );
+                                              })
                                           : ''}
                                       </p>
                                     </>
@@ -1449,7 +1450,7 @@ const MasterHBAWModal = ({
                                         onChange={(e) => {
                                           setFieldValue(
                                             'declaredValueForCarriage',
-                                            e.target.value,
+                                            e.target.value
                                           );
                                         }}
                                       />
@@ -1469,15 +1470,15 @@ const MasterHBAWModal = ({
                                       <p>
                                         {values?.declaredValueForCustoms
                                           ? values?.declaredValueForCustoms
-                                            ?.split('\n')
-                                            .map((item, index) => {
-                                              return (
-                                                <>
-                                                  {item}
-                                                  <br />
-                                                </>
-                                              );
-                                            })
+                                              ?.split('\n')
+                                              .map((item, index) => {
+                                                return (
+                                                  <>
+                                                    {item}
+                                                    <br />
+                                                  </>
+                                                );
+                                              })
                                           : ''}
                                       </p>
                                     </>
@@ -1490,7 +1491,7 @@ const MasterHBAWModal = ({
                                         onChange={(e) => {
                                           setFieldValue(
                                             'declaredValueForCustoms',
-                                            e.target.value,
+                                            e.target.value
                                           );
                                         }}
                                       />
@@ -1518,15 +1519,15 @@ const MasterHBAWModal = ({
                                     <p>
                                       {values?.airportOfDestination
                                         ? values?.airportOfDestination
-                                          ?.split('\n')
-                                          .map((item, index) => {
-                                            return (
-                                              <>
-                                                {item}
-                                                <br />
-                                              </>
-                                            );
-                                          })
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
                                         : ''}
                                     </p>
                                   </>
@@ -1540,7 +1541,7 @@ const MasterHBAWModal = ({
                                         onChange={(e) => {
                                           setFieldValue(
                                             'airportOfDestination',
-                                            e.target.value,
+                                            e.target.value
                                           );
                                         }}
                                       />
@@ -1561,7 +1562,7 @@ const MasterHBAWModal = ({
                                       <>
                                         <p>
                                           {moment(
-                                            values?.requestedFlightDate,
+                                            values?.requestedFlightDate
                                           ).format('DD-MM-YYYY')}
                                         </p>
                                       </>
@@ -1576,7 +1577,7 @@ const MasterHBAWModal = ({
                                             onChange={(e) => {
                                               setFieldValue(
                                                 'requestedFlightDate',
-                                                e.target.value,
+                                                e.target.value
                                               );
                                             }}
                                             required
@@ -1591,7 +1592,7 @@ const MasterHBAWModal = ({
                                       <>
                                         <p>
                                           {moment(
-                                            values?.requestedFlightDate2,
+                                            values?.requestedFlightDate2
                                           ).format('DD-MM-YYYY')}
                                         </p>
                                       </>
@@ -1606,7 +1607,7 @@ const MasterHBAWModal = ({
                                             onChange={(e) => {
                                               setFieldValue(
                                                 'requestedFlightDate2',
-                                                e.target.value,
+                                                e.target.value
                                               );
                                             }}
                                             required
@@ -1628,15 +1629,15 @@ const MasterHBAWModal = ({
                                     <p>
                                       {values?.amountOfInsurance
                                         ? values?.amountOfInsurance
-                                          ?.split('\n')
-                                          .map((item, index) => {
-                                            return (
-                                              <>
-                                                {item}
-                                                <br />
-                                              </>
-                                            );
-                                          })
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
                                         : ''}
                                     </p>
                                   </>
@@ -1648,7 +1649,7 @@ const MasterHBAWModal = ({
                                       onChange={(e) => {
                                         setFieldValue(
                                           'amountOfInsurance',
-                                          e.target.value,
+                                          e.target.value
                                         );
                                       }}
                                     />
@@ -1675,15 +1676,15 @@ const MasterHBAWModal = ({
                               <p>
                                 {values?.handlingInformation
                                   ? values?.handlingInformation
-                                    ?.split('\n')
-                                    .map((item, index) => {
-                                      return (
-                                        <>
-                                          {item}
-                                          <br />
-                                        </>
-                                      );
-                                    })
+                                      ?.split('\n')
+                                      .map((item, index) => {
+                                        return (
+                                          <>
+                                            {item}
+                                            <br />
+                                          </>
+                                        );
+                                      })
                                   : ''}
                               </p>
                             </>
@@ -1697,7 +1698,7 @@ const MasterHBAWModal = ({
                                   onChange={(e) => {
                                     setFieldValue(
                                       'handlingInformation',
-                                      e.target.value,
+                                      e.target.value
                                     );
                                   }}
                                 />
@@ -1755,15 +1756,15 @@ const MasterHBAWModal = ({
                                     <p>
                                       {values?.noOfPiecesRcp
                                         ? values?.noOfPiecesRcp
-                                          ?.split('\n')
-                                          .map((item, index) => {
-                                            return (
-                                              <>
-                                                {item}
-                                                <br />
-                                              </>
-                                            );
-                                          })
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
                                         : ''}
                                     </p>
                                   </>
@@ -1775,7 +1776,7 @@ const MasterHBAWModal = ({
                                       onChange={(e) => {
                                         setFieldValue(
                                           'noOfPiecesRcp',
-                                          e.target.value,
+                                          e.target.value
                                         );
                                       }}
                                       style={{
@@ -1792,15 +1793,15 @@ const MasterHBAWModal = ({
                                     <>
                                       {values?.grossWeight
                                         ? values?.grossWeight
-                                          ?.split('\n')
-                                          .map((item, index) => {
-                                            return (
-                                              <>
-                                                {item}
-                                                <br />
-                                              </>
-                                            );
-                                          })
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
                                         : ''}
                                     </>
                                   ) : (
@@ -1814,7 +1815,7 @@ const MasterHBAWModal = ({
                                         onChange={(e) => {
                                           setFieldValue(
                                             'grossWeight',
-                                            e.target.value,
+                                            e.target.value
                                           );
                                         }}
                                       />
@@ -1828,15 +1829,15 @@ const MasterHBAWModal = ({
                                     <p>
                                       {values?.grossWeightKgLb
                                         ? values?.grossWeightKgLb
-                                          ?.split('\n')
-                                          .map((item, index) => {
-                                            return (
-                                              <>
-                                                {item}
-                                                <br />
-                                              </>
-                                            );
-                                          })
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
                                         : ''}
                                     </p>
                                   </>
@@ -1848,7 +1849,7 @@ const MasterHBAWModal = ({
                                       onChange={(e) => {
                                         setFieldValue(
                                           'grossWeightKgLb',
-                                          e.target.value,
+                                          e.target.value
                                         );
                                       }}
                                       rows={20}
@@ -1862,15 +1863,15 @@ const MasterHBAWModal = ({
                                     <p>
                                       {values?.rateClassCommodityItemNo
                                         ? values?.rateClassCommodityItemNo
-                                          ?.split('\n')
-                                          .map((item, index) => {
-                                            return (
-                                              <>
-                                                {item}
-                                                <br />
-                                              </>
-                                            );
-                                          })
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
                                         : ''}
                                     </p>
                                   </>
@@ -1884,7 +1885,7 @@ const MasterHBAWModal = ({
                                         onChange={(e) => {
                                           setFieldValue(
                                             'rateClassCommodityItemNo',
-                                            e.target.value,
+                                            e.target.value
                                           );
                                         }}
                                         rows={20}
@@ -1901,15 +1902,15 @@ const MasterHBAWModal = ({
                                     <p>
                                       {values?.chargeableWeight
                                         ? values?.chargeableWeight
-                                          ?.split('\n')
-                                          .map((item, index) => {
-                                            return (
-                                              <>
-                                                {item}
-                                                <br />
-                                              </>
-                                            );
-                                          })
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
                                         : ''}
                                     </p>
                                   </>
@@ -1923,7 +1924,7 @@ const MasterHBAWModal = ({
                                         onChange={(e) => {
                                           setFieldValue(
                                             'chargeableWeight',
-                                            e.target.value,
+                                            e.target.value
                                           );
                                         }}
                                         rows={20}
@@ -1938,15 +1939,15 @@ const MasterHBAWModal = ({
                                     <p>
                                       {values?.rateOrCharge
                                         ? values?.rateOrCharge
-                                          ?.split('\n')
-                                          .map((item, index) => {
-                                            return (
-                                              <>
-                                                {item}
-                                                <br />
-                                              </>
-                                            );
-                                          })
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
                                         : ''}
                                     </p>
                                   </>
@@ -1960,7 +1961,7 @@ const MasterHBAWModal = ({
                                         onChange={(e) => {
                                           setFieldValue(
                                             'rateOrCharge',
-                                            e.target.value,
+                                            e.target.value
                                           );
                                         }}
                                         rows={20}
@@ -1974,15 +1975,15 @@ const MasterHBAWModal = ({
                                   <>
                                     {values?.total
                                       ? values?.total
-                                        ?.split('\n')
-                                        .map((item, index) => {
-                                          return (
-                                            <>
-                                              {item}
-                                              <br />
-                                            </>
-                                          );
-                                        })
+                                          ?.split('\n')
+                                          .map((item, index) => {
+                                            return (
+                                              <>
+                                                {item}
+                                                <br />
+                                              </>
+                                            );
+                                          })
                                       : ''}
                                   </>
                                 ) : (
@@ -2004,15 +2005,15 @@ const MasterHBAWModal = ({
                                   <>
                                     {values?.prepaidNatureAndQuantityOfGoods
                                       ? values?.prepaidNatureAndQuantityOfGoods
-                                        ?.split('\n')
-                                        .map((item, index) => {
-                                          return (
-                                            <>
-                                              {item}
-                                              <br />
-                                            </>
-                                          );
-                                        })
+                                          ?.split('\n')
+                                          .map((item, index) => {
+                                            return (
+                                              <>
+                                                {item}
+                                                <br />
+                                              </>
+                                            );
+                                          })
                                       : ''}
                                   </>
                                 ) : (
@@ -2028,7 +2029,7 @@ const MasterHBAWModal = ({
                                       onChange={(e) => {
                                         setFieldValue(
                                           'prepaidNatureAndQuantityOfGoods',
-                                          e.target.value,
+                                          e.target.value
                                         );
                                       }}
                                     />
@@ -2058,14 +2059,14 @@ const MasterHBAWModal = ({
                                 </div>
                                 <div className="collectChartLeft borderRight">
                                   {['cif', 'cpt', 'cfr'].includes(
-                                    incoterms,
+                                    incoterms
                                   ) && (
-                                      <>
-                                        {isPrintViewMode ? (
-                                          <>
-                                            <p>
-                                              {values?.prepaidPrepaidAmount
-                                                ? values?.prepaidPrepaidAmount
+                                    <>
+                                      {isPrintViewMode ? (
+                                        <>
+                                          <p>
+                                            {values?.prepaidPrepaidAmount
+                                              ? values?.prepaidPrepaidAmount
                                                   ?.split('\n')
                                                   .map((item, index) => {
                                                     return (
@@ -2075,41 +2076,41 @@ const MasterHBAWModal = ({
                                                       </>
                                                     );
                                                   })
-                                                : ''}
-                                            </p>
-                                          </>
-                                        ) : (
-                                          <>
-                                            {' '}
-                                            <div className="col-lg-12 collectChartValue">
-                                              <textarea
-                                                name="prepaidPrepaidAmount"
-                                                value={
-                                                  values?.prepaidPrepaidAmount
-                                                }
-                                                onChange={(e) => {
-                                                  setFieldValue(
-                                                    'prepaidPrepaidAmount',
-                                                    e.target.value,
-                                                  );
-                                                }}
-                                              />
-                                            </div>
-                                          </>
-                                        )}
-                                      </>
-                                    )}
+                                              : ''}
+                                          </p>
+                                        </>
+                                      ) : (
+                                        <>
+                                          {' '}
+                                          <div className="col-lg-12 collectChartValue">
+                                            <textarea
+                                              name="prepaidPrepaidAmount"
+                                              value={
+                                                values?.prepaidPrepaidAmount
+                                              }
+                                              onChange={(e) => {
+                                                setFieldValue(
+                                                  'prepaidPrepaidAmount',
+                                                  e.target.value
+                                                );
+                                              }}
+                                            />
+                                          </div>
+                                        </>
+                                      )}
+                                    </>
+                                  )}
                                 </div>
                                 <div className="collectChartRight">
                                   {!['cif', 'cpt', 'cfr'].includes(
-                                    incoterms,
+                                    incoterms
                                   ) && (
-                                      <>
-                                        {isPrintViewMode ? (
-                                          <>
-                                            <p>
-                                              {values?.collectPrepaidAmount
-                                                ? values?.collectPrepaidAmount
+                                    <>
+                                      {isPrintViewMode ? (
+                                        <>
+                                          <p>
+                                            {values?.collectPrepaidAmount
+                                              ? values?.collectPrepaidAmount
                                                   ?.split('\n')
                                                   .map((item, index) => {
                                                     return (
@@ -2119,30 +2120,30 @@ const MasterHBAWModal = ({
                                                       </>
                                                     );
                                                   })
-                                                : ''}
-                                            </p>
-                                          </>
-                                        ) : (
-                                          <>
-                                            {' '}
-                                            <div className="col-lg-12">
-                                              <textarea
-                                                name="collectPrepaidAmount"
-                                                value={
-                                                  values?.collectPrepaidAmount
-                                                }
-                                                onChange={(e) => {
-                                                  setFieldValue(
-                                                    'collectPrepaidAmount',
-                                                    e.target.value,
-                                                  );
-                                                }}
-                                              />
-                                            </div>
-                                          </>
-                                        )}
-                                      </>
-                                    )}
+                                              : ''}
+                                          </p>
+                                        </>
+                                      ) : (
+                                        <>
+                                          {' '}
+                                          <div className="col-lg-12">
+                                            <textarea
+                                              name="collectPrepaidAmount"
+                                              value={
+                                                values?.collectPrepaidAmount
+                                              }
+                                              onChange={(e) => {
+                                                setFieldValue(
+                                                  'collectPrepaidAmount',
+                                                  e.target.value
+                                                );
+                                              }}
+                                            />
+                                          </div>
+                                        </>
+                                      )}
+                                    </>
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -2175,14 +2176,14 @@ const MasterHBAWModal = ({
                                 </div>
                                 <div className="collectChartLeft borderRight">
                                   {['cif', 'cpt', 'cfr'].includes(
-                                    incoterms,
+                                    incoterms
                                   ) && (
-                                      <>
-                                        {isPrintViewMode ? (
-                                          <>
-                                            <p>
-                                              {values?.prepaidValuationCharge
-                                                ? values?.prepaidValuationCharge
+                                    <>
+                                      {isPrintViewMode ? (
+                                        <>
+                                          <p>
+                                            {values?.prepaidValuationCharge
+                                              ? values?.prepaidValuationCharge
                                                   ?.split('\n')
                                                   .map((item, index) => {
                                                     return (
@@ -2192,41 +2193,41 @@ const MasterHBAWModal = ({
                                                       </>
                                                     );
                                                   })
-                                                : ''}
-                                            </p>
-                                          </>
-                                        ) : (
-                                          <>
-                                            {' '}
-                                            <div className="col-lg-12">
-                                              <textarea
-                                                name="prepaidValuationCharge"
-                                                value={
-                                                  values?.prepaidValuationCharge
-                                                }
-                                                onChange={(e) => {
-                                                  setFieldValue(
-                                                    'prepaidValuationCharge',
-                                                    e.target.value,
-                                                  );
-                                                }}
-                                              />
-                                            </div>
-                                          </>
-                                        )}
-                                      </>
-                                    )}
+                                              : ''}
+                                          </p>
+                                        </>
+                                      ) : (
+                                        <>
+                                          {' '}
+                                          <div className="col-lg-12">
+                                            <textarea
+                                              name="prepaidValuationCharge"
+                                              value={
+                                                values?.prepaidValuationCharge
+                                              }
+                                              onChange={(e) => {
+                                                setFieldValue(
+                                                  'prepaidValuationCharge',
+                                                  e.target.value
+                                                );
+                                              }}
+                                            />
+                                          </div>
+                                        </>
+                                      )}
+                                    </>
+                                  )}
                                 </div>
                                 <div className="collectChartRight">
                                   {!['cif', 'cpt', 'cfr'].includes(
-                                    incoterms,
+                                    incoterms
                                   ) && (
-                                      <>
-                                        {isPrintViewMode ? (
-                                          <>
-                                            <p>
-                                              {values?.collectValuationCharge
-                                                ? values?.collectValuationCharge
+                                    <>
+                                      {isPrintViewMode ? (
+                                        <>
+                                          <p>
+                                            {values?.collectValuationCharge
+                                              ? values?.collectValuationCharge
                                                   ?.split('\n')
                                                   .map((item, index) => {
                                                     return (
@@ -2236,30 +2237,30 @@ const MasterHBAWModal = ({
                                                       </>
                                                     );
                                                   })
-                                                : ''}
-                                            </p>
-                                          </>
-                                        ) : (
-                                          <>
-                                            {' '}
-                                            <div className="col-lg-12">
-                                              <textarea
-                                                name="collectValuationCharge"
-                                                value={
-                                                  values?.collectValuationCharge
-                                                }
-                                                onChange={(e) => {
-                                                  setFieldValue(
-                                                    'collectValuationCharge',
-                                                    e.target.value,
-                                                  );
-                                                }}
-                                              />
-                                            </div>
-                                          </>
-                                        )}
-                                      </>
-                                    )}
+                                              : ''}
+                                          </p>
+                                        </>
+                                      ) : (
+                                        <>
+                                          {' '}
+                                          <div className="col-lg-12">
+                                            <textarea
+                                              name="collectValuationCharge"
+                                              value={
+                                                values?.collectValuationCharge
+                                              }
+                                              onChange={(e) => {
+                                                setFieldValue(
+                                                  'collectValuationCharge',
+                                                  e.target.value
+                                                );
+                                              }}
+                                            />
+                                          </div>
+                                        </>
+                                      )}
+                                    </>
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -2273,15 +2274,15 @@ const MasterHBAWModal = ({
                                 <p>
                                   {values?.prepaidTotalOtherChargesDueCarrier1
                                     ? values?.prepaidTotalOtherChargesDueCarrier1
-                                      ?.split('\n')
-                                      .map((item, index) => {
-                                        return (
-                                          <>
-                                            {item}
-                                            <br />
-                                          </>
-                                        );
-                                      })
+                                        ?.split('\n')
+                                        .map((item, index) => {
+                                          return (
+                                            <>
+                                              {item}
+                                              <br />
+                                            </>
+                                          );
+                                        })
                                     : ''}
                                 </p>
                               ) : (
@@ -2293,7 +2294,7 @@ const MasterHBAWModal = ({
                                   onChange={(e) => {
                                     setFieldValue(
                                       'prepaidTotalOtherChargesDueCarrier1',
-                                      e.target.value,
+                                      e.target.value
                                     );
                                   }}
                                   rows={5}
@@ -2320,14 +2321,14 @@ const MasterHBAWModal = ({
                                 </div>
                                 <div className="collectChartLeft borderRight">
                                   {['cif', 'cpt', 'cfr'].includes(
-                                    incoterms,
+                                    incoterms
                                   ) && (
-                                      <>
-                                        {isPrintViewMode ? (
-                                          <>
-                                            <p>
-                                              {values?.prepaidTaxAmount
-                                                ? values?.prepaidTaxAmount
+                                    <>
+                                      {isPrintViewMode ? (
+                                        <>
+                                          <p>
+                                            {values?.prepaidTaxAmount
+                                              ? values?.prepaidTaxAmount
                                                   ?.split('\n')
                                                   .map((item, index) => {
                                                     return (
@@ -2337,40 +2338,40 @@ const MasterHBAWModal = ({
                                                       </>
                                                     );
                                                   })
-                                                : ''}
-                                            </p>
-                                          </>
-                                        ) : (
-                                          <>
-                                            {' '}
-                                            <div className="col-lg-12">
-                                              <textarea
-                                                name="prepaidTaxAmount"
-                                                value={values?.prepaidTaxAmount}
-                                                onChange={(e) => {
-                                                  setFieldValue(
-                                                    'prepaidTaxAmount',
-                                                    e.target.value,
-                                                  );
-                                                }}
-                                                cols={1}
-                                              />
-                                            </div>
-                                          </>
-                                        )}
-                                      </>
-                                    )}
+                                              : ''}
+                                          </p>
+                                        </>
+                                      ) : (
+                                        <>
+                                          {' '}
+                                          <div className="col-lg-12">
+                                            <textarea
+                                              name="prepaidTaxAmount"
+                                              value={values?.prepaidTaxAmount}
+                                              onChange={(e) => {
+                                                setFieldValue(
+                                                  'prepaidTaxAmount',
+                                                  e.target.value
+                                                );
+                                              }}
+                                              cols={1}
+                                            />
+                                          </div>
+                                        </>
+                                      )}
+                                    </>
+                                  )}
                                 </div>
                                 <div className="collectChartRight">
                                   {!['cif', 'cpt', 'cfr'].includes(
-                                    incoterms,
+                                    incoterms
                                   ) && (
-                                      <>
-                                        {isPrintViewMode ? (
-                                          <>
-                                            <p>
-                                              {values?.collectTaxAmount
-                                                ? values?.collectTaxAmount
+                                    <>
+                                      {isPrintViewMode ? (
+                                        <>
+                                          <p>
+                                            {values?.collectTaxAmount
+                                              ? values?.collectTaxAmount
                                                   ?.split('\n')
                                                   .map((item, index) => {
                                                     return (
@@ -2380,29 +2381,29 @@ const MasterHBAWModal = ({
                                                       </>
                                                     );
                                                   })
-                                                : ''}
-                                            </p>
-                                          </>
-                                        ) : (
-                                          <>
-                                            {' '}
-                                            <div className="col-lg-12">
-                                              <textarea
-                                                name="collectTaxAmount"
-                                                value={values?.collectTaxAmount}
-                                                onChange={(e) => {
-                                                  setFieldValue(
-                                                    'collectTaxAmount',
-                                                    e.target.value,
-                                                  );
-                                                }}
-                                                cols={1}
-                                              />
-                                            </div>
-                                          </>
-                                        )}
-                                      </>
-                                    )}
+                                              : ''}
+                                          </p>
+                                        </>
+                                      ) : (
+                                        <>
+                                          {' '}
+                                          <div className="col-lg-12">
+                                            <textarea
+                                              name="collectTaxAmount"
+                                              value={values?.collectTaxAmount}
+                                              onChange={(e) => {
+                                                setFieldValue(
+                                                  'collectTaxAmount',
+                                                  e.target.value
+                                                );
+                                              }}
+                                              cols={1}
+                                            />
+                                          </div>
+                                        </>
+                                      )}
+                                    </>
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -2439,14 +2440,14 @@ const MasterHBAWModal = ({
                                     </div>
                                     <div className="collectChartLeft borderRight">
                                       {['cif', 'cpt', 'cfr'].includes(
-                                        incoterms,
+                                        incoterms
                                       ) && (
-                                          <>
-                                            {isPrintViewMode ? (
-                                              <>
-                                                <p>
-                                                  {values?.prepaidTotalOtherChargesDueAgent
-                                                    ? values?.prepaidTotalOtherChargesDueAgent
+                                        <>
+                                          {isPrintViewMode ? (
+                                            <>
+                                              <p>
+                                                {values?.prepaidTotalOtherChargesDueAgent
+                                                  ? values?.prepaidTotalOtherChargesDueAgent
                                                       ?.split('\n')
                                                       .map((item, index) => {
                                                         return (
@@ -2456,41 +2457,41 @@ const MasterHBAWModal = ({
                                                           </>
                                                         );
                                                       })
-                                                    : ''}
-                                                </p>
-                                              </>
-                                            ) : (
-                                              <>
-                                                {' '}
-                                                <div className="col-lg-12">
-                                                  <textarea
-                                                    name="prepaidTotalOtherChargesDueAgent"
-                                                    value={
-                                                      values?.prepaidTotalOtherChargesDueAgent
-                                                    }
-                                                    onChange={(e) => {
-                                                      setFieldValue(
-                                                        'prepaidTotalOtherChargesDueAgent',
-                                                        e.target.value,
-                                                      );
-                                                    }}
-                                                  />
-                                                </div>
-                                              </>
-                                            )}
-                                          </>
-                                        )}
+                                                  : ''}
+                                              </p>
+                                            </>
+                                          ) : (
+                                            <>
+                                              {' '}
+                                              <div className="col-lg-12">
+                                                <textarea
+                                                  name="prepaidTotalOtherChargesDueAgent"
+                                                  value={
+                                                    values?.prepaidTotalOtherChargesDueAgent
+                                                  }
+                                                  onChange={(e) => {
+                                                    setFieldValue(
+                                                      'prepaidTotalOtherChargesDueAgent',
+                                                      e.target.value
+                                                    );
+                                                  }}
+                                                />
+                                              </div>
+                                            </>
+                                          )}
+                                        </>
+                                      )}
                                     </div>
                                     <div className="collectChartRight">
                                       {!['cif', 'cpt', 'cfr'].includes(
-                                        incoterms,
+                                        incoterms
                                       ) && (
-                                          <>
-                                            {isPrintViewMode ? (
-                                              <>
-                                                <p>
-                                                  {values?.collectTotalOtherChargesDueAgent
-                                                    ? values?.collectTotalOtherChargesDueAgent
+                                        <>
+                                          {isPrintViewMode ? (
+                                            <>
+                                              <p>
+                                                {values?.collectTotalOtherChargesDueAgent
+                                                  ? values?.collectTotalOtherChargesDueAgent
                                                       ?.split('\n')
                                                       .map((item, index) => {
                                                         return (
@@ -2500,30 +2501,30 @@ const MasterHBAWModal = ({
                                                           </>
                                                         );
                                                       })
-                                                    : ''}
-                                                </p>
-                                              </>
-                                            ) : (
-                                              <>
-                                                {' '}
-                                                <div className="col-lg-12">
-                                                  <textarea
-                                                    name="collectTotalOtherChargesDueAgent"
-                                                    value={
-                                                      values?.collectTotalOtherChargesDueAgent
-                                                    }
-                                                    onChange={(e) => {
-                                                      setFieldValue(
-                                                        'collectTotalOtherChargesDueAgent',
-                                                        e.target.value,
-                                                      );
-                                                    }}
-                                                  />
-                                                </div>
-                                              </>
-                                            )}
-                                          </>
-                                        )}
+                                                  : ''}
+                                              </p>
+                                            </>
+                                          ) : (
+                                            <>
+                                              {' '}
+                                              <div className="col-lg-12">
+                                                <textarea
+                                                  name="collectTotalOtherChargesDueAgent"
+                                                  value={
+                                                    values?.collectTotalOtherChargesDueAgent
+                                                  }
+                                                  onChange={(e) => {
+                                                    setFieldValue(
+                                                      'collectTotalOtherChargesDueAgent',
+                                                      e.target.value
+                                                    );
+                                                  }}
+                                                />
+                                              </div>
+                                            </>
+                                          )}
+                                        </>
+                                      )}
                                     </div>
                                   </div>
                                   <div
@@ -2548,14 +2549,14 @@ const MasterHBAWModal = ({
                                     </div>
                                     <div className="collectChartLeft borderRight">
                                       {['cif', 'cpt', 'cfr'].includes(
-                                        incoterms,
+                                        incoterms
                                       ) && (
-                                          <>
-                                            {isPrintViewMode ? (
-                                              <>
-                                                <p>
-                                                  {values?.collectTotalOtherChargesDueCarrier1
-                                                    ? values?.collectTotalOtherChargesDueCarrier1
+                                        <>
+                                          {isPrintViewMode ? (
+                                            <>
+                                              <p>
+                                                {values?.collectTotalOtherChargesDueCarrier1
+                                                  ? values?.collectTotalOtherChargesDueCarrier1
                                                       ?.split('\n')
                                                       .map((item, index) => {
                                                         return (
@@ -2565,40 +2566,40 @@ const MasterHBAWModal = ({
                                                           </>
                                                         );
                                                       })
-                                                    : ''}
-                                                </p>
-                                              </>
-                                            ) : (
-                                              <>
-                                                {' '}
-                                                <div className="col-lg-12">
-                                                  <textarea
-                                                    name="collectTotalOtherChargesDueCarrier1"
-                                                    value={
-                                                      values?.collectTotalOtherChargesDueCarrier1
-                                                    }
-                                                    onChange={(e) => {
-                                                      setFieldValue(
-                                                        'collectTotalOtherChargesDueCarrier1',
-                                                        e.target.value,
-                                                      );
-                                                    }}
-                                                  />
-                                                </div>
-                                              </>
-                                            )}
-                                          </>
-                                        )}
+                                                  : ''}
+                                              </p>
+                                            </>
+                                          ) : (
+                                            <>
+                                              {' '}
+                                              <div className="col-lg-12">
+                                                <textarea
+                                                  name="collectTotalOtherChargesDueCarrier1"
+                                                  value={
+                                                    values?.collectTotalOtherChargesDueCarrier1
+                                                  }
+                                                  onChange={(e) => {
+                                                    setFieldValue(
+                                                      'collectTotalOtherChargesDueCarrier1',
+                                                      e.target.value
+                                                    );
+                                                  }}
+                                                />
+                                              </div>
+                                            </>
+                                          )}
+                                        </>
+                                      )}
                                     </div>
                                     <div className="collectChartRight">
                                       {!['cif', 'cpt', 'cfr'].includes(
-                                        incoterms,
+                                        incoterms
                                       ) && (
-                                          <>
-                                            {isPrintViewMode ? (
-                                              <>
-                                                {values?.collectTotalOtherChargesDueCarrier2
-                                                  ? values?.collectTotalOtherChargesDueCarrier2
+                                        <>
+                                          {isPrintViewMode ? (
+                                            <>
+                                              {values?.collectTotalOtherChargesDueCarrier2
+                                                ? values?.collectTotalOtherChargesDueCarrier2
                                                     ?.split('\n')
                                                     .map((item, index) => {
                                                       return (
@@ -2608,29 +2609,29 @@ const MasterHBAWModal = ({
                                                         </>
                                                       );
                                                     })
-                                                  : ''}
-                                              </>
-                                            ) : (
-                                              <>
-                                                {' '}
-                                                <div className="col-lg-12">
-                                                  <textarea
-                                                    name="collectTotalOtherChargesDueCarrier2"
-                                                    value={
-                                                      values?.collectTotalOtherChargesDueCarrier2
-                                                    }
-                                                    onChange={(e) => {
-                                                      setFieldValue(
-                                                        'collectTotalOtherChargesDueCarrier2',
-                                                        e.target.value,
-                                                      );
-                                                    }}
-                                                  />
-                                                </div>
-                                              </>
-                                            )}
-                                          </>
-                                        )}
+                                                : ''}
+                                            </>
+                                          ) : (
+                                            <>
+                                              {' '}
+                                              <div className="col-lg-12">
+                                                <textarea
+                                                  name="collectTotalOtherChargesDueCarrier2"
+                                                  value={
+                                                    values?.collectTotalOtherChargesDueCarrier2
+                                                  }
+                                                  onChange={(e) => {
+                                                    setFieldValue(
+                                                      'collectTotalOtherChargesDueCarrier2',
+                                                      e.target.value
+                                                    );
+                                                  }}
+                                                />
+                                              </div>
+                                            </>
+                                          )}
+                                        </>
+                                      )}
                                     </div>
                                   </div>
                                   <div
@@ -2643,14 +2644,14 @@ const MasterHBAWModal = ({
                                     {/* grap */}
                                     <div className="collectChartLeft borderRight">
                                       {['cif', 'cpt', 'cfr'].includes(
-                                        incoterms,
+                                        incoterms
                                       ) && (
-                                          <>
-                                            {isPrintViewMode ? (
-                                              <>
-                                                <p>
-                                                  {values?.prepaidTotalOtherChargesDueCarrier2
-                                                    ? values?.prepaidTotalOtherChargesDueCarrier2
+                                        <>
+                                          {isPrintViewMode ? (
+                                            <>
+                                              <p>
+                                                {values?.prepaidTotalOtherChargesDueCarrier2
+                                                  ? values?.prepaidTotalOtherChargesDueCarrier2
                                                       ?.split('\n')
                                                       .map((item, index) => {
                                                         return (
@@ -2660,40 +2661,40 @@ const MasterHBAWModal = ({
                                                           </>
                                                         );
                                                       })
-                                                    : ''}
-                                                </p>
-                                              </>
-                                            ) : (
-                                              <>
-                                                {' '}
-                                                <div className="col-lg-12">
-                                                  <textarea
-                                                    name="prepaidTotalOtherChargesDueCarrier2"
-                                                    value={
-                                                      values?.prepaidTotalOtherChargesDueCarrier2
-                                                    }
-                                                    onChange={(e) => {
-                                                      setFieldValue(
-                                                        'prepaidTotalOtherChargesDueCarrier2',
-                                                        e.target.value,
-                                                      );
-                                                    }}
-                                                  />
-                                                </div>
-                                              </>
-                                            )}
-                                          </>
-                                        )}
+                                                  : ''}
+                                              </p>
+                                            </>
+                                          ) : (
+                                            <>
+                                              {' '}
+                                              <div className="col-lg-12">
+                                                <textarea
+                                                  name="prepaidTotalOtherChargesDueCarrier2"
+                                                  value={
+                                                    values?.prepaidTotalOtherChargesDueCarrier2
+                                                  }
+                                                  onChange={(e) => {
+                                                    setFieldValue(
+                                                      'prepaidTotalOtherChargesDueCarrier2',
+                                                      e.target.value
+                                                    );
+                                                  }}
+                                                />
+                                              </div>
+                                            </>
+                                          )}
+                                        </>
+                                      )}
                                     </div>
                                     <div className="collectChartRight">
                                       {!['cif', 'cpt', 'cfr'].includes(
-                                        incoterms,
+                                        incoterms
                                       ) && (
-                                          <>
-                                            {isPrintViewMode ? (
-                                              <>
-                                                {values?.signatureOfShipperOrAgent
-                                                  ? values?.signatureOfShipperOrAgent
+                                        <>
+                                          {isPrintViewMode ? (
+                                            <>
+                                              {values?.signatureOfShipperOrAgent
+                                                ? values?.signatureOfShipperOrAgent
                                                     ?.split('\n')
                                                     .map((item, index) => {
                                                       return (
@@ -2703,29 +2704,29 @@ const MasterHBAWModal = ({
                                                         </>
                                                       );
                                                     })
-                                                  : ''}
-                                              </>
-                                            ) : (
-                                              <>
-                                                {' '}
-                                                <div className="col-lg-12">
-                                                  <textarea
-                                                    name="signatureOfShipperOrAgent"
-                                                    value={
-                                                      values?.signatureOfShipperOrAgent
-                                                    }
-                                                    onChange={(e) => {
-                                                      setFieldValue(
-                                                        'signatureOfShipperOrAgent',
-                                                        e.target.value,
-                                                      );
-                                                    }}
-                                                  />
-                                                </div>
-                                              </>
-                                            )}
-                                          </>
-                                        )}
+                                                : ''}
+                                            </>
+                                          ) : (
+                                            <>
+                                              {' '}
+                                              <div className="col-lg-12">
+                                                <textarea
+                                                  name="signatureOfShipperOrAgent"
+                                                  value={
+                                                    values?.signatureOfShipperOrAgent
+                                                  }
+                                                  onChange={(e) => {
+                                                    setFieldValue(
+                                                      'signatureOfShipperOrAgent',
+                                                      e.target.value
+                                                    );
+                                                  }}
+                                                />
+                                              </div>
+                                            </>
+                                          )}
+                                        </>
+                                      )}
                                     </div>
                                   </div>
                                 </div>
@@ -2753,15 +2754,15 @@ const MasterHBAWModal = ({
                                   >
                                     {values?.signatureOfIssuingCarrierOrAgent
                                       ? values?.signatureOfIssuingCarrierOrAgent
-                                        ?.split('\n')
-                                        .map((item, index) => {
-                                          return (
-                                            <>
-                                              {item}
-                                              <br />
-                                            </>
-                                          );
-                                        })
+                                          ?.split('\n')
+                                          .map((item, index) => {
+                                            return (
+                                              <>
+                                                {item}
+                                                <br />
+                                              </>
+                                            );
+                                          })
                                       : ''}
                                   </h1>
                                 ) : (
@@ -2774,7 +2775,7 @@ const MasterHBAWModal = ({
                                       onChange={(e) => {
                                         setFieldValue(
                                           'signatureOfIssuingCarrierOrAgent',
-                                          e.target.value,
+                                          e.target.value
                                         );
                                       }}
                                     />
@@ -2824,14 +2825,14 @@ const MasterHBAWModal = ({
                                     </div>
                                     <div className="collectChartLeft borderRight">
                                       {['cif', 'cpt', 'cfr'].includes(
-                                        incoterms,
+                                        incoterms
                                       ) && (
-                                          <>
-                                            {isPrintViewMode ? (
-                                              <>
-                                                <p>
-                                                  {values?.totalPrepaid
-                                                    ? values?.totalPrepaid
+                                        <>
+                                          {isPrintViewMode ? (
+                                            <>
+                                              <p>
+                                                {values?.totalPrepaid
+                                                  ? values?.totalPrepaid
                                                       ?.split('\n')
                                                       .map((item, index) => {
                                                         return (
@@ -2841,39 +2842,39 @@ const MasterHBAWModal = ({
                                                           </>
                                                         );
                                                       })
-                                                    : ''}
-                                                </p>
-                                              </>
-                                            ) : (
-                                              <>
-                                                {' '}
-                                                <div className="col-lg-12">
-                                                  <textarea
-                                                    name="totalPrepaid"
-                                                    value={values?.totalPrepaid}
-                                                    onChange={(e) => {
-                                                      setFieldValue(
-                                                        'totalPrepaid',
-                                                        e.target.value,
-                                                      );
-                                                    }}
-                                                  />
-                                                </div>
-                                              </>
-                                            )}
-                                          </>
-                                        )}
+                                                  : ''}
+                                              </p>
+                                            </>
+                                          ) : (
+                                            <>
+                                              {' '}
+                                              <div className="col-lg-12">
+                                                <textarea
+                                                  name="totalPrepaid"
+                                                  value={values?.totalPrepaid}
+                                                  onChange={(e) => {
+                                                    setFieldValue(
+                                                      'totalPrepaid',
+                                                      e.target.value
+                                                    );
+                                                  }}
+                                                />
+                                              </div>
+                                            </>
+                                          )}
+                                        </>
+                                      )}
                                     </div>
                                     <div className="collectChartRight">
                                       {!['cif', 'cpt', 'cfr'].includes(
-                                        incoterms,
+                                        incoterms
                                       ) && (
-                                          <>
-                                            {isPrintViewMode ? (
-                                              <>
-                                                <p>
-                                                  {values?.totalCollect
-                                                    ? values?.totalCollect
+                                        <>
+                                          {isPrintViewMode ? (
+                                            <>
+                                              <p>
+                                                {values?.totalCollect
+                                                  ? values?.totalCollect
                                                       ?.split('\n')
                                                       .map((item, index) => {
                                                         return (
@@ -2883,28 +2884,28 @@ const MasterHBAWModal = ({
                                                           </>
                                                         );
                                                       })
-                                                    : ''}
-                                                </p>
-                                              </>
-                                            ) : (
-                                              <>
-                                                {' '}
-                                                <div className="col-lg-12">
-                                                  <textarea
-                                                    name="totalCollect"
-                                                    value={values?.totalCollect}
-                                                    onChange={(e) => {
-                                                      setFieldValue(
-                                                        'totalCollect',
-                                                        e.target.value,
-                                                      );
-                                                    }}
-                                                  />
-                                                </div>
-                                              </>
-                                            )}
-                                          </>
-                                        )}
+                                                  : ''}
+                                              </p>
+                                            </>
+                                          ) : (
+                                            <>
+                                              {' '}
+                                              <div className="col-lg-12">
+                                                <textarea
+                                                  name="totalCollect"
+                                                  value={values?.totalCollect}
+                                                  onChange={(e) => {
+                                                    setFieldValue(
+                                                      'totalCollect',
+                                                      e.target.value
+                                                    );
+                                                  }}
+                                                />
+                                              </div>
+                                            </>
+                                          )}
+                                        </>
+                                      )}
                                     </div>
                                   </div>
                                   <div
@@ -2937,15 +2938,15 @@ const MasterHBAWModal = ({
                                           <p>
                                             {values?.currencyConversionRates
                                               ? values?.currencyConversionRates
-                                                ?.split('\n')
-                                                .map((item, index) => {
-                                                  return (
-                                                    <>
-                                                      {item}
-                                                      <br />
-                                                    </>
-                                                  );
-                                                })
+                                                  ?.split('\n')
+                                                  .map((item, index) => {
+                                                    return (
+                                                      <>
+                                                        {item}
+                                                        <br />
+                                                      </>
+                                                    );
+                                                  })
                                               : ''}
                                           </p>
                                         </>
@@ -2961,7 +2962,7 @@ const MasterHBAWModal = ({
                                               onChange={(e) => {
                                                 setFieldValue(
                                                   'currencyConversionRates',
-                                                  e.target.value,
+                                                  e.target.value
                                                 );
                                               }}
                                             />
@@ -2975,15 +2976,15 @@ const MasterHBAWModal = ({
                                           <p>
                                             {values?.ccchargesInDestCurrency
                                               ? values?.ccchargesInDestCurrency
-                                                ?.split('\n')
-                                                .map((item, index) => {
-                                                  return (
-                                                    <>
-                                                      {item}
-                                                      <br />
-                                                    </>
-                                                  );
-                                                })
+                                                  ?.split('\n')
+                                                  .map((item, index) => {
+                                                    return (
+                                                      <>
+                                                        {item}
+                                                        <br />
+                                                      </>
+                                                    );
+                                                  })
                                               : ''}
                                           </p>
                                         </>
@@ -2999,7 +3000,7 @@ const MasterHBAWModal = ({
                                               onChange={(e) => {
                                                 setFieldValue(
                                                   'ccchargesInDestCurrency',
-                                                  e.target.value,
+                                                  e.target.value
                                                 );
                                               }}
                                             />
@@ -3028,7 +3029,7 @@ const MasterHBAWModal = ({
                                   {isPrintViewMode ? (
                                     <b>
                                       {moment(values?.executedOnDat).format(
-                                        'DD-MM-YYYY',
+                                        'DD-MM-YYYY'
                                       )}
                                     </b>
                                   ) : (
@@ -3040,7 +3041,7 @@ const MasterHBAWModal = ({
                                         onChange={(e) => {
                                           setFieldValue(
                                             'executedOnDate',
-                                            e.target.value,
+                                            e.target.value
                                           );
                                         }}
                                         required
@@ -3112,15 +3113,15 @@ const MasterHBAWModal = ({
                                           <p>
                                             {values?.forCarrierUseOnlyAtDestination
                                               ? values?.forCarrierUseOnlyAtDestination
-                                                ?.split('\n')
-                                                .map((item, index) => {
-                                                  return (
-                                                    <>
-                                                      {item}
-                                                      <br />
-                                                    </>
-                                                  );
-                                                })
+                                                  ?.split('\n')
+                                                  .map((item, index) => {
+                                                    return (
+                                                      <>
+                                                        {item}
+                                                        <br />
+                                                      </>
+                                                    );
+                                                  })
                                               : ''}
                                           </p>
                                         </>
@@ -3136,7 +3137,7 @@ const MasterHBAWModal = ({
                                               onChange={(e) => {
                                                 setFieldValue(
                                                   'forCarrierUseOnlyAtDestination',
-                                                  e.target.value,
+                                                  e.target.value
                                                 );
                                               }}
                                             />
@@ -3172,15 +3173,15 @@ const MasterHBAWModal = ({
                                     <p>
                                       {values?.totalCollectCharges
                                         ? values?.totalCollectCharges
-                                          ?.split('\n')
-                                          .map((item, index) => {
-                                            return (
-                                              <>
-                                                {item}
-                                                <br />
-                                              </>
-                                            );
-                                          })
+                                            ?.split('\n')
+                                            .map((item, index) => {
+                                              return (
+                                                <>
+                                                  {item}
+                                                  <br />
+                                                </>
+                                              );
+                                            })
                                         : ''}
                                     </p>
                                   </>
@@ -3192,7 +3193,7 @@ const MasterHBAWModal = ({
                                       onChange={(e) => {
                                         setFieldValue(
                                           'totalCollectCharges',
-                                          e.target.value,
+                                          e.target.value
                                         );
                                       }}
                                     />

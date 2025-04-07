@@ -45,15 +45,14 @@ export function CreateHeaderForm({
 
   useEffect(() => {
     getItemCategoryDDL(
-      `/wms/ItemPlantWarehouse/GetItemCategoryDDL?accountId=${accId}&businessUnitId=${buId}`,
+      `/wms/ItemPlantWarehouse/GetItemCategoryDDL?accountId=${accId}&businessUnitId=${buId}`
     );
     getPortDDL(
-      `/imp/ImportCommonDDL/GetPortName?accountId=${accId}&businessUnitId=${buId}`,
+      `/imp/ImportCommonDDL/GetPortName?accountId=${accId}&businessUnitId=${buId}`
     );
     getPartnerDDL(
-      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${accId}&businessUnitId=${buId}`,
+      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${accId}&businessUnitId=${buId}`
     );
-
   }, [buId]);
 
   return (
@@ -79,9 +78,9 @@ export function CreateHeaderForm({
                   id
                     ? setSingleData({ ...initData, layTimeType: valueOption })
                     : setValues({
-                      ...initData,
-                      layTimeType: valueOption,
-                    });
+                        ...initData,
+                        layTimeType: valueOption,
+                      });
                 }}
                 errors={errors}
                 touched={touched}
@@ -139,7 +138,7 @@ export function CreateHeaderForm({
                       values?.voyageNo?.value,
                       valueOption?.value,
                       setStackHolderNameDDL,
-                      setFieldValue, // For demurrage, despatch
+                      setFieldValue // For demurrage, despatch
                     );
                   }
                 }}
@@ -167,7 +166,7 @@ export function CreateHeaderForm({
                         label: item?.bankName,
                       }));
                       setBankDDL(modifyData);
-                    },
+                    }
                   );
                 }}
                 errors={errors}
@@ -207,7 +206,7 @@ export function CreateHeaderForm({
                     setItemList([]);
                     if (valueOption) {
                       getItemList(
-                        `wms/ItemPlantWarehouse/ItemByCategoryDDL?CategoryId=${valueOption?.value}`,
+                        `wms/ItemPlantWarehouse/ItemByCategoryDDL?CategoryId=${valueOption?.value}`
                       );
                     }
                   }}
@@ -266,7 +265,7 @@ export function CreateHeaderForm({
                           'timeAllowedForLoading',
                           (
                             e.target.value / parseFloat(values?.loadingRate)
-                          ).toFixed(4) || 0,
+                          ).toFixed(4) || 0
                         );
 
                       setFieldValue('cargoQty', e.target.value);
@@ -443,8 +442,9 @@ export function CreateHeaderForm({
 
             <>
               <HeaderLabelComponent
-                name={`Time allowed for ${values?.layTimeType?.value === 1 ? 'Loading' : 'Discharging'
-                  }`}
+                name={`Time allowed for ${
+                  values?.layTimeType?.value === 1 ? 'Loading' : 'Discharging'
+                }`}
               />
               <div className="col-lg-3">
                 <strong>

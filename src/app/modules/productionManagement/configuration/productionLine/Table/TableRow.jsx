@@ -1,14 +1,13 @@
-
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import NewSelect from "../../../../_helper/_select";
-import { getLandingData, getPlantNameDDL } from "../helper";
-import Loading from "./../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
+import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import NewSelect from '../../../../_helper/_select';
+import { getLandingData, getPlantNameDDL } from '../helper';
+import Loading from './../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
 
 export function TableRow() {
   //paginationState
@@ -91,8 +90,8 @@ export function TableRow() {
                 );
               }
             }}
-            errors={"errors"}
-            touched={"touched"}
+            errors={'errors'}
+            touched={'touched'}
           />
         </div>
         <div className="col-lg-12 pr-0 pl-0">
@@ -100,13 +99,13 @@ export function TableRow() {
             <table className="table table-striped table-bordered global-table">
               <thead>
                 <tr>
-                  <th style={{ width: "50px" }}>SL</th>
-                  <th style={{ width: "50px" }}>Production Line Name</th>
-                  <th style={{ width: "50px" }}>Production Line Code</th>
-                  {/* <th style={{ width: "50px" }}>Plant Name</th> */}{" "}
+                  <th style={{ width: '50px' }}>SL</th>
+                  <th style={{ width: '50px' }}>Production Line Name</th>
+                  <th style={{ width: '50px' }}>Production Line Code</th>
+                  {/* <th style={{ width: "50px" }}>Plant Name</th> */}{' '}
                   {/* Last Change Assign By Miraj Hossain (BA) */}
-                  <th style={{ width: "50px" }}>Shop Floor</th>
-                  <th style={{ width: "50px" }}>Action</th>
+                  <th style={{ width: '50px' }}>Shop Floor</th>
+                  <th style={{ width: '50px' }}>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -115,7 +114,7 @@ export function TableRow() {
                     <td>{data.sl}</td>
                     <td>{data.productionLineName}</td>
                     <td>{data.productionLineCode}</td>
-                    {/* <td>{data?.plantName}</td> */}{" "}
+                    {/* <td>{data?.plantName}</td> */}{' '}
                     {/* Last Change Assign By Miraj Hossain (BA) */}
                     <td>{data?.shopFloorName}</td>
                     <td className="text-center">

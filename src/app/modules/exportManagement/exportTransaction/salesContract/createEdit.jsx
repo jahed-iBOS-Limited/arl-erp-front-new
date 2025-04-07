@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 import { Form, Formik } from 'formik';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
@@ -110,7 +109,7 @@ export default function SalesContractCreateEdit() {
 
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state.authData,
-    shallowEqual,
+    shallowEqual
   );
 
   const [currency, getCurrency, currencyLoader] = useAxiosGet();
@@ -147,7 +146,7 @@ export default function SalesContractCreateEdit() {
             price: data?.data?.objHeader?.price,
             value: data?.data?.objHeader?.value,
             quotationEndDate: _dateFormatter(
-              data?.data?.objHeader?.quotationEndDate,
+              data?.data?.objHeader?.quotationEndDate
             ),
             remark: data?.data?.objHeader?.remark,
             address: data?.data?.objHeader?.soldToPartnerAddress,
@@ -162,27 +161,27 @@ export default function SalesContractCreateEdit() {
             },
             portofShipment:
               data?.data?.objHeader?.portofShipment &&
-                data?.data?.objHeader?.portofShipmentId
+              data?.data?.objHeader?.portofShipmentId
                 ? {
-                  value: data?.data?.objHeader?.portofShipmentId,
-                  label: data?.data?.objHeader?.portofShipment,
-                }
+                    value: data?.data?.objHeader?.portofShipmentId,
+                    label: data?.data?.objHeader?.portofShipment,
+                  }
                 : '',
             portofDishcharge:
               data?.data?.objHeader?.portofDishcharge &&
-                data?.data?.objHeader?.portofDischargeId
+              data?.data?.objHeader?.portofDischargeId
                 ? {
-                  value: data?.data?.objHeader?.portofDischargeId,
-                  label: data?.data?.objHeader?.portofDishcharge,
-                }
+                    value: data?.data?.objHeader?.portofDischargeId,
+                    label: data?.data?.objHeader?.portofDishcharge,
+                  }
                 : '',
             destinationCountry:
               data?.data?.objHeader?.toCountryId &&
-                data?.data?.objHeader?.toCountryName
+              data?.data?.objHeader?.toCountryName
                 ? {
-                  value: data?.data?.objHeader?.toCountryId,
-                  label: data?.data?.objHeader?.toCountryName,
-                }
+                    value: data?.data?.objHeader?.toCountryId,
+                    label: data?.data?.objHeader?.toCountryName,
+                  }
                 : '',
             finalDestination: data?.data?.objHeader?.finalDestination,
             countryOfOrigin: data?.data?.objHeader?.countryOfOrigin,
@@ -197,44 +196,42 @@ export default function SalesContractCreateEdit() {
             exPortRegNo: data?.data?.objHeader?.exPortRegNo,
             viewAs:
               data?.data?.objHeader?.strViewAs &&
-                data?.data?.objHeader?.intViewAs
+              data?.data?.objHeader?.intViewAs
                 ? {
-                  value: data?.data?.objHeader?.intViewAs,
-                  label: data?.data?.objHeader?.strViewAs,
-                }
+                    value: data?.data?.objHeader?.intViewAs,
+                    label: data?.data?.objHeader?.strViewAs,
+                  }
                 : '',
             attachmentno: data?.data?.objHeader?.attachmentno,
           });
           setObjSpecRow(data?.data?.objSpec);
           setObjRow(data?.data?.objRow);
           setObjTerms(data?.data?.objTerms);
-        },
+        }
       );
     }
-
   }, []);
 
   useEffect(() => {
     getCurrency(`/domain/Purchase/GetBaseCurrencyList`);
     getItemList(
-      `/item/ItemSales/GetItemSalesDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}`,
+      `/item/ItemSales/GetItemSalesDDL?AccountId=${profileData?.accountId}&BUnitId=${selectedBusinessUnit?.value}`
     );
     getSoldToPartner(
-      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`,
+      `/partner/BusinessPartnerBasicInfo/GetSoldToPartnerShipToPartnerDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
     );
     getSpecification(
-      `/oms/SalesQuotation/GetSpecificationDDL?businessUnitId=${selectedBusinessUnit?.value}`,
+      `/oms/SalesQuotation/GetSpecificationDDL?businessUnitId=${selectedBusinessUnit?.value}`
     );
     getSalesOffice(
-      `/oms/SalesOffice/GetSalesOfficeDDLbyId?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}`,
+      `/oms/SalesOffice/GetSalesOfficeDDLbyId?AccountId=1&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
     getDestinationDDL(`/oms/TerritoryInfo/GetCountryDDL`);
-
   }, []);
 
   const getNetWeight = (values, cb) => {
     const currentItem = objSpecRow?.filter(
-      (item) => item?.itemId === values?.itemList?.value,
+      (item) => item?.itemId === values?.itemList?.value
     );
     const packSize = currentItem?.find((item) => item?.specificationId === 3);
     const pcsInCtn = currentItem?.find((item) => item?.specificationId === 4);
@@ -320,7 +317,7 @@ export default function SalesContractCreateEdit() {
                 price: data?.data?.objHeader?.price,
                 value: data?.data?.objHeader?.value,
                 quotationEndDate: _dateFormatter(
-                  data?.data?.objHeader?.quotationEndDate,
+                  data?.data?.objHeader?.quotationEndDate
                 ),
                 remark: data?.data?.objHeader?.remark,
                 address: data?.data?.objHeader?.soldToPartnerAddress,
@@ -334,11 +331,11 @@ export default function SalesContractCreateEdit() {
                 portofDishcharge: data?.data?.objHeader?.portofDishcharge,
                 destinationCountry:
                   data?.data?.objHeader?.toCountryId &&
-                    data?.data?.objHeader?.toCountryName
+                  data?.data?.objHeader?.toCountryName
                     ? {
-                      value: data?.data?.objHeader?.toCountryId,
-                      label: data?.data?.objHeader?.toCountryName,
-                    }
+                        value: data?.data?.objHeader?.toCountryId,
+                        label: data?.data?.objHeader?.toCountryName,
+                      }
                     : '',
                 finalDestination: data?.data?.objHeader?.finalDestination,
                 countryOfOrigin: data?.data?.objHeader?.countryOfOrigin,
@@ -357,12 +354,12 @@ export default function SalesContractCreateEdit() {
               setObjRow(data?.data?.objRow);
               setObjTerms(data?.data?.objTerms);
             },
-            true,
+            true
           );
         cb();
         !id && setIsShowModel(true);
       },
-      true,
+      true
     );
   };
 
@@ -376,16 +373,16 @@ export default function SalesContractCreateEdit() {
 
   const addItem = (values, cb) => {
     const specificationsForTheItem = objSpecRow?.filter(
-      (item) => item?.itemId === values?.itemList?.value,
+      (item) => item?.itemId === values?.itemList?.value
     );
     if (specificationsForTheItem?.length < specification?.length) {
       return toast.warn('You have to add all type of specifications!');
     }
     const rate = specificationsForTheItem?.find(
-      (item) => item?.specificationId === 6,
+      (item) => item?.specificationId === 6
     );
     const qty = specificationsForTheItem?.find(
-      (item) => item?.specificationId === 7,
+      (item) => item?.specificationId === 7
     );
     try {
       if (objRow?.find((item) => +item?.itemId === +values?.itemList?.value)) {
@@ -422,11 +419,11 @@ export default function SalesContractCreateEdit() {
 
   const addSpecification = (values, cb) => {
     const currentItem = objSpecRow?.filter(
-      (item) => item?.itemId === values?.itemList?.value,
+      (item) => item?.itemId === values?.itemList?.value
     );
     if (
       currentItem?.find(
-        (item) => +item?.specificationId === +values?.specification?.value,
+        (item) => +item?.specificationId === +values?.specification?.value
       )
     ) {
       return toast.warn('This specification for the item is already added!');
@@ -449,7 +446,7 @@ export default function SalesContractCreateEdit() {
     if (v?.length < 3) return [];
     return axios
       .get(
-        `/oms/SalesQuotation/GetPortofDisChargeDDL?accountId=1&businessUnitId=${selectedBusinessUnit?.value}&SearchTerm=${v}`,
+        `/oms/SalesQuotation/GetPortofDisChargeDDL?accountId=1&businessUnitId=${selectedBusinessUnit?.value}&SearchTerm=${v}`
       )
       .then((res) => {
         console.log(res);
@@ -812,10 +809,11 @@ export default function SalesContractCreateEdit() {
                 <div className="col-lg-3">
                   <InputField
                     value={values?.freightAmount}
-                    label={`Freight Amount ${values?.currency?.label
+                    label={`Freight Amount ${
+                      values?.currency?.label
                         ? `in (${values?.currency?.label})`
                         : ``
-                      }`}
+                    }`}
                     name="freightAmount"
                     type="number"
                     onChange={(e) => {
@@ -830,8 +828,9 @@ export default function SalesContractCreateEdit() {
                     type="button"
                     onClick={() => setOpen(true)}
                   >
-                    {`${id && modifyData?.attachmentno ? 'ReAttach' : 'Attach'
-                      } File`}
+                    {`${
+                      id && modifyData?.attachmentno ? 'ReAttach' : 'Attach'
+                    } File`}
                   </button>
                 </div>
                 {id && modifyData?.attachmentno && (
@@ -841,7 +840,7 @@ export default function SalesContractCreateEdit() {
                       type="button"
                       onClick={() => {
                         dispatch(
-                          getDownlloadFileView_Action(modifyData?.attachmentno),
+                          getDownlloadFileView_Action(modifyData?.attachmentno)
                         );
                       }}
                     >
@@ -863,7 +862,7 @@ export default function SalesContractCreateEdit() {
                   }}
                   onDelete={(deleteFileObj) => {
                     const newData = fileObjects.filter(
-                      (item) => item.file.name !== deleteFileObj.file.name,
+                      (item) => item.file.name !== deleteFileObj.file.name
                     );
                     setFileObjects(newData);
                   }}
@@ -902,7 +901,7 @@ export default function SalesContractCreateEdit() {
                           `/item/ItemUOM/GetItemUoMconverstionDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&ItemId=${valueOption?.value}`,
                           (data) => {
                             setFieldValue('uom', data[0]);
-                          },
+                          }
                         );
                         setFieldValue('specification', '');
                       } else {
@@ -949,8 +948,6 @@ export default function SalesContractCreateEdit() {
                     }}
                   />
                 </div>
-
-
               </div>
 
               <div className="form-group global-form row">
@@ -1068,7 +1065,7 @@ export default function SalesContractCreateEdit() {
                                   setObjSpecRow([..._objSpecRow]);
                                   if (
                                     objRow?.find(
-                                      (item) => item?.itemId === itm?.itemId,
+                                      (item) => item?.itemId === itm?.itemId
                                     )
                                   ) {
                                     let _objRow = objRow;
@@ -1134,7 +1131,7 @@ export default function SalesContractCreateEdit() {
                                   setObjRow([..._objRow]);
                                   let _objSpecRow = objSpecRow;
                                   let _objSpecRowFilter = _objSpecRow.filter(
-                                    (item) => item?.itemId !== itm?.itemId,
+                                    (item) => item?.itemId !== itm?.itemId
                                   );
                                   setObjSpecRow([..._objSpecRowFilter]);
                                 }}

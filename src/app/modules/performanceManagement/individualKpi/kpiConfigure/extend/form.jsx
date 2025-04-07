@@ -1,10 +1,9 @@
-
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import InputField from "../../../../_helper/_inputField";
-import IDelete from "./../../../../_helper/_helperIcons/_delete";
-import { getDDL } from "../helper";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import NewSelect from '../../../../_helper/_select';
+import InputField from '../../../../_helper/_inputField';
+import IDelete from './../../../../_helper/_helperIcons/_delete';
+import { getDDL } from '../helper';
 
 export default function FormCmp({
   initData,
@@ -111,7 +110,7 @@ export default function FormCmp({
                       value={values?.Objective}
                       label="Objective"
                       onChange={(valueOption) => {
-                        setFieldValue("Objective", valueOption);
+                        setFieldValue('Objective', valueOption);
                       }}
                       placeholder="Objective"
                       errors={errors}
@@ -136,7 +135,7 @@ export default function FormCmp({
                     <table className="table table-striped table-bordered global-table">
                       <thead>
                         <tr>
-                          <th style={{ width: "35px" }}>SL</th>
+                          <th style={{ width: '35px' }}>SL</th>
                           <th>Objective</th>
                           <th>Action</th>
                         </tr>
@@ -159,14 +158,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

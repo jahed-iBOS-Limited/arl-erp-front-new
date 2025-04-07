@@ -1,6 +1,6 @@
-import React from "react";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
+import React from 'react';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
 
 function TableGirdFive({ rowDto, values }) {
   let numLabourCost = 0,
@@ -8,7 +8,7 @@ function TableGirdFive({ rowDto, values }) {
 
   return (
     <div className="react-bootstrap-table table-responsive">
-      <table className={"table table-striped table-bordered global-table "}>
+      <table className={'table table-striped table-bordered global-table '}>
         <thead>
           <tr>
             <th>SL </th>

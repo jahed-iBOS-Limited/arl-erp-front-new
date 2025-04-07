@@ -1,7 +1,7 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { createFile } from "../../../_helper/excel/index";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { createFile } from '../../../_helper/excel/index';
 
 export const getAssetPlantDDL = async (userId, accId, buId, setter) => {
   try {
@@ -117,7 +117,7 @@ export const saveAssetData = async (data, cb) => {
   try {
     const res = await Axios.post(`/asset/Asset/CreateAsset`, data);
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
     }
   } catch (error) {}
@@ -261,7 +261,7 @@ export const saveAssetListEdit = async (data, setDisabled) => {
     setDisabled(true);
     const res = await Axios.put(`/asset/Asset/EditAsset`, data);
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       setDisabled(false);
     }
   } catch (error) {
@@ -289,29 +289,29 @@ export const exportExcel = async (
     setLoading(false);
     if (res.status === 200 && res?.data) {
       const headerName = [
-        "Asset Id",
-        "Asset Code",
-        "Asset Name",
-        "Name Manufacturer",
-        "Country Origin",
-        "Supplier Name",
-        "Acquisition Date",
-        "Warrenty End Date",
+        'Asset Id',
+        'Asset Code',
+        'Asset Name',
+        'Name Manufacturer',
+        'Country Origin',
+        'Supplier Name',
+        'Acquisition Date',
+        'Warrenty End Date',
       ];
       const header = headerName?.map((item) => {
         return {
           text: item,
           bold: true,
           fontSize: 12,
-          textColor: "ffffff",
-          bgColor: "666699",
+          textColor: 'ffffff',
+          bgColor: '666699',
         };
       });
 
       const body = res?.data?.data?.map((item, index) => {
         return [
           item?.assetId,
-          String(item?.assetCode || ""),
+          String(item?.assetCode || ''),
           item?.itemName,
           item?.nameManufacturer,
           item?.countryOrigin,
@@ -325,12 +325,12 @@ export const exportExcel = async (
       // console.log(row);
 
       createFile({
-        name: "Ledger Report",
+        name: 'Ledger Report',
         sheets: [
           {
-            name: "Ledger",
-            border: "all 000000 thin",
-            alignment: "center:middle",
+            name: 'Ledger',
+            border: 'all 000000 thin',
+            alignment: 'center:middle',
             rows: row,
           },
         ],
@@ -340,7 +340,6 @@ export const exportExcel = async (
     setLoading(false);
   }
 };
-
 
 export const getMaintenanceReport = async (
   part,
@@ -355,14 +354,14 @@ export const getMaintenanceReport = async (
 ) => {
   setLoading(true);
   try {
-    const res = await Axios.get(`/asset/Asset/GetAssetManitenanceRPT?intPart=${part}&intUnitId=${businessUnitId}&intPlantId=${plantId}&dteFrom=${fromDate}&dteTo=${toDate}&intReffId=${intReffId}&intRptType=${reportType}`
+    const res = await Axios.get(
+      `/asset/Asset/GetAssetManitenanceRPT?intPart=${part}&intUnitId=${businessUnitId}&intPlantId=${plantId}&dteFrom=${fromDate}&dteTo=${toDate}&intReffId=${intReffId}&intRptType=${reportType}`
     );
     setLoading(false);
     setter(res?.data);
   } catch (error) {
     setter([]);
     setLoading(false);
-
   }
 };
 
@@ -374,15 +373,14 @@ export const getAssetListByUnit = async ({
 }) => {
   try {
     setLoading(true);
-    const res = await Axios.get(  
-     `/asset/Asset/AssetListByUnit?UnitId=${buId}&WhId=${whId}&CWIP=true&Active=true`
+    const res = await Axios.get(
+      `/asset/Asset/AssetListByUnit?UnitId=${buId}&WhId=${whId}&CWIP=true&Active=true`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
       setLoading(false);
     }
   } catch (error) {
-    
     setLoading(false);
   }
 };
@@ -391,8 +389,8 @@ export const saveAssetForData = async (data, cb, setDisabled) => {
     setDisabled(true);
     const res = await Axios.post(`/asset/Asset/CreateAsset`, data);
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
-      cb&&cb();
+      toast.success(res?.message || 'Submitted successfully');
+      cb && cb();
     }
   } catch (error) {
     toast.error(error?.response?.data?.message);

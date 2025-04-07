@@ -1,16 +1,15 @@
-
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { IInput } from "../../../../_helper/_input";
-import { ISelect } from "../../../../_helper/_inputDropDown";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { IInput } from '../../../../_helper/_input';
+import { ISelect } from '../../../../_helper/_inputDropDown';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   tradeOfferItemGroupName: Yup.string()
-    .min(1, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Trade offer item group is required"),
+    .min(1, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Trade offer item group is required'),
 });
 
 export default function FormCmp({
@@ -82,7 +81,7 @@ export default function FormCmp({
                       };
                       setter(obj);
                     }}
-                    style={{ marginTop: "24px" }}
+                    style={{ marginTop: '24px' }}
                     className="btn btn-primary ml-2"
                     disabled={!values.item || !values.tradeOfferItemGroupName}
                     type="button"
@@ -95,50 +94,50 @@ export default function FormCmp({
               {/* Row d tos */}
               <div className="mt-3">
                 {rowDto.length ? (
-                 <div className="table-responsive">
-                   <table className="table table-striped table-bordered">
-                    <thead>
-                      <tr>
-                        <th>Group Name</th>
-                        <th>#Of Items</th>
-                        <th>Delete</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {console.log(values)}
-                      {rowDto.map((itm, idx) => (
-                        <tr key={itm?.itemId}>
-                          <td>{values?.tradeOfferItemGroupName}</td>
-                          <td>{itm?.itemName}</td>
-                          <td className="text-center">
-                            <span>
-                              <i
-                                onClick={() => remover(itm?.itemId)}
-                                className="fa fa-trash deleteBtn"
-                                aria-hidden="true"
-                              ></i>
-                            </span>
-                          </td>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th>Group Name</th>
+                          <th>#Of Items</th>
+                          <th>Delete</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                 </div>
+                      </thead>
+                      <tbody>
+                        {console.log(values)}
+                        {rowDto.map((itm, idx) => (
+                          <tr key={itm?.itemId}>
+                            <td>{values?.tradeOfferItemGroupName}</td>
+                            <td>{itm?.itemName}</td>
+                            <td className="text-center">
+                              <span>
+                                <i
+                                  onClick={() => remover(itm?.itemId)}
+                                  className="fa fa-trash deleteBtn"
+                                  aria-hidden="true"
+                                ></i>
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 ) : (
-                  ""
+                  ''
                 )}
               </div>
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

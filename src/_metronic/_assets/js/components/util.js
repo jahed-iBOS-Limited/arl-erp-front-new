@@ -114,7 +114,7 @@ if (!Element.prototype.closest) {
         argArr.forEach(function (argItem) {
           var isNode = argItem instanceof Node;
           docFrag.appendChild(
-            isNode ? argItem : document.createTextNode(String(argItem)),
+            isNode ? argItem : document.createTextNode(String(argItem))
           );
         });
 
@@ -161,7 +161,7 @@ export var KTUtil = (function () {
         function () {
           _runResizeHandlers();
         },
-        200,
+        200
       );
     });
   };
@@ -204,9 +204,7 @@ export var KTUtil = (function () {
     /**
      * Trigger window resize handlers.
      */
-    runResizeHandlers: function () {
-
-    },
+    runResizeHandlers: function () {},
 
     resize: function () {
       if (typeof Event === 'function') {
@@ -617,7 +615,7 @@ export var KTUtil = (function () {
         for (var x = 0; x < classNames.length; x++) {
           el.className = el.className.replace(
             new RegExp('\\b' + KTUtil.trim(classNames[x]) + '\\b', 'g'),
-            '',
+            ''
           );
         }
       }
@@ -738,7 +736,7 @@ export var KTUtil = (function () {
     insertAfter: function (el, referenceNode) {
       return referenceNode.parentNode.insertBefore(
         el,
-        referenceNode.nextSibling,
+        referenceNode.nextSibling
       );
     },
 
@@ -1085,7 +1083,7 @@ export var KTUtil = (function () {
       method = 'scroll' + method;
       return element == window || element == document
         ? self[method == 'scrollTop' ? 'pageYOffset' : 'pageXOffset'] ||
-            (document.documentElement[method]) ||
+            document.documentElement[method] ||
             document.body[method]
         : element[method];
     },
@@ -1159,7 +1157,7 @@ export var KTUtil = (function () {
       ) {
         KTUtil.data(el).set(
           'slide-padding-bottom',
-          KTUtil.css(el, 'padding-bottom'),
+          KTUtil.css(el, 'padding-bottom')
         );
       }
 
@@ -1169,7 +1167,7 @@ export var KTUtil = (function () {
 
       if (KTUtil.data(el).has('slide-padding-bottom')) {
         calcPaddingBottom = parseInt(
-          KTUtil.data(el).get('slide-padding-bottom'),
+          KTUtil.data(el).get('slide-padding-bottom')
         );
       }
 
@@ -1185,7 +1183,7 @@ export var KTUtil = (function () {
             function (value) {
               el.style.paddingTop = calcPaddingTop - value + 'px';
             },
-            'linear',
+            'linear'
           );
         }
 
@@ -1197,7 +1195,7 @@ export var KTUtil = (function () {
             function (value) {
               el.style.paddingBottom = calcPaddingBottom - value + 'px';
             },
-            'linear',
+            'linear'
           );
         }
 
@@ -1216,7 +1214,7 @@ export var KTUtil = (function () {
             if (typeof callback === 'function') {
               callback();
             }
-          },
+          }
         );
       } else if (dir == 'down') {
         // down
@@ -1234,7 +1232,7 @@ export var KTUtil = (function () {
             'linear',
             function () {
               el.style.paddingTop = '';
-            },
+            }
           );
         }
 
@@ -1249,7 +1247,7 @@ export var KTUtil = (function () {
             'linear',
             function () {
               el.style.paddingBottom = '';
-            },
+            }
           );
         }
 
@@ -1269,7 +1267,7 @@ export var KTUtil = (function () {
             if (typeof callback === 'function') {
               callback();
             }
-          },
+          }
         );
       }
     },
@@ -1331,7 +1329,7 @@ export var KTUtil = (function () {
       KTUtil.addEvent(
         element,
         event,
-        window.KTUtilDelegatedEventHandlers[eventId],
+        window.KTUtilDelegatedEventHandlers[eventId]
       );
 
       return eventId;
@@ -1345,7 +1343,7 @@ export var KTUtil = (function () {
       KTUtil.removeEvent(
         element,
         event,
-        window.KTUtilDelegatedEventHandlers[eventId],
+        window.KTUtilDelegatedEventHandlers[eventId]
       );
 
       delete window.KTUtilDelegatedEventHandlers[eventId];
@@ -1617,7 +1615,7 @@ export var KTUtil = (function () {
                   });
 
                 options[optionName] = KTUtil.filterBoolean(
-                  element.getAttribute(attrName),
+                  element.getAttribute(attrName)
                 );
               }
             }
@@ -1801,7 +1799,7 @@ export var KTUtil = (function () {
         body.offsetHeight,
         html.clientHeight,
         html.scrollHeight,
-        html.offsetHeight,
+        html.offsetHeight
       );
     },
 
@@ -1824,10 +1822,10 @@ export var KTUtil = (function () {
 
       return (color = `#${subtractLight(
         color.substring(0, 2),
-        amount,
+        amount
       )}${subtractLight(color.substring(2, 4), amount)}${subtractLight(
         color.substring(4, 6),
-        amount,
+        amount
       )}`);
     },
 
@@ -1846,7 +1844,7 @@ export var KTUtil = (function () {
 
       return (color = `#${addLight(color.substring(0, 2), amount)}${addLight(
         color.substring(2, 4),
-        amount,
+        amount
       )}${addLight(color.substring(4, 6), amount)}`);
     },
 
@@ -1971,7 +1969,6 @@ export var KTUtil = (function () {
     },
   };
 })();
-
 
 // Initialize KTUtil class on document ready
 KTUtil.ready(function () {

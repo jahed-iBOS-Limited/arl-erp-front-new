@@ -1,32 +1,32 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import IButton from "../../../../_helper/iButton";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import IButton from '../../../../_helper/iButton';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   getItemRequestGridData,
   GetLoadUnloadLabourBillTopSheet,
-} from "../helper";
-import Table from "./table";
+} from '../helper';
+import Table from './table';
 import {
   GetPendingUnloadLabourBillAmount,
   getShippointDDL,
-} from "../../../../financialManagement/invoiceManagementSystem/billregister/helper";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
+} from '../../../../financialManagement/invoiceManagementSystem/billregister/helper';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
 import {
   _todaysEndTime,
   _todaysStartTime,
-} from "../../../../_helper/_currentTime";
+} from '../../../../_helper/_currentTime';
 
 const initData = {
-  reportType: { value: 1, label: "Details" },
-  shipPoint: "",
-  supplier: "",
+  reportType: { value: 1, label: 'Details' },
+  shipPoint: '',
+  supplier: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
   fromTime: _todaysStartTime(),
@@ -88,13 +88,12 @@ const LoadUnloadBill = () => {
     if (buId !== 4) {
       getData(initData);
     }
-
   }, [accId, buId]);
 
   const shipPointList = (values) => {
     return values?.reportType?.value === 1
       ? shipPointDDL
-      : [{ value: 0, label: "All" }, ...shipPointDDL];
+      : [{ value: 0, label: 'All' }, ...shipPointDDL];
   };
 
   return (
@@ -115,11 +114,11 @@ const LoadUnloadBill = () => {
                           placeholder="Report Type"
                           value={values?.reportType}
                           options={[
-                            { value: 1, label: "Details" },
-                            { value: 2, label: "Top Sheet" },
+                            { value: 1, label: 'Details' },
+                            { value: 2, label: 'Top Sheet' },
                           ]}
                           onChange={(e) => {
-                            setFieldValue("reportType", e);
+                            setFieldValue('reportType', e);
                             setRowData([]);
                           }}
                         />
@@ -132,7 +131,7 @@ const LoadUnloadBill = () => {
                           value={values?.shipPoint}
                           options={shipPointList(values) || []}
                           onChange={(e) => {
-                            setFieldValue("shipPoint", e);
+                            setFieldValue('shipPoint', e);
                             setRowData([]);
                           }}
                           isDisabled={!values?.reportType}
@@ -153,7 +152,7 @@ const LoadUnloadBill = () => {
                             selectedValue={values?.supplier}
                             handleChange={(valueOption) => {
                               setRowData([]);
-                              setFieldValue("supplier", valueOption);
+                              setFieldValue('supplier', valueOption);
                             }}
                             loadOptions={(v) => {
                               if (v.length < 3) return [];

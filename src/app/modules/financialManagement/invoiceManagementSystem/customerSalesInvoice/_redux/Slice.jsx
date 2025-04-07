@@ -1,9 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
-  error: "",
-  msg: "",
+  error: '',
+  msg: '',
   empDDL: [],
   orderTypeDDL: [],
   poReferenceTypeDDL: [],
@@ -12,11 +12,11 @@ const initState = {
   incoTermsDDL: [],
   poItemsDDL: [],
   gridData: [],
-  singleData: "",
+  singleData: '',
 };
 
 export const customerInvoiceSlice = createSlice({
-  name: "customerSalesInvoice",
+  name: 'customerSalesInvoice',
   initialState: initState,
   reducers: {
     SetEmpDDL: (state, action) => {
@@ -50,7 +50,7 @@ export const customerInvoiceSlice = createSlice({
 
     SetGridData: (state, action) => {
       const { payload } = action;
-      state.gridData=[""]
+      state.gridData = [''];
       state.gridData = payload;
     },
 
@@ -59,7 +59,7 @@ export const customerInvoiceSlice = createSlice({
       state.singleData = payload;
     },
     SetSingleStoreEmpty: (state) => {
-      state.singleData = "";
+      state.singleData = '';
     },
   },
 });

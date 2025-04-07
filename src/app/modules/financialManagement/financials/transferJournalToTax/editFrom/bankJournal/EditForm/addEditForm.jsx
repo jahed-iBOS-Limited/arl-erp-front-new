@@ -1,39 +1,43 @@
-
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { toast } from "react-toastify";
-import IForm from "../../../../../../_helper/_form";
-import Form from "./form";
-import Loading from "../../../../../../_helper/_loading";
-import { _todayDate } from "../../../../../../_helper/_todayDate";
-import { singleDataById } from "../helper";
-import { commonTransferJournal } from "../../../helper";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { toast } from 'react-toastify';
+import IForm from '../../../../../../_helper/_form';
+import Form from './form';
+import Loading from '../../../../../../_helper/_loading';
+import { _todayDate } from '../../../../../../_helper/_todayDate';
+import { singleDataById } from '../helper';
+import { commonTransferJournal } from '../../../helper';
 
 const initData = {
-  bankAcc: "",
-  partner: "",
-  receiveFrom: "",
-  instrumentType: "",
-  instrumentNo: "",
+  bankAcc: '',
+  partner: '',
+  receiveFrom: '',
+  instrumentType: '',
+  instrumentNo: '',
   instrumentDate: _todayDate(),
-  headerNarration: "",
+  headerNarration: '',
   placedInBank: false,
   placingDate: _todayDate(),
-  paidTo: "",
-  transferTo: "",
-  sendToGLBank: "",
-  transaction: "",
+  paidTo: '',
+  transferTo: '',
+  sendToGLBank: '',
+  transaction: '',
   // amount is for bank receive and bank payment row
-  amount: "",
+  amount: '',
   // transferAmount is for bank transfer header
-  transferAmount: "",
-  narration: "",
-  transactionDate: "",
-  customerSupplierStatus: "",
+  transferAmount: '',
+  narration: '',
+  transactionDate: '',
+  customerSupplierStatus: '',
 };
 
-export default function BankJournalEditForm({ journalTypeId, journalId, sbu, viewData, setShow}) {
+export default function BankJournalEditForm({
+  journalTypeId,
+  journalId,
+  sbu,
+  viewData,
+  setShow,
+}) {
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
   const [objProps, setObjprops] = useState({});
@@ -49,9 +53,8 @@ export default function BankJournalEditForm({ journalTypeId, journalId, sbu, vie
   const { profileData, selectedBusinessUnit } = storeData;
 
   const saveHandler = async (values, cb) => {
-
     let rowPayload = {
-      accountId:  +profileData?.accountId,
+      accountId: +profileData?.accountId,
       businessUnitId: +selectedBusinessUnit?.value,
       sbuId: sbu?.value,
       accountingJournalTypeId: journalTypeId,
@@ -60,13 +63,13 @@ export default function BankJournalEditForm({ journalTypeId, journalId, sbu, vie
       transactionDate: values?.transactionDate,
       bankSortName: viewData?.bankName,
       instrumentTypeID: +values?.instrumentType?.value || 0,
-      instrumentTypeName: values?.instrumentType?.label || "",
-      instrumentNo: values?.instrumentNo || "",
-      instrumentDate: values?.instrumentDate || "",
-      paytoName: values?.paidTo || values?.receiveFrom || "",
+      instrumentTypeName: values?.instrumentType?.label || '',
+      instrumentNo: values?.instrumentNo || '',
+      instrumentDate: values?.instrumentDate || '',
+      paytoName: values?.paidTo || values?.receiveFrom || '',
       journalId: journalId,
       journalCode: viewData?.bankJournalCode,
-      actionBy:  profileData?.userId,
+      actionBy: profileData?.userId,
       isTransfer: true,
       narration: values?.headerNarration,
       generalLedgerId: values?.bankAcc?.generalLedgerId,
@@ -76,14 +79,14 @@ export default function BankJournalEditForm({ journalTypeId, journalId, sbu, vie
       subGlCode: values?.bankAcc?.bankAccNo,
       subGLName: values?.bankAcc?.bankName,
       subGLTypeId: 6,
-      subGLTypeName: "Bank",
+      subGLTypeName: 'Bank',
       numAmount: +netAmount,
       debit: journalTypeId === 4 ? +netAmount : 0,
-      credit: journalTypeId !== 4 ? -(+netAmount) : 0,
-    }
+      credit: journalTypeId !== 4 ? -+netAmount : 0,
+    };
 
-    const payload =  rowDto?.map((item)=>({
-      accountId:  +profileData?.accountId,
+    const payload = rowDto?.map((item) => ({
+      accountId: +profileData?.accountId,
       businessUnitId: +selectedBusinessUnit?.value,
       sbuId: sbu?.value,
       accountingJournalTypeId: journalTypeId,
@@ -92,17 +95,17 @@ export default function BankJournalEditForm({ journalTypeId, journalId, sbu, vie
       transactionDate: values?.transactionDate,
       bankSortName: viewData?.bankName,
       instrumentTypeID: +values?.instrumentType?.value || 0,
-      instrumentTypeName: values?.instrumentType?.label || "",
-      instrumentNo: values?.instrumentNo || "",
-      instrumentDate: values?.instrumentDate || "",
-      paytoName: values?.paidTo || values?.receiveFrom || "",
+      instrumentTypeName: values?.instrumentType?.label || '',
+      instrumentNo: values?.instrumentNo || '',
+      instrumentDate: values?.instrumentDate || '',
+      paytoName: values?.paidTo || values?.receiveFrom || '',
       journalId: journalId,
       journalCode: viewData?.bankJournalCode,
-      actionBy:  profileData?.userId,
+      actionBy: profileData?.userId,
       isTransfer: true,
       narration: values?.headerNarration,
       generalLedgerId: item?.gl?.value,
-      generalLedgerCode:  item?.gl?.code,
+      generalLedgerCode: item?.gl?.code,
       generalLedgerName: item?.gl?.label,
       subGLId: item?.transaction?.value,
       subGlCode: item?.transaction?.code,
@@ -111,11 +114,12 @@ export default function BankJournalEditForm({ journalTypeId, journalId, sbu, vie
       subGLTypeName: item?.partnerType?.label,
       numAmount: +item?.amount,
       debit: journalTypeId !== 4 ? +item?.amount : 0,
-      credit: journalTypeId === 4 ? -(+item?.amount) : 0,
-    }))
+      credit: journalTypeId === 4 ? -+item?.amount : 0,
+    }));
 
-    commonTransferJournal({row:[rowPayload, ...payload]}, ()=>{setShow(false)});
-
+    commonTransferJournal({ row: [rowPayload, ...payload] }, () => {
+      setShow(false);
+    });
   };
 
   const setter = (values) => {
@@ -125,7 +129,7 @@ export default function BankJournalEditForm({ journalTypeId, journalId, sbu, vie
     if (count === 0) {
       setRowDto([...rowDto, { ...values, narration: values?.headerNarration }]);
     } else {
-      toast.warn("Not allowed to duplicate transaction");
+      toast.warn('Not allowed to duplicate transaction');
     }
   };
   const remover = (index) => {
@@ -139,7 +143,6 @@ export default function BankJournalEditForm({ journalTypeId, journalId, sbu, vie
       singleDataById(journalId, journalTypeId, setSingleData);
     } else {
     }
-
   }, [journalId, journalTypeId]);
 
   useEffect(() => {
@@ -147,9 +150,7 @@ export default function BankJournalEditForm({ journalTypeId, journalId, sbu, vie
       setRowDto(singleData.objRow);
     } else {
     }
-
   }, [singleData]);
-
 
   const rowDtoHandler = (index, name, value) => {
     const data = [...rowDto];
@@ -159,15 +160,20 @@ export default function BankJournalEditForm({ journalTypeId, journalId, sbu, vie
 
   return (
     <IForm
-      title={journalTypeId === 4 ? `Edit Bank Receipts(${viewData?.bankJournalCode ||
-        ""})`: journalTypeId === 5 ? `Edit Bank Payments(${viewData?.bankJournalCode ||
-          ""})` : journalTypeId === 6 ? `Edit Bank Transfer(${viewData?.bankJournalCode ||
-            ""})` : ""}
+      title={
+        journalTypeId === 4
+          ? `Edit Bank Receipts(${viewData?.bankJournalCode || ''})`
+          : journalTypeId === 5
+            ? `Edit Bank Payments(${viewData?.bankJournalCode || ''})`
+            : journalTypeId === 6
+              ? `Edit Bank Transfer(${viewData?.bankJournalCode || ''})`
+              : ''
+      }
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenBack={true}
       isHiddenReset={true}
-      submitBtnText={"Transfer"}
+      submitBtnText={'Transfer'}
     >
       {isDisabled && <Loading />}
       <Form

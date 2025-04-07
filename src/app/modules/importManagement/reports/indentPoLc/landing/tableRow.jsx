@@ -1,25 +1,24 @@
-
-import axios from "axios";
-import { Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { Form } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
+import axios from 'axios';
+import { Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { Form } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
 // import "../../scrollableTableStyle.module.css";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import { getReportHeaderInfo } from "../../costSummary/helper";
-import { GetBankDDL, getReport } from "../helper";
-import Print from "../view/Print";
-import { _firstDateofMonth } from "./../../../../_helper/_firstDateOfCurrentMonth";
+import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import { getReportHeaderInfo } from '../../costSummary/helper';
+import { GetBankDDL, getReport } from '../helper';
+import Print from '../view/Print';
+import { _firstDateofMonth } from './../../../../_helper/_firstDateOfCurrentMonth';
 
 const TableRow = () => {
   const [rowDto, setRowDto] = useState([]);
@@ -40,176 +39,176 @@ const TableRow = () => {
 
   const header = [
     {
-      name: "SL",
+      name: 'SL',
       style: {
-        minWidth: "30px",
+        minWidth: '30px',
       },
     },
     {
-      name: "PO No",
+      name: 'PO No',
       style: {
-        minWidth: "113px",
-      },
-    },
-
-    {
-      name: "LC Number",
-      style: {
-        minWidth: "82px",
-      },
-    },
-    {
-      name: "LC Type",
-      style: {
-        minWidth: "100px",
-      },
-    },
-    {
-      name: "LC Date",
-      style: {
-        minWidth: "65px",
-      },
-    },
-    {
-      name: "Bank",
-      style: {
-        minWidth: "120px",
-      },
-    },
-    {
-      name: "LastShip Date",
-      style: {
-        minWidth: "70px",
-      },
-    },
-    {
-      name: "Beneficiary",
-      style: {
-        minWidth: "240px",
-      },
-    },
-    {
-      name: "Load Port Dest.",
-      style: {
-        minWidth: "140px",
-      },
-    },
-    {
-      name: "Final Destination",
-      style: {
-        minWidth: "140px",
-      },
-    },
-    {
-      name: "Total Value",
-      style: {
-        minWidth: "100px",
+        minWidth: '113px',
       },
     },
 
     {
-      name: "Bank Charge",
+      name: 'LC Number',
       style: {
-        minWidth: "100px",
+        minWidth: '82px',
       },
     },
     {
-      name: "CLeaning Charge",
+      name: 'LC Type',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "CnF Charge",
+      name: 'LC Date',
       style: {
-        minWidth: "100px",
+        minWidth: '65px',
       },
     },
     {
-      name: "Doc Release Charge",
+      name: 'Bank',
       style: {
-        minWidth: "105px",
+        minWidth: '120px',
       },
     },
     {
-      name: "Custom Duty",
+      name: 'LastShip Date',
       style: {
-        minWidth: "100px",
+        minWidth: '70px',
+      },
+    },
+    {
+      name: 'Beneficiary',
+      style: {
+        minWidth: '240px',
+      },
+    },
+    {
+      name: 'Load Port Dest.',
+      style: {
+        minWidth: '140px',
+      },
+    },
+    {
+      name: 'Final Destination',
+      style: {
+        minWidth: '140px',
+      },
+    },
+    {
+      name: 'Total Value',
+      style: {
+        minWidth: '100px',
+      },
+    },
+
+    {
+      name: 'Bank Charge',
+      style: {
+        minWidth: '100px',
+      },
+    },
+    {
+      name: 'CLeaning Charge',
+      style: {
+        minWidth: '100px',
+      },
+    },
+    {
+      name: 'CnF Charge',
+      style: {
+        minWidth: '100px',
+      },
+    },
+    {
+      name: 'Doc Release Charge',
+      style: {
+        minWidth: '105px',
+      },
+    },
+    {
+      name: 'Custom Duty',
+      style: {
+        minWidth: '100px',
       },
     },
 
     //
     {
-      name: "Hatch Charge",
+      name: 'Hatch Charge',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Insurance Charge",
+      name: 'Insurance Charge',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Maturity",
+      name: 'Maturity',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Other Charge",
+      name: 'Other Charge',
       style: {
-        minWidth: "70px",
+        minWidth: '70px',
       },
     },
     {
-      name: "PG",
+      name: 'PG',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
 
     {
-      name: "Port Charge",
+      name: 'Port Charge',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Scavartory Charge",
+      name: 'Scavartory Charge',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Shipping Charge",
+      name: 'Shipping Charge',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Survey Charge",
+      name: 'Survey Charge',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Transport Charge",
+      name: 'Transport Charge',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Unloading Charge",
+      name: 'Unloading Charge',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Currency",
+      name: 'Currency',
       style: {
-        minWidth: "50px",
+        minWidth: '50px',
       },
     },
     // {
@@ -221,8 +220,8 @@ const TableRow = () => {
   ];
 
   const initData = {
-    PoLcNo: "",
-    bank: "",
+    PoLcNo: '',
+    bank: '',
     fromDate: _firstDateofMonth(),
     toDate: _todayDate(),
   };
@@ -246,19 +245,19 @@ const TableRow = () => {
       );
   };
   const style = {
-    minWidth: "50px",
+    minWidth: '50px',
   };
 
   useEffect(() => {
     getReport(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
+      '',
+      '',
+      '',
+      '',
+      '',
+      '',
       setRowDto,
       setLoader
     );
@@ -270,10 +269,10 @@ const TableRow = () => {
   }, [profileData.accountId, selectedBusinessUnit.value]);
 
   const getLandingData = (poLc, bankId, fromDate, toDate) => {
-    let poNo = poLc?.charAt(0) === "P" ? poLc : "";
-    let lcNo = poLc?.charAt(0) !== "P" ? poLc : "";
-    console.log("poNo", poNo);
-    console.log("lcNo", lcNo);
+    let poNo = poLc?.charAt(0) === 'P' ? poLc : '';
+    let lcNo = poLc?.charAt(0) !== 'P' ? poLc : '';
+    console.log('poNo', poNo);
+    console.log('lcNo', lcNo);
     getReport(
       profileData?.accountId,
       selectedBusinessUnit?.value,
@@ -282,7 +281,7 @@ const TableRow = () => {
       bankId,
       fromDate,
       toDate,
-      "",
+      '',
       setRowDto,
       setLoader
     );
@@ -307,7 +306,7 @@ const TableRow = () => {
               trigger={() => (
                 <button className="btn btn-primary">
                   <img
-                    style={{ width: "25px", paddingRight: "5px" }}
+                    style={{ width: '25px', paddingRight: '5px' }}
                     src={printIcon}
                     alt="print-icon"
                   />
@@ -343,7 +342,7 @@ const TableRow = () => {
                       isSearchIcon={true}
                       paddingRight={10}
                       handleChange={(valueOption) => {
-                        setFieldValue("PoLcNo", valueOption);
+                        setFieldValue('PoLcNo', valueOption);
                         getLandingData(
                           valueOption?.label,
                           values?.bank?.value,
@@ -363,7 +362,7 @@ const TableRow = () => {
                       name="bank"
                       label="Bank"
                       onChange={(e) => {
-                        setFieldValue("bank", e);
+                        setFieldValue('bank', e);
                         // getLandingData(
                         //   values?.PoLcNo?.label,
                         //   e?.value,
@@ -381,7 +380,7 @@ const TableRow = () => {
                       type="date"
                       max={values?.toDate}
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                         // getLandingData(
                         //   values?.PoLcNo?.label,
                         //   values?.bank?.value,
@@ -399,7 +398,7 @@ const TableRow = () => {
                       type="date"
                       min={values?.fromDate}
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                         // getLandingData(
                         //   values?.PoLcNo?.label,
                         //   values?.bank?.value,
@@ -409,7 +408,7 @@ const TableRow = () => {
                       }}
                     />
                   </div>
-                  <div className="col-lg-2" style={{ marginTop: "18px" }}>
+                  <div className="col-lg-2" style={{ marginTop: '18px' }}>
                     <button
                       type="button"
                       className="btn btn-primary btn-sm"
@@ -441,9 +440,9 @@ const TableRow = () => {
                   <div
                     ref={printRef}
                     style={{
-                      width: "100%",
-                      maxHeight: "80vh",
-                      overflow: "auto",
+                      width: '100%',
+                      maxHeight: '80vh',
+                      overflow: 'auto',
                     }}
                   >
                     {isPrintable && (
@@ -462,7 +461,7 @@ const TableRow = () => {
                                 <th
                                   style={{
                                     ...item?.style,
-                                    position: "sticky",
+                                    position: 'sticky',
                                     top: 0,
                                   }}
                                   key={index}

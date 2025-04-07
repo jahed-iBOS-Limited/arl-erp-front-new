@@ -94,7 +94,7 @@ export default function JohariWindowActionPlan() {
         `/pms/PerformanceMgmt/PMSActionPlanCreateAndEdit`,
         payload,
         null,
-        true,
+        true
       );
     } else {
       toast.error('Please Select Year and Quater');
@@ -155,15 +155,14 @@ export default function JohariWindowActionPlan() {
           value: data?.typeReferenceId,
           label: data?.typeReference,
         });
-      },
+      }
     );
   };
 
   useEffect(() => {
     getYearData(
-      `/pms/CommonDDL/YearDDL?AccountId=${accountId}&BusinessUnitId=4`,
+      `/pms/CommonDDL/YearDDL?AccountId=${accountId}&BusinessUnitId=4`
     );
-
   }, []);
 
   const pdfExport = (fileName) => {
@@ -197,7 +196,7 @@ export default function JohariWindowActionPlan() {
             label: 'Johari Window',
           },
         }}
-        onSubmit={() => { }}
+        onSubmit={() => {}}
       >
         {({ values, setFieldValue, errors, touched }) => (
           <>
@@ -253,10 +252,10 @@ export default function JohariWindowActionPlan() {
                               employeeId,
                               values.year.value,
                               valueOption?.value,
-                              setFieldValue,
+                              setFieldValue
                             );
                             getReferenceData(
-                              `/pms/PerformanceMgmt/GetJohariWindowActionPlanDDL?EmployeeId=${employeeId}&YearId=${values.year.value}&QuarterId=${valueOption?.value}&DDLTypeId=1`,
+                              `/pms/PerformanceMgmt/GetJohariWindowActionPlanDDL?EmployeeId=${employeeId}&YearId=${values.year.value}&QuarterId=${valueOption?.value}&DDLTypeId=1`
                             );
                             setFieldValue('quater', valueOption);
                           } else {
@@ -298,7 +297,7 @@ export default function JohariWindowActionPlan() {
                       options={[]}
                       value={values?.type}
                       label="Type"
-                      onChange={(valueOption) => { }}
+                      onChange={(valueOption) => {}}
                       placeholder="Type"
                       errors={errors}
                       isDisabled={true}
@@ -419,9 +418,11 @@ export default function JohariWindowActionPlan() {
                 </div>
 
                 <div id="pdf-section" className="actionplan-pdf-section d-none">
-                  <GrowModelPdf pdfData={pdfData} title={'Action Plan Johari Window'} />
+                  <GrowModelPdf
+                    pdfData={pdfData}
+                    title={'Action Plan Johari Window'}
+                  />
                 </div>
-
               </CardBody>
             </Card>
           </>

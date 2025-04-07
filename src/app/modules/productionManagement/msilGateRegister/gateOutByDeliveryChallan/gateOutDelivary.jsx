@@ -1,30 +1,26 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _timeFormatter } from "../../../_helper/_timeFormatter";
-import PaginationSearch from "./../../../_helper/_search";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _timeFormatter } from '../../../_helper/_timeFormatter';
+import PaginationSearch from './../../../_helper/_search';
 
 const initData = {
-  businessUnit: "",
-  shipPoint: "",
+  businessUnit: '',
+  shipPoint: '',
 };
 
 function GateOutDelivary({ item, date }) {
   const [pageNo, setPageNo] = useState(0);
   const [pageSize, setPageSize] = useState(15);
   const [rowData, getRowData, lodar, setRowData] = useAxiosGet();
-  const [
-    shipPoint,
-    getShipPoint,
-    shipPointLoader,
-    setShipPoint,
-  ] = useAxiosGet();
+  const [shipPoint, getShipPoint, shipPointLoader, setShipPoint] =
+    useAxiosGet();
   const [loading, setLoading] = useState(false);
 
   const businessUnitDDL = useSelector((state) => {
@@ -51,9 +47,8 @@ function GateOutDelivary({ item, date }) {
         }
       );
     }
-
   }, []);
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getRowData(
       `/mes/MSIL/VehicleGateOutLanding?intBusinessUnitId=${selectedBusinessUnit?.value}&shipPointId=${values?.shipPoint?.value}&status=true&search=${searchValue}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
@@ -84,20 +79,20 @@ function GateOutDelivary({ item, date }) {
                     label="Business Unit"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("shipPoint", "");
+                        setFieldValue('shipPoint', '');
                         setRowData([]);
-                        setFieldValue("businessUnit", valueOption);
+                        setFieldValue('businessUnit', valueOption);
                         getShipPoint(
                           `/mes/MSIL/GetAllMSIL?PartName=GetShipPointForVehicleEntry&BusinessUnitId=${valueOption?.value}&AutoId=${profileData?.userId}`,
                           (data) => {
                             if (Array.isArray(data) && data?.length === 0)
-                              return toast.warn("No Ship Point Found");
-                            setFieldValue("shipPoint", data[0]);
+                              return toast.warn('No Ship Point Found');
+                            setFieldValue('shipPoint', data[0]);
                           }
                         );
                       } else {
-                        setFieldValue("businessUnit", "");
-                        setFieldValue("shipPoint", "");
+                        setFieldValue('businessUnit', '');
+                        setFieldValue('shipPoint', '');
                         setRowData([]);
                         setShipPoint([]);
                       }
@@ -112,10 +107,10 @@ function GateOutDelivary({ item, date }) {
                     label="Ship Point"
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("shipPoint", valueOption);
+                        setFieldValue('shipPoint', valueOption);
                         setRowData([]);
                       } else {
-                        setFieldValue("shipPoint", "");
+                        setFieldValue('shipPoint', '');
                         setRowData([]);
                       }
                     }}
@@ -123,7 +118,7 @@ function GateOutDelivary({ item, date }) {
                 </div>
                 <div className="col-lg-3">
                   <button
-                    style={{ marginTop: "18px" }}
+                    style={{ marginTop: '18px' }}
                     className="btn btn-primary ml-2"
                     disabled={!values?.businessUnit || !values?.shipPoint}
                     onClick={() => {
@@ -150,7 +145,7 @@ function GateOutDelivary({ item, date }) {
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                     <thead>
                       <tr>
-                        <th style={{ width: "30px" }}>SL</th>
+                        <th style={{ width: '30px' }}>SL</th>
                         <th>Reg. No</th>
                         <th>Net Weight</th>
                         <th>Vehicle No</th>
@@ -182,13 +177,13 @@ function GateOutDelivary({ item, date }) {
                               {_dateFormatter(item?.dteGateOutDate)}
                             </td>
                             <td className="text-center">
-                              {_timeFormatter(item?.tmOutTime || "")}
+                              {_timeFormatter(item?.tmOutTime || '')}
                             </td>
                             <td className="text-center">
-                              {_timeFormatter(item?.tmServerTime || "")}
+                              {_timeFormatter(item?.tmServerTime || '')}
                             </td>
                             <td
-                              style={{ color: "green", fontWeight: "bold" }}
+                              style={{ color: 'green', fontWeight: 'bold' }}
                               className="text-center"
                             >
                               {item?.strStatus}

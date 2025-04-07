@@ -1,26 +1,25 @@
-
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { Input } from "../../../../../../_metronic/_partials/controls";
-import Axios from "axios";
-import Select from "react-select";
-import { useSelector, shallowEqual } from "react-redux";
-import customStyles from "../../../../selectCustomStyle";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { Input } from '../../../../../../_metronic/_partials/controls';
+import Axios from 'axios';
+import Select from 'react-select';
+import { useSelector, shallowEqual } from 'react-redux';
+import customStyles from '../../../../selectCustomStyle';
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
   inventoryLocationName: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Location is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Location is required'),
   plantName: Yup.object().shape({
-    label: Yup.string().required("Plant is required"),
-    value: Yup.string().required("Plant is required"),
+    label: Yup.string().required('Plant is required'),
+    value: Yup.string().required('Plant is required'),
   }),
   warehouseName: Yup.object().shape({
-    label: Yup.string().required("Warehouse is required"),
-    value: Yup.string().required("Warehouse is required"),
+    label: Yup.string().required('Warehouse is required'),
+    value: Yup.string().required('Warehouse is required'),
   }),
 });
 
@@ -35,7 +34,7 @@ export default function FormCmp({
   selectedBusinessUnit,
   lastDisabled,
 }) {
-  const [lngList, setLng] = useState("");
+  const [lngList, setLng] = useState('');
   const [currencyList, setCurrency] = useState([]);
 
   const profileData = useSelector((state) => {
@@ -44,11 +43,11 @@ export default function FormCmp({
 
   useEffect(() => {
     if (selectedBusinessUnit && accountId) {
-      getInfoData(profileData.userId,accountId, selectedBusinessUnit.value);
+      getInfoData(profileData.userId, accountId, selectedBusinessUnit.value);
     }
   }, [selectedBusinessUnit, accountId]);
 
-  const getInfoData = async (userId,accid, businessUnitId) => {
+  const getInfoData = async (userId, accid, businessUnitId) => {
     try {
       const [lng] = await Promise.all([
         Axios.get(
@@ -71,13 +70,13 @@ export default function FormCmp({
         //   });
         setLng(data);
       }
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   const getWareHouseDDL_api = async (plantId) => {
-    const res = await Axios.get(`/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${plantId}&OrgUnitTypeId=8`);
+    const res = await Axios.get(
+      `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=${plantId}&OrgUnitTypeId=8`
+    );
     const { data, status } = res;
     if (status === 200) {
       setCurrency(data);
@@ -121,8 +120,8 @@ export default function FormCmp({
                         value={values?.plantName}
                         isDisabled={lastDisabled}
                         onChange={(valueOption) => {
-                          setFieldValue("plantName", valueOption);
-                          setFieldValue("warehouseName", "");
+                          setFieldValue('plantName', valueOption);
+                          setFieldValue('warehouseName', '');
                           getWareHouseDDL_api(valueOption?.value);
                         }}
                         isSearchable={true}
@@ -134,16 +133,16 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
                     {errors && errors.plantName && touched && touched.plantName
                       ? errors.plantName.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
 
@@ -158,7 +157,7 @@ export default function FormCmp({
                         options={currencyList}
                         placeholder="Select Warehouse"
                         onChange={(valueOption) => {
-                          setFieldValue("warehouseName", valueOption);
+                          setFieldValue('warehouseName', valueOption);
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -170,10 +169,10 @@ export default function FormCmp({
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      marginTop: "0.25rem",
-                      width: "100%",
+                      marginTop: '0.25rem',
+                      width: '100%',
                     }}
                     className="text-danger"
                   >
@@ -182,13 +181,13 @@ export default function FormCmp({
                     errors &&
                     errors.warehouseName
                       ? errors.warehouseName.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
 
                 <div className="col-lg-4">
                   <Field
-                    value={values.inventoryLocationName || ""}
+                    value={values.inventoryLocationName || ''}
                     name="inventoryLocationName"
                     component={Input}
                     placeholder="Location"
@@ -200,14 +199,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(product)}
               ></button>

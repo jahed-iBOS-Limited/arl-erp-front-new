@@ -1,12 +1,12 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { WarehouseTable } from "./WarehouseTableCard";
+} from '../../../../../../_metronic/_partials/controls';
+import { WarehouseTable } from './WarehouseTableCard';
 
 export function WarehouseLandingCard() {
   let history = useHistory();
@@ -18,7 +18,7 @@ export function WarehouseLandingCard() {
             type="button"
             className="btn btn-primary"
             onClick={() =>
-              history.push("/inventory-management/configuration/warehouse/add")
+              history.push('/inventory-management/configuration/warehouse/add')
             }
           >
             Create New

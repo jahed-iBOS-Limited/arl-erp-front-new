@@ -1,22 +1,21 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 const initState = {
   isLoading: false,
   error: '',
-  msg: "",
+  msg: '',
   vehicleTypeDDL: [],
   employeeListDDL: [],
   transportModeDDL: [],
   vehicleUsePurposeDDL: [],
   gridData: [],
-  singleData: "",
+  singleData: '',
 };
 
 export const vehicleUnitSlice = createSlice({
-  name: "vehicleUnit",
+  name: 'vehicleUnit',
   initialState: initState,
   reducers: {
-
     SetVehicleTypeDDL: (state, action) => {
       const { payload } = action;
       state.vehicleTypeDDL = payload;
@@ -41,9 +40,9 @@ export const vehicleUnitSlice = createSlice({
       const { payload } = action;
       state.singleData = payload;
     },
-    
-    SetSingleStoreEmpty: state => {
-      state.singleData = "";
+
+    SetSingleStoreEmpty: (state) => {
+      state.singleData = '';
     },
 
     SetEmployeeListDDL: (state, action) => {
@@ -57,7 +56,6 @@ export const vehicleUnitSlice = createSlice({
     SetVehicleUsePurposeDDL: (state, action) => {
       const { payload } = action;
       state.vehicleUsePurposeDDL = payload;
-    }
-  }
+    },
+  },
 });
-

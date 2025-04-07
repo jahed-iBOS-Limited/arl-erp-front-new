@@ -40,7 +40,7 @@ export default function CreateLoadUnloadBill() {
         selectedBusinessUnit?.value,
         params?.id,
         setSingleData,
-        setDisabled,
+        setDisabled
       );
     }
   }, [params, selectedBusinessUnit, profileData]);

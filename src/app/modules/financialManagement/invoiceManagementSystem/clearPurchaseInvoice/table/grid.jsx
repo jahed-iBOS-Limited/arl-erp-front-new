@@ -1,28 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { withRouter } from "react-router-dom";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import { setPlantNameAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import { setPlantNameAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 import {
   getBankAcDDL,
   getCashGlDDL,
   getPurchaseClearPagination_api,
   plantDDL_api,
   getGridData,
-} from "../helper";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import PaymentModal from "../paymentModal/modal";
-import Loading from "./../../../../_helper/_loading";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import PaginationSearch from "./../../../../_helper/_search";
+} from '../helper';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import PaymentModal from '../paymentModal/modal';
+import Loading from './../../../../_helper/_loading';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import PaginationSearch from './../../../../_helper/_search';
 
 const GridData = () => {
-
   let history = useHistory();
   const [loading, setLoading] = useState(false);
 
@@ -82,7 +81,6 @@ const GridData = () => {
         pageSize
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
   useEffect(() => {
     plantDDL_api(
@@ -152,7 +150,7 @@ const GridData = () => {
             <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing global-table">
               <thead>
                 <tr>
-                  <th style={{ width: "25px" }}>Sl</th>
+                  <th style={{ width: '25px' }}>Sl</th>
                   <th>Invoice Code</th>
                   <th>Transaction Date</th>
                   <th>Supplier</th>
@@ -161,7 +159,7 @@ const GridData = () => {
                   <th>GRN Amount</th>
                   {/* <th>Invoice Amount</th> */}
                   <th>Payment Amount</th>
-                  <th style={{ width: "90px" }}>Action</th>
+                  <th style={{ width: '90px' }}>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -176,7 +174,7 @@ const GridData = () => {
                       <div className="text-right pr-2">
                         {item?.transanctionDate
                           ? _dateFormatter(item?.transanctionDate)
-                          : "N/A"}
+                          : 'N/A'}
                       </div>
                     </td>
                     <td>
@@ -209,7 +207,7 @@ const GridData = () => {
                         </span>
 
                         <OverlayTrigger
-                          overlay={<Tooltip id="cs-icon">{"Payment"}</Tooltip>}
+                          overlay={<Tooltip id="cs-icon">{'Payment'}</Tooltip>}
                         >
                           <span
                             onClick={() => {

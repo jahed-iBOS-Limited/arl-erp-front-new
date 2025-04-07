@@ -1,26 +1,25 @@
-
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 import {
   CardHeader,
   Card,
   CardHeaderToolbar,
   CardBody,
   ModalProgressBar,
-} from "../../../../../../../_metronic/_partials/controls";
-import Form from "./Form";
-import { fetchMenuListData } from "../../helper/action";
-import { useSelector, shallowEqual } from "react-redux";
+} from '../../../../../../../_metronic/_partials/controls';
+import Form from './Form';
+import { fetchMenuListData } from '../../helper/action';
+import { useSelector, shallowEqual } from 'react-redux';
 
 function MenuList() {
-  const [editMode,] = useState(false);
+  const [editMode] = useState(false);
   const [menuListArray, setMenuListArray] = useState([]);
   const [menuFormData, setMenuFormData] = useState({
-    sunday: "",
-    monday: "",
-    tuesday: "",
-    wednesday: "",
-    thursday: "",
-    saturday: "",
+    sunday: '',
+    monday: '',
+    tuesday: '',
+    wednesday: '',
+    thursday: '',
+    saturday: '',
   });
 
   const onChangeFiledHandler = (name, value) => {
@@ -41,12 +40,12 @@ function MenuList() {
 
   useEffect(() => {
     let obj = {
-      sunday: "",
-      monday: "",
-      tuesday: "",
-      wednesday: "",
-      thursday: "",
-      saturday: "",
+      sunday: '',
+      monday: '',
+      tuesday: '',
+      wednesday: '',
+      thursday: '',
+      saturday: '',
     };
     menuListArray.length > 0 &&
       menuListArray.forEach(

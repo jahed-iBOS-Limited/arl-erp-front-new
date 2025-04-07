@@ -6,7 +6,7 @@ import { APIUrl } from '../../../../../App';
 export const getDistributionChannelDDL = async (accId, buId, setter) => {
   try {
     let res = await axios.get(
-      `/rtm/RTMDDL/GetDistributionChannel?AccountId=${accId}&BusinessUnitId=${buId}`,
+      `/rtm/RTMDDL/GetDistributionChannel?AccountId=${accId}&BusinessUnitId=${buId}`
     );
     if (res?.status === 200) {
       setter(res?.data);
@@ -19,7 +19,7 @@ export const getDistributionChannelDDL = async (accId, buId, setter) => {
 export const getItemDDL = async (accId, buId, dcId, setter) => {
   try {
     let res = await axios.get(
-      `/rtm/RTMDDL/GetItemInfoByChannelIdDDL?AccountId=${accId}&BusinessUnitI=${buId}&DistributionChannel=${dcId}`,
+      `/rtm/RTMDDL/GetItemInfoByChannelIdDDL?AccountId=${accId}&BusinessUnitI=${buId}&DistributionChannel=${dcId}`
     );
     if (res?.status === 200) {
       setter(res?.data);
@@ -36,12 +36,12 @@ export const getRetailPriceLandingData = async (
   pageNo,
   pageSize,
   setter,
-  setIsLoading,
+  setIsLoading
 ) => {
   setIsLoading(true);
   try {
     let res = await axios.get(
-      `/rtm/RetailPrice/GetRetailPriceLandingPasignation?accountId=${accId}&businessUnitid=${buId}&distributionChannelId=${dcId}&PageNo=${pageNo}&PageSize=${pageSize}&vieworder=desc`,
+      `/rtm/RetailPrice/GetRetailPriceLandingPasignation?accountId=${accId}&businessUnitid=${buId}&distributionChannelId=${dcId}&PageNo=${pageNo}&PageSize=${pageSize}&vieworder=desc`
     );
     if (res?.status === 200) {
       setter(res?.data);
@@ -83,12 +83,12 @@ export const getRetailPriceId = async (
   dId,
   setSingleData,
   setRowData,
-  setDisabled,
+  setDisabled
 ) => {
   setDisabled(true);
   try {
     let res = await axios.get(
-      `/rtm/RetailPrice/GetBusinessTypeById?distributionChannelId=${dId}`,
+      `/rtm/RetailPrice/GetBusinessTypeById?distributionChannelId=${dId}`
     );
     if (res?.status === 200) {
       const data = res?.data;
@@ -162,11 +162,11 @@ export const retailPriceAttachment_action = async (attachment, cb) => {
 export const getRetailPriceImageFile_api = async (id) => {
   try {
     const res = await axios.get(
-      `${APIUrl}/domain/Document/DownlloadFile?id=${id}`,
+      `${APIUrl}/domain/Document/DownlloadFile?id=${id}`
     );
 
     if (res.status === 200 && res.data) {
       return res?.config?.url;
     }
-  } catch (error) { }
+  } catch (error) {}
 };

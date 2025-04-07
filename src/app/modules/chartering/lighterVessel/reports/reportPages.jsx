@@ -1,12 +1,12 @@
-import React from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
-import DieselStatement from "./dieselReport/table";
-import DieselStatementTwo from "./dieselReportTwo/table";
-import LineExpenseReport from "./lineExpense/table";
-import MonthlyVoyageStatement from "./monthlyVoyageStatement/table";
-import StoreExpenseReport from "./storeExpense/table";
-import LighterVesselReportsTable from "./table/table";
-import DispatchAndDemurrage from "./dispatchDemurrage/table";
+import React from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import DieselStatement from './dieselReport/table';
+import DieselStatementTwo from './dieselReportTwo/table';
+import LineExpenseReport from './lineExpense/table';
+import MonthlyVoyageStatement from './monthlyVoyageStatement/table';
+import StoreExpenseReport from './storeExpense/table';
+import LighterVesselReportsTable from './table/table';
+import DispatchAndDemurrage from './dispatchDemurrage/table';
 export function LighterVesselReportPages() {
   return (
     <>

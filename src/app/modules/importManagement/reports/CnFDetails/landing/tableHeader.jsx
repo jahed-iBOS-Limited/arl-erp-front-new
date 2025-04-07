@@ -1,12 +1,12 @@
-import React from 'react'
-import TableRow from './tableRow'
+import React from 'react';
+import TableRow from './tableRow';
 
 const CnFDetails = () => {
   return (
     <div>
-      <TableRow/>
+      <TableRow />
     </div>
-  )
-}
+  );
+};
 
-export default CnFDetails
+export default CnFDetails;

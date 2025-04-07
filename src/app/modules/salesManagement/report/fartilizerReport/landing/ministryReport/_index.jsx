@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { Form, Formik } from "formik";
-import { IInput } from "../../../../../_helper/_input";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import { shallowEqual, useSelector } from "react-redux";
-import { ministryReportLanding } from "../../helper";
-import FertilizerInfoTable from "./fertilizerInfo";
-import MokamOrWarehouseInfoTable from "./mokamOrWarehouseInfo";
-import DistrictSpecifySalesInfoTable from "./districtSpecifySalesInfo";
-import UnsoldInfoTable from "./unsoldStock";
+import React, { useState } from 'react';
+import { Form, Formik } from 'formik';
+import { IInput } from '../../../../../_helper/_input';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import { shallowEqual, useSelector } from 'react-redux';
+import { ministryReportLanding } from '../../helper';
+import FertilizerInfoTable from './fertilizerInfo';
+import MokamOrWarehouseInfoTable from './mokamOrWarehouseInfo';
+import DistrictSpecifySalesInfoTable from './districtSpecifySalesInfo';
+import UnsoldInfoTable from './unsoldStock';
 // import CurrentStockMokamOrWarehouseInfoTable from "./currentStockMokamOrWarehouseInfo";
 // import SalesInfoTable from "./salesInfo";
 
@@ -17,7 +17,7 @@ const initData = {
 };
 
 export function MinistryReport({ printRef, setLoading }) {
-  const [gridData, setGridData] = useState("");
+  const [gridData, setGridData] = useState('');
 
   const { profileData, selectedBusinessUnit } = useSelector((state) => {
     return state.authData;
@@ -54,8 +54,8 @@ export function MinistryReport({ printRef, setLoading }) {
                   name="fromDate"
                   type="date"
                   onChange={(e) => {
-                    setFieldValue("fromDate", e?.target?.value);
-                    setGridData("");
+                    setFieldValue('fromDate', e?.target?.value);
+                    setGridData('');
                   }}
                 />
               </div>
@@ -67,8 +67,8 @@ export function MinistryReport({ printRef, setLoading }) {
                   name="toDate"
                   type="date"
                   onChange={(e) => {
-                    setFieldValue("toDate", e?.target?.value);
-                    setGridData("");
+                    setFieldValue('toDate', e?.target?.value);
+                    setGridData('');
                   }}
                 />
               </div>

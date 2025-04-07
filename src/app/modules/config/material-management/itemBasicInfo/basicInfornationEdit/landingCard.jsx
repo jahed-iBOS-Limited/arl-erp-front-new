@@ -1,13 +1,13 @@
-import React from "react";
+import React from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import MainCollapsePanel from "./collapsableComponent/main";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import { useHistory } from "react-router-dom";
+} from '../../../../../../_metronic/_partials/controls';
+import MainCollapsePanel from './collapsableComponent/main';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import { useHistory } from 'react-router-dom';
 
 export default function LandingCard() {
   let history = useHistory();
@@ -22,9 +22,9 @@ export default function LandingCard() {
     <Card>
       {true && <ModalProgressBar />}
       <CardHeader
-        title={`Edit item Info : [${itemNameFromHistroy ||
-          itemNameFromCollapsed} - ${itemCodeFromHistory ||
-          itemCodeFromCollapsed}]`}
+        title={`Edit item Info : [${
+          itemNameFromHistroy || itemNameFromCollapsed
+        } - ${itemCodeFromHistory || itemCodeFromCollapsed}]`}
       >
         <CardHeaderToolbar>
           <button

@@ -1,26 +1,25 @@
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
 
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "./../../../../_helper/_todayDate";
-import useAxiosGet from "./../../../../_helper/customHooks/useAxiosGet";
-import LandingTable from "./table";
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from './../../../../_helper/_todayDate';
+import useAxiosGet from './../../../../_helper/customHooks/useAxiosGet';
+import LandingTable from './table';
 
 const initData = {
   businessUnit: {
     value: 0,
-    label: "All",
+    label: 'All',
   },
   channel: {
     value: 0,
-    label: "All",
+    label: 'All',
   },
   fromDate: _todayDate(),
   toDate: _todayDate(),
@@ -84,13 +83,13 @@ const MarketCompetitorPriceLanding = () => {
                     isRequiredSymbol={true}
                     name="businessUnit"
                     options={
-                      [{ value: 0, label: "All" }, ...businessUnitDDL] || []
+                      [{ value: 0, label: 'All' }, ...businessUnitDDL] || []
                     }
                     value={values?.businessUnit}
                     label="Business Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("businessUnit", valueOption || "");
-                      setFieldValue("territory", "");
+                      setFieldValue('businessUnit', valueOption || '');
+                      setFieldValue('territory', '');
                     }}
                     placeholder="Select Business Unit"
                   />
@@ -103,7 +102,7 @@ const MarketCompetitorPriceLanding = () => {
                       [
                         {
                           value: 0,
-                          label: "All",
+                          label: 'All',
                         },
                         ...channelList,
                       ] || []
@@ -111,7 +110,7 @@ const MarketCompetitorPriceLanding = () => {
                     value={values?.channel}
                     label="Channel"
                     onChange={(valueOption) => {
-                      setFieldValue("channel", valueOption || "");
+                      setFieldValue('channel', valueOption || '');
                     }}
                     placeholder="Select Channel"
                     errors={errors}
@@ -127,7 +126,7 @@ const MarketCompetitorPriceLanding = () => {
                     placeholder="From Date"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("fromDate", e?.target?.value);
+                      setFieldValue('fromDate', e?.target?.value);
                     }}
                   />
                 </div>
@@ -139,7 +138,7 @@ const MarketCompetitorPriceLanding = () => {
                     placeholder="To Date"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("toDate", e?.target?.value);
+                      setFieldValue('toDate', e?.target?.value);
                     }}
                   />
                 </div>

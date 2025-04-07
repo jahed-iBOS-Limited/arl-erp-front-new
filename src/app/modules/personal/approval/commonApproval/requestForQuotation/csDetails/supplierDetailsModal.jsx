@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { _dateFormatter } from '../../../../../_helper/_dateFormate';
 import Loading from '../../../../../_helper/_loading';
@@ -15,7 +14,7 @@ export function SupplierDetailsModal({ selectedSupplier }) {
 
   useEffect(() => {
     getViewData(
-      `/procurement/RequestForQuotation/GetSupplierLastDetails?businessUnitId=${selectedSupplier?.intBusinessUnitId}&businessPartnerId=${selectedSupplier?.intBusinessPartnerId}`,
+      `/procurement/RequestForQuotation/GetSupplierLastDetails?businessUnitId=${selectedSupplier?.intBusinessUnitId}&businessPartnerId=${selectedSupplier?.intBusinessPartnerId}`
     );
   }, [selectedSupplier?.intBusinessUnitId]);
   return (

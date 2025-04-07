@@ -1,7 +1,6 @@
-import React from "react";
-import BalancerReportTable from "./Table/table";
-
+import React from 'react';
+import BalancerReportTable from './Table/table';
 
 export function BalanceReport() {
-  return <BalancerReportTable/>;
+  return <BalancerReportTable />;
 }

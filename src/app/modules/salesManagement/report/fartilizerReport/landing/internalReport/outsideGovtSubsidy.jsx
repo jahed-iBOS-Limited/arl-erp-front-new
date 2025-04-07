@@ -1,5 +1,5 @@
-import React from "react";
-import "./index.css";
+import React from 'react';
+import './index.css';
 
 export default function OutsideGovSubsidyTable({ rowData }) {
   let purchaseTotalQty = rowData?.left?.reduce(
@@ -38,10 +38,10 @@ export default function OutsideGovSubsidyTable({ rowData }) {
         >
           <thead>
             <tr>
-              <th style={{ width: "30px" }} rowSpan="1" colSpan="5">
+              <th style={{ width: '30px' }} rowSpan="1" colSpan="5">
                 Purchase
               </th>
-              <th style={{ width: "100px" }} rowSpan="1" colSpan="4">
+              <th style={{ width: '100px' }} rowSpan="1" colSpan="4">
                 Re-sell
               </th>
             </tr>
@@ -166,7 +166,7 @@ export default function OutsideGovSubsidyTable({ rowData }) {
 
             <tr>
               <td className="text-left" colSpan="10">
-                Residual Quantity (MT) :{" "}
+                Residual Quantity (MT) :{' '}
                 <strong>
                   {(purchaseTotalQty - sellTotalQty)?.toFixed(2) || 0}
                 </strong>
@@ -174,7 +174,7 @@ export default function OutsideGovSubsidyTable({ rowData }) {
             </tr>
             <tr>
               <td className="text-left" colSpan="10">
-                Avg. Rate (per MT) :{" "}
+                Avg. Rate (per MT) :{' '}
                 <strong>{(purchaseRate - sellRate)?.toFixed(2) || 0}</strong>
               </td>
             </tr>

@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getWareHouseDDL = async (
   accountId,
@@ -42,7 +42,7 @@ export const createCustomerGroupForPrivilege = async (
       data
     );
 
-    toast.success(res?.data?.message || "Submitted successfully");
+    toast.success(res?.data?.message || 'Submitted successfully');
     cb();
     setDisabled(false);
   } catch (error) {
@@ -61,7 +61,7 @@ export const getCustomerGroupLandingPasignation = async (
   setter,
   setLoading
 ) => {
-  const statusValue = status === 3 ? '' : `&status=${status}`
+  const statusValue = status === 3 ? '' : `&status=${status}`;
   try {
     setLoading(true);
     const res = await Axios.get(
@@ -103,7 +103,7 @@ export const getCustomerActiveInactive = async (
       `/item/CustomerGroup/CustomerActiveInActive?customerGroupId=${customerGroupId}&actionBy=${actionBy}`
     );
     setLoading(false);
-    toast.success(res?.data?.message)
+    toast.success(res?.data?.message);
   } catch (error) {
     setLoading(false);
     toast.error(error?.response?.data?.message);

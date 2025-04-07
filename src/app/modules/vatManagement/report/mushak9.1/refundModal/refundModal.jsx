@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import moment from "moment";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import moment from 'moment';
 
-import { createTaxLedgerDeduction, getTaxBranchDDL } from "./../helper";
-import NewSelect from "../../../../_helper/_select";
+import { createTaxLedgerDeduction, getTaxBranchDDL } from './../helper';
+import NewSelect from '../../../../_helper/_select';
 import InputField from '../../../../_helper/_inputField';
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
 
 const initData = {
-  vat: "",
-  sd: "",
-  taxBranch: "",
+  vat: '',
+  sd: '',
+  taxBranch: '',
 };
 
 // Validation schema
@@ -73,7 +73,7 @@ export default function RefundModal({
         profileData?.accountId,
         selectedBusinessUnit?.value,
         parentValues?.taxBranch?.value,
-        moment(parentValues?.mushakDate).format("M"),
+        moment(parentValues?.mushakDate).format('M'),
         setTaxLedgerSdVat,
         setLoading
       );
@@ -89,7 +89,7 @@ export default function RefundModal({
         onHide={() => {
           onHide();
         }}
-        title={"Refund"}
+        title={'Refund'}
         btnText="Close"
       >
         <Formik
@@ -98,15 +98,15 @@ export default function RefundModal({
           validationSchema={Yup.object().shape({
             vat: Yup.number()
               .positive()
-              .min(0, "Vat must be Positive Numbers")
-              .required("Vat is required"),
+              .min(0, 'Vat must be Positive Numbers')
+              .required('Vat is required'),
             sd: Yup.number()
               .positive()
-              .min(0, "SD must be Positive Numbers")
-              .required("SD is required"),
+              .min(0, 'SD must be Positive Numbers')
+              .required('SD is required'),
             taxBranch: Yup.object().shape({
-              label: Yup.string().required("Tax Branch is required"),
-              value: Yup.string().required("Tax Branch is required"),
+              label: Yup.string().required('Tax Branch is required'),
+              value: Yup.string().required('Tax Branch is required'),
             }),
           })}
           onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -128,7 +128,7 @@ export default function RefundModal({
                 <div className="text-right">
                   <button
                     className="btn btn-primary"
-                    style={{ marginTop: "14px" }}
+                    style={{ marginTop: '14px' }}
                     type="submit"
                   >
                     Save
@@ -144,7 +144,7 @@ export default function RefundModal({
                         name="vat"
                         placeholder="Vat"
                         onChange={(e) => {
-                          setFieldValue("vat", +e.target.value);
+                          setFieldValue('vat', +e.target.value);
                         }}
                         min="0"
                       />
@@ -157,7 +157,7 @@ export default function RefundModal({
                         name="sd"
                         placeholder="SD"
                         onChange={(e) => {
-                          setFieldValue("sd", +e.target.value);
+                          setFieldValue('sd', +e.target.value);
                         }}
                         min="0"
                       />
@@ -170,7 +170,7 @@ export default function RefundModal({
                         value={values?.taxBranch}
                         label="Select Tax Branch"
                         onChange={(valueOption) => {
-                          setFieldValue("taxBranch", valueOption);
+                          setFieldValue('taxBranch', valueOption);
                         }}
                         placeholder="Select Tax Branch"
                         errors={errors}

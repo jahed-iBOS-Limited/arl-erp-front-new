@@ -1,4 +1,3 @@
-
 import { Field, Form, Formik } from 'formik';
 import { DropzoneDialogBase } from 'react-mui-dropzone';
 import React, { useEffect, useState } from 'react';
@@ -47,13 +46,13 @@ const validationSchema = Yup.object().shape({
     (vehicleInDateValidation, Schema) => {
       if (vehicleInDateValidation)
         return Schema.required('Instrument date is required');
-    },
+    }
   ),
   vehicleInTime: Yup.string().when(
     'vehicleInDateValidation',
     (vehicleInDateValidation, Schema) => {
       if (vehicleInDateValidation) return Schema.required('Time is required');
-    },
+    }
   ),
 });
 
@@ -130,16 +129,15 @@ export default function FormCmp({
           }));
           setProfitCenterDDL(newData);
         }
-      },
+      }
     );
     getCostCenterDDL(
-      `/procurement/PurchaseOrder/GetCostCenter?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}`,
+      `/procurement/PurchaseOrder/GetCostCenter?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}`
     );
 
     if (profileData.accountId) {
       getComponentDDL(profileData.accountId, setComponentDDL);
     }
-
   }, [profileData]);
 
   useEffect(() => {
@@ -151,12 +149,12 @@ export default function FormCmp({
       GetSupplierListDDL_api(
         profileData.accountId,
         selectedBusinessUnit?.value,
-        setSupplierListDDL,
+        setSupplierListDDL
       );
       getBusinessUnitDDL_api(
         profileData?.userId,
         profileData?.accountId,
-        setbusinessUnitName,
+        setbusinessUnitName
       );
     }
   }, [profileData, selectedBusinessUnit]);
@@ -177,11 +175,11 @@ export default function FormCmp({
   const costComponenClickFunc = (values, setFieldValue) => {
     const isDailyAllowance = rowDto?.find(
       (itm) =>
-        itm.transportRouteCostComponentId === downTripData?.daCostComponentId,
+        itm.transportRouteCostComponentId === downTripData?.daCostComponentId
     );
     const isTripAllowanceArry = rowDto?.find(
       (itm) =>
-        itm.transportRouteCostComponentId === downTripData?.downTripAllowanceId,
+        itm.transportRouteCostComponentId === downTripData?.downTripAllowanceId
     );
 
     let data = [
@@ -218,7 +216,7 @@ export default function FormCmp({
     const array1 = [...rowDto, ...data];
     const unique = [
       ...new Map(
-        array1.map((item) => [item['transportRouteCostComponentId'], item]),
+        array1.map((item) => [item['transportRouteCostComponentId'], item])
       ).values(),
     ];
 
@@ -443,7 +441,7 @@ export default function FormCmp({
                             setFieldValue('advanceAmount', e.target.value);
                             setAdvanceAmount(e.target.value);
                             setNetPayable(
-                              dicrementNetPayable - +e.target.value,
+                              dicrementNetPayable - +e.target.value
                             );
                           }}
                           min={0}
@@ -467,7 +465,7 @@ export default function FormCmp({
                           onChange={(e) => {
                             setFieldValue(
                               'daAmount',
-                              e.target.value * downTripData?.daAmount,
+                              e.target.value * downTripData?.daAmount
                             );
                             setFieldValue('daQuantity', e.target.value);
                           }}
@@ -499,7 +497,7 @@ export default function FormCmp({
                               fuleCost,
                               rowDto,
                               +values?.downTripCredit,
-                              +e.target.value,
+                              +e.target.value
                             );
                           }}
                         />
@@ -514,7 +512,7 @@ export default function FormCmp({
                               fuleCost,
                               rowDto,
                               +e.target.value,
-                              +values?.downTripCash,
+                              +values?.downTripCash
                             );
                           }}
                           name="downTripCredit"
@@ -573,7 +571,7 @@ export default function FormCmp({
                             // max fuel rate 200 check
                             if (+e.target.value > 200)
                               return toast.warn(
-                                "Fuel rate can't be more than 200",
+                                "Fuel rate can't be more than 200"
                               );
                             setFieldValue('fuelRate', e.target.value);
                             fuelRateOnChangeHandler({
@@ -667,7 +665,7 @@ export default function FormCmp({
                           setFieldValue('costCenter', valueOption);
                           setFieldValue('costElement', '');
                           getCostElementDDL(
-                            `/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&CostCenterId=${valueOption?.value}`,
+                            `/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&CostCenterId=${valueOption?.value}`
                           );
                         } else {
                           setFieldValue('costCenter', '');
@@ -801,7 +799,7 @@ export default function FormCmp({
                                       dataHandler(
                                         'actualCost',
                                         e.target.value,
-                                        index,
+                                        index
                                       );
                                     }}
                                   />
@@ -835,7 +833,7 @@ export default function FormCmp({
                             valueOption?.value,
                             profileData?.accountId,
                             selectedBusinessUnit?.value,
-                            setSupplierFuelStationDDL,
+                            setSupplierFuelStationDDL
                           );
                         }}
                         placeholder="Supplier"
@@ -1010,7 +1008,7 @@ export default function FormCmp({
                             values?.fuelAmount != +values?.credit
                           )
                             return toast.warn(
-                              'Credit should be equal to amount',
+                              'Credit should be equal to amount'
                             );
                           // don't check fuel amount with triple equal, it will make issues / bug
                           if (
@@ -1019,7 +1017,7 @@ export default function FormCmp({
                               +values?.credit + +values?.cash
                           )
                             return toast.warn(
-                              'Credit and cash should be equal to amount',
+                              'Credit and cash should be equal to amount'
                             );
 
                           fuleCostHandler(values);
@@ -1080,8 +1078,8 @@ export default function FormCmp({
                                     clickHandler={() => {
                                       dispatch(
                                         getDownlloadFileView_Action(
-                                          item?.attachmentFileId,
-                                        ),
+                                          item?.attachmentFileId
+                                        )
                                       );
                                     }}
                                   />
@@ -1138,7 +1136,7 @@ export default function FormCmp({
                                   onChange={(e) => {
                                     distanceKMOnChangeFunc(
                                       e?.target?.value,
-                                      index,
+                                      index
                                     );
                                   }}
                                   disabled={reportTypeComplete}
@@ -1155,7 +1153,7 @@ export default function FormCmp({
                                           item,
                                           index,
                                           values,
-                                          setFieldValue,
+                                          setFieldValue
                                         );
                                       }}
                                     >
@@ -1202,7 +1200,7 @@ export default function FormCmp({
                                 onChange={(e) => {
                                   vehicleReantOnChangeFunc(
                                     e?.target?.value,
-                                    index,
+                                    index
                                   );
                                 }}
                                 disabled={
@@ -1277,7 +1275,7 @@ export default function FormCmp({
                   }}
                   onDelete={(deleteFileObj) => {
                     const newData = fileObjects.filter(
-                      (item) => item.file.name !== deleteFileObj.file.name,
+                      (item) => item.file.name !== deleteFileObj.file.name
                     );
                     setFileObjects(newData);
                   }}
@@ -1291,7 +1289,7 @@ export default function FormCmp({
                       .then((data) => {
                         setUploadImage(open?.type === 'fuelCost' && data?.[0]);
                         setUploadImageTwo(
-                          open?.type === 'attachMentGrid' && data,
+                          open?.type === 'attachMentGrid' && data
                         );
                         setFileObjects([]);
                       })

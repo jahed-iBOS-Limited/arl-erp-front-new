@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 // import { toast } from "react-toastify";
 
 export const getTaxBranchDDL = async (accId, buId, setter) => {

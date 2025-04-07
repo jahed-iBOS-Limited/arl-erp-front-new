@@ -48,10 +48,8 @@ const SalesInvoiceLandingTable = ({ obj }) => {
 
   const history = useHistory();
 
-  const {
-    printRefCement,
-    handleInvoicePrintCement,
-  } = useCementInvoicePrintHandler();
+  const { printRefCement, handleInvoicePrintCement } =
+    useCementInvoicePrintHandler();
   const [data, getData] = useAxiosGet();
 
   return (
@@ -122,135 +120,136 @@ const SalesInvoiceLandingTable = ({ obj }) => {
                     <td className="text-right">
                       {_fixedPoint(tableData?.invoiceAmount || 0)}
                     </td>
-                    {values?.status?.value !== 3 && values?.type?.value !== 2 && (
-                      <td className="text-center">
-                        {values?.status?.value === 1 ? (
-                          <div className="d-flex justify-content-around align-items-baseline">
-                            <span>
-                              <ICon
-                                title={'Print Sales Invoice'}
+                    {values?.status?.value !== 3 &&
+                      values?.type?.value !== 2 && (
+                        <td className="text-center">
+                          {values?.status?.value === 1 ? (
+                            <div className="d-flex justify-content-around align-items-baseline">
+                              <span>
+                                <ICon
+                                  title={'Print Sales Invoice'}
+                                  onClick={() => {
+                                    if (
+                                      values?.channel &&
+                                      values?.channel?.value !== 0
+                                    ) {
+                                      getInvoiceDataForPrint(
+                                        tableData?.intUnitId,
+                                        tableData?.strInvoiceNumber,
+                                        tableData?.intPartnerId,
+                                        setLoading,
+                                        (resData) => {
+                                          setInvoiceData(resData);
+                                          handleInvoicePrintCement();
+                                        }
+                                      );
+                                    } else {
+                                      toast.warn(
+                                        'Please select a specific distribution channel.'
+                                      );
+                                    }
+                                  }}
+                                >
+                                  <i class="fas fa-print"></i>
+                                </ICon>
+                              </span>
+                              <span
+                                className="cursor-pointer"
                                 onClick={() => {
-                                  if (
-                                    values?.channel &&
-                                    values?.channel?.value !== 0
-                                  ) {
-                                    getInvoiceDataForPrint(
-                                      tableData?.intUnitId,
-                                      tableData?.strInvoiceNumber,
-                                      tableData?.intPartnerId,
-                                      setLoading,
-                                      (resData) => {
-                                        setInvoiceData(resData);
-                                        handleInvoicePrintCement();
-                                      },
-                                    );
+                                  if (permitted) {
+                                    setIsCancelModalShow(true);
+                                    setSingleRowItem(tableData);
                                   } else {
                                     toast.warn(
-                                      'Please select a specific distribution channel.',
+                                      'Sorry, You are not permitted to cancel the sales invoice'
                                     );
                                   }
                                 }}
                               >
-                                <i class="fas fa-print"></i>
-                              </ICon>
-                            </span>
-                            <span
-                              className="cursor-pointer"
-                              onClick={() => {
-                                if (permitted) {
-                                  setIsCancelModalShow(true);
-                                  setSingleRowItem(tableData);
-                                } else {
-                                  toast.warn(
-                                    'Sorry, You are not permitted to cancel the sales invoice',
-                                  );
-                                }
-                              }}
-                            >
-                              <IClose title="Cancel Sales Invoice" />
-                            </span>
+                                <IClose title="Cancel Sales Invoice" />
+                              </span>
 
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                dispatch(
-                                  getDownlloadFileView_Action(
-                                    tableData.attachment,
-                                  ),
-                                );
-                              }}
-                              style={{
-                                border: 'none',
-                                background: 'none',
-                                cursor: 'pointer',
-                                padding: 0,
-                              }}
-                              type="button"
-                            >
-                              <ICon title={`View Attachment`}>
-                                <i class="fa fa-eye"></i>
-                              </ICon>
-                            </button>
-                            <AttachmentUploaderNew
-                              CBAttachmentRes={(image) => {
-                                if (image.length > 0) {
-                                  const payload = {
-                                    businessUnitId: buId,
-                                    invoiceNumber: tableData.strInvoiceNumber,
-                                    businessPartnerId: tableData.intPartnerId,
-                                    attachment: image[0].id,
-                                  };
-
-                                  onAttachmentUpload(
-                                    '/oms/OManagementReport/UpdateSalesInvoiceAttachment',
-                                    payload,
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  dispatch(
+                                    getDownlloadFileView_Action(
+                                      tableData.attachment
+                                    )
                                   );
-                                }
-                              }}
-                              showIcon
-                              attachmentIcon="fa fa-paperclip"
-                              customStyle={{
-                                background: 'transparent',
-                                padding: '4px 0',
-                              }}
-                              fileUploadLimits={1}
-                            />
-                            <span
-                              className="cursor-pointer"
-                              onClick={() => {
-                                getData(
-                                  `/oms/OManagementReport/GetSalesOrderAttachment?invoiceNumber=${tableData?.strInvoiceNumber}&businessUnitId=${buId}&partnerId=${tableData?.intPartnerId}`,
-                                  (data) => {
-                                    if (data?.length < 0) {
-                                      setInvoiceDataShow(false);
-                                      toast.warn('No data found');
-                                    } else {
-                                      setInvoiceDataShow(true);
+                                }}
+                                style={{
+                                  border: 'none',
+                                  background: 'none',
+                                  cursor: 'pointer',
+                                  padding: 0,
+                                }}
+                                type="button"
+                              >
+                                <ICon title={`View Attachment`}>
+                                  <i class="fa fa-eye"></i>
+                                </ICon>
+                              </button>
+                              <AttachmentUploaderNew
+                                CBAttachmentRes={(image) => {
+                                  if (image.length > 0) {
+                                    const payload = {
+                                      businessUnitId: buId,
+                                      invoiceNumber: tableData.strInvoiceNumber,
+                                      businessPartnerId: tableData.intPartnerId,
+                                      attachment: image[0].id,
+                                    };
+
+                                    onAttachmentUpload(
+                                      '/oms/OManagementReport/UpdateSalesInvoiceAttachment',
+                                      payload
+                                    );
+                                  }
+                                }}
+                                showIcon
+                                attachmentIcon="fa fa-paperclip"
+                                customStyle={{
+                                  background: 'transparent',
+                                  padding: '4px 0',
+                                }}
+                                fileUploadLimits={1}
+                              />
+                              <span
+                                className="cursor-pointer"
+                                onClick={() => {
+                                  getData(
+                                    `/oms/OManagementReport/GetSalesOrderAttachment?invoiceNumber=${tableData?.strInvoiceNumber}&businessUnitId=${buId}&partnerId=${tableData?.intPartnerId}`,
+                                    (data) => {
+                                      if (data?.length < 0) {
+                                        setInvoiceDataShow(false);
+                                        toast.warn('No data found');
+                                      } else {
+                                        setInvoiceDataShow(true);
+                                      }
                                     }
-                                  },
-                                );
-                                setSingleRowItem(tableData);
+                                  );
+                                  setSingleRowItem(tableData);
+                                }}
+                              >
+                                <IExtend title="View Invoices" />
+                              </span>
+                            </div>
+                          ) : (
+                            <button
+                              type="button"
+                              className="btn btn-info btn-sm"
+                              onClick={() => {
+                                history.push({
+                                  pathname: `/financial-management/invoicemanagement-system/salesInvoice/create`,
+                                  state: { ...values, ...tableData },
+                                });
                               }}
                             >
-                              <IExtend title="View Invoices" />
-                            </span>
-                          </div>
-                        ) : (
-                          <button
-                            type="button"
-                            className="btn btn-info btn-sm"
-                            onClick={() => {
-                              history.push({
-                                pathname: `/financial-management/invoicemanagement-system/salesInvoice/create`,
-                                state: { ...values, ...tableData },
-                              });
-                            }}
-                          >
-                            Create
-                          </button>
-                        )}
-                      </td>
-                    )}
+                              Create
+                            </button>
+                          )}
+                        </td>
+                      )}
                   </tr>
                 ))}
               </tbody>

@@ -74,7 +74,7 @@ export default function BusinessPartnerGroupLandingTable({ obj }) {
                                   `/partner/BusinessPartnerBasicInfo/UpdateBusinessPartnerGroup`,
                                   payload,
                                   null,
-                                  true,
+                                  true
                                 );
                               },
                               noAlertFunc: () => {},

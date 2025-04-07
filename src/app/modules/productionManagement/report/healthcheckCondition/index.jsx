@@ -1,18 +1,18 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import IViewModal from "../../../_helper/_viewModal";
-import { DamageViewModal } from "./viewModal";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
+import IViewModal from '../../../_helper/_viewModal';
+import { DamageViewModal } from './viewModal';
 const initData = {
-  businessUnit: "",
-  plant: "",
-  formDate: "",
-  toDate: "",
+  businessUnit: '',
+  plant: '',
+  formDate: '',
+  toDate: '',
 };
 export default function HealthCheckCondition() {
   const { profileData, selectedBusinessUnit, businessUnitList } = useSelector(
@@ -30,7 +30,6 @@ export default function HealthCheckCondition() {
     getPlantDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
     );
-
   }, []);
   const saveHandler = (values, cb) => {};
   return (
@@ -76,8 +75,8 @@ export default function HealthCheckCondition() {
                     value={values?.businessUnit}
                     label="Business Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("businessUnit", valueOption || "");
-                      setFieldValue("plant", "");
+                      setFieldValue('businessUnit', valueOption || '');
+                      setFieldValue('plant', '');
                       setPlantDDL([]);
                       getPlantDDL(
                         `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${valueOption?.value}&OrgUnitTypeId=7`
@@ -94,7 +93,7 @@ export default function HealthCheckCondition() {
                     value={values?.plant}
                     label="Plant"
                     onChange={(valueOption) => {
-                      setFieldValue("plant", valueOption || "");
+                      setFieldValue('plant', valueOption || '');
                     }}
                     errors={errors}
                     touched={touched}
@@ -108,7 +107,7 @@ export default function HealthCheckCondition() {
                     name="fromDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
+                      setFieldValue('fromDate', e.target.value);
                     }}
                   />
                 </div>
@@ -119,7 +118,7 @@ export default function HealthCheckCondition() {
                     name="toDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
+                      setFieldValue('toDate', e.target.value);
                     }}
                   />
                 </div>
@@ -134,11 +133,11 @@ export default function HealthCheckCondition() {
                     }
                     onClick={() => {
                       getRowData(
-                        `/asset/AssetMaintanance/GetMachineHealthConditionReport?BusinessUnitId=${values
-                          ?.businessUnit?.value || 0}&PlantId=${values?.plant
-                          ?.value || 0}&FromDate=${values?.fromDate}&ToDate=${
-                          values?.toDate
-                        }`
+                        `/asset/AssetMaintanance/GetMachineHealthConditionReport?BusinessUnitId=${
+                          values?.businessUnit?.value || 0
+                        }&PlantId=${
+                          values?.plant?.value || 0
+                        }&FromDate=${values?.fromDate}&ToDate=${values?.toDate}`
                       );
                     }}
                     className="btn btn-primary mt-5 ml-4"
@@ -170,9 +169,7 @@ export default function HealthCheckCondition() {
                       ? rowData.map((item, index) => {
                           return (
                             <tr key={index}>
-                               <td>
-                                {index + 1}
-                              </td>
+                              <td>{index + 1}</td>
                               <td className="text-left">
                                 {item?.strPlantname}
                               </td>
@@ -185,7 +182,7 @@ export default function HealthCheckCondition() {
                                     setIsShowModal(true);
                                     setSingleData({
                                       ...item,
-                                      SectionName: "Production",
+                                      SectionName: 'Production',
                                     });
                                   }}
                                   className="text-primary pointer border-bottom border-primary"
@@ -200,7 +197,7 @@ export default function HealthCheckCondition() {
                                     setIsShowModal(true);
                                     setSingleData({
                                       ...item,
-                                      SectionName: "Maintenance",
+                                      SectionName: 'Maintenance',
                                     });
                                   }}
                                   className="text-primary pointer border-bottom border-primary"

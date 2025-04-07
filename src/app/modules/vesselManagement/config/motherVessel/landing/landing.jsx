@@ -1,39 +1,38 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import IViewModal from "../../../../_helper/_viewModal";
-import MotherVesselCreateForm from "../form/form";
-import { deleteMotherVessel } from "../helper";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
+} from '../../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import IView from '../../../../_helper/_helperIcons/_view';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import IViewModal from '../../../../_helper/_viewModal';
+import MotherVesselCreateForm from '../form/form';
+import { deleteMotherVessel } from '../helper';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
 
-const initData = { search: "" };
+const initData = { search: '' };
 
 const headers = [
-  "SL",
-  "Mother Vessel Name",
-  "Supplier Name",
-  "Freight Rate (USD)",
-  "Conversion Rate (BDT)",
-  "Freight Cost Rate",
-  "Freight Cost Rate (BDT)",
-  "Program Count",
-  "Ports",
-  "Action",
+  'SL',
+  'Mother Vessel Name',
+  'Supplier Name',
+  'Freight Rate (USD)',
+  'Conversion Rate (BDT)',
+  'Freight Cost Rate',
+  'Freight Cost Rate (BDT)',
+  'Program Count',
+  'Ports',
+  'Action',
 ];
 
 const VesselLanding = () => {
@@ -42,7 +41,7 @@ const VesselLanding = () => {
   const [rowData, getRowData, isLoading] = useAxiosGet();
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [formType, setFormType] = useState("");
+  const [formType, setFormType] = useState('');
   const [singleItem, setSingleItem] = useState({});
   const [isDeleteHidden, deleteHiddenHandler] = useAxiosGet();
 
@@ -53,14 +52,14 @@ const VesselLanding = () => {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const getData = (search, pageNo, pageSize) => {
-    const SearchTerm = search ? `SearchTerm=${search}&` : "";
+    const SearchTerm = search ? `SearchTerm=${search}&` : '';
     const url = `/wms/FertilizerOperation/GetMotherVesselPagination?${SearchTerm}AccountId=${accId}&BusinessUnitId=${buId}&PageNo=${pageNo}&PageSize=${pageSize}`;
 
     getRowData(url);
   };
 
   useEffect(() => {
-    getData("", pageNo, pageSize);
+    getData('', pageNo, pageSize);
     deleteHiddenHandler(
       `/wms/FertilizerOperation/GetAllModificationPermission?UserEnroll=${profileData?.userId}&BusinessUnitId=${buId}&Type=YsnG2gconfiguration`
     );
@@ -68,7 +67,7 @@ const VesselLanding = () => {
 
   // set PositionHandler
   const setPositionHandler = (pageNo, pageSize) => {
-    getData("", pageNo, pageSize);
+    getData('', pageNo, pageSize);
   };
 
   const paginationSearchHandler = (search) => {
@@ -83,11 +82,11 @@ const VesselLanding = () => {
   const deleteHandler = (id) => {
     const { userId } = profileData;
     const objProps = {
-      title: "Are You Sure?",
-      message: "Are you sure you want to delete this mother vessel?",
+      title: 'Are You Sure?',
+      message: 'Are you sure you want to delete this mother vessel?',
       yesAlertFunc: () => {
         deleteMotherVessel(id, userId, setLoading, () => {
-          getData("", pageNo, pageSize);
+          getData('', pageNo, pageSize);
         });
       },
       noAlertFunc: () => {},
@@ -111,7 +110,7 @@ const VesselLanding = () => {
                   <div className="d-flex justify-content-end">
                     <button
                       onClick={() => {
-                        setFormType("create");
+                        setFormType('create');
                         setShow(true);
                       }}
                       className="btn btn-primary ml-2"
@@ -137,7 +136,7 @@ const VesselLanding = () => {
                       <table
                         id="table-to-xlsx"
                         className={
-                          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                          'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                         }
                       >
                         <thead>
@@ -152,7 +151,7 @@ const VesselLanding = () => {
                             return (
                               <tr key={index}>
                                 <td
-                                  style={{ width: "40px" }}
+                                  style={{ width: '40px' }}
                                   className="text-center"
                                 >
                                   {index + 1}
@@ -176,7 +175,7 @@ const VesselLanding = () => {
                                 </td>
                                 <td>{item?.port}</td>
                                 <td
-                                  style={{ width: "80px" }}
+                                  style={{ width: '80px' }}
                                   className="text-center"
                                 >
                                   <div className="d-flex justify-content-around">
@@ -191,7 +190,7 @@ const VesselLanding = () => {
                                     <span
                                       onClick={() => {
                                         setSingleItem(item);
-                                        setFormType("view");
+                                        setFormType('view');
                                         setShow(true);
                                       }}
                                     >
@@ -200,7 +199,7 @@ const VesselLanding = () => {
                                     <span
                                       onClick={() => {
                                         setSingleItem(item);
-                                        setFormType("edit");
+                                        setFormType('edit');
                                         setShow(true);
                                       }}
                                     >

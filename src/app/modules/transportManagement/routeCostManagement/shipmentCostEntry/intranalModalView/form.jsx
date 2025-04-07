@@ -1,9 +1,9 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
-import ChalanInfo from "./ChalanInfo";
-import { getComponentDDL } from "./helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
+import ChalanInfo from './ChalanInfo';
+import { getComponentDDL } from './helper';
 
 export default function FormCmp({
   initData,
@@ -19,7 +19,6 @@ export default function FormCmp({
   distanceKM,
   shipmentId,
 }) {
-
   const [componentDDL, setComponentDDL] = useState([]);
   const [total, setTotal] = useState({ totalStandardCost: 0, totalActual: 0 });
   useEffect(() => {
@@ -67,7 +66,7 @@ export default function FormCmp({
           <ICustomCard title="View Shipment Cost">
             <>
               <Form className="form form-label-right position-relative">
-                <p style={{ position: "absolute", top: "-46px", left: "45%" }}>
+                <p style={{ position: 'absolute', top: '-46px', left: '45%' }}>
                   <b>Net Payable: </b>
                   {cal - values?.advanceAmount}
                 </p>
@@ -75,7 +74,7 @@ export default function FormCmp({
                   <div className="col-lg-12">
                     <div
                       className="row bank-journal  "
-                      style={{ paddingBottom: "20px 0" }}
+                      style={{ paddingBottom: '20px 0' }}
                     >
                       <div className="col-lg-3 pl pr-1 mb-1">
                         <InputField
@@ -175,7 +174,7 @@ export default function FormCmp({
                       </div>
 
                       <div className="col-lg-3 pl pr-1 mb-1">
-                        <div style={{ marginBottom: "5px" }}>
+                        <div style={{ marginBottom: '5px' }}>
                           Expense Entered
                         </div>
                         <input
@@ -187,7 +186,7 @@ export default function FormCmp({
                       </div>
 
                       <div className="col-lg-3 pl pr-1 mb-1">
-                        <div style={{ marginBottom: "5px" }}>
+                        <div style={{ marginBottom: '5px' }}>
                           Advane Requested
                         </div>
                         <input
@@ -236,13 +235,13 @@ export default function FormCmp({
 
                 <div className="row">
                   <div className="col-lg-8 pr-0 table-responsive">
-                    <table className={"table mt-1 bj-table"}>
+                    <table className={'table mt-1 bj-table'}>
                       <thead>
                         <tr>
-                          <th style={{ width: "20px" }}>SL</th>
-                          <th style={{ width: "120px" }}>Cost Component</th>
-                          <th style={{ width: "100px" }}>Standard Amount</th>
-                          <th style={{ width: "50px" }}>Actual Amount</th>
+                          <th style={{ width: '20px' }}>SL</th>
+                          <th style={{ width: '120px' }}>Cost Component</th>
+                          <th style={{ width: '100px' }}>Standard Amount</th>
+                          <th style={{ width: '50px' }}>Actual Amount</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -264,7 +263,7 @@ export default function FormCmp({
                                   name="standardCost"
                                   onChange={(e) => {
                                     dataHandler(
-                                      "standardCost",
+                                      'standardCost',
                                       e.target.value,
                                       index
                                     );
@@ -282,7 +281,7 @@ export default function FormCmp({
                                   name="actualCost"
                                   onChange={(e) => {
                                     dataHandler(
-                                      "actualCost",
+                                      'actualCost',
                                       e.target.value,
                                       index
                                     );
@@ -299,17 +298,17 @@ export default function FormCmp({
                 <h5 className="mt-3">Fule Cost</h5>
                 <div className="row">
                   <div className="col-lg-12 table-responsive">
-                    <table className={"table global-table"}>
+                    <table className={'table global-table'}>
                       <thead>
                         <tr>
-                          <th style={{ width: "20px" }}>SL</th>
-                          <th style={{ width: "120px" }}>Fuel Station Name</th>
-                          <th style={{ width: "100px" }}>Fuel Type</th>
-                          <th style={{ width: "50px" }}>Litter</th>
-                          <th style={{ width: "50px" }}>Date</th>
-                          <th style={{ width: "50px" }}>Payment Type</th>
-                          <th style={{ width: "50px" }}>Cash Amount</th>
-                          <th style={{ width: "50px" }}>Credit Amount</th>
+                          <th style={{ width: '20px' }}>SL</th>
+                          <th style={{ width: '120px' }}>Fuel Station Name</th>
+                          <th style={{ width: '100px' }}>Fuel Type</th>
+                          <th style={{ width: '50px' }}>Litter</th>
+                          <th style={{ width: '50px' }}>Date</th>
+                          <th style={{ width: '50px' }}>Payment Type</th>
+                          <th style={{ width: '50px' }}>Cash Amount</th>
+                          <th style={{ width: '50px' }}>Credit Amount</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -334,18 +333,18 @@ export default function FormCmp({
                     <h5 className="mt-1">Distance KM</h5>
                   </div>
                   <div className="col-lg-6 mt-2">
-                    {" "}
+                    {' '}
                     <h5 className="mt-1">Vehicle Rent</h5>
                   </div>
                   {/* distanceKM talbe */}
                   <div className="col-lg-6 table-responsive">
-                    <table className={"table global-table"}>
+                    <table className={'table global-table'}>
                       <thead>
                         <tr>
-                          <th style={{ width: "20px" }}>SL</th>
-                          <th style={{ width: "120px" }}>Customer Name </th>
-                          <th style={{ width: "100px" }}>Address</th>
-                          <th style={{ width: "50px" }}>Distance KM</th>
+                          <th style={{ width: '20px' }}>SL</th>
+                          <th style={{ width: '120px' }}>Customer Name </th>
+                          <th style={{ width: '100px' }}>Address</th>
+                          <th style={{ width: '50px' }}>Distance KM</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -363,13 +362,13 @@ export default function FormCmp({
 
                   {/* Vehicle Reant table */}
                   <div className="col-lg-6 table-responsive">
-                    <table className={"table global-table"}>
+                    <table className={'table global-table'}>
                       <thead>
                         <tr>
-                          <th style={{ width: "20px" }}>SL</th>
-                          <th style={{ width: "120px" }}>Customer Name </th>
-                          <th style={{ width: "100px" }}>Address</th>
-                          <th style={{ width: "50px" }}>Rent Amount</th>
+                          <th style={{ width: '20px' }}>SL</th>
+                          <th style={{ width: '120px' }}>Customer Name </th>
+                          <th style={{ width: '100px' }}>Address</th>
+                          <th style={{ width: '50px' }}>Rent Amount</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -389,14 +388,14 @@ export default function FormCmp({
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

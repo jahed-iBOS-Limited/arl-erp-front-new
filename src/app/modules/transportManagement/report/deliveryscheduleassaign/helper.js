@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getAssignedDeliveryVehicleProvider = async (
   accId,
@@ -54,18 +54,18 @@ export const commonfilterGridData = (values, allGridData) => {
   const filterGridData = allGridData?.filter((itm) => {
     itm.itemCheck = false;
     let regionFilter =
-      values?.region?.label === "All"
+      values?.region?.label === 'All'
         ? true
         : itm?.region === values?.region?.label;
     let areaFilter =
-      values?.area?.label === "All" ? true : itm?.area === values?.area?.label;
+      values?.area?.label === 'All' ? true : itm?.area === values?.area?.label;
     let territoryFilter =
-      values?.territory?.label === "All"
+      values?.territory?.label === 'All'
         ? true
         : itm?.territory === values?.territory?.label;
 
     let logisticByFilter =
-      values?.logisticByFilter?.label === "All"
+      values?.logisticByFilter?.label === 'All'
         ? true
         : itm?.providerTypeName === values?.logisticByFilter?.label;
     if (
@@ -84,11 +84,7 @@ export const commonfilterGridData = (values, allGridData) => {
   });
   return filterGridData;
 };
-export const updateAssingnedVehicleProvider = async (
-  data,
-  setLoading,
-  cb
-) => {
+export const updateAssingnedVehicleProvider = async (data, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.post(

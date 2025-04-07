@@ -1,25 +1,25 @@
-import Axios from "axios";
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { Form } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import * as Yup from "yup";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import { _dateTimeFormatter } from "../../../../_helper/_dateFormate";
-import ICheckout from "../../../../_helper/_helperIcons/_checkout";
-import IClose from "../../../../_helper/_helperIcons/_close";
-import IView from "../../../../_helper/_helperIcons/_view";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import IViewModal from "../../../../_helper/_viewModal";
+import Axios from 'axios';
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { Form } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import { _dateTimeFormatter } from '../../../../_helper/_dateFormate';
+import ICheckout from '../../../../_helper/_helperIcons/_checkout';
+import IClose from '../../../../_helper/_helperIcons/_close';
+import IView from '../../../../_helper/_helperIcons/_view';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import IViewModal from '../../../../_helper/_viewModal';
 import {
   checkoutAction,
   getCheckPostListDDL,
   updateCheckpostVehicleInOut,
-} from "../helper";
-import CheckPostInOutView from "../view/checkpostView";
+} from '../helper';
+import CheckPostInOutView from '../view/checkpostView';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
@@ -30,15 +30,15 @@ const validationSchema = Yup.object().shape({
 });
 
 const initData = {
-  checkpost: "",
-  ownerType: { value: 0, label: "All" },
+  checkpost: '',
+  ownerType: { value: 0, label: 'All' },
 };
 
 const ownerTypes = [
-  { value: 0, label: "All" },
-  { value: 1, label: "Company" },
-  { value: 2, label: "Rental" },
-  { value: 3, label: "Customer" },
+  { value: 0, label: 'All' },
+  { value: 1, label: 'Company' },
+  { value: 2, label: 'Rental' },
+  { value: 3, label: 'Customer' },
 ];
 
 export function TableRow({ rowDto, setRowDto, saveHandler }) {
@@ -50,7 +50,7 @@ export function TableRow({ rowDto, setRowDto, saveHandler }) {
 
   // Modal State
   const [showModal, setShowModal] = useState(false);
-  const [id, setId] = useState("");
+  const [id, setId] = useState('');
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -71,7 +71,6 @@ export function TableRow({ rowDto, setRowDto, saveHandler }) {
         setCheckPostDDL
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const getCheckpostData = async (values, _pageNo, _pageSize) => {
@@ -98,7 +97,7 @@ export function TableRow({ rowDto, setRowDto, saveHandler }) {
         (itm) => itm?.checkpostEntryId === index
       );
       let confirmObject = {
-        title: "Are you sure?",
+        title: 'Are you sure?',
         message: `Do you want to close Checkpost of ${closeCheckpostObj[0]?.vehicleNo}?`,
         yesAlertFunc: async () => {
           if (closeCheckpostObj) {
@@ -121,7 +120,7 @@ export function TableRow({ rowDto, setRowDto, saveHandler }) {
           }
         },
         noAlertFunc: () => {
-          history.push("/transport-management/configuration/checkpost");
+          history.push('/transport-management/configuration/checkpost');
         },
       };
       IConfirmModal(confirmObject);
@@ -136,7 +135,7 @@ export function TableRow({ rowDto, setRowDto, saveHandler }) {
         (itm) => itm?.checkpostEntryId === index
       );
       let confirmObject = {
-        title: "Are you sure?",
+        title: 'Are you sure?',
         message: `Do you want to checkout of ${checkoutObj[0]?.vehicleNo}?`,
         yesAlertFunc: async () => {
           if (checkoutObj) {
@@ -147,12 +146,12 @@ export function TableRow({ rowDto, setRowDto, saveHandler }) {
           }
         },
         noAlertFunc: () => {
-          history.push("/transport-management/configuration/checkpost");
+          history.push('/transport-management/configuration/checkpost');
         },
       };
       IConfirmModal(confirmObject);
     } else {
-      console.log(" ");
+      console.log(' ');
     }
   };
 
@@ -164,7 +163,6 @@ export function TableRow({ rowDto, setRowDto, saveHandler }) {
         pageSize
       );
     }
-
   }, [checkPostDDL]);
 
   const setPositionHandler = (pageNo, pageSize, values) => {
@@ -212,7 +210,7 @@ export function TableRow({ rowDto, setRowDto, saveHandler }) {
                           value={values?.checkpost}
                           label="Check Post"
                           onChange={(valueOption) => {
-                            setFieldValue("checkpost", valueOption);
+                            setFieldValue('checkpost', valueOption);
                             getCheckpostData(
                               { ...values, checkpost: valueOption },
                               pageNo,
@@ -231,7 +229,7 @@ export function TableRow({ rowDto, setRowDto, saveHandler }) {
                           value={values?.ownerType}
                           label="Owner Type"
                           onChange={(valueOption) => {
-                            setFieldValue("ownerType", valueOption);
+                            setFieldValue('ownerType', valueOption);
                             getCheckpostData(
                               { ...values, ownerType: valueOption },
                               pageNo,
@@ -252,101 +250,107 @@ export function TableRow({ rowDto, setRowDto, saveHandler }) {
             <div className="row cash_journal">
               <div className="col-lg-12 pr-0 pl-0 table-responsive">
                 {rowDto?.data?.length > 0 && (
-             <div className="table-responsive">
-                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
-                    <thead>
-                      <tr>
-                        <th style={{ width: "30px" }}>SL</th>
-                        <th style={{ width: "190px" }}>Vehicle No</th>
-                        <th>Owner Type</th>
-                        <th>Driver Name</th>
-                        <th>Driver Contact</th>
-                        <th style={{ width: "140px" }}>In Time</th>
-                        <th style={{ width: "90px" }}>Use Purpose</th>
-                        <th style={{ width: "90px" }}>Came From</th>
-                        <th style={{ width: "140px" }}>Out Time</th>
-                        <th style={{ width: "90px" }}>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {rowDto?.data?.map((td, index) => (
-                        <tr key={index}>
-                          <td className="text-center">{td?.sl}</td>{" "}
-                          <td>
-                            <div className="pl-2">{td?.vehicleNo}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{td?.ownerTypeName}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{td?.driverName}</div>
-                          </td>
-                          <td>
-                            <div className="text-right pr-2">
-                              {td?.driverContact}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="text-right pr-2">
-                              {_dateTimeFormatter(td?.inDateTime)}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{td?.purposeName}</div>
-                          </td>
-                          <td>
-                            <div className="pl-2">{td?.cameFrom}</div>
-                          </td>
-                          <td>
-                            <div className="text-right pr-2">
-                              {_dateTimeFormatter(td?.outDateTime)}
-                            </div>
-                          </td>
-                          <td>
-                            <div className="d-flex justify-content-center">
-                              <span className="view mr-5">
-                                <IView
-                                  clickHandler={() => {
-                                    setShowModal(true);
-                                    setId(td?.checkpostEntryId);
-                                    // history.push(
-                                    //   `/transport-management/configuration/checkpost/view/${td?.checkpostEntryId}`
-                                    // );
-                                  }}
-                                />
-                              </span>
-                              <span
-                                className="view  mr-5"
-                                style={{ cursor: "pointer" }}
-                              >
-                                <IClose
-                                  closer={() => {
-                                    singleCheckoutCloseHandler(
-                                      td?.checkpostEntryId
-                                    );
-                                  }}
-                                  id={td?.checkpostEntryId}
-                                />
-                              </span>
-                              <span
-                                className="view"
-                                style={{ cursor: "pointer" }}
-                              >
-                                <ICheckout
-                                  checkout={() => {
-                                    singleCheckoutHandler(td?.checkpostEntryId);
-                                    getCheckpostData(values, pageNo, pageSize);
-                                  }}
-                                  id={td?.checkpostEntryId}
-                                />
-                              </span>
-                            </div>
-                          </td>
+                  <div className="table-responsive">
+                    <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing sales_order_landing_table">
+                      <thead>
+                        <tr>
+                          <th style={{ width: '30px' }}>SL</th>
+                          <th style={{ width: '190px' }}>Vehicle No</th>
+                          <th>Owner Type</th>
+                          <th>Driver Name</th>
+                          <th>Driver Contact</th>
+                          <th style={{ width: '140px' }}>In Time</th>
+                          <th style={{ width: '90px' }}>Use Purpose</th>
+                          <th style={{ width: '90px' }}>Came From</th>
+                          <th style={{ width: '140px' }}>Out Time</th>
+                          <th style={{ width: '90px' }}>Actions</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-             </div>
+                      </thead>
+                      <tbody>
+                        {rowDto?.data?.map((td, index) => (
+                          <tr key={index}>
+                            <td className="text-center">{td?.sl}</td>{' '}
+                            <td>
+                              <div className="pl-2">{td?.vehicleNo}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{td?.ownerTypeName}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{td?.driverName}</div>
+                            </td>
+                            <td>
+                              <div className="text-right pr-2">
+                                {td?.driverContact}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="text-right pr-2">
+                                {_dateTimeFormatter(td?.inDateTime)}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{td?.purposeName}</div>
+                            </td>
+                            <td>
+                              <div className="pl-2">{td?.cameFrom}</div>
+                            </td>
+                            <td>
+                              <div className="text-right pr-2">
+                                {_dateTimeFormatter(td?.outDateTime)}
+                              </div>
+                            </td>
+                            <td>
+                              <div className="d-flex justify-content-center">
+                                <span className="view mr-5">
+                                  <IView
+                                    clickHandler={() => {
+                                      setShowModal(true);
+                                      setId(td?.checkpostEntryId);
+                                      // history.push(
+                                      //   `/transport-management/configuration/checkpost/view/${td?.checkpostEntryId}`
+                                      // );
+                                    }}
+                                  />
+                                </span>
+                                <span
+                                  className="view  mr-5"
+                                  style={{ cursor: 'pointer' }}
+                                >
+                                  <IClose
+                                    closer={() => {
+                                      singleCheckoutCloseHandler(
+                                        td?.checkpostEntryId
+                                      );
+                                    }}
+                                    id={td?.checkpostEntryId}
+                                  />
+                                </span>
+                                <span
+                                  className="view"
+                                  style={{ cursor: 'pointer' }}
+                                >
+                                  <ICheckout
+                                    checkout={() => {
+                                      singleCheckoutHandler(
+                                        td?.checkpostEntryId
+                                      );
+                                      getCheckpostData(
+                                        values,
+                                        pageNo,
+                                        pageSize
+                                      );
+                                    }}
+                                    id={td?.checkpostEntryId}
+                                  />
+                                </span>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
                 )}
                 {rowDto?.data?.length > 0 && (
                   <PaginationTable
@@ -362,7 +366,7 @@ export function TableRow({ rowDto, setRowDto, saveHandler }) {
                   />
                 )}
                 <IViewModal
-                  title={"View Check Post In-Out"}
+                  title={'View Check Post In-Out'}
                   show={showModal}
                   onHide={() => setShowModal(false)}
                 >

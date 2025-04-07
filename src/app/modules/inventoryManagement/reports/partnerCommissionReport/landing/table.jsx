@@ -1,42 +1,42 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import ICard from "../../../../_helper/_card";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import * as Yup from "yup";
+import React, { useEffect, useState, useRef } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import ICard from '../../../../_helper/_card';
+import { Formik, Form } from 'formik';
+import NewSelect from '../../../../_helper/_select';
+import * as Yup from 'yup';
 // import { IInput } from "../../../../_helper/_input";
-import Loading from "../../../../_helper/_loading";
+import Loading from '../../../../_helper/_loading';
 import {
   getShipPointDDL,
   getPartnerCommissionReportData,
   partnerCommissionReportUpdate,
-} from "../helper";
+} from '../helper';
 // import { _todayDate } from "../../../../_helper/_todayDate";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { toast } from "react-toastify";
-import IConfirmModal from "../../../../_helper/_confirmModal";
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { toast } from 'react-toastify';
+import IConfirmModal from '../../../../_helper/_confirmModal';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   // fromDate: Yup.date().required("Date is required"),
   // toDate: Yup.date().required("Date is required"),
   shipPoint: Yup.object().shape({
-    label: Yup.string().required("Ship Point is required"),
-    value: Yup.string().required("Ship Point is required"),
+    label: Yup.string().required('Ship Point is required'),
+    value: Yup.string().required('Ship Point is required'),
   }),
   type: Yup.object().shape({
-    label: Yup.string().required("Report Type is required"),
-    value: Yup.string().required("Report Type is required"),
+    label: Yup.string().required('Report Type is required'),
+    value: Yup.string().required('Report Type is required'),
   }),
 });
 
 const initData = {
   // fromDate: _todayDate(),
   // toDate: _todayDate(),
-  shipPoint: { value: 0, label: "All" },
+  shipPoint: { value: 0, label: 'All' },
   type: {
     value: 0,
-    label: "Pending",
+    label: 'Pending',
   },
 };
 
@@ -62,7 +62,6 @@ export default function PartnerCommissionLanding() {
         setShipPointDDL
       );
     }
-
   }, [profileData?.accountId, selectedBusinessUnit?.value]);
 
   /* All Check Handler */
@@ -84,11 +83,11 @@ export default function PartnerCommissionLanding() {
   /* Complete Button Handler */
   const completeHandler = (values) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       yesAlertFunc: async () => {
         const filterData = rowDto?.filter((item) => item?.isSelect);
         if (filterData?.length === 0) {
-          toast.warning("Please Select One");
+          toast.warning('Please Select One');
         } else {
           const payload = filterData?.map((item) => {
             return item?.secondaryDeliveryId;
@@ -174,13 +173,13 @@ export default function PartnerCommissionLanding() {
                           <NewSelect
                             name="shipPoint"
                             options={[
-                              { value: 0, label: "All" },
+                              { value: 0, label: 'All' },
                               ...shipPointDDL,
                             ]}
                             value={values?.shipPoint}
                             label="Ship Point"
                             onChange={(valueOption) => {
-                              setFieldValue("shipPoint", valueOption);
+                              setFieldValue('shipPoint', valueOption);
                               setRowDto([]);
                             }}
                             placeholder="Ship Point"
@@ -193,13 +192,13 @@ export default function PartnerCommissionLanding() {
                           <NewSelect
                             name="type"
                             options={[
-                              { value: 0, label: "Pending" },
-                              { value: 1, label: "Complete" },
+                              { value: 0, label: 'Pending' },
+                              { value: 1, label: 'Complete' },
                             ]}
                             value={values?.type}
                             label="Report Type"
                             onChange={(valueOption) => {
-                              setFieldValue("type", valueOption);
+                              setFieldValue('type', valueOption);
                               setRowDto([]);
                             }}
                             placeholder="Report Type"
@@ -241,7 +240,7 @@ export default function PartnerCommissionLanding() {
                             {values?.type?.value === 0 && (
                               <th
                                 className="text-center"
-                                style={{ width: "20px" }}
+                                style={{ width: '20px' }}
                               >
                                 <input
                                   type="checkbox"

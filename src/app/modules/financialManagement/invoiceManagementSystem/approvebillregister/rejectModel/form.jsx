@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import Loading from "./../../../../_helper/_loading";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import Loading from './../../../../_helper/_loading';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
-import InputField from "./../../../../_helper/_inputField";
+} from './../../../../../../_metronic/_partials/controls';
+import InputField from './../../../../_helper/_inputField';
 const initData = {
-  remarks: "",
+  remarks: '',
 };
 
 const validationSchema = Yup.object().shape({
@@ -57,7 +57,7 @@ function RejectModel({
               {disabled && <Loading />}
               <Card>
                 {true && <ModalProgressBar />}
-                <CardHeader title={"Bill Register Reject"}>
+                <CardHeader title={'Bill Register Reject'}>
                   <CardHeaderToolbar>
                     <button
                       onClick={handleSubmit}

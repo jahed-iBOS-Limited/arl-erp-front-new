@@ -1,19 +1,19 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import ReactHtmlTableToExcel from "react-html-table-to-excel";
-import { shallowEqual, useSelector } from "react-redux";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import PaginationSearch from "../../../_helper/_search";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import ReactHtmlTableToExcel from 'react-html-table-to-excel';
+import { shallowEqual, useSelector } from 'react-redux';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import PaginationSearch from '../../../_helper/_search';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 
 const initData = {
-  warehouse: "",
-  fromDate: "",
-  toDate: "",
+  warehouse: '',
+  fromDate: '',
+  toDate: '',
 };
 const ProfitAndLossReport = () => {
   const [fairPriceDDL, getFairPriceDDL, fairPriceDDLloader] = useAxiosGet();
@@ -30,17 +30,16 @@ const ProfitAndLossReport = () => {
     getFairPriceDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PlantId=68&OrgUnitTypeId=8`
     );
-
   }, [selectedBusinessUnit, profileData?.userId]);
 
-  const getGridData = (values, pageNo = 0, pageSize = 15, searchText = "") => {
-    const searchTermText = searchText ? `&searchTerm=${searchText}` : "";
+  const getGridData = (values, pageNo = 0, pageSize = 15, searchText = '') => {
+    const searchTermText = searchText ? `&searchTerm=${searchText}` : '';
     getRowData(
       `/partner/Pos/GetPosProfitLossReport?BusinessUnitId=${selectedBusinessUnit?.value}&WarehouseId=${values?.warehouse?.value}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&PageNumber=${pageNo}&PageSize=${pageSize}&Order=ASC${searchTermText}`
     );
   };
 
-  const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
+  const setPositionHandler = (pageNo, pageSize, values, searchValue = '') => {
     getGridData(values, pageNo, pageSize, searchValue);
   };
 
@@ -55,7 +54,7 @@ const ProfitAndLossReport = () => {
 
   return (
     <IForm
-      title={"Profit And Loss Report"}
+      title={'Profit And Loss Report'}
       isHiddenReset={true}
       isHiddenBack={true}
       isHiddenSave={true}
@@ -73,7 +72,7 @@ const ProfitAndLossReport = () => {
                     value={values?.warehouse}
                     label="Warehouse"
                     onChange={(valueOption) => {
-                      setFieldValue("warehouse", valueOption);
+                      setFieldValue('warehouse', valueOption);
                     }}
                     errors={errors}
                   />
@@ -85,7 +84,7 @@ const ProfitAndLossReport = () => {
                     name="fromDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
+                      setFieldValue('fromDate', e.target.value);
                     }}
                   />
                 </div>
@@ -96,13 +95,13 @@ const ProfitAndLossReport = () => {
                     name="toDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("toDate", e.target.value);
+                      setFieldValue('toDate', e.target.value);
                     }}
                   />
                 </div>
                 <div className="">
                   <button
-                    style={{ marginTop: "18px" }}
+                    style={{ marginTop: '18px' }}
                     className="btn btn-primary ml-2 mr-3"
                     disabled={!values?.warehouse?.value}
                     onClick={() => {

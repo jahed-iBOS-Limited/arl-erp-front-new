@@ -1,16 +1,16 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../_helper/_loading";
+} from '../../../../../_metronic/_partials/controls';
+import PowerBIReport from '../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../_helper/_loading';
 
 function ProjectedCashFlowLanding() {
   const history = useHistory();
@@ -22,7 +22,6 @@ function ProjectedCashFlowLanding() {
     getRowData(
       `/mes/MSIL/GetRentalVehicleRegister?pageNo=${pageNo}&pageSize=${pageSize}`
     );
-
   }, []);
 
   // const setPositionHandler = (pageNo, pageSize, values, searchValue = "") => {
@@ -31,8 +30,8 @@ function ProjectedCashFlowLanding() {
   //   );
   // };
 
-  const groupId = "e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a";
-  const reportId = "654eed74-2a55-404f-870a-2d6a5d319604";
+  const groupId = 'e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a';
+  const reportId = '654eed74-2a55-404f-870a-2d6a5d319604';
 
   return (
     <>
@@ -46,7 +45,7 @@ function ProjectedCashFlowLanding() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Projected Cash Flow"}>
+              <CardHeader title={'Projected Cash Flow'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {

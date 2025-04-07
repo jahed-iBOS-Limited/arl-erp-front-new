@@ -80,7 +80,7 @@ const validationSchema = Yup.object().shape({
 export default function BunkerManagementCreate() {
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
-    shallowEqual,
+    shallowEqual
   );
 
   const [, onSave, loader] = useAxiosPost();
@@ -190,23 +190,23 @@ export default function BunkerManagementCreate() {
             if (formikRef.current && resData) {
               formikRef.current.setFieldValue(
                 'strMasterEmail',
-                resData?.strMasterEmail || '',
+                resData?.strMasterEmail || ''
               );
               formikRef.current.setFieldValue(
                 'numBallastEcoSpeed',
-                resData?.numBallastEcoSpeed || '',
+                resData?.numBallastEcoSpeed || ''
               );
               formikRef.current.setFieldValue(
                 'numBallastMaxSpeed',
-                resData?.numBallastMaxSpeed || '',
+                resData?.numBallastMaxSpeed || ''
               );
               formikRef.current.setFieldValue(
                 'numLadenEcoSpeed',
-                resData?.numLadenEcoSpeed || '',
+                resData?.numLadenEcoSpeed || ''
               );
               formikRef.current.setFieldValue(
                 'numLadenMaxSpeed',
-                resData?.numLadenMaxSpeed || '',
+                resData?.numLadenMaxSpeed || ''
               );
 
               // formikRef.current.setFieldValue(
@@ -219,37 +219,34 @@ export default function BunkerManagementCreate() {
               // );
               formikRef.current.setFieldValue(
                 'numLadenVlsfoConsumptionMt',
-                resData?.numLadenVlsfoconsumptionMtPerday || '',
+                resData?.numLadenVlsfoconsumptionMtPerday || ''
               );
               formikRef.current.setFieldValue(
                 'numLadenLsmgoConsumptionMt',
-                resData?.numLadenLsmgoconsumptionMtPerday || '',
+                resData?.numLadenLsmgoconsumptionMtPerday || ''
               );
 
               // Port Stay VLSFO/Day
               formikRef.current.setFieldValue(
                 'numPortStayVlsfoPerDay',
-                resData?.numPortWorkingVlsfoperDay || '',
+                resData?.numPortWorkingVlsfoperDay || ''
               );
               //Port Stay LSMGO/Day
               formikRef.current.setFieldValue(
                 'numPortStayLsmgoPerDay',
-                resData?.numPortWorkingLsmgoperDay || '',
+                resData?.numPortWorkingLsmgoperDay || ''
               );
             }
-          },
+          }
         );
       }
     }
-
   }, [landingData]);
 
   useEffect(() => {
     getVesselDDL(`${imarineBaseUrl}/domain/Voyage/GetVesselDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}
 `);
     getPortDDL(`${imarineBaseUrl}/domain/Stakeholder/GetPortDDL`);
-
-
   }, [profileData, selectedBusinessUnit]);
   const saveHandler = async (values, cb) => {
     const payload = {
@@ -319,7 +316,7 @@ export default function BunkerManagementCreate() {
       `${imarineBaseUrl}/domain/VesselNomination/CreateBunkerCalculator`,
       payload,
       cb,
-      true,
+      true
     );
   };
   return (
@@ -437,21 +434,21 @@ export default function BunkerManagementCreate() {
                     if (valueOption?.value === 1) {
                       setFieldValue(
                         'numBallastSpeed',
-                        values?.numBallastEcoSpeed || '',
+                        values?.numBallastEcoSpeed || ''
                       );
                       setFieldValue(
                         'numLadenSpeed',
-                        values?.numLadenEcoSpeed || 0,
+                        values?.numLadenEcoSpeed || 0
                       );
                       setFieldValue(
                         'numBallastVlsfoConsumptionMt',
                         vesselMasterData?.numBallastVlsfoconsumptionMtPerday ||
-                          0,
+                          0
                       );
                       setFieldValue(
                         'numBallastLsmgoConsumptionMt',
                         vesselMasterData?.numBallastLsmgoconsumptionMtPerday ||
-                          0,
+                          0
                       );
 
                       commonBunkerInputFieldsCalculatorFunc({
@@ -473,21 +470,21 @@ export default function BunkerManagementCreate() {
                     } else if (valueOption?.value === 2) {
                       setFieldValue(
                         'numBallastSpeed',
-                        values?.numBallastMaxSpeed || '',
+                        values?.numBallastMaxSpeed || ''
                       );
                       setFieldValue(
                         'numLadenSpeed',
-                        values?.numLadenMaxSpeed || '',
+                        values?.numLadenMaxSpeed || ''
                       );
                       setFieldValue(
                         'numBallastVlsfoConsumptionMt',
                         vesselMasterData?.numMaxBallastVlsfoconsumptionMtPerday ||
-                          0,
+                          0
                       );
                       setFieldValue(
                         'numBallastLsmgoConsumptionMt',
                         vesselMasterData?.numMaxBallastLsmgoconsumptionMtPerday ||
-                          0,
+                          0
                       );
 
                       commonBunkerInputFieldsCalculatorFunc({
@@ -588,7 +585,7 @@ export default function BunkerManagementCreate() {
                   onChange={(e) => {
                     setFieldValue(
                       'numBallastVlsfoConsumptionMt',
-                      e.target.value,
+                      e.target.value
                     );
                     commonBunkerInputFieldsCalculatorFunc({
                       values: {
@@ -611,7 +608,7 @@ export default function BunkerManagementCreate() {
                   onChange={(e) => {
                     setFieldValue(
                       'numBallastLsmgoConsumptionMt',
-                      e.target.value,
+                      e.target.value
                     );
                     commonBunkerInputFieldsCalculatorFunc({
                       values: {
@@ -634,7 +631,7 @@ export default function BunkerManagementCreate() {
                   onChange={(e) =>
                     setFieldValue(
                       'numBallastPassageVlsfoConsumptionMt',
-                      e.target.value,
+                      e.target.value
                     )
                   }
                   errors={errors}
@@ -650,7 +647,7 @@ export default function BunkerManagementCreate() {
                   onChange={(e) =>
                     setFieldValue(
                       'numBallastPassageLsmgoConsumptionMt',
-                      e.target.value,
+                      e.target.value
                     )
                   }
                   errors={errors}
@@ -788,7 +785,7 @@ export default function BunkerManagementCreate() {
                   onChange={(e) =>
                     setFieldValue(
                       'numLadenPassageVlsfoConsumptionMt',
-                      e.target.value,
+                      e.target.value
                     )
                   }
                   errors={errors}
@@ -960,7 +957,7 @@ export default function BunkerManagementCreate() {
                   onChange={(e) =>
                     setFieldValue(
                       'numLoadPortStayVlsfoConsumptionMt',
-                      e.target.value,
+                      e.target.value
                     )
                   }
                   errors={errors}
@@ -976,7 +973,7 @@ export default function BunkerManagementCreate() {
                   onChange={(e) =>
                     setFieldValue(
                       'numLoadPortStayLsmgoConsumptionMt',
-                      e.target.value,
+                      e.target.value
                     )
                   }
                   errors={errors}
@@ -992,7 +989,7 @@ export default function BunkerManagementCreate() {
                   onChange={(e) =>
                     setFieldValue(
                       'numDischargePortStayVlsfoConsumptionMt',
-                      e.target.value,
+                      e.target.value
                     )
                   }
                   errors={errors}
@@ -1008,7 +1005,7 @@ export default function BunkerManagementCreate() {
                   onChange={(e) =>
                     setFieldValue(
                       'numDischargePortStayLsmgoConsumptionMt',
-                      e.target.value,
+                      e.target.value
                     )
                   }
                   errors={errors}
@@ -1050,7 +1047,7 @@ export default function BunkerManagementCreate() {
                   onChange={(e) => {
                     setFieldValue(
                       'numToleranceVlsfoPercentage',
-                      e.target.value,
+                      e.target.value
                     );
                     commonBunkerInputFieldsCalculatorFunc({
                       values: {
@@ -1073,7 +1070,7 @@ export default function BunkerManagementCreate() {
                   onChange={(e) =>
                     setFieldValue(
                       'numNetTotalConsumableVlsfoMt',
-                      e.target.value,
+                      e.target.value
                     )
                   }
                   errors={errors}
@@ -1089,7 +1086,7 @@ export default function BunkerManagementCreate() {
                   onChange={(e) =>
                     setFieldValue(
                       'numNetTotalConsumableLsmgoMt',
-                      e.target.value,
+                      e.target.value
                     )
                   }
                   errors={errors}

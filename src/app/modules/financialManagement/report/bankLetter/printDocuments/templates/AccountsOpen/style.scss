@@ -4,7 +4,7 @@
     padding: 0;
     line-height: 1.2;
     box-sizing: border-box;
-    font-family: "Times New Roman", Times, serif; /* Classic serif font */
+    font-family: 'Times New Roman', Times, serif; /* Classic serif font */
     font-size: 15.5px; /* Good default size for print */
   }
   p {
@@ -37,7 +37,7 @@
     padding: 0;
     line-height: 1.2;
     box-sizing: border-box;
-    font-family: "Times New Roman", Times, serif; /* Classic serif font */
+    font-family: 'Times New Roman', Times, serif; /* Classic serif font */
     font-size: 15.5px; /* Good default size for print */
   }
   p {
@@ -65,23 +65,21 @@
 }
 @media print {
   .ifoot {
-   position: fixed;
-   left: 0;
-   right: 0;
-   background-repeat: no-repeat;
-   background-size: cover;
-   width: 100%;
- }
+    position: fixed;
+    left: 0;
+    right: 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+  }
 
+  .ifoot {
+    bottom: 0;
+    height: 100px; /* Adjust as necessary */
+    background-position: left bottom;
+  }
 
- .ifoot {
-   bottom: 0;
-   height: 100px; /* Adjust as necessary */
-   background-position: left bottom;
- }
- 
-
- .print-table {
-   page-break-inside: avoid; /* Ensure table rows do not break across pages */
- }
+  .print-table {
+    page-break-inside: avoid; /* Ensure table rows do not break across pages */
+  }
 }

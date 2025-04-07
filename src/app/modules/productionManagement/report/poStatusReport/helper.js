@@ -1,6 +1,4 @@
-import axios from "axios";
-
-
+import axios from 'axios';
 
 export const getBOMItemDDL = async (accId, buId, pId, sfId, setter) => {
   try {

@@ -1,21 +1,20 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
 import {
   gdetBusinessTransactionId_api,
   getGeneralLedgerDDL,
   saveBusinessTransaction,
-} from "../helper";
-import IForm from "../../../../_helper/_form";
-import { editBusinessTransaction_api } from "./../helper";
-import Loading from "./../../../../_helper/_loading";
+} from '../helper';
+import IForm from '../../../../_helper/_form';
+import { editBusinessTransaction_api } from './../helper';
+import Loading from './../../../../_helper/_loading';
 
 const initData = {
-  businessTransactionCode: "",
-  businessTransactionName: "",
-  generalLedger: "",
-  isInternalExpense: false
+  businessTransactionCode: '',
+  businessTransactionName: '',
+  generalLedger: '',
+  isInternalExpense: false,
 };
 
 export default function BusinessUnitForm({
@@ -59,7 +58,7 @@ export default function BusinessUnitForm({
           generalLedgerName: values?.generalLedger.label,
           actionBy: profileData.userId,
           generalLedgerCode: values?.generalLedger.code,
-          isInternalExpense: values?.isInternalExpense
+          isInternalExpense: values?.isInternalExpense,
         };
         editBusinessTransaction_api(payload, setDisabled);
       } else {
@@ -67,13 +66,13 @@ export default function BusinessUnitForm({
           accountId: profileData?.accountId,
           businessUnitId: selectedBusinessUnit?.value,
           businessTransactionName: values?.businessTransactionName,
-          businessTransactionCode: " ",
+          businessTransactionCode: ' ',
           generalLedgerId: values?.generalLedger.value,
           generalLedgerName: values?.generalLedger.label,
           actionBy: profileData.userId,
           generalLedgerCode: values?.generalLedger.code,
-          isInternalExpense: values?.isInternalExpense
-        }
+          isInternalExpense: values?.isInternalExpense,
+        };
 
         saveBusinessTransaction(payload, cb, setDisabled);
       }
@@ -93,7 +92,6 @@ export default function BusinessUnitForm({
         setSingleData
       );
     }
-
   }, [id]);
 
   useEffect(() => {

@@ -1,30 +1,29 @@
-
-import React from "react";
-import { Formik, Form } from "formik";
-import { useHistory } from "react-router";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import { useHistory } from 'react-router';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import NewSelect from "../../../../_helper/_select";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import axios from "axios";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getCusterInformation, ValidationSchema } from "../helper";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import InputField from "../../../../_helper/_inputField";
-import { getDifference } from "../../../../chartering/_chartinghelper/_getDateDiff";
+} from '../../../../../../_metronic/_partials/controls';
+import NewSelect from '../../../../_helper/_select';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import axios from 'axios';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { getCusterInformation, ValidationSchema } from '../helper';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import InputField from '../../../../_helper/_inputField';
+import { getDifference } from '../../../../chartering/_chartinghelper/_getDateDiff';
 import {
   getOrderPendingDetails,
   GetPendingQuantityDetails,
-} from "../../../../salesManagement/orderManagement/salesOrder/helper";
-import { useState } from "react";
-import IViewModal from "../../../../_helper/_viewModal";
-import DetailsView from "./DetailsView";
-import TextArea from "../../../../_helper/TextArea";
+} from '../../../../salesManagement/orderManagement/salesOrder/helper';
+import { useState } from 'react';
+import IViewModal from '../../../../_helper/_viewModal';
+import DetailsView from './DetailsView';
+import TextArea from '../../../../_helper/TextArea';
 
 export default function FormCmp({
   buId,
@@ -120,11 +119,11 @@ export default function FormCmp({
                       <div className="col-lg-3">
                         <NewSelect
                           name="channel"
-                          options={[{ value: 0, label: "All" }, ...channelDDL]}
+                          options={[{ value: 0, label: 'All' }, ...channelDDL]}
                           value={values?.channel}
                           label="Distribution Channel"
                           onChange={(valueOption) => {
-                            setFieldValue("channel", valueOption);
+                            setFieldValue('channel', valueOption);
                           }}
                           placeholder="Distribution Channel"
                         />
@@ -134,7 +133,7 @@ export default function FormCmp({
                         <SearchAsyncSelect
                           selectedValue={values?.customer}
                           handleChange={(valueOption) => {
-                            setFieldValue("customer", valueOption);
+                            setFieldValue('customer', valueOption);
                             if (valueOption) {
                               getCustomerInfo({
                                 ...values,
@@ -164,9 +163,9 @@ export default function FormCmp({
                               max={values?.toDate}
                               name="fromDate"
                               onChange={(e) => {
-                                setFieldValue("fromDate", e.target.value);
+                                setFieldValue('fromDate', e.target.value);
                                 setFieldValue(
-                                  "updatedDaysLimit",
+                                  'updatedDaysLimit',
                                   getDifference(
                                     e.target.value,
                                     values?.toDate,
@@ -186,9 +185,9 @@ export default function FormCmp({
                               name="toDate"
                               min={values?.fromDate}
                               onChange={(e) => {
-                                setFieldValue("toDate", e.target.value);
+                                setFieldValue('toDate', e.target.value);
                                 setFieldValue(
-                                  "updatedDaysLimit",
+                                  'updatedDaysLimit',
                                   getDifference(
                                     values?.fromDate,
                                     e.target.value,
@@ -271,7 +270,7 @@ export default function FormCmp({
                       <div className="col-lg-4">
                         <label>Commitment</label>
                         <TextArea
-                          value={values?.commitment || ""}
+                          value={values?.commitment || ''}
                           name="commitment"
                           placeholder="Commitment"
                           type="text"
@@ -286,14 +285,14 @@ export default function FormCmp({
                               partnerBalance[0]?.ledgerBalance,
                               true
                             )}
-                            ,<b className="ml-2">Credit Limit: </b>{" "}
+                            ,<b className="ml-2">Credit Limit: </b>{' '}
                             {_fixedPoint(creditLimit, true)},
                             <b className="ml-2">Unbilled Amount: </b>
                             {_fixedPoint(
                               partnerBalance[0]?.unbilledAmount,
                               true
                             )}
-                            ,<b className="ml-2">Available Balance: </b>{" "}
+                            ,<b className="ml-2">Available Balance: </b>{' '}
                             {_fixedPoint(availableBalance, true)},
                             <b className="ml-2">Undelivered Amount: </b>
                             {_fixedPoint(
@@ -304,7 +303,7 @@ export default function FormCmp({
                             {_fixedPoint(
                               partnerBalance[0]?.pendingQty,
                               true
-                            )}{" "}
+                            )}{' '}
                             <button
                               className="btn btn-sm btn-primary px-1 py-1"
                               type="button"
@@ -327,7 +326,7 @@ export default function FormCmp({
                             {_fixedPoint(
                               partnerBalance[0]?.transportQty,
                               true
-                            )}{" "}
+                            )}{' '}
                             <button
                               className="btn btn-sm btn-primary px-1 py-1"
                               type="button"
@@ -349,7 +348,7 @@ export default function FormCmp({
                             {partnerBalance?.isDayLimit && (
                               <>
                                 <b className="ml-2">Day Limit: </b>
-                                {"true"}
+                                {'true'}
                               </>
                             )}
                           </p>

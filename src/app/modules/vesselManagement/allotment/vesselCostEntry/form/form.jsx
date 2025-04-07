@@ -1,9 +1,9 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 
 export default function FormCmp({
   type,
@@ -36,7 +36,7 @@ export default function FormCmp({
             //   saveHandler(values, () => {});
             // }}
             saveHandler={
-              type === "view"
+              type === 'view'
                 ? false
                 : () => {
                     saveHandler(values, () => {});
@@ -65,7 +65,7 @@ export default function FormCmp({
                     />
                   </div>
                 )} */}
-                {type === "view" && (
+                {type === 'view' && (
                   <div className="col-lg-3">
                     <NewSelect
                       name="status"
@@ -73,21 +73,21 @@ export default function FormCmp({
                         [
                           {
                             value: 0,
-                            label: "All",
+                            label: 'All',
                           },
                           {
                             value: 1,
-                            label: "Pending",
+                            label: 'Pending',
                           },
                           {
                             value: 2,
-                            label: "Completed",
+                            label: 'Completed',
                           },
                         ] || []
                       }
                       label="Status"
                       onChange={(valueOption) => {
-                        setFieldValue("status", valueOption);
+                        setFieldValue('status', valueOption);
                         commonGetByIdFunc(valueOption?.value);
                       }}
                       placeholder="All"
@@ -100,9 +100,9 @@ export default function FormCmp({
                     <div className="col-12 mt-3 text-right">
                       <div className="d-flex">
                         <>
-                          {" "}
+                          {' '}
                           <h5 className="mr-3 pr-2">
-                            Total Quantity (Bags):{" "}
+                            Total Quantity (Bags):{' '}
                             {_fixedPoint(
                               rowDto?.reduce(
                                 (a, b) => (a += +b?.quantityBag || 0),
@@ -113,7 +113,7 @@ export default function FormCmp({
                             )}
                           </h5>
                           <h5 className="ml-3">
-                            Total Revenue Amount (tk):{" "}
+                            Total Revenue Amount (tk):{' '}
                             {rowDto?.reduce(
                               (a, b) =>
                                 (a += b?.quantityBag * +b?.localRateTaka || 0),
@@ -121,7 +121,7 @@ export default function FormCmp({
                             )}
                           </h5>
                           <h5 className="ml-6">
-                            Total Net Amount (tk):{" "}
+                            Total Net Amount (tk):{' '}
                             {rowDto
                               ?.reduce(
                                 (a, b) =>
@@ -148,10 +148,10 @@ export default function FormCmp({
                       <table className="table table-striped table-bordered global-table mt-0">
                         <thead>
                           <tr>
-                            {type !== "view" && (
+                            {type !== 'view' && (
                               <th
                                 onClick={() => allSelect(!selectedAll())}
-                                style={{ width: "40px" }}
+                                style={{ width: '40px' }}
                               >
                                 <input
                                   type="checkbox"
@@ -161,9 +161,9 @@ export default function FormCmp({
                                 />
                               </th>
                             )}
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>GoDown Name</th>
-                            <th style={{ width: "130px" }}>Quantity (Bag)</th>
+                            <th style={{ width: '130px' }}>Quantity (Bag)</th>
                             <th>Local Rate (tk)</th>
                             <th>International Rate ($)</th>
                             <th>Amount (tk)</th>
@@ -176,14 +176,14 @@ export default function FormCmp({
                             <th>Bill Amount</th>
                           </tr>
                         </thead>
-                        <tbody style={{ overflow: "scroll" }}>
+                        <tbody style={{ overflow: 'scroll' }}>
                           {rowDto?.map((itm, index) => (
                             <tr key={index}>
-                              {type !== "view" && (
+                              {type !== 'view' && (
                                 <td
                                   onClick={() => {
                                     rowDataHandler(
-                                      "isSelected",
+                                      'isSelected',
                                       index,
                                       !itm.isSelected
                                     );
@@ -192,10 +192,10 @@ export default function FormCmp({
                                   style={
                                     itm?.isSelected
                                       ? {
-                                          backgroundColor: "#aacae3",
-                                          width: "40px",
+                                          backgroundColor: '#aacae3',
+                                          width: '40px',
                                         }
-                                      : { width: "40px" }
+                                      : { width: '40px' }
                                   }
                                 >
                                   <input
@@ -212,7 +212,7 @@ export default function FormCmp({
                                 {_fixedPoint(itm?.quantityBag, true)}
                               </td>
                               <td className="text-right">
-                                {type === "view" ? (
+                                {type === 'view' ? (
                                   _fixedPoint(itm?.localRateTaka, true, 0)
                                 ) : (
                                   <InputField
@@ -222,13 +222,13 @@ export default function FormCmp({
                                     min="0"
                                     onChange={(e) => {
                                       rowDataHandler(
-                                        "localRateTaka",
+                                        'localRateTaka',
                                         index,
                                         e?.target?.value
                                       );
 
                                       let _data = [...rowDto];
-                                      _data[index]["vatTax"] =
+                                      _data[index]['vatTax'] =
                                         itm?.quantityBag *
                                         itm?.localRateTaka *
                                         0.175;
@@ -238,7 +238,7 @@ export default function FormCmp({
                                 )}
                               </td>
                               <td className="text-right">
-                                {type === "view" ? (
+                                {type === 'view' ? (
                                   _fixedPoint(itm?.revenueRateDollar, true, 0)
                                 ) : (
                                   <InputField
@@ -248,13 +248,13 @@ export default function FormCmp({
                                     min="0"
                                     onChange={(e) => {
                                       rowDataHandler(
-                                        "revenueRateDollar",
+                                        'revenueRateDollar',
                                         index,
                                         e?.target?.value
                                       );
 
                                       let _data = [...rowDto];
-                                      _data[index]["vatNtaxDollar"] =
+                                      _data[index]['vatNtaxDollar'] =
                                         itm?.quantityBag *
                                         itm?.revenueRateDollar *
                                         0.075;
@@ -283,7 +283,7 @@ export default function FormCmp({
                               </td>
 
                               <td className="text-right">
-                                {type === "view" ? (
+                                {type === 'view' ? (
                                   _fixedPoint(itm?.vatTax, true, 0)
                                 ) : (
                                   <InputField
@@ -293,7 +293,7 @@ export default function FormCmp({
                                     min="0"
                                     onChange={(e) => {
                                       rowDataHandlerExtra(
-                                        "vatTax",
+                                        'vatTax',
                                         index,
                                         e?.target?.value
                                       );
@@ -302,7 +302,7 @@ export default function FormCmp({
                                 )}
                               </td>
                               <td className="text-right">
-                                {type === "view" ? (
+                                {type === 'view' ? (
                                   _fixedPoint(itm?.vatNtaxDollar, true, 0)
                                 ) : (
                                   <InputField
@@ -312,7 +312,7 @@ export default function FormCmp({
                                     min="0"
                                     onChange={(e) => {
                                       rowDataHandlerExtra(
-                                        "vatNtaxDollar",
+                                        'vatNtaxDollar',
                                         index,
                                         e?.target?.value
                                       );
@@ -321,7 +321,7 @@ export default function FormCmp({
                                 )}
                               </td>
                               <td className="text-right">
-                                {type === "view" ? (
+                                {type === 'view' ? (
                                   _fixedPoint(itm?.ld, true, 0)
                                 ) : (
                                   <InputField
@@ -331,7 +331,7 @@ export default function FormCmp({
                                     min="0"
                                     onChange={(e) => {
                                       rowDataHandlerExtra(
-                                        "ld",
+                                        'ld',
                                         index,
                                         e?.target?.value
                                       );
@@ -340,7 +340,7 @@ export default function FormCmp({
                                 )}
                               </td>
                               <td className="text-right">
-                                {type === "view" ? (
+                                {type === 'view' ? (
                                   _fixedPoint(itm?.damarage, true, 0)
                                 ) : (
                                   <InputField
@@ -350,7 +350,7 @@ export default function FormCmp({
                                     min="0"
                                     onChange={(e) => {
                                       rowDataHandlerExtra(
-                                        "damarage",
+                                        'damarage',
                                         index,
                                         e?.target?.value
                                       );
@@ -359,7 +359,7 @@ export default function FormCmp({
                                 )}
                               </td>
                               <td className="text-right">
-                                {type === "view" ? (
+                                {type === 'view' ? (
                                   _fixedPoint(itm?.others, true, 0)
                                 ) : (
                                   <InputField
@@ -369,7 +369,7 @@ export default function FormCmp({
                                     min={0}
                                     onChange={(e) => {
                                       rowDataHandlerExtra(
-                                        "others",
+                                        'others',
                                         index,
                                         e?.target?.value
                                       );
@@ -391,7 +391,7 @@ export default function FormCmp({
                             </tr>
                           ))}
 
-                          {type === "view" && (
+                          {type === 'view' && (
                             <tr>
                               <td colSpan={type ? 2 : 3} className="text-right">
                                 <b>Total</b>

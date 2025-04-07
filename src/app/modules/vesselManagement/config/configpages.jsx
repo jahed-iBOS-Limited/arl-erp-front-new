@@ -1,17 +1,17 @@
-import React from "react";
-import { Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import MotherVesselLanding from "./motherVessel/landing/landing";
-import LighterVesselLanding from "./lighterVessel/landing/_landing";
-import GodownLanding from "./goDown/_landing/_landing";
-import StevedoreLanding from "./stevedore/landing/landing";
-import CNFLanding from "./cnf/landing/landing";
-import LighterDestination from "./lighterDestination/landing/landing";
-import DirectAndDumpRateLanding from "./directAndDumpRate";
-import RateEnrolmentLanding from "./rateEnrolment/landing/landing";
-import RateEnrolmentForm from "./rateEnrolment/form/addEditForm";
-import ServiceChargeAndIncomeElementForm from "./serviceChargeIncomeElement/form/addEditForm";
-import ServiceChargeAndIncomeElementLanding from "./serviceChargeIncomeElement/landing/landing";
+import React from 'react';
+import { Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import MotherVesselLanding from './motherVessel/landing/landing';
+import LighterVesselLanding from './lighterVessel/landing/_landing';
+import GodownLanding from './goDown/_landing/_landing';
+import StevedoreLanding from './stevedore/landing/landing';
+import CNFLanding from './cnf/landing/landing';
+import LighterDestination from './lighterDestination/landing/landing';
+import DirectAndDumpRateLanding from './directAndDumpRate';
+import RateEnrolmentLanding from './rateEnrolment/landing/landing';
+import RateEnrolmentForm from './rateEnrolment/form/addEditForm';
+import ServiceChargeAndIncomeElementForm from './serviceChargeIncomeElement/form/addEditForm';
+import ServiceChargeAndIncomeElementLanding from './serviceChargeIncomeElement/landing/landing';
 
 export default function ConfigPages() {
   return (

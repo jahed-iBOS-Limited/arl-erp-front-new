@@ -1,1 +1,1 @@
-export { Dashboard } from "./dashboards/kpiDashboard";
+export { Dashboard } from './dashboards/kpiDashboard';

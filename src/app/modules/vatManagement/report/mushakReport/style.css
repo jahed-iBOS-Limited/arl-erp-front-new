@@ -12,10 +12,10 @@
 /* .output-tax-report */
 .output-tax-report .ant-table table th {
   background: #d6dadd !important;
-  color: #464E5F !important;
+  color: #464e5f !important;
 }
 .output-tax-report .table {
-  margin-bottom: 0!important;
+  margin-bottom: 0 !important;
   border: 0;
 }
 .output-tax-report .table th {
@@ -27,7 +27,7 @@
 }
 
 /* input-tax-report  */
-.input-tax-report  .table.global-table {
+.input-tax-report .table.global-table {
   margin: 0;
 }
 .input-tax-report .table tbody:first-of-type > tr > td:first-child {

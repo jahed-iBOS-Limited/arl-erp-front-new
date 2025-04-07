@@ -34,11 +34,10 @@ export function TableRow() {
           selectedBusinessUnit.value,
           setLoading,
           pageNo,
-          pageSize,
-        ),
+          pageSize
+        )
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   // UI Context
@@ -64,8 +63,8 @@ export function TableRow() {
         setLoading,
         pageNo,
         pageSize,
-        searchValue,
-      ),
+        searchValue
+      )
     );
   };
 

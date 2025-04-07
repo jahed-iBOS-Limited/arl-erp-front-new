@@ -1,11 +1,11 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
 
-import { shallowEqual, useSelector } from "react-redux";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import YearMonthForm from "../../../../_helper/commonInputFieldsGroups/yearMonthForm";
+import { shallowEqual, useSelector } from 'react-redux';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import YearMonthForm from '../../../../_helper/commonInputFieldsGroups/yearMonthForm';
 import {
   getCustomerNameDDL,
   getDistributionDDL,
@@ -13,24 +13,24 @@ import {
   getParameterValues,
   getReportId,
   groupId,
-  reportType
-} from "../helper";
-import InputField from "./../../../../_helper/_inputField";
-import NewSelect from "./../../../../_helper/_select";
-import PowerBIReport from "./../../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import ReceivableDueReportTable from "./receivableDueReportTable";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
+  reportType,
+} from '../helper';
+import InputField from './../../../../_helper/_inputField';
+import NewSelect from './../../../../_helper/_select';
+import PowerBIReport from './../../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import ReceivableDueReportTable from './receivableDueReportTable';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
 
 const initialValues = {
   reportType: { value: 3, label: 'Sales Analysis as Per Receivable' },
   dueDate: _todayDate(),
   transactionDate: _todayDate(),
-  month: "",
-  year: "",
-  salesOrg: "",
-  distributionChannel: "",
-  customerNameDDL: "",
+  month: '',
+  year: '',
+  salesOrg: '',
+  distributionChannel: '',
+  customerNameDDL: '',
 };
 export function TableRow(props) {
   // get user profile data from store
@@ -64,32 +64,30 @@ export function TableRow(props) {
       selectedBusinessUnit.value,
       setDistributionChannelDDL
     );
-
   }, [profileData.accountId, selectedBusinessUnit.value]);
-
 
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={initialValues}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({ values, errors, touched, setFieldValue }) => (
-          <Form className='form form-label-right'>
-            <ICustomCard title='Recivable Due Report'>
-              <div className='row my-3 global-form'>
-                <div className='col-lg-2'>
+          <Form className="form form-label-right">
+            <ICustomCard title="Recivable Due Report">
+              <div className="row my-3 global-form">
+                <div className="col-lg-2">
                   <NewSelect
-                    name='reportType'
+                    name="reportType"
                     options={reportType}
                     value={values?.reportType}
-                    label='Report Type'
+                    label="Report Type"
                     onChange={(valueOption) => {
-                      setFieldValue("reportType", valueOption);
+                      setFieldValue('reportType', valueOption);
                       setShowReport(false);
                     }}
-                    placeholder='Report Type'
+                    placeholder="Report Type"
                     errors={errors}
                     touched={touched}
                     isClearable={false}
@@ -98,31 +96,31 @@ export function TableRow(props) {
                 {/* if Receivable Due Report */}
                 {[0].includes(values?.reportType?.value) && (
                   <>
-                    <div className='col-lg-2'>
-                      <div className='form-group'>
+                    <div className="col-lg-2">
+                      <div className="form-group">
                         <label>Transaction Date</label>
                         <InputField
-                          className='trans-date cj-landing-date'
+                          className="trans-date cj-landing-date"
                           onChange={(e) => {
-                            setFieldValue("transactionDate", e.target.value);
+                            setFieldValue('transactionDate', e.target.value);
                           }}
-                          type='date'
-                          value={values?.transactionDate || ""}
-                          name='transactionDate'
+                          type="date"
+                          value={values?.transactionDate || ''}
+                          name="transactionDate"
                         />
                       </div>
                     </div>
-                    <div className='col-lg-2'>
-                      <div className='form-group'>
+                    <div className="col-lg-2">
+                      <div className="form-group">
                         <label>Due Date</label>
                         <InputField
-                          className='trans-date cj-landing-date'
+                          className="trans-date cj-landing-date"
                           onChange={(e) => {
-                            setFieldValue("dueDate", e.target.value);
+                            setFieldValue('dueDate', e.target.value);
                           }}
-                          type='date'
-                          value={values?.dueDate || ""}
-                          name='dueDate'
+                          type="date"
+                          value={values?.dueDate || ''}
+                          name="dueDate"
                         />
                       </div>
                     </div>
@@ -139,23 +137,23 @@ export function TableRow(props) {
                         onChange: () => {
                           setShowReport(false);
                         },
-                        colSize: "col-lg-2",
+                        colSize: 'col-lg-2',
                       }}
                     />
 
-                    <div className='col-lg-2'>
+                    <div className="col-lg-2">
                       <NewSelect
-                        name='distributionChannel'
+                        name="distributionChannel"
                         options={[
-                          { value: 0, label: "All" },
+                          { value: 0, label: 'All' },
                           ...distributionChannelDDL,
                         ]}
                         value={values?.distributionChannel}
-                        label='Distribution Channel'
+                        label="Distribution Channel"
                         onChange={(valueOption) => {
                           setShowReport(false);
-                          setFieldValue("customerNameDDL", "");
-                          setFieldValue("distributionChannel", valueOption);
+                          setFieldValue('customerNameDDL', '');
+                          setFieldValue('distributionChannel', valueOption);
                           setCustomerNameDDL([]);
                           getCustomerNameDDL(
                             profileData.accountId,
@@ -165,22 +163,22 @@ export function TableRow(props) {
                             setCustomerNameDDL
                           );
                         }}
-                        placeholder='Distribution Channel'
+                        placeholder="Distribution Channel"
                         errors={errors}
                         touched={touched}
                       />
                     </div>
-                    <div className='col-lg-2'>
+                    <div className="col-lg-2">
                       <NewSelect
-                        name='customerNameDDL'
+                        name="customerNameDDL"
                         options={customerNameDDL || []}
                         value={values?.customerNameDDL}
-                        label='Customer Name'
+                        label="Customer Name"
                         onChange={(valueOption) => {
-                          setFieldValue("customerNameDDL", valueOption);
+                          setFieldValue('customerNameDDL', valueOption);
                           setShowReport(false);
                         }}
-                        placeholder='Customer name'
+                        placeholder="Customer name"
                         errors={errors}
                         touched={touched}
                         isDisabled={!values?.distributionChannel}
@@ -190,71 +188,77 @@ export function TableRow(props) {
                 )}
 
                 {/* Field & DDL For Report Type 3 */}
-                {
-                  [3,4].includes(values?.reportType?.value) && (
-                    <>
-                      <RATForm
-                        obj={{
-                          values,
-                          setFieldValue,
-                          channel: true,
-                          region: true,
-                          area: true,
-                          territory: true,
-                          onChange: (allValues, fieldName) => {
-                            if (fieldName === 'channel') {
-                              setShowReport(false);
-                              setFieldValue('customerNameDDL', "")
-                              setCustomerNameDDL([]);
-                              getCustomerNameDDL(
-                                profileData.accountId,
-                                selectedBusinessUnit.value,
-                                6,
-                                allValues?.channel?.value,
-                                setCustomerNameDDL
-                              );
-                            }
-                          }
-                        }}
-                      />
-                      <div className='col-lg-2'>
-                        <NewSelect
-                          name='customerNameDDL'
-                          options={customerNameDDL || []}
-                          value={values?.customerNameDDL}
-                          label='Customer Name'
-                          onChange={(valueOption) => {
+                {[3, 4].includes(values?.reportType?.value) && (
+                  <>
+                    <RATForm
+                      obj={{
+                        values,
+                        setFieldValue,
+                        channel: true,
+                        region: true,
+                        area: true,
+                        territory: true,
+                        onChange: (allValues, fieldName) => {
+                          if (fieldName === 'channel') {
                             setShowReport(false);
-                            setFieldValue("customerNameDDL", valueOption);
-                          }}
-                          placeholder='Customer name'
-                          errors={errors}
-                          touched={touched}
-                          isDisabled={!values?.channel}
-                        />
-                      </div>
-                      <FromDateToDateForm
-                        obj={{
-                          values,
-                          setFieldValue,
+                            setFieldValue('customerNameDDL', '');
+                            setCustomerNameDDL([]);
+                            getCustomerNameDDL(
+                              profileData.accountId,
+                              selectedBusinessUnit.value,
+                              6,
+                              allValues?.channel?.value,
+                              setCustomerNameDDL
+                            );
+                          }
+                        },
+                      }}
+                    />
+                    <div className="col-lg-2">
+                      <NewSelect
+                        name="customerNameDDL"
+                        options={customerNameDDL || []}
+                        value={values?.customerNameDDL}
+                        label="Customer Name"
+                        onChange={(valueOption) => {
+                          setShowReport(false);
+                          setFieldValue('customerNameDDL', valueOption);
                         }}
+                        placeholder="Customer name"
+                        errors={errors}
+                        touched={touched}
+                        isDisabled={!values?.channel}
                       />
-                    </>
-                  )
-                }
+                    </div>
+                    <FromDateToDateForm
+                      obj={{
+                        values,
+                        setFieldValue,
+                      }}
+                    />
+                  </>
+                )}
 
-                <div className='col-lg-2 mt-5'>
+                <div className="col-lg-2 mt-5">
                   <button
-                    className='btn btn-primary'
-                    type='button'
+                    className="btn btn-primary"
+                    type="button"
                     disabled={
                       !values?.reportType?.value ||
-                        [0].includes(values?.reportType?.value)
+                      [0].includes(values?.reportType?.value)
                         ? !values?.dueDate || !values?.transactionDate
-                        : [3,4].includes(values?.reportType?.value) ? !values?.customerNameDDL || !values?.channel || !values?.toDate || !values?.fromDate || !values?.region || !values?.area || !values?.territory : !values?.month ||
-                          !values?.year ||
-                          !values?.distributionChannel ||
-                          !values?.customerNameDDL
+                        : [3, 4].includes(values?.reportType?.value)
+                          ? !values?.customerNameDDL ||
+                            !values?.channel ||
+                            !values?.toDate ||
+                            !values?.fromDate ||
+                            !values?.region ||
+                            !values?.area ||
+                            !values?.territory
+                          : !values?.month ||
+                            !values?.year ||
+                            !values?.distributionChannel ||
+                            !values?.customerNameDDL
                     }
                     onClick={() => {
                       // Receivable Due Report
@@ -270,7 +274,7 @@ export function TableRow(props) {
                       }
                       // Day Base Collection and Month Basis and Sales Analysis as Per Receiveable
                       if ([1, 2, 3, 4].includes(values?.reportType?.value)) {
-                        console.log(values)
+                        console.log(values);
                         setShowReport(true);
                       }
                     }}
@@ -293,7 +297,10 @@ export function TableRow(props) {
                     <PowerBIReport
                       reportId={getReportId(values?.reportType?.value)}
                       groupId={groupId}
-                      parameterValues={getParameterValues(values, selectedBusinessUnit.value)}
+                      parameterValues={getParameterValues(
+                        values,
+                        selectedBusinessUnit.value
+                      )}
                       parameterPanel={false}
                     />
                   )}

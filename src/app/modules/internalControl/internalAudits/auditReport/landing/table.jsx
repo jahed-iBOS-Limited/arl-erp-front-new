@@ -1,20 +1,17 @@
-import React from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { calculateDaysDifference } from "../../auditschedules/helper";
-import { useHistory } from "react-router-dom";
-import IView from "../../../../_helper/_helperIcons/_view";
-import NewIcon from "../../../../_helper/_helperIcons/newIcon";
+import React from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { calculateDaysDifference } from '../../auditschedules/helper';
+import { useHistory } from 'react-router-dom';
+import IView from '../../../../_helper/_helperIcons/_view';
+import NewIcon from '../../../../_helper/_helperIcons/newIcon';
 
 const AuditReportLandingTable = ({ objProps }) => {
   // use hook
   const history = useHistory();
 
   // props
-  const {
-    auditReportData,
-    setShowConfidentialModal,
-    setSingleAuditReport,
-  } = objProps;
+  const { auditReportData, setShowConfidentialModal, setSingleAuditReport } =
+    objProps;
 
   return (
     <div className="table-responsive">

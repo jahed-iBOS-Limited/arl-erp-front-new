@@ -1,15 +1,15 @@
-import React from "react";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import IDelete from "../../../_chartinghelper/icons/_delete";
-import ICustomTable from "../../../_chartinghelper/_customTable";
+import React from 'react';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import IDelete from '../../../_chartinghelper/icons/_delete';
+import ICustomTable from '../../../_chartinghelper/_customTable';
 import {
   addCargo,
   addCharterer,
   cargoRowDataHandler,
   removeCargo,
-} from "../utils";
+} from '../utils';
 
 export default function VoyageCharterer({
   values,
@@ -42,12 +42,12 @@ export default function VoyageCharterer({
               placeholder="Demurrage Rate"
               type="number"
               onChange={(e) => {
-                setFieldValue("demurrageRate", e.target.value);
-                setFieldValue("despatchRate", Number(e?.target?.value) / 2);
+                setFieldValue('demurrageRate', e.target.value);
+                setFieldValue('despatchRate', Number(e?.target?.value) / 2);
               }}
               errors={errors}
               touched={touched}
-              disabled={viewType === "view"}
+              disabled={viewType === 'view'}
             />
           </div>
 
@@ -72,11 +72,11 @@ export default function VoyageCharterer({
               type="number"
               errors={errors}
               touched={touched}
-              disabled={viewType === "view"}
+              disabled={viewType === 'view'}
             />
           </div>
 
-          <div className={"col-lg-3"}>
+          <div className={'col-lg-3'}>
             <label>Dead Freight</label>
             <FormikInput
               value={values?.deadFreightDetention}
@@ -85,11 +85,11 @@ export default function VoyageCharterer({
               type="number"
               errors={errors}
               touched={touched}
-              disabled={viewType === "view"}
+              disabled={viewType === 'view'}
             />
           </div>
 
-          {viewType !== "view" ? (
+          {viewType !== 'view' ? (
             <div className="col-lg-3">
               <FormikSelect
                 value={values?.cargoName}
@@ -100,9 +100,9 @@ export default function VoyageCharterer({
                 placeholder="Cargo Name"
                 label="Cargo Name"
                 onChange={(valueOption) => {
-                  setFieldValue("cargoName", valueOption);
+                  setFieldValue('cargoName', valueOption);
                 }}
-                isDisabled={viewType === "view"}
+                isDisabled={viewType === 'view'}
                 errors={errors}
                 touched={touched}
               />
@@ -116,12 +116,12 @@ export default function VoyageCharterer({
               options={portDDL || []}
               styles={customStyles}
               name="startPort"
-              placeholder={"Load Port"}
-              label={"Load Port"}
+              placeholder={'Load Port'}
+              label={'Load Port'}
               onChange={(valueOption) => {
-                setFieldValue("startPort", valueOption);
+                setFieldValue('startPort', valueOption);
               }}
-              isDisabled={viewType === "view"}
+              isDisabled={viewType === 'view'}
               errors={errors}
               touched={touched}
             />
@@ -133,18 +133,18 @@ export default function VoyageCharterer({
               options={portDDL || []}
               styles={customStyles}
               name="endPort"
-              placeholder={"End Port"}
-              label={"End Port"}
+              placeholder={'End Port'}
+              label={'End Port'}
               onChange={(valueOption) => {
-                setFieldValue("endPort", valueOption);
+                setFieldValue('endPort', valueOption);
               }}
-              isDisabled={viewType === "view"}
+              isDisabled={viewType === 'view'}
               errors={errors}
               touched={touched}
             />
           </div>
 
-          {viewType !== "view" ? (
+          {viewType !== 'view' ? (
             <>
               <div className="col-lg-3 mt-5">
                 <button
@@ -167,13 +167,13 @@ export default function VoyageCharterer({
                           ...errors,
                           cargoName:
                             !values?.cargoName?.value &&
-                            "Cargo Name is required",
+                            'Cargo Name is required',
                           startPort:
                             !values?.startPort?.value &&
-                            "Load Port is required",
+                            'Load Port is required',
                           endPort:
                             !values?.endPort?.value &&
-                            "Discharge Port is required",
+                            'Discharge Port is required',
                         });
                       }, 50);
                     } else {
@@ -196,19 +196,19 @@ export default function VoyageCharterer({
             <h6 className="">Cargo List</h6>
             <ICustomTable
               ths={[
-                { name: "SL" },
-                { name: "Cargo Name" },
-                { name: "Load Port" },
-                { name: "Discharge Port" },
-                { name: "Cargo Qty" },
-                { name: "Freight/MT" },
-                { name: "Freight Value" },
-                { name: "Action", isHide: viewType === "view" },
+                { name: 'SL' },
+                { name: 'Cargo Name' },
+                { name: 'Load Port' },
+                { name: 'Discharge Port' },
+                { name: 'Cargo Qty' },
+                { name: 'Freight/MT' },
+                { name: 'Freight Value' },
+                { name: 'Action', isHide: viewType === 'view' },
               ]}
             >
               {cargoList?.map((item, index) => (
                 <tr key={index}>
-                  <td className="text-center" style={{ maxWidth: "30px" }}>
+                  <td className="text-center" style={{ maxWidth: '30px' }}>
                     {index + 1}
                   </td>
                   <td>{item?.cargoName}</td>
@@ -222,10 +222,10 @@ export default function VoyageCharterer({
                       type="number"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view" || item?.cargoRowId}
+                      disabled={viewType === 'view' || item?.cargoRowId}
                       onChange={(e) => {
                         cargoRowDataHandler(
-                          "cargoQty",
+                          'cargoQty',
                           e?.target?.value,
                           index,
                           cargoList,
@@ -242,10 +242,10 @@ export default function VoyageCharterer({
                       type="number"
                       errors={errors}
                       touched={touched}
-                      disabled={viewType === "view" || item?.cargoRowId}
+                      disabled={viewType === 'view' || item?.cargoRowId}
                       onChange={(e) => {
                         cargoRowDataHandler(
-                          "freightRate",
+                          'freightRate',
                           e?.target?.value,
                           index,
                           cargoList,
@@ -255,7 +255,7 @@ export default function VoyageCharterer({
                     />
                   </td>
                   <td className="text-right">{item?.totalFreight}</td>
-                  {viewType !== "view" ? (
+                  {viewType !== 'view' ? (
                     <td className="text-center">
                       <p
                         onClick={() => {
@@ -300,14 +300,14 @@ export default function VoyageCharterer({
                 <td className="text-right">
                   {cargoList?.reduce((acc, cur) => acc + cur?.totalFreight, 0)}
                 </td>
-                {viewType !== "view" ? <td></td> : null}
+                {viewType !== 'view' ? <td></td> : null}
               </tr>
             </ICustomTable>
           </>
         )}
       </div>
 
-      {viewType !== "view" && !componentType ? (
+      {viewType !== 'view' && !componentType ? (
         <div className="text-center mt-4">
           <button
             onClick={() => {
@@ -333,22 +333,22 @@ export default function VoyageCharterer({
                   setErrors({
                     charterName:
                       !values?.charterName?.value &&
-                      "Charterer Name is required",
+                      'Charterer Name is required',
                     brokerCommission:
                       !values?.brokerCommission &&
-                      "Broker Commission is required",
+                      'Broker Commission is required',
                     addressCommission:
                       !values?.addressCommission &&
-                      "Address Commission is required",
+                      'Address Commission is required',
                     freightPercentage:
                       !values?.freightPercentage &&
-                      "Freight Percentage is required",
+                      'Freight Percentage is required',
                     // startPort:
                     //   !values?.startPort?.value && "This field is required",
                     // endPort:
                     //   !values?.endPort?.value && "This field is required",
                     demurrageRate:
-                      !values?.demurrageRate && "Demurrage Rate is required",
+                      !values?.demurrageRate && 'Demurrage Rate is required',
                   });
                 }, 50);
               } else {

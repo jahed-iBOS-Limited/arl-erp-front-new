@@ -1,5 +1,3 @@
-
-
 // make your input field type="tel", and use this function, it will only return valid digit, not allowed any character/special character/negative value
 
 /**
@@ -22,19 +20,19 @@
  */
 
 export const validateDigit = (number) => {
-  if (number === "") return "";
-  if (number == "0" || number == "00") return 0;
+  if (number === '') return '';
+  if (number == '0' || number == '00') return 0;
 
-  let splited = number.split("");
+  let splited = number.split('');
 
-  if (splited[0] == "0") {
+  if (splited[0] == '0') {
     splited.shift();
   }
 
   let string =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz+-\\~`?/>'{[|=_(*&^%$#@!)]}<,:;";
 
-  let stringArr = string.split("");
+  let stringArr = string.split('');
 
   for (let i = 0; i < stringArr.length; i++) {
     if (splited[splited?.length - 1] == stringArr[i]) {
@@ -42,10 +40,10 @@ export const validateDigit = (number) => {
     }
   }
 
-  let filter = splited.filter((i) => i != '"').join("");
+  let filter = splited.filter((i) => i != '"').join('');
 
   if (!filter) {
-    return "";
+    return '';
   }
 
   return filter;

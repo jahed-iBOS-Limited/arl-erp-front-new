@@ -5,17 +5,16 @@ import { _dateFormatter } from '../../../../../_helper/_dateFormate';
 import { _formatMoney } from '../../../../../_helper/_formatMoney';
 import numberWithCommas from '../../../../../_helper/_numberWithCommas';
 
-
 export const GetProviderDDL = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
-      `/imp/ImportCommonDDL/GetProviderDDL?accountId=${accId}&businessUnitId=${buId}`,
+      `/imp/ImportCommonDDL/GetProviderDDL?accountId=${accId}&businessUnitId=${buId}`
     );
 
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 // Get Currency Type DDL
@@ -26,7 +25,7 @@ export const GetCurrencyTypeDDL = async (setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 // Get Insurance Coverage DDL
@@ -37,7 +36,7 @@ export const GetInsuranceCoverageDDL = async (setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 // Get Payment Type DDL
@@ -48,14 +47,14 @@ export const GetPaymentTypeDDL = async (setter) => {
     if (res.status === 200 && res.data) {
       setter(res.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const CreateInsuranceCoverNote = async (data, cb) => {
   try {
     const res = await axios.post(
       '/imp/InsurancePolicy/CreateInsuranceInformation',
-      data,
+      data
     );
     if (res.status === 200 && res.data) {
       toast.success(res.message || 'Submitted  successfully');
@@ -71,7 +70,7 @@ export const EditInstanceCoverNote = async (data, cb) => {
   try {
     const res = await axios.put(
       '/imp/InsurancePolicy/EditInsuranceCoverNote',
-      data,
+      data
     );
     if (res.status === 200 && res.data) {
       toast.success(res.message || 'Updated  successfully');
@@ -86,7 +85,7 @@ export const EditInstanceCoverNote = async (data, cb) => {
 export const GetInsuranceCoverNoteById = async (id, setter) => {
   try {
     const res = await axios.get(
-      `/imp/InsurancePolicy/GetinsuranceCoverNoteById?insuranceCoverNoteId=${id}`,
+      `/imp/InsurancePolicy/GetinsuranceCoverNoteById?insuranceCoverNoteId=${id}`
     );
     if (res.status === 200 && res.data) {
       const data = {
@@ -141,11 +140,11 @@ export const ValidatePoNo = async (
   buId,
   PoNo,
   setter,
-  GetCurrencyByPO,
+  GetCurrencyByPO
 ) => {
   try {
     const res = await axios.get(
-      `/imp/ImportCommonDDL/GetPOCheck?accountId=${accId}&businessUnitId=${buId}&PONo=${PoNo}`,
+      `/imp/ImportCommonDDL/GetPOCheck?accountId=${accId}&businessUnitId=${buId}&PONo=${PoNo}`
     );
     if (res?.status === 200 && res?.data) {
       if (res?.data === 'PO number is valid') {
@@ -162,7 +161,7 @@ export const ValidatePoNo = async (
 export const getDataByPoNo = async (accId, buId, PoNo, setter) => {
   try {
     const res = await axios.get(
-      `/imp/InsurancePolicy/GetinsuranceCoverNoteByPONumber?accountId=${accId}&businessUnitId=${buId}&poNumber=${PoNo}`,
+      `/imp/InsurancePolicy/GetinsuranceCoverNoteByPONumber?accountId=${accId}&businessUnitId=${buId}&poNumber=${PoNo}`
     );
     if (res?.status === 200) {
       const data = [
@@ -216,11 +215,11 @@ export const GetCurrencyByPO = async (
   PoNo,
   setter,
   initialValue,
-  setDataByPO,
+  setDataByPO
 ) => {
   try {
     const res = await axios.get(
-      `/imp/ImportCommonDDL/GetCurrencyByPO?accountId=${accId}&businessUnitId=${buId}&PONo=${PoNo}`,
+      `/imp/ImportCommonDDL/GetCurrencyByPO?accountId=${accId}&businessUnitId=${buId}&PONo=${PoNo}`
     );
     setter({
       ...initialValue,
@@ -246,7 +245,7 @@ export const GetCurrencyByPO = async (
 export const getCalculationFormLandingForm = async (accId, values, setter) => {
   try {
     const res = await axios.get(
-      `/imp/FormulaForCalculation/GetFormulaCalculationForInsurance?accountId=${accId}&businessPartnerId=${values?.provider?.value}&shipmentTypeId=${values?.shipmentType?.value}&PIBDT=${values?.PIAmountBDT}`,
+      `/imp/FormulaForCalculation/GetFormulaCalculationForInsurance?accountId=${accId}&businessPartnerId=${values?.provider?.value}&shipmentTypeId=${values?.shipmentType?.value}&PIBDT=${values?.PIAmountBDT}`
     );
     if (res?.status === 200 && res?.data) {
       setter({
@@ -289,8 +288,6 @@ export const validationSchema = Yup.object().shape({
   insuranceDate: Yup.string().required('Date is required'),
   coverNoteNumber: Yup.string().required('Cover note number is required'),
   exchangeRate: Yup.number().required('Exchange Rate is required'),
-  total: Yup.number()
-    .positive()
-    .required('Total Amount is required'),
+  total: Yup.number().positive().required('Total Amount is required'),
   vat: Yup.number().required('VAT is required'),
 });

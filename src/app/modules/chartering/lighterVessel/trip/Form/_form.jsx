@@ -1,20 +1,20 @@
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
   GetDomesticPortDDL,
   GetLighterConsigneeDDL,
   GetLighterVesselDDL,
   getCargoDDL,
   getMotherVesselDDL,
-} from "../../../helper";
-import { validationSchemaTripCreate } from "../utils";
-import { ExpenseSection } from "./components/expense";
-import { HeaderSection } from "./components/header";
-import { OperationSection } from "./components/operation";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+} from '../../../helper';
+import { validationSchemaTripCreate } from '../utils';
+import { ExpenseSection } from './components/expense';
+import { HeaderSection } from './components/header';
+import { OperationSection } from './components/operation';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 export default function FormCmp({
   title,
@@ -74,8 +74,8 @@ export default function FormCmp({
           }))
         );
         if (setFieldValue) {
-          setFieldValue("eta", _dateFormatter(resData?.objHeader?.dteEta));
-          setFieldValue("motherVessel", {
+          setFieldValue('eta', _dateFormatter(resData?.objHeader?.dteEta));
+          setFieldValue('motherVessel', {
             value: resData?.objHeader?.motherVesselId,
             label: resData?.objHeader?.motherVesselName,
           });
@@ -114,32 +114,32 @@ export default function FormCmp({
               <div className="marine-form-card">
                 <div className="marine-form-card-heading">
                   <p>
-                    {title}{" "}
-                    {values?.tripNo ? `(Trip No: ${values?.tripNo})` : ""}{" "}
+                    {title}{' '}
+                    {values?.tripNo ? `(Trip No: ${values?.tripNo})` : ''}{' '}
                   </p>
                   <div>
                     <button
                       type="button"
                       onClick={() => history.goBack()}
-                      className={"btn btn-secondary reset-btn ml-2 px-3 py-2"}
+                      className={'btn btn-secondary reset-btn ml-2 px-3 py-2'}
                     >
                       <i className="fa fa-arrow-left mr-1"></i>
                       Back
                     </button>
-                    {viewType !== "view" && (
+                    {viewType !== 'view' && (
                       <button
                         type="button"
                         onClick={() => resetForm(initData)}
-                        className={"btn btn-info reset-btn ml-2 px-3 py-2"}
+                        className={'btn btn-info reset-btn ml-2 px-3 py-2'}
                       >
                         Reset
                       </button>
                     )}
 
-                    {viewType !== "view" && (
+                    {viewType !== 'view' && (
                       <button
                         type="submit"
-                        className={"btn btn-success ml-2 px-3 py-2"}
+                        className={'btn btn-success ml-2 px-3 py-2'}
                         onClick={handleSubmit}
                         disabled={false}
                       >

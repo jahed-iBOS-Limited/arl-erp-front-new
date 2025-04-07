@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 // get DDL
 export const getDDL = async (api, setter) => {
@@ -22,10 +22,10 @@ export const getKPIConfigureLanding = async (
   searchValue,
   bscPerspective
 ) => {
-  const searchPath = searchValue ? `&search=${searchValue}` : "";
+  const searchPath = searchValue ? `&search=${searchValue}` : '';
   const bscPerspectiveId = bscPerspective
     ? `&bscPerspectiveId=${bscPerspective}`
-    : "";
+    : '';
   try {
     setLoading(true);
     const res = await axios.get(
@@ -77,7 +77,7 @@ export const createKPIConfigure = async (payload, cb, setDisabled) => {
       payload
     );
     if (res.status === 200) {
-      toast.success(res?.message || "Submitted successfully");
+      toast.success(res?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -96,7 +96,7 @@ export const SaveExtendKPIConfigure = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res.data?.message || "Extended successfully");
+      toast.success(res.data?.message || 'Extended successfully');
       cb();
       setDisabled(false);
     }
@@ -112,7 +112,7 @@ export const SaveEditedKPIConfigure = async (data, setDisabled) => {
   try {
     const res = await axios.put(`/pms/KpiConfigure/EditKpiConfigure`, data);
     if (res.status === 200) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       setDisabled(false);
     }
   } catch (error) {

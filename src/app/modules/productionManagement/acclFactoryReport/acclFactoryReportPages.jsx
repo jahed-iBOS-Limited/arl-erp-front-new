@@ -1,6 +1,6 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
 
 export function AcclFactoryReportPages() {
   return (

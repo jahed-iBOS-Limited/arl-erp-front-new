@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 //Call GetGroupParentDDL APi
 export function GetGroupParentDDL(accId, buId, cuId) {

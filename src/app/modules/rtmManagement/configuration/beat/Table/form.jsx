@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { useSelector } from "react-redux";
-import GridData from "./grid";
-import { shallowEqual } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { useSelector } from 'react-redux';
+import GridData from './grid';
+import { shallowEqual } from 'react-redux';
 import {
   ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
-import { getLandingData } from "../helper";
-import { useHistory } from "react-router-dom";
-import NewSelect from "./../../../../_helper/_select";
-import { getTerritoryDDL, getRouteDDL } from "../helper";
+} from './../../../../../../_metronic/_partials/controls';
+import { getLandingData } from '../helper';
+import { useHistory } from 'react-router-dom';
+import NewSelect from './../../../../_helper/_select';
+import { getTerritoryDDL, getRouteDDL } from '../helper';
 // Validation schema
 const validationSchema = Yup.object().shape({});
 
 const initData = {
   id: undefined,
-  territory: { value: 0, label: "All" },
-  route: { value: 0, label: "All" },
+  territory: { value: 0, label: 'All' },
+  route: { value: 0, label: 'All' },
 };
 
 export default function HeaderForm({ createHandler }) {
@@ -58,8 +58,6 @@ export default function HeaderForm({ createHandler }) {
     if (selectedBusinessUnit?.value && profileData?.accountId) {
       girdDataFunc(0, 0, pageNo, pageSize);
     }
-
-
   }, [selectedBusinessUnit, profileData]);
 
   //setPositionHandler
@@ -86,8 +84,6 @@ export default function HeaderForm({ createHandler }) {
         setRouteNameDDL
       );
     }
-
-
   }, [profileData && selectedBusinessUnit]);
   return (
     <>
@@ -101,12 +97,12 @@ export default function HeaderForm({ createHandler }) {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Market"}>
+              <CardHeader title={'Market'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() =>
                       history.push({
-                        pathname: "/rtm-management/configuration/beat/create",
+                        pathname: '/rtm-management/configuration/beat/create',
                         state: values,
                       })
                     }
@@ -123,14 +119,19 @@ export default function HeaderForm({ createHandler }) {
                       <NewSelect
                         name="territory"
                         options={
-                          [{ value: 0, label: "All" }, ...territoryNameDDL] ||
+                          [{ value: 0, label: 'All' }, ...territoryNameDDL] ||
                           []
                         }
                         value={values?.territory}
                         label="Territory Name"
                         onChange={(valueOption) => {
-                          setFieldValue("territory", valueOption);
-                          girdDataFunc(valueOption?.value, values?.route?.value, pageNo, pageSize);
+                          setFieldValue('territory', valueOption);
+                          girdDataFunc(
+                            valueOption?.value,
+                            values?.route?.value,
+                            pageNo,
+                            pageSize
+                          );
                         }}
                         placeholder="Territory Name"
                         errors={errors}
@@ -141,13 +142,18 @@ export default function HeaderForm({ createHandler }) {
                       <NewSelect
                         name="route"
                         options={
-                          [{ value: 0, label: "All" }, ...routeNameDDL] || []
+                          [{ value: 0, label: 'All' }, ...routeNameDDL] || []
                         }
                         value={values?.route}
                         label="Route Name"
                         onChange={(valueOption) => {
-                          setFieldValue("route", valueOption);
-                          girdDataFunc(values?.territory?.value, valueOption?.value, pageNo, pageSize);
+                          setFieldValue('route', valueOption);
+                          girdDataFunc(
+                            values?.territory?.value,
+                            valueOption?.value,
+                            pageNo,
+                            pageSize
+                          );
                         }}
                         placeholder="Route Name"
                         errors={errors}

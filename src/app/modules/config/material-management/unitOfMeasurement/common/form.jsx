@@ -1,18 +1,18 @@
-import React from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import { Input } from "../../../../../../_metronic/_partials/controls";
+import React from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { Input } from '../../../../../../_metronic/_partials/controls';
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
   uomName: Yup.string()
-    .min(1, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("UOM is required"),
+    .min(1, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('UOM is required'),
   uomCode: Yup.string()
-    .min(1, "Minimum 2 symbols")
-    .max(50, "Maximum 50 symbols")
-    .required("Code is required"),
+    .min(1, 'Minimum 2 symbols')
+    .max(50, 'Maximum 50 symbols')
+    .required('Code is required'),
 });
 
 export default function FormCmp({
@@ -50,7 +50,7 @@ export default function FormCmp({
               <div className="form-group row global-form">
                 <div className="col-lg-4">
                   <Field
-                    value={values.uomName || ""}
+                    value={values.uomName || ''}
                     name="uomName"
                     component={Input}
                     placeholder="UOM"
@@ -60,7 +60,7 @@ export default function FormCmp({
                 </div>
                 <div className="col-lg-4">
                   <Field
-                    value={values.uomCode || ""}
+                    value={values.uomCode || ''}
                     name="uomCode"
                     component={Input}
                     placeholder="Code"
@@ -72,14 +72,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(product)}
               ></button>

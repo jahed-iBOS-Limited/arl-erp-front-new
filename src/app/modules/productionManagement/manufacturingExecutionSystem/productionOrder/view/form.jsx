@@ -1,22 +1,21 @@
-
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import customStyles from "../../../../selectCustomStyle";
-import { IInput } from "../../../../_helper/_input";
-import { useEffect } from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import { GetPlantDDL } from "../helper";
-import Select from "react-select";
-import FormikError from "../../../../_helper/_formikError";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import customStyles from '../../../../selectCustomStyle';
+import { IInput } from '../../../../_helper/_input';
+import { useEffect } from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import { GetPlantDDL } from '../helper';
+import Select from 'react-select';
+import FormikError from '../../../../_helper/_formikError';
 
 // Validation schema for bank transfer
 const validationSchema = Yup.object().shape({
-  transportRouteCostComponent: Yup.string().required("Component Name required"),
+  transportRouteCostComponent: Yup.string().required('Component Name required'),
   businessTransaction: Yup.object().shape({
-    label: Yup.string().required("business Transaction required"),
-    value: Yup.string().required("business Transaction required"),
+    label: Yup.string().required('business Transaction required'),
+    value: Yup.string().required('business Transaction required'),
   }),
 });
 
@@ -61,9 +60,9 @@ export default function FormCmp({
                   <label>Plant</label>
                   <Select
                     onChange={(valueOption) => {
-                      setFieldValue("plantName", valueOption);
+                      setFieldValue('plantName', valueOption);
                     }}
-                    value={values?.plantName || ""}
+                    value={values?.plantName || ''}
                     styles={customStyles}
                     name="plantName"
                     isDisabled={true}
@@ -73,9 +72,9 @@ export default function FormCmp({
                   <label>Item Name</label>
                   <Select
                     onChange={(valueOption) => {
-                      setFieldValue("itemName", valueOption);
+                      setFieldValue('itemName', valueOption);
                     }}
-                    value={values?.itemName || ""}
+                    value={values?.itemName || ''}
                     styles={customStyles}
                     name="itemName"
                     isDisabled={true}
@@ -85,9 +84,9 @@ export default function FormCmp({
                   <label>Work Center</label>
                   <Select
                     onChange={(valueOption) => {
-                      setFieldValue("workCenter", valueOption);
+                      setFieldValue('workCenter', valueOption);
                     }}
-                    value={values?.workCenter || ""}
+                    value={values?.workCenter || ''}
                     isSearchable={true}
                     styles={customStyles}
                     name="workCenter"
@@ -98,9 +97,9 @@ export default function FormCmp({
                   <label>Bill Of Material</label>
                   <Select
                     onChange={(valueOption) => {
-                      setFieldValue("bomName", valueOption);
+                      setFieldValue('bomName', valueOption);
                     }}
-                    value={values?.bomName || ""}
+                    value={values?.bomName || ''}
                     isSearchable={true}
                     styles={customStyles}
                     name="bomName"
@@ -108,7 +107,7 @@ export default function FormCmp({
                   />
                 </div>
                 <div className="col-lg-3">
-                <IInput
+                  <IInput
                     value={values?.bomVersion}
                     label="BOM Version"
                     name="bomVersion"
@@ -117,7 +116,7 @@ export default function FormCmp({
                   />
                 </div>
                 <div className="col-lg-3">
-                <IInput
+                  <IInput
                     value={values?.uomName}
                     label="UOM"
                     name="uomName"
@@ -134,7 +133,6 @@ export default function FormCmp({
                     type="date"
                     disabled={true}
                   />
-
                 </div>
                 <div className="col-lg-3">
                   <IInput
@@ -144,7 +142,6 @@ export default function FormCmp({
                     type="time"
                     disabled={true}
                   />
-
                 </div>
                 <div className="col-lg-3">
                   <IInput
@@ -154,7 +151,6 @@ export default function FormCmp({
                     type="date"
                     disabled={true}
                   />
-
                 </div>
                 <div className="col-lg-3">
                   <IInput
@@ -164,7 +160,6 @@ export default function FormCmp({
                     type="time"
                     disabled={true}
                   />
-
                 </div>
                 <div className="col-lg-3">
                   <IInput
@@ -174,9 +169,7 @@ export default function FormCmp({
                     type="number"
                     disabled={true}
                     min="0"
-
                   />
-
                 </div>
                 <div className="col-lg-3">
                   <IInput
@@ -187,20 +180,19 @@ export default function FormCmp({
                     disabled={true}
                     min="0"
                   />
-
                 </div>
               </div>
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

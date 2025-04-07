@@ -1,10 +1,10 @@
-import React from "react";
-import { TransportRouteTable } from "./Table/tableHeader";
-import { UiProvider } from "../../../_helper/uiContextHelper";
-import { Route } from "react-router-dom";
-import  ViewForm  from "./View/viewModal";
+import React from 'react';
+import { TransportRouteTable } from './Table/tableHeader';
+import { UiProvider } from '../../../_helper/uiContextHelper';
+import { Route } from 'react-router-dom';
+import ViewForm from './View/viewModal';
 
-export  function TransportRoute({ history }) {
+export function TransportRoute({ history }) {
   const uIEvents = {
     openExtendPage: (id) => {
       history.push(
@@ -12,7 +12,9 @@ export  function TransportRoute({ history }) {
       );
     },
     openViewDialog: (id) => {
-      history.push(`/transport-management/configuration/transportroute/view/${id}`);
+      history.push(
+        `/transport-management/configuration/transportroute/view/${id}`
+      );
     },
   };
   return (
@@ -24,7 +26,9 @@ export  function TransportRoute({ history }) {
             id={match && match.params.id}
             history={history}
             onHide={() => {
-              history.push("/transport-management/configuration/transportroute");
+              history.push(
+                '/transport-management/configuration/transportroute'
+              );
             }}
           />
         )}

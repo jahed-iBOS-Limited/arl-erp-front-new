@@ -64,7 +64,6 @@ export default function CreateItemPurchaseInfo({ isViewPage }) {
     if (itemId && selectedBusinessUnit.value && profileData.accountId) {
       getDataById(itemId, profileData.accountId, selectedBusinessUnit.value);
     }
-
   }, [itemId, profileData, selectedBusinessUnit]);
 
   // Remove duplicate from alternateuom list
@@ -78,7 +77,7 @@ export default function CreateItemPurchaseInfo({ isViewPage }) {
   const getDataById = async (id, accountId, businessUnitId) => {
     try {
       const res = await Axios.get(
-        `/item/ItemSales/GetItemSalesById?ItemSalesId=${id}`,
+        `/item/ItemSales/GetItemSalesById?ItemSalesId=${id}`
       );
 
       const { data, status } = res;

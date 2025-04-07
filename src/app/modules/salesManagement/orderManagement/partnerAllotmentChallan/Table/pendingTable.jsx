@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { toast } from "react-toastify";
-import IViewModal from "../../../../_helper/_viewModal";
-import EditTable from "../challanPrintModal/editModal";
-import Loading from "../../../../_helper/_loading";
+import React, { useState } from 'react';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { toast } from 'react-toastify';
+import IViewModal from '../../../../_helper/_viewModal';
+import EditTable from '../challanPrintModal/editModal';
+import Loading from '../../../../_helper/_loading';
 
 function PendingTable({ rowDto, history }) {
   return (
     <>
       {rowDto?.length > 0 && (
         <div className="react-bootstrap-table table-responsive">
-          <table className={"table table-striped table-bordered global-table "}>
+          <table className={'table table-striped table-bordered global-table '}>
             <thead>
               <tr>
                 <th>SL</th>
@@ -25,7 +25,7 @@ function PendingTable({ rowDto, history }) {
                 <th>Item Rate</th>
                 <th>Total Amount</th>
                 <th>Remarks</th>
-                <th style={{ width: "100px" }}>Action</th>
+                <th style={{ width: '100px' }}>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -33,7 +33,7 @@ function PendingTable({ rowDto, history }) {
                 return (
                   <>
                     <tr key={index}>
-                      <td style={{ width: "30px" }} className="text-center">
+                      <td style={{ width: '30px' }} className="text-center">
                         {index + 1}
                       </td>
                       <td>{item?.customerName}</td>
@@ -50,8 +50,8 @@ function PendingTable({ rowDto, history }) {
                         <button
                           className="btn btn-primary"
                           style={{
-                            padding: "2px 5px",
-                            fontSize: "12px",
+                            padding: '2px 5px',
+                            fontSize: '12px',
                           }}
                           onClick={() => {
                             history.push({
@@ -84,7 +84,7 @@ export function PendingTableForModify({ rowDto, accId, buId }) {
       {loading && <Loading />}
       {rowDto?.data?.length > 0 && (
         <div className="react-bootstrap-table table-responsive">
-          <table className={"table table-striped table-bordered global-table "}>
+          <table className={'table table-striped table-bordered global-table '}>
             <thead>
               <tr>
                 <th>SL</th>
@@ -95,7 +95,7 @@ export function PendingTableForModify({ rowDto, accId, buId }) {
                 <th>Total Qty</th>
                 <th>Total Price</th>
                 <th>Total Commission</th>
-                <th style={{ width: "100px" }}>Action</th>
+                <th style={{ width: '100px' }}>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -103,7 +103,7 @@ export function PendingTableForModify({ rowDto, accId, buId }) {
                 return (
                   <>
                     <tr key={index}>
-                      <td style={{ width: "30px" }} className="text-center">
+                      <td style={{ width: '30px' }} className="text-center">
                         {index + 1}
                       </td>
                       <td>{item?.soldToPartnerName}</td>
@@ -125,7 +125,7 @@ export function PendingTableForModify({ rowDto, accId, buId }) {
                                     if (resData?.data?.length) {
                                       setOpen(true);
                                     } else {
-                                      toast.warn("Data not found!");
+                                      toast.warn('Data not found!');
                                     }
                                   }
                                 );

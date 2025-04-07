@@ -1,28 +1,27 @@
-
-import { Formik } from "formik";
-import React, { useContext, useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router";
-import { getVesselDDL, getVoyageDDLNew } from "../../../helper";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import IView from "../../../_chartinghelper/icons/_view";
-import Loading from "../../../_chartinghelper/loading/_loading";
-import ICustomTable from "../../../_chartinghelper/_customTable";
-import { _dateFormatter } from "../../../_chartinghelper/_dateFormatter";
-import PaginationTable from "../../../_chartinghelper/_tablePagination";
-import { getVoyageCharterTransactionLandingData } from "../helper";
-import { CharteringContext } from "../../../charteringContext";
+import { Formik } from 'formik';
+import React, { useContext, useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router';
+import { getVesselDDL, getVoyageDDLNew } from '../../../helper';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import IView from '../../../_chartinghelper/icons/_view';
+import Loading from '../../../_chartinghelper/loading/_loading';
+import ICustomTable from '../../../_chartinghelper/_customTable';
+import { _dateFormatter } from '../../../_chartinghelper/_dateFormatter';
+import PaginationTable from '../../../_chartinghelper/_tablePagination';
+import { getVoyageCharterTransactionLandingData } from '../helper';
+import { CharteringContext } from '../../../charteringContext';
 
 const headers = [
-  { name: "SL" },
-  { name: "Vessel Name" },
-  { name: "Voyage No" },
-  { name: "Charterer Name" },
-  { name: "Statement" },
-  { name: "Invoice Date" },
-  { name: "Net Payble Amount" },
-  { name: "Actions" },
+  { name: 'SL' },
+  { name: 'Vessel Name' },
+  { name: 'Voyage No' },
+  { name: 'Charterer Name' },
+  { name: 'Statement' },
+  { name: 'Invoice Date' },
+  { name: 'Net Payble Amount' },
+  { name: 'Actions' },
 ];
 
 export default function VoyageCharterTable() {
@@ -119,11 +118,11 @@ export default function VoyageCharterTable() {
                 <div>
                   <button
                     type="button"
-                    className={"btn btn-primary px-3 py-2"}
+                    className={'btn btn-primary px-3 py-2'}
                     onClick={() => {
                       updateCharteringState(values);
                       history.push(
-                        "/chartering/transaction/voyagecharter/create"
+                        '/chartering/transaction/voyagecharter/create'
                       );
                     }}
                     disabled={false}
@@ -136,7 +135,7 @@ export default function VoyageCharterTable() {
                 <div className="row">
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.vesselName || ""}
+                      value={values?.vesselName || ''}
                       isSearchable={true}
                       options={vesselDDL || []}
                       styles={customStyles}
@@ -144,8 +143,8 @@ export default function VoyageCharterTable() {
                       placeholder="Vessel Name"
                       label="Vessel Name"
                       onChange={(valueOption) => {
-                        setFieldValue("voyageNo", "");
-                        setFieldValue("vesselName", valueOption);
+                        setFieldValue('voyageNo', '');
+                        setFieldValue('vesselName', valueOption);
                         const updatedValues = {
                           ...values,
                           vesselName: valueOption,
@@ -164,7 +163,7 @@ export default function VoyageCharterTable() {
                   </div>
                   <div className="col-lg-3">
                     <FormikSelect
-                      value={values?.voyageNo || ""}
+                      value={values?.voyageNo || ''}
                       isSearchable={true}
                       options={voyageNoDDL || []}
                       styles={customStyles}
@@ -172,7 +171,7 @@ export default function VoyageCharterTable() {
                       placeholder="Voyage No"
                       label="Voyage No"
                       onChange={(valueOption) => {
-                        setFieldValue("voyageNo", valueOption);
+                        setFieldValue('voyageNo', valueOption);
                         const updatedValues = {
                           ...values,
                           voyageNo: valueOption,
@@ -197,8 +196,8 @@ export default function VoyageCharterTable() {
                     <td className="text-left">{item?.charterName}</td>
                     <td>
                       {item?.statementNo === 2
-                        ? "Final Statement"
-                        : "Initial Statement"}
+                        ? 'Final Statement'
+                        : 'Initial Statement'}
                     </td>
                     <td className="text-center">
                       {_dateFormatter(item?.invoiceDate)}

@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 // Real
 
@@ -17,7 +17,7 @@ export const getSalesInvoicePagination = async (
   setDisabled
 ) => {
   // setDisabled(true);
-  const searchPath = search ? `searchTerm=${search}&` : "";
+  const searchPath = search ? `searchTerm=${search}&` : '';
   try {
     const res = await Axios.get(
       `/vat/TaxSalesInvoice/GetTaxSalesInvoiceSearchPagination?${searchPath}accountId=${accId}&businessUnitId=${buId}&taxBranchId=${taxBranchId}&startDate=${startDate}&endDate=${endDate}&status=true&PageNo=${pageNo}&PageSize=${pageSize}&viewOrder=desc`
@@ -41,7 +41,7 @@ export const createSales = async (payload, cb, setDisabled) => {
       payload
     );
     if (res.status === 200 && res?.data) {
-      toast.success(res.data?.message || "Submitted successfully");
+      toast.success(res.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -59,7 +59,7 @@ export const editSales = async (payload, setDisabled) => {
       payload
     );
     if (res.status === 200 && res?.data) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       setDisabled(false);
       // cb();
     }
@@ -219,11 +219,11 @@ export const getSinglePurchase = async (
         },
         totalAtv: taxPurchase.atvtotal,
         totalAit: taxPurchase.aittotal,
-        selectedItem: "",
-        selectedUom: "",
-        quantity: "",
-        rate: "",
-        customsHouseCode: taxPurchase?.customHouseCode || "",
+        selectedItem: '',
+        selectedUom: '',
+        quantity: '',
+        rate: '',
+        customsHouseCode: taxPurchase?.customHouseCode || '',
         customsHouse: taxPurchase?.customHouseId
           ? {
               label: `${taxPurchase?.customHouseCode}: ${taxPurchase?.customHouseName}`,
@@ -231,10 +231,10 @@ export const getSinglePurchase = async (
               value: taxPurchase?.customHouseId,
               code: taxPurchase?.customHouseCode,
             }
-          : "",
+          : '',
         port: taxPurchase?.portId
           ? { value: taxPurchase?.portId, label: taxPurchase?.portName }
-          : "",
+          : '',
       };
       setSingleData(objHeader);
       const objRow = res?.data?.objList;
@@ -261,8 +261,8 @@ export const getSinglePurchase = async (
 
               sd: newData?.sdpercentage,
               vat: newData?.vatpercentage,
-              ait: "",
-              atv: "",
+              ait: '',
+              atv: '',
               isFree: item.isFree,
               surcharge: newData?.surchargePercentage,
               // get percentage
@@ -291,11 +291,11 @@ export const getSelectedItemInfo = async (
     );
     if (res.status === 200 && res?.data) {
       if (res.data.length > 0) {
-        setFieldValue("rate", res?.data[0]?.basePrice);
+        setFieldValue('rate', res?.data[0]?.basePrice);
         setter(res?.data[0]);
       } else {
-        toast.warn("Data not found");
-        setFieldValue("rate", "");
+        toast.warn('Data not found');
+        setFieldValue('rate', '');
         setter({});
       }
     }
@@ -336,7 +336,7 @@ export const getSalesInvoiceById = async (id, setter, setLoading) => {
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
-      console.log(res?.data, "res?.data");
+      console.log(res?.data, 'res?.data');
       setLoading && setLoading(false);
     }
   } catch (error) {

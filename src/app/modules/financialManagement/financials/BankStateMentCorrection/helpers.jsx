@@ -1,11 +1,13 @@
-import { toast } from "react-toastify";
-import Axios from "axios";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import { toast } from 'react-toastify';
+import Axios from 'axios';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 //Bank Account ddl
 export const bankAccountDDL = async (accId, buId, setter) => {
   try {
-    const res = await Axios.get(`/fino/FinanceCommonDDL/GetBankNameDDL?AccountId=${accId}&BusinessUnitId=${buId}`);
+    const res = await Axios.get(
+      `/fino/FinanceCommonDDL/GetBankNameDDL?AccountId=${accId}&BusinessUnitId=${buId}`
+    );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
@@ -16,7 +18,9 @@ export const bankAccountDDL = async (accId, buId, setter) => {
 //Branch Account ddl
 export const bankBranchAccountDDL = async (setter, bankId) => {
   try {
-    const res = await Axios.get(`/costmgmt/BankAccount/GETBankBranchDDl?BankId=${bankId}&CountryId=18`);
+    const res = await Axios.get(
+      `/costmgmt/BankAccount/GETBankBranchDDl?BankId=${bankId}&CountryId=18`
+    );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
@@ -24,9 +28,16 @@ export const bankBranchAccountDDL = async (setter, bankId) => {
     toast.error(error?.response?.data?.message);
   }
 };
-export const getBankAccountByBranchDDL = async (bankId, accId, unitId, setter) => {
+export const getBankAccountByBranchDDL = async (
+  bankId,
+  accId,
+  unitId,
+  setter
+) => {
   try {
-    const res = await Axios.get(`/fino/FinanceCommonDDL/BankAccountNumberByBankIdDDL?AccountId=${accId}&BusinessUnitId=${unitId}&BankId=${bankId}`);
+    const res = await Axios.get(
+      `/fino/FinanceCommonDDL/BankAccountNumberByBankIdDDL?AccountId=${accId}&BusinessUnitId=${unitId}&BankId=${bankId}`
+    );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
@@ -34,8 +45,6 @@ export const getBankAccountByBranchDDL = async (bankId, accId, unitId, setter) =
     toast.error(error?.response?.data?.message);
   }
 };
-
-
 
 export const getBankStatementLanding = async (
   bankAccountId,
@@ -45,23 +54,26 @@ export const getBankStatementLanding = async (
   setter,
   pageSize,
   pageNo,
-  setLoading) => {
+  setLoading
+) => {
   try {
     setLoading(true);
-    const res = await Axios.get(`/fino/BusinessTransaction/GetBankAccountStatementByBankAccount?BankAccountId=${bankAccountId}&BusinessUnitId=${businessUnitId}&fromDate=${_dateFormatter(fromDate)}&toDate=${_dateFormatter(toDate)}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`);
+    const res = await Axios.get(
+      `/fino/BusinessTransaction/GetBankAccountStatementByBankAccount?BankAccountId=${bankAccountId}&BusinessUnitId=${businessUnitId}&fromDate=${_dateFormatter(fromDate)}&toDate=${_dateFormatter(toDate)}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+    );
     if (res.status === 200 && res?.data) {
-      const data = res?.data?.data?.map(item => {
-        return ({
+      const data = res?.data?.data?.map((item) => {
+        return {
           ...item,
           // drAmount:item.debitAmount >= 0 ? item.debitAmount : "",
           // drAmountInit:item.monAmount >= 0 ? item.monAmount : "",
           // crAmount:item.creditAmount < 0 ? item.creditAmount : "",
           // crAmountInit:item.monAmount < 0 ? item.monAmount : "",
-          drAmount: item.debitAmount || "",
-          crAmount: item.creditAmount || "",
+          drAmount: item.debitAmount || '',
+          crAmount: item.creditAmount || '',
           editable: false,
-        })
-      })
+        };
+      });
       setter({ ...res?.data, data });
       setLoading(false);
     }
@@ -74,16 +86,18 @@ export const getBankStatementLanding = async (
 // https://localhost:44346/fino/BusinessTransaction/UpdateBankAmountAndClosing
 export const updateBankStatement = async (data, cf) => {
   try {
-    const res = await Axios.put(`/fino/BusinessTransaction/UpdateBankAmountAndClosing`, data);
+    const res = await Axios.put(
+      `/fino/BusinessTransaction/UpdateBankAmountAndClosing`,
+      data
+    );
     if (res.status === 200 && res?.data) {
       cf();
-      toast.success("Update successfully");
+      toast.success('Update successfully');
     }
   } catch (error) {
     toast.error(error?.response?.data?.message);
   }
 };
-
 
 export const reconcileCancelAction = async (
   accId,
@@ -99,12 +113,11 @@ export const reconcileCancelAction = async (
       `/fino/BusinessTransaction/CancelReconcile?AccountId=${accId}&UnitId=${buId}&BankAccId=${bankAccId}&StatementId=${statementId}&JournalId=${journalId}`
     );
     cb(values);
-    toast.success(res?.data?.message || "Cancel successfully");
+    toast.success(res?.data?.message || 'Cancel successfully');
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Something went wrong");
+    toast.error(error?.response?.data?.message || 'Something went wrong');
   }
 };
-
 
 export const checkTwoFactorApproval = async (
   otpType,
@@ -137,7 +150,7 @@ export const checkTwoFactorApproval = async (
   } catch (error) {
     setDisabledModalButton(false);
     cb(500);
-    toast.warn(error?.response?.data?.message || "Please try again");
+    toast.warn(error?.response?.data?.message || 'Please try again');
     // setDisabled(false);
   }
 };

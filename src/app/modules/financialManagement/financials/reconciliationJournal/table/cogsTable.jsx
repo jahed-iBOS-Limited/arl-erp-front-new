@@ -1,13 +1,13 @@
-import React from "react";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import React from 'react';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 const COGSTable = ({ journalData, landingValues, isDayBased }) => {
   return (
     <>
       <div className="table-responsive">
         <table
-          id={"cogs"}
+          id={'cogs'}
           className="table table-striped table-bordered global-table mt-0 table-font-size-sm mt-5"
         >
           <thead className="bg-secondary">
@@ -40,7 +40,7 @@ const COGSTable = ({ journalData, landingValues, isDayBased }) => {
                     <td>
                       {item?.dteTransactionDate
                         ? _dateFormatter(item?.dteTransactionDate)
-                        : ""}
+                        : ''}
                     </td>
                   )}
                   <td className="text-center">{item?.strGeneralLedgerName}</td>
@@ -68,8 +68,8 @@ const COGSTable = ({ journalData, landingValues, isDayBased }) => {
                   colSpan={
                     landingValues?.transactionType?.value === 1 ||
                     isDayBased === 1
-                      ? "6"
-                      : "5"
+                      ? '6'
+                      : '5'
                   }
                   className="text-right font-weight-bold"
                 >

@@ -8,13 +8,13 @@ export const getASLLAgencyBill = async (
   fromDate,
   toDate,
   setter,
-  setLoading,
+  setLoading
 ) => {
   setLoading(true);
   setter([]);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/ASLLAgency/GetASLLAgencyBill?typeId=${typeId}&businessUnitId=${buId}&fromDate=${fromDate}&toDate=${toDate}`,
+      `${imarineBaseUrl}/domain/ASLLAgency/GetASLLAgencyBill?typeId=${typeId}&businessUnitId=${buId}&fromDate=${fromDate}&toDate=${toDate}`
     );
     setter(res?.data);
     setLoading(false);
@@ -39,7 +39,7 @@ export const createShippingAgencyJVApi = async ({
   setLoading(true);
   try {
     const res = await axios.post(
-      `/fino/AdjustmentJournal/CreateShippingAgencyJV?customerId=${customerId}&customerName=${customerName}&vesselId=${vesselId}&vesselName=${vesselName}&voyageNo=${voyageNo}&amount=${amount}&fromDate=${fromDate}&toDate=${toDate}&VasselTypeId=${vasselTypeId}`,
+      `/fino/AdjustmentJournal/CreateShippingAgencyJV?customerId=${customerId}&customerName=${customerName}&vesselId=${vesselId}&vesselName=${vesselName}&voyageNo=${voyageNo}&amount=${amount}&fromDate=${fromDate}&toDate=${toDate}&VasselTypeId=${vasselTypeId}`
     );
     toast.success(res.data?.message || 'Submitted successfully');
     cb();

@@ -1,11 +1,11 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import InputField from "../../../../_helper/_inputField";
-import Axios from "axios";
-import FormikError from "../../../../_helper/_formikError";
+import React from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import InputField from '../../../../_helper/_inputField';
+import Axios from 'axios';
+import FormikError from '../../../../_helper/_formikError';
 // import IDelete from "../../../../_helper/_helperIcons/_delete";
 // import { _dateFormatter } from "../../../../_helper/_dateFormate";
 
@@ -15,13 +15,13 @@ const validationSchema = Yup.object().shape({
   // countryOrigin: Yup.string().required("Valid Till Date is required"),
   // location: Yup.string().required("Due Date is required"),
   category: Yup.object().shape({
-    label: Yup.string().required("Category is required"),
-    value: Yup.string().required("Category is required"),
+    label: Yup.string().required('Category is required'),
+    value: Yup.string().required('Category is required'),
   }),
-  assetName: Yup.string().required("Asset Name is required"),
+  assetName: Yup.string().required('Asset Name is required'),
   profitCenter: Yup.object().shape({
-    label: Yup.string().required("Profit Center is required"),
-    value: Yup.string().required("Profit Center is required"),
+    label: Yup.string().required('Profit Center is required'),
+    value: Yup.string().required('Profit Center is required'),
   }),
 });
 
@@ -45,7 +45,7 @@ export default function FormCmp({
   categoryDDL,
   singleData,
   brtaList,
-  profitCenterDDL
+  profitCenterDDL,
 }) {
   const loadUserList = (v) => {
     if (v?.length < 3) return [];
@@ -61,7 +61,6 @@ export default function FormCmp({
     });
   };
 
-
   const loadItemList = (v) => {
     //  if (v?.length < 3) return []
     return Axios.get(
@@ -72,7 +71,7 @@ export default function FormCmp({
       }));
       return updateList;
     });
-  }
+  };
   return (
     <>
       <Formik
@@ -98,20 +97,20 @@ export default function FormCmp({
             {/* {disableHandler(!isValid)} */}
             <Form className="form form-label-right">
               <div className="form-group row global-form">
-              <div className="col-lg-3">
-                <ISelect
-                  name="category"
-                  options={categoryDDL || []}
-                  value={values?.category}
-                  label="Category"
-                  onChange={(valueOption) => {
-                    setFieldValue("brtaType","" );
-                    setFieldValue("category", valueOption);
-                  }}
-                  errors={errors}
-                  touched={touched}
-                  placeholder="Category"
-                />
+                <div className="col-lg-3">
+                  <ISelect
+                    name="category"
+                    options={categoryDDL || []}
+                    value={values?.category}
+                    label="Category"
+                    onChange={(valueOption) => {
+                      setFieldValue('brtaType', '');
+                      setFieldValue('category', valueOption);
+                    }}
+                    errors={errors}
+                    touched={touched}
+                    placeholder="Category"
+                  />
                 </div>
                 <div className="col-lg-3 mb-4">
                   <label>Asset Name</label>
@@ -126,7 +125,7 @@ export default function FormCmp({
                   <SearchAsyncSelect
                     selectedValue={values?.itemName}
                     handleChange={(valueOption) => {
-                      setFieldValue("itemName", valueOption);
+                      setFieldValue('itemName', valueOption);
                       onChangeForItem(valueOption);
                     }}
                     loadOptions={loadItemList}
@@ -183,7 +182,7 @@ export default function FormCmp({
                   <div className="col-lg-3">
                     <ISelect
                       label="BRTA Vehicle Type"
-                      options={brtaList||[]}
+                      options={brtaList || []}
                       value={values?.brtaType}
                       name="brtaType"
                       setFieldValue={setFieldValue}
@@ -298,8 +297,8 @@ export default function FormCmp({
                   <ISelect
                     label="Usage Type"
                     options={[
-                      { label: "Individual", value: 1 },
-                      { label: "Company", value: 2 },
+                      { label: 'Individual', value: 1 },
+                      { label: 'Company', value: 2 },
                     ]}
                     // defaultValue={values?.usageType}
                     value={values?.usageType}
@@ -314,7 +313,7 @@ export default function FormCmp({
                   <SearchAsyncSelect
                     selectedValue={values?.assignTo}
                     handleChange={(valueOption) => {
-                      setFieldValue("assignTo", valueOption);
+                      setFieldValue('assignTo', valueOption);
                     }}
                     loadOptions={loadUserList}
                   />
@@ -337,7 +336,7 @@ export default function FormCmp({
                   <SearchAsyncSelect
                     selectedValue={values?.resPerson}
                     handleChange={(valueOption) => {
-                      setFieldValue("resPerson", valueOption);
+                      setFieldValue('resPerson', valueOption);
                     }}
                     loadOptions={loadUserList}
                   />
@@ -409,14 +408,14 @@ export default function FormCmp({
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

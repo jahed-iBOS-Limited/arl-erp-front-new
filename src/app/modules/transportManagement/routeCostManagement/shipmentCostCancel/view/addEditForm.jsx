@@ -1,40 +1,40 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
 import {
   getShipmentByID,
   GetFuelConstInfoById_api,
   GetPartnerShippingInformation_api,
   getBUMilageAllowance,
   GetShipmentCostEntryStatus_api,
-} from "../helper";
-import { GetShipToPartnerDistanceByShipmentId_api } from "./../helper";
+} from '../helper';
+import { GetShipToPartnerDistanceByShipmentId_api } from './../helper';
 import Loading from './../../../../_helper/_loading';
 
 const initData = {
-  vehicleNo: "",
-  driverName: "",
-  routeName: "",
-  distanceKm: "",
-  shipmentDate: "",
-  startMillage: "",
-  endMillage: "",
-  totalStandardCost: "",
-  advanceAmount: "",
-  totalActualCost: "",
-  costComponent: "",
+  vehicleNo: '',
+  driverName: '',
+  routeName: '',
+  distanceKm: '',
+  shipmentDate: '',
+  startMillage: '',
+  endMillage: '',
+  totalStandardCost: '',
+  advanceAmount: '',
+  totalActualCost: '',
+  costComponent: '',
 };
 
 export default function ShipmentCostViewForm({ id, values }) {
-  const [reset, setReset] = useState({ func: "" });
+  const [reset, setReset] = useState({ func: '' });
   const [isDisabled, setDisabled] = useState(true);
   const [rowDto, setRowDto] = useState([]);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const [fuleCost, setFuleCost] = useState([]);
   const [distanceKM, setDistanceKM] = useState([]);
   const [vehicleReant, setVehicleReant] = useState([]);
-  const [buMilage, setBuMilage] = useState("");
-  const [, setEntryStatus] = useState("");
+  const [buMilage, setBuMilage] = useState('');
+  const [, setEntryStatus] = useState('');
 
   // get user profile data from store
   const storeData = useSelector((state) => {
@@ -63,18 +63,17 @@ export default function ShipmentCostViewForm({ id, values }) {
         id,
         setEntryStatus
       );
-      if (values?.reportType?.label !== "Pending") {
+      if (values?.reportType?.label !== 'Pending') {
         getShipmentByID(id, setSingleData, setRowDto, setDisabled);
       } else {
         getShipmentByID(id, setSingleData, null, setDisabled);
       }
     }
-
   }, []);
 
   // if Report type panding
   useEffect(() => {
-    if (values?.reportType?.label === "Pending" && buMilage?.configid) {
+    if (values?.reportType?.label === 'Pending' && buMilage?.configid) {
       let amount =
         +singleData?.distanceKm < +buMilage?.milage
           ? +singleData?.distanceKm * +buMilage?.minimumAmount
@@ -87,7 +86,6 @@ export default function ShipmentCostViewForm({ id, values }) {
       };
       setRowDto([obj]);
     }
-
   }, [buMilage, singleData]);
 
   useEffect(() => {
@@ -106,21 +104,20 @@ export default function ShipmentCostViewForm({ id, values }) {
   return (
     <div>
       {isDisabled && <Loading />}
-    <Form
-      initData={id ? singleData : initData}
-      profileData={profileData}
-      selectedBusinessUnit={selectedBusinessUnit}
-      isEdit={id || false}
-      setRowDto={setRowDto}
-      rowDto={rowDto}
-      reset={reset}
-      setReset={setReset}
-      fuleCost={fuleCost}
-      vehicleReant={vehicleReant}
-      distanceKM={distanceKM}
-      shipmentId={singleData?.shipmentId}
-
-    />
+      <Form
+        initData={id ? singleData : initData}
+        profileData={profileData}
+        selectedBusinessUnit={selectedBusinessUnit}
+        isEdit={id || false}
+        setRowDto={setRowDto}
+        rowDto={rowDto}
+        reset={reset}
+        setReset={setReset}
+        fuleCost={fuleCost}
+        vehicleReant={vehicleReant}
+        distanceKM={distanceKM}
+        shipmentId={singleData?.shipmentId}
+      />
     </div>
   );
 }

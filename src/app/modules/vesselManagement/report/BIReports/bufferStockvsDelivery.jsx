@@ -1,17 +1,17 @@
-import React from "react";
-import { _fixedPoint } from "../../../_helper/_fixedPoint";
+import React from 'react';
+import { _fixedPoint } from '../../../_helper/_fixedPoint';
 
 export default function BufferStockvsDelivery({ rowData }) {
   let strShippointnameList = [];
   let matchShippontObj = {
-    strShippointname: "",
+    strShippointname: '',
     ChallanQntTon: 0,
     PendingQntTon: 0,
   };
   return (
-    <div className='mt-5'>
-      <div className='table-responsive'>
-        <table className='table table-striped table-bordered global-table mt-0'>
+    <div className="mt-5">
+      <div className="table-responsive">
+        <table className="table table-striped table-bordered global-table mt-0">
           <thead>
             <tr>
               <th>Sl</th>
@@ -53,19 +53,19 @@ export default function BufferStockvsDelivery({ rowData }) {
                 return (
                   <>
                     <tr key={index}>
-                      <td className='text-center'>{index + 1}</td>
+                      <td className="text-center">{index + 1}</td>
                       <td>{item?.strSalesOrder}</td>
                       <td>{item?.strDeliveryCode}</td>
                       <td>{item?.strShippointname}</td>
                       <td>{item?.strShipToPartnerName}</td>
                       <td>{item?.strMVesselName}</td>
-                      <td className='text-center'>
+                      <td className="text-center">
                         {_fixedPoint(item?.AllotMentQntTon)}
                       </td>
-                      <td className='text-center'>
+                      <td className="text-center">
                         {_fixedPoint(item?.ChallanQntTon)}
                       </td>
-                      <td className='text-center'>
+                      <td className="text-center">
                         {_fixedPoint(item?.PendingQntTon)}
                       </td>
                     </tr>
@@ -73,7 +73,7 @@ export default function BufferStockvsDelivery({ rowData }) {
                       <>
                         <tr
                           style={{
-                            backgroundColor: "#ffe9e9",
+                            backgroundColor: '#ffe9e9',
                           }}
                         >
                           <td colSpan={6}>
@@ -81,13 +81,13 @@ export default function BufferStockvsDelivery({ rowData }) {
                               {matchShippontObj?.strShippointname}
                             </strong>
                           </td>
-                          <td className='text-center'>
+                          <td className="text-center">
                             <strong>
                               {_fixedPoint(matchShippontObj?.ChallanQntTon)}
                             </strong>
                           </td>
 
-                          <td className='text-center'>
+                          <td className="text-center">
                             <strong>
                               {_fixedPoint(matchShippontObj?.PendingQntTon)}
                             </strong>
@@ -102,9 +102,9 @@ export default function BufferStockvsDelivery({ rowData }) {
               <td colSpan={7}>
                 <strong>Total</strong>
               </td>
-              <td className='text-center'>
+              <td className="text-center">
                 <b>
-                  {" "}
+                  {' '}
                   {_fixedPoint(
                     rowData.reduce(
                       (acc, { ChallanQntTon }) => acc + (+ChallanQntTon || 0),
@@ -114,7 +114,7 @@ export default function BufferStockvsDelivery({ rowData }) {
                 </b>
               </td>
 
-              <td className='text-center'></td>
+              <td className="text-center"></td>
             </tr>
           </tbody>
         </table>

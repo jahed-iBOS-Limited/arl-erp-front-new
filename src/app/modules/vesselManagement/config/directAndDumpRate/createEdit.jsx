@@ -1,23 +1,23 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IDelete from "../../../_helper/_helperIcons/_delete";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IForm from "./../../../_helper/_form";
-import InputField from "./../../../_helper/_inputField";
-import Loading from "./../../../_helper/_loading";
-import NewSelect from "./../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IDelete from '../../../_helper/_helperIcons/_delete';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import IForm from './../../../_helper/_form';
+import InputField from './../../../_helper/_inputField';
+import Loading from './../../../_helper/_loading';
+import NewSelect from './../../../_helper/_select';
 import {
   addHandler,
   initData,
   intDataForEdit,
   saveHandler,
   typeDDL,
-} from "./helper";
-import FormikError from "../../../_helper/_formikError";
-import axios from "axios";
-import SearchAsyncSelect from "../../../_helper/SearchAsyncSelect";
+} from './helper';
+import FormikError from '../../../_helper/_formikError';
+import axios from 'axios';
+import SearchAsyncSelect from '../../../_helper/SearchAsyncSelect';
 
 export default function DirectAndDumpRateEntry({ id, getLandingData }) {
   const [objProps, setObjprops] = useState({});
@@ -37,8 +37,6 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
     getShippointDDL(
       `/wms/ShipPoint/GetShipPointDDL?accountId=${profileData?.accountId}&businessUnitId=${selectedBusinessUnit?.value}`
     );
-
-
   }, [profileData, selectedBusinessUnit]);
 
   return (
@@ -69,7 +67,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
           {(saveLoading || loading) && <Loading />}
           <IForm
             title={
-              id ? "Edit Direct and Dump Rate" : "Create Direct and Dump Rate"
+              id ? 'Edit Direct and Dump Rate' : 'Create Direct and Dump Rate'
             }
             getProps={setObjprops}
             isHiddenBack={true}
@@ -84,7 +82,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                     value={values?.type}
                     label="Type"
                     onChange={(valueOption) => {
-                      setFieldValue("type", valueOption);
+                      setFieldValue('type', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -98,7 +96,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                     value={values?.shipPoint}
                     label="Ship Point"
                     onChange={(valueOption) => {
-                      setFieldValue("shipPoint", valueOption);
+                      setFieldValue('shipPoint', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -111,7 +109,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                     selectedValue={values.supplier}
                     isDisabled={id}
                     handleChange={(valueOption) => {
-                      setFieldValue("supplier", valueOption);
+                      setFieldValue('supplier', valueOption);
                     }}
                     loadOptions={(v) => {
                       if (v.length < 3) return [];
@@ -140,7 +138,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                     name="directDeliveryRate"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("directDeliveryRate", e.target.value);
+                      setFieldValue('directDeliveryRate', e.target.value);
                     }}
                     disabled={id}
                   />
@@ -152,7 +150,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                     name="dumpDeliveryRate"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("dumpDeliveryRate", e.target.value);
+                      setFieldValue('dumpDeliveryRate', e.target.value);
                     }}
                     disabled={id}
                   />
@@ -164,7 +162,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                     name="decDamToTruckRate"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("decDamToTruckRate", e.target.value);
+                      setFieldValue('decDamToTruckRate', e.target.value);
                     }}
                     disabled={id}
                   />
@@ -176,7 +174,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                     name="decTruckToDamRate"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("decTruckToDamRate", e.target.value);
+                      setFieldValue('decTruckToDamRate', e.target.value);
                     }}
                     disabled={id}
                   />
@@ -188,7 +186,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                     name="decLighterToBolgateRate"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("decLighterToBolgateRate", e.target.value);
+                      setFieldValue('decLighterToBolgateRate', e.target.value);
                     }}
                     disabled={id}
                   />
@@ -200,7 +198,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                     name="decBolgateToDamRate"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("decBolgateToDamRate", e.target.value);
+                      setFieldValue('decBolgateToDamRate', e.target.value);
                     }}
                     disabled={id}
                   />
@@ -212,7 +210,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                     name="decTruckToDamOutSideRate"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("decTruckToDamOutSideRate", e.target.value);
+                      setFieldValue('decTruckToDamOutSideRate', e.target.value);
                     }}
                     disabled={id}
                   />
@@ -224,7 +222,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                     name="decBiwtarate"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("decBiwtarate", e.target.value);
+                      setFieldValue('decBiwtarate', e.target.value);
                     }}
                     disabled={id}
                   />
@@ -236,7 +234,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                     name="decShipSweepingRate"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("decShipSweepingRate", e.target.value);
+                      setFieldValue('decShipSweepingRate', e.target.value);
                     }}
                     disabled={id}
                   />
@@ -248,7 +246,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                     name="decScaleRate"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("decScaleRate", e.target.value);
+                      setFieldValue('decScaleRate', e.target.value);
                     }}
                     disabled={id}
                   />
@@ -260,7 +258,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                     name="decDailyLaboureRate"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("decDailyLaboureRate", e.target.value);
+                      setFieldValue('decDailyLaboureRate', e.target.value);
                     }}
                     disabled={id}
                   />
@@ -272,7 +270,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                     name="decOthersCostRate"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("decOthersCostRate", e.target.value);
+                      setFieldValue('decOthersCostRate', e.target.value);
                     }}
                     disabled={id}
                   />
@@ -285,7 +283,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                       !values?.supplier ||
                       id
                     }
-                    style={{ marginTop: "18px" }}
+                    style={{ marginTop: '18px' }}
                     type="button"
                     className="btn btn-primary"
                     onClick={() => {
@@ -331,7 +329,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                             <tr key={index}>
                               <td className="text-center">{index + 1}</td>
                               <td
-                                style={{ minWidth: "140px" }}
+                                style={{ minWidth: '140px' }}
                                 className="text-center"
                               >
                                 {item?.strSupplierName}
@@ -347,7 +345,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                                       const updatedData = [...rowDto];
                                       updatedData[index] = {
                                         ...updatedData[index],
-                                        decDirectRate: e.target.value || "",
+                                        decDirectRate: e.target.value || '',
                                       };
                                       setRowDto(updatedData);
                                     }}
@@ -369,7 +367,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                                       updatedData[index] = {
                                         ...updatedData[index],
                                         decDumpDeliveryRate:
-                                          e.target.value || "",
+                                          e.target.value || '',
                                       };
                                       setRowDto(updatedData);
                                     }}
@@ -390,7 +388,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                                       const updatedData = [...rowDto];
                                       updatedData[index] = {
                                         ...updatedData[index],
-                                        decDamToTruckRate: e.target.value || "",
+                                        decDamToTruckRate: e.target.value || '',
                                       };
                                       setRowDto(updatedData);
                                     }}
@@ -411,7 +409,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                                       const updatedData = [...rowDto];
                                       updatedData[index] = {
                                         ...updatedData[index],
-                                        decTruckToDamRate: e.target.value || "",
+                                        decTruckToDamRate: e.target.value || '',
                                       };
                                       setRowDto(updatedData);
                                     }}
@@ -433,7 +431,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                                       updatedData[index] = {
                                         ...updatedData[index],
                                         decLighterToBolgateRate:
-                                          e.target.value || "",
+                                          e.target.value || '',
                                       };
                                       setRowDto(updatedData);
                                     }}
@@ -455,7 +453,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                                       updatedData[index] = {
                                         ...updatedData[index],
                                         decBolgateToDamRate:
-                                          e.target.value || "",
+                                          e.target.value || '',
                                       };
                                       setRowDto(updatedData);
                                     }}
@@ -477,7 +475,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                                       updatedData[index] = {
                                         ...updatedData[index],
                                         decTruckToDamOutSideRate:
-                                          e.target.value || "",
+                                          e.target.value || '',
                                       };
                                       setRowDto(updatedData);
                                     }}
@@ -498,7 +496,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                                       const updatedData = [...rowDto];
                                       updatedData[index] = {
                                         ...updatedData[index],
-                                        decBiwtarate: e.target.value || "",
+                                        decBiwtarate: e.target.value || '',
                                       };
                                       setRowDto(updatedData);
                                     }}
@@ -520,7 +518,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                                       updatedData[index] = {
                                         ...updatedData[index],
                                         decShipSweepingRate:
-                                          e.target.value || "",
+                                          e.target.value || '',
                                       };
                                       setRowDto(updatedData);
                                     }}
@@ -541,7 +539,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                                       const updatedData = [...rowDto];
                                       updatedData[index] = {
                                         ...updatedData[index],
-                                        decScaleRate: e.target.value || "",
+                                        decScaleRate: e.target.value || '',
                                       };
                                       setRowDto(updatedData);
                                     }}
@@ -563,7 +561,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                                       updatedData[index] = {
                                         ...updatedData[index],
                                         decDailyLaboureRate:
-                                          e.target.value || "",
+                                          e.target.value || '',
                                       };
                                       setRowDto(updatedData);
                                     }}
@@ -584,7 +582,7 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
                                       const updatedData = [...rowDto];
                                       updatedData[index] = {
                                         ...updatedData[index],
-                                        decOthersCostRate: e.target.value || "",
+                                        decOthersCostRate: e.target.value || '',
                                       };
                                       setRowDto(updatedData);
                                     }}
@@ -616,14 +614,14 @@ export default function DirectAndDumpRateEntry({ id, getLandingData }) {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

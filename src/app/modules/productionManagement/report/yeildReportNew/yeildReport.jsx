@@ -1,23 +1,23 @@
-import React, { useEffect } from "react";
-import { _fixedPoint } from "../../../_helper/_fixedPoint";
-import IViewModal from "../../../_helper/_viewModal";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { shallowEqual, useSelector } from "react-redux";
-import Loading from "../../../_helper/_loading";
+import React, { useEffect } from 'react';
+import { _fixedPoint } from '../../../_helper/_fixedPoint';
+import IViewModal from '../../../_helper/_viewModal';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { shallowEqual, useSelector } from 'react-redux';
+import Loading from '../../../_helper/_loading';
 // import "./style.scss";
 function YeildReport({ tableData, values }) {
   const [isModalShow, setIsModalShow] = React.useState(false);
   const [clickRowData, setClickRowData] = React.useState({});
   return (
     <>
-      <div className='row YeildReport'>
-        <div className='col-lg-12'>
-          <div className='table-responsive'>
-            <table className='table table-striped table-bordered global-table'>
+      <div className="row YeildReport">
+        <div className="col-lg-12">
+          <div className="table-responsive">
+            <table className="table table-striped table-bordered global-table">
               <>
                 <thead>
                   <tr>
-                    <th style={{ width: "30px" }}>SL.</th>
+                    <th style={{ width: '30px' }}>SL.</th>
                     <th>Product</th>
                     <th>Issue</th>
                     <th>Consumption KG</th>
@@ -31,7 +31,7 @@ function YeildReport({ tableData, values }) {
                     <th>Actual By Product(%)</th>
                     <th
                       style={{
-                        width: "30px",
+                        width: '30px',
                       }}
                     >
                       Action
@@ -61,49 +61,53 @@ function YeildReport({ tableData, values }) {
                         <tr>
                           <td>{index + 1}</td>
                           <td>{item?.variant}</td>
-                          <td className='text-right'>
+                          <td className="text-right">
                             {_fixedPoint(item?.issueQty || 0)}
                           </td>
-                          <td className='text-right'>
+                          <td className="text-right">
                             {_fixedPoint(item?.consumtionQty || 0)}
                           </td>
-                          <td className='text-right'>
+                          <td className="text-right">
                             {_fixedPoint(item?.actualConsumtionQty || 0)}
                           </td>
-                          <td className='text-right'>
+                          <td className="text-right">
                             {_fixedPoint(item?.wip || 0)}
                           </td>
-                          <td className='text-right'>
+                          <td className="text-right">
                             {_fixedPoint(item?.producationQty || 0)}
                           </td>
-                          <td className='text-right'>
+                          <td className="text-right">
                             {_fixedPoint(item?.producationqtyBag || 0)}
                           </td>
-                          <td className='text-right'>
+                          <td className="text-right">
                             {_fixedPoint(
                               isFinite(yieldPerPercent) ? yieldPerPercent : 0
                             )}
                           </td>
-                          <td className='text-right'>
+                          <td className="text-right">
                             {_fixedPoint(
-                              isFinite(actualYieldPerPercent) ? actualYieldPerPercent : 0
+                              isFinite(actualYieldPerPercent)
+                                ? actualYieldPerPercent
+                                : 0
                             )}
                           </td>
-                          <td className='text-right'>
+                          <td className="text-right">
                             {_fixedPoint(
                               isFinite(byProductPercent) ? byProductPercent : 0
                             )}
                           </td>
-                          <td className='text-right'>
+                          <td className="text-right">
                             {_fixedPoint(
-                              isFinite(actualByProductPercent) ? actualByProductPercent : 0
+                              isFinite(actualByProductPercent)
+                                ? actualByProductPercent
+                                : 0
                             )}
                           </td>
                           <td>
-                            <div className='d-flex justify-content-center align-items-center'>
+                            <div className="d-flex justify-content-center align-items-center">
                               <button
-                                className='btn btn-primary mr-2'
-                                type='button'
+                                className="btn btn-primary mr-2"
+                                type="button"
                                 onClick={() => {
                                   setIsModalShow(true);
                                   setClickRowData({
@@ -133,7 +137,7 @@ function YeildReport({ tableData, values }) {
           setIsModalShow(false);
           setClickRowData({});
         }}
-        title='Yeild Report Details'
+        title="Yeild Report Details"
       >
         <YeildReportDetails clickRowData={clickRowData} />
       </IViewModal>
@@ -158,7 +162,6 @@ function YeildReportDetails({ clickRowData }) {
         `/mes/ProductionEntry/GetYearldReport?unitId=${selectedBusinessUnit?.value}&dteFromDate=${clickRowData?.fromDate}&dteToDate=${clickRowData?.toDate}&intPartId=3&ShopFloorId=${clickRowData?.shopFloor?.value}&BillTypeId=${clickRowData?.bomType?.value}&Variant=${clickRowData?.variant}&ConsumptionQty=${clickRowData?.consumtionQty}`
       );
     }
-
   }, []);
 
   // yeildReportDetailsList reduce
@@ -178,12 +181,12 @@ function YeildReportDetails({ clickRowData }) {
   return (
     <>
       {yeildReportDetailsLoading && <Loading />}
-      <div className='table-responsive'>
-        <table className='table table-striped table-bordered global-table'>
+      <div className="table-responsive">
+        <table className="table table-striped table-bordered global-table">
           <>
             <thead>
               <tr>
-                <th style={{ width: "30px" }}>SL.</th>
+                <th style={{ width: '30px' }}>SL.</th>
                 <th>Item Name</th>
                 <th>By Product KG</th>
                 <th>By Product(%)</th>
@@ -196,10 +199,10 @@ function YeildReportDetails({ clickRowData }) {
                     <tr>
                       <td>{index + 1}</td>
                       <td>{item?.stritemname}</td>
-                      <td className='text-right'>
+                      <td className="text-right">
                         {_fixedPoint(item?.byProducationQty || 0)}
                       </td>
-                      <td className='text-right'>
+                      <td className="text-right">
                         {_fixedPoint(item?.byproductPer || 0)}
                       </td>
                     </tr>
@@ -207,13 +210,13 @@ function YeildReportDetails({ clickRowData }) {
                 );
               })}
               <tr>
-                <td className='text-right' colSpan={2}>
+                <td className="text-right" colSpan={2}>
                   <b>Total</b>
                 </td>
-                <td className='text-right'>
+                <td className="text-right">
                   <b>{_fixedPoint(grandTotal?.byProducationQty || 0)}</b>
                 </td>
-                <td className='text-right'>
+                <td className="text-right">
                   {/* <b>
                     {_fixedPoint(
                       grandTotal?.byproductPer /

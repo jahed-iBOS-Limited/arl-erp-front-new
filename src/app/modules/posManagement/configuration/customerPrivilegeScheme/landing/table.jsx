@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import IView from "./../../../../_helper/_helperIcons/_view";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import IViewModal from "./../../../../_helper/_viewModal";
-import { offerBasedOnDDL, customersPurchaseTypeDDL } from "../helper";
-import CustomerPrivilegeSchemeView from "./../view/index";
-import IActiveInActiveIcon from "./../../../../_helper/_helperIcons/_activeInActiveIcon";
+import React, { useState } from 'react';
+import IView from './../../../../_helper/_helperIcons/_view';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import IViewModal from './../../../../_helper/_viewModal';
+import { offerBasedOnDDL, customersPurchaseTypeDDL } from '../helper';
+import CustomerPrivilegeSchemeView from './../view/index';
+import IActiveInActiveIcon from './../../../../_helper/_helperIcons/_activeInActiveIcon';
 
 function GridTable({ rowDto, values, acitveOnclickFunc }) {
   const [isShowModal, setisShowModal] = useState(false);
-  const [rowClickData, setRowClickData] = useState("");
+  const [rowClickData, setRowClickData] = useState('');
   return (
     <div className="table-responsive">
       <table className="table table-striped table-bordered global-table">
@@ -23,7 +23,7 @@ function GridTable({ rowDto, values, acitveOnclickFunc }) {
             <th>Scheme End Date</th>
             <th>Offer Based On</th>
             <th>Customers Purchase Type</th>
-            <th style={{ width: "125px" }}>Action</th>
+            <th style={{ width: '125px' }}>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -40,12 +40,12 @@ function GridTable({ rowDto, values, acitveOnclickFunc }) {
                 <td>
                   {offerBasedOnDDL().find(
                     (itm) => itm.value === item?.offerBasedOnId
-                  )?.label || ""}
+                  )?.label || ''}
                 </td>
                 <td>
                   {customersPurchaseTypeDDL().find(
                     (itm) => itm.value === item?.customersPurchaseTypeId
-                  )?.label || ""}
+                  )?.label || ''}
                 </td>
                 <td>
                   <div className="d-flex justify-content-center align-items-center">
@@ -77,7 +77,7 @@ function GridTable({ rowDto, values, acitveOnclickFunc }) {
                       }}
                     >
                       <IActiveInActiveIcon
-                        iconTyee={values?.status?.value ? "inActive" : ""}
+                        iconTyee={values?.status?.value ? 'inActive' : ''}
                       />
                     </span>
                   </div>
@@ -89,7 +89,7 @@ function GridTable({ rowDto, values, acitveOnclickFunc }) {
       <IViewModal
         show={isShowModal}
         onHide={() => setisShowModal(false)}
-        title={"Customers Privilege Scheme View"}
+        title={'Customers Privilege Scheme View'}
       >
         <CustomerPrivilegeSchemeView rowClickData={rowClickData} />
       </IViewModal>

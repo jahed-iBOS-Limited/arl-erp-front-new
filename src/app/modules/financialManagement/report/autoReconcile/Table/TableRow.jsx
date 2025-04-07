@@ -33,7 +33,7 @@ const initDataFuction = (financialManagementReportAutoReconcile) => {
 
 export function TableRow() {
   const { financialManagementReportAutoReconcile } = useSelector(
-    (state) => state?.localStorage,
+    (state) => state?.localStorage
   );
 
   const dispatch = useDispatch();
@@ -56,7 +56,7 @@ export function TableRow() {
       if (formikRef.current) {
         const apiFormDate = date ? _dateFormatter(date) : '';
         const modifyInitData = initDataFuction(
-          financialManagementReportAutoReconcile,
+          financialManagementReportAutoReconcile
         );
         formikRef.current.setValues({
           ...modifyInitData,
@@ -67,9 +67,8 @@ export function TableRow() {
     getBankAccDDLAction(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setBankAccDDL,
+      setBankAccDDL
     );
-
   }, [selectedBusinessUnit, profileData]);
   // const pdfExport = (fileName) => {
   //   var element = document.getElementById("pdf-section");
@@ -234,7 +233,7 @@ export function TableRow() {
                           dispatch(
                             SetFinancialManagementReportAutoReconcileAction({
                               ...values,
-                            }),
+                            })
                           );
                           getAutoReconcileList(
                             selectedBusinessUnit?.value,
@@ -242,7 +241,7 @@ export function TableRow() {
                             values?.fromDate,
                             values?.toDate,
                             values?.search || '',
-                            setRowData,
+                            setRowData
                           );
                         }}
                         disabled={

@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 export const GetVehicleDDL = async (accId, buId, setter) => {
   try {
     const res = await Axios.get(
@@ -21,12 +21,13 @@ export const GetVehicleNUserInformation_api = async (
   try {
     setDisabled && setDisabled(true);
     const res = await Axios.get(
-      `/tms/InternalTransport/GetVehicleNUserInformation?ReportType=${reportType}&BusinessUnitID=${buId}&VehicleID=${vehicleId ||
-        0}&EmployeeID=${empId || 0}&ReportviewBy=${reportviewBy}`
+      `/tms/InternalTransport/GetVehicleNUserInformation?ReportType=${reportType}&BusinessUnitID=${buId}&VehicleID=${
+        vehicleId || 0
+      }&EmployeeID=${empId || 0}&ReportviewBy=${reportviewBy}`
     );
     if (res.status === 200 && res?.data) {
       setDisabled && setDisabled(false);
-      res?.data?.length === 0 && toast.warning("Data not found");
+      res?.data?.length === 0 && toast.warning('Data not found');
       setter(res?.data);
     }
   } catch (error) {
@@ -43,7 +44,7 @@ export const UpdateVehicleTaggingEntry_api = async (data, cb, setDisabled) => {
       data
     );
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Submitted successfully");
+      toast.success(res?.data?.message || 'Submitted successfully');
       cb();
       setDisabled(false);
     }
@@ -52,9 +53,8 @@ export const UpdateVehicleTaggingEntry_api = async (data, cb, setDisabled) => {
   }
 };
 
-
 export const generateFileUrl = (fileId) => {
   return fileId
     ? `https://erp.ibos.io/domain/Document/DownlloadFile?id=${fileId}`
-    : "";
+    : '';
 };

@@ -82,11 +82,11 @@ export default function StockTransferPOCreateForm({
         arr = rowDto?.filter(
           (item) =>
             item.referenceNo?.value === values?.referenceNo?.value &&
-            item?.item?.value === values?.item?.value,
+            item?.item?.value === values?.item?.value
         );
       } else {
         arr = rowDto?.filter(
-          (item) => item?.item?.value === values?.item?.value,
+          (item) => item?.item?.value === values?.item?.value
         );
       }
 
@@ -160,7 +160,7 @@ export default function StockTransferPOCreateForm({
       profileData?.accountId,
       profileData?.userId,
       location?.state?.warehouse?.value,
-      setWh,
+      setWh
     );
   }, [profileData, selectedBusinessUnit, location]);
 
@@ -176,7 +176,7 @@ export default function StockTransferPOCreateForm({
           location?.state?.plant?.value
         }&WearhouseId=${
           location?.state?.warehouse?.value
-        }&PartnerId=0&RefTypeId=${3}&RefNoId=0`,
+        }&PartnerId=0&RefTypeId=${3}&RefNoId=0`
       )
       .then((res) => {
         const updateList = res?.data.map((item) => ({

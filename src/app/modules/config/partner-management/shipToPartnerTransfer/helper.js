@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getShipToPartnerInfo = async (
   partnerId,
@@ -26,7 +26,7 @@ export const getShipToPartnerInfo = async (
   } catch (error) {
     setter([]);
     tempSetter([]);
-    toast.error(error?.response?.data?.message || "Something went wrong");
+    toast.error(error?.response?.data?.message || 'Something went wrong');
     setLoading(false);
   }
 };
@@ -38,7 +38,7 @@ export const shipToPartnerTransfer_api = async (payload, setLoading) => {
       `/partner/PartnerInformation/UpdateSoldToPartnerBase`,
       payload
     );
-    toast.success(res?.data?.message || "Successfully updated");
+    toast.success(res?.data?.message || 'Successfully updated');
     setLoading(false);
   } catch (error) {
     toast.error(error?.response?.data?.message);
@@ -52,7 +52,7 @@ export const shipToTransferZone_api = async (payload, setLoading, cb) => {
       `/partner/PartnerInformation/UpdateShipToPartnerTransportZone`,
       payload
     );
-    toast.success(res?.data?.message || "Successfully updated");
+    toast.success(res?.data?.message || 'Successfully updated');
     cb && cb();
     setLoading(false);
   } catch (error) {

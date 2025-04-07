@@ -1,21 +1,20 @@
-
-import React, { useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { Formik } from "formik";
-import { Form } from "react-bootstrap";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import { useEffect } from "react";
-import { CNFDetailsReport, GetBusinessUnitDDL } from "../helper";
-import NewSelect from "../../../../_helper/_select";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import ReactToPrint from "react-to-print";
-import printIcon from "../../../../_helper/images/print-icon.png";
-import { useRef } from "react";
-import InputField from "../../../../_helper/_inputField";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { removeDaysToDate } from "../../../transaction/lc-open/helper";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { Formik } from 'formik';
+import { Form } from 'react-bootstrap';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import { useEffect } from 'react';
+import { CNFDetailsReport, GetBusinessUnitDDL } from '../helper';
+import NewSelect from '../../../../_helper/_select';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import ReactToPrint from 'react-to-print';
+import printIcon from '../../../../_helper/images/print-icon.png';
+import { useRef } from 'react';
+import InputField from '../../../../_helper/_inputField';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { removeDaysToDate } from '../../../transaction/lc-open/helper';
 
 const TableRow = () => {
   const [rowDto, setRowDto] = useState([]);
@@ -28,7 +27,7 @@ const TableRow = () => {
   }, shallowEqual);
 
   const initData = {
-    unit: "",
+    unit: '',
     fromDate: _dateFormatter(removeDaysToDate(new Date(), 7)),
     toDate: _todayDate(),
   };
@@ -52,71 +51,71 @@ const TableRow = () => {
 
   const header = [
     {
-      name: "SL",
+      name: 'SL',
       style: {
-        minWidth: "50px",
+        minWidth: '50px',
       },
     },
     {
-      name: "PO",
+      name: 'PO',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "LC",
+      name: 'LC',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Shipment",
+      name: 'Shipment',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Change Type",
+      name: 'Change Type',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Business Partner",
+      name: 'Business Partner',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Payment Date",
+      name: 'Payment Date',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Bill No",
+      name: 'Bill No',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
 
     {
-      name: "Pay Amount",
+      name: 'Pay Amount',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Pay VAT",
+      name: 'Pay VAT',
       style: {
-        minWidth: "100px",
+        minWidth: '100px',
       },
     },
     {
-      name: "Action",
-      className: "printSectionNone",
+      name: 'Action',
+      className: 'printSectionNone',
       style: {
-        minWidth: "50px",
+        minWidth: '50px',
       },
     },
   ];
@@ -136,7 +135,7 @@ const TableRow = () => {
               trigger={() => (
                 <button className="btn btn-primary">
                   <img
-                    style={{ width: "25px", paddingRight: "5px" }}
+                    style={{ width: '25px', paddingRight: '5px' }}
                     src={printIcon}
                     alt="print-icon"
                   />
@@ -160,7 +159,6 @@ const TableRow = () => {
         >
           {({ values, errors, touched, setFieldValue, dirty, isValid }) => (
             <>
-
               <Form className="form form-label-right">
                 <div className="row global-form">
                   <div className="col-lg-3">
@@ -170,7 +168,7 @@ const TableRow = () => {
                       label="Unit"
                       options={unitDDL || []}
                       onChange={(valueOption) => {
-                        setFieldValue("unit", valueOption);
+                        setFieldValue('unit', valueOption);
                         if (!valueOption) {
                           setRowDto([]);
                         }
@@ -186,7 +184,7 @@ const TableRow = () => {
                       type="date"
                       // max={values?.toDate}
                       onChange={(e) => {
-                        setFieldValue("fromDate", e?.target?.value);
+                        setFieldValue('fromDate', e?.target?.value);
                       }}
                     />
                   </div>
@@ -198,7 +196,7 @@ const TableRow = () => {
                       type="date"
                       min={values?.fromDate}
                       onChange={(e) => {
-                        setFieldValue("toDate", e?.target?.value);
+                        setFieldValue('toDate', e?.target?.value);
                       }}
                     />
                   </div>
@@ -221,11 +219,11 @@ const TableRow = () => {
                 {
                   <div className="loan-scrollable-table">
                     <div
-                      style={{ maxHeight: "400px" }}
+                      style={{ maxHeight: '400px' }}
                       className="scroll-table _table scroll-table-auto"
                     >
                       <table
-                        style={{ maxHeight: "500px" }}
+                        style={{ maxHeight: '500px' }}
                         className="table table-striped global-table"
                         ref={printRef}
                       >
@@ -233,7 +231,11 @@ const TableRow = () => {
                           <tr>
                             {header?.length > 0 &&
                               header?.map((item, index) => (
-                                <th key={index} style={item?.style} className={item?.className}>
+                                <th
+                                  key={index}
+                                  style={item?.style}
+                                  className={item?.className}
+                                >
                                   {item?.name}
                                 </th>
                               ))}

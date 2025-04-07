@@ -1,20 +1,20 @@
-import React, { useEffect } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import IView from "../../../../_helper/_helperIcons/_view";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { withRouter } from "react-router-dom";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import PaginationSearch from "../../../../_helper/_search";
-import IViewModal from "./../../../../_helper/_viewModal";
-import CompleteModal from "./completeModal";
-import ShippointTransferModel from "./shippointTransferModel";
-import Loading from "../../../../_helper/_loading";
-import IApproval from "../../../../_helper/_helperIcons/_approval";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import { getOrderCompleteInfo } from "../../../../_helper/_commonApi";
+import React, { useEffect } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import IView from '../../../../_helper/_helperIcons/_view';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import { withRouter } from 'react-router-dom';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import PaginationSearch from '../../../../_helper/_search';
+import IViewModal from './../../../../_helper/_viewModal';
+import CompleteModal from './completeModal';
+import ShippointTransferModel from './shippointTransferModel';
+import Loading from '../../../../_helper/_loading';
+import IApproval from '../../../../_helper/_helperIcons/_approval';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import { getOrderCompleteInfo } from '../../../../_helper/_commonApi';
 const GridData = ({
   callBackFuncGridData,
   history,
@@ -41,7 +41,7 @@ const GridData = ({
   const gridData = useSelector((state) => {
     return state.salesOrder?.gridData;
   }, shallowEqual);
-  const [clickRowData, setClickRowData] = React.useState("");
+  const [clickRowData, setClickRowData] = React.useState('');
   const [permitted, getPermission] = useAxiosGet();
   const [, getAddressChangingPermission, loader] = useAxiosGet();
   const dispatch = useDispatch();
@@ -49,9 +49,8 @@ const GridData = ({
   useEffect(() => {
     getPermission(
       `/oms/SalesOrder/SalesOrderEditPermission?UserId=${profileData?.userId}&BusinessUnitId=${selectedBusinessUnit?.value}`,
-      (resData) => { }
+      (resData) => {}
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   const paginationSearchHandler = (searchValue) => {
@@ -76,20 +75,20 @@ const GridData = ({
               <table className="table table-striped table-bordered global-table sales_order_landing_table">
                 <thead>
                   <tr>
-                    <th style={{ width: "35px" }}>SL</th>
-                    <th style={{ width: "50px" }}>Order No</th>
-                    <th style={{ width: "70px" }}>Order Date</th>
-                    <th style={{ width: "95px" }}>Ref. Type</th>
-                    <th style={{ width: "110px" }}>Sold to Party</th>
-                    <th style={{ width: "90px" }}>Shippoint</th>
-                    <th style={{ width: "75px" }}>Payment Terms</th>
-                    <th style={{ width: "70px" }}>Transshipment</th>
-                    <th style={{ width: "70px" }}>Partial Shipment</th>
-                    <th style={{ width: "45px" }}>Order Total</th>
-                    <th style={{ width: "60px" }}>Approval Status</th>
-                    <th style={{ width: "60px" }}>Approval By</th>
-                    <th style={{ width: "60px" }}>SO will Expired in</th>
-                    <th style={{ width: "85px" }}>Actions</th>
+                    <th style={{ width: '35px' }}>SL</th>
+                    <th style={{ width: '50px' }}>Order No</th>
+                    <th style={{ width: '70px' }}>Order Date</th>
+                    <th style={{ width: '95px' }}>Ref. Type</th>
+                    <th style={{ width: '110px' }}>Sold to Party</th>
+                    <th style={{ width: '90px' }}>Shippoint</th>
+                    <th style={{ width: '75px' }}>Payment Terms</th>
+                    <th style={{ width: '70px' }}>Transshipment</th>
+                    <th style={{ width: '70px' }}>Partial Shipment</th>
+                    <th style={{ width: '45px' }}>Order Total</th>
+                    <th style={{ width: '60px' }}>Approval Status</th>
+                    <th style={{ width: '60px' }}>Approval By</th>
+                    <th style={{ width: '60px' }}>SO will Expired in</th>
+                    <th style={{ width: '85px' }}>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -103,19 +102,19 @@ const GridData = ({
                       <td> {td?.shippointName} </td>
                       <td> {td?.paymentTermsName} </td>
                       <td className="text-center">
-                        {" "}
-                        {td?.transshipment.toString()}{" "}
+                        {' '}
+                        {td?.transshipment.toString()}{' '}
                       </td>
                       <td className="text-center">
-                        {" "}
-                        {td?.partialShipment.toString()}{" "}
+                        {' '}
+                        {td?.partialShipment.toString()}{' '}
                       </td>
                       <td className="text-right">
                         <div className="pr-2">{td?.totalOrderValue}</div>
                       </td>
                       <td className="text-center">
-                        {" "}
-                        {td?.approved ? "Approved" : "UnApprove"}{" "}
+                        {' '}
+                        {td?.approved ? 'Approved' : 'UnApprove'}{' '}
                       </td>
                       <td>{td?.approvedByName}</td>
                       <td className="text-center">
@@ -174,7 +173,7 @@ const GridData = ({
                                       state: { ...td, ...modifyValues },
                                     });
                                   }}
-                                  style={{ border: "none", background: "none" }}
+                                  style={{ border: 'none', background: 'none' }}
                                 >
                                   <IApproval title="Approve/Reject/Offer" />
                                 </span>
@@ -320,7 +319,7 @@ const GridData = ({
                                 className="mt-2 ml-2"
                               >
                                 <i
-                                  style={{ fontSize: "16px" }}
+                                  style={{ fontSize: '16px' }}
                                   className={`fa pointer fa-eye`}
                                   aria-hidden="true"
                                 ></i>

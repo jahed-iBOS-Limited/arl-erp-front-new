@@ -1,25 +1,23 @@
-import Axios from "axios";
-import { Form, Formik } from "formik";
-import React from "react";
-import { useDispatch } from "react-redux";
-import * as Yup from "yup";
-import SearchAsyncSelect from "../../../../../_helper/SearchAsyncSelect";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../../_helper/_fixedPoint";
-import FormikError from "../../../../../_helper/_formikError";
-import IView from "../../../../../_helper/_helperIcons/_view";
-import InputField from "../../../../../_helper/_inputField";
-import { getDownlloadFileView_Action } from "../../../../../_helper/_redux/Actions";
-import PaginationSearch from "../../../../../_helper/_search";
-import AttachFile from "../../../../../_helper/commonInputFieldsGroups/attachemntUpload";
+import Axios from 'axios';
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import * as Yup from 'yup';
+import SearchAsyncSelect from '../../../../../_helper/SearchAsyncSelect';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../../_helper/_fixedPoint';
+import FormikError from '../../../../../_helper/_formikError';
+import IView from '../../../../../_helper/_helperIcons/_view';
+import InputField from '../../../../../_helper/_inputField';
+import { getDownlloadFileView_Action } from '../../../../../_helper/_redux/Actions';
+import PaginationSearch from '../../../../../_helper/_search';
+import AttachFile from '../../../../../_helper/commonInputFieldsGroups/attachemntUpload';
 
 const validationSchema = Yup.object().shape({
-  supplier: Yup.object()
-    .nullable()
-    .required("Supplier is Required"),
-  billNo: Yup.string().required("Bill No is Required"),
-  billDate: Yup.date().required("Bill Date is Required"),
-  paymentDueDate: Yup.date().required("Payment Date is Required"),
+  supplier: Yup.object().nullable().required('Supplier is Required'),
+  billNo: Yup.string().required('Bill No is Required'),
+  billDate: Yup.date().required('Bill Date is Required'),
+  paymentDueDate: Yup.date().required('Payment Date is Required'),
 });
 
 export default function FormCmp({
@@ -70,13 +68,14 @@ export default function FormCmp({
                         selectedValue={values.supplier}
                         handleChange={(valueOption) => {
                           setGridData([]);
-                          setFieldValue("supplier", valueOption);
+                          setFieldValue('supplier', valueOption);
                         }}
                         loadOptions={(v) => {
                           if (v.length < 3) return [];
                           return Axios.get(
-                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${headerData
-                              ?.sbu?.value || 0}`
+                            `/procurement/PurchaseOrder/GetSupplierListDDL?Search=${v}&AccountId=${accId}&UnitId=${buId}&SBUId=${
+                              headerData?.sbu?.value || 0
+                            }`
                           ).then((res) => {
                             const updateList = res?.data.map((item) => ({
                               ...item,
@@ -117,7 +116,7 @@ export default function FormCmp({
                         type="button"
                         onClick={() => {
                           setGridData([]);
-                          getData(values, "");
+                          getData(values, '');
                         }}
                         disabled={!values?.supplier}
                       >
@@ -193,13 +192,13 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
@@ -208,9 +207,9 @@ export default function FormCmp({
               <div
                 className="col d-flex justify-content-between"
                 style={{
-                  fontSize: "15px",
-                  fontWeight: "bold",
-                  flexWrap: "wrap",
+                  fontSize: '15px',
+                  fontWeight: 'bold',
+                  flexWrap: 'wrap',
                 }}
               >
                 <div>
@@ -222,7 +221,7 @@ export default function FormCmp({
                   />
                 </div>
                 <p>
-                  Total Qty:{" "}
+                  Total Qty:{' '}
                   {_fixedPoint(
                     gridData?.reduce(
                       (a, b) =>
@@ -233,7 +232,7 @@ export default function FormCmp({
                   )}
                 </p>
                 <p>
-                  Total Amount:{" "}
+                  Total Amount:{' '}
                   {_fixedPoint(
                     gridData?.reduce(
                       (a, b) =>
@@ -294,7 +293,7 @@ export default function FormCmp({
                         key={index}
                         style={
                           item?.transportRate <= 0
-                            ? { backgroundColor: "#ff000082" }
+                            ? { backgroundColor: '#ff000082' }
                             : {}
                         }
                       >
@@ -303,7 +302,7 @@ export default function FormCmp({
                             type="checkbox"
                             checked={item?.checked}
                             onChange={(e) => {
-                              item["checked"] = e.target.checked;
+                              item['checked'] = e.target.checked;
                               setGridData([...gridData]);
                             }}
                             disabled={item?.transportRate <= 0}
@@ -320,7 +319,7 @@ export default function FormCmp({
                         <td>{_dateFormatter(item?.deliveryDate)}</td>
                         <td className="text-right">{item?.quantity}</td>
                         <td className="text-right">{item?.transportRate}</td>
-                        <td style={{ width: "100px" }}>
+                        <td style={{ width: '100px' }}>
                           <InputField
                             value={item?.transportAmount}
                             name="transportAmount"

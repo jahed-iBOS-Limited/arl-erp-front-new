@@ -36,7 +36,6 @@ export default function ShipperCreateModalOpen({
 
   React.useEffect(() => {
     fatchGetAllShipperUser();
-
   }, []);
 
   const fatchGetAllShipperUser = (tradeTypeId) => {
@@ -44,7 +43,7 @@ export default function ShipperCreateModalOpen({
       `${imarineBaseUrl}/domain/ShippingService/GetAllShipperUser`,
       (resData) => {
         setGridData(resData);
-      },
+      }
     );
   };
 
@@ -93,7 +92,7 @@ export default function ShipperCreateModalOpen({
             setIsModalOpen(false);
             fatchGetAllShipperUser();
           },
-          true,
+          true
         );
       },
       noAlertFunc: () => {},

@@ -1,21 +1,19 @@
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { ToWords } from "to-words";
-import akijShippingLogo from "../../../_chartinghelper/assets/images/logos/akijShippingText.svg";
-import FormikInput from "../../../_chartinghelper/common/formikInput";
-import {
-  _formatMoneyWithDoller,
-} from "../../../_chartinghelper/_formatMoney";
-import { getDifference } from "../../../_chartinghelper/_getDateDiff";
-import { daysDDL, getOwnerBankInfoDetailsById } from "../helper";
-import { BankInfoComponent } from "./bankInfoComponent";
-import "./style.css";
-import FormikSelect from "../../../_chartinghelper/common/formikSelect";
-import customStyles from "../../../_chartinghelper/common/selectCustomStyle";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import { ToWords } from 'to-words';
+import akijShippingLogo from '../../../_chartinghelper/assets/images/logos/akijShippingText.svg';
+import FormikInput from '../../../_chartinghelper/common/formikInput';
+import { _formatMoneyWithDoller } from '../../../_chartinghelper/_formatMoney';
+import { getDifference } from '../../../_chartinghelper/_getDateDiff';
+import { daysDDL, getOwnerBankInfoDetailsById } from '../helper';
+import { BankInfoComponent } from './bankInfoComponent';
+import './style.css';
+import FormikSelect from '../../../_chartinghelper/common/formikSelect';
+import customStyles from '../../../_chartinghelper/common/selectCustomStyle';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
 
 const toWords = new ToWords({
-  localeCode: "en-US",
+  localeCode: 'en-US',
   converterOptions: {
     currency: true,
     ignoreDecimal: false,
@@ -43,35 +41,31 @@ export default function InvoiceForOwner({
     if (values?.beneficiary?.value) {
       getOwnerBankInfoDetailsById(values?.beneficiary?.value, setBankInfoData);
     }
-
-
   }, [values?.beneficiary?.value]);
 
   useEffect(() => {
-    setFieldValue("beneficiary", { ...values?.beneficiary, ...bankInfoData });
-
-
+    setFieldValue('beneficiary', { ...values?.beneficiary, ...bankInfoData });
   }, [bankInfoData]);
 
   const redeliveryInputChangeHandler = (value) => {
-    console.log(value, "value date");
-    setFieldValue("redeliveryDate", value);
+    console.log(value, 'value date');
+    setFieldValue('redeliveryDate', value);
     const copy = [...rowData];
     let diffDate = parseFloat(
       getDifference(
-        moment(invoiceHireData?.deliveryDate).format("YYYY-MM-DDTHH:mm:ss"),
+        moment(invoiceHireData?.deliveryDate).format('YYYY-MM-DDTHH:mm:ss'),
         value
       )
     );
     const newArr = copy?.map((item) => {
-      if (item?.key === "hdto") {
+      if (item?.key === 'hdto') {
         return {
           ...item,
           duration: Number((diffDate - offHireDuration).toFixed(4)),
           credit: (diffDate - offHireDuration) * invoiceHireData?.dailyHire,
         };
       }
-      if (item?.key === "hac") {
+      if (item?.key === 'hac') {
         return {
           ...item,
           duration: Number((diffDate - offHireDuration).toFixed(4)),
@@ -81,7 +75,7 @@ export default function InvoiceForOwner({
             (invoiceHireData?.comm / 100),
         };
       }
-      if (item?.key === "cve") {
+      if (item?.key === 'cve') {
         return {
           ...item,
           duration: Number((diffDate - offHireDuration).toFixed(4)),
@@ -90,7 +84,7 @@ export default function InvoiceForOwner({
             (diffDate - offHireDuration),
         };
       }
-      if (item?.key === "hbc") {
+      if (item?.key === 'hbc') {
         return {
           ...item,
           duration: Number((diffDate - offHireDuration).toFixed(4)),
@@ -112,14 +106,11 @@ export default function InvoiceForOwner({
       date.setDate(date.getDate() + valueOption?.value);
       const timezoneOffsetMinutes = date.getTimezoneOffset();
       date.setTime(date.getTime() - timezoneOffsetMinutes * 60000);
-      const formattedDate = date
-        .toISOString()
-        .slice(0, 19)
-        .replace("T", " ");
+      const formattedDate = date.toISOString().slice(0, 19).replace('T', ' ');
 
       redeliveryInputChangeHandler(formattedDate);
     } else {
-      redeliveryInputChangeHandler("");
+      redeliveryInputChangeHandler('');
     }
   };
 
@@ -140,30 +131,30 @@ export default function InvoiceForOwner({
         <div className="col-lg-6 headerWrapper">
           <div className="headerKey">VESSEL & VOYAGE :</div>
           <div className="headerValue">
-            {`${invoiceHireData?.vesselName} & V${invoiceHireData?.voyageNo}`}{" "}
+            {`${invoiceHireData?.vesselName} & V${invoiceHireData?.voyageNo}`}{' '}
           </div>
         </div>
         <div className="col-lg-6 headerWrapper">
           <div className="headerKey">DATE OF INVOICE :</div>
-          <div className="headerValue">{values?.invoiceDate || ""}</div>
+          <div className="headerValue">{values?.invoiceDate || ''}</div>
         </div>
 
         <div className="col-lg-6 headerWrapper">
           <div className="headerKey">OWNER :</div>
-          <div className="headerValue">{invoiceHireData?.ownerName || ""}</div>
+          <div className="headerValue">{invoiceHireData?.ownerName || ''}</div>
         </div>
         <div className="col-lg-6 headerWrapper">
           {invoiceHireData?.refNo ? (
             <>
               <div className="headerKey">REF :</div>
-              <div className="headerValue">{invoiceHireData?.refNo || ""}</div>
+              <div className="headerValue">{invoiceHireData?.refNo || ''}</div>
             </>
           ) : null}
         </div>
 
         <div className="col-lg-6 headerWrapper">
           <div className="headerKey">CHTR :</div>
-          <div className="headerValue">{invoiceHireData?.chtrName || ""}</div>
+          <div className="headerValue">{invoiceHireData?.chtrName || ''}</div>
         </div>
         <div className="col-lg-6 headerWrapper">
           <div className="headerKey">DUE DATE :</div>
@@ -185,13 +176,13 @@ export default function InvoiceForOwner({
         <div className="col-lg-6 headerWrapper">
           <div className="headerKey">DELIVERY :</div>
           <div className="headerValue">
-            {moment(invoiceHireData?.deliveryDate).format("MM-DD-YYYY HH:mm A")}
+            {moment(invoiceHireData?.deliveryDate).format('MM-DD-YYYY HH:mm A')}
           </div>
         </div>
         <div className="col-lg-6 "></div>
         <div className="col-lg-6 my-1 headerWrapper">
           <div className="headerKey">VOYAGE DAYS :</div>
-          <div className="headerValue" style={{ width: "30%" }}>
+          <div className="headerValue" style={{ width: '30%' }}>
             <FormikSelect
               value={values?.voyageDays}
               isSearchable={true}
@@ -200,7 +191,7 @@ export default function InvoiceForOwner({
               name="voyageDays"
               placeholder="Voyage Days"
               onChange={(valueOption) => {
-                setFieldValue("voyageDays", valueOption);
+                setFieldValue('voyageDays', valueOption);
                 voyageDateChangeHandler(valueOption);
               }}
               errors={errors}
@@ -225,7 +216,7 @@ export default function InvoiceForOwner({
                 redeliveryInputChangeHandler(e?.target?.value);
               }}
               min={moment(invoiceHireData?.deliveryDate).format(
-                "YYYY-MM-DDTHH:mm:ss"
+                'YYYY-MM-DDTHH:mm:ss'
               )}
               errors={errors}
               touched={touched}
@@ -242,7 +233,7 @@ export default function InvoiceForOwner({
           <div className="headerValue">
             {getDifference(
               moment(invoiceHireData?.deliveryDate).format(
-                "YYYY-MM-DDTHH:mm:ss"
+                'YYYY-MM-DDTHH:mm:ss'
               ),
               values?.redeliveryDate
             )}
@@ -297,7 +288,7 @@ export default function InvoiceForOwner({
         <table className="table mt-3 bj-table bj-table-landing">
           <thead>
             <tr
-              style={{ borderTop: "1px solid #d6d6d6" }}
+              style={{ borderTop: '1px solid #d6d6d6' }}
               className="text-center"
             >
               <th>SR.</th>
@@ -322,16 +313,18 @@ export default function InvoiceForOwner({
                 <tr key={index}>
                   {/* SL */}
                   <td
-                    className={`${item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
-                      } text-center`}
+                    className={`${
+                      item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
+                    } text-center`}
                   >
                     {index + 1}
                   </td>
 
                   {/* Description */}
                   <td
-                    className={`${item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
-                      }`}
+                    className={`${
+                      item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
+                    }`}
                   >
                     {item?.isDescription ? (
                       <FormikInput
@@ -359,9 +352,10 @@ export default function InvoiceForOwner({
 
                   {/* Duration */}
                   <td
-                    className={`${item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
-                      } text-center`}
-                    style={{ width: "130px" }}
+                    className={`${
+                      item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
+                    } text-center`}
+                    style={{ width: '130px' }}
                   >
                     {item?.isDuration ? (
                       <div className="d-flex align-items-center">
@@ -393,9 +387,10 @@ export default function InvoiceForOwner({
 
                   {/* Quantity */}
                   <td
-                    className={`${item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
-                      }`}
-                    style={{ width: "130px" }}
+                    className={`${
+                      item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
+                    }`}
+                    style={{ width: '130px' }}
                   >
                     {item?.isQty ? (
                       <div className="d-flex align-items-center">
@@ -425,9 +420,10 @@ export default function InvoiceForOwner({
 
                   {/* Debit | But Debit Will be Credit for Owner */}
                   <td
-                    className={`${item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
-                      } text-right`}
-                    style={{ width: "130px" }}
+                    className={`${
+                      item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
+                    } text-right`}
+                    style={{ width: '130px' }}
                   >
                     {item?.isCredit ? (
                       <div className="d-flex align-items-center">
@@ -459,9 +455,10 @@ export default function InvoiceForOwner({
 
                   {/* Credit | But Credit Will be Debit For Owner */}
                   <td
-                    className={`${item?.isChecked ? "isCheckedTrue" : "isCheckedFalse"
-                      } text-right`}
-                    style={{ width: "130px" }}
+                    className={`${
+                      item?.isChecked ? 'isCheckedTrue' : 'isCheckedFalse'
+                    } text-right`}
+                    style={{ width: '130px' }}
                   >
                     {item?.isDebit ? (
                       <div className="d-flex align-items-center">
@@ -492,7 +489,7 @@ export default function InvoiceForOwner({
                   </td>
 
                   {/* Actions */}
-                  <td className="text-center" style={{ width: "80px" }}>
+                  <td className="text-center" style={{ width: '80px' }}>
                     {/* Add Handler | add btn */}
                     <span
                       onClick={() => {
@@ -500,7 +497,7 @@ export default function InvoiceForOwner({
                       }}
                     >
                       <i
-                        style={{ fontSize: "16px" }}
+                        style={{ fontSize: '16px' }}
                         className="fa fa-plus-square text-primary mr-2"
                       />
                     </span>
@@ -514,7 +511,7 @@ export default function InvoiceForOwner({
                         onChange={(e) => {
                           rowDtoHandler(
                             index,
-                            "isChecked",
+                            'isChecked',
                             e.target.checked,
                             item,
                             rowData
@@ -525,10 +522,10 @@ export default function InvoiceForOwner({
 
                     {/* Delete if new row */}
                     {item?.isDescription &&
-                      item?.isDuration &&
-                      item?.isCredit &&
-                      item?.isDebit &&
-                      item?.isQty ? (
+                    item?.isDuration &&
+                    item?.isCredit &&
+                    item?.isDebit &&
+                    item?.isQty ? (
                       <>
                         <span
                           onClick={() => {
@@ -536,7 +533,7 @@ export default function InvoiceForOwner({
                           }}
                         >
                           <i
-                            style={{ fontSize: "14px" }}
+                            style={{ fontSize: '14px' }}
                             className="fa fa-trash text-danger ml-2"
                           />
                         </span>

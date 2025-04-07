@@ -1,21 +1,21 @@
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IForm from "../../../../../_helper/_form";
-import Loading from "../../../../../_helper/_loading";
-import { _todayDate } from "../../../../../_helper/_todayDate";
-import { createRepay } from "../../helper";
-import RepayForm from "./Form";
-import { useLocation } from "react-router";
-import { toast } from "react-toastify";
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IForm from '../../../../../_helper/_form';
+import Loading from '../../../../../_helper/_loading';
+import { _todayDate } from '../../../../../_helper/_todayDate';
+import { createRepay } from '../../helper';
+import RepayForm from './Form';
+import { useLocation } from 'react-router';
+import { toast } from 'react-toastify';
 
 const initData = {
-  account: "",
-  instrumentNo: "",
+  account: '',
+  instrumentNo: '',
   instrumentDate: _todayDate(),
-  principalAmount: "",
-  interestAmount: "",
+  principalAmount: '',
+  interestAmount: '',
   transDate: _todayDate(),
-  numExciseDuty: "",
+  numExciseDuty: '',
 };
 
 export default function RepayCreate({
@@ -35,7 +35,7 @@ export default function RepayCreate({
     return state.costControllingUnit?.singleData;
   }, shallowEqual);
   const location = useLocation();
-  console.log(location.state, "location.state");
+  console.log(location.state, 'location.state');
   const saveHandler = async (values, cb) => {
     if (
       location?.state?.principal &&
@@ -46,7 +46,7 @@ export default function RepayCreate({
     const sumCheck =
       values?.principalAmount + values?.interestAmount + values?.numExciseDuty;
     if (sumCheck <= 0) {
-      return toast.error("At least one field must be greater than 0");
+      return toast.error('At least one field must be greater than 0');
     }
     createRepay(
       profileData?.accountId,

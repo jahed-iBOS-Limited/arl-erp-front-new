@@ -1,21 +1,21 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IForm from "../../../_helper/_form";
-import { IInput } from "../../../_helper/_input";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { toast } from "react-toastify";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import IForm from '../../../_helper/_form';
+import { IInput } from '../../../_helper/_input';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { toast } from 'react-toastify';
 
 const initData = {};
 export default function GradingCreateTwo() {
   const [objProps, setObjprops] = useState({});
   const [, saveData] = useAxiosPost();
-  const [lessQuantity, setLessQuantity] = useState("");
-  const [overSize, setoverSize] = useState("");
+  const [lessQuantity, setLessQuantity] = useState('');
+  const [overSize, setoverSize] = useState('');
 
   const profileData = useSelector((state) => {
     return state.authData.profileData;
@@ -40,7 +40,6 @@ export default function GradingCreateTwo() {
         setRowData(modifyData);
       }
     );
-
   }, []);
 
   const isLessQuantityRow = (index) => {
@@ -60,10 +59,10 @@ export default function GradingCreateTwo() {
         intWeightmentId: location?.state?.intWeightmentId,
         intBusinessUnitId: selectedBusinessUnit?.value,
         intItemId: data?.itemId,
-        strItemName: data?.itemName || "",
-        strItemCode: data?.itemCode || "",
+        strItemName: data?.itemName || '',
+        strItemCode: data?.itemCode || '',
         UomId: data?.uomId,
-        UomName: data?.uomName || "",
+        UomName: data?.uomName || '',
         isActive: true,
         intActionBy: profileData?.userId,
         dteInsertDateTime: _todayDate(),
@@ -73,12 +72,12 @@ export default function GradingCreateTwo() {
         numQuantity: isOverSizeRow(i)
           ? +overSize || 0
           : isLessQuantityRow(i)
-          ? +lessQuantity || 0
-          : +data?.quantity || 0,
+            ? +lessQuantity || 0
+            : +data?.quantity || 0,
       };
     });
 
-   const isQtyExits = rowList?.find((item) => item?.numQuantity > 0);
+    const isQtyExits = rowList?.find((item) => item?.numQuantity > 0);
     if (isQtyExits) {
       saveData(
         `/mes/WeightBridge/WeightBridgeQCCreateAndEdit`,
@@ -86,11 +85,9 @@ export default function GradingCreateTwo() {
         cb,
         true
       );
-    }else{
-      return toast("Please provide row quantity");
+    } else {
+      return toast('Please provide row quantity');
     }
-
-
   };
 
   const rowDataHandler = (name, index, value) => {
@@ -98,10 +95,10 @@ export default function GradingCreateTwo() {
     if (+value < 0) return;
     if (value) {
       _data[index][name] = +value;
-      _data[index]["isCheckDisabled"] = true;
+      _data[index]['isCheckDisabled'] = true;
     } else {
-      _data[index][name] = "";
-      _data[index]["isCheckDisabled"] = false;
+      _data[index][name] = '';
+      _data[index]['isCheckDisabled'] = false;
     }
     setRowData(_data);
   };
@@ -112,7 +109,7 @@ export default function GradingCreateTwo() {
     const checkIndex = copyRowDto.findIndex((x) => x.isRestQuantity);
 
     if (checkIndex !== -1) {
-      copyRowDto[checkIndex]["quantity"] = "";
+      copyRowDto[checkIndex]['quantity'] = '';
     }
 
     const modifyData = copyRowDto.map((item, i) => {
@@ -135,11 +132,11 @@ export default function GradingCreateTwo() {
 
     if (value) {
       let qty = (location?.state?.numWeightTon || 0) - (totalQty || 0);
-      modifyData[index]["quantity"] = qty - (+lessQuantity || 0);
-      modifyData[index]["tempQty"] = qty;
+      modifyData[index]['quantity'] = qty - (+lessQuantity || 0);
+      modifyData[index]['tempQty'] = qty;
     } else {
-      modifyData[index]["quantity"] = "";
-      modifyData[index]["tempQty"] = 0;
+      modifyData[index]['quantity'] = '';
+      modifyData[index]['tempQty'] = 0;
     }
     setRowData(modifyData);
   };
@@ -148,12 +145,10 @@ export default function GradingCreateTwo() {
     const modifyData = [...rowData];
     const checkIndex = modifyData?.findIndex((x) => x.isRestQuantity);
     if (checkIndex !== -1) {
-      modifyData[checkIndex]["quantity"] =
+      modifyData[checkIndex]['quantity'] =
         (+modifyData?.[checkIndex]?.tempQty || 0) - (+lessQuantity || 0);
       setRowData(modifyData);
     }
-
-
   }, [lessQuantity]);
 
   const handleKeyDown = (e) => {
@@ -217,7 +212,7 @@ export default function GradingCreateTwo() {
 
                 <div className="row mt-4">
                   <div className="col-lg-12">
-                    <b style={{ fontSize: "16px" }}>Grading List</b>
+                    <b style={{ fontSize: '16px' }}>Grading List</b>
                   </div>
                 </div>
 
@@ -244,7 +239,7 @@ export default function GradingCreateTwo() {
                                   <td>{item?.itemName}</td>
                                   <td>{item?.uomName}</td>
                                   <td
-                                    style={{ width: "200px" }}
+                                    style={{ width: '200px' }}
                                     className="disabled-feedback disable-border"
                                   >
                                     <IInput
@@ -254,7 +249,7 @@ export default function GradingCreateTwo() {
                                       placeholder="Quantity"
                                       onChange={(e) => {
                                         rowDataHandler(
-                                          "quantity",
+                                          'quantity',
                                           index,
                                           e.target.value
                                         );
@@ -269,7 +264,7 @@ export default function GradingCreateTwo() {
                                     />
                                   </td>
                                   <td
-                                    style={{ width: "100px" }}
+                                    style={{ width: '100px' }}
                                     className="disabled-feedback disable-border text-center"
                                   >
                                     <input
@@ -289,11 +284,11 @@ export default function GradingCreateTwo() {
                               );
                             })}
                           <tr>
-                            <td>{""}</td>
-                            <td>{"Less"}</td>
-                            <td>{""}</td>
+                            <td>{''}</td>
+                            <td>{'Less'}</td>
+                            <td>{''}</td>
                             <td
-                              style={{ width: "200px" }}
+                              style={{ width: '200px' }}
                               className="disabled-feedback disable-border"
                             >
                               <IInput
@@ -313,11 +308,11 @@ export default function GradingCreateTwo() {
                             <td></td>
                           </tr>
                           <tr>
-                            <td>{""}</td>
-                            <td>{"Over Size"}</td>
-                            <td>{""}</td>
+                            <td>{''}</td>
+                            <td>{'Over Size'}</td>
+                            <td>{''}</td>
                             <td
-                              style={{ width: "200px" }}
+                              style={{ width: '200px' }}
                               className="disabled-feedback disable-border"
                             >
                               <IInput
@@ -344,14 +339,14 @@ export default function GradingCreateTwo() {
 
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>

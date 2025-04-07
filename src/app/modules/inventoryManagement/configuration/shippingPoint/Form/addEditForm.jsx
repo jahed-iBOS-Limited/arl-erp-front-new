@@ -1,22 +1,21 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   getWarehouseDDLAction,
   setShippingPointSingleEmpty,
   saveShippingPoint,
   getShippingPointById,
   saveExtendShippingPoint,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
-import { isUniq } from "../../../../_helper/uniqChecker";
-import Loading from "../../../../_helper/_loading";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
+import { isUniq } from '../../../../_helper/uniqChecker';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
   id: undefined,
-  shipPointName: "",
-  address: "",
+  shipPointName: '',
+  address: '',
 };
 
 export default function ShippingPointForm({
@@ -61,7 +60,6 @@ export default function ShippingPointForm({
     } else {
       dispatch(setShippingPointSingleEmpty());
     }
-
   }, [extendId]);
 
   //Dispatch Get selectedBusinessUnit action for get selectedBusinessUnit ddl
@@ -71,7 +69,6 @@ export default function ShippingPointForm({
         getWarehouseDDLAction(profileData.accountId, selectedBusinessUnit.value)
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const backToWarehouseList = () => {
@@ -99,7 +96,9 @@ export default function ShippingPointForm({
           },
           objRow: wearHouseId,
         };
-        dispatch(saveExtendShippingPoint(payload, backToWarehouseList,setDisabled));
+        dispatch(
+          saveExtendShippingPoint(payload, backToWarehouseList, setDisabled)
+        );
       } else {
         const payload = {
           shipPointName: values.shipPointName,
@@ -109,15 +108,15 @@ export default function ShippingPointForm({
           businessUnitName: selectedBusinessUnit.label,
           actionBy: profileData.userId,
         };
-        dispatch(saveShippingPoint({ data: payload, cb },setDisabled));
+        dispatch(saveShippingPoint({ data: payload, cb }, setDisabled));
       }
     } else {
-      console.log(values)
+      console.log(values);
     }
   };
 
   const addHandler = (param) => {
-    if (isUniq("wearHouseId", param.wearHouseId, rowDto)) {
+    if (isUniq('wearHouseId', param.wearHouseId, rowDto)) {
       setRowDto([param, ...rowDto]);
     }
   };
@@ -129,7 +128,7 @@ export default function ShippingPointForm({
 
   return (
     <IForm
-      title={extendId ? "Extend Shipping Point" : "Create Shipping Point"}
+      title={extendId ? 'Extend Shipping Point' : 'Create Shipping Point'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

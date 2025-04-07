@@ -1,29 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import Axios from "axios";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import Axios from 'axios';
 
 // Validation schema
 const DataValiadtionSchema = Yup.object().shape({
   itemName: Yup.string()
-    .min(2, "Minimum 2 symbols")
-    .max(100, "Maximum 100 symbols")
-    .required("Business Unit is required"),
+    .min(2, 'Minimum 2 symbols')
+    .max(100, 'Maximum 100 symbols')
+    .required('Business Unit is required'),
   // itemCode: Yup.string()
   //   .min(2, "Minimum 2 symbols")
   //   .max(50, "Maximum 50 symbols")
   //   .required("Code is required"),
   itemType: Yup.object().shape({
-    label: Yup.string().required("Item Type is required"),
-    value: Yup.string().required("Item Type is required"),
+    label: Yup.string().required('Item Type is required'),
+    value: Yup.string().required('Item Type is required'),
   }),
   itemCategory: Yup.object().shape({
-    label: Yup.string().required("Category is required"),
-    value: Yup.string().required("Category is required"),
+    label: Yup.string().required('Category is required'),
+    value: Yup.string().required('Category is required'),
   }),
   itemSubCategory: Yup.object().shape({
-    label: Yup.string().required("Sub-category is required"),
-    value: Yup.string().required("Sub-category is required"),
+    label: Yup.string().required('Sub-category is required'),
+    value: Yup.string().required('Sub-category is required'),
   }),
 });
 
@@ -40,9 +40,9 @@ export default function ItemForm({
   accountId,
   setSaveConfigBtn,
 }) {
-  const [itemTypeList, setItemTypeList] = useState("");
-  const [itemCategoryList, setItemCategoryList] = useState("");
-  const [itemSubCategoryList, setItemSubCategoryList] = useState("");
+  const [itemTypeList, setItemTypeList] = useState('');
+  const [itemCategoryList, setItemCategoryList] = useState('');
+  const [itemSubCategoryList, setItemSubCategoryList] = useState('');
   const [, setItemTypeOption] = useState([]);
   const [, setItemCategoryOption] = useState([]);
   const [, setItemSubCategoryOption] = useState([]);
@@ -52,11 +52,9 @@ export default function ItemForm({
 
   const getInfoData = async () => {
     try {
-      const res = await Axios.get("/item/ItemCategory/GetItemTypeListDDL");
+      const res = await Axios.get('/item/ItemCategory/GetItemTypeListDDL');
       setItemTypeList(res.data);
-    } catch (error) {
-
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
@@ -121,7 +119,6 @@ export default function ItemForm({
       categoryApiCaller(data.itemTypeId);
       subcategoryApiCaller(data.itemCategoryId, data.itemTypeId);
     }
-
   }, [accountId, selectedBusinessUnit]);
 
   return (
@@ -149,43 +146,43 @@ export default function ItemForm({
           <>
             {/* {disableHandler(!isValid)} */}
             <Form className="form form-label-right">
-            <div className="row">
+              <div className="row">
                 <div className="col-lg-3">
                   <label>Item Name</label>
-                  <div>{values.itemName || "......."}</div>
+                  <div>{values.itemName || '.......'}</div>
                 </div>
 
                 <div className="col-lg-3">
                   <label>Item Type</label>
-                  <div>{values.itemType.label || "......."}</div>
+                  <div>{values.itemType.label || '.......'}</div>
                 </div>
                 <div className="col-lg-3">
                   <label>Item Category</label>
-                  <div>{values.itemCategory.label || "......."}</div>
+                  <div>{values.itemCategory.label || '.......'}</div>
                 </div>
                 <div className="col-lg-3">
                   <label>Item Sub-category</label>
-                  <div>{values.itemSubCategory.label || "......."}</div>
+                  <div>{values.itemSubCategory.label || '.......'}</div>
                 </div>
               </div>
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={saveBtnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(data)}
               ></button>
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={saveConfigBtnRef}
                 onClick={() => setSaveConfigBtn(true)}
               ></button>

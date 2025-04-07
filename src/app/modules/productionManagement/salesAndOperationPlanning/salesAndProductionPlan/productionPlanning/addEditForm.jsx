@@ -1,29 +1,24 @@
-
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import { useLocation, useParams } from "react-router-dom";
-import Loading from "./../../../../_helper/_loading";
-import {
-  createProductionEntry,
-  getProductionPlanning,
-} from "../helper";
-import { toast } from "react-toastify";
-import { getPlantDDL } from "../../../../_helper/_commonApi";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import { useLocation, useParams } from 'react-router-dom';
+import Loading from './../../../../_helper/_loading';
+import { createProductionEntry, getProductionPlanning } from '../helper';
+import { toast } from 'react-toastify';
+import { getPlantDDL } from '../../../../_helper/_commonApi';
 
 const initData = {
-  plant: "",
-  year: "",
-  horizon: "",
-  startDate: "",
-  endDate: "",
-  itemName: "",
-  qty: "",
-  planningHorizonId: "",
-  monthId: "",
-  itemPlanQty: "",
+  plant: '',
+  year: '',
+  horizon: '',
+  startDate: '',
+  endDate: '',
+  itemName: '',
+  qty: '',
+  planningHorizonId: '',
+  monthId: '',
+  itemPlanQty: '',
 };
 export default function ProductionPlanningForm({
   history,
@@ -31,11 +26,9 @@ export default function ProductionPlanningForm({
     params: { id },
   },
 }) {
-
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
   const [gridData, setGridData] = useState([]);
-
 
   const [singleData, setSingleData] = useState({});
   // DDL state
@@ -135,7 +128,7 @@ export default function ProductionPlanningForm({
       (item) => item?.itemId === values?.itemName?.value
     );
     if (findDuplicate) {
-      toast.warning("Item already added");
+      toast.warning('Item already added');
     } else {
       let rowDataValues = {
         itemId: values?.itemName?.value,
@@ -150,7 +143,7 @@ export default function ProductionPlanningForm({
 
   return (
     <IForm
-      title={params?.id ? "Production Plan Edit" : "Production Plan Create"}
+      title={params?.id ? 'Production Plan Edit' : 'Production Plan Create'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

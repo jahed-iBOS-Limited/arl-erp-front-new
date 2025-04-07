@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
 import {
   getCorporateDepartmentDDL,
   getYearDDL,
   getCategoryDDL,
-} from "../helper";
+} from '../helper';
 
 let initData = {
-  corporateDepartment: "",
-  year: "",
-  category: "",
+  corporateDepartment: '',
+  year: '',
+  category: '',
 };
 
 export function CorporateInitiativeForm({
@@ -21,7 +21,6 @@ export function CorporateInitiativeForm({
     params: { id },
   },
 }) {
-
   const [isDisabled, setDisabled] = useState(false);
   const [corporateDDL, setCorporateDDL] = useState([]);
   const [year, setYear] = useState([]);
@@ -38,14 +37,11 @@ export function CorporateInitiativeForm({
       setCorporateDDL
     );
     getYearDDL(profileData?.accountId, selectedBusinessUnit?.value, setYear);
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
     getCategoryDDL(setCategory);
   }, []);
-
-
 
   const saveHandler = async (values, cb) => {};
 
@@ -53,7 +49,7 @@ export function CorporateInitiativeForm({
 
   return (
     <IForm
-      title={"Corporate Initiative"}
+      title={'Corporate Initiative'}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenReset={true}

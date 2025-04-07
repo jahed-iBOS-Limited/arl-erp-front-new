@@ -1,14 +1,7 @@
-
-
-
-import React, { useState, useEffect } from "react";
-import Form from "./form";
-import {
-  getSingleDataForEdit,
-} from "../helper/Actions";
-import ICustomCard from "../../../../_helper/_customCard";
-
-
+import React, { useState, useEffect } from 'react';
+import Form from './form';
+import { getSingleDataForEdit } from '../helper/Actions';
+import ICustomCard from '../../../../_helper/_customCard';
 
 export default function AssetReceiveViewForm({
   history,
@@ -34,7 +27,6 @@ export default function AssetReceiveViewForm({
     }
   }, [singleDataState]);
 
-
   const disableHandler = (cond) => {
     setDisabled(cond);
   };
@@ -43,12 +35,12 @@ export default function AssetReceiveViewForm({
 
   return (
     <ICustomCard
-        title="View Asset receive"
-        backHandler={() => {
-          history.goBack();
-        }}
-        renderProps={() => {}}
-      >
+      title="View Asset receive"
+      backHandler={() => {
+        history.goBack();
+      }}
+      renderProps={() => {}}
+    >
       <div className="mt-0">
         <Form
           {...objProps}

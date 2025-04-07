@@ -1,17 +1,17 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { getMonthName } from "../../../../_helper/monthIdToMonthName";
+} from '../../../../../../_metronic/_partials/controls';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { getMonthName } from '../../../../_helper/monthIdToMonthName';
 
 const SalesForceIncetiveDetailsModal = ({ gridItem }) => {
   const { selectedBusinessUnit } = useSelector(
@@ -43,7 +43,6 @@ const SalesForceIncetiveDetailsModal = ({ gridItem }) => {
 
   useEffect(() => {
     fetchSFIDetailsData({ selectedBusinessUnit, gridItem });
-
   }, []);
 
   return (
@@ -57,7 +56,7 @@ const SalesForceIncetiveDetailsModal = ({ gridItem }) => {
             <Form className="form form-label-right approveBillRegisterView">
               <div className="row mt-3">
                 <div class="col-lg-12 flex flex-row text-right">
-                  <strong>Total Bill Amount:{" "}</strong>
+                  <strong>Total Bill Amount: </strong>
                   <strong>
                     {_formatMoney(
                       sfiDetailsData?.data?.reduce(
@@ -82,9 +81,11 @@ const SalesForceIncetiveDetailsModal = ({ gridItem }) => {
                                 )}
                                 onChange={(e) => {
                                   const checked = e.target.checked;
-                                  const copySFIDetailsData = sfiDetailsData?.data?.map(
-                                    (item) => ({ ...item, isSelected: checked })
-                                  );
+                                  const copySFIDetailsData =
+                                    sfiDetailsData?.data?.map((item) => ({
+                                      ...item,
+                                      isSelected: checked,
+                                    }));
                                   setSFIDetailsData((prevState) => ({
                                     ...prevState,
                                     data: copySFIDetailsData,
@@ -115,12 +116,13 @@ const SalesForceIncetiveDetailsModal = ({ gridItem }) => {
                                     checked={item?.isSelected}
                                     onChange={(e) => {
                                       const checked = e?.target?.checked;
-                                      const copySFIDetailsData = sfiDetailsData?.data?.map(
-                                        (item, ind) =>
-                                          ind === index
-                                            ? { ...item, isSelected: checked }
-                                            : item
-                                      );
+                                      const copySFIDetailsData =
+                                        sfiDetailsData?.data?.map(
+                                          (item, ind) =>
+                                            ind === index
+                                              ? { ...item, isSelected: checked }
+                                              : item
+                                        );
 
                                       setSFIDetailsData((prevState) => ({
                                         ...prevState,
@@ -130,7 +132,7 @@ const SalesForceIncetiveDetailsModal = ({ gridItem }) => {
                                   />
                                 </td>
                                 <td
-                                  style={{ width: "30px" }}
+                                  style={{ width: '30px' }}
                                   className="text-center"
                                 >
                                   {index + 1}
@@ -154,12 +156,13 @@ const SalesForceIncetiveDetailsModal = ({ gridItem }) => {
                                     onChange={(e) => {
                                       const value = e.target.value;
 
-                                      const copySFIDetailsData = sfiDetailsData?.data?.map(
-                                        (item, ind) =>
-                                          ind === index
-                                            ? { ...item, billAmount: value }
-                                            : item
-                                      );
+                                      const copySFIDetailsData =
+                                        sfiDetailsData?.data?.map(
+                                          (item, ind) =>
+                                            ind === index
+                                              ? { ...item, billAmount: value }
+                                              : item
+                                        );
 
                                       setSFIDetailsData((prevState) => ({
                                         ...prevState,
@@ -175,10 +178,10 @@ const SalesForceIncetiveDetailsModal = ({ gridItem }) => {
                           <tr>
                             <td colSpan={10}>Total</td>
                             <td className="text-right">
-                              {_formatMoney(commonTotal("achievemtn"))}
+                              {_formatMoney(commonTotal('achievemtn'))}
                             </td>
                             <td className="text-right">
-                              {_formatMoney(commonTotal("billAmount"))}
+                              {_formatMoney(commonTotal('billAmount'))}
                             </td>
                           </tr>
                         </tbody>

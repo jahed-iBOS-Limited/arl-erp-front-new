@@ -1,13 +1,13 @@
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { Switch, Redirect } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import ApprovedReport from "./approvedReport";
-import DateWiseReport from "./dateWiseReport";
-import DonationReceiverReport from "./donationReceiverReport";
-import MonthWiseReport from "./monthWiseReport";
-import PaymentStatus from "./paymentStatus";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { Switch, Redirect } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import ApprovedReport from './approvedReport';
+import DateWiseReport from './dateWiseReport';
+import DonationReceiverReport from './donationReceiverReport';
+import MonthWiseReport from './monthWiseReport';
+import PaymentStatus from './paymentStatus';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
 
 export function ReportPages() {
   const { userRole } = useSelector((state) => state?.authData, shallowEqual);

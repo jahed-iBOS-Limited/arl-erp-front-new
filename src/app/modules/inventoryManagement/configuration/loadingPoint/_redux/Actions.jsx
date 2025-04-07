@@ -1,7 +1,7 @@
-import * as requestFromServer from "./Api";
-import { LoadingPointSlice } from "./Slice";
-import { toast } from "react-toastify";
-import { isArray } from "lodash";
+import * as requestFromServer from './Api';
+import { LoadingPointSlice } from './Slice';
+import { toast } from 'react-toastify';
+import { isArray } from 'lodash';
 const { actions: slice } = LoadingPointSlice;
 
 export const getDesignationDDLAction = (accId, buId) => (dispatch) => {
@@ -20,13 +20,12 @@ export const saveDepartment = (payload, setDisabled) => () => {
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
         setDisabled(false);
       }
     })
     .catch((err) => {
-     
       toast.error(err?.response?.data?.message);
       setDisabled(false);
     });
@@ -39,7 +38,7 @@ export const saveEditDepartment = (payload, setDisabled) => () => {
     .then((res) => {
       if (res.status === 200) {
         console.log(res.data);
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         setDisabled(false);
       }
     })
@@ -49,21 +48,19 @@ export const saveEditDepartment = (payload, setDisabled) => () => {
       setDisabled(false);
     });
 };
-export const getGridData = (accId, buId, setLoading, pageNo, pageSize,search) => (
-  dispatch
-) => {
-  setLoading(true);
-  return requestFromServer
-    .getGridData(accId, buId, pageNo, pageSize,search)
-    .then((res) => {
-      setLoading(false);
-      return dispatch(slice.SetGridData(res?.data));
-    })
-    .catch((err) => {
-      setLoading(false);
-     
-    });
-};
+export const getGridData =
+  (accId, buId, setLoading, pageNo, pageSize, search) => (dispatch) => {
+    setLoading(true);
+    return requestFromServer
+      .getGridData(accId, buId, pageNo, pageSize, search)
+      .then((res) => {
+        setLoading(false);
+        return dispatch(slice.SetGridData(res?.data));
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
 
 // Controlling unit action for get single data by id
 export const getDepartmentByIdAction = (accId, buId, id) => (dispatch) => {
@@ -84,9 +81,7 @@ export const getDepartmentByIdAction = (accId, buId, id) => (dispatch) => {
         return dispatch(slice.SetDataById(data));
       }
     })
-    .catch((err) => {
-     
-    });
+    .catch((err) => {});
 };
 // Controlling unit single to empty
 export const setControllingUnitSingleEmpty = () => async (dispatch) => {

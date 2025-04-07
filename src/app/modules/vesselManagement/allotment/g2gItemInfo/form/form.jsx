@@ -1,23 +1,23 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import {
   getItemData,
   getItemTypeData,
   getSingleDataEdit,
   setShipPointData,
   validationSchema,
-} from "../helper";
+} from '../helper';
 
 export default function FormCmp({
   id,
@@ -49,7 +49,6 @@ export default function FormCmp({
   useEffect(() => {
     setShipPoint();
     getItemTypeData(accId, buId, setItemTypeDDL);
-
   }, []);
 
   const [pageNo, setPageNo] = useState(0);
@@ -57,8 +56,8 @@ export default function FormCmp({
 
   const setLandingData = (_pageNo, _pageSize, values) => {
     const item = {
-      itemName: values?.item?.label || "",
-      itemId: values?.item?.value || "",
+      itemName: values?.item?.label || '',
+      itemId: values?.item?.value || '',
       bustingBagQnt: +values?.bustingBagQnt || 0,
       othersBagQnt: +values?.othersBagQnt || 0,
       cnfbagQnt: +values?.cnfbagQnt || 0,
@@ -81,14 +80,14 @@ export default function FormCmp({
     ) {
       setRowDto([...rowDto, item]);
     } else {
-      toast.warning("Already Added");
+      toast.warning('Already Added');
     }
   };
 
   const deleteHandler = (id, values) => {
     const objProps = {
-      title: "Are You Sure?",
-      message: "Are you sure you want to delete this Empty Bag information?",
+      title: 'Are You Sure?',
+      message: 'Are you sure you want to delete this Empty Bag information?',
       yesAlertFunc: () => {
         console.log(rowDto);
         const filterData = rowDto.filter((itm, index) => index !== id);
@@ -104,7 +103,6 @@ export default function FormCmp({
       const url = `tms/LigterLoadUnload/GetG2GItemInfoById?IntId=${id}`;
       getSingleDataEdit(url, setEditedItem);
     }
-
   }, [id]);
 
   if (id) {
@@ -168,9 +166,9 @@ export default function FormCmp({
                     value={values?.itemType}
                     label="Item Type"
                     onChange={(valueOption) => {
-                      setFieldValue("itemType", valueOption);
+                      setFieldValue('itemType', valueOption);
                       getItemData(accId, buId, valueOption?.value, setItemDDL);
-                      setFieldValue("item", "");
+                      setFieldValue('item', '');
                     }}
                     placeholder="Item Type"
                     errors={errors}
@@ -186,7 +184,7 @@ export default function FormCmp({
                     label="Item Name"
                     disabled={!values?.itemType}
                     onChange={(valueOption) => {
-                      setFieldValue("item", valueOption);
+                      setFieldValue('item', valueOption);
                     }}
                     placeholder="Item"
                     errors={errors}
@@ -202,7 +200,7 @@ export default function FormCmp({
                     placeholder="Busting Bag Quantity"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("bustingBagQnt", e.target.value);
+                      setFieldValue('bustingBagQnt', e.target.value);
                     }}
                   />
                 </div>
@@ -214,7 +212,7 @@ export default function FormCmp({
                     placeholder="Others Bag Quantity"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("othersBagQnt", e.target.value);
+                      setFieldValue('othersBagQnt', e.target.value);
                     }}
                   />
                 </div>
@@ -226,7 +224,7 @@ export default function FormCmp({
                     placeholder="Cnf Bag Quantity"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("cnfbagQnt", e.target.value);
+                      setFieldValue('cnfbagQnt', e.target.value);
                     }}
                   />
                 </div>
@@ -237,7 +235,7 @@ export default function FormCmp({
                     value={values?.shipPoint}
                     label="ship Point"
                     onChange={(valueOption) => {
-                      setFieldValue("shipPoint", valueOption);
+                      setFieldValue('shipPoint', valueOption);
                     }}
                     placeholder="Ship Point"
                     errors={errors}
@@ -251,7 +249,7 @@ export default function FormCmp({
                     name="date"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("date", e.target.value);
+                      setFieldValue('date', e.target.value);
                     }}
                   />
                 </div>
@@ -281,7 +279,7 @@ export default function FormCmp({
                       <table className="table table-striped table-bordered global-table">
                         <thead>
                           <tr>
-                            <th style={{ width: "40px" }}>SL</th>
+                            <th style={{ width: '40px' }}>SL</th>
                             <th>Item Name</th>
                             <th>Ship Point Name</th>
                             <th>Busting Bag Qty</th>

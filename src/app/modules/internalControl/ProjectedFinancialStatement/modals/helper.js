@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const getAdjustmentJournalView = async (
   adId,
@@ -34,7 +34,7 @@ export const getBankJournalView = async (
     setLoading(true);
     const res = await axios.get(
       `/fino/CommonFino/${
-        headerData?.fromWhere === "incomeStatement"
+        headerData?.fromWhere === 'incomeStatement'
           ? `GetBankJournalReportForIncomeStatement`
           : `GetBankJournalReport`
       }?JournalId=${bjId}&AccountingJournalTypeId=${hdId}&BusinessUnitId=${buId}`

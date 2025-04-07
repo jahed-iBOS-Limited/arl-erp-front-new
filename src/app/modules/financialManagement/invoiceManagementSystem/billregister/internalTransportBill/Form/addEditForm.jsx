@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from "react";
-import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
-import { compressfile } from "../../../../../_helper/compressfile";
-import useAxiosPost from "../../../../../_helper/customHooks/useAxiosPost";
+import React, { useEffect, useState } from 'react';
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { compressfile } from '../../../../../_helper/compressfile';
+import useAxiosPost from '../../../../../_helper/customHooks/useAxiosPost';
 import {
   getPurchaseOrgDDL,
   getShippointDDL,
   getSupplierDDlForTransportBill,
   getWarehouseDDL,
   uploadAtt,
-} from "../../helper";
-import IForm from "./../../../../../_helper/_form";
-import Loading from "./../../../../../_helper/_loading";
-import { _todayDate } from "./../../../../../_helper/_todayDate";
-import Form from "./form";
-import "./purchaseInvoice.css";
+} from '../../helper';
+import IForm from './../../../../../_helper/_form';
+import Loading from './../../../../../_helper/_loading';
+import { _todayDate } from './../../../../../_helper/_todayDate';
+import Form from './form';
+import './purchaseInvoice.css';
 
 const initData = {
-  supplier: "",
-  billNo: "",
+  supplier: '',
+  billNo: '',
   billDate: _todayDate(),
   paymentDueDate: new Date(new Date().setDate(new Date().getDate() + 15)),
-  narration: "",
-  billAmount: "",
-  warehouse: "",
+  narration: '',
+  billAmount: '',
+  warehouse: '',
   toDate: _todayDate(),
   fromDate: _todayDate(),
 };
@@ -155,13 +155,13 @@ export default function InternalTransportBillForm() {
 
     if (selectedRows.length > 0) {
       if (images?.length < 1) {
-        return toast.warning("Attachment must be added!");
+        return toast.warning('Attachment must be added!');
       }
       const payload = {
         head: {
           accountId: accId,
           supplierId: 0,
-          supplierName: "",
+          supplierName: '',
           unitId: buId,
           unitName: buName,
           sbuId: 58,
@@ -184,7 +184,7 @@ export default function InternalTransportBillForm() {
         })),
         row: selectedRows?.map((element) => ({
           shipmentCode: element?.shipmentCode,
-          challanNo: element?.challanNo || "",
+          challanNo: element?.challanNo || '',
           tripId: 0,
           shipmentCostId: element?.shipmentCostId,
           ammount: +element?.netPayable,
@@ -200,7 +200,7 @@ export default function InternalTransportBillForm() {
         true
       );
     } else {
-      return toast.warning("Please select at least one row!");
+      return toast.warning('Please select at least one row!');
     }
   };
 

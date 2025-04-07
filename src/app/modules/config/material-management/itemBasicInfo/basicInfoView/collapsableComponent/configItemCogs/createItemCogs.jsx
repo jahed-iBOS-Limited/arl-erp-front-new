@@ -49,7 +49,6 @@ export default function CreateItemPurchaseInfo({
     if (itemId && selectedBusinessUnit.value && profileData.accountId) {
       getDataById(itemId, profileData?.accountId, selectedBusinessUnit?.value);
     }
-
   }, [itemId, profileData, selectedBusinessUnit]);
 
   const setAlternateUomList = (data) => {
@@ -62,7 +61,7 @@ export default function CreateItemPurchaseInfo({
   const getDataById = async (itemId, accountId, businessUnitId) => {
     try {
       const res = await Axios.get(
-        `/wms/ItemWarehouseCost/GetItemWarehouseCostbyItemId?AccountId=${accountId}&UnitId=${businessUnitId}&ItemId=${itemId}`,
+        `/wms/ItemWarehouseCost/GetItemWarehouseCostbyItemId?AccountId=${accountId}&UnitId=${businessUnitId}&ItemId=${itemId}`
       );
       const { data, status } = res;
       if (status === 200) {
@@ -90,7 +89,7 @@ export default function CreateItemPurchaseInfo({
         try {
           const res = await Axios.put(
             '/wms/ItemWarehouseCost/EditItemWarehouseCost',
-            editObjRow,
+            editObjRow
           );
           toast.success(res.data?.message || 'Submitted successfully', {
             toastId: shortid(),
@@ -115,7 +114,7 @@ export default function CreateItemPurchaseInfo({
         try {
           const res = await Axios.post(
             '/wms/ItemWarehouseCost/CreateItemWarehouseCost',
-            payload,
+            payload
           );
           cb(payload);
           toast.success(res.data?.message || 'Submitted successfully', {

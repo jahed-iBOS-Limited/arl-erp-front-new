@@ -1,15 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
-import ISpinner from "./../../../../../_helper/_spinner";
-import { Modal } from "react-bootstrap";
-import { useSelector } from "react-redux";
-import { shallowEqual } from "react-redux";
-import printIcon from "../../../../../_helper/images/print-icon.png";
+import React, { useEffect, useRef, useState } from 'react';
+import ISpinner from './../../../../../_helper/_spinner';
+import { Modal } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import { shallowEqual } from 'react-redux';
+import printIcon from '../../../../../_helper/images/print-icon.png';
 // import { toast } from "react-toastify";
 // import IDelete from "./../../../../../_helper/_helperIcons/_delete";
-import Loading from "./../../../../../_helper/_loading";
-import { getInvoiceReportData } from "../../helper";
-import ReactToPrint from "react-to-print";
-import InvoiceTableBlueHeader from "./invoiceTable";
+import Loading from './../../../../../_helper/_loading';
+import { getInvoiceReportData } from '../../helper';
+import ReactToPrint from 'react-to-print';
+import InvoiceTableBlueHeader from './invoiceTable';
 
 export default function InvoiceReportTable({
   id,
@@ -43,15 +43,11 @@ export default function InvoiceReportTable({
         setDisabled
       );
     }
-
   }, [show]);
 
   const printRef = useRef();
 
-  const subTotal  = invoiceData?.row?.reduce(
-    (acc, cur) => acc + cur?.total,
-    0
-  )
+  const subTotal = invoiceData?.row?.reduce((acc, cur) => acc + cur?.total, 0);
   return (
     <div className="clear_sales_invoice_View_Form">
       <div className="viewModal">
@@ -70,27 +66,27 @@ export default function InvoiceReportTable({
               <Modal.Header className="bg-custom">
                 <Modal.Title className="w-100">
                   <div className="d-flex justify-content-between px-4 py-2">
-                    <div className="title">{"Invoice Report"}</div>
+                    <div className="title">{'Invoice Report'}</div>
                     <div className="mt-5">
                       <ReactToPrint
                         pageStyle={
-                          "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}"
+                          '@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}'
                         }
                         trigger={() => (
                           <button
                             type="button"
                             className="btn btn-primary printSectionNone"
                             style={{
-                              padding: "2px 5px",
-                              position: "absolute",
-                              top: "5px",
-                              right: "5px",
+                              padding: '2px 5px',
+                              position: 'absolute',
+                              top: '5px',
+                              right: '5px',
                             }}
                           >
                             <img
                               style={{
-                                width: "25px",
-                                paddingRight: "5px",
+                                width: '25px',
+                                paddingRight: '5px',
                               }}
                               src={printIcon}
                               alt="print-icon"
@@ -118,33 +114,33 @@ export default function InvoiceReportTable({
                     <h6>Website: www.ibos.io</h6>
                   </div>
                   <div>
-                    <h1 style={{ color: "#7791c9" }}>INVOICE</h1>
+                    <h1 style={{ color: '#7791c9' }}>INVOICE</h1>
                     <h6>Date: {item?.transactionDate}</h6>
-                    <h6>Invoice No: {item?.invoiceCode.split("-")[1]}</h6>
+                    <h6>Invoice No: {item?.invoiceCode.split('-')[1]}</h6>
                     <h6>Customer Id: {item?.accountReceivablePayableId}</h6>
                   </div>
                 </div>
                 <div className="d-flex">
-                  <div style={{ width: "300px" }} className="mr-6">
-                    <InvoiceTableBlueHeader ths={["Bill To"]}>
+                  <div style={{ width: '300px' }} className="mr-6">
+                    <InvoiceTableBlueHeader ths={['Bill To']}>
                       <tr>
                         <td className="text-left">
                           Name: {invoiceData?.getInvoiceBillSoldTo?.billToName}
                           <br />
-                          Company Name:{" "}
+                          Company Name:{' '}
                           {invoiceData?.getInvoiceBillSoldTo?.billToCompanyName}
                           <br />
-                          Street Address:{" "}
+                          Street Address:{' '}
                           {invoiceData?.getInvoiceBillSoldTo?.billTOAddress}
                           <br />
-                          Phone:{" "}
+                          Phone:{' '}
                           {invoiceData?.getInvoiceBillSoldTo?.billToPhone}
                         </td>
                       </tr>
                     </InvoiceTableBlueHeader>
                   </div>
-                  <div className="ml-6" style={{ width: "300px" }}>
-                    <InvoiceTableBlueHeader ths={["Ship To"]}>
+                  <div className="ml-6" style={{ width: '300px' }}>
+                    <InvoiceTableBlueHeader ths={['Ship To']}>
                       <tr>
                         <td className="text-left">
                           Name: {invoiceData?.getInvoiceBillSoldTo?.soldToName}
@@ -152,12 +148,12 @@ export default function InvoiceReportTable({
                           Company Name:
                           {
                             invoiceData?.getInvoiceBillSoldTo?.soldToCompanyName
-                          }{" "}
+                          }{' '}
                           <br />
                           Street Address:
                           {
                             invoiceData?.getInvoiceBillSoldTo?.soldTOAddress
-                          }{" "}
+                          }{' '}
                           <br />
                           Phone:
                           {invoiceData?.getInvoiceBillSoldTo?.soldToPhone}
@@ -169,21 +165,21 @@ export default function InvoiceReportTable({
                 <div>
                   <InvoiceTableBlueHeader
                     ths={[
-                      "SALES PERSON",
-                      "PO #",
-                      "SHIP DATE",
-                      "SHIP VIA",
-                      "F.O.B.",
-                      "TERM S",
+                      'SALES PERSON',
+                      'PO #',
+                      'SHIP DATE',
+                      'SHIP VIA',
+                      'F.O.B.',
+                      'TERM S',
                     ]}
                   >
                     <tr>
-                      <td> {" ."}</td>
-                      <td> {" ."}</td>
-                      <td> {" ."}</td>
-                      <td> {" ."}</td>
-                      <td> {" ."}</td>
-                      <td> {" ."}</td>
+                      <td> {' .'}</td>
+                      <td> {' .'}</td>
+                      <td> {' .'}</td>
+                      <td> {' .'}</td>
+                      <td> {' .'}</td>
+                      <td> {' .'}</td>
                     </tr>
                   </InvoiceTableBlueHeader>
                 </div>
@@ -197,37 +193,37 @@ export default function InvoiceReportTable({
                         <tr>
                           <th
                             className="blue-table"
-                            style={{ color: "white", width: "30px" }}
+                            style={{ color: 'white', width: '30px' }}
                           >
                             Sl
                           </th>
                           <th
                             className="blue-table"
-                            style={{ color: "white", width: "100px" }}
+                            style={{ color: 'white', width: '100px' }}
                           >
                             Item
                           </th>
                           <th
                             className="blue-table"
-                            style={{ color: "white", width: "500px" }}
+                            style={{ color: 'white', width: '500px' }}
                           >
                             Description
                           </th>
                           <th
                             className="blue-table"
-                            style={{ color: "white", width: "150px" }}
+                            style={{ color: 'white', width: '150px' }}
                           >
                             Quantity
                           </th>
                           <th
                             className="blue-table"
-                            style={{ color: "white", width: "150px" }}
+                            style={{ color: 'white', width: '150px' }}
                           >
                             Unit Price
                           </th>
                           <th
                             className="blue-table"
-                            style={{ color: "white", width: "150px" }}
+                            style={{ color: 'white', width: '150px' }}
                           >
                             Total
                           </th>
@@ -251,9 +247,7 @@ export default function InvoiceReportTable({
                             <b>Sub Total</b>
                           </td>
                           <td className="text-right">
-                            <b>
-                             {subTotal}
-                            </b>
+                            <b>{subTotal}</b>
                           </td>
                         </tr>
                         <tr>
@@ -261,8 +255,8 @@ export default function InvoiceReportTable({
                             colSpan="3"
                             className="text-left"
                             style={{
-                              backgroundColor: "#3b4e87",
-                              borderBottom: "none",
+                              backgroundColor: '#3b4e87',
+                              borderBottom: 'none',
                             }}
                           >
                             <div className="whiteColor">
@@ -273,7 +267,7 @@ export default function InvoiceReportTable({
                             </div>
                           </td>
                           <td></td>
-                          <td >
+                          <td>
                             <b>TAX Rate</b>
                           </td>
                           <td className="text-right">
@@ -285,9 +279,9 @@ export default function InvoiceReportTable({
                             colSpan="3"
                             className="text-left"
                             style={{
-                              backgroundColor: "#transparent",
-                              borderTop: "none",
-                              borderBottom: "none",
+                              backgroundColor: '#transparent',
+                              borderTop: 'none',
+                              borderBottom: 'none',
                             }}
                           >
                             1. Total payment due in 30 days
@@ -305,8 +299,8 @@ export default function InvoiceReportTable({
                             colSpan="3"
                             className="text-left"
                             style={{
-                              backgroundColor: "transparent",
-                              borderTop: "none",
+                              backgroundColor: 'transparent',
+                              borderTop: 'none',
                             }}
                           >
                             2. Please include the invoke number in check
@@ -321,7 +315,7 @@ export default function InvoiceReportTable({
                           <td colSpan="3"></td>
                           <td></td>
                           <td>
-                            <b>Total</b>{" "}
+                            <b>Total</b>{' '}
                           </td>
                           <td className="text-right">
                             <b>{subTotal + invoiceData?.tax}</b>
@@ -330,7 +324,7 @@ export default function InvoiceReportTable({
                         <tr>
                           <td colSpan="4"></td>
                           <td colSpan="3" className="text-center">
-                            Make all checks payable to your{" "}
+                            Make all checks payable to your{' '}
                             {invoiceData?.companyName}
                           </td>
                         </tr>

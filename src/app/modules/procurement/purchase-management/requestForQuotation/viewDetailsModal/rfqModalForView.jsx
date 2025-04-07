@@ -28,10 +28,9 @@ export default function RfqModalForView({
   useEffect(() => {
     if (rfqId) {
       getRfqData(
-        `${eProcurementBaseURL}/RequestForQuotation/GetRequestForQuotationDetails?requestForQuotationId=${rfqId}`,
+        `${eProcurementBaseURL}/RequestForQuotation/GetRequestForQuotationDetails?requestForQuotationId=${rfqId}`
       );
     }
-
   }, [rfqId]);
 
   return (
@@ -201,12 +200,12 @@ export default function RfqModalForView({
                                 rfqStatus === 'Live'
                                   ? '#3699FF'
                                   : rfqStatus === 'Closed'
-                                  ? '#F64E60'
-                                  : rfqStatus === 'Pending'
-                                  ? '#FFA800'
-                                  : rfqStatus === 'Waiting'
-                                  ? '#8950FC'
-                                  : '',
+                                    ? '#F64E60'
+                                    : rfqStatus === 'Pending'
+                                      ? '#FFA800'
+                                      : rfqStatus === 'Waiting'
+                                        ? '#8950FC'
+                                        : '',
                               fontWeight: 'bold',
                               marginLeft: '1px',
                             }}

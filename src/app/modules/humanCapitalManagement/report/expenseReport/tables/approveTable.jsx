@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import { toast } from "react-toastify";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import Loading from "../../../../_helper/_loading";
-import { approveExpense } from "../helper";
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import Loading from '../../../../_helper/_loading';
+import { approveExpense } from '../helper';
 
 const headers = [
-  { name: "SL" },
-  { name: "Employee" },
-  { name: "Designation" },
-  { name: "Bank Name" },
-  { name: "Account Number" },
-  { name: "Application Amount" },
-  { name: "Approved by Supervisor" },
-  { name: "Approved by Line Manager" },
-  { name: "Approved by HR" },
+  { name: 'SL' },
+  { name: 'Employee' },
+  { name: 'Designation' },
+  { name: 'Bank Name' },
+  { name: 'Account Number' },
+  { name: 'Application Amount' },
+  { name: 'Approved by Supervisor' },
+  { name: 'Approved by Line Manager' },
+  { name: 'Approved by HR' },
 ];
 
 const ApproveTable = ({ obj }) => {
@@ -39,7 +39,7 @@ const ApproveTable = ({ obj }) => {
 
   const expenseApprove = () => {
     if (selectedItems?.length < 1) {
-      return toast.warn("Please select at least one row!");
+      return toast.warn('Please select at least one row!');
     }
     const payload = selectedItems?.map((element) => ({
       expenseId: element?.intexpenseid,
@@ -62,7 +62,7 @@ const ApproveTable = ({ obj }) => {
       <div>
         <div className="text-right">
           <button
-            className={"btn btn-info mt-1"}
+            className={'btn btn-info mt-1'}
             onClick={() => {
               expenseApprove();
             }}
@@ -73,11 +73,11 @@ const ApproveTable = ({ obj }) => {
           </button>
         </div>
         <table className="table mt-3 bj-table bj-table-landing">
-          <thead style={{ borderTop: "1px solid rgb(207, 203, 203)" }}>
+          <thead style={{ borderTop: '1px solid rgb(207, 203, 203)' }}>
             <tr>
               <th
                 onClick={() => allSelect(!selectedAll)}
-                style={{ minWidth: "30px" }}
+                style={{ minWidth: '30px' }}
               >
                 <input
                   type="checkbox"
@@ -104,7 +104,7 @@ const ApproveTable = ({ obj }) => {
                 <tr key={index}>
                   <td
                     onClick={() => {
-                      rowDataHandler("isSelected", index, !item.isSelected);
+                      rowDataHandler('isSelected', index, !item.isSelected);
                     }}
                     className="text-center"
                   >

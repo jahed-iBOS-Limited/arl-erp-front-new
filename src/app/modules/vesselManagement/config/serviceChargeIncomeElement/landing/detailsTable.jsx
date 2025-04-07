@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import InputField from "../../../../_helper/_inputField";
-import { rateApprove } from "../helper";
-import Loading from "../../../../_helper/_loading";
+import React, { useState } from 'react';
+import InputField from '../../../../_helper/_inputField';
+import { rateApprove } from '../helper';
+import Loading from '../../../../_helper/_loading';
 
 const DetailsTable = ({ obj }) => {
   const { costs, revenues, setCosts, setRevenues, userId } = obj;
@@ -34,11 +34,11 @@ const DetailsTable = ({ obj }) => {
         <div className="col-lg-12">
           <div className="react-bootstrap-table table-responsive">
             <table
-              className={"table table-striped table-bordered global-table "}
+              className={'table table-striped table-bordered global-table '}
             >
               <thead>
                 <tr>
-                  <th style={{ minWidth: "30px" }}>SL</th>
+                  <th style={{ minWidth: '30px' }}>SL</th>
                   <th>Cost Element</th>
                   <th>Rate (BDT)</th>
                   <th>Status</th>
@@ -48,7 +48,7 @@ const DetailsTable = ({ obj }) => {
                 {costs?.map((item, i) => {
                   return (
                     <tr>
-                      <td style={{ minWidth: "30px" }} className="text-center">
+                      <td style={{ minWidth: '30px' }} className="text-center">
                         {i + 1}
                       </td>
                       <td>{item?.serviceElementName}</td>
@@ -70,7 +70,7 @@ const DetailsTable = ({ obj }) => {
                       </td>
                       <td className="text-center">
                         {item?.isApprove ? (
-                          "Approved"
+                          'Approved'
                         ) : (
                           <button
                             className="btn btn-info btn-sm"

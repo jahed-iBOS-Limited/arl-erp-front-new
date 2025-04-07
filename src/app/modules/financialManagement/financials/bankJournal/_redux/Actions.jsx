@@ -1,13 +1,14 @@
-import * as requestFromServer from "./Api";
-import { bankJournalSlice } from "./Slice";
-import { toast } from "react-toastify";const { actions: slice } = bankJournalSlice;
+import * as requestFromServer from './Api';
+import { bankJournalSlice } from './Slice';
+import { toast } from 'react-toastify';
+const { actions: slice } = bankJournalSlice;
 // action for save created data
 export const saveCashJournal_Action = (payload) => () => {
   return requestFromServer
     .saveCreateData(payload.data)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         payload.cb();
       }
     })
@@ -17,76 +18,73 @@ export const saveCashJournal_Action = (payload) => () => {
 };
 
 // action for get grid data
-export const getBankJournalGridData = (
-  buId,
-  sbuId,
-  accJournalTypeId,
-  isPosted,
-  isActive,
-  fromdate,
-  todate,
-  setLanding,
-  pageNo,
-  pageSize
-) => (dispatch) => {
-  setLanding(true);
-  return requestFromServer
-    .getGridData(
-      buId,
-      sbuId,
-      accJournalTypeId,
-      isPosted,
-      isActive,
-      fromdate,
-      todate,
-      pageNo,
-      pageSize
-    )
-    .then((res) => {
-      setLanding(false);
-      return dispatch(slice.SetGridData(res.data));
-    })
-    .catch((err) => {
-      dispatch(slice.SetGridData([]));
+export const getBankJournalGridData =
+  (
+    buId,
+    sbuId,
+    accJournalTypeId,
+    isPosted,
+    isActive,
+    fromdate,
+    todate,
+    setLanding,
+    pageNo,
+    pageSize
+  ) =>
+  (dispatch) => {
+    setLanding(true);
+    return requestFromServer
+      .getGridData(
+        buId,
+        sbuId,
+        accJournalTypeId,
+        isPosted,
+        isActive,
+        fromdate,
+        todate,
+        pageNo,
+        pageSize
+      )
+      .then((res) => {
+        setLanding(false);
+        return dispatch(slice.SetGridData(res.data));
+      })
+      .catch((err) => {
+        dispatch(slice.SetGridData([]));
 
-      setLanding(false);
-    });
-};
+        setLanding(false);
+      });
+  };
 
 export const EmptyBankJournalGridData = () => (dispatch) => {
   dispatch(slice.SetGridData([]));
 };
 
 // action for get grid data
-export const getBankJournalGridDatabyCode = (
-  buId,
-  values,
-  setFieldValue,
-  accJournalTypeId,
-) => (dispatch) => {
-  const { code, sbu } = values;
-  return requestFromServer
-    .getGridDatabyCode(buId, sbu?.value, code, accJournalTypeId)
-    .then((res) => {
-
-      let status;
-      const { isPosted, isActive } = res?.data?.[0];
-      if (isPosted === false && isActive === true) {
-        status = "notComplated";
-      } else if (isPosted === true && isActive === true) {
-        status = "complated";
-      } else {
-        status = "canceled";
-      }
-      setFieldValue("type", status);
-      setFieldValue("code", "");
-      return dispatch(slice.SetGridData(res?.data));
-      //setComplete("")
-    })
-    .catch((err) => {
-      dispatch(slice.SetGridData([]));
-    });
-};
+export const getBankJournalGridDatabyCode =
+  (buId, values, setFieldValue, accJournalTypeId) => (dispatch) => {
+    const { code, sbu } = values;
+    return requestFromServer
+      .getGridDatabyCode(buId, sbu?.value, code, accJournalTypeId)
+      .then((res) => {
+        let status;
+        const { isPosted, isActive } = res?.data?.[0];
+        if (isPosted === false && isActive === true) {
+          status = 'notComplated';
+        } else if (isPosted === true && isActive === true) {
+          status = 'complated';
+        } else {
+          status = 'canceled';
+        }
+        setFieldValue('type', status);
+        setFieldValue('code', '');
+        return dispatch(slice.SetGridData(res?.data));
+        //setComplete("")
+      })
+      .catch((err) => {
+        dispatch(slice.SetGridData([]));
+      });
+  };
 
 // action for save edited data
 export const saveEditedBankJournal = (payload, setDisabled) => () => {
@@ -95,7 +93,7 @@ export const saveEditedBankJournal = (payload, setDisabled) => () => {
     .saveEditData(payload)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         setDisabled(false);
       }
     })
@@ -106,23 +104,20 @@ export const saveEditedBankJournal = (payload, setDisabled) => () => {
 };
 
 // action for save edited data
-export const saveCompleted_action = (
-  payload,
-  updateRowDto,
-  setRowDto
-) => () => {
-  return requestFromServer
-    .saveCompleted(payload)
-    .then((res) => {
-      if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
-        setRowDto(updateRowDto);
-      }
-    })
-    .catch((err) => {
-      toast.error(err?.response?.data?.message);
-    });
-};
+export const saveCompleted_action =
+  (payload, updateRowDto, setRowDto) => () => {
+    return requestFromServer
+      .saveCompleted(payload)
+      .then((res) => {
+        if (res.status === 200) {
+          toast.success(res.data?.message || 'Submitted successfully');
+          setRowDto(updateRowDto);
+        }
+      })
+      .catch((err) => {
+        toast.error(err?.response?.data?.message);
+      });
+  };
 
 // action for save edited data
 export const saveCancel_action = (payload, updateRowDto, setRowDto) => () => {
@@ -130,7 +125,7 @@ export const saveCancel_action = (payload, updateRowDto, setRowDto) => () => {
     .saveCancel(payload)
     .then((res) => {
       if (res.status === 200) {
-        toast.success(res.data?.message || "Submitted successfully");
+        toast.success(res.data?.message || 'Submitted successfully');
         setRowDto(updateRowDto);
       }
     })

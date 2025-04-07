@@ -1,28 +1,28 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useDispatch } from "react-redux";
-import Select from "react-select";
-import * as Yup from "yup";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import ICalendar from "../../../../_helper/_inputCalender";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import InputField from "../../../../_helper/_inputField";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
-import IButton from "../../../../_helper/iButton";
-import customStyles from "../../../../selectCustomStyle";
-import { getItemByChannelIdAciton } from "../_redux/Actions";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import Select from 'react-select';
+import * as Yup from 'yup';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import ICalendar from '../../../../_helper/_inputCalender';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import InputField from '../../../../_helper/_inputField';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import AttachmentUploaderNew from '../../../../_helper/attachmentUploaderNew';
+import IButton from '../../../../_helper/iButton';
+import customStyles from '../../../../selectCustomStyle';
+import { getItemByChannelIdAciton } from '../_redux/Actions';
 
 // Validation schema
 const validationSchema = Yup.object().shape({
   conditionType: Yup.object().shape({
-    label: Yup.string().required("Condition Type is required"),
-    value: Yup.string().required("Condition Type is required"),
+    label: Yup.string().required('Condition Type is required'),
+    value: Yup.string().required('Condition Type is required'),
   }),
   conditionTypeRef: Yup.object().shape({
-    label: Yup.string().required("Condition Type Ref is required"),
-    value: Yup.string().required("Condition Type Ref is required"),
+    label: Yup.string().required('Condition Type Ref is required'),
+    value: Yup.string().required('Condition Type Ref is required'),
   }),
 });
 
@@ -50,7 +50,7 @@ export default function FormCmp({
   token,
   fetchGetSalesInfoExelData,
   salesInformationExcelData,
-  setSalesInformationExcelData
+  setSalesInformationExcelData,
 }) {
   const dispatch = useDispatch();
 
@@ -59,7 +59,7 @@ export default function FormCmp({
       setAll(values);
     } else if (values.appsItemRate) {
       setAppsItemRateAll(values);
-      setFieldValue("appsItemRate", false);
+      setFieldValue('appsItemRate', false);
     } else {
       const obj = {
         ...values,
@@ -72,7 +72,7 @@ export default function FormCmp({
       };
       setter(obj);
     }
-    setFieldValue("attachment", "");
+    setFieldValue('attachment', '');
   };
 
   const addDisableHandler = (values) => {
@@ -116,28 +116,28 @@ export default function FormCmp({
                     label="Select Condition Type"
                     name="conditionType"
                     onChange={(valueOption) => {
-                      setFieldValue("conditionTypeRef", {
-                        value: "",
-                        label: "",
+                      setFieldValue('conditionTypeRef', {
+                        value: '',
+                        label: '',
                       });
-                      setFieldValue("conditionType", valueOption);
+                      setFieldValue('conditionType', valueOption);
                       // setQuery(valueOption?.label.split("/")[1]);
                       setQuery(valueOption?.value);
-                      setSalesInformationExcelData([])
+                      setSalesInformationExcelData([]);
                     }}
                   />
                   <p
                     style={{
-                      fontSize: "0.9rem",
+                      fontSize: '0.9rem',
                       fontWeight: 400,
-                      width: "100%",
-                      marginTop: "0.25rem",
+                      width: '100%',
+                      marginTop: '0.25rem',
                     }}
                     className="text-danger"
                   >
                     {errors && errors.conditionType && touched.conditionType
                       ? errors.conditionType.value
-                      : ""}
+                      : ''}
                   </p>
                 </div>
 
@@ -152,9 +152,9 @@ export default function FormCmp({
                     touched={touched}
                     isDisabled={!values.conditionType?.value}
                     onChange={(valueOption) => {
-                      setFieldValue("appsItemRate", false);
-                      setFieldValue("conditionTypeRef", valueOption);
-                      setSalesInformationExcelData([])
+                      setFieldValue('appsItemRate', false);
+                      setFieldValue('conditionTypeRef', valueOption);
+                      setSalesInformationExcelData([]);
                     }}
                   />
                 </div>
@@ -193,7 +193,7 @@ export default function FormCmp({
                 )}
                 {selectedBusinessUnit?.value === 144 && (
                   <IButton
-                    className={"btn-success"}
+                    className={'btn-success'}
                     onClick={() => {
                       postData(
                         `https://automation.ibos.io/ItemPriceEntry`,
@@ -224,12 +224,12 @@ export default function FormCmp({
                       name="isAllItem"
                       id="isAllItem"
                       onChange={(e) => {
-                        setFieldValue("isAllItem", e.target.checked);
+                        setFieldValue('isAllItem', e.target.checked);
                         setFieldValue(
-                          "appsItemRate",
+                          'appsItemRate',
                           e.target.checked ? false : values.appsItemRate
                         );
-                        setSalesInformationExcelData([])
+                        setSalesInformationExcelData([]);
                       }}
                       checked={values?.isAllItem}
                     />
@@ -245,8 +245,8 @@ export default function FormCmp({
                         name="appsItemRate"
                         id="appsItemRate"
                         onChange={(e) => {
-                          setFieldValue("appsItemRate", e.target.checked);
-                          setFieldValue("isAllItem", false);
+                          setFieldValue('appsItemRate', e.target.checked);
+                          setFieldValue('isAllItem', false);
                           dispatch(
                             getItemByChannelIdAciton(
                               accountId,
@@ -300,33 +300,35 @@ export default function FormCmp({
                     </div>
                   </>
                 )}
-                {// show only for business unit 224 & 171
+                {
+                  // show only for business unit 224 & 171
 
-                [224, 171].includes(selectedBusinessUnit?.value) && (
-                  <div className="col-lg-2">
-                    <InputField
-                      value={values?.price}
-                      label="Common Rate"
-                      name="price"
-                      type="text"
-                      onChange={(e) => {
-                        setFieldValue("price", e.target.value);
-                      }}
-                    />
-                  </div>
-                )}
+                  [224, 171].includes(selectedBusinessUnit?.value) && (
+                    <div className="col-lg-2">
+                      <InputField
+                        value={values?.price}
+                        label="Common Rate"
+                        name="price"
+                        type="text"
+                        onChange={(e) => {
+                          setFieldValue('price', e.target.value);
+                        }}
+                      />
+                    </div>
+                  )
+                }
                 <div className="col-lg-2 mt-4 pt-1">
                   <div className="">
                     <AttachmentUploaderNew
                       style={{
-                        backgroundColor: "transparent",
-                        color: "black",
+                        backgroundColor: 'transparent',
+                        color: 'black',
                       }}
                       CBAttachmentRes={(attachmentData) => {
                         if (Array.isArray(attachmentData)) {
                           console.log(attachmentData);
                           console.log({ attachment: attachmentData });
-                          setFieldValue("attachment", attachmentData?.[0]?.id);
+                          setFieldValue('attachment', attachmentData?.[0]?.id);
                         }
                       }}
                     />
@@ -335,7 +337,7 @@ export default function FormCmp({
                 <IButton
                   onClick={() => {
                     addClickHandler(values, setFieldValue);
-                    setSalesInformationExcelData([])
+                    setSalesInformationExcelData([]);
                   }}
                   disabled={addDisableHandler(values)}
                 >
@@ -372,7 +374,7 @@ export default function FormCmp({
                                 type="number"
                                 value={itm?.price}
                                 onChange={(e) =>
-                                  setPrice(idx, e.target.value, "price", values)
+                                  setPrice(idx, e.target.value, 'price', values)
                                 }
                                 min="0"
                                 step="any"
@@ -388,7 +390,7 @@ export default function FormCmp({
                                       setPrice(
                                         idx,
                                         e.target.value,
-                                        "maxPriceAddition"
+                                        'maxPriceAddition'
                                       )
                                     }
                                     min="0"
@@ -403,7 +405,7 @@ export default function FormCmp({
                                       setPrice(
                                         idx,
                                         e.target.value,
-                                        "minPriceDeduction"
+                                        'minPriceDeduction'
                                       )
                                     }
                                     min="0"
@@ -433,7 +435,7 @@ export default function FormCmp({
                                     className="mt-2 ml-2"
                                   >
                                     <i
-                                      style={{ fontSize: "16px" }}
+                                      style={{ fontSize: '16px' }}
                                       className={`fa pointer fa-eye`}
                                       aria-hidden="true"
                                     ></i>
@@ -454,7 +456,7 @@ export default function FormCmp({
                     </table>
                   </div>
                 ) : (
-                  ""
+                  ''
                 )}
               </div>
 
@@ -481,16 +483,24 @@ export default function FormCmp({
                       {salesInformationExcelData.map((item, idx) => (
                         <tr key={idx}>
                           <td>{idx + 1}</td>
-                          <td className="text-right">{item?.conditionTypeId}</td>
+                          <td className="text-right">
+                            {item?.conditionTypeId}
+                          </td>
                           <td>{item?.conditionTypeName}</td>
-                          <td className="text-right">{item?.conditionReffId}</td>
+                          <td className="text-right">
+                            {item?.conditionReffId}
+                          </td>
                           <td className="text-right">{item?.itemId}</td>
                           <td>{item?.itemName}</td>
                           <td className="text-right">{item?.price}</td>
                           <td>{_dateFormatter(item?.startDate)}</td>
                           <td>{_dateFormatter(item?.endDate)}</td>
-                          <td className="text-right">{item?.maximumIncrease}</td>
-                          <td className="text-right">{item?.minimumDecrease}</td>
+                          <td className="text-right">
+                            {item?.maximumIncrease}
+                          </td>
+                          <td className="text-right">
+                            {item?.minimumDecrease}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -502,14 +512,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
                 onClick={() => {

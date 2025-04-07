@@ -1,27 +1,27 @@
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import FromDateToDateForm from "../../../_helper/commonInputFieldsGroups/dateForm";
-import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import IButton from "../../../_helper/iButton";
-import ICustomCard from "../../../_helper/_customCard";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import FromDateToDateForm from '../../../_helper/commonInputFieldsGroups/dateForm';
+import PowerBIReport from '../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import IButton from '../../../_helper/iButton';
+import ICustomCard from '../../../_helper/_customCard';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  type: "",
+  type: '',
 };
 
 const typeList = [
-  { value: 7, label: "Unload Bill" },
-  { value: 8, label: "Day & Category Base Labor Cost" },
-  { value: 9, label: "Day & Vehicle Category Base Trip Status" },
-  { value: 10, label: "Day & Vehicle Base Trip Status" },
-  { value: 11, label: "Driver Base Trip Status" },
-  { value: 12, label: "Detail Statement" },
-  { value: 13, label: "Vehicle Owner Type Basis" },
+  { value: 7, label: 'Unload Bill' },
+  { value: 8, label: 'Day & Category Base Labor Cost' },
+  { value: 9, label: 'Day & Vehicle Category Base Trip Status' },
+  { value: 10, label: 'Day & Vehicle Base Trip Status' },
+  { value: 11, label: 'Driver Base Trip Status' },
+  { value: 12, label: 'Detail Statement' },
+  { value: 13, label: 'Vehicle Owner Type Basis' },
 ];
 
 const TripCostStatement = () => {
@@ -31,16 +31,15 @@ const TripCostStatement = () => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
 
-
-  const groupId = "e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a";
-  const reportId = "6224c485-84f3-4916-b3fb-6d16297c26a9";
+  const groupId = 'e3ce45bb-e65e-43d7-9ad1-4aa4b958b29a';
+  const reportId = '6224c485-84f3-4916-b3fb-6d16297c26a9';
 
   const parameterValues = (values) => {
     return [
-      { name: "intPartid", value: `${values?.type?.value}` },
-      { name: "FromDate", value: `${values?.fromDate}` },
-      { name: "ToDate", value: `${values?.toDate}` },
-      {name: "Bunit", value: `${selectedBusinessUnit?.value}`},
+      { name: 'intPartid', value: `${values?.type?.value}` },
+      { name: 'FromDate', value: `${values?.fromDate}` },
+      { name: 'ToDate', value: `${values?.toDate}` },
+      { name: 'Bunit', value: `${selectedBusinessUnit?.value}` },
     ];
   };
 
@@ -57,7 +56,7 @@ const TripCostStatement = () => {
                   value={values?.type}
                   label="Type"
                   onChange={(valueOption) => {
-                    setFieldValue("type", valueOption);
+                    setFieldValue('type', valueOption);
                     setShowReport(false);
                   }}
                   placeholder="Type"
@@ -73,7 +72,7 @@ const TripCostStatement = () => {
                 }}
               />
               <IButton
-                colSize={"col-lg-3"}
+                colSize={'col-lg-3'}
                 onClick={() => {
                   setShowReport(true);
                 }}

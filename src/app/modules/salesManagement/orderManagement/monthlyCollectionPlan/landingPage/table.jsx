@@ -46,7 +46,7 @@ export function MonthlyCollectionPlanLanding() {
       buId,
       empId,
       setRowData,
-      setLoading,
+      setLoading
     );
   };
 
@@ -68,7 +68,7 @@ export function MonthlyCollectionPlanLanding() {
     values,
     pageNo,
     pageSize,
-    searchValue = '',
+    searchValue = ''
   ) => {
     const apiUrl =
       values?.type?.value === 1
@@ -78,12 +78,12 @@ export function MonthlyCollectionPlanLanding() {
             values?.monthYear?.split('-')[1]
           }&pageNo=${pageNo}&pageSize=${pageSize}`
         : values?.type?.value === 4
-        ? `/oms/CustomerSalesTarget/GetMonthlyBudgetedSalesPagination?businessUnitId=${buId}&monthId=${
-            values?.monthYear?.split('-')[1]
-          }&yearId=${
-            values?.monthYear?.split('-')[0]
-          }&pageNo=${pageNo}&pageSize=${pageSize}`
-        : '';
+          ? `/oms/CustomerSalesTarget/GetMonthlyBudgetedSalesPagination?businessUnitId=${buId}&monthId=${
+              values?.monthYear?.split('-')[1]
+            }&yearId=${
+              values?.monthYear?.split('-')[0]
+            }&pageNo=${pageNo}&pageSize=${pageSize}`
+          : '';
     getLandingData(apiUrl);
   };
 
@@ -164,7 +164,7 @@ export function MonthlyCollectionPlanLanding() {
                         className="btn btn-primary"
                         onClick={() => {
                           const selectedRow = landingData?.data?.filter(
-                            (item) => item?.isSelected,
+                            (item) => item?.isSelected
                           );
                           if (!selectedRow.length) {
                             return toast.warn('Select at least one row');
@@ -191,10 +191,10 @@ export function MonthlyCollectionPlanLanding() {
                                 values,
                                 pageNo,
                                 pageSize,
-                                '',
+                                ''
                               );
                             },
-                            true,
+                            true
                           );
                         }}
                       >
@@ -212,7 +212,7 @@ export function MonthlyCollectionPlanLanding() {
                                   checked={
                                     landingData?.data?.length > 0 &&
                                     landingData.data.every(
-                                      (item) => item.isSelected,
+                                      (item) => item.isSelected
                                     )
                                   }
                                   onChange={(e) => {
@@ -221,7 +221,7 @@ export function MonthlyCollectionPlanLanding() {
                                       (item) => ({
                                         ...item,
                                         isSelected: isChecked,
-                                      }),
+                                      })
                                     );
                                     setLandingData({
                                       ...landingData,
@@ -307,7 +307,7 @@ export function MonthlyCollectionPlanLanding() {
                         className="btn btn-primary"
                         onClick={() => {
                           const selectedRow = landingData?.data?.filter(
-                            (item) => item?.isSelected,
+                            (item) => item?.isSelected
                           );
                           if (!selectedRow.length) {
                             return toast.warn('Select at least one row');
@@ -333,10 +333,10 @@ export function MonthlyCollectionPlanLanding() {
                                 values,
                                 pageNo,
                                 pageSize,
-                                '',
+                                ''
                               );
                             },
-                            true,
+                            true
                           );
                         }}
                       >
@@ -354,7 +354,7 @@ export function MonthlyCollectionPlanLanding() {
                                   checked={
                                     landingData?.data?.length > 0 &&
                                     landingData.data.every(
-                                      (item) => item.isSelected,
+                                      (item) => item.isSelected
                                     )
                                   }
                                   onChange={(e) => {
@@ -363,7 +363,7 @@ export function MonthlyCollectionPlanLanding() {
                                       (item) => ({
                                         ...item,
                                         isSelected: isChecked,
-                                      }),
+                                      })
                                     );
                                     setLandingData({
                                       ...landingData,
@@ -408,9 +408,8 @@ export function MonthlyCollectionPlanLanding() {
                                       const value = +e.target.value;
                                       if (value < 0) return;
                                       const updatedData = [...landingData.data];
-                                      updatedData[
-                                        index
-                                      ].budgetedSalesQnt = value;
+                                      updatedData[index].budgetedSalesQnt =
+                                        value;
                                       setLandingData({
                                         ...landingData,
                                         data: updatedData,
@@ -426,9 +425,8 @@ export function MonthlyCollectionPlanLanding() {
                                       const value = +e.target.value;
                                       if (value < 0) return;
                                       const updatedData = [...landingData.data];
-                                      updatedData[
-                                        index
-                                      ].budgetedSalesAmount = value;
+                                      updatedData[index].budgetedSalesAmount =
+                                        value;
                                       setLandingData({
                                         ...landingData,
                                         data: updatedData,
@@ -515,7 +513,7 @@ export function MonthlyCollectionPlanLanding() {
                                   >
                                     {_fixedPoint(
                                       item?.numOverDuePercentage || 0,
-                                      true,
+                                      true
                                     )}
                                   </td>
                                   <td className="text-right">
@@ -536,7 +534,7 @@ export function MonthlyCollectionPlanLanding() {
                                         item?.numWeek1 +
                                         item?.numWeek2 +
                                         item?.numWeek3,
-                                      true,
+                                      true
                                     )}
                                   </td>
                                   <td
@@ -545,7 +543,7 @@ export function MonthlyCollectionPlanLanding() {
                                   >
                                     {_fixedPoint(
                                       item?.numCollectionPercentage,
-                                      true,
+                                      true
                                     )}
                                   </td>
                                   <td
@@ -639,7 +637,7 @@ export function MonthlyCollectionPlanLanding() {
                                   >
                                     {_fixedPoint(
                                       item?.numOverDuePercentage || 0,
-                                      true,
+                                      true
                                     )}
                                   </td>
                                   <td className="text-right">
@@ -672,7 +670,7 @@ export function MonthlyCollectionPlanLanding() {
                                         item?.numWeek1CP +
                                         item?.numWeek2CP +
                                         item?.numWeek3CP,
-                                      true,
+                                      true
                                     )}
                                   </td>
                                   <td className="text-right">
@@ -681,7 +679,7 @@ export function MonthlyCollectionPlanLanding() {
                                         item?.numWeek1C +
                                         item?.numWeek2C +
                                         item?.numWeek3C,
-                                      true,
+                                      true
                                     )}
                                   </td>
                                   <td
@@ -690,7 +688,7 @@ export function MonthlyCollectionPlanLanding() {
                                   >
                                     {_fixedPoint(
                                       item?.numCollectionPercentage,
-                                      true,
+                                      true
                                     )}
                                   </td>
                                 </tr>

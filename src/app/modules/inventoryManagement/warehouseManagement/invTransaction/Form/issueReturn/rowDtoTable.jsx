@@ -1,8 +1,8 @@
-import React from "react";
-import Select from "react-select";
-import customStyles from "../../../../../selectCustomStyle";
-import IDelete from "../../../../../_helper/_helperIcons/_delete";
-import { IInput } from "../../../../../_helper/_input";
+import React from 'react';
+import Select from 'react-select';
+import customStyles from '../../../../../selectCustomStyle';
+import IDelete from '../../../../../_helper/_helperIcons/_delete';
+import { IInput } from '../../../../../_helper/_input';
 
 const RowDtoTable = ({
   rowDto,
@@ -25,14 +25,14 @@ const RowDtoTable = ({
                   <th>Item Code</th>
                   <th>Item Name</th>
                   <th>Uom</th>
-                  {values?.refType?.label === "PO (Purchase Order)" && (
+                  {values?.refType?.label === 'PO (Purchase Order)' && (
                     <>
                       <th>Ref. Qty.</th>
                       <th>Rest Qty.</th>
                       <th>Vat</th>
                     </>
                   )}
-                  {values?.refType?.label === "Inventory Request" && (
+                  {values?.refType?.label === 'Inventory Request' && (
                     <>
                       <th>Request Qty.</th>
                       <th>Issue Qty.</th>
@@ -44,10 +44,10 @@ const RowDtoTable = ({
                   {/* <th>Bin Number</th> */}
                   {/* <th>Stock Type</th> */}
                   <th>Quantity</th>
-                  {values?.refType?.label === "NA (Without Reference)" && (
+                  {values?.refType?.label === 'NA (Without Reference)' && (
                     <>
                       <th>Rate</th>
-                      <th>Amount</th>{" "}
+                      <th>Amount</th>{' '}
                     </>
                   )}
                   <th>Action</th>
@@ -58,34 +58,34 @@ const RowDtoTable = ({
                   <tr key={index}>
                     <td className="text-center align-middle"> {index + 1} </td>
                     <td className="text-center align-middle">
-                      {" "}
-                      {item?.itemCode}{" "}
+                      {' '}
+                      {item?.itemCode}{' '}
                     </td>
                     <td className="">{item?.itemName}</td>
                     <td className="">{item?.uoMname}</td>
-                    {values?.refType?.label === "PO (Purchase Order)" && (
+                    {values?.refType?.label === 'PO (Purchase Order)' && (
                       <>
                         <td className="text-center align-middle">
                           {item?.refQty}
                         </td>
                         <td className="text-center align-middle">
-                          {" "}
-                          {item?.restQty || 0}{" "}
+                          {' '}
+                          {item?.restQty || 0}{' '}
                         </td>
                         <td className="text-center align-middle">
-                          {" "}
-                          {item?.vatValue || 0}{" "}
+                          {' '}
+                          {item?.vatValue || 0}{' '}
                         </td>
                       </>
                     )}
-                    {values?.refType?.label === "Inventory Request" && (
+                    {values?.refType?.label === 'Inventory Request' && (
                       <>
                         <td className="text-center align-middle">
                           {item?.requestQty}
                         </td>
                         <td className="text-center align-middle">
-                          {" "}
-                          {item?.issueQuantity || 0}{" "}
+                          {' '}
+                          {item?.issueQuantity || 0}{' '}
                         </td>
                         {/* <td className="text-center align-middle">
                         {" "}
@@ -95,12 +95,12 @@ const RowDtoTable = ({
                     )}
                     <td
                       className="text-center align-middle"
-                      style={{ width: "150px" }}
+                      style={{ width: '150px' }}
                     >
                       <Select
                         onChange={(valueOption) => {
                           rowDtoHandler(
-                            "location",
+                            'location',
                             {
                               value: valueOption?.value,
                               label: valueOption?.label,
@@ -109,7 +109,7 @@ const RowDtoTable = ({
                             index
                           );
                         }}
-                        value={item?.location || ""}
+                        value={item?.location || ''}
                         isSearchable={true}
                         styles={customStyles}
                         options={item.location}
@@ -142,7 +142,7 @@ const RowDtoTable = ({
                     />
                   </td> */}
                     <td
-                      style={{ width: "100px" }}
+                      style={{ width: '100px' }}
                       className="disabled-feedback disable-border"
                     >
                       <IInput
@@ -152,23 +152,23 @@ const RowDtoTable = ({
                         placeholder="Quantity"
                         required
                         onChange={(e) => {
-                          rowDtoHandler("quantity", e?.target?.value, index);
+                          rowDtoHandler('quantity', e?.target?.value, index);
                         }}
                         min={0.1}
                         step="any"
                         max={
-                          values.refType.label === "NA (Without Reference)"
+                          values.refType.label === 'NA (Without Reference)'
                             ? item.quantity
-                            : values.refType.label === "Inventory Request"
-                            ? item?.issueQuantity - item?.returnQuntity
-                            : item?.restQty
+                            : values.refType.label === 'Inventory Request'
+                              ? item?.issueQuantity - item?.returnQuntity
+                              : item?.restQty
                         }
                       />
                     </td>
-                    {values.refType.label === "NA (Without Reference)" && (
+                    {values.refType.label === 'NA (Without Reference)' && (
                       <>
                         <td
-                          style={{ width: "100px" }}
+                          style={{ width: '100px' }}
                           className="disabled-feedback disable-border"
                         >
                           <IInput
@@ -179,7 +179,7 @@ const RowDtoTable = ({
                             step="any"
                             required
                             onChange={(e) => {
-                              rowDtoHandler("baseValue", e.target.value, index);
+                              rowDtoHandler('baseValue', e.target.value, index);
                             }}
                             min="0"
                             //max={item?.restQty}
@@ -187,7 +187,7 @@ const RowDtoTable = ({
                         </td>
                         <td className="text-center align-middle">
                           {item?.quantity * item?.baseValue}
-                        </td>{" "}
+                        </td>{' '}
                       </>
                     )}
                     <td className="text-center align-middle">

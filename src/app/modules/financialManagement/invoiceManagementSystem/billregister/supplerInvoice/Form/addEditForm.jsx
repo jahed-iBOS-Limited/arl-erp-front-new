@@ -1,46 +1,46 @@
-import React, { useEffect, useState } from "react";
-import { confirmAlert } from "react-confirm-alert"; // Import
-import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
-import { getImageuploadStatus } from "../../../../../_helper/_commonApi";
-import { attachmentUpload } from "../../../../../_helper/attachmentUpload";
-import { compressfile } from "../../../../../_helper/compressfile";
+import React, { useEffect, useState } from 'react';
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { getImageuploadStatus } from '../../../../../_helper/_commonApi';
+import { attachmentUpload } from '../../../../../_helper/attachmentUpload';
+import { compressfile } from '../../../../../_helper/compressfile';
 import {
   getPurchaseOrgDDL,
   getTdsVdsAmount,
   getWarehouseDDL,
   savePurchaseInvoice,
-} from "../../helper";
-import IForm from "./../../../../../_helper/_form";
-import Loading from "./../../../../../_helper/_loading";
-import { _todayDate } from "./../../../../../_helper/_todayDate";
-import Form from "./form";
-import "./purchaseInvoice.css";
+} from '../../helper';
+import IForm from './../../../../../_helper/_form';
+import Loading from './../../../../../_helper/_loading';
+import { _todayDate } from './../../../../../_helper/_todayDate';
+import Form from './form';
+import './purchaseInvoice.css';
 
 const initData = {
-  purchaseOrg: "",
-  plant: "",
-  warehouse: "",
-  supplierName: "",
-  purchaseOrder: "",
-  invoiceNumber: "",
-  invoiceDate: "",
-  remarks: "",
-  selectGRN: "",
+  purchaseOrg: '',
+  plant: '',
+  warehouse: '',
+  supplierName: '',
+  purchaseOrder: '',
+  invoiceNumber: '',
+  invoiceDate: '',
+  remarks: '',
+  selectGRN: '',
   checked: false,
-  ginvoiceAmount: "",
-  deducationAmount: "",
-  invoiceAmount: "",
+  ginvoiceAmount: '',
+  deducationAmount: '',
+  invoiceAmount: '',
   paymentDueDate: _todayDate(),
-  grossInvoiceAmount: "",
+  grossInvoiceAmount: '',
   deductionAmount: 0,
-  netPaymentAmount: "",
+  netPaymentAmount: '',
   advanceAdjustment: true,
-  totalAdjustedBalance: "",
-  new_Adv_Adjustment: "",
-  curentAdjustmentBalance: "",
+  totalAdjustedBalance: '',
+  new_Adv_Adjustment: '',
+  curentAdjustmentBalance: '',
   isTDS: false,
 };
 
@@ -95,7 +95,7 @@ export default function SupplerInvoiceForm() {
         (data) => data?.referenceId === values?.selectGRN?.value
       );
       if (data) {
-        toast.warning("GRN Already added");
+        toast.warning('GRN Already added');
         // alert("GRN Already added");
       } else {
         // let refAmount = values?.selectGRN?.amount + values?.selectGRN?.vatAmount
@@ -123,7 +123,7 @@ export default function SupplerInvoiceForm() {
             referenceId: values?.selectGRN?.value,
             challanNo: values?.selectGRN?.challanNo,
             referenceAmount: (refAmount || 0).toFixed(2),
-            referenceName: values?.selectGRN?.label.split("(")[0],
+            referenceName: values?.selectGRN?.label.split('(')[0],
             inventoryTransectionGroupId:
               values?.selectGRN?.inventoryTransectionGroupId,
             actionBy: profileData.userId,
@@ -146,30 +146,28 @@ export default function SupplerInvoiceForm() {
           setTdsVdsAmount
         );
         // let totalAmount = totalGrn + values?.selectGRN?.amount;
-        setFieldValue("grossInvoiceAmount", totalGrn);
-        setFieldValue("paymentDueDate", values?.selectGRN?.duePaymentDate);
+        setFieldValue('grossInvoiceAmount', totalGrn);
+        setFieldValue('paymentDueDate', values?.selectGRN?.duePaymentDate);
         // const diff =
         //   Number(supplierAmountInfo?.poAdvanceAmount?.toFixed(2)) -
         //   Number(supplierAmountInfo?.totalAdjustedBalance?.toFixed(2));
         if (Number(supplierAmountInfo?.poPendingAdjustment) >= totalGrn) {
-          setFieldValue("new_Adv_Adjustment", totalGrn);
+          setFieldValue('new_Adv_Adjustment', totalGrn);
           setFieldValue(
-            "curentAdjustmentBalance",
+            'curentAdjustmentBalance',
             values?.totalAdjustedBalance - totalGrn
           );
         } else {
           setFieldValue(
-            "new_Adv_Adjustment",
+            'new_Adv_Adjustment',
             Number(supplierAmountInfo?.poPendingAdjustment)
           );
           setFieldValue(
-            "curentAdjustmentBalance",
+            'curentAdjustmentBalance',
             values?.totalAdjustedBalance - supplierAmountInfo?.poAdvanceAmount
           );
         }
       }
-
-
     } else {
       let data = grnDDLData?.map((data) => {
         let refAmount =
@@ -188,7 +186,7 @@ export default function SupplerInvoiceForm() {
           inventoryTransectionGroupId: data?.inventoryTransectionGroupId,
           lastActionDateTime: _todayDate(),
           serverDateTime: _todayDate(),
-          referenceName: data?.label.split("(")[0],
+          referenceName: data?.label.split('(')[0],
           active: true,
         };
       });
@@ -205,31 +203,30 @@ export default function SupplerInvoiceForm() {
         totalGrn,
         setTdsVdsAmount
       );
-      setFieldValue("grossInvoiceAmount", totalGrn);
+      setFieldValue('grossInvoiceAmount', totalGrn);
       setFieldValue(
-        "paymentDueDate",
+        'paymentDueDate',
         grnDDLData[grnDDLData?.length - 1]?.duePaymentDate
       );
       // const diff =
       //   Number(supplierAmountInfo?.poAdvanceAmount?.toFixed(2)) -
       //   Number(supplierAmountInfo?.totalAdjustedBalance?.toFixed(2));
       if (Number(supplierAmountInfo?.poPendingAdjustment) >= totalGrn) {
-        setFieldValue("new_Adv_Adjustment", totalGrn);
+        setFieldValue('new_Adv_Adjustment', totalGrn);
         setFieldValue(
-          "curentAdjustmentBalance",
+          'curentAdjustmentBalance',
           values?.totalAdjustedBalance - totalGrn
         );
       } else {
         setFieldValue(
-          "new_Adv_Adjustment",
+          'new_Adv_Adjustment',
           Number(supplierAmountInfo?.poPendingAdjustment)
         );
         setFieldValue(
-          "curentAdjustmentBalance",
+          'curentAdjustmentBalance',
           values?.totalAdjustedBalance - supplierAmountInfo?.poAdvanceAmount
         );
       }
-
     }
   };
 
@@ -239,15 +236,15 @@ export default function SupplerInvoiceForm() {
       (total, value) => total + +value?.referenceAmount || 0,
       0
     );
-    setFieldValue("grossInvoiceAmount", totalGrn);
+    setFieldValue('grossInvoiceAmount', totalGrn);
     // const diff =
     //   Number(supplierAmountInfo?.poAdvanceAmount?.toFixed(2)) -
     //   Number(supplierAmountInfo?.totalAdjustedBalance?.toFixed(2));
     if (Number(supplierAmountInfo?.poPendingAdjustment) >= totalGrn) {
-      setFieldValue("new_Adv_Adjustment", totalGrn);
+      setFieldValue('new_Adv_Adjustment', totalGrn);
     } else {
       setFieldValue(
-        "new_Adv_Adjustment",
+        'new_Adv_Adjustment',
         Number(supplierAmountInfo?.poPendingAdjustment)
       );
     }
@@ -262,7 +259,7 @@ export default function SupplerInvoiceForm() {
   const modalView = (code) => {
     return confirmAlert({
       title: `Bill Code: ${code} `,
-      message: "",
+      message: '',
       buttons: [],
     });
   };
@@ -280,7 +277,7 @@ export default function SupplerInvoiceForm() {
         purchaseOrganizationId: values.purchaseOrg.value,
         purchaseOrganizationName: values.purchaseOrg.label,
         plantId: values?.purchaseOrder?.plantId || 0,
-        plantName: values?.purchaseOrder?.plant || "",
+        plantName: values?.purchaseOrder?.plant || '',
         warehouseId: values.warehouse.value,
         warehouseName: values.warehouse.label,
         businessPartnerId: values.purchaseOrder.supplierId || 0,
@@ -297,7 +294,7 @@ export default function SupplerInvoiceForm() {
         netPaymentAmount:
           +values?.grossInvoiceAmount - +values?.new_Adv_Adjustment || 0,
         paymentDueDate: values.paymentDueDate,
-        remarks: values.remarks || "",
+        remarks: values.remarks || '',
         actionBy: profileData.userId,
         lastActionDateTime: values.invoiceDate,
         serverDateTime: values.invoiceDate,
@@ -310,7 +307,7 @@ export default function SupplerInvoiceForm() {
         if (r?.data) {
           if (fileObjects.length < 1) {
             setDisabled(false);
-            return toast.warn("Attachment required");
+            return toast.warn('Attachment required');
           } else {
             const compressedFile = await compressfile(
               fileObjects?.map((f) => f.file)
@@ -339,7 +336,7 @@ export default function SupplerInvoiceForm() {
                     modalView
                   );
                 } else {
-                  toast.warning("You must have to add atleast one item");
+                  toast.warning('You must have to add atleast one item');
                 }
               })
               .catch((err) => {
@@ -396,7 +393,7 @@ export default function SupplerInvoiceForm() {
               );
             }
           } else {
-            toast.warning("You must have to add atleast one item");
+            toast.warning('You must have to add atleast one item');
           }
         }
       } catch (error) {
@@ -410,9 +407,9 @@ export default function SupplerInvoiceForm() {
   const [objProps, setObjprops] = useState({});
 
   return (
-    <div className='purchaseInvoice'>
+    <div className="purchaseInvoice">
       <IForm
-        title='Supplier invoice'
+        title="Supplier invoice"
         getProps={setObjprops}
         isDisabled={isDisabled}
       >

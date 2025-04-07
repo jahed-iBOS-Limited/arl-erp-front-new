@@ -1,9 +1,7 @@
-
-
-import React, { useState} from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
+import React, { useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
 
 const initData = {};
 
@@ -35,7 +33,6 @@ export default function BulkBankReceive({
       }
     } else {
       setDisabled(false);
-
     }
   };
 

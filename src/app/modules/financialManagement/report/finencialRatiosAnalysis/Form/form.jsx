@@ -1,19 +1,19 @@
-import { Form, Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import InputField from "../../../../_helper/_inputField";
-import TableTwo from "../Table/tableTwo";
-import TableOne from "../Table/tableOne";
-import { getFinancialRatioApi } from "./helper";
-import Loading from "../../../../_helper/_loading";
-import ButtonStyleOne from "../../../../_helper/button/ButtonStyleOne";
-import PowerBIReport from "../../../../_helper/commonInputFieldsGroups/PowerBIReport";
-const groupId = "218e3d7e-f3ea-4f66-8150-bb16eb6fc606";
-const reportId = "8f548c85-83d5-4c4b-938e-b99be47b0289";
+import { Form, Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import InputField from '../../../../_helper/_inputField';
+import TableTwo from '../Table/tableTwo';
+import TableOne from '../Table/tableOne';
+import { getFinancialRatioApi } from './helper';
+import Loading from '../../../../_helper/_loading';
+import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
+import PowerBIReport from '../../../../_helper/commonInputFieldsGroups/PowerBIReport';
+const groupId = '218e3d7e-f3ea-4f66-8150-bb16eb6fc606';
+const reportId = '8f548c85-83d5-4c4b-938e-b99be47b0289';
 const parameterValues = (values) => {
   const agingParameters = [
-    { name: "dteStartDate", value: `${values?.fromDate}` },
-    { name: "dteEndDate", value: `${values?.toDate}` },
+    { name: 'dteStartDate', value: `${values?.fromDate}` },
+    { name: 'dteEndDate', value: `${values?.toDate}` },
   ];
   return agingParameters;
 };
@@ -47,7 +47,7 @@ export default function FormCmp({ initData }) {
                       setShowRDLC(false);
                       setRightRowDto([]);
                       setLeftRowDto([]);
-                      setFieldValue("fromDate", e?.target?.value);
+                      setFieldValue('fromDate', e?.target?.value);
                     }}
                   />
                 </div>
@@ -63,11 +63,11 @@ export default function FormCmp({ initData }) {
                       setShowRDLC(false);
                       setRightRowDto([]);
                       setLeftRowDto([]);
-                      setFieldValue("toDate", e?.target?.value);
+                      setFieldValue('toDate', e?.target?.value);
                     }}
                   />
                 </div>
-                <div style={{ marginTop: "18px" }}>
+                <div style={{ marginTop: '18px' }}>
                   <button
                     type="button"
                     disabled={!values?.fromDate || !values?.toDate}
@@ -107,7 +107,7 @@ export default function FormCmp({ initData }) {
                       setLeftRowDto([]);
                       setShowRDLC(true);
                     }}
-                    style={{ marginTop: "19px" }}
+                    style={{ marginTop: '19px' }}
                   />
                 </div>
               </div>

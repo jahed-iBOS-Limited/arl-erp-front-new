@@ -4,11 +4,11 @@ import { _dateFormatter } from '../../../_helper/_dateFormate';
 export const getAdjustmentJournalById = async (
   id,
   setSingleData,
-  setRowDto,
+  setRowDto
 ) => {
   try {
     const res = await axios.get(
-      `/fino/AdjustmentJournal/GetAdjustmentJournalById?adjustmentJournalId=${id}&accountingJournalTypeId=7`,
+      `/fino/AdjustmentJournal/GetAdjustmentJournalById?adjustmentJournalId=${id}&accountingJournalTypeId=7`
     );
     const newData = res?.data?.objRow?.map((item) => ({
       rowId: item?.rowId,

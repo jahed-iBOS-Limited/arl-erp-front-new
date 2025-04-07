@@ -26,7 +26,7 @@ export default function OEEMachineAndChecklistLanding() {
   //setPositionHandler
   const setPositionHandler = (pageNo, pageSize, searchValue = '') => {
     getTableData(
-      `/asset/AssetMaintanance/GetAssetHealthCheckLanding?businessUnitId=${selectedBusinessUnit?.value}&search=${searchValue}&pageNo=${pageNo}&pageSize=${pageSize}`,
+      `/asset/AssetMaintanance/GetAssetHealthCheckLanding?businessUnitId=${selectedBusinessUnit?.value}&search=${searchValue}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
   };
 
@@ -36,9 +36,8 @@ export default function OEEMachineAndChecklistLanding() {
 
   useEffect(() => {
     getTableData(
-      `/asset/AssetMaintanance/GetAssetHealthCheckLanding?businessUnitId=${selectedBusinessUnit?.value}&pageNo=${pageNo}&pageSize=${pageSize}`,
+      `/asset/AssetMaintanance/GetAssetHealthCheckLanding?businessUnitId=${selectedBusinessUnit?.value}&pageNo=${pageNo}&pageSize=${pageSize}`
     );
-
   }, []);
 
   return (
@@ -125,7 +124,7 @@ export default function OEEMachineAndChecklistLanding() {
                                       clickHandler={(e) => {
                                         history.push(
                                           `/production-management/configuration/OEEMachineNChecklist/view/${item?.intAssetHealthCheckId}`,
-                                          { landingData: item },
+                                          { landingData: item }
                                         );
                                       }}
                                     />

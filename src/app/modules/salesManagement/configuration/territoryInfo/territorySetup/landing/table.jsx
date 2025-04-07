@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { getTerritorySetupLanding, getChannelDDL } from "../helper";
-import "../style.css";
-import { useHistory } from "react-router";
-import TerritorySetupForm from "../form/addEditForm";
-import { Formik } from "formik";
-import NewSelect from "./../../../../../_helper/_select";
-import IViewModal from "./../../../../../_helper/_viewModal";
-import Loading from "./../../../../../_helper/_loading";
-import ICard from "./../../../../../_helper/_card";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { getTerritorySetupLanding, getChannelDDL } from '../helper';
+import '../style.css';
+import { useHistory } from 'react-router';
+import TerritorySetupForm from '../form/addEditForm';
+import { Formik } from 'formik';
+import NewSelect from './../../../../../_helper/_select';
+import IViewModal from './../../../../../_helper/_viewModal';
+import Loading from './../../../../../_helper/_loading';
+import ICard from './../../../../../_helper/_card';
 
 const initData = {
-  channel: { value: 0, label: "All" },
+  channel: { value: 0, label: 'All' },
 };
 
 const TerritorySetupLanding = () => {
@@ -44,7 +44,6 @@ const TerritorySetupLanding = () => {
       );
       setLandingData();
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   const setLandingData = (values) => {
@@ -94,7 +93,7 @@ const TerritorySetupLanding = () => {
                         value={values?.channel}
                         label="Distribution Channel"
                         onChange={(valueOption) => {
-                          setFieldValue("channel", valueOption);
+                          setFieldValue('channel', valueOption);
                         }}
                         placeholder="Distribution Channel"
                         errors={errors}
@@ -106,7 +105,7 @@ const TerritorySetupLanding = () => {
                       <button
                         type="button"
                         className="btn btn-primary"
-                        style={{ marginTop: "18px" }}
+                        style={{ marginTop: '18px' }}
                         onClick={() => {
                           setLandingData(values);
                         }}
@@ -136,20 +135,20 @@ const TerritorySetupLanding = () => {
                             {gridData?.objTypeList?.map((item, keyIndex) => {
                               if (
                                 data[
-                                  item["territoryTypeCodeName"].toLowerCase()
+                                  item['territoryTypeCodeName'].toLowerCase()
                                 ]
                               ) {
                                 if (
                                   item[
-                                    "territoryTypeCodeName"
-                                  ].toLowerCase() !== data["editBtn"]
+                                    'territoryTypeCodeName'
+                                  ].toLowerCase() !== data['editBtn']
                                 ) {
                                   return (
                                     <td>
                                       {
                                         data[
                                           item[
-                                            "territoryTypeCodeName"
+                                            'territoryTypeCodeName'
                                           ].toLowerCase()
                                         ]
                                       }
@@ -162,7 +161,7 @@ const TerritorySetupLanding = () => {
                                         {
                                           data[
                                             item[
-                                              "territoryTypeCodeName"
+                                              'territoryTypeCodeName'
                                             ].toLowerCase()
                                           ]
                                         }
@@ -170,22 +169,23 @@ const TerritorySetupLanding = () => {
                                       <button
                                         className="btn btn-outline-primary rounded-circle"
                                         style={{
-                                          width: "25px",
-                                          height: "25px",
-                                          textAlign: "center",
-                                          display: "flex",
-                                          justifyContent: "center",
-                                          alignItems: "center",
-                                          float: "right",
+                                          width: '25px',
+                                          height: '25px',
+                                          textAlign: 'center',
+                                          display: 'flex',
+                                          justifyContent: 'center',
+                                          alignItems: 'center',
+                                          float: 'right',
                                         }}
                                         onClick={() => {
                                           setSelectedData({
                                             header: item,
                                             row: data,
-                                            routeState: "edit",
-                                            editlabelKey: item[
-                                              "territoryTypeCodeName"
-                                            ].toLowerCase(),
+                                            routeState: 'edit',
+                                            editlabelKey:
+                                              item[
+                                                'territoryTypeCodeName'
+                                              ].toLowerCase(),
                                           });
                                           setIsShowModal(true);
                                         }}
@@ -226,8 +226,8 @@ const TerritorySetupLanding = () => {
                               } else {
                                 if (
                                   item[
-                                    "territoryTypeCodeName"
-                                  ].toLowerCase() !== data["addBtn"]
+                                    'territoryTypeCodeName'
+                                  ].toLowerCase() !== data['addBtn']
                                 ) {
                                   return <td></td>;
                                 } else {
@@ -237,13 +237,13 @@ const TerritorySetupLanding = () => {
                                         <button
                                           className="btn btn-outline-primary rounded-circle"
                                           style={{
-                                            width: "25px",
-                                            height: "25px",
-                                            textAlign: "center",
-                                            display: "flex",
-                                            justifyContent: "center",
-                                            alignItems: "center",
-                                            float: "left",
+                                            width: '25px',
+                                            height: '25px',
+                                            textAlign: 'center',
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            float: 'left',
                                           }}
                                           onClick={() => {
                                             setSelectedData({

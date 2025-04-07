@@ -1,35 +1,34 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import IForm from "../../../_helper/_form";
-import Loading from "../../../_helper/_loading";
-import { _todayDate } from "../../../_helper/_todayDate";
-import { getBusinessUnitDDL_api } from "../../createDocument/helper";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import IForm from '../../../_helper/_form';
+import Loading from '../../../_helper/_loading';
+import { _todayDate } from '../../../_helper/_todayDate';
+import { getBusinessUnitDDL_api } from '../../createDocument/helper';
 import {
   GetLegalDocFileListById,
   GetLegalDocRegDataById,
-  saveLegalDocumentRegistration
-} from "../helper";
-import Form from "./form";
-import "./form.css";
+  saveLegalDocumentRegistration,
+} from '../helper';
+import Form from './form';
+import './form.css';
 
 let initData = {
-  unit: "",
-  workplaceGroup: "",
-  workplace: "",
-  documentName: "",
-  renewalType: "",
-  documentNo: "",
-  contPerson: "",
-  authority: "",
-  address: "",
-  renewalDate: "",
-  expiryDate: "",
-  documentStatus: "",
-  lastUpdatedDate: "",
+  unit: '',
+  workplaceGroup: '',
+  workplace: '',
+  documentName: '',
+  renewalType: '',
+  documentNo: '',
+  contPerson: '',
+  authority: '',
+  address: '',
+  renewalDate: '',
+  expiryDate: '',
+  documentStatus: '',
+  lastUpdatedDate: '',
   // checkBox: "",
-  remarks: "",
+  remarks: '',
 };
 
 export function LegalDocRegistration() {
@@ -44,7 +43,7 @@ export function LegalDocRegistration() {
   const [unitDDL, setUnitDDL] = useState([]);
 
   //  attachment file
-  const [attachmentFile, setAttachmentFile] = useState("");
+  const [attachmentFile, setAttachmentFile] = useState('');
   const [attachmentFileName, setAttachmentFileName] = useState(null);
   const [attachmentFileArray, setAttachmentFileArray] = useState([]);
   const [businessUnit, setBusinessUnit] = useState(null);
@@ -63,7 +62,11 @@ export function LegalDocRegistration() {
   };
 
   useEffect(() => {
-    getBusinessUnitDDL_api(profileData?.userId, profileData?.accountId, setUnitDDL )
+    getBusinessUnitDDL_api(
+      profileData?.userId,
+      profileData?.accountId,
+      setUnitDDL
+    );
     // Get document registration by id & File List By Registration id
     if (location?.state) {
       getDataById();
@@ -87,7 +90,7 @@ export function LegalDocRegistration() {
       strFileUrl:
         location?.state?.id && item?.strFileUrl
           ? item?.strFileUrl
-          : item?.id || "",
+          : item?.id || '',
       isActive: true,
       dteCreatedAt: _todayDate(),
       intCreatedBy: profileData?.userId,
@@ -99,8 +102,8 @@ export function LegalDocRegistration() {
 
     const payload = {
       strPartType: location?.state?.id
-        ? "UpdateLegalDocumentRegistration"
-        : "LegalDocumentRegistration",
+        ? 'UpdateLegalDocumentRegistration'
+        : 'LegalDocumentRegistration',
       intBusinessUnitId: values?.unit?.value,
       intWorkplaceGroupId: values?.workplaceGroup?.value,
       intWorkplaceId: values?.workplace?.value,
@@ -132,7 +135,7 @@ export function LegalDocRegistration() {
 
   return (
     <IForm
-      title={"Legal Document Registration"}
+      title={'Legal Document Registration'}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenBack={true}

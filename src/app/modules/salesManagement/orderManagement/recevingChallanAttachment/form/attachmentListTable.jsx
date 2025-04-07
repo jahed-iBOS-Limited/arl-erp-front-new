@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 // import IView from "../../../_helper/_helperIcons/_view";
-import { useDispatch } from "react-redux";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import { useDispatch } from 'react-redux';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 // import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
 
 const AttachmentListTable = ({ attachmentItemList }) => {

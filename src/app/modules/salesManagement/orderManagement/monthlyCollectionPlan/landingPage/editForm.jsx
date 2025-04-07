@@ -1,7 +1,7 @@
-import { Form, Formik } from "formik";
-import React from "react";
-import ICustomCard from "../../../../_helper/_customCard";
-import InputField from "../../../../_helper/_inputField";
+import { Form, Formik } from 'formik';
+import React from 'react';
+import ICustomCard from '../../../../_helper/_customCard';
+import InputField from '../../../../_helper/_inputField';
 
 export default function EditForm({ singleData }) {
   const initData = {
@@ -23,7 +23,7 @@ export default function EditForm({ singleData }) {
       singleData?.numWeek4,
     percent: singleData?.numCollectionPercentage,
   };
-  
+
   return (
     <>
       <Formik

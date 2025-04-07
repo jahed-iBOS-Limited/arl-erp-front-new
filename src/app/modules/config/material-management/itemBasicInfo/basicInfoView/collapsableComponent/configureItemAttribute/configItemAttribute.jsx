@@ -69,7 +69,7 @@ export default function ConfigItemAttribute({ id, isViewPage }) {
   const getDataById = async (id, accId, buId) => {
     try {
       const res = await Axios.get(
-        `/item/ItemAttributeConfig/GetItemAttributeConfigByItemId?accountId=${accId}&businessUnitId=${buId}&ItemId=${id}`,
+        `/item/ItemAttributeConfig/GetItemAttributeConfigByItemId?accountId=${accId}&businessUnitId=${buId}&ItemId=${id}`
       );
       const { data, status } = res;
       if (status === 200) {

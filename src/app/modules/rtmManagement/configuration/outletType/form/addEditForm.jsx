@@ -1,26 +1,25 @@
-
-import React, { useEffect, useState } from "react";
-import Form from "./form";
-import { useParams } from "react-router-dom";
-import Loading from "./../../../../_helper/_loading";
-import IForm from "./../../../../_helper/_form";
-import { useSelector, shallowEqual } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import Form from './form';
+import { useParams } from 'react-router-dom';
+import Loading from './../../../../_helper/_loading';
+import IForm from './../../../../_helper/_form';
+import { useSelector, shallowEqual } from 'react-redux';
 
 import {
   createBusinessType,
   getOutletTypeById,
   editBusinessType,
-} from "../helper";
+} from '../helper';
 
 const initData = {
-  businessTypeName: "",
+  businessTypeName: '',
   isOnlyTmsAllowed: false,
 };
 
 const OutletBusinessTypeForm = () => {
   const { id } = useParams();
   const [isDisabled, setDisabled] = useState(false);
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -65,7 +64,7 @@ const OutletBusinessTypeForm = () => {
   return (
     <>
       <IForm
-        title={!id ? "Create Outlet Type" : "Edit Outlet Type"}
+        title={!id ? 'Create Outlet Type' : 'Edit Outlet Type'}
         getProps={setObjprops}
         isDisabled={isDisabled}
       >

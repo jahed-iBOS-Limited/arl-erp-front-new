@@ -1,12 +1,12 @@
-import React from "react";
-import { useHistory } from "react-router-dom";
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { ItemAttributesTable } from "./ItemAttributesTableCard";
+} from '../../../../../../_metronic/_partials/controls';
+import { ItemAttributesTable } from './ItemAttributesTableCard';
 
 export function ItemAttributeLandingCard() {
   let history = useHistory();
@@ -18,7 +18,7 @@ export function ItemAttributeLandingCard() {
             type="button"
             className="btn btn-primary"
             onClick={() =>
-              history.push("/config/material-management/item-attribute/add")
+              history.push('/config/material-management/item-attribute/add')
             }
           >
             Create New
@@ -31,5 +31,3 @@ export function ItemAttributeLandingCard() {
     </Card>
   );
 }
-
-

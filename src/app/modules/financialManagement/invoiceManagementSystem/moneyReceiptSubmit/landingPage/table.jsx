@@ -1,21 +1,21 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
-import { customerListDDL } from "../../../../config/partner-management/partnerProductAllocation/helper";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import ICard from "../../../../_helper/_card";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import ICon from '../../../../chartering/_chartinghelper/icons/_icon';
+import { customerListDDL } from '../../../../config/partner-management/partnerProductAllocation/helper';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import ICard from '../../../../_helper/_card';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 const initData = {
-  type: "",
-  customer: "",
+  type: '',
+  customer: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -68,13 +68,13 @@ export default function MoneyReceiptSubmitLandingTable() {
                   <NewSelect
                     name="type"
                     options={[
-                      { value: 1, label: "Details" },
-                      { value: 2, label: "Top Sheet" },
+                      { value: 1, label: 'Details' },
+                      { value: 2, label: 'Top Sheet' },
                     ]}
                     value={values?.type}
                     label="Type"
                     onChange={(valueOption) => {
-                      setFieldValue("type", valueOption);
+                      setFieldValue('type', valueOption);
                       setRowData([]);
                     }}
                     placeholder="Type"
@@ -87,7 +87,7 @@ export default function MoneyReceiptSubmitLandingTable() {
                     value={values?.customer}
                     label="Customer"
                     onChange={(valueOption) => {
-                      setFieldValue("customer", valueOption);
+                      setFieldValue('customer', valueOption);
                     }}
                     placeholder="Customer"
                   />
@@ -100,7 +100,7 @@ export default function MoneyReceiptSubmitLandingTable() {
                     className="btn btn-primary mt-5"
                     type="button"
                     onClick={() => {
-                      setLandingData(values, "");
+                      setLandingData(values, '');
                     }}
                     disabled={!values?.customer}
                   >
@@ -116,7 +116,7 @@ export default function MoneyReceiptSubmitLandingTable() {
                       <table className="table table-striped table-bordered global-table">
                         <thead>
                           <tr>
-                            <th style={{ width: "40px" }}>SL</th>
+                            <th style={{ width: '40px' }}>SL</th>
                             <th>Partner Name</th>
                             <th>Partner Code</th>
                             <th>Quantity</th>
@@ -152,7 +152,7 @@ export default function MoneyReceiptSubmitLandingTable() {
                                   <div className="d-flex justify-content-around">
                                     <span className="text-center">
                                       <ICon
-                                        title={"Payment Collection"}
+                                        title={'Payment Collection'}
                                         onClick={() => {
                                           history.push({
                                             pathname: `/financial-management/invoicemanagement-system/moneyreceiptsubmit/collection`,
@@ -177,7 +177,7 @@ export default function MoneyReceiptSubmitLandingTable() {
                       <table className="table table-striped table-bordered global-table">
                         <thead>
                           <tr>
-                            <th style={{ width: "40px" }}>SL</th>
+                            <th style={{ width: '40px' }}>SL</th>
                             <th>Deposit Date</th>
                             <th>Count</th>
                             <th>Amount</th>

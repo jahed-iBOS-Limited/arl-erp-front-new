@@ -1,8 +1,8 @@
-import React from "react";
-import { withRouter } from "react-router-dom";
+import React from 'react';
+import { withRouter } from 'react-router-dom';
 
 const GridData = ({ rowDto }) => {
-  console.log("rowDto", rowDto);
+  console.log('rowDto', rowDto);
   return (
     <>
       <div className="row global-table">

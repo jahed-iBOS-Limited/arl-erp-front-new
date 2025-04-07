@@ -1,29 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { confirmAlert } from "react-confirm-alert";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import Form from "./form";
+import React, { useEffect, useState } from 'react';
+import { confirmAlert } from 'react-confirm-alert';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import Form from './form';
 
-import { useHistory } from "react-router";
-import { saveBankJournal } from "../../../../../_helper/_commonApi";
-import IForm from "../../../../../_helper/_form";
-import Loading from "../../../../../_helper/_loading";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import { setBankJournalCreateAction } from "../../../../../_helper/reduxForLocalStorage/Actions";
-import "./style.css";
-
-
+import { useHistory } from 'react-router';
+import { saveBankJournal } from '../../../../../_helper/_commonApi';
+import IForm from '../../../../../_helper/_form';
+import Loading from '../../../../../_helper/_loading';
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
+import { setBankJournalCreateAction } from '../../../../../_helper/reduxForLocalStorage/Actions';
+import './style.css';
 
 export default function BankJournalCreateFormContra() {
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
-  const [instrumentNoByResponse, setInstrumentNoByResponse] = useState("");
+  const [instrumentNoByResponse, setInstrumentNoByResponse] = useState('');
   const location = useLocation();
-  let { selectedJournalTypeId, selectedFormValues, transferRowItem } = location?.state || {}// For Bank Transfer Only
-  let { intRequestToUnitId } = transferRowItem || {}// For Bank Transfer Only
+  let { selectedJournalTypeId, selectedFormValues, transferRowItem } =
+    location?.state || {}; // For Bank Transfer Only
+  let { intRequestToUnitId } = transferRowItem || {}; // For Bank Transfer Only
   const params = useParams();
-  const [attachmentFile, setAttachmentFile] = useState("");
+  const [attachmentFile, setAttachmentFile] = useState('');
   const [sbuList, getSbuList] = useAxiosGet();
   const history = useHistory();
 
@@ -38,7 +37,10 @@ export default function BankJournalCreateFormContra() {
   // Handle `selectedBusinessUnit` value separately
   const adjustedSelectedBusinessUnit = {
     ...selectedBusinessUnit,
-    value: selectedJournalTypeId === 5 ? intRequestToUnitId : selectedBusinessUnit?.value,
+    value:
+      selectedJournalTypeId === 5
+        ? intRequestToUnitId
+        : selectedBusinessUnit?.value,
   };
 
   // const { bankJournalCreate } = useSelector(
@@ -48,10 +50,11 @@ export default function BankJournalCreateFormContra() {
 
   useEffect(() => {
     if (intRequestToUnitId) {
-      getSbuList(`/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${intRequestToUnitId}&Status=true`);
+      getSbuList(
+        `/costmgmt/SBU/GetSBUListDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${intRequestToUnitId}&Status=true`
+      );
     }
-
-  }, [intRequestToUnitId])
+  }, [intRequestToUnitId]);
 
   let netAmount = rowDto?.reduce((total, value) => total + +value?.amount, 0);
 
@@ -63,10 +66,10 @@ export default function BankJournalCreateFormContra() {
       message: message,
       buttons: [
         {
-          label: "Ok",
+          label: 'Ok',
           onClick: () => {
             history.goBack();
-            noAlertFunc()
+            noAlertFunc();
           },
         },
       ],
@@ -77,20 +80,19 @@ export default function BankJournalCreateFormContra() {
 
   const saveHandler = async (values, cb) => {
     if (selectedJournalTypeId === 5 && !params?.id && !attachmentFile) {
-      return toast.warn("Attachment Required")
+      return toast.warn('Attachment Required');
     }
     if (values?.profitCenter?.value) {
       if (selectedJournalTypeId === 4) {
         if (!values?.revenueCenter || !values?.revenueElement) {
-          return toast.warn("Please add Revenue center or Revenue element");
+          return toast.warn('Please add Revenue center or Revenue element');
         }
       } else {
         if (!values?.costCenter || !values?.costElement) {
-          return toast.warn("Please add Cost center or Cost element");
+          return toast.warn('Please add Cost center or Cost element');
         }
       }
     }
-
 
     // dispatch values for localStorageSlice
     dispatch(setBankJournalCreateAction(values));
@@ -117,44 +119,53 @@ export default function BankJournalCreateFormContra() {
           narration: item?.narration,
           bankAcId: +values?.bankAcc?.value,
           bankAcNo: values?.bankAcc?.bankAccNo,
-          partnerTypeName: item?.partnerType?.label || "",
+          partnerTypeName: item?.partnerType?.label || '',
           partnerTypeId: item?.partnerType?.reffPrtTypeId || 0,
           businessPartnerId:
-            item?.partnerType?.label === "Others"
+            item?.partnerType?.label === 'Others'
               ? 0
               : item?.transaction?.value,
           businessPartnerCode:
-            item?.partnerType?.label === "Others"
-              ? ""
+            item?.partnerType?.label === 'Others'
+              ? ''
               : item?.transaction?.code,
           businessPartnerName:
-            item?.partnerType?.label === "Others"
-              ? ""
+            item?.partnerType?.label === 'Others'
+              ? ''
               : item?.transaction?.label,
           subGLId: item?.transaction?.value,
           subGlCode: item?.transaction?.code,
           subGLName: item?.transaction?.label,
           subGLTypeId: item?.partnerType?.reffPrtTypeId,
           subGLTypeName: item?.partnerType?.label,
-          controlType: selectedJournalTypeId === 4 ? "Revenue" : selectedJournalTypeId === 5 ? "Cost" : "",
+          controlType:
+            selectedJournalTypeId === 4
+              ? 'Revenue'
+              : selectedJournalTypeId === 5
+                ? 'Cost'
+                : '',
           profitCenterId: item?.profitCenter?.value || 0,
-          costRevenueName: item?.revenueCenter?.label || item?.costCenter?.label || "",
-          costRevenueId: item?.revenueCenter?.value || item?.costCenter?.value || 0,
-          elementName: item?.revenueElement?.label || item?.costElement?.label || "",
-          elementId: item?.revenueElement?.value || item?.costElement?.value || 0,
+          costRevenueName:
+            item?.revenueCenter?.label || item?.costCenter?.label || '',
+          costRevenueId:
+            item?.revenueCenter?.value || item?.costCenter?.value || 0,
+          elementName:
+            item?.revenueElement?.label || item?.costElement?.label || '',
+          elementId:
+            item?.revenueElement?.value || item?.costElement?.value || 0,
           partnerBankId: item?.partnerBankAccount?.bankId || 0,
           partnerBankBranchId: item?.partnerBankAccount?.bankBranchId || 0,
-          partnerBankAccountNo: item?.partnerBankAccount?.bankAccountNo || "",
-          partnerBankAccountName: item?.partnerBankAccount?.bankName || "",
-          partnerBankRoutingNumber: item?.partnerBankAccount?.routingNo || ""
+          partnerBankAccountNo: item?.partnerBankAccount?.bankAccountNo || '',
+          partnerBankAccountName: item?.partnerBankAccount?.bankName || '',
+          partnerBankRoutingNumber: item?.partnerBankAccount?.routingNo || '',
         }));
 
         let transferRow = [
           {
             rowId: 0,
             businessTransactionId: 0,
-            businessTransactionCode: "",
-            businessTransactionName: "",
+            businessTransactionCode: '',
+            businessTransactionName: '',
             generalLedgerId:
               values?.transferTo?.value === 1
                 ? +values?.sendToGLBank?.value
@@ -174,7 +185,7 @@ export default function BankJournalCreateFormContra() {
             bankAcNo:
               values?.transferTo?.value === 2
                 ? values?.sendToGLBank?.bankAccNo
-                : "",
+                : '',
             subGLId:
               values?.transferTo?.value === 2
                 ? +values?.sendToGLBank?.value
@@ -183,13 +194,19 @@ export default function BankJournalCreateFormContra() {
             subGLName:
               values?.transferTo?.value === 2
                 ? values?.sendToGLBank?.label
-                : "",
+                : '',
             subGLTypeId: 6, // 6
-            subGLTypeName: "Bank Account", // "Bank Account"
+            subGLTypeName: 'Bank Account', // "Bank Account"
           },
         ];
-        const isRevenue = (selectedJournalTypeId === 4 && values?.revenueCenter && values?.revenueElement)
-        const isCostCenter = (selectedJournalTypeId !== 4 && values?.costCenter && values?.costElement)
+        const isRevenue =
+          selectedJournalTypeId === 4 &&
+          values?.revenueCenter &&
+          values?.revenueElement;
+        const isCostCenter =
+          selectedJournalTypeId !== 4 &&
+          values?.costCenter &&
+          values?.costElement;
         const payload = {
           objHeader: {
             bankJournalId: 0,
@@ -203,48 +220,71 @@ export default function BankJournalCreateFormContra() {
             bankBranchName: values?.bankAcc?.bankBranchName,
             bankAccountId: +values?.bankAcc?.value,
             bankAccountNumber: values?.bankAcc?.bankAccNo,
-            receiveFrom: values?.receiveFrom || "",
-            paidTo: values?.paidTo || "",
-            transferTo: values?.transferTo?.label || "",
+            receiveFrom: values?.receiveFrom || '',
+            paidTo: values?.paidTo || '',
+            transferTo: values?.transferTo?.label || '',
             placedInBank: values?.placedInBank,
-            placingDate: values?.placingDate || "",
+            placingDate: values?.placingDate || '',
             //values?.placedInBank ? values?.placingDate : ""
             generalLedgerId: +values?.bankAcc?.generalLedgerId,
             generalLedgerCode: values?.bankAcc?.generalLedgerCode,
             generalLedgerName: values?.bankAcc?.generalLedgerName,
-            amount: selectedJournalTypeId === 6 ? +values?.transferAmount : +netAmount,
-            narration: values?.headerNarration || "",
+            amount:
+              selectedJournalTypeId === 6
+                ? +values?.transferAmount
+                : +netAmount,
+            narration: values?.headerNarration || '',
             posted: false,
-            partnerTypeName: values?.partnerType?.label || "",
+            partnerTypeName: values?.partnerType?.label || '',
             partnerTypeId: values?.partnerType?.value || 0,
             businessPartnerId:
-              values?.partnerType?.label === "Others"
+              values?.partnerType?.label === 'Others'
                 ? 0
                 : values?.transaction?.value,
             businessPartnerCode:
-              values?.partnerType?.label === "Others"
-                ? ""
+              values?.partnerType?.label === 'Others'
+                ? ''
                 : values?.transaction?.code,
             businessPartnerName:
-              values?.partnerType?.label === "Others"
-                ? ""
+              values?.partnerType?.label === 'Others'
+                ? ''
                 : values?.transaction?.label,
             instrumentId: +values?.instrumentType?.value || 0,
-            instrumentName: values?.instrumentType?.label || "",
-            instrumentNo: values?.instrumentNo || "",
-            instrumentDate: values?.instrumentDate || "",
+            instrumentName: values?.instrumentType?.label || '',
+            instrumentNo: values?.instrumentNo || '',
+            instrumentDate: values?.instrumentDate || '',
             accountingJournalTypeId: selectedJournalTypeId,
             directPosting: true,
             actionBy: +profileData?.userId,
             // Last Added
-            chequeNo: values?.instrumentNo || "",
-            controlType: isRevenue ? "revenue" : isCostCenter ? "cost" : "" || "",
-            costRevenueName: isRevenue ? values?.revenueCenter?.label : isCostCenter ? values?.costCenter?.label : "",
-            costRevenueId: isRevenue ? values?.revenueCenter?.value : isCostCenter ? values?.costCenter?.value : 0,
-            elementName: isRevenue ? values?.revenueElement?.label : isCostCenter ? values?.costElement?.label : "",
-            elementId: isRevenue ? values?.revenueElement?.value : isCostCenter ? values?.costElement?.value : 0,
+            chequeNo: values?.instrumentNo || '',
+            controlType: isRevenue
+              ? 'revenue'
+              : isCostCenter
+                ? 'cost'
+                : '' || '',
+            costRevenueName: isRevenue
+              ? values?.revenueCenter?.label
+              : isCostCenter
+                ? values?.costCenter?.label
+                : '',
+            costRevenueId: isRevenue
+              ? values?.revenueCenter?.value
+              : isCostCenter
+                ? values?.costCenter?.value
+                : 0,
+            elementName: isRevenue
+              ? values?.revenueElement?.label
+              : isCostCenter
+                ? values?.costElement?.label
+                : '',
+            elementId: isRevenue
+              ? values?.revenueElement?.value
+              : isCostCenter
+                ? values?.costElement?.value
+                : 0,
             ProfitCenterId: values?.profitCenter?.value,
-            attachment: attachmentFile || "",
+            attachment: attachmentFile || '',
           },
           objRowList: selectedJournalTypeId === 6 ? transferRow : objRow,
         };
@@ -253,7 +293,7 @@ export default function BankJournalCreateFormContra() {
           saveBankJournal(payload, cb, setRowDto, setDisabled, IConfirmModal);
         } else {
           if (rowDto?.length === 0) {
-            toast.warn("Please add transaction");
+            toast.warn('Please add transaction');
           } else {
             saveBankJournal(payload, cb, setRowDto, setDisabled, IConfirmModal);
           }
@@ -271,7 +311,7 @@ export default function BankJournalCreateFormContra() {
 
     if (selectedJournalTypeId === 5) {
       if (rowDto?.length >= 1) {
-        return toast.warn("Cann't add multiple")
+        return toast.warn("Cann't add multiple");
       }
 
       setRowDto([...rowDto, values]);
@@ -279,7 +319,7 @@ export default function BankJournalCreateFormContra() {
       if (count === 0) {
         setRowDto([...rowDto, values]);
       } else {
-        toast.warn("Not allowed to duplicate transaction");
+        toast.warn('Not allowed to duplicate transaction');
       }
     }
   };
@@ -289,7 +329,6 @@ export default function BankJournalCreateFormContra() {
   };
 
   const [objProps, setObjprops] = useState({});
-
 
   const rowDtoHandler = (index, name, value) => {
     const data = [...rowDto];
@@ -314,11 +353,12 @@ export default function BankJournalCreateFormContra() {
         {...objProps}
         // initData={{ ...bankJournalCreate, ...selectedFormValues }}
         initData={{
-          ...selectedFormValues, partnerType: {
-            "value": 4,
-            "label": "Investment Partner",
-            "reffPrtTypeId": 4
-          }
+          ...selectedFormValues,
+          partnerType: {
+            value: 4,
+            label: 'Investment Partner',
+            reffPrtTypeId: 4,
+          },
         }}
         saveHandler={saveHandler}
         setter={setter}

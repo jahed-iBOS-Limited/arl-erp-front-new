@@ -1,4 +1,4 @@
-import Axios from "axios";
+import Axios from 'axios';
 
 export const GetCustomerNameDDL = async (accId, buId, setter) => {
   try {

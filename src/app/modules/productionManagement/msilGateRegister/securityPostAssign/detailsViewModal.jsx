@@ -1,16 +1,16 @@
-import { Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import Loading from "../../../_helper/_loading";
-import { _timeFormatter } from "../../../_helper/_timeFormatter";
+} from '../../../../../_metronic/_partials/controls';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import Loading from '../../../_helper/_loading';
+import { _timeFormatter } from '../../../_helper/_timeFormatter';
 
 function SecurityPostAssignDetailsView({ shiftList }) {
   const [rowData, getRowData, lodar] = useAxiosGet();
@@ -26,7 +26,6 @@ function SecurityPostAssignDetailsView({ shiftList }) {
         selectedBusinessUnit?.value
       }`
     );
-
   }, []);
 
   return (
@@ -41,7 +40,7 @@ function SecurityPostAssignDetailsView({ shiftList }) {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Security Post Assign Details"}></CardHeader>
+              <CardHeader title={'Security Post Assign Details'}></CardHeader>
               <CardBody>
                 {lodar && <Loading />}
                 <div className="row">
@@ -50,14 +49,14 @@ function SecurityPostAssignDetailsView({ shiftList }) {
                       <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
-                            <th style={{ width: "70px" }}>তারিখ</th>
-                            <th style={{ width: "70px" }}>শিফট</th>
+                            <th style={{ width: '30px' }}>SL</th>
+                            <th style={{ width: '70px' }}>তারিখ</th>
+                            <th style={{ width: '70px' }}>শিফট</th>
                             <th>নাম</th>
                             <th>পদবী</th>
                             <th>পোস্ট/স্থান</th>
-                            <th style={{ width: "100px" }}>প্রবেশের সময়</th>
-                            <th style={{ width: "100px" }}>বহির্গমনের সময়</th>
+                            <th style={{ width: '100px' }}>প্রবেশের সময়</th>
+                            <th style={{ width: '100px' }}>বহির্গমনের সময়</th>
                             <th>মন্তব্য</th>
                           </tr>
                         </thead>
@@ -74,10 +73,10 @@ function SecurityPostAssignDetailsView({ shiftList }) {
                                 <td>{item?.strDesignation}</td>
                                 <td>{item?.strPostName}</td>
                                 <td className="text-center">
-                                  {_timeFormatter(item?.tmInTime || "")}
+                                  {_timeFormatter(item?.tmInTime || '')}
                                 </td>
                                 <td className="text-center">
-                                  {_timeFormatter(item?.tmOutTime || "")}
+                                  {_timeFormatter(item?.tmOutTime || '')}
                                 </td>
                                 <td>{item?.strRemarks}</td>
                               </tr>

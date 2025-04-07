@@ -1,13 +1,13 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
 
 const initData = {
-  unitName: "",
-  fromDate: "",
-  toDate: "",
+  unitName: '',
+  fromDate: '',
+  toDate: '',
 };
 
 export const ApplicationApproveForm = ({ getData, setFilterObj }) => {
@@ -22,8 +22,7 @@ export const ApplicationApproveForm = ({ getData, setFilterObj }) => {
   };
 
   useEffect(() => {
-    getUnits(generateAPI("UnitDDL"));
-
+    getUnits(generateAPI('UnitDDL'));
   }, []);
 
   return (
@@ -99,7 +98,7 @@ export const ApplicationApproveForm = ({ getData, setFilterObj }) => {
                             options={unitDDL || []}
                             value={values?.unitName}
                             onChange={(valueOption) => {
-                              setFieldValue("unitName", valueOption);
+                              setFieldValue('unitName', valueOption);
                             }}
                             placeholder="Unit Name"
                             errors={errors}
@@ -113,12 +112,12 @@ export const ApplicationApproveForm = ({ getData, setFilterObj }) => {
                       <div className="text-right">
                         <button
                           type="button"
-                          style={{ fontSize: "12px" }}
+                          style={{ fontSize: '12px' }}
                           className="btn btn-primary"
                           onClick={() => {
                             getData(
                               getLadingData(
-                                "GetAllPendingDonationApplicationList",
+                                'GetAllPendingDonationApplicationList',
                                 values?.fromDate,
                                 values?.toDate,
                                 values?.unitName?.value || 4

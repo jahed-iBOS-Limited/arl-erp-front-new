@@ -1,60 +1,59 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+} from '../../../../../../_metronic/_partials/controls';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 // import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IApproval from "../../../../_helper/_helperIcons/_approval";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import { _monthFirstDate } from "../../../../_helper/_monthFirstDate";
-import NewSelect from "../../../../_helper/_select";
-import IViewModal from "../../../../_helper/_viewModal";
-import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
-import { BADCBCICForm } from "../../../common/components";
-import { getGodownDDL } from "../../../common/helper";
-import { GetShipPointDDL } from "../../loadingInformation/helper";
-import { getChallanById } from "../helper";
-import ChallanPrint from "./challanPrint";
-import WarehouseApprove from "./warehouseApprove";
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IApproval from '../../../../_helper/_helperIcons/_approval';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import { _monthFirstDate } from '../../../../_helper/_monthFirstDate';
+import NewSelect from '../../../../_helper/_select';
+import IViewModal from '../../../../_helper/_viewModal';
+import ICon from '../../../../chartering/_chartinghelper/icons/_icon';
+import { BADCBCICForm } from '../../../common/components';
+import { getGodownDDL } from '../../../common/helper';
+import { GetShipPointDDL } from '../../loadingInformation/helper';
+import { getChallanById } from '../helper';
+import ChallanPrint from './challanPrint';
+import WarehouseApprove from './warehouseApprove';
 
 const initData = {
-  type: "badc",
-  shipPoint: "",
-  shipToPartner: "",
+  type: 'badc',
+  shipPoint: '',
+  shipToPartner: '',
   fromDate: _monthFirstDate(),
   toDate: _todayDate(),
 };
 
 const headers = [
-  "SL",
-  "Program",
-  "Ghat Name",
-  "Vehicle No",
-  "Driver Name",
-  "Driver Mobile No",
-  "Ship to Partner",
-  "Delivery Address",
-  "Delivery Date",
-  "Logistic Amount",
-  "Advance Amount",
-  "Due Amount",
-  "Quantity",
-  "Action",
-  "Warehouse Approve",
+  'SL',
+  'Program',
+  'Ghat Name',
+  'Vehicle No',
+  'Driver Name',
+  'Driver Mobile No',
+  'Ship to Partner',
+  'Delivery Address',
+  'Delivery Date',
+  'Logistic Amount',
+  'Advance Amount',
+  'Due Amount',
+  'Quantity',
+  'Action',
+  'Warehouse Approve',
 ];
 
 const ChallanTable = () => {
@@ -84,9 +83,11 @@ const ChallanTable = () => {
   const { userId } = profile;
 
   const getData = (values, pageNo, pageSize) => {
-    const url = `/tms/LigterLoadUnload/GetLighterChallanInfoPagination?AccountId=${accId}&BusinessUnitId=${buId}&ShipPointId=${values
-      ?.shipPoint?.value || 0}&ShipToPartnerId=${values?.shipToPartner?.value ||
-      0}&FromDate=${values?.fromDate}&ToDate=${
+    const url = `/tms/LigterLoadUnload/GetLighterChallanInfoPagination?AccountId=${accId}&BusinessUnitId=${buId}&ShipPointId=${
+      values?.shipPoint?.value || 0
+    }&ShipToPartnerId=${
+      values?.shipToPartner?.value || 0
+    }&FromDate=${values?.fromDate}&ToDate=${
       values?.toDate
     }&PageNo=${pageNo}&PageSize=${pageSize}`;
 
@@ -111,12 +112,12 @@ const ChallanTable = () => {
 
   const onChangeHandler = (fieldName, values, currentValue, setFieldValue) => {
     switch (fieldName) {
-      case "type":
-        setFieldValue("type", currentValue);
+      case 'type':
+        setFieldValue('type', currentValue);
         if (currentValue) {
           getGodownDDL(
             buId,
-            currentValue === "badc" ? 73244 : 73245,
+            currentValue === 'badc' ? 73244 : 73245,
             setGodownDDL,
             setLoading
           );
@@ -124,8 +125,8 @@ const ChallanTable = () => {
 
         break;
 
-      case "organization":
-        setFieldValue("organization", currentValue);
+      case 'organization':
+        setFieldValue('organization', currentValue);
         if (currentValue) {
           getGodownDDL(buId, currentValue?.value, setGodownDDL, setLoading);
         }
@@ -165,7 +166,7 @@ const ChallanTable = () => {
                       onClick={() => {
                         history.push({
                           pathname:
-                            "/vessel-management/allotment/challanentry/entry",
+                            '/vessel-management/allotment/challanentry/entry',
                           state: values,
                         });
                       }}
@@ -198,7 +199,7 @@ const ChallanTable = () => {
                             label="Organization"
                             onChange={(valueOption) => {
                               onChangeHandler(
-                                "organization",
+                                'organization',
                                 values,
                                 valueOption,
                                 setFieldValue
@@ -212,13 +213,13 @@ const ChallanTable = () => {
                         <NewSelect
                           name="shipPoint"
                           options={[
-                            { value: 0, label: "All" },
+                            { value: 0, label: 'All' },
                             ...shipPointDDL,
                           ]}
                           value={values?.shipPoint}
                           label="ShipPoint"
                           onChange={(e) => {
-                            setFieldValue("shipPoint", e);
+                            setFieldValue('shipPoint', e);
                           }}
                           placeholder="ShipPoint"
                         />
@@ -226,12 +227,12 @@ const ChallanTable = () => {
                       <div className="col-lg-3">
                         <NewSelect
                           name="shipToPartner"
-                          options={[{ value: 0, label: "All" }, ...godownDDL]}
+                          options={[{ value: 0, label: 'All' }, ...godownDDL]}
                           value={values?.shipToPartner}
                           label="Ship to Partner"
                           placeholder="Ship to Partner"
                           onChange={(e) => {
-                            setFieldValue("shipToPartner", e);
+                            setFieldValue('shipToPartner', e);
                           }}
                         />
                       </div>
@@ -270,7 +271,7 @@ const ChallanTable = () => {
                       <table
                         id="table-to-xlsx"
                         className={
-                          "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                          'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                         }
                       >
                         <thead>
@@ -287,12 +288,12 @@ const ChallanTable = () => {
                                 key={index}
                                 style={
                                   item?.isInventoryApprove
-                                    ? { backgroundColor: "#d4edda" }
-                                    : { backgroundColor: "#f8d7da" }
+                                    ? { backgroundColor: '#d4edda' }
+                                    : { backgroundColor: '#f8d7da' }
                                 }
                               >
                                 <td
-                                  style={{ width: "40px" }}
+                                  style={{ width: '40px' }}
                                   className="text-center"
                                 >
                                   {index + 1}
@@ -317,7 +318,7 @@ const ChallanTable = () => {
                                 </td>
 
                                 <td
-                                  style={{ width: "80px" }}
+                                  style={{ width: '80px' }}
                                   className="text-center"
                                 >
                                   {
@@ -367,7 +368,7 @@ const ChallanTable = () => {
                                               setOpen(true);
                                             } else {
                                               toast.warn(
-                                                "Please select a shipPoint"
+                                                'Please select a shipPoint'
                                               );
                                             }
                                           }

@@ -1,25 +1,24 @@
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useRef, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory, useLocation } from "react-router-dom";
-import { setEmpKpiReportInitData_Action } from "../../../../_helper/reduxForLocalStorage/Actions";
-import ICard from "../../../../_helper/_card";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { getMonthDDLAction } from "../../../individualKpi/PerformanceChart/_redux/Actions";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import { setEmpKpiReportInitData_Action } from '../../../../_helper/reduxForLocalStorage/Actions';
+import ICard from '../../../../_helper/_card';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { getMonthDDLAction } from '../../../individualKpi/PerformanceChart/_redux/Actions';
 import {
   getDepartmentDDL,
   GetKpiLandingReportAction,
   getYearDDL,
-} from "../helper";
+} from '../helper';
 
 const initData = {
-  employee: "",
-  department: { value: 0, label: "All" },
-  year: "",
-  fromMonth: "",
-  toMonth: "",
+  employee: '',
+  department: { value: 0, label: 'All' },
+  year: '',
+  fromMonth: '',
+  toMonth: '',
 };
 
 export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
@@ -63,7 +62,6 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
     if (yearDDL?.length > 0) {
       dispatch(getMonthDDLAction(yearDDL?.[0]?.value));
     }
-
   }, [yearDDL]);
 
   const commonGridDataFunc = (
@@ -88,21 +86,21 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
   useEffect(() => {
     // must need yearId,
     if (yearDDL?.length > 0) {
-      const obj = empKpiReportInitData?.department ? {
-        value: empKpiReportInitData?.department?.value,
-        label: "Department",
-      } : {value : 0, label: "Department"};
+      const obj = empKpiReportInitData?.department
+        ? {
+            value: empKpiReportInitData?.department?.value,
+            label: 'Department',
+          }
+        : { value: 0, label: 'Department' };
 
       let yearId = empKpiReportInitData?.year?.value
         ? empKpiReportInitData?.year?.value
         : yearDDL?.length > 0
-        ? yearDDL[0]?.value
-        : "";
+          ? yearDDL[0]?.value
+          : '';
       commonGridDataFunc(obj?.label, obj?.value, yearId);
     }
-
   }, [profileData, selectedBusinessUnit, yearDDL]);
-
 
   const backHandler = () => {
     history.goBack();
@@ -116,12 +114,12 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
         initialValues={{
           ...initData,
           ...empKpiReportInitData,
-          department: { value: 0, label: "All" },
+          department: { value: 0, label: 'All' },
           year: empKpiReportInitData?.year?.value
             ? empKpiReportInitData?.year
             : yearDDL?.length > 0
-            ? yearDDL[0]
-            : "",
+              ? yearDDL[0]
+              : '',
         }}
         // validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
@@ -155,12 +153,12 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                     <div className="col-md-3">
                       <NewSelect
                         name="department"
-                        options={[{ value: 0, label: "All" }, ...departmentDDL]}
+                        options={[{ value: 0, label: 'All' }, ...departmentDDL]}
                         value={values?.department}
                         label="Department"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("department", valueOption);
+                            setFieldValue('department', valueOption);
                             let obj = {
                               department: valueOption,
                               year: values?.year,
@@ -168,19 +166,19 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                             dispatch(setEmpKpiReportInitData_Action(obj));
 
                             commonGridDataFunc(
-                              "Department",
+                              'Department',
                               valueOption?.value,
                               values?.year?.value,
                               values?.fromMonth?.value,
                               values?.toMonth?.value
                             );
                           } else {
-                            setFieldValue("department", {
+                            setFieldValue('department', {
                               value: 0,
-                              label: "All",
+                              label: 'All',
                             });
                             commonGridDataFunc(
-                              "Department",
+                              'Department',
                               0,
                               values?.year?.value,
                               values?.fromMonth?.value,
@@ -202,7 +200,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                         label="Year"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("year", valueOption);
+                            setFieldValue('year', valueOption);
                             dispatch(getMonthDDLAction(valueOption?.value));
                             // for local storage,
                             let objOne = {
@@ -213,7 +211,7 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                             dispatch(setEmpKpiReportInitData_Action(objOne));
 
                             commonGridDataFunc(
-                              "Department",
+                              'Department',
                               valueOption?.value,
                               values?.year?.value,
                               values?.fromMonth?.value,
@@ -234,15 +232,15 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                         value={values?.fromMonth}
                         label="From Month"
                         onChange={(valueOption) => {
-                          setFieldValue("fromMonth", valueOption);
+                          setFieldValue('fromMonth', valueOption);
                           const obj = values?.department
                             ? {
                                 value: values?.department?.value,
-                                label: "Department",
+                                label: 'Department',
                               }
                             : {
                                 value: values?.employee?.value,
-                                label: "Employee",
+                                label: 'Employee',
                               };
                           commonGridDataFunc(
                             obj?.label,
@@ -265,15 +263,15 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                         value={values?.toMonth}
                         label="To Month"
                         onChange={(valueOption) => {
-                          setFieldValue("toMonth", valueOption);
+                          setFieldValue('toMonth', valueOption);
                           const obj = values?.department
                             ? {
                                 value: values?.department?.value,
-                                label: "Department",
+                                label: 'Department',
                               }
                             : {
                                 value: values?.employee?.value,
-                                label: "Employee",
+                                label: 'Employee',
                               };
                           commonGridDataFunc(
                             obj?.label,
@@ -292,14 +290,14 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                 </div>
                 <button
                   type="submit"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={btnRef}
                   onSubmit={() => handleSubmit()}
                 ></button>
 
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>
@@ -307,10 +305,8 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
 
               <div className="mt-1" ref={printRef}>
                 <div>
-                  <h2 style={{ textAlign: "center" }}>
-                    Akij Resource Limited
-                  </h2>
-                  <h6 style={{ textAlign: "center" }}>
+                  <h2 style={{ textAlign: 'center' }}>Akij Resource Limited</h2>
+                  <h6 style={{ textAlign: 'center' }}>
                     198, Bir Uttam Mir Showkat Sarak, Tejgaon, I/A, Dhaka,
                     Bangladesh
                   </h6>
@@ -327,17 +323,17 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                       <table className="table table-striped table-bordered global-table table-font-size-sm">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
-                            <th style={{ width: "90px" }}>iBOS Enroll No.</th>
-                            <th style={{ width: "90px" }}>Name of Employee</th>
-                            <th style={{ width: "90px" }}>Designation</th>
-                            <th style={{ width: "90px" }}>Department</th>
-                            <th style={{ width: "90px" }}>Employee Category</th>
-                            <th style={{ width: "90px" }}>
+                            <th style={{ width: '30px' }}>SL</th>
+                            <th style={{ width: '90px' }}>iBOS Enroll No.</th>
+                            <th style={{ width: '90px' }}>Name of Employee</th>
+                            <th style={{ width: '90px' }}>Designation</th>
+                            <th style={{ width: '90px' }}>Department</th>
+                            <th style={{ width: '90px' }}>Employee Category</th>
+                            <th style={{ width: '90px' }}>
                               Work Place(Geographic Location)
                             </th>
-                            <th style={{ width: "90px" }}>SBUs Name</th>
-                            <th style={{ width: "90px" }}>
+                            <th style={{ width: '90px' }}>SBUs Name</th>
+                            <th style={{ width: '90px' }}>
                               KPI Score Out of 70
                             </th>
                           </tr>
@@ -348,38 +344,38 @@ export function TableRow({ btnRef, saveHandler, resetBtnRef, modalData }) {
                               <td className="text-center">{index + 1}</td>
                               <td>
                                 <div className="text-right pr-2">
-                                  {item?.intEmployeeId || "-"}
+                                  {item?.intEmployeeId || '-'}
                                 </div>
                               </td>
                               <td>
                                 <div className="text-right pr-2">
-                                  {item?.strEmployeeFullName || "-"}
+                                  {item?.strEmployeeFullName || '-'}
                                 </div>
                               </td>
-                              <td>{item?.strDesignationName || "-"}</td>
+                              <td>{item?.strDesignationName || '-'}</td>
                               <td>
                                 <div className="text-right pr-2">
-                                  {item?.strDepartmentName || "-"}
-                                </div>
-                              </td>
-                              <td>
-                                <div className="text-right pr-2">
-                                  {item?.strDesignationName || "-"}
+                                  {item?.strDepartmentName || '-'}
                                 </div>
                               </td>
                               <td>
                                 <div className="text-right pr-2">
-                                  {item?.strWorkplaceName || "-"}
+                                  {item?.strDesignationName || '-'}
                                 </div>
                               </td>
                               <td>
                                 <div className="text-right pr-2">
-                                  {item?.strSBUName || "-"}
+                                  {item?.strWorkplaceName || '-'}
                                 </div>
                               </td>
                               <td>
                                 <div className="text-right pr-2">
-                                  {item?.score || "-"}
+                                  {item?.strSBUName || '-'}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="text-right pr-2">
+                                  {item?.score || '-'}
                                 </div>
                               </td>
                             </tr>

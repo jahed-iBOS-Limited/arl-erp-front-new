@@ -11,7 +11,7 @@
   text-align: center;
   color: #160637;
   text-transform: uppercase;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-style: italic;
   font-weight: 700;
   font-size: 25px;
@@ -31,27 +31,27 @@
 }
 
 .welcomeFrom label {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .welcomeArea h1 {
   font-size: 41px;
   font-weight: 700;
   color: #160637 !important;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   @media screen and (max-width: 767px) {
     font-size: 25px;
   }
 }
 
 .short_description {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 14px !important;
   max-width: 95%;
 }
 
 .bold_italic {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-style: italic;
   font-weight: 700;
 }
@@ -81,14 +81,14 @@
   max-width: 464px !important;
   width: 464px !important;
 }
-.otp-popup .expired-content .otp-box > div{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.otp-popup .expired-content .otp-box > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.otp-popup .expired-content .otp-box > div input{
+.otp-popup .expired-content .otp-box > div input {
   margin-right: 10px;
 }
-.otp-popup .expired-content .otp-box > div input:focus + input{
+.otp-popup .expired-content .otp-box > div input:focus + input {
   border: 1px solid #21262d !important;
 }

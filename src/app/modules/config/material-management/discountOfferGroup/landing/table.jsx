@@ -1,20 +1,19 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import ICustomCard from "../../../../_helper/_customCard";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { useHistory } from "react-router-dom";
-import PaginationSearch from "../../../../_helper/_search";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import ICustomCard from '../../../../_helper/_customCard';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { useHistory } from 'react-router-dom';
+import PaginationSearch from '../../../../_helper/_search';
 
 const initData = {};
 const headers = [
-  "SL",
-  "Discount Group Name",
-  "Item Name",
-  "Previous Group Name",
+  'SL',
+  'Discount Group Name',
+  'Item Name',
+  'Previous Group Name',
 ];
 
 const DiscountOfferGroupLandingTable = () => {
@@ -31,7 +30,7 @@ const DiscountOfferGroupLandingTable = () => {
   } = useSelector((state) => state?.authData, shallowEqual);
 
   const setLandingData = (values, _pageNo = 0, _pageSize = 15, searchTerm) => {
-    const search = searchTerm ? `&searchTerm=${searchTerm}` : "";
+    const search = searchTerm ? `&searchTerm=${searchTerm}` : '';
     getGridData(
       `/oms/TradeOffer/GetItemAndOfferGroupPagination?businessUnitId=${buId}&pageNo=${_pageNo}&pageSize=${_pageSize}${search}`,
       (resData) => {
@@ -41,12 +40,11 @@ const DiscountOfferGroupLandingTable = () => {
   };
 
   useEffect(() => {
-    setLandingData(initData, pageNo, pageSize, "");
-
+    setLandingData(initData, pageNo, pageSize, '');
   }, [accId, buId]);
 
   const setPositionHandler = (pageNo, pageSize) => {
-    setLandingData(initData, pageNo, pageSize, "");
+    setLandingData(initData, pageNo, pageSize, '');
   };
 
   const paginationSearchHandler = (searchTerm) => {
@@ -80,35 +78,35 @@ const DiscountOfferGroupLandingTable = () => {
               <form className="form form-label-right">
                 {/* <div className="global-form row"></div> */}
                 {gridData?.data?.length > 0 && (
-                 <div className="table-responsive">
-                   <table
-                    id="table-to-xlsx"
-                    className={
-                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
-                    }
-                  >
-                    <thead>
-                      <tr className="cursor-pointer">
-                        {headers?.map((th, index) => {
-                          return <th key={index}> {th} </th>;
-                        })}
-                      </tr>
-                    </thead>
+                  <div className="table-responsive">
+                    <table
+                      id="table-to-xlsx"
+                      className={
+                        'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
+                      }
+                    >
+                      <thead>
+                        <tr className="cursor-pointer">
+                          {headers?.map((th, index) => {
+                            return <th key={index}> {th} </th>;
+                          })}
+                        </tr>
+                      </thead>
 
-                    <tbody>
-                      {gridData?.data?.map((item, index) => {
-                        return (
-                          <tr key={index}>
-                            <td> {index + 1}</td>
-                            <td> {item?.discountGroupName}</td>
-                            <td> {item?.itemName}</td>
-                            <td> {item?.previousGroupName}</td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                 </div>
+                      <tbody>
+                        {gridData?.data?.map((item, index) => {
+                          return (
+                            <tr key={index}>
+                              <td> {index + 1}</td>
+                              <td> {item?.discountGroupName}</td>
+                              <td> {item?.itemName}</td>
+                              <td> {item?.previousGroupName}</td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
                 )}
               </form>
               {gridData?.data?.length > 0 && (

@@ -1,55 +1,55 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import ICustomTable from "../../../_helper/_customTable";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import InfoCircle from "../../../_helper/_helperIcons/_infoCircle";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import FromDateToDateForm from "../../../_helper/commonInputFieldsGroups/dateForm";
-import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import IButton from "../../../_helper/iButton";
-import QRCodeScanner from "../../../_helper/qrCodeScanner";
-import ShippingInfoDetails from "../storeInformationList/shippingNote";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import IConfirmModal from '../../../_helper/_confirmModal';
+import ICustomTable from '../../../_helper/_customTable';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import InfoCircle from '../../../_helper/_helperIcons/_infoCircle';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import FromDateToDateForm from '../../../_helper/commonInputFieldsGroups/dateForm';
+import PowerBIReport from '../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import IButton from '../../../_helper/iButton';
+import QRCodeScanner from '../../../_helper/qrCodeScanner';
+import ShippingInfoDetails from '../storeInformationList/shippingNote';
 
 const initData = {
-  type: { value: 1, label: "Loading In Progress" },
-  shipmentId: "",
-  shipmentCode: "",
-  shippingPoint: "",
-  vehicleNumber: "",
-  driver: "",
-  deliveryDate: "",
-  packerName: "",
-  tlm: "",
-  viewType: "",
+  type: { value: 1, label: 'Loading In Progress' },
+  shipmentId: '',
+  shipmentCode: '',
+  shippingPoint: '',
+  vehicleNumber: '',
+  driver: '',
+  deliveryDate: '',
+  packerName: '',
+  tlm: '',
+  viewType: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
 
-const headers_one = ["SL", "Item", "Bag Type", "UoM", "Quantity"];
+const headers_one = ['SL', 'Item', 'Bag Type', 'UoM', 'Quantity'];
 const headers_two = [
-  "SL",
-  "Shipment Code",
-  "Vehicle",
-  "Bag Type",
-  "Total Qty",
-  "UoM",
-  "Route Name",
-  "Transport Name",
-  "Provider Type",
-  "Shipping Type",
-  "TLM",
-  "Bursting Qty",
-  "Actions",
+  'SL',
+  'Shipment Code',
+  'Vehicle',
+  'Bag Type',
+  'Total Qty',
+  'UoM',
+  'Route Name',
+  'Transport Name',
+  'Provider Type',
+  'Shipping Type',
+  'TLM',
+  'Bursting Qty',
+  'Actions',
 ];
 
 export default function PackingInformationList() {
@@ -58,7 +58,7 @@ export default function PackingInformationList() {
   const [, onComplete, loader] = useAxiosPost();
   const [shipmentId, setShipmentId] = useState(null);
   const [isQrCodeShow, setIsQRCodeSHow] = useState(false);
-  const [actionType, setActionType] = useState("Manual");
+  const [actionType, setActionType] = useState('Manual');
   const [rowData, getRowData, rowLoading, setRowData] = useAxiosGet();
   const [open, setOpen] = useState(false);
   const [singleItem, setSingleItem] = useState({});
@@ -81,12 +81,8 @@ export default function PackingInformationList() {
 
   // api action
   const [tlmDDL, getTLMDDL, getTLMDDLLoading] = useAxiosGet();
-  const [
-    packerDDL,
-    getPackerDDL,
-    getPackerDDLLoading,
-    setPackerDDL,
-  ] = useAxiosGet();
+  const [packerDDL, getPackerDDL, getPackerDDLLoading, setPackerDDL] =
+    useAxiosGet();
   const [
     forcelyPackerOutData,
     getForcelyPackerOutData,
@@ -110,7 +106,6 @@ export default function PackingInformationList() {
         );
       }
     );
-
   }, []);
 
   const getData = (values, _pageNo = 0, _pageSize = 300) => {
@@ -131,27 +126,27 @@ export default function PackingInformationList() {
       4: `fe886d74-87ab-42e5-8695-b4be96e51aca`,
       5: `963a81ac-f684-452d-a7d7-f372dd2f5297`,
     };
-    return reportType ? reportId[values?.type?.value] : "";
+    return reportType ? reportId[values?.type?.value] : '';
   };
 
   // handle choose powerbi report paramater
   const handleChooseReportParameter = (values) => {
     const shiftWisePackerInformation = [
-      { name: "fromdate", value: `${values?.fromDate}` },
-      { name: "todate", value: `${values?.toDate}` },
-      { name: "ViewType", value: `${+values?.viewType?.value}` },
-      { name: "unitid", value: `${+buId}` },
-      { name: "intShippoint", value: `${values?.shipPoint?.value}` },
+      { name: 'fromdate', value: `${values?.fromDate}` },
+      { name: 'todate', value: `${values?.toDate}` },
+      { name: 'ViewType', value: `${+values?.viewType?.value}` },
+      { name: 'unitid', value: `${+buId}` },
+      { name: 'intShippoint', value: `${values?.shipPoint?.value}` },
     ];
     const cashBaseInOutStatus = [
-      { name: "dteFromDate", value: `${values?.fromDate}` },
-      { name: "dteToDate", value: `${values?.toDate}` },
-      { name: "intunitid", value: `${+buId}` },
-      { name: "intShipPointId", value: `${values?.shipPoint?.value}` },
-      { name: "ViewType", value: `${+values?.viewType?.value}` },
-      { name: "intShiftID", value: `${+values?.shift?.value}` },
-      { name: "intGateOutStatusId", value: `${+values?.gateStatus?.value}` },
-      { name: "intPartid", value: `${+values?.viewType?.value}` },
+      { name: 'dteFromDate', value: `${values?.fromDate}` },
+      { name: 'dteToDate', value: `${values?.toDate}` },
+      { name: 'intunitid', value: `${+buId}` },
+      { name: 'intShipPointId', value: `${values?.shipPoint?.value}` },
+      { name: 'ViewType', value: `${+values?.viewType?.value}` },
+      { name: 'intShiftID', value: `${+values?.shift?.value}` },
+      { name: 'intGateOutStatusId', value: `${+values?.gateStatus?.value}` },
+      { name: 'intPartid', value: `${+values?.viewType?.value}` },
     ];
 
     switch (values?.type?.value) {
@@ -189,8 +184,8 @@ export default function PackingInformationList() {
   // forcefully packer out
   const forcefullyPackerOutPopup = (item, values, cb) => {
     let confirmObject = {
-      title: "Are you sure?",
-      message: "If you forcefully out this, it can not be undone",
+      title: 'Are you sure?',
+      message: 'If you forcefully out this, it can not be undone',
       yesAlertFunc: async () => {
         // destrcuture
         const { packer, tlm } = values;
@@ -203,7 +198,7 @@ export default function PackingInformationList() {
         );
       },
       noAlertFunc: () => {
-        "";
+        '';
       },
     };
     IConfirmModal(confirmObject);
@@ -242,7 +237,7 @@ export default function PackingInformationList() {
                       }
                       onClick={() => {
                         if (reportData?.objHeader?.isLoaded) {
-                          return toast.warn("Already Completed");
+                          return toast.warn('Already Completed');
                         }
                         onComplete(
                           `/oms/LoadingPoint/CompletePacker?shipmentId=${reportData?.objHeader?.shipmentId}&actionBy=${userId}&typeId=1&tlm=${values?.tlm?.value}`,
@@ -272,17 +267,17 @@ export default function PackingInformationList() {
                   <NewSelect
                     name="type"
                     options={[
-                      { value: 1, label: "Loading In Progress" },
+                      { value: 1, label: 'Loading In Progress' },
                       // { value: 3, label: "Scan Card/QR Code" },
                       // { value: 2, label: "Loading Completed" },
-                      { value: 4, label: "Shift wise Packer Information" },
-                      { value: 5, label: "Cash Base In Out Status" },
-                      { value: 6, label: "Forcely Packer Out" },
+                      { value: 4, label: 'Shift wise Packer Information' },
+                      { value: 5, label: 'Cash Base In Out Status' },
+                      { value: 6, label: 'Forcely Packer Out' },
                     ]}
                     value={values?.type}
                     label="Type"
                     onChange={(valueOption) => {
-                      setFieldValue("type", valueOption);
+                      setFieldValue('type', valueOption);
                       setRowData([]);
                       setReportData({});
                       setShowReport(false);
@@ -297,13 +292,13 @@ export default function PackingInformationList() {
                         <NewSelect
                           name="shipPoint"
                           options={[
-                            { value: 0, label: "All" },
+                            { value: 0, label: 'All' },
                             ...shipPointDDL,
                           ]}
                           value={values?.shipPoint}
                           label="ShipPoint"
                           onChange={(valueOption) => {
-                            setFieldValue("shipPoint", valueOption);
+                            setFieldValue('shipPoint', valueOption);
                           }}
                           placeholder="ShipPoint"
                         />
@@ -314,13 +309,13 @@ export default function PackingInformationList() {
                         <NewSelect
                           name="viewType"
                           options={[
-                            { value: 1, label: "Top Sheet" },
-                            { value: 2, label: "Details" },
+                            { value: 1, label: 'Top Sheet' },
+                            { value: 2, label: 'Details' },
                           ]}
                           value={values?.viewType}
                           label="View Type"
                           onChange={(valueOption) => {
-                            setFieldValue("viewType", valueOption);
+                            setFieldValue('viewType', valueOption);
                             setShowReport(false);
                           }}
                           placeholder="View Type"
@@ -333,13 +328,13 @@ export default function PackingInformationList() {
                           <NewSelect
                             name="viewType"
                             options={[
-                              { value: 3, label: "Top Sheet" },
-                              { value: 4, label: "Details" },
+                              { value: 3, label: 'Top Sheet' },
+                              { value: 4, label: 'Details' },
                             ]}
                             value={values?.viewType}
                             label="View Type"
                             onChange={(valueOption) => {
-                              setFieldValue("viewType", valueOption);
+                              setFieldValue('viewType', valueOption);
                               setShowReport(false);
                             }}
                             placeholder="View Type"
@@ -349,14 +344,14 @@ export default function PackingInformationList() {
                           <NewSelect
                             name="gateStatus"
                             options={[
-                              { value: 0, label: "Gate Out Pending" },
-                              { value: 1, label: "Gate Out Complete" },
-                              { value: 3, label: "Gate In Out" },
+                              { value: 0, label: 'Gate Out Pending' },
+                              { value: 1, label: 'Gate Out Complete' },
+                              { value: 3, label: 'Gate In Out' },
                             ]}
                             value={values?.gateStatus}
                             label="Gate Status"
                             onChange={(valueOption) => {
-                              setFieldValue("gateStatus", valueOption);
+                              setFieldValue('gateStatus', valueOption);
                               setShowReport(false);
                             }}
                           />
@@ -365,15 +360,15 @@ export default function PackingInformationList() {
                           <NewSelect
                             name="shift"
                             options={[
-                              { value: 1, label: "A" },
-                              { value: 2, label: "B" },
-                              { value: 3, label: "C" },
-                              { value: 4, label: "D" },
+                              { value: 1, label: 'A' },
+                              { value: 2, label: 'B' },
+                              { value: 3, label: 'C' },
+                              { value: 4, label: 'D' },
                             ]}
                             value={values?.shift}
                             label="Shift"
                             onChange={(valueOption) => {
-                              setFieldValue("shift", valueOption);
+                              setFieldValue('shift', valueOption);
                               setShowReport(false);
                             }}
                           />
@@ -395,7 +390,7 @@ export default function PackingInformationList() {
                         obj={{
                           values,
                           setFieldValue,
-                          type: "datetime-local",
+                          type: 'datetime-local',
                           step: [4].includes(values?.type?.value) ? 1 : false,
                         }}
                       />
@@ -412,8 +407,8 @@ export default function PackingInformationList() {
                             options={packerDDL || []}
                             value={values?.packer}
                             onChange={(valueOption) => {
-                              setFieldValue("packer", valueOption);
-                              setFieldValue("tlm", "");
+                              setFieldValue('packer', valueOption);
+                              setFieldValue('tlm', '');
 
                               // get tlm ddl
                               getTLMDDL(
@@ -431,7 +426,7 @@ export default function PackingInformationList() {
                             value={values?.tlm}
                             label="TLM for Out"
                             onChange={(valueOption) => {
-                              setFieldValue("tlm", valueOption);
+                              setFieldValue('tlm', valueOption);
                             }}
                             placeholder="TLM"
                           />
@@ -457,8 +452,9 @@ export default function PackingInformationList() {
                           getForcelyPackerOutData(
                             `/oms/LoadingPoint/GetDataForForcelyPackerOutReport?businessUnitId=${buId}&shipPointId=${
                               shipPoint?.value
-                            }&PackerId=${packer?.value ||
-                              0}&TlmId=${tlm?.value || 0}`,
+                            }&PackerId=${
+                              packer?.value || 0
+                            }&TlmId=${tlm?.value || 0}`
                           );
                         } else {
                           // setShowReport(false);
@@ -476,11 +472,11 @@ export default function PackingInformationList() {
                         <input
                           type="radio"
                           name="actionType"
-                          checked={actionType === "Manual"}
+                          checked={actionType === 'Manual'}
                           className="mr-1 pointer"
-                          style={{ position: "relative", top: "2px" }}
+                          style={{ position: 'relative', top: '2px' }}
                           onChange={(e) => {
-                            setActionType("Manual");
+                            setActionType('Manual');
                             setValues({ ...initData, type: values?.type });
 
                             setShipmentId(null);
@@ -493,11 +489,11 @@ export default function PackingInformationList() {
                         <input
                           type="radio"
                           name="actionType"
-                          checked={actionType === "Auto"}
+                          checked={actionType === 'Auto'}
                           className="mr-1 pointer"
-                          style={{ position: "relative", top: "2px" }}
+                          style={{ position: 'relative', top: '2px' }}
                           onChange={(e) => {
-                            setActionType("Auto");
+                            setActionType('Auto');
                             setValues({ ...initData, type: values?.type });
                             setShipmentId(null);
                             setReportData({});
@@ -509,9 +505,9 @@ export default function PackingInformationList() {
                     {reportData?.objHeader?.isLoaded && (
                       <p
                         style={{
-                          textAlign: "center",
-                          fontSize: "16px",
-                          fontWeight: "bold",
+                          textAlign: 'center',
+                          fontSize: '16px',
+                          fontWeight: 'bold',
                         }}
                         className="text-danger"
                       >
@@ -519,9 +515,9 @@ export default function PackingInformationList() {
                       </p>
                     )}
                     <div className="col-lg-12"></div>
-                    {["Auto"].includes(actionType) ? (
+                    {['Auto'].includes(actionType) ? (
                       <div className="col-lg-3">
-                        <div style={{ display: "inline-block", width: "95%" }}>
+                        <div style={{ display: 'inline-block', width: '95%' }}>
                           <InputField
                             value={shipmentId}
                             label="Card Id"
@@ -532,14 +528,14 @@ export default function PackingInformationList() {
                         </div>
                         <span
                           className="pl-1"
-                          style={{ display: "inline-block" }}
+                          style={{ display: 'inline-block' }}
                         >
                           <i
                             onClick={(e) => {
                               e.stopPropagation();
                               setIsQRCodeSHow(true);
                             }}
-                            style={{ color: "blue", cursor: "pointer" }}
+                            style={{ color: 'blue', cursor: 'pointer' }}
                             class="fa fa-qrcode"
                             aria-hidden="true"
                           ></i>
@@ -553,36 +549,36 @@ export default function PackingInformationList() {
                           name="shipmentCode"
                           type="text"
                           onChange={(e) => {
-                            setFieldValue("shipmentCode", e.target.value);
+                            setFieldValue('shipmentCode', e.target.value);
                           }}
                           onKeyDown={(e) => {
                             if (e.keyCode === 13) {
-                              setFieldValue("shipmentCode", e.target.value);
+                              setFieldValue('shipmentCode', e.target.value);
                               getReportData(
                                 // `/wms/Delivery/GetDeliveryPrintInfoManual?businessUnitId=${selectedBusinessUnit?.value}&shipmentCode=${e.target.value}`,
                                 `/wms/Delivery/GetDeliveryPrintInfoByVehicleCardNumber?strCardNumber=${e.target.value}`,
                                 (res) => {
                                   setFieldValue(
-                                    "shippingPoint",
-                                    res?.objHeader?.shipPointName || ""
+                                    'shippingPoint',
+                                    res?.objHeader?.shipPointName || ''
                                   );
                                   setFieldValue(
-                                    "vehicleNumber",
-                                    res?.objHeader?.strVehicleName || ""
+                                    'vehicleNumber',
+                                    res?.objHeader?.strVehicleName || ''
                                   );
                                   setFieldValue(
-                                    "driver",
-                                    res?.objHeader?.driverName || ""
+                                    'driver',
+                                    res?.objHeader?.driverName || ''
                                   );
                                   setFieldValue(
-                                    "packerName",
-                                    res?.objHeader?.packerName || ""
+                                    'packerName',
+                                    res?.objHeader?.packerName || ''
                                   );
                                   setFieldValue(
-                                    "deliveryDate",
+                                    'deliveryDate',
                                     _dateFormatter(
                                       res?.objHeader?.pricingDate
-                                    ) || ""
+                                    ) || ''
                                   );
                                 }
                               );
@@ -599,7 +595,7 @@ export default function PackingInformationList() {
                         name="shippingPoint"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("shippingPoint", e.target.value);
+                          setFieldValue('shippingPoint', e.target.value);
                         }}
                       />
                     </div>
@@ -610,7 +606,7 @@ export default function PackingInformationList() {
                         name="vehicleNumber"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("vehicleNumber", e.target.value);
+                          setFieldValue('vehicleNumber', e.target.value);
                         }}
                       />
                     </div>
@@ -621,7 +617,7 @@ export default function PackingInformationList() {
                         name="driver"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("driver", e.target.value);
+                          setFieldValue('driver', e.target.value);
                         }}
                       />
                     </div>
@@ -632,7 +628,7 @@ export default function PackingInformationList() {
                         name="packerName"
                         type="text"
                         onChange={(e) => {
-                          setFieldValue("packerName", e.target.value);
+                          setFieldValue('packerName', e.target.value);
                         }}
                       />
                     </div>
@@ -643,7 +639,7 @@ export default function PackingInformationList() {
                         name="deliveryDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("deliveryDate", e.target.value);
+                          setFieldValue('deliveryDate', e.target.value);
                         }}
                       />
                     </div>
@@ -651,17 +647,17 @@ export default function PackingInformationList() {
                       <NewSelect
                         name="tlm"
                         options={[
-                          { value: 1, label: "TLM-1" },
-                          { value: 2, label: "TLM-2" },
-                          { value: 3, label: "TLM-3" },
-                          { value: 4, label: "TLM-4" },
-                          { value: 5, label: "TLM-5" },
-                          { value: 6, label: "TLM-6" },
+                          { value: 1, label: 'TLM-1' },
+                          { value: 2, label: 'TLM-2' },
+                          { value: 3, label: 'TLM-3' },
+                          { value: 4, label: 'TLM-4' },
+                          { value: 5, label: 'TLM-5' },
+                          { value: 6, label: 'TLM-6' },
                         ]}
                         value={values?.tlm}
                         label="TLM"
                         onChange={(valueOption) => {
-                          setFieldValue("tlm", valueOption);
+                          setFieldValue('tlm', valueOption);
                         }}
                         placeholder="TLM"
                       />
@@ -672,14 +668,14 @@ export default function PackingInformationList() {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>
@@ -696,24 +692,24 @@ export default function PackingInformationList() {
                       `/wms/Delivery/GetDeliveryPrintInfoByVehicleCardNumber?strCardNumber=${result}`,
                       (res) => {
                         setFieldValue(
-                          "shippingPoint",
-                          res?.objHeader?.shipPointName || ""
+                          'shippingPoint',
+                          res?.objHeader?.shipPointName || ''
                         );
                         setFieldValue(
-                          "vehicleNumber",
-                          res?.objHeader?.strVehicleName || ""
+                          'vehicleNumber',
+                          res?.objHeader?.strVehicleName || ''
                         );
                         setFieldValue(
-                          "driver",
-                          res?.objHeader?.driverName || ""
+                          'driver',
+                          res?.objHeader?.driverName || ''
                         );
                         setFieldValue(
-                          "packerName",
-                          res?.objHeader?.packerName || ""
+                          'packerName',
+                          res?.objHeader?.packerName || ''
                         );
                         setFieldValue(
-                          "deliveryDate",
-                          _dateFormatter(res?.objHeader?.pricingDate) || ""
+                          'deliveryDate',
+                          _dateFormatter(res?.objHeader?.pricingDate) || ''
                         );
                       }
                     );
@@ -748,13 +744,13 @@ export default function PackingInformationList() {
                           <tr
                             style={{
                               backgroundColor: `${
-                                item?.bagType === "Pasting"
-                                  ? "#57d557c2"
-                                  : item?.bagType === "Sewing"
-                                  ? "#6cbbe7de"
-                                  : item?.bagType === "MES PCC"
-                                  ? "#bb8ef2f0"
-                                  : ""
+                                item?.bagType === 'Pasting'
+                                  ? '#57d557c2'
+                                  : item?.bagType === 'Sewing'
+                                    ? '#6cbbe7de'
+                                    : item?.bagType === 'MES PCC'
+                                      ? '#bb8ef2f0'
+                                      : ''
                               }`,
                             }}
                           >
@@ -771,7 +767,7 @@ export default function PackingInformationList() {
                                 ? item?.itemTransferTotalQty
                                 : item?.itemTotalQty}
                             </td>
-                            <td>{item?.shippingTypeId === 9 ? "Ton" : ""}</td>
+                            <td>{item?.shippingTypeId === 9 ? 'Ton' : ''}</td>
                             <td>{item?.routeName}</td>
                             <td>{item?.transportModeName}</td>
                             <td>{item?.strOwnerType}</td>
@@ -780,7 +776,7 @@ export default function PackingInformationList() {
                             <td>{item?.brustingQuantity}</td>
                             <td
                               className="text-center"
-                              style={{ backgroundColor: "#e0ffff" }}
+                              style={{ backgroundColor: '#e0ffff' }}
                             >
                               <div className="d-flex justify-content-around">
                                 <button
@@ -794,7 +790,7 @@ export default function PackingInformationList() {
                                 </button>
 
                                 <InfoCircle
-                                  title={"Shipment Details"}
+                                  title={'Shipment Details'}
                                   clickHandler={() => {
                                     setSingleItem(item);
                                     setOpen(true);
@@ -805,7 +801,7 @@ export default function PackingInformationList() {
                           </tr>
                         );
                       })}
-                  <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+                  <tr style={{ fontWeight: 'bold', textAlign: 'right' }}>
                     <td
                       colSpan={4}
                       // colSpan={[1, 2].includes(values?.type?.value) ? 9 : 4}
@@ -842,7 +838,7 @@ export default function PackingInformationList() {
                     <table
                       id="table-to-xlsx"
                       className={
-                        "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm global-table"
+                        'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm global-table'
                       }
                     >
                       <thead>
@@ -861,7 +857,7 @@ export default function PackingInformationList() {
                           return (
                             <tr key={index}>
                               <td
-                                style={{ width: "40px" }}
+                                style={{ width: '40px' }}
                                 className="text-center"
                               >
                                 {index + 1}

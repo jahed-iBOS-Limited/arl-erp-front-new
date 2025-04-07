@@ -405,35 +405,6 @@ export default function PartnerSales() {
           setDisabled(false);
         }
       } else {
-        // create api call
-
-        // const salesData = {
-        //   objSasles: {
-        //     accountId: accountId,
-        //     businessUnitId: businessunitid,
-        //     sbuid: values?.sbu.value,
-        //     businessPartnerId: +id,
-        //     priceStructureId: values?.priceStructure.value,
-        //     salesOrganizationId: values?.salesOrganaization.value,
-        //     ledgerBalance: 0,
-        //     unbilledAmount: 0,
-        //     creditLimit: 0,
-        //     balanceCheckTypeId: 0,
-        //     generalLederId: values?.reconGeneralLedger?.value,
-        //     alternateGlid: values?.alternetGeneralLedger?.value,
-        //     soldToPartnerId: values?.soldToParty?.value,
-        //     soldToPartnerName: values?.soldToParty?.label,
-        //     transportZoneId: values?.transportZone?.value,
-        //     territoryId: values?.salesTerriory?.value,
-        //     distributionChannelId: values?.distributionChannel?.value,
-        //     transportZoneName: values?.transportZone?.label,
-        //     actionBy,
-        //   },
-        //   objListShipPoint: objRow,
-        //   objListMortgage: objMortgageRow,
-        //   objListCrLimit: objCreditRow,
-        // }
-
         const payload = {
           objSasles: {
             accountId: accountId,

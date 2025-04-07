@@ -1,5 +1,5 @@
-import React from "react";
-import { IInput } from "../../../../../_helper/_input";
+import React from 'react';
+import { IInput } from '../../../../../_helper/_input';
 
 const RowDtoTable = ({
   rowDto,
@@ -34,27 +34,27 @@ const RowDtoTable = ({
                   <tr key={index}>
                     <td className="text-center align-middle"> {index + 1} </td>
                     <td className="text-center align-middle">
-                      {" "}
-                      {item?.secondRefereneceCode}{" "}
+                      {' '}
+                      {item?.secondRefereneceCode}{' '}
                     </td>
                     <td className="text-center align-middle">
-                      {" "}
-                      {item?.itemCode}{" "}
+                      {' '}
+                      {item?.itemCode}{' '}
                     </td>
                     <td className="">{item?.itemName}</td>
                     <td className="text-center align-middle">
                       {item?.location?.label}
                     </td>
                     <td className="text-center align-middle">
-                      {" "}
-                      {item?.receiveQty}{" "}
+                      {' '}
+                      {item?.receiveQty}{' '}
                     </td>
                     <td className="text-center align-middle">
-                      {" "}
-                      {item?.restQty}{" "}
+                      {' '}
+                      {item?.restQty}{' '}
                     </td>
                     <td
-                      style={{ width: "100px" }}
+                      style={{ width: '100px' }}
                       className="disabled-feedback disable-border"
                     >
                       <IInput
@@ -65,7 +65,7 @@ const RowDtoTable = ({
                         placeholder="Quantity"
                         required
                         onChange={(e) => {
-                          rowDtoHandler("quantity", e.target.value, index);
+                          rowDtoHandler('quantity', e.target.value, index);
                         }}
                         min="0"
                       />

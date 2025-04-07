@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { getGridData } from "../helper";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
+import React, { useState } from 'react';
+import { getGridData } from '../helper';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
 
 import {
   Card,
@@ -9,13 +9,13 @@ import {
   ModalProgressBar,
   CardHeaderToolbar,
   CardBody,
-} from "../../../../../../_metronic/_partials/controls";
-import { useHistory } from "react-router-dom";
-import { Formik, Form } from "formik";
-import NewSelect from "../../../../_helper/_select";
-import PaginationSearch from "../../../../_helper/_search";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import InputField from "../../../../_helper/_inputField";
+} from '../../../../../../_metronic/_partials/controls';
+import { useHistory } from 'react-router-dom';
+import { Formik, Form } from 'formik';
+import NewSelect from '../../../../_helper/_select';
+import PaginationSearch from '../../../../_helper/_search';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import InputField from '../../../../_helper/_inputField';
 
 export default function TableRow() {
   const [gridData] = useState({});
@@ -42,10 +42,10 @@ export default function TableRow() {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          unit: "",
-          provider: "",
-          filterBy: "",
-          status: "",
+          unit: '',
+          provider: '',
+          filterBy: '',
+          status: '',
           fromDate: _dateFormatter(new Date()),
           toDate: _dateFormatter(new Date()),
         }}
@@ -86,7 +86,7 @@ export default function TableRow() {
                           value={values?.unit}
                           label="Unit"
                           onChange={(valueOption) => {
-                            setFieldValue("unit", valueOption);
+                            setFieldValue('unit', valueOption);
                           }}
                           placeholder="Unit"
                           errors={errors}
@@ -119,7 +119,7 @@ export default function TableRow() {
                           value={values?.provider}
                           label="Provider"
                           onChange={(valueOption) => {
-                            setFieldValue("provider", valueOption);
+                            setFieldValue('provider', valueOption);
                           }}
                           placeholder="Provider"
                           errors={errors}
@@ -133,7 +133,7 @@ export default function TableRow() {
                           value={values?.filterBy}
                           label="Filter By"
                           onChange={(valueOption) => {
-                            setFieldValue("filterBy", valueOption);
+                            setFieldValue('filterBy', valueOption);
                           }}
                           placeholder="Filter By"
                           errors={errors}
@@ -147,7 +147,7 @@ export default function TableRow() {
                           value={values?.status}
                           label="Status"
                           onChange={(valueOption) => {
-                            setFieldValue("status", valueOption);
+                            setFieldValue('status', valueOption);
                           }}
                           placeholder="Status"
                           errors={errors}
@@ -159,7 +159,7 @@ export default function TableRow() {
                         <button
                           className="btn btn-primary"
                           // disabled={}
-                          style={{ marginTop: "15px" }}
+                          style={{ marginTop: '15px' }}
                           type="button"
                           onClick={() => {}}
                         >
@@ -222,14 +222,14 @@ export default function TableRow() {
                         <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                           <thead>
                             <tr>
-                              <th style={{ width: "15px" }}>SL</th>
+                              <th style={{ width: '15px' }}>SL</th>
                               <th>LC Number</th>
-                              <th style={{ width: "50px" }}>Date</th>
-                              <th style={{ width: "50px" }}>PO No</th>
+                              <th style={{ width: '50px' }}>Date</th>
+                              <th style={{ width: '50px' }}>PO No</th>
                               <th>Cover Note No</th>
-                              <th style={{ width: "50px" }}>CN Date</th>
+                              <th style={{ width: '50px' }}>CN Date</th>
                               <th>Policy No</th>
-                              <th style={{ width: "50px" }}>Date</th>
+                              <th style={{ width: '50px' }}>Date</th>
                               <th>Invoice Amt.</th>
                               <th>Currency</th>
                               <th>Insured BDT</th>

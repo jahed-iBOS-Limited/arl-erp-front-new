@@ -1,16 +1,16 @@
-import { Field } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import Loading from "../../../../_helper/_loading";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import IViewModal from "../../../../_helper/_viewModal";
-import DeliveryReport from "../Form/deliveryReport/table";
-import { ChallanListTable } from "../Form/challanListTable";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
+import { Field } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import Loading from '../../../../_helper/_loading';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import IViewModal from '../../../../_helper/_viewModal';
+import DeliveryReport from '../Form/deliveryReport/table';
+import { ChallanListTable } from '../Form/challanListTable';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
 
 export const SalesInvoiceFormTable = ({ obj }) => {
   const { rowDto, allSelect, selectedAll, rowDtoHandler, values } = obj;
@@ -40,7 +40,7 @@ export const SalesInvoiceFormTable = ({ obj }) => {
         if (resData?.length > 0) {
           setOpen(true);
         } else {
-          toast.warn("Data not found");
+          toast.warn('Data not found');
         }
       }
     );
@@ -53,17 +53,17 @@ export const SalesInvoiceFormTable = ({ obj }) => {
         <table className="global-table table">
           <thead>
             <tr onClick={() => allSelect(!selectedAll())}>
-              <th className="check-box" style={{ width: "45px" }}>
+              <th className="check-box" style={{ width: '45px' }}>
                 <input
                   type="checkbox"
                   style={{
-                    marginRight: "4px",
+                    marginRight: '4px',
                   }}
                   value={selectedAll()}
                   checked={selectedAll()}
                 />
               </th>
-              <th style={{ width: "45px" }}>SL</th>
+              <th style={{ width: '45px' }}>SL</th>
               {values?.invoiceType?.value === 1 && <th>Delivery Order</th>}
               <th>Challan No</th>
               <th>Challan Date</th>
@@ -90,12 +90,12 @@ export const SalesInvoiceFormTable = ({ obj }) => {
                   key={index}
                   style={
                     rowDto[index]?.presentStatus
-                      ? { backgroundColor: "#aacae3" }
+                      ? { backgroundColor: '#aacae3' }
                       : {}
                   }
                   onClick={() => {
                     rowDtoHandler(
-                      "presentStatus",
+                      'presentStatus',
                       !rowDto[index]?.presentStatus,
                       index
                     );
@@ -114,9 +114,9 @@ export const SalesInvoiceFormTable = ({ obj }) => {
                     <td className="ml-2">
                       <span
                         style={{
-                          borderBottom: "1px solid blue",
-                          cursor: "pointer",
-                          color: "blue",
+                          borderBottom: '1px solid blue',
+                          cursor: 'pointer',
+                          color: 'blue',
                         }}
                         onClick={(e) => {
                           e.stopPropagation();
@@ -131,9 +131,9 @@ export const SalesInvoiceFormTable = ({ obj }) => {
                   <td className="ml-2">
                     <span
                       style={{
-                        borderBottom: "1px solid blue",
-                        cursor: "pointer",
-                        color: "blue",
+                        borderBottom: '1px solid blue',
+                        cursor: 'pointer',
+                        color: 'blue',
                       }}
                       onClick={(e) => {
                         e.stopPropagation();
@@ -178,7 +178,7 @@ export const SalesInvoiceFormTable = ({ obj }) => {
                           className="ml-2"
                         >
                           <i
-                            style={{ fontSize: "16px" }}
+                            style={{ fontSize: '16px' }}
                             className={`fa pointer fa-eye`}
                             aria-hidden="true"
                           ></i>
@@ -189,10 +189,10 @@ export const SalesInvoiceFormTable = ({ obj }) => {
                 </tr>
               );
             })}
-            <tr style={{ fontWeight: "bold", textAlign: "right" }}>
+            <tr style={{ fontWeight: 'bold', textAlign: 'right' }}>
               <td colSpan={values?.invoiceType?.value === 1 ? 5 : 4}>
-                {" "}
-                Total{" "}
+                {' '}
+                Total{' '}
               </td>
               <td>{_fixedPoint(grandTotalDeliveredQty, true)}</td>
               <td>{_fixedPoint(grandTotalAmount, true)}</td>
@@ -206,18 +206,20 @@ export const SalesInvoiceFormTable = ({ obj }) => {
         </table>
       </div>
 
-      {// Delivery Report Modal
-      isDeliveryReportModal && (
-        <IViewModal
-          show={isDeliveryReportModal}
-          onHide={() => {
-            setIsDeliveryReportModal(false);
-            setSelectedItem({});
-          }}
-        >
-          <DeliveryReport id={selectedItem?.deliveryId} />
-        </IViewModal>
-      )}
+      {
+        // Delivery Report Modal
+        isDeliveryReportModal && (
+          <IViewModal
+            show={isDeliveryReportModal}
+            onHide={() => {
+              setIsDeliveryReportModal(false);
+              setSelectedItem({});
+            }}
+          >
+            <DeliveryReport id={selectedItem?.deliveryId} />
+          </IViewModal>
+        )
+      }
       {}
       <IViewModal
         title={`Challan List, SO: ${selectedItem?.orderCode}`}

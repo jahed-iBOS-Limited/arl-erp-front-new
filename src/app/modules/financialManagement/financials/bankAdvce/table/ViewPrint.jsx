@@ -57,8 +57,8 @@ const ViewData = ({ adviceReportData, values }) => {
         Number(
           adviceReportData
             ?.reduce((acc, item) => acc + item?.numAmount, 0)
-            .toFixed(2),
-        ),
+            .toFixed(2)
+        )
       );
     }
   }, [adviceReportData]);
@@ -73,8 +73,8 @@ const ViewData = ({ adviceReportData, values }) => {
     values?.advice?.label === 'IBBL'
       ? 'IBBL_ONLINE'
       : values?.advice?.label === 'IBBL-BEFTN'
-      ? 'IBBL_BEFTN'
-      : values?.advice?.label;
+        ? 'IBBL_BEFTN'
+        : values?.advice?.label;
   const dateFormat = values?.dateTime?.split('/').join('_');
   const fileName = `${selectedBusinessUnit?.buShortName}_${
     total ? total : 0
@@ -136,8 +136,8 @@ const ViewData = ({ adviceReportData, values }) => {
                 values?.advice?.label === 'IBBL'
                   ? 'IBBL_ONLINE'
                   : values?.advice?.label === 'IBBL-BEFTN'
-                  ? 'IBBL_BEFTN'
-                  : values?.advice?.label;
+                    ? 'IBBL_BEFTN'
+                    : values?.advice?.label;
               const dateFormat = values?.dateTime?.split('/').join('_');
               const fileName = `${selectedBusinessUnit?.buShortName}_${
                 total ? total : 0
@@ -151,7 +151,7 @@ const ViewData = ({ adviceReportData, values }) => {
                 false,
                 null,
                 fileName,
-                'isOldExcelDownload',
+                'isOldExcelDownload'
               );
             } else {
               generateExcel(
@@ -163,7 +163,7 @@ const ViewData = ({ adviceReportData, values }) => {
                 false,
                 null,
                 fileName,
-                'isOldExcelDownload',
+                'isOldExcelDownload'
               );
             }
           }}
@@ -177,14 +177,14 @@ const ViewData = ({ adviceReportData, values }) => {
             values?.advice?.label === 'RTGS'
               ? 'portrait !important'
               : values?.advice?.label === 'IBBL-BEFTN'
-              ? 'landscape !important'
-              : 'landscape !important'
+                ? 'landscape !important'
+                : 'landscape !important'
           };margin:${
             values?.advice?.label === 'RTGS'
               ? '0 !important'
               : ['IBBL', 'JAMUNA-BEFTN'].includes(values?.advice?.label)
-              ? '144px 0 !important'
-              : 0
+                ? '144px 0 !important'
+                : 0
           } }}`}
           trigger={() => (
             <button
@@ -208,7 +208,7 @@ const ViewData = ({ adviceReportData, values }) => {
                   journalId: item?.intJournalId,
                   actionBy: profileData?.userId,
                 };
-              }),
+              })
             );
           }}
         />
@@ -232,7 +232,7 @@ const ViewData = ({ adviceReportData, values }) => {
                 >
                   {getPdfFormatNumber(
                     values?.adviceType?.value,
-                    values?.advice?.value,
+                    values?.advice?.value
                   ) === 1 && (
                     <FormatOne
                       fontSize={fontSize}
@@ -246,7 +246,7 @@ const ViewData = ({ adviceReportData, values }) => {
                   )}
                   {getPdfFormatNumber(
                     values?.adviceType?.value,
-                    values?.advice?.value,
+                    values?.advice?.value
                   ) === 2 && (
                     <FormatTwo
                       fontSize={fontSize}
@@ -260,7 +260,7 @@ const ViewData = ({ adviceReportData, values }) => {
                   )}
                   {getPdfFormatNumber(
                     values?.adviceType?.value,
-                    values?.advice?.value,
+                    values?.advice?.value
                   ) === 3 && (
                     <FormatThree
                       fontSize={fontSize}
@@ -274,7 +274,7 @@ const ViewData = ({ adviceReportData, values }) => {
                   )}
                   {getPdfFormatNumber(
                     values?.adviceType?.value,
-                    values?.advice?.value,
+                    values?.advice?.value
                   ) === 4 && (
                     <FormatFour
                       fontSize={fontSize}
@@ -288,7 +288,7 @@ const ViewData = ({ adviceReportData, values }) => {
                   )}
                   {getPdfFormatNumber(
                     values?.adviceType?.value,
-                    values?.advice?.value,
+                    values?.advice?.value
                   ) === 5 && (
                     <FormatFive
                       fontSize={fontSize}
@@ -302,7 +302,7 @@ const ViewData = ({ adviceReportData, values }) => {
                   )}
                   {getPdfFormatNumber(
                     values?.adviceType?.value,
-                    values?.advice?.value,
+                    values?.advice?.value
                   ) === 6 && (
                     <FormatSix
                       fontSize={fontSize}
@@ -316,7 +316,7 @@ const ViewData = ({ adviceReportData, values }) => {
                   )}
                   {getPdfFormatNumber(
                     values?.adviceType?.value,
-                    values?.advice?.value,
+                    values?.advice?.value
                   ) === 7 && (
                     <FormatSeven
                       fontSize={fontSize}

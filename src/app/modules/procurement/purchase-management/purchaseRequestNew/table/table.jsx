@@ -1,47 +1,52 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import * as Yup from "yup";
-import ICustomCard from "../../../../_helper/_customCard";
-import IClose from "../../../../_helper/_helperIcons/_close";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import IViewModal from "../../../../_helper/_viewModal";
-import ILoader from "../../../../_helper/loader/_loader";
-import { setPurchaseRequestPPRAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import * as Yup from 'yup';
+import ICustomCard from '../../../../_helper/_customCard';
+import IClose from '../../../../_helper/_helperIcons/_close';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import IViewModal from '../../../../_helper/_viewModal';
+import ILoader from '../../../../_helper/loader/_loader';
+import { setPurchaseRequestPPRAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 import {
   completePoHandlerAction,
   getPurchaseRequestLanding,
   postPurchaseReqCancelAction,
-} from "../helper";
-import { PurchaseRequestReportModal } from "../report/purchaseRequestReportModal";
-import { ItemReqViewTableRow } from "../report/tableRow";
-import IConfirmModal from "./../../../../_helper/_confirmModal";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import PaginationSearch from "./../../../../_helper/_search";
-import PaginationTable from "./../../../../_helper/_tablePagination";
-import { getPlantList, getPurchaseOrganizationDDL, getSBU, getWhList } from "../../../../_helper/_commonApi";
+} from '../helper';
+import { PurchaseRequestReportModal } from '../report/purchaseRequestReportModal';
+import { ItemReqViewTableRow } from '../report/tableRow';
+import IConfirmModal from './../../../../_helper/_confirmModal';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import PaginationSearch from './../../../../_helper/_search';
+import PaginationTable from './../../../../_helper/_tablePagination';
+import {
+  getPlantList,
+  getPurchaseOrganizationDDL,
+  getSBU,
+  getWhList,
+} from '../../../../_helper/_commonApi';
 
 const statusData = [
-  { label: "Approved", value: true },
-  { label: "Pending", value: false },
+  { label: 'Approved', value: true },
+  { label: 'Pending', value: false },
 ];
 
 const validationSchema = Yup.object().shape({
-  toDate: Yup.string().when("fromDate", (fromDate, Schema) => {
-    if (fromDate) return Schema.required("To date is required");
+  toDate: Yup.string().when('fromDate', (fromDate, Schema) => {
+    if (fromDate) return Schema.required('To date is required');
   }),
 });
 
 const PurchaseRequestTable = () => {
-  const [, setSbu] = useState("");
-  const [, setPo] = useState("");
-  const [, setPlant] = useState("");
-  const [, setWh] = useState("");
+  const [, setSbu] = useState('');
+  const [, setPo] = useState('');
+  const [, setPlant] = useState('');
+  const [, setWh] = useState('');
 
   const purchaseRequestLanding = useSelector((state) => {
     return state.localStorage.purchaseRequestLanding;
@@ -57,10 +62,10 @@ const PurchaseRequestTable = () => {
   const [pageSize, setPageSize] = React.useState(20);
 
   // ddl state
-  const [sbuList, setSbuList] = useState("");
-  const [poList, setPoList] = useState("");
-  const [plantList, setPlantList] = useState("");
-  const [whList, setWhList] = useState("");
+  const [sbuList, setSbuList] = useState('');
+  const [poList, setPoList] = useState('');
+  const [plantList, setPlantList] = useState('');
+  const [whList, setWhList] = useState('');
 
   // landing
   const [landing, setLanding] = useState([]);
@@ -115,7 +120,6 @@ const PurchaseRequestTable = () => {
         setPoList
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   const history = useHistory();
@@ -159,7 +163,6 @@ const PurchaseRequestTable = () => {
         setWhList
       );
     }
-
   }, [purchaseRequestLanding?.plant]);
 
   const viewPurchaseOrderData = (values) => {
@@ -183,63 +186,44 @@ const PurchaseRequestTable = () => {
   // approveSubmitlHandler btn submit handler
   const approveSubmitlHandler = (Pred) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to Inactive this purchase request`,
       yesAlertFunc: () => {
         postPurchaseReqCancelAction(Pred, profileData?.userId).then(() =>
           getLandingPageDataFunc(pageNo, pageSize)
         );
       },
-      noAlertFunc: () => { },
+      noAlertFunc: () => {},
     };
     IConfirmModal(confirmObject);
   };
 
   const [isShowModal, setIsShowModal] = useState(false);
-  const [isShowPurchaseRequestReportModal, setShowPurchaseRequestReportModal] = useState(false)
-  const [currentRowData, setCurrentRowData] = useState("");
+  const [isShowPurchaseRequestReportModal, setShowPurchaseRequestReportModal] =
+    useState(false);
+  const [currentRowData, setCurrentRowData] = useState('');
   const itemCompleteHandler = (reqId, userId, values) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       message: `Do you want to Complete this PO`,
       yesAlertFunc: () => {
         completePoHandlerAction(reqId, userId).then(() =>
           viewPurchaseOrderData(values)
         );
       },
-      noAlertFunc: () => { },
+      noAlertFunc: () => {},
     };
     IConfirmModal(confirmObject);
   };
 
   // po complete button permission by user id
   const poCompleteBtnPermission = new Set([
-    509697,
-    520986,
-    56177,
-    56399,
-    382959,
-    509829,
-    521207,
-    521210,
-    521234,
-    521746,
-    522103,
-    522213,
-    522246,
-    522261,
-    522265,
-    522841,
-    522846,
-    522932,
-    522952,
-    523433,
-    528017,
-    550981,
-    560964,
-    561496])
+    509697, 520986, 56177, 56399, 382959, 509829, 521207, 521210, 521234,
+    521746, 522103, 522213, 522246, 522261, 522265, 522841, 522846, 522932,
+    522952, 523433, 528017, 550981, 560964, 561496,
+  ]);
 
-  const userHasPermission = poCompleteBtnPermission.has(profileData?.userId)
+  const userHasPermission = poCompleteBtnPermission.has(profileData?.userId);
 
   return (
     <ICustomCard title="Purchase Request">
@@ -254,7 +238,7 @@ const PurchaseRequestTable = () => {
           {({ values, errors, touched, setFieldValue }) => (
             <>
               <div
-                style={{ transform: "translateY(-40px)" }}
+                style={{ transform: 'translateY(-40px)' }}
                 className="text-right"
               >
                 <button
@@ -271,7 +255,7 @@ const PurchaseRequestTable = () => {
                   onClick={() => {
                     history.push({
                       pathname:
-                        "/mngProcurement/purchase-management/purchase-request/create",
+                        '/mngProcurement/purchase-management/purchase-request/create',
                       state: values,
                     });
                     dispatch(setPurchaseRequestPPRAction(values));
@@ -287,7 +271,7 @@ const PurchaseRequestTable = () => {
               <Form className="form form-label-left" style={{ marginTop: -35 }}>
                 <div
                   className="row global-form"
-                  style={{ background: " #d6dadd" }}
+                  style={{ background: ' #d6dadd' }}
                 >
                   <div className="col-lg-2">
                     <NewSelect
@@ -297,12 +281,12 @@ const PurchaseRequestTable = () => {
                       label="SBU"
                       onChange={(v) => {
                         setSbu(v);
-                        setFieldValue("sbu", v);
+                        setFieldValue('sbu', v);
                       }}
                       placeholder="SBU"
                       errors={errors}
                       touched={touched}
-                    />{" "}
+                    />{' '}
                   </div>
                   <div className="col-lg-2">
                     <NewSelect
@@ -312,7 +296,7 @@ const PurchaseRequestTable = () => {
                       label="Purchase Organization"
                       onChange={(v) => {
                         setPo(v);
-                        setFieldValue("po", v);
+                        setFieldValue('po', v);
                       }}
                       placeholder="Purchase Organization"
                       errors={errors}
@@ -327,7 +311,7 @@ const PurchaseRequestTable = () => {
                       label="Plant"
                       onChange={(v) => {
                         setPlant(v);
-                        setWh("");
+                        setWh('');
                         getWhList(
                           profileData?.userId,
                           profileData?.accountId,
@@ -335,8 +319,8 @@ const PurchaseRequestTable = () => {
                           v?.value,
                           setWhList
                         );
-                        setFieldValue("plant", v);
-                        setFieldValue("wh", "");
+                        setFieldValue('plant', v);
+                        setFieldValue('wh', '');
                       }}
                       placeholder="Plant"
                       errors={errors}
@@ -351,7 +335,7 @@ const PurchaseRequestTable = () => {
                       label="Warehouse"
                       onChange={(v) => {
                         setWh(v);
-                        setFieldValue("wh", v);
+                        setFieldValue('wh', v);
                       }}
                       placeholder="Warehouse"
                       errors={errors}
@@ -365,7 +349,7 @@ const PurchaseRequestTable = () => {
                       value={values?.status}
                       label="Status"
                       onChange={(v) => {
-                        setFieldValue("status", v);
+                        setFieldValue('status', v);
                       }}
                       placeholder="Status"
                       errors={errors}
@@ -380,7 +364,7 @@ const PurchaseRequestTable = () => {
                         name="fromDate"
                         placeholder="From date"
                         type="date"
-                        style={{ width: "100%" }}
+                        style={{ width: '100%' }}
                       />
                     </div>
                   </div>
@@ -392,7 +376,7 @@ const PurchaseRequestTable = () => {
                         name="toDate"
                         placeholder="To date"
                         type="date"
-                        style={{ width: "100%" }}
+                        style={{ width: '100%' }}
                       />
                     </div>
                   </div>
@@ -434,7 +418,7 @@ const PurchaseRequestTable = () => {
                               <td>{_dateFormatter(item?.requestDate)}</td>
                               <td>{item?.purpose}</td>
                               <td className="text-center">
-                                {item?.isApproved ? "Approved" : "Pending"}
+                                {item?.isApproved ? 'Approved' : 'Pending'}
                               </td>
                               <td className="text-center align-middle">
                                 <div className="d-flex justify-content-around">
@@ -465,33 +449,37 @@ const PurchaseRequestTable = () => {
                                   </span>
 
                                   <span>
-
-                                    {
-                                      selectedBusinessUnit?.value === 102 && (values?.plant?.value >= 91 && values?.plant?.value <= 100) ?
-                                        <IView
-                                          classes={
-                                            prTableIndex === item?.purchaseRequestId
-                                              ? "text-primary"
-                                              : ""
-                                          }
-                                          clickHandler={() => {
-                                            setCurrentRowData(item);
-                                            setShowPurchaseRequestReportModal(true);
-                                          }}
-                                        />
-                                        : <IView
-                                          classes={
-                                            prTableIndex === item?.purchaseRequestId
-                                              ? "text-primary"
-                                              : ""
-                                          }
-                                          clickHandler={() => {
-                                            setCurrentRowData(item);
-                                            setIsShowModal(true);
-                                          }}
-                                        />
-                                    }
-                                    {" "}
+                                    {selectedBusinessUnit?.value === 102 &&
+                                    values?.plant?.value >= 91 &&
+                                    values?.plant?.value <= 100 ? (
+                                      <IView
+                                        classes={
+                                          prTableIndex ===
+                                          item?.purchaseRequestId
+                                            ? 'text-primary'
+                                            : ''
+                                        }
+                                        clickHandler={() => {
+                                          setCurrentRowData(item);
+                                          setShowPurchaseRequestReportModal(
+                                            true
+                                          );
+                                        }}
+                                      />
+                                    ) : (
+                                      <IView
+                                        classes={
+                                          prTableIndex ===
+                                          item?.purchaseRequestId
+                                            ? 'text-primary'
+                                            : ''
+                                        }
+                                        clickHandler={() => {
+                                          setCurrentRowData(item);
+                                          setIsShowModal(true);
+                                        }}
+                                      />
+                                    )}{' '}
                                   </span>
                                   {!item?.isClosed &&
                                     item?.isApproved &&

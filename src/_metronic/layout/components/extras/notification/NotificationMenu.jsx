@@ -9,7 +9,7 @@ import { setNotifyCountAction } from '../../../../../app/modules/_helper/chattin
 export default function NotificationMenu({ myCount }) {
   const { profileData, selectedBusinessUnit } = useSelector(
     (state) => state?.authData,
-    shallowEqual,
+    shallowEqual
   );
 
   const employeeId = profileData?.employeeId;
@@ -47,7 +47,7 @@ export default function NotificationMenu({ myCount }) {
             pageNo,
             pageSize,
             employeeId,
-            orgId,
+            orgId
           );
           handleClick(e);
         }}

@@ -61,7 +61,6 @@ export default function FormCmp({
   const [DocTypeDDL, setDocTypeDDL] = useState('');
   useEffect(() => {
     getDocumentTypeDDL(accountId, setDocTypeDDL);
-
   }, [profileData]);
 
   return (
@@ -230,8 +229,8 @@ export default function FormCmp({
                                             clickHandler={() => {
                                               dispatch(
                                                 getDownlloadFileView_Action(
-                                                  itm?.intDocumentId,
-                                                ),
+                                                  itm?.intDocumentId
+                                                )
                                               );
                                             }}
                                           />
@@ -269,7 +268,7 @@ export default function FormCmp({
                     }}
                     onDelete={(deleteFileObj) => {
                       const newData = fileObjects.filter(
-                        (item) => item.file.name !== deleteFileObj.file.name,
+                        (item) => item.file.name !== deleteFileObj.file.name
                       );
                       setFileObjects(newData);
                     }}

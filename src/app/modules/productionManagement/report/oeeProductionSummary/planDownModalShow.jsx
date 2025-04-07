@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
-import { dateFormatWithMonthName } from "../../../_helper/_dateFormate";
-import Loading from "../../../_helper/_loading";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+import React, { useEffect } from 'react';
+import { dateFormatWithMonthName } from '../../../_helper/_dateFormate';
+import Loading from '../../../_helper/_loading';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 
 export default function PlanDownModalShow({ values, singleData }) {
   const [rowData, getRowData, loadingRowData] = useAxiosGet();
@@ -10,7 +10,6 @@ export default function PlanDownModalShow({ values, singleData }) {
     getRowData(
       `/asset/AssetMaintanance/GetPlanDownTimeListByDate?FromDate=${values?.fromDate}&ToDate=${values?.toDate}&BusinessUnitId=${values?.businessUnit?.value}&PlantId=${values?.plant?.value}&ShopfloorId=${values?.shopFloor?.value}&MachineId=${singleData?.intMachineId}`
     );
-
   }, [values]);
 
   // total time initial value
@@ -20,7 +19,7 @@ export default function PlanDownModalShow({ values, singleData }) {
       {loadingRowData && <Loading />}
       <div>
         <div
-          style={{ marginTop: "40px" }}
+          style={{ marginTop: '40px' }}
           className="mt-4  d-flex align-items-center justify-content-between"
         >
           <div>
@@ -46,7 +45,7 @@ export default function PlanDownModalShow({ values, singleData }) {
       </div>
       <div className="loan-scrollable-table">
         <div
-          style={{ maxHeight: "550px" }}
+          style={{ maxHeight: '550px' }}
           className="scroll-table _table table-responsive"
         >
           <div className="table-responsive">
@@ -56,7 +55,7 @@ export default function PlanDownModalShow({ values, singleData }) {
                   <tr>
                     <th className="text-center">Date</th>
                     <th className="text-center">Machine Name</th>
-                    <th style={{ minWidth: "200px" }} className="text-center">
+                    <th style={{ minWidth: '200px' }} className="text-center">
                       Reason
                     </th>
                     <th className="text-center">Loss Time (Min)</th>
@@ -70,7 +69,7 @@ export default function PlanDownModalShow({ values, singleData }) {
                       <tr key={index}>
                         <td className="text-center">
                           {dateFormatWithMonthName(
-                            item?.dteProductionDate?.split("T")[0]
+                            item?.dteProductionDate?.split('T')[0]
                           )}
                         </td>
                         <td className="text-center">{item?.strMachineName}</td>

@@ -1,20 +1,19 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import IConfirmModal from "../../../_helper/_confirmModal";
-import Loading from "../../../_helper/_loading";
+} from '../../../../../_metronic/_partials/controls';
+import IConfirmModal from '../../../_helper/_confirmModal';
+import Loading from '../../../_helper/_loading';
 
-import { approveAll, getNewApplicationData } from "./helper";
+import { approveAll, getNewApplicationData } from './helper';
 
 const WarehouseCostBridgeLanding = () => {
   const history = useHistory();
@@ -46,11 +45,11 @@ const WarehouseCostBridgeLanding = () => {
   // // approveSubmitlHandler btn submit handler
   const approveSubmitlHandler = (values) => {
     let confirmObject = {
-      title: "Are you sure?",
+      title: 'Are you sure?',
       yesAlertFunc: async () => {
         const filterData = rowDto?.filter((item) => item?.isSelect);
         if (filterData?.length === 0) {
-          toast.warning("Please Select One");
+          toast.warning('Please Select One');
         } else {
           approveAll(filterData, setLoader, () => {
             setAllSelect(false);
@@ -65,7 +64,7 @@ const WarehouseCostBridgeLanding = () => {
         setBillSubmitBtn(true);
       },
       noAlertFunc: () => {
-        history.push("/personal/approval/commonapproval");
+        history.push('/personal/approval/commonapproval');
       },
     };
     IConfirmModal(confirmObject);
@@ -156,7 +155,7 @@ const WarehouseCostBridgeLanding = () => {
                 <table className="table table-striped table-bordered bj-table bj-table-landing">
                   <thead>
                     <tr>
-                      <th style={{ width: "20px" }}>
+                      <th style={{ width: '20px' }}>
                         <input
                           type="checkbox"
                           id="parent"

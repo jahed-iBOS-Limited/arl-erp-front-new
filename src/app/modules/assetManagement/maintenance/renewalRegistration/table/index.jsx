@@ -1,38 +1,38 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import Select from "react-select";
-import customStyles from "../../../../selectCustomStyle";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { setRenewalRegInitDataAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import IConfirmModal from "../../../../_helper/_confirmModal";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import IClose from "../../../../_helper/_helperIcons/_close";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import IView from "../../../../_helper/_helperIcons/_view";
-import { IInput } from "../../../../_helper/_input";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import RenewalRegForm from "../Form/addEditForm";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import Select from 'react-select';
+import customStyles from '../../../../selectCustomStyle';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { setRenewalRegInitDataAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import IConfirmModal from '../../../../_helper/_confirmModal';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import IClose from '../../../../_helper/_helperIcons/_close';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import IView from '../../../../_helper/_helperIcons/_view';
+import { IInput } from '../../../../_helper/_input';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import RenewalRegForm from '../Form/addEditForm';
 import {
   cancelRenewalRegById,
   getGridData,
   getRenewalTypeDDL,
-} from "../helper";
-import ViewRowItem from "../view/View";
-import SubmittedRow from "../view/viewModal";
+} from '../helper';
+import ViewRowItem from '../view/View';
+import SubmittedRow from '../view/viewModal';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  vehicleNo: "",
-  status: "",
-  renewalType: "",
+  vehicleNo: '',
+  status: '',
+  renewalType: '',
 };
 
 export default function RenewalRegLanding() {
@@ -84,8 +84,8 @@ export default function RenewalRegLanding() {
 
   const confirmToCancel = (renewalId, values) => {
     let confirmObject = {
-      title: "Are you sure?",
-      message: "If you delete this, it can not be undone",
+      title: 'Are you sure?',
+      message: 'If you delete this, it can not be undone',
       yesAlertFunc: async () => {
         const cb = () => {
           getLanding(renewalRegInitData);
@@ -93,7 +93,7 @@ export default function RenewalRegLanding() {
         cancelRenewalRegById(renewalId, cb, profileData?.userId);
       },
       noAlertFunc: () => {
-        "";
+        '';
       },
     };
     IConfirmModal(confirmObject);
@@ -136,7 +136,7 @@ export default function RenewalRegLanding() {
                         handleChange={(valueOption) => {
                           dispatch(
                             setRenewalRegInitDataAction(
-                              "vehicleNo",
+                              'vehicleNo',
                               valueOption
                             )
                           );
@@ -151,19 +151,22 @@ export default function RenewalRegLanding() {
                         value={renewalRegInitData?.renewalType}
                         onChange={(value) => {
                           dispatch(
-                            setRenewalRegInitDataAction("renewalType", value)
+                            setRenewalRegInitDataAction('renewalType', value)
                           );
                         }}
                         isClearable
                         styles={customStyles}
                         isSearchable={true}
-                        options={[{value:0, label:"All"}, ...renewalTypeList]}
+                        options={[
+                          { value: 0, label: 'All' },
+                          ...renewalTypeList,
+                        ]}
                       />
                     </div>
                     <div className="col-md-3">
                       <button
                         className="btn btn-primary"
-                        style={{ marginTop: "18px" }}
+                        style={{ marginTop: '18px' }}
                         onClick={(e) => setisShowModalforCreate(true)}
                         disabled={
                           renewalRegInitData?.renewalType?.value === 0 ||
@@ -184,15 +187,15 @@ export default function RenewalRegLanding() {
                         onChange={(value) => {
                           setGrid([]);
                           dispatch(
-                            setRenewalRegInitDataAction("status", value)
+                            setRenewalRegInitDataAction('status', value)
                           );
                         }}
                         styles={customStyles}
                         name="status"
                         isSearchable={true}
                         options={[
-                          { value: 0, label: "Pending" },
-                          { value: 4, label: "Submitted" },
+                          { value: 0, label: 'Pending' },
+                          { value: 4, label: 'Submitted' },
                           // { value: 1, label: "Approved" },
                           // { value: 2, label: "Billed" },
                           // { value: 3, label: "Audit Approved" },
@@ -211,7 +214,7 @@ export default function RenewalRegLanding() {
                             onChange={(e) => {
                               dispatch(
                                 setRenewalRegInitDataAction(
-                                  "fromDate",
+                                  'fromDate',
                                   e?.target?.value
                                 )
                               );
@@ -228,7 +231,7 @@ export default function RenewalRegLanding() {
                             onChange={(e) => {
                               dispatch(
                                 setRenewalRegInitDataAction(
-                                  "toDate",
+                                  'toDate',
                                   e?.target?.value
                                 )
                               );
@@ -238,7 +241,7 @@ export default function RenewalRegLanding() {
                       </>
                     ) : null}
 
-                    <div style={{ marginTop: "18px" }} className="col-md-3">
+                    <div style={{ marginTop: '18px' }} className="col-md-3">
                       <button
                         className="btn btn-primary mr-2"
                         disabled={!renewalRegInitData?.status}
@@ -283,7 +286,7 @@ export default function RenewalRegLanding() {
                     <table className="table table-striped table-bordered global-table mt-0">
                       <thead>
                         <tr>
-                          <th style={{ width: "30px" }}>
+                          <th style={{ width: '30px' }}>
                             <input
                               disabled={!grid?.length}
                               type="checkbox"
@@ -326,7 +329,7 @@ export default function RenewalRegLanding() {
                                       type="checkbox"
                                       checked={item?.checked}
                                       onChange={(e) => {
-                                        item["checked"] = e.target.checked;
+                                        item['checked'] = e.target.checked;
                                         setGrid([...grid]);
                                       }}
                                     />
@@ -427,10 +430,12 @@ export default function RenewalRegLanding() {
                                     {_formatMoney(item?.totalAmount)}
                                   </td>
                                   <td className="text-center">
-                                    {item?.billNo ? item?.billNo : ""}
+                                    {item?.billNo ? item?.billNo : ''}
                                   </td>
                                   <td className="text-center">
-                                    {item?.statusTypeName ? item?.statusTypeName : ""}
+                                    {item?.statusTypeName
+                                      ? item?.statusTypeName
+                                      : ''}
                                   </td>
                                   <td className="text-center">
                                     <div className="d-flex align-items-center justify-content-center">

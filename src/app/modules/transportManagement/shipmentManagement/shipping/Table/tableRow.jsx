@@ -1,38 +1,38 @@
-import { Field, Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { ISelect } from "../../../../_helper/_inputDropDown";
+import { Field, Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { ISelect } from '../../../../_helper/_inputDropDown';
 import {
   createShipmentCompleteAction,
   getSalesContactGridData,
   getSalesContactIncompleteGridData,
   setGridEmptyAction,
-} from "../_redux/Actions";
+} from '../_redux/Actions';
 
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { toast } from "react-toastify";
-import IEdit from "../../../../_helper/_helperIcons/_edit";
-import InfoCircle from "../../../../_helper/_helperIcons/_infoCircle";
-import IView from "../../../../_helper/_helperIcons/_view";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import AddManualChallanNo from "../shippingUnitView/addManualChallan";
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { toast } from 'react-toastify';
+import IEdit from '../../../../_helper/_helperIcons/_edit';
+import InfoCircle from '../../../../_helper/_helperIcons/_infoCircle';
+import IView from '../../../../_helper/_helperIcons/_view';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import AddManualChallanNo from '../shippingUnitView/addManualChallan';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "./../../../../../../_metronic/_partials/controls";
-import IConfirmModal from "./../../../../_helper/_confirmModal";
-import { setShipmentlandingAction } from "./../../../../_helper/reduxForLocalStorage/Actions";
+} from './../../../../../../_metronic/_partials/controls';
+import IConfirmModal from './../../../../_helper/_confirmModal';
+import { setShipmentlandingAction } from './../../../../_helper/reduxForLocalStorage/Actions';
 
 export function TableRow({
   profileData,
@@ -51,7 +51,7 @@ export function TableRow({
   const [shippingInfo, getShippingInfo, isLoading] = useAxiosGet();
   const [open, setOpen] = useState(false);
   const [permitted, getPermission] = useAxiosGet();
-  const [type, setType] = useState("");
+  const [type, setType] = useState('');
 
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
@@ -75,7 +75,6 @@ export function TableRow({
       itemCheck: false,
     }));
     setIncompleteRowDto(modifyGridData);
-
   }, [incompleteGridData]);
 
   useEffect(() => {
@@ -84,7 +83,6 @@ export function TableRow({
       itemCheck: false,
     }));
     setRowDto(modifyGridData);
-
   }, [gridData]);
 
   const itemSlectedHandler = (value, index) => {
@@ -117,7 +115,7 @@ export function TableRow({
   };
 
   //viewClickHandler
-  const viewBtnClickHandler = (pageNo, pageSize, values, search = "") => {
+  const viewBtnClickHandler = (pageNo, pageSize, values, search = '') => {
     if (values?.reportType?.value === 1 || values?.reportType?.value === 3) {
       const type = values?.reportType?.value === 1 ? 1 : 2;
       dispatch(
@@ -159,7 +157,7 @@ export function TableRow({
     const notPermitted = modifyFilterRowDto?.every(
       (item) =>
         item?.shippingTypeId !== 10 &&
-        item?.shippingTypeName !== "Troller" &&
+        item?.shippingTypeName !== 'Troller' &&
         item?.isLoadingSupervisorMaintain &&
         !item?.loadingConfirmDate &&
         item?.vehicleCapacityTypeId !== 11
@@ -171,12 +169,12 @@ export function TableRow({
       values?.pgiShippoint?.value === 60 &&
       notPermitted
     ) {
-      return toast.warn("Please Complete Loading Confirmation");
+      return toast.warn('Please Complete Loading Confirmation');
     }
 
     if (modifyFilterRowDto?.length > 0) {
       let confirmObject = {
-        title: "Are you sure?",
+        title: 'Are you sure?',
         message: `Do you want to post the selected Complete Shipment`,
         yesAlertFunc: () => {
           dispatch(
@@ -199,7 +197,7 @@ export function TableRow({
       };
       IConfirmModal(confirmObject);
     } else {
-      toast.warn("Please Select Incomplete Data", {
+      toast.warn('Please Select Incomplete Data', {
         toastId: 456,
       });
     }
@@ -216,7 +214,6 @@ export function TableRow({
     getPermission(
       `/wms/FertilizerOperation/GetAllModificationPermission?UserEnroll=${profileData?.userId}&BusinessUnitId=${selectedBusinessUnit?.value}&Type=YsnChalanInfo`
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   useEffect(() => {
@@ -225,7 +222,6 @@ export function TableRow({
       setRowDto([]);
       dispatch(setGridEmptyAction());
     };
-
   }, []);
 
   const getDeliveryShippingInfoById = (url) => {
@@ -244,10 +240,10 @@ export function TableRow({
           ...shipmentlanding,
           pgiShippoint: shipmentlanding?.pgiShippoint?.value
             ? shipmentlanding?.pgiShippoint
-            : ShippointDDL[0] || "",
+            : ShippointDDL[0] || '',
           reportType: shipmentlanding?.reportType?.value
             ? shipmentlanding?.reportType
-            : { value: 2, label: "Shipment Unscheduled" },
+            : { value: 2, label: 'Shipment Unscheduled' },
           tillDate: shipmentlanding?.tillDate
             ? shipmentlanding?.tillDate
             : _todayDate(),
@@ -276,7 +272,7 @@ export function TableRow({
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Shipment"}>
+              <CardHeader title={'Shipment'}>
                 <CardHeaderToolbar>
                   <button
                     onClick={() => {
@@ -322,14 +318,14 @@ export function TableRow({
                             <ISelect
                               label="Report Type"
                               options={[
-                                { value: 1, label: "Shipment Created" },
-                                { value: 2, label: "Shipment Unscheduled" },
-                                { value: 3, label: "Shipment Completed" },
+                                { value: 1, label: 'Shipment Created' },
+                                { value: 2, label: 'Shipment Unscheduled' },
+                                { value: 3, label: 'Shipment Completed' },
                               ]}
                               value={values?.reportType}
                               name="reportType"
                               onChange={(optionValue) => {
-                                setFieldValue("reportType", optionValue);
+                                setFieldValue('reportType', optionValue);
                                 setIncompleteRowDto([]);
                                 setRowDto([]);
                               }}
@@ -401,7 +397,7 @@ export function TableRow({
 
                   <button
                     type="submit"
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     ref={btnRef}
                     onSubmit={() => {
                       handleSubmit();
@@ -410,7 +406,7 @@ export function TableRow({
 
                   <button
                     type="reset"
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     ref={resetBtnRef}
                     onSubmit={() => resetForm(initialData)}
                   ></button>
@@ -419,8 +415,8 @@ export function TableRow({
                   <PaginationSearch
                     placeholder={`${
                       [1, 3].includes(values?.reportType?.value)
-                        ? "Search by Vehicle Name/Shipment code"
-                        : "Search by Delivery code"
+                        ? 'Search by Vehicle Name/Shipment code'
+                        : 'Search by Delivery code'
                     }`}
                     paginationSearchHandler={paginationSearchHandler}
                     values={values}
@@ -450,7 +446,7 @@ export function TableRow({
                                   </th>
                                 )}
 
-                                <th style={{ width: "40px" }}>Sl</th>
+                                <th style={{ width: '40px' }}>Sl</th>
                                 <th>Shipment No</th>
                                 <th>Contact Date</th>
                                 <th>Route Name</th>
@@ -462,7 +458,7 @@ export function TableRow({
                                 <th>Pump</th>
                                 <th>Total Qty</th>
                                 <th>Prom. Qty</th>
-                                <th style={{ width: "90px" }}>Actions</th>
+                                <th style={{ width: '90px' }}>Actions</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -471,7 +467,7 @@ export function TableRow({
                                   key={index}
                                   style={
                                     td?.promotionalItemCount > 0
-                                      ? { backgroundColor: "#ffd2d2" }
+                                      ? { backgroundColor: '#ffd2d2' }
                                       : {}
                                   }
                                 >
@@ -525,28 +521,28 @@ export function TableRow({
                                     <div>{td?.strOwnerType}</div>
                                   </td>
                                   <td>
-                                    <div>{td.shippingTypeName}</div>{" "}
+                                    <div>{td.shippingTypeName}</div>{' '}
                                   </td>
                                   <td>
-                                    <div>{td.vehicleName}</div>{" "}
+                                    <div>{td.vehicleName}</div>{' '}
                                   </td>
                                   <td className="text-center">
                                     <div>
                                       {_dateFormatter(td.loadingConfirmDate)}
-                                    </div>{" "}
+                                    </div>{' '}
                                   </td>
                                   <td>
-                                    <div>{td.pumpModelName}</div>{" "}
+                                    <div>{td.pumpModelName}</div>{' '}
                                   </td>
                                   <td>
                                     <div className="text-right">
                                       {td.itemTotalQty}
-                                    </div>{" "}
+                                    </div>{' '}
                                   </td>
                                   <td className="text-right">
                                     {td?.promotionalItemCount}
                                   </td>
-                                  <td style={{ width: "120px" }}>
+                                  <td style={{ width: '120px' }}>
                                     <div className="d-flex justify-content-around">
                                       <span className="view">
                                         <IView
@@ -563,13 +559,13 @@ export function TableRow({
                                         <span
                                           className="edit"
                                           onClick={() => {
-                                            setType("challan");
+                                            setType('challan');
                                             getDeliveryShippingInfoById(
                                               `/wms/Delivery/GetDeliveryPrintInfo?ShipmentId=${td?.shipmentId}`
                                             );
                                           }}
                                         >
-                                          <IEdit title={"Add Manual Challan"} />
+                                          <IEdit title={'Add Manual Challan'} />
                                         </span>
                                       )}
                                       {permitted &&
@@ -587,15 +583,15 @@ export function TableRow({
                                             }}
                                           >
                                             <InfoCircle
-                                              title={"Shipment info update"}
+                                              title={'Shipment info update'}
                                             />
                                           </span>
                                         )}
 
                                       {values?.reportType?.label ===
-                                        "Shipment Created" && (
+                                        'Shipment Created' && (
                                         <span
-                                          style={{ cursor: "pointer" }}
+                                          style={{ cursor: 'pointer' }}
                                           onClick={() => {
                                             history.push({
                                               pathname: `/transport-management/shipmentmanagement/shipping/vihicleWeight/${td.shipmentId}`,
@@ -632,7 +628,7 @@ export function TableRow({
                           <table className="table table-striped table-bordered global-table">
                             <thead>
                               <tr>
-                                <th style={{ width: "90px" }}>
+                                <th style={{ width: '90px' }}>
                                   <input
                                     type="checkbox"
                                     id="parent"
@@ -643,7 +639,7 @@ export function TableRow({
                                     }}
                                   />
                                 </th>
-                                <th style={{ width: "50px" }}>Sl</th>
+                                <th style={{ width: '50px' }}>Sl</th>
                                 <th>Delivery Date</th>
                                 <th>Delivery Code</th>
                                 <th>Delivery Type</th>
@@ -708,22 +704,22 @@ export function TableRow({
                                   <td>
                                     <div className="pl-2">
                                       {td?.strTransportZoneName}
-                                    </div>{" "}
+                                    </div>{' '}
                                   </td>
                                   <td>
                                     <div className="text-right pr-2">
                                       {td?.numTotalVolume}
-                                    </div>{" "}
+                                    </div>{' '}
                                   </td>
                                   <td>
                                     <div className="text-right pr-2">
                                       {td?.numTotalWeight}
-                                    </div>{" "}
+                                    </div>{' '}
                                   </td>
                                   <td>
                                     <div className="text-right pr-2">
                                       {td?.itemTotalQty}
-                                    </div>{" "}
+                                    </div>{' '}
                                   </td>
                                   {/* <td>
                                   <div className="d-flex justify-content-around">
@@ -760,16 +756,16 @@ export function TableRow({
                 </div>
                 <IViewModal
                   title={
-                    type === "challan"
-                      ? "Add Manual Challan"
-                      : "Shipment info update"
+                    type === 'challan'
+                      ? 'Add Manual Challan'
+                      : 'Shipment info update'
                   }
                   show={open}
                   onHide={() => setOpen(false)}
                 >
                   <AddManualChallanNo
                     rowData={
-                      type === "challan" ? shippingInfo?.objRow : shippingInfo
+                      type === 'challan' ? shippingInfo?.objRow : shippingInfo
                     }
                     setOpen={setOpen}
                     type={type}

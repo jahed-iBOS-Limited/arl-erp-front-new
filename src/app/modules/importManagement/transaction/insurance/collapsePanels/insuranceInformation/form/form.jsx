@@ -1,4 +1,3 @@
-
 import { Form, Formik } from 'formik';
 import { toast } from 'react-toastify';
 import {
@@ -85,7 +84,7 @@ export default function FormCmp({
         state?.po?.label,
         setInitFOrmData,
         initialValue,
-        setDataByPO,
+        setDataByPO
       );
   }, [state]);
   // console.log("viewType", viewType);
@@ -119,8 +118,8 @@ export default function FormCmp({
                   viewType === 'edit'
                     ? 'Edit Insurance Cover Note'
                     : viewType === 'view'
-                    ? 'View Insurance Cover Note'
-                    : 'Insurance Cover Note'
+                      ? 'View Insurance Cover Note'
+                      : 'Insurance Cover Note'
                 }
               >
                 <CardHeaderToolbar>
@@ -246,11 +245,11 @@ export default function FormCmp({
                               setFieldValue('provider', valueOption);
                               setFieldValue(
                                 'coverNoteNumber',
-                                valueOption.cnPrefix || '',
+                                valueOption.cnPrefix || ''
                               );
                               setFieldValue(
                                 'coverNoteNumberActual',
-                                valueOption.cnPrefix || '',
+                                valueOption.cnPrefix || ''
                               );
                             }}
                             placeholder="Provider"
@@ -306,12 +305,12 @@ export default function FormCmp({
                                 'coverNoteNumber',
                                 valueOption?.target?.value.startsWith(
                                   values?.coverNoteNumberActual ||
-                                    coverNotePreFix,
+                                    coverNotePreFix
                                 )
                                   ? valueOption?.target?.value
                                   : values?.coverNoteNumberActual ||
                                       coverNotePreFix ||
-                                      valueOption?.target?.value,
+                                      valueOption?.target?.value
                               );
                             }}
                             disabled={viewType === 'view' ? true : false}
@@ -357,7 +356,7 @@ export default function FormCmp({
                             onChange={(e) => {
                               setFieldValue(
                                 'exchangeRate',
-                                e?.target.value ? Number(e.target.value) : '',
+                                e?.target.value ? Number(e.target.value) : ''
                               );
                               setFieldValue(
                                 'PIAmountBDT',
@@ -365,8 +364,8 @@ export default function FormCmp({
                                   e?.target?.value
                                     ? removeComma(values?.PIAmountFC) *
                                         +e?.target.value
-                                    : '',
-                                ),
+                                    : ''
+                                )
                               );
                             }}
                           />
@@ -404,7 +403,7 @@ export default function FormCmp({
                                 Number(e?.target?.value) < Number(values?.vat)
                               ) {
                                 toast.warning(
-                                  "Total Amount can't be less than VAT Amount",
+                                  "Total Amount can't be less than VAT Amount"
                                 );
                               }
                             }}
@@ -433,7 +432,7 @@ export default function FormCmp({
                                 Number(e?.target?.value) > Number(values?.total)
                               ) {
                                 toast.warning(
-                                  "VAT can't be greater than Total Amount",
+                                  "VAT can't be greater than Total Amount"
                                 );
                               }
                             }}
@@ -461,8 +460,8 @@ export default function FormCmp({
                                 onClick={() => {
                                   dispatch(
                                     getDownlloadFileView_Action(
-                                      values?.attachment,
-                                    ),
+                                      values?.attachment
+                                    )
                                   );
                                 }}
                               >
@@ -494,7 +493,7 @@ export default function FormCmp({
                                 getCalculationFormLandingForm(
                                   accountId,
                                   values,
-                                  setCalculationFormData,
+                                  setCalculationFormData
                                 );
                               }}
                               disabled={
@@ -525,7 +524,7 @@ export default function FormCmp({
                             onDelete={(deleteFileObj) => {
                               const newData = fileObjects.filter(
                                 (item) =>
-                                  item.file.name !== deleteFileObj.file.name,
+                                  item.file.name !== deleteFileObj.file.name
                               );
                               setFileObjects(newData);
                             }}

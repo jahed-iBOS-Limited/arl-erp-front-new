@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getFuelLogNExpense = async (
   reportType,
@@ -11,7 +11,7 @@ export const getFuelLogNExpense = async (
   setLoading
 ) => {
   setLoading(true);
-  const enroll = applicantEnroll ? `&ApplicantEnroll=${applicantEnroll}` : "";
+  const enroll = applicantEnroll ? `&ApplicantEnroll=${applicantEnroll}` : '';
   try {
     const res = await axios.get(
       `/tms/InternalTransport/GetVehicleFuelCashVsExpenseEntry?Reportype=${reportType}&YearId=${yearId}&Monthid=${monthId}${enroll}&ReportviewBy=${reportViewBy}`

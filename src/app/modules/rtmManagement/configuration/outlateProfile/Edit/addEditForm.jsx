@@ -1,14 +1,11 @@
-
-
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "../../../../_helper/_form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from '../../../../_helper/_form';
 // import { createPurchase, getSinglePurchase, editPurchase } from "../helper";
-import { useParams } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 import {
   getOutletProfileById,
@@ -16,27 +13,27 @@ import {
   getBeatApiDDL,
   Attachment_action,
   commonCollerCompanyDDL,
-} from "../helper";
-import Loading from "../../../../_helper/_loading";
-import { operation } from "../../../../_helper/_commonApi";
+} from '../helper';
+import Loading from '../../../../_helper/_loading';
+import { operation } from '../../../../_helper/_commonApi';
 
 const initData = {
-  businessType: "",
-  routeName: "",
-  outletName: "",
-  outletAddress: "",
-  ownerName: "",
-  contactType: "",
-  mobileNumber: "",
-  emailAddress: "",
+  businessType: '',
+  routeName: '',
+  outletName: '',
+  outletAddress: '',
+  ownerName: '',
+  contactType: '',
+  mobileNumber: '',
+  emailAddress: '',
   dateOfBirth: _todayDate(),
   marriageDate: _todayDate(),
-  lattitude: "",
-  longitude: "",
-  beatName: "",
-  marriageSatus: "",
+  lattitude: '',
+  longitude: '',
+  beatName: '',
+  marriageSatus: '',
   isColler: false,
-  collerCompany: "",
+  collerCompany: '',
 };
 
 export default function OutlateProfileEditFrom() {
@@ -46,8 +43,8 @@ export default function OutlateProfileEditFrom() {
 
   const [outletData, setOutlet] = useState([]);
   const params = useParams();
-  const [singleData, setSingleData] = useState("");
-  const [beatNameDDL, setBeatNameDDL] = useState("");
+  const [singleData, setSingleData] = useState('');
+  const [beatNameDDL, setBeatNameDDL] = useState('');
   const [collerCompanyDDL, isCollerCompany] = useState([]);
 
   const [attributes, setAttributes] = useState([]);
@@ -64,7 +61,6 @@ export default function OutlateProfileEditFrom() {
       isCollerCompany(commonCollerCompanyDDL);
     }
   }, [profileData, selectedBusinessUnit]);
-
 
   useEffect(() => {
     operation({
@@ -92,10 +88,10 @@ export default function OutlateProfileEditFrom() {
           return {
             rowId: +find?.rowId || 0,
             outletId: +params.id || 0,
-            outletName: singleData.outletName || "",
+            outletName: singleData.outletName || '',
             outletAttributeId: item.objAttribute.outletAttributeId || 0,
             attributeValueId: selectedValue?.value || 0,
-            outletAttributeValueName: selectedValue?.label || "",
+            outletAttributeValueName: selectedValue?.label || '',
             attributeValueDate: _todayDate(),
           };
         });
@@ -103,24 +99,24 @@ export default function OutlateProfileEditFrom() {
         const payload = {
           objProfile: {
             outletID: +params?.id || 0,
-            strOwnerName: values?.ownerName || "",
-            strOutletAddress: values?.outletAddress || "",
+            strOwnerName: values?.ownerName || '',
+            strOutletAddress: values?.outletAddress || '',
             maritatualStatusId: values?.marrigeSatus?.value || 0,
-            maritatualStatus: values?.marrigeSatus?.label || "",
+            maritatualStatus: values?.marrigeSatus?.label || '',
             actionBy: profileData?.userId || 0,
             dateOfBirth: values?.dateOfBirth || null,
             marriageDate: values?.marriageDate || null,
-            emailAddress: values?.emailAddress || "",
-            latitude: values?.lattitude || "",
-            longitude: values?.longitude || "",
-            outletImagePath: values?.attachment || "",
-            contactType: values?.contactType || "",
+            emailAddress: values?.emailAddress || '',
+            latitude: values?.lattitude || '',
+            longitude: values?.longitude || '',
+            outletImagePath: values?.attachment || '',
+            contactType: values?.contactType || '',
             // outletImagePathNew: "string",
             isProfileComplete: values.isComplete,
             maxSalesItem: values?.maxSales?.value || 0,
-            maxSalesItemName: values?.maxSales?.label || "",
-            tradeLicenseNo: values?.tradeLicense || "",
-            ownerNIDNo: values?.ownerNid || "",
+            maxSalesItemName: values?.maxSales?.label || '',
+            tradeLicenseNo: values?.tradeLicense || '',
+            ownerNIDNo: values?.ownerNid || '',
             monMonthlyAvgSales: +values?.avgSalesAmount || 0,
             cooler: values?.isColler ? values?.isColler : false,
             coolerCompanyId: values?.collerCompany
@@ -128,7 +124,7 @@ export default function OutlateProfileEditFrom() {
               : 0,
             coolerCompanyName: values?.collerCompany
               ? values?.collerCompany?.label
-              : " ",
+              : ' ',
           },
           objAttr: attributeData,
         };

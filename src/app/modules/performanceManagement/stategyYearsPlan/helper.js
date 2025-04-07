@@ -1,5 +1,5 @@
-import { toast } from "react-toastify";
-import Axios from "axios";
+import { toast } from 'react-toastify';
+import Axios from 'axios';
 
 export const getSBUListDDL = async (accId, buId, setter) => {
   try {
@@ -14,8 +14,7 @@ export const getSBUListDDL = async (accId, buId, setter) => {
   }
 };
 
-
-export const getYearDDLAction = async (accId, buId,sbuId, setter) => {
+export const getYearDDLAction = async (accId, buId, sbuId, setter) => {
   try {
     const res = await Axios.get(
       `/pms/StrategicParticulars/GetYearsToViewFiveYearsPlan?accountId=${accId}&businessUnitId=${buId}&sbuId=${sbuId}`

@@ -1,6 +1,6 @@
-import axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 export const deleteLighterVessel = async (id, setLoading, cb) => {
   setLoading && setLoading(true);
@@ -84,7 +84,7 @@ export const GetGeneralInfoById = async ({
       },
       allotmentDate: _dateFormatter(h?.allotmentDate),
       lotNo: h?.lotNo,
-      type: h?.type || "badc",
+      type: h?.type || 'badc',
     };
 
     setter && setter(singleHeader);

@@ -1,5 +1,5 @@
-import React from "react";
-import moment from "moment";
+import React from 'react';
+import moment from 'moment';
 
 const GridView = ({ gridData, setGridData }) => {
   // One item select
@@ -23,10 +23,13 @@ const GridView = ({ gridData, setGridData }) => {
         <div className="react-bootstrap-table table-responsive pendingDeliveryReport">
           <div className="loan-scrollable-table scroll-table-auto">
             <div
-              style={{ maxHeight: "500px" }}
+              style={{ maxHeight: '500px' }}
               className="scroll-table _table scroll-table-auto"
             >
-              <table id="table-to-xlsx" className="table table-striped table-bordered global-table table-font-size-sm">
+              <table
+                id="table-to-xlsx"
+                className="table table-striped table-bordered global-table table-font-size-sm"
+              >
                 <thead>
                   <tr>
                     {/* 
@@ -40,17 +43,17 @@ const GridView = ({ gridData, setGridData }) => {
                         />
                       </th> 
                     */}
-                    <th style={{ minWidth: "30px" }}>SL</th>
+                    <th style={{ minWidth: '30px' }}>SL</th>
                     <th>Sold To Party</th>
                     <th>Ship To Party</th>
                     <th>Ship To Party Address</th>
-                    <th style={{ minWidth: "120px" }}>Challan No</th>
-                    <th style={{ minWidth: "120px" }}>Challan Date/Time</th>
+                    <th style={{ minWidth: '120px' }}>Challan No</th>
+                    <th style={{ minWidth: '120px' }}>Challan Date/Time</th>
                     <th>Item Name</th>
-                    <th style={{ minWidth: "70px" }}>Challan Qty.</th>
+                    <th style={{ minWidth: '70px' }}>Challan Qty.</th>
                     {/* <th>Pending Qty.</th> */}
                     {/* <th>Vehicle Type</th> */}
-                    <th style={{ minWidth: "120px" }}>Unloading Time</th>
+                    <th style={{ minWidth: '120px' }}>Unloading Time</th>
                     <th>Region</th>
                     <th>Area</th>
                     <th>Territory</th>
@@ -81,13 +84,13 @@ const GridView = ({ gridData, setGridData }) => {
                         <td>{index + 1}</td>
                         <td>{item?.soldToPartnerName}</td>
                         <td>{item?.shipToPartnerName}</td>
-                        <td style={{ width: "80px" }}>
+                        <td style={{ width: '80px' }}>
                           {item?.shipToPartnerAddress}
                         </td>
                         <td>{item?.deliveryCode}</td>
                         <td className="text-center">
                           {moment(item?.challanTime).format(
-                            "YYYY-MM-DD hh:mm A"
+                            'YYYY-MM-DD hh:mm A'
                           )}
                         </td>
                         <td>{item?.itemName}</td>
@@ -96,7 +99,7 @@ const GridView = ({ gridData, setGridData }) => {
                         {/* <td>{item?.address}</td> */}
                         <td className="text-center">
                           {moment(item?.unloadingTime).format(
-                            "YYYY-MM-DD hh:mm A"
+                            'YYYY-MM-DD hh:mm A'
                           )}
                         </td>
                         <td>{item?.region}</td>

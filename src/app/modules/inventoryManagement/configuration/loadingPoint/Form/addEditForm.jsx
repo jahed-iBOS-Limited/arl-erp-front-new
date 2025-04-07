@@ -1,20 +1,19 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
 import {
   saveEditDepartment,
   getDepartmentByIdAction,
   saveDepartment,
-} from "../_redux/Actions";
-import IForm from "../../../../_helper/_form";
-import { getShippingDDLAction } from "../../../../_helper/_redux/Actions";
-import Loading from "../../../../_helper/_loading";
+} from '../_redux/Actions';
+import IForm from '../../../../_helper/_form';
+import { getShippingDDLAction } from '../../../../_helper/_redux/Actions';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
   id: undefined,
-  loadingPointName: "",
-  shipPointName: "",
+  loadingPointName: '',
+  shipPointName: '',
 };
 
 export function LoadingPointAddForm({
@@ -54,7 +53,6 @@ export function LoadingPointAddForm({
         )
       );
     }
-
   }, [id]);
 
   //Dispatch Get emplist action for get emplist ddl
@@ -64,8 +62,6 @@ export function LoadingPointAddForm({
         getShippingDDLAction(profileData.accountId, selectedBusinessUnit.value)
       );
     }
-
-
   }, [selectedBusinessUnit, profileData]);
 
   const saveHandler = async (values, cb) => {
@@ -80,7 +76,7 @@ export function LoadingPointAddForm({
           actionBy: profileData.userId,
         };
 
-        dispatch(saveEditDepartment(payload,setDisabled));
+        dispatch(saveEditDepartment(payload, setDisabled));
       } else {
         const payload = {
           loadingPointName: values.loadingPointName,
@@ -92,13 +88,12 @@ export function LoadingPointAddForm({
           actionBy: profileData.userId,
         };
 
-        dispatch(saveDepartment({ data: payload, cb },setDisabled));
+        dispatch(saveDepartment({ data: payload, cb }, setDisabled));
       }
     } else {
-      console.log(values)
+      console.log(values);
     }
   };
-
 
   const [objProps, setObjprops] = useState({});
 

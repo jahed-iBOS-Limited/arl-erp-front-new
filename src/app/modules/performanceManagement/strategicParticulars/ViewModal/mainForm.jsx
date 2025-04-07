@@ -1,10 +1,9 @@
-
-import React, { useState, useEffect } from "react";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import Form from "./form";
-import { useParams } from "react-router-dom";
-import { getStrObjListAction, getStrTargetAction } from "../_redux/Actions";
-import IForm from "../../../_helper/_form";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import Form from './form';
+import { useParams } from 'react-router-dom';
+import { getStrObjListAction, getStrTargetAction } from '../_redux/Actions';
+import IForm from '../../../_helper/_form';
 
 const initData = {};
 
@@ -24,21 +23,15 @@ export default function StrViewForm() {
     };
   }, shallowEqual);
 
-  const {
-    profileData,
-    selectedBusinessUnit,
-    strObjList,
-    strTarget,
-  } = storeData;
+  const { profileData, selectedBusinessUnit, strObjList, strTarget } =
+    storeData;
 
   useEffect(() => {
     dispatch(getStrObjListAction(strTypeId, strId));
-
   }, [strTypeId, strId]);
 
   useEffect(() => {
     dispatch(getStrTargetAction(11, strId));
-
   }, [strId]);
 
   const [rowDto, setRowDto] = useState({});

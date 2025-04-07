@@ -1,24 +1,23 @@
-
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from 'react';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "../../../../../../_metronic/_partials/controls";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls";
-import Form from "../common/form";
-import Axios from "axios";
-import shortid from "shortid";
-import { toast } from "react-toastify";
-import { useSelector, shallowEqual } from "react-redux";
-import Loading from "../../../../_helper/_loading";
+} from '../../../../../../_metronic/_partials/controls';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
+import Form from '../common/form';
+import Axios from 'axios';
+import shortid from 'shortid';
+import { toast } from 'react-toastify';
+import { useSelector, shallowEqual } from 'react-redux';
+import Loading from '../../../../_helper/_loading';
 
 const initData = {
   id: undefined,
-  inventoryLocationName: "....",
-  plantName: "....",
-  warehouseName: "....",
+  inventoryLocationName: '....',
+  plantName: '....',
+  warehouseName: '....',
 };
 export default function InventoryLocationEditForm({
   history,
@@ -27,10 +26,9 @@ export default function InventoryLocationEditForm({
   },
 }) {
   const [isDisabled, setDisabled] = useState(false);
-  const [businessUnitData, setData] = useState("");
+  const [businessUnitData, setData] = useState('');
   useEffect(() => {
     getBusinessUnitById(id);
-
   }, [id]);
 
   const getBusinessUnitById = async (id, accountId) => {
@@ -68,12 +66,12 @@ export default function InventoryLocationEditForm({
     try {
       setDisabled(true);
       const res = await Axios.put(
-        "/wms/InventoryLocation/EditInventoryLocation",
+        '/wms/InventoryLocation/EditInventoryLocation',
         businessData
       );
       cb(initData);
       setDisabled(false);
-      toast.success(res.data?.message || "Submitted successfully", {
+      toast.success(res.data?.message || 'Submitted successfully', {
         toastId: shortid(),
       });
       backHandler();
@@ -138,7 +136,7 @@ export default function InventoryLocationEditForm({
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody>
-      {isDisabled && <Loading />}
+        {isDisabled && <Loading />}
         <div className="mt-0">
           <Form
             product={businessUnitData || initData}

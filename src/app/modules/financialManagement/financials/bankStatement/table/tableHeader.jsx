@@ -1,4 +1,3 @@
-
 import React, { useRef, useState, useEffect } from 'react';
 import { Formik, Form } from 'formik';
 import NewSelect from './../../../../_helper/_select';
@@ -38,7 +37,7 @@ const header = [
 const validationSchema = Yup.object().shape({});
 const BankStatement = () => {
   const { financialsBankStatementUpload } = useSelector(
-    (state) => state?.localStorage,
+    (state) => state?.localStorage
   );
 
   const dispatch = useDispatch();
@@ -63,7 +62,7 @@ const BankStatement = () => {
   const [bankAccountNoDDL, setBankAccountNoDDL] = useState([]);
 
   const [bankAccountOthetInfoNoDDL, setBankAccountOtherInfoNoDDL] = useState(
-    [],
+    []
   );
 
   const [loading, setLoading] = useState(false);
@@ -122,7 +121,7 @@ const BankStatement = () => {
     getBankAccountNoDDL(
       profileData?.accountId,
       selectedBusinessUnit?.value,
-      setBankAccountNoDDL,
+      setBankAccountNoDDL
     );
   }, [profileData, selectedBusinessUnit]);
 
@@ -134,7 +133,7 @@ const BankStatement = () => {
         profileData?.userId,
         cb,
         setLoading,
-        setIsUpload,
+        setIsUpload
       );
     } else {
       setLoading(false);
@@ -194,13 +193,13 @@ const BankStatement = () => {
                             selectedBusinessUnit?.value,
                             valueOption?.value,
                             setBankAccountOtherInfoNoDDL,
-                            setFieldValue,
+                            setFieldValue
                           );
                           dispatch(
                             SetFinancialsBankStatementUploadAction({
                               ...values,
                               bankAccountNo: valueOption,
-                            }),
+                            })
                           );
                         }}
                         errors={errors}
@@ -223,7 +222,7 @@ const BankStatement = () => {
                             SetFinancialsBankStatementUploadAction({
                               ...values,
                               lastCollected: e?.target?.value,
-                            }),
+                            })
                           );
                         }}
                         disabled={values?.openingDate}
@@ -245,7 +244,7 @@ const BankStatement = () => {
                             SetFinancialsBankStatementUploadAction({
                               ...values,
                               runningBalance: e?.target?.value,
-                            }),
+                            })
                           );
                         }}
                         disabled={values?.openingBalance}
@@ -304,7 +303,7 @@ const BankStatement = () => {
                         filteredFileData
                           .filter(
                             (data) =>
-                              _dateFormatter(data?.trDate) !== 'NaN-NaN-NaN',
+                              _dateFormatter(data?.trDate) !== 'NaN-NaN-NaN'
                           )
                           .map((item, index) => {
                             return (
@@ -365,7 +364,7 @@ const BankStatement = () => {
                           values,
                           filteredFileData,
                           setLoading,
-                          setFileObject,
+                          setFileObject
                         );
                       }}
                       showPreviews={true}

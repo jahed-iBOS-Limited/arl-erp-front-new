@@ -1,14 +1,14 @@
-import React from "react";
-import ICustomTable from "../../../chartering/_chartinghelper/_customTable";
-import { _fixedPoint } from "../../../_helper/_fixedPoint";
+import React from 'react';
+import ICustomTable from '../../../chartering/_chartinghelper/_customTable';
+import { _fixedPoint } from '../../../_helper/_fixedPoint';
 
 const headers = [
-  { name: "SL", style: { minWidth: "30px" } },
-  { name: "Mother Vessel" },
-  { name: "Open Qty" },
-  { name: "In Qty" },
-  { name: "Out Qty" },
-  { name: "Closing Qty" },
+  { name: 'SL', style: { minWidth: '30px' } },
+  { name: 'Mother Vessel' },
+  { name: 'Open Qty' },
+  { name: 'In Qty' },
+  { name: 'Out Qty' },
+  { name: 'Closing Qty' },
 ];
 
 export default function MotherVesselInventoryReportTable({ obj }) {
@@ -47,7 +47,7 @@ export default function MotherVesselInventoryReportTable({ obj }) {
               </tr>
             );
           })}
-          <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+          <tr style={{ textAlign: 'right', fontWeight: 'bold' }}>
             <td colSpan={2} className="text-right">
               <b>Total</b>
             </td>

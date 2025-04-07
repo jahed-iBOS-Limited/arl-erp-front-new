@@ -24,11 +24,7 @@ function reducer(state, action) {
   }
 }
 
-const useGoogleSheets = ({
-  apiKey,
-  sheetId,
-  sheetsOptions = [],
-}) => {
+const useGoogleSheets = ({ apiKey, sheetId, sheetsOptions = [] }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const sheets = useRef(sheetsOptions);
 
@@ -75,5 +71,4 @@ const useGoogleSheets = ({
   };
 };
 
-
- export  default useGoogleSheets;
+export default useGoogleSheets;

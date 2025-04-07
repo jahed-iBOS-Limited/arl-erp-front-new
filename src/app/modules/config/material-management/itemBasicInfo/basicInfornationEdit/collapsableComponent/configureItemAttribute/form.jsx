@@ -8,9 +8,9 @@ import customStyles from "../../../../../../selectCustomStyle";
 import { dataValidationSchema } from "../../../../../../_helper/_validationSchema";
 
 const intiValue = {
-  attribute: "",
-  uom: "",
-  value: "",
+  attribute: '',
+  uom: '',
+  value: '',
 };
 
 export default function FormCmp({
@@ -27,7 +27,7 @@ export default function FormCmp({
   businessUnitId,
   actionBy,
 }) {
-  const [attributeList, setAttributeList] = useState("");
+  const [attributeList, setAttributeList] = useState('');
   const [baseUomList, setBaseUomList] = useState([]);
   const [attributeOption, setAttributeOption] = useState([]);
 
@@ -55,7 +55,7 @@ export default function FormCmp({
           `/item/ItemBasic/GetItemattibuteUomByAttributeId?AttributeId=${attributeId}`
         ),
       ]);
-      setFieldValue("uom", res2[0]?.data);
+      setFieldValue('uom', res2[0]?.data);
       setBaseUomList([res2[0]?.data]);
     } catch (error) { }
   };
@@ -112,7 +112,7 @@ export default function FormCmp({
                           value={values?.attribute}
                           placeholder="Select Attribute"
                           onChange={(valueOption) => {
-                            setFieldValue("attribute", valueOption);
+                            setFieldValue('attribute', valueOption);
                             getInfoDataTwo(valueOption?.value, setFieldValue);
                           }}
                           isSearchable={true}
@@ -123,10 +123,10 @@ export default function FormCmp({
                     />
                     <p
                       style={{
-                        fontSize: "0.9rem",
+                        fontSize: '0.9rem',
                         fontWeight: 400,
-                        width: "100%",
-                        marginTop: "0.25rem",
+                        width: '100%',
+                        marginTop: '0.25rem',
                       }}
                       className="text-danger"
                     >
@@ -135,7 +135,7 @@ export default function FormCmp({
                         touched &&
                         touched.attribute
                         ? errors.attribute.value
-                        : ""}
+                        : ''}
                     </p>
                   </div>
                   <div className="col-lg-3">
@@ -147,7 +147,7 @@ export default function FormCmp({
                           options={baseUomList}
                           value={values?.uom}
                           onChange={(valueOption) => {
-                            setFieldValue("uom", valueOption);
+                            setFieldValue('uom', valueOption);
                           }}
                           isSearchable={true}
                           styles={customStyles}
@@ -158,21 +158,21 @@ export default function FormCmp({
                     />
                     <p
                       style={{
-                        fontSize: "0.9rem",
+                        fontSize: '0.9rem',
                         fontWeight: 400,
-                        width: "100%",
-                        marginTop: "0.25rem",
+                        width: '100%',
+                        marginTop: '0.25rem',
                       }}
                       className="text-danger"
                     >
                       {errors && errors.uom && touched && touched.uom
                         ? errors.uom.value
-                        : ""}
+                        : ''}
                     </p>
                   </div>
                   <div className="col-lg-3">
                     <Field
-                      value={values.value || ""}
+                      value={values.value || ''}
                       name="value"
                       component={Input}
                       placeholder="Value"
@@ -200,7 +200,7 @@ export default function FormCmp({
                         };
                         setDataToState(obj);
                       }}
-                      style={{ marginTop: "25px" }}
+                      style={{ marginTop: '25px' }}
                       className="btn btn-primary"
                     >
                       Add
@@ -254,14 +254,14 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={saveBtnRef}
-                onSubmit={() => alert("Testing")}
+                onSubmit={() => alert('Testing')}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(intiValue)}
               ></button>

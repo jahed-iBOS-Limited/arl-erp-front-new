@@ -1,31 +1,31 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import { PlantWarehouseConfig } from "./configPlantWarehouse";
-import AddFormPlant from "./plant/WarehouseCreate/addForm";
-import PlantEditForm from "./plant/businessUnitEdit/editForm";
-import EditFormExtend from "./plant/businessUnitEdit/editFormExtend";
-import { Warehouse } from "./warehouse";
-import AddForm from "./warehouse/WarehouseCreate/addForm";
-import EditForm from "./warehouse/businessUnitEdit/editForm";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import { PlantWarehouseConfig } from './configPlantWarehouse';
+import AddFormPlant from './plant/WarehouseCreate/addForm';
+import PlantEditForm from './plant/businessUnitEdit/editForm';
+import EditFormExtend from './plant/businessUnitEdit/editFormExtend';
+import { Warehouse } from './warehouse';
+import AddForm from './warehouse/WarehouseCreate/addForm';
+import EditForm from './warehouse/businessUnitEdit/editForm';
 
-import { shallowEqual, useSelector } from "react-redux";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import findIndex from "./../../_helper/_findIndex";
-import PlantWarehouseAddForm from "./configPlantWarehouse/plantWarehouseCreate/addForm";
-import { InventoryLocation } from "./inventoryLocation";
-import InventoryLocationEditForm from "./inventoryLocation/businessUnitEdit/editForm";
-import InventoryLocationAddForm from "./inventoryLocation/plantWarehouseCreate/addForm";
-import LoadingPoint from "./loadingPoint";
-import { LoadingPointAddForm } from "./loadingPoint/Form/addEditForm";
-import PlantLanding from "./plant/Table/index";
+import { shallowEqual, useSelector } from 'react-redux';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
+import findIndex from './../../_helper/_findIndex';
+import PlantWarehouseAddForm from './configPlantWarehouse/plantWarehouseCreate/addForm';
+import { InventoryLocation } from './inventoryLocation';
+import InventoryLocationEditForm from './inventoryLocation/businessUnitEdit/editForm';
+import InventoryLocationAddForm from './inventoryLocation/plantWarehouseCreate/addForm';
+import LoadingPoint from './loadingPoint';
+import { LoadingPointAddForm } from './loadingPoint/Form/addEditForm';
+import PlantLanding from './plant/Table/index';
 // import { ShipPointOperatorForm } from "./shipPointOperator/Form/AddEditForm";
-import ShipPointCreateForm from "./shipPointOperator/create/create";
-import ShippingPoint from "./shippingPoint";
-import ShippingPointForm from "./shippingPoint/Form/addEditForm";
-import { TransportZoneUpdateForm } from "./transportZoneUpdate/Form/AddEditForm";
+import ShipPointCreateForm from './shipPointOperator/create/create';
+import ShippingPoint from './shippingPoint';
+import ShippingPointForm from './shippingPoint/Form/addEditForm';
+import { TransportZoneUpdateForm } from './transportZoneUpdate/Form/AddEditForm';
 
-import ShipPointOperatorLanding from "./shipPointOperator/landing/landing";
+import ShipPointOperatorLanding from './shipPointOperator/landing/landing';
 
 export function ConfigurationPages() {
   const userRole = useSelector(
@@ -33,12 +33,12 @@ export function ConfigurationPages() {
     shallowEqual
   );
 
-  const plant = userRole[findIndex(userRole, "Plant")];
-  const wh = userRole[findIndex(userRole, "Warehouse")];
-  const configPlantWh = userRole[findIndex(userRole, "Config Plant Warehouse")];
-  const inventoryLocation = userRole[findIndex(userRole, "Inventory Location")];
-  const loadingPoint = userRole[findIndex(userRole, "Loading Point")];
-  const shippingPoint = userRole[findIndex(userRole, "Shipping Point")];
+  const plant = userRole[findIndex(userRole, 'Plant')];
+  const wh = userRole[findIndex(userRole, 'Warehouse')];
+  const configPlantWh = userRole[findIndex(userRole, 'Config Plant Warehouse')];
+  const inventoryLocation = userRole[findIndex(userRole, 'Inventory Location')];
+  const loadingPoint = userRole[findIndex(userRole, 'Loading Point')];
+  const shippingPoint = userRole[findIndex(userRole, 'Shipping Point')];
 
   return (
     <Switch>

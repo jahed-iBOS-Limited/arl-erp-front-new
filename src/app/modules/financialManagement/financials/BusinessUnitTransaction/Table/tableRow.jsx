@@ -42,9 +42,8 @@ export function TableRow() {
       setLoding,
       pageNo,
       pageSize,
-      '',
+      ''
     );
-
   }, [profileData, selectedBusinessUnit]);
 
   //setPositionHandler
@@ -52,7 +51,7 @@ export function TableRow() {
     pageNo,
     pageSize,
     searchValue,
-    generalLedgerId,
+    generalLedgerId
   ) => {
     getBusinessUnitGridData(
       profileData?.accountId,
@@ -62,7 +61,7 @@ export function TableRow() {
       pageNo,
       pageSize,
       searchValue,
-      generalLedgerId,
+      generalLedgerId
     );
   };
 
@@ -141,10 +140,9 @@ export function TableRow() {
             }));
             setGeneralLedger(newData);
           }
-        },
+        }
       );
     }
-
   }, [selectedBusinessUnit, profileData]);
 
   return (
@@ -189,7 +187,7 @@ export function TableRow() {
                       onClick={() => {
                         paginationSearchHandler(
                           values?.searchValue,
-                          setFieldValue,
+                          setFieldValue
                         );
                       }}
                     >

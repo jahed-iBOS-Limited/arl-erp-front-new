@@ -30,7 +30,7 @@ const CostEntry = ({ costEntryList, dataList, CB, isView, rfqId }) => {
 
   const { selectedBusinessUnit } = useSelector(
     (state) => state.authData,
-    shallowEqual,
+    shallowEqual
   );
   useEffect(() => {
     if (isView) {
@@ -61,7 +61,7 @@ const CostEntry = ({ costEntryList, dataList, CB, isView, rfqId }) => {
             });
             setRowData([...modDataList]);
           }
-        },
+        }
       );
     } else {
       getCostHeadDDL(
@@ -75,14 +75,13 @@ const CostEntry = ({ costEntryList, dataList, CB, isView, rfqId }) => {
             };
           });
           setCostHeadDDL(modData);
-        },
+        }
       );
 
       getCurrencyDDL(
-        `${eProcurementBaseURL}/EProcurement/GetBaseCurrencyListDDL`,
+        `${eProcurementBaseURL}/EProcurement/GetBaseCurrencyListDDL`
       );
     }
-
   }, []);
 
   const saveHandler = (values) => {
@@ -96,7 +95,7 @@ const CostEntry = ({ costEntryList, dataList, CB, isView, rfqId }) => {
     let foundData = rowData?.filter(
       (item) =>
         item?.supplierName?.value === values?.supplierName?.value &&
-        item?.costHead?.value === values?.costHead?.value,
+        item?.costHead?.value === values?.costHead?.value
     );
 
     if (foundData?.length > 0) {
@@ -104,7 +103,7 @@ const CostEntry = ({ costEntryList, dataList, CB, isView, rfqId }) => {
         'Cost element with this supplier and cost head already exists',
         {
           toastId: 'duplicateEntry',
-        },
+        }
       );
     } else {
       // Create payload with all form fields
@@ -128,7 +127,7 @@ const CostEntry = ({ costEntryList, dataList, CB, isView, rfqId }) => {
         !(
           item.supplierName?.value === rowItem.supplierName?.value &&
           item.costHead?.value === rowItem.costHead?.value
-        ),
+        )
     );
 
     setRowData(filterData);

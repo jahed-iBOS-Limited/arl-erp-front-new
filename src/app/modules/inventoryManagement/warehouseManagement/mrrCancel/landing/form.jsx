@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { getSBUDDL, getPlantDDL, getWareDDL, transGrupDDL } from "../helper";
-import { getGridDataAction } from "../../invTransaction/_redux/Actions";
-import { setInvTransactionAction } from "../../../../_helper/reduxForLocalStorage/Actions";
-import Loading from "../../../../_helper/_loading";
-import { ISelect } from "../../../../_helper/_inputDropDown";
-import InputField from "../../../../_helper/_inputField";
-import PaginationSearch from "../../../../_helper/_search";
-import GridData from "./grid";
-import PaginationTable from "../../../../_helper/_tablePagination";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { getSBUDDL, getPlantDDL, getWareDDL, transGrupDDL } from '../helper';
+import { getGridDataAction } from '../../invTransaction/_redux/Actions';
+import { setInvTransactionAction } from '../../../../_helper/reduxForLocalStorage/Actions';
+import Loading from '../../../../_helper/_loading';
+import { ISelect } from '../../../../_helper/_inputDropDown';
+import InputField from '../../../../_helper/_inputField';
+import PaginationSearch from '../../../../_helper/_search';
+import GridData from './grid';
+import PaginationTable from '../../../../_helper/_tablePagination';
 
 const validationSchema = Yup.object().shape({});
 const initData = {
-  sbu: "",
-  plant: "",
-  warehouse: "",
-  transGrup: "",
+  sbu: '',
+  plant: '',
+  warehouse: '',
+  transGrup: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
-}
+};
 
 export default function HeaderForm() {
   let [controlls, setControlls] = useState([]);
@@ -94,7 +94,6 @@ export default function HeaderForm() {
         getWarehouseDDL(invTransaction?.plant?.value);
       }
     }
-
   }, [profileData, selectedBusinessUnit]);
 
   // Get warehouse ddl on plant ddl onChange
@@ -151,33 +150,32 @@ export default function HeaderForm() {
   useEffect(() => {
     setControlls([
       {
-        label: "SBU",
-        name: "sbu",
+        label: 'SBU',
+        name: 'sbu',
         options: sbuDDL,
       },
       {
-        label: "Plant",
-        name: "plant",
+        label: 'Plant',
+        name: 'plant',
         options: plantDDL,
         dependencyFunc: (payload, allvalues, setter) => {
           getWarehouseDDL(payload);
-          setter("warehouse", "");
+          setter('warehouse', '');
         },
       },
       {
-        label: "Warehouse",
-        name: "warehouse",
+        label: 'Warehouse',
+        name: 'warehouse',
         options: wareHouseDDL,
-        isDisabled: ["plant"],
+        isDisabled: ['plant'],
       },
       {
-        label: "Transaction Group",
-        name: "transGrup",
+        label: 'Transaction Group',
+        name: 'transGrup',
         options: transGroupDDL,
-        isDisabled: ["Transaction Group"],
+        isDisabled: ['Transaction Group'],
       },
     ]);
-
   }, [sbuDDL, plantDDL, wareHouseDDL, transGroupDDL]);
 
   const paginationSearchHandler = (searchValue, values) => {
@@ -189,9 +187,13 @@ export default function HeaderForm() {
       {loading && <Loading />}
       <Formik
         enableReinitialize={true}
-        initialValues={{ ...initData, ...invTransaction, transGrup: { value: 1, label: "Receive Inventory" } }}
+        initialValues={{
+          ...initData,
+          ...invTransaction,
+          transGrup: { value: 1, label: 'Receive Inventory' },
+        }}
         validationSchema={validationSchema}
-        onSubmit={(values, { setSubmitting, resetForm }) => { }}
+        onSubmit={(values, { setSubmitting, resetForm }) => {}}
       >
         {({ errors, touched, setFieldValue, isValid, values }) => (
           <>
@@ -264,7 +266,12 @@ export default function HeaderForm() {
                 paginationSearchHandler={paginationSearchHandler}
                 values={values}
               />
-              <GridData setLoading={setLoading} viewGridData={viewGridData} values={values} setPositionHandler={setPositionHandler} />
+              <GridData
+                setLoading={setLoading}
+                viewGridData={viewGridData}
+                values={values}
+                setPositionHandler={setPositionHandler}
+              />
               {gridData?.data?.length > 0 && (
                 <PaginationTable
                   count={gridData?.totalCount}

@@ -1,10 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import ICard from "../../../../_helper/_card";
-import TableGird from "./gird";
-import { Formik, Form } from "formik";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import moment from "moment";
+import React, { useState, useRef, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import ICard from '../../../../_helper/_card';
+import TableGird from './gird';
+import { Formik, Form } from 'formik';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import moment from 'moment';
 import {
   getTaxSalesReport_api,
   getItemDDL_api,
@@ -13,25 +13,25 @@ import {
   GetItemNameDDL_api,
   getWarehouseDDL,
   GetSellableReportApi,
-} from "../helper";
-import Loading from "../../../../_helper/_loading";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "./../../../../_helper/_select";
-import "./style.css";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { GetBranchDDL } from "../../../../_helper/_commonApi";
+} from '../helper';
+import Loading from '../../../../_helper/_loading';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from './../../../../_helper/_select';
+import './style.css';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { GetBranchDDL } from '../../../../_helper/_commonApi';
 
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  shipmentName: "",
-  taxItemName: "",
-  partnerName: "",
+  shipmentName: '',
+  taxItemName: '',
+  partnerName: '',
   salesReportType: {
     value: 1,
-    label: "Sales Report",
+    label: 'Sales Report',
   },
 };
 
@@ -80,11 +80,9 @@ export default function SalesReportOMSTable() {
       );
       GetItemTypeDDL_api(setitemType);
     }
-
-
   }, [selectedBusinessUnit, profileData]);
 
-  console.log(rowDto)
+  console.log(rowDto);
 
   const commonGridDataApi = (
     values,
@@ -129,7 +127,7 @@ export default function SalesReportOMSTable() {
           isShowPrintBtn={true}
           componentRef={printRef}
           pageStyle={
-            "@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}"
+            '@media print{body { -webkit-print-color-adjust: exact; margin: 0mm;}@page {size: portrait ! important}}'
           }
         >
           <div>
@@ -146,18 +144,18 @@ export default function SalesReportOMSTable() {
                               [
                                 {
                                   value: 1,
-                                  label: "Sales Report",
+                                  label: 'Sales Report',
                                 },
                                 {
                                   value: 2,
-                                  label: "Sellable Report",
+                                  label: 'Sellable Report',
                                 },
                               ] || []
                             }
                             value={values?.salesReportType}
                             label="Sales Report Type"
                             onChange={(valueOption) => {
-                              setFieldValue("salesReportType", valueOption);
+                              setFieldValue('salesReportType', valueOption);
                               setRowDto([]);
                             }}
                             placeholder="Sales Report Type"
@@ -168,17 +166,17 @@ export default function SalesReportOMSTable() {
                         {/*  if type Sales Report */}
                         {values?.salesReportType?.value === 1 && (
                           <>
-                            {" "}
+                            {' '}
                             <div className="col-lg-3">
                               <NewSelect
                                 name="shipmentName"
                                 options={
-                                  [{ value: 0, label: "All" }, ...branch] || []
+                                  [{ value: 0, label: 'All' }, ...branch] || []
                                 }
                                 value={values?.shipmentName}
                                 label="Ship Point"
                                 onChange={(valueOption) => {
-                                  setFieldValue("shipmentName", valueOption);
+                                  setFieldValue('shipmentName', valueOption);
                                   setRowDto([]);
                                 }}
                                 placeholder="Ship Point"
@@ -190,13 +188,13 @@ export default function SalesReportOMSTable() {
                               <NewSelect
                                 name="taxItemName"
                                 options={[
-                                  { value: 0, label: "All" },
+                                  { value: 0, label: 'All' },
                                   ...taxItemNameDDL,
                                 ]}
                                 value={values?.taxItemName}
                                 label="Item Name"
                                 onChange={(valueOption) => {
-                                  setFieldValue("taxItemName", valueOption);
+                                  setFieldValue('taxItemName', valueOption);
                                   setRowDto([]);
                                 }}
                                 placeholder="Item Name"
@@ -209,13 +207,13 @@ export default function SalesReportOMSTable() {
                                 name="partnerName"
                                 options={
                                   [
-                                    { value: 0, label: "All" },
+                                    { value: 0, label: 'All' },
                                     ...partnerNameDDL,
                                   ] || []
                                 }
                                 value={values?.partnerName}
                                 onChange={(valueOption) => {
-                                  setFieldValue("partnerName", valueOption);
+                                  setFieldValue('partnerName', valueOption);
                                   setRowDto([]);
                                 }}
                                 errors={errors}
@@ -238,8 +236,8 @@ export default function SalesReportOMSTable() {
                                 label="Plant"
                                 onChange={(valueOption) => {
                                   setRowDto([]);
-                                  setFieldValue("plant", valueOption);
-                                  setFieldValue("warehouse", "");
+                                  setFieldValue('plant', valueOption);
+                                  setFieldValue('warehouse', '');
                                   getWarehouseDDL(
                                     profileData.userId,
                                     profileData.accountId,
@@ -258,7 +256,7 @@ export default function SalesReportOMSTable() {
                                 label="Select Warehouse"
                                 onChange={(valueOption) => {
                                   setRowDto([]);
-                                  setFieldValue("warehouse", valueOption);
+                                  setFieldValue('warehouse', valueOption);
                                 }}
                                 placeholder="Select Warehouse"
                                 errors={errors}
@@ -273,8 +271,8 @@ export default function SalesReportOMSTable() {
                                 label="Item Type"
                                 onChange={(valueOption) => {
                                   setRowDto([]);
-                                  setFieldValue("itemType", valueOption);
-                                  setFieldValue("itemName", "");
+                                  setFieldValue('itemType', valueOption);
+                                  setFieldValue('itemName', '');
                                   GetItemNameDDL_api(
                                     profileData.accountId,
                                     selectedBusinessUnit.value,
@@ -293,14 +291,14 @@ export default function SalesReportOMSTable() {
                               <NewSelect
                                 name="itemName"
                                 options={
-                                  [{ value: 0, label: "All" }, ...itemName] ||
+                                  [{ value: 0, label: 'All' }, ...itemName] ||
                                   []
                                 }
                                 value={values?.itemName}
                                 label="Item"
                                 onChange={(valueOption) => {
                                   setRowDto([]);
-                                  setFieldValue("itemName", valueOption);
+                                  setFieldValue('itemName', valueOption);
                                 }}
                                 placeholder="Item Name"
                                 errors={errors}
@@ -319,7 +317,7 @@ export default function SalesReportOMSTable() {
                             type="date"
                             touched={touched}
                             onChange={(e) => {
-                              setFieldValue("fromDate", e.target.value);
+                              setFieldValue('fromDate', e.target.value);
                               setRowDto([]);
                             }}
                           />
@@ -333,7 +331,7 @@ export default function SalesReportOMSTable() {
                             type="date"
                             touched={touched}
                             onChange={(e) => {
-                              setFieldValue("toDate", e.target.value);
+                              setFieldValue('toDate', e.target.value);
                               setRowDto([]);
                             }}
                           />
@@ -415,10 +413,10 @@ function SalesReportTable({ rowDto, selectedBusinessUnit, values }) {
                 </h3>
                 <div className="d-flex justify-content-center">
                   <h5>
-                    From Date: {moment(values?.fromDate).format("DD-MM-YYYY")}
+                    From Date: {moment(values?.fromDate).format('DD-MM-YYYY')}
                   </h5>
                   <h5 className="ml-5">
-                    To Date: {moment(values?.toDate).format("DD-MM-YYYY")}
+                    To Date: {moment(values?.toDate).format('DD-MM-YYYY')}
                   </h5>
                 </div>
               </div>
@@ -488,10 +486,10 @@ function SellableReportTable({
                 </h3>
                 <div className="d-flex justify-content-center">
                   <h5>
-                    From Date: {moment(values?.fromDate).format("DD-MM-YYYY")}
+                    From Date: {moment(values?.fromDate).format('DD-MM-YYYY')}
                   </h5>
                   <h5 className="ml-5">
-                    To Date: {moment(values?.toDate).format("DD-MM-YYYY")}
+                    To Date: {moment(values?.toDate).format('DD-MM-YYYY')}
                   </h5>
                 </div>
               </div>

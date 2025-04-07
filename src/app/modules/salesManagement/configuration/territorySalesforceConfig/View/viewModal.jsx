@@ -1,8 +1,7 @@
-
-import React, { useEffect } from "react";
-import IViewModal from "../../../../_helper/_viewModal";
-import { getSaleForceTerritoryById } from "../_redux/Actions";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import React, { useEffect } from 'react';
+import IViewModal from '../../../../_helper/_viewModal';
+import { getSaleForceTerritoryById } from '../_redux/Actions';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
 
 export default function ViewForm({ id, show, onHide }) {
   const dispatch = useDispatch();
@@ -23,7 +22,7 @@ export default function ViewForm({ id, show, onHide }) {
       <IViewModal
         show={show}
         onHide={onHide}
-        title={modalData?.objHeader?.territoryTypeName || ""}
+        title={modalData?.objHeader?.territoryTypeName || ''}
         isShow={modalData && false}
       >
         {console.log(modalData?.objHeader?.territoryTypeName)}
@@ -50,7 +49,7 @@ export default function ViewForm({ id, show, onHide }) {
                       </tr>
                     ))}
                   </tbody>
-                </table>{" "}
+                </table>{' '}
               </div>
             ) : (
               <h3>No Data Found</h3>

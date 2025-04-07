@@ -1,38 +1,38 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { LayoutSplashScreen, ContentRoute } from "../../../../_metronic/layout";
-import { Suspense } from "react";
-import VehicleLogBookForm from "./vehicleLog/Form/addEditForm";
-import VehicleLogExpenseForm from "./vehicleLog/expenseForm/addEditForm";
-import { ShipmentCostTable } from "./shipmentCost/Table/tableHeader";
-import ShipmentCostForm from "./shipmentCost/Form/addEditForm";
-import VehicleInOutReportLanding from "./vehicleInOutReport/landing/landing";
-import ShipmentCostViewForm from "./shipmentCost/view/addEditForm";
-import VehicleLogBookView from "./vehicleLog/view/addEditForm";
-import CheckPostForm from "./checkpost/Form/addEditForm";
-import { CheckPost } from "./checkpost/index";
-import RentalVehilceCostLanding from "./rentalVehilceCost/landing/landing";
-import RentalVehicleEdit from "./rentalVehilceCost/Form/addEditForm";
-import EmployeeRegisterLanding from "./employeeRegister/Landing";
-import EmployeeRegisterForm from "./employeeRegister/Form/addEditForm";
-import ShipmentCostEntryLanding from "./shipmentCostEntry/landing";
-import ShipmentCostAccountLanding from "./shipmentCostAccount/landing";
-import { shallowEqual, useSelector } from "react-redux";
-import findIndex from "../../_helper/_findIndex";
-import NotPermittedPage from "../../_helper/notPermitted/NotPermittedPage";
-import ShipmentCostModifiedTable from "./shipmentCostModified/Table/tableHeader";
-import RentalVehilceCostModifiedLanding from "./rentalVehilceCostModified/landing/landing";
-import RentalVehicleEditForm from "./rentalVehilceCostModified/Form/addEditForm";
-import ShipmentCostCancelLanding from "./shipmentCostCancel";
-import RentalVehicleCostEditForm from "./rentalVehilceCost/editForm/addEditForm";
-import ManualShipmentCostForm from "./manualShipmentCost/Form/addEditForm";
-import { ManualShipmentCostTable } from "./manualShipmentCost/Table/tableHeader";
-import FuelLogNExpense from "./fuelLogNExpense/form";
-import FuelLogModify from "./fuelLogModify/landing";
-import TripCostStatement from "./vehicleTrip/vehicleTrip";
-import VehicleProblemEntryForm from "./vehicleLog/problemForm/addEditForm";
-import VehicleLogLanding from "./vehicleLog/landing/index";
-import TripTargetEntryForm from "./vehicleLog/tripTargetEntry/addEditForm";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { LayoutSplashScreen, ContentRoute } from '../../../../_metronic/layout';
+import { Suspense } from 'react';
+import VehicleLogBookForm from './vehicleLog/Form/addEditForm';
+import VehicleLogExpenseForm from './vehicleLog/expenseForm/addEditForm';
+import { ShipmentCostTable } from './shipmentCost/Table/tableHeader';
+import ShipmentCostForm from './shipmentCost/Form/addEditForm';
+import VehicleInOutReportLanding from './vehicleInOutReport/landing/landing';
+import ShipmentCostViewForm from './shipmentCost/view/addEditForm';
+import VehicleLogBookView from './vehicleLog/view/addEditForm';
+import CheckPostForm from './checkpost/Form/addEditForm';
+import { CheckPost } from './checkpost/index';
+import RentalVehilceCostLanding from './rentalVehilceCost/landing/landing';
+import RentalVehicleEdit from './rentalVehilceCost/Form/addEditForm';
+import EmployeeRegisterLanding from './employeeRegister/Landing';
+import EmployeeRegisterForm from './employeeRegister/Form/addEditForm';
+import ShipmentCostEntryLanding from './shipmentCostEntry/landing';
+import ShipmentCostAccountLanding from './shipmentCostAccount/landing';
+import { shallowEqual, useSelector } from 'react-redux';
+import findIndex from '../../_helper/_findIndex';
+import NotPermittedPage from '../../_helper/notPermitted/NotPermittedPage';
+import ShipmentCostModifiedTable from './shipmentCostModified/Table/tableHeader';
+import RentalVehilceCostModifiedLanding from './rentalVehilceCostModified/landing/landing';
+import RentalVehicleEditForm from './rentalVehilceCostModified/Form/addEditForm';
+import ShipmentCostCancelLanding from './shipmentCostCancel';
+import RentalVehicleCostEditForm from './rentalVehilceCost/editForm/addEditForm';
+import ManualShipmentCostForm from './manualShipmentCost/Form/addEditForm';
+import { ManualShipmentCostTable } from './manualShipmentCost/Table/tableHeader';
+import FuelLogNExpense from './fuelLogNExpense/form';
+import FuelLogModify from './fuelLogModify/landing';
+import TripCostStatement from './vehicleTrip/vehicleTrip';
+import VehicleProblemEntryForm from './vehicleLog/problemForm/addEditForm';
+import VehicleLogLanding from './vehicleLog/landing/index';
+import TripTargetEntryForm from './vehicleLog/tripTargetEntry/addEditForm';
 
 export function RouteManagementPage() {
   const userRole = useSelector(
@@ -40,10 +40,10 @@ export function RouteManagementPage() {
     shallowEqual
   );
 
-  const vehicleLogPermission = userRole[findIndex(userRole, "Vehicle Log")];
-  const shipmentCostPermission = userRole[findIndex(userRole, "Shipment Cost")];
+  const vehicleLogPermission = userRole[findIndex(userRole, 'Vehicle Log')];
+  const shipmentCostPermission = userRole[findIndex(userRole, 'Shipment Cost')];
   const checkPostInOutPermission =
-    userRole[findIndex(userRole, "Check Post In Out")];
+    userRole[findIndex(userRole, 'Check Post In Out')];
 
   return (
     <Suspense fallback={<LayoutSplashScreen />}>

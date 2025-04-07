@@ -1,39 +1,38 @@
-
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import IViewModal from "../../../_helper/_viewModal";
-import SearchAsyncSelect from "./../../../_helper/SearchAsyncSelect";
-import Report from "./report";
-import ShippingNoteView from "./shippingNoteView";
-import QRCodeScanner from "../../../_helper/qrCodeScanner";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import IViewModal from '../../../_helper/_viewModal';
+import SearchAsyncSelect from './../../../_helper/SearchAsyncSelect';
+import Report from './report';
+import ShippingNoteView from './shippingNoteView';
+import QRCodeScanner from '../../../_helper/qrCodeScanner';
 
 const initData = {
   secondWeightDate: _todayDate(),
-  vehcileNumber: "",
-  itemName: "",
-  secondWeight: "",
-  netWeight: "",
-  firstWeightDate: "",
-  firstWeight: "",
-  remarks: "",
-  entryCode: "",
-  entryDate: "",
-  supplierName: "",
-  customerName: "",
-  challanNo: "",
-  strCardNumber: "",
-  businessUnit: "",
+  vehcileNumber: '',
+  itemName: '',
+  secondWeight: '',
+  netWeight: '',
+  firstWeightDate: '',
+  firstWeight: '',
+  remarks: '',
+  entryCode: '',
+  entryDate: '',
+  supplierName: '',
+  customerName: '',
+  challanNo: '',
+  strCardNumber: '',
+  businessUnit: '',
 };
 
 export default function SecondWeightCreateEdit({ weight }) {
@@ -48,13 +47,8 @@ export default function SecondWeightCreateEdit({ weight }) {
   const [allDataForEntry, getAllDataForEntry, getAllDataLoader] = useAxiosGet();
   const [customerDDL, getCustomerDDL, , setCustomerDDL] = useAxiosGet();
   const [gateEntryItemListId, setGateEntryItemListId] = useState(0);
-  const [
-    reportData,
-    getReportData,
-    reportDataLoader,
-    setReportData,
-  ] = useAxiosGet();
-
+  const [reportData, getReportData, reportDataLoader, setReportData] =
+    useAxiosGet();
 
   const [regDDL, getRegDDL, regDDLloader] = useAxiosGet();
 
@@ -79,38 +73,37 @@ export default function SecondWeightCreateEdit({ weight }) {
     getVehicleDDL(
       `/mes/WeightBridge/GetAllWeightBridgeVehicleDDL?PartName=LastWeight&BusinessUnitId=${initData?.businessUnit?.value}&WeightementId=0`
     );
-
   }, []);
 
   const saveHandler = async (values, cb) => {
-    if (!values?.entryCode?.value) return toast.warn("প্রবেশের কোড প্রয়োজন");
-    if (!values?.secondWeightDate) return toast.warn("তারিখ প্রয়োজন");
+    if (!values?.entryCode?.value) return toast.warn('প্রবেশের কোড প্রয়োজন');
+    if (!values?.secondWeightDate) return toast.warn('তারিখ প্রয়োজন');
     if (!values?.vehcileNumber) {
-      return toast.warn("অনুগ্রহ করে গাড়ির নাম্বার নির্বাচন করুন");
+      return toast.warn('অনুগ্রহ করে গাড়ির নাম্বার নির্বাচন করুন');
     }
-    if (!values?.secondWeight) return toast.warn("Second Weight is required");
+    if (!values?.secondWeight) return toast.warn('Second Weight is required');
     if (
       values?.entryCode?.intClientTypeId === 1 &&
       !values?.supplierName?.value
     ) {
-      return toast.warn("সাপ্লায়ারের নাম প্রয়োজন");
+      return toast.warn('সাপ্লায়ারের নাম প্রয়োজন');
     }
     if (
       values?.entryCode?.intClientTypeId === 2 &&
       values?.entryCode?.isShipmentRequired &&
       !customerDDL?.length
     ) {
-      return toast.warn("শিপমেন্ট সম্পূর্ন করুন।");
+      return toast.warn('শিপমেন্ট সম্পূর্ন করুন।');
     }
     if (
       values?.entryCode?.intClientTypeId === 2 &&
       !values?.customerName?.value &&
       values?.entryCode?.isCustomerSelectionRequired
     ) {
-      return toast.warn("কাস্টমারের নাম প্রয়োজন");
+      return toast.warn('কাস্টমারের নাম প্রয়োজন');
     }
     if (!values?.businessUnit) {
-      return toast.warn("অনুগ্রহ করে বিজনেস ইউনিট নির্বাচন করুন");
+      return toast.warn('অনুগ্রহ করে বিজনেস ইউনিট নির্বাচন করুন');
     }
     saveData(
       `/mes/WeightBridge/WeightBridgeCreateAndEditV2`,
@@ -121,7 +114,7 @@ export default function SecondWeightCreateEdit({ weight }) {
             ? values?.supplierName?.value
             : values?.customerName?.value || 0,
         numWeight: +values?.secondWeight,
-        strRemarks: values?.remarks || "",
+        strRemarks: values?.remarks || '',
         intActionBy: profileData?.userId,
       },
 
@@ -135,9 +128,7 @@ export default function SecondWeightCreateEdit({ weight }) {
   };
 
   const qurScanHandler = ({ setFieldValue, values }) => {
-    document.getElementById(
-      "cardNoInput"
-    ).disabled = true;
+    document.getElementById('cardNoInput').disabled = true;
     getRegDDL(
       `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumber&BusinessUnitId=${values?.businessUnit?.value}&search=${values?.strCardNumber}`,
       (data) => {
@@ -146,33 +137,17 @@ export default function SecondWeightCreateEdit({ weight }) {
             `/mes/MSIL/GetAllMSIL?PartName=SecondWeightEntryCodeDDL&BusinessUnitId=${values?.businessUnit?.value}&search=${data?.[0]?.label}`,
             (data) => {
               if (data.length > 0) {
-                setFieldValue("entryCode", data[0]);
-                setGateEntryItemListId(
-                  data[0]?.intGateEntryItemListId
-                );
+                setFieldValue('entryCode', data[0]);
+                setGateEntryItemListId(data[0]?.intGateEntryItemListId);
+                setFieldValue('vehcileNumber', data[0]?.vehicleNo);
+                setFieldValue('itemName', data[0]?.materialName);
                 setFieldValue(
-                  "vehcileNumber",
-                  data[0]?.vehicleNo
+                  'entryDay',
+                  data[0]?.gateEntryDate?.split('T')[0]
                 );
-                setFieldValue(
-                  "itemName",
-                  data[0]?.materialName
-                );
-                setFieldValue(
-                  "entryDay",
-                  data[0]?.gateEntryDate?.split(
-                    "T"
-                  )[0]
-                );
-                setFieldValue(
-                  "clientName",
-                  data[0]?.strSupplierName
-                );
-                setFieldValue(
-                  "challanNo",
-                  data[0]?.invoiceNo
-                );
-                setFieldValue("supplierName", {
+                setFieldValue('clientName', data[0]?.strSupplierName);
+                setFieldValue('challanNo', data[0]?.invoiceNo);
+                setFieldValue('supplierName', {
                   value: data[0]?.intSupplierId,
                   label: data[0]?.strSupplierName,
                 });
@@ -184,15 +159,10 @@ export default function SecondWeightCreateEdit({ weight }) {
                   `/mes/MSIL/GetAllMSIL?PartName=CurrentFirstWeightInfo&AutoId=${data[0]?.intGateEntryItemListId}`,
                   (data) => {
                     setFieldValue(
-                      "firstWeightDate",
-                      data[0]?.firstWeightDateTime?.split(
-                        "T"
-                      )[0]
+                      'firstWeightDate',
+                      data[0]?.firstWeightDateTime?.split('T')[0]
                     );
-                    setFieldValue(
-                      "firstWeight",
-                      data[0]?.firstWeight
-                    );
+                    setFieldValue('firstWeight', data[0]?.firstWeight);
                     getReportData(
                       `/mes/MSIL/GetAllMSIL?PartName=FirstWeightSecondWeightInfoForPDF&AutoId=${data[0]?.intWeightmentId}`
                     );
@@ -202,18 +172,14 @@ export default function SecondWeightCreateEdit({ weight }) {
             }
           );
         } else {
-          toast.warn("কার্ড নাম্বার সঠিক নয়");
-          setFieldValue("strCardNumber", "");
-          document.getElementById(
-            "cardNoInput"
-          ).disabled = false;
-          document
-            .getElementById("cardNoInput")
-            .focus();
+          toast.warn('কার্ড নাম্বার সঠিক নয়');
+          setFieldValue('strCardNumber', '');
+          document.getElementById('cardNoInput').disabled = false;
+          document.getElementById('cardNoInput').focus();
         }
       }
     );
-  }
+  };
 
   return (
     <IForm isHiddenBack title="Second Weight" getProps={setObjprops}>
@@ -225,8 +191,8 @@ export default function SecondWeightCreateEdit({ weight }) {
             saveHandler(values, () => {
               resetForm(initData);
               setReportData([]);
-              document.getElementById("cardNoInput").disabled = false;
-              document.getElementById("cardNoInput").focus();
+              document.getElementById('cardNoInput').disabled = false;
+              document.getElementById('cardNoInput').focus();
             });
           }}
         >
@@ -257,56 +223,57 @@ export default function SecondWeightCreateEdit({ weight }) {
                         label="বিজনেস ইউনিট"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("businessUnit", valueOption);
+                            setFieldValue('businessUnit', valueOption);
                             getVehicleDDL(
                               `/mes/WeightBridge/GetAllWeightBridgeVehicleDDL?PartName=LastWeight&BusinessUnitId=${valueOption?.value}&WeightementId=0`
                             );
-                            setFieldValue("entryCode", "");
-                            setFieldValue("vehcileNumber", "");
-                            setFieldValue("supplierName", "");
-                            setFieldValue("customerName", "");
-                            setFieldValue("firstWeight", "");
-                            setFieldValue("strCardNumber", "");
-                            setFieldValue("secondWeight", "");
-                            setFieldValue("remarks", "");
+                            setFieldValue('entryCode', '');
+                            setFieldValue('vehcileNumber', '');
+                            setFieldValue('supplierName', '');
+                            setFieldValue('customerName', '');
+                            setFieldValue('firstWeight', '');
+                            setFieldValue('strCardNumber', '');
+                            setFieldValue('secondWeight', '');
+                            setFieldValue('remarks', '');
                             setGateEntryItemListId(0);
-                            document.getElementById(
-                              "cardNoInput"
-                            ).disabled = false;
-                            document.getElementById("cardNoInput").focus();
+                            document.getElementById('cardNoInput').disabled =
+                              false;
+                            document.getElementById('cardNoInput').focus();
                           } else {
                             getVehicleDDL(
                               `/mes/WeightBridge/GetAllWeightBridgeVehicleDDL?PartName=LastWeight&BusinessUnitId=${selectedBusinessUnit?.value}&WeightementId=0`
                             );
                             setReportData([]);
-                            setFieldValue("businessUnit", "");
-                            setFieldValue("entryCode", "");
-                            setFieldValue("vehcileNumber", "");
-                            setFieldValue("supplierName", "");
-                            setFieldValue("customerName", "");
-                            setFieldValue("firstWeight", "");
-                            setFieldValue("secondWeight", "");
-                            setFieldValue("strCardNumber", "");
+                            setFieldValue('businessUnit', '');
+                            setFieldValue('entryCode', '');
+                            setFieldValue('vehcileNumber', '');
+                            setFieldValue('supplierName', '');
+                            setFieldValue('customerName', '');
+                            setFieldValue('firstWeight', '');
+                            setFieldValue('secondWeight', '');
+                            setFieldValue('strCardNumber', '');
                             setGateEntryItemListId(0);
-                            document.getElementById(
-                              "cardNoInput"
-                            ).disabled = false;
-                            document.getElementById("cardNoInput").focus();
+                            document.getElementById('cardNoInput').disabled =
+                              false;
+                            document.getElementById('cardNoInput').focus();
                           }
                         }}
                       />
                     </div>
-                    <div className="col-lg-3 d-flex" style={{
-                      position: 'relative'
-                    }}>
-                       <div
+                    <div
+                      className="col-lg-3 d-flex"
+                      style={{
+                        position: 'relative',
+                      }}
+                    >
+                      <div
                         style={{
-                          position: "absolute",
+                          position: 'absolute',
                           right: 0,
                           top: 0,
-                          cursor: "pointer",
-                          color: "blue",
-                          zIndex: "1",
+                          cursor: 'pointer',
+                          color: 'blue',
+                          zIndex: '1',
                         }}
                         onClick={() => {
                           setQRCodeScannerModal(true);
@@ -314,7 +281,7 @@ export default function SecondWeightCreateEdit({ weight }) {
                       >
                         QR Code <i class="fa fa-qrcode" aria-hidden="true"></i>
                       </div>
-                      <div style={{ width: "inherit" }}>
+                      <div style={{ width: 'inherit' }}>
                         <InputField
                           id="cardNoInput"
                           autoFocus
@@ -323,10 +290,9 @@ export default function SecondWeightCreateEdit({ weight }) {
                           name="strCardNumber"
                           type="text"
                           onKeyPress={(e) => {
-                            if (e.key === "Enter") {
-                              document.getElementById(
-                                "cardNoInput"
-                              ).disabled = true;
+                            if (e.key === 'Enter') {
+                              document.getElementById('cardNoInput').disabled =
+                                true;
                               getRegDDL(
                                 `/mes/MSIL/GetAllMSIL?PartName=GetVehicleInfoByCardNumber&BusinessUnitId=${values?.businessUnit?.value}&search=${values?.strCardNumber}`,
                                 (data) => {
@@ -335,33 +301,33 @@ export default function SecondWeightCreateEdit({ weight }) {
                                       `/mes/MSIL/GetAllMSIL?PartName=SecondWeightEntryCodeDDL&BusinessUnitId=${values?.businessUnit?.value}&search=${data?.[0]?.label}`,
                                       (data) => {
                                         if (data.length > 0) {
-                                          setFieldValue("entryCode", data[0]);
+                                          setFieldValue('entryCode', data[0]);
                                           setGateEntryItemListId(
                                             data[0]?.intGateEntryItemListId
                                           );
                                           setFieldValue(
-                                            "vehcileNumber",
+                                            'vehcileNumber',
                                             data[0]?.vehicleNo
                                           );
                                           setFieldValue(
-                                            "itemName",
+                                            'itemName',
                                             data[0]?.materialName
                                           );
                                           setFieldValue(
-                                            "entryDay",
+                                            'entryDay',
                                             data[0]?.gateEntryDate?.split(
-                                              "T"
+                                              'T'
                                             )[0]
                                           );
                                           setFieldValue(
-                                            "clientName",
+                                            'clientName',
                                             data[0]?.strSupplierName
                                           );
                                           setFieldValue(
-                                            "challanNo",
+                                            'challanNo',
                                             data[0]?.invoiceNo
                                           );
-                                          setFieldValue("supplierName", {
+                                          setFieldValue('supplierName', {
                                             value: data[0]?.intSupplierId,
                                             label: data[0]?.strSupplierName,
                                           });
@@ -373,13 +339,13 @@ export default function SecondWeightCreateEdit({ weight }) {
                                             `/mes/MSIL/GetAllMSIL?PartName=CurrentFirstWeightInfo&AutoId=${data[0]?.intGateEntryItemListId}`,
                                             (data) => {
                                               setFieldValue(
-                                                "firstWeightDate",
+                                                'firstWeightDate',
                                                 data[0]?.firstWeightDateTime?.split(
-                                                  "T"
+                                                  'T'
                                                 )[0]
                                               );
                                               setFieldValue(
-                                                "firstWeight",
+                                                'firstWeight',
                                                 data[0]?.firstWeight
                                               );
                                               getReportData(
@@ -391,13 +357,13 @@ export default function SecondWeightCreateEdit({ weight }) {
                                       }
                                     );
                                   } else {
-                                    toast.warn("কার্ড নাম্বার সঠিক নয়");
-                                    setFieldValue("strCardNumber", "");
+                                    toast.warn('কার্ড নাম্বার সঠিক নয়');
+                                    setFieldValue('strCardNumber', '');
                                     document.getElementById(
-                                      "cardNoInput"
+                                      'cardNoInput'
                                     ).disabled = false;
                                     document
-                                      .getElementById("cardNoInput")
+                                      .getElementById('cardNoInput')
                                       .focus();
                                   }
                                 }
@@ -405,32 +371,31 @@ export default function SecondWeightCreateEdit({ weight }) {
                             }
                           }}
                           onChange={(e) => {
-                            setFieldValue("strCardNumber", e.target.value);
+                            setFieldValue('strCardNumber', e.target.value);
                           }}
                         />
                       </div>
                       <span
                         style={{
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          marginLeft: "5px",
-                          cursor: "pointer",
-                          marginTop: "20px",
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          marginLeft: '5px',
+                          cursor: 'pointer',
+                          marginTop: '20px',
                         }}
                         onClick={() => {
-                          setFieldValue("strCardNumber", "");
-                          document.getElementById(
-                            "cardNoInput"
-                          ).disabled = false;
-                          document.getElementById("cardNoInput").focus();
+                          setFieldValue('strCardNumber', '');
+                          document.getElementById('cardNoInput').disabled =
+                            false;
+                          document.getElementById('cardNoInput').focus();
                           resetForm(initData);
                           setReportData([]);
                         }}
                       >
                         <i
                           style={{
-                            color: "blue",
+                            color: 'blue',
                           }}
                           className="fa fa-refresh"
                           aria-hidden="true"
@@ -443,23 +408,23 @@ export default function SecondWeightCreateEdit({ weight }) {
                       <SearchAsyncSelect
                         selectedValue={values?.entryCode}
                         handleChange={(valueOption) => {
-                          console.log("valueOption", valueOption);
+                          console.log('valueOption', valueOption);
                           if (valueOption) {
                             setGateEntryItemListId(
                               valueOption?.intGateEntryItemListId
                             );
-                            setFieldValue("entryCode", valueOption);
-                            setFieldValue("itemName", valueOption.materialName);
+                            setFieldValue('entryCode', valueOption);
+                            setFieldValue('itemName', valueOption.materialName);
                             setFieldValue(
-                              "entryDay",
-                              valueOption.gateEntryDate?.split("T")[0]
+                              'entryDay',
+                              valueOption.gateEntryDate?.split('T')[0]
                             );
                             setFieldValue(
-                              "vehcileNumber",
+                              'vehcileNumber',
                               valueOption.vehicleNo
                             );
-                            setFieldValue("challanNo", valueOption.invoiceNo);
-                            setFieldValue("supplierName", {
+                            setFieldValue('challanNo', valueOption.invoiceNo);
+                            setFieldValue('supplierName', {
                               value: valueOption?.intSupplierId,
                               label: valueOption?.strSupplierName,
                             });
@@ -470,11 +435,11 @@ export default function SecondWeightCreateEdit({ weight }) {
                               `/mes/MSIL/GetAllMSIL?PartName=CurrentFirstWeightInfo&AutoId=${valueOption?.intGateEntryItemListId}`,
                               (data) => {
                                 setFieldValue(
-                                  "firstWeightDate",
-                                  data[0]?.firstWeightDateTime?.split("T")[0]
+                                  'firstWeightDate',
+                                  data[0]?.firstWeightDateTime?.split('T')[0]
                                 );
                                 setFieldValue(
-                                  "firstWeight",
+                                  'firstWeight',
                                   data[0]?.firstWeight
                                 );
                                 getReportData(
@@ -485,20 +450,19 @@ export default function SecondWeightCreateEdit({ weight }) {
                           } else {
                             setGateEntryItemListId(0);
                             setCustomerDDL([]);
-                            setFieldValue("entryCode", "");
-                            setFieldValue("vehcileNumber", "");
-                            setFieldValue("itemName", "");
-                            setFieldValue("entryDay", "");
-                            setFieldValue("challanNo", "");
-                            setFieldValue("firstWeightDate", "");
-                            setFieldValue("firstWeight", "");
-                            setFieldValue("customerName", "");
-                            setFieldValue("supplierName", "");
-                            setFieldValue("vehicleType", "");
-                            setFieldValue("strCardNumber", "");
-                            document.getElementById(
-                              "cardNoInput"
-                            ).disabled = false;
+                            setFieldValue('entryCode', '');
+                            setFieldValue('vehcileNumber', '');
+                            setFieldValue('itemName', '');
+                            setFieldValue('entryDay', '');
+                            setFieldValue('challanNo', '');
+                            setFieldValue('firstWeightDate', '');
+                            setFieldValue('firstWeight', '');
+                            setFieldValue('customerName', '');
+                            setFieldValue('supplierName', '');
+                            setFieldValue('vehicleType', '');
+                            setFieldValue('strCardNumber', '');
+                            document.getElementById('cardNoInput').disabled =
+                              false;
                           }
                         }}
                         loadOptions={(v) => {
@@ -585,12 +549,12 @@ export default function SecondWeightCreateEdit({ weight }) {
                         disabled
                         onChange={(e) => {
                           if (+e.target.value < 0) return;
-                          setFieldValue("secondWeight", e.target.value);
+                          setFieldValue('secondWeight', e.target.value);
                           let netWeight =
                             values?.entryCode?.intClientTypeId === 1
                               ? +values?.firstWeight - +e.target.value
                               : +e.target.value - +values?.firstWeight;
-                          setFieldValue("netWeight", Math.abs(netWeight));
+                          setFieldValue('netWeight', Math.abs(netWeight));
                         }}
                       />
                     </div>
@@ -603,20 +567,20 @@ export default function SecondWeightCreateEdit({ weight }) {
                         disabled
                       />
                     </div>
-                    {console.log("values?.entryCode", values?.entryCode)}
+                    {console.log('values?.entryCode', values?.entryCode)}
                     {values?.entryCode?.intClientTypeId ? (
                       <div className="col-lg-3">
                         <InputField
                           value={
                             values?.entryCode?.intClientTypeId === 1
-                              ? "সাপ্লায়ার"
+                              ? 'সাপ্লায়ার'
                               : values?.entryCode?.intClientTypeId === 2
-                              ? "কাস্টমার"
-                              : values?.entryCode?.intClientTypeId === 3
-                              ? "Gate Pass"
-                              : values?.entryCode?.intClientTypeId === 4
-                              ? "Without Reference"
-                              : ""
+                                ? 'কাস্টমার'
+                                : values?.entryCode?.intClientTypeId === 3
+                                  ? 'Gate Pass'
+                                  : values?.entryCode?.intClientTypeId === 4
+                                    ? 'Without Reference'
+                                    : ''
                           }
                           label="গাড়ির ধরন"
                           name="vehicleType"
@@ -643,7 +607,7 @@ export default function SecondWeightCreateEdit({ weight }) {
                           value={values?.customerName}
                           label="কাস্টমারের নাম"
                           onChange={(valueOption) => {
-                            setFieldValue("customerName", valueOption);
+                            setFieldValue('customerName', valueOption);
                           }}
                         />
                       </div>
@@ -661,16 +625,16 @@ export default function SecondWeightCreateEdit({ weight }) {
                         onClick={() => {
                           if (!values?.entryCode?.value)
                             return toast.warn(
-                              "অনুগ্রহ করে প্রবেশের কোড নির্বাচন করুন"
+                              'অনুগ্রহ করে প্রবেশের কোড নির্বাচন করুন'
                             );
                           if (weight > 0) {
                             let newWeight = parseInt(weight, 10);
-                            setFieldValue("secondWeight", newWeight);
+                            setFieldValue('secondWeight', newWeight);
                             let netWeight =
                               values?.entryCode?.intClientTypeId === 1
                                 ? +values?.firstWeight - +newWeight
                                 : +newWeight - +values?.firstWeight;
-                            setFieldValue("netWeight", Math.abs(netWeight));
+                            setFieldValue('netWeight', Math.abs(netWeight));
                           }
                         }}
                         disabled={false}
@@ -707,45 +671,45 @@ export default function SecondWeightCreateEdit({ weight }) {
                           <tr>
                             <td
                               style={{
-                                minWidth: "125px",
-                                verticalAlign: "text-top",
+                                minWidth: '125px',
+                                verticalAlign: 'text-top',
                               }}
                               class="bold"
                             >
                               Date
                             </td>
-                            <td style={{ verticalAlign: "text-top" }}>: </td>
+                            <td style={{ verticalAlign: 'text-top' }}>: </td>
                             <td
                               style={{
-                                width: "300px",
-                                verticalAlign: "text-top",
+                                width: '300px',
+                                verticalAlign: 'text-top',
                               }}
                             >
                               {_dateFormatter(
-                                reportData[0]?.printDate?.split("T")
+                                reportData[0]?.printDate?.split('T')
                               )}
                             </td>
                             <td
-                              style={{ verticalAlign: "text-top" }}
+                              style={{ verticalAlign: 'text-top' }}
                               class="bold"
                             >
                               Delivery Challan No
                             </td>
-                            <td style={{ verticalAlign: "text-top" }}>: </td>
+                            <td style={{ verticalAlign: 'text-top' }}>: </td>
                             <td>{reportData[0]?.challanNo}</td>
                           </tr>
                           <tr>
                             <td
                               style={{
-                                minWidth: "125px",
-                                verticalAlign: "text-top",
+                                minWidth: '125px',
+                                verticalAlign: 'text-top',
                               }}
                               class="bold"
                             >
                               Client Code
                             </td>
-                            <td style={{ verticalAlign: "text-top" }}>: </td>
-                            <td style={{ width: "300px" }}>
+                            <td style={{ verticalAlign: 'text-top' }}>: </td>
+                            <td style={{ width: '300px' }}>
                               {reportData[0]?.partnerCode}
                             </td>
 
@@ -758,53 +722,53 @@ export default function SecondWeightCreateEdit({ weight }) {
                             <td
                               class="bold"
                               style={{
-                                verticalAlign: "text-top",
-                                minWidth: "125px",
+                                verticalAlign: 'text-top',
+                                minWidth: '125px',
                               }}
                             >
                               {reportData[0]?.intClientTypeId === 1
-                                ? "Supplier"
-                                : "Customer"}
+                                ? 'Supplier'
+                                : 'Customer'}
                             </td>
-                            <td style={{ verticalAlign: "text-top" }}>: </td>
+                            <td style={{ verticalAlign: 'text-top' }}>: </td>
                             <td colSpan={4}>{reportData[0]?.partnerName}</td>
                           </tr>
 
                           <tr>
                             <td
                               style={{
-                                verticalAlign: "text-top",
-                                minWidth: "125px",
+                                verticalAlign: 'text-top',
+                                minWidth: '125px',
                               }}
                               class="bold"
                             >
                               Address
                             </td>
-                            <td style={{ verticalAlign: "text-top" }}>: </td>
+                            <td style={{ verticalAlign: 'text-top' }}>: </td>
                             <td colSpan={4}>{reportData[0]?.partnerAddress}</td>
                           </tr>
 
                           <tr>
                             <td
                               style={{
-                                verticalAlign: "text-top",
-                                minWidth: "125px",
+                                verticalAlign: 'text-top',
+                                minWidth: '125px',
                               }}
                               class="bold"
                             >
                               Material Description
                             </td>
-                            <td style={{ verticalAlign: "text-top" }}>: </td>
+                            <td style={{ verticalAlign: 'text-top' }}>: </td>
                             <td
                               colSpan={4}
-                              style={{ verticalAlign: "text-top" }}
+                              style={{ verticalAlign: 'text-top' }}
                             >
                               {reportData[0]?.materialDescription}
                             </td>
                           </tr>
 
                           <tr>
-                            <td style={{ minWidth: "125px" }} class="bold">
+                            <td style={{ minWidth: '125px' }} class="bold">
                               Vehicle No
                             </td>
                             <td>: </td>
@@ -812,11 +776,11 @@ export default function SecondWeightCreateEdit({ weight }) {
                           </tr>
 
                           <tr>
-                            <td style={{ minWidth: "125px" }} class="bold">
+                            <td style={{ minWidth: '125px' }} class="bold">
                               Driver Name
                             </td>
                             <td>: </td>
-                            <td style={{ width: "300px" }}>
+                            <td style={{ width: '300px' }}>
                               {reportData[0]?.driverName}
                             </td>
 
@@ -826,11 +790,11 @@ export default function SecondWeightCreateEdit({ weight }) {
                           </tr>
 
                           <tr>
-                            <td style={{ minWidth: "125px" }} class="bold">
+                            <td style={{ minWidth: '125px' }} class="bold">
                               Driver Phone No
                             </td>
                             <td>: </td>
-                            <td style={{ width: "300px" }}>
+                            <td style={{ width: '300px' }}>
                               {reportData[0]?.telFaxEmail}
                             </td>
 
@@ -851,13 +815,13 @@ export default function SecondWeightCreateEdit({ weight }) {
 
                 <button
                   type="button"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.btnRef}
                   onClick={() => handleSubmit()}
                 ></button>
                 <button
                   type="reset"
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   ref={objProps?.resetBtnRef}
                   onSubmit={() => resetForm(initData)}
                 ></button>
@@ -887,7 +851,7 @@ export default function SecondWeightCreateEdit({ weight }) {
                   >
                     <QRCodeScanner
                       QrCodeScannerCB={(result) => {
-                        setFieldValue("strCardNumber", result);
+                        setFieldValue('strCardNumber', result);
                         setQRCodeScannerModal(false);
                         qurScanHandler({
                           setFieldValue,
@@ -914,7 +878,6 @@ export default function SecondWeightCreateEdit({ weight }) {
           >
             <Report weightmentId={weightmentId} />
           </IViewModal>
-
         </div>
       </>
     </IForm>

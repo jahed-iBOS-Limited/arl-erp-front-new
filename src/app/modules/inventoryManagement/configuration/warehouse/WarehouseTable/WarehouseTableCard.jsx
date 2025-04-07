@@ -1,4 +1,3 @@
-
 import React, { useEffect, useMemo, useState } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import Axios from 'axios';
@@ -26,7 +25,7 @@ export function WarehouseTable() {
     setLoading(true);
     try {
       const res = await Axios.get(
-        `/wms/Warehouse/GetWarehouseInfoPagination?accountId=${accId}&status=true&pageNo=${pageNo}&pageSize=${pageSize}&viewOrder=desc`,
+        `/wms/Warehouse/GetWarehouseInfoPagination?accountId=${accId}&status=true&pageNo=${pageNo}&pageSize=${pageSize}&viewOrder=desc`
       );
       if (res.status === 200) {
         setLoading(false);

@@ -1,6 +1,5 @@
-import CommonLoadAndDischargePortCreate from "../commonComponents/create";
+import CommonLoadAndDischargePortCreate from '../commonComponents/create';
 
 export default function EDPADischargePortCreate() {
-
-  return <CommonLoadAndDischargePortCreate featureName={"Discharge Port"} />;
+  return <CommonLoadAndDischargePortCreate featureName={'Discharge Port'} />;
 }

@@ -1,23 +1,23 @@
-import React from "react";
-import ICustomTable from "../../../../_helper/_customTable";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import { _dateFormatter } from "./../../../../_helper/_dateFormate";
-import { _fixedPoint } from "./../../../../_helper/_fixedPoint";
+import React from 'react';
+import ICustomTable from '../../../../_helper/_customTable';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import { _dateFormatter } from './../../../../_helper/_dateFormate';
+import { _fixedPoint } from './../../../../_helper/_fixedPoint';
 
 const ths = [
-  "Sl",
-  "Ship To Party",
-  "Ship To Party Id",
-  "Sold To Party",
-  "Region",
-  "Area",
-  "Territory",
-  "Ship Point",
-  "UoM",
-  "Quantity",
-  "Rate",
-  "Amount"
+  'Sl',
+  'Ship To Party',
+  'Ship To Party Id',
+  'Sold To Party',
+  'Region',
+  'Area',
+  'Territory',
+  'Ship Point',
+  'UoM',
+  'Quantity',
+  'Rate',
+  'Amount',
 ];
 
 function TableGird({ rowDto, values }) {
@@ -26,7 +26,11 @@ function TableGird({ rowDto, values }) {
 
   return (
     <ICustomTable
-      ths={values?.reportType?.value === 1 ? ths : [...ths, "Delivery Date", "Product Name"]}
+      ths={
+        values?.reportType?.value === 1
+          ? ths
+          : [...ths, 'Delivery Date', 'Product Name']
+      }
     >
       <>
         {rowDto.map((itmOne) => {
@@ -55,22 +59,17 @@ function TableGird({ rowDto, values }) {
                     <td> {itm.deliveryQty}</td>
                     <td> {itm.itemRate}</td>
                     <td> {itm.deliveryValue}</td>
-                    {
-                      values?.reportType?.value === 2 &&
+                    {values?.reportType?.value === 2 && (
                       <>
                         <td>{_dateFormatter(itm?.deliveryDate)}</td>
                         <td>{itm?.itemName}</td>
                       </>
-
-                    }
+                    )}
                   </tr>
                 );
               })}
               <tr>
-                <td
-                  colSpan="9"
-                  className="text-right"
-                >
+                <td colSpan="9" className="text-right">
                   <b> Total </b>
                 </td>
                 <td className="text-center">
@@ -84,21 +83,21 @@ function TableGird({ rowDto, values }) {
                       )
                     )
                       ? numberWithCommas(
-                        _fixedPoint(
-                          itmOne?.objList?.reduce(
-                            (acc, cur) => (acc += cur?.deliveryQty),
-                            0
+                          _fixedPoint(
+                            itmOne?.objList?.reduce(
+                              (acc, cur) => (acc += cur?.deliveryQty),
+                              0
+                            )
                           )
                         )
-                      )
                       : _formatMoney(
-                        _fixedPoint(
-                          itmOne?.objList?.reduce(
-                            (acc, cur) => (acc += cur?.deliveryQty),
-                            0
+                          _fixedPoint(
+                            itmOne?.objList?.reduce(
+                              (acc, cur) => (acc += cur?.deliveryQty),
+                              0
+                            )
                           )
-                        )
-                      )}
+                        )}
                   </b>
                 </td>
                 <td></td>
@@ -119,10 +118,7 @@ function TableGird({ rowDto, values }) {
           );
         })}
         <tr>
-          <td
-            colSpan="9"
-            className="text-right"
-          >
+          <td colSpan="9" className="text-right">
             <b>Grand Total </b>
           </td>
           <td className="text-center">

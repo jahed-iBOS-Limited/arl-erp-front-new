@@ -1,9 +1,8 @@
-
-import React, { useEffect, useState } from "react";
-import { Row, Col, Form } from "react-bootstrap";
-import { getViewModalData } from "../_redux/Actions";
-import { useSelector, shallowEqual, useDispatch } from "react-redux";
-import IViewModal from "../../../../_helper/_viewModal";
+import React, { useEffect, useState } from 'react';
+import { Row, Col, Form } from 'react-bootstrap';
+import { getViewModalData } from '../_redux/Actions';
+import { useSelector, shallowEqual, useDispatch } from 'react-redux';
+import IViewModal from '../../../../_helper/_viewModal';
 export function ViewModal({ id, show, onHide }) {
   const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(true);
@@ -18,7 +17,6 @@ export function ViewModal({ id, show, onHide }) {
     if (id) {
       dispatch(getViewModalData(id));
     }
-
   }, [id]);
 
   // get view modal data from store
@@ -32,7 +30,7 @@ export function ViewModal({ id, show, onHide }) {
         show={show}
         onHide={onHide}
         isShow={modalData && false}
-        title={modalData?.bankACName || ""}
+        title={modalData?.bankACName || ''}
       >
         {modalData ? (
           <Row>

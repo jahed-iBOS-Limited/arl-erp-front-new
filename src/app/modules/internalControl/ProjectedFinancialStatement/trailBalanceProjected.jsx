@@ -1,9 +1,9 @@
-import React, { useRef } from "react";
-import numberWithCommas from "../../_helper/_numberWithCommas";
-import moment from "moment";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import ReactToPrint from "react-to-print";
-import { dateFormatWithMonthName } from "../../_helper/_dateFormate";
+import React, { useRef } from 'react';
+import numberWithCommas from '../../_helper/_numberWithCommas';
+import moment from 'moment';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import ReactToPrint from 'react-to-print';
+import { dateFormatWithMonthName } from '../../_helper/_dateFormate';
 
 export default function TrailBalanceProjected({
   rowData,
@@ -26,7 +26,7 @@ export default function TrailBalanceProjected({
             <div>
               <div
                 className="d-flex justify-content-end"
-                style={{ marginTop: "25px" }}
+                style={{ marginTop: '25px' }}
               >
                 <ReactHTMLTableToExcel
                   id="test-table-xls-button"
@@ -38,7 +38,7 @@ export default function TrailBalanceProjected({
                 />
                 <ReactToPrint
                   pageStyle={
-                    "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                    '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
                   }
                   trigger={() => (
                     <button
@@ -59,8 +59,8 @@ export default function TrailBalanceProjected({
                   <h4 className="text-primary">Projected Trail Balance</h4>
                   <p>
                     <strong>
-                      For the period from :{" "}
-                      <span>{dateFormatWithMonthName(values?.fromDate)}</span>{" "}
+                      For the period from :{' '}
+                      <span>{dateFormatWithMonthName(values?.fromDate)}</span>{' '}
                       To <span>{dateFormatWithMonthName(values?.toDate)}</span>
                     </strong>
                   </p>
@@ -70,7 +70,7 @@ export default function TrailBalanceProjected({
                 <table
                   id="table-to-xlsx"
                   className="table table-striped table-bordered global-table table-font-size-sm"
-                  style={{ width: "100%" }}
+                  style={{ width: '100%' }}
                 >
                   <thead>
                     <tr>
@@ -95,14 +95,14 @@ export default function TrailBalanceProjected({
                           <div className="text-right pr-2">
                             {data?.debit !== 0
                               ? numberWithCommas(Math.round(data?.debit) || 0)
-                              : " "}
+                              : ' '}
                           </div>
                         </td>
                         <td>
                           <div className="text-right pr-2">
                             {data?.credit !== 0
                               ? numberWithCommas(Math.round(data?.credit) || 0)
-                              : " "}
+                              : ' '}
                           </div>
                         </td>
                       </tr>
@@ -111,7 +111,7 @@ export default function TrailBalanceProjected({
                       <>
                         <tr>
                           <td></td>
-                          <td style={{ textAlign: "right" }}>Total</td>
+                          <td style={{ textAlign: 'right' }}>Total</td>
                           <td>
                             <div className="text-right pr-2">
                               {numberWithCommas(Math.round(debitTotal) || 0)}
@@ -128,7 +128,7 @@ export default function TrailBalanceProjected({
                             className="text-center d-none"
                             colSpan={4}
                           >{`System Generated Report - ${moment().format(
-                            "LLLL"
+                            'LLLL'
                           )}`}</td>
                         </tr>
                       </>

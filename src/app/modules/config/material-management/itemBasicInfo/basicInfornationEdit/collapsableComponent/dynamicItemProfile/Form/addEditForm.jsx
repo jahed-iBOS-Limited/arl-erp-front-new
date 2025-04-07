@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import IForm from "./../../../../../../../_helper/_form";
-import { _todayDate } from "./../../../../../../../_helper/_todayDate";
-import Loading from "./../../../../../../../_helper/_loading";
-import { CreateItemProfile_api } from "./../../../../helper";
-import { useParams } from "react-router-dom";
-import { _dateFormatter } from "./../../../../../../../_helper/_dateFormate";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import IForm from './../../../../../../../_helper/_form';
+import { _todayDate } from './../../../../../../../_helper/_todayDate';
+import Loading from './../../../../../../../_helper/_loading';
+import { CreateItemProfile_api } from './../../../../helper';
+import { useParams } from 'react-router-dom';
+import { _dateFormatter } from './../../../../../../../_helper/_dateFormate';
 
 export default function DynamicItemProfileForm({
   profileConfigList,
@@ -19,7 +19,7 @@ export default function DynamicItemProfileForm({
   const [objProps, setObjprops] = useState({});
   const [isDisabled, setDisabled] = useState(false);
   const [initData, setInitData] = useState({});
-  const [singleData, setSingleData] = useState("");
+  const [singleData, setSingleData] = useState('');
   const { id } = useParams();
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -37,13 +37,13 @@ export default function DynamicItemProfileForm({
       const objProfileDetailList = singleProfileList?.objAttrbt?.map(
         (itm, inx) => {
           const ddlId =
-            itm?.controlerTypeName === "DDL" ? values[`${inx}`]?.value : "";
+            itm?.controlerTypeName === 'DDL' ? values[`${inx}`]?.value : '';
           const Text =
-            itm?.controlerTypeName === "TextBox" ? values[`${inx}`] : "";
+            itm?.controlerTypeName === 'TextBox' ? values[`${inx}`] : '';
           const Date =
-            itm?.controlerTypeName === "Date" ? values[`${inx}`] : "";
+            itm?.controlerTypeName === 'Date' ? values[`${inx}`] : '';
           const Number =
-            itm?.controlerTypeName === "Number" ? values[`${inx}`] : 0;
+            itm?.controlerTypeName === 'Number' ? values[`${inx}`] : 0;
           const rowId = itemProfileInfoByItemID?.objRowList
             ? itemProfileInfoByItemID?.objRowList[inx]?.rowId
             : 0;
@@ -92,7 +92,7 @@ export default function DynamicItemProfileForm({
       singleProfileList.objAttrbt.forEach((itm, idx) => {
         obj = {
           ...obj,
-          [idx]: itm?.controlerTypeName === "Date" ? _todayDate() : "",
+          [idx]: itm?.controlerTypeName === 'Date' ? _todayDate() : '',
         };
       });
       setInitData(obj);
@@ -105,13 +105,16 @@ export default function DynamicItemProfileForm({
 
       itemProfileInfoByItemID.objRowList.forEach((itm, idx) => {
         const data =
-          itm?.controlerTypeName === "Number"
+          itm?.controlerTypeName === 'Number'
             ? itm?.valueNumber
-            : itm?.controlerTypeName === "Date"
-            ? _dateFormatter(itm?.valueDate)
-            : itm?.controlerTypeName === "TextBox"
-            ? itm?.valueText
-            : { value: itm?.attributeValueId, label: itm?.attributeValueName };
+            : itm?.controlerTypeName === 'Date'
+              ? _dateFormatter(itm?.valueDate)
+              : itm?.controlerTypeName === 'TextBox'
+                ? itm?.valueText
+                : {
+                    value: itm?.attributeValueId,
+                    label: itm?.attributeValueName,
+                  };
         obj = {
           ...obj,
           [idx]: data,
@@ -119,7 +122,7 @@ export default function DynamicItemProfileForm({
       });
       setSingleData(obj);
     } else {
-      setSingleData("");
+      setSingleData('');
     }
   }, [itemProfileInfoByItemID, id]);
 

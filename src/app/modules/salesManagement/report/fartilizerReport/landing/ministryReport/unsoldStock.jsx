@@ -1,5 +1,5 @@
-import React from "react";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
+import React from 'react';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
 
 export default function UnsoldInfoTable({ rowData }) {
   let totalSoldQty = 0;
@@ -11,7 +11,7 @@ export default function UnsoldInfoTable({ rowData }) {
         <table className="table table-striped table-bordered global-table table-font-size-sm">
           <thead>
             <tr>
-              <th style={{ width: "30px" }}>SL</th>
+              <th style={{ width: '30px' }}>SL</th>
               <th>Fertilizer Name</th>
               <th>LC No</th>
               <th>Date</th>

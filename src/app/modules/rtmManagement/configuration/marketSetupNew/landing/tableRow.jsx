@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from 'react'
-import { useSelector, shallowEqual } from "react-redux";
-import FolderTree from "../react-folder-tree/FolderTree/FolderTree";
+import React, { useState, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import FolderTree from '../react-folder-tree/FolderTree/FolderTree';
 import {
   Card,
   CardHeader,
-  CardBody
-} from "../../../../../../_metronic/_partials/controls/Card";
-import { ModalProgressBar } from "../../../../../../_metronic/_partials/controls/ModalProgressBar";
-import { getSalesTerritoryGridData } from '../helper'
-
+  CardBody,
+} from '../../../../../../_metronic/_partials/controls/Card';
+import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls/ModalProgressBar';
+import { getSalesTerritoryGridData } from '../helper';
 
 const TableRow = () => {
-  const [teritoryGridData, setTeritoryGridData] = useState([])
-  const [gridData, setGridData] = useState({})
+  const [teritoryGridData, setTeritoryGridData] = useState([]);
+  const [gridData, setGridData] = useState({});
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -25,34 +24,31 @@ const TableRow = () => {
   }, shallowEqual);
 
   useEffect(() => {
-    if(profileData?.accountId && selectedBusinessUnit?.value){
+    if (profileData?.accountId && selectedBusinessUnit?.value) {
       getSalesTerritoryGridData(
-        profileData?.accountId, 
+        profileData?.accountId,
         selectedBusinessUnit?.value,
         setTeritoryGridData
-      )
+      );
     }
-  }, [profileData, selectedBusinessUnit])
-  
+  }, [profileData, selectedBusinessUnit]);
+
   useEffect(() => {
-    var treeView={
-      name:'Sales Territory', 
-    }
-    treeView.children=teritoryGridData
-    setGridData(treeView)
-  }, [teritoryGridData])
+    var treeView = {
+      name: 'Sales Territory',
+    };
+    treeView.children = teritoryGridData;
+    setGridData(treeView);
+  }, [teritoryGridData]);
 
   return (
     <Card>
       {true && <ModalProgressBar />}
-      <CardHeader title="Market Setup">
-      </CardHeader>
+      <CardHeader title="Market Setup"></CardHeader>
       <CardBody>
-        <FolderTree
-          data={ gridData }
-        />
+        <FolderTree data={gridData} />
       </CardBody>
-    </Card>  
+    </Card>
   );
 };
 

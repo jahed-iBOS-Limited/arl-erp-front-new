@@ -1,22 +1,22 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import PaginationTable from "../../../_helper/_tablePagination";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
+import PaginationTable from '../../../_helper/_tablePagination';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
 // import IView from "../../../_helper/_helperIcons/_view";
-import IViewModal from "../../../_helper/_viewModal";
-import LoanViewModal from "./modal/loanViewModal";
+import IViewModal from '../../../_helper/_viewModal';
+import LoanViewModal from './modal/loanViewModal';
 const initData = {
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  businessPartner: "",
+  businessPartner: '',
 };
 export default function InventoryLoanLandingNew() {
   const history = useHistory();
@@ -34,7 +34,6 @@ export default function InventoryLoanLandingNew() {
     getPartnerDDl(
       `/partner/PManagementCommonDDL/GetBusinessPartnerbyIdDDL?AccountId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&PartnerTypeId=4`
     );
-
   }, []);
 
   const getLandingData = (values, pageNo, pageSize) => {
@@ -104,7 +103,7 @@ export default function InventoryLoanLandingNew() {
                       placeholder="Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("fromDate", e.target.value);
+                        setFieldValue('fromDate', e.target.value);
                         setRowData([]);
                       }}
                     />
@@ -117,7 +116,7 @@ export default function InventoryLoanLandingNew() {
                       placeholder="To Date"
                       type="date"
                       onChange={(e) => {
-                        setFieldValue("toDate", e.target.value);
+                        setFieldValue('toDate', e.target.value);
                         setRowData([]);
                       }}
                     />
@@ -126,12 +125,12 @@ export default function InventoryLoanLandingNew() {
                     <NewSelect
                       name="partner"
                       options={
-                        [{ value: 0, label: "All" }, ...partnerDDl] || []
+                        [{ value: 0, label: 'All' }, ...partnerDDl] || []
                       }
                       value={values?.partner}
                       label="Business Partner"
                       onChange={(valueOption) => {
-                        setFieldValue("partner", valueOption);
+                        setFieldValue('partner', valueOption);
                         setRowData([]);
                       }}
                       placeholder="Business Partner"
@@ -139,7 +138,7 @@ export default function InventoryLoanLandingNew() {
                       touched={touched}
                     />
                   </div>
-                  <div style={{ marginTop: "17px" }} className="col-lg">
+                  <div style={{ marginTop: '17px' }} className="col-lg">
                     <button
                       type="button"
                       className="btn btn-primary"

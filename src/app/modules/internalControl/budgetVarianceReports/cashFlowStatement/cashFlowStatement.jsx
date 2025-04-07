@@ -1,38 +1,36 @@
-
-
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { fromDateFromApiNew } from "../../../_helper/_formDateFromApi";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import ButtonStyleOne from "../../../_helper/button/ButtonStyleOne";
-import PowerBIReport from "../../../_helper/commonInputFieldsGroups/PowerBIReport";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import { SetFinancialManagementReportCashFlowStatementAction } from "../../../_helper/reduxForLocalStorage/Actions";
-import { getBusinessDDLByED, getEnterpriseDivisionDDL } from "./helper";
+} from '../../../../../_metronic/_partials/controls';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { fromDateFromApiNew } from '../../../_helper/_formDateFromApi';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import ButtonStyleOne from '../../../_helper/button/ButtonStyleOne';
+import PowerBIReport from '../../../_helper/commonInputFieldsGroups/PowerBIReport';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import { SetFinancialManagementReportCashFlowStatementAction } from '../../../_helper/reduxForLocalStorage/Actions';
+import { getBusinessDDLByED, getEnterpriseDivisionDDL } from './helper';
 
 const initDataFuction = (financialManagementReportCashFlowStatement) => {
   const initData = {
     enterpriseDivision:
-      financialManagementReportCashFlowStatement?.enterpriseDivision || "",
-    viewType: financialManagementReportCashFlowStatement?.viewType || "",
-    subDivision: financialManagementReportCashFlowStatement?.subDivision || "",
+      financialManagementReportCashFlowStatement?.enterpriseDivision || '',
+    viewType: financialManagementReportCashFlowStatement?.viewType || '',
+    subDivision: financialManagementReportCashFlowStatement?.subDivision || '',
     businessUnit:
-      financialManagementReportCashFlowStatement?.businessUnit || "",
+      financialManagementReportCashFlowStatement?.businessUnit || '',
     convertionRate:
       financialManagementReportCashFlowStatement?.convertionRate || 1,
-    fromDate: "",
+    fromDate: '',
     toDate: _todayDate(),
   };
 
@@ -64,7 +62,7 @@ export function CashFlowStatement() {
   useEffect(() => {
     fromDateFromApiNew(selectedBusinessUnit?.value, (date) => {
       if (formikRef.current) {
-        const apiFormDate = date ? _dateFormatter(date) : "";
+        const apiFormDate = date ? _dateFormatter(date) : '';
         const modifyInitData = initDataFuction(
           financialManagementReportCashFlowStatement
         );
@@ -87,8 +85,8 @@ export function CashFlowStatement() {
         dispatch(
           SetFinancialManagementReportCashFlowStatementAction({
             ...initData,
-            enterpriseDivision: enterpriseDivisionData?.[0] || "",
-            businessUnit: "",
+            enterpriseDivision: enterpriseDivisionData?.[0] || '',
+            businessUnit: '',
           })
         );
       }
@@ -100,7 +98,7 @@ export function CashFlowStatement() {
           dispatch(
             SetFinancialManagementReportCashFlowStatementAction({
               ...initData,
-              subDivision: subDivisionDDL?.[0] || "",
+              subDivision: subDivisionDDL?.[0] || '',
             })
           );
         }
@@ -115,7 +113,7 @@ export function CashFlowStatement() {
               dispatch(
                 SetFinancialManagementReportCashFlowStatementAction({
                   ...initData,
-                  businessUnit: businessUnitDDLData?.[0] || "",
+                  businessUnit: businessUnitDDLData?.[0] || '',
                 })
               );
             }
@@ -127,20 +125,20 @@ export function CashFlowStatement() {
   }, [accountId]);
 
   const [showRDLC, setShowRDLC] = useState(false);
-  const groupId = "218e3d7e-f3ea-4f66-8150-bb16eb6fc606";
-  const reportId = "ed848d77-22ce-4690-be11-cb39ce5f332f";
+  const groupId = '218e3d7e-f3ea-4f66-8150-bb16eb6fc606';
+  const reportId = 'ed848d77-22ce-4690-be11-cb39ce5f332f';
   const parameterValues = (values) => {
     console.log({ values });
     const agingParameters = [
-      { name: "strUnitGroup", value: `${values?.enterpriseDivision?.value}` },
-      { name: "strSubGroup", value: `${values?.subDivision?.label}` },
-      { name: "isForecast", value: `${values?.isForecast?.value}` },
-      { name: "intUnit", value: `${values?.businessUnit?.value}` },
-      { name: "dteFromDate", value: `${values?.fromDate}` },
-      { name: "dteToDate", value: `${values?.toDate}` },
-      { name: "ConvertionRate", value: `${values?.convertionRate}` },
+      { name: 'strUnitGroup', value: `${values?.enterpriseDivision?.value}` },
+      { name: 'strSubGroup', value: `${values?.subDivision?.label}` },
+      { name: 'isForecast', value: `${values?.isForecast?.value}` },
+      { name: 'intUnit', value: `${values?.businessUnit?.value}` },
+      { name: 'dteFromDate', value: `${values?.fromDate}` },
+      { name: 'dteToDate', value: `${values?.toDate}` },
+      { name: 'ConvertionRate', value: `${values?.convertionRate}` },
       {
-        name: "intType",
+        name: 'intType',
         value: `${values?.viewType?.value}`,
       },
     ];
@@ -166,21 +164,21 @@ export function CashFlowStatement() {
                         options={[
                           {
                             value: 0,
-                            label: "All",
+                            label: 'All',
                           },
                           {
                             value: 1,
-                            label: "Group by Unit",
+                            label: 'Group by Unit',
                           },
                           {
                             value: 2,
-                            label: "Group by Month",
+                            label: 'Group by Month',
                           },
                         ]}
                         value={values?.viewType}
                         label="View Type"
                         onChange={(valueOption) => {
-                          setFieldValue("viewType", valueOption);
+                          setFieldValue('viewType', valueOption);
                         }}
                         placeholder="View Type"
                       />
@@ -193,9 +191,9 @@ export function CashFlowStatement() {
                         label="Enterprise Division"
                         onChange={(valueOption) => {
                           setShowRDLC(false);
-                          setFieldValue("enterpriseDivision", valueOption);
-                          setFieldValue("businessUnit", "");
-                          setFieldValue("subDivision", "");
+                          setFieldValue('enterpriseDivision', valueOption);
+                          setFieldValue('businessUnit', '');
+                          setFieldValue('subDivision', '');
                           setSubDivisionDDL([]);
                           setBusinessUnitDDL([]);
                           if (valueOption?.value) {
@@ -216,8 +214,8 @@ export function CashFlowStatement() {
                         value={values?.subDivision}
                         label="Sub Division"
                         onChange={(valueOption) => {
-                          setFieldValue("subDivision", valueOption);
-                          setFieldValue("businessUnit", "");
+                          setFieldValue('subDivision', valueOption);
+                          setFieldValue('businessUnit', '');
                           setBusinessUnitDDL([]);
                           if (valueOption) {
                             getBusinessDDLByED(
@@ -240,7 +238,7 @@ export function CashFlowStatement() {
                         label="Business Unit"
                         onChange={(valueOption) => {
                           setShowRDLC(false);
-                          setFieldValue("businessUnit", valueOption);
+                          setFieldValue('businessUnit', valueOption);
                         }}
                         placeholder="Business Unit"
                         isDisabled={!values?.subDivision}
@@ -256,7 +254,7 @@ export function CashFlowStatement() {
                         type="number"
                         onChange={(e) => {
                           setShowRDLC(false);
-                          setFieldValue("convertionRate", e.target.value);
+                          setFieldValue('convertionRate', e.target.value);
                         }}
                       />
                     </div>
@@ -269,7 +267,7 @@ export function CashFlowStatement() {
                         type="date"
                         onChange={(e) => {
                           setShowRDLC(false);
-                          setFieldValue("fromDate", e.target.value);
+                          setFieldValue('fromDate', e.target.value);
                         }}
                       />
                     </div>
@@ -282,7 +280,7 @@ export function CashFlowStatement() {
                         type="date"
                         onChange={(e) => {
                           setShowRDLC(false);
-                          setFieldValue("toDate", e.target.value);
+                          setFieldValue('toDate', e.target.value);
                         }}
                       />
                     </div>
@@ -292,17 +290,17 @@ export function CashFlowStatement() {
                         options={[
                           {
                             value: 0,
-                            label: "Budget",
+                            label: 'Budget',
                           },
                           {
                             value: 1,
-                            label: "Forecast",
+                            label: 'Forecast',
                           },
                         ]}
                         value={values?.isForecast}
                         label="Budget/Forecast"
                         onChange={(valueOption) => {
-                          setFieldValue("isForecast", valueOption);
+                          setFieldValue('isForecast', valueOption);
                         }}
                         placeholder="Budget/Forecast"
                       />
@@ -323,7 +321,7 @@ export function CashFlowStatement() {
                             setShowRDLC(true);
                           }, 1000);
                         }}
-                        style={{ marginTop: "19px" }}
+                        style={{ marginTop: '19px' }}
                       />
                     </div>
                   </div>

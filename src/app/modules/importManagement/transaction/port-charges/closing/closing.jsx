@@ -1,24 +1,23 @@
-
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 // import { useSelector, shallowEqual } from "react-redux";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import Loading from "./../../../../_helper/_loading";
-import { Modal } from "react-bootstrap";
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import Loading from './../../../../_helper/_loading';
+import { Modal } from 'react-bootstrap';
 // import NewSelect from "../../../../_helper/_select";
 // import InputField from "../../../../_helper/_inputField";
 // import { isUniq } from "../../../../_helper/uniqChecker";
-import ClosingLanding from "./landing";
+import ClosingLanding from './landing';
 import {
   // saveServicezbreakdown,
   getClosingInfoForBillAndAdvance,
   createCommercialMultiSupplierBillClose,
-} from "../helper";
-import { toast } from "react-toastify";
-import { shallowEqual, useSelector } from "react-redux";
-import { _todayDate } from "../../../../_helper/_todayDate";
+} from '../helper';
+import { toast } from 'react-toastify';
+import { shallowEqual, useSelector } from 'react-redux';
+import { _todayDate } from '../../../../_helper/_todayDate';
 import IConfirmModal from './../../../../_helper/_confirmModal';
-import { getCommercialCostingServiceBreakdown } from "../../../../_helper/_commonApi";
+import { getCommercialCostingServiceBreakdown } from '../../../../_helper/_commonApi';
 
 const validationSchema = Yup.object().shape({});
 const initData = {};
@@ -69,7 +68,7 @@ const ClosingModal = ({
   };
 
   const saveHandler = () => {
-    if (data?.row?.length > 0 && data?.header?.billStatus === "Pending") {
+    if (data?.row?.length > 0 && data?.header?.billStatus === 'Pending') {
       createCommercialMultiSupplierBillClose(
         profileData?.accountId,
         selectedBusinessUnit?.value,
@@ -87,7 +86,7 @@ const ClosingModal = ({
 
       // ))
     } else {
-      toast.warning("Save only for Pending status");
+      toast.warning('Save only for Pending status');
     }
   };
 
@@ -101,7 +100,6 @@ const ClosingModal = ({
     }
   }, [closingReferenceId]);
 
-
   return (
     <div className="viewModal">
       <Modal
@@ -111,7 +109,7 @@ const ClosingModal = ({
         aria-labelledby="example-modal-sizes-title-xl"
       >
         <>
-          {" "}
+          {' '}
           <Modal.Header className="bg-custom ">
             <Modal.Title className="text-center">Closing</Modal.Title>
           </Modal.Header>
@@ -119,19 +117,19 @@ const ClosingModal = ({
           <Modal.Body id="example-modal-sizes-title-xl">
             <div className="d-flex align-items-center justify-content-center">
               <span className="mx-4">
-                <span style={{ fontWeight: "900" }}>PO No:</span>{" "}
+                <span style={{ fontWeight: '900' }}>PO No:</span>{' '}
                 {data?.header?.poNo}
               </span>
               <span className="mx-4">
-                <span style={{ fontWeight: "900" }}>LC No :</span>{" "}
+                <span style={{ fontWeight: '900' }}>LC No :</span>{' '}
                 {data?.header?.lcNo}
               </span>
               <span className="mx-4">
-                <span style={{ fontWeight: "900" }}>Shipment No : </span>{" "}
+                <span style={{ fontWeight: '900' }}>Shipment No : </span>{' '}
                 {data?.header?.shipmentNo}
               </span>
               <span className="mx-4">
-                <span style={{ fontWeight: "900" }}>Bill Status : </span>{" "}
+                <span style={{ fontWeight: '900' }}>Bill Status : </span>{' '}
                 {data?.header?.billStatus}
               </span>
             </div>
@@ -172,10 +170,10 @@ const ClosingModal = ({
                 type="button"
                 onClick={() => {
                   let confirmObject = {
-                    title: "Are you sure?",
+                    title: 'Are you sure?',
                     message: `Do you want to proceed?`,
                     yesAlertFunc: () => {
-                      saveHandler()
+                      saveHandler();
                     },
                     noAlertFunc: () => {},
                   };

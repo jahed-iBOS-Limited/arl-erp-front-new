@@ -24,13 +24,13 @@ export const getOffHireLandingData = async (
   pageSize,
   searchValue,
   setter,
-  setLoading,
+  setLoading
 ) => {
   setLoading(true);
   const search = searchValue ? `&search=${searchValue}` : '';
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/OffHire/GetOffHireLandingPagination?VoyageNoId=${voyageId}&VesselId=${vesselId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}`,
+      `${imarineBaseUrl}/domain/OffHire/GetOffHireLandingPagination?VoyageNoId=${voyageId}&VesselId=${vesselId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}${search}`
     );
     setter(res?.data);
     setLoading(false);
@@ -45,7 +45,7 @@ export const createOffHire = async (data, setLoading, cb) => {
   try {
     const res = await axios.post(
       `${imarineBaseUrl}/domain/OffHire/CreateOffHire`,
-      data,
+      data
     );
     cb();
     toast.success(res?.data?.message);
@@ -61,7 +61,7 @@ export const editOffHire = async (data, setLoading) => {
   try {
     const res = await axios.put(
       `${imarineBaseUrl}/domain/OffHire/EditOffHire`,
-      data,
+      data
     );
     toast.success(res?.data?.message);
     setLoading(false);
@@ -75,7 +75,7 @@ export const getOffHireById = async (id, setter, setLoading, cb) => {
   setLoading(true);
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/OffHire/GetOffHireViewDetailsById?offHireId=${id}`,
+      `${imarineBaseUrl}/domain/OffHire/GetOffHireViewDetailsById?offHireId=${id}`
     );
     cb(res?.data);
     const {
@@ -106,7 +106,7 @@ export const getOffHireById = async (id, setter, setLoading, cb) => {
 export const getDailyHireByVoyageNo = async (id, setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/HireOwner/GetDailyHireCVE30DaysDDL?voaygeNoId=${id}`,
+      `${imarineBaseUrl}/domain/HireOwner/GetDailyHireCVE30DaysDDL?voaygeNoId=${id}`
     );
     setter(res?.data[0]);
   } catch (err) {

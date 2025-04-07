@@ -104,7 +104,7 @@ export function TableRow() {
 
   const totalAmount = useCallback(
     rowDto.reduce((acc, item) => acc + +item.amount, 0),
-    [rowDto],
+    [rowDto]
   );
 
   console.log('rowdto', totalAmount);
@@ -177,7 +177,7 @@ export function TableRow() {
                             SetBankingChequeRegisterAction({
                               ...values,
                               sbu: valueOption,
-                            }),
+                            })
                           );
                         }}
                         placeholder="Select SBU"
@@ -197,7 +197,7 @@ export function TableRow() {
                             SetBankingChequeRegisterAction({
                               ...values,
                               acc: valueOption,
-                            }),
+                            })
                           );
                           setRowDto([]);
                         }}
@@ -219,7 +219,7 @@ export function TableRow() {
                             SetBankingChequeRegisterAction({
                               ...values,
                               fromDate: e.target.value,
-                            }),
+                            })
                           );
                         }}
                       />
@@ -237,7 +237,7 @@ export function TableRow() {
                             SetBankingChequeRegisterAction({
                               ...values,
                               toDate: e.target.value,
-                            }),
+                            })
                           );
                         }}
                       />
@@ -255,7 +255,7 @@ export function TableRow() {
                             SetBankingChequeRegisterAction({
                               ...values,
                               searchTerm: e.target.value,
-                            }),
+                            })
                           );
                         }}
                       />
@@ -272,7 +272,7 @@ export function TableRow() {
                             SetBankingChequeRegisterAction({
                               ...values,
                               isPrint: e.target.checked,
-                            }),
+                            })
                           );
                         }}
                       />
@@ -343,7 +343,7 @@ export function TableRow() {
                             values.isPrint,
                             values?.searchTerm,
                             setRowDto,
-                            values?.sbu,
+                            values?.sbu
                           );
                         }}
                         disabled={
@@ -659,7 +659,7 @@ export function TableRow() {
                       data: null,
                     });
                     setDisabledModalButton(false);
-                  },
+                  }
                 );
                 // if (changeModalShowState?.isOtpGenerate) {
                 //   checkTwoFactorApproval(

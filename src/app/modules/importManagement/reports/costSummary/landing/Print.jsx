@@ -1,6 +1,6 @@
-import React from "react";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
+import React from 'react';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
 
 const Print = ({
   printRef,
@@ -31,51 +31,51 @@ const Print = ({
             {values?.shipment?.value ? (
               <span
                 className="text-primary font-weight-bold cursor-pointer mr-2"
-                style={{ textDecoration: "underline" }}
+                style={{ textDecoration: 'underline' }}
                 onClick={() => setIsShowShipmentQuantity(true)}
               >
                 {values?.shipment?.label}
               </span>
             ) : (
-              "LC Wise Total "
-            )}{" "}
+              'LC Wise Total '
+            )}{' '}
             Cost Information
           </h6>
           {rowDto?.length > 0 && (
             <>
               {/* <b className="ml-5">PO No : {values?.poLc?.poNumber}</b> */}
               <b className="ml-5">
-                PO No :{" "}
+                PO No :{' '}
                 <span
                   className="text-primary font-weight-bold cursor-pointer mr-2"
-                  style={{ textDecoration: "underline" }}
+                  style={{ textDecoration: 'underline' }}
                   onClick={() => {
                     setIsShowModal(true);
                   }}
                 >
-                  {values?.poLc?.poNumber ? values?.poLc?.poNumber : ""}
+                  {values?.poLc?.poNumber ? values?.poLc?.poNumber : ''}
                 </span>
               </b>
               <b className="ml-5">LC No : {values?.poLc?.lcNumber}</b>
               <b className="ml-5">
                 LC Date : {_dateFormatter(values?.poLc?.lcDate)}
-              </b>{" "}
+              </b>{' '}
               {/* <b className="ml-5"> PO Date : {_dateFormatter(values?.poLc?.poDate)}</b>{" "} */}
               <b className="ml-5">
-                Supplier :{" "}
+                Supplier :{' '}
                 {values?.shipment?.supplier
                   ? values?.shipment?.supplier
                   : values?.poLc?.supplier}
-              </b>{" "}
+              </b>{' '}
               <b className="ml-5">
-                Total Value :{" "}
+                Total Value :{' '}
                 {_formatMoney(
                   values?.shipment?.value
                     ? values?.shipment?.shipmentWiseAmount
                     : values?.poLc?.poAmount
-                )}{" "}
+                )}{' '}
                 USD
-              </b>{" "}
+              </b>{' '}
             </>
           )}
         </div>
@@ -101,12 +101,12 @@ const Print = ({
                         <td className="text-right">
                           {item?.numBookedAmount
                             ? _formatMoney(item?.numBookedAmount, 4)
-                            : ""}
+                            : ''}
                         </td>
                         <td className="text-right">
                           {item?.numActualAmount
                             ? _formatMoney(item?.numActualAmount, 4)
-                            : ""}
+                            : ''}
                         </td>
                         <td className="text-right">
                           {_formatMoney(
@@ -234,8 +234,8 @@ const Print = ({
                     </td>
 
                     <td className="text-right">
-                      {" "}
-                      {_formatMoney(totalCostIncludingVatAndTax(), 4)}{" "}
+                      {' '}
+                      {_formatMoney(totalCostIncludingVatAndTax(), 4)}{' '}
                     </td>
                     <td className="text-right">
                       {_formatMoney(
@@ -284,7 +284,7 @@ const Print = ({
                   })
                 ) : (
                   <>
-                    {" "}
+                    {' '}
                     <tr>
                       <td>14</td>
                       <td>Value Added Tax (VAT)</td>
@@ -305,7 +305,7 @@ const Print = ({
                       <td></td>
                       <td></td>
                       <td></td>
-                    </tr>{" "}
+                    </tr>{' '}
                   </>
                 )}
                 <tr className="font-weight-bold text-right">
@@ -323,7 +323,7 @@ const Print = ({
                   <td></td>
                 </tr>
               </tbody>
-            </table>{" "}
+            </table>{' '}
           </div>
         }
       </div>

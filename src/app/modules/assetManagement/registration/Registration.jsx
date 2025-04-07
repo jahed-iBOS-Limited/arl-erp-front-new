@@ -1,11 +1,11 @@
-import React from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute } from "../../../../_metronic/layout";
-import { AssetListPage } from "./assetList";
-import { AssetParkingPage } from "./assetParking";
-import { CWIPassetParkingPage } from "./CWIPassetParking";
-import LandRegister from "./landRegister";
-import CreateLandRegister from "./landRegister/CreateLandRegister";
+import React from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute } from '../../../../_metronic/layout';
+import { AssetListPage } from './assetList';
+import { AssetParkingPage } from './assetParking';
+import { CWIPassetParkingPage } from './CWIPassetParking';
+import LandRegister from './landRegister';
+import CreateLandRegister from './landRegister/CreateLandRegister';
 
 export function RegistrationPages() {
   return (

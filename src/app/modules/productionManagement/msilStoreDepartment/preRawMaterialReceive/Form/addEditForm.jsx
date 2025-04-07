@@ -1,42 +1,41 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import * as Yup from "yup";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import IForm from "../../../../_helper/_form";
-import Loading from "../../../../_helper/_loading";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import PreRawMaterialReceiveForm from "./form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import IForm from '../../../../_helper/_form';
+import Loading from '../../../../_helper/_loading';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import PreRawMaterialReceiveForm from './form';
 
 const initData = {
-  receiveDate: "",
-  supplierName: "",
-  numberOfTruck: "",
-  itemName: "",
-  receiveQty: "",
-  numLessQty: "",
-  numOverSizeQty: "",
+  receiveDate: '',
+  supplierName: '',
+  numberOfTruck: '',
+  itemName: '',
+  receiveQty: '',
+  numLessQty: '',
+  numOverSizeQty: '',
 };
 
 const validationSchema = Yup.object().shape({
-  receiveDate: Yup.string().required("Date is required"),
-  numberOfTruck: Yup.string().required("Truck number is required"),
+  receiveDate: Yup.string().required('Date is required'),
+  numberOfTruck: Yup.string().required('Truck number is required'),
   supplierName: Yup.object()
     .shape({
-      label: Yup.string().required("Supplier name is required"),
-      value: Yup.string().required("Supplier name is required"),
+      label: Yup.string().required('Supplier name is required'),
+      value: Yup.string().required('Supplier name is required'),
     })
-    .typeError("Supplier name is required"),
+    .typeError('Supplier name is required'),
 });
 
 export default function PreRawMaterialReceiveCreate() {
   const [isDisabled, setDisabled] = useState(false);
   const [objProps, setObjprops] = useState({});
-  const [modifyData, setModifyData] = useState("");
+  const [modifyData, setModifyData] = useState('');
   const [itemDDL, getItemDDL] = useAxiosGet();
   const [itemList, setItemList] = useState([]);
   const [supplierDDL, getSupplierDDLDDL] = useAxiosGet();
@@ -50,11 +49,12 @@ export default function PreRawMaterialReceiveCreate() {
   }, shallowEqual);
 
   useEffect(() => {
-    getItemDDL(`/mes/MSIL/GetAllMSIL?PartName=PreRawMaterialItemDDL&BusinessUnitId=${selectedBusinessUnit.value}`);
+    getItemDDL(
+      `/mes/MSIL/GetAllMSIL?PartName=PreRawMaterialItemDDL&BusinessUnitId=${selectedBusinessUnit.value}`
+    );
     getSupplierDDLDDL(
       `/mes/MSIL/GetAllMSIL?PartName=PreRawMaterialSupplierDDL&BusinessUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, []);
 
   useEffect(() => {
@@ -63,7 +63,6 @@ export default function PreRawMaterialReceiveCreate() {
         `/mes/MSIL/GetPreRawMaterialReceiveById?IntPreRawMaterialReceiveId=${id}`
       );
     }
-
   }, [id]);
 
   const { profileData } = useSelector((state) => {
@@ -98,11 +97,10 @@ export default function PreRawMaterialReceiveCreate() {
 
       setItemList(data || []);
     }
-
   }, [editData]);
 
   const saveHandler = async (values, cb) => {
-    if (!itemList?.length) return toast.warn("Please add at least one item");
+    if (!itemList?.length) return toast.warn('Please add at least one item');
     saveData(
       `/mes/MSIL/CreateEditPreRawMaterialReceive`,
       {
@@ -114,7 +112,7 @@ export default function PreRawMaterialReceiveCreate() {
           intSupplierId: values?.supplierName?.value,
           strSupplierName: values?.supplierName?.label,
           strTruckNumber: values?.numberOfTruck,
-          strRemarks: "",
+          strRemarks: '',
           intActionBy: profileData?.userId,
           dteInsertDate: _todayDate(),
           isActive: true,
@@ -148,7 +146,7 @@ export default function PreRawMaterialReceiveCreate() {
   return (
     <IForm
       title={
-        id ? "Edit Pre Raw Material Receive" : "Create Pre Raw Material Receive"
+        id ? 'Edit Pre Raw Material Receive' : 'Create Pre Raw Material Receive'
       }
       getProps={setObjprops}
       isDisabled={isDisabled}

@@ -1,5 +1,5 @@
-import { confirmAlert } from "react-confirm-alert"; // Import
-import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
 
 const IWarningModal = (props) => {
   const { title, message, okAlertFunc } = props;
@@ -8,7 +8,7 @@ const IWarningModal = (props) => {
     message: message,
     buttons: [
       {
-        label: "OK",
+        label: 'OK',
         onClick: () => okAlertFunc(),
       },
     ],

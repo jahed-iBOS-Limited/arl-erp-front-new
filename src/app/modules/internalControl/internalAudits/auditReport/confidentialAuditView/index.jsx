@@ -1,18 +1,18 @@
-import { Form, Formik } from "formik";
-import React, { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import { getDownlloadFileView_Action } from "../../../../_helper/_redux/Actions";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../../_helper/customHooks/useAxiosPost";
-import ICon from "../../../../chartering/_chartinghelper/icons/_icon";
+import { Form, Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import { getDownlloadFileView_Action } from '../../../../_helper/_redux/Actions';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../../_helper/customHooks/useAxiosPost';
+import ICon from '../../../../chartering/_chartinghelper/icons/_icon';
 import {
   calculateDaysDifference,
   confidentialAuditViewTableHead,
   getSingleScheduleDataHandler,
-} from "../../auditschedules/helper";
-import { handleSubmitConfAuditWithAttachement } from "../helper";
+} from '../../auditschedules/helper';
+import { handleSubmitConfAuditWithAttachement } from '../helper';
 
 const ConfidentialAuditView = ({ objProps }) => {
   // obj props
@@ -47,7 +47,6 @@ const ConfidentialAuditView = ({ objProps }) => {
       singleAuditReport?.intAuditScheduleId || 0,
       getSingleConfidentialData
     );
-
   }, []);
 
   const auditForm = (singleConfidentialAuditData, setFieldValue, values) => {
@@ -87,7 +86,7 @@ const ConfidentialAuditView = ({ objProps }) => {
             name="mgmtFeedback"
             value={strManagementFeedBack}
             onChange={(e) => {
-              setFieldValue("mgmtFeedback", e.target.value);
+              setFieldValue('mgmtFeedback', e.target.value);
               setConfidentialAuditData((prevData) => ({
                 ...prevData,
                 strManagementFeedBack: e?.target?.value,
@@ -129,7 +128,7 @@ const ConfidentialAuditView = ({ objProps }) => {
                 onClick={() =>
                   handleSubmitConfAuditWithAttachement({
                     submitConfAuditWithAttachemnt,
-                    submitURL: "saveURL",
+                    submitURL: 'saveURL',
                     singleConfidentialAuditData,
                     getSingleScheduleDataHandler,
                     getSingleConfidentialData,
@@ -173,7 +172,7 @@ const ConfidentialAuditView = ({ objProps }) => {
                           <td>: {strAuditEngagementName}</td>
                           <td>Period</td>
                           <td>
-                            :{" "}
+                            :{' '}
                             {calculateDaysDifference(dteStartDate, dteEndDate)}
                           </td>
                         </tr>

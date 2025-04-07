@@ -1,16 +1,16 @@
-import React from "react";
-import ICustomTable from "../../../_helper/_customTable";
+import React from 'react';
+import ICustomTable from '../../../_helper/_customTable';
 
 export default function Table({ gridData }) {
   const headers = [
-    "SL",
-    "Employee Name",
-    "Fuel Station",
-    "Fuel Type",
-    "Quantity",
-    "Payment Method",
-    "Cash Amount",
-    "Credit Amount",
+    'SL',
+    'Employee Name',
+    'Fuel Station',
+    'Fuel Type',
+    'Quantity',
+    'Payment Method',
+    'Cash Amount',
+    'Credit Amount',
   ];
   let totalCashAmount = 0,
     totalCreditAmount = 0;

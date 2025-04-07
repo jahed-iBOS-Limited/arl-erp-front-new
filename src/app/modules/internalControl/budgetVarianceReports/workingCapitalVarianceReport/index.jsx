@@ -1,20 +1,20 @@
-import { Formik } from "formik";
-import React, { useEffect } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React, { useEffect } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import Loading from "../../../_helper/_loading";
-import numberWithCommas from "../../../_helper/_numberWithCommas";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+} from '../../../../../_metronic/_partials/controls';
+import Loading from '../../../_helper/_loading';
+import numberWithCommas from '../../../_helper/_numberWithCommas';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 
 const initData = {
-  currentBusinessUnit: "",
-  fiscalYear: "",
+  currentBusinessUnit: '',
+  fiscalYear: '',
 };
 const WorkingCapitalVarianceReport = () => {
   const [rowData, getRowData, lodar, setRowData] = useAxiosGet();
@@ -31,7 +31,6 @@ const WorkingCapitalVarianceReport = () => {
   //   };
   useEffect(() => {
     getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
-
   }, []);
 
   return (
@@ -46,7 +45,7 @@ const WorkingCapitalVarianceReport = () => {
             <Card>
               {true && <ModalProgressBar />}
               <CardHeader
-                title={"Working Capital Variance Report"}
+                title={'Working Capital Variance Report'}
               ></CardHeader>
               <CardBody>
                 {lodar && <Loading />}
@@ -60,10 +59,10 @@ const WorkingCapitalVarianceReport = () => {
                         label="Business Unit"
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("currentBusinessUnit", valueOption);
+                            setFieldValue('currentBusinessUnit', valueOption);
                             setRowData([]);
                           } else {
-                            setFieldValue("currentBusinessUnit", "");
+                            setFieldValue('currentBusinessUnit', '');
                             setRowData([]);
                           }
                         }}
@@ -81,7 +80,7 @@ const WorkingCapitalVarianceReport = () => {
                         label="Year"
                         disabled={!values?.plant}
                         onChange={(valueOption) => {
-                          setFieldValue("fiscalYear", valueOption);
+                          setFieldValue('fiscalYear', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -90,7 +89,7 @@ const WorkingCapitalVarianceReport = () => {
 
                     <div>
                       <button
-                        style={{ marginTop: "20px" }}
+                        style={{ marginTop: '20px' }}
                         className="btn btn-primary ml-2"
                         disabled={
                           !values?.currentBusinessUnit || !values?.fiscalYear
@@ -138,9 +137,9 @@ const WorkingCapitalVarianceReport = () => {
                                     style={
                                       item?.intGlId === 0
                                         ? {
-                                            fontWeight: "bold",
-                                            fontSize: "13px",
-                                            textAlign: "end",
+                                            fontWeight: 'bold',
+                                            fontSize: '13px',
+                                            textAlign: 'end',
                                           }
                                         : {}
                                     }
@@ -154,11 +153,11 @@ const WorkingCapitalVarianceReport = () => {
                                     style={
                                       item?.intGlId === 0
                                         ? {
-                                            fontWeight: "bold",
-                                            fontSize: "13px",
-                                            textAlign: "end",
+                                            fontWeight: 'bold',
+                                            fontSize: '13px',
+                                            textAlign: 'end',
                                           }
-                                        : { textAlign: "end" }
+                                        : { textAlign: 'end' }
                                     }
                                   >
                                     {numberWithCommas(
@@ -170,11 +169,11 @@ const WorkingCapitalVarianceReport = () => {
                                     style={
                                       item?.intGlId === 0
                                         ? {
-                                            fontWeight: "bold",
-                                            fontSize: "13px",
-                                            textAlign: "end",
+                                            fontWeight: 'bold',
+                                            fontSize: '13px',
+                                            textAlign: 'end',
                                           }
-                                        : { textAlign: "end" }
+                                        : { textAlign: 'end' }
                                     }
                                     // rowSpan={item?.intSectionCount}
                                   >
@@ -187,11 +186,11 @@ const WorkingCapitalVarianceReport = () => {
                                     style={
                                       item?.intGlId === 0
                                         ? {
-                                            fontWeight: "bold",
-                                            fontSize: "13px",
-                                            textAlign: "end",
+                                            fontWeight: 'bold',
+                                            fontSize: '13px',
+                                            textAlign: 'end',
                                           }
-                                        : { textAlign: "end" }
+                                        : { textAlign: 'end' }
                                     }
                                     // rowSpan={item?.intSectionCount}
                                   >

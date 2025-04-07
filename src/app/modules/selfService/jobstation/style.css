@@ -17,10 +17,9 @@
   height: 50px !important;
   cursor: pointer;
 }
-.jobstationMap .leaflet-popup-content-wrapper .photoLinkList{
+.jobstationMap .leaflet-popup-content-wrapper .photoLinkList {
   display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
 }

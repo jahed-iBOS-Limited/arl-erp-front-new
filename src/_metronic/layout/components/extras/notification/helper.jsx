@@ -9,13 +9,13 @@ export const getAllNotificationsActions = async (
   pageSize,
   employeeId,
   accId,
-  setNotificationLoading,
+  setNotificationLoading
 ) => {
   const peopledeskApiURL = store.getState()?.authData?.peopledeskApiURL;
   setNotificationLoading && setNotificationLoading(true);
   try {
     const res = await axios.get(
-      `${peopledeskApiURL}/Notification/GetAllNotificationByUserErp?pageNo=${pageNo}&pageSize=${pageSize}&employeeId=${employeeId}&accountId=${accId}`,
+      `${peopledeskApiURL}/Notification/GetAllNotificationByUserErp?pageNo=${pageNo}&pageSize=${pageSize}&employeeId=${employeeId}&accountId=${accId}`
     );
     setTimeout(() => {
       setNotificationLoading && setNotificationLoading(false);

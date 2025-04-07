@@ -1,6 +1,6 @@
-import React from "react";
-import { DistributionChannelTable } from "./Table/tableHeader";
-import { UiProvider } from "../../../_helper/uiContextHelper";
+import React from 'react';
+import { DistributionChannelTable } from './Table/tableHeader';
+import { UiProvider } from '../../../_helper/uiContextHelper';
 
 export function DistributionChannel({ history }) {
   const uIEvents = {

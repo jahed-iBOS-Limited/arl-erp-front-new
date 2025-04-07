@@ -1,23 +1,26 @@
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import useAxiosGet from "../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../_helper/customHooks/useAxiosPost";
-import IForm from "../../_helper/_form";
-import Loading from "../../_helper/_loading";
-import { _todayDate } from "../../_helper/_todayDate";
-import Form from "./form";
-import { getBusinessUnitDDL_api, GetDocNameDataById, GetDocNameFileById } from "./helper";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import useAxiosGet from '../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../_helper/customHooks/useAxiosPost';
+import IForm from '../../_helper/_form';
+import Loading from '../../_helper/_loading';
+import { _todayDate } from '../../_helper/_todayDate';
+import Form from './form';
+import {
+  getBusinessUnitDDL_api,
+  GetDocNameDataById,
+  GetDocNameFileById,
+} from './helper';
 
 const initData = {
-  documentName: "",
-  unit: "",
-  workplaceGroup: "",
-  workplace: "",
-  reminderDate: "",
-  frequency: "",
-  textEditorData: "",
+  documentName: '',
+  unit: '',
+  workplaceGroup: '',
+  workplace: '',
+  reminderDate: '',
+  frequency: '',
+  textEditorData: '',
 };
 
 const CreateDocument = () => {
@@ -41,7 +44,7 @@ const CreateDocument = () => {
   // const [textEditorData, setTextEditorData] = useState({});
 
   //  attachment file
-  const [attachmentFile, setAttachmentFile] = useState("");
+  const [attachmentFile, setAttachmentFile] = useState('');
   const [attachmentFileName, setAttachmentFileName] = useState(null);
   const [attachmentFileArray, setAttachmentFileArray] = useState([]);
   const [deletedRow, setDeletedRow] = useState([]);
@@ -59,12 +62,15 @@ const CreateDocument = () => {
   };
 
   useEffect(() => {
-    getBusinessUnitDDL_api(profileData?.userId, profileData?.accountId, setUnitDDL )
+    getBusinessUnitDDL_api(
+      profileData?.userId,
+      profileData?.accountId,
+      setUnitDDL
+    );
     // Get document name by id & File List By Registration id
     if (location?.state) {
       getDataById();
     }
-
   }, [profileData]);
 
   const remover = (idx) => {
@@ -74,11 +80,11 @@ const CreateDocument = () => {
 
   function stripHtml(html) {
     // Create a new div element
-    var temporalDivElement = document.createElement("div");
+    var temporalDivElement = document.createElement('div');
     // Set the HTML content with the providen
     temporalDivElement.innerHTML = html;
     // Retrieve the text property of the element (cross-browser support)
-    return temporalDivElement.textContent || temporalDivElement.innerText || "";
+    return temporalDivElement.textContent || temporalDivElement.innerText || '';
   }
 
   const API = `/hcm/SafetyAndCompliance/LegalDocumentALL`;
@@ -92,7 +98,7 @@ const CreateDocument = () => {
       strFileUrl:
         location?.state?.id && item?.strFileUrl
           ? item?.strFileUrl
-          : item?.id || "",
+          : item?.id || '',
       isActive: true,
       dteCreatedAt: _todayDate(),
       intCreatedBy: profileData?.userId,
@@ -104,8 +110,8 @@ const CreateDocument = () => {
 
     const payload = {
       strPartType: location?.state?.id
-        ? "UpdateLegalDocumentName"
-        : "CreateLegalDocumentName",
+        ? 'UpdateLegalDocumentName'
+        : 'CreateLegalDocumentName',
       intDocumentId: location?.state?.id ? location?.state?.id : 0,
       strDocumentName: values?.documentName,
       intBusinessUnitId: values?.unit?.value,
@@ -128,7 +134,7 @@ const CreateDocument = () => {
 
   return (
     <IForm
-      title={"Create Document Name"}
+      title={'Create Document Name'}
       getProps={setObjprops}
       isDisabled={isLoading}
       isHiddenBack={false}

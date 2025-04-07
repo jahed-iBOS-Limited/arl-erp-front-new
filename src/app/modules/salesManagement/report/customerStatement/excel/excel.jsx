@@ -1,6 +1,6 @@
-import { createFile } from "../../../../_helper/excel/index";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../../_helper/_formatMoney";
+import { createFile } from '../../../../_helper/excel/index';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../../_helper/_formatMoney';
 
 class Cell {
   constructor(label, isMerge, align, format, cellRange, bold) {
@@ -18,16 +18,16 @@ class Cell {
           fontSize: 7,
           cellRange: this.cellRange,
           merge: true,
-          border: "all 000000 thin",
-          alignment: this.alignment || "",
+          border: 'all 000000 thin',
+          alignment: this.alignment || '',
           textFormat: this.format,
           bold: this.bold,
         }
       : {
           text: this.text,
           fontSize: 7,
-          border: "all 000000 thin",
-          alignment: this.alignment || "",
+          border: 'all 000000 thin',
+          alignment: this.alignment || '',
           textFormat: this.format,
           bold: this.bold,
         };
@@ -47,9 +47,9 @@ const getTableData = (row) => {
       new Cell(
         item?.customerName,
         true,
-        "center",
-        "text",
-        "A1:J1",
+        'center',
+        'text',
+        'A1:J1',
         true
       ).getCell(),
     ]);
@@ -58,30 +58,37 @@ const getTableData = (row) => {
       _formatMoney((total.quantityInTon += obj?.quantityInTon));
       _formatMoney((total.amount += obj?.deliveryValue), 2);
       arr.push([
-        new Cell(objIndex + 1, false, "center", "text").getCell(),
+        new Cell(objIndex + 1, false, 'center', 'text').getCell(),
         new Cell(
           _dateFormatter(obj?.deliveryDate),
           false,
-          "left",
-          "text"
+          'left',
+          'text'
         ).getCell(),
-        new Cell(obj?.so, false, "left", "text").getCell(),
-        new Cell(obj?.deliveryCode, false, "left", "text").getCell(),
-        new Cell(obj?.itemName, false, "left", "text").getCell(),
-        new Cell(obj?.shipPointName || "", false, "left", "text").getCell(),
-        new Cell(obj?.uomName, false, "left", "text").getCell(),
-        new Cell(obj?.deliveryQty, false, "right", "money").getCell(),
-        new Cell(obj?.quantityInTon, false, "right", "money").getCell(),
-        new Cell(obj?.itemRate, false, "right", "text").getCell(),
-        new Cell(obj?.deliveryValue, false, "right", "text").getCell(),
+        new Cell(obj?.so, false, 'left', 'text').getCell(),
+        new Cell(obj?.deliveryCode, false, 'left', 'text').getCell(),
+        new Cell(obj?.itemName, false, 'left', 'text').getCell(),
+        new Cell(obj?.shipPointName || '', false, 'left', 'text').getCell(),
+        new Cell(obj?.uomName, false, 'left', 'text').getCell(),
+        new Cell(obj?.deliveryQty, false, 'right', 'money').getCell(),
+        new Cell(obj?.quantityInTon, false, 'right', 'money').getCell(),
+        new Cell(obj?.itemRate, false, 'right', 'text').getCell(),
+        new Cell(obj?.deliveryValue, false, 'right', 'text').getCell(),
       ]);
     });
     arr.push([
-      new Cell("Total", true, "right", "text", "A1:G1", true).getCell(),
-      new Cell(total.quantity, false, "right", "money", "", true).getCell(),
-      new Cell(total.quantityInTon, false, "right", "money", "", true).getCell(),
-      new Cell("", false, "right", "text", "", true).getCell(),
-      new Cell(total.amount, false, "right", "money", "", true).getCell(),
+      new Cell('Total', true, 'right', 'text', 'A1:G1', true).getCell(),
+      new Cell(total.quantity, false, 'right', 'money', '', true).getCell(),
+      new Cell(
+        total.quantityInTon,
+        false,
+        'right',
+        'money',
+        '',
+        true
+      ).getCell(),
+      new Cell('', false, 'right', 'text', '', true).getCell(),
+      new Cell(total.amount, false, 'right', 'money', '', true).getCell(),
     ]);
     total.quantity = 0;
     total.quantityInTon = 0;
@@ -111,9 +118,9 @@ export const CreateCustomerStatementExcel = (
               text: buName,
               fontSize: 16,
               bold: true,
-              cellRange: "A1:J1",
+              cellRange: 'A1:J1',
               merge: true,
-              alignment: "center:middle",
+              alignment: 'center:middle',
             },
           ],
           [
@@ -121,9 +128,9 @@ export const CreateCustomerStatementExcel = (
               text: buAddress,
               fontSize: 12,
               bold: true,
-              cellRange: "A1:J1",
+              cellRange: 'A1:J1',
               merge: true,
-              alignment: "center:middle",
+              alignment: 'center:middle',
             },
           ],
           [
@@ -131,9 +138,9 @@ export const CreateCustomerStatementExcel = (
               text: reportName,
               fontSize: 12,
               bold: true,
-              cellRange: "A1:J1",
+              cellRange: 'A1:J1',
               merge: true,
-              alignment: "center:middle",
+              alignment: 'center:middle',
             },
           ],
           [
@@ -141,78 +148,78 @@ export const CreateCustomerStatementExcel = (
               text: `From Date: ${values?.fromDate}   To Date: ${values?.toDate}`,
               fontSize: 10,
               bold: true,
-              cellRange: "A1:J1",
+              cellRange: 'A1:J1',
               merge: true,
-              alignment: "center:middle",
+              alignment: 'center:middle',
             },
           ],
-          ["_blank*1"],
+          ['_blank*1'],
           [
             {
-              text: "SL",
+              text: 'SL',
               fontSize: 7,
               bold: true,
-              border: "all 000000 thin",
+              border: 'all 000000 thin',
             },
             {
-              text: "Date",
+              text: 'Date',
               fontSize: 7,
               bold: true,
-              border: "all 000000 thin",
+              border: 'all 000000 thin',
             },
             {
-              text: "SO Number",
+              text: 'SO Number',
               fontSize: 7,
               bold: true,
-              border: "all 000000 thin",
+              border: 'all 000000 thin',
             },
             {
-              text: "Challan No",
+              text: 'Challan No',
               fontSize: 7,
               bold: true,
-              border: "all 000000 thin",
+              border: 'all 000000 thin',
             },
             {
-              text: "Product Name",
+              text: 'Product Name',
               fontSize: 7,
               bold: true,
-              border: "all 000000 thin",
+              border: 'all 000000 thin',
             },
             {
-              text: "Shippoint",
+              text: 'Shippoint',
               fontSize: 7,
               bold: true,
-              border: "all 000000 thin",
+              border: 'all 000000 thin',
             },
             {
-              text: "UoM",
+              text: 'UoM',
               fontSize: 7,
               bold: true,
-              border: "all 000000 thin",
+              border: 'all 000000 thin',
             },
             {
-              text: "Quantity",
+              text: 'Quantity',
               fontSize: 7,
               bold: true,
-              border: "all 000000 thin",
+              border: 'all 000000 thin',
             },
             {
-              text: "Qnt (Ton)",
+              text: 'Qnt (Ton)',
               fontSize: 7,
               bold: true,
-              border: "all 000000 thin",
+              border: 'all 000000 thin',
             },
             {
-              text: "Rate",
+              text: 'Rate',
               fontSize: 7,
               bold: true,
-              border: "all 000000 thin",
+              border: 'all 000000 thin',
             },
             {
-              text: "Amount",
+              text: 'Amount',
               fontSize: 7,
               bold: true,
-              border: "all 000000 thin",
+              border: 'all 000000 thin',
             },
           ],
           ...getTableData(row),

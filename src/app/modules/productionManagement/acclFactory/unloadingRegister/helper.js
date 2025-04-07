@@ -1,7 +1,7 @@
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _todayDate } from "../../../_helper/_todayDate";
-import * as Yup from "yup";
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _todayDate } from '../../../_helper/_todayDate';
+import * as Yup from 'yup';
 export const onUnloadingRegister = (
   createHandler,
   values,
@@ -15,16 +15,16 @@ export const onUnloadingRegister = (
   let rowFullFilled = true;
   if (selectedRawMaterial?.length < 1) {
     rowFullFilled = false;
-    toast.warn("Please add some raw metarial");
+    toast.warn('Please add some raw metarial');
   }
   const modifiedSelectedRawMaterial = selectedRawMaterial.map((item) => {
     if (!item?.quantity) {
       rowFullFilled = false;
-      item.quantityError = "Quantity is required";
+      item.quantityError = 'Quantity is required';
     }
     if (item?.quantity && +item?.quantity < 1) {
       rowFullFilled = false;
-      item.quantityError = "Quantity should be greater than zero";
+      item.quantityError = 'Quantity should be greater than zero';
     }
     return item;
   });
@@ -49,21 +49,21 @@ export const onUnloadingRegister = (
       intCargoUnloadingStatementId: id ? +id : 0,
       intAccountId: profileData?.accountId,
       intBusinessUnitId: selectedBusinessUnit?.value,
-      dteStartDate: values?.startDTime?.split("T")[0] || null,
-      tmStartTime: values?.startDTime?.split("T")[1] || null,
-      dteEndDate: values?.endDTime?.split("T")[0] || null,
-      tmEndTime: values?.endDTime?.split("T")[1] || null,
+      dteStartDate: values?.startDTime?.split('T')[0] || null,
+      tmStartTime: values?.startDTime?.split('T')[1] || null,
+      dteEndDate: values?.endDTime?.split('T')[0] || null,
+      tmEndTime: values?.endDTime?.split('T')[1] || null,
       intLighterVesselId: values?.lighterVessel?.value || 0,
       strLighterVesselName:
-        values?.lighterVessel?.label || values?.lighterVessel || "",
-      strUoM: values?.uom || "",
+        values?.lighterVessel?.label || values?.lighterVessel || '',
+      strUoM: values?.uom || '',
       intUnloadingPointId: values?.unloadPoint?.value || 0,
-      strUnloadingPointName: values?.unloadPoint?.label || "",
+      strUnloadingPointName: values?.unloadPoint?.label || '',
       intRawMaterialId: values?.rawMaterialName?.value || 0,
-      strRawMaterialName: values?.rawMaterialName?.label || "",
-      strRemarks: values?.remarks || "",
+      strRawMaterialName: values?.rawMaterialName?.label || '',
+      strRemarks: values?.remarks || '',
       intRegisteredLighterVesselId: values?.lighterVessel?.value || 0,
-      strRegisteredLighterVesselName: values?.lighterVessel?.label || "",
+      strRegisteredLighterVesselName: values?.lighterVessel?.label || '',
       isActive: true,
       intCreatedBy: id ? 0 : profileData?.userId,
       dteCreatedDate: _todayDate(),
@@ -93,34 +93,34 @@ export const onGetUnloadingRegister = (
                 value: objHeader?.intLighterVesselId,
                 label: objHeader?.strLighterVesselName,
               }
-            : objHeader?.strLighterVesselName || "",
-        motherVessel: objHeader?.strVesselName || "",
-        mobileNo: objHeader?.strMobileNumber || "",
-        bnQyt: objHeader?.numBnquantity || "",
-        surveyQty: objHeader?.numSurveyQuantity || "",
-        surveyNo: objHeader?.strSurveyNumber || "",
+            : objHeader?.strLighterVesselName || '',
+        motherVessel: objHeader?.strVesselName || '',
+        mobileNo: objHeader?.strMobileNumber || '',
+        bnQyt: objHeader?.numBnquantity || '',
+        surveyQty: objHeader?.numSurveyQuantity || '',
+        surveyNo: objHeader?.strSurveyNumber || '',
 
         receiveDTime:
           `${_dateFormatter(objHeader?.dteReceiveDate)}T${
             objHeader?.tmReceiveTime
-          }` || "",
+          }` || '',
         startDTime:
           objHeader?.dteStartDate && objHeader?.tmStartTime
             ? `${_dateFormatter(objHeader?.dteStartDate)}T${
                 objHeader?.tmStartTime
               }`
-            : "",
+            : '',
         endDTime:
           objHeader?.dteEndDate && objHeader?.tmEndTime
             ? `${_dateFormatter(objHeader?.dteEndDate)}T${objHeader?.tmEndTime}`
-            : "",
+            : '',
         unloadPoint: {
           value: objHeader?.intUnloadingPointId,
           label: objHeader?.strUnloadingPointName,
         },
-        hatchNo: objHeader?.intNumberOfHatch || "",
-        coo: objHeader?.strCountryOfOrigin || "",
-        remarks: objHeader?.strRemarks || "",
+        hatchNo: objHeader?.intNumberOfHatch || '',
+        coo: objHeader?.strCountryOfOrigin || '',
+        remarks: objHeader?.strRemarks || '',
       });
       let modifiedRow = [];
       objRow.forEach((item) => {
@@ -129,7 +129,7 @@ export const onGetUnloadingRegister = (
           cargoUnloadingStatementId: item?.cargoUnloadingStatementId,
           value: item?.rawMaterialId,
           label: item?.rawMaterialName,
-          quantity: `${item?.quantity || ""}`,
+          quantity: `${item?.quantity || ''}`,
           uoM: item?.uoMName,
           uoMId: item?.uomId,
         };
@@ -146,67 +146,67 @@ export const unloadingRegisterValidationSchema = ({ isOwnLighterVessel }) => {
       ? Yup.object()
           .shape({
             label: Yup.string()
-              .required("Lighter Vessel is required")
-              .typeError("Lighter Vessel is required"),
+              .required('Lighter Vessel is required')
+              .typeError('Lighter Vessel is required'),
             value: Yup.number()
-              .min(1, "Invalid Ligher Vessel")
-              .required("Lighter Vessel is required")
-              .typeError("Lighter Vessel is required"),
+              .min(1, 'Invalid Ligher Vessel')
+              .required('Lighter Vessel is required')
+              .typeError('Lighter Vessel is required'),
           })
-          .required("Lighter Vessel is required")
-          .typeError("Lighter Vessel is required")
+          .required('Lighter Vessel is required')
+          .typeError('Lighter Vessel is required')
       : Yup.string()
-          .required("Lighter Vessel is required")
-          .typeError("Lighter Vessel is required"),
+          .required('Lighter Vessel is required')
+          .typeError('Lighter Vessel is required'),
 
     unloadPoint: Yup.object()
       .shape({
         label: Yup.string()
-          .required("Unloading Point is required")
-          .typeError("Unloading Point is required"),
+          .required('Unloading Point is required')
+          .typeError('Unloading Point is required'),
         value: Yup.number()
-          .required("Unloading Point is required")
-          .typeError("Unloading Point is required"),
+          .required('Unloading Point is required')
+          .typeError('Unloading Point is required'),
       })
-      .required("Unloading Point is required")
-      .typeError("Unloading Point is required"),
+      .required('Unloading Point is required')
+      .typeError('Unloading Point is required'),
   });
   return validationSchema;
 };
 
 export const breakdownTypeDDLForCraneStopageDetails = [
   {
-    label: "Electrical",
+    label: 'Electrical',
     value: 1,
   },
   {
-    label: "Mechanical",
+    label: 'Mechanical',
     value: 2,
   },
   {
-    label: "Electrical & Mechanical,",
+    label: 'Electrical & Mechanical,',
     value: 3,
   },
   {
-    label: "labour Strike",
+    label: 'labour Strike',
     value: 4,
   },
   {
-    label: "Power Problem",
+    label: 'Power Problem',
     value: 5,
   },
   {
-    label: "Others",
+    label: 'Others',
     value: 6,
   },
 ];
 export const craneNameDDLForCraneStopageDetails = [
   {
-    label: "Crane-1 (700 Series)",
+    label: 'Crane-1 (700 Series)',
     value: 1,
   },
   {
-    label: "Crane-2 (1500 Series)",
+    label: 'Crane-2 (1500 Series)',
     value: 2,
   },
 ];
@@ -223,7 +223,7 @@ export const onGetCraneStopageDetailsLanding = ({
 }) => {
   getCranStopageDetailsLanding(
     `/mes/MSIL/CraneStopageDetailsLandingPagination?accountId=${accountId}&businessUnitId=${businessUnitId}${
-      search ? `&search=${search}` : ""
+      search ? `&search=${search}` : ''
     }&fromDate=${fromDate}&toDate=${toDate}&pageNo=${pageNo}&pageSize=${pageSize}`
   );
 };
@@ -253,7 +253,7 @@ export const onCreateOrEditCraneStopageDetails = ({
     isActive: true,
     createdAt: item?.createdAt || _todayDate(),
     createdBy: item?.createdBy || userId,
-    updatedAt: item?.id ? _todayDate() : "",
+    updatedAt: item?.id ? _todayDate() : '',
     updatedBy: item?.id ? userId : 0,
   }));
   createCraneStopesDetails(

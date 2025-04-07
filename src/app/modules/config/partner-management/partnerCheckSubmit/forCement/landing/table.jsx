@@ -1,23 +1,22 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { toast } from "react-toastify";
-import ICon from "../../../../../chartering/_chartinghelper/icons/_icon";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import ICon from '../../../../../chartering/_chartinghelper/icons/_icon';
 // import { getSalesInvoiceLanding } from "../../../../../financialManagement/invoiceManagementSystem/salesInvoice/helper";
-import FromDateToDateForm from "../../../../../_helper/commonInputFieldsGroups/dateForm";
-import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
-import IButton from "../../../../../_helper/iButton";
-import ICard from "../../../../../_helper/_card";
-import { _dateFormatter } from "../../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../../_helper/_fixedPoint";
-import IEdit from "../../../../../_helper/_helperIcons/_edit";
-import Loading from "../../../../../_helper/_loading";
-import PaginationSearch from "../../../../../_helper/_search";
-import NewSelect from "../../../../../_helper/_select";
-import PaginationTable from "../../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../../_helper/_todayDate";
+import FromDateToDateForm from '../../../../../_helper/commonInputFieldsGroups/dateForm';
+import useAxiosGet from '../../../../../_helper/customHooks/useAxiosGet';
+import IButton from '../../../../../_helper/iButton';
+import ICard from '../../../../../_helper/_card';
+import { _dateFormatter } from '../../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../../_helper/_fixedPoint';
+import IEdit from '../../../../../_helper/_helperIcons/_edit';
+import Loading from '../../../../../_helper/_loading';
+import PaginationSearch from '../../../../../_helper/_search';
+import NewSelect from '../../../../../_helper/_select';
+import PaginationTable from '../../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../../_helper/_todayDate';
 // import NewSelect from "../../../../../_helper/_select";
 // import { toast } from "react-toastify";
 // import useAxiosGet from "../../../../../_helper/customHooks/useAxiosGet";
@@ -56,7 +55,7 @@ import { _todayDate } from "../../../../../_helper/_todayDate";
 // const getHeader = (id) => (id === 1 ? dHeader : tsHeader);
 
 const initData = {
-  type: { value: 0, label: "All" },
+  type: { value: 0, label: 'All' },
   fromDate: _todayDate(),
   toDate: _todayDate(),
 };
@@ -89,13 +88,13 @@ const PartnerCheckSubmitTableForCement = () => {
   //   );
   // };
 
-  const getData = (values, pageNo, pageSize, searchValue = "") => {
-    const search = searchValue ? `&Search=${searchValue}` : "";
+  const getData = (values, pageNo, pageSize, searchValue = '') => {
+    const search = searchValue ? `&Search=${searchValue}` : '';
     const url = `/partner/PartnerOverDue/GetBusinessPartnerChequeForACCLanding?TypeId=${values?.type?.value}${search}&BusinessUnitId=${buId}&FromDate=${values?.fromDate}&ToDate=${values?.toDate}&PageNo=${pageNo}&PageSize=${pageSize}`;
 
     getRowData(url, (resData) => {
       if (resData?.totalCount === 0) {
-        toast.warn("Data not found!");
+        toast.warn('Data not found!');
         setRowData([]);
       } else {
         setRowData(resData);
@@ -104,13 +103,13 @@ const PartnerCheckSubmitTableForCement = () => {
   };
 
   useEffect(() => {
-    getData(initData, pageNo, pageSize, "");
+    getData(initData, pageNo, pageSize, '');
   }, []);
 
   // set PositionHandler
 
   const setPositionHandler = (pageNo, pageSize, values) => {
-    getData(values, pageNo, pageSize, "");
+    getData(values, pageNo, pageSize, '');
   };
 
   // const deleteHandler = (id, values) => {
@@ -161,26 +160,26 @@ const PartnerCheckSubmitTableForCement = () => {
                         <NewSelect
                           name="type"
                           options={[
-                            { value: 0, label: "All" },
-                            { value: 1, label: "Pending" },
-                            { value: 2, label: "Complete/Submitted" },
+                            { value: 0, label: 'All' },
+                            { value: 1, label: 'Pending' },
+                            { value: 2, label: 'Complete/Submitted' },
                           ]}
                           value={values?.type}
                           label="Type"
                           onChange={(valueOption) => {
-                            setFieldValue("type", valueOption);
+                            setFieldValue('type', valueOption);
                             setRowData([]);
                           }}
                           placeholder="Type"
                         />
                       </div>
                       <FromDateToDateForm
-                        obj={{ values, setFieldValue, colSize: "col-lg-2" }}
+                        obj={{ values, setFieldValue, colSize: 'col-lg-2' }}
                       />
                       <IButton
-                        colSize={"col-lg-6"}
+                        colSize={'col-lg-6'}
                         onClick={() => {
-                          getData(values, pageNo, pageSize, "");
+                          getData(values, pageNo, pageSize, '');
                         }}
                         // disabled={!values?.type}
                       />
@@ -306,138 +305,138 @@ const PartnerCheckSubmitTableForCement = () => {
                 {[175, 186, 4, 94, 8].includes(buId) ? (
                   <div className="table-responsive">
                     <table className="table table-striped table-bordered global-table table-font-size-sm">
-                    <thead>
-                      <tr>
-                        <th style={{ width: "40px" }}>SL</th>
-                        <th>Invoice No</th>
-                        <th>Invoice Date</th>
-                        <th>Challan Date</th>
-                        <th>Partner Name</th>
-                        <th>Reference No</th>
-                        <th>Cheque No</th>
-                        <th>Project Location</th>
-                        <th>Quantity</th>
-                        <th>Bill Amount</th>
-                        <th>Cheque Amount</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {loading && <Loading />}
-                      {rowData?.data?.map((tableData, index) => {
-                        totalBillAmount += tableData?.totalAmount;
-                        totalChequeAmount += tableData?.mrrAmount;
-                        return (
-                          <tr key={index}>
-                            <td className="text-center"> {index + 1} </td>
-                            <td>{tableData?.strInvoiceNumber}</td>
-                            <td>{_dateFormatter(tableData?.invoiceDate)}</td>
-                            <td>{_dateFormatter(tableData?.challanDate)}</td>
-                            <td>{tableData?.partnerName}</td>
-                            <td>{tableData?.refference}</td>
-                            <td>{tableData?.chequeNumber}</td>
-                            <td>{tableData?.projectLocation}</td>
-                            <td className="text-right">
-                              {tableData?.quantity}
-                            </td>
-                            <td className="text-right">
-                              {_fixedPoint(tableData?.totalAmount, true, 0)}
-                            </td>
-                            <td className="text-right">
-                              {_fixedPoint(tableData?.mrrAmount, true, 0)}
-                            </td>
-                            <td className="text-center">
-                              {!tableData?.chequeNumber ? (
-                                <ICon
-                                  title="Cheque Submit"
-                                  onClick={() => {
-                                    history.push({
-                                      pathname: `/config/partner-management/partnerchecksubmit/create`,
-                                      state: tableData,
-                                    });
-                                  }}
-                                >
-                                  <i class="fas fa-money-bill"></i>
-                                </ICon>
-                              ) : (
-                                <>
-                                  <IEdit
+                      <thead>
+                        <tr>
+                          <th style={{ width: '40px' }}>SL</th>
+                          <th>Invoice No</th>
+                          <th>Invoice Date</th>
+                          <th>Challan Date</th>
+                          <th>Partner Name</th>
+                          <th>Reference No</th>
+                          <th>Cheque No</th>
+                          <th>Project Location</th>
+                          <th>Quantity</th>
+                          <th>Bill Amount</th>
+                          <th>Cheque Amount</th>
+                          <th>Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {loading && <Loading />}
+                        {rowData?.data?.map((tableData, index) => {
+                          totalBillAmount += tableData?.totalAmount;
+                          totalChequeAmount += tableData?.mrrAmount;
+                          return (
+                            <tr key={index}>
+                              <td className="text-center"> {index + 1} </td>
+                              <td>{tableData?.strInvoiceNumber}</td>
+                              <td>{_dateFormatter(tableData?.invoiceDate)}</td>
+                              <td>{_dateFormatter(tableData?.challanDate)}</td>
+                              <td>{tableData?.partnerName}</td>
+                              <td>{tableData?.refference}</td>
+                              <td>{tableData?.chequeNumber}</td>
+                              <td>{tableData?.projectLocation}</td>
+                              <td className="text-right">
+                                {tableData?.quantity}
+                              </td>
+                              <td className="text-right">
+                                {_fixedPoint(tableData?.totalAmount, true, 0)}
+                              </td>
+                              <td className="text-right">
+                                {_fixedPoint(tableData?.mrrAmount, true, 0)}
+                              </td>
+                              <td className="text-center">
+                                {!tableData?.chequeNumber ? (
+                                  <ICon
+                                    title="Cheque Submit"
                                     onClick={() => {
                                       history.push({
-                                        pathname: `/config/partner-management/partnerchecksubmit/edit/${tableData?.configId}`,
+                                        pathname: `/config/partner-management/partnerchecksubmit/create`,
                                         state: tableData,
                                       });
                                     }}
-                                  />
-                                </>
-                              )}
+                                  >
+                                    <i class="fas fa-money-bill"></i>
+                                  </ICon>
+                                ) : (
+                                  <>
+                                    <IEdit
+                                      onClick={() => {
+                                        history.push({
+                                          pathname: `/config/partner-management/partnerchecksubmit/edit/${tableData?.configId}`,
+                                          state: tableData,
+                                        });
+                                      }}
+                                    />
+                                  </>
+                                )}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                        {rowData?.data?.length > 0 && (
+                          <tr>
+                            <td colSpan={9} className="text-right">
+                              <b>Total</b>
                             </td>
+                            <td className="text-right">
+                              {_fixedPoint(totalBillAmount, true, 0)}
+                            </td>
+                            <td className="text-right">
+                              {_fixedPoint(totalChequeAmount, true, 0)}
+                            </td>
+                            <td></td>
                           </tr>
-                        );
-                      })}
-                      {rowData?.data?.length > 0 && (
-                        <tr>
-                          <td colSpan={9} className="text-right">
-                            <b>Total</b>
-                          </td>
-                          <td className="text-right">
-                            {_fixedPoint(totalBillAmount, true, 0)}
-                          </td>
-                          <td className="text-right">
-                            {_fixedPoint(totalChequeAmount, true, 0)}
-                          </td>
-                          <td></td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
+                        )}
+                      </tbody>
+                    </table>
                   </div>
                 ) : (
                   <div className="table-responsive">
                     <table className="table table-striped table-bordered global-table table-font-size-sm">
-                    <thead>
-                      <tr>
-                        <th style={{ width: "20px" }}>SL</th>
-                        <th style={{ width: "80px" }}>Inv No</th>
-                        <th style={{ width: "80px" }}>Inv Date</th>
-                        <th style={{ width: "100px" }}>DO No</th>
-                        <th style={{ width: "100px" }}>Purchase Order No</th>
-                        <th style={{ width: "80px" }}>Total Amount</th>
-                        <th style={{ width: "80px" }}>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {loading && <Loading />}
-                      {rowData?.data?.map((tableData, index) => (
-                        <tr key={index}>
-                          <td className="text-center"> {tableData?.sl} </td>
-                          <td> {tableData?.invoiceCode} </td>
-                          <td>{_dateFormatter(tableData?.invoiceDate)}</td>
-                          <td> {tableData?.doNo} </td>
-                          <td>{tableData?.purchaseOrderNo}</td>
-                          <td className="text-right">
-                            {" "}
-                            {tableData?.totalAmount}{" "}
-                          </td>
-                          <td className="text-center">
-                            {/* <span > */}
-                            <div className="d-flex justify-content-around align-items-center">
-                              <ICon
-                                title="Cheque Submit"
-                                onClick={() => {
-                                  history.push(
-                                    "/config/partner-management/partnerchecksubmit/create"
-                                  );
-                                }}
-                              >
-                                <i class="fal fa-money-bill-alt"></i>
-                              </ICon>
-                            </div>
-                          </td>
+                      <thead>
+                        <tr>
+                          <th style={{ width: '20px' }}>SL</th>
+                          <th style={{ width: '80px' }}>Inv No</th>
+                          <th style={{ width: '80px' }}>Inv Date</th>
+                          <th style={{ width: '100px' }}>DO No</th>
+                          <th style={{ width: '100px' }}>Purchase Order No</th>
+                          <th style={{ width: '80px' }}>Total Amount</th>
+                          <th style={{ width: '80px' }}>Action</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {loading && <Loading />}
+                        {rowData?.data?.map((tableData, index) => (
+                          <tr key={index}>
+                            <td className="text-center"> {tableData?.sl} </td>
+                            <td> {tableData?.invoiceCode} </td>
+                            <td>{_dateFormatter(tableData?.invoiceDate)}</td>
+                            <td> {tableData?.doNo} </td>
+                            <td>{tableData?.purchaseOrderNo}</td>
+                            <td className="text-right">
+                              {' '}
+                              {tableData?.totalAmount}{' '}
+                            </td>
+                            <td className="text-center">
+                              {/* <span > */}
+                              <div className="d-flex justify-content-around align-items-center">
+                                <ICon
+                                  title="Cheque Submit"
+                                  onClick={() => {
+                                    history.push(
+                                      '/config/partner-management/partnerchecksubmit/create'
+                                    );
+                                  }}
+                                >
+                                  <i class="fal fa-money-bill-alt"></i>
+                                </ICon>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </div>
                 )}
                 {rowData?.data?.length > 0 && (

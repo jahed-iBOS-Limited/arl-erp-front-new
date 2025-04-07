@@ -1,20 +1,20 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import IView from "../../../_helper/_helperIcons/_view";
-import InputField from "../../../_helper/_inputField";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import IForm from "./../../../_helper/_form";
-import Loading from "./../../../_helper/_loading";
-import IViewModal from "../../../_helper/_viewModal";
-import HealthSummaryModal from "./healthSummaryModal";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import IView from '../../../_helper/_helperIcons/_view';
+import InputField from '../../../_helper/_inputField';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import IForm from './../../../_helper/_form';
+import Loading from './../../../_helper/_loading';
+import IViewModal from '../../../_helper/_viewModal';
+import HealthSummaryModal from './healthSummaryModal';
 const initData = {
-  businessUnit: "",
-  plant: "",
-  shopfloor: "",
-  employee: "",
-  formDate: "",
+  businessUnit: '',
+  plant: '',
+  shopfloor: '',
+  employee: '',
+  formDate: '',
 };
 export default function HealthSummary() {
   const { profileData, selectedBusinessUnit, businessUnitList } = useSelector(
@@ -24,12 +24,8 @@ export default function HealthSummary() {
     shallowEqual
   );
   const [plantDDL, getPlantDDL, plantDDLLloader, setPlantDDL] = useAxiosGet();
-  const [
-    shopfloorDDL,
-    getShopfloorDDL,
-    shopfloorDDLLoader,
-    setShopfloorDDL,
-  ] = useAxiosGet();
+  const [shopfloorDDL, getShopfloorDDL, shopfloorDDLLoader, setShopfloorDDL] =
+    useAxiosGet();
   // const [singleData, setSingleData] = useState({});
   const [rowData, getRowData, loading] = useAxiosGet();
   const [healthSummaryModal, setHealthSummaryModal] = useState(false);
@@ -40,7 +36,6 @@ export default function HealthSummary() {
     getPlantDDL(
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${profileData?.userId}&AccId=${profileData?.accountId}&BusinessUnitId=${selectedBusinessUnit?.value}&OrgUnitTypeId=7`
     );
-
   }, []);
   const saveHandler = (values, cb) => {};
   return (
@@ -81,7 +76,7 @@ export default function HealthSummary() {
                     name="fromDate"
                     type="date"
                     onChange={(e) => {
-                      setFieldValue("fromDate", e.target.value);
+                      setFieldValue('fromDate', e.target.value);
                     }}
                   />
                 </div>
@@ -92,10 +87,10 @@ export default function HealthSummary() {
                     value={values?.businessUnit}
                     label="Business Unit"
                     onChange={(valueOption) => {
-                      setFieldValue("businessUnit", valueOption || "");
-                      setFieldValue("plant", "");
-                      setFieldValue("shopfloor", "");
-                      setFieldValue("employee", "");
+                      setFieldValue('businessUnit', valueOption || '');
+                      setFieldValue('plant', '');
+                      setFieldValue('shopfloor', '');
+                      setFieldValue('employee', '');
                       setPlantDDL([]);
                       setShopfloorDDL([]);
                       getPlantDDL(
@@ -113,8 +108,8 @@ export default function HealthSummary() {
                     value={values?.plant}
                     label="Plant"
                     onChange={(valueOption) => {
-                      setFieldValue("plant", valueOption || "");
-                      setFieldValue("shopfloor", "");
+                      setFieldValue('plant', valueOption || '');
+                      setFieldValue('shopfloor', '');
                       setShopfloorDDL([]);
                       getShopfloorDDL(
                         `/mes/MesDDL/GetShopfloorDDL?AccountId=${profileData?.accountId}&BusinessUnitid=${values?.businessUnit?.value}&PlantId=${valueOption?.value}`
@@ -131,7 +126,7 @@ export default function HealthSummary() {
                     value={values?.shopfloor}
                     label="Shopfloor"
                     onChange={(valueOption) => {
-                      setFieldValue("shopfloor", valueOption || "");
+                      setFieldValue('shopfloor', valueOption || '');
                     }}
                     errors={errors}
                     touched={touched}
@@ -318,7 +313,7 @@ export default function HealthSummary() {
                   setClickRowData({});
                   setHealthSummaryModal(false);
                 }}
-                title={"Health details"}
+                title={'Health details'}
               >
                 <HealthSummaryModal clickRowData={clickRowData} />
               </IViewModal>

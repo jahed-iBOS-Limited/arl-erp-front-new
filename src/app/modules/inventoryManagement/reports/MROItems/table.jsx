@@ -1,6 +1,6 @@
-import React from "react";
-import { _fixedPoint } from "../../../_helper/_fixedPoint";
-import PaginationSearch from "../../../_helper/_search";
+import React from 'react';
+import { _fixedPoint } from '../../../_helper/_fixedPoint';
+import PaginationSearch from '../../../_helper/_search';
 
 export default function MROItemPlanningTable({ obj }) {
   const { values, rowData, paginationSearchHandler } = obj;
@@ -64,7 +64,7 @@ export default function MROItemPlanningTable({ obj }) {
                       </tr>
                     );
                   })}
-                <tr style={{ textAlign: "right", fontWeight: "bold" }}>
+                <tr style={{ textAlign: 'right', fontWeight: 'bold' }}>
                   <td colSpan={6} className="text-right">
                     <b>Total</b>
                   </td>

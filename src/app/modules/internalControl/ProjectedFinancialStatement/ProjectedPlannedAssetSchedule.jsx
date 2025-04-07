@@ -1,6 +1,6 @@
-import React from "react";
-import { dateFormatWithMonthName } from "../../_helper/_dateFormate";
-import numberWithCommas from "../../_helper/_numberWithCommas";
+import React from 'react';
+import { dateFormatWithMonthName } from '../../_helper/_dateFormate';
+import numberWithCommas from '../../_helper/_numberWithCommas';
 export default function ProjectedPlannedAssetSchedule({ rowData, toDate }) {
   let numOpeningTotal = 0;
   let numAdditionTotal = 0;
@@ -32,10 +32,10 @@ export default function ProjectedPlannedAssetSchedule({ rowData, toDate }) {
           <div>
             <h4 className="mt-5 ml-5">
               <strong>
-                {" "}
-                Fixed Asset Planning{" "}
-                <span style={{ marginLeft: "5px" }}>
-                  {" "}
+                {' '}
+                Fixed Asset Planning{' '}
+                <span style={{ marginLeft: '5px' }}>
+                  {' '}
                   {dateFormatWithMonthName(toDate)}
                 </span>
               </strong>
@@ -45,7 +45,7 @@ export default function ProjectedPlannedAssetSchedule({ rowData, toDate }) {
             <div className="table-responsive">
               <table className="table table-striped table-bordered mt-3">
                 <thead>
-                  <tr style={{ fontSize: "18px" }}>
+                  <tr style={{ fontSize: '18px' }}>
                     <th>Asset Name</th>
                     <th>Opening</th>
                     <th>Addition</th>
@@ -64,59 +64,59 @@ export default function ProjectedPlannedAssetSchedule({ rowData, toDate }) {
                     <tr key={index}>
                       <td
                         style={{
-                          fontWeight: "bold",
-                          textAlign: "left",
-                          paddingLeft: "1px",
+                          fontWeight: 'bold',
+                          textAlign: 'left',
+                          paddingLeft: '1px',
                         }}
                       >
                         {item?.strGlName}
                       </td>
                       <td
                         style={{
-                          fontWeight: "bold",
-                          textAlign: "end",
-                          fontSize: "12px",
-                          width: "120px",
+                          fontWeight: 'bold',
+                          textAlign: 'end',
+                          fontSize: '12px',
+                          width: '120px',
                         }}
                       >
                         {numberWithCommas(Math.round(item?.numOpening) || 0)}
                       </td>
                       <td
                         style={{
-                          textAlign: "end",
-                          paddingRight: "3px",
-                          fontSize: "12px",
-                          width: "140px",
+                          textAlign: 'end',
+                          paddingRight: '3px',
+                          fontSize: '12px',
+                          width: '140px',
                         }}
                       >
                         {numberWithCommas(Math.round(item?.numAddition) || 0)}
                       </td>
                       <td
                         style={{
-                          textAlign: "end",
-                          paddingRight: "3px",
-                          fontSize: "12px",
+                          textAlign: 'end',
+                          paddingRight: '3px',
+                          fontSize: '12px',
                         }}
                       >
                         {numberWithCommas(Math.round(item?.numAdjustment) || 0)}
                       </td>
                       <td
                         style={{
-                          fontWeight: "bold",
-                          textAlign: "end",
-                          paddingRight: "3px",
-                          fontSize: "12px",
-                          width: "120px",
+                          fontWeight: 'bold',
+                          textAlign: 'end',
+                          paddingRight: '3px',
+                          fontSize: '12px',
+                          width: '120px',
                         }}
                       >
                         {numberWithCommas(Math.round(item?.numClosing) || 0)}
                       </td>
                       <td
                         style={{
-                          textAlign: "end",
-                          paddingRight: "3px",
-                          fontSize: "12px",
-                          width: "140px",
+                          textAlign: 'end',
+                          paddingRight: '3px',
+                          fontSize: '12px',
+                          width: '140px',
                         }}
                       >
                         {numberWithCommas(
@@ -125,10 +125,10 @@ export default function ProjectedPlannedAssetSchedule({ rowData, toDate }) {
                       </td>
                       <td
                         style={{
-                          textAlign: "end",
-                          paddingRight: "3px",
-                          fontSize: "12px",
-                          width: "130px",
+                          textAlign: 'end',
+                          paddingRight: '3px',
+                          fontSize: '12px',
+                          width: '130px',
                         }}
                       >
                         {numberWithCommas(
@@ -137,9 +137,9 @@ export default function ProjectedPlannedAssetSchedule({ rowData, toDate }) {
                       </td>
                       <td
                         style={{
-                          textAlign: "end",
-                          paddingRight: "3px",
-                          fontSize: "12px",
+                          textAlign: 'end',
+                          paddingRight: '3px',
+                          fontSize: '12px',
                         }}
                       >
                         {numberWithCommas(
@@ -148,10 +148,10 @@ export default function ProjectedPlannedAssetSchedule({ rowData, toDate }) {
                       </td>
                       <td
                         style={{
-                          fontWeight: "bold",
-                          textAlign: "end",
-                          paddingRight: "3px",
-                          fontSize: "12px",
+                          fontWeight: 'bold',
+                          textAlign: 'end',
+                          paddingRight: '3px',
+                          fontSize: '12px',
                         }}
                       >
                         {numberWithCommas(Math.round(item?.numNetAsset) || 0)}
@@ -159,15 +159,15 @@ export default function ProjectedPlannedAssetSchedule({ rowData, toDate }) {
                     </tr>
                   ))}
                   <tr>
-                    <td colSpan={1} style={{ textAlign: "right" }}>
+                    <td colSpan={1} style={{ textAlign: 'right' }}>
                       <strong> Total</strong>
                     </td>
                     <td
                       style={{
-                        textAlign: "end",
-                        paddingRight: "3px",
-                        fontSize: "14px",
-                        paddingLeft: "4px",
+                        textAlign: 'end',
+                        paddingRight: '3px',
+                        fontSize: '14px',
+                        paddingLeft: '4px',
                       }}
                     >
                       <strong>
@@ -176,10 +176,10 @@ export default function ProjectedPlannedAssetSchedule({ rowData, toDate }) {
                     </td>
                     <td
                       style={{
-                        textAlign: "end",
-                        paddingRight: "3px",
-                        fontSize: "14px",
-                        paddingLeft: "4px",
+                        textAlign: 'end',
+                        paddingRight: '3px',
+                        fontSize: '14px',
+                        paddingLeft: '4px',
                       }}
                     >
                       <strong>
@@ -188,23 +188,23 @@ export default function ProjectedPlannedAssetSchedule({ rowData, toDate }) {
                     </td>
                     <td
                       style={{
-                        textAlign: "end",
-                        paddingRight: "3px",
-                        fontSize: "14px",
-                        paddingLeft: "4px",
+                        textAlign: 'end',
+                        paddingRight: '3px',
+                        fontSize: '14px',
+                        paddingLeft: '4px',
                       }}
                     >
                       <strong>
-                        {" "}
+                        {' '}
                         {numberWithCommas(Math.round(numAdjustmentTotal) || 0)}
                       </strong>
                     </td>
                     <td
                       style={{
-                        textAlign: "end",
-                        paddingRight: "3px",
-                        fontSize: "14px",
-                        paddingLeft: "4px",
+                        textAlign: 'end',
+                        paddingRight: '3px',
+                        fontSize: '14px',
+                        paddingLeft: '4px',
                       }}
                     >
                       <strong>
@@ -213,14 +213,14 @@ export default function ProjectedPlannedAssetSchedule({ rowData, toDate }) {
                     </td>
                     <td
                       style={{
-                        textAlign: "end",
-                        paddingRight: "3px",
-                        fontSize: "14px",
-                        paddingLeft: "4px",
+                        textAlign: 'end',
+                        paddingRight: '3px',
+                        fontSize: '14px',
+                        paddingLeft: '4px',
                       }}
                     >
                       <strong>
-                        {" "}
+                        {' '}
                         {numberWithCommas(
                           Math.round(numOpeningAccDepTotal) || 0
                         )}
@@ -228,10 +228,10 @@ export default function ProjectedPlannedAssetSchedule({ rowData, toDate }) {
                     </td>
                     <td
                       style={{
-                        textAlign: "end",
-                        paddingRight: "3px",
-                        fontSize: "14px",
-                        paddingLeft: "4px",
+                        textAlign: 'end',
+                        paddingRight: '3px',
+                        fontSize: '14px',
+                        paddingLeft: '4px',
                       }}
                     >
                       <strong>
@@ -242,10 +242,10 @@ export default function ProjectedPlannedAssetSchedule({ rowData, toDate }) {
                     </td>
                     <td
                       style={{
-                        textAlign: "end",
-                        paddingRight: "3px",
-                        fontSize: "14px",
-                        paddingLeft: "4px",
+                        textAlign: 'end',
+                        paddingRight: '3px',
+                        fontSize: '14px',
+                        paddingLeft: '4px',
                       }}
                     >
                       <strong>
@@ -256,10 +256,10 @@ export default function ProjectedPlannedAssetSchedule({ rowData, toDate }) {
                     </td>
                     <td
                       style={{
-                        textAlign: "end",
-                        paddingRight: "3px",
-                        fontSize: "14px",
-                        paddingLeft: "4px",
+                        textAlign: 'end',
+                        paddingRight: '3px',
+                        fontSize: '14px',
+                        paddingLeft: '4px',
                       }}
                     >
                       <strong>

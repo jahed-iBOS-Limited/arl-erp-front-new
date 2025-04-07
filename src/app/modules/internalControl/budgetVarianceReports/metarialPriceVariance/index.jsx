@@ -1,28 +1,26 @@
-
-import { Formik } from "formik";
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import InputField from "../../../_helper/_inputField";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
+} from '../../../../../_metronic/_partials/controls';
+import InputField from '../../../_helper/_inputField';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
 
-import Loading from "../../../_helper/_loading";
-import numberWithCommas from "../../../_helper/_numberWithCommas";
-import NewSelect from "../../../_helper/_select";
-import { _getCurrentMonthYearForInput } from "../../../_helper/_todayDate";
+import Loading from '../../../_helper/_loading';
+import numberWithCommas from '../../../_helper/_numberWithCommas';
+import NewSelect from '../../../_helper/_select';
+import { _getCurrentMonthYearForInput } from '../../../_helper/_todayDate';
 // import { fromDateFromApi } from "../../../_helper/_formDateFromApi";
 
 const initData = {
   monthYear: _getCurrentMonthYearForInput(),
-  currentBusinessUnit: "",
+  currentBusinessUnit: '',
   isForecast: false,
-
 };
 function MaterialPriceVariance() {
   const [rowDto, getRowDto, rowDtoLoader, setrowDto] = useAxiosGet();
@@ -37,11 +35,11 @@ function MaterialPriceVariance() {
   // }, [selectedBusinessUnit]);
 
   const getData = (values) => {
-    const [year, month] = values?.monthYear.split("-").map(Number);
+    const [year, month] = values?.monthYear.split('-').map(Number);
     const startDate = new Date(Date.UTC(year, month - 1, 1));
     const endDate = new Date(Date.UTC(year, month, 0));
-    const formattedStartDate = startDate.toISOString().split("T")[0];
-    const formattedEndDate = endDate.toISOString().split("T")[0];
+    const formattedStartDate = startDate.toISOString().split('T')[0];
+    const formattedEndDate = endDate.toISOString().split('T')[0];
     getRowDto(
       `/fino/Report/GetRawMaterialPriceVarianceReport?intUnitId=${values?.currentBusinessUnit?.value}&fromDate=${formattedStartDate}&toDate=${formattedEndDate}&isForecast=${values?.isForecast}`
     );
@@ -58,7 +56,7 @@ function MaterialPriceVariance() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Material Price Variance Report"}>
+              <CardHeader title={'Material Price Variance Report'}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
@@ -72,7 +70,7 @@ function MaterialPriceVariance() {
                       label="Business Unit"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("currentBusinessUnit", valueOption);
+                          setFieldValue('currentBusinessUnit', valueOption);
                           setrowDto([]);
                         } else {
                           setrowDto([]);
@@ -93,34 +91,34 @@ function MaterialPriceVariance() {
                       type="month"
                       onChange={(e) => {
                         setrowDto([]);
-                        setFieldValue("monthYear", e?.target?.value);
+                        setFieldValue('monthYear', e?.target?.value);
                       }}
                     />
                   </div>
                   <div className="col-lg-1 mt-4">
                     <div className="d-flex align-items-center">
-                    <p className="pr-1 pt-3">
-                      <input
-                        type="checkbox"
-                        checked={values?.isForecast}
-                      onChange={(e)=>{
-                        setFieldValue("isForecast", e.target.checked);
-                      }}
-                      />
-                    </p>
-                    <p>
-                      <label>Is Forecast</label>
-                    </p>
-                  </div>
+                      <p className="pr-1 pt-3">
+                        <input
+                          type="checkbox"
+                          checked={values?.isForecast}
+                          onChange={(e) => {
+                            setFieldValue('isForecast', e.target.checked);
+                          }}
+                        />
+                      </p>
+                      <p>
+                        <label>Is Forecast</label>
+                      </p>
                     </div>
+                  </div>
                   <div>
                     <button
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                       type="button"
                       class="btn btn-primary"
                       disabled={!values?.monthYear}
                       onClick={() => {
-                        console.log("values", values);
+                        console.log('values', values);
                         getData(values);
                       }}
                     >
@@ -134,7 +132,7 @@ function MaterialPriceVariance() {
                       <table className="table table-striped table-bordered bj-table bj-table-landing">
                         <thead>
                           <tr>
-                            <th style={{ width: "30px" }}>SL</th>
+                            <th style={{ width: '30px' }}>SL</th>
                             <th>Materials</th>
                             <th>UOM</th>
                             <th> Budget Price(Rate)</th>

@@ -3,7 +3,7 @@ import { imarineBaseUrl } from '../../../../../App';
 export const getShippointDDL = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
-      `/wms/ShipPoint/GetShipPointDDL?accountId=${accId}&businessUnitId=${buId}`,
+      `/wms/ShipPoint/GetShipPointDDL?accountId=${accId}&businessUnitId=${buId}`
     );
     setter(res?.data);
   } catch (error) {
@@ -14,8 +14,9 @@ export const getShippointDDL = async (accId, buId, setter) => {
 export const getMotherVesselDDL = async (accId, buId, portId, setter) => {
   try {
     const res = await axios.get(
-      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${portId || 0
-      }`,
+      `/wms/FertilizerOperation/GetMotherVesselDDL?AccountId=${accId}&BusinessUnitId=${buId}&PortId=${
+        portId || 0
+      }`
     );
     setter(res.data);
   } catch (error) {
@@ -26,7 +27,7 @@ export const getMotherVesselDDL = async (accId, buId, portId, setter) => {
 export const GetLighterVesselDDL = async (motherVesselId, setter) => {
   try {
     const res = await axios.get(
-      `/wms/FertilizerOperation/GetLighterVesselDDL?MotherVesselId=${motherVesselId}`,
+      `/wms/FertilizerOperation/GetLighterVesselDDL?MotherVesselId=${motherVesselId}`
     );
     setter(res?.data);
   } catch (error) {
@@ -37,7 +38,7 @@ export const GetLighterVesselDDL = async (motherVesselId, setter) => {
 export const GetDomesticPortDDL = async (setter) => {
   try {
     const res = await axios.get(
-      `${imarineBaseUrl}/domain/LighterVessel/GetDomesticPortDDL`,
+      `${imarineBaseUrl}/domain/LighterVessel/GetDomesticPortDDL`
     );
     setter(res?.data);
   } catch (error) {
@@ -48,18 +49,18 @@ export const GetDomesticPortDDL = async (setter) => {
 export const getSupplierDDL = async (accId, buId, setter) => {
   try {
     const res = await axios.get(
-      `/partner/PManagementCommonDDL/GetCustomerNameDDL?AccountId=${accId}&BusinessUnitId=${buId}`,
+      `/partner/PManagementCommonDDL/GetCustomerNameDDL?AccountId=${accId}&BusinessUnitId=${buId}`
     );
     if (res.status === 200 && res?.data) {
       setter(res?.data);
     }
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const GetCarrierDDL = async (accId, buId, port, setter) => {
   try {
     const res = await axios.get(
-      `/wms/FertilizerOperation/GetLighterCarrierDDL?BusinessUnitId=${buId}&PortId=${port}`,
+      `/wms/FertilizerOperation/GetLighterCarrierDDL?BusinessUnitId=${buId}&PortId=${port}`
     );
     const data = res?.data?.map((itm) => ({
       value: itm?.carrierId,
@@ -85,7 +86,7 @@ export const GetShipPointDDL = async (accId, buId, setter) => {
   setter([]);
   try {
     const res = await axios.get(
-      `/wms/ShipPoint/GetShipPointDDL?accountId=${accId}&businessUnitId=${buId}`,
+      `/wms/ShipPoint/GetShipPointDDL?accountId=${accId}&businessUnitId=${buId}`
     );
     if (res.status === 200) {
       setter(res?.data);
@@ -99,7 +100,7 @@ export const getGodownDDL = async (buId, partnerId, setter) => {
   setter([]);
   try {
     const res = await axios.get(
-      `/tms/LigterLoadUnload/GetShipToPartnerG2GDDL?BusinessUnitId=${buId}&BusinessPartnerId=${partnerId}`,
+      `/tms/LigterLoadUnload/GetShipToPartnerG2GDDL?BusinessUnitId=${buId}&BusinessPartnerId=${partnerId}`
     );
     setter(res?.data);
   } catch (error) {

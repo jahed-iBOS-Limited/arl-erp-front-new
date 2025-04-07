@@ -1,6 +1,6 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
 
 export const getPlantList = async (userId, accId, buId, setter) => {
   try {
@@ -8,10 +8,8 @@ export const getPlantList = async (userId, accId, buId, setter) => {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&OrgUnitTypeId=7`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
-
-
 
 export const getPurchaseRequestSearchLanding = async (
   accId,
@@ -24,7 +22,7 @@ export const getPurchaseRequestSearchLanding = async (
 ) => {
   setLoading(true);
   try {
-    const searchPath = search ? `searchTerm=${search}&` : "";
+    const searchPath = search ? `searchTerm=${search}&` : '';
 
     const res = await Axios.get(
       // `/procurement/PurchaseRequest/GetPurchaseRequestInformationSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
@@ -55,50 +53,66 @@ export const getPurchaseRequestLanding = async (
 ) => {
   if (fromDate) {
     if (!toDate) {
-      return toast.warning("To date is Required");
+      return toast.warning('To date is Required');
     }
   }
 
   if (toDate) {
     if (!fromDate) {
-      return toast.warning("From date is Required");
+      return toast.warning('From date is Required');
     }
   }
 
-  const searchPath = search ? `searchTerm=${search}&` : "";
+  const searchPath = search ? `searchTerm=${search}&` : '';
   const pageNo = search ? 0 : PageNo;
 
   setLoading(true);
   const requestUrl =
     status !== undefined && fromDate && toDate
-      ? `/procurement/PurchaseRequest/GetPurchaseRequestInformationSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Sbu=${sbu ||
-      0}&PurchaseOrganizationId=${poId || 0}&Plant=${plantId ||
-      0}&WearHouse=${whId ||
-      0}&status=${status}&fromDate=${fromDate}&toDate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+      ? `/procurement/PurchaseRequest/GetPurchaseRequestInformationSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Sbu=${
+          sbu || 0
+        }&PurchaseOrganizationId=${poId || 0}&Plant=${plantId || 0}&WearHouse=${
+          whId || 0
+        }&status=${status}&fromDate=${fromDate}&toDate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
       : fromDate && toDate
-        ? `/procurement/PurchaseRequest/GetPurchaseRequestInformationSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Sbu=${sbu ||
-        0}&PurchaseOrganizationId=${poId || 0}&Plant=${plantId ||
-        0}&WearHouse=${whId ||
-        0}&fromDate=${fromDate}&toDate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+        ? `/procurement/PurchaseRequest/GetPurchaseRequestInformationSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Sbu=${
+            sbu || 0
+          }&PurchaseOrganizationId=${poId || 0}&Plant=${
+            plantId || 0
+          }&WearHouse=${
+            whId || 0
+          }&fromDate=${fromDate}&toDate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
         : fromDate
-          ? `/procurement/PurchaseRequest/GetPurchaseRequestInformationSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Sbu=${sbu ||
-          0}&PurchaseOrganizationId=${poId || 0}&Plant=${plantId ||
-          0}&WearHouse=${whId ||
-          0}&fromDate=${fromDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+          ? `/procurement/PurchaseRequest/GetPurchaseRequestInformationSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Sbu=${
+              sbu || 0
+            }&PurchaseOrganizationId=${poId || 0}&Plant=${
+              plantId || 0
+            }&WearHouse=${
+              whId || 0
+            }&fromDate=${fromDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
           : toDate
-            ? `/procurement/PurchaseRequest/GetPurchaseRequestInformationSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Sbu=${sbu ||
-            0}&PurchaseOrganizationId=${poId || 0}&Plant=${plantId ||
-            0}&WearHouse=${whId ||
-            0}&toDate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+            ? `/procurement/PurchaseRequest/GetPurchaseRequestInformationSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Sbu=${
+                sbu || 0
+              }&PurchaseOrganizationId=${poId || 0}&Plant=${
+                plantId || 0
+              }&WearHouse=${
+                whId || 0
+              }&toDate=${toDate}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
             : status !== undefined
-              ? `/procurement/PurchaseRequest/GetPurchaseRequestInformationSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Sbu=${sbu ||
-              0}&PurchaseOrganizationId=${poId || 0}&Plant=${plantId ||
-              0}&WearHouse=${whId ||
-              0}&status=${status}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
-              : `/procurement/PurchaseRequest/GetPurchaseRequestInformationSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Sbu=${sbu ||
-              0}&PurchaseOrganizationId=${poId || 0}&Plant=${plantId ||
-              0}&WearHouse=${whId ||
-              0}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`;
+              ? `/procurement/PurchaseRequest/GetPurchaseRequestInformationSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Sbu=${
+                  sbu || 0
+                }&PurchaseOrganizationId=${poId || 0}&Plant=${
+                  plantId || 0
+                }&WearHouse=${
+                  whId || 0
+                }&status=${status}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
+              : `/procurement/PurchaseRequest/GetPurchaseRequestInformationSearchPasignation?${searchPath}AccountId=${accId}&BusinessUnitId=${buId}&Sbu=${
+                  sbu || 0
+                }&PurchaseOrganizationId=${poId || 0}&Plant=${
+                  plantId || 0
+                }&WearHouse=${
+                  whId || 0
+                }&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`;
 
   try {
     const res = await Axios.get(requestUrl);
@@ -119,7 +133,7 @@ export const getRequestTypeList = async (setter) => {
       label: item?.purchaseRequestTypeName,
     }));
     setter(data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getControllingUnitList = async (accId, buId, setter) => {
@@ -128,7 +142,7 @@ export const getControllingUnitList = async (accId, buId, setter) => {
       `/procurement/PurchaseOrder/GetControllingUnit?AccountId=${accId}&UnitId=${buId}`
     );
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getCostCenterList = async (accId, buId, cuId, setter) => {
@@ -138,7 +152,7 @@ export const getCostCenterList = async (accId, buId, cuId, setter) => {
     );
 
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getCostElementList = async (
@@ -153,7 +167,7 @@ export const getCostElementList = async (
     );
 
     setter(res?.data);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getItemList = async (
@@ -185,7 +199,7 @@ export const getItemList = async (
       }
       setter(arrayData);
     });
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const getUOMList = async (
@@ -207,11 +221,11 @@ export const getUOMList = async (
       };
     });
     setter(newData);
-    setFieldValue("uomName", {
+    setFieldValue('uomName', {
       value: res?.data?.value,
       label: res?.data?.label,
     });
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const savePurchaseRequest = async (
@@ -230,7 +244,7 @@ export const savePurchaseRequest = async (
     const obj = {
       title: res.data?.message,
       // code: "00987",
-      noAlertFunc: () => { },
+      noAlertFunc: () => {},
     };
     IConfirmModal(obj);
     // toast.success(res?.data?.message || "Submitted successfully");
@@ -246,7 +260,7 @@ export const editPurchaseRequest = async (payload, setDisabled) => {
       `/procurement/PurchaseRequest/EditPurchaseRequest`,
       payload
     );
-    toast.success(res?.data?.message || "Submitted successfully");
+    toast.success(res?.data?.message || 'Submitted successfully');
     setDisabled(false);
   } catch (error) {
     setDisabled(false);
@@ -292,9 +306,9 @@ export const getPurchaseRequestbyId = async (prId, setter, setDisabled) => {
         value: purchaseRequestTypeId,
         label: purchaseRequestTypeName,
       },
-      supplyingWh: "",
+      supplyingWh: '',
       requestDate: _dateFormatter(requestDate),
-      bom: "",
+      bom: '',
       controllingUnit: {
         value: costControlingUnitId,
         label: costControlingUnitName,
@@ -308,8 +322,8 @@ export const getPurchaseRequestbyId = async (prId, setter, setDisabled) => {
       uoMname,
       address: deliveryAddress,
       requiredDate: _dateFormatter(requiredDate),
-      itemName: "",
-      quantity: "",
+      itemName: '',
+      quantity: '',
       row: res?.data[0]?.getPurchaseRequestRow,
       plantId,
       warehouseId,
@@ -329,7 +343,7 @@ export const getReportListPurchaseReq = async (prId, buId, setter) => {
       `/procurement/PurchaseRequest/GetPurchaseRequestInformationByRequestIdPrint?RequestId=${prId}&BusinessUnitId=${buId}`
     );
     setter(res?.data[0]);
-  } catch (error) { }
+  } catch (error) {}
 };
 
 export const sendEmailPostApi = async (dataObj, cb) => {
@@ -341,51 +355,51 @@ export const sendEmailPostApi = async (dataObj, cb) => {
   // formData.append("body", dataObj?.message);
   // formData.append("file", dataObj?.attachment);
   if (!dataObj?.toMail) {
-    return toast.warning("To Mail Address is required");
+    return toast.warning('To Mail Address is required');
   } else if (!dataObj?.attachment) {
-    return toast.warning("Attachment is required");
+    return toast.warning('Attachment is required');
   }
 
   if (dataObj.toCC && dataObj.toBCC) {
-    formData.append("to", dataObj?.toMail);
-    formData.append("cc", dataObj?.toCC);
-    formData.append("bcc", dataObj?.toBCC);
-    formData.append("subject", dataObj?.subject);
-    formData.append("body", dataObj?.message);
-    formData.append("file", dataObj?.attachment);
+    formData.append('to', dataObj?.toMail);
+    formData.append('cc', dataObj?.toCC);
+    formData.append('bcc', dataObj?.toBCC);
+    formData.append('subject', dataObj?.subject);
+    formData.append('body', dataObj?.message);
+    formData.append('file', dataObj?.attachment);
   } else if (dataObj.toBCC) {
-    formData.append("to", dataObj?.toMail);
-    formData.append("bcc", dataObj?.toBCC);
-    formData.append("subject", dataObj?.subject);
-    formData.append("body", dataObj?.message);
-    formData.append("file", dataObj?.attachment);
+    formData.append('to', dataObj?.toMail);
+    formData.append('bcc', dataObj?.toBCC);
+    formData.append('subject', dataObj?.subject);
+    formData.append('body', dataObj?.message);
+    formData.append('file', dataObj?.attachment);
   } else if (dataObj.toCC) {
-    formData.append("to", dataObj?.toMail);
-    formData.append("cc", dataObj?.toCC);
-    formData.append("subject", dataObj?.subject);
-    formData.append("body", dataObj?.message);
-    formData.append("file", dataObj?.attachment);
+    formData.append('to', dataObj?.toMail);
+    formData.append('cc', dataObj?.toCC);
+    formData.append('subject', dataObj?.subject);
+    formData.append('body', dataObj?.message);
+    formData.append('file', dataObj?.attachment);
   } else {
-    formData.append("to", dataObj?.toMail);
-    formData.append("subject", dataObj?.subject);
-    formData.append("body", dataObj?.message);
-    formData.append("file", dataObj?.attachment);
+    formData.append('to', dataObj?.toMail);
+    formData.append('subject', dataObj?.subject);
+    formData.append('body', dataObj?.message);
+    formData.append('file', dataObj?.attachment);
   }
 
   try {
-    let { data } = await Axios.post("/domain/MailSender/SendMail", formData, {
+    let { data } = await Axios.post('/domain/MailSender/SendMail', formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
     });
 
     cb();
 
-    toast.success("Mail Send Successfully");
+    toast.success('Mail Send Successfully');
     return data;
   } catch (error) {
     toast.error(
-      error?.response?.data?.message || "Mail cant not send successfully"
+      error?.response?.data?.message || 'Mail cant not send successfully'
     );
   }
 };
@@ -396,9 +410,9 @@ export const postPurchaseReqCancelAction = async (POId) => {
       `/procurement/PurchaseRequest/CancelPurchaseRequest?RequestId=${POId}`
     );
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Cancel Successfully");
+      toast.success(res?.data?.message || 'Cancel Successfully');
     }
   } catch (error) {
-    toast.error(error?.response?.data?.message || "Cancel Failed");
+    toast.error(error?.response?.data?.message || 'Cancel Failed');
   }
 };

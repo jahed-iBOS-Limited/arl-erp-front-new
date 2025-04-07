@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const deleteInitiativeAction = async (id, setLoading, cb) => {
   try {
@@ -7,11 +7,11 @@ export const deleteInitiativeAction = async (id, setLoading, cb) => {
     const res = await axios.put(
       `/pms/StrategicParticulars/DeleteStrategicParticulars?strategicParticularsId=${id}`
     );
-    toast.success(res?.data?.message || "Successfully deleted");
+    toast.success(res?.data?.message || 'Successfully deleted');
     setLoading(false);
     cb && cb();
   } catch (error) {
     setLoading(false);
-    toast.warn(error?.response?.data?.message || "Delete failed");
+    toast.warn(error?.response?.data?.message || 'Delete failed');
   }
 };

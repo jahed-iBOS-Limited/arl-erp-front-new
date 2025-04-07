@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
-import HeaderForm from "./Landing/form";
+import React, { useState, useEffect } from 'react';
+import HeaderForm from './Landing/form';
 
-import { useDispatch, useSelector, shallowEqual } from "react-redux";
-import { saveCustomerSalesInvoice, getGridData } from "./_redux/Actions";
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
+import { saveCustomerSalesInvoice, getGridData } from './_redux/Actions';
 
 export default function CustomerSalesInvoice() {
   const [loading, setLoading] = useState(false);
-  const [ReportType, setReportType] = useState("");
+  const [ReportType, setReportType] = useState('');
   //paginationState
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(20);

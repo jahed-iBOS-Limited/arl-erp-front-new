@@ -1,5 +1,5 @@
-import React from "react";
-import { _fixedPoint } from "../../../_helper/_fixedPoint";
+import React from 'react';
+import { _fixedPoint } from '../../../_helper/_fixedPoint';
 
 export default function WareHouseInventoryReportTable({ rowData }) {
   return (
@@ -30,15 +30,33 @@ export default function WareHouseInventoryReportTable({ rowData }) {
                     <td className="text-center">{index + 1}</td>
                     <td>{item?.strMVesselName}</td>
                     <td>{item?.strWarehouseName}</td>
-                    <td className="text-center">{_fixedPoint(item?.numOpenQty)}</td>
-                    <td className="text-center">{_fixedPoint(item?.numOpenValue)}</td>
-                    <td className="text-center">{_fixedPoint(item?.numInQty)}</td>
-                    <td className="text-center">{_fixedPoint(item?.numInValue)}</td>
-                    <td className="text-center">{_fixedPoint(item?.numOutQty)}</td>
-                    <td className="text-center">{_fixedPoint(item?.numOutValue)}</td>
-                    <td className="text-center">{_fixedPoint(item?.numCloseQty)}</td>
-                    <td className="text-center">{_fixedPoint(item?.numRate)}</td>
-                    <td className="text-center">{_fixedPoint(item?.numClosingValue)}</td>
+                    <td className="text-center">
+                      {_fixedPoint(item?.numOpenQty)}
+                    </td>
+                    <td className="text-center">
+                      {_fixedPoint(item?.numOpenValue)}
+                    </td>
+                    <td className="text-center">
+                      {_fixedPoint(item?.numInQty)}
+                    </td>
+                    <td className="text-center">
+                      {_fixedPoint(item?.numInValue)}
+                    </td>
+                    <td className="text-center">
+                      {_fixedPoint(item?.numOutQty)}
+                    </td>
+                    <td className="text-center">
+                      {_fixedPoint(item?.numOutValue)}
+                    </td>
+                    <td className="text-center">
+                      {_fixedPoint(item?.numCloseQty)}
+                    </td>
+                    <td className="text-center">
+                      {_fixedPoint(item?.numRate)}
+                    </td>
+                    <td className="text-center">
+                      {_fixedPoint(item?.numClosingValue)}
+                    </td>
                   </tr>
                 );
               })}
@@ -47,21 +65,27 @@ export default function WareHouseInventoryReportTable({ rowData }) {
                 <strong>Total</strong>
               </td>
               <td className="text-center">
-                {_fixedPoint(rowData.reduce((acc, { numInQty }) => acc + numInQty || 0, 0))}
+                {_fixedPoint(
+                  rowData.reduce((acc, { numInQty }) => acc + numInQty || 0, 0)
+                )}
               </td>
               <td className="text-center"></td>
               <td className="text-center">
-                {_fixedPoint(rowData.reduce(
-                  (acc, { numOutQty }) => acc + numOutQty || 0,
-                  0
-                ))}
+                {_fixedPoint(
+                  rowData.reduce(
+                    (acc, { numOutQty }) => acc + numOutQty || 0,
+                    0
+                  )
+                )}
               </td>
               <td className="text-center"></td>
               <td className="text-center">
-                {_fixedPoint(rowData.reduce(
-                  (acc, { numCloseQty }) => acc + numCloseQty || 0,
-                  0
-                ))}
+                {_fixedPoint(
+                  rowData.reduce(
+                    (acc, { numCloseQty }) => acc + numCloseQty || 0,
+                    0
+                  )
+                )}
               </td>
               <td className="text-center"></td>
               <td className="text-center"></td>

@@ -1,6 +1,5 @@
-
-import React, { useState, useEffect } from "react";
-import { Formik, Form, Field } from "formik";
+import React, { useState, useEffect } from 'react';
+import { Formik, Form, Field } from 'formik';
 import {
   validationSchema,
   LCTypeDDLAction,
@@ -10,10 +9,10 @@ import {
   PortDDLAction,
   GetBankDDL,
   currencyTypeDDLAction,
-} from "../helper";
+} from '../helper';
 import InputField from './../../../../../_helper/_inputField';
 import NewSelect from './../../../../../_helper/_select';
-import { _todayDate } from "../../../../../_helper/_todayDate";
+import { _todayDate } from '../../../../../_helper/_todayDate';
 
 export default function FormCmp({
   initData,
@@ -46,7 +45,6 @@ export default function FormCmp({
     GetBankDDL(setBankDDL, profileData?.accountId, selectedBusinessUnit?.value);
     currencyTypeDDLAction(setCurrencyDDL);
   }, []);
-
 
   return (
     <>
@@ -157,7 +155,7 @@ export default function FormCmp({
                       value={values?.encoTerms}
                       label="Inco-Terms"
                       onChange={(valueOption) => {
-                        setFieldValue("encoTerms", valueOption);
+                        setFieldValue('encoTerms', valueOption);
                       }}
                       placeholder="Select Inco-Terms"
                       errors={errors}
@@ -172,14 +170,12 @@ export default function FormCmp({
                       value={values?.materialType}
                       label="Material Type"
                       onChange={(valueOption) => {
-                        setFieldValue("materialType", valueOption);
+                        setFieldValue('materialType', valueOption);
                       }}
                       placeholder="Select Material Type"
                       errors={errors}
                       touched={touched}
-                      isDisabled={
-                        viewType
-                      }
+                      isDisabled={viewType}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -189,7 +185,7 @@ export default function FormCmp({
                       value={values?.lcType}
                       label="LC Type"
                       onChange={(valueOption) => {
-                        setFieldValue("lcType", valueOption);
+                        setFieldValue('lcType', valueOption);
                       }}
                       placeholder="Select LC Type"
                       errors={errors}
@@ -205,7 +201,7 @@ export default function FormCmp({
                       label="Bank Name"
                       placeholder="Bank name"
                       onChange={(valueOption) => {
-                        setFieldValue("bankName", valueOption);
+                        setFieldValue('bankName', valueOption);
                       }}
                       errors={errors}
                       touched={touched}
@@ -220,7 +216,7 @@ export default function FormCmp({
                       value={values?.origin}
                       label="Country Origin"
                       onChange={(valueOption) => {
-                        setFieldValue("origin", valueOption);
+                        setFieldValue('origin', valueOption);
                       }}
                       placeholder="Select Country Origin"
                       errors={errors}
@@ -246,14 +242,12 @@ export default function FormCmp({
                       value={values?.finalDestination}
                       label="Final Destination"
                       onChange={(valueOption) => {
-                        setFieldValue("finalDestination", valueOption);
+                        setFieldValue('finalDestination', valueOption);
                       }}
                       placeholder="Select Final Destination"
                       errors={errors}
                       touched={touched}
-                      isDisabled={
-                        viewType
-                      }
+                      isDisabled={viewType}
                     />
                   </div>
 
@@ -274,13 +268,13 @@ export default function FormCmp({
                       value={values?.currency}
                       label="Currency"
                       onChange={(valueOption) => {
-                        setFieldValue("currency", valueOption);
+                        setFieldValue('currency', valueOption);
                         setFieldValue(
-                          "exchangeRate",
-                          valueOption?.label === "Taka" ? 1 : ""
+                          'exchangeRate',
+                          valueOption?.label === 'Taka' ? 1 : ''
                         );
-                        setFieldValue("PIAmountFC", "");
-                        setFieldValue("PIAmountBDT", "");
+                        setFieldValue('PIAmountFC', '');
+                        setFieldValue('PIAmountBDT', '');
                       }}
                       placeholder="Select Currency"
                       errors={errors}
@@ -305,13 +299,13 @@ export default function FormCmp({
                       placeholder="PI Amount (FC)"
                       type="text"
                       onChange={(valueOption) => {
-                        setFieldValue("PIAmountFC", valueOption.target.value);
+                        setFieldValue('PIAmountFC', valueOption.target.value);
                         setFieldValue(
-                          "PIAmountBDT",
+                          'PIAmountBDT',
                           values?.PIAmountFC
                             ? (+valueOption.target.value ||
                                 +initData?.PIAmountFC) * +values?.exchangeRate
-                            : ""
+                            : ''
                         );
                       }}
                       disabled={viewType}
@@ -326,25 +320,23 @@ export default function FormCmp({
                       type="number"
                       onChange={(e) => {
                         setFieldValue(
-                          "exchangeRate",
-                          e?.target.value ? Number(e.target.value) : ""
+                          'exchangeRate',
+                          e?.target.value ? Number(e.target.value) : ''
                         );
                         setFieldValue(
-                          "PIAmountBDT",
+                          'PIAmountBDT',
                           e?.target.value
                             ? values?.PIAmountFC *
                                 (Number(e?.target?.value) ||
                                   initData?.exchangeRate)
-                            : ""
+                            : ''
                         );
                         // setFieldValue(
                         //   "PIAmountBDTNumber",
                         //   values?.PIAmountFCNumber * Number(e?.target?.value)
                         // );
                       }}
-                      disabled={
-                        viewType
-                      }
+                      disabled={viewType}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -355,7 +347,7 @@ export default function FormCmp({
                       name="PIAmountBDT"
                       placeholder="PI Amount (BDT)"
                       type="text"
-                      disabled={viewType }
+                      disabled={viewType}
                     />
                   </div>
                   <div className="col-lg-3">
@@ -429,15 +421,15 @@ export default function FormCmp({
                     />
                   </div>
                   <div
-                    style={{ marginTop: "10px" }}
+                    style={{ marginTop: '10px' }}
                     className="d-flex justify-content-center align-items-center col-auto"
                   >
                     <label className="d-flex justify-content-start align-items-center">
                       <Field
                         onClick={() => {
-                          setFieldValue("indemnityBond", "");
+                          setFieldValue('indemnityBond', '');
                         }}
-                        style={{ marginRight: "5px" }}
+                        style={{ marginRight: '5px' }}
                         type="checkbox"
                         name="indemnityBond"
                         checked={values?.indemnityBond}
@@ -447,15 +439,15 @@ export default function FormCmp({
                     </label>
                   </div>
                   <div
-                    style={{ marginTop: "10px" }}
+                    style={{ marginTop: '10px' }}
                     className="d-flex justify-content-center align-items-center col-auto"
                   >
                     <label className="d-flex justify-content-start align-items-center">
                       <Field
                         onClick={() => {
-                          setFieldValue("bondLicense", "");
+                          setFieldValue('bondLicense', '');
                         }}
-                        style={{ marginRight: "5px" }}
+                        style={{ marginRight: '5px' }}
                         type="checkbox"
                         name="bondLicense"
                         checked={values?.bondLicense}
@@ -478,8 +470,6 @@ export default function FormCmp({
                 </div>
                 {/* last div */}
               </div>
-
-
             </Form>
           </>
         )}

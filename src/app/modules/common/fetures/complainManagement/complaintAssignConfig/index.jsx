@@ -20,19 +20,15 @@ const initData = {
   process: '',
 };
 export default function ComplainAssignConfigLanding() {
-  const saveHandler = (values, cb) => { };
+  const saveHandler = (values, cb) => {};
   const history = useHistory();
   const [businessUnitDDL, getBusinessUnitDDL] = useAxiosGet([]);
   const [issueTypeDDL, getIssueTypeDDL] = useAxiosGet();
   const [pageNo, setPageNo] = useState(1);
   const [pageSize, setPageSize] = useState(15);
 
-  const [
-    complainAssignData,
-    getComplaiAssignData,
-    loadComplaintAssignData,
-    ,
-  ] = useAxiosGet();
+  const [complainAssignData, getComplaiAssignData, loadComplaintAssignData, ,] =
+    useAxiosGet();
 
   const [, updateStatus, isUpdatingStatus, ,] = useAxiosPost();
 
@@ -54,15 +50,17 @@ export default function ComplainAssignConfigLanding() {
       null,
       (err) => {
         handleGetLandingData(values, pageNo, pageSize);
-      },
+      }
     );
   };
 
   const handleGetLandingData = (values, pageNo, pageSize) => {
     const { issueType, employee, businessUnit } = values || {};
-    const api = `/oms/CustomerPoint/GetComplainAssignLanding?BusinessUnitId=${businessUnit?.value ||
-      0}&EmployeeId=${employee?.value || 0}&IssueTypeId=${issueType?.value ||
-      0}&pageNo=${pageNo}&pageSize=${pageSize}`;
+    const api = `/oms/CustomerPoint/GetComplainAssignLanding?BusinessUnitId=${
+      businessUnit?.value || 0
+    }&EmployeeId=${employee?.value || 0}&IssueTypeId=${
+      issueType?.value || 0
+    }&pageNo=${pageNo}&pageSize=${pageSize}`;
     getComplaiAssignData(api);
   };
 
@@ -72,17 +70,15 @@ export default function ComplainAssignConfigLanding() {
 
   useEffect(() => {
     handleGetLandingData(null, pageNo, pageSize);
-
   }, []);
 
   useEffect(() => {
     getIssueTypeDDL(
-      `/oms/CustomerPoint/ComplainCategory?businessUnitId=${buId}`,
+      `/oms/CustomerPoint/ComplainCategory?businessUnitId=${buId}`
     );
     getBusinessUnitDDL(
-      `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${accId}`,
+      `/hcm/HCMDDL/GetBusinessUnitByAccountDDL?AccountId=${accId}`
     );
-
   }, [buId, accId]);
   return (
     <Formik
@@ -119,7 +115,7 @@ export default function ComplainAssignConfigLanding() {
                     className="btn btn-primary"
                     onClick={() => {
                       history.push(
-                        '/sales-management/complainmanagement/complaintassignconfig/create',
+                        '/sales-management/complainmanagement/complaintassignconfig/create'
                       );
                     }}
                   >
@@ -177,7 +173,7 @@ export default function ComplainAssignConfigLanding() {
                       if (v?.length < 2) return [];
                       return axios
                         .get(
-                          `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${accId}&BusinessUnitId=0&searchTearm=${v}`,
+                          `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${accId}&BusinessUnitId=0&searchTearm=${v}`
                         )
                         .then((res) => {
                           return res?.data?.map((itm) => ({
@@ -207,7 +203,6 @@ export default function ComplainAssignConfigLanding() {
                     errors={errors}
                     touched={touched}
                     placeholder="Process"
-
                   />
                 </div>
                 <div className="col-lg-2">
@@ -283,7 +278,7 @@ export default function ComplainAssignConfigLanding() {
                                     handleStatusChange(
                                       index,
                                       item?.autoId,
-                                      values,
+                                      values
                                     )
                                   }
                                 />

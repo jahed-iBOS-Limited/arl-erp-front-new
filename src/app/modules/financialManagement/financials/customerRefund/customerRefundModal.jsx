@@ -29,12 +29,11 @@ export default function CustomerRefundModal({ billRegisterId }) {
 
   useEffect(() => {
     getSingleData(
-      `/fino/OthersBillEntry/CustomerRefundGetById?billId=${billRegisterId}`,
+      `/fino/OthersBillEntry/CustomerRefundGetById?billId=${billRegisterId}`
     );
     getSbu(
-      `/hcm/HCMDDL/GetSBUDDL?AccountId=${profileData?.accountId}&BusineessUnitId=${selectedBusinessUnit?.value}`,
+      `/hcm/HCMDDL/GetSBUDDL?AccountId=${profileData?.accountId}&BusineessUnitId=${selectedBusinessUnit?.value}`
     );
-
   }, [billRegisterId, profileData, selectedBusinessUnit]);
   return (
     <>
@@ -148,7 +147,7 @@ export default function CustomerRefundModal({ billRegisterId }) {
                             <p>
                               <b>Bill Date: </b>
                               {_dateFormatter(
-                                singleData?.header?.dteBillRegisterDate,
+                                singleData?.header?.dteBillRegisterDate
                               )}
                             </p>
                           </div>
@@ -165,10 +164,10 @@ export default function CustomerRefundModal({ billRegisterId }) {
                                   getMultipleFileView_Action(
                                     singleData?.image?.length > 0
                                       ? singleData?.image?.map(
-                                        (item) => item?.strAttatchment,
-                                      )
-                                      : [],
-                                  ),
+                                          (item) => item?.strAttatchment
+                                        )
+                                      : []
+                                  )
                                 );
                               }}
                             >

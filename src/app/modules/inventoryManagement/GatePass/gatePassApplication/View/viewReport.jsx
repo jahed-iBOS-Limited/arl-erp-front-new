@@ -1,20 +1,18 @@
-
-
-import React, { useState, useRef, useEffect } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import { Formik, Form as FormikForm } from "formik";
-import * as Yup from "yup";
-import ReactToPrint from "react-to-print";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import Loading from "../../../../_helper/loader/_loader";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { useHistory, useParams } from "react-router-dom";
-import IViewModal from "../../../../_helper/_viewModal";
-import ViewForm from "./viewForm";
-import ReactHTMLTableToExcel from "react-html-table-to-excel";
-import ICustomCard from "../../../../_helper/_customCard";
-import iMarineIcon from "../../../../_helper/images/imageakijpoly.png";
-import { getSingleData } from "../helper";
+import React, { useState, useRef, useEffect } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import { Formik, Form as FormikForm } from 'formik';
+import * as Yup from 'yup';
+import ReactToPrint from 'react-to-print';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import Loading from '../../../../_helper/loader/_loader';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { useHistory, useParams } from 'react-router-dom';
+import IViewModal from '../../../../_helper/_viewModal';
+import ViewForm from './viewForm';
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
+import ICustomCard from '../../../../_helper/_customCard';
+import iMarineIcon from '../../../../_helper/images/imageakijpoly.png';
+import { getSingleData } from '../helper';
 
 let imageObj = {
   8: iMarineIcon,
@@ -46,13 +44,13 @@ export default function TableRow({ gridDataId }) {
 
   const printRef = useRef();
 
-  const [subject, setSubject] = useState("");
-  const [message, setMessage] = useState("");
+  const [subject, setSubject] = useState('');
+  const [message, setMessage] = useState('');
   // console.log("initDataForEdit", initDataForEdit);
   return (
     <>
       <ICustomCard
-        style={{ position: "relative" }}
+        style={{ position: 'relative' }}
         title=""
         renderProps={() => (
           <>
@@ -72,7 +70,7 @@ export default function TableRow({ gridDataId }) {
             <ReactToPrint
               //   pageStyle='@page { size: 8in 12in portrait !important; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact;} }'
               pageStyle={
-                "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
               }
               trigger={() => (
                 <button className="btn btn-primary">
@@ -89,7 +87,7 @@ export default function TableRow({ gridDataId }) {
             <ReactToPrint
               //   pageStyle='@page { size: 8in 12in portrait !important; margin: 0mm; } @media print { body { -webkit-print-color-adjust: exact;} }'
               pageStyle={
-                "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
               }
               trigger={() => (
                 <button className="btn btn-primary ml-2">PDF</button>
@@ -148,7 +146,7 @@ export default function TableRow({ gridDataId }) {
                           <div className="d-flex justify-content-center align-items-center">
                             {selectedBusinessUnit.value === 8 && (
                               <img
-                                style={{ width: "150px", height: "100px" }}
+                                style={{ width: '150px', height: '100px' }}
                                 class=""
                                 src={imageObj[selectedBusinessUnit?.value]}
                                 alt="img"
@@ -160,24 +158,24 @@ export default function TableRow({ gridDataId }) {
                         <div className="d-flex flex-column justify-content-center align-items-center mt-2">
                           <h2
                             style={{
-                              textTransform: "upperCase",
-                              fontWeight: "900",
+                              textTransform: 'upperCase',
+                              fontWeight: '900',
                             }}
                           >
                             Gate Pass
                           </h2>
                           <h4
                             style={{
-                              textTransform: "upperCase",
-                              fontWeight: "900",
+                              textTransform: 'upperCase',
+                              fontWeight: '900',
                             }}
                           >
                             {initDataForEdit?.businessUnitName}
                           </h4>
                           <h5
                             style={{
-                              textTransform: "capitalize",
-                              fontWeight: "900",
+                              textTransform: 'capitalize',
+                              fontWeight: '900',
                             }}
                           >
                             {initDataForEdit?.warehouse?.label}
@@ -213,43 +211,43 @@ export default function TableRow({ gridDataId }) {
                       <div>
                         <div
                           style={{
-                            display: "flex",
-                            justifyContent: "space-between",
+                            display: 'flex',
+                            justifyContent: 'space-between',
                           }}
                         >
                           <div>
                             <div>
                               <span
-                                style={{ fontSize: "14px", fontWeight: "900" }}
+                                style={{ fontSize: '14px', fontWeight: '900' }}
                               >
                                 Challon No:
-                              </span>{" "}
+                              </span>{' '}
                               <span
-                                style={{ fontSize: "14px", fontWeight: "900" }}
+                                style={{ fontSize: '14px', fontWeight: '900' }}
                               >
                                 {initDataForEdit?.strGatePassCode}
                               </span>
                             </div>
                             <div>
                               <span
-                                style={{ fontSize: "14px", fontWeight: "900" }}
+                                style={{ fontSize: '14px', fontWeight: '900' }}
                               >
                                 From-Address:
-                              </span>{" "}
+                              </span>{' '}
                               <span
-                                style={{ fontSize: "14px", fontWeight: "900" }}
+                                style={{ fontSize: '14px', fontWeight: '900' }}
                               >
                                 {initDataForEdit?.fromAddress}
                               </span>
                             </div>
                             <div>
                               <span
-                                style={{ fontSize: "14px", fontWeight: "900" }}
+                                style={{ fontSize: '14px', fontWeight: '900' }}
                               >
                                 To-Address:
-                              </span>{" "}
+                              </span>{' '}
                               <span
-                                style={{ fontSize: "14px", fontWeight: "900" }}
+                                style={{ fontSize: '14px', fontWeight: '900' }}
                               >
                                 {initDataForEdit?.others
                                   ? initDataForEdit?.toAddress
@@ -259,12 +257,12 @@ export default function TableRow({ gridDataId }) {
                           </div>
                           <div className="">
                             <span
-                              style={{ fontSize: "14px", fontWeight: "900" }}
+                              style={{ fontSize: '14px', fontWeight: '900' }}
                             >
                               Date:
-                            </span>{" "}
+                            </span>{' '}
                             <span
-                              style={{ fontSize: "14px", fontWeight: "900" }}
+                              style={{ fontSize: '14px', fontWeight: '900' }}
                             >
                               {initDataForEdit?.date}
                             </span>
@@ -274,19 +272,19 @@ export default function TableRow({ gridDataId }) {
 
                       <p
                         style={{
-                          position: "absolute",
-                          transform: "rotate(-27deg)",
-                          right: "28%",
-                          top: "41%",
-                          fontSize: "143px",
-                          opacity: "0.1",
+                          position: 'absolute',
+                          transform: 'rotate(-27deg)',
+                          right: '28%',
+                          top: '41%',
+                          fontSize: '143px',
+                          opacity: '0.1',
                         }}
                       >
-                        {initDataForEdit?.status === "Approved"
-                          ? "Approved"
-                          : initDataForEdit?.status === "Rejected"
-                          ? "Rejected"
-                          : "Pending"}
+                        {initDataForEdit?.status === 'Approved'
+                          ? 'Approved'
+                          : initDataForEdit?.status === 'Rejected'
+                            ? 'Rejected'
+                            : 'Pending'}
                       </p>
                       <div className="table-responsive">
                         <table
@@ -295,28 +293,28 @@ export default function TableRow({ gridDataId }) {
                         >
                           <thead>
                             <tr>
-                              <th style={{ fontWeight: "900" }}>SL</th>
-                              <th style={{ fontWeight: "900 !important" }}>
+                              <th style={{ fontWeight: '900' }}>SL</th>
+                              <th style={{ fontWeight: '900 !important' }}>
                                 Item Name
                               </th>
                               <th
                                 style={{
-                                  width: "100px",
-                                  fontWeight: "900 !important",
+                                  width: '100px',
+                                  fontWeight: '900 !important',
                                 }}
                               >
                                 UoM
                               </th>
-                              <th style={{ fontWeight: "900 !important" }}>
+                              <th style={{ fontWeight: '900 !important' }}>
                                 Remarks
                               </th>
-                              <th style={{ fontWeight: "900 !important" }}>
+                              <th style={{ fontWeight: '900 !important' }}>
                                 Type
                               </th>
                               <th
                                 style={{
-                                  width: "100px",
-                                  fontWeight: "900 !important",
+                                  width: '100px',
+                                  fontWeight: '900 !important',
                                 }}
                               >
                                 Quantity
@@ -332,15 +330,15 @@ export default function TableRow({ gridDataId }) {
                                     ? item?.item?.label
                                     : item?.item}
                                 </td>
-                                <td style={{ width: "100px" }}>
+                                <td style={{ width: '100px' }}>
                                   {item?.uom?.label
                                     ? item?.uom?.label
                                     : item?.uom}
                                 </td>
-                                <td>{item?.strRemarks || ""}</td>
-                                <td>{item?.returnStatus || ""}</td>
+                                <td>{item?.strRemarks || ''}</td>
+                                <td>{item?.returnStatus || ''}</td>
                                 <td
-                                  style={{ width: "100px", fontWeight: "900" }}
+                                  style={{ width: '100px', fontWeight: '900' }}
                                   className="text-right"
                                 >
                                   {item?.quantity?.toFixed(2)}
@@ -348,13 +346,13 @@ export default function TableRow({ gridDataId }) {
                               </tr>
                             ))}
                           </tbody>
-                          <tFoot style={{ border: "2px solid #85D7F9" }}>
+                          <tFoot style={{ border: '2px solid #85D7F9' }}>
                             <tr>
                               <td
                                 style={{
-                                  textAlign: "right",
-                                  fontSize: "13px",
-                                  fontWeight: "900",
+                                  textAlign: 'right',
+                                  fontSize: '13px',
+                                  fontWeight: '900',
                                 }}
                                 colspan="5"
                               >
@@ -362,7 +360,7 @@ export default function TableRow({ gridDataId }) {
                               </td>
                               <td
                                 className="text-right"
-                                style={{ fontWeight: "900" }}
+                                style={{ fontWeight: '900' }}
                               >
                                 {rowDto
                                   ?.reduce((acc, cur) => acc + cur.quantity, 0)
@@ -373,37 +371,37 @@ export default function TableRow({ gridDataId }) {
                         </table>
                       </div>
 
-                      <div style={{ display: "flex", marginTop: "20px" }}>
+                      <div style={{ display: 'flex', marginTop: '20px' }}>
                         <div>
                           <div>
                             <span
-                              style={{ fontSize: "14px", fontWeight: "900" }}
+                              style={{ fontSize: '14px', fontWeight: '900' }}
                             >
                               Driver/Receiver Name:
-                            </span>{" "}
-                            <span style={{ fontWeight: "900" }}>
+                            </span>{' '}
+                            <span style={{ fontWeight: '900' }}>
                               {initDataForEdit?.receiversName}
                             </span>
                           </div>
                           <div>
                             <span
-                              style={{ fontSize: "14px", fontWeight: "900" }}
+                              style={{ fontSize: '14px', fontWeight: '900' }}
                             >
                               Contact:
-                            </span>{" "}
-                            <span style={{ fontWeight: "900" }}>
+                            </span>{' '}
+                            <span style={{ fontWeight: '900' }}>
                               {initDataForEdit?.contactNo}
                             </span>
                           </div>
                         </div>
                         <div>
-                          <div style={{ marginLeft: "100px" }}>
+                          <div style={{ marginLeft: '100px' }}>
                             <span
-                              style={{ fontSize: "14px", fontWeight: "900" }}
+                              style={{ fontSize: '14px', fontWeight: '900' }}
                             >
                               Vehicle Number:
-                            </span>{" "}
-                            <span style={{ fontWeight: "900" }}>
+                            </span>{' '}
+                            <span style={{ fontWeight: '900' }}>
                               {initDataForEdit?.vehicle?.label ||
                                 initDataForEdit?.vehicle}
                             </span>
@@ -412,46 +410,46 @@ export default function TableRow({ gridDataId }) {
                       </div>
                       <div className="mt-5">
                         <div className="d-flex">
-                          <p style={{ margin: 0, fontWeight: "900" }}>
+                          <p style={{ margin: 0, fontWeight: '900' }}>
                             Issued By:
                           </p>
                           <p
-                            style={{ margin: 0, fontWeight: "900" }}
+                            style={{ margin: 0, fontWeight: '900' }}
                             className=" ml-2"
                           >
-                            {initDataForEdit?.actionByName || ""}[
-                            {_dateFormatter(initDataForEdit?.actionDate)}{" "}
+                            {initDataForEdit?.actionByName || ''}[
+                            {_dateFormatter(initDataForEdit?.actionDate)}{' '}
                             {initDataForEdit?.actionDate
-                              ?.split("T")[1]
-                              ?.slice(0, 5)}{" "}
+                              ?.split('T')[1]
+                              ?.slice(0, 5)}{' '}
                             {+initDataForEdit?.actionDate
-                              ?.split("T")[1]
+                              ?.split('T')[1]
                               ?.slice(0, 2) <= 12
-                              ? "AM"
-                              : "PM"}
+                              ? 'AM'
+                              : 'PM'}
                             ]
                           </p>
                         </div>
-                        {initDataForEdit?.status === "Approved" ? (
+                        {initDataForEdit?.status === 'Approved' ? (
                           <div className="d-flex">
-                            <p style={{ fontWeight: "900" }}>Approved By:</p>
-                            <p style={{ fontWeight: "900" }} className="ml-2">
+                            <p style={{ fontWeight: '900' }}>Approved By:</p>
+                            <p style={{ fontWeight: '900' }} className="ml-2">
                               {initDataForEdit?.strApprovedBy} [
-                              {_dateFormatter(initDataForEdit?.dteApproved)}{" "}
+                              {_dateFormatter(initDataForEdit?.dteApproved)}{' '}
                               {initDataForEdit?.dteApproved
-                                ?.split("T")[1]
-                                ?.slice(0, 5)}{" "}
+                                ?.split('T')[1]
+                                ?.slice(0, 5)}{' '}
                               {+initDataForEdit?.dteApproved
-                                ?.split("T")[1]
+                                ?.split('T')[1]
                                 ?.slice(0, 2) <= 12
-                                ? "AM"
-                                : "PM"}
+                                ? 'AM'
+                                : 'PM'}
                               ]
                             </p>
                           </div>
-                        ) : initDataForEdit?.status === "Rejected" ? (
+                        ) : initDataForEdit?.status === 'Rejected' ? (
                           <div className="d-flex">
-                            <p style={{ fontWeight: "900" }}>Rejected By:</p>
+                            <p style={{ fontWeight: '900' }}>Rejected By:</p>
                             {/* <p className="ml-2" style={{ fontWeight: "900" }}>
                               {initDataForEdit?.approveByName || "MD.Alamin"} [
                               {_dateFormatter(
@@ -470,18 +468,18 @@ export default function TableRow({ gridDataId }) {
                           </div>
                         ) : (
                           <div className="d-flex">
-                            <p style={{ fontWeight: "900" }}>Approved By:</p>
+                            <p style={{ fontWeight: '900' }}>Approved By:</p>
                             <p className="font-weight-bold ml-2"></p>
                           </div>
                         )}
                       </div>
 
-                      <p style={{ marginTop: "80px" }}>
+                      <p style={{ marginTop: '80px' }}>
                         <span
                           style={{
-                            fontWeight: "bold",
-                            paddingTop: "3px",
-                            borderTop: "2px solid black",
+                            fontWeight: 'bold',
+                            paddingTop: '3px',
+                            borderTop: '2px solid black',
                           }}
                         >
                           Received by

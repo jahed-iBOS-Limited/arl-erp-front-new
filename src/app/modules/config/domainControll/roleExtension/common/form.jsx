@@ -1,24 +1,22 @@
+import React, { useEffect, useState } from 'react';
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import Axios from 'axios';
+import Select from 'react-select';
 
-
-import React, { useEffect, useState } from "react";
-import { Formik, Form, Field } from "formik";
-import * as Yup from "yup";
-import Axios from "axios";
-import Select from "react-select";
-
-import customStyles from "../../../../selectCustomStyle";
-import { Input } from "../../../../../../_metronic/_partials/controls";
-import { toast } from "react-toastify";
+import customStyles from '../../../../selectCustomStyle';
+import { Input } from '../../../../../../_metronic/_partials/controls';
+import { toast } from 'react-toastify';
 
 // Validation schema
 const ProductEditSchema = Yup.object().shape({
   businessunit: Yup.object().shape({
-    label: Yup.string().required("Partner Type is required"),
-    value: Yup.string().required("Partner Type is required"),
+    label: Yup.string().required('Partner Type is required'),
+    value: Yup.string().required('Partner Type is required'),
   }),
   employee: Yup.object().shape({
-    label: Yup.string().required("Employee is required"),
-    value: Yup.string().required("Employee is required"),
+    label: Yup.string().required('Employee is required'),
+    value: Yup.string().required('Employee is required'),
   }),
 });
 
@@ -34,17 +32,17 @@ export default function RoleExForm({
   accountId,
   selectedBusinessUnit,
 }) {
-  const [orgtypeListDDL, setorgtypeListDDL] = useState("");
-  const [orgnameListDDL, setorgnameListDDL] = useState("");
+  const [orgtypeListDDL, setorgtypeListDDL] = useState('');
+  const [orgnameListDDL, setorgnameListDDL] = useState('');
 
   useEffect(() => {
     getOrgTypeData();
   }, []);
-  console.log(rowdataList, "rowdataList");
+  console.log(rowdataList, 'rowdataList');
   const getOrgTypeData = async () => {
     try {
       const res = await Axios.get(
-        "/domain/RoleExtension/GetOrganizationTypeList"
+        '/domain/RoleExtension/GetOrganizationTypeList'
       );
       const { status, data } = res;
       if (status === 200 && data.length) {
@@ -94,7 +92,7 @@ export default function RoleExForm({
         validationSchema={ProductEditSchema}
         onSubmit={(values) => {
           saveBusinessUnit(values.employee?.value);
-          console.log("Save");
+          console.log('Save');
         }}
       >
         {({
@@ -145,8 +143,8 @@ export default function RoleExForm({
                         placeholder="Select Organization"
                         value={values.orgtype}
                         onChange={(selectedOption) => {
-                          setFieldValue("orgtype", selectedOption);
-                          setFieldValue("orgname", { label: "", value: "" });
+                          setFieldValue('orgtype', selectedOption);
+                          setFieldValue('orgname', { label: '', value: '' });
                           getOrgNameData(selectedOption?.value);
                         }}
                         isSearchable={true}
@@ -167,7 +165,7 @@ export default function RoleExForm({
                         value={values.orgname}
                         isDisabled={!orgtypeListDDL || !orgnameListDDL}
                         onChange={(selectedOption) => {
-                          setFieldValue("orgname", selectedOption);
+                          setFieldValue('orgname', selectedOption);
                         }}
                         isSearchable={true}
                         styles={customStyles}
@@ -178,14 +176,14 @@ export default function RoleExForm({
                 </div>
                 <div className="col-lg-4">
                   <button
-                    style={{ marginTop: "14px" }}
+                    style={{ marginTop: '14px' }}
                     type="button"
                     onClick={() => {
                       const obj = {
                         accountId: accountId,
                         actionBy: 770,
                         active: true,
-                        lastActionDateTime: "2020-07-16T15:14:30.633",
+                        lastActionDateTime: '2020-07-16T15:14:30.633',
                         organizationTypeName: values.orgtype.label,
                         organizationUnitReffId: values.orgname.value,
                         organizationUnitReffName: values.orgname.label,
@@ -202,7 +200,7 @@ export default function RoleExForm({
                       );
 
                       if (filterArr?.length > 0) {
-                        toast.warn("Not allowed");
+                        toast.warn('Not allowed');
                       } else {
                         setRowdataListFromChild(obj);
                       }
@@ -235,8 +233,8 @@ export default function RoleExForm({
                           <span
                             className="pointer alterUomDeleteIcon"
                             style={{
-                              width: "50%",
-                              marginTop: "3px",
+                              width: '50%',
+                              marginTop: '3px',
                             }}
                           >
                             <i
@@ -254,7 +252,7 @@ export default function RoleExForm({
               </div>
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 // onSubmit={() => handleSubmit()}
               ></button>

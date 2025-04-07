@@ -33,18 +33,17 @@ const SearchAsyncSelect = ({
     );
   };
 
-  
   const customStyles = createCustomSelectStyles({
     isOptionPaddingRight: false,
     clearIndicator: (provided, state) => ({
       ...provided,
       paddingRight: paddingRight || 2,
-    })
-  })
+    }),
+  });
 
   const debounce = useDebounce();
   const commonSelectProps = {
-    menuPosition: "fixed",
+    menuPosition: 'fixed',
     isDisabled,
     isClearable: true,
     defaultOptions: true,
@@ -66,7 +65,7 @@ const SearchAsyncSelect = ({
     onInputChange: handleInputChange,
     onChange: (valueOption) => handleChange(valueOption),
     styles: customStyles,
-    placeholder: placeholder ? placeholder : "Search (min 3 letter)",
+    placeholder: placeholder ? placeholder : 'Search (min 3 letter)',
   };
   return (
     <div

@@ -22,7 +22,7 @@ export const WorkPlanTable = ({
         <div className="col-lg-4">
           <div>
             <strong>Designation</strong>:
-            <span>{' '}{planList?.designation || ''}</span>
+            <span> {planList?.designation || ''}</span>
           </div>
           <div>
             <strong>Location</strong>:{' '}

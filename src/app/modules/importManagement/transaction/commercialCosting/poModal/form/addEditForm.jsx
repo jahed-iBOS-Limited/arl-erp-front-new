@@ -52,7 +52,7 @@ export default function PoAddEditForm({ poId, view }) {
         profileData?.accountId,
         selectedBusinessUnit?.value,
         poId,
-        setSingleData,
+        setSingleData
       );
     }
   }, [profileData, selectedBusinessUnit]);
@@ -137,7 +137,7 @@ export default function PoAddEditForm({ poId, view }) {
                   <label>Order Date</label>
                   <InputField
                     value={_dateFormatter(
-                      singleData?.objHeader?.purchaseOrderDate,
+                      singleData?.objHeader?.purchaseOrderDate
                     )}
                     name="orderDate"
                     placeholder="Order Date"
@@ -149,7 +149,7 @@ export default function PoAddEditForm({ poId, view }) {
                   <label>Last Shipment Date</label>
                   <InputField
                     value={_dateFormatter(
-                      singleData?.objHeader?.lastShipmentDate,
+                      singleData?.objHeader?.lastShipmentDate
                     )}
                     name="lastShipmentDate"
                     placeholder="Last shipment Date"
@@ -287,7 +287,7 @@ export default function PoAddEditForm({ poId, view }) {
                                       index,
                                       +e?.target?.value,
                                       rowDto,
-                                      setRowDto,
+                                      setRowDto
                                     );
                                   }}
                                   disabled={view === 'view'}
@@ -311,7 +311,7 @@ export default function PoAddEditForm({ poId, view }) {
                                       index,
                                       +e?.target?.value,
                                       rowDto,
-                                      setRowDto,
+                                      setRowDto
                                     );
                                   }}
                                   disabled={view === 'view'}
@@ -353,8 +353,8 @@ export default function PoAddEditForm({ poId, view }) {
                           {_formatMoney(
                             data?.reduce(
                               (acc, item) => acc + +item?.totalAmount,
-                              0,
-                            ),
+                              0
+                            )
                           )}
                         </td>
                         {/* <td></td> */}

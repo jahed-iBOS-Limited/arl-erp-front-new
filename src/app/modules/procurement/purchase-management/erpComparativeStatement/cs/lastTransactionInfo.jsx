@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 const LastTransactionInfo = ({ data }) => {
   return (
@@ -102,7 +102,7 @@ const LastTransactionInfo = ({ data }) => {
                   </tr>
                   <tr>
                     <th>Email:</th>
-                    <td>{data.email || "-"}</td>
+                    <td>{data.email || '-'}</td>
                   </tr>
                   <tr>
                     <th>Contact:</th>

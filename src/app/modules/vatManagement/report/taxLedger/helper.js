@@ -1,5 +1,5 @@
-import axios from "axios";
-import { toast } from "react-toastify";
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getTaxLedgerReport_api = async (
   accid,
@@ -19,7 +19,7 @@ export const getTaxLedgerReport_api = async (
         setter(res?.data[0]);
         setLoading(false);
       } else {
-        toast.warning("Data Not Found");
+        toast.warning('Data Not Found');
         setLoading(false);
         setter([]);
       }
@@ -33,7 +33,7 @@ export const getVatBranches_api = async (userId, accid, buid, setter) => {
       `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermission?UserId=${userId}&AccId=${accid}&BusinessUnitId=${buid}&OrgUnitTypeId=15`
     );
     if (res.status === 200 && res?.data) {
-      const modifiedData = [{ value: 0, label: "All" }, ...res?.data];
+      const modifiedData = [{ value: 0, label: 'All' }, ...res?.data];
       setter(modifiedData);
     }
   } catch (error) {}

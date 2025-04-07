@@ -1,25 +1,25 @@
-import { Formik } from "formik";
-import React from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import InputField from "../../../_helper/_inputField";
+} from '../../../../../_metronic/_partials/controls';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import InputField from '../../../_helper/_inputField';
 
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import "./style.css";
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import './style.css';
 
 const initData = {
-  monthYear: "",
-  currentBusinessUnit: "",
-  consumptionType: "",
+  monthYear: '',
+  currentBusinessUnit: '',
+  consumptionType: '',
   isForecast: false,
 };
 
@@ -42,7 +42,7 @@ function MaterialConsumptionVarianceReport() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Material Consumption Variance Report"}>
+              <CardHeader title={'Material Consumption Variance Report'}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
@@ -56,7 +56,7 @@ function MaterialConsumptionVarianceReport() {
                       label="Business Unit"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("currentBusinessUnit", valueOption);
+                          setFieldValue('currentBusinessUnit', valueOption);
                           setRowDto([]);
                         } else {
                           setRowDto([]);
@@ -72,18 +72,18 @@ function MaterialConsumptionVarianceReport() {
                     <NewSelect
                       name="consumptionType"
                       options={[
-                        { value: 1, label: "BOM wise" },
-                        { value: 2, label: "Item wise" },
+                        { value: 1, label: 'BOM wise' },
+                        { value: 2, label: 'Item wise' },
                       ]}
                       value={values?.consumptionType}
                       label="Consumption Type"
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("consumptionType", valueOption);
+                          setFieldValue('consumptionType', valueOption);
                           setRowDto([]);
                         } else {
                           setRowDto([]);
-                          setFieldValue("consumptionType", "");
+                          setFieldValue('consumptionType', '');
                         }
                       }}
                       placeholder="Consumption Type"
@@ -100,29 +100,29 @@ function MaterialConsumptionVarianceReport() {
                       placeholder="From Date"
                       type="month"
                       onChange={(e) => {
-                        setFieldValue("monthYear", e?.target?.value);
+                        setFieldValue('monthYear', e?.target?.value);
                       }}
                     />
                   </div>
                   <div className="col-lg-1 mt-4">
                     <div className="d-flex align-items-center">
-                    <p className="pr-1 pt-3">
-                      <input
-                        type="checkbox"
-                        checked={values?.isForecast} 
-                      onChange={(e)=>{
-                        setFieldValue("isForecast", e.target.checked);
-                      }}
-                      />
-                    </p>
-                    <p>
-                      <label>Is Forecast</label>
-                    </p>
-                  </div>
+                      <p className="pr-1 pt-3">
+                        <input
+                          type="checkbox"
+                          checked={values?.isForecast}
+                          onChange={(e) => {
+                            setFieldValue('isForecast', e.target.checked);
+                          }}
+                        />
+                      </p>
+                      <p>
+                        <label>Is Forecast</label>
+                      </p>
                     </div>
+                  </div>
                   <div>
                     <button
-                      style={{ marginTop: "18px" }}
+                      style={{ marginTop: '18px' }}
                       type="button"
                       class="btn btn-primary"
                       disabled={
@@ -132,7 +132,7 @@ function MaterialConsumptionVarianceReport() {
                       }
                       onClick={() => {
                         const [year, month] = values?.monthYear
-                          .split("-")
+                          .split('-')
                           .map(Number);
                         const startDate = new Date(
                           Date.UTC(year, month - 1, 1)
@@ -140,10 +140,10 @@ function MaterialConsumptionVarianceReport() {
                         const endDate = new Date(Date.UTC(year, month, 0));
                         const formattedStartDate = startDate
                           .toISOString()
-                          .split("T")[0];
+                          .split('T')[0];
                         const formattedEndDate = endDate
                           .toISOString()
-                          .split("T")[0];
+                          .split('T')[0];
                         getRowDto(
                           `/fino/Report/GetRawMaterialConsumptionVarianceReport?intBusinessUnitId=${values?.currentBusinessUnit?.value}&fromDate=${formattedStartDate}&toDate=${formattedEndDate}&ConsumptionTypeId=${values?.consumptionType.value}&isForecast=${values?.isForecast}`,
                           (data) => {
@@ -212,8 +212,8 @@ function MaterialConsumptionVarianceReport() {
                                 <td
                                   className={
                                     item?.isTotal
-                                      ? "text-left bold"
-                                      : "text-left"
+                                      ? 'text-left bold'
+                                      : 'text-left'
                                   }
                                 >
                                   {item?.materialName}
@@ -222,8 +222,8 @@ function MaterialConsumptionVarianceReport() {
                                 <td
                                   className={
                                     item?.isTotal
-                                      ? "text-right bold"
-                                      : "text-right"
+                                      ? 'text-right bold'
+                                      : 'text-right'
                                   }
                                 >
                                   {_formatMoney(item?.budgetConsumption, 4)}
@@ -231,17 +231,17 @@ function MaterialConsumptionVarianceReport() {
                                 <td
                                   className={
                                     item?.isTotal
-                                      ? "text-right bold"
-                                      : "text-right"
+                                      ? 'text-right bold'
+                                      : 'text-right'
                                   }
                                 >
-                                  {_formatMoney(item?.actualConsumption,4)}
+                                  {_formatMoney(item?.actualConsumption, 4)}
                                 </td>
                                 <td
                                   className={
                                     item?.isTotal
-                                      ? "text-right bold"
-                                      : "text-right"
+                                      ? 'text-right bold'
+                                      : 'text-right'
                                   }
                                 >
                                   {_formatMoney(item?.variance, 4)}

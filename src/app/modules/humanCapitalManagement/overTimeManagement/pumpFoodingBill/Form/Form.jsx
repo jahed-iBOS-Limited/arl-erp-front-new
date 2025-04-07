@@ -1,18 +1,18 @@
-import axios from "axios";
-import { Form, Formik } from "formik";
-import React from "react";
-import { useHistory } from "react-router-dom";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import ICustomCard from "../../../../_helper/_customCard";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { _fixedPoint } from "../../../../_helper/_fixedPoint";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import AttachmentUploaderNew from "../../../../_helper/attachmentUploaderNew";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
+import axios from 'axios';
+import { Form, Formik } from 'formik';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import ICustomCard from '../../../../_helper/_customCard';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { _fixedPoint } from '../../../../_helper/_fixedPoint';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import AttachmentUploaderNew from '../../../../_helper/attachmentUploaderNew';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
 
 export default function FormCmp({
   buId,
@@ -64,7 +64,7 @@ export default function FormCmp({
           <>
             {loading && <Loading />}
             <ICustomCard
-              title={"Pump Fooding Bill Entry"}
+              title={'Pump Fooding Bill Entry'}
               backHandler={() => {
                 history.goBack();
               }}
@@ -77,16 +77,16 @@ export default function FormCmp({
                 });
               }}
             >
-              <Form className='form form-label-right'>
-                <div className='form-group row global-form'>
-                  <div className='col-lg-3'>
+              <Form className="form form-label-right">
+                <div className="form-group row global-form">
+                  <div className="col-lg-3">
                     <NewSelect
                       options={plantDDL}
-                      label='Plant'
+                      label="Plant"
                       value={values?.plant}
-                      placeholder='Plant'
+                      placeholder="Plant"
                       onChange={(valueOption) => {
-                        setFieldValue("plant", valueOption);
+                        setFieldValue('plant', valueOption);
                         getWarehouseDDL(
                           `/wms/BusinessUnitPlant/GetOrganizationalUnitUserPermissionforWearhouse?UserId=${userId}&AccId=${accId}&BusinessUnitId=${buId}&PlantId=${valueOption?.value}&OrgUnitTypeId=8`
                         );
@@ -94,91 +94,99 @@ export default function FormCmp({
                       // isDisabled={true}
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <NewSelect
                       options={warehouseDDL}
-                      label='Warehouse'
+                      label="Warehouse"
                       value={values?.warehouse}
-                      placeholder='Warehouse'
+                      placeholder="Warehouse"
                       onChange={(valueOption) => {
-                        setFieldValue("warehouse", valueOption);
+                        setFieldValue('warehouse', valueOption);
                       }}
                       // isDisabled={true}
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <label>Employee</label>
                     <SearchAsyncSelect
                       selectedValue={values?.employee}
                       isSearchIcon={true}
                       handleChange={(valueOption) => {
-                        setFieldValue("enroll", valueOption?.value || "");
+                        setFieldValue('enroll', valueOption?.value || '');
                         setFieldValue(
-                          "code",
-                          valueOption?.employeeCode || valueOption?.code || ""
+                          'code',
+                          valueOption?.employeeCode || valueOption?.code || ''
                         );
-                        setFieldValue("workPlace", valueOption?.workplaceId && valueOption?.workplaceName ? {value: valueOption?.workplaceId, label:valueOption?.workplaceName} : "");
-                        setFieldValue("employee", valueOption);
+                        setFieldValue(
+                          'workPlace',
+                          valueOption?.workplaceId && valueOption?.workplaceName
+                            ? {
+                                value: valueOption?.workplaceId,
+                                label: valueOption?.workplaceName,
+                              }
+                            : ''
+                        );
+                        setFieldValue('employee', valueOption);
 
                         if (
                           values?.designationId !==
                           valueOption?.employeeDesignationId
                         ) {
-                          setFieldValue("fromDate", "");
-                          setFieldValue("fromTime", "");
-                          setFieldValue("toDate", "");
-                          setFieldValue("toTime", "");
-                          setFieldValue("taka", "");
+                          setFieldValue('fromDate', '');
+                          setFieldValue('fromTime', '');
+                          setFieldValue('toDate', '');
+                          setFieldValue('toTime', '');
+                          setFieldValue('taka', '');
                         }
                         setFieldValue(
-                          "designation",
+                          'designation',
                           valueOption?.employeeDesignation
                         );
                         setFieldValue(
-                          "designationId",
+                          'designationId',
                           valueOption?.employeeDesignationId
                         );
                       }}
                       loadOptions={loadUserList}
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <NewSelect
                       options={[]}
-                      label='Work Place'
+                      label="Work Place"
                       value={values?.workPlace}
-                      placeholder='Work Place'
+                      placeholder="Work Place"
                       onChange={(valueOption) => {
-                        setFieldValue("workPlace", valueOption);
+                        setFieldValue('workPlace', valueOption);
                       }}
                       isDisabled={true}
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <InputField
                       disabled
                       value={values?.enroll}
-                      label='ERP Enroll'
-                      placeholder='ERP Enroll'
-                      name='enroll'
+                      label="ERP Enroll"
+                      placeholder="ERP Enroll"
+                      name="enroll"
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <InputField
                       disabled
                       value={values?.designation}
-                      label='Designation'
-                      placeholder='Designation'
-                      name='designation'
+                      label="Designation"
+                      placeholder="Designation"
+                      name="designation"
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <InputField
                       disabled
                       value={values?.code}
-                      label='Code'
-                      placeholder='Code'
-                      name='code'
+                      label="Code"
+                      placeholder="Code"
+                      name="code"
                     />
                   </div>
                   <FromDateToDateForm
@@ -194,7 +202,7 @@ export default function FormCmp({
                           allValues?.toTime
                         ) {
                           getBill(allValues, (bill) => {
-                            setFieldValue("taka", bill);
+                            setFieldValue('taka', bill);
                           });
                         }
                       },
@@ -294,50 +302,50 @@ export default function FormCmp({
                       name="otCount"
                     />
                   </div> */}
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <InputField
                       value={values?.taka}
-                      label='Taka'
-                      placeholder='Taka'
-                      name='taka'
+                      label="Taka"
+                      placeholder="Taka"
+                      name="taka"
                       disabled
                     />
                   </div>
-                  <div className='col-lg-3'>
+                  <div className="col-lg-3">
                     <InputField
                       value={values?.remarks}
-                      label='Remarks (optional)'
-                      placeholder='Remarks (optional)'
-                      name='remarks'
+                      label="Remarks (optional)"
+                      placeholder="Remarks (optional)"
+                      name="remarks"
                     />
                   </div>
-                  <div className='col-lg-3 d-flex align-items-center mt-5 '>
+                  <div className="col-lg-3 d-flex align-items-center mt-5 ">
                     <AttachmentUploaderNew
                       style={{
-                        backgroundColor: "transparent",
-                        color: "black",
+                        backgroundColor: 'transparent',
+                        color: 'black',
                       }}
                       CBAttachmentRes={(attachmentData) => {
                         if (Array.isArray(attachmentData)) {
-                          console.log("fafa");
+                          console.log('fafa');
                           console.log({ attachmentUrl: attachmentData });
                           setFieldValue(
-                            "attachmentUrl",
+                            'attachmentUrl',
                             attachmentData?.[0]?.id
                           );
                         }
                       }}
                     />
                   </div>
-                  <div className='col-lg-3 mt-5'>
+                  <div className="col-lg-3 mt-5">
                     <button
                       onClick={() => {
                         addHandler(values, () => {
-                          setFieldValue("enroll", "");
-                          setFieldValue("code", "");
-                          setFieldValue("employee", "");
-                          setFieldValue("designation", "");
-                          setFieldValue("workPlace", "");
+                          setFieldValue('enroll', '');
+                          setFieldValue('code', '');
+                          setFieldValue('employee', '');
+                          setFieldValue('designation', '');
+                          setFieldValue('workPlace', '');
                         });
                       }}
                       disabled={
@@ -347,8 +355,8 @@ export default function FormCmp({
                         !values?.toDate ||
                         !values?.toTime
                       }
-                      type='button'
-                      className='btn btn-primary'
+                      type="button"
+                      className="btn btn-primary"
                     >
                       Add
                     </button>
@@ -356,13 +364,13 @@ export default function FormCmp({
                 </div>
                 {rowData?.length > 0 && (
                   <table
-                    id='table-to-xlsx'
+                    id="table-to-xlsx"
                     className={
-                      "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                      'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                     }
                   >
                     <thead>
-                      <tr className='cursor-pointer'>
+                      <tr className="cursor-pointer">
                         {headers?.map((th, index) => {
                           return <th key={index}> {th} </th>;
                         })}
@@ -374,8 +382,8 @@ export default function FormCmp({
                         return (
                           <tr key={index}>
                             <td
-                              style={{ width: "40px" }}
-                              className='text-center'
+                              style={{ width: '40px' }}
+                              className="text-center"
                             >
                               {index + 1}
                             </td>
@@ -388,13 +396,13 @@ export default function FormCmp({
                             <td>{_dateFormatter(item?.endDate)}</td>
                             <td>{item?.endTime}</td>
                             {/* <td>{item?.hours}</td> */}
-                            <td className='text-right'>{item?.taka}</td>
+                            <td className="text-right">{item?.taka}</td>
                             <td>{item?.remarks}</td>
                             <td
-                              style={{ width: "80px" }}
-                              className='text-center'
+                              style={{ width: '80px' }}
+                              className="text-center"
                             >
-                              <div className='d-flex justify-content-around'>
+                              <div className="d-flex justify-content-around">
                                 {/* <span>
                                 <IEdit
                                   onClick={() => {
@@ -418,10 +426,10 @@ export default function FormCmp({
                         );
                       })}
                       <tr>
-                        <td colSpan={9} className='text-right'>
+                        <td colSpan={9} className="text-right">
                           <b>Total</b>
                         </td>
-                        <td className='text-right'>
+                        <td className="text-right">
                           <b>{_fixedPoint(totalTaka, true, 0)}</b>
                         </td>
                         <td></td>

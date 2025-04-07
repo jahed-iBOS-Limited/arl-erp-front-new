@@ -1,12 +1,11 @@
-
-import React, { useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import InputField from "./../../../../_helper/_inputField";
-import { useSelector } from "react-redux";
-import GridData from "./grid";
-import GridDataTow from "../../debitNote/Table/grid";
-import { shallowEqual } from "react-redux";
+import React, { useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import InputField from './../../../../_helper/_inputField';
+import { useSelector } from 'react-redux';
+import GridData from './grid';
+import GridDataTow from '../../debitNote/Table/grid';
+import { shallowEqual } from 'react-redux';
 
 import {
   ModalProgressBar,
@@ -14,20 +13,20 @@ import {
   CardBody,
   CardHeader,
   CardHeaderToolbar,
-} from "./../../../../../../_metronic/_partials/controls";
+} from './../../../../../../_metronic/_partials/controls';
 
-import { getCreditNoteReport_api } from "../helper";
-import NewSelect from "../../../../_helper/_select";
-import { getDebitNoteReport_api } from "../../debitNote/helper";
-import Loading from "../../../../_helper/_loading";
+import { getCreditNoteReport_api } from '../helper';
+import NewSelect from '../../../../_helper/_select';
+import { getDebitNoteReport_api } from '../../debitNote/helper';
+import Loading from '../../../../_helper/_loading';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
 
 const initData = {
   id: undefined,
-  musok: "",
-  type: { value: 1, label: "Ganeral" },
+  musok: '',
+  type: { value: 1, label: 'Ganeral' },
 };
 
 export default function HeaderForm() {
@@ -56,7 +55,7 @@ export default function HeaderForm() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Credit Note"}>
+              <CardHeader title={'Credit Note'}>
                 <CardHeaderToolbar>
                   {/* <button
                     onClick={() => {
@@ -82,7 +81,7 @@ export default function HeaderForm() {
                         type="text"
                         onChange={(e) => {
                           setSingleData([]);
-                          setFieldValue("musok", e.target.value);
+                          setFieldValue('musok', e.target.value);
                         }}
                       />
                     </div>
@@ -90,14 +89,14 @@ export default function HeaderForm() {
                       <NewSelect
                         name="type"
                         options={[
-                          { value: 1, label: "Ganeral" },
-                          { value: 2, label: "Adjustment" },
+                          { value: 1, label: 'Ganeral' },
+                          { value: 2, label: 'Adjustment' },
                         ]}
                         value={values?.type}
                         label="Type"
                         onChange={(valueOption) => {
                           setSingleData([]);
-                          setFieldValue("type", valueOption);
+                          setFieldValue('type', valueOption);
                         }}
                         placeholder="Type"
                         errors={errors}

@@ -1,24 +1,23 @@
-
-import React, { useEffect, useState } from "react";
-import { useSelector, shallowEqual } from "react-redux";
-import IForm from "../../../../_helper/_form";
+import React, { useEffect, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import IForm from '../../../../_helper/_form';
 import {
   saveShopFloor,
   getPlantNameDDl,
   getShopFloorById,
   editSingleData,
   getWareHouseDDL,
-} from "../helper";
-import Form from "./form";
-import Loading from "./../../../../_helper/_loading";
-import { useLocation } from "react-router";
+} from '../helper';
+import Form from './form';
+import Loading from './../../../../_helper/_loading';
+import { useLocation } from 'react-router';
 
 let initData = {
-  plantName: "",
-  shopFloorName: "",
-  shopFloorCode: "",
-  warehouse: "",
-  intLocation: "",
+  plantName: '',
+  shopFloorName: '',
+  shopFloorCode: '',
+  warehouse: '',
+  intLocation: '',
 };
 
 export default function ShopFloorForm({
@@ -129,7 +128,7 @@ export default function ShopFloorForm({
 
   return (
     <IForm
-      title={id ? "Edit Shop Floor" : "Create Shop Floor"}
+      title={id ? 'Edit Shop Floor' : 'Create Shop Floor'}
       getProps={setObjprops}
       isDisabled={isDisabled}
     >

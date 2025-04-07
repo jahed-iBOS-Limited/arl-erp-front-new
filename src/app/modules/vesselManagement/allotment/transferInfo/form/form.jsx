@@ -1,13 +1,13 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import IButton from "../../../../_helper/iButton";
-import ICustomCard from "../../../../_helper/_customCard";
-import IDelete from "../../../../_helper/_helperIcons/_delete";
-import InputField from "../../../../_helper/_inputField";
-import NewSelect from "../../../../_helper/_select";
-import { getItemTypeData } from "../../g2gItemInfo/helper";
-import { getItemData } from "../helper";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+import IButton from '../../../../_helper/iButton';
+import ICustomCard from '../../../../_helper/_customCard';
+import IDelete from '../../../../_helper/_helperIcons/_delete';
+import InputField from '../../../../_helper/_inputField';
+import NewSelect from '../../../../_helper/_select';
+import { getItemTypeData } from '../../g2gItemInfo/helper';
+import { getItemData } from '../helper';
 // import { BADCBCICForm } from "../../../common/components";
 
 export default function FormCmp({
@@ -85,13 +85,13 @@ export default function FormCmp({
                   <NewSelect
                     name="transactionType"
                     options={[
-                      { value: 5, label: "Transfer In" },
-                      { value: 19, label: "Transfer Out" },
+                      { value: 5, label: 'Transfer In' },
+                      { value: 19, label: 'Transfer Out' },
                     ]}
                     value={values?.transactionType}
                     label="Transaction Type"
                     onChange={(valueOption) => {
-                      setFieldValue("transactionType", valueOption);
+                      setFieldValue('transactionType', valueOption);
                       setRowDto([]);
                     }}
                     placeholder="Transaction Type"
@@ -105,7 +105,7 @@ export default function FormCmp({
                     value={values?.shipPoint}
                     label="From ShipPoint"
                     onChange={(valueOption) => {
-                      setFieldValue("shipPoint", valueOption);
+                      setFieldValue('shipPoint', valueOption);
                       setRowDto([]);
                     }}
                     placeholder="From ShipPoint"
@@ -124,7 +124,7 @@ export default function FormCmp({
                           `The same ShipPoint as "to ShopPoint" is not allowed! Please select another one.`
                         );
                       } else {
-                        setFieldValue("toShipPoint", valueOption);
+                        setFieldValue('toShipPoint', valueOption);
                         setRowDto([]);
                       }
                     }}
@@ -147,7 +147,7 @@ export default function FormCmp({
                 </div>
                 {values?.transactionType?.value === 5 && (
                   <IButton
-                    colSize={"col-lg-9"}
+                    colSize={'col-lg-9'}
                     onClick={() => {
                       getTransferOutedItems(values);
                     }}
@@ -164,14 +164,14 @@ export default function FormCmp({
                         value={values?.itemType}
                         label="Item Type"
                         onChange={(valueOption) => {
-                          setFieldValue("itemType", valueOption);
+                          setFieldValue('itemType', valueOption);
                           getItemData(
                             accId,
                             buId,
                             valueOption?.value,
                             setItemDDL
                           );
-                          setFieldValue("item", "");
+                          setFieldValue('item', '');
                         }}
                         placeholder="Item Type"
                       />
@@ -185,7 +185,7 @@ export default function FormCmp({
                         label="Item Name"
                         disabled={!values?.itemType}
                         onChange={(valueOption) => {
-                          setFieldValue("item", valueOption);
+                          setFieldValue('item', valueOption);
                         }}
                         placeholder="Item"
                         isDisabled={!values?.itemType?.value}
@@ -206,9 +206,9 @@ export default function FormCmp({
                         type="button"
                         onClick={() => {
                           addRow(values, () => {
-                            setFieldValue("item", "");
-                            setFieldValue("quantity", "");
-                            setFieldValue("itemType", "");
+                            setFieldValue('item', '');
+                            setFieldValue('quantity', '');
+                            setFieldValue('itemType', '');
                           });
                         }}
                         disabled={
@@ -233,7 +233,7 @@ export default function FormCmp({
                         {values?.transactionType?.value === 5 && (
                           <th
                             onClick={() => allSelect(!selectedAll())}
-                            style={{ width: "30px" }}
+                            style={{ width: '30px' }}
                           >
                             <input
                               type="checkbox"
@@ -243,7 +243,7 @@ export default function FormCmp({
                             />
                           </th>
                         )}
-                        <th style={{ width: "30px" }}>SL</th>
+                        <th style={{ width: '30px' }}>SL</th>
                         <th>Transaction Type</th>
                         <th>From ShipPoint</th>
                         <th>To ShipPoint</th>
@@ -255,7 +255,7 @@ export default function FormCmp({
                       </tr>
                     </thead>
                     {values?.transactionType?.value === 19 && (
-                      <tbody style={{ overflow: "scroll" }}>
+                      <tbody style={{ overflow: 'scroll' }}>
                         {rowDto?.map((item, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
@@ -274,14 +274,14 @@ export default function FormCmp({
                       </tbody>
                     )}
                     {values?.transactionType?.value === 5 && (
-                      <tbody style={{ overflow: "scroll" }}>
+                      <tbody style={{ overflow: 'scroll' }}>
                         {rowDto?.map((item, index) => (
                           <tr key={index}>
                             {
                               <td
                                 onClick={() => {
                                   rowDataHandler(
-                                    "isSelected",
+                                    'isSelected',
                                     index,
                                     !item.isSelected
                                   );
@@ -290,10 +290,10 @@ export default function FormCmp({
                                 style={
                                   item?.isSelected
                                     ? {
-                                        backgroundColor: "#aacae3",
-                                        width: "30px",
+                                        backgroundColor: '#aacae3',
+                                        width: '30px',
                                       }
-                                    : { width: "30px" }
+                                    : { width: '30px' }
                                 }
                               >
                                 <input

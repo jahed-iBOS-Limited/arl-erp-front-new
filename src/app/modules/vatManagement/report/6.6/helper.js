@@ -1,13 +1,13 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
-import shortid from "shortid";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
 
 export const createPurchase = async (payload, cb, setDisabled) => {
   try {
     setDisabled(true);
     const res = await Axios.post(`/vat/TaxPurchase/CreateTaxPurchase`, payload);
     if (res.status === 200 && res?.data) {
-      toast.success("Submitted Successfully", {
+      toast.success('Submitted Successfully', {
         toastId: shortid(),
       });
       cb();
@@ -33,7 +33,7 @@ export const editPurchase = async (payload, setDisabled) => {
     setDisabled(true);
     const res = await Axios.put(`/vat/TaxPurchase/EditTaxPurchase`, payload);
     if (res.status === 200 && res?.data) {
-      toast.success(res.data?.message || "Edited successfully");
+      toast.success(res.data?.message || 'Edited successfully');
       // cb();
       setDisabled(false);
     }
@@ -103,9 +103,9 @@ export const generate66 = async (
   setCertificateNo,
   setDateIssue,
   SetIsGeneratedFunc,
-  setIsLoading,
+  setIsLoading
 ) => {
-  setIsLoading &&setIsLoading(true);
+  setIsLoading && setIsLoading(true);
   try {
     const res = await Axios.post(
       `/vat/GenrateMushak66/CreateGenerateMushak66`,
@@ -115,10 +115,10 @@ export const generate66 = async (
     SetIsGeneratedFunc && SetIsGeneratedFunc();
     setCertificateNo(res?.data?.mushak66HeaderDTO?.certificateNo);
     setDateIssue && setDateIssue(res?.data?.mushak66HeaderDTO?.dateofIssue);
-    toast.success("Generate successfully");
-    setIsLoading &&setIsLoading(false);
+    toast.success('Generate successfully');
+    setIsLoading && setIsLoading(false);
   } catch (error) {
-    setIsLoading &&setIsLoading(false);
+    setIsLoading && setIsLoading(false);
     console.log(error);
     toast.warning(error?.response?.message);
   }
@@ -194,7 +194,7 @@ export const getSinglePurchase = async (puId, setSingleData, setRowDto) => {
       const header = res?.data?.objHeaderDTO;
       const row = res?.data?.objListRowDTO;
       if (!res?.data?.objHeaderDTO) {
-        toast.warning("Data Not Found");
+        toast.warning('Data Not Found');
       }
       setSingleData(header);
       setRowDto(row);
@@ -221,7 +221,7 @@ export const getGridDataSingleInvoice = async (
     if (res.status === 200 && res?.data) {
       setter(res?.data);
       if (res?.data?.length === 0) {
-        toast.warning("Data Not Found");
+        toast.warning('Data Not Found');
       }
       setLoading(false);
     }
@@ -241,7 +241,7 @@ export const getGridDataOthers = async (
   setter,
   setLoading
 ) => {
-  const partnerPath = partnerId ? `PartnerId=${partnerId}&` : "";
+  const partnerPath = partnerId ? `PartnerId=${partnerId}&` : '';
   try {
     setLoading(true);
     const res = await Axios.get(
@@ -251,7 +251,7 @@ export const getGridDataOthers = async (
       setter(res?.data || []);
       setLoading(false);
       if (res?.data?.length === 0) {
-        toast.warning("Data Not Found");
+        toast.warning('Data Not Found');
       }
     }
   } catch (error) {

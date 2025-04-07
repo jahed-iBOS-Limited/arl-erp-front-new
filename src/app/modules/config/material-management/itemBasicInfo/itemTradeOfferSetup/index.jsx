@@ -1,5 +1,5 @@
-import React from "react";
-import ItemTradeOfferSetupForm from "./Form/addEditForm";
+import React from 'react';
+import ItemTradeOfferSetupForm from './Form/addEditForm';
 
 function ItemTradeOfferSetup() {
   return <ItemTradeOfferSetupForm />;

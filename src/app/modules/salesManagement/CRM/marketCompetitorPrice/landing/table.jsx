@@ -55,7 +55,7 @@ const LandingTable = ({ obj }) => {
                       <span
                         onClick={() => {
                           history.push(
-                            `/sales-management/CRM/MarketCompetitorPrice/edit/${item?.intCompetitorPriceHeaderId}`,
+                            `/sales-management/CRM/MarketCompetitorPrice/edit/${item?.intCompetitorPriceHeaderId}`
                           );
                         }}
                       >

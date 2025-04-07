@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 export function getScaleForDDL() {
   return axios.get(`/pms/CommonDDL/ScaleDDL`);

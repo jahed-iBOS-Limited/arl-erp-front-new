@@ -1,14 +1,14 @@
-import React, { useState, useRef } from "react";
-import ICustomCard from "../../../_helper/_customCard";
-import { useSelector, shallowEqual } from "react-redux";
-import { Formik } from "formik";
-import { Form } from "react-bootstrap";
-import { DeliveryReportOrganizationWiseLandingAction } from "./helper";
-import { _todayDate } from "../../../_helper/_todayDate";
-import Loading from "../../../_helper/_loading";
-import { _firstDateofMonth } from "../../../_helper/_firstDateOfCurrentMonth";
-import ReactToPrint from "react-to-print";
-import InputField from "../../../_helper/_inputField";
+import React, { useState, useRef } from 'react';
+import ICustomCard from '../../../_helper/_customCard';
+import { useSelector, shallowEqual } from 'react-redux';
+import { Formik } from 'formik';
+import { Form } from 'react-bootstrap';
+import { DeliveryReportOrganizationWiseLandingAction } from './helper';
+import { _todayDate } from '../../../_helper/_todayDate';
+import Loading from '../../../_helper/_loading';
+import { _firstDateofMonth } from '../../../_helper/_firstDateOfCurrentMonth';
+import ReactToPrint from 'react-to-print';
+import InputField from '../../../_helper/_inputField';
 
 const initData = {
   startDate: _firstDateofMonth(),
@@ -27,7 +27,6 @@ const DeliveryReportOrganizationWise = () => {
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
-
 
   return (
     <>
@@ -59,7 +58,7 @@ const DeliveryReportOrganizationWise = () => {
                               value={values?.startDate}
                               name="startDate"
                               onChange={(e) => {
-                                setFieldValue("startDate", e.target.value);
+                                setFieldValue('startDate', e.target.value);
                               }}
                               type="date"
                             />
@@ -71,13 +70,13 @@ const DeliveryReportOrganizationWise = () => {
                               value={values?.endDate}
                               name="endDate"
                               onChange={(e) => {
-                                setFieldValue("endDate", e.target.value);
+                                setFieldValue('endDate', e.target.value);
                               }}
                               type="date"
                             />
                           </div>
                           <div
-                            style={{ marginTop: "15px" }}
+                            style={{ marginTop: '15px' }}
                             className="col-lg-4 d-flex"
                           >
                             <button
@@ -111,7 +110,7 @@ const DeliveryReportOrganizationWise = () => {
                                     className="btn btn-primary"
                                   >
                                     <i
-                                      style={{ fontSize: "18px" }}
+                                      style={{ fontSize: '18px' }}
                                       className="fas fa-print ml-3"
                                     ></i>
                                     Print
@@ -119,7 +118,7 @@ const DeliveryReportOrganizationWise = () => {
                                 )}
                                 content={() => printRef.current}
                                 pageStyle={
-                                  "@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}"
+                                  '@media print{body { -webkit-print-color-adjust: exact;}@page {size: portrait ! important}}'
                                 }
                               />
                             </div>

@@ -1,77 +1,73 @@
-import React, { useEffect, useState } from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
-import NewSelect from "./../../../../_helper/_select";
-import InputField from "./../../../../_helper/_inputField";
-import { GetShippointDDL_api, GetAccOfPartnerDDl_api } from "../helper";
+import React, { useEffect, useState } from 'react';
+import { Formik, Form } from 'formik';
+import * as Yup from 'yup';
+import NewSelect from './../../../../_helper/_select';
+import InputField from './../../../../_helper/_inputField';
+import { GetShippointDDL_api, GetAccOfPartnerDDl_api } from '../helper';
 // Validation schema
 const validationSchema = Yup.object().shape({
   shippoint: Yup.object().shape({
-    label: Yup.string().required("Shippoint is required"),
-    value: Yup.string().required("Shippoint is required"),
+    label: Yup.string().required('Shippoint is required'),
+    value: Yup.string().required('Shippoint is required'),
   }),
 
   itemName: Yup.object().shape({
-    label: Yup.string().required("Item Name Name is required"),
-    value: Yup.string().required("Item Name Name is required"),
+    label: Yup.string().required('Item Name Name is required'),
+    value: Yup.string().required('Item Name Name is required'),
   }),
   accOfPartner: Yup.object().when(
-    "isAccOfPartner",
+    'isAccOfPartner',
     (isAccOfPartner, Schema) => {
-      if (isAccOfPartner) return Schema.required("Account Of is required");
+      if (isAccOfPartner) return Schema.required('Account Of is required');
     }
   ),
 
   supplierCountry: Yup.string()
-    .min(1, "Minimum 1 symbols")
-    .required("Supplier Country is required"),
+    .min(1, 'Minimum 1 symbols')
+    .required('Supplier Country is required'),
   deliveryAddress: Yup.string()
-    .min(1, "Minimum 1 symbols")
-    .required("Delivery Address is required"),
+    .min(1, 'Minimum 1 symbols')
+    .required('Delivery Address is required'),
   upazila: Yup.string()
-    .min(1, "Minimum 1 symbols")
-    .required("Upazila is required"),
+    .min(1, 'Minimum 1 symbols')
+    .required('Upazila is required'),
   district: Yup.string()
-    .min(1, "Minimum 1 symbols")
-    .required("District is required"),
+    .min(1, 'Minimum 1 symbols')
+    .required('District is required'),
   bankName: Yup.string()
-    .min(1, "Minimum 1 symbols")
-    .required("Bank Name is required"),
+    .min(1, 'Minimum 1 symbols')
+    .required('Bank Name is required'),
   // permissionNumber: Yup.string()
   //   .min(1, "Minimum 1 symbols")
   //   .required("Permission Name is required"),
   shipName: Yup.string()
-    .min(1, "Minimum 1 symbols")
-    .required("Ship Name is required"),
-  lcNo: Yup.string()
-    .min(1, "Minimum 1 symbols")
-    .required("LC. No.is required"),
-  color: Yup.string()
-    .min(1, "Minimum 1 symbols")
-    .required("Color is required"),
+    .min(1, 'Minimum 1 symbols')
+    .required('Ship Name is required'),
+  lcNo: Yup.string().min(1, 'Minimum 1 symbols').required('LC. No.is required'),
+  color: Yup.string().min(1, 'Minimum 1 symbols').required('Color is required'),
   commission: Yup.number()
-    .min(0, "Minimum 0 number")
-    .required("Commission is required")
-    .test("commission", "Maximum 100 Number ", function(value) {
+    .min(0, 'Minimum 0 number')
+    .required('Commission is required')
+    .test('commission', 'Maximum 100 Number ', function (value) {
       return 100 >= value;
     }),
   govtPrice: Yup.number()
-    .min(0, "Minimum 0 number")
-    .required("Govt. Price is required"),
+    .min(0, 'Minimum 0 number')
+    .required('Govt. Price is required'),
 
   itemPrice: Yup.number()
-    .min(0, "Minimum 0 number")
-    .required("Price is required"),
+    .min(0, 'Minimum 0 number')
+    .required('Price is required'),
   quantity: Yup.number()
-    .min(0, "Minimum 0 number")
-    .required("Quantity is required")
-    .test("quantity", "Invalid Number", function(value) {
+    .min(0, 'Minimum 0 number')
+    .required('Quantity is required')
+    .test('quantity', 'Invalid Number', function (value) {
       return this.parent.maxQuantity >= value;
     }),
   // supplierDate: Yup.date().required("Supplier Date is required"),
-  lcDate: Yup.date().required("LC Date is required"),
+  lcDate: Yup.date().required('LC Date is required'),
   // permissionDate: Yup.date().required("LC Date is required"),
-  challanDate: Yup.date().required("Challan Date is required"),
+  challanDate: Yup.date().required('Challan Date is required'),
 });
 
 export default function FormCmp({
@@ -135,7 +131,7 @@ export default function FormCmp({
                     value={values?.shippoint}
                     label="Shippoint"
                     onChange={(valueOption) => {
-                      setFieldValue("shippoint", valueOption);
+                      setFieldValue('shippoint', valueOption);
                     }}
                     placeholder="Shippoint"
                     errors={errors}
@@ -170,7 +166,7 @@ export default function FormCmp({
                     value={values?.itemName}
                     label="Item Name"
                     onChange={(valueOption) => {
-                      setFieldValue("itemName", valueOption);
+                      setFieldValue('itemName', valueOption);
                     }}
                     placeholder="Item Name"
                     errors={errors}
@@ -196,9 +192,9 @@ export default function FormCmp({
                     placeholder="Quantity"
                     type="number"
                     onChange={(e) => {
-                      setFieldValue("quantity", e.target.value);
+                      setFieldValue('quantity', e.target.value);
                       setFieldValue(
-                        "totalPrice",
+                        'totalPrice',
                         +values?.itemPrice * +e.target.value
                       );
                     }}
@@ -330,7 +326,7 @@ export default function FormCmp({
                     value={values?.salesCenter}
                     label="Sales Center"
                     onChange={(valueOption) => {
-                      setFieldValue("salesCenter", valueOption);
+                      setFieldValue('salesCenter', valueOption);
                     }}
                     placeholder="Sales Center"
                     errors={errors}
@@ -346,7 +342,7 @@ export default function FormCmp({
                       value={values?.accOfPartner}
                       label="Account Of"
                       onChange={(valueOption) => {
-                        setFieldValue("accOfPartner", valueOption);
+                        setFieldValue('accOfPartner', valueOption);
                       }}
                       placeholder="Account Of"
                       errors={errors}
@@ -359,13 +355,13 @@ export default function FormCmp({
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

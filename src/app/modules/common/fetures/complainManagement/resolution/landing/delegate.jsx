@@ -55,7 +55,7 @@ function DelegateForm({ clickRowData, landingCB }) {
     if (v?.length < 2) return [];
     return axios
       .get(
-        `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${accId}&BusinessUnitId=0&searchTearm=${v}`,
+        `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${accId}&BusinessUnitId=0&searchTearm=${v}`
       )
       .then((res) => {
         return res?.data?.map((itm) => ({
@@ -68,7 +68,7 @@ function DelegateForm({ clickRowData, landingCB }) {
 
   const saveHandler = (values, cb) => {
     let delegateDateTime = moment(
-      `${values?.delegateDate} ${values?.delegateTime}`,
+      `${values?.delegateDate} ${values?.delegateTime}`
     ).format('YYYY-MM-DDTHH:mm:ss');
 
     const payload = {
@@ -95,33 +95,32 @@ function DelegateForm({ clickRowData, landingCB }) {
         if (formikRef.current) {
           formikRef.current.setFieldValue(
             'remarks',
-            resData?.statusRemarks || '',
+            resData?.statusRemarks || ''
           );
           formikRef.current.setFieldValue(
             'delegateTo',
             resData?.delegateToId
               ? {
-                value: resData?.delegateToId,
-                label: resData?.delegateToName,
-              }
-              : '',
+                  value: resData?.delegateToId,
+                  label: resData?.delegateToName,
+                }
+              : ''
           );
           formikRef.current.setFieldValue(
             'delegateDate',
             resData?.delegateDateTime
               ? moment(resData?.delegateDateTime).format('YYYY-MM-DD')
-              : _todayDate(),
+              : _todayDate()
           );
           formikRef.current.setFieldValue(
             'delegateTime',
             resData?.delegateDateTime
               ? moment(resData?.delegateDateTime).format('HH:mm')
-              : moment().format('HH:mm'),
+              : moment().format('HH:mm')
           );
         }
       });
     }
-
   }, [clickRowData]);
   return (
     <>
@@ -176,11 +175,11 @@ function DelegateForm({ clickRowData, landingCB }) {
                   <b>Occurrence Date Time: </b>{' '}
                   {moment(singleData?.requestDateTime).isValid() &&
                     moment(singleData?.requestDateTime).format(
-                      'YYYY-MM-DD',
+                      'YYYY-MM-DD'
                     )}{' '}
                   {singleData?.occurrenceTime &&
                     moment(singleData?.occurrenceTime, 'HH:mm:ss').format(
-                      'hh:mm A',
+                      'hh:mm A'
                     )}
                 </p>
 
@@ -212,7 +211,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                   <b>Create Date: </b>{' '}
                   {singleData?.lastActionDateTime &&
                     moment(singleData?.lastActionDateTime).format(
-                      'YYYY-MM-DD hh:mm A',
+                      'YYYY-MM-DD hh:mm A'
                     )}
                 </p>
                 <p>
@@ -254,7 +253,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                     allowDelegationMenuPermission(
                       values,
                       setLoading,
-                      setIsPermitted,
+                      setIsPermitted
                     );
                   }}
                 >
@@ -312,7 +311,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                         checkDelegationMenuPermission(
                           valueOption?.value,
                           setLoading,
-                          setIsPermitted,
+                          setIsPermitted
                         );
                         setFieldValue('delegateTo', valueOption || '');
                       } else {
@@ -361,7 +360,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                         type="button"
                         onClick={() => {
                           dispatch(
-                            getDownlloadFileView_Action(values?.attachment),
+                            getDownlloadFileView_Action(values?.attachment)
                           );
                         }}
                       >
@@ -385,7 +384,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                       if (search?.length < 2) return [];
                       return axios
                         .get(
-                          `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${accId}&BusinessUnitId=0&searchTearm=${search}`,
+                          `/asset/DropDown/GetEmployeeByEmpIdDDL?AccountId=${accId}&BusinessUnitId=0&searchTearm=${search}`
                         )
                         .then((res) => {
                           return res?.data?.map((itm) => ({
@@ -431,7 +430,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                         type="button"
                         onClick={() => {
                           dispatch(
-                            getDownlloadFileView_Action(values?.attachmentRow),
+                            getDownlloadFileView_Action(values?.attachmentRow)
                           );
                         }}
                       >
@@ -452,7 +451,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                         investigatorName:
                           values?.investigationPerson?.label || '',
                         investigationDueDate: moment(
-                          values?.investigationDueDate || undefined,
+                          values?.investigationDueDate || undefined
                         ).format('YYYY-MM-DD'),
                         investigationDateTime: '',
                         rootCause: '',
@@ -462,7 +461,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                       };
                       // duplicate check
                       const duplicateCheck = rowDto?.some(
-                        (itm) => itm?.investigatorId === obj?.investigatorId,
+                        (itm) => itm?.investigatorId === obj?.investigatorId
                       );
                       if (duplicateCheck) {
                         return toast.warn('Investigation Person Already Added');
@@ -506,8 +505,8 @@ function DelegateForm({ clickRowData, landingCB }) {
                                 onClick={() => {
                                   dispatch(
                                     getDownlloadFileView_Action(
-                                      item?.attachment,
-                                    ),
+                                      item?.attachment
+                                    )
                                   );
                                 }}
                               >
@@ -520,7 +519,7 @@ function DelegateForm({ clickRowData, landingCB }) {
                             <span
                               onClick={() => {
                                 const newData = rowDto.filter(
-                                  (itm, idx) => idx !== index,
+                                  (itm, idx) => idx !== index
                                 );
                                 setRowDto(newData);
                               }}
@@ -552,7 +551,7 @@ function DelegateForm({ clickRowData, landingCB }) {
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjects.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name,
+                  (item) => item.file.name !== deleteFileObj.file.name
                 );
                 setFileObjects(newData);
               }}
@@ -578,7 +577,7 @@ function DelegateForm({ clickRowData, landingCB }) {
               }}
               onDelete={(deleteFileObj) => {
                 const newData = fileObjectsRow.filter(
-                  (item) => item.file.name !== deleteFileObj.file.name,
+                  (item) => item.file.name !== deleteFileObj.file.name
                 );
                 setFileObjectsRow(newData);
               }}

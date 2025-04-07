@@ -136,7 +136,7 @@ export default function FuelRequisitionByShipment() {
                         uoMid: reportData?.objHeader?.uoMid,
                         uoMname: reportData?.objHeader?.uoMname,
                         numTransactionQuantity: Math.ceil(
-                          reportData?.objHeader?.totalFuelCostLtr,
+                          reportData?.objHeader?.totalFuelCostLtr
                         ),
                         monTransactionValue:
                           reportData?.objHeader?.fuelRate *
@@ -164,7 +164,7 @@ export default function FuelRequisitionByShipment() {
                           setReportData({});
                           setShipmentId(null);
                         },
-                        true,
+                        true
                       );
                     }}
                   >
@@ -269,15 +269,15 @@ export default function FuelRequisitionByShipment() {
                                 setShipmentId(res?.objHeader?.shipmentCostId);
                                 setFieldValue(
                                   'shippingPoint',
-                                  res?.objHeader?.shipPointName || '',
+                                  res?.objHeader?.shipPointName || ''
                                 );
                                 setFieldValue(
                                   'vehicleNumber',
-                                  res?.objHeader?.vehicleName || '',
+                                  res?.objHeader?.vehicleName || ''
                                 );
                                 setFieldValue(
                                   'driver',
-                                  res?.objHeader?.driverName || '',
+                                  res?.objHeader?.driverName || ''
                                 );
                                 // setFieldValue(
                                 //   "packerName",
@@ -286,10 +286,10 @@ export default function FuelRequisitionByShipment() {
                                 setFieldValue(
                                   'deliveryDate',
                                   _dateFormatter(
-                                    res?.objHeader?.shipmentDate,
-                                  ) || '',
+                                    res?.objHeader?.shipmentDate
+                                  ) || ''
                                 );
-                              },
+                              }
                             );
                           }
                         }}
@@ -382,25 +382,25 @@ export default function FuelRequisitionByShipment() {
                       (res) => {
                         setFieldValue(
                           'shippingPoint',
-                          res?.objHeader?.shipPointName || '',
+                          res?.objHeader?.shipPointName || ''
                         );
                         setFieldValue(
                           'vehicleNumber',
-                          res?.objHeader?.strVehicleName || '',
+                          res?.objHeader?.strVehicleName || ''
                         );
                         setFieldValue(
                           'driver',
-                          res?.objHeader?.driverName || '',
+                          res?.objHeader?.driverName || ''
                         );
                         setFieldValue(
                           'packerName',
-                          res?.objHeader?.packerName || '',
+                          res?.objHeader?.packerName || ''
                         );
                         setFieldValue(
                           'deliveryDate',
-                          _dateFormatter(res?.objHeader?.pricingDate) || '',
+                          _dateFormatter(res?.objHeader?.pricingDate) || ''
                         );
-                      },
+                      }
                     );
                   }}
                 />

@@ -39,11 +39,11 @@ const validationSchema = Yup.object().shape({});
 function ExpBookingList() {
   const { profileData } = useSelector(
     (state) => state?.authData || {},
-    shallowEqual,
+    shallowEqual
   );
   const { token } = useSelector(
     (state) => state?.authData.tokenData,
-    shallowEqual,
+    shallowEqual
   );
   const [
     shipBookingReqLanding,
@@ -70,43 +70,45 @@ function ExpBookingList() {
 
     // Encrypt the token and userID using base64 encoding
     const encryptedToken = CryptoJS.enc.Base64.stringify(
-      CryptoJS.enc.Utf8.parse(token),
+      CryptoJS.enc.Utf8.parse(token)
     );
     const encryptedUserID = CryptoJS.enc.Base64.stringify(
-      CryptoJS.enc.Utf8.parse(userID),
+      CryptoJS.enc.Utf8.parse(userID)
     );
     const superAdmin = CryptoJS.enc.Base64.stringify(
-      CryptoJS.enc.Utf8.parse('superAdmin'),
+      CryptoJS.enc.Utf8.parse('superAdmin')
     );
     // Open the new window with the URL
     window.open(
       `${targetUrl}/edit-from-erp/${item?.bookingRequestId}?token=${encryptedToken}&userID=${encryptedUserID}&key=${superAdmin}`,
-      '_blank',
+      '_blank'
     );
   };
 
   useEffect(() => {
     commonLandingApi();
-
   }, [profileData]);
 
   const commonLandingApi = (
     searchValue,
     PageNo = pageNo,
     PageSize = pageSize,
-    modeOfTransportId = 1,
+    modeOfTransportId = 1
   ) => {
     setShipBookingReqLanding([]);
     getShipBookingReqLanding(
-      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${profileData?.userReferenceId
-      }&userTypeId=${0}&refrenceId=${profileData?.userReferenceId
-      }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search=${searchValue || ''
-      }&modeOfTransportId=${modeOfTransportId}&tradeTypeId=1`,
+      `${imarineBaseUrl}/domain/ShippingService/GetShipBookingRequestLanding?userId=${
+        profileData?.userReferenceId
+      }&userTypeId=${0}&refrenceId=${
+        profileData?.userReferenceId
+      }&viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search=${
+        searchValue || ''
+      }&modeOfTransportId=${modeOfTransportId}&tradeTypeId=1`
     );
   };
 
   const selectedRow = shipBookingReqLanding?.data?.filter(
-    (item) => item?.isCheck,
+    (item) => item?.isCheck
   );
 
   const getDisabledCheckbox = (item) => {
@@ -129,7 +131,7 @@ function ExpBookingList() {
     if (
       selectedRow.length > 0 &&
       selectedRow?.[0]?.freightAgentReferenceId !==
-      item?.freightAgentReferenceId
+        item?.freightAgentReferenceId
     ) {
       return true;
     }
@@ -148,7 +150,6 @@ function ExpBookingList() {
           },
         }}
         validationSchema={validationSchema}
-
       >
         {({ errors, touched, setFieldValue, isValid, values, resetForm }) => (
           <ICustomCard
@@ -235,7 +236,7 @@ function ExpBookingList() {
                         null,
                         pageNo,
                         pageSize,
-                        valueOption?.value,
+                        valueOption?.value
                       );
                     }}
                     placeholder="Booking Type"
@@ -252,7 +253,7 @@ function ExpBookingList() {
                       searchValue,
                       1,
                       100,
-                      values?.modeOfTransport?.value,
+                      values?.modeOfTransport?.value
                     );
                   }}
                 />
@@ -361,16 +362,16 @@ function ExpBookingList() {
                           Shipment Order Invoice
                         </th>
                         {['Air', 'Sea-Air'].includes(
-                          values?.modeOfTransport?.label,
+                          values?.modeOfTransport?.label
                         ) && (
-                            <th
-                              style={{
-                                minWidth: '43px',
-                              }}
-                            >
-                              EPB
-                            </th>
-                          )}
+                          <th
+                            style={{
+                              minWidth: '43px',
+                            }}
+                          >
+                            EPB
+                          </th>
+                        )}
                         <th
                           style={{
                             minWidth: '66px',
@@ -379,16 +380,16 @@ function ExpBookingList() {
                           Receive
                         </th>
                         {['Sea', 'Sea-Air'].includes(
-                          values?.modeOfTransport?.label,
+                          values?.modeOfTransport?.label
                         ) && (
-                            <th
-                              style={{
-                                minWidth: '65px',
-                              }}
-                            >
-                              Stuffing
-                            </th>
-                          )}
+                          <th
+                            style={{
+                              minWidth: '65px',
+                            }}
+                          >
+                            Stuffing
+                          </th>
+                        )}
 
                         <th
                           style={{
@@ -406,16 +407,16 @@ function ExpBookingList() {
                         </th>
                         <th style={{ minWidth: '50px' }}>FC</th>
                         {['Air', 'Sea-Air'].includes(
-                          values?.modeOfTransport?.label,
+                          values?.modeOfTransport?.label
                         ) && (
-                            <th
-                              style={{
-                                minWidth: '60px',
-                              }}
-                            >
-                              Manifest
-                            </th>
-                          )}
+                          <th
+                            style={{
+                              minWidth: '60px',
+                            }}
+                          >
+                            Manifest
+                          </th>
+                        )}
 
                         <th
                           style={{
@@ -446,34 +447,7 @@ function ExpBookingList() {
                         >
                           Doc Checklist
                         </th>
-                        <th
-                          style={{
-                            minWidth: '72px',
-                          }}
-                        >
-                          Dispatch
-                        </th>
-                        <th
-                          style={{
-                            minWidth: '149px',
-                          }}
-                        >
-                          Customs Clearance
-                        </th>
-                        <th
-                          style={{
-                            minWidth: '80px',
-                          }}
-                        >
-                          In Transit
-                        </th>
-                        <th
-                          style={{
-                            minWidth: '137px',
-                          }}
-                        >
-                          Des. Port Receive
-                        </th>
+
                         <th
                           style={{
                             minWidth: '80px',
@@ -571,7 +545,7 @@ function ExpBookingList() {
                                 <td className="text-left">{item?.hblnumber}</td>
                                 <td className="text-left">
                                   {item?.seaMasterBlCode &&
-                                    item?.airMasterBlCode ? (
+                                  item?.airMasterBlCode ? (
                                     <>
                                       {item?.seaMasterBlCode}{' '}
                                       {item?.airMasterBlCode
@@ -638,7 +612,7 @@ function ExpBookingList() {
                                               null,
                                               pageNo,
                                               pageSize,
-                                              values?.modeOfTransport?.value,
+                                              values?.modeOfTransport?.value
                                             );
                                           },
                                         });
@@ -691,27 +665,27 @@ function ExpBookingList() {
                                   </span>
                                 </td>
                                 {['Air', 'Sea-Air'].includes(
-                                  item?.modeOfTransport,
+                                  item?.modeOfTransport
                                 ) && (
-                                    <td>
-                                      <span>
-                                        <button
-                                          className={
-                                            'btn btn-sm btn-warning px-1 py-1'
-                                          }
-                                          onClick={() => {
-                                            setRowClickData(item);
-                                            setIsModalShowObj({
-                                              ...isModalShowObj,
-                                              isEPB: true,
-                                            });
-                                          }}
-                                        >
-                                          EPB
-                                        </button>
-                                      </span>
-                                    </td>
-                                  )}
+                                  <td>
+                                    <span>
+                                      <button
+                                        className={
+                                          'btn btn-sm btn-warning px-1 py-1'
+                                        }
+                                        onClick={() => {
+                                          setRowClickData(item);
+                                          setIsModalShowObj({
+                                            ...isModalShowObj,
+                                            isEPB: true,
+                                          });
+                                        }}
+                                      >
+                                        EPB
+                                      </button>
+                                    </span>
+                                  </td>
+                                )}
 
                                 <td>
                                   {!item?.isAirOperation && (
@@ -737,37 +711,37 @@ function ExpBookingList() {
                                   )}
                                 </td>
                                 {['Sea', 'Sea-Air'].includes(
-                                  values?.modeOfTransport?.label,
+                                  values?.modeOfTransport?.label
                                 ) && (
-                                    <td>
-                                      {' '}
-                                      <span>
-                                        <button
-                                          disabled={item?.isStuffing}
-                                          className={
-                                            item?.isStuffing
-                                              ? 'btn btn-sm btn-success px-1 py-1'
-                                              : 'btn btn-sm btn-warning px-1 py-1'
-                                          }
-                                          onClick={() => {
-                                            setRowClickData({
-                                              ...item,
-                                              title: 'Stuffing',
-                                              isUpdateDate: 'stuffingDate',
-                                              isUpdateKey: 'isStuffing',
-                                            });
-                                            setIsModalShowObj({
-                                              ...isModalShowObj,
+                                  <td>
+                                    {' '}
+                                    <span>
+                                      <button
+                                        disabled={item?.isStuffing}
+                                        className={
+                                          item?.isStuffing
+                                            ? 'btn btn-sm btn-success px-1 py-1'
+                                            : 'btn btn-sm btn-warning px-1 py-1'
+                                        }
+                                        onClick={() => {
+                                          setRowClickData({
+                                            ...item,
+                                            title: 'Stuffing',
+                                            isUpdateDate: 'stuffingDate',
+                                            isUpdateKey: 'isStuffing',
+                                          });
+                                          setIsModalShowObj({
+                                            ...isModalShowObj,
 
-                                              isCommonModalShow: true,
-                                            });
-                                          }}
-                                        >
-                                          Stuffing
-                                        </button>
-                                      </span>
-                                    </td>
-                                  )}
+                                            isCommonModalShow: true,
+                                          });
+                                        }}
+                                      >
+                                        Stuffing
+                                      </button>
+                                    </span>
+                                  </td>
+                                )}
                                 <td>
                                   {!item?.isAirOperation && (
                                     <span>
@@ -831,25 +805,25 @@ function ExpBookingList() {
                                   </span>
                                 </td>
                                 {['Air', 'Sea-Air'].includes(
-                                  item?.modeOfTransport,
+                                  item?.modeOfTransport
                                 ) && (
-                                    <td>
-                                      <span>
-                                        <button
-                                          className="btn btn-sm btn-warning px-1 py-1"
-                                          onClick={() => {
-                                            setRowClickData(item);
-                                            setIsModalShowObj({
-                                              ...isModalShowObj,
-                                              isManifest: true,
-                                            });
-                                          }}
-                                        >
-                                          Manifest
-                                        </button>
-                                      </span>
-                                    </td>
-                                  )}
+                                  <td>
+                                    <span>
+                                      <button
+                                        className="btn btn-sm btn-warning px-1 py-1"
+                                        onClick={() => {
+                                          setRowClickData(item);
+                                          setIsModalShowObj({
+                                            ...isModalShowObj,
+                                            isManifest: true,
+                                          });
+                                        }}
+                                      >
+                                        Manifest
+                                      </button>
+                                    </span>
+                                  </td>
+                                )}
 
                                 <td>
                                   <span>
@@ -935,113 +909,6 @@ function ExpBookingList() {
                                       }}
                                     >
                                       Doc Checklist
-                                    </button>
-                                  </span>
-                                </td>
-                                <td>
-                                  <span>
-                                    <button
-                                      disabled={item?.isDispatch}
-                                      className={
-                                        item?.isDispatch
-                                          ? 'btn btn-sm btn-success px-1 py-1'
-                                          : 'btn btn-sm btn-warning px-1 py-1'
-                                      }
-                                      onClick={() => {
-                                        setRowClickData({
-                                          ...item,
-                                          title: 'Dispatch',
-                                          isUpdateDate: 'dispatchDate',
-                                          isUpdateKey: 'isDispatch',
-                                        });
-                                        setIsModalShowObj({
-                                          ...isModalShowObj,
-
-                                          isCommonModalShow: true,
-                                        });
-                                      }}
-                                    >
-                                      Dispatch
-                                    </button>
-                                  </span>
-                                </td>
-                                <td>
-                                  <span>
-                                    <button
-                                      disabled={item?.isCustomsClear}
-                                      className={
-                                        item?.isCustomsClear
-                                          ? 'btn btn-sm btn-success px-1 py-1'
-                                          : 'btn btn-sm btn-warning px-1 py-1'
-                                      }
-                                      onClick={() => {
-                                        setRowClickData({
-                                          ...item,
-                                          title: 'Customs Clearance',
-                                          isUpdateDate: 'customsClearDt',
-                                          isUpdateKey: 'isCustomsClear',
-                                        });
-                                        setIsModalShowObj({
-                                          ...isModalShowObj,
-
-                                          isCommonModalShow: true,
-                                        });
-                                      }}
-                                    >
-                                      Customs Clearance
-                                    </button>
-                                  </span>
-                                </td>
-                                <td>
-                                  <span>
-                                    <button
-                                      disabled={item?.isInTransit}
-                                      className={
-                                        item?.isInTransit
-                                          ? 'btn btn-sm btn-success px-1 py-1'
-                                          : 'btn btn-sm btn-warning px-1 py-1'
-                                      }
-                                      onClick={() => {
-                                        setRowClickData({
-                                          ...item,
-                                          title: 'In Transit',
-                                          isUpdateDate: 'inTransit',
-                                          isUpdateKey: 'isInTransit',
-                                        });
-                                        setIsModalShowObj({
-                                          ...isModalShowObj,
-
-                                          isCommonModalShow: true,
-                                        });
-                                      }}
-                                    >
-                                      In Transit
-                                    </button>
-                                  </span>
-                                </td>
-                                <td>
-                                  <span>
-                                    <button
-                                      disabled={item?.isDestPortReceive}
-                                      className={
-                                        item?.isDestPortReceive
-                                          ? 'btn btn-sm btn-success px-1 py-1'
-                                          : 'btn btn-sm btn-warning px-1 py-1'
-                                      }
-                                      onClick={() => {
-                                        setRowClickData({
-                                          ...item,
-                                          title: 'Des. Port Receive',
-                                          isUpdateDate: 'destPortReceive',
-                                          isUpdateKey: 'isDestPortReceive',
-                                        });
-                                        setIsModalShowObj({
-                                          ...isModalShowObj,
-                                          isCommonModalShow: true,
-                                        });
-                                      }}
-                                    >
-                                      Des. Port Receive
                                     </button>
                                   </span>
                                 </td>
@@ -1139,7 +1006,7 @@ function ExpBookingList() {
                       null,
                       pageNo,
                       pageSize,
-                      values?.modeOfTransport?.value,
+                      values?.modeOfTransport?.value
                     );
                   }}
                   values={values}
@@ -1172,7 +1039,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1205,7 +1072,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1238,7 +1105,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1288,7 +1155,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1321,7 +1188,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1407,7 +1274,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1440,7 +1307,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1475,7 +1342,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1491,8 +1358,9 @@ function ExpBookingList() {
               {/* HBCode GN Modal */}
               {isModalShowObj?.isHBCodeGN && (
                 <IViewModal
-                  title={`${rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
-                    } Report`}
+                  title={`${
+                    rowClickData?.modeOfTransport === 'Air' ? 'HAWB' : 'HBL'
+                  } Report`}
                   show={isModalShowObj?.isHBCodeGN}
                   onHide={() => {
                     setIsModalShowObj({
@@ -1509,7 +1377,7 @@ function ExpBookingList() {
                         null,
                         pageNo,
                         pageSize,
-                        values?.modeOfTransport?.value,
+                        values?.modeOfTransport?.value
                       );
                     }}
                   />
@@ -1537,7 +1405,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                       }}
                       isEPBInvoice={true}
@@ -1565,7 +1433,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1606,7 +1474,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1638,7 +1506,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,
@@ -1729,7 +1597,7 @@ function ExpBookingList() {
                           null,
                           pageNo,
                           pageSize,
-                          values?.modeOfTransport?.value,
+                          values?.modeOfTransport?.value
                         );
                         setIsModalShowObj({
                           ...isModalShowObj,

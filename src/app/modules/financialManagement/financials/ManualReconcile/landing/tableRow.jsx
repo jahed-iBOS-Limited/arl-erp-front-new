@@ -1,13 +1,12 @@
-
-import { Formik } from "formik";
-import { toast } from "react-toastify";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import { Card, CardBody } from "../../../../../../_metronic/_partials/controls";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
+import { Formik } from 'formik';
+import { toast } from 'react-toastify';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { Card, CardBody } from '../../../../../../_metronic/_partials/controls';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
 import {
   checkTwoFactorApproval,
   getBankAccountNoDDL,
@@ -15,11 +14,11 @@ import {
   getBankStatementDataMatch,
   header,
   postForceReconsile,
-} from "../helpers";
-import { Modal } from "react-bootstrap";
-import numberWithCommas from "../../../../_helper/_numberWithCommas";
-import { downloadFile } from "../../../../_helper/downloadFile";
-import { SetFinancialsManualReconcileAction } from "../../../../_helper/reduxForLocalStorage/Actions";
+} from '../helpers';
+import { Modal } from 'react-bootstrap';
+import numberWithCommas from '../../../../_helper/_numberWithCommas';
+import { downloadFile } from '../../../../_helper/downloadFile';
+import { SetFinancialsManualReconcileAction } from '../../../../_helper/reduxForLocalStorage/Actions';
 
 const TableRow = () => {
   const [isloading, setIsLoading] = useState(false);
@@ -81,15 +80,15 @@ const TableRow = () => {
   );
 
   const initData = {
-    backAccount: financialsManualReconcile?.bankAccount || "",
-    sbu: financialsManualReconcile?.sbu || "",
+    backAccount: financialsManualReconcile?.bankAccount || '',
+    sbu: financialsManualReconcile?.sbu || '',
     isManualReconsile: financialsManualReconcile?.isManualReconsile || false,
     transactionDate:
       financialsManualReconcile?.transactionDate || _dateFormatter(new Date()),
-    fromDate: financialsManualReconcile?.fromDate || "",
-    acDDL: financialsManualReconcile?.acDDL || "",
-    typeDDL: financialsManualReconcile?.typeDDL || "",
-    search: financialsManualReconcile?.search || "",
+    fromDate: financialsManualReconcile?.fromDate || '',
+    acDDL: financialsManualReconcile?.acDDL || '',
+    typeDDL: financialsManualReconcile?.typeDDL || '',
+    search: financialsManualReconcile?.search || '',
   };
 
   const dispatch = useDispatch();
@@ -184,14 +183,11 @@ const TableRow = () => {
     handleResize();
 
     // Event listener for window resize
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
     // Cleanup
-    return () => window.removeEventListener("resize", handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
-
-
-
 
   return (
     <>
@@ -207,18 +203,18 @@ const TableRow = () => {
                 className="global-form"
                 style={{
                   ...header,
-                  ...(isMobile ? { flexDirection: "column" } : {}),
+                  ...(isMobile ? { flexDirection: 'column' } : {}),
                 }}
               >
                 <h4>Reconcile</h4>
-                <div style={{ width: "80%" }} className="row">
+                <div style={{ width: '80%' }} className="row">
                   <div className="col-md-4">
                     <NewSelect
                       name="acDDL"
                       placeholder="Select A/C No"
                       value={values?.acDDL}
                       onChange={(valueOption) => {
-                        setFieldValue("acDDL", valueOption);
+                        setFieldValue('acDDL', valueOption);
                         setBankReconsileManualData([]);
                         setBankStatementDataMatch([]);
                         dispatch(
@@ -241,7 +237,7 @@ const TableRow = () => {
                       placeholder="From Date"
                       type="date"
                       onChange={(e) => {
-                        console.log("e", e.target.value);
+                        console.log('e', e.target.value);
                         setBankReconsileManualData([]);
                         setBankStatementDataMatch([]);
                         dispatch(
@@ -278,7 +274,7 @@ const TableRow = () => {
                       placeholder="Select Type "
                       value={values?.typeDDL}
                       onChange={(valueOption) => {
-                        setFieldValue("typeDDL", valueOption);
+                        setFieldValue('typeDDL', valueOption);
                         setBankReconsileManualData([]);
                         setBankStatementDataMatch([]);
                         dispatch(
@@ -290,12 +286,12 @@ const TableRow = () => {
                       }}
                       options={[
                         {
-                          label: "Cheque issued but not presented in bank",
+                          label: 'Cheque issued but not presented in bank',
                           value: 1,
                         },
                         {
                           label:
-                            "Amount debited in bank book but not credited in bank statement",
+                            'Amount debited in bank book but not credited in bank statement',
                           value: 2,
                         },
                       ]}
@@ -304,14 +300,14 @@ const TableRow = () => {
                     />
                   </div>
                   <div className="col-md">
-                    <label style={{ display: "inherit" }}>
+                    <label style={{ display: 'inherit' }}>
                       <input
                         type="radio"
                         name="isManualReconsile"
                         checked={values.isManualReconsile === false}
                         className="mr-1 pointer"
                         onChange={(e) => {
-                          setFieldValue("isManualReconsile", false);
+                          setFieldValue('isManualReconsile', false);
                           setBankReconsileManualData([]);
                           setBankStatementDataMatch([]);
                           dispatch(
@@ -324,14 +320,14 @@ const TableRow = () => {
                       />
                       Not Completed
                     </label>
-                    <label style={{ display: "inherit" }}>
+                    <label style={{ display: 'inherit' }}>
                       <input
                         type="radio"
                         name="isManualReconsile"
                         checked={values.isManualReconsile === true}
                         className="mr-1 pointer"
                         onChange={(e) => {
-                          setFieldValue("isManualReconsile", true);
+                          setFieldValue('isManualReconsile', true);
                           setBankReconsileManualData([]);
                           setBankStatementDataMatch([]);
                           dispatch(
@@ -366,22 +362,24 @@ const TableRow = () => {
                     }
                     type="button"
                     onClick={() => {
-                      const leftTableTotal =  Math.abs(
+                      const leftTableTotal = Math.abs(
                         getItemCheckedTotal(
                           bankReconsileManualData,
-                          "numAmount"
+                          'numAmount'
                         )
-                      )
-                      const rightTableTotal =  Math.abs(
-                        getItemCheckedTotal(
-                          bankStatementDataMatch,
-                          "monAmount"
-                        )
-                      )
-                      const isNotCompleted  =  values?.isManualReconsile === false
-                      if (Math.floor(leftTableTotal) !== Math.floor(rightTableTotal) && isNotCompleted) {
-                        toast.warning("Amount Mismatch");
-                        return
+                      );
+                      const rightTableTotal = Math.abs(
+                        getItemCheckedTotal(bankStatementDataMatch, 'monAmount')
+                      );
+                      const isNotCompleted =
+                        values?.isManualReconsile === false;
+                      if (
+                        Math.floor(leftTableTotal) !==
+                          Math.floor(rightTableTotal) &&
+                        isNotCompleted
+                      ) {
+                        toast.warning('Amount Mismatch');
+                        return;
                       }
                       if (values.isManualReconsile === false) {
                         return forceReconcileSaved(values);
@@ -403,7 +401,7 @@ const TableRow = () => {
 
                 <div
                   className="row global-form mb-0"
-                  style={{ padding: "0", margin: "0" }}
+                  style={{ padding: '0', margin: '0' }}
                 >
                   <div className="col-12">
                     <div className="row d-flex align-items-center p-1">
@@ -444,8 +442,8 @@ const TableRow = () => {
                       </div> */}
 
                       {values.isManualReconsile && (
-                        <div style={{ display: "flex" }} className="col-lg-3">
-                          <label style={{ width: "100px" }} className="mr-1">
+                        <div style={{ display: 'flex' }} className="col-lg-3">
+                          <label style={{ width: '100px' }} className="mr-1">
                             Reconcile Type
                           </label>
                           <NewSelect
@@ -454,19 +452,19 @@ const TableRow = () => {
                             isHiddenLabel
                             value={values?.reconcileType}
                             onChange={(valueOption) => {
-                              setFieldValue("reconcileType", valueOption);
+                              setFieldValue('reconcileType', valueOption);
                             }}
                             options={[
                               {
-                                label: "Auto",
+                                label: 'Auto',
                                 value: 2,
                               },
                               {
-                                label: "Manual",
+                                label: 'Manual',
                                 value: 3,
                               },
                               {
-                                label: "Force",
+                                label: 'Force',
                                 value: 4,
                               },
                             ]}
@@ -475,7 +473,7 @@ const TableRow = () => {
                           />
                         </div>
                       )}
-                      <div style={{ width: "200px", display: "flex" }}>
+                      <div style={{ width: '200px', display: 'flex' }}>
                         <label className="mr-1">Search</label>
                         <InputField
                           value={values?.search}
@@ -483,7 +481,7 @@ const TableRow = () => {
                           placeholder="Search"
                           type="text"
                           onChange={(e) => {
-                            setFieldValue("search", e?.target?.value);
+                            setFieldValue('search', e?.target?.value);
                             dispatch(
                               SetFinancialsManualReconcileAction({
                                 ...values,
@@ -501,11 +499,11 @@ const TableRow = () => {
                     <div className="d-flex justify-content-center">
                       <p
                         className="text-center text-danger mb-0"
-                        style={{ fontSize: "10px" }}
+                        style={{ fontSize: '10px' }}
                       >
                         {values?.typeDDL?.value === 1
-                          ? "Check Issued but not present in Bank"
-                          : "Amount debited in bank book but not credited in bank statement"}
+                          ? 'Check Issued but not present in Bank'
+                          : 'Amount debited in bank book but not credited in bank statement'}
                       </p>
 
                       <p
@@ -514,63 +512,63 @@ const TableRow = () => {
                           Math.abs(
                             getItemCheckedTotal(
                               bankReconsileManualData,
-                              "numAmount"
+                              'numAmount'
                             ) !==
                               Math.abs(
                                 getItemCheckedTotal(
                                   bankStatementDataMatch,
-                                  "monAmount"
+                                  'monAmount'
                                 )
                               ) ||
                               getItemCheckedTotal(
                                 bankReconsileManualData,
-                                "numAmount"
+                                'numAmount'
                               ) === 0 ||
                               getItemCheckedTotal(
                                 bankStatementDataMatch,
-                                "monAmount"
+                                'monAmount'
                               ) === 0
                           )
                             ? {
-                                color: "red",
-                                fontSize: "10px",
-                                position: "absolute",
-                                right: "10px",
-                                fontWeight: "bold",
+                                color: 'red',
+                                fontSize: '10px',
+                                position: 'absolute',
+                                right: '10px',
+                                fontWeight: 'bold',
                               }
                             : {
-                                color: "green",
-                                fontSize: "10px",
-                                position: "absolute",
-                                right: "10px",
-                                fontWeight: "bold",
+                                color: 'green',
+                                fontSize: '10px',
+                                position: 'absolute',
+                                right: '10px',
+                                fontWeight: 'bold',
                               }
                         }
                       >
-                        Total:{" "}
+                        Total:{' '}
                         <span>
                           {numberWithCommas(
                             Math.abs(
                               getItemCheckedTotal(
                                 bankReconsileManualData,
-                                "numAmount"
+                                'numAmount'
                               )
                             )
                           )}
-                        </span>{" "}
+                        </span>{' '}
                       </p>
                     </div>
                     <div className="table-responsive">
                       <table className="table table-striped table-bordered global-table mt-0 forceReconcileTable">
                         <thead>
                           <tr>
-                            <th style={{ minWidth: "30px" }}>Sl </th>
-                            <th style={{ minWidth: "70px" }}>Voucher</th>
-                            <th style={{ minWidth: "50px" }}>Issue Date</th>
-                            <th style={{ minWidth: "50px" }}>Cheque</th>
-                            <th style={{ minWidth: "70px" }}>Party</th>
-                            <th style={{ minWidth: "70px" }}>Amount</th>
-                            <th style={{ minWidth: "30px", maxWidth: "30px" }}>
+                            <th style={{ minWidth: '30px' }}>Sl </th>
+                            <th style={{ minWidth: '70px' }}>Voucher</th>
+                            <th style={{ minWidth: '50px' }}>Issue Date</th>
+                            <th style={{ minWidth: '50px' }}>Cheque</th>
+                            <th style={{ minWidth: '70px' }}>Party</th>
+                            <th style={{ minWidth: '70px' }}>Amount</th>
+                            <th style={{ minWidth: '30px', maxWidth: '30px' }}>
                               <input
                                 type="checkbox"
                                 checked={
@@ -602,11 +600,11 @@ const TableRow = () => {
                                   key={index}
                                   style={
                                     item?.checked
-                                      ? { background: "#ccccff" }
+                                      ? { background: '#ccccff' }
                                       : null
                                   }
                                   onClick={(e) => {
-                                    item["checked"] = !item["checked"];
+                                    item['checked'] = !item['checked'];
                                     setBankReconsileManualData([
                                       ...bankReconsileManualData,
                                     ]);
@@ -615,10 +613,10 @@ const TableRow = () => {
                                   <td>{index + 1}</td>
                                   <td> {item?.strBankJournalCode}</td>
                                   <td>
-                                    {" "}
+                                    {' '}
                                     {_dateFormatter(
                                       item?.dteInstrumentDate
-                                    )}{" "}
+                                    )}{' '}
                                   </td>
                                   <td>{item?.strInstrumentNo}</td>
                                   <td>{item?.strNarration}</td>
@@ -660,21 +658,21 @@ const TableRow = () => {
                           <tr>
                             <th
                               style={{
-                                height: "25px",
-                                position: "sticky",
-                                bottom: "0",
-                                padding: "2px",
+                                height: '25px',
+                                position: 'sticky',
+                                bottom: '0',
+                                padding: '2px',
                               }}
                               colSpan="5"
                             >
-                              Total{" "}
+                              Total{' '}
                             </th>
                             <th
                               style={{
-                                height: "25px",
-                                position: "sticky",
-                                bottom: "0",
-                                padding: "2px",
+                                height: '25px',
+                                position: 'sticky',
+                                bottom: '0',
+                                padding: '2px',
                               }}
                             >
                               {numberWithCommas(
@@ -685,10 +683,10 @@ const TableRow = () => {
                             </th>
                             <th
                               style={{
-                                height: "25px",
-                                position: "sticky",
-                                bottom: "0",
-                                padding: "2px",
+                                height: '25px',
+                                position: 'sticky',
+                                bottom: '0',
+                                padding: '2px',
                               }}
                             ></th>
                           </tr>
@@ -701,10 +699,10 @@ const TableRow = () => {
                       <p
                         className="mb-0"
                         style={{
-                          fontSize: "10px",
-                          color: "blue",
-                          cursor: "pointer",
-                          textDecoration: "underLine",
+                          fontSize: '10px',
+                          color: 'blue',
+                          cursor: 'pointer',
+                          textDecoration: 'underLine',
                         }}
                         onClick={(e) =>
                           // values?.acDDL?.value,
@@ -724,7 +722,7 @@ const TableRow = () => {
                             if (values?.fromDate) {
                               api += `&dteFromDate=${values?.fromDate}`;
                             }
-                            downloadFile(api, "Force Reconcile", "xlsx");
+                            downloadFile(api, 'Force Reconcile', 'xlsx');
                           }
                         }
                       >
@@ -732,11 +730,11 @@ const TableRow = () => {
                       </p>
                       <p
                         className="text-danger mb-0"
-                        style={{ fontSize: "10px" }}
+                        style={{ fontSize: '10px' }}
                       >
                         {values?.typeDDL?.value === 1
-                          ? "Amount debited in bank book but not credited in bank statement"
-                          : "Amount credited in bank book but not yet debited in bank book"}
+                          ? 'Amount debited in bank book but not credited in bank statement'
+                          : 'Amount credited in bank book but not yet debited in bank book'}
                       </p>
                       <p
                         className="mb-0"
@@ -744,58 +742,58 @@ const TableRow = () => {
                           Math.abs(
                             getItemCheckedTotal(
                               bankReconsileManualData,
-                              "numAmount"
+                              'numAmount'
                             ) !==
                               Math.abs(
                                 getItemCheckedTotal(
                                   bankStatementDataMatch,
-                                  "monAmount"
+                                  'monAmount'
                                 )
                               ) ||
                               getItemCheckedTotal(
                                 bankReconsileManualData,
-                                "numAmount"
+                                'numAmount'
                               ) === 0 ||
                               getItemCheckedTotal(
                                 bankStatementDataMatch,
-                                "monAmount"
+                                'monAmount'
                               ) === 0
                           )
                             ? {
-                                color: "red",
-                                fontSize: "10px",
-                                fontWeight: "bold",
+                                color: 'red',
+                                fontSize: '10px',
+                                fontWeight: 'bold',
                               }
                             : {
-                                color: "green",
-                                fontSize: "10px",
-                                fontWeight: "bold",
+                                color: 'green',
+                                fontSize: '10px',
+                                fontWeight: 'bold',
                               }
                         }
                       >
-                        Total:{" "}
+                        Total:{' '}
                         <span>
                           {numberWithCommas(
                             Math.abs(
                               getItemCheckedTotal(
                                 bankStatementDataMatch,
-                                "monAmount"
+                                'monAmount'
                               )
                             )
                           )}
-                        </span>{" "}
+                        </span>{' '}
                       </p>
                     </div>
                     <div className="table-responsive">
                       <table className="table table-striped table-bordered global-table mt-0 forceReconcileTable">
                         <thead>
                           <tr>
-                            <th style={{ minWidth: "30px" }}>Sl </th>
-                            <th style={{ minWidth: "50px" }}>Issue Date</th>
-                            <th style={{ minWidth: "50px" }}>Cheque</th>
-                            <th style={{ minWidth: "70px" }}>Party</th>
-                            <th style={{ minWidth: "70px" }}>Amount</th>
-                            <th style={{ minWidth: "30px", maxWidth: "30px" }}>
+                            <th style={{ minWidth: '30px' }}>Sl </th>
+                            <th style={{ minWidth: '50px' }}>Issue Date</th>
+                            <th style={{ minWidth: '50px' }}>Cheque</th>
+                            <th style={{ minWidth: '70px' }}>Party</th>
+                            <th style={{ minWidth: '70px' }}>Amount</th>
+                            <th style={{ minWidth: '30px', maxWidth: '30px' }}>
                               <input
                                 type="checkbox"
                                 checked={
@@ -827,11 +825,11 @@ const TableRow = () => {
                                   key={index}
                                   style={
                                     item?.checked
-                                      ? { background: "#ccccff" }
+                                      ? { background: '#ccccff' }
                                       : null
                                   }
                                   onClick={(e) => {
-                                    item["checked"] = !item["checked"];
+                                    item['checked'] = !item['checked'];
                                     setBankStatementDataMatch([
                                       ...bankStatementDataMatch,
                                     ]);
@@ -839,7 +837,7 @@ const TableRow = () => {
                                 >
                                   <td>{index + 1}</td>
                                   <td>
-                                    {" "}
+                                    {' '}
                                     {_dateFormatter(
                                       item?.dteBankTransectionDate
                                     )}
@@ -884,21 +882,21 @@ const TableRow = () => {
                           <tr>
                             <th
                               style={{
-                                height: "25px",
-                                position: "sticky",
-                                bottom: "0",
-                                padding: "2px",
+                                height: '25px',
+                                position: 'sticky',
+                                bottom: '0',
+                                padding: '2px',
                               }}
                               colSpan="4"
                             >
-                              Total{" "}
+                              Total{' '}
                             </th>
                             <th
                               style={{
-                                height: "25px",
-                                position: "sticky",
-                                bottom: "0",
-                                padding: "2px",
+                                height: '25px',
+                                position: 'sticky',
+                                bottom: '0',
+                                padding: '2px',
                               }}
                             >
                               {numberWithCommas(
@@ -909,10 +907,10 @@ const TableRow = () => {
                             </th>
                             <th
                               style={{
-                                height: "25px",
-                                position: "sticky",
-                                bottom: "0",
-                                padding: "2px",
+                                height: '25px',
+                                position: 'sticky',
+                                bottom: '0',
+                                padding: '2px',
                               }}
                             ></th>
                           </tr>
@@ -971,12 +969,12 @@ const TableRow = () => {
                     <div
                       className="position-absolute"
                       style={{
-                        background: "skyblue",
-                        opacity: ".3",
-                        top: "0",
-                        bottom: "0",
-                        left: "0",
-                        right: "0",
+                        background: 'skyblue',
+                        opacity: '.3',
+                        top: '0',
+                        bottom: '0',
+                        left: '0',
+                        right: '0',
                       }}
                     ></div>
                   )}
@@ -1019,17 +1017,17 @@ const TableRow = () => {
                           checkTwoFactorApproval(
                             2,
                             selectedBusinessUnit?.value,
-                            "Reconcile",
+                            'Reconcile',
                             reconcileModal?.type === 0
                               ? 0
                               : reconcileModal?.type === 1
-                              ? reconcileModal?.item?.intBankJournalId
-                              : reconcileModal?.item?.intBankStatementId,
+                                ? reconcileModal?.item?.intBankJournalId
+                                : reconcileModal?.item?.intBankStatementId,
                             reconcileModal?.type === 0
                               ? 0
                               : reconcileModal?.type === 1
-                              ? `${reconcileModal?.item?.strChequeNo} ( ${reconcileModal?.item?.strBankJournalCode} )`
-                              : `${reconcileModal?.item?.strChequeNo}`,
+                                ? `${reconcileModal?.item?.strChequeNo} ( ${reconcileModal?.item?.strBankJournalCode} )`
+                                : `${reconcileModal?.item?.strChequeNo}`,
                             0,
                             profileData?.userId,
                             reconcileModal?.otp,
@@ -1070,26 +1068,26 @@ const TableRow = () => {
                           checkTwoFactorApproval(
                             1,
                             selectedBusinessUnit?.value,
-                            "Reconcile",
+                            'Reconcile',
                             reconcileModal?.type === 0
                               ? 0
                               : reconcileModal?.type === 1
-                              ? reconcileModal?.item?.intBankJournalId
-                              : reconcileModal?.item?.intBankStatementId,
+                                ? reconcileModal?.item?.intBankJournalId
+                                : reconcileModal?.item?.intBankStatementId,
                             reconcileModal?.type === 0
                               ? 0
                               : reconcileModal?.type === 1
-                              ? `${reconcileModal?.item?.strChequeNo} ( ${reconcileModal?.item?.strBankJournalCode} )`
-                              : `${reconcileModal?.item?.strChequeNo}`,
+                                ? `${reconcileModal?.item?.strChequeNo} ( ${reconcileModal?.item?.strBankJournalCode} )`
+                                : `${reconcileModal?.item?.strChequeNo}`,
                             0,
                             profileData?.userId,
-                            "",
+                            '',
                             1,
                             setIsLoading,
                             () => {
                               setReconcileModal({
                                 ...reconcileModal,
-                                otp: "",
+                                otp: '',
                                 isOtpGenerate: true,
                               });
                             }
@@ -1099,10 +1097,10 @@ const TableRow = () => {
                       disabled={reconcileModal?.state === 1}
                     >
                       {reconcileModal?.state === 1
-                        ? "Processing"
+                        ? 'Processing'
                         : reconcileModal?.isOtpGenerate
-                        ? "Send"
-                        : "Yes"}
+                          ? 'Send'
+                          : 'Yes'}
                     </button>
                     <button
                       className="btn btn-secondary"
@@ -1113,7 +1111,7 @@ const TableRow = () => {
                       }
                       disabled={reconcileModal?.state === 1}
                     >
-                      {reconcileModal?.isOtpGenerate ? "Cancel" : "No"}
+                      {reconcileModal?.isOtpGenerate ? 'Cancel' : 'No'}
                     </button>
                   </div>
                 </div>

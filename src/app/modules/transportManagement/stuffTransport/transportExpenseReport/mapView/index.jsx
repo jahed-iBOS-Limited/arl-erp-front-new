@@ -14,9 +14,8 @@ export default function MapView({ singleData }) {
 
   useEffect(() => {
     getAllSheetData(
-      `mes/VehicleLog/GetTripAndDriverCheckPointInfo?tripId=${singleData?.intTripId}`,
+      `mes/VehicleLog/GetTripAndDriverCheckPointInfo?tripId=${singleData?.intTripId}`
     );
-
   }, [singleData]);
 
   useEffect(() => {
@@ -39,13 +38,12 @@ export default function MapView({ singleData }) {
             enableHighAccuracy: true,
             maximumAge: 100,
             timeout: 60000,
-          },
+          }
         );
       } else {
         console.log('else');
       }
     }, 2000);
-
   }, []);
 
   // Generate Payload for Polyline

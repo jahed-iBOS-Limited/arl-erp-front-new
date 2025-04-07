@@ -1,26 +1,26 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import ICustomTable from "../../../_helper/_customTable";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
-import { _formatMoney } from "../../../_helper/_formatMoney";
-import IView from "../../../_helper/_helperIcons/_view";
-import { getDownlloadFileView_Action } from "../../../_helper/_redux/Actions";
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import ICustomTable from '../../../_helper/_customTable';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
+import { _formatMoney } from '../../../_helper/_formatMoney';
+import IView from '../../../_helper/_helperIcons/_view';
+import { getDownlloadFileView_Action } from '../../../_helper/_redux/Actions';
 
 const header = [
-  "SL",
-  "Application ID",
-  "Registration No",
-  "Application Date",
+  'SL',
+  'Application ID',
+  'Registration No',
+  'Application Date',
   "Account Holder's Name",
-  "Address",
-  "Hospital/Institutes",
-  "Cause Of Donation",
-  "Effective Date",
-  "Expiry Date",
-  "Payment Amount",
-  "Actual Payment Date",
-  "Payment Date",
-  "Attachment",
+  'Address',
+  'Hospital/Institutes',
+  'Cause Of Donation',
+  'Effective Date',
+  'Expiry Date',
+  'Payment Amount',
+  'Actual Payment Date',
+  'Payment Date',
+  'Attachment',
 ];
 
 const PaymentTable = ({ rowDto }) => {
@@ -46,8 +46,8 @@ const PaymentTable = ({ rowDto }) => {
               <td>{_dateFormatter(item?.dtePaymentDate)}</td>
               <td
                 style={{
-                  verticalAlign: "middle",
-                  textAlign: "center",
+                  verticalAlign: 'middle',
+                  textAlign: 'center',
                 }}
               >
                 <div className="">
@@ -66,12 +66,16 @@ const PaymentTable = ({ rowDto }) => {
           ))}
         {rowDto?.length > 0 && (
           <tr>
-            <td className="text-right pr-2" colSpan={10}>Total Payment Amount :</td>
+            <td className="text-right pr-2" colSpan={10}>
+              Total Payment Amount :
+            </td>
             <td className="pl-5" colSpan={4}>
-              {_formatMoney(rowDto.reduce(
-                (total, item, index, array) => total + item?.monAmount,
-                0
-              ))}
+              {_formatMoney(
+                rowDto.reduce(
+                  (total, item, index, array) => total + item?.monAmount,
+                  0
+                )
+              )}
             </td>
           </tr>
         )}

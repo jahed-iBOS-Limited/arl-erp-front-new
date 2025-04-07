@@ -1,18 +1,17 @@
-
-import { Formik } from "formik";
-import React, { useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
+import { Formik } from 'formik';
+import React, { useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../../_metronic/_partials/controls";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import NewSelect from "../../../../_helper/_select";
-import { brandItemRequestApprove } from "../helper";
+} from '../../../../../../_metronic/_partials/controls';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import NewSelect from '../../../../_helper/_select';
+import { brandItemRequestApprove } from '../helper';
 
 export default function BrandItemRequisitionApproveForm({
   getLandingData,
@@ -160,7 +159,7 @@ export default function BrandItemRequisitionApproveForm({
                     <table className="table table-striped table-bordered bj-table bj-table-landing">
                       <thead>
                         <tr>
-                          <th style={{ width: "30px" }}>SL</th>
+                          <th style={{ width: '30px' }}>SL</th>
                           <th>Item Name</th>
                           <th>Item Code</th>
                           <th>UoM</th>

@@ -1,5 +1,5 @@
-import Axios from "axios";
-import { toast } from "react-toastify";
+import Axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const CreateCustomerPoint = async (payload, setLoading) => {
   setLoading(true);
@@ -7,12 +7,12 @@ export const CreateCustomerPoint = async (payload, setLoading) => {
     setLoading(false);
     const res = await Axios.post(`/oms/CustomerPoint/CustomerPoint`, payload);
     if (res.status === 200) {
-      toast.success(res?.data?.message || "Save Successfully");
+      toast.success(res?.data?.message || 'Save Successfully');
     }
   } catch (error) {
     setLoading(false);
 
-    toast.error(error?.response?.data?.message || "error happened");
+    toast.error(error?.response?.data?.message || 'error happened');
   }
 };
 

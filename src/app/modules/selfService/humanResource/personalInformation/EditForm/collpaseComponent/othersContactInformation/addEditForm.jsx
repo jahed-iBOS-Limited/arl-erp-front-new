@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from 'react';
 import Form from './form';
 import { useSelector } from 'react-redux';
@@ -134,7 +132,6 @@ export default function OthersContactInformation({
 
   useEffect(() => {
     getEmpOthersConById();
-
   }, []);
 
   useEffect(() => {
@@ -157,7 +154,6 @@ export default function OthersContactInformation({
     } else {
       setEdit(true);
     }
-
   }, [singleData]);
 
   const saveHandler = async (values, cb) => {
@@ -213,10 +209,10 @@ export default function OthersContactInformation({
             (data) => {
               getEmpOthersContactInfoById_api(
                 headerData?.employeeId,
-                setSingleData,
+                setSingleData
               );
               setEditClick(false);
-            },
+            }
           );
         } else {
           toast.warn('Please add at least one');
@@ -229,9 +225,9 @@ export default function OthersContactInformation({
               getEmpOthersContactInfoById_api(
                 headerData?.employeeId,
                 setSingleData,
-                setDisabled,
+                setDisabled
               );
-            },
+            }
           );
         } else {
           toast.warn('Please add at least one');
@@ -243,7 +239,7 @@ export default function OthersContactInformation({
           getEmpOthersContactInfoById_api(
             headerData?.employeeId,
             setSingleData,
-            setDisabled,
+            setDisabled
           );
         });
       } else {

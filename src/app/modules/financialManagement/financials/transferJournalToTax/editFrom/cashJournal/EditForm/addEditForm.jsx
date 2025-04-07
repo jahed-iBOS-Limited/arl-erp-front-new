@@ -1,38 +1,41 @@
-
-
-import React, { useCallback, useState } from "react";
-import { useSelector, shallowEqual} from "react-redux";
-import Form from "./form";
-import { useLocation } from "react-router-dom";
-import { useEffect } from "react";
-import { toast } from "react-toastify";
-import IForm from "../../../../../../_helper/_form";
-import Loading from "../../../../../../_helper/_loading";
-import { _dateFormatter } from "../../../../../../_helper/_dateFormate";
-import { commonTransferJournal } from "../../../helper";
-import { getcashJournalSingleData_api } from "../../../../cashJournal/helper";
+import React, { useCallback, useState } from 'react';
+import { useSelector, shallowEqual } from 'react-redux';
+import Form from './form';
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import { toast } from 'react-toastify';
+import IForm from '../../../../../../_helper/_form';
+import Loading from '../../../../../../_helper/_loading';
+import { _dateFormatter } from '../../../../../../_helper/_dateFormate';
+import { commonTransferJournal } from '../../../helper';
+import { getcashJournalSingleData_api } from '../../../../cashJournal/helper';
 
 const initData = {
   id: undefined,
-  sbu: "",
-  cashGLPlus: "",
-  receiveFrom: "",
-  headerNarration: "",
-  partner: "",
-  profitCenter: "",
-  transaction: "",
-  amount: "",
-  gl: "",
-  narration: "",
-  paidTo: "",
-  costCenter: "",
-  trasferTo: "",
-  gLBankAc: "",
-  transactionDate: "",
-  partnerType: "",
+  sbu: '',
+  cashGLPlus: '',
+  receiveFrom: '',
+  headerNarration: '',
+  partner: '',
+  profitCenter: '',
+  transaction: '',
+  amount: '',
+  gl: '',
+  narration: '',
+  paidTo: '',
+  costCenter: '',
+  trasferTo: '',
+  gLBankAc: '',
+  transactionDate: '',
+  partnerType: '',
 };
 
-export default function CashJournaEditForm({journalTypeId, journalId, viewData, sbu}) {
+export default function CashJournaEditForm({
+  journalTypeId,
+  journalId,
+  viewData,
+  sbu,
+}) {
   const [objProps, setObjprops] = useState({});
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
@@ -50,30 +53,28 @@ export default function CashJournaEditForm({journalTypeId, journalId, viewData, 
   );
 
   const saveHandler = async (values, cb) => {
-
-
-    const payload =  rowDto?.map((item)=>({
-      accountId:  +profileData?.accountId,
+    const payload = rowDto?.map((item) => ({
+      accountId: +profileData?.accountId,
       businessUnitId: +selectedBusinessUnit?.value,
       sbuId: sbu?.value,
       accountingJournalTypeId: journalTypeId,
       accountingJournalId: journalId,
       accountingJournalCode: viewData?.cashJournalCode,
-      transactionDate:  _dateFormatter(values?.transactionDate),
-      bankSortName: viewData?.bankName || "",
+      transactionDate: _dateFormatter(values?.transactionDate),
+      bankSortName: viewData?.bankName || '',
       instrumentTypeID: +values?.instrumentType?.value || 0,
-      instrumentTypeName: values?.instrumentType?.label || "",
-      instrumentNo: values?.instrumentNo || "",
-      instrumentDate: values?.instrumentDate || "",
-      paytoName: values?.transaction || "",
+      instrumentTypeName: values?.instrumentType?.label || '',
+      instrumentNo: values?.instrumentNo || '',
+      instrumentDate: values?.instrumentDate || '',
+      paytoName: values?.transaction || '',
       journalId: journalId,
       journalCode: viewData?.cashJournalCode,
-      actionBy:  profileData?.userId,
+      actionBy: profileData?.userId,
       isTransfer: true,
       narration: values?.headerNarration,
       // start below
       generalLedgerId: item?.gl?.value,
-      generalLedgerCode:  item?.gl?.code,
+      generalLedgerCode: item?.gl?.code,
       generalLedgerName: item?.gl?.label,
       subGLId: item?.transaction?.value,
       subGlCode: item?.transaction?.code,
@@ -83,28 +84,21 @@ export default function CashJournaEditForm({journalTypeId, journalId, viewData, 
       numAmount: item?.amount,
       debit: item?.amount,
       credit: -item?.amount,
-    }))
+    }));
 
-    commonTransferJournal({row:payload});
-
+    commonTransferJournal({ row: payload });
   };
 
   useEffect(() => {
     if (id && journalTypeId) {
-      getcashJournalSingleData_api(
-        id,
-        journalTypeId,
-        setSingleData
-      );
+      getcashJournalSingleData_api(id, journalTypeId, setSingleData);
     }
-
   }, [id, headerData]);
 
   useEffect(() => {
     if (singleData?.objRow?.length > 0) {
       setRowDto(singleData?.objRow);
     }
-
   }, [singleData]);
 
   const setter = (values) => {
@@ -114,7 +108,7 @@ export default function CashJournaEditForm({journalTypeId, journalId, viewData, 
     if (count === 0) {
       setRowDto([...rowDto, values]);
     } else {
-      toast.warn("Not allowed to duplicate transaction");
+      toast.warn('Not allowed to duplicate transaction');
     }
   };
   const remover = (id) => {
@@ -126,17 +120,16 @@ export default function CashJournaEditForm({journalTypeId, journalId, viewData, 
     <IForm
       title={`Edit ${
         journalTypeId === 1
-          ? "Cash Receipts Journal"
+          ? 'Cash Receipts Journal'
           : journalTypeId === 2
-          ? "Cash Payments Journal"
-          : "Cash Transfer Journal"
+            ? 'Cash Payments Journal'
+            : 'Cash Transfer Journal'
       }`}
       getProps={setObjprops}
       isDisabled={isDisabled}
       isHiddenBack={true}
       isHiddenReset={true}
-      submitBtnText={"Transfer"}
-
+      submitBtnText={'Transfer'}
     >
       {isDisabled && <Loading />}
       <Form
@@ -152,7 +145,7 @@ export default function CashJournaEditForm({journalTypeId, journalId, viewData, 
         remover={remover}
         id={id}
         netAmount={netAmount}
-        journalTypeId = {journalTypeId}
+        journalTypeId={journalTypeId}
       />
     </IForm>
   );

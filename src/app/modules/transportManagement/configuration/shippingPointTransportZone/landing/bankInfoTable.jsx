@@ -1,18 +1,17 @@
-import React from "react";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import ICustomTable from "../../../../_helper/_customTable"; 
+import React from 'react';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import ICustomTable from '../../../../_helper/_customTable';
 
 export const headers = [
-
-  "SL",
-  "Employee Name",
-  "Shipping Point",
-  "Bank Name",
-  "Branch Name",
-  "Account Name",
-  "Account Number",
-  "Routing Number",
-  "Action",
+  'SL',
+  'Employee Name',
+  'Shipping Point',
+  'Bank Name',
+  'Branch Name',
+  'Account Name',
+  'Account Number',
+  'Routing Number',
+  'Action',
 ];
 
 export const BankInfoTable = ({ obj }) => {

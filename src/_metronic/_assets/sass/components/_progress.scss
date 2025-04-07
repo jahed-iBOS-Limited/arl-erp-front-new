@@ -2,29 +2,28 @@
 // Progress
 //
 
-
 .progress {
-    &.progress-xs {
-        height: $progress-height-xs;
+  &.progress-xs {
+    height: $progress-height-xs;
 
-        .progress-bar {
-        	border-radius: $border-radius-sm;
-        }
+    .progress-bar {
+      border-radius: $border-radius-sm;
     }
+  }
 
-    &.progress-sm {
-        height: $progress-height-sm;
+  &.progress-sm {
+    height: $progress-height-sm;
 
-        .progress-bar {
-        	border-radius: $border-radius-sm;
-        }
+    .progress-bar {
+      border-radius: $border-radius-sm;
     }
+  }
 
-    &.progress-lg {
-        height: $progress-height-lg;
+  &.progress-lg {
+    height: $progress-height-lg;
 
-       	.progress-bar {
-        	border-radius: $border-radius-lg;
-        }
+    .progress-bar {
+      border-radius: $border-radius-lg;
     }
+  }
 }

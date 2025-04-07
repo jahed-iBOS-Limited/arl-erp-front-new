@@ -1,26 +1,25 @@
-
-import Axios from "axios";
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { OverlayTrigger, Tooltip } from "react-bootstrap";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import Axios from 'axios';
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import {
   Card,
   CardBody,
   CardHeader,
-} from "../../../../../../_metronic/_partials/controls";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import IView from "../../../../_helper/_helperIcons/_view";
-import InputField from "../../../../_helper/_inputField";
-import Loading from "../../../../_helper/_loading";
-import PaginationTable from "../../../../_helper/_tablePagination";
-import { _todayDate } from "../../../../_helper/_todayDate";
-import IViewModal from "../../../../_helper/_viewModal";
-import PaymentOnMaturityForm from "../../paymentOnMaturity/form/addEditForm";
-import PerformanceGuarantee from "../../performance-guarantee/form/addEditForm";
-import { getLandingData } from "../helper";
-import { _firstDateofMonth } from "./../../../../_helper/_firstDateOfCurrentMonth";
+} from '../../../../../../_metronic/_partials/controls';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import IView from '../../../../_helper/_helperIcons/_view';
+import InputField from '../../../../_helper/_inputField';
+import Loading from '../../../../_helper/_loading';
+import PaginationTable from '../../../../_helper/_tablePagination';
+import { _todayDate } from '../../../../_helper/_todayDate';
+import IViewModal from '../../../../_helper/_viewModal';
+import PaymentOnMaturityForm from '../../paymentOnMaturity/form/addEditForm';
+import PerformanceGuarantee from '../../performance-guarantee/form/addEditForm';
+import { getLandingData } from '../helper';
+import { _firstDateofMonth } from './../../../../_helper/_firstDateOfCurrentMonth';
 
 const DocumentReleaseLanding = () => {
   const history = useHistory();
@@ -68,7 +67,7 @@ const DocumentReleaseLanding = () => {
       setIsLoading,
       pageNo,
       pageSize,
-      poNo || "",
+      poNo || '',
       fromDate,
       toDate
     );
@@ -83,8 +82,8 @@ const DocumentReleaseLanding = () => {
       pageNo,
       pageSize,
       0,
-      "",
-      ""
+      '',
+      ''
     );
   }, [profileData, selectedBusinessUnit]);
 
@@ -101,7 +100,7 @@ const DocumentReleaseLanding = () => {
       <Formik
         enableReinitialize={true}
         initialValues={{
-          poNo: "",
+          poNo: '',
           fromDate: _firstDateofMonth(),
           toDate: _todayDate(),
         }}
@@ -121,18 +120,18 @@ const DocumentReleaseLanding = () => {
                       isSearchIcon={true}
                       paddingRight={10}
                       handleChange={(valueOption) => {
-                        setFieldValue("poNo", valueOption);
-                        getGrid(valueOption?.label, "", "");
+                        setFieldValue('poNo', valueOption);
+                        getGrid(valueOption?.label, '', '');
                       }}
                       loadOptions={loadPartsList}
                     />
                   </div>
                   <div
                     className="col-lg-2 d-flex"
-                    style={{ marginTop: "18px" }}
+                    style={{ marginTop: '18px' }}
                   >
                     <input
-                      style={{ width: "15px", height: "15px" }}
+                      style={{ width: '15px', height: '15px' }}
                       name="isCheck"
                       type="checkbox"
                       checked={isCheckState}
@@ -151,7 +150,7 @@ const DocumentReleaseLanding = () => {
                       disabled={isCheckState === false}
                       onChange={(e) => {
                         if (e?.target?.value) {
-                          setFieldValue("fromDate", e?.target?.value);
+                          setFieldValue('fromDate', e?.target?.value);
                         }
                       }}
                     />
@@ -166,7 +165,7 @@ const DocumentReleaseLanding = () => {
                       disabled={isCheckState === false}
                       onChange={(e) => {
                         if (e?.target?.value) {
-                          setFieldValue("toDate", e?.target?.value);
+                          setFieldValue('toDate', e?.target?.value);
                         }
                       }}
                     />
@@ -191,7 +190,7 @@ const DocumentReleaseLanding = () => {
                   <table className="table table-striped table-bordered mt-3 bj-table bj-table-landing">
                     <thead>
                       <tr>
-                        <th style={{ width: "20px" }}>SL</th>
+                        <th style={{ width: '20px' }}>SL</th>
                         <th>PO No</th>
                         <th>LC No</th>
                         <th>Shipment No</th>
@@ -207,7 +206,7 @@ const DocumentReleaseLanding = () => {
                           return (
                             <tr key={index}>
                               <td
-                                style={{ width: "20px" }}
+                                style={{ width: '20px' }}
                                 className="text-center"
                               >
                                 {index + 1}
@@ -228,17 +227,17 @@ const DocumentReleaseLanding = () => {
                               </td>
                               <td
                                 className="text-center"
-                                style={{ width: "15rem" }}
+                                style={{ width: '15rem' }}
                               >
                                 <div className="d-flex justify-content-center align-items-center">
                                   <span className="ml-3">
-                                    {item?.docReleaseStatus !== "Pending" ? (
+                                    {item?.docReleaseStatus !== 'Pending' ? (
                                       <IView
                                         clickHandler={() => {
                                           history.push({
                                             pathname: `/managementImport/transaction/document-release/view`,
                                             state: item,
-                                            routeState: "view",
+                                            routeState: 'view',
                                           });
                                         }}
                                         classes="h5"
@@ -253,7 +252,7 @@ const DocumentReleaseLanding = () => {
                                       >
                                         <span>
                                           <i
-                                            style={{ cursor: "no-drop" }}
+                                            style={{ cursor: 'no-drop' }}
                                             className={`fa fa-eye h5`}
                                             aria-hidden="true"
                                           ></i>
@@ -263,7 +262,7 @@ const DocumentReleaseLanding = () => {
                                   </span>
 
                                   <span className="pl-3">
-                                    {item?.docReleaseStatus !== "Done" ? (
+                                    {item?.docReleaseStatus !== 'Done' ? (
                                       <OverlayTrigger
                                         overlay={
                                           <Tooltip id="cs-icon">
@@ -274,21 +273,21 @@ const DocumentReleaseLanding = () => {
                                         <i
                                           class="fas pointer far fa-file"
                                           aria-hidden="true"
-                                          style={{ width: "15px" }}
+                                          style={{ width: '15px' }}
                                           onClick={() => {
                                             history.push({
                                               pathname: `/managementImport/transaction/document-release/create`,
                                               state: item,
                                               poId: values?.poNo?.poId,
                                               lcId: values?.poNo?.lcId,
-                                              routeState: "create",
+                                              routeState: 'create',
                                             });
                                           }}
                                         ></i>
                                       </OverlayTrigger>
                                     ) : (
                                       <i
-                                        style={{ cursor: "no-drop" }}
+                                        style={{ cursor: 'no-drop' }}
                                         class="fas far fa-file"
                                         aria-hidden="true"
                                       ></i>
@@ -305,7 +304,7 @@ const DocumentReleaseLanding = () => {
                                           class="fas pointer far fa-money-bill-alt"
                                           aria-hidden="true"
                                           disabled={
-                                            item?.docReleaseStatus === "Pending"
+                                            item?.docReleaseStatus === 'Pending'
                                           }
                                           onClick={() => {
                                             setIsShowModal(true);
@@ -317,7 +316,7 @@ const DocumentReleaseLanding = () => {
                                   </span>
                                   <span className="pl-3">
                                     {item?.pgStatus &&
-                                    item?.docReleaseStatus !== "Pending" ? (
+                                    item?.docReleaseStatus !== 'Pending' ? (
                                       <OverlayTrigger
                                         overlay={
                                           <Tooltip id="cs-icon">PG-Pay</Tooltip>
@@ -327,7 +326,7 @@ const DocumentReleaseLanding = () => {
                                           class="fas pointer fas fa-share-square"
                                           aria-hidden="true"
                                           disabled={
-                                            item?.docReleaseStatus === "Pending"
+                                            item?.docReleaseStatus === 'Pending'
                                           }
                                           onClick={() => {
                                             setPerformanceGiuaranteeIsShowModal(
@@ -339,11 +338,11 @@ const DocumentReleaseLanding = () => {
                                       </OverlayTrigger>
                                     ) : (
                                       <i
-                                        style={{ cursor: "no-drop" }}
+                                        style={{ cursor: 'no-drop' }}
                                         class="fas fas fa-share-square"
                                         aria-hidden="true"
                                         disabled={
-                                          item?.docReleaseStatus === "Pending"
+                                          item?.docReleaseStatus === 'Pending'
                                         }
                                       ></i>
                                     )}

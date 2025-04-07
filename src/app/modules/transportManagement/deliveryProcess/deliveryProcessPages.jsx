@@ -1,11 +1,11 @@
-import React, { Suspense } from "react";
-import { Redirect, Switch } from "react-router-dom";
-import { ContentRoute, LayoutSplashScreen } from "../../../../_metronic/layout";
-import DisplayPackerInfo from "./displayPackerInfo";
-import FuelRequisitionByShipment from "./fuelRequisitionByShip";
-import LoadingSupervisorInfo from "./loadingSupervisorInfo";
-import PackingInformationList from "./packingInformationList";
-import StoreInformationList from "./storeInformationList";
+import React, { Suspense } from 'react';
+import { Redirect, Switch } from 'react-router-dom';
+import { ContentRoute, LayoutSplashScreen } from '../../../../_metronic/layout';
+import DisplayPackerInfo from './displayPackerInfo';
+import FuelRequisitionByShipment from './fuelRequisitionByShip';
+import LoadingSupervisorInfo from './loadingSupervisorInfo';
+import PackingInformationList from './packingInformationList';
+import StoreInformationList from './storeInformationList';
 
 export function TransportDeliveryProcessPages() {
   return (

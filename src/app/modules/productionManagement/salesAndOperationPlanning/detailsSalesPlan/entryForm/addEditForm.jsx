@@ -1,48 +1,44 @@
-
-
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useLocation, useParams } from "react-router-dom";
-import { toast } from "react-toastify";
-import IForm from "../../../../_helper/_form";
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useLocation, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import IForm from '../../../../_helper/_form';
 import {
   editSalesPlanning,
   getSalesPlanById,
   saveItemRequest,
-} from "../helper";
-import Loading from "./../../../../_helper/_loading";
-import Form from "./form";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import { _dateFormatter } from "../../../../_helper/_dateFormate";
-import { getPlantDDL } from "../../../../_helper/_commonApi";
+} from '../helper';
+import Loading from './../../../../_helper/_loading';
+import Form from './form';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import { _dateFormatter } from '../../../../_helper/_dateFormate';
+import { getPlantDDL } from '../../../../_helper/_commonApi';
 
 const initData = {
-  plant: "",
-  channel: "",
-  region: "",
-  area: "",
-  territory: "",
-  year: "",
-  horizon: "",
-  startDate: "",
-  endDate: "",
-  itemName: "",
-  qty: "",
-  planningHorizonId: "",
-  monthId: "",
-  itemId: "",
-  itemPlanQty: "",
-  profitCenter: "",
+  plant: '',
+  channel: '',
+  region: '',
+  area: '',
+  territory: '',
+  year: '',
+  horizon: '',
+  startDate: '',
+  endDate: '',
+  itemName: '',
+  qty: '',
+  planningHorizonId: '',
+  monthId: '',
+  itemId: '',
+  itemPlanQty: '',
+  profitCenter: '',
 };
 export default function DetailsSalesPlanEntry() {
-
   const [isDisabled, setDisabled] = useState(false);
   const [rowDto, setRowDto] = useState([]);
 
   const { actionType } = useParams();
 
-  console.log("actionType", actionType);
-
+  console.log('actionType', actionType);
 
   const [singleData, setSingleData] = useState({});
   const [objProps, setObjprops] = useState({});
@@ -56,11 +52,8 @@ export default function DetailsSalesPlanEntry() {
   const [yearDDL, setYearDDL] = useState([]);
   const [horizonDDL, setHorizonDDL] = useState([]);
   const [itemNameDDL, setItemNameDDL] = useState([]);
-  const [
-    profitCenterDDl,
-    getProfitCenterDDL,
-    profitCenterDDLloader,
-  ] = useAxiosGet();
+  const [profitCenterDDl, getProfitCenterDDL, profitCenterDDLloader] =
+    useAxiosGet();
 
   const [numItemPlanQty, setNumItemPlanQty] = useState(0);
 
@@ -102,7 +95,7 @@ export default function DetailsSalesPlanEntry() {
   const createSalesPlanItem = () => {
     let itemData = [];
     for (let i = 0; i < rowDto?.data?.length; i++) {
-      if (actionType === "edit" || rowDto.data[i].itemPlanQty > 0) {
+      if (actionType === 'edit' || rowDto.data[i].itemPlanQty > 0) {
         itemData.push({
           // ...rowDto.data[i],
           intDetailSalesPlanRowId:
@@ -124,7 +117,7 @@ export default function DetailsSalesPlanEntry() {
             ? rowDto.data[i].bom?.label
             : rowDto.data[i]?.bomname,
           isActive:
-            actionType === "edit" && rowDto.data[i].entryItemPlanQty < 0
+            actionType === 'edit' && rowDto.data[i].entryItemPlanQty < 0
               ? false
               : true,
         });
@@ -134,14 +127,12 @@ export default function DetailsSalesPlanEntry() {
   };
 
   const getMonthIdFromDate = (date) => {
-    return +date?.split("-")[1];
+    return +date?.split('-')[1];
   };
 
   const saveHandler = async (values, cb) => {
     if (values && profileData.accountId && selectedBusinessUnit) {
       if (location?.state?.detailsItem?.intDetailSalesPlanId) {
-
-
         const payload = {
           header: {
             detailSalesPlanId: values?.intDetailSalesPlanId,
@@ -177,13 +168,13 @@ export default function DetailsSalesPlanEntry() {
             intBusinessUnitId: selectedBusinessUnit?.value,
             intPlantId: values?.plant?.value,
             intDistributionChannelId: values?.channel?.value || 0,
-            strDistributionChannelName: values?.channel?.label || "",
+            strDistributionChannelName: values?.channel?.label || '',
             intRegoinId: values?.region?.value || 0,
-            strRegionName: values?.region?.label || "",
+            strRegionName: values?.region?.label || '',
             intAreaId: values?.area?.value || 0,
-            strAreaName: values?.area?.label || "",
+            strAreaName: values?.area?.label || '',
             intTeritoryId: values?.territory?.value || 0,
-            strTeritoryName: values?.territory?.label || "",
+            strTeritoryName: values?.territory?.label || '',
             isProductionPlanned: false,
             intActionBy: profileData?.userId,
             isMrp: false,
@@ -192,7 +183,7 @@ export default function DetailsSalesPlanEntry() {
         };
 
         if (rowDto?.length === 0) {
-          toast.warning("Please add Item and quantity");
+          toast.warning('Please add Item and quantity');
         } else {
           saveItemRequest(payload);
           cb();
@@ -218,8 +209,8 @@ export default function DetailsSalesPlanEntry() {
     <IForm
       title={
         location?.state?.detailsItem?.intDetailSalesPlanId
-          ? "Edit Details Sales Plan"
-          : "Create Details Sales Plan"
+          ? 'Edit Details Sales Plan'
+          : 'Create Details Sales Plan'
       }
       getProps={setObjprops}
       isDisabled={isDisabled}
@@ -231,20 +222,20 @@ export default function DetailsSalesPlanEntry() {
           location?.state?.detailsItem?.intDetailSalesPlanId
             ? singleData
             : {
-              ...initData,
-              ...location?.state?.monthlyValues,
-              horizon: {
-                value: location?.state?.monthlyItem?.horizonId,
-                monthId: location?.state?.monthlyItem?.monthId,
-                label: location?.state?.monthlyItem?.horizonName,
-                planningHorizonRowId:
-                  location?.state?.monthlyItem?.planningHorizonRowId,
-              },
-              startDate: _dateFormatter(
-                location?.state?.monthlyItem?.startDate
-              ),
-              endDate: _dateFormatter(location?.state?.monthlyItem?.endDate),
-            }
+                ...initData,
+                ...location?.state?.monthlyValues,
+                horizon: {
+                  value: location?.state?.monthlyItem?.horizonId,
+                  monthId: location?.state?.monthlyItem?.monthId,
+                  label: location?.state?.monthlyItem?.horizonName,
+                  planningHorizonRowId:
+                    location?.state?.monthlyItem?.planningHorizonRowId,
+                },
+                startDate: _dateFormatter(
+                  location?.state?.monthlyItem?.startDate
+                ),
+                endDate: _dateFormatter(location?.state?.monthlyItem?.endDate),
+              }
         }
         saveHandler={saveHandler}
         profileData={profileData}

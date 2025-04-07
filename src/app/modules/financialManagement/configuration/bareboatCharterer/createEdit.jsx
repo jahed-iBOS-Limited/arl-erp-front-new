@@ -1,59 +1,59 @@
-import { Field, Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import * as Yup from "yup";
-import IForm from "../../../_helper/_form";
-import InputField from "../../../_helper/_inputField";
-import Loading from "../../../_helper/_loading";
-import NewSelect from "../../../_helper/_select";
-import { _todayDate } from "../../../_helper/_todayDate";
-import useAxiosGet from "../../../_helper/customHooks/useAxiosGet";
-import useAxiosPost from "../../../_helper/customHooks/useAxiosPost";
-import { dateFormatterForInput } from "../../../productionManagement/msilProduction/meltingProduction/helper";
-import { _dateFormatter } from "../../../_helper/_dateFormate";
+import { Field, Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import * as Yup from 'yup';
+import IForm from '../../../_helper/_form';
+import InputField from '../../../_helper/_inputField';
+import Loading from '../../../_helper/_loading';
+import NewSelect from '../../../_helper/_select';
+import { _todayDate } from '../../../_helper/_todayDate';
+import useAxiosGet from '../../../_helper/customHooks/useAxiosGet';
+import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
+import { dateFormatterForInput } from '../../../productionManagement/msilProduction/meltingProduction/helper';
+import { _dateFormatter } from '../../../_helper/_dateFormate';
 
 const initData = {
-  vessel: "",
-  dateRange: "",
-  categoryType: "",
-  baseType: "",
-  particularsType: "",
-  rate: "",
-  fromDate: "",
-  toDate: "",
-  insuranceType: "",
-  supplier: "",
-  profitCenter: "",
-  costCenter: "",
-  costElement: "",
+  vessel: '',
+  dateRange: '',
+  categoryType: '',
+  baseType: '',
+  particularsType: '',
+  rate: '',
+  fromDate: '',
+  toDate: '',
+  insuranceType: '',
+  supplier: '',
+  profitCenter: '',
+  costCenter: '',
+  costElement: '',
   isTransfer: false,
-  transferBusinessUnit: "",
-  transferProfitCenter: "",
-  transferRevenueCenter: "",
-  transferRevenueElement: "",
+  transferBusinessUnit: '',
+  transferProfitCenter: '',
+  transferRevenueCenter: '',
+  transferRevenueElement: '',
 };
 
 const validationSchema = Yup.object().shape({
   vessel: Yup.object()
     .shape({
-      label: Yup.string().required("Vessel is required"),
-      value: Yup.string().required("Vessel is required"),
+      label: Yup.string().required('Vessel is required'),
+      value: Yup.string().required('Vessel is required'),
     })
-    .typeError("Vessel is required"),
+    .typeError('Vessel is required'),
   categoryType: Yup.object()
     .shape({
-      label: Yup.string().required("Category Type is required"),
-      value: Yup.string().required("Category Type is required"),
+      label: Yup.string().required('Category Type is required'),
+      value: Yup.string().required('Category Type is required'),
     })
-    .typeError("Category Type is required"),
+    .typeError('Category Type is required'),
   baseType: Yup.object()
     .shape({
-      label: Yup.string().required("Base Type is required"),
-      value: Yup.string().required("Base Type is required"),
+      label: Yup.string().required('Base Type is required'),
+      value: Yup.string().required('Base Type is required'),
     })
-    .typeError("Base Type is required"),
-  rate: Yup.number().required("Rate is required"),
+    .typeError('Base Type is required'),
+  rate: Yup.number().required('Rate is required'),
 });
 
 export default function BareboatChartererConfigCreateEdit() {
@@ -64,11 +64,8 @@ export default function BareboatChartererConfigCreateEdit() {
   const [vesselAssetDDL, getVesselAssetDDL, vesselAssetLoading] = useAxiosGet();
   const [baseTypeDDL, getBaseTypeDDL, baseTypeLoading] = useAxiosGet();
   const [supplierDDL, getSupplierDDL, supplierLoading] = useAxiosGet();
-  const [
-    ,
-    bareboatManagementAndInsuranceCreate,
-    loaderOnCreate,
-  ] = useAxiosPost();
+  const [, bareboatManagementAndInsuranceCreate, loaderOnCreate] =
+    useAxiosPost();
   const [, getSingleData, singleLoading] = useAxiosGet();
   const [
     profitCenterDDL,
@@ -77,11 +74,8 @@ export default function BareboatChartererConfigCreateEdit() {
     setProfitCenterDDL,
   ] = useAxiosGet();
   const [costCenterDDL, getCostCenterDDL, costCenterDDLloader] = useAxiosGet();
-  const [
-    costElementDDL,
-    getCostElementDDL,
-    costElementDDLloader,
-  ] = useAxiosGet();
+  const [costElementDDL, getCostElementDDL, costElementDDLloader] =
+    useAxiosGet();
   const [
     transferBusinessUnitDDL,
     getTransferBusinessUnitDDL,
@@ -105,12 +99,8 @@ export default function BareboatChartererConfigCreateEdit() {
     transferRevenueElementDDLloader,
   ] = useAxiosGet();
 
-  const [
-    dateRangeDDL,
-    getDateRangeDDL,
-    dateRangeDDLloader,
-    setDateRangeDDL,
-  ] = useAxiosGet();
+  const [dateRangeDDL, getDateRangeDDL, dateRangeDDLloader, setDateRangeDDL] =
+    useAxiosGet();
 
   const [modifyData, setModifyData] = useState({});
   const { id } = useParams();
@@ -126,14 +116,14 @@ export default function BareboatChartererConfigCreateEdit() {
                 res?.intCategoryTypeId === 1
                   ? 1
                   : res?.intCategoryTypeId === 2
-                  ? 2
-                  : 3,
+                    ? 2
+                    : 3,
               label:
                 res?.intCategoryTypeId === 1
-                  ? "Bareboat Management"
+                  ? 'Bareboat Management'
                   : res?.intCategoryTypeId === 2
-                  ? "Insurance"
-                  : "Dry Dock",
+                    ? 'Insurance'
+                    : 'Dry Dock',
             },
             vessel: {
               value: res?.vesselId,
@@ -147,7 +137,7 @@ export default function BareboatChartererConfigCreateEdit() {
                       res?.dteFromDate
                     )} - ${_dateFormatter(res?.dteToDate)}`,
                   }
-                : "",
+                : '',
             baseType: {
               value: res?.baseType,
               label: res?.baseName,
@@ -189,25 +179,25 @@ export default function BareboatChartererConfigCreateEdit() {
                   value: res?.intTransferBusinessId,
                   label: res?.strTransferBusinessUnitName,
                 }
-              : "",
+              : '',
             transferProfitCenter: res?.isTransfer
               ? {
                   value: res?.intTransferProfitCenterId,
                   label: res?.strTransferProfitCenterName,
                 }
-              : "",
+              : '',
             transferRevenueCenter: res?.isTransfer
               ? {
                   value: res?.intTransferRevenueCenterId,
                   label: res?.strTransferRevenueCenterName,
                 }
-              : "",
+              : '',
             transferRevenueElement: res?.isTransfer
               ? {
                   value: res?.intTransferRevenueElementId,
                   label: res?.strTransferRevenueElementName,
                 }
-              : "",
+              : '',
           };
           setModifyData(data);
 
@@ -288,7 +278,6 @@ export default function BareboatChartererConfigCreateEdit() {
         setTransferBusinessUnitDDL(newData);
       }
     );
-
   }, [id, selectedBusinessUnit, profileData]);
 
   const [objProps, setObjprops] = useState({});
@@ -307,9 +296,9 @@ export default function BareboatChartererConfigCreateEdit() {
       id: id ? +id : 0,
       businessUnitId: selectedBusinessUnit?.value || 0,
       vesselId: values?.vessel?.value || 0,
-      vesselName: values?.vessel?.label || "",
+      vesselName: values?.vessel?.label || '',
       businessTransaction: values?.particularsType?.value || 0,
-      businessTransactionName: values?.particularsType?.label || "",
+      businessTransactionName: values?.particularsType?.label || '',
       rate:
         values?.categoryType?.value === 3
           ? rateCalculateFromDateRange(
@@ -320,15 +309,15 @@ export default function BareboatChartererConfigCreateEdit() {
           : +values?.rate || 0,
       intCategoryTypeId: values?.categoryType?.value || 0,
       baseType: values?.baseType?.value || 0,
-      baseName: values?.baseType?.label || "",
+      baseName: values?.baseType?.label || '',
       actionById: profileData?.userId,
       actionDateTime: _todayDate(),
       dteFromDate: values?.fromDate || null,
       dteToDate: values?.toDate || null,
       intSupplierId: values?.supplier?.value || 0,
-      strSupplierName: values?.supplier?.label || "",
+      strSupplierName: values?.supplier?.label || '',
       intInsuranceId: values?.insuranceType?.value || 0,
-      strInsuranceName: values?.insuranceType?.label || "",
+      strInsuranceName: values?.insuranceType?.label || '',
 
       isTransfer: values?.isTransfer || false,
       intProfitCenterId: values?.profitCenter?.value || 0,
@@ -358,19 +347,19 @@ export default function BareboatChartererConfigCreateEdit() {
   };
 
   function formatDateRange(dateRange) {
-    const [startDateStr, endDateStr] = dateRange.split(" - ");
+    const [startDateStr, endDateStr] = dateRange.split(' - ');
     const startDate = new Date(startDateStr);
     const endDate = new Date(endDateStr);
 
-    const formattedStartDate = startDate.toLocaleDateString("en-US", {
-      month: "numeric",
-      day: "numeric",
-      year: "numeric",
+    const formattedStartDate = startDate.toLocaleDateString('en-US', {
+      month: 'numeric',
+      day: 'numeric',
+      year: 'numeric',
     });
-    const formattedEndDate = endDate.toLocaleDateString("en-US", {
-      month: "numeric",
-      day: "numeric",
-      year: "numeric",
+    const formattedEndDate = endDate.toLocaleDateString('en-US', {
+      month: 'numeric',
+      day: 'numeric',
+      year: 'numeric',
     });
 
     return `${formattedStartDate} - ${formattedEndDate}`;
@@ -414,8 +403,8 @@ export default function BareboatChartererConfigCreateEdit() {
           <IForm
             title={
               id
-                ? "Edit Bareboat Management, Insurance And Dry Dock"
-                : "Create Bareboat Management, Insurance And Dry Dock"
+                ? 'Edit Bareboat Management, Insurance And Dry Dock'
+                : 'Create Bareboat Management, Insurance And Dry Dock'
             }
             getProps={setObjprops}
           >
@@ -427,43 +416,43 @@ export default function BareboatChartererConfigCreateEdit() {
                     options={[
                       {
                         value: 1,
-                        label: "Bareboat Management",
+                        label: 'Bareboat Management',
                       },
-                      { value: 2, label: "Insurance" },
-                      { value: 3, label: "Dry Dock" },
+                      { value: 2, label: 'Insurance' },
+                      { value: 3, label: 'Dry Dock' },
                     ]}
                     label="Category Type"
                     value={values?.categoryType}
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("categoryType", valueOption);
+                        setFieldValue('categoryType', valueOption);
                         setFieldValue(
-                          "isTransfer",
+                          'isTransfer',
                           valueOption?.value === 1 ? true : false
                         );
-                        setFieldValue("particularsType", "");
-                        setFieldValue("supplier", "");
-                        setFieldValue("insuranceType", "");
-                        setFieldValue("fromDate", "");
-                        setFieldValue("toDate", "");
-                        setFieldValue("transferBusinessUnit", "");
-                        setFieldValue("transferProfitCenter", "");
-                        setFieldValue("transferRevenueCenter", "");
-                        setFieldValue("transferRevenueElement", "");
-                        setFieldValue("baseType", "");
+                        setFieldValue('particularsType', '');
+                        setFieldValue('supplier', '');
+                        setFieldValue('insuranceType', '');
+                        setFieldValue('fromDate', '');
+                        setFieldValue('toDate', '');
+                        setFieldValue('transferBusinessUnit', '');
+                        setFieldValue('transferProfitCenter', '');
+                        setFieldValue('transferRevenueCenter', '');
+                        setFieldValue('transferRevenueElement', '');
+                        setFieldValue('baseType', '');
                       } else {
-                        setFieldValue("categoryType", "");
-                        setFieldValue("isTransfer", false);
-                        setFieldValue("particularsType", "");
-                        setFieldValue("supplier", "");
-                        setFieldValue("insuranceType", "");
-                        setFieldValue("fromDate", "");
-                        setFieldValue("toDate", "");
-                        setFieldValue("transferBusinessUnit", "");
-                        setFieldValue("transferProfitCenter", "");
-                        setFieldValue("transferRevenueCenter", "");
-                        setFieldValue("transferRevenueElement", "");
-                        setFieldValue("baseType", "");
+                        setFieldValue('categoryType', '');
+                        setFieldValue('isTransfer', false);
+                        setFieldValue('particularsType', '');
+                        setFieldValue('supplier', '');
+                        setFieldValue('insuranceType', '');
+                        setFieldValue('fromDate', '');
+                        setFieldValue('toDate', '');
+                        setFieldValue('transferBusinessUnit', '');
+                        setFieldValue('transferProfitCenter', '');
+                        setFieldValue('transferRevenueCenter', '');
+                        setFieldValue('transferRevenueElement', '');
+                        setFieldValue('baseType', '');
                       }
                     }}
                     isDisabled={id}
@@ -481,8 +470,8 @@ export default function BareboatChartererConfigCreateEdit() {
                     value={values?.vessel}
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("vessel", valueOption);
-                        setFieldValue("dateRange", "");
+                        setFieldValue('vessel', valueOption);
+                        setFieldValue('dateRange', '');
                         getDateRangeDDL(
                           `/fino/Expense/GetDocScheduleListByVesselId?businessUnitId=${selectedBusinessUnit?.value}&vesselId=${valueOption?.value}`,
                           (data) => {
@@ -497,8 +486,8 @@ export default function BareboatChartererConfigCreateEdit() {
                           }
                         );
                       } else {
-                        setFieldValue("vessel", "");
-                        setFieldValue("rate", "");
+                        setFieldValue('vessel', '');
+                        setFieldValue('rate', '');
                       }
                     }}
                     placeholder="Vessel"
@@ -516,15 +505,15 @@ export default function BareboatChartererConfigCreateEdit() {
                       value={values?.dateRange}
                       onChange={(valueOption) => {
                         if (valueOption) {
-                          setFieldValue("dateRange", valueOption);
-                          setFieldValue("rate", valueOption?.budgetAmount);
-                          setFieldValue("fromDate", valueOption?.dteFromDate);
-                          setFieldValue("toDate", valueOption?.dteToDate);
+                          setFieldValue('dateRange', valueOption);
+                          setFieldValue('rate', valueOption?.budgetAmount);
+                          setFieldValue('fromDate', valueOption?.dteFromDate);
+                          setFieldValue('toDate', valueOption?.dteToDate);
                         } else {
-                          setFieldValue("dateRange", "");
-                          setFieldValue("rate", "");
-                          setFieldValue("fromDate", "");
-                          setFieldValue("toDate", "");
+                          setFieldValue('dateRange', '');
+                          setFieldValue('rate', '');
+                          setFieldValue('fromDate', '');
+                          setFieldValue('toDate', '');
                         }
                       }}
                       isDisabled={false}
@@ -540,16 +529,16 @@ export default function BareboatChartererConfigCreateEdit() {
                     name="baseType"
                     options={
                       values?.categoryType?.value === 3
-                        ? [{ value: 1, label: "Schedule Range" }]
+                        ? [{ value: 1, label: 'Schedule Range' }]
                         : baseTypeDDL || []
                     }
                     label="Base Type"
                     value={values?.baseType}
                     onChange={(valueOption) => {
                       if (valueOption) {
-                        setFieldValue("baseType", valueOption);
+                        setFieldValue('baseType', valueOption);
                       } else {
-                        setFieldValue("baseType", "");
+                        setFieldValue('baseType', '');
                       }
                     }}
                     isDisabled={false}
@@ -569,9 +558,9 @@ export default function BareboatChartererConfigCreateEdit() {
                         value={values?.supplier}
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("supplier", valueOption);
+                            setFieldValue('supplier', valueOption);
                           } else {
-                            setFieldValue("supplier", "");
+                            setFieldValue('supplier', '');
                           }
                         }}
                         isDisabled={false}
@@ -586,17 +575,17 @@ export default function BareboatChartererConfigCreateEdit() {
                         options={[
                           {
                             value: 1,
-                            label: "H&M Insurance Policy",
+                            label: 'H&M Insurance Policy',
                           },
-                          { value: 2, label: "P&I Coverage" },
+                          { value: 2, label: 'P&I Coverage' },
                         ]}
                         label="Insurance Type"
                         value={values?.insuranceType}
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("insuranceType", valueOption);
+                            setFieldValue('insuranceType', valueOption);
                           } else {
-                            setFieldValue("insuranceType", "");
+                            setFieldValue('insuranceType', '');
                           }
                         }}
                         isDisabled={false}
@@ -612,10 +601,10 @@ export default function BareboatChartererConfigCreateEdit() {
                         name="fromDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("fromDate", e.target.value);
-                          setFieldValue("vessel", "");
-                          setFieldValue("toDate", "");
-                          setFieldValue("rate", "");
+                          setFieldValue('fromDate', e.target.value);
+                          setFieldValue('vessel', '');
+                          setFieldValue('toDate', '');
+                          setFieldValue('rate', '');
                         }}
                       />
                     </div>
@@ -627,9 +616,9 @@ export default function BareboatChartererConfigCreateEdit() {
                         name="toDate"
                         type="date"
                         onChange={(e) => {
-                          setFieldValue("toDate", e.target.value);
-                          setFieldValue("vessel", "");
-                          setFieldValue("rate", "");
+                          setFieldValue('toDate', e.target.value);
+                          setFieldValue('vessel', '');
+                          setFieldValue('rate', '');
                         }}
                       />
                     </div>
@@ -641,19 +630,19 @@ export default function BareboatChartererConfigCreateEdit() {
                         name="particularsType"
                         options={
                           values?.categoryType?.value === 3
-                            ? [{ value: 3, label: "DRY DOC" }]
+                            ? [{ value: 3, label: 'DRY DOC' }]
                             : [
-                                { value: 1, label: "BARE BOAT" },
-                                { value: 2, label: "MANAGEMENT" },
+                                { value: 1, label: 'BARE BOAT' },
+                                { value: 2, label: 'MANAGEMENT' },
                               ]
                         }
                         label="Particulars Type"
                         value={values?.particularsType}
                         onChange={(valueOption) => {
                           if (valueOption) {
-                            setFieldValue("particularsType", valueOption);
+                            setFieldValue('particularsType', valueOption);
                           } else {
-                            setFieldValue("particularsType", "");
+                            setFieldValue('particularsType', '');
                           }
                         }}
                         isDisabled={false}
@@ -673,9 +662,9 @@ export default function BareboatChartererConfigCreateEdit() {
                     type="number"
                     onChange={(e) => {
                       if (e.target.value > 0) {
-                        setFieldValue("rate", e.target.value);
+                        setFieldValue('rate', e.target.value);
                       } else {
-                        setFieldValue("rate", "");
+                        setFieldValue('rate', '');
                       }
                     }}
                     disabled={values?.categoryType?.value === 3}
@@ -689,7 +678,7 @@ export default function BareboatChartererConfigCreateEdit() {
                     value={values?.profitCenter}
                     label="Profit Center"
                     onChange={(valueOption) => {
-                      setFieldValue("profitCenter", valueOption);
+                      setFieldValue('profitCenter', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -702,7 +691,7 @@ export default function BareboatChartererConfigCreateEdit() {
                     value={values?.costCenter}
                     label="Cost Center"
                     onChange={(valueOption) => {
-                      setFieldValue("costCenter", valueOption);
+                      setFieldValue('costCenter', valueOption);
                       getCostElementDDL(
                         `/procurement/PurchaseOrder/GetCostElementByCostCenter?AccountId=${profileData?.accountId}&UnitId=${selectedBusinessUnit?.value}&CostCenterId=${valueOption?.value}`
                       );
@@ -718,7 +707,7 @@ export default function BareboatChartererConfigCreateEdit() {
                     value={values?.costElement}
                     label="Cost Element"
                     onChange={(valueOption) => {
-                      setFieldValue("costElement", valueOption);
+                      setFieldValue('costElement', valueOption);
                     }}
                     errors={errors}
                     touched={touched}
@@ -729,7 +718,7 @@ export default function BareboatChartererConfigCreateEdit() {
                 {values?.categoryType?.value === 1 ? (
                   <div className="col-lg-3">
                     <div
-                      style={{ marginTop: "23px" }}
+                      style={{ marginTop: '23px' }}
                       className="d-flex align-items-center"
                     >
                       <span className="mr-2">Is Transfer</span>
@@ -738,7 +727,7 @@ export default function BareboatChartererConfigCreateEdit() {
                         name="isTransfer"
                         checked={values?.isTransfer}
                         onChange={(e) => {
-                          setFieldValue("isTransfer", e.target.checked);
+                          setFieldValue('isTransfer', e.target.checked);
                         }}
                       />
                     </div>
@@ -753,7 +742,7 @@ export default function BareboatChartererConfigCreateEdit() {
                         value={values?.transferBusinessUnit}
                         label="Transfer Business Unit"
                         onChange={(valueOption) => {
-                          setFieldValue("transferBusinessUnit", valueOption);
+                          setFieldValue('transferBusinessUnit', valueOption);
                           getTransferProfitCenterDDL(
                             `/fino/CostSheet/ProfitCenterDetails?UnitId=${valueOption?.value}`,
                             (res) => {
@@ -783,7 +772,7 @@ export default function BareboatChartererConfigCreateEdit() {
                         value={values?.transferProfitCenter}
                         label="Transfer Profit Center"
                         onChange={(valueOption) => {
-                          setFieldValue("transferProfitCenter", valueOption);
+                          setFieldValue('transferProfitCenter', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -796,7 +785,7 @@ export default function BareboatChartererConfigCreateEdit() {
                         value={values?.transferRevenueCenter}
                         label="Transfer Revenue Center"
                         onChange={(valueOption) => {
-                          setFieldValue("transferRevenueCenter", valueOption);
+                          setFieldValue('transferRevenueCenter', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -809,7 +798,7 @@ export default function BareboatChartererConfigCreateEdit() {
                         value={values?.transferRevenueElement}
                         label="Transfer Revenue Element"
                         onChange={(valueOption) => {
-                          setFieldValue("transferRevenueElement", valueOption);
+                          setFieldValue('transferRevenueElement', valueOption);
                         }}
                         errors={errors}
                         touched={touched}
@@ -836,14 +825,14 @@ export default function BareboatChartererConfigCreateEdit() {
 
               <button
                 type="submit"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.btnRef}
                 onSubmit={() => handleSubmit()}
               ></button>
 
               <button
                 type="reset"
-                style={{ display: "none" }}
+                style={{ display: 'none' }}
                 ref={objProps?.resetBtnRef}
                 onSubmit={() => resetForm(initData)}
               ></button>

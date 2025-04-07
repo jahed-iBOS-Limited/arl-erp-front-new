@@ -1,4 +1,3 @@
-
 import React, { useEffect, useMemo, useState } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import Axios from 'axios';
@@ -30,7 +29,7 @@ export function PlantWarehouseTable() {
     setLoading(true);
     try {
       const res = await Axios.get(
-        `/wms/InventoryLocation/GetInventoryLocationInformationPasignation?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`,
+        `/wms/InventoryLocation/GetInventoryLocationInformationPasignation?AccountId=${accId}&BusinessUnitId=${buId}&viewOrder=desc&PageNo=${pageNo}&PageSize=${pageSize}`
       );
       if (res.status === 200) {
         setLoading(false);
@@ -47,7 +46,7 @@ export function PlantWarehouseTable() {
         profileData.accountId,
         selectedBusinessUnit.value,
         pageNo,
-        pageSize,
+        pageSize
       );
     }
   }, [selectedBusinessUnit, profileData]);
@@ -58,7 +57,7 @@ export function PlantWarehouseTable() {
       profileData.accountId,
       selectedBusinessUnit.value,
       pageNo,
-      pageSize,
+      pageSize
     );
   };
 

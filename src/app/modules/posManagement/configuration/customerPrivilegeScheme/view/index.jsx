@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import Form from "./form";
-import { useSelector, shallowEqual } from "react-redux";
-import { GetPreviledgeSchemeById_api } from "./../helper";
+import React, { useEffect, useState } from 'react';
+import Form from './form';
+import { useSelector, shallowEqual } from 'react-redux';
+import { GetPreviledgeSchemeById_api } from './../helper';
 import Loading from './../../../../_helper/_loading';
 function CustomerPrivilegeSchemeView({ rowClickData }) {
   const [rowDto, setRowDto] = useState([]);
@@ -22,12 +22,11 @@ function CustomerPrivilegeSchemeView({ rowClickData }) {
         setLoading
       );
     }
-
   }, [profileData, selectedBusinessUnit]);
   return (
     <>
-    { loading && <Loading />}
-      <Form rowDto={rowDto}/>
+      {loading && <Loading />}
+      <Form rowDto={rowDto} />
     </>
   );
 }

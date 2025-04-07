@@ -1,17 +1,17 @@
-import { Form, Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import * as Yup from "yup";
+import { Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import * as Yup from 'yup';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from "../../../../../_metronic/_partials/controls";
-import InputField from "../../../_helper/_inputField";
-import { _todayDate } from "../../../_helper/_todayDate";
-import NewSelect from "./../../../_helper/_select";
+} from '../../../../../_metronic/_partials/controls';
+import InputField from '../../../_helper/_inputField';
+import { _todayDate } from '../../../_helper/_todayDate';
+import NewSelect from './../../../_helper/_select';
 import {
   GetItemNameDDL_api,
   GetItemTypeDDLPurchase_api,
@@ -20,11 +20,11 @@ import {
   SalesRegister_Report_api,
   getHeaderData_api,
   getVatBranches_api,
-} from "./helper";
+} from './helper';
 
-import Loading from "../../../_helper/_loading";
-import PurchaseRegSummary from "./purchaseRegSummary";
-import SalesRegSummary from "./salesRegSummary";
+import Loading from '../../../_helper/_loading';
+import PurchaseRegSummary from './purchaseRegSummary';
+import SalesRegSummary from './salesRegSummary';
 
 // Validation schema
 const validationSchema = Yup.object().shape({});
@@ -33,9 +33,9 @@ const initData = {
   id: undefined,
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  itemType: "",
-  branch: "",
-  itemName: "",
+  itemType: '',
+  branch: '',
+  itemName: '',
 };
 
 export default function WHStockReportVat() {
@@ -44,7 +44,7 @@ export default function WHStockReportVat() {
   const [itemName, setItemName] = useState([]);
   const [itemTypeDDL, setitemType] = useState([]);
   const [branchDDL, setBranchDDL] = useState([]);
-  const [headerData, setHeaderData] = useState("");
+  const [headerData, setHeaderData] = useState('');
 
   // get user profile data from store
   const profileData = useSelector((state) => {
@@ -84,7 +84,7 @@ export default function WHStockReportVat() {
           <>
             <Card>
               {true && <ModalProgressBar />}
-              <CardHeader title={"Warehouse Stock Report(VAT)"}>
+              <CardHeader title={'Warehouse Stock Report(VAT)'}>
                 <CardHeaderToolbar></CardHeaderToolbar>
               </CardHeader>
               <CardBody>
@@ -98,7 +98,7 @@ export default function WHStockReportVat() {
                         value={values?.branch}
                         label="Branch"
                         onChange={(valueOption) => {
-                          setFieldValue("branch", valueOption);
+                          setFieldValue('branch', valueOption);
                           setRowDto([]);
                         }}
                         placeholder="Branch"
@@ -111,16 +111,16 @@ export default function WHStockReportVat() {
                         name="reportType"
                         options={
                           [
-                            { value: 1, label: "Raw Material" },
-                            { value: 2, label: "Finished Goods" },
+                            { value: 1, label: 'Raw Material' },
+                            { value: 2, label: 'Finished Goods' },
                           ] || []
                         }
                         value={values?.reportType}
                         label="Report Type"
                         onChange={(valueOption) => {
-                          setFieldValue("reportType", valueOption);
-                          setFieldValue("itemType", "");
-                          setFieldValue("itemName", "");
+                          setFieldValue('reportType', valueOption);
+                          setFieldValue('itemType', '');
+                          setFieldValue('itemName', '');
                           if (valueOption.value === 1) {
                             GetItemTypeDDLPurchase_api(setitemType);
                           } else {
@@ -141,8 +141,8 @@ export default function WHStockReportVat() {
                         value={values?.itemType}
                         label="Item Type"
                         onChange={(valueOption) => {
-                          setFieldValue("itemType", valueOption);
-                          setFieldValue("itemName", "");
+                          setFieldValue('itemType', valueOption);
+                          setFieldValue('itemName', '');
                           setRowDto([]);
                           GetItemNameDDL_api(
                             profileData.accountId,
@@ -165,7 +165,7 @@ export default function WHStockReportVat() {
                         value={values?.itemName}
                         label="Item"
                         onChange={(valueOption) => {
-                          setFieldValue("itemName", valueOption);
+                          setFieldValue('itemName', valueOption);
                           setRowDto([]);
                         }}
                         placeholder="Item Name"
@@ -183,7 +183,7 @@ export default function WHStockReportVat() {
                         placeholder="From Date"
                         type="date"
                         onChange={() => {
-                          setFieldValue("fromDate", values?.fromDate);
+                          setFieldValue('fromDate', values?.fromDate);
                           setRowDto([]);
                         }}
                       />
@@ -196,7 +196,7 @@ export default function WHStockReportVat() {
                         placeholder="Top Date"
                         type="date"
                         onChange={() => {
-                          setFieldValue("toDate", values?.toDate);
+                          setFieldValue('toDate', values?.toDate);
                           setRowDto([]);
                         }}
                       />

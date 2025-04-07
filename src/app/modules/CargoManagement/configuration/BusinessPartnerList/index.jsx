@@ -19,10 +19,8 @@ export default function BusinessPartnerList() {
   const [pageNo, setPageNo] = React.useState(0);
   const [pageSize, setPageSize] = React.useState(15);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const [
-    isShipperCreateModalOpen,
-    setIsShipperCreateModalOpen,
-  ] = React.useState(false);
+  const [isShipperCreateModalOpen, setIsShipperCreateModalOpen] =
+    React.useState(false);
   const [
     participntLanding,
     getParticipntLanding,
@@ -32,13 +30,12 @@ export default function BusinessPartnerList() {
 
   React.useEffect(() => {
     commonLandingApi();
-
   }, []);
   const commonLandingApi = (
     searchValue,
     PageNo = pageNo,
     PageSize = pageSize,
-    tradeTypeId = 1,
+    tradeTypeId = 1
   ) => {
     setParticipntLanding([]);
     if (tradeTypeId === 1) {
@@ -46,14 +43,14 @@ export default function BusinessPartnerList() {
       getParticipntLanding(
         `${imarineBaseUrl}/domain/ShippingService/GetParticipntLandingByShipper?viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search=${
           searchValue ?? ''
-        }`,
+        }`
       );
     }
     if (tradeTypeId === 2) {
       getParticipntLanding(
         `${imarineBaseUrl}/domain/ShippingService/GetParticipntLandingByConsignee?viewOrder=desc&PageNo=${PageNo}&PageSize=${PageSize}&search=${
           searchValue ?? ''
-        }`,
+        }`
       );
     }
   };

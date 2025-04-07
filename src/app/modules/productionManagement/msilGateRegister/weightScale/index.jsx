@@ -1,5 +1,3 @@
-
-
 import React, { useMemo } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -27,7 +25,7 @@ const WeightScale = () => {
   const [objProps, setObjprops] = useState({});
   const connectedPort = useSelector(
     (state) => state?.commonDDL?.port,
-    shallowEqual,
+    shallowEqual
   );
   const { selectedBusinessUnit } = useSelector((state) => {
     return state?.authData;
@@ -66,12 +64,12 @@ const WeightScale = () => {
     closePort();
     const oldMachineOptions = {
       baudRate: [magnumSteelUnitId, isPatUnitId].includes(
-        selectedBusinessUnit?.value,
+        selectedBusinessUnit?.value
       )
         ? 9600
         : 1200,
       baudrate: [magnumSteelUnitId, isPatUnitId].includes(
-        selectedBusinessUnit?.value,
+        selectedBusinessUnit?.value
       )
         ? 9600
         : 1200,
@@ -106,7 +104,7 @@ const WeightScale = () => {
     console.log(info, 'info');
     try {
       await port.open(
-        isOldMachine(info) ? oldMachineOptions : newMachineOptions,
+        isOldMachine(info) ? oldMachineOptions : newMachineOptions
       );
     } catch (error) {
       console.log(error, 'error in opening port');

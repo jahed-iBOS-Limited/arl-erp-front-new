@@ -1,29 +1,28 @@
-
-import { Formik } from "formik";
-import React, { useEffect, useState } from "react";
-import { shallowEqual, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
-import { GetSalesOrganizationDDL_api } from "../../../../salesManagement/report/shipToPartyDelivery/helper";
-import FromDateToDateForm from "../../../../_helper/commonInputFieldsGroups/dateForm";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import useAxiosGet from "../../../../_helper/customHooks/useAxiosGet";
-import IButton from "../../../../_helper/iButton";
-import ICard from "../../../../_helper/_card";
-import Loading from "../../../../_helper/_loading";
-import PaginationSearch from "../../../../_helper/_search";
-import NewSelect from "../../../../_helper/_select";
-import { _todayDate } from "../../../../_helper/_todayDate";
+import { Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import { GetSalesOrganizationDDL_api } from '../../../../salesManagement/report/shipToPartyDelivery/helper';
+import FromDateToDateForm from '../../../../_helper/commonInputFieldsGroups/dateForm';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import useAxiosGet from '../../../../_helper/customHooks/useAxiosGet';
+import IButton from '../../../../_helper/iButton';
+import ICard from '../../../../_helper/_card';
+import Loading from '../../../../_helper/_loading';
+import PaginationSearch from '../../../../_helper/_search';
+import NewSelect from '../../../../_helper/_select';
+import { _todayDate } from '../../../../_helper/_todayDate';
 
 const initData = {
-  SO: "",
+  SO: '',
   fromDate: _todayDate(),
   toDate: _todayDate(),
-  channel: "",
-  region: "",
-  area: "",
-  employee: "",
-  month: "",
-  year: "",
+  channel: '',
+  region: '',
+  area: '',
+  employee: '',
+  month: '',
+  year: '',
 };
 
 const BulkKPIEntryLanding = () => {
@@ -82,10 +81,10 @@ const BulkKPIEntryLanding = () => {
         {({ values, setFieldValue }) => (
           <>
             <ICard
-              title={"Bulk KPI"}
+              title={'Bulk KPI'}
               createHandler={() => {
                 history.push(
-                  "/performance-management/report/bulkkpientry/entry"
+                  '/performance-management/report/bulkkpientry/entry'
                 );
               }}
             >
@@ -100,7 +99,7 @@ const BulkKPIEntryLanding = () => {
                         value={values?.SO}
                         label="Sales Organization"
                         onChange={(e) => {
-                          setFieldValue("SO", e);
+                          setFieldValue('SO', e);
                         }}
                         placeholder="Sales Organization"
                         isDisabled={false}
@@ -130,23 +129,23 @@ const BulkKPIEntryLanding = () => {
                 <table
                   id="table-to-xlsx"
                   className={
-                    "table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm"
+                    'table table-striped table-bordered mt-3 bj-table bj-table-landing table-font-size-sm'
                   }
                 >
                   <thead>
                     <tr className="cursor-pointer">
                       {[
-                        "SL",
-                        "Employee Name",
-                        "Enroll",
-                        "Department",
-                        "Designation",
-                        "BSC Perspective",
-                        "KPI Master Name",
-                        "KPI Master Code",
-                        "Month",
-                        "Target",
-                        "Achievement",
+                        'SL',
+                        'Employee Name',
+                        'Enroll',
+                        'Department',
+                        'Designation',
+                        'BSC Perspective',
+                        'KPI Master Name',
+                        'KPI Master Code',
+                        'Month',
+                        'Target',
+                        'Achievement',
                       ]?.map((th, index) => {
                         return <th key={index}> {th} </th>;
                       })}
@@ -156,7 +155,7 @@ const BulkKPIEntryLanding = () => {
                     {rowData?.map((item, index) => {
                       return (
                         <tr key={index}>
-                          <td style={{ width: "40px" }} className="text-center">
+                          <td style={{ width: '40px' }} className="text-center">
                             {index + 1}
                           </td>
                           <td>{item?.strEmployeeName}</td>

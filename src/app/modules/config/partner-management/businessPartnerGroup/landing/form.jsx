@@ -1,19 +1,13 @@
-import React from "react";
-import NewSelect from "../../../../_helper/_select";
-import SearchAsyncSelect from "../../../../_helper/SearchAsyncSelect";
-import RATForm from "../../../../_helper/commonInputFieldsGroups/ratForm";
-import axios from "axios";
-import IButton from "../../../../_helper/iButton";
+import React from 'react';
+import NewSelect from '../../../../_helper/_select';
+import SearchAsyncSelect from '../../../../_helper/SearchAsyncSelect';
+import RATForm from '../../../../_helper/commonInputFieldsGroups/ratForm';
+import axios from 'axios';
+import IButton from '../../../../_helper/iButton';
 
 export default function BusinessPartnerGroupLandingForm({ obj }) {
-  const {
-    buId,
-    accId,
-    values,
-    partnerGroups,
-    setFieldValue,
-    getLandingData,
-  } = obj;
+  const { buId, accId, values, partnerGroups, setFieldValue, getLandingData } =
+    obj;
 
   return (
     <>
@@ -34,7 +28,7 @@ export default function BusinessPartnerGroupLandingForm({ obj }) {
               <SearchAsyncSelect
                 selectedValue={values?.customer}
                 handleChange={(valueOption) => {
-                  setFieldValue("customer", valueOption);
+                  setFieldValue('customer', valueOption);
                 }}
                 isDisabled={!values?.channel}
                 placeholder="Search Business Partner"
@@ -55,10 +49,10 @@ export default function BusinessPartnerGroupLandingForm({ obj }) {
                 name="partnerGroup"
                 label="Partner Group"
                 placeholder="Partner Group"
-                options={[{ value: 0, label: "All" }, ...partnerGroups] || []}
+                options={[{ value: 0, label: 'All' }, ...partnerGroups] || []}
                 value={values?.partnerGroup}
                 onChange={(valueOption) => {
-                  setFieldValue("partnerGroup", valueOption);
+                  setFieldValue('partnerGroup', valueOption);
                 }}
               />
             </div>
