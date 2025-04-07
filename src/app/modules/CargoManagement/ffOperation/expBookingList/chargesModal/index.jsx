@@ -63,8 +63,9 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
       (resShippingHeadOfCharges) => {
         // `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingByMasterBl?MasterBlId=${masterBlId}&modeOfTransportId=${modeOfTransportId}`,
         getBookedRequestBillingData(
-          `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingData?bookingId=${bookingRequestId}&isAirOperation=${isAirOperation ||
-            false}`,
+          `${imarineBaseUrl}/domain/ShippingService/GetBookedRequestBillingData?bookingId=${bookingRequestId}&isAirOperation=${
+            isAirOperation || false
+          }`,
           (resSveData) => {
             if (formikRef.current) {
               // profitSharePercentage add
@@ -207,7 +208,6 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
     getShipingCargoTypeDDL(
       `${imarineBaseUrl}/domain/ShippingService/GetShipingCargoTypeDDL`,
     );
-
   }, []);
 
   const saveHandler = (values, cb) => {
@@ -406,7 +406,9 @@ function ChargesModal({ rowClickData, CB, isAirOperation }) {
                     <th rowspan="2"></th>
                     <th rowspan="2">SL</th>
                     <th rowspan="2">Attribute</th>
-                    <th rowspan="2">Currency</th>
+                    <th rowspan="2" style={{ minWidth: '85px' }}>
+                      Currency
+                    </th>
                     <th rowspan="2">Exchange Rate</th>
                     <th colspan="4" className="group-header collection-header">
                       Collection <span>(Amounts & Party)</span>
