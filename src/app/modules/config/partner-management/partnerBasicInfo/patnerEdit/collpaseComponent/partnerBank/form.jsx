@@ -71,7 +71,6 @@ export default function RoleExForm({
             };
             ItemType.push(items);
           });
-        // setpartnerListDDL(ItemType);
       }
     } catch (error) {
 

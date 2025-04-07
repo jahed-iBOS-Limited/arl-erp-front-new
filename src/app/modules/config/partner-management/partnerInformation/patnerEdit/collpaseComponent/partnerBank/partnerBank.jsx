@@ -1,19 +1,19 @@
 
-import React, { useState, useRef, useEffect } from "react";
+import Axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
+import { shallowEqual, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import shortid from "shortid";
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from "../../../../../../../../_metronic/_partials/controls";
-import { useSelector, shallowEqual } from "react-redux";
-import Form from "./form";
-import Axios from "axios";
-import { toast } from "react-toastify";
-import shortid from "shortid";
-import { useParams } from "react-router-dom";
 import Loading from "./../../../../../../_helper/_loading";
+import Form from "./form";
 const initProduct = {
   accountName: "",
   accountNo: "",
@@ -73,7 +73,7 @@ export default function PartnerBank() {
       } else {
         setRowDto([]);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const saveBusinessUnit = async (values, cb) => {
@@ -161,62 +161,6 @@ export default function PartnerBank() {
     }
   };
 
-  // const setter = (payload) => {
-  //   if (
-  //     isUniq("bankAccountNo", payload.bankAccountNo, rowDto) ||
-  //     isUniq("bankName", payload.bankName, rowDto)
-  //   ) {
-  //     const { accountId, userId: actionBy } = profileData;
-  //     const { value: businessunitid } = selectedBusinessUnit;
-
-  //     const count = rowDto.filter((itm, idx) => itm.isDefaultAccount === true)
-  //       .length; // true exist 1
-
-  //     if (count > 0) {
-  //       if (payload.isDefaultAccount === true) {
-  //         setRowDto([
-  //           ...rowDto.filter((itm, idx) => itm.isDefaultAccount !== true),
-  //           {
-  //             configId: 0,
-  //             accountId: accountId,
-  //             businessUnitId: businessunitid,
-  //             businessPartnerId: +id,
-  //             actionBy: actionBy,
-  //             isActive: true,
-  //             ...payload,
-  //           },
-  //         ]);
-  //       } else {
-  //         setRowDto([
-  //           ...rowDto,
-  //           {
-  //             configId: 0,
-  //             accountId: accountId,
-  //             businessUnitId: businessunitid,
-  //             businessPartnerId: +id,
-  //             actionBy: actionBy,
-  //             isActive: true,
-  //             ...payload,
-  //           },
-  //         ]);
-  //       }
-  //     } else {
-  //       setRowDto([
-  //         ...rowDto,
-  //         {
-  //           configId: 0,
-  //           accountId: accountId,
-  //           businessUnitId: businessunitid,
-  //           businessPartnerId: +id,
-  //           actionBy: actionBy,
-  //           isActive: true,
-  //           ...payload,
-  //         },
-  //       ]);
-  //     }
-  //   }
-  // };
-
   const setter = (payload) => {
     const duplicate = rowDto.some(
       (itm) =>
@@ -294,7 +238,7 @@ export default function PartnerBank() {
   };
   return (
     <Card>
-      {true && <ModalProgressBar />}
+      <ModalProgressBar />
       <CardHeader title="Edit Partner Bank Info">
         <CardHeaderToolbar>
           <button
@@ -319,8 +263,8 @@ export default function PartnerBank() {
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody>
+        {isDisabled && <Loading />}
         <div className="mt-0">
-          {isDisabled && <Loading />}
           <Form
             product={partnerBankInfo || initProduct}
             btnRef={btnRef}

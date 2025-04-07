@@ -58,10 +58,10 @@ export default function RoleExForm({
         `/partner/BusinessPartnerBasicInfo/GetBusinessPartnerDDL?accountId=${accId}&businessUnitId=${buId}`
       );
       const { status, data } = res;
-      if (status === 200 && data.length) {
+      if (status === 200 && data?.length) {
         let ItemType = [];
         data &&
-          data.forEach((item) => {
+          data?.forEach((item) => {
             let items = {
               value: item.businessPartnerId,
               label: item.businessPartnerName,
@@ -81,14 +81,14 @@ export default function RoleExForm({
         `/partner/BusinessPartnerBankInfo/GetBranchDDLInfo?BankId=${id}`
       );
       const { status, data } = res;
-      if (status === 200 && data.length) {
+      if (status === 200 && data?.length) {
         let ItemType = [];
         data &&
-          data.forEach((item) => {
+          data?.forEach((item) => {
             let items = {
               ...item,
-              value: item.bankBranchId,
-              label: item.bankBranchName,
+              value: item?.bankBranchId,
+              label: item?.bankBranchName,
             };
             ItemType.push(items);
           });
