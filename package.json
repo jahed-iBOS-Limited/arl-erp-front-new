@@ -8,7 +8,8 @@
     "build": "node --max_old_space_size=16096 ./node_modules/typescript/bin/tsc -b && node --max_old_space_size=16096 ./node_modules/vite/bin/vite.js build",
     "lint": "eslint src --ext .ts,.tsx,.js,jsx",
     "prettier": "prettier --write src/**/*.{js,jsx,ts,tsx}",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepare": "husky"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
