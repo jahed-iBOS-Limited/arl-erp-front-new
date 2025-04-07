@@ -9,6 +9,8 @@ import { toast } from 'react-toastify';
 import NewSelect from '../../../_helper/_select';
 import useAxiosPost from '../../../_helper/customHooks/useAxiosPost';
 import { _todayDate } from '../../../_helper/_todayDate';
+import {fillPersentageValueInRow} from './helper'
+import { fetchInventoryData } from '../../../_helper/_commonApi';
 
 const initData = {
   businessUnit: '',
@@ -85,30 +87,6 @@ export default function AssetLiabilityPlanCreateEdit() {
     getFiscalYearDDL(`/vat/TaxDDL/FiscalYearDDL`);
   }, []);
 
-  const fillPersentageValueInRow = (PercentageValue, index, initialAmount) => {
-    const updatedData = [...tableData];
-    let updatedValue = initialAmount;
-    const monthsToUpdate = [
-      'julAmount',
-      'augAmount',
-      'sepAmount',
-      'octAmount',
-      'novAmount',
-      'decAmount',
-      'janAmount',
-      'febAmount',
-      'marAmount',
-      'aprAmount',
-      'mayAmount',
-      'junAmount',
-    ];
-    for (const month of monthsToUpdate) {
-      updatedValue += updatedValue * (PercentageValue / 100);
-      updatedValue = parseFloat(updatedValue.toFixed(2));
-      updatedData[index][month] = updatedValue;
-    }
-    setTableData(updatedData);
-  };
 
   const onViewButtonClick = (values) => {
     getTableData(
@@ -118,40 +96,8 @@ export default function AssetLiabilityPlanCreateEdit() {
           ...item,
           fillAllManual: item?.entryTypeValue,
         }));
-        getInventoryData(
-          `/mes/SalesPlanning/GetGlWiseMaterialBalance?unitId=${
-            values?.businessUnit?.value
-          }&dteFromDate=${_todayDate()}`,
-          (invData) => {
-            const updatedDataWithInventory = updatedData?.map((item) => {
-              const invDataItem = invData?.find(
-                (invItem) => invItem?.intGeneralLedgerId === item?.glId
-              );
-              if (invDataItem) {
-                return {
-                  ...item,
-                  initialAmount: invDataItem?.opnAmount?.toFixed(2),
-                  julAmount: invDataItem?.julAmount.toFixed(2),
-                  augAmount: invDataItem?.augAmount.toFixed(2),
-                  sepAmount: invDataItem?.sepAmount.toFixed(2),
-                  octAmount: invDataItem?.octAmount.toFixed(2),
-                  novAmount: invDataItem?.novAmount.toFixed(2),
-                  decAmount: invDataItem?.decAmount.toFixed(2),
-                  janAmount: invDataItem?.janAmount.toFixed(2),
-                  febAmount: invDataItem?.febAmount.toFixed(2),
-                  marAmount: invDataItem?.marAmount.toFixed(2),
-                  aprAmount: invDataItem?.aprAmount.toFixed(2),
-                  mayAmount: invDataItem?.mayAmount.toFixed(2),
-                  junAmount: invDataItem?.junAmount.toFixed(2),
-                };
-              } else {
-                return item;
-              }
-            });
-            setTableData(updatedDataWithInventory);
-          }
-        );
-      }
+        fetchInventoryData({getInventoryData,values,updatedData,setTableData})        
+      },
     );
   };
 
@@ -310,7 +256,9 @@ export default function AssetLiabilityPlanCreateEdit() {
                                         fillPersentageValueInRow(
                                           +e.target.value,
                                           index,
-                                          item?.initialAmount
+                                          item?.initialAmount,
+                                          tableData,
+                                          setTableData
                                         );
                                       } else {
                                         const updatedData = [...tableData];
