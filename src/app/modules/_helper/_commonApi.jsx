@@ -2,6 +2,7 @@ import { default as axios } from 'axios';
 import { toast } from 'react-toastify';
 import { imarineBaseUrl } from '../../../App';
 import { _dateFormatter } from './_dateFormate';
+import { _todayDate } from './_todayDate';
 
 export const getImageuploadStatus = (accountId) => {
   return axios.get(`/fino/Image/getImageuploadStatus?accountId=${accountId}`);
@@ -1453,3 +1454,44 @@ export const saveBunkerCost = async (payload, setLoading, cb) => {
     setLoading(false);
   }
 };
+
+
+export function fetchInventoryData(obj){
+
+  // destructure
+  const {getInventoryData,values,updatedData,setTableData}=obj
+
+  getInventoryData(
+    `/mes/SalesPlanning/GetGlWiseMaterialBalance?unitId=${
+      values?.businessUnit?.value
+    }&dteFromDate=${_todayDate()}`,
+    (invData) => {
+      const updatedDataWithInventory = updatedData?.map((item) => {
+        const invDataItem = invData?.find(
+          (invItem) => invItem?.intGeneralLedgerId === item?.glId,
+        );
+        if (invDataItem) {
+          return {
+            ...item,
+            initialAmount: invDataItem?.opnAmount?.toFixed(2),
+            julAmount: invDataItem?.julAmount.toFixed(2),
+            augAmount: invDataItem?.augAmount.toFixed(2),
+            sepAmount: invDataItem?.sepAmount.toFixed(2),
+            octAmount: invDataItem?.octAmount.toFixed(2),
+            novAmount: invDataItem?.novAmount.toFixed(2),
+            decAmount: invDataItem?.decAmount.toFixed(2),
+            janAmount: invDataItem?.janAmount.toFixed(2),
+            febAmount: invDataItem?.febAmount.toFixed(2),
+            marAmount: invDataItem?.marAmount.toFixed(2),
+            aprAmount: invDataItem?.aprAmount.toFixed(2),
+            mayAmount: invDataItem?.mayAmount.toFixed(2),
+            junAmount: invDataItem?.junAmount.toFixed(2),
+          };
+        } else {
+          return item;
+        }
+      });
+      setTableData(updatedDataWithInventory);
+    },
+  );
+}

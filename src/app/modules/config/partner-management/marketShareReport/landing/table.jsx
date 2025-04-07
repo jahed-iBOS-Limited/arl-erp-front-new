@@ -1,6 +1,5 @@
 import React from 'react';
 import { _fixedPoint } from '../../../../_helper/_fixedPoint';
-// import { monthDDL } from "../../../../inventoryManagement/warehouseManagement/liftingEntry/form/addEditForm";
 
 const headers = [
   'SL',
@@ -49,8 +48,7 @@ const GridView = ({ rowData }) => {
                     <td className="text-right">
                       {_fixedPoint(item?.decQnt, true, 0)}
                     </td>
-                    {/* <td>{monthDDL[item?.intMonthId - 1]?.label}</td>
-                  <td>{item?.intYearId}</td> */}
+
                     <td className="text-right">{item?.intTotalOutlet}</td>
                     <td className="text-right">{item?.intAkijOutlet}</td>
                     <td className="text-right">{item?.decCoverage}</td>

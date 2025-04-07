@@ -22,21 +22,7 @@ import Table from './tables/table';
 import TableFour from './tables/tableFour';
 import TableThree from './tables/tableThree';
 import TableTwo from './tables/tableTwo';
-
-const monthDDL = [
-  { value: 1, label: 'January' },
-  { value: 2, label: 'February' },
-  { value: 3, label: 'March' },
-  { value: 4, label: 'April' },
-  { value: 5, label: 'May' },
-  { value: 6, label: 'June' },
-  { value: 7, label: 'July' },
-  { value: 8, label: 'August' },
-  { value: 9, label: 'September' },
-  { value: 10, label: 'October' },
-  { value: 11, label: 'November' },
-  { value: 12, label: 'December' },
-];
+import { monthDDL } from '../../../_helper/commonInputFieldsGroups/yearMonthForm';
 
 const reportTypes = [
   { value: 1, label: 'All Unit' },
