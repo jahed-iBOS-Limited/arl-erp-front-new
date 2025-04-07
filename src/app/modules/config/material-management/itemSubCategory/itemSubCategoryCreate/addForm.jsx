@@ -1,17 +1,17 @@
-import React, { useState, useRef } from 'react';
+import Axios from 'axios';
+import React, { useRef, useState } from 'react';
+import { shallowEqual, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import shortid from 'shortid';
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from '../../../../../../_metronic/_partials/controls';
-import { ModalProgressBar } from '../../../../../../_metronic/_partials/controls';
-import { useSelector, shallowEqual } from 'react-redux';
-import Form from '../common/form';
-import Axios from 'axios';
-import { toast } from 'react-toastify';
-import shortid from 'shortid';
 import Loading from '../../../../_helper/_loading';
+import Form from '../common/form';
 const initProduct = {
   id: undefined,
   itemSubCategoryName: '',
@@ -41,15 +41,6 @@ export default function ItemSubCategoryAddForm({
     setDisabled(true);
     //
     if (!id && values) {
-      // const businessData = {
-      //   accountId: profileData.accountId,
-      //   itemSubCategoryName: values.itemSubCategoryName,
-      //   businessUnitId: selectedBusinessUnit.value,
-      //   itemTypeId: values.itemTypeName.value,
-      //   itemCategoryId: values.itemCategoryName.value,
-      //   actionBy: profileData.userId,
-      //   lastActionDateTime: "2020-07-08T09:19:27.446Z",
-      // };
       const itemSubCategoryPayload = {
         sl: 0,
         itemMasterubCategoryId: 0,
@@ -78,8 +69,6 @@ export default function ItemSubCategoryAddForm({
         toast.error(error?.response?.data?.message, { toastId: shortid() });
         setDisabled(false);
       }
-    } else {
-      // setDisabled(false);
     }
   };
 
@@ -100,14 +89,9 @@ export default function ItemSubCategoryAddForm({
   const backHandler = () => {
     history.push(`/config/material-management/item-sub-category`);
   };
-
-  // const disableHandler = (cond) => {
-  //   setDisabled(cond);
-  // };
-
   return (
     <Card>
-      {true && <ModalProgressBar />}
+      <ModalProgressBar />
       <CardHeader title="Create Item Sub-Category">
         <CardHeaderToolbar>
           <button type="button" onClick={backHandler} className="btn btn-light">
@@ -144,7 +128,6 @@ export default function ItemSubCategoryAddForm({
             btnRef={btnRef}
             saveSubItemCategory={saveSubItemCategory}
             resetBtnRef={resetBtnRef}
-            // disableHandler={disableHandler}
             accountId={profileData?.accountId}
             selectedBusinessUnit={selectedBusinessUnit}
           />

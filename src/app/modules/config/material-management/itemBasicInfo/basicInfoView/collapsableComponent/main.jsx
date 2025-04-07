@@ -40,7 +40,6 @@ export default function MainCollapsePanel() {
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
-    // toast.dismiss(1)
   };
   const { state } = useLocation();
 
@@ -76,7 +75,7 @@ export default function MainCollapsePanel() {
           }}
         />
       ),
-      title: 'Config Item Plant Warehosue ',
+      title: 'Config Item Plant Warehouse',
     },
     {
       id: 3,

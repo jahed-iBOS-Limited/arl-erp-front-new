@@ -1,30 +1,7 @@
+import { Form, Formik } from 'formik';
 import React from 'react';
-import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
 import { IInput } from '../../../../_helper/_input';
-
-// Validation schema
-const validationSchema = Yup.object().shape({
-  oldPassword: Yup.string()
-    .min(6, 'Minimum 6 symbols')
-    .max(50, 'Maximum 100 symbols')
-    .required('Old Password required'),
-  newPassword: Yup.string()
-    .min(6, 'Minimum 6 symbols')
-    .max(50, 'Maximum 100 symbols')
-    .required('New Password required'),
-  confirmPassowrd: Yup.string()
-    .min(6, 'Minimum 6 symbols')
-    .max(50, 'Maximum 100 symbols')
-    .required('Confirm Password required')
-    .when('newPassword', {
-      is: (val) => (val && val.length > 0 ? true : false),
-      then: Yup.string().oneOf(
-        [Yup.ref('newPassword')],
-        'Both password need to be the same'
-      ),
-    }),
-});
+import { ChangePassValidationSchema } from '../../../../_helper/_validationSchema';
 
 export default function FormCmp({
   initData,
@@ -41,7 +18,7 @@ export default function FormCmp({
       <Formik
         enableReinitialize={true}
         initialValues={initData}
-        validationSchema={validationSchema}
+        validationSchema={ChangePassValidationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveHandler(values, () => {
             resetForm(initData);

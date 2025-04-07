@@ -1,36 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Formik, Form, Field } from 'formik';
-import * as Yup from 'yup';
-import { Input } from '../../../../../../_metronic/_partials/controls';
 import Axios from 'axios';
-
-// Validation schema
-const ProductEditSchema = Yup.object().shape({
-  userId: Yup.object().shape({
-    label: Yup.string().required('User is required'),
-    value: Yup.string().required('User is required'),
-  }),
-  userGroupName: Yup.string()
-    .min(2, 'Minimum 2 symbols')
-    .max(100, 'Maximum 100 symbols')
-    .required('User Group is required'),
-  userGroupCode: Yup.string()
-    .min(2, 'Minimum 2 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('User Group Code is required'),
-});
-
-// Validation schema Edit
-const ProductEditSchemaEdit = Yup.object().shape({
-  userGroupName: Yup.string()
-    .min(2, 'Minimum 2 symbols')
-    .max(100, 'Maximum 100 symbols')
-    .required('User Group is required'),
-  userGroupCode: Yup.string()
-    .min(2, 'Minimum 2 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('User Group Code is required'),
-});
+import { Field, Form, Formik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { Input } from '../../../../../../_metronic/_partials/controls';
+import { ProductEditSchema, ProductEditSchemaEdit } from '../common/form';
 
 export default function FormCmp({
   tableData,
@@ -76,18 +48,8 @@ export default function FormCmp({
           });
         }}
       >
-        {({
-          handleSubmit,
-          resetForm,
-          values,
-          handleChange,
-          errors,
-          touched,
-          setFieldValue,
-          isValid,
-        }) => (
+        {({ handleSubmit, resetForm, values }) => (
           <>
-            {/* {disableHandler(!isValid || !tableData?.length)} */}
             <Form className="form form-label-right">
               <div className="form-group row">
                 <div className="col-lg-4">
@@ -133,7 +95,7 @@ export default function FormCmp({
                             }}
                           >
                             <td>{idx + 1}</td>
-                            <td>{itm.userName}</td>
+                            <td>{itm.userName || ''}</td>
                           </tr>
                         ))}
                     </tbody>
@@ -145,14 +107,14 @@ export default function FormCmp({
                 style={{ display: 'none' }}
                 ref={btnRef}
                 onSubmit={() => handleSubmit()}
-              ></button>
+              />
 
               <button
                 type="reset"
                 style={{ display: 'none' }}
                 ref={resetBtnRef}
                 onSubmit={() => resetForm(initData)}
-              ></button>
+              />
             </Form>
           </>
         )}

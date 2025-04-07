@@ -72,7 +72,7 @@ export default function CreateItemPurchaseInfo({
         setExist(true);
         setRowDto(data);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   // save business unit data to DB
@@ -103,7 +103,6 @@ export default function CreateItemPurchaseInfo({
         } catch (error) {
           toast.error(error?.response?.data?.message, { toastId: shortid() });
         }
-        console.log('edit', editObjRow);
       } else {
         const ObjRow = rowDto.map((itm) => {
           return {
@@ -156,8 +155,8 @@ export default function CreateItemPurchaseInfo({
     }
   };
 
-  const disableHandler = (cond) => {
-    setDisabled(cond);
+  const disableHandler = (condition) => {
+    setDisabled(condition);
   };
   return (
     <Card>
@@ -173,7 +172,7 @@ export default function CreateItemPurchaseInfo({
                 ref={resetBtnRef}
                 className="btn btn-light ml-2"
               >
-                <i className="fa fa-redo"></i>
+                <i className="fa fa-redo" />
                 Reset
               </button>
               <button

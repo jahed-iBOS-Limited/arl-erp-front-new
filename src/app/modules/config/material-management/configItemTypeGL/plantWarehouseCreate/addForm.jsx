@@ -91,14 +91,13 @@ export default function ConfigItemTypeGLAddForm({
 
   return (
     <Card>
-      {true && <ModalProgressBar />}
+      <ModalProgressBar />
       <CardHeader title="Create Config Item Category General Ledger">
         <CardHeaderToolbar>
           <button type="button" onClick={backHandler} className="btn btn-light">
             <i className="fa fa-arrow-left"></i>
             Back
           </button>
-          {`  `}
           <button
             type="reset"
             onClick={ResetProductClick}
@@ -124,7 +123,6 @@ export default function ConfigItemTypeGLAddForm({
         <div className="mt-0">
           {isDisabled && <Loading />}
           <Form
-            // actionsLoading={actionsLoading}
             product={initProduct}
             btnRef={btnRef}
             saveBusinessUnit={saveBusinessUnit}
