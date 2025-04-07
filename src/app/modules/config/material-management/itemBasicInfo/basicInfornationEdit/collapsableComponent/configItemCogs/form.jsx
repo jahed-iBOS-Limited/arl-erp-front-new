@@ -5,18 +5,9 @@ import { Input } from '../../../../../../../../_metronic/_partials/controls';
 import Axios from 'axios';
 import Select from 'react-select';
 import customStyles from '../../../../../../selectCustomStyle';
+import { DataValiadtionSchema } from '../../../basicInfoView/collapsableComponent/configItemCogs/form';
 
-const DataValiadtionSchema = Yup.object().shape({
-  numCostPrice: Yup.number()
-    .integer()
-    .min(1)
-    .required('Minimum Cost Price is required'),
 
-  warehouse: Yup.object().shape({
-    label: Yup.string().required('Item Organization is required'),
-    value: Yup.string().required('Item Organization is required'),
-  }),
-});
 
 export default function FormCmp({
   fetchCostWarehouse,
@@ -53,7 +44,7 @@ export default function FormCmp({
         setwarehouseDDL(orgs);
         orgs = null;
       }
-    } catch (error) {}
+    } catch (error) { }
   };
   useEffect(() => {
     if (selectedBusinessUnit && accountId && itemId) {
@@ -105,7 +96,7 @@ export default function FormCmp({
 
                           styles={customStyles}
                           name="org"
-                          // isDisabled={!warehouseDDL}
+                        // isDisabled={!warehouseDDL}
                         />
                       )}
                       placeholder="Select Warehouse"
@@ -121,9 +112,9 @@ export default function FormCmp({
                       className="text-danger"
                     >
                       {errors &&
-                      errors.warehouse &&
-                      touched &&
-                      touched.warehouse
+                        errors.warehouse &&
+                        touched &&
+                        touched.warehouse
                         ? errors.warehouse.value
                         : ''}
                     </p>

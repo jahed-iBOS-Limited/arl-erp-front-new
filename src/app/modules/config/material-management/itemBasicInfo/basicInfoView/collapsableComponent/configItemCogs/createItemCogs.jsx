@@ -125,7 +125,7 @@ export default function CreateItemPurchaseInfo({
         }
       }
     } else {
-      toast.error('Submit Unsuccesful!', { toastId: shortid() });
+      toast.error('Submit Unsuccessful!', { toastId: shortid() });
     }
   };
 
@@ -146,7 +146,7 @@ export default function CreateItemPurchaseInfo({
     <Card>
       <CardHeader
         title={isViewPage ? 'Costing Information' : 'Edit Costing Information'}
-      ></CardHeader>
+      />
       <CardBody>
         <Form
           fetchCostWarehouse={fetchCostWarehouse}
