@@ -6,7 +6,7 @@ import FormikSelect from '../../../../../chartering/_chartinghelper/common/formi
 import customStyles from '../../../../../chartering/_chartinghelper/common/selectCustomStyle';
 import { getBusinessPartnerNameByVoyageDDL } from '../../../../../chartering/helper';
 import { initData } from '../addEditForm';
-import { daysToDDHHMM } from '../utils';
+import { daysToDDHHMM } from '../../../../../chartering/layTime/Form/utils';
 
 const HeaderLabelComponent = ({ name }) => {
   return (
@@ -79,9 +79,9 @@ export function CreateHeaderForm({
                   id
                     ? setSingleData({ ...initData, layTimeType: valueOption })
                     : setValues({
-                        ...initData,
-                        layTimeType: valueOption,
-                      });
+                      ...initData,
+                      layTimeType: valueOption,
+                    });
                 }}
                 errors={errors}
                 touched={touched}
@@ -443,9 +443,8 @@ export function CreateHeaderForm({
 
             <>
               <HeaderLabelComponent
-                name={`Time allowed for ${
-                  values?.layTimeType?.value === 1 ? 'Loading' : 'Discharging'
-                }`}
+                name={`Time allowed for ${values?.layTimeType?.value === 1 ? 'Loading' : 'Discharging'
+                  }`}
               />
               <div className="col-lg-3">
                 <strong>
