@@ -14,7 +14,7 @@ import {
 } from './_metronic/layout';
 import './app.css';
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <>
     <MetronicLayoutProvider>
       <MetronicSubheaderProvider>
