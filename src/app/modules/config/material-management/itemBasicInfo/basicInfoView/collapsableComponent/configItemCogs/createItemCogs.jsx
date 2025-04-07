@@ -31,12 +31,10 @@ export default function CreateItemPurchaseInfo({
   const [alternateUomList, setAlterUOMList] = useState([]);
   const [rowDto, setRowDto] = useState([]);
 
-  // get user profile data from store
   const profileData = useSelector((state) => {
     return state.authData.profileData;
   }, shallowEqual);
 
-  // get selected business unit from store
   const selectedBusinessUnit = useSelector((state) => {
     return state.authData.selectedBusinessUnit;
   }, shallowEqual);
@@ -53,7 +51,6 @@ export default function CreateItemPurchaseInfo({
     }
   }, [itemId, profileData, selectedBusinessUnit]);
 
-  // Remove duplicate from alternateuom list
   const setAlternateUomList = (data) => {
     var uniq = uniqBy([...alternateUomList, data], function (itm) {
       return itm.convertedUomName;
@@ -74,7 +71,6 @@ export default function CreateItemPurchaseInfo({
     } catch (error) {}
   };
 
-  // save business unit data to DB
   const saveData = async (values, cb) => {
     if (values && selectedBusinessUnit && profileData) {
       if (isExist) {
@@ -95,14 +91,12 @@ export default function CreateItemPurchaseInfo({
             '/wms/ItemWarehouseCost/EditItemWarehouseCost',
             editObjRow
           );
-          // cb();
           toast.success(res.data?.message || 'Submitted successfully', {
             toastId: shortid(),
           });
         } catch (error) {
           toast.error(error?.response?.data?.message, { toastId: shortid() });
         }
-        console.log('edit', editObjRow);
       } else {
         const ObjRow = rowDto.map((itm) => {
           return {

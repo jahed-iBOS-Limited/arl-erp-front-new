@@ -8,15 +8,13 @@ import {
   CardHeaderToolbar,
   ModalProgressBar,
 } from '../../../../../../_metronic/_partials/controls';
-import {
-  monthDDL,
-  yearsDDL,
-} from '../../../../inventoryManagement/warehouseManagement/liftingEntry/form/addEditForm';
+import { yearsDDL } from '../../../../inventoryManagement/warehouseManagement/liftingEntry/form/addEditForm';
 import NewSelect from '../../../../_helper/_select';
 import { validationSchema } from '../helper';
 import InputField from '../../../../_helper/_inputField';
 import IViewModal from '../../../../_helper/_viewModal';
 import AddCompanyForm from './addCompany';
+import { monthDDL } from '../../../../_helper/commonInputFieldsGroups/yearMonthForm';
 
 export default function FormCmp({
   rowData,

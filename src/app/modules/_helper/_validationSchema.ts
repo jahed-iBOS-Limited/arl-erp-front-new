@@ -60,10 +60,6 @@ export const complainValidationSchema = Yup.object().shape({
     label: Yup.string().required('Respondent Type is required'),
     value: Yup.string().required('Respondent Type is required'),
   }),
-  // respondentName: Yup.object().shape({
-  //   label: Yup.string().required("Field is required"),
-  //   value: Yup.string().required("Field is required"),
-  // }),
   respondentName: Yup.object().when('respondentType.value', {
     is: (value) => value !== '4',
     then: Yup.object().shape({
@@ -120,4 +116,36 @@ export const vslAndVoyNoValidationSchema = Yup.object().shape({
     label: Yup.string().required('Voyage No is required'),
     value: Yup.string().required('Voyage No is required'),
   }),
+});
+export const ProductEditSchema = Yup.object().shape({
+  accountName: Yup.string()
+    .min(2, 'Minimum 0 range')
+    .max(1000, 'Maximum 1000 range')
+    .required('Account Name is required'),
+  accountNo: Yup.string()
+    .min(2, 'Minimum 2 range')
+    .required('Account No is required'),
+  bankName: Yup.object().shape({
+    label: Yup.string().required('Bank is required'),
+    value: Yup.string().required('Bank is required'),
+  }),
+  branchName: Yup.object().shape({
+    label: Yup.string().required('Bank is required'),
+    value: Yup.string().required('Bank is required'),
+  }),
+  routingNo: Yup.string()
+    .min(2, 'Minimum 0 range')
+    .required('Routing No is required'),
+});
+
+export const dataValidationSchema = Yup.object().shape({
+  attribute: Yup.object().shape({
+    label: Yup.string().required('Attribute is required'),
+    value: Yup.string().required('Attribute is required'),
+  }),
+  uom: Yup.object().shape({
+    label: Yup.string().required('Uom is required'),
+    value: Yup.string().required('Uom is required'),
+  }),
+  value: Yup.string().required('Value is required'),
 });

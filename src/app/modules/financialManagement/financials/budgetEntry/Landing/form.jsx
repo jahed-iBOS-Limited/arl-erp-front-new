@@ -7,8 +7,8 @@ import { getBudgetEntryLanding } from '../helper';
 import IView from '../../../../_helper/_helperIcons/_view';
 import IEdit from '../../../../_helper/_helperIcons/_edit';
 import { useHistory } from 'react-router-dom';
-import { monthDDL } from '../../../../selfService/humanResource/officialInformation/EditForm/collpaseComponent/basicEmployeeInformation/helper';
 import ButtonStyleOne from '../../../../_helper/button/ButtonStyleOne';
+import { monthDDL } from '../../../../_helper/commonInputFieldsGroups/yearMonthForm';
 
 export default function FormCmp({
   initData,

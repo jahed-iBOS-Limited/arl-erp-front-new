@@ -1,10 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import {
-  ModalProgressBar,
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
+  ModalProgressBar,
 } from '../../../../../../../../_metronic/_partials/controls';
 import { useSelector, shallowEqual } from 'react-redux';
 import Form from './form';
@@ -159,62 +159,6 @@ export default function PartnerBank() {
     }
   };
 
-  // const setter = (payload) => {
-  //   if (
-  //     isUniq("bankAccountNo", payload.bankAccountNo, rowDto) ||
-  //     isUniq("bankName", payload.bankName, rowDto)
-  //   ) {
-  //     const { accountId, userId: actionBy } = profileData;
-  //     const { value: businessunitid } = selectedBusinessUnit;
-
-  //     const count = rowDto.filter((itm, idx) => itm.isDefaultAccount === true)
-  //       .length; // true exist 1
-
-  //     if (count > 0) {
-  //       if (payload.isDefaultAccount === true) {
-  //         setRowDto([
-  //           ...rowDto.filter((itm, idx) => itm.isDefaultAccount !== true),
-  //           {
-  //             configId: 0,
-  //             accountId: accountId,
-  //             businessUnitId: businessunitid,
-  //             businessPartnerId: +id,
-  //             actionBy: actionBy,
-  //             isActive: true,
-  //             ...payload,
-  //           },
-  //         ]);
-  //       } else {
-  //         setRowDto([
-  //           ...rowDto,
-  //           {
-  //             configId: 0,
-  //             accountId: accountId,
-  //             businessUnitId: businessunitid,
-  //             businessPartnerId: +id,
-  //             actionBy: actionBy,
-  //             isActive: true,
-  //             ...payload,
-  //           },
-  //         ]);
-  //       }
-  //     } else {
-  //       setRowDto([
-  //         ...rowDto,
-  //         {
-  //           configId: 0,
-  //           accountId: accountId,
-  //           businessUnitId: businessunitid,
-  //           businessPartnerId: +id,
-  //           actionBy: actionBy,
-  //           isActive: true,
-  //           ...payload,
-  //         },
-  //       ]);
-  //     }
-  //   }
-  // };
-
   const setter = (payload) => {
     const duplicate = rowDto.some(
       (itm) =>
@@ -292,7 +236,7 @@ export default function PartnerBank() {
   };
   return (
     <Card>
-      {true && <ModalProgressBar />}
+      <ModalProgressBar />
       <CardHeader title="Edit Partner Bank Info">
         <CardHeaderToolbar>
           <button
@@ -317,8 +261,8 @@ export default function PartnerBank() {
         </CardHeaderToolbar>
       </CardHeader>
       <CardBody>
+        {isDisabled && <Loading />}
         <div className="mt-0">
-          {isDisabled && <Loading />}
           <Form
             product={partnerBankInfo || initProduct}
             btnRef={btnRef}

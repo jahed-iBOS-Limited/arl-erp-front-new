@@ -28,7 +28,7 @@ import SalesOfficersKPIReport from '../report/SalesOfficersKPIReport';
 import RetailAndDistributorAchievementTable, {
   NetToCompanyTable,
 } from './table';
-import { monthDDL } from '../../salesanalytics/utils';
+import { monthDDL } from '../../../../_helper/commonInputFieldsGroups/yearMonthForm';
 
 const reportTypes = [
   { value: 1, label: 'Retail and Distributor increase' },
