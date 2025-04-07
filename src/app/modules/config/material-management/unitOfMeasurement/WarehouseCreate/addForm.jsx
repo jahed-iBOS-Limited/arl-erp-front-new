@@ -74,6 +74,7 @@ export default function UOMAddForm({
       resetBtnRef.current.click();
     }
   };
+
   const backToWarehouseList = () => {
     history.push(`/config/material-management/unit-of-measurement/`);
   };
