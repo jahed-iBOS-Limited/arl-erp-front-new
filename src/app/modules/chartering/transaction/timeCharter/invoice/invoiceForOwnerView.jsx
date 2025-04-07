@@ -2,16 +2,11 @@ import moment from "moment";
 import React, { useEffect, useRef, useState } from "react";
 import ReactToPrint from "react-to-print";
 import { ToWords } from "to-words";
-// import akijShippingLogo from "../../../_chartinghelper/assets/images/logos/akijShippingText.svg";
 import Loading from "../../../../_helper/_loading";
 import {
   _formatMoneyWithDoller,
 } from "../../../_chartinghelper/_formatMoney";
-// import akijResourceLogo from "../../../_chartinghelper/assets/images/logos/akij-resource.png";
-// import akijShippingLogo from "../../../_chartinghelper/assets/images/logos/shipping.png";
-// import Envelope from "../../../_chartinghelper/assets/images/social/envelope.svg";
-// import Internet from "../../../_chartinghelper/assets/images/social/internet.svg";
-// import WhatsApp from "../../../_chartinghelper/assets/images/social/whatsapp.svg";
+
 import { useLocation } from "react-router-dom";
 import * as XLSX from "xlsx";
 import { ExportPDF } from "../../../_chartinghelper/exportPdf";
@@ -136,7 +131,7 @@ export default function InvoiceForOwnerView({
 
 
   return (
-    <>
+    <React.Fragment>
       {loading && <Loading />}
       <div className="d-flex justify-content-end my-2">
         <ReactToPrint
@@ -247,19 +242,19 @@ export default function InvoiceForOwnerView({
                     <div className="headerWrapper">
                       <div className="headerKey">OWNER :</div>
                       <div className="headerValue">
-                        {invoiceHireData?.ownerName}
+                        {invoiceHireData?.ownerName || ""}
                       </div>
                     </div>
                     <div className="headerWrapper">
                       <div className="headerKey">CHTR :</div>
                       <div className="headerValue">
-                        {invoiceHireData?.chtrName}
+                        {invoiceHireData?.chtrName || ""}
                       </div>
                     </div>
                     <div className="headerWrapper">
                       <div className="headerKey">DELIVERY :</div>
                       <div className="headerValue">
-                        {moment(invoiceHireData?.deliveryDate).format(
+                        {moment(invoiceHireData?.deliveryDate || "").format(
                           "DD-MMM-YYYY HH:mm A"
                         )}
                       </div>
@@ -305,13 +300,8 @@ export default function InvoiceForOwnerView({
                       <div className="headerValue">
                         {
                           invoiceHireData?.invoiceDate
-                          // || moment(invoiceHireData?.cpdtd).format("DD-MMM-YYYY")
                         }
                       </div>
-                      {/* <div className="headerValue">
-                {invoiceHireData?.transactionDate ||
-                  moment(invoiceHireData?.cpdtd).format("DD-MMM-YYYY")}
-              </div> */}
                     </div>
                     <div className="headerWrapper">
                       <div className="headerKey">REF :</div>
@@ -400,9 +390,6 @@ export default function InvoiceForOwnerView({
                                 ? `${+item?.quantity} MT`
                                 : ""}
                             </td>
-                            {/*
-                  N.B: Debit Will be Credit & Credit will be Debit For Owner View
-                  */}
                             <td className={`text-right`}>
                               {_formatMoneyWithDoller(item?.credit?.toFixed(2))}
                             </td>
@@ -468,9 +455,6 @@ export default function InvoiceForOwnerView({
                     </tbody>
                   </table>
                 </div>
-
-                {/* </div> */}
-
                 {/* Bank Info Section */}
                 <BankInfoComponent data={bankInfoData} />
               </div>
@@ -482,7 +466,6 @@ export default function InvoiceForOwnerView({
                     border: "none",
                   }}
                 >
-                  {/* place holder for the fixed-position footer */}
                   <div
                     style={{
                       height: "150px",
@@ -494,6 +477,6 @@ export default function InvoiceForOwnerView({
           </table>
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 }

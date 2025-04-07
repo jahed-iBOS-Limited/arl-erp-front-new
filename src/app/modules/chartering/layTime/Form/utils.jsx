@@ -423,7 +423,7 @@ export const addHandlerLayTimeRow = (
         },
       ];
 
-      newArr?.sort(function(a, b) {
+      newArr?.sort(function (a, b) {
         if (a.layTimeDate < b.layTimeDate) return -1;
         else return 1;
       });
@@ -474,14 +474,14 @@ export const addHandlerLayTimeRow = (
       const sortedArray = [];
       for (let i = 0; i < copy?.length; i++) {
         let item = copy[i];
-        item?.rowlist?.sort(function(a, b) {
+        item?.rowlist?.sort(function (a, b) {
           if (a.workingTimeFrom < b.workingTimeFrom) return -1;
           else return 1;
         });
         sortedArray.push(item);
       }
 
-      sortedArray?.sort(function(a, b) {
+      sortedArray?.sort(function (a, b) {
         if (a.layTimeDate < b.layTimeDate) return -1;
         else return 1;
       });
@@ -501,9 +501,9 @@ export const addHandlerLayTimeRow = (
       //   );
       //   return false;
       // } else {
-        setRowData(sortedArray);
-        reset();
-        return true;
+      setRowData(sortedArray);
+      reset();
+      return true;
       // }
     } else {
       toast.warn("Please adjust the remaining time first", { toastId: 345678 });

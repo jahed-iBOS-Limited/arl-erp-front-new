@@ -77,7 +77,6 @@ export default function FormCmp({
           errors,
           touched,
           setFieldValue,
-          setValues,
         }) => (
           <>
             <form className="marine-form-card">
@@ -96,13 +95,6 @@ export default function FormCmp({
                   >
                     Skip
                   </button>
-                  {/* <button
-                    type="button"
-                    onClick={() => history.goBack()}
-                    className={"btn btn-secondary reset-btn ml-2"}
-                  >
-                    Back
-                  </button> */}
                   {viewType !== "view" && (
                     <button
                       type="button"

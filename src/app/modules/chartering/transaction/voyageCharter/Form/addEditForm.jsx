@@ -80,12 +80,12 @@ export default function VoyageCharterForm() {
           (values?.rowData?.filter((item) => item?.isBrokerCom)[0]
             ?.parcentageValue *
             total) /
-            100 || 0;
+          100 || 0;
         let addCom =
           (values?.rowData?.filter((item) => item?.isAddCom)[0]
             ?.parcentageValue *
             total) /
-            100 || 0;
+          100 || 0;
 
         // Total Credit
         let totalCredit =
@@ -180,54 +180,54 @@ export default function VoyageCharterForm() {
           type === "edit"
             ? "Edit Voyage Charter Transaction"
             : type === "view"
-            ? "View Voyage Charter Transaction"
-            : "Create Voyage Charter Transaction"
+              ? "View Voyage Charter Transaction"
+              : "Create Voyage Charter Transaction"
         }
         initData={
           id
             ? {
-                ...state,
-                vesselName: {
-                  value: state?.vesselId,
-                  label: state?.vesselname,
-                },
-                voyageNo: { value: state?.voyageNoId, label: state?.voyageNo },
-                transactionType: {
-                  value: state?.transactionTypeId,
-                  label: state?.transactionTypeName,
-                },
-                statement: {
-                  value: state?.statementNo,
-                  label:
-                    state?.statementNo === 2
-                      ? "Final Statement"
-                      : state?.statementNo === 3
+              ...state,
+              vesselName: {
+                value: state?.vesselId,
+                label: state?.vesselname,
+              },
+              voyageNo: { value: state?.voyageNoId, label: state?.voyageNo },
+              transactionType: {
+                value: state?.transactionTypeId,
+                label: state?.transactionTypeName,
+              },
+              statement: {
+                value: state?.statementNo,
+                label:
+                  state?.statementNo === 2
+                    ? "Final Statement"
+                    : state?.statementNo === 3
                       ? "Intermediate Invoice"
                       : "Initial Statement",
-                },
-                hireTypeName: {
-                  value: state?.hireTypeId,
-                  label: state?.hireTypeName,
-                },
-                invoiceDate: _dateFormatter(state?.invoiceDate),
-                charterer: {
-                  value: state?.charterId,
-                  label: state?.charterName,
-                },
-                cargo: {
-                  value: state?.cargoId || 0,
-                  label: state?.cargoName,
-                },
-              }
+              },
+              hireTypeName: {
+                value: state?.hireTypeId,
+                label: state?.hireTypeName,
+              },
+              invoiceDate: _dateFormatter(state?.invoiceDate),
+              charterer: {
+                value: state?.charterId,
+                label: state?.charterName,
+              },
+              cargo: {
+                value: state?.cargoId || 0,
+                label: state?.cargoName,
+              },
+            }
             : {
-                ...initData,
-                ...state,
-                hireTypeName: state?.shipType,
-                beneficiary: {
-                  value: state?.vesselName?.ownerId,
-                  label: state?.vesselName?.ownerName,
-                },
-              }
+              ...initData,
+              ...state,
+              hireTypeName: state?.shipType,
+              beneficiary: {
+                value: state?.vesselName?.ownerId,
+                label: state?.vesselName?.ownerName,
+              },
+            }
         }
         saveHandler={saveHandler}
         viewType={type}
@@ -245,7 +245,7 @@ const initialStateMentRowMaker = (item, index, total) => {
     return {
       freightInvoiceId: 0,
       sl: index + 1,
-      particulars: `${item?.parcentageValue || 0}% FREIGHT` || "",
+      particulars: `${item?.parcentageValue || 0}% FREIGHT`,
       cargoQty: 0,
       freightRate: item?.parcentageValue, // For Percentage Value
       debit: 0,
@@ -259,8 +259,7 @@ const initialStateMentRowMaker = (item, index, total) => {
       freightInvoiceId: 0,
       sl: index + 1,
       particulars:
-        `${item?.parcentageValue || 0}% Broker COMMISSION ON 100% FREIGHT` ||
-        "",
+        `${item?.parcentageValue || 0}% Broker COMMISSION ON 100% FREIGHT`,
       cargoQty: 0,
       freightRate: item?.parcentageValue, // For Percentage Value
       debit: 0,
@@ -274,8 +273,7 @@ const initialStateMentRowMaker = (item, index, total) => {
       freightInvoiceId: 0,
       sl: index + 1,
       particulars:
-        `${item?.parcentageValue || 0}% Address COMMISSION ON 100% FREIGHT` ||
-        "",
+        `${item?.parcentageValue || 0}% Address COMMISSION ON 100% FREIGHT`,
       cargoQty: 0,
       freightRate: item?.parcentageValue, // For Percentage Value
       debit: 0,

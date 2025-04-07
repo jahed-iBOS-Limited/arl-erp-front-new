@@ -21,12 +21,10 @@ import {
   editRowDataHandler,
   hourDDL,
   minDDL,
-  removeRowData,
-  renderPlusUpdateTotalTimeAndRemainingTime,
-  saveEditRowDataHandler,
+  removeRowData, renderPlusUpdateTotalTimeAndRemainingTime, saveEditRowDataHandler,
   toDDHHMM,
-  totalSecondCalculate,
-} from "../utils";
+  totalSecondCalculate
+} from "../../../../../chartering/layTime/Form/utils";
 
 export default function LayTimeTableBody({
   rowData,

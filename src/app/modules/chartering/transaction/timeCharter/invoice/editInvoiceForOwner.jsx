@@ -60,9 +60,7 @@ export default function EditInvoiceForOwner({
 
   return (
     <div className="p-4 transactionInvoice">
-      {/* <div className="timeCharterLogo">
-        <img src={akijShippingLogo} alt={akijShippingLogo} />
-      </div> */}
+
       <h5 className="text-center uppercase mb-4">
         {values?.transactionName?.label} STATEMENT
       </h5>
@@ -166,7 +164,6 @@ export default function EditInvoiceForOwner({
                       ...item,
                       duration: duration,
                       credit: ((12 * invoiceHireData?.cveday) / 365) * duration,
-                      // (duration * invoiceHireData?.cveday) / 30,
                     };
                   }
                   if (item?.key === 'hbc') {
@@ -252,7 +249,6 @@ export default function EditInvoiceForOwner({
       </div>
 
       {/* Row And Table Section */}
-      {/* <div className="table-responsive"> */}
       <table className="table mt-3 bj-table bj-table-landing">
         <thead>
           <tr
