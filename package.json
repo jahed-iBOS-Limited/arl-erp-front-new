@@ -57,7 +57,7 @@
     "react-html-table-to-excel": "^2.0.0",
     "react-inlinesvg": "^4.1.8",
     "react-is": "16.13.1",
-    "react-leaflet": "^5.0.0",
+    "react-leaflet": "4.2.1",
     "react-mui-dropzone": "^4.0.7",
     "react-pdf": "^7.7.1",
     "react-qr-reader": "^3.0.0-beta-1",
