@@ -149,3 +149,25 @@ export const dataValidationSchema = Yup.object().shape({
   }),
   value: Yup.string().required('Value is required'),
 });
+
+export const ChangePassValidationSchema = Yup.object().shape({
+  oldPassword: Yup.string()
+    .min(6, 'Minimum 6 symbols')
+    .max(50, 'Maximum 100 symbols')
+    .required('Old Password required'),
+  newPassword: Yup.string()
+    .min(6, 'Minimum 6 symbols')
+    .max(50, 'Maximum 100 symbols')
+    .required('New Password required'),
+  confirmPassowrd: Yup.string()
+    .min(6, 'Minimum 6 symbols')
+    .max(50, 'Maximum 100 symbols')
+    .required('Confirm Password required')
+    .when('newPassword', {
+      is: (val) => (val && val.length > 0 ? true : false),
+      then: Yup.string().oneOf(
+        [Yup.ref('newPassword')],
+        'Both password need to be the same'
+      ),
+    }),
+});

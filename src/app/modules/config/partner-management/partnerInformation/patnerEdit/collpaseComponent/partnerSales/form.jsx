@@ -31,10 +31,6 @@ const ProductEditSchema = Yup.object().shape({
     label: Yup.string().required('Sales Terriory is required'),
     value: Yup.string().required('Sales Terriory is required'),
   }),
-  // transportZone: Yup.object().shape({
-  //   label: Yup.string().required('Transport Zone is required'),
-  //   value: Yup.string().required('Transport Zone is required'),
-  // }),
   reconGeneralLedger: Yup.object().shape({
     label: Yup.string().required('Recon General Ledger is required'),
     value: Yup.string().required('Recon General Ledger is required'),
@@ -43,18 +39,6 @@ const ProductEditSchema = Yup.object().shape({
     label: Yup.string().required('Alternate Generale is required'),
     value: Yup.string().required('Alternate Generale is required'),
   }),
-  // defaultDistanceKm: Yup.number()
-  //   .min(0, 'Minimum 0 range')
-  //   .max(100000, 'Maximum 100000 range')
-  //   .required('distanceKm is required'),
-  // soldToParty: Yup.object().shape({
-  //   label: Yup.string().required('Sold To Party is required'),
-  //   value: Yup.string().required('Sold To Party is required'),
-  // }),
-  // shippingPoint: Yup.object().shape({
-  //   label: Yup.string().required('Shipping Point  is required'),
-  //   value: Yup.string().required('Shipping Point  is required'),
-  // }),
   priceStructure: Yup.object().shape({
     label: Yup.string().required('Price Structure is required'),
     value: Yup.string().required('Price Structure is required'),
@@ -72,7 +56,6 @@ export default function FormCmp({
   btnRef,
   savePartnerSales,
   resetBtnRef,
-  setter,
   defaultSetter,
   remover,
   rowDto,
@@ -84,9 +67,7 @@ export default function FormCmp({
   transportZoneDDL,
   reconGLDDL,
   alternateGLDDL,
-  soldToPartyDDL,
   shippingPointDDL,
-  alternateShippingPointDDL,
   priceStructureDDL,
   creditLimitSetter,
   creditRemover,
@@ -146,11 +127,9 @@ export default function FormCmp({
           handleSubmit,
           resetForm,
           values,
-          handleChange,
           errors,
           touched,
           setFieldValue,
-          isValid,
         }) => (
           <>
             <Form className="form form-label-right">
