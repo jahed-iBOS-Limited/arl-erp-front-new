@@ -9,7 +9,7 @@ import useGoogleSheets from '../../_helper/useGoogleSheets';
 import Loading from '../../_helper/_loading';
 function AllReport() {
   const { data, loading, error } = useGoogleSheets({
-    apiKey: import.meta.env.REACT_APP_GOOGLE_API_KEY,
+    apiKey: import.meta.env.VITE_GOOGLE_SHEET_KEY,
     sheetId: '1v0yhOrpfls66_UI7-MJRGbA7gAYhULNX3-_v2pmMSaI',
     // sheetsOptions: [{ id: 'Form Responses 2' }],
   });
