@@ -16,7 +16,7 @@ export default function CreateBookingModal({
   // Go to Create Booking
   const handleGoToCreate = (item) => {
     const targetUrl =
-      import.meta.NODE_ENV !== 'production'
+      import.meta.env.MODE !== 'production'
         ? 'http://localhost:3010'
         : 'https://cargo.ibos.io/';
 
