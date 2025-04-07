@@ -6,17 +6,7 @@ import Axios from 'axios';
 import Select from 'react-select';
 import customStyles from '../../../../../../selectCustomStyle';
 
-const DataValiadtionSchema = Yup.object().shape({
-  attribute: Yup.object().shape({
-    label: Yup.string().required('Attribute is required'),
-    value: Yup.string().required('Attribute is required'),
-  }),
-  uom: Yup.object().shape({
-    label: Yup.string().required('Uom is required'),
-    value: Yup.string().required('Uom is required'),
-  }),
-  value: Yup.string().required('Value is required'),
-});
+import { dataValidationSchema } from '../../../../../../_helper/_validationSchema'
 
 const intiValue = {
   attribute: '',
@@ -53,7 +43,7 @@ export default function FormCmp({
           ]);
           setAttributeList(res.data);
           // setBaseUomList(res2.data);
-        } catch (error) {}
+        } catch (error) { }
       };
       getInfoData();
     }
@@ -68,7 +58,7 @@ export default function FormCmp({
       ]);
       setFieldValue('uom', res2[0]?.data);
       setBaseUomList([res2[0]?.data]);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   useEffect(() => {
@@ -85,26 +75,12 @@ export default function FormCmp({
     attributes = null;
   }, [attributeList]);
 
-  // useEffect(() => {
-  //   let baseUom = [];
-  //   baseUomList &&
-  //     baseUomList.forEach((item) => {
-  //       let items = {
-  //         value: item.uomid,
-  //         label: item.uomName,
-  //       };
-  //       baseUom.push(items);
-  //     });
-  //   setBaseUomOption(baseUom);
-  //   baseUom = null;
-  // }, [baseUomList]);
-
   return (
     <>
       <Formik
         enableReinitialize={true}
         initialValues={intiValue}
-        validationSchema={DataValiadtionSchema}
+        validationSchema={dataValidationSchema}
         onSubmit={(values, { setSubmitting, resetForm }) => {
           saveData(data, () => {
             resetForm(intiValue);
@@ -155,9 +131,9 @@ export default function FormCmp({
                       className="text-danger"
                     >
                       {errors &&
-                      errors.attribute &&
-                      touched &&
-                      touched.attribute
+                        errors.attribute &&
+                        touched &&
+                        touched.attribute
                         ? errors.attribute.value
                         : ''}
                     </p>
@@ -248,7 +224,7 @@ export default function FormCmp({
                       data.map((itm, idx) => (
                         <tr
                           key={idx}
-                          style={{ marginBottom: '15px', textAlign: 'center' }}
+                          style={{ marginBottom: "15px", textAlign: "center" }}
                         >
                           <td>{idx + 1}</td>
                           <td>{itm.attributeName}</td>
@@ -259,8 +235,8 @@ export default function FormCmp({
                             <span
                               className="pointer alterUomDeleteIcon"
                               style={{
-                                width: '50%',
-                                marginTop: '3px',
+                                width: "50%",
+                                marginTop: "3px",
                               }}
                             >
                               <i

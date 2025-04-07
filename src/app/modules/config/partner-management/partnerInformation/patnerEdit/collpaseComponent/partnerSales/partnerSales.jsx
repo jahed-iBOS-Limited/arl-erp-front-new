@@ -1,59 +1,59 @@
-import React, { useState, useRef, useEffect } from 'react';
+import Axios from "axios";
+import React, { useEffect, useRef, useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import shortid from "shortid";
 import {
   Card,
   CardBody,
   CardHeader,
   CardHeaderToolbar,
   ModalProgressBar,
-} from '../../../../../../../../_metronic/_partials/controls';
-import Form from './form';
-import Axios from 'axios';
-import shortid from 'shortid';
-import { useSelector, shallowEqual, useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { isUniq } from '../../../../../../_helper/uniqChecker';
-import { toast } from 'react-toastify';
+} from "../../../../../../../../_metronic/_partials/controls";
+import { _todayDate } from "../../../../../../_helper/_todayDate";
+import { isUniq } from "../../../../../../_helper/uniqChecker";
 import {
-  getSbuDDLAction,
-  getSalesOrganaizationDDLAction,
-  getDistributionChannelDDLAction,
-  getSalesTerrioryDDLAction,
-  getTransportZoneDDLAction,
-  getSoldToPartyDDLAction,
-  getShippingPointDDLAction,
-  GeneralLedgerDDLAction,
-  getPriceStructureDDLAction,
   AlternateGeneraleDDLAction,
+  GeneralLedgerDDLAction,
   getAlternateShippingPointDDLAction,
-} from './_redux/Actions';
-import { _todayDate } from '../../../../../../_helper/_todayDate';
-import Loading from './../../../../../../_helper/_loading';
-import { EditBPShippingAddressDefaultById_api } from '../../../helper';
+  getDistributionChannelDDLAction,
+  getPriceStructureDDLAction,
+  getSalesOrganaizationDDLAction,
+  getSbuDDLAction,
+  getShippingPointDDLAction,
+  getSoldToPartyDDLAction,
+  getTransportZoneDDLAction,
+} from "../../../../partnerBasicInfo/patnerEdit/collpaseComponent/partnerSales/_redux/Actions";
+import { EditBPShippingAddressDefaultById_api } from "../../../helper";
+import Loading from "./../../../../../../_helper/_loading";
+import { getSalesTerrioryDDLAction } from "./_redux/Actions";
+import Form from "./form";
 
 const initProduct = {
-  sbu: '',
-  salesOrganaization: '',
-  distributionChannel: '',
-  salesTerriory: '',
-  transportZone: '',
-  reconGeneralLedger: '',
-  alternetGeneralLedger: '',
-  soldToParty: '',
-  shippingPoint: '',
+  sbu: "",
+  salesOrganaization: "",
+  distributionChannel: "",
+  salesTerriory: "",
+  transportZone: "",
+  reconGeneralLedger: "",
+  alternetGeneralLedger: "",
+  soldToParty: "",
+  shippingPoint: "",
   multipleShippingPoint: false,
-  priceStructure: '',
-  alternateShippingPoint: '',
-  distanceKm: '',
-  defaultDistanceKm: '',
-  creditLimitAmount: '',
+  priceStructure: "",
+  alternateShippingPoint: "",
+  distanceKm: "",
+  defaultDistanceKm: "",
+  creditLimitAmount: "",
   creditValidFrom: _todayDate(),
   creditValidTo: _todayDate(),
-  morgazeType: '',
-  morgazeAmount: '',
-  morgazeNarration: '',
-  customerType: '',
-  shipToParner: '',
-  address: '',
+  morgazeType: "",
+  morgazeAmount: "",
+  morgazeNarration: "",
+  customerType: "",
+  shipToParner: "",
+  address: "",
 };
 
 export default function PartnerSales() {
@@ -66,7 +66,7 @@ export default function PartnerSales() {
   const selectedBusinessUnit = useSelector(
     (state) => state.authData.selectedBusinessUnit
   );
-  const [salesData, setSalesData] = useState('');
+  const [salesData, setSalesData] = useState("");
   const [rowDto, setRowDto] = useState([]);
   const [rowDtoTwo, setRowDtoTwo] = useState([]);
   const [creditRowDto, setCreditRowDto] = useState([]);
@@ -385,18 +385,18 @@ export default function PartnerSales() {
               //code write
               setDisabled(true);
               const res = await Axios.put(
-                '/partner/BusinessPartnerSales/EditBusinessPartnerSales',
+                "/partner/BusinessPartnerSales/EditBusinessPartnerSales",
                 salesEditData
               );
-              toast.success(res.data?.message || 'Submitted successfully', {
+              toast.success(res.data?.message || "Submitted successfully", {
                 toastId: shortid(),
               });
               setDisabled(false);
             } else {
-              toast.warning('Please add at least one (Add Shipping Address)');
+              toast.warning("Please add at least one (Add Shipping Address)");
             }
           } else {
-            toast.warning('Please add at least one (Assign Shipping Point)');
+            toast.warning("Please add at least one (Assign Shipping Point)");
           }
         } catch (error) {
           toast.error(error?.response?.data?.message, {
@@ -405,35 +405,6 @@ export default function PartnerSales() {
           setDisabled(false);
         }
       } else {
-        // create api call
-
-        // const salesData = {
-        //   objSasles: {
-        //     accountId: accountId,
-        //     businessUnitId: businessunitid,
-        //     sbuid: values?.sbu.value,
-        //     businessPartnerId: +id,
-        //     priceStructureId: values?.priceStructure.value,
-        //     salesOrganizationId: values?.salesOrganaization.value,
-        //     ledgerBalance: 0,
-        //     unbilledAmount: 0,
-        //     creditLimit: 0,
-        //     balanceCheckTypeId: 0,
-        //     generalLederId: values?.reconGeneralLedger?.value,
-        //     alternateGlid: values?.alternetGeneralLedger?.value,
-        //     soldToPartnerId: values?.soldToParty?.value,
-        //     soldToPartnerName: values?.soldToParty?.label,
-        //     transportZoneId: values?.transportZone?.value,
-        //     territoryId: values?.salesTerriory?.value,
-        //     distributionChannelId: values?.distributionChannel?.value,
-        //     transportZoneName: values?.transportZone?.label,
-        //     actionBy,
-        //   },
-        //   objListShipPoint: objRow,
-        //   objListMortgage: objMortgageRow,
-        //   objListCrLimit: objCreditRow,
-        // }
-
         const payload = {
           objSasles: {
             accountId: accountId,
@@ -464,7 +435,7 @@ export default function PartnerSales() {
             if (rowDtoTwo?.length > 0) {
               setDisabled(true);
               const res = await Axios.post(
-                '/partner/BusinessPartnerSales/CreateBusinessPartnerSales',
+                "/partner/BusinessPartnerSales/CreateBusinessPartnerSales",
                 payload
               );
               if (res.status === 200) {
@@ -472,15 +443,15 @@ export default function PartnerSales() {
                 setRowDtoTwo([]);
               }
               // cb(initProduct)
-              toast.success(res.data?.message || 'Submitted successfully', {
+              toast.success(res.data?.message || "Submitted successfully", {
                 toastId: shortid(),
               });
               setDisabled(false);
             } else {
-              toast.warning('Please add at least one (Add Shipping Address)');
+              toast.warning("Please add at least one (Add Shipping Address)");
             }
           } else {
-            toast.warning('Please add at least one (Assign Shipping Point)');
+            toast.warning("Please add at least one (Assign Shipping Point)");
           }
         } catch (error) {
           toast.error(error?.response?.data?.message, {
@@ -495,7 +466,7 @@ export default function PartnerSales() {
   };
 
   const setter = (payload) => {
-    if (isUniq('shipPointId', payload.shipPointId, rowDto)) {
+    if (isUniq("shipPointId", payload.shipPointId, rowDto)) {
       const { accountId, userId: actionBy } = profileData;
       const { value: businessunitid } = selectedBusinessUnit;
       setRowDto([
@@ -523,7 +494,7 @@ export default function PartnerSales() {
       transportZoneId: values?.transportZone?.value,
       shiptoPartnerId: 0,
     };
-    if (isUniq('transportZoneId', values?.transportZone?.value, rowDtoTwo)) {
+    if (isUniq("transportZoneId", values?.transportZone?.value, rowDtoTwo)) {
       setRowDtoTwo([
         ...rowDtoTwo,
         {
@@ -540,7 +511,7 @@ export default function PartnerSales() {
   };
 
   const defaultSetter = (payload) => {
-    if (isUniq('shipPointId', payload.shipPointId, rowDto)) {
+    if (isUniq("shipPointId", payload.shipPointId, rowDto)) {
       const { accountId, userId: actionBy } = profileData;
       const { value: businessunitid } = selectedBusinessUnit;
 
@@ -592,7 +563,7 @@ export default function PartnerSales() {
 
   // morgaze
   const morgazeSetter = (payload) => {
-    if (isUniq('mortgageTypeId', payload.mortgageTypeId, morgazeRowDto)) {
+    if (isUniq("mortgageTypeId", payload.mortgageTypeId, morgazeRowDto)) {
       setMorgazeRowDto([...morgazeRowDto, payload]);
     }
   };
