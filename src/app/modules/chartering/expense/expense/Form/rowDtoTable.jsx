@@ -51,7 +51,6 @@ const RowDtoTable = ({
                 <tr>
                   <th>SL</th>
                   {isWithoutRef && <th>Ref No.</th>}
-                  {/* <th style={{ width: "150px" }}>Code</th> */}
                   <th style={{ width: "150px" }}>Item</th>
                   <th style={{ width: "70px" }}>UoM</th>
                   <th style={{ width: "150px" }}>Description</th>
@@ -77,7 +76,6 @@ const RowDtoTable = ({
                   <th>Vat (%)</th>
                   <th>Vat Amount</th>
                   <th>Total Vat</th>
-                  {/* <th>Price Structure</th> */}
                   <th>Net Value</th>
                   <th>Action</th>
                 </tr>
@@ -91,10 +89,7 @@ const RowDtoTable = ({
                         {item?.referenceNo?.label || "NA"}
                       </td>
                     )}
-                    {/* <td className="text-center align-middle">
-                    {" "}
-                    {item?.item?.code}{" "}
-                  </td> */}
+
                     <td className="">{item?.item?.itemName}</td>
                     <td style={{ width: "100px" }}>
                       <Select
@@ -115,7 +110,6 @@ const RowDtoTable = ({
                         }
                         isSearchable={true}
                         styles={customStyles}
-                        // options={uomDDL}
                         options={item?.item?.convertedUomName}
                         placeholder="UoM"
                         isDisabled
@@ -175,7 +169,6 @@ const RowDtoTable = ({
                         name="orderQty"
                         required
                         placeholder="Order Qty"
-                        // max={item?.referenceNo && item?.restofQty}
                         type="tel"
                         min="0"
                         onChange={(e) => {
@@ -280,31 +273,13 @@ const RowDtoTable = ({
                     <td className="text-center align-middle">
                       {item?.vatAmount || 0}
                     </td>
-                    {/* <td
-                    style={{ width: "80px" }}
-                    className="text-center align-middle"
-                  >
-                    <IView
-                      clickHandler={() => {
-                        if (item?.orderQty < 1 || item.basicPrice < 1) {
-                          toast.warn(
-                            "Not allowed without order qty and basic price"
-                          );
-                        } else {
-                          setCurrentRowData(item);
-                          setIsShowModal(true);
-                          setCurrentIndex(index);
-                        }
-                      }}
-                    />
-                  </td> */}
+
                     <td className="text-center align-middle">
                       {item?.netValue || 0}
                     </td>
                     <td className="text-center align-middle">
                       <IDelete
                         remover={remover}
-                        // id={item?.item?.value}
                         id={item}
                       />
                     </td>
