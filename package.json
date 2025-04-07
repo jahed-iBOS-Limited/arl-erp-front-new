@@ -8,7 +8,8 @@
     "build": "node --max_old_space_size=16096 ./node_modules/typescript/bin/tsc -b && node --max_old_space_size=16096 ./node_modules/vite/bin/vite.js build",
     "lint": "eslint src/**/*.{js,jsx,ts,tsx}",
     "format": "prettier --write src/**/*.{js,jsx,ts,tsx}",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "postinstall": "husky install"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
